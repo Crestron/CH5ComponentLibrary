@@ -8,6 +8,8 @@
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
 </head>
 
 <body>
@@ -16,6 +18,34 @@
       <ch5-button-list>
         <ch5-button-list-mode>
           <ch5-button-list-mode-state></ch5-button-list-mode-state>
+        </ch5-button-list-mode>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-mode-state-type-attributes-classList">
+    <template>
+      <ch5-button-list>
+        <ch5-button-list-mode>
+          <ch5-button-list-mode-state state="normal">
+          </ch5-button-list-mode-state>
+          <ch5-button-list-mode-state state="pressed">
+          </ch5-button-list-mode-state>
+          <ch5-button-list-mode-state checkboxPosition="right" state="selected">
+          </ch5-button-list-mode-state>
+        </ch5-button-list-mode>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-mode-state-type-pressed">
+    <template>
+      <ch5-button-list buttonSelected="true" buttonCheckboxShow="true">
+        <ch5-button-list-mode>
+          <ch5-button-list-mode-state type="text" state="normal">
+          </ch5-button-list-mode-state>
+          <ch5-button-list-mode-state type="warning" state="pressed">
+          </ch5-button-list-mode-state>
+          <ch5-button-list-mode-state type="primary" state="selected">
+          </ch5-button-list-mode-state>
         </ch5-button-list-mode>
       </ch5-button-list>
     </template>
@@ -38,6 +68,101 @@
         test('Check Value "type"', () => {
           ch5ButtonListModeState.setAttribute('type', ele);
           expect(ch5ButtonListModeState.getAttribute('type')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+    });
+    suite('ch5-button-list-mode-state-type-attributes-classList', () => {
+      let ch5ButtonList;
+      let ch5ButtonListMode;
+      let ch5ButtonListModeState0;
+      let ch5ButtonListModeState1;
+      let ch5ButtonListModeState2;
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-mode-state-type-attributes-classList');
+        ch5ButtonListModeState0 = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[0];
+        ch5ButtonListModeState1 = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[1];
+        ch5ButtonListModeState2 = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[2];
+      });
+
+      const valid_types = CrComLib.Ch5ButtonList.BUTTON_TYPES;
+      const valid_types1 = ['default', 'warning', 'text', 'info', 'primary', 'secondary'];
+      const invalid_types = ['', 'junk', 'null', 'undefined', '0', '1', null].concat(CrComLib.Ch5Button.TYPES).filter(data => { return !valid_types.includes(data) });
+      const default_type = valid_types[0];
+
+      valid_types.forEach((typeName, i) => {
+        test(`Check attribute type: "${typeName}"`, (done) => {
+          ch5ButtonListModeState0.setAttribute('type', typeName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonListModeState0.type).to.be.equal(typeName);
+              const allButtons = getAllButtons(ch5ButtonList);
+              for (let i = 0; i < allButtons.length; i++) {
+                expect(getDiv(allButtons[i]).classList.contains("ch5-button--" + typeName)).to.be.equal(true);
+                expect(ch5ButtonListModeState0.getAttribute('type')).to.be.equal(typeName);
+              }
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      test(`Check ch5-button-list-mode > div css class name for attribute type "default" by not adding the type attribute in HTML or through javascript to the button-list-mode`, (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonListModeState0.type).to.be.equal(default_type);
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+      });
+
+      invalid_types.forEach((typeName, i) => {
+        test(`Check invalid attribute type: "${typeName}"`, (done) => {
+          ch5ButtonListModeState0.setAttribute('type', typeName);
+          flush(() => {
+            setTimeout(() => {
+              const allButtons = getAllButtons(ch5ButtonList);
+              for (let i = 0; i < allButtons.length; i++) {
+                expect(getDiv(allButtons[i]).classList.contains("ch5-button--" + default_type)).to.be.equal(true);
+              }
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+    });
+    suite('ch5-button-list-mode-state-type-selected-and-pressed-value', () => {
+      let ch5ButtonList;
+      let ch5ButtonListMode;
+      let ch5ButtonListModeState0;
+      let ch5ButtonListModeState1;
+      let ch5ButtonListModeState2;
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-mode-state-type-pressed');
+        ch5ButtonListModeState0 = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[0];
+        ch5ButtonListModeState1 = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[1];
+        ch5ButtonListModeState2 = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[2];
+      });
+      test(`Check attribute type for selected mode:"`, (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const allButtons = getAllButtons(ch5ButtonList);
+            expect(getFirstButton(ch5ButtonList).children[0].classList.contains('ch5-button--pressed')).to.be.equal(false);
+            expect(getDiv(allButtons[0]).classList.contains("ch5-button--primary")).to.be.equal(true);
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+      });
+      test(`Check attribute type for pressed mode:"`, (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const allButtons = getAllButtons(ch5ButtonList);
+            getAllButtons(ch5ButtonList)[0].setAttribute('pressed', 'true');
+            expect(getFirstButton(ch5ButtonList).children[0].classList.contains('ch5-button--pressed')).to.be.equal(true);
+            expect(getDiv(allButtons[0]).classList.contains("ch5-button--warning")).to.be.equal(true); done();
+          }, COMPONENT_TESTING_TIMEOUT);
         });
       });
 
