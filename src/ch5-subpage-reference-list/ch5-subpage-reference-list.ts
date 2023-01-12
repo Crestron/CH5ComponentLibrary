@@ -18,8 +18,8 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       values: Ch5SubpageReferenceList.STRETCH,
       key: 'stretch',
       attribute: 'stretch',
-      classListPrefix: 'ch5-subpage-reference-list--stretch-'
-    },
+      classListPrefix: '--stretch-'
+    }
   };
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -29,8 +29,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     subpagereceivestateenable: { direction: "state", stringJoin: 1, contractName: true },
     subpagereceivestatevisible: { direction: "state", stringJoin: 1, contractName: true },
     subpagereceivestatescrollto: { direction: "state", numericJoin: 1, contractName: true },
-    receivestatenumberofitems: { direction: "state", numericJoin: 1, contractName: true },
-
+    receivestatenumberofitems: { direction: "state", numericJoin: 1, contractName: true }
   };
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
