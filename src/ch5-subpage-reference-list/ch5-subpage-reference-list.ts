@@ -250,7 +250,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public static readonly ELEMENT_NAME = 'ch5-subpage-reference-list';
 
-  public cssClassPrefix = 'ch5-subpage-reference-list';
   public primaryCssClass = 'ch5-subpage-reference-list';
 
   private _ch5Properties: Ch5Properties;
@@ -643,7 +642,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   public getCssClassDisabled() {
-    return this.cssClassPrefix + '--disabled';
+    return this.primaryCssClass + '--disabled';
   }
 
   //#endregion
