@@ -395,6 +395,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
   }
 
   private handleSendSignals() {
+    this.sendingValue = true;
     if (this.colorPicker) {
       const colorValue = Ch5ColorUtils.rgbFormat(this.colorPicker.picker.get().css());
       this.redValue = Number(colorValue[0]);
@@ -403,18 +404,16 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
     }
     if (this.sendEventColorRedOnChange !== "" && this.redValue !== this.redValuePrevious) {
       Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventColorRedOnChange)?.publish(Ch5ColorUtils.getAnalogValue(this.redValue, this.maxValue));
-      this.sendingValue = true;
     }
     if (this.sendEventColorGreenOnChange !== "" && this.greenValue !== this.greenValuePrevious) {
       Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventColorGreenOnChange)?.publish(Ch5ColorUtils.getAnalogValue(this.greenValue, this.maxValue));
-      this.sendingValue = true;
     }
     if (this.sendEventColorBlueOnChange !== "" && this.blueValue !== this.blueValuePrevious) {
       Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventColorBlueOnChange)?.publish(Ch5ColorUtils.getAnalogValue(this.blueValue, this.maxValue));
-      this.sendingValue = true;
     }
-    if (!this.receiveingValue)
+    if (!this.receiveingValue) {
       this.sendingValue = false;
+    }
   }
 
   //#endregion
