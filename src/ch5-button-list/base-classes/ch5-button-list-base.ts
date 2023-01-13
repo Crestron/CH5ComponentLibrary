@@ -315,6 +315,10 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     this.buttonDisplay();
   }, 100);
 
+  public debounceHandleScrollToPosition = this.debounce((value: number) => {
+    this.handleScrollToPosition(value);
+  }, 400);
+
   //#endregion
 
   //#region Getters and Setters
@@ -809,8 +813,68 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     if (this.endless) { this.endless = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
     // This behavior is handled in scroll event
   }
-  public handleScrollToPosition() {
-    //
+  public handleScrollToPosition(value: number) {
+    if (value > this.numberOfItems || value < 0) { return; }
+    if ((this.orientation === 'horizontal' && this.rows !== 1) || (this.orientation === 'vertical' && this.columns !== 1)) { return; }
+    const firstElementInDOM = Number(this._elContainer?.children[0]?.getAttribute('id' + '')?.replace(this.getCrId() + '-', ''));
+    if (this.orientation === 'horizontal') {
+      if (value > firstElementInDOM) {
+        const distanceBetweenCurrentAndRequired = value - firstElementInDOM;
+        this._elContainer.scrollLeft = 0;
+        for (let i = 0; i < distanceBetweenCurrentAndRequired; i++) {
+          if (this.loadedButtons !== this.numberOfItems && this.loadedButtons < this.numberOfItems) {
+            this.createButton(this.loadedButtons++);
+          } else {
+            const lastElementInDOM = Number(this._elContainer?.lastElementChild?.getAttribute('id' + '')?.replace(this.getCrId() + '-', ''));
+            if (lastElementInDOM < this.numberOfItems - 1) {
+              this.createButton(lastElementInDOM + 1);
+            }
+          }
+          this._elContainer.scrollLeft += this.buttonWidth;
+        }
+      } else {
+        const distanceBetweenCurrentAndRequired = firstElementInDOM - value;
+        for (let i = 0; i < distanceBetweenCurrentAndRequired; i++) {
+          this.createButton(--this.destroyedButtonsLeft, false)
+          this._elContainer.scrollLeft -= this.buttonWidth;
+        }
+      }
+    } else {
+      if (value > firstElementInDOM + 2) {
+        const distanceBetweenCurrentAndRequired = value - firstElementInDOM;
+        for (let i = 0; i < distanceBetweenCurrentAndRequired; i++) {
+          if (this.loadedButtons !== this.numberOfItems) {
+            this.createButton(this.loadedButtons++);
+            this._elContainer.scrollTop += this.buttonHeight;
+          } else {
+            const lastElementInDOM = Number(this._elContainer?.lastElementChild?.getAttribute('id' + '')?.replace(this.getCrId() + '-', ''));
+            if (lastElementInDOM < this.numberOfItems - 1) {
+              this.createButton(lastElementInDOM + 1);
+              this._elContainer.scrollTop += this.buttonHeight;
+            }
+          }
+        }
+        const firstElement = Number(this._elContainer?.children[0]?.getAttribute('id' + '')?.replace(this.getCrId() + '-', ''))
+        const loadableButtons = this._elContainer.getBoundingClientRect().height / this.buttonHeight + 2;
+        for (let i = firstElement; i < value - 3 && this._elContainer.children.length > loadableButtons; i++) {
+          this._elContainer.children[0]?.remove();
+          this.destroyedButtonsLeft++;
+        }
+        this._elContainer.scrollTop = this.buttonHeight * 3
+      } else {
+        const distanceBetweenCurrentAndRequired = firstElementInDOM - value + 3;
+        for (let i = 0; i < distanceBetweenCurrentAndRequired && this.destroyedButtonsLeft > 0; i++) {
+          this.createButton(--this.destroyedButtonsLeft, false);
+          this._elContainer.scrollTop -= this.buttonHeight;
+        }
+        if (this._elContainer.scrollTop < this.buttonHeight * 2.5) {
+          this._elContainer.scrollTop = this.buttonHeight * 3;
+        }
+        if (value >= 0 && value <= 2) {
+          this._elContainer.scrollTop = this.buttonHeight * value;
+        }
+      }
+    }
   }
 
   public buttonDisplay() {
@@ -851,6 +915,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   private createButton(index: number, append: boolean = true) {
     const btn = new Ch5Button();
     const btnContainer = document.createElement("div");
+    btnContainer.setAttribute('id', this.getCrId() + '-' + index);
     btnContainer.classList.add(this.nodeName.toLowerCase() + "--button-container");
     btnContainer.appendChild(btn);
     append ? this._elContainer.appendChild(btnContainer) : this._elContainer.prepend(btnContainer);
