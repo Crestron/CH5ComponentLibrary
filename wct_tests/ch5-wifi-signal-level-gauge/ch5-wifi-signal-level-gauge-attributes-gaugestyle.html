@@ -24,8 +24,8 @@
         ch5WifiSignalLevelGauge = fixture('ch5-wifi-signal-level-gauge-gaugeStyle-attributes');
       });
 
-      let testCases = ['a', '', ' ', 'number', 'light', 'accents', 'dark'];
-      let expectedResult = ['light', 'light', 'light', 'light', 'light', 'accents', 'dark'];
+      let testCases = ['a', '', ' ', 'number', 'light', 'accents', 'dark', 23, false];
+      let expectedResult = ['light', 'light', 'light', 'light', 'light', 'accents', 'dark', 'light', 'light'];
       testCases.forEach((ele, i) => {
         test('Check Value "gaugeStyle"', () => {
           ch5WifiSignalLevelGauge.setAttribute('gaugeStyle', ele);
