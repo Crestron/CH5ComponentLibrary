@@ -27,12 +27,12 @@ export class Ch5TabButtonModeState extends Ch5ButtonListModeStateBase {
    * Called when the Ch5ButtonListModeBase component is first connected to the DOM
    */
   public connectedCallback() {
-    const _parentCh5ButtonList = this.getParentButton();
-    if (_.isNil(_parentCh5ButtonList)) {
+    const _parentCh5TabButton = this.getParentButton();
+    if (_.isNil(_parentCh5TabButton)) {
       throw new Error(`Invalid parent element for ${this.nodeName}.`);
     }
     super.connectedCallback();
-    this.parentComponent = _parentCh5ButtonList;
+    this.parentComponent = _parentCh5TabButton;
   }
 
   public getParentButton(): Ch5TabButton {

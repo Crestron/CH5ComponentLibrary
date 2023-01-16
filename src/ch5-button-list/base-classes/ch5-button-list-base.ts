@@ -7,8 +7,8 @@ import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonLi
 import { ICh5ButtonListAttributes } from './../interfaces/i-ch5-button-list-attributes';
 import { Ch5Properties } from "../../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../../ch5-core/ch5-property";
-import { Ch5ButtonListMode } from "../../ch5-button-list/ch5-button-list-mode";
-import { Ch5ButtonListModeState } from "../../ch5-button-list/ch5-button-list-mode-state";
+import { Ch5ButtonListModeBase } from "./ch5-button-list-mode-base";
+import { Ch5ButtonListModeStateBase } from "./ch5-button-list-mode-state-base";
 import { Ch5ButtonModeState } from "../../ch5-button/ch5-button-mode-state";
 import { resizeObserver } from "../../ch5-core/resize-observer";
 
@@ -959,7 +959,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
             const buttonListModeStates = buttonListMode.getElementsByTagName(this.nodeName.toLowerCase() + "-mode-state");
             if (buttonListModeStates && buttonListModeStates.length > 0) {
               Array.from(buttonListModeStates).forEach(buttonListModeState => {
-                if (buttonListModeState.parentElement instanceof Ch5ButtonListMode) {
+                if (buttonListModeState.parentElement instanceof Ch5ButtonListModeBase) {
                   const buttonModeState = new Ch5ButtonModeState(btn);
                   Ch5ButtonModeState.observedAttributes.forEach((attr) => {
                     if (buttonListModeState.hasAttribute(attr)) {
@@ -970,7 +970,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
                   const buttonModeStateLabels = buttonListModeState.getElementsByTagName(this.nodeName.toLowerCase() + "-label");
                   if (buttonModeStateLabels && buttonModeStateLabels.length > 0) {
                     Array.from(buttonModeStateLabels).forEach((buttonModeStateLabel) => {
-                      if (buttonModeStateLabel.parentElement instanceof Ch5ButtonListModeState) {
+                      if (buttonModeStateLabel.parentElement instanceof Ch5ButtonListModeStateBase) {
                         const buttonModeStateLabelTemplate = buttonModeStateLabel.getElementsByTagName("template");
                         if (buttonModeStateLabelTemplate && buttonModeStateLabelTemplate.length > 0) {
                           const ch5ButtonLabel = new Ch5ButtonLabel();
@@ -989,7 +989,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
             const buttonListModeLabels = buttonListMode.getElementsByTagName(this.nodeName.toLowerCase() + "-label");
             if (buttonListModeLabels && buttonListModeLabels.length > 0) {
               Array.from(buttonListModeLabels).forEach((buttonListModeLabel) => {
-                if (buttonListModeLabel.parentElement instanceof Ch5ButtonListMode) {
+                if (buttonListModeLabel.parentElement instanceof Ch5ButtonListModeBase) {
                   const buttonListModeLabelTemplate = buttonListModeLabel.getElementsByTagName("template");
                   if (buttonListModeLabelTemplate && buttonListModeLabelTemplate.length > 0) {
                     const ch5ButtonLabel = new Ch5ButtonLabel();
