@@ -137,7 +137,7 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *       "\tbuttonReceiveStateLabel=\"${29:}\"",
  *       "\tbuttonReceiveStateScriptLabelHtml=\"${30:}\"",
  *       "\tbuttonReceiveStateIconClass=\"${31:}\"",
- *       "\tbuttonReceiveStateIconUrl=\"${32:}\">",
+ *       "\tbuttonReceiveStateIconUrl=\"${32:}\"",
  *       "\tbuttonSendEventOnClick=\"${33:}\"",
  *       "\tbuttonReceiveStateShow=\"${34:}\"",
  *       "\tbuttonReceiveStateEnable=\"${35:}\">",

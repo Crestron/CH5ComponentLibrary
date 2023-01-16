@@ -17,7 +17,6 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  *   "`ch5-subpage-reference-list` element",
  *   "***",
  *   "Component description"
-      // TODO: DEV:CHANGES
  * ]
  * @snippets
  * [
@@ -55,7 +54,6 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  *       "</ch5-subpage-reference-list>$0"
  *       ]
  *    }
-      // TODO: DEV:CHANGES
  *  ]
  */
 export interface ICh5SubpageReferenceListDocumentation extends ICh5Common, ICh5SubpageReferenceListAttributes {

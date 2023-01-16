@@ -6,16 +6,16 @@ import { TCh5SubpageReferenceListStretch, } from './t-ch5-subpage-reference-list
  */
 export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes {
   /**
-        * @documentation
-        * [
-        * "`orientation` attribute",
-        * "***",
-        * "default horizontal. direction of scroll/pan of adjacent objects"
-        * ]
-        * @name orientation
-        * @default horizontal
-        * @attributeType "String"
-        */
+   * @documentation
+   * [
+   * "`orientation` attribute",
+   * "***",
+   * "default horizontal. direction of scroll/pan of adjacent objects"
+   * ]
+   * @name orientation
+   * @default horizontal
+   * @attributeType "String"
+   */
   orientation: string;
   /**
    * @documentation
@@ -223,5 +223,4 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * @attributeType "String"
    */
   indexId: string;
-
 }
