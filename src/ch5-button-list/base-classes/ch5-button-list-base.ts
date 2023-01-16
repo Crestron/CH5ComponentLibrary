@@ -975,7 +975,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
                         if (buttonModeStateLabelTemplate && buttonModeStateLabelTemplate.length > 0) {
                           const ch5ButtonLabel = new Ch5ButtonLabel();
                           const template = document.createElement('template');
-                          template.innerHTML = buttonModeStateLabelTemplate[0].innerHTML.replace(`{{${this.indexId}}}`, i.toString());
+                          template.innerHTML = this.replaceAll(buttonModeStateLabelTemplate[0].innerHTML, `{{${this.indexId}}}`, i.toString());
                           ch5ButtonLabel.appendChild(template);
                           buttonModeState.appendChild(ch5ButtonLabel);
                         }
@@ -994,7 +994,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
                   if (buttonListModeLabelTemplate && buttonListModeLabelTemplate.length > 0) {
                     const ch5ButtonLabel = new Ch5ButtonLabel();
                     const template = document.createElement('template');
-                    template.innerHTML = buttonListModeLabelTemplate[0].innerHTML.replace(`{{${this.indexId}}}`, i.toString());
+                    template.innerHTML = this.replaceAll(buttonListModeLabelTemplate[0].innerHTML, `{{${this.indexId}}}`, i.toString());
                     ch5ButtonLabel.appendChild(template);
                     ch5ButtonMode.appendChild(ch5ButtonLabel);
                   }
@@ -1017,7 +1017,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
           if (buttonListLabelTemplate && buttonListLabelTemplate.length > 0) {
             const ch5ButtonLabel = new Ch5ButtonLabel();
             const template = document.createElement('template');
-            template.innerHTML = buttonListLabelTemplate[0].innerHTML.replace(`{{${this.indexId}}}`, index.toString());
+            template.innerHTML = this.replaceAll(buttonListLabelTemplate[0].innerHTML, `{{${this.indexId}}}`, index.toString());
             ch5ButtonLabel.appendChild(template);
             btn.appendChild(ch5ButtonLabel);
           }
@@ -1109,6 +1109,14 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
       if (attrValue) {
         btn.setAttribute('onRelease', attrValue);
       }
+    }
+  }
+
+  private replaceAll(str: string, find: string, replace: string) {
+    if (str && String(str).trim() !== "") {
+      return String(str).split(find).join(replace);
+    } else {
+      return str;
     }
   }
 
