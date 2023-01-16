@@ -329,12 +329,12 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
 
   protected attachEventListeners() {
     super.attachEventListeners();
-    this.addEventListener('click', this.handleSendEventOnClick);
+    this._elContainer.addEventListener('click', this.handleSendEventOnClick);
   }
 
   protected removeEventListeners() {
     super.removeEventListeners();
-    this.removeEventListener('click', this.handleSendEventOnClick);
+    this._elContainer.removeEventListener('click', this.handleSendEventOnClick);
   }
 
   protected unsubscribeFromSignals() {
@@ -345,11 +345,10 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
   private handlePreviewColor() {
     const color = Ch5ColorUtils.col2rgb(this.previewColor);
     if (color && !this.hasAttribute('receiveStateBlueValue') && !this.hasAttribute('receiveStateGreenValue') && !this.hasAttribute('receiveStateRedValue')) {
-      const rgb: string[] = color;
-      this.redValue = Ch5ColorUtils.getDigitalValue(Number(rgb[0]), this.maxValue);
-      this.greenValue = Ch5ColorUtils.getDigitalValue(Number(rgb[1]), this.maxValue);
-      this.blueValue = Ch5ColorUtils.getDigitalValue(Number(rgb[2]), this.maxValue);
-      this._elContainer.style.backgroundColor = `rgb(${this.redValue}, ${this.greenValue}, ${this.blueValue})`;
+      this.redValue = Number(color[0]);
+      this.greenValue = Number(color[1]);
+      this.blueValue = Number(color[2]);
+      this._elContainer.style.backgroundColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
     }
     this.previewColor = `rgb(${this.redValue}, ${this.greenValue}, ${this.blueValue})`;
   }
