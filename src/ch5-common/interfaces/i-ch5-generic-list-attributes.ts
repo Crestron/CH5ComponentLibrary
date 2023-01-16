@@ -14,6 +14,8 @@ import { ICh5CommonAttributesForNoShowType } from "./common/i-ch5-common-attribu
 import { ICh5CommonAttributesForReceiveStateEnable } from "./common/i-ch5-common-attributes-receivestateenable";
 import { ICh5CommonAttributesForReceiveStateShow } from "./common/i-ch5-common-attributes-receivestateshow";
 import { ICh5CommonAttributesForShow } from "./common/i-ch5-common-attributes-show";
+import { ICh5CommonAttributesForReceiveStateShowPulse } from "./common/i-ch5-common-attributes-receivestateshowpulse";
+import { ICh5CommonAttributesForReceiveStateHidePulse } from "./common/i-ch5-common-attributes-receivestatehidepulse";
 
 /**
  * @ignore
@@ -26,6 +28,8 @@ export interface ICh5GenericListAttributes extends ICh5CommonAttributesForDir,
 	ICh5CommonAttributesForNoShowType,
 	ICh5CommonAttributesForCustomStyle,
 	ICh5CommonAttributesForCustomClass,
+	ICh5CommonAttributesForReceiveStateHidePulse,
+	ICh5CommonAttributesForReceiveStateShowPulse,
 	ICh5CommonAttributesForId {
 
 }
