@@ -70,7 +70,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
   * [
   * "`numberOfItems` attribute",
   * "***",
-  * "numberOfItems attribute sets the number of buttons in the button lists"
+  * "Default value is 10,  Minimum value is 1 and Maximum value is 500. This attribute sets the number of buttons in the button lists"
   * ]
   * @name numberofitems
   * @default 10
@@ -83,7 +83,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * [
    * "`rows` attribute",
    * "***",
-   * "By using rows attribute the designer can align the buttons in multiple rows of the list when the orientation is horizontal."
+   * "Default value is 1, Minimum value 1 and Maximum value 500. By using rows attribute the designer can align the buttons in multiple rows of the list when the orientation is horizontal."
    * ]
    * @name rows
    * @default 1
@@ -97,7 +97,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * [
    * "`columns` attribute",
    * "***",
-   * "By using columns attribute the designer can align the buttons in multiple columns of the list when the orientation is vertical."
+   * "Default value is 1, Minimum value 1 and Maximum value 500. By using columns attribute the designer can align the buttons in multiple columns of the list when the orientation is vertical."
    * ]
    * @name columns
    * @default 1
@@ -135,7 +135,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
   * [
   * "`scrollToPosition` attribute",
   * "***",
-  * "Indicates the index of the button to scrollTo. This is applicable only for single row and column."
+  * "Default value is 0, Minimum value is 0 and Maximum value is 499. Indicates the index of the button to scrollTo. This is applicable only for single row and column."
   * ]
   * @name scrolltoposition
   * @default 0
