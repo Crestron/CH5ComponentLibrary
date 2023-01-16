@@ -181,11 +181,11 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
       valueOnAttributeEmpty: null,
       numberProperties: {
         min: 0,
-        max: 99,
+        max: 4,
         conditionalMin: 0,
-        conditionalMax: 99,
+        conditionalMax: 4,
         conditionalMinValue: 0,
-        conditionalMaxValue: 99
+        conditionalMaxValue: 4
       },
       isObservableProperty: true
     },
@@ -679,27 +679,37 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
       if (scrollWidth - offsetWidth < this.buttonWidth) { return; }
       let firstElement = Number(this._elContainer.firstElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
       let lastElement = Number(this._elContainer.lastElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
-      if (scrollLeft < this.buttonWidth / 2 && firstElement !== 0) {
+      if (scrollLeft < 5 && firstElement !== 0) {
+        let lastColumnElements = (lastElement + 1) % this.rows;
         for (let i = 0; i < this.rows; i++) {
           this.createButton(--firstElement, false);
-          this._elContainer.lastElementChild?.remove();
+          if ((lastElement + 1) % this.rows !== 0) {
+            if (lastColumnElements-- > 0) { this._elContainer.lastElementChild?.remove(); }
+          } else {
+            this._elContainer.lastElementChild?.remove();
+          }
         }
-        this._elContainer.scrollLeft += this.buttonWidth / 2;
-      } else if (scrollLeft + offsetWidth > scrollWidth - this.buttonWidth / 2 && lastElement !== this.numberOfItems - 1) {
+        this._elContainer.scrollLeft += 5;
+      } else if (scrollLeft + offsetWidth > scrollWidth - 5 && lastElement !== this.numberOfItems - 1) {
         for (let i = 0; i < this.rows; i++) {
           if (lastElement + 1 < this.numberOfItems) { this.createButton(++lastElement); }
           this._elContainer.firstElementChild?.remove();
         }
-        this._elContainer.scrollLeft -= this.buttonWidth / 2;
+        this._elContainer.scrollLeft -= 5;
       }
     } else {
       const { offsetHeight, scrollTop, scrollHeight } = this._elContainer;
       let firstElement = Number(this._elContainer.firstElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
       let lastElement = Number(this._elContainer.lastElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
       if (scrollTop < 5 && firstElement !== 0) {
+        let lastRowElements = (lastElement + 1) % this.columns;
         for (let i = 0; i < this.columns; i++) {
           this.createButton(--firstElement, false);
-          this._elContainer.lastElementChild?.remove();
+          if ((lastElement + 1) % this.columns !== 0) {
+            if (lastRowElements-- > 0) { this._elContainer.lastElementChild?.remove(); }
+          } else {
+            this._elContainer.lastElementChild?.remove();
+          }
         }
         this._elContainer.scrollTop += 5;
       } else if (scrollTop + offsetHeight > scrollHeight - 5 && lastElement !== this.numberOfItems - 1) {
