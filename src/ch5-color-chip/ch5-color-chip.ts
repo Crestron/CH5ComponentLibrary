@@ -328,12 +328,12 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
 
   protected attachEventListeners() {
     super.attachEventListeners();
-    this._elContainer.addEventListener('click', this.handleSendEventOnClick);
+    this._elContainer.addEventListener('click', this.handleSendEventOnClick.bind(this));
   }
 
   protected removeEventListeners() {
     super.removeEventListeners();
-    this._elContainer.removeEventListener('click', this.handleSendEventOnClick);
+    this._elContainer.removeEventListener('click', this.handleSendEventOnClick.bind(this));
   }
 
   protected unsubscribeFromSignals() {
