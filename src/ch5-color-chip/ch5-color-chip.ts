@@ -329,12 +329,12 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
 
   protected attachEventListeners() {
     super.attachEventListeners();
-    this._elContainer.addEventListener('click', this.handleSendEventOnClick);
+    this._elContainer.addEventListener('click', this.handleSendEventOnClick.bind(this));
   }
 
   protected removeEventListeners() {
     super.removeEventListeners();
-    this._elContainer.removeEventListener('click', this.handleSendEventOnClick);
+    this._elContainer.removeEventListener('click', this.handleSendEventOnClick.bind(this));
   }
 
   protected unsubscribeFromSignals() {
@@ -373,8 +373,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
     // this.setAttribute('previewcolor', `rgb(${this.redValue}, ${this.greenValue}, ${this.blueValue})`);
   }
 
-  private handleSendEventOnClick = ()=> {
-    console.log('test', this.sendEventOnClick);
+  private handleSendEventOnClick(): void {
     if (this.sendEventOnClick) {
       Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(true);
       Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(false);
