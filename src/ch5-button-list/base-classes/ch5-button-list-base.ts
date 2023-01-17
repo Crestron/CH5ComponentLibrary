@@ -33,7 +33,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   public static readonly BUTTON_VALIGN_LABEL_POSITIONS: TCh5ButtonListButtonVAlignLabel[] = ['middle', 'top', 'bottom'];
   public static readonly BUTTON_CHECKBOX_POSITIONS: TCh5ButtonListButtonCheckboxPosition[] = ['left', 'right'];
   public static readonly BUTTON_ICON_POSITIONS: TCh5ButtonListButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
-  public static readonly BUTTON_SHAPES: TCh5ButtonListButtonShape[] = ['rounded-rectangle', 'rectangle'];
+  public static readonly BUTTON_SHAPES: TCh5ButtonListButtonShape[] = ['rectangle', 'rounded-rectangle'];
 
   public static COMPONENT_DATA: any = {
     ORIENTATION: {
@@ -814,7 +814,11 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
 
   public handleStretch(): void {
     if (this.stretch === 'both') { this.stretch = this.orientation === 'horizontal' ? this.rows === 1 ? 'both' : null : this.columns === 1 ? 'both' : null; }
-    if (this.stretch === null) { this._elContainer.classList.remove(this.primaryCssClass + '--stretch-both'); }
+    if (this.stretch === null) {
+      this._elContainer.classList.remove(this.primaryCssClass + '--stretch-both');
+    } else {
+      this.debounceButtonDisplay();
+    }
   }
 
   public handleCenterItems() {
@@ -822,6 +826,9 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
       this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5ButtonListBase.CENTER_ITEMS_CLASSLIST_PREFIX + bool.toString());
     });
     this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.CENTER_ITEMS_CLASSLIST_PREFIX + this.centerItems);
+    if (this.centerItems === true) {
+      this.debounceButtonDisplay();
+    }
   }
 
   public handleEndless() {
@@ -1037,6 +1044,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     const individualButtons = this.getElementsByTagName(this.nodeName.toLowerCase() + '-individual-button');
     const individualButtonsLength = individualButtons.length;
     btn.setAttribute('stretch', 'both');
+    btn.setAttribute('shape', 'rectangle');
     Ch5ButtonListBase.COMPONENT_PROPERTIES.forEach((attr: ICh5PropertySettings) => {
       if (index < individualButtonsLength) {
         if (attr.name.toLowerCase() === 'buttonlabelinnerhtml') {

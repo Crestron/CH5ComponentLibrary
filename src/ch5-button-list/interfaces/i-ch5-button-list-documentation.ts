@@ -124,7 +124,7 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *       "\tbuttonVAlignLabel=\"${16:middle}\"",
  *       "\tbuttonCheckboxPosition=\"${17:left}\"",
  *       "\tbuttonIconPosition=\"${18:first}\"",
- *       "\tbuttonShape=\"${19:rounded-rectangle}\"",
+ *       "\tbuttonShape=\"${19:rectangle}\"",
  *       "\tbuttonCheckboxShow=\"${20:}\"",
  *       "\tbuttonSelected=\"${21:}\"",
  *       "\tbuttonPressed=\"${22:}\"",
