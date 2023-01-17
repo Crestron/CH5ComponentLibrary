@@ -22,7 +22,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * [
    * "`scrollbar` attribute",
    * "***",
-   * "The default value is false. If true, shows a scrollbar for the list."
+   * "The default value is false. If scrollbar is true, then shows a scrollbar for the button list."
    * ]
    * @name scrollbar
    * @default false
@@ -34,7 +34,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * [
    * "`centerItems` attribute",
    * "***",
-   * "The default value is false. NOTE: Parent container has to be set a fixed height and width to see the expected behaviour."
+   * "The default value is false. This attribute sets the buttons in the list to be center aligned"
    * ]
    * @name centeritems
    * @default false
@@ -70,7 +70,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
   * [
   * "`numberOfItems` attribute",
   * "***",
-  * "numberOfItems the ability to designate the largest number of items they wish the list to include"
+  * "Default value is 10,  Minimum value is 1 and Maximum value is 500. This attribute sets the number of buttons in the button lists"
   * ]
   * @name numberofitems
   * @default 10
@@ -83,7 +83,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * [
    * "`rows` attribute",
    * "***",
-   * "sets the number of rows for the list only when the orientation is horizontal."
+   * "Default value is 1, Minimum value 1 and Maximum value 500. By using rows attribute the designer can align the buttons in multiple rows of the list when the orientation is horizontal."
    * ]
    * @name rows
    * @default 1
@@ -97,7 +97,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * [
    * "`columns` attribute",
    * "***",
-   * "sets the number of columns for the list only when the orientation is vertical."
+   * "Default value is 1, Minimum value 1 and Maximum value 500. By using columns attribute the designer can align the buttons in multiple columns of the list when the orientation is vertical."
    * ]
    * @name columns
    * @default 1
@@ -111,7 +111,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * [
    * "`indexId` attribute",
    * "***",
-   * "default value is idx. Allows differentiation of each item in the list in the ch5-button-list-label element."
+   * "This attribute helps to replace the pattern with the index on the ch5-button-list."
    * ]
    * @name indexid
    * @default idx
@@ -123,7 +123,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * [
    * "`receiveStateNumberOfItems` attribute",
    * "***",
-   * "Value received from the receiveStateNumberOfItems Join will be constrained for numberOfItems attribute."
+   * "signal value received from the receiveStateNumberOfItems Join will be constrained for numberOfItems attribute."
    * ]
    * @name receivestatenumberofitems
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
@@ -135,7 +135,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
   * [
   * "`scrollToPosition` attribute",
   * "***",
-  * "Indicates the index of the button to scrollTo. This is applicable only for single row and column."
+  * "Default value is 0, Minimum value is 0 and Maximum value is 499. Indicates the index of the button to scrollTo. This is applicable only for single row and column."
   * ]
   * @name scrolltoposition
   * @default 0

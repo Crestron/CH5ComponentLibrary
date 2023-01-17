@@ -33,7 +33,8 @@ import { ICh5ButtonListIndividualButtonAttributes } from "./i-ch5-button-list-in
  *     "body": [
  *       "<ch5-button-list-individual-button id=\"ch5-button-list-individual-button_${1:id}\"",
  *       "\ticonUrl=\"${2:}\"",
- *       "\ticonClass=\"${3:}\">",
+ *       "\tonRelease=\"${3:}\"",
+ *       "\ticonClass=\"${4:}\">",
  *       "</ch5-button-list-individual-button>$0"
  *       ]
  *    },
@@ -44,7 +45,8 @@ import { ICh5ButtonListIndividualButtonAttributes } from "./i-ch5-button-list-in
  *       "<ch5-button-list-individual-button id=\"ch5-button-list-individual-button_${1:id}\"",
  *       "\tbuttonLabelInnerHTML=\"${2:}\"",
  *       "\ticonUrl=\"${3:}\"",
- *       "\ticonClass=\"${4:}\">",
+ *       "\tonRelease=\"${4:}\"",
+ *       "\ticonClass=\"${5:}\">",
  *       "</ch5-button-list-individual-button>$0"
  *       ]
  *    }

@@ -10,7 +10,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
   * [
   * "`buttonType` attribute",
   * "***",
-  * "buttonType sets the button background for all the buttons in the list. Possible values are default, danger, text, warning, info, success, primary, secondary."
+  * "buttonType sets the button backgrountd for all the buttons in the list. Valid values are default, danger, text, warning, info, success, primary, secondary."
   * ]
   * @name buttontype
   * @default default
@@ -119,11 +119,11 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`buttonMode` attribute",
    * "***",
-   * "The default value is 0. This property is used to set or get the mode of the ch5-button in a multi-mode environment. The maximum value that can be set is 99."
+   * "The default value is 0. This property is used to set or get the mode of the ch5-button in a multi-mode environment. The maximum value that can be set is 4."
    * ]
    * @name buttonmode
    * @default 0
-   * @limits [{"min": 0, "max": 99}]
+   * @limits [{"min": 0, "max": 4}]
    * @attributeType "Integer"
    */
   buttonMode: number;
@@ -132,7 +132,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`buttonIconClass` attribute",
    * "***",
-   * "The iconClass attribute with Font Awesome icons and Material Icons. You can declare more than one css class in the iconClass attribute."
+   * "The buttoniconclass attribute with Font Awesome icons and Material Icons. We can declare more than one css class in the buttonIconClass attribute."
    * ]
    * @name buttoniconclass
    * @default 
@@ -144,7 +144,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`buttonIconUrl` attribute",
    * "***",
-   * "The iconUrl attribute with SVG icons and PNG Icons we can pass only one url in the iconUrl attribute"
+   * "The buttonIconUrl  attribute with SVG icons and PNG Icons we can pass only one url in the buttonIconUrl  attribute"
    * ]
    * @name buttoniconurl
    * @default 
@@ -156,7 +156,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`buttonLabelInnerHtml` attribute",
    * "***",
-   * "Ability to provide a template that applies for all the buttons in the list"
+   * "This attribute provides the ability of a template that applies for all the buttons in the list."
    * ]
    * @name buttonlabelinnerhtml
    * @default 
@@ -168,7 +168,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`buttonReceiveStateMode` attribute",
    * "***",
-   * "When received, applies a value to the mode attribute from the signal."
+   * "When received, applies a value to the mode attribute from the signal on all the buttons in the button list."
    * ]
    * @name buttonreceivestatemode
    * @default 
@@ -180,7 +180,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`buttonReceiveStateSelected` attribute",
    * "***",
-   * "When received, applies a true value applied by the selected class (ch5-button--selected)."
+   * "When received, applies a true value applied by the selected class (ch5-button--selected) on all the buttons in the button list."
    * ]
    * @name buttonreceivestateselected
    * @default 
@@ -192,7 +192,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`buttonReceiveStateLabel` attribute",
    * "***",
-   * "When received, applies the value on the label."
+   * "When received, applies the value on the label on all the buttons in the button list."
    * ]
    * @name buttonreceivestatelabel
    * @default 
@@ -204,7 +204,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`buttonReceiveStateScriptLabelHtml` attribute",
    * "***",
-   * "Allows the signal script evaluation to be applied to the button.inner HTML class.  Allows for multiline, multistyled labels."
+   * "Allows the signal script evaluation to be applied to the button.innerHTML class.  Allows for multiline, multiStyled labels."
    * ]
    * @name buttonreceivestatescriptlabelhtml
    * @default 
@@ -216,7 +216,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`buttonReceiveStateIconClass` attribute",
    * "***",
-   * "The icon class received from the control system value will be applied to the iconClass attribute."
+   * "After receiving stateIconClass value from control system, this value is applied to the iconClass attribute of all the buttons in the list."
    * ]
    * @name buttonreceivestateiconclass
    * @default 
@@ -228,7 +228,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`receiveStateButtonIconUrl` attribute",
    * "***",
-   * "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute."
+   * "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute of all the buttons in the list."
    * ]
    * @name buttonreceivestateiconurl
    * @default 

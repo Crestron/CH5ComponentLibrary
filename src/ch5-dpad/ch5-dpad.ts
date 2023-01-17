@@ -41,10 +41,10 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	 */
 	public static readonly SIZES: TCh5DpadSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
 
-	public static readonly CSS_CLASS_PREFIX_STRETCH: string = "ch5-dpad--stretch-";
-	public static readonly CSS_CLASS_PREFIX_TYPE: string = "ch5-dpad--type-";
-	public static readonly CSS_CLASS_PREFIX_SHAPE: string = "ch5-dpad--shape-";
-	public static readonly CSS_CLASS_PREFIX_SIZE: string = "ch5-dpad--size-";
+	public static readonly CSS_CLASS_PREFIX_STRETCH: string = "--stretch-";
+	public static readonly CSS_CLASS_PREFIX_TYPE: string = "--type-";
+	public static readonly CSS_CLASS_PREFIX_SHAPE: string = "--shape-";
+	public static readonly CSS_CLASS_PREFIX_SIZE: string = "--size-";
 
 	/**
 	 * COMPONENT_DATA is required for sass-schema generator file to build sufficient data
@@ -90,7 +90,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	};
 
 	public readonly primaryCssClass = 'ch5-dpad';
-	public readonly cssClassPrefix = 'ch5-dpad';
 
 	//#endregion
 
@@ -710,11 +709,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		if (!buttonsList.length) {
 			return;
 		}
-		let centerBtn = null;
-		let upBtn = null;
-		let rightBtn = null;
-		let downBtn = null;
-		let leftBtn = null;
+		let centerBtn: any = null;
+		let upBtn: any = null;
+		let rightBtn: any = null;
+		let downBtn: any = null;
+		let leftBtn: any = null;
 		Array.from(buttonsList).forEach(item => {
 			switch (item.getAttribute('key')) {
 				case 'center':
@@ -869,27 +868,27 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		super.updateCssClasses();
 
 		for (const typeVal of Ch5Dpad.TYPES) {
-			this.classList.remove(Ch5Dpad.CSS_CLASS_PREFIX_TYPE + typeVal);
+			this.classList.remove(Ch5Dpad.ELEMENT_NAME + Ch5Dpad.CSS_CLASS_PREFIX_TYPE + typeVal);
 		}
-		this.classList.add(Ch5Dpad.CSS_CLASS_PREFIX_TYPE + this.type);
+		this.classList.add(Ch5Dpad.ELEMENT_NAME + Ch5Dpad.CSS_CLASS_PREFIX_TYPE + this.type);
 
 		for (const typeVal of Ch5Dpad.SHAPES) {
-			this.classList.remove(Ch5Dpad.CSS_CLASS_PREFIX_SHAPE + typeVal);
+			this.classList.remove(Ch5Dpad.ELEMENT_NAME + Ch5Dpad.CSS_CLASS_PREFIX_SHAPE + typeVal);
 		}
-		this.classList.add(Ch5Dpad.CSS_CLASS_PREFIX_SHAPE + this.shape);
+		this.classList.add(Ch5Dpad.ELEMENT_NAME + Ch5Dpad.CSS_CLASS_PREFIX_SHAPE + this.shape);
 
 		for (const typeVal of Ch5Dpad.SIZES) {
-			this.classList.remove(Ch5Dpad.CSS_CLASS_PREFIX_SIZE + typeVal);
+			this.classList.remove(Ch5Dpad.ELEMENT_NAME + Ch5Dpad.CSS_CLASS_PREFIX_SIZE + typeVal);
 		}
-		this.classList.add(Ch5Dpad.CSS_CLASS_PREFIX_SIZE + this.size);
+		this.classList.add(Ch5Dpad.ELEMENT_NAME + Ch5Dpad.CSS_CLASS_PREFIX_SIZE + this.size);
 
 		for (const typeVal of Ch5Dpad.STRETCHES) {
-			this.classList.remove(Ch5Dpad.CSS_CLASS_PREFIX_STRETCH + typeVal);
+			this.classList.remove(Ch5Dpad.ELEMENT_NAME + Ch5Dpad.CSS_CLASS_PREFIX_STRETCH + typeVal);
 		}
 		if (!!this.stretch && this.stretch.length > 0) { // checking for length since it does not have a default value
-			this.classList.add(Ch5Dpad.CSS_CLASS_PREFIX_STRETCH + this.stretch);
+			this.classList.add(Ch5Dpad.ELEMENT_NAME + Ch5Dpad.CSS_CLASS_PREFIX_STRETCH + this.stretch);
 			if (!!this.size && this.size.length > 0) {
-				this.classList.remove(Ch5Dpad.CSS_CLASS_PREFIX_SIZE + this.size);
+				this.classList.remove(Ch5Dpad.ELEMENT_NAME + Ch5Dpad.CSS_CLASS_PREFIX_SIZE + this.size);
 			}
 		}
 	}

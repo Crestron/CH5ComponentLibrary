@@ -40,6 +40,7 @@ export * from './../ch5-segmented-gauge/interfaces/i-ch5-segmented-gauge-documen
 export * from "./../ch5-select/interfaces/i-ch5-select-documentation";
 export * from "./../ch5-select-option/interfaces/i-ch5-select-option-documentation";
 export * from "./../ch5-signal-level-gauge/interfaces/i-ch5-signal-level-gauge-documentation";
+export * from './../ch5-subpage-reference-list/interfaces/i-ch5-subpage-reference-list-documentation';
 export * from "./../ch5-slider/interfaces/i-ch5-slider-documentation";
 export * from "./../ch5-spinner/interfaces/i-ch5-spinner-documentation";
 export * from "./../ch5-template/interfaces/i-ch5-template-documentation";

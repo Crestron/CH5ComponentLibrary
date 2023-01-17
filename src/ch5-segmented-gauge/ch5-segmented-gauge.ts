@@ -21,35 +21,35 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
       values: Ch5SegmentedGauge.ORIENTATION,
       key: 'orientation',
       attribute: 'orientation',
-      classListPrefix: 'ch5-segmented-gauge--orientation-'
+      classListPrefix: '--orientation-'
     },
     GAUGE_LED_STYLE: {
       default: Ch5SegmentedGauge.GAUGE_LED_STYLE[0],
       values: Ch5SegmentedGauge.GAUGE_LED_STYLE,
       key: 'gaugeLedStyle',
       attribute: 'gaugeLedStyle',
-      classListPrefix: 'ch5-segmented-gauge--gauge-led-style-'
+      classListPrefix: '--gauge-led-style-'
     },
     PRIMARY_STATE_GRAPHIC: {
       default: Ch5SegmentedGauge.STATE_GRAPHIC[0],
       values: Ch5SegmentedGauge.STATE_GRAPHIC,
       key: 'primaryStateGraphic',
       attribute: 'primaryStateGraphic',
-      classListPrefix: 'ch5-segmented-gauge--segment-state-graphic-'
+      classListPrefix: '--segment-state-graphic-'
     },
     SECONDARY_STATE_GRAPHIC: {
       default: Ch5SegmentedGauge.STATE_GRAPHIC[1],
       values: Ch5SegmentedGauge.STATE_GRAPHIC,
       key: 'secondaryStateGraphic',
       attribute: 'secondaryStateGraphic',
-      classListPrefix: 'ch5-segmented-gauge--segment-state-graphic-'
+      classListPrefix: '--segment-state-graphic-'
     },
     TERTIARY_STATE_GRAPHIC: {
       default: Ch5SegmentedGauge.STATE_GRAPHIC[2],
       values: Ch5SegmentedGauge.STATE_GRAPHIC,
       key: 'tertiaryStateGraphic',
       attribute: 'tertiaryStateGraphic',
-      classListPrefix: 'ch5-segmented-gauge--segment-state-graphic-'
+      classListPrefix: '--segment-state-graphic-'
     }
   };
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
@@ -211,7 +211,6 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   ];
 
   public static readonly ELEMENT_NAME = 'ch5-segmented-gauge';
-  public cssClassPrefix = 'ch5-segmented-gauge';
   public primaryCssClass = 'ch5-segmented-gauge';
 
   private _ch5Properties: Ch5Properties;
@@ -536,16 +535,16 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   private handleOrientation() {
     Array.from(Ch5SegmentedGauge.COMPONENT_DATA.ORIENTATION.values).forEach((e: any) => {
-      this._elContainer.classList.remove(Ch5SegmentedGauge.COMPONENT_DATA.ORIENTATION.classListPrefix + e);
+      this._elContainer.classList.remove(Ch5SegmentedGauge.ELEMENT_NAME + Ch5SegmentedGauge.COMPONENT_DATA.ORIENTATION.classListPrefix + e);
     });
-    this._elContainer.classList.add(Ch5SegmentedGauge.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
+    this._elContainer.classList.add(Ch5SegmentedGauge.ELEMENT_NAME + Ch5SegmentedGauge.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
   }
 
   private handleGaugeLedStyle() {
     Array.from(Ch5SegmentedGauge.COMPONENT_DATA.GAUGE_LED_STYLE.values).forEach((e: any) => {
-      this._elContainer.classList.remove(Ch5SegmentedGauge.COMPONENT_DATA.GAUGE_LED_STYLE.classListPrefix + e);
+      this._elContainer.classList.remove(Ch5SegmentedGauge.ELEMENT_NAME + Ch5SegmentedGauge.COMPONENT_DATA.GAUGE_LED_STYLE.classListPrefix + e);
     });
-    this._elContainer.classList.add(Ch5SegmentedGauge.COMPONENT_DATA.GAUGE_LED_STYLE.classListPrefix + this.gaugeLedStyle);
+    this._elContainer.classList.add(Ch5SegmentedGauge.ELEMENT_NAME + Ch5SegmentedGauge.COMPONENT_DATA.GAUGE_LED_STYLE.classListPrefix + this.gaugeLedStyle);
   }
 
   private handleNumberOfSegments() {
@@ -668,11 +667,11 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     const tertiarySegments = 100 - primarySegments - secondarySegments; // Math.round((15 * this.numberOfSegments) / 100);
     for (let i = 0; i < segmentChildren.length - 1; i++) {
       if (i < this.numberOfSegments && i < primarySegments) {
-        segmentChildren[i + 1].classList.add(Ch5SegmentedGauge.COMPONENT_DATA.PRIMARY_STATE_GRAPHIC.classListPrefix + this.primaryStateGraphic);
+        segmentChildren[i + 1].classList.add(Ch5SegmentedGauge.ELEMENT_NAME + Ch5SegmentedGauge.COMPONENT_DATA.PRIMARY_STATE_GRAPHIC.classListPrefix + this.primaryStateGraphic);
       } else if (i < this.numberOfSegments && i < primarySegments + secondarySegments) {
-        segmentChildren[i + 1].classList.add(Ch5SegmentedGauge.COMPONENT_DATA.SECONDARY_STATE_GRAPHIC.classListPrefix + this.secondaryStateGraphic);
+        segmentChildren[i + 1].classList.add(Ch5SegmentedGauge.ELEMENT_NAME + Ch5SegmentedGauge.COMPONENT_DATA.SECONDARY_STATE_GRAPHIC.classListPrefix + this.secondaryStateGraphic);
       } else if (i < this.numberOfSegments && i < primarySegments + secondarySegments + tertiarySegments) {
-        segmentChildren[i + 1].classList.add(Ch5SegmentedGauge.COMPONENT_DATA.TERTIARY_STATE_GRAPHIC.classListPrefix + this.tertiaryStateGraphic);
+        segmentChildren[i + 1].classList.add(Ch5SegmentedGauge.ELEMENT_NAME + Ch5SegmentedGauge.COMPONENT_DATA.TERTIARY_STATE_GRAPHIC.classListPrefix + this.tertiaryStateGraphic);
       }
       if (i < segmentBars) {
         segmentChildren[i + 1].classList.add("active");
@@ -685,8 +684,8 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   private initCssClass() {
     this.logger.start('initCssClass');
     this._elContainer.classList.add(this.primaryCssClass);
-    this._elContainer.classList.add(Ch5SegmentedGauge.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
-    this._elContainer.classList.add(Ch5SegmentedGauge.COMPONENT_DATA.GAUGE_LED_STYLE.classListPrefix + this.gaugeLedStyle);
+    this._elContainer.classList.add(Ch5SegmentedGauge.ELEMENT_NAME + Ch5SegmentedGauge.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
+    this._elContainer.classList.add(Ch5SegmentedGauge.ELEMENT_NAME + Ch5SegmentedGauge.COMPONENT_DATA.GAUGE_LED_STYLE.classListPrefix + this.gaugeLedStyle);
     this.logger.stop();
   }
 
@@ -695,7 +694,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   }
 
   public getCssClassDisabled() {
-    return this.cssClassPrefix + '--disabled';
+    return this.primaryCssClass + '--disabled';
   }
 
   //#endregion

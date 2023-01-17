@@ -77,24 +77,23 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			default: Ch5OverlayPanel.POSITION_OFFSETS[0],
 			values: Ch5OverlayPanel.POSITION_OFFSETS,
 			key: 'position_offset',
-			classListPrefix: 'ch5-overlay-panel--pos-'
+			classListPrefix: '--pos-'
 		},
 		STRETCH: {
 			default: Ch5OverlayPanel.STRETCHES[0],
 			values: Ch5OverlayPanel.STRETCHES,
 			key: 'stretch',
-			classListPrefix: 'ch5-overlay-panel--stretch-'
+			classListPrefix: '--stretch-'
 		},
 		OVERFLOWS: {
 			default: Ch5OverlayPanel.OVERFLOWS[0],
 			values: Ch5OverlayPanel.OVERFLOWS,
 			key: 'overflow',
-			classListPrefix: 'ch5-overlay-panel--overflow-'
+			classListPrefix: '--overflow-'
 		},
 	};
 
 	public primaryCssClass = 'ch5-overlay-panel';
-	public cssClassPrefix = 'ch5-overlay-panel';
 
 	/**
 	 * A div element that wraps the internal structure of the overlay
@@ -292,7 +291,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		if (!this._wasInstatiated) {
 			this.createInternalHtml();
 			this._rebindEventCallbacks();
-			this._closeIcon = this.cssClassPrefix + '-default-close-icon';
+			this._closeIcon = this.primaryCssClass + '-default-close-icon';
 		}
 		this._wasInstatiated = true;
 
@@ -342,7 +341,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		}
 
 		if (!this.hasAttribute('show')) {
-			this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true); 
+			this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true);
 		}
 
 		this._ready.then(() => {
@@ -389,19 +388,19 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 
 		// position offsets
 		Ch5OverlayPanel.POSITION_OFFSETS.forEach((posOffset: TCh5OverlayPanelPositionOffset) => {
-			const newCssClass = this.cssClassPrefix + '--pos-' + posOffset;
+			const newCssClass = this.primaryCssClass + '--pos-' + posOffset;
 			cssClasses.push(newCssClass);
 		});
 
 		// overflows
 		Ch5OverlayPanel.OVERFLOWS.forEach((overflow: TCh5OverlayPanelOverflow) => {
-			cssClasses.push(this.cssClassPrefix + '--overflow-' + overflow);
+			cssClasses.push(this.primaryCssClass + '--overflow-' + overflow);
 		});
 
 		// stretches
 		Ch5OverlayPanel.STRETCHES.forEach((stretch: TCh5OverlayPanelStretch) => {
 			if (stretch !== null) {
-				cssClasses.push(this.cssClassPrefix + '--stretch-' + stretch);
+				cssClasses.push(this.primaryCssClass + '--stretch-' + stretch);
 			}
 		});
 
@@ -440,18 +439,18 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 
 		this._elCloseIconBtn = document.createElement('button');
 		this._elCloseIconBtn.setAttribute('type', 'button');
-		this._elCloseIconBtn.classList.add(this.cssClassPrefix + '-close-icon-btn');
+		this._elCloseIconBtn.classList.add(this.primaryCssClass + '-close-icon-btn');
 		this._elCloseIconBtn.setAttribute('aria-label', 'Close');
 
 		this._elCloseIcon = document.createElement('span');
 		this._elCloseIcon.setAttribute('aria-hidden', 'true');
-		this._elCloseIcon.classList.add(this.cssClassPrefix + '-close-icon');
-		this._elCloseIcon.classList.add(this.cssClassPrefix + '-default-close-icon');
+		this._elCloseIcon.classList.add(this.primaryCssClass + '-close-icon');
+		this._elCloseIcon.classList.add(this.primaryCssClass + '-default-close-icon');
 
 		this._elCloseIconBtn.appendChild(this._elCloseIcon);
 
 		this._elContents = document.createElement('div');
-		this._elContents.classList.add(this.cssClassPrefix + '-contents');
+		this._elContents.classList.add(this.primaryCssClass + '-contents');
 
 		this._elContainer.classList.add(this.primaryCssClass);
 		this._elContainer.setAttribute('data-ch5-id', this.getCrId());
@@ -479,7 +478,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		setOfCssClassesToBeApplied.add(this.primaryCssClass);
 
 		// overflow
-		setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--overflow-' + this.overflow);
+		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--overflow-' + this.overflow);
 
 		const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
 		if (typeof targetEl.classList !== 'undefined') {
@@ -650,13 +649,13 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 	protected _handleKeyPress(event: KeyboardEvent) {
 		if (this.getAttribute('show') !== 'false' && event.key === 'Escape') {
 			this.info('_handleKeyPress()');
-			this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true); 
+			this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true);
 		}
 	}
 
 	protected _clickedOnClose(inEvent: Event) {
 		this.info('_clickedOnClose()');
-		this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true); 
+		this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true);
 	}
 
 	protected _getReadyCheckPromise(): Promise<any> {
@@ -802,7 +801,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 	}
 
 	public getCssClassDisabled() {
-		return this.cssClassPrefix + '--disabled';
+		return this.primaryCssClass + '--disabled';
 	}
 
 	protected updateForChangeInDismissable() {
@@ -925,8 +924,8 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		}
 
 		this.info('_dismissElement() inEvent', inEvent);
-		this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true); 
-		}
+		this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true);
+	}
 
 	protected _clickAndTouchEvent(event: Event) {
 		event.stopPropagation();

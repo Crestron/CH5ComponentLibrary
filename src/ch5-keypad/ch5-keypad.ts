@@ -68,11 +68,11 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	 */
 	public static readonly SIZES: TCh5KeypadSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
 
-	public static readonly btnTypeClassPrefix: string = "ch5-keypad--type-";
-	public static readonly btnStretchClassPrefix: string = "ch5-keypad--stretch-";
-	public static readonly btnShapeClassPrefix: string = "ch5-keypad--shape-";
-	public static readonly btnTextOrientationClassPrefix: string = "ch5-keypad--orientation-";
-	public static readonly btnSizeClassPrefix: string = "ch5-keypad--size-";
+	public static readonly btnTypeClassPrefix: string = "--type-";
+	public static readonly btnStretchClassPrefix: string = "--stretch-";
+	public static readonly btnShapeClassPrefix: string = "--shape-";
+	public static readonly btnTextOrientationClassPrefix: string = "--orientation-";
+	public static readonly btnSizeClassPrefix: string = "--size-";
 
 	/**
 	 * COMPONENT_DATA is required for sass-schema generator file to build sufficient data
@@ -111,12 +111,11 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			values: Ch5Keypad.SIZES,
 			key: 'size',
 			attribute: 'size',
-			classListPrefix: 'ch5-keypad--size-'
+			classListPrefix: '--size-'
 		},
 	};
 
 	public readonly primaryCssClass = 'ch5-keypad';
-	public readonly cssClassPrefix = 'ch5-keypad';
 
 	private readonly KEYPAD_PROPERTIES: {
 		SHOW_EXTRA_BUTTON: ICh5AttributeAndPropertySettings
@@ -513,12 +512,12 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			this.info(' subs callback for signalReceiveExtraButtonShow: ', this._subKeySigReceiveExtraButtonShow, ' Signal has value ', newVal);
 			this.showExtraButton = newVal;
 			if (newVal) {
-				this.classList.remove(Ch5Keypad.btnTypeClassPrefix + 'extra-row-hide');
-				this.classList.add(Ch5Keypad.btnTypeClassPrefix + 'extra-row-show');
+				this.classList.remove(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnTypeClassPrefix + 'extra-row-hide');
+				this.classList.add(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnTypeClassPrefix + 'extra-row-show');
 				this.classList.add('ch5-keypad--for-extra-button');
 			} else {
-				this.classList.remove(Ch5Keypad.btnTypeClassPrefix + 'extra-row-show');
-				this.classList.add(Ch5Keypad.btnTypeClassPrefix + 'extra-row-hide');
+				this.classList.remove(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnTypeClassPrefix + 'extra-row-show');
+				this.classList.add(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnTypeClassPrefix + 'extra-row-hide');
 				this.classList.remove('ch5-keypad--for-extra-button');
 			}
 		});
@@ -797,34 +796,33 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		super.updateCssClasses();
 
 		for (const typeVal of Ch5Keypad.TYPES) {
-			this.classList.remove(Ch5Keypad.btnTypeClassPrefix + typeVal);
+			this.classList.remove(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnTypeClassPrefix + typeVal);
 		}
-		this.classList.add(Ch5Keypad.btnTypeClassPrefix + this.type);
+		this.classList.add(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnTypeClassPrefix + this.type);
 
 		for (const typeVal of Ch5Keypad.SHAPES) {
-			this.classList.remove(Ch5Keypad.btnShapeClassPrefix + typeVal);
+			this.classList.remove(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnShapeClassPrefix + typeVal);
 		}
-		this.classList.add(Ch5Keypad.btnShapeClassPrefix + this.shape);
+		this.classList.add(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnShapeClassPrefix + this.shape);
 
 		for (const typeVal of Ch5Keypad.TEXT_ORIENTATIONS) {
-			this.classList.remove(Ch5Keypad.btnTextOrientationClassPrefix + typeVal);
+			this.classList.remove(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnTextOrientationClassPrefix + typeVal);
 		}
-		this.classList.add(Ch5Keypad.btnTextOrientationClassPrefix + this.textOrientation);
+		this.classList.add(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnTextOrientationClassPrefix + this.textOrientation);
 
 		for (const typeVal of Ch5Keypad.SIZES) {
-			this.classList.remove(Ch5Keypad.btnSizeClassPrefix + typeVal);
+			this.classList.remove(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnSizeClassPrefix + typeVal);
 		}
-		this.classList.add(Ch5Keypad.btnSizeClassPrefix + this.size);
+		this.classList.add(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnSizeClassPrefix + this.size);
 
 		for (const typeVal of Ch5Keypad.STRETCHES) {
-			this.classList.remove(Ch5Keypad.btnStretchClassPrefix + typeVal);
+			this.classList.remove(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnStretchClassPrefix + typeVal);
 		}
 		if (!!this.stretch && this.stretch.length > 0) { // checking for length since it does not have a default value
-			this.classList.add(Ch5Keypad.btnStretchClassPrefix + this.stretch);
+			this.classList.add(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnStretchClassPrefix + this.stretch);
 		}
 
-		this.classList.add(Ch5Keypad.btnTypeClassPrefix +
-			(this.showExtraButton ? "extra-row-show" : "extra-row-hide"));
+		this.classList.add(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnTypeClassPrefix + (this.showExtraButton ? "extra-row-show" : "extra-row-hide"));
 	}
 
 	protected attachEventListeners() {

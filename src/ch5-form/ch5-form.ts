@@ -163,7 +163,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
                 value = '';
             }
 
-            const iconClass = `${value} ${this.cssClassPrefix}__submit__icon`;
+            const iconClass = `${value} ${this.primaryCssClass}__submit__icon`;
 
             this._submitButtonIcon = value;
             this.setAttribute('submitbuttonicon', value);
@@ -272,7 +272,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
                 value = '';
             }
 
-            const iconClass = `${value} ${this.cssClassPrefix}__cancel__icon`;
+            const iconClass = `${value} ${this.primaryCssClass}__cancel__icon`;
 
             this._cancelButtonIcon = value;
             this.setAttribute('cancelbuttonicon', value);
@@ -441,7 +441,6 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * CSS classes
      */
     public primaryCssClass = 'ch5-form';
-    public cssClassPrefix = 'ch5-form';
 
     /**
      * COMPONENT ATTRIBUTES
@@ -939,10 +938,10 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
         // disable cancel buttons
         if (this._cancelShouldBeDisabled) {
             this.cancelButton.setAttribute('disabled', 'true');
-            this.cancelButton.classList.add(this.cssClassPrefix + '__submit--disabled');
+            this.cancelButton.classList.add(this.primaryCssClass + '__submit--disabled');
         } else {
             this.cancelButton.removeAttribute('disabled');
-            this.cancelButton.classList.remove(this.cssClassPrefix + '__submit--disabled');
+            this.cancelButton.classList.remove(this.primaryCssClass + '__submit--disabled');
         }
         this.checkIfCustomCancelShouldBeDisabled(this._cancelShouldBeDisabled);
 
@@ -974,12 +973,12 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
         if (this._submitShouldBeDisable) {
             this.submitButton.setAttribute('disabled', 'true');
-            this.submitButton.classList.add(this.cssClassPrefix + '__submit--disabled');
+            this.submitButton.classList.add(this.primaryCssClass + '__submit--disabled');
             return;
         }
 
         this.submitButton.removeAttribute('disabled');
-        this.submitButton.classList.remove(this.cssClassPrefix + '__submit--disabled');
+        this.submitButton.classList.remove(this.primaryCssClass + '__submit--disabled');
     }
 
     private checkIfCustomSubmitShouldBeDisabled(disable: boolean) {
@@ -1010,12 +1009,12 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
         button.setAttribute('label', label);
         button.setAttribute('type', type);
         button.setAttribute('formType', formType);
-        button.classList.add(this.cssClassPrefix + '__' + formType)
+        button.classList.add(this.primaryCssClass + '__' + formType)
 
 
         if (disable) {
             button.setAttribute('disabled', 'true');
-            button.classList.add(this.cssClassPrefix + '__' + formType + '--disabled');
+            button.classList.add(this.primaryCssClass + '__' + formType + '--disabled');
         }
 
         return button;

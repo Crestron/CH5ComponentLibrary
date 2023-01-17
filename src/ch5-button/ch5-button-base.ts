@@ -163,35 +163,35 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			values: Ch5ButtonBase.TYPES,
 			key: 'type',
 			attribute: 'type',
-			classListPrefix: 'ch5-button--'
+			classListPrefix: '--'
 		},
 		SHAPES: {
 			default: Ch5ButtonBase.SHAPES[0],
 			values: Ch5ButtonBase.SHAPES,
 			key: 'shape',
 			attribute: 'shape',
-			classListPrefix: 'ch5-button--'
+			classListPrefix: '--'
 		},
 		SIZES: {
 			default: Ch5ButtonBase.SIZES[0],
 			values: Ch5ButtonBase.SIZES,
 			key: 'size',
 			attribute: 'size',
-			classListPrefix: 'ch5-button--size-'
+			classListPrefix: '--size-'
 		},
 		STRETCH: {
 			default: null,
 			values: Ch5ButtonBase.STRETCHES,
 			key: 'stretch',
 			attribute: 'stretch',
-			classListPrefix: 'ch5-button--stretch-'
+			classListPrefix: '--stretch-'
 		},
 		ICON_POSITIONS: {
 			default: Ch5ButtonBase.ICON_POSITIONS[0],
 			values: Ch5ButtonBase.ICON_POSITIONS,
 			key: 'iconposition',
 			attribute: 'iconPosition',
-			classListPrefix: 'ch5-button--iconposition-'
+			classListPrefix: '--iconposition-'
 		},
 		CHECKBOX_POSITIONS: {
 			default: Ch5ButtonBase.CHECKBOX_POSITIONS[0],
@@ -205,20 +205,20 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			values: Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS,
 			key: 'halignlabel',
 			attribute: 'hAlignLabel',
-			classListPrefix: 'ch5-button--horizontal-'
+			classListPrefix: '--horizontal-'
 		},
 		VERTICAL_LABEL_ALIGNMENTS: {
 			default: Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0],
 			values: Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS,
 			key: 'valignlabel',
 			attribute: 'vAlignLabel',
-			classListPrefix: 'ch5-button--vertical-'
+			classListPrefix: '--vertical-'
 		},
 		ORIENTATIONS: {
 			default: Ch5ButtonBase.ORIENTATIONS[0],
 			values: Ch5ButtonBase.ORIENTATIONS,
 			key: 'orientation',
-			classListPrefix: 'ch5-button--'
+			classListPrefix: '--'
 		}
 	};
 
@@ -308,7 +308,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	public readonly ELEMENT_NAME: string = 'ch5-button';
 	public primaryCssClass: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
-	public cssClassPrefix: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
 
 	private DEBOUNCE_BUTTON_DISPLAY: number = 25;
 
@@ -2393,17 +2392,17 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 			Ch5ButtonBase.ICON_POSITIONS.forEach((iconPositionObj, i) => {
 				if (this.iconPosition === iconPositionObj) {
-					this._elContainer.classList.add(`${this.cssClassPrefix}--iconposition-${iconPositionObj}`);
+					this._elContainer.classList.add(`${this.primaryCssClass}--iconposition-${iconPositionObj}`);
 					this._elIcon.classList.add(`cx-button-icon-pos-${iconPositionObj}`);
 				} else {
-					this._elContainer.classList.remove(`${this.cssClassPrefix}--iconposition-${iconPositionObj}`);
+					this._elContainer.classList.remove(`${this.primaryCssClass}--iconposition-${iconPositionObj}`);
 					this._elIcon.classList.remove(`cx-button-icon-pos-${iconPositionObj}`);
 				}
 			});
 
 			// // Handle vertical button with iconPosition top or bottom
 			// if (['top', 'bottom'].indexOf(this.iconPosition) >= 0 && this.orientation === Ch5ButtonBase.ORIENTATIONS[1]) {
-			// 	this._elButton.classList.add(`${this.cssClassPrefix}--vertical--icon-${this.iconPosition}`);
+			// 	this._elButton.classList.add(`${this.primaryCssClass}--vertical--icon-${this.iconPosition}`);
 			// }
 
 			let hasIcon = false;

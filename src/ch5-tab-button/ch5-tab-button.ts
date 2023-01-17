@@ -1,5 +1,6 @@
-import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
-import { Ch5ButtonListBase } from "../ch5-button-list/ch5-button-list-base";
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { Ch5ButtonListBase } from "../ch5-button-list/base-classes/ch5-button-list-base";
+import { Ch5GenericListAttributes } from "../ch5-generic-list-attributes/ch5-generic-list-attributes";
 
 export class Ch5TabButton extends Ch5ButtonListBase {
 
@@ -7,20 +8,13 @@ export class Ch5TabButton extends Ch5ButtonListBase {
 
   public static ELEMENT_NAME = 'ch5-tab-button';
 
-  public cssClassPrefix = 'ch5-tab-button';
-  public primaryCssClass = 'ch5-tab-button';
-
-  //#endregion
-
-  //#region Getters and Setters
+  public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+    ...Ch5GenericListAttributes.SIGNAL_ATTRIBUTE_TYPES,
+  };
 
   //#endregion
 
   //#region Static Methods
-
-  public static registerSignalAttributeTypes() {
-    Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5TabButton.ELEMENT_NAME, Ch5TabButton.SIGNAL_ATTRIBUTE_TYPES);
-  }
 
   public static registerCustomElement() {
     if (typeof window === "object"
@@ -31,12 +25,17 @@ export class Ch5TabButton extends Ch5ButtonListBase {
     }
   }
 
+  public static registerSignalAttributeTypes() {
+    Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5TabButton.ELEMENT_NAME, Ch5TabButton.SIGNAL_ATTRIBUTE_TYPES);
+  }
+
   //#endregion
 
   //#region Component Lifecycle
 
   constructor() {
     super();
+    this.primaryCssClass = Ch5TabButton.ELEMENT_NAME;
   }
 
   public connectedCallback() {
@@ -50,8 +49,8 @@ export class Ch5TabButton extends Ch5ButtonListBase {
   public static get observedAttributes() {
     const availableAttributes: string[] = super.observedAttributes;
     // Remove attributes that should not follow changes to DOM
-    availableAttributes.splice(availableAttributes.indexOf("scrollbar"), 1); 
-    availableAttributes.splice(availableAttributes.indexOf("endless"), 1); 
+    availableAttributes.splice(availableAttributes.indexOf("scrollbar"), 1);
+    availableAttributes.splice(availableAttributes.indexOf("endless"), 1);
     return availableAttributes;
   }
 

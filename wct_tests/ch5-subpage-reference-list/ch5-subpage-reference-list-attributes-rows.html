@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-subpage-reference-list-rows-attributes">
+    <template>
+      <ch5-subpage-reference-list></ch5-subpage-reference-list>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-subpage-reference-list-rows-attributes-value', () => {
+      let ch5SubpageReferenceList;
+
+      setup(async () => {
+        ch5SubpageReferenceList = fixture('ch5-subpage-reference-list-rows-attributes');
+      });
+
+      let testCases = ['a', '', ' ', 'number', '0', '1', '2', '599', '600', '601'];
+      let expectedResult = ['1', '1', '1', '1', '1', '1', '2', '599', '600', '600'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "rows"', () => {
+          ch5SubpageReferenceList.setAttribute('rows', ele);
+          expect(ch5SubpageReferenceList.getAttribute('rows')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+    });
+  </script>
+</body>
+
+</html>

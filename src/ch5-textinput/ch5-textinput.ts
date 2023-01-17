@@ -161,7 +161,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 					this._elIcon.classList.add(className.trim());
 				}
 			});
-			this._elIcon.classList.add(this.cssClassPrefix + '__icon');
+			this._elIcon.classList.add(this.primaryCssClass + '__icon');
 		}
 
 	}
@@ -206,7 +206,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 					this._elIcon.classList.add(className.trim());
 				}
 			});
-			this._elIcon.classList.add(this.cssClassPrefix + '__icon');
+			this._elIcon.classList.add(this.primaryCssClass + '__icon');
 		}
 	}
 
@@ -240,7 +240,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 		if (this._elIcon.constructor === HTMLElement) {
 			this._removeModifierClass(Ch5TextInput.ICONPOSITION as [string]);
-			this._elIcon.classList.add(this.cssClassPrefix + '__icon--' + position);
+			this._elIcon.classList.add(this.primaryCssClass + '__icon--' + position);
 		}
 	}
 	public get iconPosition(): TCh5TextInputIconPosition {
@@ -428,7 +428,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 				this._stretch = null;
 				this.removeAttribute('stretch');
 				Ch5TextInput.STRETCH.forEach((stretchValue: string) => {
-					this.classList.remove(this.cssClassPrefix + '--' + stretchValue);
+					this.classList.remove(this.primaryCssClass + '--' + stretchValue);
 				});
 			} else {
 				if (Ch5TextInput.STRETCH.indexOf(value) >= 0) {
@@ -439,7 +439,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 					this._stretch = null;
 					this.removeAttribute('stretch');
 					Ch5TextInput.STRETCH.forEach((stretchValue: string) => {
-						this.classList.remove(this.cssClassPrefix + '--' + stretchValue);
+						this.classList.remove(this.primaryCssClass + '--' + stretchValue);
 					});
 				}
 			}
@@ -1119,31 +1119,31 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 			default: Ch5TextInput.TYPES[0],
 			values: Ch5TextInput.TYPES,
 			key: 'type',
-			classListPrefix: 'ch5-textinput--'
+			classListPrefix: '--'
 		},
 		SIZES: {
 			default: Ch5TextInput.SIZES[0],
 			values: Ch5TextInput.SIZES,
 			key: 'size',
-			classListPrefix: 'ch5-textinput--'
+			classListPrefix: '--'
 		},
 		STRETCH: {
 			default: Ch5TextInput.STRETCH[0],
 			values: Ch5TextInput.STRETCH,
 			key: 'stretch',
-			classListPrefix: 'ch5-textinput--'
+			classListPrefix: '--'
 		},
 		TEXT_TRANSFORM: {
 			default: Ch5TextInput.TEXTTRANSFORM[0],
 			values: Ch5TextInput.TEXTTRANSFORM,
 			key: 'text_transform',
-			classListPrefix: 'ch5-textinput--'
+			classListPrefix: '--'
 		},
 		ICON_POSITION: {
 			default: Ch5TextInput.ICONPOSITION[0],
 			values: Ch5TextInput.ICONPOSITION,
 			key: 'icon_position',
-			classListPrefix: 'ch5-textinput--'
+			classListPrefix: '--'
 		}
 	};
 
@@ -1163,14 +1163,6 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * @type {string}
 	 */
 	public primaryCssClass: string = 'ch5-textinput' as string;
-
-	/**
-	 * Class prefix
-	 *
-	 * @public
-	 * @type {string}
-	 */
-	public cssClassPrefix: string = 'ch5-textinput' as string;
 
 	/**
 	 * The input element
@@ -1842,7 +1834,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	}
 
 	public getCssClassDisabled() {
-		return this.cssClassPrefix + '--disabled';
+		return this.primaryCssClass + '--disabled';
 	}
 
 	/**
@@ -2057,7 +2049,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * before creating view for ch5-textinput
 	 */
 	protected clearComponentContent() {
-		const containers = this.getElementsByClassName(this.cssClassPrefix + Ch5TextInput.COMPONENT_CONTENT_POSTFIX);
+		const containers = this.getElementsByClassName(this.primaryCssClass + Ch5TextInput.COMPONENT_CONTENT_POSTFIX);
 		Array.from(containers).forEach((container) => {
 			container.remove();
 		})
@@ -2074,13 +2066,13 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 		this.classList.add(this.primaryCssClass);
 
 		this._elIcon = document.createElement('i');
-		this._elIcon.classList.add(this.cssClassPrefix + '__icon');
+		this._elIcon.classList.add(this.primaryCssClass + '__icon');
 
 		this._elInput = document.createElement('input');
-		this._elInput.classList.add(this.cssClassPrefix + '__input');
+		this._elInput.classList.add(this.primaryCssClass + '__input');
 
 		this._assetsWrapper = document.createElement('div');
-		this._assetsWrapper.classList.add(this.cssClassPrefix + Ch5TextInput.COMPONENT_CONTENT_POSTFIX);
+		this._assetsWrapper.classList.add(this.primaryCssClass + Ch5TextInput.COMPONENT_CONTENT_POSTFIX);
 
 		this._assetsWrapper.appendChild(this._elInput);
 
@@ -2383,7 +2375,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 		if (this.querySelector('label') === null) {
 			this._labelElement = document.createElement('label');
 			this._labelElement.innerHTML = this.label;
-			this._labelElement.classList.add(this.cssClassPrefix + '__label');
+			this._labelElement.classList.add(this.primaryCssClass + '__label');
 
 			let element: HTMLElement = this._assetsWrapper as HTMLElement;
 
@@ -2408,18 +2400,18 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 		this.info("<ch5-textinput />._addModifierClass(" + className + "," + toChildrens + ")");
 
 		this._removeModifierClass(staticClasses as [string]);
-		this.classList.add(this.cssClassPrefix + '--' + className);
+		this.classList.add(this.primaryCssClass + '--' + className);
 
 		if (toChildrens === true) {
-			this._elInput.classList.add(this.cssClassPrefix + '__input--' + className);
-			this._assetsWrapper.classList.add(this.cssClassPrefix + '__assets--' + className);
+			this._elInput.classList.add(this.primaryCssClass + '__input--' + className);
+			this._assetsWrapper.classList.add(this.primaryCssClass + '__assets--' + className);
 
 			if (this._labelElement !== undefined && this._labelElement.constructor === HTMLLabelElement) {
-				this._labelElement.classList.add(this.cssClassPrefix + '__label--' + className);
+				this._labelElement.classList.add(this.primaryCssClass + '__label--' + className);
 			}
 
 			if (this._elIcon !== undefined && this._elIcon.constructor === HTMLElement) {
-				this._elIcon.classList.add(this.cssClassPrefix + '__icon--' + className);
+				this._elIcon.classList.add(this.primaryCssClass + '__icon--' + className);
 			}
 		}
 	}
@@ -2434,14 +2426,14 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 		this.info('<ch5-textinput />._removeModifierClass()');
 
 		classes.forEach((className) => {
-			this.classList.remove(this.cssClassPrefix + '--' + className);
-			this._elInput.classList.remove(this.cssClassPrefix + '__input--' + className);
+			this.classList.remove(this.primaryCssClass + '--' + className);
+			this._elInput.classList.remove(this.primaryCssClass + '__input--' + className);
 			if (this._labelElement !== undefined && this._labelElement.constructor === HTMLLabelElement) {
-				this._labelElement.classList.remove(this.cssClassPrefix + '__label--' + className);
+				this._labelElement.classList.remove(this.primaryCssClass + '__label--' + className);
 			}
 
 			if (this._elIcon.constructor === HTMLElement) {
-				this._elIcon.classList.remove(this.cssClassPrefix + '__icon--' + className);
+				this._elIcon.classList.remove(this.primaryCssClass + '__icon--' + className);
 			}
 		})
 

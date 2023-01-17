@@ -36,7 +36,7 @@
       </ch5-button-list>
     </template>
   </test-fixture>
-  <test-fixture id="ch5-button-list-mode-state-checkboxPosition-pressed">
+  <test-fixture id="ch5-button-list-mode-state-halignLabel-pressed">
     <template>
       <ch5-button-list buttonSelected="true" buttonCheckboxShow="true">
         <ch5-button-list-mode>
@@ -125,7 +125,7 @@
         });
       });
     });
-    suite('ch5-button-list-mode-state-checkboxPosition-selected-and-pressed-value', () => {
+    suite('ch5-button-list-mode-state-halignLabel-selected-and-pressed-value', () => {
       let ch5ButtonList;
       let ch5ButtonListMode;
       let ch5ButtonListModeState0;
@@ -133,12 +133,12 @@
       let ch5ButtonListModeState2;
 
       setup(async () => {
-        ch5ButtonList = fixture('ch5-button-list-mode-state-checkboxPosition-pressed');
+        ch5ButtonList = fixture('ch5-button-list-mode-state-halignLabel-pressed');
         ch5ButtonListModeState0 = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[0];
         ch5ButtonListModeState1 = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[1];
         ch5ButtonListModeState2 = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[2];
       });
-      test(`Check attribute checkboxPosition for selected mode:"`, (done) => {
+      test(`Check attribute halignLabel for selected mode:"`, (done) => {
         flush(() => {
           setTimeout(() => {
             expect(getFirstButton(ch5ButtonList).children[0].classList.contains('ch5-button--pressed')).to.be.equal(false);

@@ -105,7 +105,6 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
 
   public static readonly ELEMENT_NAME = 'ch5-color-picker';
 
-  public cssClassPrefix = 'ch5-color-picker';
   public primaryCssClass = 'ch5-color-picker';
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
@@ -391,7 +390,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
   }
 
   public getCssClassDisabled() {
-    return this.cssClassPrefix + '--disabled';
+    return this.primaryCssClass + '--disabled';
   }
 
   private handleSendSignals() {

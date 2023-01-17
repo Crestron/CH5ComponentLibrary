@@ -859,7 +859,6 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
 
 
   public static primaryCssClass = 'ch5-spinner';
-  public static cssClassPrefix = 'ch5-spinner';
 
   public static VISIBLEITEMSCROLL = 3;
 
@@ -884,13 +883,13 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
       default: Ch5Spinner.ICONPOSITIONS[0],
       values: Ch5Spinner.ICONPOSITIONS,
       key: 'icon_position',
-      classListPrefix: 'ch5-spinner--'
+      classListPrefix: '--'
     },
     FEEDBACK_MODES: {
       default: Ch5Spinner.FEEDBACKMODES[0],
       values: Ch5Spinner.FEEDBACKMODES,
       key: 'feedback_modes',
-      classListPrefix: 'ch5-spinner--'
+      classListPrefix: '--'
     },
   };
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
@@ -1750,7 +1749,7 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
   protected initUtilities() {
     this.info("<ch5-spinner />.initUtilities()");
 
-    this.classList.add(Ch5Spinner.cssClassPrefix);
+    this.classList.add(Ch5Spinner.primaryCssClass);
 
     this.initAttributes();
 

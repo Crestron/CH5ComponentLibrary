@@ -99,7 +99,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
 	protected ignoreAttributes: string[] = [];
 	public primaryCssClass: string = 'ch5-common';
-	public cssClassPrefix: string = 'ch5-common';
 
 	// Current language for each component
 	public currentLanguage: string | null = '';
@@ -730,7 +729,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		this.logger = new Ch5CommonLog(false, false, this._crId);
 		const cssClasses: string[] = [];
 
-		cssClasses.push(this.cssClassPrefix + '--disabled');
+		cssClasses.push(this.primaryCssClass + '--disabled');
 
 		this._listOfAllPossibleComponentCssClasses = cssClasses;
 		this.observableGestureableProperty = new Subject<boolean>();

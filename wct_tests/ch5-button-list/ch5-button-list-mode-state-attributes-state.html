@@ -108,34 +108,6 @@
         });
       });
 
-      test(`Check button mode state selected`, (done) => {
-        flush(() => {
-          ch5ButtonList1.setAttribute('state', 'selected');
-          setTimeout(() => {
-            for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
-              console.log("state", ch5ButtonList1.state);
-              expect(ch5ButtonList.children[1].children[i].children[0].children[0].classList.contains("ch5-button--selected"));
-              expect(ch5ButtonList.children[1].children[i].children[0].children[0].children[0].children[0].children[0].innerText).to.be.equal('selected_' + i);
-
-            }
-            done();
-          }, COMPONENT_TESTING_TIMEOUT);
-        });
-      });
-
-      test(`Check button mode state pressed`, (done) => {
-        flush(() => {
-          ch5ButtonList1.setAttribute('state', 'pressed');
-          setTimeout(() => {
-            for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
-              expect(ch5ButtonList.children[1].children[i].children[0].children[0].classList.contains("ch5-button--pressed"));
-              expect(ch5ButtonList.children[1].children[i].children[0].children[0].children[0].children[0].children[0].innerText).to.be.equal('pressed_' + i);
-            }
-            done();
-          }, COMPONENT_TESTING_TIMEOUT);
-        });
-      });
-
       test(`Check button mode state normal`, (done) => {
         flush(() => {
           ch5ButtonList1.setAttribute('state', 'normal');

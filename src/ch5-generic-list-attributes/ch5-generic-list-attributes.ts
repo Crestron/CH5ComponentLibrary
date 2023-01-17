@@ -254,7 +254,7 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
 
   public set scrollToPosition(value: number) {
     this._ch5PropertiesBase.set<number>("scrollToPosition", value, () => {
-      this.handleScrollToPosition();
+      this.debounceHandleScrollToPosition(this.scrollToPosition);
     });
   }
   public get scrollToPosition(): number {
@@ -264,7 +264,7 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
   public set receiveStateScrollToPosition(value: string) {
     this._ch5PropertiesBase.set("receiveStateScrollToPosition", value, null, (newValue: number) => {
       this._ch5PropertiesBase.setForSignalResponse<number>("scrollToPosition", newValue, () => {
-        this.handleScrollToPosition();
+        this.debounceHandleScrollToPosition(newValue);
       });
     });
   }
@@ -354,7 +354,7 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
   abstract handleEndless(): void;
   abstract handleRowsAndColumn(): void;
   abstract handleStretch(): void;
-  abstract handleScrollToPosition(): void;
+  abstract debounceHandleScrollToPosition(value: number): void;
 
   //#endregion
 

@@ -121,7 +121,6 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
 
   public static readonly ELEMENT_NAME = 'ch5-color-chip';
 
-  public cssClassPrefix = 'ch5-color-chip';
   public primaryCssClass = 'ch5-color-chip';
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
@@ -358,7 +357,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
   }
 
   public getCssClassDisabled() {
-    return this.cssClassPrefix + '--disabled';
+    return this.primaryCssClass + '--disabled';
   }
 
   private handleSendSignals(color: string) {

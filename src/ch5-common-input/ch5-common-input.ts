@@ -515,7 +515,7 @@ export abstract class Ch5CommonInput extends Ch5Common implements ICh5CommonInpu
      */
     protected handleModifierClass(className: string, action: string = 'add'): void {
 
-        const modifierClassName = this.cssClassPrefix + '--' + className;
+        const modifierClassName = this.primaryCssClass + '--' + className;
 
         if (action === 'add') {
             this.classList.add(modifierClassName);

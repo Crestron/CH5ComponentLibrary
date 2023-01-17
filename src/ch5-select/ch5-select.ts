@@ -55,13 +55,13 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 			default: Ch5Select.MODE_VALUES[0],
 			values: Ch5Select.MODE_VALUES,
 			key: 'mode_values',
-			classListPrefix: 'ch5-select--'
+			classListPrefix: '--'
 		},
 		FEEDBACK_MODE_VALUES: {
 			default: Ch5Select.FEEDBACK_MODE_VALUES[0],
 			values: Ch5Select.FEEDBACK_MODE_VALUES,
 			key: 'feedback_mode_values',
-			classListPrefix: 'ch5-select--'
+			classListPrefix: '--'
 		},
 	};
 	public static DEFAULT_SIGNAL_VALUE_SYNC_TIMEOUT: number = 1500;
@@ -83,7 +83,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 	// ch5_select_option_1.Ch5SelectOption.ITEM_SELECTED_STYLE_CLASS
 	public static ITEM_SELECTED_STYLE_CLASS: string = 'ch5-select__panel__item--selected';
 
-	public cssClassPrefix = 'ch5-select';
+	public primaryCssClass = 'ch5-select';
 
 	/**
 	 * Used only to validate the interface for metadata generation
@@ -2125,7 +2125,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 	}
 
 	public getCssClassDisabled(): string {
-		return `${this.cssClassPrefix}--disabled`;
+		return `${this.primaryCssClass}--disabled`;
 	}
 
 	private _setSelectedClass(set: boolean): void {
