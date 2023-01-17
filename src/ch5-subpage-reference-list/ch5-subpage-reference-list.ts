@@ -120,6 +120,22 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       isObservableProperty: true
     },
     {
+      default: 0,
+      name: "scrollToPosition",
+      removeAttributeOnNull: true,
+      type: "number",
+      valueOnAttributeEmpty: null,
+      numberProperties: {
+        min: 1,
+        max: 600,
+        conditionalMin: 1,
+        conditionalMax: 600,
+        conditionalMinValue: 1,
+        conditionalMaxValue: 600
+      },
+      isObservableProperty: true
+    },
+    {
       default: false,
       name: "scrollbar",
       removeAttributeOnNull: true,
@@ -328,6 +344,15 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
   public get columns(): number {
     return this._ch5Properties.get<number>("columns");
+  }
+
+  public set scrollToPosition(value: number) {
+    this._ch5Properties.set<number>("scrollToPosition", value, () => {
+      //this.handleScrollToPosition();
+    });
+  }
+  public get scrollToPosition(): number {
+    return this._ch5Properties.get<number>("scrollToPosition");
   }
 
   public set scrollbar(value: boolean) {

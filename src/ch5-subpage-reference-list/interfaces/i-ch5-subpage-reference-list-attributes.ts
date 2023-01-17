@@ -79,6 +79,19 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * @attributeType "Integer"
    */
   columns: number;
+   /**
+   * @documentation
+   * [
+   * "`scrollToPosition` attribute",
+   * "***",
+   * "Indicates the index of the button to scrollTo. This is applicable only for single row and column. The default value is 0"
+   * ]
+   * @name scrolltoposition
+   * @default 0   
+   * limits [{"min": 1, "max": 600}]
+   * @attributeType "Integer"
+   */
+   scrollToPosition: number;
   /**
    * @documentation
    * [
