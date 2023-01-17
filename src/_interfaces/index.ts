@@ -43,6 +43,11 @@ export * from "./../ch5-signal-level-gauge/interfaces/i-ch5-signal-level-gauge-d
 export * from './../ch5-subpage-reference-list/interfaces/i-ch5-subpage-reference-list-documentation';
 export * from "./../ch5-slider/interfaces/i-ch5-slider-documentation";
 export * from "./../ch5-spinner/interfaces/i-ch5-spinner-documentation";
+export * from "./../ch5-tab-button/interfaces/i-ch5-tab-button-documentation";
+export * from "./../ch5-tab-button/interfaces/i-ch5-tab-button-mode-documentation";
+export * from "./../ch5-tab-button/interfaces/i-ch5-tab-button-mode-state-documentation";
+export * from "./../ch5-tab-button/interfaces/i-ch5-tab-button-label-documentation";
+export * from "./../ch5-tab-button/interfaces/i-ch5-tab-button-individual-button-documentation";
 export * from "./../ch5-template/interfaces/i-ch5-template-documentation";
 export * from "./../ch5-textinput/interfaces/i-ch5-text-input-documentation";
 export * from "./../ch5-toggle/interfaces/i-ch5-toggle-documentation";
