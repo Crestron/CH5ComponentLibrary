@@ -11,6 +11,7 @@ import { Ch5ButtonListModeBase } from "./ch5-button-list-mode-base";
 import { Ch5ButtonListModeStateBase } from "./ch5-button-list-mode-state-base";
 import { Ch5ButtonModeState } from "../../ch5-button/ch5-button-mode-state";
 import { resizeObserver } from "../../ch5-core/resize-observer";
+import { Ch5AugmentVarSignalsNames } from '../../ch5-common/ch5-augment-var-signals-names';
 
 export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5ButtonListAttributes {
 
@@ -975,7 +976,9 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
                         if (buttonModeStateLabelTemplate && buttonModeStateLabelTemplate.length > 0) {
                           const ch5ButtonLabel = new Ch5ButtonLabel();
                           const template = document.createElement('template');
-                          template.innerHTML = this.replaceAll(buttonModeStateLabelTemplate[0].innerHTML, `{{${this.indexId}}}`, i.toString());
+                          template.innerHTML = buttonModeStateLabelTemplate[0].innerHTML;
+                          Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(template, i, this.indexId);
+                          Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsContent(template, i, this.indexId);
                           ch5ButtonLabel.appendChild(template);
                           buttonModeState.appendChild(ch5ButtonLabel);
                         }
@@ -994,7 +997,9 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
                   if (buttonListModeLabelTemplate && buttonListModeLabelTemplate.length > 0) {
                     const ch5ButtonLabel = new Ch5ButtonLabel();
                     const template = document.createElement('template');
-                    template.innerHTML = this.replaceAll(buttonListModeLabelTemplate[0].innerHTML, `{{${this.indexId}}}`, i.toString());
+                    template.innerHTML = buttonListModeLabelTemplate[0].innerHTML;
+                    Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(template, i, this.indexId);
+                    Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsContent(template, i, this.indexId);
                     ch5ButtonLabel.appendChild(template);
                     ch5ButtonMode.appendChild(ch5ButtonLabel);
                   }
@@ -1017,7 +1022,9 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
           if (buttonListLabelTemplate && buttonListLabelTemplate.length > 0) {
             const ch5ButtonLabel = new Ch5ButtonLabel();
             const template = document.createElement('template');
-            template.innerHTML = this.replaceAll(buttonListLabelTemplate[0].innerHTML, `{{${this.indexId}}}`, index.toString());
+            template.innerHTML = buttonListLabelTemplate[0].innerHTML;
+            Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(template, index, this.indexId);
+            Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsContent(template, index, this.indexId);
             ch5ButtonLabel.appendChild(template);
             btn.appendChild(ch5ButtonLabel);
           }
@@ -1076,9 +1083,14 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
             btn.setAttribute('receivestateenable', this.getAttribute('receivestateenable') + '');
           }
           else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
-            const attrValue = this.getAttribute(attr.name)?.trim().replace(`{{${this.indexId}}}`, index + '');
-            if (attrValue) {
-              btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue);
+            if (this.getAttribute(attr.name)?.trim().length !== 0) {
+              const attrValue = this.getAttribute(attr.name)?.trim().replace(`{{${this.indexId}}}`, '') + '';
+              const isNumber = /^[0-9]+$/.test(attrValue);
+              if (isNumber) {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), Number(attrValue) + index + '');
+              } else {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), this.replaceAll(this.getAttribute(attr.name)?.trim() + '', `{{${this.indexId}}}`, index + ''));
+              }
             }
           }
         }
@@ -1090,9 +1102,14 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
           btn.setAttribute('receivestateenable', this.getAttribute('receivestateenable') + '');
         }
         else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
-          const attrValue = this.getAttribute(attr.name)?.trim().replace(`{{${this.indexId}}}`, index + '');
-          if (attrValue) {
-            btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
+          if (this.getAttribute(attr.name)?.trim().length !== 0) {
+            const attrValue = this.getAttribute(attr.name)?.trim().replace(`{{${this.indexId}}}`, '') + '';
+            const isNumber = /^[0-9]+$/.test(attrValue);
+            if (isNumber) {
+              btn.setAttribute(attr.name.toLowerCase().replace('button', ''), Number(attrValue) + index + '');
+            } else {
+              btn.setAttribute(attr.name.toLowerCase().replace('button', ''), this.replaceAll(this.getAttribute(attr.name)?.trim() + '', `{{${this.indexId}}}`, index + ''));
+            }
           }
         }
       }
@@ -1105,9 +1122,12 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     });
 
     if (index < individualButtonsLength && individualButtons[index].hasAttribute('onRelease')) {
-      const attrValue = individualButtons[index].getAttribute('onRelease')?.trim().replace(`{{${this.indexId}}}`, index + '');
-      if (attrValue) {
-        btn.setAttribute('onRelease', attrValue);
+      const attrValue = individualButtons[index].getAttribute('onRelease')?.trim().replace(`{{${this.indexId}}}`, '') + '';
+      const isNumber = /^[0-9]+$/.test(attrValue);
+      if (isNumber) {
+        btn.setAttribute('onrelease', Number(attrValue) + index + '');
+      } else {
+        btn.setAttribute('onrelease', this.replaceAll(individualButtons[index].getAttribute('onRelease')?.trim() + '', `{{${this.indexId}}}`, index + ''));
       }
     }
   }
