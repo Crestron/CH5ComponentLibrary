@@ -373,7 +373,8 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
     // this.setAttribute('previewcolor', `rgb(${this.redValue}, ${this.greenValue}, ${this.blueValue})`);
   }
 
-  private handleSendEventOnClick(): void {
+  private handleSendEventOnClick = ()=> {
+    console.log('test', this.sendEventOnClick);
     if (this.sendEventOnClick) {
       Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(true);
       Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(false);
