@@ -17,6 +17,7 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  *   "`ch5-subpage-reference-list` element",
  *   "***",
  *   "Component description"
+      // TODO: DEV:CHANGES
  * ]
  * @snippets
  * [
@@ -38,14 +39,14 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  *       "\tendless=\"${4:}\"",
  *       "\tcenterItems=\"${5:}\"",
  *       "\trows=\"${6:1}\"",
- *       "\tcolumn=\"${7:1}\"",
- *       "\tscrollBar=\"${8:}\"",
+ *       "\tcolumns=\"${7:1}\"",
+ *       "\tscrollbar=\"${8:}\"",
  *       "\tbooleanJoinOffset=\"${9:}\"",
  *       "\tnumericJoinOffset=\"${10:}\"",
  *       "\tstringJoinOffset=\"${11:}\"",
  *       "\tsubpageReceiveStateEnable=\"${12:}\"",
  *       "\tsubpageReceiveStateVisible=\"${13:}\"",
- *       "\tsubpage=\"${14:}\"",
+ *       "\twidgetId=\"${14:}\"",
  *       "\tsubpageReceiveStateScrollTo=\"${15:}\"",
  *       "\tstretch=\"${16:}\"",
  *       "\tnumberOfItems=\"${17:10}\"",
@@ -54,6 +55,7 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  *       "</ch5-subpage-reference-list>$0"
  *       ]
  *    }
+      // TODO: DEV:CHANGES
  *  ]
  */
 export interface ICh5SubpageReferenceListDocumentation extends ICh5Common, ICh5SubpageReferenceListAttributes {

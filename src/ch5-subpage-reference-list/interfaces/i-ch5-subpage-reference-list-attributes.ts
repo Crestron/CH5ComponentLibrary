@@ -6,16 +6,16 @@ import { TCh5SubpageReferenceListStretch, } from './t-ch5-subpage-reference-list
  */
 export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes {
   /**
-   * @documentation
-   * [
-   * "`orientation` attribute",
-   * "***",
-   * "default horizontal. direction of scroll/pan of adjacent objects"
-   * ]
-   * @name orientation
-   * @default horizontal
-   * @attributeType "String"
-   */
+  * @documentation
+  * [
+  * "`orientation` attribute",
+  * "***",
+  * "default horizontal. direction of scroll/pan of adjacent objects"
+  * ]
+  * @name orientation
+  * @default horizontal
+  * @attributeType "EnumeratedValue"
+  */
   orientation: string;
   /**
    * @documentation
@@ -34,7 +34,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`endless` attribute",
    * "***",
-   * "EndlessCCIDE designers will have the ability to configure the list to have the last item and first item of the list scroll next to each other. This shall only apply to single row and column lists. If multiple rows and columns are defined, then endless is considered false."
+   * "EndlessCCIDE designers will have the ability to configure the list to have the last item and first item of the list scroll next to each other. This shall only apply to single row and columns lists. If multiple rows and columns are defined, then endless is considered false."
    * ]
    * @name endless
    * @default false
@@ -69,20 +69,20 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
   /**
    * @documentation
    * [
-   * "`column` attribute",
+   * "`columns` attribute",
    * "***",
    * "CCIDE designer will have the ability to configure the list to show more than one object in each item of the list."
    * ]
-   * @name column
+   * @name columns
    * @default 1
    * limits [{"min": 1, "max": 600}]
    * @attributeType "Integer"
    */
-  column: number;
+  columns: number;
   /**
    * @documentation
    * [
-   * "`scrollBar` attribute",
+   * "`scrollbar` attribute",
    * "***",
    * "ScrollBar"
    * ]
@@ -90,7 +90,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * @default false
    * @attributeType "Boolean"
    */
-  scrollBar: boolean;
+  scrollbar: boolean;
   /**
    * @documentation
    * [
@@ -154,15 +154,15 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
   /**
    * @documentation
    * [
-   * "`subpage` attribute",
+   * "`widgetId` attribute",
    * "***",
-   * "Each list item will be populated  with a Subpage Reference from the projects existing subpages in CCIDE. Note that there is currently a limit on the types of controls that can be used in a subpage  "
+   * "Each list item will be populated  with a widgetId Reference from the projects existing subpages in CCIDE. Note that there is currently a limit on the types of controls that can be used in a subpage  "
    * ]
-   * @name subpage
+   * @name widgetid
    * @default 
    * @attributeType "String"
    */
-  subpage: string;
+  widgetId: string;
   /**
    * @documentation
    * [
@@ -223,4 +223,5 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * @attributeType "String"
    */
   indexId: string;
+
 }
