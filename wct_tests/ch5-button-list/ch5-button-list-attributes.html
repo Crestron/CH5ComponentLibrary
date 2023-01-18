@@ -75,10 +75,10 @@
 
       test('Check Default value for buttonShape', () => {
         expect(ch5ButtonList.getAttribute("buttonShape")).to.be.equal(null);
-        ch5ButtonList.setAttribute('buttonShape', 'rounded-rectangle');
-        expect(ch5ButtonList.getAttribute("buttonShape")).to.be.equal('rounded-rectangle');
+        ch5ButtonList.setAttribute('buttonShape', 'rectangle');
+        expect(ch5ButtonList.getAttribute("buttonShape")).to.be.equal('rectangle');
         ch5ButtonList.removeAttribute("buttonShape");
-        expect(ch5ButtonList.getAttribute("buttonShape")).to.be.equal('rounded-rectangle');
+        expect(ch5ButtonList.getAttribute("buttonShape")).to.be.equal('rectangle');
       });
 
     });
