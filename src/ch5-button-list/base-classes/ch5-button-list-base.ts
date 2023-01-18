@@ -186,7 +186,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
         conditionalMin: 0,
         conditionalMax: 4,
         conditionalMinValue: 0,
-        conditionalMaxValue: 4
+        conditionalMaxValue: 0
       },
       isObservableProperty: true
     },
