@@ -32,6 +32,13 @@
         receiveStateBlueValue="trigger_event_listener2"></ch5-color-chip>
     </template>
   </test-fixture>
+
+  <test-fixture id="ch5-color-chip-disabled-attributes">
+    <template>
+      <ch5-color-chip previewcolor='black' sendEventOnClick="trigger_event3"
+        receiveStateRedValue="trigger_event_listener3" disabled></ch5-color-chip>
+    </template>
+  </test-fixture>
   <script>
     suite('ch5-color-chip-sendEventOnClick-attributes-value', () => {
       let ch5ColorChip;
@@ -90,6 +97,38 @@
         flush(() => {
           setTimeout(() => {
             expect(getComputedStyle(ch5ColorChip.children[0]).getPropertyValue('background-color')).to.be.equal('rgb(128, 128, 128)');
+            done();
+          }, 100);
+        });
+      });
+    });
+    
+    suite('ch5-color-chip-disabled-attributes-value', () => {
+      let ch5ColorChip;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/sendEventOnClick.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5ColorChip = fixture('ch5-color-chip-disabled-attributes');
+      });
+
+      test(`check sendEventClick with  disabled attribute`, (done) => {
+        flush(() => {
+          setTimeout(() => {
+            ch5ColorChip.children[0].click();
+            expect(getComputedStyle(ch5ColorChip.children[0]).getPropertyValue('background-color')).to.be.equal('rgba(0, 0, 0, 0)');
+            done();
+          }, 100);
+        });
+      });
+
+      test(`check sendEventClick  without disabled attribute`, (done) => {
+        flush(() => {
+          setTimeout(() => {
+            ch5ColorChip.removeAttribute('disabled');
+            ch5ColorChip.children[0].click();
+            expect(getComputedStyle(ch5ColorChip.children[0]).getPropertyValue('background-color')).to.be.equal('rgb(255, 0, 0)');
             done();
           }, 100);
         });
