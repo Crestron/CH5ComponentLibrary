@@ -8,6 +8,7 @@ import { ICh5SubpageReferenceListAttributes } from './interfaces/i-ch5-subpage-r
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { resizeObserver } from "../ch5-core/resize-observer";
+import { Ch5AugmentVarSignalsNames } from '../ch5-common/ch5-augment-var-signals-names';
 
 export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageReferenceListAttributes {
 
@@ -636,70 +637,89 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   private handleScrollEvent = () => {
     // update the scrollbar width and position
     this.initScrollbar();
-    const { offsetHeight, offsetWidth, scrollLeft, scrollTop, scrollWidth, scrollHeight } = this._elContainer;
-    // Checking whether endless can be achieved
-    const endlessScrollable = this.orientation === 'horizontal' ? offsetWidth + 20 < scrollWidth : offsetHeight + 20 < scrollHeight;
-    // working of endless for left and top scroll
-    if (this.loadedSubpages === this.numberOfItems && this.endless && endlessScrollable) {
-      if (this.orientation === 'horizontal' && scrollLeft < 5) {
+
+    // endless is handled in endlessHelper method
+    if (this.endless) { return this.endlessHelper(); }
+
+    // auto deletion and addition of subpages is handled
+    if (this.orientation === 'horizontal') {
+      const { offsetWidth, scrollLeft, scrollWidth } = this._elContainer;
+      if (scrollWidth - offsetWidth < this.subpageWidth) { return; }
+      let firstElement = Number(this._elContainer.firstElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
+      let lastElement = Number(this._elContainer.lastElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
+      if (scrollLeft < 5 && firstElement !== 0) {
+        let lastColumnElements = (lastElement + 1) % this.rows;
         for (let i = 0; i < this.rows; i++) {
-          if (this._elContainer.lastElementChild) {
-            this._elContainer.prepend(this._elContainer.lastElementChild);
+          this.createSubpage(--firstElement, false);
+          if ((lastElement + 1) % this.rows !== 0) {
+            if (lastColumnElements-- > 0) { this._elContainer.lastElementChild?.remove(); }
+          } else {
+            this._elContainer.lastElementChild?.remove();
           }
         }
         this._elContainer.scrollLeft += 5;
-      } else if (this.orientation === 'vertical' && scrollTop < 5) {
+      } else if (scrollLeft + offsetWidth > scrollWidth - 5 && lastElement !== this.numberOfItems - 1) {
+        for (let i = 0; i < this.rows; i++) {
+          if (lastElement + 1 < this.numberOfItems) { this.createSubpage(++lastElement); }
+          this._elContainer.firstElementChild?.remove();
+        }
+        this._elContainer.scrollLeft -= 5;
+      }
+    } else {
+      const { offsetHeight, scrollTop, scrollHeight } = this._elContainer;
+      let firstElement = Number(this._elContainer.firstElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
+      let lastElement = Number(this._elContainer.lastElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
+      if (scrollTop < 5 && firstElement !== 0) {
+        let lastRowElements = (lastElement + 1) % this.columns;
         for (let i = 0; i < this.columns; i++) {
-          if (this._elContainer.lastElementChild) {
-            this._elContainer.prepend(this._elContainer.lastElementChild);
+          this.createSubpage(--firstElement, false);
+          if ((lastElement + 1) % this.columns !== 0) {
+            if (lastRowElements-- > 0) { this._elContainer.lastElementChild?.remove(); }
+          } else {
+            this._elContainer.lastElementChild?.remove();
           }
         }
         this._elContainer.scrollTop += 5;
-      }
-    }
-
-    let rowColumnValue = 0;
-    if (this.endless && endlessScrollable) {
-      if (this.orientation === "horizontal") {
-        if (offsetWidth + scrollLeft < scrollWidth - 5) { return; }
-        rowColumnValue = this.rows;
-      } else {
-        if (offsetHeight + scrollTop < scrollHeight - 5) { return; }
-        rowColumnValue = this.columns;
-      }
-    } else {
-      this.subpageDestroyHelper();
-      if (this.orientation === "horizontal") {
-        if (offsetWidth + scrollLeft < scrollWidth - this.subpageWidth) { return; }
-        rowColumnValue = this.rows;
-      } else {
-        if (offsetHeight + scrollTop < scrollHeight - this.subpageHeight) { return; }
-        rowColumnValue = this.columns;
-      }
-    }
-
-    // check whether all the subpages are loaded
-    if (this.loadedSubpages !== this.numberOfItems) {
-      for (let i = this.loadedSubpages; i < this.loadedSubpages + rowColumnValue * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER && i < this.numberOfItems; i++) { this.createSubpage(i); }
-      this.loadedSubpages = this.loadedSubpages + rowColumnValue * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER > this.numberOfItems ? this.numberOfItems : this.loadedSubpages + rowColumnValue * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
-    }
-
-    // working of endless for right and bottom scroll
-    if (this.loadedSubpages === this.numberOfItems && this.endless && endlessScrollable) {
-      if (this.orientation === 'horizontal') {
-        for (let i = 0; i < this.rows; i++) {
-          if (this._elContainer.firstElementChild) {
-            this._elContainer.appendChild(this._elContainer.firstElementChild);
-          }
-        }
-        this._elContainer.scrollLeft -= 5;
-      } else if (this.orientation === 'vertical') {
+      } else if (scrollTop + offsetHeight > scrollHeight - 5 && lastElement !== this.numberOfItems - 1) {
         for (let i = 0; i < this.columns; i++) {
-          if (this._elContainer.firstElementChild) {
-            this._elContainer.appendChild(this._elContainer.firstElementChild);
-          }
+          if (lastElement + 1 < this.numberOfItems) { this.createSubpage(++lastElement); }
+          this._elContainer.firstElementChild?.remove();
         }
         this._elContainer.scrollTop -= 5;
+      }
+    }
+  }
+  private endlessHelper() {
+    const { offsetHeight, offsetWidth, scrollLeft, scrollTop, scrollWidth, scrollHeight } = this._elContainer;
+    const endlessScrollable = this.orientation === 'horizontal' ? offsetWidth + 20 < scrollWidth : offsetHeight + 20 < scrollHeight;
+    if (endlessScrollable === false) { return; }
+    if (this.orientation === 'horizontal') {
+      if (scrollLeft < 5) {
+        const firstElement = Number(this._elContainer.firstElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
+        const index = (this.numberOfItems + firstElement - 1) % this.numberOfItems;
+        this.createSubpage(index, false);
+        this._elContainer.lastElementChild?.remove();
+        this._elContainer.scrollLeft += 10;
+      } else if (scrollLeft + offsetWidth > scrollWidth - 5) {
+        const lastElement = Number(this._elContainer.lastElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
+        const index = (this.numberOfItems + lastElement + 1) % this.numberOfItems;
+        this.createSubpage(index);
+        this._elContainer.firstElementChild?.remove();
+        this._elContainer.scrollLeft -= 10;
+      }
+    } else {
+      if (scrollTop < 5) {
+        const firstElement = Number(this._elContainer.firstElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
+        const index = (this.numberOfItems + firstElement - 1) % this.numberOfItems;
+        this.createSubpage(index, false);
+        this._elContainer.lastElementChild?.remove();
+        this._elContainer.scrollTop += 10;
+      } else if (scrollTop + offsetHeight > scrollHeight - 5) {
+        const lastElement = Number(this._elContainer.lastElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
+        const index = (this.numberOfItems + lastElement + 1) % this.numberOfItems;
+        this.createSubpage(index);
+        this._elContainer.firstElementChild?.remove();
+        this._elContainer.scrollTop -= 10;
       }
     }
   }
@@ -861,7 +881,16 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     // documentContainer.innerHTML = documentInnerContainer.innerHTML;
     documentContainer.innerHTML = this._templateElement.innerHTML;
     const spgContainer = document.createElement("div");
+    spgContainer.setAttribute('id', this.getCrId() + '-' + index);
     spgContainer.classList.add(this.nodeName.toLowerCase() + "--subpage-container");
+    if (this.indexId !== null) {
+			// replace indexId in attributes
+			Ch5AugmentVarSignalsNames
+				.replaceIndexIdInTmplElemsAttrs(documentContainer, (index), this.indexId as string);
+			// replace remaining Idx from content using innerHTML and replace
+			Ch5AugmentVarSignalsNames
+				.replaceIndexIdInTmplElemsContent(documentContainer, (index), this.indexId as string);
+		}
     spgContainer.appendChild(((documentContainer as HTMLTemplateElement).content));
     append ? this._elContainer.appendChild(spgContainer) : this._elContainer.prepend(spgContainer);
   }
