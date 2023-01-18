@@ -51,7 +51,8 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  *       "\tstretch=\"${16:}\"",
  *       "\tnumberOfItems=\"${17:10}\"",
  *       "\treceiveStateNumberOfItems=\"${18:}\"",
- *       "\tindexId=\"${19:}\">",
+ *       "\tscrollToPosition=\"${19:}\"",
+ *       "\tindexId=\"${20:}\">",,
  *       "</ch5-subpage-reference-list>$0"
  *       ]
  *    }
