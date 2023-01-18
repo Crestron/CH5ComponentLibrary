@@ -75,7 +75,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       name: "endless",
       removeAttributeOnNull: true,
       type: "boolean",
-      valueOnAttributeEmpty: false,
+      valueOnAttributeEmpty: true,
       isObservableProperty: true,
 
     },
@@ -349,9 +349,14 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public set scrollToPosition(value: number) {
     this._ch5Properties.set<number>("scrollToPosition", value, () => {
-      //this.handleScrollToPosition();
+      this.debounceHandleScrollToPosition(this.scrollToPosition);
     });
   }
+
+  public debounceHandleScrollToPosition = this.debounce((value: number) => {
+    this.handleScrollToPosition(value);
+  }, 400);
+
   public get scrollToPosition(): number {
     return this._ch5Properties.get<number>("scrollToPosition");
   }
@@ -421,7 +426,10 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public set subpageReceiveStateScrollTo(value: string) {
     this._ch5Properties.set("subpageReceiveStateScrollTo", value, null, (newValue: number) => {
-      this.handleSubpageReceiveStateScrollTo();
+      //this.handleSubpageReceiveStateScrollTo();
+      this._ch5Properties.setForSignalResponse<number>("scrollToPosition", newValue, () => {
+        this.debounceHandleScrollToPosition(newValue);
+      });
     });
   }
   public get subpageReceiveStateScrollTo(): string {
@@ -790,6 +798,68 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.initScrollbar();
   }
 
+  public handleScrollToPosition(value: number) {
+    console.log('value', value);
+    // return if the value is less than 0 or more than equal to numberOfItems
+    if (value >= this.numberOfItems || value < 0) { return; }
+
+    // return if the button list contains more than one row or one column
+    if ((this.orientation === 'horizontal' && this.rows !== 1) || (this.orientation === 'vertical' && this.columns !== 1)) { return; }
+
+    // return if all the buttons fits in the container
+    if (this.orientation === 'horizontal') {
+      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      const totalButtonWidth = this.subpageWidth * this.numberOfItems;
+      if (containerWidth > totalButtonWidth) { return; }
+    } else {
+      const containerHeight = this._elContainer.getBoundingClientRect().height;
+      const totalButtonHeight = this.subpageHeight * this.numberOfItems;
+      if (containerHeight > totalButtonHeight) { return; }
+    }
+
+    // Remove all the children in the container
+    Array.from(this._elContainer.children).forEach(container => container.remove());
+
+    if (this.orientation === 'horizontal') {
+      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      const loadableSubPageList = Math.ceil(containerWidth / this.subpageWidth) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
+      // Right Edge case
+      if (value >= this.numberOfItems - (loadableSubPageList - Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER)) {
+        for (let i = this.numberOfItems - loadableSubPageList; i < this.numberOfItems; i++) { this.createSubpage(i); }
+        this._elContainer.scrollLeft = value === this.numberOfItems - 1 ? this.subpageWidth * 3 : this.subpageWidth * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
+      }
+      // In between the range
+      else if (value >= Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER) {
+        for (let i = value - Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER; i < value + loadableSubPageList; i++) { this.createSubpage(i); }
+        this._elContainer.scrollLeft = this.subpageWidth * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
+      }
+      // Left Edge case - value - (0,1) 
+      else {
+        for (let i = 0; i < loadableSubPageList; i++) { this.createSubpage(i); }
+        this._elContainer.scrollLeft = this.subpageWidth * value;
+      }
+    } else {
+      const containerHeight = this._elContainer.getBoundingClientRect().height;
+      const loadableSubPageList = Math.ceil(containerHeight / this.subpageHeight) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
+      // Bottom Edge case
+      if (value >= this.numberOfItems - (loadableSubPageList - Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER)) {
+        for (let i = this.numberOfItems - loadableSubPageList; i < this.numberOfItems; i++) { this.createSubpage(i); }
+        this._elContainer.scrollTop = value === this.numberOfItems - 1 ? this.subpageHeight * 3 : this.subpageHeight * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
+      }
+      // In between the range
+      else if (value >= Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER) {
+        for (let i = value - Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER; i < value + loadableSubPageList; i++) { this.createSubpage(i); }
+        this._elContainer.scrollTop = this.subpageHeight * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
+      }
+      // Top Edge case - value - (0,1) 
+      else {
+        for (let i = 0; i < loadableSubPageList; i++) { this.createSubpage(i); }
+        this._elContainer.scrollTop = this.subpageHeight * value;
+      }
+    }
+    this.initScrollbar();
+  }
+
   private handleBooleanJoinOffset() {
     // Enter your Code here
   }
@@ -825,9 +895,9 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
     this.debounceSubpageDisplay();
   }
-  private handleSubpageReceiveStateScrollTo() {
+  /* private handleSubpageReceiveStateScrollTo() {
     // Enter your Code here
-  }
+  } */
   private handleStretch() {
     Array.from(Ch5SubpageReferenceList.COMPONENT_DATA.STRETCH.values).forEach((e: any) => {
       this._elContainer.classList.remove(Ch5SubpageReferenceList.COMPONENT_DATA.STRETCH.classListPrefix + e);
@@ -884,13 +954,13 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     spgContainer.setAttribute('id', this.getCrId() + '-' + index);
     spgContainer.classList.add(this.nodeName.toLowerCase() + "--subpage-container");
     if (this.indexId !== null) {
-			// replace indexId in attributes
-			Ch5AugmentVarSignalsNames
-				.replaceIndexIdInTmplElemsAttrs(documentContainer, (index), this.indexId as string);
-			// replace remaining Idx from content using innerHTML and replace
-			Ch5AugmentVarSignalsNames
-				.replaceIndexIdInTmplElemsContent(documentContainer, (index), this.indexId as string);
-		}
+      // replace indexId in attributes
+      Ch5AugmentVarSignalsNames
+        .replaceIndexIdInTmplElemsAttrs(documentContainer, (index), this.indexId as string);
+      // replace remaining Idx from content using innerHTML and replace
+      Ch5AugmentVarSignalsNames
+        .replaceIndexIdInTmplElemsContent(documentContainer, (index), this.indexId as string);
+    }
     spgContainer.appendChild(((documentContainer as HTMLTemplateElement).content));
     append ? this._elContainer.appendChild(spgContainer) : this._elContainer.prepend(spgContainer);
   }
