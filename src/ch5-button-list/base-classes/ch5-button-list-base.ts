@@ -958,7 +958,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     btn.addContainerClass(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.BUTTON_CHECKBOX_POSITION.classListPrefix + this.buttonCheckboxPosition);
   }
 
-  private buttonModeHelper(btn: Ch5Button, i: number) {
+  protected buttonModeHelper(btn: Ch5Button, i: number) {
     const buttonListModes = this.getElementsByTagName(this.nodeName.toLowerCase() + "-mode");
     if (buttonListModes && buttonListModes.length > 0) {
       Array.from(buttonListModes).forEach((buttonListMode, index) => {
@@ -1055,8 +1055,8 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     Ch5ButtonListBase.COMPONENT_PROPERTIES.forEach((attr: ICh5PropertySettings) => {
       if (index < individualButtonsLength) {
         if (attr.name.toLowerCase() === 'buttonlabelinnerhtml') {
-          if (individualButtons[index].hasAttribute('buttonlabelinnerhtml')) {
-            const attrValue = individualButtons[index].getAttribute('buttonlabelinnerhtml')?.trim().replace(`{{${this.indexId}}}`, index + '');
+          if (individualButtons[index].hasAttribute('labelinnerhtml')) {
+            const attrValue = individualButtons[index].getAttribute('labelinnerhtml')?.trim().replace(`{{${this.indexId}}}`, index + '');
             if (attrValue) {
               btn.setAttribute('labelinnerhtml', attrValue);
             }
@@ -1098,7 +1098,12 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
             btn.setAttribute('receivestateenable', this.getAttribute('receivestateenable') + '');
           }
           else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
-            if (this.getAttribute(attr.name)?.trim().length !== 0) {
+            if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
+              const attrValue = this.getAttribute(attr.name)?.trim();
+              if (attrValue) {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
+              }
+            } else if (this.getAttribute(attr.name)?.trim().length !== 0) {
               const attrValue = this.replaceAll(this.getAttribute(attr.name)?.trim() + '', `{{${this.indexId}}}`, '');
               const isNumber = /^[0-9]+$/.test(attrValue);
               if (isNumber) {
@@ -1117,7 +1122,12 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
           btn.setAttribute('receivestateenable', this.getAttribute('receivestateenable') + '');
         }
         else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
-          if (this.getAttribute(attr.name)?.trim().length !== 0) {
+          if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
+            const attrValue = this.getAttribute(attr.name)?.trim();
+            if (attrValue) {
+              btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
+            }
+          } else if (this.getAttribute(attr.name)?.trim().length !== 0) {
             const attrValue = this.replaceAll(this.getAttribute(attr.name)?.trim() + '', `{{${this.indexId}}}`, '');
             const isNumber = /^[0-9]+$/.test(attrValue);
             if (isNumber) {
@@ -1137,12 +1147,19 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     });
 
     if (index < individualButtonsLength && individualButtons[index].hasAttribute('onRelease')) {
-      const attrValue = individualButtons[index].getAttribute('onRelease')?.trim().replace(`{{${this.indexId}}}`, '') + '';
-      const isNumber = /^[0-9]+$/.test(attrValue);
-      if (isNumber) {
-        btn.setAttribute('onrelease', Number(attrValue) + index + '');
-      } else {
-        btn.setAttribute('onrelease', this.replaceAll(individualButtons[index].getAttribute('onRelease')?.trim() + '', `{{${this.indexId}}}`, index + ''));
+      if (individualButtons[index].getAttribute('onRelease')?.trim().includes(`{{${this.indexId}}}`) === false) {
+        const attrValue = individualButtons[index].getAttribute('onRelease')?.trim();
+        if (attrValue) {
+          btn.setAttribute('onRelease', attrValue.trim());
+        }
+      } else if (individualButtons[index].getAttribute('onRelease')?.trim().length !== 0) {
+        const attrValue = individualButtons[index].getAttribute('onRelease')?.trim().replace(`{{${this.indexId}}}`, '') + '';
+        const isNumber = /^[0-9]+$/.test(attrValue);
+        if (isNumber) {
+          btn.setAttribute('onrelease', Number(attrValue) + index + '');
+        } else {
+          btn.setAttribute('onrelease', this.replaceAll(individualButtons[index].getAttribute('onRelease')?.trim() + '', `{{${this.indexId}}}`, index + ''));
+        }
       }
     }
   }

@@ -114,7 +114,15 @@ export class Ch5TabButton extends Ch5ButtonListBase {
     // Remove attributes that should not follow changes to DOM
     availableAttributes.splice(availableAttributes.indexOf("scrollbar"), 1);
     availableAttributes.splice(availableAttributes.indexOf("endless"), 1);
+    availableAttributes.splice(availableAttributes.indexOf("scrollToPosition"), 1);
+    availableAttributes.splice(availableAttributes.indexOf("receiveStateScrollToPosition"), 1);
+    availableAttributes.splice(availableAttributes.indexOf("rows"), 1);
+    availableAttributes.splice(availableAttributes.indexOf("columns"), 1);
     return availableAttributes;
+  }
+
+  public buttonModeHelper() {
+    // override button list buttonModeHelper method
   }
 
   //#endregion

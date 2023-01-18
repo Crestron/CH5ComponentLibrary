@@ -43,7 +43,7 @@ import { ICh5ButtonListIndividualButtonAttributes } from "./i-ch5-button-list-in
  *     "description": "Crestron button list individual button (All Attributes)",
  *     "body": [
  *       "<ch5-button-list-individual-button id=\"ch5-button-list-individual-button_${1:id}\"",
- *       "\tbuttonLabelInnerHTML=\"${2:}\"",
+ *       "\tlabelInnerHTML=\"${2:}\"",
  *       "\ticonUrl=\"${3:}\"",
  *       "\tonRelease=\"${4:}\"",
  *       "\ticonClass=\"${5:}\">",

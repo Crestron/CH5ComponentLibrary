@@ -32,41 +32,7 @@ import { ICh5TabButtonAttributes } from "./i-ch5-tab-button-attributes";
  *      "tagName": "ch5-tab-button-individual-button",
  *      "optional": true,
  *      "childElements": []
- *    },
- *    {
- *      "tagName": "ch5-tab-button-mode",
- *      "optional": true,
- *      "childElements": [
- *        {
- *          "tagName": "ch5-tab-button-label",
- *          "optional": true,
- *          "childElements": [
- *            {
- *              "tagName": "template",
- *              "optional": false,
- *              "childElements": []
- *            }
- *          ]
- *        },
- *        {
- *          "tagName": "ch5-tab-button-mode-state",
- *          "optional": true,
- *          "childElements": [
- *            {
- *              "tagName": "ch5-tab-button-label",
- *              "optional": true,
- *              "childElements": [
- *                {
- *                  "tagName": "template",
- *                  "optional": false,
- *                  "childElements": []
- *                }
- *              ]
- *            }
- *          ]
- *        } 
- *      ]
- *   }
+ *    }
  * ]
  * @documentation
  * [
@@ -113,19 +79,17 @@ import { ICh5TabButtonAttributes } from "./i-ch5-tab-button-attributes";
  *       "\tbuttonCheckboxShow=\"${12:}\"",
  *       "\tbuttonSelected=\"${13:}\"",
  *       "\tbuttonPressed=\"${14:}\"",
- *       "\tbuttonMode=\"${15:}\"",
- *       "\tbuttonIconClass=\"${16:}\"",
- *       "\tbuttonIconUrl=\"${17:}\"",
- *       "\tbuttonLabelInnerHtml=\"${18:}\"",
- *       "\tbuttonReceiveStateMode=\"${19:}\"",
- *       "\tbuttonReceiveStateSelected=\"${20:}\"",
- *       "\tbuttonReceiveStateLabel=\"${21:}\"",
- *       "\tbuttonReceiveStateScriptLabelHtml=\"${22:}\"",
- *       "\tbuttonReceiveStateIconClass=\"${23:}\"",
- *       "\tbuttonReceiveStateIconUrl=\"${24:}\"",
- *       "\tbuttonSendEventOnClick=\"${25:}\"",
- *       "\tbuttonReceiveStateShow=\"${26:}\"",
- *       "\tbuttonReceiveStateEnable=\"${27:}\">",
+ *       "\tbuttonIconClass=\"${15:}\"",
+ *       "\tbuttonIconUrl=\"${16:}\"",
+ *       "\tlabelInnerHtml=\"${17:}\"",
+ *       "\tbuttonReceiveStateSelected=\"${18:}\"",
+ *       "\tbuttonReceiveStateLabel=\"${19:}\"",
+ *       "\tbuttonReceiveStateScriptLabelHtml=\"${20:}\"",
+ *       "\tbuttonReceiveStateIconClass=\"${21:}\"",
+ *       "\tbuttonReceiveStateIconUrl=\"${22:}\"",
+ *       "\tbuttonSendEventOnClick=\"${23:}\"",
+ *       "\tbuttonReceiveStateShow=\"${24:}\"",
+ *       "\tbuttonReceiveStateEnable=\"${25:}\">",
  *       "</ch5-tab-button>$0"
  *       ]
  *    }

@@ -167,19 +167,6 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
   /**
    * @documentation
    * [
-   * "`buttonMode` attribute",
-   * "***",
-   * "The default value is 0. This property is used to set or get the mode of the ch5-button in a multi-mode environment. The maximum value that can be set is 4."
-   * ]
-   * @name buttonmode
-   * @default 0
-   * @limits [{"min": 0, "max": 4}]
-   * @attributeType "Integer"
-   */
-  buttonMode: number;
-  /**
-   * @documentation
-   * [
    * "`buttonIconClass` attribute",
    * "***",
    * "The buttoniconclass attribute with Font Awesome icons and Material Icons. We can declare more than one css class in the buttonIconClass attribute."
@@ -213,18 +200,6 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * @attributeType "String"
    */
   buttonLabelInnerHtml: string;
-  /**
-   * @documentation
-   * [
-   * "`buttonReceiveStateMode` attribute",
-   * "***",
-   * "When received, applies a value to the mode attribute from the signal on all the buttons in the tab button."
-   * ]
-   * @name buttonreceivestatemode
-   * @default 
-   * @attributeType "String"
-   */
-  buttonReceiveStateMode: string;
   /**
    * @documentation
    * [

@@ -77,51 +77,51 @@ export interface ICh5ButtonListModeAttributes {
   */
   iconClass: string;
   /**
-   * @documentation
-   * [
-   * "`iconUrl` attribute",
-   * "***",
-   * "The iconUrl attribute with SVG icons and PNG Icons we can pass only one url in the iconUrl attribute"
-   * ]
-   * @name iconurl
-   * @default 
-   * @attributeType "String"
-   */
+  * @documentation
+  * [
+  * "`iconUrl` attribute",
+  * "***",
+  * "The iconUrl attribute with SVG icons and PNG Icons we can pass only one url in the iconUrl attribute"
+  * ]
+  * @name iconurl
+  * @default 
+  * @attributeType "String"
+  */
   iconUrl: string;
   /**
-   * @documentation
-   * [
-   * "`customClass` attribute",
-   * "***",
-   * "defines custom class for the button list mode"
-   * ]
-   * @name customclass
-   * @default 
-   * @attributeType "String"
-   */
+  * @documentation
+  * [
+  * "`customClass` attribute",
+  * "***",
+  * "defines custom class for the button list mode"
+  * ]
+  * @name customclass
+  * @default 
+  * @attributeType "String"
+  */
   customClass: string;
   /**
-   * @documentation
-   * [
-   * "`customStyle` attribute",
-   * "***",
-   * "defines custom style for the button list mode"
-   * ]
-   * @name customstyle
-   * @default 
-   * @attributeType "String"
-   */
+  * @documentation
+  * [
+  * "`customStyle` attribute",
+  * "***",
+  * "defines custom style for the button list mode"
+  * ]
+  * @name customstyle
+  * @default 
+  * @attributeType "String"
+  */
   customStyle: string;
   /**
-   * @documentation
-   * [
-   * "`labelInnerHTML` attribute",
-   * "***",
-   * "Ability to provide a template that applies for the button"
-   * ]
-   * @name labelinnerhtml
-   * @default 
-   * @attributeType "String"
-   */
+  * @documentation
+  * [
+  * "`labelInnerHTML` attribute",
+  * "***",
+  * "Ability to provide a template that applies for the button"
+  * ]
+  * @name labelinnerhtml
+  * @default 
+  * @attributeType "String"
+  */
   labelInnerHTML: string;
 }

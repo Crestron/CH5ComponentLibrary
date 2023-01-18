@@ -43,7 +43,7 @@ import { ICh5TabButtonIndividualButtonAttributes } from "./i-ch5-tab-button-indi
  *     "description": "Crestron tab button individual button (All Attributes)",
  *     "body": [
  *       "<ch5-tab-button-individual-button id=\"ch5-tab-button-individual-button_${1:id}\"",
- *       "\tbuttonLabelInnerHTML=\"${2:}\"",
+ *       "\tlabelInnerHtml=\"${2:}\"",
  *       "\ticonUrl=\"${3:}\"",
  *       "\tonRelease=\"${4:}\"",
  *       "\ticonClass=\"${5:}\">",
