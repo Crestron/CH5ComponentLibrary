@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-color-chip-disabled-sendEventOnClick-attributes">
+    <template>
+      <ch5-color-chip previewcolor='black' sendEventOnClick="trigger_event"
+        receiveStateRedValue="trigger_event_listener" disabled></ch5-color-chip>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-color-chip-disabled-sendEventOnClick-attributes-value', () => {
+      let ch5ColorChip;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/sendEventOnClick.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5ColorChip = fixture('ch5-color-chip-disabled-sendEventOnClick-attributes');
+      });
+
+      test(`check sendEventClick with  disabled attribute`, (done) => {
+        flush(() => {
+          setTimeout(() => {
+            ch5ColorChip.children[0].click();
+            expect(getComputedStyle(ch5ColorChip.children[0]).getPropertyValue('background-color')).to.be.equal('rgba(0, 0, 0, 0)');
+            done();
+          }, 100);
+        });
+      });
+
+      test(`check sendEventClick  without disabled attribute`, (done) => {
+        flush(() => {
+          setTimeout(() => {
+            ch5ColorChip.removeAttribute('disabled');
+            ch5ColorChip.children[0].click();
+            expect(getComputedStyle(ch5ColorChip.children[0]).getPropertyValue('background-color')).to.be.equal('rgb(255, 0, 0)');
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
