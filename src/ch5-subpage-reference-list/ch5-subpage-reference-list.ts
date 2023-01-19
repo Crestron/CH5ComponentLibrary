@@ -146,7 +146,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
     },
     {
-      default: "",
+      default: "0",
       isSignal: true,
       name: "booleanJoinOffset",
       signalType: "boolean",
@@ -156,7 +156,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       isObservableProperty: true,
     },
     {
-      default: "",
+      default: "0",
       isSignal: true,
       name: "numericJoinOffset",
       signalType: "number",
@@ -166,7 +166,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       isObservableProperty: true,
     },
     {
-      default: "",
+      default: "0",
       isSignal: true,
       name: "stringJoinOffset",
       signalType: "string",
@@ -372,7 +372,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public set booleanJoinOffset(value: string) {
     this._ch5Properties.set("booleanJoinOffset", value, null, (newValue: boolean) => {
-      this.handleBooleanJoinOffset();
+     // enter code
     });
   }
   public get booleanJoinOffset(): string {
@@ -381,7 +381,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public set numericJoinOffset(value: string) {
     this._ch5Properties.set("numericJoinOffset", value, null, (newValue: number) => {
-      this.handleNumericJoinOffset();
+       // enter code
     });
   }
   public get numericJoinOffset(): string {
@@ -390,7 +390,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public set stringJoinOffset(value: string) {
     this._ch5Properties.set("stringJoinOffset", value, null, (newValue: string) => {
-      this.handleStringJoinOffset();
+      // enter code
     });
   }
   public get stringJoinOffset(): string {
@@ -467,7 +467,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public set indexId(value: string) {
     this._ch5Properties.set<string>("indexId", value, () => {
-      this.handleIndexId();
+     // enter code
     });
   }
   public get indexId(): string {
@@ -632,7 +632,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   private handleMouseMove = (e: MouseEvent) => {
-    if (!this.isDown) return;
+    if (!this.isDown) {return;}
     e.preventDefault();
     const x = e.pageX - this._elContainer.offsetLeft;
     const y = e.pageY - this._elContainer.offsetTop;
@@ -859,23 +859,12 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
     this.initScrollbar();
   }
-
-  private handleBooleanJoinOffset() {
-    // Enter your Code here
-  }
-  private handleNumericJoinOffset() {
-    // Enter your Code here
-  }
-  private handleStringJoinOffset() {
-    // Enter your Code here
-  }
   private handleSubpageReceiveStateEnable() {
     // Enter your Code here
   }
   private handleSubpageReceiveStateVisible() {
     // Enter your Code here
   }
-  // Get the contents of the template
 
   private handleWidgetID() {
 
@@ -884,20 +873,17 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
 
     const template = document.getElementById(this.widgetId) as HTMLTemplateElement;
-    if (!(template.tagName === "CH5-TEMPLATE"))
-      throw new Error('[ch5-subpage-reference-list] Error: Incorrect tag used');
+    // if (!(template.tagName === "CH5-TEMPLATE")){
+    //   throw new Error('[ch5-subpage-reference-list] Error: Incorrect tag used'); }
 
     if (!(isNil(template))) {
       this._templateElement = template as HTMLTemplateElement;
-      this.info("Ch5TemplateStructure --- the following template will be used:", this._templateElement);
     } else {
       throw new Error(`[ch5-subpage-reference-list] Error: No ch5-template with the id: "${this.widgetId}" found`);
     }
     this.debounceSubpageDisplay();
   }
-  /* private handleSubpageReceiveStateScrollTo() {
-    // Enter your Code here
-  } */
+
   private handleStretch() {
     Array.from(Ch5SubpageReferenceList.COMPONENT_DATA.STRETCH.values).forEach((e: any) => {
       this._elContainer.classList.remove(Ch5SubpageReferenceList.COMPONENT_DATA.STRETCH.classListPrefix + e);
@@ -905,9 +891,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     if (!this.stretch) {
       this._elContainer.classList.add(Ch5SubpageReferenceList.COMPONENT_DATA.STRETCH.classListPrefix + this.stretch);
     }
-  }
-  private handleIndexId() {
-    // Enter your Code here
   }
   public subpageDisplay() {
     // The below line is added to remove the stretch class before calculating the subpage dimension
@@ -962,6 +945,11 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         .replaceIndexIdInTmplElemsContent(documentContainer, (index), this.indexId as string);
     }
     spgContainer.appendChild(((documentContainer as HTMLTemplateElement).content));
+     // update templateContent attributes to increment join numbers and prefix contract name
+     Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(spgContainer, this.controlJoinID || '',
+       parseInt(this.booleanJoinOffset, 10) || 0,
+       parseInt(this.numericJoinOffset, 10) || 0,
+       parseInt(this.stringJoinOffset, 10) || 0);
     append ? this._elContainer.appendChild(spgContainer) : this._elContainer.prepend(spgContainer);
   }
 
@@ -1034,69 +1022,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       this.appendChild(this._scrollbarContainer);
     }
   }
-  private subpageDestroyHelper() {
-    if (this.orientation === 'horizontal') {
-      const { scrollLeft, scrollWidth, offsetWidth } = this._elContainer;
-      if (scrollLeft < this.subpageWidth && this.destroyedSubpagesLeft !== 0) {
-        for (let i = 0; i < this.rows; i++) {
-          this.createSubpage(this.destroyedSubpagesLeft - 1, false);
-          this.destroyedSubpagesLeft--;
-        }
-        this._elContainer.scrollLeft += this.subpageWidth;
-      }
-      if (scrollLeft > this.subpageWidth * 2.5 && this.scrollbarReachedEnd === false) {
-        if (scrollLeft + offsetWidth > scrollWidth - this.subpageWidth) { return }
-        for (let i = 0; i < this.rows; i++) {
-          this._elContainer.children[0]?.remove();
-          this.destroyedSubpagesLeft++;
-        }
-        this._elContainer.scrollLeft -= this.subpageWidth;
-      }
-      if (scrollLeft + offsetWidth < scrollWidth - this.subpageWidth * 2.5 && this.scrollbarReachedEnd) {
-        if (scrollLeft <= this.subpageWidth) { return; }
-        for (let i = 0; i < this.rows; i++) {
-          this._elContainer.lastElementChild?.remove();
-          this.destroyedSubpagesRight++;
-        }
-      }
-      if (scrollLeft + offsetWidth > scrollWidth - this.subpageWidth && this.destroyedSubpagesRight !== 0) {
-        for (let i = 0; i < this.rows; i++) {
-          this.createSubpage(this.numberOfItems - this.destroyedSubpagesRight, true);
-          this.destroyedSubpagesRight--;
-        }
-      }
-    } else {
-      const { scrollTop, scrollHeight, offsetHeight } = this._elContainer;
-      if (scrollTop < this.subpageHeight && this.destroyedSubpagesLeft !== 0) {
-        for (let i = 0; i < this.columns; i++) {
-          this.createSubpage(this.destroyedSubpagesLeft - 1, false);
-          this.destroyedSubpagesLeft--;
-        }
-        this._elContainer.scrollTop += this.subpageHeight;
-      }
-      if (scrollTop > this.subpageHeight * 3 && this.scrollbarReachedEnd === false) {
-        if (scrollTop + offsetHeight > scrollHeight - this.subpageHeight) { return }
-        for (let i = 0; i < this.columns; i++) {
-          this._elContainer.children[0]?.remove();
-          this.destroyedSubpagesLeft++;
-        }
-        this._elContainer.scrollTop -= this.subpageHeight;
-      }
-      if (scrollTop + offsetHeight < scrollHeight - this.subpageHeight * 3 && this.scrollbarReachedEnd) {
-        if (scrollTop <= this.subpageHeight) { return; }
-        for (let i = 0; i < this.columns; i++) {
-          this._elContainer.lastElementChild?.remove();
-          this.destroyedSubpagesRight++;
-        }
-      }
-      if (scrollTop + offsetHeight > scrollHeight - this.subpageHeight && this.destroyedSubpagesRight !== 0) {
-        for (let i = 0; i < this.columns; i++) {
-          this.createSubpage(this.numberOfItems - this.destroyedSubpagesRight, true);
-          this.destroyedSubpagesRight--;
-        }
-      }
-    }
-  }
+
   private resizeHandler = () => {
     if (this.orientation === 'horizontal' && this._elContainer.children.length !== 0) {
       const containerWidth = this._elContainer.getBoundingClientRect().width;
