@@ -1061,7 +1061,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
         if (attr.name.toLowerCase() === 'buttoniconclass') {
 
           if (individualButtons[index] && individualButtons[index].hasAttribute('iconclass')) {
-            const attrValue = individualButtons[index].getAttribute('iconclass')?.trim().replace(`{{${this.indexId}}}`, index + '');
+            const attrValue = individualButtons[index].getAttribute('iconclass')?.trim();
             if (attrValue) {
               btn.setAttribute('iconclass', attrValue);
             }
@@ -1073,7 +1073,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
           }
         } else if (attr.name.toLowerCase() === 'buttoniconurl') {
           if (individualButtons[index] && individualButtons[index].hasAttribute('iconurl')) {
-            const attrValue = individualButtons[index].getAttribute('iconurl')?.trim().replace(`{{${this.indexId}}}`, index + '');
+            const attrValue = individualButtons[index].getAttribute('iconurl')?.trim();
             if (attrValue) {
               btn.setAttribute('iconurl', attrValue);
             }

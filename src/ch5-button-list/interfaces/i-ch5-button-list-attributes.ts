@@ -252,7 +252,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
   * [
   * "`buttonReceiveStateShow` attribute",
   * "***",
-  * ". When the signal is low, the component will not be displayed, and the area will not be pressable."
+  * ". When the signal is low, the component will not be displayed, and the area will not be pressable. If receiveStateShow attribute is given for ch5-button-list than it takes more preference over buttonReceiveStateShow attribute."
   * ]
   * @name buttonreceivestateshow
   * @default 
@@ -264,7 +264,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`buttonReceiveStateEnable` attribute",
    * "***",
-   * "When the signal is low, the look of the component will change to represent a disabled state and the component will not be pressable."
+   * "When the signal is low, the look of the component will change to represent a disabled state and the component will not be pressable. If receiveStateEnable attribute is given for ch5-button-list than it takes more preference over buttonReceiveStateEnable attribute."
    * ]
    * @name buttonreceivestateenable
    * @default 
