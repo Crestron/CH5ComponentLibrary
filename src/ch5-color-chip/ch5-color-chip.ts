@@ -127,7 +127,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
   private redValue: number = 0;
   private greenValue: number = 0;
   private blueValue: number = 0;
-  private _onClick;
+  private _onClick: any = null;
 
   //#endregion
 
