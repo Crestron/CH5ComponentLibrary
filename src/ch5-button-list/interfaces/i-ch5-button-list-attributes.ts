@@ -159,8 +159,8 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * "This attribute provides the ability of a template that applies for all the buttons in the list."
    * ]
    * @name buttonlabelinnerhtml
-   * @default 
-   * @attributeType "String"
+   * @attributeType "EncodedHTML"
+   * @hidden true
    */
   buttonLabelInnerHtml: string;
   /**
