@@ -127,6 +127,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
   private redValue: number = 0;
   private greenValue: number = 0;
   private blueValue: number = 0;
+  private _onClick: any = null;
 
   //#endregion
 
@@ -245,6 +246,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
     }
     this._wasInstatiated = true;
     this._ch5Properties = new Ch5Properties(this, Ch5ColorChip.COMPONENT_PROPERTIES);
+    this._onClick = this.handleSendEventOnClick.bind(this);
   }
 
   public static get observedAttributes(): string[] {
@@ -328,12 +330,12 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
 
   protected attachEventListeners() {
     super.attachEventListeners();
-    this._elContainer.addEventListener('click', this.handleSendEventOnClick.bind(this));
+    this._elContainer.addEventListener('click', this._onClick);
   }
 
   protected removeEventListeners() {
     super.removeEventListeners();
-    this._elContainer.removeEventListener('click', this.handleSendEventOnClick.bind(this));
+    this._elContainer.removeEventListener('click', this._onClick);
   }
 
   protected unsubscribeFromSignals() {
