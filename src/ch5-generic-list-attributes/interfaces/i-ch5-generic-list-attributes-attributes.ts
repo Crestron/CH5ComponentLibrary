@@ -34,7 +34,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * [
    * "`centerItems` attribute",
    * "***",
-   * "The default value is false. This attribute sets the buttons in the list to be center aligned"
+   * "The default value is false. This attribute sets the buttons in the list to be center aligned. If Stretch attribute is set to both then stretch attribute will take more priority than centerItems attribute."
    * ]
    * @name centeritems
    * @default false
@@ -46,7 +46,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * [
    * "`stretch` attribute",
    * "***",
-   * "The default value is null. Valid values are null and 'both'. NOTE: stretch is set to null whenever there are multiple rows and columns. Stretch attribute always override centerItems."
+   * "The default value is null. Valid values are null and 'both'. NOTE: stretch is set to null whenever there are multiple rows and columns. Stretch attribute is set to both will take more priority than centerItems attribute."
    * ]
    * @name stretch
    * @default false
@@ -58,7 +58,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * [
    * "`endless` attribute",
    * "***",
-   * "The default value is false. If false, continued swiping when reaching end of list reveals no items beyond the last. If true, if the attribute is added without a value, the first list item will virtually follow the last item when the end of the list is reached. Swiping towards the beginning of the list items will also show the last item prior to the first."
+   * "The default value is false. If false, continued swiping when reaching end of list reveals no items beyond the last. If true, if the attribute is added without a value, the first list item will virtually follow the last item when the end of the list is reached. Swiping towards the beginning of the list items will also show the last item prior to the first. Note: Endless is set to false whenever there are multiple rows and columns."
    * ]
    * @name endless
    * @default false
@@ -114,7 +114,6 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * "This attribute helps to replace the pattern with the index on the ch5-button-list."
    * ]
    * @name indexid
-   * @default idx
    * @attributeType "String"
    */
   indexId: string;

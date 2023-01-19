@@ -1,8 +1,5 @@
 import { Ch5ButtonListLabelBase } from "./../ch5-button-list/base-classes/ch5-button-list-label-base";
 import { Ch5TabButton } from "./ch5-tab-button";
-import { Ch5TabButtonMode } from "./ch5-tab-button-mode";
-import { Ch5TabButtonModeState } from "./ch5-tab-button-mode-state";
-
 export class Ch5TabButtonLabel extends Ch5ButtonListLabelBase {
 
   //#region Variables
@@ -28,7 +25,7 @@ export class Ch5TabButtonLabel extends Ch5ButtonListLabelBase {
    * Called when the Ch5ButtonListLabel component is first connected to the DOM
    */
   public connectedCallback() {
-    if (!(this.parentElement instanceof Ch5TabButton || this.parentElement instanceof Ch5TabButtonMode || this.parentElement instanceof Ch5TabButtonModeState)) {
+    if (!(this.parentElement instanceof Ch5TabButton)) {
       throw new Error(`Invalid parent element for ${Ch5TabButtonLabel.ELEMENT_NAME}.`);
     }
     super.connectedCallback();
