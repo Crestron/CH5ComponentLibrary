@@ -91,8 +91,7 @@ import { ICh5ButtonListModeAttributes } from "./i-ch5-button-list-mode-attribute
  *       "\ticonClass=\"${7:}\"",
  *       "\ticonUrl=\"${8:}\"",
  *       "\tcustomClass=\"${9:}\"",
- *       "\tcustomStyle=\"${10:}\"",
- *       "\tlabelInnerHTML=\"${11:}\">",
+ *       "\tcustomStyle=\"${10:}\">",
  *       "</ch5-button-list-mode>$0"
  *       ]
  *    }

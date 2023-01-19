@@ -71,10 +71,10 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
   * [
   * "`buttonShape` attribute",
   * "***",
-  * "The default value is 'rounded-rectangle'. Valid values: 'rounded-rectangle', 'rectangle'. This attribute sets shape of the button."
+  * "The default value is 'rectangle'. Valid values: 'rectangle', 'rounded-rectangle'. This attribute sets shape of the button."
   * ]
   * @name buttonshape
-  * @default rounded-rectangle
+  * @default rectangle
   * @attributeType "EnumeratedValue"
   */
   buttonShape: TCh5ButtonListButtonShape;
@@ -159,8 +159,8 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * "This attribute provides the ability of a template that applies for all the buttons in the list."
    * ]
    * @name buttonlabelinnerhtml
-   * @default 
-   * @attributeType "String"
+   * @attributeType "EncodedHTML"
+   * @hidden true
    */
   buttonLabelInnerHtml: string;
   /**
@@ -252,7 +252,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
   * [
   * "`buttonReceiveStateShow` attribute",
   * "***",
-  * ". When the signal is low, the component will not be displayed, and the area will not be pressable."
+  * ". When the signal is low, the component will not be displayed, and the area will not be pressable. If receiveStateShow attribute is given for ch5-button-list than it takes more preference over buttonReceiveStateShow attribute."
   * ]
   * @name buttonreceivestateshow
   * @default 
@@ -264,7 +264,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`buttonReceiveStateEnable` attribute",
    * "***",
-   * "When the signal is low, the look of the component will change to represent a disabled state and the component will not be pressable."
+   * "When the signal is low, the look of the component will change to represent a disabled state and the component will not be pressable. If receiveStateEnable attribute is given for ch5-button-list than it takes more preference over buttonReceiveStateEnable attribute."
    * ]
    * @name buttonreceivestateenable
    * @default 

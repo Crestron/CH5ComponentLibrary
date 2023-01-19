@@ -13,7 +13,7 @@ export class Ch5ButtonListIndividualButtonBase extends Ch5Log implements ICh5But
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
 		{
 			default: "",
-			name: "buttonLabelInnerHTML",
+			name: "labelInnerHTML",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -46,33 +46,33 @@ export class Ch5ButtonListIndividualButtonBase extends Ch5Log implements ICh5But
 	];
 
 	private _ch5Properties: Ch5Properties;
-	private _parentCh5ButtonList: Ch5ButtonListBase |null = null;
+	private _parentCh5ButtonList: Ch5ButtonListBase | null = null;
 
 	//#endregion
 
 	//#region Getters and Setters
 
-	public set parentComponent(value: Ch5ButtonListBase|null) {
+	public set parentComponent(value: Ch5ButtonListBase | null) {
 		this._parentCh5ButtonList = value;
 	}
-	public get parentComponent(): Ch5ButtonListBase|null {
+	public get parentComponent(): Ch5ButtonListBase | null {
 		return this._parentCh5ButtonList;
 	}
 
-	public set buttonLabelInnerHTML(value: string) {
-		this._ch5Properties.set<string>("buttonLabelInnerHTML", value, () => {
-			if ( this.parentComponent) {
-					this.parentComponent.debounceButtonDisplay();
+	public set labelInnerHTML(value: string) {
+		this._ch5Properties.set<string>("labelInnerHTML", value, () => {
+			if (this.parentComponent) {
+				this.parentComponent.debounceButtonDisplay();
 			}
 		});
 	}
-	public get buttonLabelInnerHTML(): string {
-		return this._ch5Properties.get<string>("buttonLabelInnerHTML");
+	public get labelInnerHTML(): string {
+		return this._ch5Properties.get<string>("labelInnerHTML");
 	}
 
 	public set iconUrl(value: string) {
 		this._ch5Properties.set<string>("iconUrl", value, () => {
-			if ( this.parentComponent) {
+			if (this.parentComponent) {
 				this.parentComponent.debounceButtonDisplay();
 			}
 		});
@@ -83,7 +83,7 @@ export class Ch5ButtonListIndividualButtonBase extends Ch5Log implements ICh5But
 
 	public set iconClass(value: string) {
 		this._ch5Properties.set<string>("iconClass", value, () => {
-			if ( this.parentComponent) {
+			if (this.parentComponent) {
 				this.parentComponent.debounceButtonDisplay();
 			}
 		});
@@ -94,7 +94,7 @@ export class Ch5ButtonListIndividualButtonBase extends Ch5Log implements ICh5But
 
 	public set onRelease(value: string) {
 		this._ch5Properties.set<string>("onRelease", value, () => {
-			if ( this.parentComponent) {
+			if (this.parentComponent) {
 				this.parentComponent.debounceButtonDisplay();
 			}
 		});
