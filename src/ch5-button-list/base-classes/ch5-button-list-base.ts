@@ -877,7 +877,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
       const containerHeight = this._elContainer.getBoundingClientRect().height;
       const loadableButtons = Math.ceil(containerHeight / this.buttonHeight) + Ch5ButtonListBase.BUTTON_CONTAINER_BUFFER;
       // If container height is not set then display all the button
-      if (containerHeight <= 10 || containerHeight < this.buttonHeight) {
+      if (containerHeight <= 10 || containerHeight <= this.buttonHeight + 10) {
         for (let i = 0; i < this.numberOfItems; i++) { this.createButton(i); }
       }
       // Bottom Edge case
@@ -918,7 +918,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     } else {
       const containerHeight = this._elContainer.getBoundingClientRect().height;
       // Check whether the container is set with custom height
-      if (containerHeight > this.buttonHeight) {
+      if (containerHeight > this.buttonHeight + 10) {
         loadedButtons = Math.floor(containerHeight / this.buttonHeight) * this.columns + this.columns * 2;
       } else {
         loadedButtons = this.numberOfItems;
