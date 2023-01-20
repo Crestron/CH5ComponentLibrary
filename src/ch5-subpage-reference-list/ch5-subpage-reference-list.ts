@@ -177,9 +177,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     },
     {
       default: "",
-      isSignal: true,
       name: "subpageReceiveStateEnable",
-      signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -187,9 +185,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     },
     {
       default: "",
-      isSignal: true,
       name: "subpageReceiveStateVisible",
-      signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -372,7 +368,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public set booleanJoinOffset(value: string) {
     this._ch5Properties.set("booleanJoinOffset", value, null, (newValue: boolean) => {
-     // enter code
+      // enter code
     });
   }
   public get booleanJoinOffset(): string {
@@ -381,7 +377,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public set numericJoinOffset(value: string) {
     this._ch5Properties.set("numericJoinOffset", value, null, (newValue: number) => {
-       // enter code
+      // enter code
     });
   }
   public get numericJoinOffset(): string {
@@ -398,8 +394,8 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   public set subpageReceiveStateEnable(value: string) {
-    this._ch5Properties.set("subpageReceiveStateEnable", value, null, (newValue: string) => {
-      this.handleSubpageReceiveStateEnable();
+    this._ch5Properties.set<string>("subpageReceiveStateEnable", value, () => {
+      this.debounceSubpageDisplay();
     });
   }
   public get subpageReceiveStateEnable(): string {
@@ -407,8 +403,8 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   public set subpageReceiveStateVisible(value: string) {
-    this._ch5Properties.set("subpageReceiveStateVisible", value, null, (newValue: string) => {
-      this.handleSubpageReceiveStateVisible();
+    this._ch5Properties.set<string>("subpageReceiveStateVisible", value, () => {
+      this.debounceSubpageDisplay();
     });
   }
   public get subpageReceiveStateVisible(): string {
@@ -467,7 +463,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public set indexId(value: string) {
     this._ch5Properties.set<string>("indexId", value, () => {
-     // enter code
+      // enter code
     });
   }
   public get indexId(): string {
@@ -632,7 +628,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   private handleMouseMove = (e: MouseEvent) => {
-    if (!this.isDown) {return;}
+    if (!this.isDown) { return; }
     e.preventDefault();
     const x = e.pageX - this._elContainer.offsetLeft;
     const y = e.pageY - this._elContainer.offsetTop;
@@ -859,12 +855,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
     this.initScrollbar();
   }
-  private handleSubpageReceiveStateEnable() {
-    // Enter your Code here
-  }
-  private handleSubpageReceiveStateVisible() {
-    // Enter your Code here
-  }
 
   private handleWidgetID() {
 
@@ -924,6 +914,14 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
     if (this.centerItems === true && this.scrollbarDimension < 100) { this.centerItems = false; }
   }
+  private replaceAll(str: string, find: string, replace: string) {
+    console.log("replace", str, find, replace);
+    if (str && String(str).trim() !== "") {
+      return String(str).split(find).join(replace);
+    } else {
+      return str;
+    }
+  }
   private createSubpage(index: number, append: boolean = true) {
     if (isNil(this._templateElement)) {
       throw new Error('[ch5-subpage-reference-list] Error: Incorrect tag used');
@@ -935,6 +933,14 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     documentContainer.innerHTML = this._templateElement.innerHTML;
     const spgContainer = document.createElement("div");
     spgContainer.setAttribute('id', this.getCrId() + '-' + index);
+    if (this.hasAttribute('subpageReceiveStateVisible') && this.getAttribute("subpageReceiveStateVisible")?.trim() && !this.hasAttribute('receiveStateShow')) {
+    
+      spgContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("subpageReceiveStateVisible")?.trim() + '', `{{${this.indexId}}}`, index + ''));
+      spgContainer.setAttribute('data-ch5-noshow-type', 'display');
+    } else if (this.hasAttribute('receiveStateShow')) {
+      spgContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("receiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
+      spgContainer.setAttribute('data-ch5-noshow-type', 'display');
+    }
     spgContainer.classList.add(this.nodeName.toLowerCase() + "--subpage-container");
     if (this.indexId !== null) {
       // replace indexId in attributes
@@ -945,11 +951,11 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         .replaceIndexIdInTmplElemsContent(documentContainer, (index), this.indexId as string);
     }
     spgContainer.appendChild(((documentContainer as HTMLTemplateElement).content));
-     // update templateContent attributes to increment join numbers and prefix contract name
-     Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(spgContainer, this.controlJoinID || '',
-       parseInt(this.booleanJoinOffset, 10) || 0,
-       parseInt(this.numericJoinOffset, 10) || 0,
-       parseInt(this.stringJoinOffset, 10) || 0);
+    // update templateContent attributes to increment join numbers and prefix contract name
+    Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(spgContainer, this.controlJoinID || '',
+      parseInt(this.booleanJoinOffset, 10) || 0,
+      parseInt(this.numericJoinOffset, 10) || 0,
+      parseInt(this.stringJoinOffset, 10) || 0);
     append ? this._elContainer.appendChild(spgContainer) : this._elContainer.prepend(spgContainer);
   }
 
