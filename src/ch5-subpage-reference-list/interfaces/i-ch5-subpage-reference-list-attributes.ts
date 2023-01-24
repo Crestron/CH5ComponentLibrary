@@ -1,10 +1,10 @@
-import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
-import { TCh5SubpageReferenceListStretch, } from './t-ch5-subpage-reference-list';
+import { ICh5CommonAttributesSet3 } from "../../ch5-common/interfaces/i-ch5-common-attributes-set3";
+import { TCh5SubpageReferenceListOrientation, TCh5SubpageReferenceListStretch, } from './t-ch5-subpage-reference-list';
 
 /**
  * @ignore
  */
-export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes {
+export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributesSet3 {
   /**
   * @documentation
   * [
@@ -16,7 +16,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
   * @default horizontal
   * @attributeType "EnumeratedValue"
   */
-  orientation: string;
+  orientation: TCh5SubpageReferenceListOrientation;
   /**
    * @documentation
    * [
@@ -193,7 +193,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`stretch` attribute",
    * "***",
-   * "Sub pages can be stetched to meet the size of container if the stretch is set to both and the size of the number of items is less than container size.Stretch is set to null whenever there are multiple rows and columns.Stretch attribute set to both will always override centerItems."
+   * "The default value is null. Valid values are null and 'both'. NOTE: stretch is set to null whenever there are multiple rows and columns. Stretch attribute is set to both will take more priority than centerItems attribute."
    * ]
    * @name stretch
    * @attributeType "EnumeratedValue"

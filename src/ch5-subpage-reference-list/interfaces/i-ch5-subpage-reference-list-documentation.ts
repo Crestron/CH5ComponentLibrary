@@ -33,13 +33,13 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  *     "description": "Crestron subpage reference list (All Attributes)",
  *     "body": [
  *       "<ch5-subpage-reference-list id=\"ch5-subpage-reference-list_${1:id}\"",
- *       "\torientation=\"${2:horizontal}\"",
+ *       "\torientation=\"${2|horizontal,vertical|}\"",
  *       "\tcontrolJoinID=\"${3:}\"",
- *       "\tendless=\"${4:}\"",
- *       "\tcenterItems=\"${5:}\"",
+ *       "\tendless=\"${4:false}\"",
+ *       "\tcenterItems=\"${5:false}\"",
  *       "\trows=\"${6:1}\"",
  *       "\tcolumns=\"${7:1}\"",
- *       "\tscrollbar=\"${8:}\"",
+ *       "\tscrollbar=\"${8:false}\"",
  *       "\tbooleanJoinOffset=\"${9:}\"",
  *       "\tnumericJoinOffset=\"${10:}\"",
  *       "\tstringJoinOffset=\"${11:}\"",
@@ -47,11 +47,11 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  *       "\tsubpageReceiveStateVisible=\"${13:}\"",
  *       "\twidgetId=\"${14:}\"",
  *       "\tsubpageReceiveStateScrollTo=\"${15:}\"",
- *       "\tstretch=\"${16:}\"",
+ *       "\tstretch=\"${16|null,both|}\"",
  *       "\tnumberOfItems=\"${17:10}\"",
  *       "\treceiveStateNumberOfItems=\"${18:}\"",
  *       "\tscrollToPosition=\"${19:}\"",
- *       "\tindexId=\"${20:}\">",,
+ *       "\tindexId=\"${20:}\">",
  *       "</ch5-subpage-reference-list>$0"
  *       ]
  *    }

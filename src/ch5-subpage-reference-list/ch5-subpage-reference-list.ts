@@ -8,6 +8,7 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { resizeObserver } from "../ch5-core/resize-observer";
 import { Ch5AugmentVarSignalsNames } from '../ch5-common/ch5-augment-var-signals-names';
+import { subscribeInViewPortChange, unSubscribeInViewPortChange } from '../ch5-core';
 
 export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageReferenceListAttributes {
 
@@ -291,13 +292,13 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   //#region Getters and Setters
 
 
-  public set orientation(value: string) {
+  public set orientation(value: TCh5SubpageReferenceListOrientation) {
     this._ch5Properties.set<string>("orientation", value, () => {
       this.handleOrientation();
     });
   }
-  public get orientation(): string {
-    return this._ch5Properties.get<string>("orientation");
+  public get orientation():  TCh5SubpageReferenceListOrientation {
+    return this._ch5Properties.get<TCh5SubpageReferenceListOrientation>("orientation");
   }
 
   public set controlJoinID(value: string) {
@@ -550,6 +551,12 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     customElements.whenDefined(this.nodeName.toLowerCase()).then(() => {
       this.componentLoadedEvent(this.nodeName.toLowerCase(), this.id);
     });
+        // needed for preload-true for the calculation of bars height and width depending upon parent
+        subscribeInViewPortChange(this, () => {
+          if (this.elementIsInViewPort) {
+            this.debounceSubpageDisplay();
+          }
+        });
     this.logger.stop();
   }
 
@@ -910,7 +917,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     if (this.centerItems === true && this.scrollbarDimension < 100) { this.centerItems = false; }
   }
   private replaceAll(str: string, find: string, replace: string) {
-    console.log("replace", str, find, replace);
     if (str && String(str).trim() !== "") {
       return String(str).split(find).join(replace);
     } else {
