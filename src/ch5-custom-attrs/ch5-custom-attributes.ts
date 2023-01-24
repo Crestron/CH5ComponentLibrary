@@ -6,22 +6,23 @@
 // under which you licensed this source code.
 
 import { Ch5SignalFactory, languageChangedSignalName } from '../ch5-core';
-import {Ch5AttrsMutationObserver} from "./ch5-attrs-mutation-observer";
-import {Ch5AttrsShow} from './ch5-attrs-show';
-import {Ch5AttrsShowPulse} from './ch5-attrs-showpulse';
-import {Ch5AttrsHidePulse} from './ch5-attrs-hidepulse';
-import {Ch5AttrsTextContent} from "./ch5-attrs-text-content";
-import {Ch5AttrsInnerhtml} from "./ch5-attrs-innerhtml";
-import {Ch5AttrsAppendstyle} from "./ch5-attrs-appendstyle";
-import {Ch5AttrsAppendclass} from "./ch5-attrs-appendclass";
-import {Ch5AttrsI18n} from "./ch5-attrs-i18n";
+import { Ch5AttrsMutationObserver } from "./ch5-attrs-mutation-observer";
+import { Ch5AttrsShow } from './ch5-attrs-show';
+import { Ch5AttrsShowPulse } from './ch5-attrs-showpulse';
+import { Ch5AttrsHidePulse } from './ch5-attrs-hidepulse';
+import { Ch5AttrsTextContent } from "./ch5-attrs-text-content";
+import { Ch5AttrsInnerhtml } from "./ch5-attrs-innerhtml";
+import { Ch5AttrsAppendstyle } from "./ch5-attrs-appendstyle";
+import { Ch5AttrsAppendclass } from "./ch5-attrs-appendclass";
+import { Ch5AttrsI18n } from "./ch5-attrs-i18n";
+import { Ch5AttrsEnable } from './ch5-attrs-enable';
 
 export class Ch5CustomAttributes extends Ch5AttrsMutationObserver {
-    
+
     public static preventUnsubscribe: boolean = false;
-    
+
     private static _instance: Ch5CustomAttributes;
-    private static ch5AttrsI18nInstance : Ch5AttrsI18n;
+    private static ch5AttrsI18nInstance: Ch5AttrsI18n;
 
     protected _mutationsObserverConfig: {
         attributes: true,
@@ -30,21 +31,22 @@ export class Ch5CustomAttributes extends Ch5AttrsMutationObserver {
         attributeOldValue: true,
         attributeFilter: string[]
     } = {
-        attributes: true,
-        childList: true,
-        subtree: true,
-        attributeOldValue: true,
-        attributeFilter: [
-            Ch5AttrsShow.DATA_CH5_ATTR_NAME,
-            Ch5AttrsShowPulse.DATA_CH5_ATTR_NAME,
-            Ch5AttrsHidePulse.DATA_CH5_ATTR_NAME,
-            Ch5AttrsTextContent.DATA_CH5_ATTR_NAME,
-            Ch5AttrsInnerhtml.DATA_CH5_ATTR_NAME,
-            Ch5AttrsAppendstyle.DATA_CH5_ATTR_NAME,
-            Ch5AttrsAppendclass.DATA_CH5_ATTR_NAME,
-            Ch5AttrsI18n.DATA_CH5_ATTR_NAME
-        ]
-    };
+            attributes: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: true,
+            attributeFilter: [
+                Ch5AttrsEnable.DATA_CH5_ATTR_NAME,
+                Ch5AttrsShow.DATA_CH5_ATTR_NAME,
+                Ch5AttrsShowPulse.DATA_CH5_ATTR_NAME,
+                Ch5AttrsHidePulse.DATA_CH5_ATTR_NAME,
+                Ch5AttrsTextContent.DATA_CH5_ATTR_NAME,
+                Ch5AttrsInnerhtml.DATA_CH5_ATTR_NAME,
+                Ch5AttrsAppendstyle.DATA_CH5_ATTR_NAME,
+                Ch5AttrsAppendclass.DATA_CH5_ATTR_NAME,
+                Ch5AttrsI18n.DATA_CH5_ATTR_NAME
+            ]
+        };
     public constructor() {
         super();
         Ch5CustomAttributes.ch5AttrsI18nInstance = new Ch5AttrsI18n();
@@ -121,6 +123,9 @@ export class Ch5CustomAttributes extends Ch5AttrsMutationObserver {
 
         if (elements.length > 0) {
             for (const el of (elements as any)) {
+                if (el.hasAttribute(Ch5AttrsEnable.DATA_CH5_ATTR_NAME)) {
+                    Ch5AttrsEnable.checkAndSubscribeToSignal(el);
+                }
                 if (el.hasAttribute(Ch5AttrsShow.DATA_CH5_ATTR_NAME)) {
                     Ch5AttrsShow.checkAndSubscribeToSignal(el);
                 }
@@ -157,6 +162,10 @@ export class Ch5CustomAttributes extends Ch5AttrsMutationObserver {
 
     protected handleNodesStampedIntoDOM(addedNodes: Element[]): void {
         addedNodes.forEach((n) => {
+            if (n.hasAttribute(Ch5AttrsEnable.DATA_CH5_ATTR_NAME)) {
+                Ch5AttrsEnable.handleElAddedToDOM(n);
+            }
+
             if (n.hasAttribute(Ch5AttrsShow.DATA_CH5_ATTR_NAME)) {
                 Ch5AttrsShow.handleElAddedToDOM(n);
             }
@@ -196,8 +205,12 @@ export class Ch5CustomAttributes extends Ch5AttrsMutationObserver {
             Ch5CustomAttributes.preventUnsubscribe = true;
             return;
         }
-        
+
         removedNodes.forEach((el: Element) => {
+            if (Ch5AttrsEnable.elHasRemovableSigSubscription(el)) {
+                Ch5AttrsEnable.removeSigSubscription(el);
+            }
+
             if (Ch5AttrsShow.elHasRemovableSigSubscription(el)) {
                 Ch5AttrsShow.removeSigSubscription(el);
             }
@@ -233,6 +246,9 @@ export class Ch5CustomAttributes extends Ch5AttrsMutationObserver {
      */
     protected handleAttributeChanges(mutation: MutationRecord) {
         const newAttrValue: string | null = this.getNewAttributeValue(mutation);
+        if (mutation.attributeName === Ch5AttrsEnable.DATA_CH5_ATTR_NAME) {
+            Ch5AttrsEnable.handleCh5EnableAttributeChange(newAttrValue, mutation.oldValue, mutation.target as Element);
+        }
 
         if (mutation.attributeName === Ch5AttrsShow.DATA_CH5_ATTR_NAME) {
             Ch5AttrsShow.handleCh5ShowAttributeChange(newAttrValue, mutation.oldValue, mutation.target as Element);
