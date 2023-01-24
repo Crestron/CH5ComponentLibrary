@@ -1,12 +1,12 @@
-import { ICh5Common } from "../../_interfaces";
+import { ICh5Common3 } from "../../ch5-common/interfaces/i-ch5-common-set3";
 import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-list-attributes";
 
 /**
  * @name Ch5 Subpage Reference List
  * @isattribute false
  * @tagName ch5-subpage-reference-list
- * @role 
- * @description of the component.
+ * @role subpage-reference-list
+ * @description The Subpage Reference List allows multiple instances of a given subpage to be displayed and managed in a list.
  * @componentVersion 1.0.0
  * @childElements
  * [
@@ -16,8 +16,7 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  * [
  *   "`ch5-subpage-reference-list` element",
  *   "***",
- *   "Component description"
-      // TODO: DEV:CHANGES
+ *   "The Subpage Reference List allows multiple instances of a given subpage to be displayed and managed in a list."
  * ]
  * @snippets
  * [
@@ -56,9 +55,8 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  *       "</ch5-subpage-reference-list>$0"
  *       ]
  *    }
-      // TODO: DEV:CHANGES
  *  ]
  */
-export interface ICh5SubpageReferenceListDocumentation extends ICh5Common, ICh5SubpageReferenceListAttributes {
+export interface ICh5SubpageReferenceListDocumentation extends ICh5Common3, ICh5SubpageReferenceListAttributes {
 
 }

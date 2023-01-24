@@ -10,7 +10,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
   * [
   * "`orientation` attribute",
   * "***",
-  * "default horizontal. direction of scroll/pan of adjacent objects"
+  * "Positions the list elements(subpage) in a horizontal or vertical orientation. Default value is 'horizontal'."
   * ]
   * @name orientation
   * @default horizontal
@@ -34,7 +34,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`endless` attribute",
    * "***",
-   * "EndlessCCIDE designers will have the ability to configure the list to have the last item and first item of the list scroll next to each other. This shall only apply to single row and columns lists. If multiple rows and columns are defined, then endless is considered false."
+   * "The default value is false. If false, continued swiping when reaching end of list reveals no items beyond the last. If true, if the attribute is added without a value, the first list item will virtually follow the last item when the end of the list is reached. Swiping towards the beginning of the list items will also show the last item prior to the first. Note: Endless is set to false whenever there are multiple rows and columns."
    * ]
    * @name endless
    * @default false
@@ -46,7 +46,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`centerItems` attribute",
    * "***",
-   * "CCIDE designers will have the ability to configure the list to center objects in the list "
+   * "It will center the list items, if the number and size of the list items is less than the size of the control. Default value is false."
    * ]
    * @name centeritems
    * @default false
@@ -58,7 +58,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`rows` attribute",
    * "***",
-   * "CCIDE designer will have the ability to configure the list to show more than one object in each item of the list  ."
+   * "Sets the number of rows the contents of the list will be divided into. Its Min value 1 Max value 600 and default value is 1."
    * ]
    * @name rows
    * @default 1
@@ -71,7 +71,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`columns` attribute",
    * "***",
-   * "CCIDE designer will have the ability to configure the list to show more than one object in each item of the list."
+   * "Sets the number of columns the contents of the list will be divided into. Its Min value 1 Max value 600 and default value is 1."
    * ]
    * @name columns
    * @default 1
@@ -79,25 +79,25 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * @attributeType "Integer"
    */
   columns: number;
-   /**
-   * @documentation
-   * [
-   * "`scrollToPosition` attribute",
-   * "***",
-   * "Indicates the index of the button to scrollTo. This is applicable only for single row and column. The default value is 0"
-   * ]
-   * @name scrolltoposition
-   * @default 0   
-   * limits [{"min": 1, "max": 600}]
-   * @attributeType "Integer"
-   */
-   scrollToPosition: number;
+  /**
+  * @documentation
+  * [
+  * "`scrollToPosition` attribute",
+  * "***",
+  * "Indicates the index of the button to scrollTo. This is applicable only for single row and column. The default value is 0."
+  * ]
+  * @name scrolltoposition
+  * @default 0   
+  * limits [{"min": 1, "max": 600}]
+  * @attributeType "Integer"
+  */
+  scrollToPosition: number;
   /**
    * @documentation
    * [
    * "`scrollbar` attribute",
    * "***",
-   * "ScrollBar"
+   * "Determines whether or not the scrollbar will be visible on the subpage-reference list. Default Value is false."
    * ]
    * @name scrollbar
    * @default false
@@ -109,7 +109,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`booleanJoinOffset` attribute",
    * "***",
-   * "The Digital Join Increment will be used to increment the digital joins of each Sub Page reference in the list. If 0, the value of the Join Increment will be used  "
+   * "The Digital Join Increment will be used to increment the digital joins of each Sub Page reference in the list. If 0, the value of the Join Increment will be used."
    * ]
    * @name booleanjoinoffset
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
@@ -121,7 +121,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`numericJoinOffset` attribute",
    * "***",
-   * "The Analog Join Increment will be used to increment the analog joins of each Sub Page reference in the list. If 0, the value of the Join Increment will be used"
+   * "The Analog Join Increment will be used to increment the analog joins of each Sub Page reference in the list. If 0, the value of the Join Increment will be used."
    * ]
    * @name numericjoinoffset
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
@@ -133,7 +133,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`stringJoinOffset` attribute",
    * "***",
-   * "The Serial Join Increment will be used to increment the serial joins of each Sub Page reference in the list. If 0, the value of the Join Increment will be used"
+   * "The Serial Join Increment will be used to increment the serial joins of each Sub Page reference in the list. If 0, the value of the Join Increment will be used."
    * ]
    * @name stringjoinoffset
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
@@ -145,7 +145,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`subpageReceiveStateEnable` attribute",
    * "***",
-   * "Enables use of enable joins on each    list item. With this enabled, if a list item is not programmatically driven HIGH through the control system, the list item will be disabled   . . "
+   * "Enables use of enable joins on each list item. With this enabled, if a list item is not programmatically driven HIGH through the control system, the list item will be disabled."
    * ]
    * @name subpagereceivestateenable
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
@@ -157,7 +157,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`subpageReceiveStateVisible` attribute",
    * "***",
-   * "Enables use of visibility joins on each list item. With this  checkbox enabled, if a list item is not programmatically driven HIGH through the control system, the list item will not be visible."
+   * "Enables use of visibility joins on each list item.If a list item is not programmatically driven HIGH through the control system, the list item will not be visible."
    * ]
    * @name subpagereceivestatevisible
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
@@ -169,7 +169,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`widgetId` attribute",
    * "***",
-   * "Each list item will be populated  with a widgetId Reference from the projects existing subpages in CCIDE. Note that there is currently a limit on the types of controls that can be used in a subpage  "
+   * "It provides the widgetId to be included in the subpage reference."
    * ]
    * @name widgetid
    * @default 
@@ -181,7 +181,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`subpageReceiveStateScrollTo` attribute",
    * "***",
-   * "Scrolls to the position of the subpage."
+   * "It scrolls to the position of the subpage in subpage-reference list based on the signal receieved."
    * ]
    * @name subpagereceivestatescrollto
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
@@ -193,7 +193,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`stretch` attribute",
    * "***",
-   * "Sub pages can be stetched to meet the size of container if the stretch is set to both and the size of the number of items is less than container size. Stretch is set to null whenever there are multiple rows and columns. Stretch attribute  set to both will always override centerItems. "
+   * "Sub pages can be stetched to meet the size of container if the stretch is set to both and the size of the number of items is less than container size.Stretch is set to null whenever there are multiple rows and columns.Stretch attribute set to both will always override centerItems."
    * ]
    * @name stretch
    * @attributeType "EnumeratedValue"
@@ -204,7 +204,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`numberOfItems` attribute",
    * "***",
-   * "NumberOfItems"
+   * "Specifies the number of subpage references to be added to the list.Its Min value is 1 and Max value is 600. Its default value is 10."
    * ]
    * @name numberofitems
    * @default 10
@@ -217,7 +217,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`receiveStateNumberOfItems` attribute",
    * "***",
-   * "Signal to get the number of items"
+   * "It sets the number of subpage references to be added to the list on the basis of signal receieved."
    * ]
    * @name receivestatenumberofitems
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
@@ -229,7 +229,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`indexId` attribute",
    * "***",
-   * "default value is idx. Allows differentiation of each item in the list in the ch5-subpage-reference-list element."
+   * "This attribute helps to replace the pattern with the index on the ch5-subpage-reference-list"
    * ]
    * @name indexid
    * @default 

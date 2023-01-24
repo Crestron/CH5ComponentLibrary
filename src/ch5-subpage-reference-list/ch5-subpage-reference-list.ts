@@ -1,6 +1,5 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { isEmpty, isNil } from 'lodash';
-import { Ch5SignalFactory } from "../ch5-core/index";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { TCh5SubpageReferenceListOrientation, TCh5SubpageReferenceListStretch, } from './interfaces/t-ch5-subpage-reference-list';
@@ -44,8 +43,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     booleanjoinoffset: { direction: "state", booleanJoin: 1, contractName: true },
     numericjoinoffset: { direction: "state", numericJoin: 1, contractName: true },
     stringjoinoffset: { direction: "state", stringJoin: 1, contractName: true },
-    subpagereceivestateenable: { direction: "state", stringJoin: 1, contractName: true },
-    subpagereceivestatevisible: { direction: "state", stringJoin: 1, contractName: true },
     subpagereceivestatescrollto: { direction: "state", numericJoin: 1, contractName: true },
     receivestatenumberofitems: { direction: "state", numericJoin: 1, contractName: true }
   };
@@ -84,7 +81,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       name: "centerItems",
       removeAttributeOnNull: true,
       type: "boolean",
-      valueOnAttributeEmpty: false,
+      valueOnAttributeEmpty: true,
       isObservableProperty: true,
 
     },
@@ -93,7 +90,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       name: "rows",
       removeAttributeOnNull: true,
       type: "number",
-      valueOnAttributeEmpty: null,
+      valueOnAttributeEmpty: 1,
       numberProperties: {
         min: 1,
         max: 600,
@@ -109,7 +106,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       name: "columns",
       removeAttributeOnNull: true,
       type: "number",
-      valueOnAttributeEmpty: null,
+      valueOnAttributeEmpty: 1,
       numberProperties: {
         min: 1,
         max: 600,
@@ -125,7 +122,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       name: "scrollToPosition",
       removeAttributeOnNull: true,
       type: "number",
-      valueOnAttributeEmpty: null,
+      valueOnAttributeEmpty: 0,
       numberProperties: {
         min: 1,
         max: 600,
@@ -141,7 +138,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       name: "scrollbar",
       removeAttributeOnNull: true,
       type: "boolean",
-      valueOnAttributeEmpty: false,
+      valueOnAttributeEmpty: true,
       isObservableProperty: true,
 
     },
@@ -224,7 +221,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       nameForSignal: "receiveStateNumberOfItems",
       type: "number",
-      valueOnAttributeEmpty: null,
+      valueOnAttributeEmpty: 10,
       numberProperties: {
         min: 1,
         max: 600,
@@ -284,6 +281,11 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   public debounceSubpageDisplay = this.debounce(() => {
     this.subpageDisplay();
   }, 100);
+
+  public debounceHandleScrollToPosition = this.debounce((value: number) => {
+    this.handleScrollToPosition(value);
+  }, 400);
+
   //#endregion
 
   //#region Getters and Setters
@@ -300,7 +302,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public set controlJoinID(value: string) {
     this._ch5Properties.set<string>("controlJoinID", value, () => {
-      this.handleControlJoinID();
+      // enter Code
     });
   }
   public get controlJoinID(): string {
@@ -348,11 +350,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       this.debounceHandleScrollToPosition(this.scrollToPosition);
     });
   }
-
-  public debounceHandleScrollToPosition = this.debounce((value: number) => {
-    this.handleScrollToPosition(value);
-  }, 400);
-
   public get scrollToPosition(): number {
     return this._ch5Properties.get<number>("scrollToPosition");
   }
@@ -422,7 +419,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public set subpageReceiveStateScrollTo(value: string) {
     this._ch5Properties.set("subpageReceiveStateScrollTo", value, null, (newValue: number) => {
-      //this.handleSubpageReceiveStateScrollTo();
       this._ch5Properties.setForSignalResponse<number>("scrollToPosition", newValue, () => {
         this.debounceHandleScrollToPosition(newValue);
       });
@@ -494,6 +490,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public constructor() {
     super();
+    this.ignoreAttributes = ["receivestatecustomclass", "receivestatecustomstyle", "receivestatehidepulse", "receivestateshowpulse", "sendeventonshow"];
     this.logger.start('constructor()', Ch5SubpageReferenceList.ELEMENT_NAME);
     if (!this._wasInstatiated) {
       this.createInternalHtml();
@@ -537,7 +534,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.logger.start('connectedCallback()', Ch5SubpageReferenceList.ELEMENT_NAME);
     // WAI-ARIA Attributes
     if (!this.hasAttribute('role')) {
-      // this.setAttribute('role', Ch5RoleAttributeMapping.ch5SubpageReferenceList);
+      this.setAttribute('role', Ch5RoleAttributeMapping.ch5SubpageReferenceList);
     }
     if (this._elContainer.parentElement !== this) {
       this._elContainer.classList.add('ch5-subpage-reference-list');
@@ -745,9 +742,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
     this.handleRowsAndColumn();
   }
-  private handleControlJoinID() {
-    // Enter your Code here
-  }
+
   public handleEndless() {
     if (this.endless) { this.endless = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
     // This behavior is handled in scroll event
@@ -927,14 +922,11 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       throw new Error('[ch5-subpage-reference-list] Error: Incorrect tag used');
     }
     const documentContainer: HTMLTemplateElement = document.createElement('template');
-    // const documentInnerContainer: HTMLElement = document.createElement('div');
-    // documentInnerContainer.appendChild(this._templateElement)
-    // documentContainer.innerHTML = documentInnerContainer.innerHTML;
     documentContainer.innerHTML = this._templateElement.innerHTML;
     const spgContainer = document.createElement("div");
     spgContainer.setAttribute('id', this.getCrId() + '-' + index);
     if (this.hasAttribute('subpageReceiveStateVisible') && this.getAttribute("subpageReceiveStateVisible")?.trim() && !this.hasAttribute('receiveStateShow')) {
-    
+
       spgContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("subpageReceiveStateVisible")?.trim() + '', `{{${this.indexId}}}`, index + ''));
       spgContainer.setAttribute('data-ch5-noshow-type', 'display');
     } else if (this.hasAttribute('receiveStateShow')) {
