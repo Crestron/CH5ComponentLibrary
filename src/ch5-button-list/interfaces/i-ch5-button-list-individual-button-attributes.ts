@@ -43,7 +43,7 @@ export interface ICh5ButtonListIndividualButtonAttributes {
    * [
    * "`onRelease` attribute",
    * "***",
-   * "The onRelease attribute"
+   * "The onRelease attribute allows selection of a page to be made visible on clicking of the button."
    * ]
    * @name onrelease
    * @default 
