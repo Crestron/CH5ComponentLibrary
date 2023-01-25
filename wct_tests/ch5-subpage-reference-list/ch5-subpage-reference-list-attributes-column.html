@@ -12,26 +12,62 @@
 
 <body>
   <test-fixture id="ch5-subpage-reference-list-column-attributes">
-    <template>
-      <ch5-subpage-reference-list></ch5-subpage-reference-list>
+    <template id="templateWidgetId">
+      <div>
+        <ch5-toggle label="tgl_{{idx}}">
+        </ch5-toggle>
+      </div>
     </template>
+    <div>
+      <ch5-subpage-reference-list id="subpagereferencelistone" widgetId="templateWidgetId" indexId="idx">
+      </ch5-subpage-reference-list>
+    </div>
   </test-fixture>
   <script>
     suite('ch5-subpage-reference-list-column-attributes-value', () => {
       let ch5SubpageReferenceList;
 
       setup(async () => {
-        ch5SubpageReferenceList = fixture('ch5-subpage-reference-list-column-attributes');
+        ch5SubpageReferenceList = document.getElementById("subpagereferencelistone");
       });
 
-      let testCases = ['a', '', ' ', 'number', '0', '1', '2', '599', '600', '601'];
-      let expectedResult = ['1', '1', '1', '1', '1', '1', '2', '599', '600', '600'];
-      testCases.forEach((ele, i) => {
-        test('Check Value "column"', () => {
-          ch5SubpageReferenceList.setAttribute('column', ele);
-          expect(ch5SubpageReferenceList.getAttribute('column')).to.be.equal(expectedResult[i]);
+      const validColumns = ['1', '10', '12', '20', '100', '450', '500'];
+      const invalidColumns = ['-1', 'a', 'color', '0'];
+      validColumns.forEach((val, i) => {
+        test(`Check attribute columns "${val}" for Sub page reference list`, (done) => {
+          ch5SubpageReferenceList.setAttribute('columns', val);
+          ch5SubpageReferenceList.setAttribute('numberOfItems', val);
+          ch5SubpageReferenceList.setAttribute('orientation', 'vertical');
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5SubpageReferenceList.columns).to.be.equal(Number(val));
+              expect(ch5SubpageReferenceList.numberOfItems).to.be.equal(Number(val));
+              expect(ch5SubpageReferenceList.orientation).to.be.equal('vertical');
+              expect(ch5SubpageReferenceList.children[0].classList.contains('ch5-subpage-reference-list--columns-' + Number(val))).to.be.equal(true);
+              expect(ch5SubpageReferenceList.children[0].classList.contains('ch5-subpage-reference-list--orientation-vertical')).to.be.equal(true);
+              done();
+            }, 100);
+          })
         });
       });
+
+      
+      invalidColumns.forEach((val, i) => {
+          test(`Check attribute columns invalid values "${val}" for Sub page reference list`, (done) => {
+            ch5SubpageReferenceList.setAttribute('columns', val);
+            ch5SubpageReferenceList.setAttribute('orientation', 'vertical');
+            ch5SubpageReferenceList.setAttribute('numberOfItems', val);
+            flush(() => {
+              setTimeout(() => {
+                expect(ch5SubpageReferenceList.columns).to.be.equal(1);
+                expect(ch5SubpageReferenceList.orientation).to.be.equal('vertical');
+                expect(ch5SubpageReferenceList.children[0].classList.contains('ch5-subpage-reference-list--columns-1')).to.be.equal(true);
+                expect(ch5SubpageReferenceList.children[0].classList.contains('ch5-subpage-reference-list--orientation-vertical')).to.be.equal(true);
+                done();
+              }, 100);
+            });
+          });
+        });
 
     });
   </script>

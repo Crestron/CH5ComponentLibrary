@@ -12,22 +12,29 @@
 
 <body>
   <test-fixture id="ch5-subpage-reference-list-centerItems-attributes">
-    <template>
-      <ch5-subpage-reference-list></ch5-subpage-reference-list>
-    </template>
+      <template id="templateWidgetId">
+        <div>
+          <ch5-toggle label="tgl_{{idx}}">
+          </ch5-toggle>
+        </div>
+      </template>
+      <div>
+        <ch5-subpage-reference-list id="subpagereferencelistone" widgetId="templateWidgetId" indexId="idx">
+        </ch5-subpage-reference-list>
+      </div>
   </test-fixture>
   <script>
     suite('ch5-subpage-reference-list-centerItems-attributes-value', () => {
       let ch5SubpageReferenceList;
 
       setup(async () => {
-        ch5SubpageReferenceList = fixture('ch5-subpage-reference-list-centerItems-attributes');
+        ch5SubpageReferenceList = document.getElementById("subpagereferencelistone");
       });
 
-      let testCases = ['a', '', ' ', 'number', true, false];
-      let expectedResult = ['false', 'false', 'false', 'false', 'true', 'false'];
+      let testCases = ['a', '', ' ', true, 'number', false,];
+      let expectedResult = ['false', 'true', 'false', 'true', 'false', 'false'];
       testCases.forEach((ele, i) => {
-        test('Check Value "centerItems"', () => {
+        test(`Check Value "centerItems" "${ele}"`, () => {
           ch5SubpageReferenceList.setAttribute('centerItems', ele);
           expect(ch5SubpageReferenceList.getAttribute('centerItems')).to.be.equal(expectedResult[i]);
         });
