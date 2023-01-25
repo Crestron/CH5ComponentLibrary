@@ -297,7 +297,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       this.handleOrientation();
     });
   }
-  public get orientation():  TCh5SubpageReferenceListOrientation {
+  public get orientation(): TCh5SubpageReferenceListOrientation {
     return this._ch5Properties.get<TCh5SubpageReferenceListOrientation>("orientation");
   }
 
@@ -551,12 +551,13 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     customElements.whenDefined(this.nodeName.toLowerCase()).then(() => {
       this.componentLoadedEvent(this.nodeName.toLowerCase(), this.id);
     });
-        // needed for preload-true for the calculation of bars height and width depending upon parent
-        subscribeInViewPortChange(this, () => {
-          if (this.elementIsInViewPort) {
-            this.debounceSubpageDisplay();
-          }
-        });
+    // needed for preload-true for the calculation of bars height and width depending upon parent
+    subscribeInViewPortChange(this, () => {
+      if (this.elementIsInViewPort) {
+        this.debounceSubpageDisplay();
+        this.debounceHandleScrollToPosition(this.scrollToPosition);
+      }
+    });
     this.logger.stop();
   }
 
@@ -564,8 +565,8 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.logger.start('disconnectedCallback()');
     this.removeEventListeners();
     this.unsubscribeFromSignals();
-    unSubscribeInViewPortChange(this);
     this.initMembers();
+    unSubscribeInViewPortChange(this);
     this.logger.stop();
   }
 
@@ -798,7 +799,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   public handleScrollToPosition(value: number) {
-    console.log('value', value);
     // return if the value is less than 0 or more than equal to numberOfItems
     if (value >= this.numberOfItems || value < 0) { return; }
 
