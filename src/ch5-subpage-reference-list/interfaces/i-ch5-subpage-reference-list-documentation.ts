@@ -47,9 +47,10 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  *       "\tsubpageReceiveStateVisible=\"${13:}\"",
  *       "\tsubpage=\"${14:}\"",
  *       "\tsubpageReceiveStateScrollTo=\"${15:}\"",
- *       "\tnumberOfItems=\"${16:10}\"",
- *       "\treceiveStateNumberOfItems=\"${17:}\"",
- *       "\tindexId=\"${18:}\">",
+ *       "\tstretch=\"${16:}\"",
+ *       "\tnumberOfItems=\"${17:10}\"",
+ *       "\treceiveStateNumberOfItems=\"${18:}\"",
+ *       "\tindexId=\"${19:}\">",
  *       "</ch5-subpage-reference-list>$0"
  *       ]
  *    }
