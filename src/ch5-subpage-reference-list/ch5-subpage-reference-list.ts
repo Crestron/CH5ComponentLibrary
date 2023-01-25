@@ -564,6 +564,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.logger.start('disconnectedCallback()');
     this.removeEventListeners();
     this.unsubscribeFromSignals();
+    unSubscribeInViewPortChange(this);
     this.initMembers();
     this.logger.stop();
   }
@@ -938,6 +939,12 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     } else if (this.hasAttribute('receiveStateShow')) {
       spgContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("receiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
       spgContainer.setAttribute('data-ch5-noshow-type', 'display');
+    }
+    if (this.hasAttribute('subpageReceiveStateEnable') && this.getAttribute("subpageReceiveStateEnable")?.trim() && !this.hasAttribute('receiveStateEnable')) {
+
+      spgContainer.setAttribute('data-ch5-enable', this.replaceAll(this.getAttribute("subpageReceiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, index + ''));
+    } else if (this.hasAttribute('receiveStateEnable')) {
+      spgContainer.setAttribute('data-ch5-enable', this.replaceAll(this.getAttribute("receiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, index + ''));
     }
     spgContainer.classList.add(this.nodeName.toLowerCase() + "--subpage-container");
     if (this.indexId !== null) {
