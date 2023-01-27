@@ -651,8 +651,32 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     // endless is handled in endlessHelper method
     if (this.endless) { return this.endlessHelper(); }
 
-    // auto deletion and addition of subpages is handled
-    if (this.orientation === 'horizontal') {
+    if (this.dir === 'rtl' && this.orientation === 'horizontal') {
+      const { offsetWidth, scrollLeft, scrollWidth } = this._elContainer;
+      if (scrollWidth - offsetWidth < this.subpageWidth) { return; }
+      let firstElement = Number(this._elContainer.firstElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
+      let lastElement = Number(this._elContainer.lastElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
+      if (Math.abs(scrollLeft) + offsetWidth > scrollWidth - this.subpageWidth && lastElement !== this.numberOfItems - 1) {
+        for (let i = 0; i < this.rows; i++) {
+          this.createSubpage(++lastElement);
+          this._elContainer.firstElementChild?.remove();
+        }
+        this._elContainer.scrollLeft += this.subpageWidth;
+      }
+      else if (Math.abs(scrollLeft) < this.subpageWidth && firstElement !== 0) {
+        let lastColumnElements = (lastElement + 1) % this.rows;
+        for (let i = 0; i < this.rows; i++) {
+          this.createSubpage(--firstElement, false);
+          if ((lastElement + 1) % this.rows !== 0) {
+            if (lastColumnElements-- > 0) { this._elContainer.lastElementChild?.remove(); }
+          } else {
+            this._elContainer.lastElementChild?.remove();
+          }
+        }
+        this._elContainer.scrollLeft -= this.subpageWidth;
+      }
+    } else if (this.orientation === 'horizontal') {
+      // auto deletion and addition of subpages is handled
       const { offsetWidth, scrollLeft, scrollWidth } = this._elContainer;
       if (scrollWidth - offsetWidth < this.subpageWidth) { return; }
       let firstElement = Number(this._elContainer.firstElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
@@ -703,7 +727,21 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     const { offsetHeight, offsetWidth, scrollLeft, scrollTop, scrollWidth, scrollHeight } = this._elContainer;
     const endlessScrollable = this.orientation === 'horizontal' ? offsetWidth + 20 < scrollWidth : offsetHeight + 20 < scrollHeight;
     if (endlessScrollable === false) { return; }
-    if (this.orientation === 'horizontal') {
+    if (this.orientation === 'horizontal' && this.dir === 'rtl') {
+      if (Math.abs(scrollLeft) + offsetWidth > scrollWidth - this.subpageWidth / 4) {
+        const lastElement = Number(this._elContainer.lastElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
+        const index = (this.numberOfItems + lastElement + 1) % this.numberOfItems;
+        this.createSubpage(index);
+        this._elContainer.firstElementChild?.remove();
+        this._elContainer.scrollLeft += this.subpageWidth / 2;
+      } else if (Math.abs(scrollLeft) < this.subpageWidth / 4) {
+        const firstElement = Number(this._elContainer.firstElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
+        const index = (this.numberOfItems + firstElement - 1) % this.numberOfItems;
+        this.createSubpage(index, false);
+        this._elContainer.lastElementChild?.remove();
+        this._elContainer.scrollLeft -= this.subpageWidth / 2;
+      }
+    } else if (this.orientation === 'horizontal') {
       if (scrollLeft < 5) {
         const firstElement = Number(this._elContainer.firstElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
         const index = (this.numberOfItems + firstElement - 1) % this.numberOfItems;
@@ -802,7 +840,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     // return if the value is less than 0 or more than equal to numberOfItems
     if (value >= this.numberOfItems || value < 0) { return; }
 
-    // return if the button list contains more than one row or one column
+    // return if the subpage list contains more than one row or one column
     if ((this.orientation === 'horizontal' && this.rows !== 1) || (this.orientation === 'vertical' && this.columns !== 1)) { return; }
 
     // return if all the buttons fits in the container
@@ -819,7 +857,25 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     // Remove all the children in the container
     Array.from(this._elContainer.children).forEach(container => container.remove());
 
-    if (this.orientation === 'horizontal') {
+    if (this.dir === 'rtl' && this.orientation === 'horizontal') {
+      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      const loadableSubpages = Math.ceil(containerWidth / this.subpageWidth) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
+      // Right Edge case
+      if (value >= this.numberOfItems - (loadableSubpages - Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER)) {
+        for (let i = this.numberOfItems - loadableSubpages; i < this.numberOfItems; i++) { this.createSubpage(i); }
+        this._elContainer.scrollLeft = value === this.numberOfItems - 1 ? this.subpageWidth * 5 * -1 : this.subpageWidth * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER * -1;
+      }
+      // In between the range
+      else if (value >= Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER) {
+        for (let i = value - Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER; i < value + loadableSubpages && i < this.numberOfItems; i++) { this.createSubpage(i); }
+        this._elContainer.scrollLeft = this.subpageWidth * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER * -1;
+      }
+      // Left Edge case - value - (0,1) 
+      else {
+        for (let i = 0; i < loadableSubpages && i < this.numberOfItems; i++) { this.createSubpage(i); }
+        this._elContainer.scrollLeft = this.subpageWidth * value * -1;
+      }
+    } else if (this.orientation === 'horizontal') {
       const containerWidth = this._elContainer.getBoundingClientRect().width;
       const loadableSubPageList = Math.ceil(containerWidth / this.subpageWidth) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
       // Right Edge case
@@ -982,7 +1038,16 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.logger.stop();
   }
   private initScrollbar() {
-    if (this.orientation === "horizontal") {
+
+    if (this.orientation === "horizontal" && this.dir === 'rtl') {
+      const { scrollWidth, offsetWidth, scrollLeft } = this._elContainer;
+      this.scrollbarDimension = Math.floor(offsetWidth / scrollWidth * 100);
+      const scrollbarLeft = Math.ceil(Math.abs(scrollLeft) / scrollWidth * 100);
+      this._scrollbar.style.removeProperty('height');
+      this._scrollbar.style.removeProperty('top');
+      this._scrollbar.style.width = this.scrollbarDimension + '%';
+      this._scrollbar.style.left = (100 - this.scrollbarDimension) - scrollbarLeft + '%';
+    } else if (this.orientation === "horizontal") {
       const { scrollWidth, offsetWidth, scrollLeft } = this._elContainer;
       this.scrollbarDimension = Math.floor(offsetWidth / scrollWidth * 100);
       const scrollbarLeft = Math.ceil(scrollLeft / scrollWidth * 100);
@@ -990,11 +1055,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       this._scrollbar.style.removeProperty('top');
       this._scrollbar.style.width = this.scrollbarDimension + '%';
       this._scrollbar.style.left = scrollbarLeft + '%';
-      if (scrollLeft === 0) {
-        this.scrollbarReachedEnd = false;
-      } else if (this.scrollbarDimension + scrollbarLeft === 100 && this.numberOfItems === this.loadedSubpages) {
-        this.scrollbarReachedEnd = true;
-      }
     } else {
       const { scrollHeight, offsetHeight, scrollTop } = this._elContainer;
       this.scrollbarDimension = Math.floor(offsetHeight / scrollHeight * 100);
@@ -1003,11 +1063,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       this._scrollbar.style.removeProperty('left');
       this._scrollbar.style.height = this.scrollbarDimension + '%';
       this._scrollbar.style.top = scrollbarTop + '%';
-      if (scrollTop === 0) {
-        this.scrollbarReachedEnd = false;
-      } else if (this.scrollbarDimension + scrollbarTop === 100 && this.numberOfItems === this.loadedSubpages) {
-        this.scrollbarReachedEnd = true;
-      }
     }
     if (this.scrollbar) {
       if (this.scrollbarDimension === 100) {
