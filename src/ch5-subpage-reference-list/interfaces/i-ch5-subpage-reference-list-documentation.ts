@@ -1,12 +1,12 @@
-import { ICh5Common } from "../../_interfaces";
+import { ICh5Common3 } from "../../ch5-common/interfaces/i-ch5-common-set3";
 import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-list-attributes";
 
 /**
  * @name Ch5 Subpage Reference List
  * @isattribute false
  * @tagName ch5-subpage-reference-list
- * @role 
- * @description of the component.
+ * @role subpage-reference-list
+ * @description The Subpage Reference List allows multiple instances of a given subpage to be displayed and managed in a list.
  * @componentVersion 1.0.0
  * @childElements
  * [
@@ -16,7 +16,7 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  * [
  *   "`ch5-subpage-reference-list` element",
  *   "***",
- *   "Component description"
+ *   "The Subpage Reference List allows multiple instances of a given subpage to be displayed and managed in a list."
  * ]
  * @snippets
  * [
@@ -33,29 +33,30 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  *     "description": "Crestron subpage reference list (All Attributes)",
  *     "body": [
  *       "<ch5-subpage-reference-list id=\"ch5-subpage-reference-list_${1:id}\"",
- *       "\torientation=\"${2:horizontal}\"",
+ *       "\torientation=\"${2|horizontal,vertical|}\"",
  *       "\tcontrolJoinID=\"${3:}\"",
- *       "\tendless=\"${4:}\"",
- *       "\tcenterItems=\"${5:}\"",
+ *       "\tendless=\"${4:false}\"",
+ *       "\tcenterItems=\"${5:false}\"",
  *       "\trows=\"${6:1}\"",
- *       "\tcolumn=\"${7:1}\"",
- *       "\tscrollBar=\"${8:}\"",
+ *       "\tcolumns=\"${7:1}\"",
+ *       "\tscrollbar=\"${8:false}\"",
  *       "\tbooleanJoinOffset=\"${9:}\"",
  *       "\tnumericJoinOffset=\"${10:}\"",
  *       "\tstringJoinOffset=\"${11:}\"",
  *       "\tsubpageReceiveStateEnable=\"${12:}\"",
  *       "\tsubpageReceiveStateVisible=\"${13:}\"",
- *       "\tsubpage=\"${14:}\"",
+ *       "\twidgetId=\"${14:}\"",
  *       "\tsubpageReceiveStateScrollTo=\"${15:}\"",
- *       "\tstretch=\"${16:}\"",
+ *       "\tstretch=\"${16|null,both|}\"",
  *       "\tnumberOfItems=\"${17:10}\"",
  *       "\treceiveStateNumberOfItems=\"${18:}\"",
- *       "\tindexId=\"${19:}\">",
+ *       "\tscrollToPosition=\"${19:}\"",
+ *       "\tindexId=\"${20:}\">",
  *       "</ch5-subpage-reference-list>$0"
  *       ]
  *    }
  *  ]
  */
-export interface ICh5SubpageReferenceListDocumentation extends ICh5Common, ICh5SubpageReferenceListAttributes {
+export interface ICh5SubpageReferenceListDocumentation extends ICh5Common3, ICh5SubpageReferenceListAttributes {
 
 }

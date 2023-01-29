@@ -12,9 +12,16 @@
 
 <body>
   <test-fixture id="ch5-subpage-reference-list-receiveStateNumberOfItems-attributes">
-    <template>
-      <ch5-subpage-reference-list receiveStateNumberOfItems="trigger_event_listener"></ch5-subpage-reference-list>
+    <template id="templateWidgetId">
+      <div>
+        <ch5-toggle label="tgl_{{idx}}">
+        </ch5-toggle>
+      </div>
     </template>
+    <div>
+      <ch5-subpage-reference-list id="subpagereferencelistone" widgetId="templateWidgetId" indexId="idx">
+      </ch5-subpage-reference-list>
+    </div>
   </test-fixture>
   <script>
     suite('ch5-subpage-reference-list-receiveStateNumberOfItems-attributes-value', () => {
@@ -24,25 +31,21 @@
         const emulatorJson = await fetch('./emulator/receivestatenumberofitems.json').then((response) => response.json());
         const emulator = CrComLib.Ch5Emulator.getInstance();
         emulator.loadScenario(emulatorJson);
-        ch5SubpageReferenceList = fixture('ch5-subpage-reference-list-receiveStateNumberOfItems-attributes');
+        ch5SubpageReferenceList = document.getElementById("subpagereferencelistone");
       });
 
-      test('receiveStateNumberOfItems', (done) => {
-        CrComLib.publishEvent('b', 'trigger_event_1', true);
-        flush(() => {
-          setTimeout(() => {
-            expect(ch5SubpageReferenceList.getAttribute('numberOfItems')).to.be.equal('11');
-            done();
-          }, 100);
-        });
-      });
-      test('receiveStateNumberOfItems', (done) => {
-        CrComLib.publishEvent('b', 'trigger_event_2', true);
-        flush(() => {
-          setTimeout(() => {
-            expect(ch5SubpageReferenceList.getAttribute('numberOfItems')).to.be.equal('9');
-            done();
-          }, 100);
+      const validOutput = [10, 500, 1, 1];
+
+      validOutput.forEach((val, i) => {
+        test(`Check value "receiveStateNumber" of items ` + val, () => {
+          CrComLib.publishEvent('n', 'trigger_signal', true);
+          ch5SubpageReferenceList.setAttribute('receiveStateNumberOfItems', `trigger_event_listener-${i}`);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5SubpageReferenceList.numberOfItems).to.be.equal(val);
+              done();
+            }, 100);
+          });
         });
       });
 
