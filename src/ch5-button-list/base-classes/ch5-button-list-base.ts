@@ -290,8 +290,8 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   ];
 
   public primaryCssClass = '';
-  private _ch5Properties: Ch5Properties;
-  private _elContainer: HTMLElement = {} as HTMLElement;
+  protected _ch5Properties: Ch5Properties;
+  protected _elContainer: HTMLElement = {} as HTMLElement;
   private _scrollbarContainer: HTMLElement = {} as HTMLElement;
   private _scrollbar: HTMLElement = {} as HTMLElement;
 
@@ -897,6 +897,14 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
       }
     }
     this.initScrollbar();
+  }
+
+  protected tabButtonDisplay() {
+    Array.from(this._elContainer.children).forEach(container => container.remove());
+    for (let i = 0; i < this.numberOfItems; i++) {
+      this.createButton(i);
+    }
+    if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
   }
 
   public buttonDisplay() {

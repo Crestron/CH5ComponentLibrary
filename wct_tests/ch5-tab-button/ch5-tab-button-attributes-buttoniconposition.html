@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-tab-button-buttonIconPosition-attributes">
+    <template>
+      <ch5-tab-button></ch5-tab-button>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-tab-button-buttonIconPosition-attributes1">
+    <template>
+      <ch5-tab-button></ch5-tab-button>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-tab-button-buttonIconPosition-attributes-value', () => {
+      let ch5TabButton;
+
+      setup(async () => {
+        ch5TabButton = fixture('ch5-tab-button-buttonIconPosition-attributes');
+      });
+
+      let testCases = ['a', '', ' ', 'number', 'first', 'last', 'top', 'bottom'];
+      let expectedResult = ['first', 'first', 'first', 'first', 'first', 'last', 'top', 'bottom'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "buttonIconPosition"', () => {
+          ch5TabButton.setAttribute('buttonIconPosition', ele);
+          expect(ch5TabButton.getAttribute('buttonIconPosition')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+    });
+    suite('ch5-tab-button-buttonIconPosition-attributes-classList', () => {
+      let ch5TabButton;
+
+      setup(async () => {
+        ch5TabButton = fixture('ch5-tab-button-buttonIconPosition-attributes1');
+      });
+
+
+      const valid_buttonIconPosition = CrComLib.Ch5ButtonList.BUTTON_ICON_POSITIONS;
+      console.log()
+      const invalid_buttonIconPosition = ['', 'junk', 'null', null, undefined, 'undefined', '0', '1', 'left', 'center', 'middle'];
+
+      valid_buttonIconPosition.forEach((buttonIconPositionName, i) => {
+        test(`Check attribute buttonIconPosition: "${buttonIconPositionName}"`, (done) => {
+          ch5TabButton.setAttribute('buttonIconPosition', buttonIconPositionName);
+          flush(() => {
+            setTimeout(() => {
+              expect(getFirstButton(ch5TabButton).children[0].classList.contains("ch5-button--iconposition-"+buttonIconPositionName)).to.be.equal(true);
+              expect(ch5TabButton.buttonIconPosition).to.be.equal(buttonIconPositionName);
+              done();
+            }, 500);
+          });
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
