@@ -97,7 +97,7 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *       "\trows=\"${7:1}\"",
  *       "\tcolumns=\"${8:1}\"",
  *       "\tindexId=\"${9:}\"",
- *       "\tscrollToPosition=\"${10:}\">",
+ *       "\tscrollToPosition=\"${10:0}\">",
  *       "</ch5-button-list>$0"
  *       ]
  *    },
@@ -114,7 +114,7 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *       "\trows=\"${7:1}\"",
  *       "\tcolumns=\"${8:1}\"",
  *       "\tindexId=\"${9:}\"",
- *       "\tscrollToPosition=\"${10:}\"",
+ *       "\tscrollToPosition=\"${10:0}\"",
  *       "\treceiveStateNumberOfItems=\"${11:}\"",
  *       "\treceiveStateScrollToPosition=\"${12:}\"",
  *       "\tbuttonType=\"${13:default}\"",
@@ -126,7 +126,7 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *       "\tbuttonCheckboxShow=\"${19:}\"",
  *       "\tbuttonSelected=\"${20:}\"",
  *       "\tbuttonPressed=\"${21:}\"",
- *       "\tbuttonMode=\"${22:}\"",
+ *       "\tbuttonMode=\"${22:0}\"",
  *       "\tbuttonIconClass=\"${23:}\"",
  *       "\tbuttonIconUrl=\"${24:}\"",
  *       "\tbuttonReceiveStateMode=\"${25:}\"",
