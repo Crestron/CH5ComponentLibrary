@@ -183,7 +183,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     },
     {
       default: "",
-      name: "subpageReceiveStateVisible",
+      name: "subpageReceiveStateShow",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -400,13 +400,13 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     return this._ch5Properties.get<string>('subpageReceiveStateEnable');
   }
 
-  public set subpageReceiveStateVisible(value: string) {
-    this._ch5Properties.set<string>("subpageReceiveStateVisible", value, () => {
+  public set subpageReceiveStateShow(value: string) {
+    this._ch5Properties.set<string>("subpageReceiveStateShow", value, () => {
       this.debounceSubpageDisplay();
     });
   }
-  public get subpageReceiveStateVisible(): string {
-    return this._ch5Properties.get<string>('subpageReceiveStateVisible');
+  public get subpageReceiveStateShow(): string {
+    return this._ch5Properties.get<string>('subpageReceiveStateShow');
   }
 
   public set widgetId(value: string) {
@@ -981,6 +981,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
   }
   private createSubpage(index: number, append: boolean = true) {
+    if (index < 0 || index >= this.numberOfItems) { return };
     if (isNil(this._templateElement)) {
       throw new Error('[ch5-subpage-reference-list] Error: Incorrect tag used');
     }
@@ -988,9 +989,9 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     documentContainer.innerHTML = this._templateElement.innerHTML;
     const spgContainer = document.createElement("div");
     spgContainer.setAttribute('id', this.getCrId() + '-' + index);
-    if (this.hasAttribute('subpageReceiveStateVisible') && this.getAttribute("subpageReceiveStateVisible")?.trim() && !this.hasAttribute('receiveStateShow')) {
+    if (this.hasAttribute('subpageReceiveStateShow') && this.getAttribute("subpageReceiveStateShow")?.trim() && !this.hasAttribute('receiveStateShow')) {
 
-      spgContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("subpageReceiveStateVisible")?.trim() + '', `{{${this.indexId}}}`, index + ''));
+      spgContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("subpageReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
       spgContainer.setAttribute('data-ch5-noshow-type', 'display');
     } else if (this.hasAttribute('receiveStateShow')) {
       spgContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("receiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));

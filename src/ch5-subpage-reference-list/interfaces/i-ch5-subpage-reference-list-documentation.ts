@@ -44,14 +44,13 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  *       "\tnumericJoinOffset=\"${10:}\"",
  *       "\tstringJoinOffset=\"${11:}\"",
  *       "\tsubpageReceiveStateEnable=\"${12:}\"",
- *       "\tsubpageReceiveStateVisible=\"${13:}\"",
+ *       "\tsubpageReceiveStateShow=\"${13:}\"",
  *       "\twidgetId=\"${14:}\"",
  *       "\tsubpageReceiveStateScrollTo=\"${15:}\"",
- *       "\tstretch=\"${16|null,both|}\"",
- *       "\tnumberOfItems=\"${17:10}\"",
- *       "\treceiveStateNumberOfItems=\"${18:}\"",
- *       "\tscrollToPosition=\"${19:}\"",
- *       "\tindexId=\"${20:}\">",
+ *       "\tnumberOfItems=\"${16:10}\"",
+ *       "\treceiveStateNumberOfItems=\"${17:}\"",
+ *       "\tscrollToPosition=\"${18:}\"",
+ *       "\tindexId=\"${19:}\">",
  *       "</ch5-subpage-reference-list>$0"
  *       ]
  *    }
