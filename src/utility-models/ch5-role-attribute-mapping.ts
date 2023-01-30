@@ -35,6 +35,7 @@ export class Ch5RoleAttributeMapping {
     public static readonly ch5SelectOption = 'option';
     public static readonly ch5Slider = 'slider';
     public static readonly ch5Spinner = 'listbox';
+    public static readonly ch5SubpageReferenceList = 'subpage-reference-list';
     public static readonly ch5TextInput = 'textbox';
     public static readonly ch5Toggle = 'switch';
     public static readonly ch5TriggerView = 'listbox';

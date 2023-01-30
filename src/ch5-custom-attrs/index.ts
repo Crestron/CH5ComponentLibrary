@@ -9,6 +9,7 @@ export * from './ch5-attrs-log';
 export * from './ch5-custom-attributes';
 export * from './ch5-attrs-show';
 export * from './ch5-attrs-showpulse';
+export * from './ch5-attrs-enable';
 export * from './ch5-attrs-hidepulse';
 export * from './ch5-attrs-text-content';
 export * from './ch5-attrs-innerhtml';

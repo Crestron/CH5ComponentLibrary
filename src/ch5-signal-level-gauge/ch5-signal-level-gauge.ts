@@ -382,7 +382,9 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
       this._elContainer.classList.remove(Ch5SignalLevelGauge.ELEMENT_NAME + Ch5SignalLevelGauge.COMPONENT_DATA.ORIENTATION.classListPrefix + e);
     });
     this._elContainer.classList.add(Ch5SignalLevelGauge.ELEMENT_NAME + Ch5SignalLevelGauge.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
+    this.handleNumberOfBars();
   }
+
   private handleValue() {
     this._elContainer.querySelectorAll('.ch5-signal-level-gauge--selected-bar-color').forEach((ele) => ele.classList.remove('ch5-signal-level-gauge--selected-bar-color'));
     const currBar = Math.floor(((this.value - this.minValue) * this.numberOfBars) / (this.maxValue - this.minValue));

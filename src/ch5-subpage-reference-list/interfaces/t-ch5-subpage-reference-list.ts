@@ -6,4 +6,5 @@
 // under which you licensed this source code.
 
 export type TCh5SubpageReferenceListStretch = 'null' | 'both';
+export type TCh5SubpageReferenceListOrientation = 'horizontal' | 'vertical';
 
