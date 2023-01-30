@@ -58,7 +58,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`rows` attribute",
    * "***",
-   * "Sets the number of rows the contents of the list will be divided into. Its Min value 1 Max value 600 and default value is 1."
+   * "Sets the number of rows the contents of the list will be divided into.  It can range from 1 to 600 and default value is 1."
    * ]
    * @name rows
    * @default 1
@@ -71,7 +71,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`columns` attribute",
    * "***",
-   * "Sets the number of columns the contents of the list will be divided into. Its Min value 1 Max value 600 and default value is 1."
+   * "Sets the number of columns the contents of the list will be divided into. It can range from 1 to 600 and default value is 1."
    * ]
    * @name columns
    * @default 1
@@ -155,15 +155,15 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
   /**
    * @documentation
    * [
-   * "`subpageReceiveStateVisible` attribute",
+   * "`subpageReceiveStateShow` attribute",
    * "***",
    * "Enables use of visibility joins on each list item.If a list item is not programmatically driven HIGH through the control system, the list item will not be visible."
    * ]
-   * @name subpagereceivestatevisible
+   * @name subpagereceivestateshow
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    * @attributeType "Join"
    */
-  subpageReceiveStateVisible: string;
+  subpageReceiveStateShow: string;
   /**
    * @documentation
    * [

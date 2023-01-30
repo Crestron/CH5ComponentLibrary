@@ -44,7 +44,7 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  *       "\tnumericJoinOffset=\"${10:}\"",
  *       "\tstringJoinOffset=\"${11:}\"",
  *       "\tsubpageReceiveStateEnable=\"${12:}\"",
- *       "\tsubpageReceiveStateVisible=\"${13:}\"",
+ *       "\tsubpageReceiveStateShow=\"${13:}\"",
  *       "\twidgetId=\"${14:}\"",
  *       "\tsubpageReceiveStateScrollTo=\"${15:}\"",
  *       "\tnumberOfItems=\"${16:10}\"",
