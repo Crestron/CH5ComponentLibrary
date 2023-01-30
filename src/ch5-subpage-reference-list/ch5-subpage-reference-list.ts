@@ -792,7 +792,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public handleEndless() {
     if (this.endless) { this.endless = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
-    if (this.endless) { this.scrollbar = false; }
     // This behavior is handled in scroll event
   }
   public handleCenterItems() {
