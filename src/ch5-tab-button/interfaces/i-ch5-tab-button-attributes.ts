@@ -45,18 +45,6 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
   /**
    * @documentation
    * [
-   * "`receiveStateNumberOfItems` attribute",
-   * "***",
-   * "signal value received from the receiveStateNumberOfItems Join will be constrained for numberOfItems attribute."
-   * ]
-   * @name receivestatenumberofitems
-   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-   * @attributeType "Join"
-   */
-  receiveStateNumberOfItems: string;
-  /**
-   * @documentation
-   * [
    * "`buttonType` attribute",
    * "***",
    * "buttonType sets the button backgrountd for all the buttons in the list. Valid values are default, danger, text, warning, info, success, primary, secondary."
