@@ -899,6 +899,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
 
   public handleEndless() {
     if (this.endless) { this.endless = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
+    if (this.endless && this.scrollbar === true) { this.scrollbar = false; }
     // This behavior is handled in scroll event
   }
 
