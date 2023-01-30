@@ -12,9 +12,24 @@
 
 <body>
   <test-fixture id="ch5-subpage-reference-list-subpageReceiveStateEnable-attributes">
-    <template>
-      <ch5-subpage-reference-list subpageReceiveStateEnable="trigger_event_listener"></ch5-subpage-reference-list>
-    </template>
+    <template id="templateWidgetId" >
+      <div>
+      <ch5-toggle
+          label="tgl_{{idx}}">
+      </ch5-toggle>
+      </div>
+      </template>
+      <div>
+      <ch5-subpage-reference-list 
+              widgetId="templateWidgetId" 
+              scrollbar="true" 
+              orientation="horizontal" 
+              numberOfItems="5"
+              indexId="idx"
+              id="subpagereferencelistone"
+              subpageReceiveStateEnable="spg_enable-{{idx}}">
+      </ch5-subpage-reference-list>
+      </div>
   </test-fixture>
   <script>
     suite('ch5-subpage-reference-list-subpageReceiveStateEnable-attributes-value', () => {
@@ -24,16 +39,23 @@
         const emulatorJson = await fetch('./emulator/subpagereceivestateenable.json').then((response) => response.json());
         const emulator = CrComLib.Ch5Emulator.getInstance();
         emulator.loadScenario(emulatorJson);
-        ch5SubpageReferenceList = fixture('ch5-subpage-reference-list-subpageReceiveStateEnable-attributes');
+        ch5SubpageReferenceList = document.getElementById("subpagereferencelistone");
       });
 
       test('subpageReceiveStateEnable', (done) => {
-        CrComLib.publishEvent('b', 'trigger_event', true);
-        flush(() => {
-          setTimeout(() => {
-            expect(ch5SubpageReferenceList.getAttribute('subpageReceiveStateEnable')).to.be.equal('String Signal');
+      CrComLib.publishEvent('b', 'enable_disable_button', true);
+      flush(() => {
+        setTimeout(() => {
+            console.log('test',ch5SubpageReferenceList.children[0].children[0]);
+            console.log('test two', ch5SubpageReferenceList.children[0].children[1]);
+           // console.log(ch5SubpageReferenceList.children[0].children[1].getAttribute('data-ch5-enable-subs-key'));
+            expect(ch5SubpageReferenceList.children[0].children[0].classList.contains('ch5-disabled')).to.be.equal(false);
+            expect(ch5SubpageReferenceList.children[0].children[1].classList.contains('ch5-disabled')).to.be.equal(true);
+            expect(ch5SubpageReferenceList.children[0].children[2].classList.contains('ch5-disabled')).to.be.equal(false);
+            expect(ch5SubpageReferenceList.children[0].children[3].classList.contains('ch5-disabled')).to.be.equal(true);
+            expect(ch5SubpageReferenceList.children[0].children[4].classList.contains('ch5-disabled')).to.be.equal(false);
             done();
-          }, 100);
+          }, 1000);
         });
       });
     });

@@ -2,16 +2,62 @@
   "cues": [
     {
       "type": "boolean",
-      "event": "trigger_event",
+      "event": "enable_disable_button",
       "trigger": true,
       "actions": [
         {
-          "type": "string",
-          "state": "trigger_event_listener",
-          "logic": "set",
-          "value": "String Signal"
+          "state": "spg_enable-0",
+          "type": "boolean",
+          "logic": "toggle"
+        },
+        {
+          "state": "spg_enable-1",
+          "type": "boolean",
+          "logic": "toggle"
+        },
+        {
+          "state": "spg_enable-2",
+          "type": "boolean",
+          "logic": "toggle"
+        },
+        {
+          "state": "spg_enable-3",
+          "type": "boolean",
+          "logic": "toggle"
+        },
+        {
+          "state": "spg_enable-4",
+          "type": "boolean",
+          "logic": "toggle"
         }
       ]
+    }
+  ],
+  "onStart": [
+    {
+      "state": "spg_enable-0",
+      "type": "boolean",
+      "value": true
+    },
+    {
+      "state": "spg_enable-1",
+      "type": "boolean",
+      "value": false
+    },
+    {
+      "state": "spg_enable-2",
+      "type": "boolean",
+      "value": true
+    },
+    {
+      "state": "spg_enable-3",
+      "type": "boolean",
+      "value": false
+    },
+    {
+      "state": "spg_enable-4",
+      "type": "boolean",
+      "value": true
     }
   ]
 }

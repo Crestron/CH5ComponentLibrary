@@ -12,40 +12,46 @@
 
 <body>
   <test-fixture id="ch5-subpage-reference-list-numericJoinOffset-attributes">
-    <template>
-      <ch5-subpage-reference-list numericJoinOffset="trigger_event_listener"></ch5-subpage-reference-list>
+    <template id="templateWidgetId">
+      <ch5-button type="primary" label="Loading..." sendEventOnClick="trigger_change_value">
+        <ch5-button-label>
+          <template>
+            <ch5-jointotext-numeric value="{{idx}}" receiveStateValue="100"> </ch5-jointotext-numeric>
+          </template>
+        </ch5-button-label>
+      </ch5-button>
     </template>
+    <div>
+      <ch5-subpage-reference-list widgetId="templateWidgetId" numericjoinOffset="30" scrollbar="true"
+        orientation="horizontal" numberOfItems="50" rows="3" indexId="idx" id="subpagereferencelistone">
+      </ch5-subpage-reference-list>
+    </div>
   </test-fixture>
   <script>
     suite('ch5-subpage-reference-list-numericJoinOffset-attributes-value', () => {
       let ch5SubpageReferenceList;
 
       setup(async () => {
-        const emulatorJson = await fetch('./emulator/numericjoinoffset.json').then((response) => response.json());
-        const emulator = CrComLib.Ch5Emulator.getInstance();
-        emulator.loadScenario(emulatorJson);
-        ch5SubpageReferenceList = fixture('ch5-subpage-reference-list-numericJoinOffset-attributes');
+        /*  const emulatorJson = await fetch('./emulator/numericjoinoffset.json').then((response) => response.json());
+         const emulator = CrComLib.Ch5Emulator.getInstance();
+         emulator.loadScenario(emulatorJson); */
+        ch5SubpageReferenceList = document.getElementById("subpagereferencelistone");
       });
 
-      test('numericJoinOffset', (done) => {
-        CrComLib.publishEvent('b', 'trigger_event_1', true);
-        flush(() => {
-          setTimeout(() => {
-            // expect(ch5SubpageReferenceList.getAttribute('numericJoinOffset')).to.be.equal('1');
-            done();
-          }, 100);
+      const validOutput = [10, 20];
+      validOutput.forEach((val, i) => {
+        test('numericJoinOffset', (done) => {
+          // CrComLib.publishEvent('b', 'trigger_event_1', true);
+          ch5SubpageReferenceList.setAttribute('numericJoinOffset', val);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5SubpageReferenceList.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-NUMERIC');
+              expect(ch5SubpageReferenceList.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100 + val).toString());
+              done();
+            }, 100);
+          });
         });
       });
-      test('numericJoinOffset', (done) => {
-        CrComLib.publishEvent('b', 'trigger_event_2', true);
-        flush(() => {
-          setTimeout(() => {
-            // expect(ch5SubpageReferenceList.getAttribute('numericJoinOffset')).to.be.equal('0');
-            done();
-          }, 100);
-        });
-      });
-
     });
   </script>
 </body>

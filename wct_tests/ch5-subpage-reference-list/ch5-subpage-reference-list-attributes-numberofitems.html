@@ -152,7 +152,7 @@
       });
 
       validOutput.forEach((val, i) => {
-        test(`Check value "receiveStateNumber" of items ` + val, () => {
+        test(`Check value "receiveStateNumber" of items ` + val, (done) => {
           CrComLib.publishEvent('n', 'trigger_signal', true);
           ch5SubpageReferenceList1.setAttribute('receiveStateNumberOfItems', `trigger_event_listener-${i}`);
           flush(() => {
