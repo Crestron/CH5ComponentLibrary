@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-tab-button-orientation-attributes">
+    <template>
+      <ch5-tab-button></ch5-tab-button>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-tab-button-orientation-horizontal-row-attributes">
+    <template>
+      <ch5-tab-button numberOfItems="10">
+        <ch5-tab-button-label>
+          <template><span>btn_{{idx}}</span></template>
+        </ch5-tab-button-label>
+      </ch5-tab-button>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-tab-button-orientation-vertical-column-attributes">
+    <template>
+      <ch5-tab-button numberOfItems="10">
+        <ch5-tab-button-label>
+          <template><span>btn_{{idx}}</span></template>
+        </ch5-tab-button-label>
+      </ch5-tab-button>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-tab-button-orientation-horizontal-index-attributes">
+    <template>
+      <ch5-tab-button numberOfItems="15" orientation="horizontal" indexId="idx">
+        <ch5-tab-button-label>
+          <template><span>btn_{{idx}}</span></template>
+        </ch5-tab-button-label>
+      </ch5-tab-button>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-tab-button-orientation-vertical-index-attributes">
+    <template>
+      <ch5-tab-button numberOfItems="15" orientation="vertical" indexId="idx">
+        <ch5-tab-button-label>
+          <template><span>btn_{{idx}}</span></template>
+        </ch5-tab-button-label>
+      </ch5-tab-button>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-tab-button-orientation-attributes-value', () => {
+      let ch5TabButton;
+      let ch5TabButton1;
+      let ch5TabButton2;
+      let ch5TabButton3;
+      let ch5TabButton4;
+
+      setup(async () => {
+        ch5TabButton = fixture('ch5-tab-button-orientation-attributes');
+        ch5TabButton1 = fixture('ch5-tab-button-orientation-horizontal-row-attributes');
+        ch5TabButton2 = fixture('ch5-tab-button-orientation-vertical-column-attributes');
+        ch5TabButton3 = fixture('ch5-tab-button-orientation-horizontal-index-attributes');
+        ch5TabButton4 = fixture('ch5-tab-button-orientation-vertical-index-attributes');
+      });
+
+      const availableOrientations = ['horizontal', 'vertical'];
+      const invalidOrientations = ['', 'junk', 'null', 'Vertical', 'Horizontal', 'undefined', '0', '1', 'top', 'left', 'right', 'bottom', 'center'];
+      const expectedOrientationValue = availableOrientations[0];
+      const rowsColumnValue = ['1', '10', '500'];
+      const invalidValue = ['a', '-1', '0'];
+      const expectedValue = 1;
+      availableOrientations.forEach((orientationName, i) => {
+        test(`Check attribute orientation: "${orientationName}"`, (done) => {
+          ch5TabButton.setAttribute('orientation', orientationName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5TabButton.orientation).to.be.equal(orientationName);
+              expect(getDiv(ch5TabButton).classList.contains("ch5-tab-button--orientation-" + orientationName)).to.satisfy((getValue) => {
+                if (orientationName === 'horizontal') {
+                  return (getValue === true || getValue === false);
+                } else {
+                  return getValue;
+                }
+              });
+              availableOrientations.forEach((orientationNameNew, j) => {
+                if (orientationNameNew !== orientationName) {
+                  expect(getDiv(ch5TabButton).classList.contains("ch5-tab-button--orientation-" + orientationNameNew)).to.be.equal(false);
+                }
+              });
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      invalidOrientations.forEach((invalidOrientation, i) => {
+        test(`Check attribute orientation: "${invalidOrientation}"`, (done) => {
+          ch5TabButton.setAttribute('orientation', invalidOrientation);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5TabButton.orientation).to.be.equal(expectedOrientationValue);
+              expect(getDiv(ch5TabButton).classList.contains("ch5-tab-button--orientation-" + expectedOrientationValue)).to.satisfy((getValue) => {
+                if (invalidOrientation === 'horizontal') {
+                  return (getValue === true || getValue === false);
+                } else {
+                  return getValue;
+                }
+              });
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          })
+        });
+      });
+
+      rowsColumnValue.forEach((val, i) => {
+        test(`Check attributes orientation horizontal with rows attribute`, (done) => {
+          ch5TabButton1.setAttribute('orientation', 'horizontal');
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5TabButton1.orientation).to.be.equal('horizontal');
+              expect(getDiv(ch5TabButton1).classList.contains("ch5-tab-button--orientation-horizontal")).to.be.equal(true);
+              expect(getDiv(ch5TabButton1).classList.contains("ch5-tab-button--orientation-vertical")).to.be.equal(false);
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      invalidValue.forEach((val, i) => {
+        test(`Check attributes orientation horizontal with a row attribute`, (done) => {
+          ch5TabButton1.setAttribute('orientation', 'horizontal');
+          ch5TabButton1.setAttribute('rows', val);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5TabButton1.orientation).to.be.equal('horizontal');
+              expect(getDiv(ch5TabButton1).classList.contains("ch5-tab-button--orientation-horizontal")).to.be.equal(true);
+              expect(getDiv(ch5TabButton1).classList.contains("ch5-tab-button--orientation-vertical")).to.be.equal(false);
+              expect(ch5TabButton1.rows).to.be.equal(expectedValue);
+              expect(getDiv(ch5TabButton1).classList.contains("ch5-tab-button--rows-" + expectedValue)).to.be.equal(true);
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      test(`Check attributes orientation horizontal with tab button index attributes`, (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5TabButton3.numberOfItems).to.be.equal(15);
+            expect(ch5TabButton3.rows).to.be.equal(1);
+            expect(ch5TabButton3.orientation).to.be.equal('horizontal');
+            expect(getDiv(ch5TabButton3).classList.contains('ch5-tab-button--orientation-horizontal')).to.be.equal(true);
+            for (let i = 0; i < getDiv(ch5TabButton3).children.length; i++) {
+              expect(getDiv(ch5TabButton3).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
+            }
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+      });
+
+      test(`Check attributes orientation vertical with tab button index attributes`, (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5TabButton4.numberOfItems).to.be.equal(15);
+            expect(ch5TabButton4.columns).to.be.equal(1);
+            expect(ch5TabButton4.orientation).to.be.equal('vertical');
+            expect(getDiv(ch5TabButton4).classList.contains('ch5-tab-button--columns-1')).to.be.equal(true);
+            expect(getDiv(ch5TabButton4).classList.contains('ch5-tab-button--orientation-vertical')).to.be.equal(true);
+            for (let i = 0; i < getDiv(ch5TabButton4).children.length; i++) {
+              expect(getDiv(ch5TabButton4).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
+            }
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
