@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-tab-button-numberOfItems-attributes">
+    <template>
+      <ch5-tab-button></ch5-tab-button>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-tab-button-receiveStateNumberOfItems-attributes">
+    <template>
+      <ch5-tab-button numberOfItems="10"></ch5-tab-button>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-tab-button-numberOfItems-attributes-value', () => {
+      let ch5TabButton;
+      let ch5TabButton1;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatenumberofitems.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5TabButton = fixture('ch5-tab-button-numberOfItems-attributes');
+        ch5TabButton1 = fixture('ch5-tab-button-receiveStateNumberOfItems-attributes');
+      });
+      const validOutput = [10, 15, 1, 1];
+      const inputOutput = [
+        {
+          input: 'a',
+          output: 3
+        },
+        {
+          input: '',
+          output: 3
+        },
+        {
+          input: ' ',
+          output: 3
+        },
+        {
+          input: 'number',
+          output: 3
+        },
+        {
+          input: '0',
+          output: 2
+        },
+        {
+          input: '1',
+          output: 2
+        },
+        {
+          input: '2',
+          output: 2
+        },
+        {
+          input: '15',
+          output: 15
+        },
+        {
+          input: '16',
+          output: 15
+        },
+        {
+          input: '501',
+          output: 15
+        },
+        {
+          input: '-1',
+          output: 2
+        },
+        {
+          input: '-0',
+          output: 2
+        }
+      ];
+      inputOutput.forEach((ele, i) => {
+        test(`Check Value "numberOfItems" for input ` + ele.input, () => {
+          ch5TabButton.setAttribute('numberOfItems', ele.input);
+          expect(ch5TabButton.getAttribute('numberOfItems')).to.be.equal(String(inputOutput[i].output));
+          // const tabButtonDivLength = document.getElementsByClassName('ch5-tab-button--orientation-horizontal').length;
+          // console.log("length",  tabButtonDivLength, ele.input);
+          // expect(tabButtonDivLength).to.be.equal(inputOutput[i].output);
+        });
+      });
+
+      validOutput.forEach((val, i) => {
+        test(`Check value "receiveStateNumber" of items`, () => {
+          CrComLib.publishEvent('n', 'trigger_signal', true);
+          ch5TabButton1.setAttribute('receiveStateNumberOfItems', `trigger_event_listener-${i}`);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5TabButton1.numberOfItems).to.be.equal(val);
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

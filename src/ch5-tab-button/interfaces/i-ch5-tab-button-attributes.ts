@@ -1,5 +1,5 @@
 import { TCh5GenericListAttributesOrientation } from '../../ch5-generic-list-attributes/interfaces/t-ch5-generic-list-attributes';
-import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape } from '../../ch5-button-list/interfaces/t-ch5-button-list';
+import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape } from '../../ch5-button-list/interfaces/t-ch5-button-list';
 import { ICh5GenericListAttributes } from "../../ch5-common/interfaces/i-ch5-generic-list-attributes";
 
 /**
@@ -26,7 +26,7 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * "Default value is 3,  Minimum value is 2 and Maximum value is 15. This attribute sets the number of buttons in the tab button"
    * ]
    * @name numberofitems
-   * @default 10
+   * @default 3
    * limits [{"min": 2, "max": 15}]
    * @attributeType "Integer"
    */
@@ -39,7 +39,6 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * "This attribute helps to replace the pattern with the index on the ch5-tab-button."
    * ]
    * @name indexid
-   * @default idx
    * @attributeType "String"
    */
   indexId: string;
@@ -94,19 +93,6 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
   /**
    * @documentation
    * [
-   * "`buttonCheckboxPosition` attribute",
-   * "***",
-   * "Default value is left. Valid values are 'left', 'right'. This property is used to set the position of a checkbox in a button. The value left would set the checkbox to the left of the button and the value right would set the checkbox to the right of the button."
-   * ]
-   * @name buttoncheckboxposition
-   * @default left
-   * @attributeType "EnumeratedValue"
-   * @showWhen [{"buttonCheckboxShow":true}]
-   */
-  buttonCheckboxPosition: TCh5ButtonListButtonCheckboxPosition;
-  /**
-   * @documentation
-   * [
    * "`buttonIconPosition` attribute",
    * "***",
    * "The default value is 'first', Valid values: 'first', 'last', 'top', 'bottom'. The icon position relative to the label."
@@ -121,25 +107,13 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * [
    * "`buttonShape` attribute",
    * "***",
-   * "The default value is 'rectangle'. Valid values: 'rectangle', 'rounded-rectangle'. This attribute sets shape of the button."
+   * "Valid values are 'rectangle(default)', 'rounded-rectangle'. This attribute sets shape of the button."
    * ]
    * @name buttonshape
    * @default rectangle
    * @attributeType "EnumeratedValue"
    */
   buttonShape: TCh5ButtonListButtonShape;
-  /**
-   * @documentation
-   * [
-   * "`buttonCheckboxShow` attribute",
-   * "***",
-   * "The default value is false. This property is used to display or hide a checkbox.  If set to true, a checkbox is displayed."
-   * ]
-   * @name buttoncheckboxshow
-   * @default false
-   * @attributeType "Boolean"
-   */
-  buttonCheckboxShow: boolean;
   /**
    * @documentation
    * [
@@ -188,18 +162,6 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * @attributeType "String"
    */
   buttonIconUrl: string;
-  /**
-   * @documentation
-   * [
-   * "`buttonLabelInnerHtml` attribute",
-   * "***",
-   * "This attribute provides the ability of a template that applies for all the buttons in the tab button."
-   * ]
-   * @name buttonlabelinnerhtml
-   * @default 
-   * @attributeType "String"
-   */
-  buttonLabelInnerHtml: string;
   /**
    * @documentation
    * [

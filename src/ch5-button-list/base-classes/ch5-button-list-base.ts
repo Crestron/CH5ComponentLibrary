@@ -298,13 +298,13 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   ];
 
   public primaryCssClass = '';
-  private _ch5Properties: Ch5Properties;
-  private _elContainer: HTMLElement = {} as HTMLElement;
+  protected _ch5Properties: Ch5Properties;
+  protected _elContainer: HTMLElement = {} as HTMLElement;
   private _scrollbarContainer: HTMLElement = {} as HTMLElement;
   private _scrollbar: HTMLElement = {} as HTMLElement;
 
   // private members used for mouse up and down
-  private firstLoad: boolean = false;
+  private reInit: boolean = false;
   private isDown = false;
   private startX: number = 0;
   private startY: number = 0;
@@ -599,9 +599,9 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     this.debounceButtonDisplay();
     resizeObserver(this._elContainer, this.resizeHandler);
     subscribeInViewPortChange(this, () => {
-      if (this.elementIsInViewPort && this.firstLoad === false) {
+      if (this.elementIsInViewPort && this.reInit === false) {
         this.debounceButtonDisplay();
-        this.firstLoad = true;
+        this.reInit = true;
       }
     });
     customElements.whenDefined(this.nodeName.toLowerCase()).then(() => {
@@ -779,7 +779,6 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     const endlessScrollable = this.orientation === 'horizontal' ? offsetWidth + this.buttonWidth < scrollWidth : offsetHeight + this.buttonHeight < scrollHeight;
     if (endlessScrollable === false) { return; }
     if (this.orientation === 'horizontal' && this.dir === 'rtl') {
-      console.log(offsetWidth, scrollLeft, scrollWidth);
       if (Math.abs(scrollLeft) + offsetWidth > scrollWidth - this.buttonWidth / 4) {
         const lastElement = Number(this._elContainer.lastElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
         const index = (this.numberOfItems + lastElement + 1) % this.numberOfItems;
@@ -975,6 +974,14 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     this.initScrollbar();
   }
 
+  protected tabButtonDisplay() {
+    Array.from(this._elContainer.children).forEach(container => container.remove());
+    for (let i = 0; i < this.numberOfItems; i++) {
+      this.createButton(i);
+    }
+    if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
+  }
+
   public buttonDisplay() {
     // The below line is added to remove the stretch class before calculating the button dimension
     this._elContainer.classList.remove(this.primaryCssClass + '--stretch-both');
@@ -990,6 +997,10 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     if (this.orientation === 'horizontal') {
       // Find the number of initial buttons which can be loaded based on container width
       const containerWidth = this._elContainer.getBoundingClientRect().width;
+
+      // Do not remove below line Fix:CH5C-4247 
+      if (containerWidth === 0) { this.reInit = false; }
+
       loadedButtons = Math.floor(containerWidth / this.buttonWidth) * this.rows + this.rows * Ch5ButtonListBase.BUTTON_CONTAINER_BUFFER;
     } else {
       const containerHeight = this._elContainer.getBoundingClientRect().height;
