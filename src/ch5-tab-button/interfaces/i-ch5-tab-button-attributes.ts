@@ -11,7 +11,7 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * [
    * "`orientation` attribute",
    * "***",
-   * "The default value is 'horizontal'. Valid values: 'horizontal' or 'vertical'. Positions the list elements in a horizontal or vertical orientation."
+   * "Possible value are 'horizontal'(default), 'vertical'. Aligns the tab button according to orientation value."
    * ]
    * @name orientation
    * @default horizontal
@@ -59,7 +59,7 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * [
    * "`buttonHAlignLabel` attribute",
    * "***",
-   * "Default attribute is center.  Possible values are 'center', 'left', 'right'. When the buttonHAlignLabel property is set, the label and the icon of the button are horizontally aligned.The center property sets the horizontal alignment of the label to the center of the button. The left property sets the horizontal alignment of the label to the left of the button.  The right property sets the horizontal alignment of the label to the right of the button."
+   * "Default value is center.  Possible values are 'center', 'left', 'right'. When the buttonHAlignLabel property is set, the label and the icon of the button are horizontally aligned.The center property sets the horizontal alignment of the label to the center of the button. The left property sets the horizontal alignment of the label to the left of the button.  The right property sets the horizontal alignment of the label to the right of the button."
    * ]
    * @name buttonhalignlabel
    * @default center
@@ -71,7 +71,7 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * [
    * "`buttonVAlignLabel` attribute",
    * "***",
-   * "Default attribute is middle. Possible values are 'middle', 'top', 'bottom'. When the buttonVAlignLabel property is set, the label and the icon of the button are vertically aligned.  The middle property sets the vertical alignment of the label to the middle of the button.  The top property sets the vertical alignment of the label to the top of the button.   The bottom property sets the vertical alignment of the label to the bottom of the button."
+   * "Default value is middle. Possible values are 'middle', 'top', 'bottom'. When the buttonVAlignLabel property is set, the label and the icon of the button are vertically aligned.  The middle property sets the vertical alignment of the label to the middle of the button.  The top property sets the vertical alignment of the label to the top of the button.   The bottom property sets the vertical alignment of the label to the bottom of the button."
    * ]
    * @name buttonvalignlabel
    * @default middle
@@ -215,7 +215,7 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * [
    * "`buttonSendEventOnClick` attribute",
    * "***",
-   * "Sends an event on click or tap (mouse or swipe up and down quickly). Use this when the control system takes an action on the rising edge from false to true of a boolean digital event."
+   * "Sends an event on click or tap. Use this when the control system takes an action on the rising edge from false to true of a boolean digital event."
    * ]
    * @name buttonsendeventonclick
    * @default 
@@ -227,7 +227,7 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * [
    * "`buttonReceiveStateShow` attribute",
    * "***",
-   * ". When the signal is low, the component will not be displayed, and the area will not be pressable."
+   * "When the signal is low, the component will not be displayed, and the area will not be pressable. Note: If receiveStateShow attribute is given for ch5-tab-button then it will over ride buttonReceiveStateShow attribute"
    * ]
    * @name buttonreceivestateshow
    * @default 
@@ -239,7 +239,7 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * [
    * "`buttonReceiveStateEnable` attribute",
    * "***",
-   * "When the signal is low, the look of the component will change to represent a disabled state and the component will not be pressable."
+   * "When the signal is low, the look of the component will change to represent a disabled state and the component will not be pressable. Note: If receiveStateEnable attribute is given for ch5-tab-button then it will over ride buttonReceiveStateEnable attribute"
    * ]
    * @name buttonreceivestateenable
    * @default 
