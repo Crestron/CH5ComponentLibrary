@@ -272,6 +272,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   private destroyedSubpagesLeft: number = 0;
   private destroyedSubpagesRight: number = 0;
   private scrollbarReachedEnd: boolean = false;
+  private reInit: boolean = false;
   private scrollbarDimension: number = 0;
   private subpageWidth: number = 0;
   private subpageHeight: number = 0;
@@ -553,9 +554,9 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     });
     // needed for preload-true for the calculation of bars height and width depending upon parent
     subscribeInViewPortChange(this, () => {
-      if (this.elementIsInViewPort) {
+      if (this.elementIsInViewPort && this.reInit === false) {
         this.debounceSubpageDisplay();
-        this.debounceHandleScrollToPosition(this.scrollToPosition);
+        this.reInit = true;
       }
     });
     this.logger.stop();
@@ -792,6 +793,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public handleEndless() {
     if (this.endless) { this.endless = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
+    if (this.endless) { this.scrollbar = false; }
     // This behavior is handled in scroll event
   }
   public handleCenterItems() {
@@ -955,6 +957,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     if (this.orientation === 'horizontal') {
       // Find the number of initial subpages which can be loaded based on container width
       const containerWidth = this._elContainer.getBoundingClientRect().width;
+      if (containerWidth === 0) { this.reInit = false; }
       this.loadedSubpages = Math.floor(containerWidth / this.subpageWidth) * this.rows + this.rows * 2;
     } else {
       const containerHeight = this._elContainer.getBoundingClientRect().height;
@@ -972,6 +975,9 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.initScrollbar();
     if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
     if (this.centerItems === true && this.scrollbarDimension < 100) { this.centerItems = false; }
+    if (this.scrollToPosition !== 0) {
+      this.debounceHandleScrollToPosition(this.scrollToPosition);
+    }
   }
   private replaceAll(str: string, find: string, replace: string) {
     if (str && String(str).trim() !== "") {
