@@ -11,6 +11,7 @@ export * from "./i-ch5-attrs-noshow-type";
 export * from './i-ch5-attrs-appendclass';
 export * from './i-ch5-attrs-innerhtml';
 export * from './i-ch5-attrs-showpulse';
+export * from './i-ch5-attrs-enable';
 export * from './i-ch5-attrs-text-content';
 export * from './i-ch5-attrs-appendstyle';
 export * from './i-ch5-attrs-hidepulse';

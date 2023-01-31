@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-tab-button-types-attributes">
+    <template>
+      <ch5-tab-button></ch5-tab-button>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-tab-button-types-fixture2">
+    <template>
+      <ch5-tab-button buttonType="danger">
+        <ch5-tab-button-mode type="default"></ch5-tab-button-mode>
+        <ch5-tab-button-mode type="warning"></ch5-tab-button-mode>
+      </ch5-tab-button>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-tab-button-buttonType-attributes', () => {
+      let ch5TabButton;
+      let ch5TabButton2;
+
+      setup(async () => {
+        ch5TabButton = fixture('ch5-tab-button-types-attributes');
+        ch5TabButton2 = fixture('ch5-tab-button-types-fixture2');
+      });
+
+      const valid_types = CrComLib.Ch5ButtonList.BUTTON_TYPES;
+      const invalid_types = ['', 'junk', 'null', 'undefined', '0', '1', null].concat(CrComLib.Ch5Button.TYPES).filter(data => { return !valid_types.includes(data) });
+      const default_type = valid_types[0];
+
+      valid_types.forEach((typeName, i) => {
+        test(`Check attribute type: "${typeName}"`, (done) => {
+          ch5TabButton.setAttribute('buttonType', typeName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5TabButton.buttonType).to.be.equal(typeName);
+              const allButtons = getAllButtons(ch5TabButton);
+              for (let i = 0; i < allButtons.length; i++) {
+                expect(getDiv(allButtons[i]).classList.contains("ch5-button--" + typeName)).to.be.equal(true);
+                expect(getDiv(allButtons[i]).classList.contains("ch5-tab-button--button-type-" + typeName)).to.be.equal(true);
+                expect(ch5TabButton.getAttribute('buttonType')).to.be.equal(typeName);
+              }
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      test(`Check ch5-tab-button > div css class name for attribute buttonType "default" by not adding the buttonType attribute in HTML or through javascript to the tab-button`, (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5TabButton.buttonType).to.be.equal(default_type);
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+      });
+
+      invalid_types.forEach((typeName, i) => {
+        test(`Check invalid attribute type: "${typeName}"`, (done) => {
+          ch5TabButton.setAttribute('type', typeName);
+          flush(() => {
+            setTimeout(() => {
+              const allButtons = getAllButtons(ch5TabButton);
+              for (let i = 0; i < allButtons.length; i++) {
+                expect(getDiv(allButtons[i]).classList.contains("ch5-button--" + default_type)).to.be.equal(true);
+                expect(getDiv(allButtons[i]).classList.contains("ch5-tab-button--button-type-" + default_type)).to.be.equal(true);
+              }
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

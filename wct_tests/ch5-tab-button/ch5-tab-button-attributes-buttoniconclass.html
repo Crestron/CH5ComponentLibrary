@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-tab-button-iconClass-attributes1">
+    <template>
+      <ch5-tab-button>
+
+      </ch5-tab-button>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-tab-button-iconClass-attributes-value', () => {
+      let ch5TabButton;
+
+      setup(async () => {
+        ch5TabButton = fixture('ch5-tab-button-iconClass-attributes1');
+      });
+      const valid_iconPosition = CrComLib.Ch5ButtonList.BUTTON_ICON_POSITIONS;
+      const invalid_iconPosition = ['sadfadsfas', '', ' ', 'null', null, undefined, 'undefined', 'middle', 'LEFT', 'RIGHT'];
+      const iconClassArray = [
+        "fab fa-amilia",
+        "fas fa-ankh",
+        "fas fa-at",
+      ];
+      iconClassArray.forEach((iconClass, i) => {
+        test(`Check attribute iconClass: "${iconClass}"`, (done) => {
+          ch5TabButton.setAttribute('buttonIconClass', iconClass);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5TabButton.buttonIconClass).to.be.equal(iconClass);
+              expect(ch5TabButton.buttonIconPosition).to.be.equal("first");
+              const expectedValueForIconClass = iconClass.split(" ");
+              for (let z = 0; z < expectedValueForIconClass.length; z++) {
+                expect(ch5TabButton.children[0].children[0].children[0].children[0].children[0].children[0].children[0].classList.contains(expectedValueForIconClass[z])).to.be.equal(true);
+              }
+              done();
+            }, 300);
+          });
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

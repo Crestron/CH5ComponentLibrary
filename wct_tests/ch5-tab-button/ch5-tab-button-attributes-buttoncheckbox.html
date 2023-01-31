@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-tab-button-buttonCheckboxPosition-attributes">
+    <template>
+      <ch5-tab-button></ch5-tab-button>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-tab-button-buttonCheckboxPosition-attributes-value', () => {
+      const valid_checkboxPosition = CrComLib.Ch5ButtonList.BUTTON_CHECKBOX_POSITIONS;
+      const invalid_checkboxPosition = ['', ' ', 'null', null, undefined, 'undefined', 'top', 'LEFT', 'RIGHT'];
+      const valid_selected = [true, false];
+      const checkboxShowList = [
+        {
+          key: true,
+          value: true,
+          isAttributeValid: true
+        },
+        {
+          key: false,
+          value: false,
+          isAttributeValid: true
+        },
+        {
+          key: "true",
+          value: true,
+          isAttributeValid: true
+        },
+        {
+          key: "false",
+          value: false,
+          isAttributeValid: true
+        },
+        {
+          key: "TRUE",
+          value: false,
+          isAttributeValid: false
+        },
+        {
+          key: "FALSE",
+          value: false,
+          isAttributeValid: false
+        },
+        {
+          key: "",
+          value: true,
+          isAttributeValid: true
+        }
+      ];
+
+      setup(async () => {
+        ch5TabButton = fixture('ch5-tab-button-buttonCheckboxPosition-attributes');
+      });
+
+      valid_checkboxPosition.forEach((checkboxPosition, i) => {
+        checkboxShowList.forEach((checkboxShow, j) => {
+          test(`Check attribute checkboxPosition: "${checkboxPosition}" and checkboxShow: "${checkboxShow.key}"`, (done) => {
+            ch5TabButton.setAttribute('buttonCheckboxPosition', checkboxPosition);
+            ch5TabButton.setAttribute('buttonCheckboxShow', checkboxShow.key);
+            flush(() => {
+              setTimeout(() => {
+                expect(ch5TabButton.buttonCheckboxShow).to.be.equal(checkboxShow.value);
+                expect(ch5TabButton.buttonCheckboxPosition).to.be.equal(checkboxPosition);
+                done();
+              }, COMPONENT_TESTING_TIMEOUT);
+            });
+          });
+          valid_selected.forEach((selected, k) => {
+            test(`Check ch5-tab-button > div > i css class name for checkboxPosition: "${checkboxPosition}", checkboxShow: "${checkboxShow.key}", and selected: "${selected}"`, (done) => {
+              ch5TabButton.setAttribute('buttonCheckboxPosition', checkboxPosition);
+              ch5TabButton.setAttribute('buttonCheckboxShow', checkboxShow.key);
+              ch5TabButton.setAttribute('buttonSelected', selected);
+              console.log("i tag", ch5TabButton);
+              flush(() => {
+                setTimeout(() => {
+                  expect(!!getITagInButtonForCheckbox(ch5TabButton)).to.be.equal(checkboxShow.value);
+                  if (ch5TabButton.buttonCheckboxPosition === true) {
+                    expect(getITagInButtonForCheckbox(ch5TabButton).classList.contains("ch5-button__checkbox")).to.be.equal(ch5TabButton.buttonCheckboxShow);
+                    expect(getITagInButtonForCheckbox(ch5TabButton).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(!ch5TabButton.selected);
+                    expect(getITagInButtonForCheckbox(ch5TabButton).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5TabButton.selected);
+                    expect(getITagInButtonForCheckbox(ch5TabButton).classList.contains("cx-button-checkbox-pos-" + checkboxPosition)).to.be.equal(ch5TabButton.buttonCheckboxShow);
+                  }
+                  done();
+                }, COMPONENT_TESTING_TIMEOUT);
+              });
+            });
+          });
+        });
+      });
+
+      invalid_checkboxPosition.forEach((checkboxPosition, i) => {
+        checkboxShowList.forEach((checkboxShow, j) => {
+          test(`Check Invalid attributes for checkboxPosition: "${checkboxPosition}" and checkboxShow: "${checkboxShow.key}"`, (done) => {
+            ch5TabButton.setAttribute('buttonCheckboxPosition', checkboxPosition);
+            ch5TabButton.setAttribute('buttonCheckboxShow', checkboxShow.key);
+            flush(() => {
+              setTimeout(() => {
+                expect(ch5TabButton.buttonCheckboxShow).to.be.equal(checkboxShow.value);
+                expect(ch5TabButton.buttonCheckboxPosition).to.be.equal("left");
+                expect(!!getITagInButtonForCheckbox(ch5TabButton)).to.be.equal(checkboxShow.value);
+                done();
+              }, COMPONENT_TESTING_TIMEOUT);
+            });
+          });
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

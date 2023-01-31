@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-tab-button-buttonReceiveStateEnable-attributes">
+    <template>
+      <ch5-tab-button indexId="idx" buttonType="info"></ch5-tab-button>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-tab-button-buttonReceiveStateEnable-override">
+    <template>
+      <ch5-tab-button></ch5-tab-button>
+    </template>
+  </test-fixture>
+
+
+  <script>
+    suite('ch5-tab-button-buttonReceiveStateEnable-attributes-value', () => {
+      let ch5TabButton;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/buttonreceivestateenable.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5TabButton = fixture('ch5-tab-button-buttonReceiveStateEnable-attributes');
+      });
+
+
+      test(`check attribute buttonReceiveStateEnable`, (done) => {
+        ch5TabButton.setAttribute('numberOfItems', 5);
+        for (let i = 0; i < 5; i++) {
+          ch5TabButton.setAttribute('buttonReceiveStateEnable', `${'btn_enable-' + i}`);
+        }
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5TabButton.numberOfItems).to.be.equal(5);
+            for (let i = 0; i < 5; i++) {
+              expect(getDiv(ch5TabButton).children[i].children[0].children[0].children[0].classList.contains('ch5-button--disabled')).to.be.equal(false);
+            }
+            expect(getComputedStyle(ch5TabButton.children[0].children[0].children[0].children[0]).getPropertyValue('opacity')).to.be.equal('0.5');
+            done();
+          }, 500);
+        });
+      });
+
+      test(`check attribute buttonReceiveStateIconUrl`, (done) => {
+        ch5TabButton.setAttribute('numberOfItems', 5);
+        ch5TabButton.setAttribute('buttonType', 'info')
+        for (let i = 0; i < 5; i++) {
+          ch5TabButton.setAttribute('buttonReceiveStateIconUrl', `${'btn_icon-' + i}`);
+        }
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5TabButton.numberOfItems).to.be.equal(5);
+            let iconDiv = document.querySelector('.ch5-button--span');
+            for (let i = 0; i < 5; i++) {
+              // expect(getComputedStyle(iconDiv.children[0]).getPropertyValue('background-image').not.equal(''));
+              expect(getDiv(ch5TabButton).children[i].children[0].children[0].classList.contains('ch5-button--info')).to.be.equal(true);
+            }
+            done();
+          }, 500);
+        });
+      });
+
+      test(`check attribute buttonReceiveStateLabel`, (done) => {
+        ch5TabButton.setAttribute('numberOfItems', 5);
+        ch5TabButton.setAttribute('orientation', 'vertical');
+        for (let i = 0; i < 5; i++) {
+          ch5TabButton.setAttribute('buttonReceiveStateLabel', `${'btn_label-' + i}`);
+        }
+        flush(() => {
+          setTimeout(() => {
+            let iconDiv = document.querySelector('.ch5-button--span');
+            expect(ch5TabButton.numberOfItems).to.be.equal(5);
+            expect(ch5TabButton.orientation).to.be.equal('vertical');
+            expect(getDiv(ch5TabButton).classList.contains('ch5-tab-button--orientation-vertical')).to.be.equal(true);
+            console.log(iconDiv, ch5TabButton.buttonReceiveStateLabel)
+            for (let i = 0; i < 5; i++) {
+              // expect(ch5TabButton.buttonReceiveStateLabel).to.be.equal('btn_label-' + i);
+              // expect(iconDiv.children[0].textContent).to.be.equal('clicked');
+              // expect(getDiv(ch5TabButton))
+            }
+            done();
+          }, 500);
+        });        
+      });
+
+      test(`check attribute buttonReceiveStateShow`, (done) => {
+        ch5TabButton.setAttribute('numberOfItems', 5);
+        ch5TabButton.setAttribute('orientation', 'vertical');
+        for (let i = 0; i < 5; i++) {
+          ch5TabButton.setAttribute('buttonReceiveStateShow', `${'btn_show-' + i}`);
+        }
+        flush(() => {
+          setTimeout(() => {
+            let iconDiv = document.querySelector('.ch5-button--span');
+            expect(ch5TabButton.numberOfItems).to.be.equal(5);
+            expect(ch5TabButton.orientation).to.be.equal('vertical');
+            expect(getDiv(ch5TabButton).classList.contains('ch5-tab-button--orientation-vertical')).to.be.equal(true);
+            console.log(iconDiv, ch5TabButton.buttonReceiveStateLabel)
+            for (let i = 0; i < 5; i++) {
+              // expect(iconDiv.children[0].textContent).to.be.equal('clicked');
+              // expect(getDiv(ch5TabButton))
+            }
+            done();
+          }, 500);
+        });
+      });
+    });
+
+  </script>
+</body>
+
+</html>
