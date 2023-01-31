@@ -12,30 +12,192 @@
 
 <body>
   <test-fixture id="ch5-subpage-reference-list-booleanJoinOffset-attributes">
-    <template>
-      <ch5-subpage-reference-list booleanJoinOffset="trigger_event_listener"></ch5-subpage-reference-list>
+    <template id="templateWidgetId">
+      <ch5-button type="primary" label="Loading..." sendEventOnClick="trigger_change_value">
+        <ch5-button-label>
+          <template>
+            <ch5-jointotext-boolean value="{{idx}}" receiveStateValue="100" textWhenTrue="Pause" textWhenFalse="Play">
+            </ch5-jointotext-boolean>
+          </template>
+        </ch5-button-label>
+      </ch5-button>
     </template>
+    <div>
+      <ch5-subpage-reference-list widgetId="templateWidgetId" scrollbar="true" orientation="horizontal"
+        numberOfItems="50" rows="3" booleanjoinOffset="20" indexId="idx" id="subpagereferencelist">
+      </ch5-subpage-reference-list>
+    </div>
+  </test-fixture>
+
+  <test-fixture id="ch5-subpage-reference-list-booleanJoinOffset-attributes1">
+    <template id="templateWidgetId1">
+      <ch5-button type="primary" label="Loading..." sendEventOnClick="trigger_change_value">
+        <ch5-button-label>
+          <template>
+            <ch5-jointotext-boolean value="{{idx}}" receiveStateValue="100" textWhenTrue="Pause" textWhenFalse="Play">
+            </ch5-jointotext-boolean>
+          </template>
+        </ch5-button-label>
+      </ch5-button>
+    </template>
+    <div>
+      <ch5-subpage-reference-list widgetId="templateWidgetId1" scrollbar="true" orientation="horizontal"
+        numberOfItems="50" rows="3" booleanjoinOffset="a" indexId="idx" id="subpagereferencelist1">
+      </ch5-subpage-reference-list>
+    </div>
+  </test-fixture>
+
+  <test-fixture id="ch5-subpage-reference-list-booleanJoinOffset-attributes2">
+    <template id="templateWidgetId2">
+      <ch5-button type="primary" label="Loading..." sendEventOnClick="trigger_change_value">
+        <ch5-button-label>
+          <template>
+            <ch5-jointotext-boolean value="{{idx}}" receiveStateValue="100" textWhenTrue="Pause" textWhenFalse="Play">
+            </ch5-jointotext-boolean>
+          </template>
+        </ch5-button-label>
+      </ch5-button>
+    </template>
+    <div>
+      <ch5-subpage-reference-list widgetId="templateWidgetId2" scrollbar="true" orientation="horizontal"
+        numberOfItems="50" rows="3" booleanjoinOffset="-20" indexId="idx" id="subpagereferencelist2">
+      </ch5-subpage-reference-list>
+    </div>
+  </test-fixture>
+
+  <test-fixture id="ch5-subpage-reference-list-booleanJoinOffset-attributes3">
+    <template id="templateWidgetId3">
+      <ch5-button type="primary" label="Loading..." sendEventOnClick="trigger_change_value">
+        <ch5-button-label>
+          <template>
+            <ch5-jointotext-boolean value="{{idx}}" receiveStateValue="100" textWhenTrue="Pause" textWhenFalse="Play">
+            </ch5-jointotext-boolean>
+          </template>
+        </ch5-button-label>
+      </ch5-button>
+    </template>
+    <div>
+      <ch5-subpage-reference-list widgetId="templateWidgetId3" scrollbar="true" orientation="horizontal"
+        numberOfItems="50" rows="3" booleanjoinOffset="" indexId="idx" id="subpagereferencelist3">
+      </ch5-subpage-reference-list>
+    </div>
+  </test-fixture>
+
+  <test-fixture id="ch5-subpage-reference-list-booleanJoinOffset-attributes4">
+    <template id="templateWidgetId4">
+      <ch5-button type="primary" label="Loading..." sendEventOnClick="trigger_change_value">
+        <ch5-button-label>
+          <template>
+            <ch5-jointotext-boolean value="{{idx}}" receiveStateValue="100" textWhenTrue="Pause" textWhenFalse="Play">
+            </ch5-jointotext-boolean>
+          </template>
+        </ch5-button-label>
+      </ch5-button>
+    </template>
+    <div>
+      <ch5-subpage-reference-list widgetId="templateWidgetId4" scrollbar="true" orientation="horizontal"
+        numberOfItems="50" rows="3" booleanjoinOffset="true" indexId="idx" id="subpagereferencelist4">
+      </ch5-subpage-reference-list>
+    </div>
+  </test-fixture>
+
+  <test-fixture id="ch5-subpage-reference-list-booleanJoinOffset-attributes5">
+    <template id="templateWidgetId5">
+      <ch5-button type="primary" label="Loading..." sendEventOnClick="trigger_change_value">
+        <ch5-button-label>
+          <template>
+            <ch5-jointotext-boolean value="{{idx}}" receiveStateValue="100" textWhenTrue="Pause" textWhenFalse="Play">
+            </ch5-jointotext-boolean>
+          </template>
+        </ch5-button-label>
+      </ch5-button>
+    </template>
+    <div>
+      <ch5-subpage-reference-list widgetId="templateWidgetId5" scrollbar="true" orientation="horizontal"
+        numberOfItems="50" rows="3" booleanjoinOffset="30" indexId="idx" id="subpagereferencelist5">
+      </ch5-subpage-reference-list>
+    </div>
   </test-fixture>
   <script>
     suite('ch5-subpage-reference-list-booleanJoinOffset-attributes-value', () => {
       let ch5SubpageReferenceList;
+      let ch5SubpageReferenceList1;
+      let ch5SubpageReferenceList2;
+      let ch5SubpageReferenceList3;
+      let ch5SubpageReferenceList4;
+      let ch5SubpageReferenceList5;
 
       setup(async () => {
-        const emulatorJson = await fetch('./emulator/booleanjoinoffset.json').then((response) => response.json());
-        const emulator = CrComLib.Ch5Emulator.getInstance();
-        emulator.loadScenario(emulatorJson);
-        ch5SubpageReferenceList = fixture('ch5-subpage-reference-list-booleanJoinOffset-attributes');
+        ch5SubpageReferenceList = document.getElementById("subpagereferencelist");
+        ch5SubpageReferenceList1 = document.getElementById("subpagereferencelist1");
+        ch5SubpageReferenceList2 = document.getElementById("subpagereferencelist2");
+        ch5SubpageReferenceList3 = document.getElementById("subpagereferencelist3");
+        ch5SubpageReferenceList4 = document.getElementById("subpagereferencelist4");
+        ch5SubpageReferenceList5 = document.getElementById("subpagereferencelist5");
       });
 
-      test('booleanJoinOffset', (done) => {
-        CrComLib.publishEvent('b', 'trigger_event', true);
+
+      test('booleanjoinOffset with valid value  20', (done) => {
         flush(() => {
           setTimeout(() => {
-            expect(ch5SubpageReferenceList.getAttribute('booleanJoinOffset')).to.be.equal('true');
+            expect(ch5SubpageReferenceList.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-BOOLEAN');
+            expect(ch5SubpageReferenceList.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100 + 20).toString());
             done();
           }, 100);
         });
       });
+
+      test('booleanjoinOffset with invalid value  a', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5SubpageReferenceList1.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-BOOLEAN');
+            expect(ch5SubpageReferenceList1.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100).toString());
+            done();
+          }, 100);
+        });
+      });
+
+      test('booleanjoinOffset with invalid value  -20', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5SubpageReferenceList2.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-BOOLEAN');
+            expect(ch5SubpageReferenceList2.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100).toString());
+            done();
+          }, 100);
+        });
+      });
+
+      test('booleanjoinOffset with invalid value empty string ', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5SubpageReferenceList3.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-BOOLEAN');
+            expect(ch5SubpageReferenceList3.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100).toString());
+            done();
+          }, 100);
+        });
+      });
+
+      test('booleanjoinOffset with invalid value true ', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5SubpageReferenceList4.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-BOOLEAN');
+            expect(ch5SubpageReferenceList4.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100).toString());
+            done();
+          }, 100);
+        });
+      });
+
+      test('booleanjoinOffset with valid 30 ', (done) => {
+        ch5SubpageReferenceList5.setAttribute('booleanjoinOffset', 30);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5SubpageReferenceList5.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-BOOLEAN');
+            expect(ch5SubpageReferenceList5.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100 + 30).toString());
+            done();
+          }, 500);
+        });
+      });
+
     });
   </script>
 </body>
