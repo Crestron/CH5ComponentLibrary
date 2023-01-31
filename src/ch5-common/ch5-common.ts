@@ -97,7 +97,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	// The first value of the array is considered the default one	 
 	private showTypes: TCh5ShowType[] = ['display', 'visibility', 'remove'];
 
-	protected ignoreAttributes: string[] = [];
+	private _ignoreAttributes: string[] = [];
 	public primaryCssClass: string = 'ch5-common';
 
 	// Current language for each component
@@ -371,6 +371,13 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	//#endregion
 
 	//#region Setters and Getters
+
+	protected set ignoreAttributes(value: string[]) {
+		this._ignoreAttributes = value.map((attrName: string) => attrName.toLowerCase());
+	}
+	protected get ignoreAttributes(): string[] {
+		return this._ignoreAttributes;
+	}
 
 	public set customClass(value: string) {
 		this.logger.log('set customClass(\'' + value + '\')');
@@ -1091,7 +1098,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	}
 
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
-		if (oldValue === newValue || this.ignoreAttributes.includes(attr)) {
+		if (oldValue === newValue || this.ignoreAttributes.includes(attr.toLowerCase())) {
 			return;
 		}
 		this.logger.log('ch5-common attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + ')"');
@@ -1246,7 +1253,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	 * attaching it again.
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @return {void}
 	 */
 	protected repaint(): void {

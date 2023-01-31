@@ -277,7 +277,7 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
 
   public constructor() {
     super();
-    this.ignoreAttributes = ['receiveStateCustomClass', 'receiveStateCustomStyle', 'sendEventOnShow'];
+    this.ignoreAttributes = ['receivestatecustomclass', 'receivestatecustomstyle', 'sendeventonshow'];
     this._ch5PropertiesBase = new Ch5Properties(this, Ch5GenericListAttributes.COMPONENT_PROPERTIES);
   }
 

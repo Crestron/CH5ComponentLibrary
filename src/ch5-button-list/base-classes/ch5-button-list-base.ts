@@ -899,6 +899,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
 
   public handleEndless() {
     if (this.endless) { this.endless = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
+    if (this.endless && this.scrollbar === true) { this.scrollbar = false; }
     // This behavior is handled in scroll event
   }
 
@@ -979,6 +980,8 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     for (let i = 0; i < this.numberOfItems; i++) {
       this.createButton(i);
     }
+    this._elContainer.firstElementChild?.firstElementChild?.firstElementChild?.classList.add(this.primaryCssClass + '--start-tab-style');
+    this._elContainer.lastElementChild?.firstElementChild?.firstElementChild?.classList.add(this.primaryCssClass + '--end-tab-style');
     if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
   }
 
