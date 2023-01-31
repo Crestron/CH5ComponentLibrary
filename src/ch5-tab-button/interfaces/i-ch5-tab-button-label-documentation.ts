@@ -10,7 +10,7 @@
  * @isattribute false
  * @tagName ch5-tab-button-label
  * @role label
- * @description Ch5 Tab Button Label is a child node for <ch5-tab-button>, <ch5-tab-button-mode> and <ch5-tab-button-mode-state>.
+ * @description Ch5 Tab Button Label is a child node for <ch5-tab-button>.
  * @componentVersion 2.3.0
  * @childElements
  * [
