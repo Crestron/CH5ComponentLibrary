@@ -23,7 +23,7 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * [
    * "`numberOfItems` attribute",
    * "***",
-   * "Default value is 3,  Minimum value is 2 and Maximum value is 15. This attribute sets the number of buttons in the tab button"
+   * "Default value is 3, Minimum value is 2 and Maximum value is 15. This attribute sets the number of buttons in the tab button"
    * ]
    * @name numberofitems
    * @default 3
@@ -47,7 +47,7 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * [
    * "`buttonType` attribute",
    * "***",
-   * "buttonType sets the button backgrountd for all the buttons in the list. Valid values are default, danger, text, warning, info, success, primary, secondary."
+   * "buttonType sets the button background for all the buttons in the list. Valid values are default, danger, text, warning, info, success, primary, secondary."
    * ]
    * @name buttontype
    * @default default
@@ -59,7 +59,7 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * [
    * "`buttonHAlignLabel` attribute",
    * "***",
-   * "Default value is center.  Possible values are 'center', 'left', 'right'. When the buttonHAlignLabel property is set, the label and the icon of the button are horizontally aligned.The center property sets the horizontal alignment of the label to the center of the button. The left property sets the horizontal alignment of the label to the left of the button.  The right property sets the horizontal alignment of the label to the right of the button."
+   * "Default value is center. Possible values are 'center', 'left', 'right'. When the buttonHAlignLabel property is set, the label and the icon of the button are horizontally aligned.The center property sets the horizontal alignment of the label to the center of the button. The left property sets the horizontal alignment of the label to the left of the button. The right property sets the horizontal alignment of the label to the right of the button."
    * ]
    * @name buttonhalignlabel
    * @default center
@@ -71,7 +71,7 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * [
    * "`buttonVAlignLabel` attribute",
    * "***",
-   * "Default value is middle. Possible values are 'middle', 'top', 'bottom'. When the buttonVAlignLabel property is set, the label and the icon of the button are vertically aligned.  The middle property sets the vertical alignment of the label to the middle of the button.  The top property sets the vertical alignment of the label to the top of the button.   The bottom property sets the vertical alignment of the label to the bottom of the button."
+   * "Default value is middle. Possible values are 'middle', 'top', 'bottom'. When the buttonVAlignLabel property is set, the label and the icon of the button are vertically aligned. The middle property sets the vertical alignment of the label to the middle of the button. The top property sets the vertical alignment of the label to the top of the button. The bottom property sets the vertical alignment of the label to the bottom of the button."
    * ]
    * @name buttonvalignlabel
    * @default middle
@@ -143,7 +143,7 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * [
    * "`buttonIconUrl` attribute",
    * "***",
-   * "The buttonIconUrl  attribute with SVG icons and PNG Icons we can pass only one url in the buttonIconUrl  attribute"
+   * "The buttonIconUrl attribute with SVG icons and PNG Icons we can pass only one url in the buttonIconUrl attribute"
    * ]
    * @name buttoniconurl
    * @default 
