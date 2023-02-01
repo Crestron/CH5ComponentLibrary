@@ -10,7 +10,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
   * [
   * "`orientation` attribute",
   * "***",
-  * "Positions the list elements(subpage) in a horizontal or vertical orientation. Default value is 'horizontal'."
+  * "Positions the subpage elements in a horizontal or vertical orientation. Default value is 'horizontal'."
   * ]
   * @name orientation
   * @default horizontal
@@ -22,7 +22,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`controlJoinID` attribute",
    * "***",
-   * "The Control Jion ID is an encapsulated join type that links a smart control with a CED in SIMPL."
+   * "The Control Join ID is an encapsulated join type that links a smart control with a CED in SIMPL."
    * ]
    * @name controljoinid
    * @default 
@@ -62,7 +62,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * ]
    * @name rows
    * @default 1
-   * limits [{"min": 1, "max": 600}]
+   * @limits [{"min": 1, "max": 600}]
    * @attributeType "Integer"
    */
   rows: number;
@@ -75,7 +75,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * ]
    * @name columns
    * @default 1
-   * limits [{"min": 1, "max": 600}]
+   * @limits [{"min": 1, "max": 600}]
    * @attributeType "Integer"
    */
   columns: number;
@@ -88,7 +88,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
   * ]
   * @name scrolltoposition
   * @default 0   
-  * limits [{"min": 1, "max": 600}]
+  * @limits [{"min": 1, "max": 600}]
   * @attributeType "Integer"
   */
   scrollToPosition: number;
@@ -181,13 +181,14 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`subpageReceiveStateScrollTo` attribute",
    * "***",
-   * "It scrolls to the position of the subpage in subpage-reference list based on the signal receieved."
+   * "It scrolls to the position of the subpage in subpage-reference list based on the signal received."
    * ]
    * @name subpagereceivestatescrollto
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    * @attributeType "Join"
    */
   subpageReceiveStateScrollTo: string;
+
   /**
    * @documentation
    * [
@@ -199,6 +200,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * @attributeType "EnumeratedValue"
    */
   stretch: TCh5SubpageReferenceListStretch | null;
+
   /**
    * @documentation
    * [
@@ -208,7 +210,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * ]
    * @name numberofitems
    * @default 10
-   * limits [{"min": 1, "max": 600}]
+   * @limits [{"min": 1, "max": 600}]
    * @attributeType "Integer"
    */
   numberOfItems: number;
@@ -217,13 +219,14 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`receiveStateNumberOfItems` attribute",
    * "***",
-   * "It sets the number of subpage references to be added to the list on the basis of signal receieved."
+   * "It sets the number of subpage references to be added to the list on the basis of signal received."
    * ]
    * @name receivestatenumberofitems
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    * @attributeType "Join"
    */
   receiveStateNumberOfItems: string;
+
   /**
    * @documentation
    * [
