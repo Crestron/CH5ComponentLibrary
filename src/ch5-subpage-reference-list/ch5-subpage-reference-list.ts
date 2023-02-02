@@ -49,7 +49,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   };
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
-
     {
       default: Ch5SubpageReferenceList.ORIENTATION[0],
       enumeratedValues: Ch5SubpageReferenceList.ORIENTATION,
@@ -250,7 +249,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       type: "string",
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
-    },
+    }
   ];
 
   public static readonly ELEMENT_NAME = 'ch5-subpage-reference-list';
@@ -269,9 +268,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   private scrollListLeft: number = 0;
   private scrollListTop: number = 0;
   private loadedSubpages: number = 0;
-  private destroyedSubpagesLeft: number = 0;
-  private destroyedSubpagesRight: number = 0;
-  private scrollbarReachedEnd: boolean = false;
+  private reInit: boolean = false;
   private scrollbarDimension: number = 0;
   private subpageWidth: number = 0;
   private subpageHeight: number = 0;
@@ -459,14 +456,11 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   public set indexId(value: string) {
-    this._ch5Properties.set<string>("indexId", value, () => {
-      // enter code
-    });
+    this._ch5Properties.set<string>("indexId", value);
   }
   public get indexId(): string {
     return this._ch5Properties.get<string>("indexId");
   }
-
 
   //#endregion
 
@@ -544,7 +538,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.checkInternalHTML();
     this.attachEventListeners();
     this.initAttributes();
-    this.initMembers();
     this.initCommonMutationObserver(this);
     this.debounceSubpageDisplay();
     resizeObserver(this._elContainer, this.resizeHandler);
@@ -553,9 +546,9 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     });
     // needed for preload-true for the calculation of bars height and width depending upon parent
     subscribeInViewPortChange(this, () => {
-      if (this.elementIsInViewPort) {
+      if (this.elementIsInViewPort && this.reInit === false) {
         this.debounceSubpageDisplay();
-        this.debounceHandleScrollToPosition(this.scrollToPosition);
+        this.reInit = true;
       }
     });
     this.logger.stop();
@@ -565,7 +558,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.logger.start('disconnectedCallback()');
     this.removeEventListeners();
     this.unsubscribeFromSignals();
-    this.initMembers();
     unSubscribeInViewPortChange(this);
     this.logger.stop();
   }
@@ -771,6 +763,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       }
     }
   }
+
   /**
    * Clear the content of component in order to avoid duplication of elements
    */
@@ -780,7 +773,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       container.remove();
     });
   }
-
 
   public handleOrientation() {
     Array.from(Ch5SubpageReferenceList.COMPONENT_DATA.ORIENTATION.values).forEach((orientation: any) => {
@@ -792,6 +784,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public handleEndless() {
     if (this.endless) { this.endless = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
+    if (this.endless) { this.scrollbar = false; }
     // This behavior is handled in scroll event
   }
   public handleCenterItems() {
@@ -916,7 +909,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   private handleWidgetID() {
-
     if (isEmpty(this.widgetId)) {
       throw new Error('[ch5-subpage-reference-list] Error: No templateId was provided');
     }
@@ -955,6 +947,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     if (this.orientation === 'horizontal') {
       // Find the number of initial subpages which can be loaded based on container width
       const containerWidth = this._elContainer.getBoundingClientRect().width;
+      if (containerWidth === 0) { this.reInit = false; }
       this.loadedSubpages = Math.floor(containerWidth / this.subpageWidth) * this.rows + this.rows * 2;
     } else {
       const containerHeight = this._elContainer.getBoundingClientRect().height;
@@ -972,6 +965,9 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.initScrollbar();
     if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
     if (this.centerItems === true && this.scrollbarDimension < 100) { this.centerItems = false; }
+    if (this.scrollToPosition !== 0) {
+      this.debounceHandleScrollToPosition(this.scrollToPosition);
+    }
   }
   private replaceAll(str: string, find: string, replace: string) {
     if (str && String(str).trim() !== "") {
@@ -1075,6 +1071,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       }
     }
   }
+  
   private checkInternalHTML() {
     if (this._elContainer.parentElement !== this) {
       this._elContainer.classList.add(this.nodeName.toLowerCase());
@@ -1101,11 +1098,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
     this.initScrollbar();
   }
-  private initMembers() {
-    this.destroyedSubpagesLeft = 0;
-    this.destroyedSubpagesRight = 0;
-    this.scrollbarReachedEnd = false;
-  }
+
   protected getTargetElementForCssClassesAndStyle(): HTMLElement {
     return this._elContainer;
   }

@@ -843,6 +843,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   }
 
   public handleScrollbar() {
+    if (this.endless === true && this.scrollbar === true) { this.scrollbar = false; }
     [true, false].forEach((bool: boolean) => {
       this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5ButtonListBase.SCROLLBAR_CLASSLIST_PREFIX + bool.toString());
     });
@@ -980,8 +981,9 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     for (let i = 0; i < this.numberOfItems; i++) {
       this.createButton(i);
     }
-    this._elContainer.firstElementChild?.firstElementChild?.firstElementChild?.classList.add(this.primaryCssClass + '--start-tab-style');
-    this._elContainer.lastElementChild?.firstElementChild?.firstElementChild?.classList.add(this.primaryCssClass + '--end-tab-style');
+    Array.from(this._elContainer.children).forEach(container => container.firstElementChild?.firstElementChild?.classList.add(this.primaryCssClass + '--center-tab-style'));
+    this._elContainer.firstElementChild?.firstElementChild?.firstElementChild?.classList.replace(`${this.primaryCssClass + '--center-tab-style'}`, `${this.primaryCssClass + '--start-tab-style'}`);
+    this._elContainer.lastElementChild?.firstElementChild?.firstElementChild?.classList.replace(`${this.primaryCssClass + '--center-tab-style'}`, `${this.primaryCssClass + '--end-tab-style'}`);
     if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
   }
 
@@ -1033,7 +1035,13 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
     if (this.hasAttribute('buttonReceiveStateShow') && this.getAttribute("buttonReceiveStateShow")?.trim() && !this.hasAttribute('receiveStateShow')) {
-      btnContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("buttonReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
+      const attrValue = this.replaceAll(this.getAttribute("buttonReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, '');
+      const isNumber = /^[0-9]+$/.test(attrValue);
+      if (isNumber) {
+        btnContainer.setAttribute('data-ch5-show', Number(attrValue) + index + '');
+      } else {
+        btnContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("buttonReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
+      }
       btnContainer.setAttribute('data-ch5-noshow-type', 'display');
     } else if (this.hasAttribute('receiveStateShow')) {
       btnContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("receiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));

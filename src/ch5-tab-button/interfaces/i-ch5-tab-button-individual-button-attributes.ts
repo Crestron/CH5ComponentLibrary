@@ -7,7 +7,7 @@ export interface ICh5TabButtonIndividualButtonAttributes {
    * [
    * "`labelInnerHtml` attribute",
    * "***",
-   * "Ability to provide a template that applies for the individual button in the tab button. This attribute overrides the labelInnerHtml attribute in ch5-tab-button for the respective individual button based on index."
+   * "Ability to provide a template that applies for the individual button in the tab button. This attribute takes preference over the buttonLabelInnerHtml attribute in ch5-tab-button for the respective individual button based on index."
    * ]
    * @name labelinnerhtml
    * @default 
@@ -43,7 +43,7 @@ export interface ICh5TabButtonIndividualButtonAttributes {
    * [
    * "`onRelease` attribute",
    * "***",
-   * "The onRelease attribute"
+   * "The onRelease attribute allows selection of a page to be made visible on clicking of the button."
    * ]
    * @name onrelease
    * @default 
