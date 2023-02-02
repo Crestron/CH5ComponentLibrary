@@ -34,7 +34,7 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  *     "body": [
  *       "<ch5-subpage-reference-list id=\"ch5-subpage-reference-list_${1:id}\"",
  *       "\torientation=\"${2|horizontal,vertical|}\"",
- *       "\tcontrolJoinID=\"${3:}\"",
+ *       "\tcontractName=\"${3:}\"",
  *       "\tendless=\"${4:false}\"",
  *       "\tcenterItems=\"${5:false}\"",
  *       "\trows=\"${6:1}\"",
