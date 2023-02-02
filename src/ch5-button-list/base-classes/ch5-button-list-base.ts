@@ -843,6 +843,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   }
 
   public handleScrollbar() {
+    if (this.endless === true && this.scrollbar === true) { this.scrollbar = false; }
     [true, false].forEach((bool: boolean) => {
       this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5ButtonListBase.SCROLLBAR_CLASSLIST_PREFIX + bool.toString());
     });
