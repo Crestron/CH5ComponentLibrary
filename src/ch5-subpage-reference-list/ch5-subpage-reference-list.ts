@@ -784,7 +784,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public handleEndless() {
     if (this.endless) { this.endless = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
-    if (this.endless  && this.scrollbar === true) { this.scrollbar = false; }
+    if (this.endless && this.scrollbar === true) { this.scrollbar = false; }
     // This behavior is handled in scroll event
   }
   public handleCenterItems() {
@@ -837,7 +837,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     // return if the subpage list contains more than one row or one column
     if ((this.orientation === 'horizontal' && this.rows !== 1) || (this.orientation === 'vertical' && this.columns !== 1)) { return; }
 
-    // return if all the buttons fits in the container
+    // return if all the subpages fits in the container
     if (this.orientation === 'horizontal') {
       const containerWidth = this._elContainer.getBoundingClientRect().width;
       const totalButtonWidth = this.subpageWidth * this.numberOfItems;
@@ -987,15 +987,19 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     const spgContainer = document.createElement("div");
     spgContainer.setAttribute('id', this.getCrId() + '-' + index);
     if (this.hasAttribute('subpageReceiveStateShow') && this.getAttribute("subpageReceiveStateShow")?.trim() && !this.hasAttribute('receiveStateShow')) {
-
-      spgContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("subpageReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
+      const attrValue = this.replaceAll(this.getAttribute("subpageReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, '');
+      const isNumber = /^[0-9]+$/.test(attrValue);
+      if (isNumber) {
+        spgContainer.setAttribute('data-ch5-show', Number(attrValue) + index + '');
+      } else {
+        spgContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("subpageReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
+      }
       spgContainer.setAttribute('data-ch5-noshow-type', 'display');
     } else if (this.hasAttribute('receiveStateShow')) {
       spgContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("receiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
       spgContainer.setAttribute('data-ch5-noshow-type', 'display');
     }
     if (this.hasAttribute('subpageReceiveStateEnable') && this.getAttribute("subpageReceiveStateEnable")?.trim() && !this.hasAttribute('receiveStateEnable')) {
-
       spgContainer.setAttribute('data-ch5-enable', this.replaceAll(this.getAttribute("subpageReceiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, index + ''));
     } else if (this.hasAttribute('receiveStateEnable')) {
       spgContainer.setAttribute('data-ch5-enable', this.replaceAll(this.getAttribute("receiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, index + ''));
@@ -1072,7 +1076,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       }
     }
   }
-  
+
   private checkInternalHTML() {
     if (this._elContainer.parentElement !== this) {
       this._elContainer.classList.add(this.nodeName.toLowerCase());
