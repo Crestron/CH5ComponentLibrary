@@ -74,7 +74,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
   * ]
   * @name numberofitems
   * @default 10
-  * limits [{"min": 1, "max": 500}]
+  * @limits [{"min": 1, "max": 500}]
   * @attributeType "Integer"
   */
   numberOfItems: number;
@@ -87,7 +87,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * ]
    * @name rows
    * @default 1
-   * limits [{"min": 1, "max": 500}]
+   * @limits [{"min": 1, "max": 500}]
    * @attributeType "Integer"
    * @showWhen [{"orientation":"horizontal"}]
    */
@@ -101,7 +101,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * ]
    * @name columns
    * @default 1
-   * limits [{"min": 1, "max": 500}]
+   * @limits [{"min": 1, "max": 500}]
    * @attributeType "Integer"
    * @showWhen [{"orientation":"vertical"}]
    */
@@ -138,7 +138,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
   * ]
   * @name scrolltoposition
   * @default 0
-  * limits [{"min": 0, "max": 499}]
+  * @limits [{"min": 0, "max": 499}]
   * @attributeType "Integer"
   */
   scrollToPosition: number;

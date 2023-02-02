@@ -17,7 +17,7 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * @default horizontal
    * @attributeType "EnumeratedValue"
    */
- orientation: TCh5GenericListAttributesOrientation;
+  orientation: TCh5GenericListAttributesOrientation;
   /**
    * @documentation
    * [
@@ -27,7 +27,7 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * ]
    * @name numberofitems
    * @default 3
-   * limits [{"min": 2, "max": 15}]
+   * @limits [{"min": 2, "max": 15}]
    * @attributeType "Integer"
    */
   numberOfItems: number;

@@ -10,7 +10,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
   * [
   * "`buttonType` attribute",
   * "***",
-  * "buttonType sets the button backgrountd for all the buttons in the list. Valid values are default, danger, text, warning, info, success, primary, secondary."
+  * "buttonType sets the button background for all the buttons in the list. Valid values are default, danger, text, warning, info, success, primary, secondary."
   * ]
   * @name buttontype
   * @default default
@@ -144,7 +144,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`buttonIconUrl` attribute",
    * "***",
-   * "The buttonIconUrl  attribute with SVG icons and PNG Icons we can pass only one url in the buttonIconUrl  attribute"
+   * "The buttonIconUrl  attribute with SVG icons and PNG Icons we can pass only one url in the buttonIconUrl attribute"
    * ]
    * @name buttoniconurl
    * @default 
@@ -216,7 +216,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`buttonReceiveStateScriptLabelHtml` attribute",
    * "***",
-   * "Allows the signal script evaluation to be applied to the button.innerHTML class.  Allows for multiline, multiStyled labels."
+   * "Allows the signal script evaluation to be applied to the button.innerHTML class. Allows for multiline, multiStyled labels."
    * ]
    * @name buttonreceivestatescriptlabelhtml
    * @default 
