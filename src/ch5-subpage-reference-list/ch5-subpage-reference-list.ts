@@ -60,7 +60,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     },
     {
       default: "",
-      name: "controlJoinID",
+      name: "contractName",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -298,13 +298,13 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     return this._ch5Properties.get<TCh5SubpageReferenceListOrientation>("orientation");
   }
 
-  public set controlJoinID(value: string) {
-    this._ch5Properties.set<string>("controlJoinID", value, () => {
+  public set contractName(value: string) {
+    this._ch5Properties.set<string>("contractName", value, () => {
       // enter Code
     });
   }
-  public get controlJoinID(): string {
-    return this._ch5Properties.get<string>("controlJoinID");
+  public get contractName(): string {
+    return this._ch5Properties.get<string>("contractName");
   }
 
   public set endless(value: boolean) {
@@ -1000,7 +1000,13 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       spgContainer.setAttribute('data-ch5-noshow-type', 'display');
     }
     if (this.hasAttribute('subpageReceiveStateEnable') && this.getAttribute("subpageReceiveStateEnable")?.trim() && !this.hasAttribute('receiveStateEnable')) {
-      spgContainer.setAttribute('data-ch5-enable', this.replaceAll(this.getAttribute("subpageReceiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, index + ''));
+      const attrValue = this.replaceAll(this.getAttribute("subpageReceiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, '');
+      const isNumber = /^[0-9]+$/.test(attrValue);
+      if (isNumber) {
+        spgContainer.setAttribute('data-ch5-enable', Number(attrValue) + index + '');
+      } else {
+        spgContainer.setAttribute('data-ch5-enable', this.replaceAll(this.getAttribute("subpageReceiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, index + ''));
+      }
     } else if (this.hasAttribute('receiveStateEnable')) {
       spgContainer.setAttribute('data-ch5-enable', this.replaceAll(this.getAttribute("receiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, index + ''));
     }
@@ -1015,7 +1021,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
     spgContainer.appendChild(((documentContainer as HTMLTemplateElement).content));
     // update templateContent attributes to increment join numbers and prefix contract name
-    Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(spgContainer, this.controlJoinID || '',
+    Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(spgContainer, this.contractName || '',
       parseInt(this.booleanJoinOffset, 10) || 0,
       parseInt(this.numericJoinOffset, 10) || 0,
       parseInt(this.stringJoinOffset, 10) || 0);

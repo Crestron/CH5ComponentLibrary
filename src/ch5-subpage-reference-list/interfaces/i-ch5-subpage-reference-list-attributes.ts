@@ -20,15 +20,15 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
   /**
    * @documentation
    * [
-   * "`controlJoinID` attribute",
+   * "`contractName` attribute",
    * "***",
-   * "The Control Join ID is an encapsulated join type that links a smart control with a CED in SIMPL."
+   * "The contract Name is an encapsulated join type that links a smart control with a CED in SIMPL."
    * ]
-   * @name controljoinid
+   * @name contractname
    * @default 
    * @attributeType "String"
    */
-  controlJoinID: string;
+  contractName: string;
   /**
    * @documentation
    * [
