@@ -1265,7 +1265,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     }
   }
 
-  private initCssClass() {
+  protected initCssClass() {
     this.logger.start('initializeCssClass');
     // Default Orientation
     this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
@@ -1278,7 +1278,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     this.logger.stop();
   }
 
-  private initScrollbar() {
+  protected initScrollbar() {
 
     if (this.orientation === "horizontal" && this.dir === 'rtl') {
       const { scrollWidth, offsetWidth, scrollLeft } = this._elContainer;
