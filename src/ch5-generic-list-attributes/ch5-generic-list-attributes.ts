@@ -1,5 +1,5 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { TCh5GenericListAttributesOrientation, TCh5GenericListAttributesStretch } from './interfaces/t-ch5-generic-list-attributes';
+import { TCh5GenericListAttributesOrientation, TCh5GenericListAttributesStretch, TCh5GenericListContractItemLabelType, TCh5GenericListContractItemIconType, TCh5GenericListContractNumItemsType, TCh5GenericListContractScrollToType } from './interfaces/t-ch5-generic-list-attributes';
 import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { ICh5GenericListAttributesAttributes } from './interfaces/i-ch5-generic-list-attributes-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
@@ -11,6 +11,10 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
 
   public static readonly ORIENTATION: TCh5GenericListAttributesOrientation[] = ['horizontal', 'vertical'];
   public static readonly STRETCH: TCh5GenericListAttributesStretch[] = ['both'];
+  public static readonly CONTRACT_ITEM_LABEL_TYPE: TCh5GenericListContractItemLabelType[] = ['none', 'textContent', 'innerHTML'];
+  public static readonly CONTRACT_ITEM_ICON_TYPE: TCh5GenericListContractItemIconType[] = ['none', 'iconClass', 'url', 'sgStateName', 'sgStateNumber'];
+  public static readonly CONTRACT_NUM_ITEMS_TYPE: TCh5GenericListContractNumItemsType[] = ['absolute', 'visible', 'none'];
+  public static readonly CONTRACT_SCROLL_TO_TYPE: TCh5GenericListContractScrollToType[] = ['absolute', 'visible'];
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
     receiveStateNumberOfItems: { direction: "state", numericJoin: 1, contractName: true },
@@ -154,6 +158,106 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
+    {
+      default: "",
+      name: "contractName",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForEnable",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForShow",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForItemEnable",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForItemShow",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForCustomStyle",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForCustomClass",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: Ch5GenericListAttributes.CONTRACT_ITEM_LABEL_TYPE[0],
+      enumeratedValues: Ch5GenericListAttributes.CONTRACT_ITEM_LABEL_TYPE,
+      name: "contractItemLabelType",
+      removeAttributeOnNull: true,
+      type: "enum",
+      valueOnAttributeEmpty: Ch5GenericListAttributes.CONTRACT_ITEM_LABEL_TYPE[0],
+      isObservableProperty: true,
+    },
+    {
+      default: Ch5GenericListAttributes.CONTRACT_ITEM_ICON_TYPE[0],
+      enumeratedValues: Ch5GenericListAttributes.CONTRACT_ITEM_ICON_TYPE,
+      name: "contractItemIconType",
+      removeAttributeOnNull: true,
+      type: "enum",
+      valueOnAttributeEmpty: Ch5GenericListAttributes.CONTRACT_ITEM_ICON_TYPE[0],
+      isObservableProperty: true,
+    },
+    {
+      default: Ch5GenericListAttributes.CONTRACT_NUM_ITEMS_TYPE[0],
+      enumeratedValues: Ch5GenericListAttributes.CONTRACT_NUM_ITEMS_TYPE,
+      name: "contractNumItemsType",
+      removeAttributeOnNull: true,
+      type: "enum",
+      valueOnAttributeEmpty: Ch5GenericListAttributes.CONTRACT_NUM_ITEMS_TYPE[0],
+      isObservableProperty: true,
+    },
+    {
+      default: Ch5GenericListAttributes.CONTRACT_SCROLL_TO_TYPE[0],
+      enumeratedValues: Ch5GenericListAttributes.CONTRACT_SCROLL_TO_TYPE,
+      name: "contractScrollToType",
+      removeAttributeOnNull: true,
+      type: "enum",
+      valueOnAttributeEmpty: Ch5GenericListAttributes.CONTRACT_SCROLL_TO_TYPE[0],
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForNumItems",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    }
   ];
 
   private _ch5PropertiesBase: Ch5Properties;
@@ -271,6 +375,115 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
   public get receiveStateScrollToPosition(): string {
     return this._ch5PropertiesBase.get<string>('receiveStateScrollToPosition');
   }
+
+  public set contractName(value: string) {
+    this._ch5PropertiesBase.set<string>("contractName", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get contractName(): string {
+    return this._ch5PropertiesBase.get<string>("contractName");
+  }
+
+  public set useContractForEnable(value: boolean) {
+    this._ch5PropertiesBase.set<boolean>("useContractForEnable", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get useContractForEnable(): boolean {
+    return this._ch5PropertiesBase.get<boolean>("useContractForEnable");
+  }
+
+  public set useContractForShow(value: boolean) {
+    this._ch5PropertiesBase.set<boolean>("useContractForShow", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get useContractForShow(): boolean {
+    return this._ch5PropertiesBase.get<boolean>("useContractForShow");
+  }
+
+  public set useContractForItemEnable(value: boolean) {
+    this._ch5PropertiesBase.set<boolean>("useContractForItemEnable", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get useContractForItemEnable(): boolean {
+    return this._ch5PropertiesBase.get<boolean>("useContractForItemEnable");
+  }
+
+  public set useContractForItemShow(value: boolean) {
+    this._ch5PropertiesBase.set<boolean>("useContractForItemShow", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get useContractForItemShow(): boolean {
+    return this._ch5PropertiesBase.get<boolean>("useContractForItemShow");
+  }
+
+  public set useContractForCustomStyle(value: boolean) {
+    this._ch5PropertiesBase.set<boolean>("useContractForCustomStyle", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get useContractForCustomStyle(): boolean {
+    return this._ch5PropertiesBase.get<boolean>("useContractForCustomStyle");
+  }
+
+  public set useContractForCustomClass(value: boolean) {
+    this._ch5PropertiesBase.set<boolean>("useContractForCustomClass", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get useContractForCustomClass(): boolean {
+    return this._ch5PropertiesBase.get<boolean>("useContractForCustomClass");
+  }
+
+  public set contractItemLabelType(value: TCh5GenericListContractItemLabelType) {
+    this._ch5PropertiesBase.set<TCh5GenericListContractItemLabelType>("contractItemLabelType", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get contractItemLabelType(): TCh5GenericListContractItemLabelType {
+    return this._ch5PropertiesBase.get<TCh5GenericListContractItemLabelType>("contractItemLabelType");
+  }
+
+  public set contractItemIconType(value: TCh5GenericListContractItemIconType) {
+    this._ch5PropertiesBase.set<TCh5GenericListContractItemIconType>("contractItemIconType", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get contractItemIconType(): TCh5GenericListContractItemIconType {
+    return this._ch5PropertiesBase.get<TCh5GenericListContractItemIconType>("contractItemIconType");
+  }
+
+  public set contractNumItemsType(value: TCh5GenericListContractNumItemsType) {
+    this._ch5PropertiesBase.set<TCh5GenericListContractNumItemsType>("contractNumItemsType", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get contractNumItemsType(): TCh5GenericListContractNumItemsType {
+    return this._ch5PropertiesBase.get<TCh5GenericListContractNumItemsType>("contractNumItemsType");
+  }
+
+  public set contractScrollToType(value: TCh5GenericListContractScrollToType) {
+    this._ch5PropertiesBase.set<TCh5GenericListContractScrollToType>("contractScrollToType", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get contractScrollToType(): TCh5GenericListContractScrollToType {
+    return this._ch5PropertiesBase.get<TCh5GenericListContractScrollToType>("contractScrollToType");
+  }
+
+  public set useContractForNumItems(value: boolean) {
+    this._ch5PropertiesBase.set<boolean>("useContractForNumItems", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get useContractForNumItems(): boolean {
+    return this._ch5PropertiesBase.get<boolean>("useContractForNumItems");
+  }
+
   //#endregion
 
   //#region Component Lifecycle
@@ -355,6 +568,7 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
   abstract handleRowsAndColumn(): void;
   abstract handleStretch(): void;
   abstract debounceHandleScrollToPosition(value: number): void;
+  abstract debounceButtonDisplay(): void;
 
   //#endregion
 

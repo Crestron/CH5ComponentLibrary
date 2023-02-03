@@ -92,6 +92,34 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
       key: 'buttonShape',
       attribute: 'buttonShape',
       classListPrefix: '--button-shape-'
+    },
+    CONTRACT_ITEM_LABEL_TYPE: {
+      default: Ch5ButtonListBase.CONTRACT_ITEM_LABEL_TYPE[0],
+      values: Ch5ButtonListBase.CONTRACT_ITEM_LABEL_TYPE,
+      key: 'contractItemLabelType',
+      attribute: 'contractItemLabelType',
+      classListPrefix: 'ch5-general--contract-item-label-type-'
+    },
+    CONTRACT_ITEM_ICON_TYPE: {
+      default: Ch5ButtonListBase.CONTRACT_ITEM_ICON_TYPE[0],
+      values: Ch5ButtonListBase.CONTRACT_ITEM_ICON_TYPE,
+      key: 'contractItemIconType',
+      attribute: 'contractItemIconType',
+      classListPrefix: 'ch5-general--contract-item-icon-type-'
+    },
+    CONTRACT_NUM_ITEMS_TYPE: {
+      default: Ch5ButtonListBase.CONTRACT_NUM_ITEMS_TYPE[0],
+      values: Ch5ButtonListBase.CONTRACT_NUM_ITEMS_TYPE,
+      key: 'contractNumItemsType',
+      attribute: 'contractNumItemsType',
+      classListPrefix: 'ch5-general--contract-num-items-type-'
+    },
+    CONTRACT_SCROLL_TO_TYPE: {
+      default: Ch5ButtonListBase.CONTRACT_SCROLL_TO_TYPE[0],
+      values: Ch5ButtonListBase.CONTRACT_SCROLL_TO_TYPE,
+      key: 'contractScrollToType',
+      attribute: 'contractScrollToType',
+      classListPrefix: 'ch5-general--contract-scroll-to-type-'
     }
   };
 
@@ -1034,18 +1062,23 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     const btn = new Ch5Button();
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
-    if (this.hasAttribute('buttonReceiveStateShow') && this.getAttribute("buttonReceiveStateShow")?.trim() && !this.hasAttribute('receiveStateShow')) {
-      const attrValue = this.replaceAll(this.getAttribute("buttonReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, '');
-      const isNumber = /^[0-9]+$/.test(attrValue);
-      if (isNumber) {
-        btnContainer.setAttribute('data-ch5-show', Number(attrValue) + index + '');
-      } else {
-        btnContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("buttonReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
+    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined && this.useContractForItemShow === true) {
+      btnContainer.setAttribute('data-ch5-show', this.contractName + `.Button${index + 1}Visible`);
+      btnContainer.setAttribute('data-ch5-noshow-type', 'display');
+    } else {
+      if (this.hasAttribute('buttonReceiveStateShow') && this.getAttribute("buttonReceiveStateShow")?.trim() && !this.hasAttribute('receiveStateShow')) {
+        const attrValue = this.replaceAll(this.getAttribute("buttonReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, '');
+        const isNumber = /^[0-9]+$/.test(attrValue);
+        if (isNumber) {
+          btnContainer.setAttribute('data-ch5-show', Number(attrValue) + index + '');
+        } else {
+          btnContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("buttonReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
+        }
+        btnContainer.setAttribute('data-ch5-noshow-type', 'display');
+      } else if (this.hasAttribute('receiveStateShow')) {
+        btnContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("receiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
+        btnContainer.setAttribute('data-ch5-noshow-type', 'display');
       }
-      btnContainer.setAttribute('data-ch5-noshow-type', 'display');
-    } else if (this.hasAttribute('receiveStateShow')) {
-      btnContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("receiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
-      btnContainer.setAttribute('data-ch5-noshow-type', 'display');
     }
     btnContainer.classList.add(this.nodeName.toLowerCase() + "--button-container");
     btnContainer.appendChild(btn);
@@ -1150,10 +1183,14 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   }
 
   private buttonHelper(btn: Ch5Button, index: number) {
-    const individualButtons = this.getElementsByTagName(this.nodeName.toLowerCase() + '-individual-button');
-    const individualButtonsLength = individualButtons.length;
     btn.setAttribute('stretch', 'both');
     btn.setAttribute('shape', 'rectangle');
+    // Contract Helper
+    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+      return this.contractButtonHelper(btn, index);
+    }
+    const individualButtons = this.getElementsByTagName(this.nodeName.toLowerCase() + '-individual-button');
+    const individualButtonsLength = individualButtons.length;
     Ch5ButtonListBase.COMPONENT_PROPERTIES.forEach((attr: ICh5PropertySettings) => {
       if (index < individualButtonsLength) {
         if (attr.name.toLowerCase() === 'buttoniconclass') {
@@ -1262,6 +1299,219 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
       return String(str).split(find).join(replace);
     } else {
       return str;
+    }
+  }
+
+  private contractButtonHelper(btn: Ch5Button, index: number) {
+    // useContractForEnable and receiveStateEnable
+    if (this.useContractForEnable === true) {
+      this.setAttribute('receiveStateEnable', this.contractName + '.ListEnabled');
+    } else if (this.hasAttribute('receiveStateEnable') && this.getAttribute('receiveStateEnable')?.trim()) {
+      this.setAttribute('receiveStateEnable', this.getAttribute('receiveStateEnable')?.trim() + '');
+    }
+
+    // useContractForShow and receiveStateShow
+    if (this.useContractForShow === true) {
+      this.setAttribute('receiveStateShow', this.contractName + '.ListVisible');
+      this.setAttribute('receiveStateShowPulse', this.contractName + '.ShowPulse');
+      this.setAttribute('receiveStateShowHidePulse', this.contractName + '.HidePulse');
+    } else if (this.hasAttribute('receiveStateShow') && this.getAttribute('receiveStateShow')?.trim()) {
+      this.setAttribute('receiveStateShow', this.getAttribute('receiveStateShow')?.trim() + '');
+    }
+
+    if (this.useContractForCustomStyle === true) {
+      this.setAttribute('receiveStateCustomStyle', this.contractName + '.CustomStyle');
+    } else if (this.hasAttribute('receiveStateCustomStyle') && this.getAttribute('receiveStateCustomStyle')?.trim()) {
+      this.setAttribute('receiveStateCustomStyle', this.getAttribute('receiveStateCustomStyle')?.trim() + '');
+    }
+
+    if (this.useContractForCustomClass === true) {
+      this.setAttribute('receiveStateCustomClass', this.contractName + '.CustomClass');
+    } else if (this.hasAttribute('receiveStateCustomClass') && this.getAttribute('receiveStateCustomClass')?.trim()) {
+      this.setAttribute('receiveStateCustomClass', this.getAttribute('receiveStateCustomClass')?.trim() + '');
+    }
+
+    if (this.useContractForItemEnable === true) {
+      btn.setAttribute('receiveStateEnable', this.contractName + `.Button${index + 1}Enabled`);
+    } else if (this.hasAttribute('buttonReceiveStateEnable') && this.getAttribute('buttonReceiveStateEnable')?.trim()) {
+      if (this.hasAttribute('receiveStateEnable') && this.getAttribute('receiveStateEnable')?.trim()) {
+        btn.setAttribute('receiveStateEnable', this.getAttribute('receiveStateEnable')?.trim() + '')
+      } else {
+        this.indexIdReplaceHelper(btn, 'buttonReceiveStateEnable', index);
+      }
+    }
+
+    if (this.useContractForItemShow === true) {
+      btn.setAttribute('receiveStateShow', this.contractName + `.Button${index + 1}Visible`);
+    } else if (this.hasAttribute('buttonReceiveStateShow') && this.getAttribute('buttonReceiveStateShow')?.trim()) {
+      if (this.hasAttribute('receiveStateShow') && this.getAttribute('receiveStateShow')?.trim()) {
+        btn.setAttribute('receiveStateShow', this.getAttribute('receiveStateShow')?.trim() + '')
+      } else {
+        this.indexIdReplaceHelper(btn, 'buttonReceiveStateShow', index);
+      }
+    }
+
+    if (this.contractItemIconType === "iconClass") {
+      btn.setAttribute('receiveStateIconClass', this.contractName + `.Button${index + 1}IconClass`);
+    } else if (this.contractItemIconType === "url") {
+      btn.setAttribute('receiveStateIconUrl', this.contractName + `.Button${index + 1}IconUrl`);
+      // } else if (this.contractItemIconType === "sgStateNumber") {
+      //   btn.setAttribute('', this.contractName + `.Button${index + 1}IconAnalog`);
+      // } else if (this.contractItemIconType === "sgStateName") {
+      //   btn.setAttribute('', this.contractName + `.Button${index + 1}IconSerial`);
+    } else if (this.contractItemIconType === "none") {
+      if (this.hasAttribute('buttonReceiveStateIconClass') && this.getAttribute('buttonReceiveStateIconClass')?.trim()) {
+        this.indexIdReplaceHelper(btn, 'buttonReceiveStateIconClass', index);
+      }
+      if (this.hasAttribute('buttonReceiveStateIconUrl') && this.getAttribute('buttonReceiveStateIconUrl')?.trim()) {
+        this.indexIdReplaceHelper(btn, 'buttonReceiveStateIconUrl', index);
+      }
+    }
+
+    if (this.contractItemLabelType === "textContent") {
+      btn.setAttribute('receiveStateLabel', this.contractName + `.Button${index + 1}Text`);
+    } else if (this.contractItemLabelType === "innerHTML") {
+      btn.setAttribute('receiveStateScriptLabelHtml', this.contractName + `.Button${index + 1}Text`);
+    } else {
+      if (this.hasAttribute('buttonReceiveStateLabel') && this.getAttribute('buttonReceiveStateLabel')?.trim()) {
+        this.indexIdReplaceHelper(btn, 'buttonReceiveStateLabel', index);
+      }
+      if (this.hasAttribute('buttonReceiveStateScriptLabelHtml') && this.getAttribute('buttonReceiveStateScriptLabelHtml')?.trim()) {
+        this.indexIdReplaceHelper(btn, 'buttonReceiveStateScriptLabelHtml', index);
+      }
+    }
+
+    btn.setAttribute('receiveStateMode', this.contractName + `.Button${index + 1}Mode`);
+    this.setAttribute('receiveStateNumberOfItems', this.contractName + `.ListNumberOfItems`);
+    this.setAttribute('receiveStateScrollToItem', this.contractName + `.ListScrollToItem`);
+
+    const remainingAttributes = ['buttonCheckboxPosition', 'buttonCheckboxShow', 'buttonVAlignLabel', 'buttonHAlignLabel', 'buttonIconClass',
+      'buttonIconPosition', 'buttonIconUrl', 'buttonMode', 'buttonShape', 'buttonType', 'buttonSendEventOnClick', 'buttonPressed', 'buttonSelected'];
+    const individualButtons = this.getElementsByTagName(this.nodeName.toLowerCase() + '-individual-button');
+    const individualButtonsLength = individualButtons.length;
+    remainingAttributes.forEach((attr: string) => {
+      if (index < individualButtonsLength) {
+        if (attr.toLowerCase() === 'buttoniconclass') {
+          if (individualButtons[index] && individualButtons[index].hasAttribute('iconclass')) {
+            const attrValue = individualButtons[index].getAttribute('iconclass')?.trim();
+            if (attrValue) {
+              btn.setAttribute('iconclass', attrValue);
+            }
+          } else if (attr.toLowerCase().includes('button') && this.hasAttribute(attr)) {
+            const attrValue = this.getAttribute(attr)?.trim().replace(`{{${this.indexId}}}`, index + '');
+            if (attrValue) {
+              btn.setAttribute(attr.toLowerCase().replace('button', ''), attrValue.trim());
+            }
+          }
+        } else if (attr.toLowerCase() === 'buttoniconurl') {
+          if (individualButtons[index] && individualButtons[index].hasAttribute('iconurl')) {
+            const attrValue = individualButtons[index].getAttribute('iconurl')?.trim();
+            if (attrValue) {
+              btn.setAttribute('iconurl', attrValue);
+            }
+          } else if (attr.toLowerCase().includes('button') && this.hasAttribute(attr)) {
+            const attrValue = this.getAttribute(attr)?.trim().replace(`{{${this.indexId}}}`, index + '');
+            if (attrValue) {
+              btn.setAttribute(attr.toLowerCase().replace('button', ''), attrValue.trim());
+            }
+          }
+        }
+        else if (attr.toLowerCase() === 'buttononrelease') {
+          if (individualButtons[index] && individualButtons[index].hasAttribute('onrelease')) {
+            const attrValue = individualButtons[index].getAttribute('onrelease')?.trim();
+            if (attrValue) {
+              btn.setAttribute('onrelease', attrValue);
+            }
+          } else if (attr.toLowerCase().includes('button') && this.hasAttribute(attr)) {
+            const attrValue = this.getAttribute(attr)?.trim().replace(`{{${this.indexId}}}`, index + '');
+            if (attrValue) {
+              btn.setAttribute(attr.toLowerCase().replace('button', ''), attrValue.trim());
+            }
+          }
+        } else {
+          if (attr.toLowerCase() === 'buttonreceivestateshow' && this.hasAttribute('receivestateshow')) {
+            btn.setAttribute('receivestateshow', this.getAttribute('receivestateshow') + '');
+          }
+          else if (attr.toLowerCase() === 'buttonreceivestateenable' && this.hasAttribute('receivestateenable')) {
+            btn.setAttribute('receivestateenable', this.getAttribute('receivestateenable') + '');
+          }
+          else if (attr.toLowerCase().includes('button') && this.hasAttribute(attr)) {
+            if (this.getAttribute(attr)?.trim().includes(`{{${this.indexId}}}`) === false) {
+              const attrValue = this.getAttribute(attr)?.trim();
+              if (attrValue) {
+                btn.setAttribute(attr.toLowerCase().replace('button', ''), attrValue.trim());
+              }
+            } else if (this.getAttribute(attr)?.trim().length !== 0) {
+              const attrValue = this.replaceAll(this.getAttribute(attr)?.trim() + '', `{{${this.indexId}}}`, '');
+              const isNumber = /^[0-9]+$/.test(attrValue);
+              if (isNumber) {
+                btn.setAttribute(attr.toLowerCase().replace('button', ''), Number(attrValue) + index + '');
+              } else {
+                btn.setAttribute(attr.toLowerCase().replace('button', ''), this.replaceAll(this.getAttribute(attr)?.trim() + '', `{{${this.indexId}}}`, index + ''));
+              }
+            }
+          }
+        }
+      } else {
+        if (attr.toLowerCase() === 'buttonreceivestateshow' && this.hasAttribute('receivestateshow')) {
+          btn.setAttribute('receivestateshow', this.getAttribute('receivestateshow') + '');
+        }
+        else if (attr.toLowerCase() === 'buttonreceivestateenable' && this.hasAttribute('receivestateenable')) {
+          btn.setAttribute('receivestateenable', this.getAttribute('receivestateenable') + '');
+        }
+        else if (attr.toLowerCase().includes('button') && this.hasAttribute(attr)) {
+          if (this.getAttribute(attr)?.trim().includes(`{{${this.indexId}}}`) === false) {
+            const attrValue = this.getAttribute(attr)?.trim();
+            if (attrValue) {
+              btn.setAttribute(attr.toLowerCase().replace('button', ''), attrValue.trim());
+            }
+          } else if (this.getAttribute(attr)?.trim().length !== 0) {
+            const attrValue = this.replaceAll(this.getAttribute(attr)?.trim() + '', `{{${this.indexId}}}`, '');
+            const isNumber = /^[0-9]+$/.test(attrValue);
+            if (isNumber) {
+              btn.setAttribute(attr.toLowerCase().replace('button', ''), Number(attrValue) + index + '');
+            } else {
+              btn.setAttribute(attr.toLowerCase().replace('button', ''), this.replaceAll(this.getAttribute(attr)?.trim() + '', `{{${this.indexId}}}`, index + ''));
+            }
+          }
+        }
+      }
+    });
+
+    Ch5ButtonListBase.COMPONENT_COMMON_PROPERTIES.forEach((attr: string) => {
+      if (this.hasAttribute(attr)) {
+        btn.setAttribute(attr, this.getAttribute(attr) + '');
+      }
+    });
+
+    if (index < individualButtonsLength && individualButtons[index] && individualButtons[index].hasAttribute('labelInnerHTML')) {
+      const attrValue = individualButtons[index].getAttribute('labelInnerHTML')?.trim();
+      if (attrValue) {
+        btn.setAttribute('labelInnerHTML', attrValue.trim());
+      }
+    }
+    // TODO: Pending Items
+    // itemSelected
+    // showPulse and hidePulse
+    // contractNumItemsType
+    // contractScrollToType
+    // Disable redraw
+  }
+
+  private indexIdReplaceHelper(btn: Ch5Button, attr: string, index: number) {
+    if (this.getAttribute(attr)?.trim().includes(`{{${this.indexId}}}`) === false) {
+      const attrValue = this.getAttribute(attr)?.trim();
+      if (attrValue) {
+        btn.setAttribute(attr.toLowerCase().replace('button', ''), attrValue.trim());
+      }
+    } else if (this.getAttribute(attr)?.trim().length !== 0) {
+      const attrValue = this.replaceAll(this.getAttribute(attr)?.trim() + '', `{{${this.indexId}}}`, '');
+      const isNumber = /^[0-9]+$/.test(attrValue);
+      if (isNumber) {
+        btn.setAttribute(attr.toLowerCase().replace('button', ''), Number(attrValue) + index + '');
+      } else {
+        btn.setAttribute(attr.toLowerCase().replace('button', ''), this.replaceAll(this.getAttribute(attr)?.trim() + '', `{{${this.indexId}}}`, index + ''));
+      }
     }
   }
 
