@@ -40,7 +40,7 @@ export class Ch5TabButton extends Ch5ButtonListBase {
 
   public set numberOfItems(value: number) {
     this._ch5PropertiesTabButton.set<number>("numberOfItems", value, () => {
-      super.handleRowsAndColumn();
+      this.tabButtonDisplay();
     });
   }
   public get numberOfItems(): number {
@@ -79,7 +79,6 @@ export class Ch5TabButton extends Ch5ButtonListBase {
     super();
     this.primaryCssClass = Ch5TabButton.ELEMENT_NAME;
     this._ch5PropertiesTabButton = new Ch5Properties(this, Ch5TabButton.COMPONENT_PROPERTIES);
-    this.updateCssClass();
   }
 
   public connectedCallback() {
@@ -115,6 +114,19 @@ export class Ch5TabButton extends Ch5ButtonListBase {
   public buttonModeHelper() {
     // override button list buttonModeHelper method
   }
+  
+  public initScrollbar() {
+    // override button list initScrollBar()
+  }
+
+  public handleScrollbar() {
+    // override button list handleScrollbar()
+  }
+
+  public handleRowsAndColumn() {
+    // override button list handleRowsAndColumn()
+  }
+  
   public buttonDisplay() {
     this.tabButtonDisplay();
   }
@@ -123,9 +135,9 @@ export class Ch5TabButton extends Ch5ButtonListBase {
 
   //#region Protected / Private Methods
 
-  private updateCssClass() {
+  public initCssClass() {
     this.logger.start('UpdateCssClass');
-    super.updateCssClasses();
+    this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
     this.logger.stop();
   }
 

@@ -90,9 +90,6 @@
         test(`Check Value "numberOfItems" for input ` + ele.input, () => {
           ch5TabButton.setAttribute('numberOfItems', ele.input);
           expect(ch5TabButton.getAttribute('numberOfItems')).to.be.equal(String(inputOutput[i].output));
-          // const tabButtonDivLength = document.getElementsByClassName('ch5-tab-button--orientation-horizontal').length;
-          // console.log("length",  tabButtonDivLength, ele.input);
-          // expect(tabButtonDivLength).to.be.equal(inputOutput[i].output);
         });
       });
 
