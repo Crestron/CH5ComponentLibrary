@@ -64,7 +64,6 @@
             expect(ch5TabButton.numberOfItems).to.be.equal(5);
             let iconDiv = document.querySelector('.ch5-button--span');
             for (let i = 0; i < 5; i++) {
-              // expect(getComputedStyle(iconDiv.children[0]).getPropertyValue('background-image').not.equal(''));
               expect(getDiv(ch5TabButton).children[i].children[0].children[0].classList.contains('ch5-button--info')).to.be.equal(true);
             }
             done();
@@ -84,7 +83,6 @@
             expect(ch5TabButton.numberOfItems).to.be.equal(5);
             expect(ch5TabButton.orientation).to.be.equal('vertical');
             expect(getDiv(ch5TabButton).classList.contains('ch5-tab-button--orientation-vertical')).to.be.equal(true);
-            console.log(iconDiv, ch5TabButton.buttonReceiveStateLabel)
             for (let i = 0; i < 5; i++) {
               // expect(ch5TabButton.buttonReceiveStateLabel).to.be.equal('btn_label-' + i);
               // expect(iconDiv.children[0].textContent).to.be.equal('clicked');
@@ -107,7 +105,6 @@
             expect(ch5TabButton.numberOfItems).to.be.equal(5);
             expect(ch5TabButton.orientation).to.be.equal('vertical');
             expect(getDiv(ch5TabButton).classList.contains('ch5-tab-button--orientation-vertical')).to.be.equal(true);
-            console.log(iconDiv, ch5TabButton.buttonReceiveStateLabel)
             for (let i = 0; i < 5; i++) {
               // expect(iconDiv.children[0].textContent).to.be.equal('clicked');
               // expect(getDiv(ch5TabButton))

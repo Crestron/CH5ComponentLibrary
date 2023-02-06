@@ -1,38 +1,52 @@
 {
   "cues": [
     {
-      "type": "number",
-      "event": "trigger_signal",
-      "trigger": "&change",
+      "type": "boolean",
+      "event": "trigger_event_0",
+      "trigger": true,
       "actions": [
         {
-          "state": "trigger_event_listener",
-          "type": "n",
-          "logic": "link"
+          "state": "trigger_event_listener-0",
+          "type": "s",
+          "value": "a"
         }
       ]
-    }
-  ],
-  "onStart": [
-    {
-      "state": "trigger_event_listener-0",
-      "type": "string",
-      "value": "a"
     },
     {
-      "state": "trigger_event_listener-1",
-      "type": "string",
-      "value": ""
+      "type": "boolean",
+      "event": "trigger_event_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener-1",
+          "type": "n",
+          "value": 10
+        }
+      ]
     },
     {
-      "state": "trigger_event_listener-2",
-      "type": "string",
-      "value": ""
+      "type": "boolean",
+      "event": "trigger_event_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener-2",
+          "type": "n",
+          "value": 600
+        }
+      ]
     },
     {
-      "state": "trigger_event_listener-3",
-      "type": "number",
-      "value": 10
+      "type": "boolean",
+      "event": "trigger_event_3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener-3",
+          "type": "n",
+          "value": 0
+        }
+      ]
     }
   ]
 }
