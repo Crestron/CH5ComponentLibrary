@@ -268,7 +268,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   private scrollListLeft: number = 0;
   private scrollListTop: number = 0;
   private loadedSubpages: number = 0;
-  private reInit: boolean = false;
   private scrollbarDimension: number = 0;
   private subpageWidth: number = 0;
   private subpageHeight: number = 0;
@@ -546,9 +545,8 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     });
     // needed for preload-true for the calculation of bars height and width depending upon parent
     subscribeInViewPortChange(this, () => {
-      if (this.elementIsInViewPort && this.reInit === false) {
+      if (this.elementIsInViewPort ) {
         this.debounceSubpageDisplay();
-        this.reInit = true;
       }
     });
     this.logger.stop();
@@ -948,7 +946,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     if (this.orientation === 'horizontal') {
       // Find the number of initial subpages which can be loaded based on container width
       const containerWidth = this._elContainer.getBoundingClientRect().width;
-      if (containerWidth === 0) { this.reInit = false; }
       this.loadedSubpages = Math.floor(containerWidth / this.subpageWidth) * this.rows + this.rows * 2;
     } else {
       const containerHeight = this._elContainer.getBoundingClientRect().height;
