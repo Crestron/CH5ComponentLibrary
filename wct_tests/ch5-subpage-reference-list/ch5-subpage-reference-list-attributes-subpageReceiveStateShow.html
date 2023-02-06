@@ -11,27 +11,27 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-subpage-reference-list-subpageReceiveStateVisible-attributes">
+  <test-fixture id="ch5-subpage-reference-list-subpageReceiveStateShow-attributes">
     <template>
-      <ch5-subpage-reference-list subpageReceiveStateVisible="trigger_event_listener"></ch5-subpage-reference-list>
+      <ch5-subpage-reference-list subpageReceiveStateShow="trigger_event_listener"></ch5-subpage-reference-list>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-subpage-reference-list-subpageReceiveStateVisible-attributes-value', () => {
+    suite('ch5-subpage-reference-list-subpageReceiveStateShow-attributes-value', () => {
       let ch5SubpageReferenceList;
 
       setup(async () => {
         const emulatorJson = await fetch('./emulator/subpagereceivestatevisible.json').then((response) => response.json());
         const emulator = CrComLib.Ch5Emulator.getInstance();
         emulator.loadScenario(emulatorJson);
-        ch5SubpageReferenceList = fixture('ch5-subpage-reference-list-subpageReceiveStateVisible-attributes');
+        ch5SubpageReferenceList = fixture('ch5-subpage-reference-list-subpageReceiveStateShow-attributes');
       });
 
-      test('subpageReceiveStateVisible', (done) => {
+      test('subpageReceiveStateShow', (done) => {
         CrComLib.publishEvent('b', 'trigger_event', true);
         flush(() => {
           setTimeout(() => {
-            expect(ch5SubpageReferenceList.getAttribute('subpageReceiveStateVisible')).to.be.equal('String Signal');
+            expect(ch5SubpageReferenceList.getAttribute('subpageReceiveStateShow')).to.be.equal('String Signal');
             done();
           }, 100);
         });
