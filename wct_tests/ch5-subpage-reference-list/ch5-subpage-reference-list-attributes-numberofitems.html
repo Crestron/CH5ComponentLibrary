@@ -31,11 +31,49 @@
       </div>
     </template>
     <div>
-      <ch5-subpage-reference-list id="subpagereferencelisttwo" numberOfItems="10" widgetId="templateWidgetId1" indexId="idx">
+      <ch5-subpage-reference-list id="subpagereferencelisttwo" numberOfItems="10" widgetId="templateWidgetId1"
+        indexId="idx">
       </ch5-subpage-reference-list>
     </div>
-</test-fixture>
+  </test-fixture>
+  <test-fixture id="ch5-subpage-reference-list-numberOfItems-attributes-2">
+    <template id="templateWidgetId2">
+
+      <ch5-toggle label="tgl_{{idx}}">
+      </ch5-toggle>
+
+    </template>
+    <div style="width:800px">
+      <ch5-subpage-reference-list id="subpagereferencelistthree" numberOfItems="6" widgetId="templateWidgetId2"
+        indexId="idx">
+      </ch5-subpage-reference-list>
+    </div>
+  </test-fixture>
   <script>
+    suite('ch5-subpage-reference-list-numberOfItems-attributes-2', () => {
+      let ch5SubpageReferenceList;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatenumberofitems.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5SubpageReferenceList = document.getElementById("subpagereferencelistthree");
+      });
+
+      test(`Check value for label when number of item is 6 `, (done) => {
+        flush(() => {
+          setTimeout(() => {
+            ch5SubpageReferenceList.querySelectorAll('.ch5-subpage-reference-list--subpage-container').forEach((ele, index) => {
+              expect(ele.children[0].getAttribute('label')).to.be.equal('tgl_' + index);
+            });
+            done();
+          }, 1000);
+        });
+      });
+
+    });
+
+
     suite('ch5-subpage-reference-list-numberOfItems-attributes-value', () => {
       let ch5SubpageReferenceList;
       let ch5SubpageReferenceList1;
