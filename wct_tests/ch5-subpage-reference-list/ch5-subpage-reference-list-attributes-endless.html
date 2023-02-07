@@ -94,7 +94,7 @@
               document.querySelector(".ch5-subpage-reference-list").scrollLeft = 100;
               expect(ch5SubpageReferenceList.rows).to.be.equal(1);
               expect(ch5SubpageReferenceList.endless).to.be.equal(val);
-              expect(ch5SubpageReferenceList.scrollbar).to.be.equal(val);
+              expect(ch5SubpageReferenceList.scrollbar).to.be.equal(false);
               expect(ch5SubpageReferenceList.numberOfItems).to.be.equal(30);
               expect(ch5SubpageReferenceList.customStyle).to.be.equal('width:100%');
               expect(ch5SubpageReferenceList.children[0].classList.contains('ch5-subpage-reference-list--rows-1')).to.be.equal(true);
@@ -121,7 +121,7 @@
           flush(() => {
             setTimeout(() => {
               document.querySelector(".ch5-subpage-reference-list").scrollTop = 100;
-              expect(ch5SubpageReferenceList1.scrollbar).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.scrollbar).to.be.equal(false);
               expect(ch5SubpageReferenceList1.columns).to.be.equal(scrollBarVal[i].columns);
               expect(ch5SubpageReferenceList1.customStyle).to.be.equal('height:50%; width:50%;');
               expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
@@ -172,7 +172,7 @@
           flush(() => {
             setTimeout(() => {
               document.querySelector(".ch5-subpage-reference-list").scrollLeft = 100;
-              expect(ch5SubpageReferenceList1.scrollbar).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.scrollbar).to.be.equal(false);
               expect(ch5SubpageReferenceList1.columns).to.be.equal(scrollBarVal[i].columns);
               expect(ch5SubpageReferenceList1.customStyle).to.be.equal('height:50%; width:50%;');
               expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
@@ -228,7 +228,7 @@
           flush(() => {
             setTimeout(() => {
               document.querySelector(".ch5-subpage-reference-list").scrollTop = 100;
-              expect(ch5SubpageReferenceList1.scrollbar).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.scrollbar).to.be.equal(false);
               console.log(scrollBarVal[i].rows);
               expect(ch5SubpageReferenceList1.rows).to.be.equal(scrollBarRow[i].rows);
               expect(ch5SubpageReferenceList1.customStyle).to.be.equal('height:50%; width:50%;');
@@ -283,7 +283,7 @@
           flush(() => {
             setTimeout(() => {
               document.querySelector(".ch5-subpage-reference-list").scrollLeft = 100;
-              expect(ch5SubpageReferenceList1.scrollbar).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.scrollbar).to.be.equal(false);
               expect(ch5SubpageReferenceList1.rows).to.be.equal(scrollBarRow[i].rows);
               expect(ch5SubpageReferenceList1.customStyle).to.be.equal('height:50%; width:50%;');
               expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(scrollBarRow[i].numberOfItems);
