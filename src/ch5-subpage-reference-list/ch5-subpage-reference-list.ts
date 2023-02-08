@@ -728,7 +728,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         this._elContainer.scrollLeft -= this.subpageWidth / 2;
       }
     } else if (this.orientation === 'horizontal') {
-      if (scrollLeft < this.subpageWidth / 4) {
+      if (scrollLeft < 5) {
         const firstElement = Number(this._elContainer.firstElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
         const index = (this.numberOfItems + firstElement - 1) % this.numberOfItems;
         this.createSubpage(index, false);
