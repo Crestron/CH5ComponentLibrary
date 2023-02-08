@@ -141,7 +141,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     {
       default: "0",
       isSignal: true,
-      name: "booleanJoinIncrements",
+      name: "booleanJoinIncrement",
       signalType: "boolean",
       removeAttributeOnNull: true,
       type: "string",
@@ -151,7 +151,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     {
       default: "0",
       isSignal: true,
-      name: "numericJoinIncrements",
+      name: "numericJoinIncrement",
       signalType: "number",
       removeAttributeOnNull: true,
       type: "string",
@@ -161,7 +161,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     {
       default: "0",
       isSignal: true,
-      name: "stringJoinIncrements",
+      name: "stringJoinIncrement",
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
@@ -356,31 +356,31 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     return this._ch5Properties.get<boolean>("scrollbar");
   }
 
-  public set booleanJoinIncrements(value: string) {
-    this._ch5Properties.set("booleanJoinIncrements", value, null, (newValue: boolean) => {
+  public set booleanJoinIncrement(value: string) {
+    this._ch5Properties.set("booleanJoinIncrement", value, null, (newValue: boolean) => {
       // enter code
     });
   }
-  public get booleanJoinIncrements(): string {
-    return this._ch5Properties.get<string>('booleanJoinIncrements');
+  public get booleanJoinIncrement(): string {
+    return this._ch5Properties.get<string>('booleanJoinIncrement');
   }
 
-  public set numericJoinIncrements(value: string) {
-    this._ch5Properties.set("numericJoinIncrements", value, null, (newValue: number) => {
+  public set numericJoinIncrement(value: string) {
+    this._ch5Properties.set("numericJoinIncrement", value, null, (newValue: number) => {
       // enter code
     });
   }
-  public get numericJoinIncrements(): string {
-    return this._ch5Properties.get<string>('numericJoinIncrements');
+  public get numericJoinIncrement(): string {
+    return this._ch5Properties.get<string>('numericJoinIncrement');
   }
 
-  public set stringJoinIncrements(value: string) {
-    this._ch5Properties.set("stringJoinIncrements", value, null, (newValue: string) => {
+  public set stringJoinIncrement(value: string) {
+    this._ch5Properties.set("stringJoinIncrement", value, null, (newValue: string) => {
       // enter code
     });
   }
-  public get stringJoinIncrements(): string {
-    return this._ch5Properties.get<string>('stringJoinIncrements');
+  public get stringJoinIncrement(): string {
+    return this._ch5Properties.get<string>('stringJoinIncrement');
   }
 
   public set subpageReceiveStateEnable(value: string) {
@@ -1015,9 +1015,9 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     spgContainer.appendChild(((documentContainer as HTMLTemplateElement).content));
     // update templateContent attributes to increment join numbers and prefix contract name
     Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(spgContainer, this.contractName || '',
-      parseInt(this.booleanJoinIncrements, 10) || 0,
-      parseInt(this.numericJoinIncrements, 10) || 0,
-      parseInt(this.stringJoinIncrements, 10) || 0);
+      parseInt(this.booleanJoinIncrement, 10) || 0,
+      parseInt(this.numericJoinIncrement, 10) || 0,
+      parseInt(this.stringJoinIncrement, 10) || 0);
     append ? this._elContainer.appendChild(spgContainer) : this._elContainer.prepend(spgContainer);
   }
 

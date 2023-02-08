@@ -107,39 +107,39 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
   /**
    * @documentation
    * [
-   * "`booleanJoinIncrements` attribute",
+   * "`booleanJoinIncrement` attribute",
    * "***",
    * "The Digital Join Increment will be used to increment the digital joins of each Sub Page reference in the list. If 0, the value of the Join Increment will be used."
    * ]
-   * @name booleanjoinincrements
+   * @name booleanjoinincrement
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    * @attributeType "Join"
    */
-  booleanJoinIncrements: string;
+  booleanJoinIncrement: string;
   /**
    * @documentation
    * [
-   * "`numericJoinIncrements` attribute",
+   * "`numericJoinIncrement` attribute",
    * "***",
    * "The Analog Join Increment will be used to increment the analog joins of each Sub Page reference in the list. If 0, the value of the Join Increment will be used."
    * ]
-   * @name numericjoinincrements
+   * @name numericjoinincrement
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    * @attributeType "Join"
    */
-  numericJoinIncrements: string;
+  numericJoinIncrement: string;
   /**
    * @documentation
    * [
-   * "`stringJoinIncrements` attribute",
+   * "`stringJoinIncrement` attribute",
    * "***",
    * "The Serial Join Increment will be used to increment the serial joins of each Sub Page reference in the list. If 0, the value of the Join Increment will be used."
    * ]
-   * @name stringjoinincrements
+   * @name stringjoinincrement
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    * @attributeType "Join"
    */
-  stringJoinIncrements: string;
+  stringJoinIncrement: string;
   /**
    * @documentation
    * [
