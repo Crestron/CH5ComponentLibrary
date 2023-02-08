@@ -29,6 +29,24 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  *     ]
  *   },
  *   {
+ *     "prefix": "ch5-subpage-reference-list:default",
+ *     "description": "Crestron subpage reference list (default)",
+ *     "body": [
+ *       "<ch5-subpage-reference-list id=\"ch5-subpage-reference-list_${1:id}\"",
+ *       "\twidgetId=\"${2:}\"",
+ *       "\torientation=\"${3:horizontal}\"",
+ *       "\tscrollbar=\"${4:false}\"",
+ *       "\tcenterItems=\"${5:false}\"",
+ *       "\tendless=\"${6:false}\"",
+ *       "\tnumberOfItems=\"${7:10}\"",
+ *       "\trows=\"${8:1}\"",
+ *       "\tcolumns=\"${9:1}\"",
+ *       "\tindexId=\"${10:}\"",
+ *       "\tscrollToPosition=\"${11:0}\">",
+ *       "</ch5-subpage-reference-list>$0"
+ *       ]
+ *    },
+ *   {
  *     "prefix": "ch5-subpage-reference-list:all-attributes",
  *     "description": "Crestron subpage reference list (All Attributes)",
  *     "body": [
