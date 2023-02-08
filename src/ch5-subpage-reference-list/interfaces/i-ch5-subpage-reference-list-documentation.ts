@@ -7,7 +7,7 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  * @tagName ch5-subpage-reference-list
  * @role subpage-reference-list
  * @description The Subpage Reference List allows multiple instances of a given subpage to be displayed and managed in a list.
- * @componentVersion 1.0.0
+ * @componentVersion 2.3.0
  * @childElements
  * [
  *    
