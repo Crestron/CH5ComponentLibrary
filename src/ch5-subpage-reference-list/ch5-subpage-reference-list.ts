@@ -271,6 +271,10 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   private scrollbarDimension: number = 0;
   private subpageWidth: number = 0;
   private subpageHeight: number = 0;
+  private containerHeight: number = 0;
+  private containerWidth: number = 0;
+  private reInit: boolean = true;
+
 
   // Default Row and Column value
   private rowClassValue: number = 1;
@@ -282,6 +286,10 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   public debounceHandleScrollToPosition = this.debounce((value: number) => {
     this.handleScrollToPosition(value);
   }, 400);
+
+  public debounceInitScrollBar = this.debounce(() => {
+    this.initScrollbar();
+  }, 100);
 
   //#endregion
 
@@ -417,6 +425,10 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   public set subpageReceiveStateScrollTo(value: string) {
     this._ch5Properties.set("subpageReceiveStateScrollTo", value, null, (newValue: number) => {
       this._ch5Properties.setForSignalResponse<number>("scrollToPosition", newValue, () => {
+        if (newValue >= this.numberOfItems || newValue < 0) { return; }
+        // return if the subpage list contains more than one row or one column
+        if ((this.orientation === 'horizontal' && this.rows !== 1) || (this.orientation === 'vertical' && this.columns !== 1)) { return; }
+        this.reInit = true;
         this.debounceHandleScrollToPosition(newValue);
       });
     });
@@ -545,8 +557,10 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     });
     // needed for preload-true for the calculation of bars height and width depending upon parent
     subscribeInViewPortChange(this, () => {
-      if (this.elementIsInViewPort ) {
+      if (this.elementIsInViewPort && this.reInit) {
+        this.reInit = false;
         this.debounceSubpageDisplay();
+        this.debounceInitScrollBar();
       }
     });
     this.logger.stop();
@@ -557,9 +571,15 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.removeEventListeners();
     this.unsubscribeFromSignals();
     unSubscribeInViewPortChange(this);
+    this.reInitialize()
     this.logger.stop();
   }
 
+  private reInitialize() {
+    this.containerWidth = 0;
+    this.containerHeight = 0;
+    this.reInit = true;
+  }
   //#endregion
 
   //#region Protected / Private Methods
@@ -1095,16 +1115,15 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
   }
 
-  private resizeHandler = () => {
-    if (this.orientation === 'horizontal' && this._elContainer.children.length !== 0) {
-      const containerWidth = this._elContainer.getBoundingClientRect().width;
-      let loadableSubpages = Math.floor(containerWidth / this.subpageWidth) * this.rows + this.rows * 2;
-      loadableSubpages = loadableSubpages > this.numberOfItems ? this.numberOfItems : loadableSubpages;
-      for (let i = this.loadedSubpages; i < loadableSubpages; i++) {
-        this.createSubpage(this.loadedSubpages++);
-      }
+  private resizeHandler = (event: Event) => {
+    const { width, height } = this._elContainer.getBoundingClientRect();
+    if (this.containerWidth === 0 && width !== 0) {
+      this.containerWidth = width;
+      this.debounceSubpageDisplay();
+    } else if (this.containerHeight === 0 && height !== 0) {
+      this.containerHeight = height;
+      this.debounceSubpageDisplay();
     }
-    this.initScrollbar();
   }
 
   protected getTargetElementForCssClassesAndStyle(): HTMLElement {
