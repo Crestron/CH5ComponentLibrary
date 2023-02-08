@@ -31,6 +31,115 @@
           "logic": "toggle"
         }
       ]
+    },
+    {
+      "type": "b",
+      "event": "btn-enable",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "button-enable-0",
+          "value": true,
+          "type": "s",
+          "logic": "set"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "btn-icon-class",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "button-icon-0",
+          "value": "fas fa-anchor",
+          "type": "s",
+          "logic": "set"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "btn-script-label",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "btn-script",
+          "value": "<i>set-script-0</i>",
+          "type": "s",
+          "logic": "set"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "btn-select",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "btn-selected",
+          "type": "b",
+          "value": true,
+          "logic": "set"
+        },
+        {
+          "state": "button-icon-0",
+          "value": "fas fa-anchor",
+          "type": "s",
+          "logic": "set"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "btn-icon-class-url",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "button-icon-0",
+          "value": "fas fa-anchor",
+          "type": "s",
+          "logic": "set"
+        },
+        {
+          "state": "button-url-0",
+          "type": "s",
+          "value": "./img/volume_mute.svg",
+          "logic": "set"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "btn-scriptlabel-label",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "button-script-0",
+          "value": "<i>set-script-0</i>",
+          "type": "s",
+          "logic": "set"
+        },
+        {
+          "state": "button-label-0",
+          "value": "label-tab",
+          "type": "s",
+          "logic": "set"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "trig1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "btn-show",
+          "type": "boolean",
+          "logic": "set",
+          "value": false
+        }
+      ]
     }
   ],
   "onStart": [

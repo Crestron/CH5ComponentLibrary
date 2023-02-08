@@ -30,7 +30,7 @@
  * [
  *  {
  *    "prefix": "ch5-tab-button-label:blank",
- *     "description": "Crestron button list label",
+ *     "description": "Crestron tab button label",
  *     "body": [
  *       "<ch5-tab-button-label>",
  *       "\t<template>",
