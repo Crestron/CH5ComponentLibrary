@@ -179,7 +179,7 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * [
    * "`buttonReceiveStateScriptLabelHtml` attribute",
    * "***",
-   * "Allows the signal script evaluation to be applied to the button.innerHTML class.  Allows for multiline, multiStyled labels."
+   * "Allows the signal script evaluation to be applied to the button.innerHTML class. Allows for multiline, multiStyled labels."
    * ]
    * @name buttonreceivestatescriptlabelhtml
    * @default 
@@ -201,9 +201,9 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
   /**
    * @documentation
    * [
-   * "`receiveStateButtonIconUrl` attribute",
+   * "`buttonReceiveStateIconUrl` attribute",
    * "***",
-   * "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute of all the buttons in the list."
+   * "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute of all the buttons in the tab button."
    * ]
    * @name buttonreceivestateiconurl
    * @default 

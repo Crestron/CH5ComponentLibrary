@@ -1,0 +1,303 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-tab-button-attributes">
+    <template>
+      <div data-ch5-noshow-type="remove">
+        <ch5-tab-button indexId="idx" buttonType="info" orientation="vertical" numberOfItems="10"
+          buttonHAlignLabel="center" buttonVAlignLabel="top" buttonIconClass="material-icons md-alarm_on"
+          buttonIconPosition="last" buttonShape="rounded-rectangle" buttonReceiveStateIconClass="button-icon-0">
+        </ch5-tab-button>
+      </div>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-tab-button-visibility-attribute">
+    <template>
+      <div data-ch5-noshow-type="visibility">
+        <ch5-tab-button indexId="idx" buttonType="warning" orientation="horizontal" numberOfItems="16"
+          buttonHAlignLabel="left" buttonVAlignLabel="bottom" buttonIconClass="fas fa-anchor"
+          buttonIconPosition="center" buttonShape="rectangle" buttonReceiveStateIconClass="button-icon-0"
+          buttonReceiveStateScriptLabelHtml="btn-script">
+        </ch5-tab-button>
+      </div>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-tab-button-display-attribute">
+    <template>
+      <div data-ch5-noshow-type="display">
+        <ch5-tab-button indexId="idx" buttonType="primary" orientation="vertical" numberOfItems="1"
+          buttonHAlignLabel="bottom" buttonVAlignLabel="bottom" buttonIconClass="material-icons md-bookmark"
+          buttonIconPosition="top" buttonShape="rounded-rectangle" buttonReceiveStateSelected="btn-selected"
+          buttonReceiveStateIconClass="button-icon-0">
+        </ch5-tab-button>
+      </div>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-tab-button-signal-attribute-remove">
+    <template>
+      <div data-ch5-noshow-type="remove">
+        <ch5-tab-button buttonReceiveStateSelected="btn-selected" buttonReceiveStateIconClass="button-icon-0"
+          buttonReceiveStateScriptLabelHtml="btn-script" buttonReceiveStateIconUrl="button-url-0"
+          buttonReceiveStateLabel="button-label-0" buttonReceiveStateScriptLabelHtml="button-script-0"
+          buttonReceiveStateShow="btn-show" buttonReceiveStateEnable="button-enable-0">
+        </ch5-tab-button>
+      </div>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-tab-button-signal-attribute-visibility">
+    <template>
+      <div data-ch5-noshow-type="visibility">
+        <ch5-tab-button buttonReceiveStateSelected="btn-selected" buttonReceiveStateIconClass="button-icon-0"
+          buttonReceiveStateScriptLabelHtml="btn-script" buttonReceiveStateIconUrl="button-url-0"
+          buttonReceiveStateLabel="button-label-0" buttonReceiveStateScriptLabelHtml="button-script-0"
+          buttonReceiveStateShow="btn-show" buttonReceiveStateEnable="button-enable-0">
+        </ch5-tab-button>
+      </div>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-tab-button-signal-attribute-display">
+    <template>
+      <div data-ch5-noshow-type="display">
+        <ch5-tab-button buttonReceiveStateSelected="btn-selected" buttonReceiveStateIconClass="button-icon-0"
+          buttonReceiveStateScriptLabelHtml="btn-script" buttonReceiveStateIconUrl="button-url-0"
+          buttonReceiveStateLabel="button-label-0" buttonReceiveStateScriptLabelHtml="button-script-0"
+          buttonReceiveStateShow="btn-show" buttonReceiveStateEnable="button-enable-0">
+        </ch5-tab-button>
+      </div>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-tab-button-attributes-for-noshowtype-remove', () => {
+      let ch5TabButton;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/buttonreceivestateenable.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5TabButton = fixture('ch5-tab-button-attributes');
+      });
+
+      test(`check attribute for noshowtype remove`, (done) => {
+        CrComLib.publishEvent('b', 'btn-icon-class', true);
+        flush(() => {
+          setTimeout(() => {
+            const spanTag = document.querySelector('.ch5-button--span');
+            const buttonTag = document.querySelector('.ch5-button');
+            expect(getDiv(ch5TabButton).classList.contains('ch5-tab-button--orientation-vertical')).to.be.equal(true);
+            expect(buttonTag.classList.contains('ch5-button--info')).to.be.equal(true);
+            expect(getDiv(ch5TabButton).children.length).to.be.equal(10);
+            expect(spanTag.classList.contains('ch5-button--horizontal-center'));
+            expect(spanTag.classList.contains('ch5-button--vertical-top'));
+            expect(spanTag.children[0].classList.contains('material-icons')).to.be.equal(false);
+            expect(spanTag.children[0].classList.contains('md-alarm_on')).to.be.equal(false);
+            expect(spanTag.children[0].classList.contains('cx-button-icon-pos-last')).to.be.equal(true);
+            expect(buttonTag.classList.contains('ch5-tab-button--button-shape-rounded-rectangle')).to.be.equal(true);
+            expect(spanTag.children[0].classList.contains('fa-anchor')).to.be.equal(true);
+            expect(spanTag.children[0].classList.contains('fas')).to.be.equal(true);
+            done();
+          }, 500);
+        });
+      });
+    });
+
+    suite('ch5-tab-button-attributes-for-noshowtype-visibility', () => {
+      let ch5TabButton;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/buttonreceivestateenable.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5TabButton = fixture('ch5-tab-button-visibility-attribute');
+      });
+
+      test(`check attribute for noshowtype visibility`, (done) => {
+        CrComLib.publishEvent('b', 'btn-script-label', true);
+        flush(() => {
+          setTimeout(() => {
+            const spanTag = document.querySelector('.ch5-button--span');
+            const buttonTag = document.querySelector('.ch5-button');
+            const iTagParent = document.querySelector('.ch5-button--label');
+            expect(getDiv(ch5TabButton).classList.contains('ch5-tab-button--orientation-horizontal')).to.be.equal(true);
+            expect(buttonTag.classList.contains('ch5-button--warning')).to.be.equal(true);
+            expect(getDiv(ch5TabButton).children.length).to.be.equal(15);
+            expect(spanTag.classList.contains('ch5-button--horizontal-left'));
+            expect(spanTag.classList.contains('ch5-button--vertical-bottom'));
+            expect(spanTag.children[0].classList.contains('fas')).to.be.equal(true);
+            expect(spanTag.children[0].classList.contains('fa-anchor')).to.be.equal(true);
+            expect(spanTag.children[0].classList.contains('cx-button-icon-pos-first')).to.be.equal(true);
+            expect(buttonTag.classList.contains('ch5-tab-button--button-shape-rectangle')).to.be.equal(true);
+            expect(iTagParent.children[0].innerHTML).to.be.equal('set-script-0');
+            expect(iTagParent.children[0].tagName).to.be.equal('I');
+            done();
+          }, 500);
+        });
+      });
+    });
+
+    suite('ch5-tab-button-attributes-for-noshowtype-display', () => {
+      let ch5TabButton;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/buttonreceivestateenable.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5TabButton = fixture('ch5-tab-button-display-attribute');
+      });
+
+      test(`check attribute for noshowtype display`, (done) => {
+        CrComLib.publishEvent('b', 'btn-select', true);
+        flush(() => {
+          setTimeout(() => {
+            const spanTag = document.querySelector('.ch5-button--span');
+            const buttonTag = document.querySelector('.ch5-button');
+            const iTagParent = document.querySelector('.ch5-button--label');
+            expect(getDiv(ch5TabButton).classList.contains('ch5-tab-button--orientation-vertical')).to.be.equal(true);
+            expect(buttonTag.classList.contains('ch5-button--primary')).to.be.equal(true);
+            expect(getDiv(ch5TabButton).children.length).to.be.equal(2);
+            expect(spanTag.classList.contains('ch5-button--horizontal-bottom'));
+            expect(spanTag.classList.contains('ch5-button--vertical-bottom'));
+            expect(spanTag.children[0].classList.contains('material-icons')).to.be.equal(false);
+            expect(spanTag.children[0].classList.contains('md-bookmark')).to.be.equal(false);
+            expect(spanTag.children[0].classList.contains('cx-button-icon-pos-top')).to.be.equal(true);
+            expect(buttonTag.classList.contains('ch5-tab-button--button-shape-rounded-rectangle')).to.be.equal(true);
+            expect(document.querySelector('.ch5-button').classList.contains("ch5-button--selected")).to.be.equal(true);
+            expect(spanTag.childNodes[0].classList.contains('fa-anchor')).to.be.equal(true);
+            expect(spanTag.childNodes[0].classList.contains('fas')).to.be.equal(true);
+            done();
+          }, 500);
+        });
+      });
+    });
+
+    suite('ch5-tab-button-signal-attributes-for-noshowtype-remove', () => {
+      let ch5TabButton;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/buttonreceivestateenable.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5TabButton = fixture('ch5-tab-button-signal-attribute-remove');
+      });
+
+      test(`check attribute for noshowtype display`, (done) => {
+        CrComLib.publishEvent('b', 'btn-select', true);
+        CrComLib.publishEvent('b', 'btn-script-label', true);
+        CrComLib.publishEvent('b', 'btn-icon-class-url', true);
+        CrComLib.publishEvent('b', 'btn-scriptlabel-label', true);
+        CrComLib.publishEvent('b', 'trig1', true);
+        CrComLib.publishEvent('b', 'btn-enable', true);
+        flush(() => {
+          setTimeout(() => {
+            const spanTag = document.querySelector('.ch5-button--span');
+            const iTagParent = document.querySelector('.ch5-button--label');
+            const divTag = document.querySelector('.ch5-button');
+            expect(document.querySelector('.ch5-button').classList.contains("ch5-button--selected")).to.be.equal(true);
+            expect(spanTag.childNodes[0].classList.contains('fa-anchor')).to.be.equal(false);
+            expect(spanTag.childNodes[0].classList.contains('fas')).to.be.equal(false);
+            expect(iTagParent.children[0].innerHTML).to.be.equal('set-script-0');
+            expect(iTagParent.children[0].tagName).to.be.equal('I');
+            expect(getComputedStyle(spanTag.children[0]).backgroundImage).not.to.be.equal('');
+            expect(iTagParent.children[0].innerHTML).to.be.equal('set-script-0');
+            expect(getDiv(ch5TabButton).children[0].children[0].classList.contains('ch5-hide-dis')).to.be.equal(true);
+            expect(divTag.classList.contains('ch5-button--disabled')).to.be.equal(true);
+            done();
+          }, 500);
+        });
+      });
+    });
+
+    suite('ch5-tab-button-signal-attributes-for-noshowtype-visibility', () => {
+      let ch5TabButton;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/buttonreceivestateenable.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5TabButton = fixture('ch5-tab-button-signal-attribute-visibility');
+      });
+
+      test(`check attribute for noshowtype visibility`, (done) => {
+        CrComLib.publishEvent('b', 'btn-select', true);
+        CrComLib.publishEvent('b', 'btn-script-label', true);
+        CrComLib.publishEvent('b', 'btn-icon-class-url', true);
+        CrComLib.publishEvent('b', 'btn-scriptlabel-label', true);
+        CrComLib.publishEvent('b', 'trig1', true);
+        CrComLib.publishEvent('b', 'btn-enable', true);
+        flush(() => {
+          setTimeout(() => {
+            const spanTag = document.querySelector('.ch5-button--span');
+            const iTagParent = document.querySelector('.ch5-button--label');
+            const divTag = document.querySelector('.ch5-button');
+            expect(document.querySelector('.ch5-button').classList.contains("ch5-button--selected")).to.be.equal(true);
+            expect(spanTag.childNodes[0].classList.contains('fa-anchor')).to.be.equal(false);
+            expect(spanTag.childNodes[0].classList.contains('fas')).to.be.equal(false);
+            expect(iTagParent.children[0].innerHTML).to.be.equal('set-script-0');
+            expect(iTagParent.children[0].tagName).to.be.equal('I');
+            expect(getComputedStyle(spanTag.children[0]).backgroundImage).not.to.be.equal('');
+            expect(iTagParent.children[0].innerHTML).to.be.equal('set-script-0');
+            expect(getDiv(ch5TabButton).children[0].children[0].classList.contains('ch5-hide-dis')).to.be.equal(true);
+            expect(divTag.classList.contains('ch5-button--disabled')).to.be.equal(true);
+            done();
+          }, 500);
+        });
+      });
+    });
+
+    suite('ch5-tab-button-signal-attributes-for-noshowtype-display', () => {
+      let ch5TabButton;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/buttonreceivestateenable.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5TabButton = fixture('ch5-tab-button-signal-attribute-display');
+      });
+
+      test(`check attribute for noshowtype display`, (done) => {
+        CrComLib.publishEvent('b', 'btn-select', true);
+        CrComLib.publishEvent('b', 'btn-script-label', true);
+        CrComLib.publishEvent('b', 'btn-icon-class-url', true);
+        CrComLib.publishEvent('b', 'btn-scriptlabel-label', true);
+        CrComLib.publishEvent('b', 'trig1', true);
+        CrComLib.publishEvent('b', 'btn-enable', true);
+        flush(() => {
+          setTimeout(() => {
+            const spanTag = document.querySelector('.ch5-button--span');
+            const iTagParent = document.querySelector('.ch5-button--label');
+            const divTag = document.querySelector('.ch5-button');
+            expect(document.querySelector('.ch5-button').classList.contains("ch5-button--selected")).to.be.equal(true);
+            expect(spanTag.childNodes[0].classList.contains('fa-anchor')).to.be.equal(false);
+            expect(spanTag.childNodes[0].classList.contains('fas')).to.be.equal(false);
+            expect(iTagParent.children[0].innerHTML).to.be.equal('set-script-0');
+            expect(iTagParent.children[0].tagName).to.be.equal('I');
+            expect(getComputedStyle(spanTag.children[0]).backgroundImage).not.to.be.equal('');
+            expect(iTagParent.children[0].innerHTML).to.be.equal('set-script-0');
+            expect(getDiv(ch5TabButton).children[0].children[0].classList.contains('ch5-hide-dis')).to.be.equal(true);
+            expect(divTag.classList.contains('ch5-button--disabled')).to.be.equal(true);
+            done();
+          }, 500);
+        });
+      });
+    });
+
+  </script>
+</body>
+
+</html>
