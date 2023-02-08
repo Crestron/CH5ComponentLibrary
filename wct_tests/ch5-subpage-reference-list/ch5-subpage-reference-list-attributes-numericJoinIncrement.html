@@ -11,7 +11,7 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-subpage-reference-list-numericJoinOffset-attributes">
+  <test-fixture id="ch5-subpage-reference-list-numericJoinIncrement-attributes">
     <template id="templateWidgetId">
       <ch5-button type="primary" label="Loading..." sendEventOnClick="trigger_change_value">
         <ch5-button-label>
@@ -23,12 +23,12 @@
     </template>
     <div>
       <ch5-subpage-reference-list widgetId="templateWidgetId" scrollbar="true" orientation="horizontal"
-        numberOfItems="50" rows="3" numericJoinOffset="20" indexId="idx" id="subpagereferencelist">
+        numberOfItems="50" rows="3" numericJoinIncrement="20" indexId="idx" id="subpagereferencelist">
       </ch5-subpage-reference-list>
     </div>
   </test-fixture>
 
-  <test-fixture id="ch5-subpage-reference-list-numericJoinOffset-attributes1">
+  <test-fixture id="ch5-subpage-reference-list-numericJoinIncrement-attributes1">
     <template id="templateWidgetId1">
       <ch5-button type="primary" label="Loading..." sendEventOnClick="trigger_change_value">
         <ch5-button-label>
@@ -40,12 +40,12 @@
     </template>
     <div>
       <ch5-subpage-reference-list widgetId="templateWidgetId1" scrollbar="true" orientation="horizontal"
-        numberOfItems="50" rows="3" numericJoinOffset="a" indexId="idx" id="subpagereferencelist1">
+        numberOfItems="50" rows="3" numericJoinIncrement="a" indexId="idx" id="subpagereferencelist1">
       </ch5-subpage-reference-list>
     </div>
   </test-fixture>
 
-  <test-fixture id="ch5-subpage-reference-list-numericJoinOffset-attributes2">
+  <test-fixture id="ch5-subpage-reference-list-numericJoinIncrement-attributes2">
     <template id="templateWidgetId2">
       <ch5-button type="primary" label="Loading..." sendEventOnClick="trigger_change_value">
         <ch5-button-label>
@@ -57,12 +57,12 @@
     </template>
     <div>
       <ch5-subpage-reference-list widgetId="templateWidgetId2" scrollbar="true" orientation="horizontal"
-        numberOfItems="50" rows="3" numericJoinOffset="-20" indexId="idx" id="subpagereferencelist2">
+        numberOfItems="50" rows="3" numericJoinIncrement="-20" indexId="idx" id="subpagereferencelist2">
       </ch5-subpage-reference-list>
     </div>
   </test-fixture>
 
-  <test-fixture id="ch5-subpage-reference-list-numericJoinOffset-attributes3">
+  <test-fixture id="ch5-subpage-reference-list-numericJoinIncrement-attributes3">
     <template id="templateWidgetId3">
       <ch5-button type="primary" label="Loading..." sendEventOnClick="trigger_change_value">
         <ch5-button-label>
@@ -74,12 +74,12 @@
     </template>
     <div>
       <ch5-subpage-reference-list widgetId="templateWidgetId3" scrollbar="true" orientation="horizontal"
-        numberOfItems="50" rows="3" numericJoinOffset="" indexId="idx" id="subpagereferencelist3">
+        numberOfItems="50" rows="3" numericJoinIncrement="" indexId="idx" id="subpagereferencelist3">
       </ch5-subpage-reference-list>
     </div>
   </test-fixture>
 
-  <test-fixture id="ch5-subpage-reference-list-numericJoinOffset-attributes4">
+  <test-fixture id="ch5-subpage-reference-list-numericJoinIncrement-attributes4">
     <template id="templateWidgetId4">
       <ch5-button type="primary" label="Loading..." sendEventOnClick="trigger_change_value">
         <ch5-button-label>
@@ -91,12 +91,12 @@
     </template>
     <div>
       <ch5-subpage-reference-list widgetId="templateWidgetId4" scrollbar="true" orientation="horizontal"
-        numberOfItems="50" rows="3" numericJoinOffset="true" indexId="idx" id="subpagereferencelist4">
+        numberOfItems="50" rows="3" numericJoinIncrement="true" indexId="idx" id="subpagereferencelist4">
       </ch5-subpage-reference-list>
     </div>
   </test-fixture>
 
-  <test-fixture id="ch5-subpage-reference-list-numericJoinOffset-attributes5">
+  <test-fixture id="ch5-subpage-reference-list-numericJoinIncrement-attributes5">
     <template id="templateWidgetId5">
       <ch5-button type="primary" label="Loading..." sendEventOnClick="trigger_change_value">
         <ch5-button-label>
@@ -108,13 +108,13 @@
     </template>
     <div>
       <ch5-subpage-reference-list widgetId="templateWidgetId5" scrollbar="true" orientation="horizontal"
-        numberOfItems="50" rows="3" numericJoinOffset="30" indexId="idx" id="subpagereferencelist5">
+        numberOfItems="50" rows="3" numericJoinIncrement="30" indexId="idx" id="subpagereferencelist5">
       </ch5-subpage-reference-list>
     </div>
   </test-fixture>
 
   <script>
-    suite('ch5-subpage-reference-list-numericJoinOffset-attributes-value', () => {
+    suite('ch5-subpage-reference-list-numericJoinIncrement-attributes-value', () => {
       let ch5SubpageReferenceList;
       let ch5SubpageReferenceList1;
       let ch5SubpageReferenceList2;
@@ -131,7 +131,7 @@
         ch5SubpageReferenceList5 = document.getElementById("subpagereferencelist5");
       });
 
-      test('numericJoinOffset with valid value  20', (done) => {
+      test('numericJoinIncrement with valid value  20', (done) => {
         flush(() => {
           setTimeout(() => {
             expect(ch5SubpageReferenceList.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-NUMERIC');
@@ -141,7 +141,7 @@
         });
       });
 
-      test('numericJoinOffset  with invalid value a ', (done) => {
+      test('numericJoinIncrement  with invalid value a ', (done) => {
         flush(() => {
           setTimeout(() => {
             expect(ch5SubpageReferenceList1.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-NUMERIC');
@@ -151,7 +151,7 @@
         });
       });
 
-      test('numericJoinOffset  with invalid value -20 ', (done) => {
+      test('numericJoinIncrement  with invalid value -20 ', (done) => {
         flush(() => {
           setTimeout(() => {
             expect(ch5SubpageReferenceList2.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-NUMERIC');
@@ -161,7 +161,7 @@
         });
       });
 
-      test('numericJoinOffset  with invalid value empty string ', (done) => {
+      test('numericJoinIncrement  with invalid value empty string ', (done) => {
         flush(() => {
           setTimeout(() => {
             expect(ch5SubpageReferenceList3.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-NUMERIC');
@@ -171,7 +171,7 @@
         });
       });
 
-      test('numericJoinOffset  with invalid value true ', (done) => {
+      test('numericJoinIncrement  with invalid value true ', (done) => {
         flush(() => {
           setTimeout(() => {
             expect(ch5SubpageReferenceList4.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-NUMERIC');
@@ -181,7 +181,7 @@
         });
       });
 
-      test('numericJoinOffset  with valid  value 30 ', (done) => {
+      test('numericJoinIncrement  with valid  value 30 ', (done) => {
         flush(() => {
           setTimeout(() => {
             expect(ch5SubpageReferenceList5.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-NUMERIC');

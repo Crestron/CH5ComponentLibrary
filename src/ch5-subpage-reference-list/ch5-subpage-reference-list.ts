@@ -21,7 +21,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   // Subpage container dimension and Buffer values
   public static readonly SUBPAGE_CONTAINER_BUFFER: number = 2;
-  public static readonly STRETCH: TCh5SubpageReferenceListStretch[] = ['null', 'both'];
+  public static readonly STRETCH: TCh5SubpageReferenceListStretch[] = ['both'];
   public static readonly ORIENTATION: TCh5SubpageReferenceListOrientation[] = ['horizontal', 'vertical'];
   public static readonly COMPONENT_DATA: any = {
     ORIENTATION: {
@@ -56,7 +56,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "enum",
       valueOnAttributeEmpty: Ch5SubpageReferenceList.ORIENTATION[0],
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -64,8 +64,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
-
+      isObservableProperty: true
     },
     {
       default: false,
@@ -73,8 +72,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: true,
-      isObservableProperty: true,
-
+      isObservableProperty: true
     },
     {
       default: false,
@@ -82,8 +80,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: true,
-      isObservableProperty: true,
-
+      isObservableProperty: true
     },
     {
       default: 1,
@@ -139,38 +136,37 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: true,
-      isObservableProperty: true,
-
+      isObservableProperty: true
     },
     {
       default: "0",
       isSignal: true,
-      name: "booleanJoinOffset",
+      name: "booleanJoinIncrement",
       signalType: "boolean",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "0",
       isSignal: true,
-      name: "numericJoinOffset",
+      name: "numericJoinIncrement",
       signalType: "number",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "0",
       isSignal: true,
-      name: "stringJoinOffset",
+      name: "stringJoinIncrement",
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -178,7 +174,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -186,7 +182,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -194,7 +190,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -204,7 +200,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: null,
@@ -213,7 +209,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "enum",
       valueOnAttributeEmpty: null,
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: 10,
@@ -240,7 +236,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -248,7 +244,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     }
   ];
 
@@ -368,31 +364,31 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     return this._ch5Properties.get<boolean>("scrollbar");
   }
 
-  public set booleanJoinOffset(value: string) {
-    this._ch5Properties.set("booleanJoinOffset", value, null, (newValue: boolean) => {
+  public set booleanJoinIncrement(value: string) {
+    this._ch5Properties.set("booleanJoinIncrement", value, null, (newValue: boolean) => {
       // enter code
     });
   }
-  public get booleanJoinOffset(): string {
-    return this._ch5Properties.get<string>('booleanJoinOffset');
+  public get booleanJoinIncrement(): string {
+    return this._ch5Properties.get<string>('booleanJoinIncrement');
   }
 
-  public set numericJoinOffset(value: string) {
-    this._ch5Properties.set("numericJoinOffset", value, null, (newValue: number) => {
+  public set numericJoinIncrement(value: string) {
+    this._ch5Properties.set("numericJoinIncrement", value, null, (newValue: number) => {
       // enter code
     });
   }
-  public get numericJoinOffset(): string {
-    return this._ch5Properties.get<string>('numericJoinOffset');
+  public get numericJoinIncrement(): string {
+    return this._ch5Properties.get<string>('numericJoinIncrement');
   }
 
-  public set stringJoinOffset(value: string) {
-    this._ch5Properties.set("stringJoinOffset", value, null, (newValue: string) => {
+  public set stringJoinIncrement(value: string) {
+    this._ch5Properties.set("stringJoinIncrement", value, null, (newValue: string) => {
       // enter code
     });
   }
-  public get stringJoinOffset(): string {
-    return this._ch5Properties.get<string>('stringJoinOffset');
+  public get stringJoinIncrement(): string {
+    return this._ch5Properties.get<string>('stringJoinIncrement');
   }
 
   public set subpageReceiveStateEnable(value: string) {
@@ -1039,9 +1035,9 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     spgContainer.appendChild(((documentContainer as HTMLTemplateElement).content));
     // update templateContent attributes to increment join numbers and prefix contract name
     Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(spgContainer, this.contractName || '',
-      parseInt(this.booleanJoinOffset, 10) || 0,
-      parseInt(this.numericJoinOffset, 10) || 0,
-      parseInt(this.stringJoinOffset, 10) || 0);
+      parseInt(this.booleanJoinIncrement, 10) || 0,
+      parseInt(this.numericJoinIncrement, 10) || 0,
+      parseInt(this.stringJoinIncrement, 10) || 0);
     append ? this._elContainer.appendChild(spgContainer) : this._elContainer.prepend(spgContainer);
   }
 
