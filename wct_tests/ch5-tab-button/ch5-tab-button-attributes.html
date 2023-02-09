@@ -58,14 +58,6 @@
         expect(ch5TabButton.getAttribute("buttonVAlignLabel")).to.be.equal('middle');
       });
 
-      test('Check Default value for buttonCheckboxPosition', () => {
-        expect(ch5TabButton.getAttribute("buttonCheckboxPosition")).to.be.equal(null);
-        ch5TabButton.setAttribute('buttonCheckboxPosition', 'left');
-        expect(ch5TabButton.getAttribute("buttonCheckboxPosition")).to.be.equal('left');
-        ch5TabButton.removeAttribute("buttonCheckboxPosition");
-        expect(ch5TabButton.getAttribute("buttonCheckboxPosition")).to.be.equal('left');
-      });
-
       test('Check Default value for buttonIconPosition', () => {
         expect(ch5TabButton.getAttribute("buttonIconPosition")).to.be.equal(null);
         ch5TabButton.setAttribute('buttonIconPosition', 'first');

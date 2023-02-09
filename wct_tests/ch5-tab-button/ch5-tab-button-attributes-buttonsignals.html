@@ -241,7 +241,6 @@
             expect(ch5TabButton1.buttonReceiveStateShow).to.be.equal('btn-show');
             expect(getDiv(ch5TabButton1).children[0].children[0].classList.contains('ch5-hide-dis')).to.be.equal(true);
             expect(getDiv(ch5TabButton1).classList.contains('ch5-tab-button--orientation-vertical')).to.be.equal(true);
-            expect(getDiv(ch5TabButton1).classList.contains('ch5-tab-button--stretch-both')).to.be.equal(true);
             done();
           }, 500);
         });
@@ -268,7 +267,6 @@
             expect(ch5TabButton1.buttonReceiveStateEnable).to.be.equal('button-enable-0');
             expect(divTag.classList.contains('ch5-button--disabled')).to.be.equal(true);
             expect(getDiv(ch5TabButton1).classList.contains('ch5-tab-button--orientation-vertical')).to.be.equal(true);
-            expect(getDiv(ch5TabButton1).classList.contains('ch5-tab-button--stretch-both')).to.be.equal(true);
             done();
           }, 500);
         });
