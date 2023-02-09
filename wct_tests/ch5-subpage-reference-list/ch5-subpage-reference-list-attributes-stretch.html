@@ -50,7 +50,7 @@
         ch5SubpageReferenceList2.setAttribute('stretch', 'null');
         flush(() => {
           setTimeout(() => {
-            expect(ch5SubpageReferenceList2.getAttribute('stretch')).to.be.equal('null');
+            expect(ch5SubpageReferenceList2.getAttribute('stretch')).to.be.equal(null);
             expect(ch5SubpageReferenceList2.children[0].classList.contains('ch5-subpage-reference-list--stretch-both')).to.be.equal(false);
             done();
           }, 100);
@@ -79,7 +79,7 @@
           }, 100);
         })
       });
-     
+
     });
 
   </script>
