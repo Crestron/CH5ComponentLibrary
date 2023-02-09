@@ -46,7 +46,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * [
    * "`centerItems` attribute",
    * "***",
-   * "It will center the list items, if the number and size of the list items is less than the size of the control. Default value is false."
+   * "It will center the list items, if the number and size of the list items is less than the size of the control.If Stretch attribute is set to both then stretch attribute will take more priority than centerItems attribute. Default value is false."
    * ]
    * @name centeritems
    * @default false
@@ -64,6 +64,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * @default 1
    * @limits [{"min": 1, "max": 600}]
    * @attributeType "Integer"
+   * @showWhen [{"orientation":"horizontal"}]
    */
   rows: number;
   /**
@@ -77,6 +78,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * @default 1
    * @limits [{"min": 1, "max": 600}]
    * @attributeType "Integer"
+   * @showWhen [{"orientation":"vertical"}]
    */
   columns: number;
   /**
@@ -84,11 +86,11 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
   * [
   * "`scrollToPosition` attribute",
   * "***",
-  * "Indicates the index of the subpage to scrollTo. This is applicable only for single row and column. The default value is 0."
+  * "Indicates the index of the subpage to scrollTo. This is applicable only for single row and column. The default value is 0, Minimum value is 0 and Maximum value is 599."
   * ]
   * @name scrolltoposition
   * @default 0   
-  * @limits [{"min": 1, "max": 600}]
+  * @limits [{"min": 0, "max": 599}]
   * @attributeType "Integer"
   */
   scrollToPosition: number;
@@ -235,7 +237,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
    * "This attribute helps to replace the pattern with the index on the ch5-subpage-reference-list"
    * ]
    * @name indexid
-   * @default 
    * @attributeType "String"
    */
   indexId: string;

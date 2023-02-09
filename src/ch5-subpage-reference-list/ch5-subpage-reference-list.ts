@@ -120,7 +120,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       nameForSignal: "subpageReceiveStateScrollTo",
       type: "number",
-      valueOnAttributeEmpty: 0,
+      valueOnAttributeEmpty: null,
       numberProperties: {
         min: 0,
         max: 599,
@@ -551,7 +551,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     customElements.whenDefined(this.nodeName.toLowerCase()).then(() => {
       this.componentLoadedEvent(this.nodeName.toLowerCase(), this.id);
     });
-    // needed for preload-true for the calculation of bars height and width depending upon parent
+    // needed for preload-true 
     subscribeInViewPortChange(this, () => {
       if (this.elementIsInViewPort && this.reInit) {
         this.reInit = false;
@@ -898,7 +898,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       const containerHeight = this._elContainer.getBoundingClientRect().height;
       const loadableSubpages = Math.ceil(containerHeight / this.subpageHeight) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
       // If container height is not set then display all the subpage
-      if (containerHeight == 0) {
+      if (containerHeight === 0) {
         for (let i = 0; i < this.numberOfItems; i++) { this.createSubpage(i); }
       }
       // Bottom Edge case
@@ -1036,9 +1036,9 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     spgContainer.appendChild(((documentContainer as HTMLTemplateElement).content));
     // update templateContent attributes to increment join numbers and prefix contract name
     Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(spgContainer, this.contractName || '',
-      parseInt(this.booleanJoinIncrement, 10) || 0,
-      parseInt(this.numericJoinIncrement, 10) || 0,
-      parseInt(this.stringJoinIncrement, 10) || 0);
+      parseInt(this.booleanJoinIncrement, 10) * index || 0,
+      parseInt(this.numericJoinIncrement, 10) * index || 0,
+      parseInt(this.stringJoinIncrement, 10) * index || 0);
     append ? this._elContainer.appendChild(spgContainer) : this._elContainer.prepend(spgContainer);
   }
 
