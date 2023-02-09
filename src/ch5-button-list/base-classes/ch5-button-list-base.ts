@@ -604,7 +604,6 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
 
   public disconnectedCallback() {
     this.logger.start('disconnectedCallback()');
-
     this.removeEventListeners();
     this.unsubscribeFromSignals();
     this.logger.stop();
@@ -966,17 +965,6 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
       }
     }
     this.initScrollbar();
-  }
-
-  protected tabButtonDisplay() {
-    Array.from(this._elContainer.children).forEach(container => container.remove());
-    for (let i = 0; i < this.numberOfItems; i++) {
-      this.createButton(i);
-    }
-    Array.from(this._elContainer.children).forEach(container => container.firstElementChild?.firstElementChild?.classList.add(this.primaryCssClass + '--center-tab-style'));
-    this._elContainer.firstElementChild?.firstElementChild?.firstElementChild?.classList.replace(`${this.primaryCssClass + '--center-tab-style'}`, `${this.primaryCssClass + '--start-tab-style'}`);
-    this._elContainer.lastElementChild?.firstElementChild?.firstElementChild?.classList.replace(`${this.primaryCssClass + '--center-tab-style'}`, `${this.primaryCssClass + '--end-tab-style'}`);
-    if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
   }
 
   public buttonDisplay() {
