@@ -20,8 +20,8 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   public static readonly CENTER_ITEMS_CLASSLIST_PREFIX: string = '--center-items-';
 
   // Subpage container dimension and Buffer values
-  public static readonly SUBPAGE_CONTAINER_BUFFER: number = 2;
-  public static readonly STRETCH: TCh5SubpageReferenceListStretch[] = ['null', 'both'];
+  public static readonly SUBPAGE_CONTAINER_BUFFER: number = 4;
+  public static readonly STRETCH: TCh5SubpageReferenceListStretch[] = ['both'];
   public static readonly ORIENTATION: TCh5SubpageReferenceListOrientation[] = ['horizontal', 'vertical'];
   public static readonly COMPONENT_DATA: any = {
     ORIENTATION: {
@@ -56,16 +56,15 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "enum",
       valueOnAttributeEmpty: Ch5SubpageReferenceList.ORIENTATION[0],
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
-      name: "controlJoinID",
+      name: "contractName",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
-
+      isObservableProperty: true
     },
     {
       default: false,
@@ -73,8 +72,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: true,
-      isObservableProperty: true,
-
+      isObservableProperty: true
     },
     {
       default: false,
@@ -82,8 +80,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: true,
-      isObservableProperty: true,
-
+      isObservableProperty: true
     },
     {
       default: 1,
@@ -121,15 +118,16 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       default: 0,
       name: "scrollToPosition",
       removeAttributeOnNull: true,
+      nameForSignal: "subpageReceiveStateScrollTo",
       type: "number",
-      valueOnAttributeEmpty: 0,
+      valueOnAttributeEmpty: null,
       numberProperties: {
-        min: 1,
-        max: 600,
-        conditionalMin: 1,
-        conditionalMax: 600,
-        conditionalMinValue: 1,
-        conditionalMaxValue: 600
+        min: 0,
+        max: 599,
+        conditionalMin: 0,
+        conditionalMax: 599,
+        conditionalMinValue: 0,
+        conditionalMaxValue: 599
       },
       isObservableProperty: true
     },
@@ -139,38 +137,37 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: true,
-      isObservableProperty: true,
-
+      isObservableProperty: true
     },
     {
       default: "0",
       isSignal: true,
-      name: "booleanJoinOffset",
+      name: "booleanJoinIncrement",
       signalType: "boolean",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "0",
       isSignal: true,
-      name: "numericJoinOffset",
+      name: "numericJoinIncrement",
       signalType: "number",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "0",
       isSignal: true,
-      name: "stringJoinOffset",
+      name: "stringJoinIncrement",
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -178,7 +175,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -186,7 +183,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -194,7 +191,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -204,7 +201,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: null,
@@ -214,6 +211,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       type: "enum",
       valueOnAttributeEmpty: null,
       isObservableProperty: true,
+      isNullable: true
     },
     {
       default: 10,
@@ -240,7 +238,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -248,7 +246,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     }
   ];
 
@@ -267,11 +265,13 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   private startY: number = 0;
   private scrollListLeft: number = 0;
   private scrollListTop: number = 0;
-  private loadedSubpages: number = 0;
-  private reInit: boolean = false;
   private scrollbarDimension: number = 0;
   private subpageWidth: number = 0;
   private subpageHeight: number = 0;
+  private containerHeight: number = 0;
+  private containerWidth: number = 0;
+  private reInit: boolean = true;
+
 
   // Default Row and Column value
   private rowClassValue: number = 1;
@@ -283,6 +283,10 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   public debounceHandleScrollToPosition = this.debounce((value: number) => {
     this.handleScrollToPosition(value);
   }, 400);
+
+  public debounceInitScrollBar = this.debounce(() => {
+    this.initScrollbar();
+  }, 100);
 
   //#endregion
 
@@ -298,13 +302,13 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     return this._ch5Properties.get<TCh5SubpageReferenceListOrientation>("orientation");
   }
 
-  public set controlJoinID(value: string) {
-    this._ch5Properties.set<string>("controlJoinID", value, () => {
+  public set contractName(value: string) {
+    this._ch5Properties.set<string>("contractName", value, () => {
       // enter Code
     });
   }
-  public get controlJoinID(): string {
-    return this._ch5Properties.get<string>("controlJoinID");
+  public get contractName(): string {
+    return this._ch5Properties.get<string>("contractName");
   }
 
   public set endless(value: boolean) {
@@ -361,31 +365,31 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     return this._ch5Properties.get<boolean>("scrollbar");
   }
 
-  public set booleanJoinOffset(value: string) {
-    this._ch5Properties.set("booleanJoinOffset", value, null, (newValue: boolean) => {
+  public set booleanJoinIncrement(value: string) {
+    this._ch5Properties.set("booleanJoinIncrement", value, null, (newValue: boolean) => {
       // enter code
     });
   }
-  public get booleanJoinOffset(): string {
-    return this._ch5Properties.get<string>('booleanJoinOffset');
+  public get booleanJoinIncrement(): string {
+    return this._ch5Properties.get<string>('booleanJoinIncrement');
   }
 
-  public set numericJoinOffset(value: string) {
-    this._ch5Properties.set("numericJoinOffset", value, null, (newValue: number) => {
+  public set numericJoinIncrement(value: string) {
+    this._ch5Properties.set("numericJoinIncrement", value, null, (newValue: number) => {
       // enter code
     });
   }
-  public get numericJoinOffset(): string {
-    return this._ch5Properties.get<string>('numericJoinOffset');
+  public get numericJoinIncrement(): string {
+    return this._ch5Properties.get<string>('numericJoinIncrement');
   }
 
-  public set stringJoinOffset(value: string) {
-    this._ch5Properties.set("stringJoinOffset", value, null, (newValue: string) => {
+  public set stringJoinIncrement(value: string) {
+    this._ch5Properties.set("stringJoinIncrement", value, null, (newValue: string) => {
       // enter code
     });
   }
-  public get stringJoinOffset(): string {
-    return this._ch5Properties.get<string>('stringJoinOffset');
+  public get stringJoinIncrement(): string {
+    return this._ch5Properties.get<string>('stringJoinIncrement');
   }
 
   public set subpageReceiveStateEnable(value: string) {
@@ -418,6 +422,9 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   public set subpageReceiveStateScrollTo(value: string) {
     this._ch5Properties.set("subpageReceiveStateScrollTo", value, null, (newValue: number) => {
       this._ch5Properties.setForSignalResponse<number>("scrollToPosition", newValue, () => {
+        if (newValue >= this.numberOfItems || newValue < 0) { return; }
+        if ((this.orientation === 'horizontal' && this.rows !== 1) || (this.orientation === 'vertical' && this.columns !== 1)) { return; }
+        this.reInit = true;
         this.debounceHandleScrollToPosition(newValue);
       });
     });
@@ -544,11 +551,12 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     customElements.whenDefined(this.nodeName.toLowerCase()).then(() => {
       this.componentLoadedEvent(this.nodeName.toLowerCase(), this.id);
     });
-    // needed for preload-true for the calculation of bars height and width depending upon parent
+    // needed for preload-true 
     subscribeInViewPortChange(this, () => {
-      if (this.elementIsInViewPort && this.reInit === false) {
+      if (this.elementIsInViewPort && this.reInit) {
+        this.reInit = false;
         this.debounceSubpageDisplay();
-        this.reInit = true;
+        this.debounceInitScrollBar();
       }
     });
     this.logger.stop();
@@ -559,9 +567,15 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.removeEventListeners();
     this.unsubscribeFromSignals();
     unSubscribeInViewPortChange(this);
+    this.reInitialize()
     this.logger.stop();
   }
 
+  private reInitialize() {
+    this.containerWidth = 0;
+    this.containerHeight = 0;
+    this.reInit = true;
+  }
   //#endregion
 
   //#region Protected / Private Methods
@@ -717,7 +731,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
   private endlessHelper() {
     const { offsetHeight, offsetWidth, scrollLeft, scrollTop, scrollWidth, scrollHeight } = this._elContainer;
-    const endlessScrollable = this.orientation === 'horizontal' ? offsetWidth + 20 < scrollWidth : offsetHeight + 20 < scrollHeight;
+    const endlessScrollable = this.orientation === 'horizontal' ? offsetWidth + this.subpageWidth < scrollWidth : offsetHeight + this.subpageHeight < scrollHeight;
     if (endlessScrollable === false) { return; }
     if (this.orientation === 'horizontal' && this.dir === 'rtl') {
       if (Math.abs(scrollLeft) + offsetWidth > scrollWidth - this.subpageWidth / 4) {
@@ -734,32 +748,33 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         this._elContainer.scrollLeft -= this.subpageWidth / 2;
       }
     } else if (this.orientation === 'horizontal') {
-      if (scrollLeft < 5) {
+      if (scrollLeft < this.subpageWidth / 4) {
         const firstElement = Number(this._elContainer.firstElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
         const index = (this.numberOfItems + firstElement - 1) % this.numberOfItems;
         this.createSubpage(index, false);
         this._elContainer.lastElementChild?.remove();
-        this._elContainer.scrollLeft += 10;
-      } else if (scrollLeft + offsetWidth > scrollWidth - 5) {
+        this._elContainer.scrollLeft += this.subpageWidth / 2;
+      } else if (scrollLeft + offsetWidth > scrollWidth - this.subpageWidth / 4) {
         const lastElement = Number(this._elContainer.lastElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
         const index = (this.numberOfItems + lastElement + 1) % this.numberOfItems;
         this.createSubpage(index);
         this._elContainer.firstElementChild?.remove();
-        this._elContainer.scrollLeft -= 10;
+        this._elContainer.scrollLeft -= this.subpageWidth / 2;
       }
     } else {
-      if (scrollTop < 5) {
+      if (scrollTop < this.subpageHeight / 4) {
         const firstElement = Number(this._elContainer.firstElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
         const index = (this.numberOfItems + firstElement - 1) % this.numberOfItems;
         this.createSubpage(index, false);
         this._elContainer.lastElementChild?.remove();
-        this._elContainer.scrollTop += 10;
-      } else if (scrollTop + offsetHeight > scrollHeight - 5) {
+        this._elContainer.scrollTop += this.subpageHeight / 2;
+      } else if (scrollTop + offsetHeight > scrollHeight - this.subpageHeight / 4) {
         const lastElement = Number(this._elContainer.lastElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
         const index = (this.numberOfItems + lastElement + 1) % this.numberOfItems;
         this.createSubpage(index);
         this._elContainer.firstElementChild?.remove();
-        this._elContainer.scrollTop -= 10;
+        this._elContainer.scrollTop -= this.subpageHeight / 2;
+        if (this.scrollToPosition === this.numberOfItems - 1 && index === 0) { this._elContainer.scrollTop += this.subpageHeight; }
       }
     }
   }
@@ -792,6 +807,9 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.CENTER_ITEMS_CLASSLIST_PREFIX + bool.toString());
     });
     this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.CENTER_ITEMS_CLASSLIST_PREFIX + this.centerItems);
+    if (this.centerItems === true) {
+      this.debounceSubpageDisplay();
+    }
   }
   public handleRowsAndColumn() {
     if (this.endless) { this.endless = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
@@ -837,17 +855,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     // return if the subpage list contains more than one row or one column
     if ((this.orientation === 'horizontal' && this.rows !== 1) || (this.orientation === 'vertical' && this.columns !== 1)) { return; }
 
-    // return if all the subpages fits in the container
-    if (this.orientation === 'horizontal') {
-      const containerWidth = this._elContainer.getBoundingClientRect().width;
-      const totalButtonWidth = this.subpageWidth * this.numberOfItems;
-      if (containerWidth > totalButtonWidth) { return; }
-    } else {
-      const containerHeight = this._elContainer.getBoundingClientRect().height;
-      const totalButtonHeight = this.subpageHeight * this.numberOfItems;
-      if (containerHeight > totalButtonHeight) { return; }
-    }
-
     // Remove all the children in the container
     Array.from(this._elContainer.children).forEach(container => container.remove());
 
@@ -875,34 +882,38 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       // Right Edge case
       if (value >= this.numberOfItems - (loadableSubPageList - Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER)) {
         for (let i = this.numberOfItems - loadableSubPageList; i < this.numberOfItems; i++) { this.createSubpage(i); }
-        this._elContainer.scrollLeft = value === this.numberOfItems - 1 ? this.subpageWidth * 3 : this.subpageWidth * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
+        this._elContainer.scrollLeft = value === this.numberOfItems - 1 ? this.subpageWidth * 5 : this.subpageWidth * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
       }
       // In between the range
       else if (value >= Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER) {
-        for (let i = value - Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER; i < value + loadableSubPageList; i++) { this.createSubpage(i); }
+        for (let i = value - Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER; i < value + loadableSubPageList && i < this.numberOfItems; i++) { this.createSubpage(i); }
         this._elContainer.scrollLeft = this.subpageWidth * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
       }
       // Left Edge case - value - (0,1) 
       else {
-        for (let i = 0; i < loadableSubPageList; i++) { this.createSubpage(i); }
+        for (let i = 0; i < loadableSubPageList && i < this.numberOfItems; i++) { this.createSubpage(i); }
         this._elContainer.scrollLeft = this.subpageWidth * value;
       }
     } else {
       const containerHeight = this._elContainer.getBoundingClientRect().height;
-      const loadableSubPageList = Math.ceil(containerHeight / this.subpageHeight) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
+      const loadableSubpages = Math.ceil(containerHeight / this.subpageHeight) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
+      // If container height is not set then display all the subpage
+      if (containerHeight === 0) {
+        for (let i = 0; i < this.numberOfItems; i++) { this.createSubpage(i); }
+      }
       // Bottom Edge case
-      if (value >= this.numberOfItems - (loadableSubPageList - Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER)) {
-        for (let i = this.numberOfItems - loadableSubPageList; i < this.numberOfItems; i++) { this.createSubpage(i); }
-        this._elContainer.scrollTop = value === this.numberOfItems - 1 ? this.subpageHeight * 3 : this.subpageHeight * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
+      else if (value >= this.numberOfItems - (loadableSubpages - Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER)) {
+        for (let i = this.numberOfItems - loadableSubpages; i < this.numberOfItems; i++) { this.createSubpage(i); }
+        this._elContainer.scrollTop = value === this.numberOfItems - 1 ? this.subpageHeight * 5 : this.subpageHeight * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
       }
       // In between the range
       else if (value >= Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER) {
-        for (let i = value - Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER; i < value + loadableSubPageList; i++) { this.createSubpage(i); }
+        for (let i = value - Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER; i < value + loadableSubpages && i < this.numberOfItems; i++) { this.createSubpage(i); }
         this._elContainer.scrollTop = this.subpageHeight * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
       }
       // Top Edge case - value - (0,1) 
       else {
-        for (let i = 0; i < loadableSubPageList; i++) { this.createSubpage(i); }
+        for (let i = 0; i < loadableSubpages && i < this.numberOfItems; i++) { this.createSubpage(i); }
         this._elContainer.scrollTop = this.subpageHeight * value;
       }
     }
@@ -927,11 +938,11 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   private handleStretch() {
-    Array.from(Ch5SubpageReferenceList.COMPONENT_DATA.STRETCH.values).forEach((e: any) => {
-      this._elContainer.classList.remove(Ch5SubpageReferenceList.COMPONENT_DATA.STRETCH.classListPrefix + e);
-    });
-    if (!this.stretch) {
-      this._elContainer.classList.add(Ch5SubpageReferenceList.COMPONENT_DATA.STRETCH.classListPrefix + this.stretch);
+    if (this.stretch === 'both') { this.stretch = this.orientation === 'horizontal' ? this.rows === 1 ? 'both' : null : this.columns === 1 ? 'both' : null; }
+    if (this.stretch === null) {
+      this._elContainer.classList.remove(this.primaryCssClass + '--stretch-both');
+    } else {
+      this.debounceSubpageDisplay();
     }
   }
   public subpageDisplay() {
@@ -945,23 +956,26 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.createSubpage(0);
     this.subpageWidth = this._elContainer.children[0].getBoundingClientRect().width;
     this.subpageHeight = this._elContainer.children[0].getBoundingClientRect().height;
+    let loadedSubpages = 0;
     if (this.orientation === 'horizontal') {
       // Find the number of initial subpages which can be loaded based on container width
       const containerWidth = this._elContainer.getBoundingClientRect().width;
-      if (containerWidth === 0) { this.reInit = false; }
-      this.loadedSubpages = Math.floor(containerWidth / this.subpageWidth) * this.rows + this.rows * 2;
+      loadedSubpages = Math.floor(containerWidth / this.subpageWidth) * this.rows + this.rows * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
     } else {
       const containerHeight = this._elContainer.getBoundingClientRect().height;
       // Check whether the container is set with custom height
       if (containerHeight > this.subpageHeight) {
-        this.loadedSubpages = Math.floor(containerHeight / this.subpageHeight) * this.columns + this.columns * 2;
+        loadedSubpages = Math.floor(containerHeight / this.subpageHeight) * this.columns + this.columns * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;;
       } else {
-        this.loadedSubpages = this.numberOfItems;
+        loadedSubpages = this.numberOfItems;
       }
     }
-    this.loadedSubpages = this.loadedSubpages > this.numberOfItems ? this.numberOfItems : this.loadedSubpages;
-    for (let index = 1; index < this.loadedSubpages; index++) {
+    loadedSubpages = loadedSubpages > this.numberOfItems ? this.numberOfItems : loadedSubpages;
+    for (let index = 1; index < loadedSubpages; index++) {
       this.createSubpage(index);
+    }
+    if (this.endless) {
+      this.orientation === 'horizontal' ? this._elContainer.scrollLeft = 5 : this._elContainer.scrollTop = 5;
     }
     this.initScrollbar();
     if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
@@ -1000,7 +1014,13 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       spgContainer.setAttribute('data-ch5-noshow-type', 'display');
     }
     if (this.hasAttribute('subpageReceiveStateEnable') && this.getAttribute("subpageReceiveStateEnable")?.trim() && !this.hasAttribute('receiveStateEnable')) {
-      spgContainer.setAttribute('data-ch5-enable', this.replaceAll(this.getAttribute("subpageReceiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, index + ''));
+      const attrValue = this.replaceAll(this.getAttribute("subpageReceiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, '');
+      const isNumber = /^[0-9]+$/.test(attrValue);
+      if (isNumber) {
+        spgContainer.setAttribute('data-ch5-enable', Number(attrValue) + index + '');
+      } else {
+        spgContainer.setAttribute('data-ch5-enable', this.replaceAll(this.getAttribute("subpageReceiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, index + ''));
+      }
     } else if (this.hasAttribute('receiveStateEnable')) {
       spgContainer.setAttribute('data-ch5-enable', this.replaceAll(this.getAttribute("receiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, index + ''));
     }
@@ -1015,10 +1035,10 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
     spgContainer.appendChild(((documentContainer as HTMLTemplateElement).content));
     // update templateContent attributes to increment join numbers and prefix contract name
-    Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(spgContainer, this.controlJoinID || '',
-      parseInt(this.booleanJoinOffset, 10) || 0,
-      parseInt(this.numericJoinOffset, 10) || 0,
-      parseInt(this.stringJoinOffset, 10) || 0);
+    Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(spgContainer, this.contractName || '',
+      parseInt(this.booleanJoinIncrement, 10) * index || 0,
+      parseInt(this.numericJoinIncrement, 10) * index || 0,
+      parseInt(this.stringJoinIncrement, 10) * index || 0);
     append ? this._elContainer.appendChild(spgContainer) : this._elContainer.prepend(spgContainer);
   }
 
@@ -1092,16 +1112,15 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
   }
 
-  private resizeHandler = () => {
-    if (this.orientation === 'horizontal' && this._elContainer.children.length !== 0) {
-      const containerWidth = this._elContainer.getBoundingClientRect().width;
-      let loadableSubpages = Math.floor(containerWidth / this.subpageWidth) * this.rows + this.rows * 2;
-      loadableSubpages = loadableSubpages > this.numberOfItems ? this.numberOfItems : loadableSubpages;
-      for (let i = this.loadedSubpages; i < loadableSubpages; i++) {
-        this.createSubpage(this.loadedSubpages++);
-      }
+  private resizeHandler = (event: Event) => {
+    const { width, height } = this._elContainer.getBoundingClientRect();
+    if (this.containerWidth === 0 && width !== 0) {
+      this.containerWidth = width;
+      this.debounceSubpageDisplay();
+    } else if (this.containerHeight === 0 && height !== 0) {
+      this.containerHeight = height;
+      this.debounceSubpageDisplay();
     }
-    this.initScrollbar();
   }
 
   protected getTargetElementForCssClassesAndStyle(): HTMLElement {

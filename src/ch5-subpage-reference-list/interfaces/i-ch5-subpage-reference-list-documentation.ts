@@ -7,7 +7,7 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  * @tagName ch5-subpage-reference-list
  * @role subpage-reference-list
  * @description The Subpage Reference List allows multiple instances of a given subpage to be displayed and managed in a list.
- * @componentVersion 1.0.0
+ * @componentVersion 2.3.0
  * @childElements
  * [
  *    
@@ -29,20 +29,38 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  *     ]
  *   },
  *   {
+ *     "prefix": "ch5-subpage-reference-list:default",
+ *     "description": "Crestron subpage reference list (default)",
+ *     "body": [
+ *       "<ch5-subpage-reference-list id=\"ch5-subpage-reference-list_${1:id}\"",
+ *       "\twidgetId=\"${2:}\"",
+ *       "\torientation=\"${3:horizontal}\"",
+ *       "\tscrollbar=\"${4:false}\"",
+ *       "\tcenterItems=\"${5:false}\"",
+ *       "\tendless=\"${6:false}\"",
+ *       "\tnumberOfItems=\"${7:10}\"",
+ *       "\trows=\"${8:1}\"",
+ *       "\tcolumns=\"${9:1}\"",
+ *       "\tindexId=\"${10:}\"",
+ *       "\tscrollToPosition=\"${11:0}\">",
+ *       "</ch5-subpage-reference-list>$0"
+ *       ]
+ *    },
+ *   {
  *     "prefix": "ch5-subpage-reference-list:all-attributes",
  *     "description": "Crestron subpage reference list (All Attributes)",
  *     "body": [
  *       "<ch5-subpage-reference-list id=\"ch5-subpage-reference-list_${1:id}\"",
  *       "\torientation=\"${2|horizontal,vertical|}\"",
- *       "\tcontrolJoinID=\"${3:}\"",
+ *       "\tcontractName=\"${3:}\"",
  *       "\tendless=\"${4:false}\"",
  *       "\tcenterItems=\"${5:false}\"",
  *       "\trows=\"${6:1}\"",
  *       "\tcolumns=\"${7:1}\"",
  *       "\tscrollbar=\"${8:false}\"",
- *       "\tbooleanJoinOffset=\"${9:}\"",
- *       "\tnumericJoinOffset=\"${10:}\"",
- *       "\tstringJoinOffset=\"${11:}\"",
+ *       "\tbooleanJoinIncrement=\"${9:}\"",
+ *       "\tnumericJoinIncrement=\"${10:}\"",
+ *       "\tstringJoinIncrement=\"${11:}\"",
  *       "\tsubpageReceiveStateEnable=\"${12:}\"",
  *       "\tsubpageReceiveStateShow=\"${13:}\"",
  *       "\twidgetId=\"${14:}\"",

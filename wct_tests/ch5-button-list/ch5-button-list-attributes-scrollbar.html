@@ -158,7 +158,7 @@
       });
 
       numberOfRows.forEach((val, i) => {
-        test(`Check attribute scrollbar with multiple rows ${val}`, () => {
+        test(`Check attribute scrollbar with multiple rows ${val}`, (done) => {
           ch5ButtonList1.setAttribute('rows', val);
           ch5ButtonList1.setAttribute('scrollbar', true);
           ch5ButtonList1.setAttribute('numberOfItems', val);
@@ -166,7 +166,6 @@
           flush(() => {
             setTimeout(() => {
               expect(ch5ButtonList1.orientation).to.be.equal('horizontal');
-              expect(ch5ButtonList1.rows).to.be.equal(2);
               expect(ch5ButtonList1.rows).to.be.equal(val);
               expect(ch5ButtonList1.scrollbar).to.be.equal(true);
               expect(ch5ButtonList1.numberOfItems).to.be.equal(val);
@@ -181,7 +180,7 @@
           });
         });
 
-        test(`Check attribute scrollbar false with multiple rows ${val}`, () => {
+        test(`Check attribute scrollbar false with multiple rows ${val}`, (done) => {
           ch5ButtonList1.setAttribute('rows', val);
           ch5ButtonList1.setAttribute('scrollbar', false);
           ch5ButtonList1.setAttribute('numberOfItems', val);
@@ -205,13 +204,13 @@
       });
 
       scrollBarVal.forEach((val, i) => {
-        test(`Check attribute scrollbar for rows ${val.rows} and columns ${val.columns}`, () => {
+        test(`Check attribute scrollbar for rows ${val.rows} and columns ${val.columns}`, (done) => {
           ch5ButtonList1.setAttribute('rows', val.rows);
           ch5ButtonList1.setAttribute('scrollbar', true);
           ch5ButtonList1.setAttribute('columns', val.columns);
           ch5ButtonList1.setAttribute('orientation', 'vertical');
           ch5ButtonList1.setAttribute('numberOfItems', val.numberOfItems);
-          ch5ButtonList1.setAttribute('customStyle', 'height:50%; width:50z%;');
+          ch5ButtonList1.setAttribute('customStyle', 'height:50%; width:50%;');
           flush(() => {
             setTimeout(() => {
               expect(ch5ButtonList1.scrollbar).to.be.equal(true);
@@ -229,7 +228,7 @@
           });
         });
 
-        test(`Check attribute scrollbar false for rows ${val.rows} and columns ${val.columns}`, () => {
+        test(`Check attribute scrollbar false for rows ${val.rows} and columns ${val.columns}`, (done) => {
           ch5ButtonList1.setAttribute('rows', val.rows);
           ch5ButtonList1.setAttribute('scrollbar', false);
           ch5ButtonList1.setAttribute('columns', val.columns);
@@ -253,7 +252,7 @@
           });
         });
 
-        test(`Check attribute scrollbar for rows ${val.rows} and columns ${val.columns} with buttonShape and buttonIconClass`, () => {
+        test(`Check attribute scrollbar for rows ${val.rows} and columns ${val.columns} with buttonShape and buttonIconClass`, (done) => {
           ch5ButtonList2.setAttribute('rows', val.rows);
           ch5ButtonList2.setAttribute('scrollbar', true);
           ch5ButtonList2.setAttribute('columns', val.columns);
@@ -278,7 +277,7 @@
           });
         });
 
-        test(`Check attribute scrollbar false for rows ${val.rows} and columns ${val.columns} with buttonShape and buttonIconClass`, () => {
+        test(`Check attribute scrollbar false for rows ${val.rows} and columns ${val.columns} with buttonShape and buttonIconClass`, (done) => {
           ch5ButtonList2.setAttribute('rows', val.rows);
           ch5ButtonList2.setAttribute('scrollbar', false);
           ch5ButtonList2.setAttribute('columns', val.columns);
@@ -303,7 +302,7 @@
           });
         });
 
-        test(`Check attribute scrollbar for rows ${val.rows} and columns ${val.columns} with buttonMode`, () => {
+        test(`Check attribute scrollbar for rows ${val.rows} and columns ${val.columns} with buttonMode`, (done) => {
           ch5ButtonList3.setAttribute('buttonMode', i);
           ch5ButtonList3.setAttribute('rows', val.rows);
           ch5ButtonList3.setAttribute('scrollbar', true);

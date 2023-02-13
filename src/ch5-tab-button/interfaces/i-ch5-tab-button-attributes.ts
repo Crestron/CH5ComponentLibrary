@@ -1,5 +1,5 @@
 import { TCh5GenericListAttributesOrientation } from '../../ch5-generic-list-attributes/interfaces/t-ch5-generic-list-attributes';
-import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape } from '../../ch5-button-list/interfaces/t-ch5-button-list';
+import { TCh5TabButtonButtonType, TCh5TabButtonButtonHAlignLabel, TCh5TabButtonButtonVAlignLabel, TCh5TabButtonButtonIconPosition, TCh5TabButtonButtonShape } from '../../ch5-tab-button/interfaces/t-ch5-tab-button';
 import { ICh5GenericListAttributes } from "../../ch5-common/interfaces/i-ch5-generic-list-attributes";
 
 /**
@@ -53,7 +53,7 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * @default default
    * @attributeType "EnumeratedValue"
    */
-  buttonType: TCh5ButtonListButtonType;
+  buttonType: TCh5TabButtonButtonType;
   /**
    * @documentation
    * [
@@ -65,7 +65,7 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * @default center
    * @attributeType "EnumeratedValue"
    */
-  buttonHAlignLabel: TCh5ButtonListButtonHAlignLabel;
+  buttonHAlignLabel: TCh5TabButtonButtonHAlignLabel;
   /**
    * @documentation
    * [
@@ -77,7 +77,7 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * @default middle
    * @attributeType "EnumeratedValue"
    */
-  buttonVAlignLabel: TCh5ButtonListButtonVAlignLabel;
+  buttonVAlignLabel: TCh5TabButtonButtonVAlignLabel;
   /**
    * @documentation
    * [
@@ -89,19 +89,19 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * @default first
    * @attributeType "EnumeratedValue"
    */
-  buttonIconPosition: TCh5ButtonListButtonIconPosition;
+  buttonIconPosition: TCh5TabButtonButtonIconPosition;
   /**
    * @documentation
    * [
    * "`buttonShape` attribute",
    * "***",
-   * "Valid values are 'rectangle(default)', 'rounded-rectangle'. This attribute sets shape of the button."
+   * "Valid values are 'rectangle(default)', 'rounded-rectangle' and 'tab'. This attribute sets shape of the button."
    * ]
    * @name buttonshape
    * @default rectangle
    * @attributeType "EnumeratedValue"
    */
-  buttonShape: TCh5ButtonListButtonShape;
+  buttonShape: TCh5TabButtonButtonShape;
   /**
    * @documentation
    * [
@@ -179,7 +179,7 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * [
    * "`buttonReceiveStateScriptLabelHtml` attribute",
    * "***",
-   * "Allows the signal script evaluation to be applied to the button.innerHTML class.  Allows for multiline, multiStyled labels."
+   * "Allows the signal script evaluation to be applied to the button.innerHTML class. Allows for multiline, multiStyled labels."
    * ]
    * @name buttonreceivestatescriptlabelhtml
    * @default 
@@ -201,9 +201,9 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
   /**
    * @documentation
    * [
-   * "`receiveStateButtonIconUrl` attribute",
+   * "`buttonReceiveStateIconUrl` attribute",
    * "***",
-   * "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute of all the buttons in the list."
+   * "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute of all the buttons in the tab button."
    * ]
    * @name buttonreceivestateiconurl
    * @default 

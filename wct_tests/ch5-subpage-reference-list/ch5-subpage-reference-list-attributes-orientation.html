@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-subpage-reference-list-orientation-attributes">
+    <template id="templateWidgetId">
+      <div>
+        <ch5-toggle label="tgl_{{idx}}">
+        </ch5-toggle>
+      </div>
+    </template>
+    <div>
+      <ch5-subpage-reference-list id="subpagereferencelistone" widgetId="templateWidgetId" numberOfItems="30" rows="1"
+        indexId="idx">
+      </ch5-subpage-reference-list>
+      <ch5-subpage-reference-list id="subpagereferencelisttwo" widgetId="templateWidgetId" numberOfItems="20" rows="3"
+        indexId="idx">
+      </ch5-subpage-reference-list>
+      <ch5-subpage-reference-list id="subpagereferencelistthree" widgetId="templateWidgetId" numberOfItems="20"
+        columns="3" orientation="vertical" indexId="idx">
+      </ch5-subpage-reference-list>
+
+    </div>
+  </test-fixture>
+  <script>
+    suite('ch5-subpage-reference-list-orientation-attributes-value', () => {
+      let ch5SubpageReferenceList;
+      let ch5SubpageReferenceList1;
+      let ch5SubpageReferenceList2;
+
+      setup(async () => {
+        ch5SubpageReferenceList = document.getElementById("subpagereferencelistone");
+        ch5SubpageReferenceList1 = document.getElementById("subpagereferencelisttwo");
+        ch5SubpageReferenceList2 = document.getElementById("subpagereferencelistthree");
+      });
+
+      const availableOrientations = ['horizontal', 'vertical'];
+      const invalidOrientations = ['', 'junk', 'null', 'Vertical', 'Horizontal', 'undefined', '0', '1', 'top', 'left', 'right', 'bottom', 'center'];
+      const expectedOrientationValue = availableOrientations[0];
+      const rowsColumnValue = ['1', '10', '500'];
+      const invalidValue = ['a', '-1', '0'];
+      const expectedValue = rowsColumnValue[0];
+
+      availableOrientations.forEach((orientationName, i) => {
+        test(`Check attribute orientation: "${orientationName}"`, (done) => {
+          ch5SubpageReferenceList.setAttribute('orientation', orientationName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5SubpageReferenceList.orientation).to.be.equal(orientationName);
+              expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--orientation-" + orientationName)).to.satisfy((getValue) => {
+                if (orientationName === 'horizontal') {
+                  return (getValue === true || getValue === false);
+                } else {
+                  return getValue;
+                }
+              });
+              availableOrientations.forEach((orientationNameNew, j) => {
+                if (orientationNameNew !== orientationName) {
+                  expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--orientation-" + orientationNameNew)).to.be.equal(false);
+                }
+              });
+              done();
+            }, 100);
+          });
+        });
+      });
+
+      invalidOrientations.forEach((invalidOrientation, i) => {
+        test(`Check attribute orientation: "${invalidOrientation}"`, (done) => {
+          ch5SubpageReferenceList.setAttribute('orientation', invalidOrientation);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5SubpageReferenceList.orientation).to.be.equal(expectedOrientationValue);
+              expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--orientation-" + expectedOrientationValue)).to.satisfy((getValue) => {
+                if (invalidOrientation === 'horizontal') {
+                  return (getValue === true || getValue === false);
+                } else {
+                  return getValue;
+                }
+              });
+              done();
+            }, 100);
+          })
+        });
+      });
+
+      rowsColumnValue.forEach((val, i) => {
+        test(`Check attributes orientation horizontal with rows attribute`, (done) => {
+          ch5SubpageReferenceList.setAttribute('orientation', 'horizontal');
+          ch5SubpageReferenceList.setAttribute('rows', val);
+          flush(() => {
+            setTimeout(() => {
+              if (val === "500") {
+                ch5SubpageReferenceList.setAttribute('numberOfItems', 500);
+                expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--rows-" + val)).to.be.equal(true);
+              }
+              expect(ch5SubpageReferenceList.orientation).to.be.equal('horizontal');
+              expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--orientation-horizontal")).to.be.equal(true);
+              expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--orientation-vertical")).to.be.equal(false);
+              expect(ch5SubpageReferenceList.rows).to.be.equal(Number(val));
+              expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--rows-" + val)).to.be.equal(true);
+              done();
+            }, 100);
+          });
+        });
+      });
+
+      invalidValue.forEach((val, i) => {
+        test(`Check attributes orientation horizontal with rows attribute`, (done) => {
+          ch5SubpageReferenceList.setAttribute('orientation', 'horizontal');
+          ch5SubpageReferenceList.setAttribute('rows', val);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5SubpageReferenceList.orientation).to.be.equal('horizontal');
+              expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--orientation-horizontal")).to.be.equal(true);
+              expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--orientation-vertical")).to.be.equal(false);
+              expect(ch5SubpageReferenceList.rows).to.be.equal(Number(expectedValue));
+              expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--rows-" + expectedValue)).to.be.equal(true);
+              done();
+            }, 100);
+          });
+        });
+      });
+
+      rowsColumnValue.forEach((val, i) => {
+        test(`Check attributes orientation vertical with columns attribute`, (done) => {
+          ch5SubpageReferenceList.setAttribute('orientation', 'vertical');
+          ch5SubpageReferenceList.setAttribute('columns', val);
+          flush(() => {
+            setTimeout(() => {
+              if (val === "500") {
+                ch5SubpageReferenceList.setAttribute('numberOfItems', 500);
+                expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--columns-" + val)).to.be.equal(true);
+              }
+              expect(ch5SubpageReferenceList.orientation).to.be.equal('vertical');
+              expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--orientation-vertical")).to.be.equal(true);
+              expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--orientation-horizontal")).to.be.equal(false);
+              expect(ch5SubpageReferenceList.columns).to.be.equal(Number(val));
+              expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--columns-" + val)).to.be.equal(true);
+              done();
+            }, 100);
+          });
+        });
+      });
+
+      invalidValue.forEach((val, i) => {
+        test(`Check attributes orientation vertical with columns attribute`, (done) => {
+          ch5SubpageReferenceList.setAttribute('orientation', 'vertical');
+          ch5SubpageReferenceList.setAttribute('columns', val);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5SubpageReferenceList.orientation).to.be.equal('vertical');
+              expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--orientation-vertical")).to.be.equal(true);
+              expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--orientation-horizontal")).to.be.equal(false);
+              expect(ch5SubpageReferenceList.columns).to.be.equal(Number(expectedValue));
+              expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--columns-" + expectedValue)).to.be.equal(true);
+              done();
+            }, 100);
+          });
+        });
+      });
+
+      test(`Check attributes orientation horizontal with button list index attributes`, (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(20);
+            expect(ch5SubpageReferenceList1.rows).to.be.equal(3);
+            expect(ch5SubpageReferenceList1.orientation).to.be.equal('horizontal');
+            expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--rows-3')).to.be.equal(true);
+            expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--orientation-horizontal')).to.be.equal(true);
+            for (let i = 0; i < ch5SubpageReferenceList1.children[0].children.length; i++) {
+              expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].children[0].children[0].textContent).to.be.equal('tgl_' + i);
+            }
+            done();
+          }, 100);
+        });
+      });
+
+      test(`Check attributes orientation vertical with button list index attributes`, (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5SubpageReferenceList2.numberOfItems).to.be.equal(20);
+            expect(ch5SubpageReferenceList2.columns).to.be.equal(3);
+            expect(ch5SubpageReferenceList2.orientation).to.be.equal('vertical');
+            expect(ch5SubpageReferenceList2.children[0].classList.contains('ch5-subpage-reference-list--columns-3')).to.be.equal(true);
+            expect(ch5SubpageReferenceList2.children[0].classList.contains('ch5-subpage-reference-list--orientation-vertical')).to.be.equal(true);
+            for (let i = 0; i < ch5SubpageReferenceList2.children[0].children.length; i++) {
+              expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].children[0].children[0].textContent).to.be.equal('tgl_' + i);
+            }
+            done();
+          }, 100);
+        });
+      });
+    })
+  </script>
+</body>
+
+</html>

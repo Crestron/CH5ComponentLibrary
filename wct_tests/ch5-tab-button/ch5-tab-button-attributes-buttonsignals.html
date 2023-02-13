@@ -12,106 +12,261 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-tab-button-buttonReceiveStateEnable-attributes">
+
+  <test-fixture id="ch5-tab-button-buttonReceiveStateIconClass">
     <template>
-      <ch5-tab-button indexId="idx" buttonType="info"></ch5-tab-button>
-    </template>
-  </test-fixture>
-  <test-fixture id="ch5-tab-button-buttonReceiveStateEnable-override">
-    <template>
-      <ch5-tab-button></ch5-tab-button>
+      <ch5-tab-button buttonReceiveStateIconClass="button-icon-0"></ch5-tab-button>
     </template>
   </test-fixture>
 
+  <test-fixture id="ch5-tab-button-buttonReceiveStateScriptLabelHtml">
+    <template>
+      <ch5-tab-button buttonReceiveStateScriptLabelHtml="btn-script"></ch5-tab-button>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-tab-button-buttonReceiveStateSelected">
+    <template>
+      <ch5-tab-button buttonReceiveStateSelected="btn-selected"></ch5-tab-button>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-tab-button-buttonReceiveStateSelected-buttonReceiveStateIconClass">
+    <template>
+      <ch5-tab-button buttonReceiveStateSelected="btn-selected" buttonReceiveStateIconClass="button-icon-0">
+      </ch5-tab-button>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-tab-button-buttonReceiveStateIconUrl-buttonReceiveStateIconClass">
+    <template>
+      <ch5-tab-button buttonReceiveStateIconUrl="button-url-0" buttonReceiveStateIconClass="button-icon-0">
+      </ch5-tab-button>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-tab-button-buttonReceiveStateLabel-buttonReceiveStateScriptLabelHtml">
+    <template>
+      <ch5-tab-button buttonReceiveStateLabel="button-label-0" buttonReceiveStateScriptLabelHtml="button-script-0">
+      </ch5-tab-button>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-tab-button-buttonReceiveStateShow">
+    <template>
+      <ch5-tab-button buttonReceiveStateShow="btn-show">
+      </ch5-tab-button>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-tab-button-buttonReceiveStateEnable">
+    <template>
+      <ch5-tab-button buttonReceiveStateEnable="button-enable-0">
+      </ch5-tab-button>
+    </template>
+  </test-fixture>
 
   <script>
-    suite('ch5-tab-button-buttonReceiveStateEnable-attributes-value', () => {
-      let ch5TabButton;
+
+    suite('ch5-tab-button-buttonReceiveStateIconClass', () => {
+      let ch5TabButton1;
 
       setup(async () => {
         const emulatorJson = await fetch('./emulator/buttonreceivestateenable.json').then((response) => response.json());
         const emulator = CrComLib.Ch5Emulator.getInstance();
         emulator.loadScenario(emulatorJson);
-        ch5TabButton = fixture('ch5-tab-button-buttonReceiveStateEnable-attributes');
+        ch5TabButton1 = fixture('ch5-tab-button-buttonReceiveStateIconClass');
       });
 
-
-      test(`check attribute buttonReceiveStateEnable`, (done) => {
-        ch5TabButton.setAttribute('numberOfItems', 5);
-        for (let i = 0; i < 5; i++) {
-          ch5TabButton.setAttribute('buttonReceiveStateEnable', `${'btn_enable-' + i}`);
-        }
+      test(`check attribute buttonReceiveStateIconClass`, (done) => {
+        ch5TabButton1.setAttribute('numberOfItems', 2);
+        ch5TabButton1.setAttribute('orientation', 'vertical');
+        CrComLib.publishEvent('b', 'btn-icon-class', true);
         flush(() => {
           setTimeout(() => {
-            expect(ch5TabButton.numberOfItems).to.be.equal(5);
-            for (let i = 0; i < 5; i++) {
-              expect(getDiv(ch5TabButton).children[i].children[0].children[0].children[0].classList.contains('ch5-button--disabled')).to.be.equal(false);
-            }
-            expect(getComputedStyle(ch5TabButton.children[0].children[0].children[0].children[0]).getPropertyValue('opacity')).to.be.equal('0.5');
+            const iconDiv = document.querySelector('.ch5-button--span');
+            expect(iconDiv.childNodes[0].classList.contains('fa-anchor')).to.be.equal(true);
+            expect(iconDiv.childNodes[0].classList.contains('fas')).to.be.equal(true);
             done();
           }, 500);
         });
       });
+    });
 
-      test(`check attribute buttonReceiveStateIconUrl`, (done) => {
-        ch5TabButton.setAttribute('numberOfItems', 5);
-        ch5TabButton.setAttribute('buttonType', 'info')
-        for (let i = 0; i < 5; i++) {
-          ch5TabButton.setAttribute('buttonReceiveStateIconUrl', `${'btn_icon-' + i}`);
-        }
+    suite('ch5-tab-button-buttonReceiveStateScriptLabelHtml', () => {
+      let ch5TabButton1;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/buttonreceivestateenable.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5TabButton1 = fixture('ch5-tab-button-buttonReceiveStateScriptLabelHtml');
+      });
+
+      test(`check attribute buttonReceiveStateScriptLabelHtml`, (done) => {
+        ch5TabButton1.setAttribute('numberOfItems', 2);
+        ch5TabButton1.setAttribute('orientation', 'vertical');
+        CrComLib.publishEvent('b', 'btn-script-label', true);
         flush(() => {
           setTimeout(() => {
-            expect(ch5TabButton.numberOfItems).to.be.equal(5);
-            let iconDiv = document.querySelector('.ch5-button--span');
-            for (let i = 0; i < 5; i++) {
-              // expect(getComputedStyle(iconDiv.children[0]).getPropertyValue('background-image').not.equal(''));
-              expect(getDiv(ch5TabButton).children[i].children[0].children[0].classList.contains('ch5-button--info')).to.be.equal(true);
-            }
+            const iTagParent = document.querySelector('.ch5-button--label');
+            expect(iTagParent.children[0].innerHTML).to.be.equal('set-script-0');
+            expect(iTagParent.children[0].tagName).to.be.equal('I');
             done();
           }, 500);
         });
       });
+    });
 
-      test(`check attribute buttonReceiveStateLabel`, (done) => {
-        ch5TabButton.setAttribute('numberOfItems', 5);
-        ch5TabButton.setAttribute('orientation', 'vertical');
-        for (let i = 0; i < 5; i++) {
-          ch5TabButton.setAttribute('buttonReceiveStateLabel', `${'btn_label-' + i}`);
-        }
+    suite('ch5-tab-button-buttonReceiveStateSelected', () => {
+      let ch5TabButton1;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/buttonreceivestateenable.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5TabButton1 = fixture('ch5-tab-button-buttonReceiveStateSelected');
+      });
+
+      test(`check attribute buttonReceiveStateSelected`, (done) => {
+        ch5TabButton1.setAttribute('numberOfItems', 2);
+        ch5TabButton1.setAttribute('orientation', 'vertical');
+        CrComLib.publishEvent('b', 'btn-select', true);
         flush(() => {
           setTimeout(() => {
-            let iconDiv = document.querySelector('.ch5-button--span');
-            expect(ch5TabButton.numberOfItems).to.be.equal(5);
-            expect(ch5TabButton.orientation).to.be.equal('vertical');
-            expect(getDiv(ch5TabButton).classList.contains('ch5-tab-button--orientation-vertical')).to.be.equal(true);
-            console.log(iconDiv, ch5TabButton.buttonReceiveStateLabel)
-            for (let i = 0; i < 5; i++) {
-              // expect(ch5TabButton.buttonReceiveStateLabel).to.be.equal('btn_label-' + i);
-              // expect(iconDiv.children[0].textContent).to.be.equal('clicked');
-              // expect(getDiv(ch5TabButton))
-            }
+            expect(ch5TabButton1.buttonReceiveStateSelected).to.be.equal('btn-selected');
+            expect(document.querySelector('.ch5-button').classList.contains("ch5-button--selected")).to.be.equal(true);
             done();
           }, 500);
-        });        
+        });
+      });
+    });
+
+    suite('ch5-tab-button-buttonReceiveStateSelected-buttonReceiveStateIconClass', () => {
+      let ch5TabButton1;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/buttonreceivestateenable.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5TabButton1 = fixture('ch5-tab-button-buttonReceiveStateSelected-buttonReceiveStateIconClass');
+      });
+
+      test(`check attribute buttonReceiveStateSelected and buttonReceiveStateIconClass`, (done) => {
+        ch5TabButton1.setAttribute('numberOfItems', 2);
+        ch5TabButton1.setAttribute('orientation', 'vertical');
+        CrComLib.publishEvent('b', 'btn-select', true);
+        flush(() => {
+          setTimeout(() => {
+            const iconDiv = document.querySelector('.ch5-button--span');
+            expect(ch5TabButton1.buttonReceiveStateSelected).to.be.equal('btn-selected');
+            expect(ch5TabButton1.buttonReceiveStateIconClass).to.be.equal('button-icon-0');
+            expect(document.querySelector('.ch5-button').classList.contains("ch5-button--selected")).to.be.equal(true);
+            expect(iconDiv.childNodes[0].classList.contains('fa-anchor')).to.be.equal(true);
+            expect(iconDiv.childNodes[0].classList.contains('fas')).to.be.equal(true);
+            done();
+          }, 500);
+        });
+      });
+    });
+
+    suite('ch5-tab-button-buttonReceiveStateIconUrl-buttonReceiveStateIconClass', () => {
+      let ch5TabButton1;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/buttonreceivestateenable.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5TabButton1 = fixture('ch5-tab-button-buttonReceiveStateIconUrl-buttonReceiveStateIconClass');
+      });
+
+      test(`check attribute buttonReceiveStateIconUrl and buttonReceiveStateIconClass`, (done) => {
+        ch5TabButton1.setAttribute('numberOfItems', 2);
+        ch5TabButton1.setAttribute('orientation', 'vertical');
+        CrComLib.publishEvent('b', 'btn-icon-class-url', true);
+        flush(() => {
+          setTimeout(() => {
+            const iconDiv = document.querySelector('.ch5-button--span');
+            expect(ch5TabButton1.buttonReceiveStateIconClass).to.be.equal('button-icon-0');
+            expect(ch5TabButton1.buttonReceiveStateIconUrl).to.be.equal('button-url-0');
+            expect(getComputedStyle(iconDiv.children[0]).backgroundImage).not.to.be.equal('');
+            done();
+          }, 500);
+        });
+      });
+    });
+
+    suite('ch5-tab-button-buttonReceiveStateLabel-buttonReceiveStateScriptLabelHtml', () => {
+      let ch5TabButton1;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/buttonreceivestateenable.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5TabButton1 = fixture('ch5-tab-button-buttonReceiveStateLabel-buttonReceiveStateScriptLabelHtml');
+      });
+
+      test(`check attribute buttonReceiveStateLabel and buttonReceiveStateScriptLabelHtml`, (done) => {
+        ch5TabButton1.setAttribute('numberOfItems', 2);
+        ch5TabButton1.setAttribute('orientation', 'horizontal');
+        CrComLib.publishEvent('b', 'btn-scriptlabel-label', true);
+        flush(() => {
+          setTimeout(() => {
+            const iconDiv = document.querySelector('.ch5-button--label');
+            expect(ch5TabButton1.buttonReceiveStateLabel).to.be.equal('button-label-0');
+            expect(ch5TabButton1.buttonReceiveStateScriptLabelHtml).to.be.equal('button-script-0');
+            expect(iconDiv.children[0].innerHTML).to.be.equal('set-script-0');
+            done();
+          }, 500);
+        });
+      });
+    });
+
+    suite('ch5-tab-button-buttonReceiveStateShow', () => {
+      let ch5TabButton1;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/buttonreceivestateenable.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5TabButton1 = fixture('ch5-tab-button-buttonReceiveStateShow');
       });
 
       test(`check attribute buttonReceiveStateShow`, (done) => {
-        ch5TabButton.setAttribute('numberOfItems', 5);
-        ch5TabButton.setAttribute('orientation', 'vertical');
-        for (let i = 0; i < 5; i++) {
-          ch5TabButton.setAttribute('buttonReceiveStateShow', `${'btn_show-' + i}`);
-        }
+        ch5TabButton1.setAttribute('numberOfItems', 2);
+        ch5TabButton1.setAttribute('orientation', 'vertical');
+        CrComLib.publishEvent('b', 'trig1', true);
         flush(() => {
           setTimeout(() => {
-            let iconDiv = document.querySelector('.ch5-button--span');
-            expect(ch5TabButton.numberOfItems).to.be.equal(5);
-            expect(ch5TabButton.orientation).to.be.equal('vertical');
-            expect(getDiv(ch5TabButton).classList.contains('ch5-tab-button--orientation-vertical')).to.be.equal(true);
-            console.log(iconDiv, ch5TabButton.buttonReceiveStateLabel)
-            for (let i = 0; i < 5; i++) {
-              // expect(iconDiv.children[0].textContent).to.be.equal('clicked');
-              // expect(getDiv(ch5TabButton))
-            }
+            expect(ch5TabButton1.buttonReceiveStateShow).to.be.equal('btn-show');
+            expect(getDiv(ch5TabButton1).children[0].children[0].classList.contains('ch5-hide-dis')).to.be.equal(true);
+            expect(getDiv(ch5TabButton1).classList.contains('ch5-tab-button--orientation-vertical')).to.be.equal(true);
+            done();
+          }, 500);
+        });
+      });
+    });
+
+    suite('ch5-tab-button-buttonReceiveStateEnable', () => {
+      let ch5TabButton1;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/buttonreceivestateenable.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5TabButton1 = fixture('ch5-tab-button-buttonReceiveStateEnable');
+      });
+
+      test(`check attribute buttonReceiveStateEnable`, (done) => {
+        ch5TabButton1.setAttribute('numberOfItems', 2);
+        ch5TabButton1.setAttribute('orientation', 'vertical');
+        CrComLib.publishEvent('b', 'btn-enable', true);
+        flush(() => {
+          setTimeout(() => {
+            const divTag = document.querySelector('.ch5-button');
+            expect(ch5TabButton1.buttonReceiveStateEnable).to.be.equal('button-enable-0');
+            expect(divTag.classList.contains('ch5-button--disabled')).to.be.equal(true);
+            expect(getDiv(ch5TabButton1).classList.contains('ch5-tab-button--orientation-vertical')).to.be.equal(true);
             done();
           }, 500);
         });

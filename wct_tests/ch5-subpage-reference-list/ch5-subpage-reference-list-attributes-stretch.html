@@ -21,6 +21,10 @@
     <div>
       <ch5-subpage-reference-list id="subpagereferencelistone" widgetId="templateWidgetId" indexId="idx">
       </ch5-subpage-reference-list>
+      <ch5-subpage-reference-list id="subpagereferencelisttwo" widgetId="templateWidgetId" indexId="idx">
+      </ch5-subpage-reference-list>
+      <ch5-subpage-reference-list id="subpagereferencelistthree" widgetId="templateWidgetId" indexId="idx">
+      </ch5-subpage-reference-list>
     </div>
   </test-fixture>
   <script>
@@ -29,18 +33,55 @@
 
       setup(async () => {
         ch5SubpageReferenceList = document.getElementById("subpagereferencelistone");
+        ch5SubpageReferenceList2 = document.getElementById("subpagereferencelisttwo");
+        ch5SubpageReferenceList3 = document.getElementById("subpagereferencelistthree");
       });
 
       let testCases = ['a', '', ' ', 'number', 'null', 'both'];
       let expectedResult = [null, null, null, null, 'null', 'both'];
       testCases.forEach((ele, i) => {
-        test('Check Value "stretch"', () => {
+        test(`Check Value "stretch" ${ele}`, () => {
           ch5SubpageReferenceList.setAttribute('stretch', ele);
           expect(ch5SubpageReferenceList.getAttribute('stretch')).to.be.equal(expectedResult[i]);
         });
       });
 
+      test('Check "stretch" attribute with null value', (done) => {
+        ch5SubpageReferenceList2.setAttribute('stretch', 'null');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5SubpageReferenceList2.getAttribute('stretch')).to.be.equal(null);
+            expect(ch5SubpageReferenceList2.children[0].classList.contains('ch5-subpage-reference-list--stretch-both')).to.be.equal(false);
+            done();
+          }, 100);
+        })
+      });
+
+      test('Check "stretch" attribute with "both" value', (done) => {
+        ch5SubpageReferenceList.setAttribute('stretch', 'both');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5SubpageReferenceList.getAttribute('stretch')).to.be.equal('both');
+            expect(ch5SubpageReferenceList.children[0].classList.contains('ch5-subpage-reference-list--stretch-both')).to.be.equal(true);
+            done();
+          }, 100);
+        })
+      });
+
+
+      test('Check "stretch" attribute with empty string value', (done) => {
+        ch5SubpageReferenceList3.setAttribute('stretch', '');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5SubpageReferenceList3.getAttribute('stretch')).to.be.equal(null);
+            expect(ch5SubpageReferenceList3.children[0].classList.contains('ch5-subpage-reference-list--stretch-both')).to.be.equal(false);
+            done();
+          }, 100);
+        })
+      });
+
     });
+
   </script>
 </body>
 

@@ -5,7 +5,7 @@ export interface ICh5TabButtonIndividualButtonAttributes {
   /**
    * @documentation
    * [
-   * "`labelInnerHtml` attribute",
+   * "`labelInnerHTML` attribute",
    * "***",
    * "Ability to provide a template that applies for the individual button in the tab button. This attribute takes preference over the buttonLabelInnerHtml attribute in ch5-tab-button for the respective individual button based on index."
    * ]
@@ -13,7 +13,7 @@ export interface ICh5TabButtonIndividualButtonAttributes {
    * @default 
    * @attributeType "String"
    */
-  labelInnerHtml: string;
+  labelInnerHTML: string;
   /**
    * @documentation
    * [
