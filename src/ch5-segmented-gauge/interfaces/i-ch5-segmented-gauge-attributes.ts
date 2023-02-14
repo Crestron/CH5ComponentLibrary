@@ -137,7 +137,7 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributesSet3 {
   * "User may optionally select a digital join to send a value to the control system. The value goes high when the user places their finger on the gauge and low when it is released."
   * ]
   * @name sendeventonclick
-  * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+  * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
   * @attributeType "Join"
   */
   sendEventOnClick: string;
@@ -149,7 +149,7 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributesSet3 {
   * "Send an analog signal value on a change of value in the gauge. "
   * ]
   * @name sendeventonchange
-  * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+  * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
   * @attributeType "Join"
   */
   sendEventOnChange: string;
