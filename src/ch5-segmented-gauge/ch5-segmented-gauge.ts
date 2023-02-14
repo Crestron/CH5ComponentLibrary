@@ -54,8 +54,8 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   };
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-    sendeventonclick: { direction: "state", booleanJoin: 1, contractName: true },
-    sendeventonchange: { direction: "state", numericJoin: 1, contractName: true },
+    sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
+    sendeventonchange: { direction: "event", numericJoin: 1, contractName: true },
     receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
   };
 
