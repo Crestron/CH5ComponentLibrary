@@ -51,10 +51,10 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		receivestatepositionto: { direction: "state", numericJoin: 1, contractName: true },
 		receivestatepositionoffset: { direction: "state", numericJoin: 1, contractName: true },
 
-		sendeventonbeforeshow: { direction: "state", booleanJoin: 1, contractName: true },
-		sendeventonaftershow: { direction: "state", booleanJoin: 1, contractName: true },
-		sendeventonbeforehide: { direction: "state", booleanJoin: 1, contractName: true },
-		sendeventonafterhide: { direction: "state", booleanJoin: 1, contractName: true },
+		sendeventonbeforeshow: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventonaftershow: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventonbeforehide: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventonafterhide: { direction: "event", booleanJoin: 1, contractName: true },
 	};
 
 	/**
