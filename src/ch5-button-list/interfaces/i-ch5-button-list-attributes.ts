@@ -166,18 +166,6 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
   /**
    * @documentation
    * [
-   * "`buttonOnRelease` attribute",
-   * "***",
-   * "The buttonOnRelease attribute allows selection of a page to be made visible on clicking of the button."
-   * ]
-   * @name buttononrelease
-   * @default 
-   * @attributeType "String"
-   */
-  buttonOnRelease: string;
-  /**
-   * @documentation
-   * [
    * "`buttonReceiveStateMode` attribute",
    * "***",
    * "When received, applies a value to the mode attribute from the signal on all the buttons in the button list."
