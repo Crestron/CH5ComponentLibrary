@@ -244,14 +244,6 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     },
     {
       default: "",
-      name: "buttonOnRelease",
-      removeAttributeOnNull: true,
-      type: "string",
-      valueOnAttributeEmpty: "",
-      isObservableProperty: true
-    },
-    {
-      default: "",
       name: "buttonReceiveStateMode",
       removeAttributeOnNull: true,
       type: "string",
@@ -471,15 +463,6 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   }
   public get buttonLabelInnerHtml(): string {
     return this._ch5Properties.get<string>("buttonLabelInnerHtml");
-  }
-
-  public set buttonOnRelease(value: string) {
-    this._ch5Properties.set<string>("buttonOnRelease", value, () => {
-      this.debounceButtonDisplay();
-    });
-  }
-  public get buttonOnRelease(): string {
-    return this._ch5Properties.get<string>("buttonOnRelease");
   }
 
   public set buttonReceiveStateMode(value: string) {
@@ -1193,19 +1176,6 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
               btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
             }
           }
-        }
-        else if (attr.name.toLowerCase() === 'buttononrelease') {
-          if (individualButtons[index] && individualButtons[index].hasAttribute('onrelease')) {
-            const attrValue = individualButtons[index].getAttribute('onrelease')?.trim();
-            if (attrValue) {
-              btn.setAttribute('onrelease', attrValue);
-            }
-          } else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
-            const attrValue = this.getAttribute(attr.name)?.trim().replace(`{{${this.indexId}}}`, index + '');
-            if (attrValue) {
-              btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
-            }
-          }
         } else {
           if (attr.name.toLowerCase() === 'buttonreceivestateshow' && this.hasAttribute('receivestateshow')) {
             btn.setAttribute('receivestateshow', this.getAttribute('receivestateshow') + '');
@@ -1262,12 +1232,15 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
       }
     });
 
-    if (index < individualButtonsLength && individualButtons[index] && individualButtons[index].hasAttribute('labelInnerHTML')) {
-      const attrValue = individualButtons[index].getAttribute('labelInnerHTML')?.trim();
-      if (attrValue) {
-        btn.setAttribute('labelInnerHTML', attrValue.trim());
+    const individualButtonAttributes = ['onRelease', 'labelInnerHTML'];
+    individualButtonAttributes.forEach((attr: string) => {
+      if (index < individualButtonsLength && individualButtons[index] && individualButtons[index].hasAttribute(attr)) {
+        const attrValue = individualButtons[index].getAttribute(attr)?.trim();
+        if (attrValue) {
+          btn.setAttribute(attr, attrValue.trim());
+        }
       }
-    }
+    });
   }
 
   private replaceAll(str: string, find: string, replace: string) {
