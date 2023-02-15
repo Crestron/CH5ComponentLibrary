@@ -187,13 +187,13 @@ export class Ch5TriggerViewSlidesManager {
           slide.setAttribute('tabindex', '-1');
           slide.setAttribute('aria-hidden', 'true');
           slide.setAttribute('inert', 'true');
-          slide.classList.add('ch5-hide-dis');
+          slide.classList.add('ch5-hide-vis-position');
           slide.removeAttribute('selected');
         } else {
           slide.setAttribute('tabindex', '1');
           slide.setAttribute('aria-hidden', 'false');
           slide.removeAttribute('inert');
-          slide.classList.remove('ch5-hide-dis');
+          slide.classList.remove('ch5-hide-vis-position');
           slide.setAttribute('selected', '');
         }
       });
