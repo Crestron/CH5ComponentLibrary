@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5GenericListDocumentation } from "../../ch5-common/interfaces/i-ch5-generic-list-documentation";
+import { ICh5ButtonListCommonDocumentation } from "../../ch5-common/interfaces/i-ch5-button-list-documentation";
 import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
 
 /**
@@ -143,6 +143,6 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *    }
  *  ]
  */
-export interface ICh5ButtonListDocumentation extends ICh5GenericListDocumentation, ICh5ButtonListAttributes {
+export interface ICh5ButtonListDocumentation extends ICh5ButtonListCommonDocumentation, ICh5ButtonListAttributes {
 
 }

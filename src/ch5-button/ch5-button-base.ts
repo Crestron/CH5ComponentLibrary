@@ -491,6 +491,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	private _customClassDisabled: string | null = null;
 
+	private _indexForList: number = 0;
+	private _clickAndHoldTimeForList: number = 300;
+	private _contractNameForList: string = "";
+
 	private previousExtendedProperties: ICh5ButtonExtendedProperties = {};
 
 	private debounceSetButtonDisplay = this.debounce(() => {
@@ -1037,12 +1041,15 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	//#region 3. Lifecycle Hooks
 
-	public constructor() {
+	public constructor(index: number = -1, clickAndHoldTime: number = 300, contractName: string = "") {
 		super();
 		this.logger.start('constructor()', this.primaryCssClass);
 		if (!this._wasInstatiated) {
 			this.createInternalHtml();
 		}
+		this._indexForList = Number(index) as number;
+		this._clickAndHoldTimeForList = Number(clickAndHoldTime) as number;
+		this._contractNameForList = contractName?.trim() as string;
 		this._wasInstatiated = true;
 		this._ch5ButtonSignal = new Ch5ButtonSignal();
 		this._onBlur = this._onBlur.bind(this);
@@ -1539,6 +1546,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	}
 
 	private _subscribeToPressableIsPressed() {
+		if (this._contractNameForList.trim() !== "") { return this._subscribeToPressableIsPressedForButtonList(); }
 		const REPEAT_DIGITAL_PERIOD = 200;
 		const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
 		if (this._isPressedSubscription === null && this._pressable !== null) {
@@ -1569,6 +1577,31 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 					this.setButtonDisplay();
 				}
 				// }
+			});
+		}
+	}
+	private _subscribeToPressableIsPressedForButtonList() {
+		if (this._isPressedSubscription === null && this._pressable !== null) {
+			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
+				this.logger.log(`Ch5Button.pressableSubscriptionCb(${value})`, this.pressed);
+				if (value === false) {
+					if (this._repeatDigitalInterval !== null) {
+						window.clearInterval(this._repeatDigitalInterval as number);
+					}
+					setTimeout(() => {
+						this.setButtonDisplay();
+					}, this.STATE_CHANGE_TIMEOUTS);
+				} else {
+					Ch5SignalFactory.getInstance().getNumberSignal(this._contractNameForList + '.ListItemClicked')?.publish(this._indexForList);
+					if (this._repeatDigitalInterval !== null) {
+						window.clearInterval(this._repeatDigitalInterval as number);
+					}
+					this._repeatDigitalInterval = window.setInterval(() => {
+						Ch5SignalFactory.getInstance().getNumberSignal(this._contractNameForList + '.ListItemHeld')?.publish(this._indexForList);
+						window.clearInterval(this._repeatDigitalInterval as number);
+					}, this._clickAndHoldTimeForList);
+					this.setButtonDisplay();
+				}
 			});
 		}
 	}

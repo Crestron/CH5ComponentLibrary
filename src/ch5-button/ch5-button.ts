@@ -34,8 +34,8 @@ export class Ch5Button extends Ch5ButtonBase {
 		}
 	}
 
-	constructor() {
-		super();
+	constructor(public indexForList?: number, public clickAndHoldTimeForList?: number, public contractNameForList?: string) {
+		super(indexForList, clickAndHoldTimeForList, contractNameForList);
 	}
 
 }

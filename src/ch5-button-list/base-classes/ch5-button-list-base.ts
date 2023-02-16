@@ -1,9 +1,10 @@
 import { Ch5Button } from "../../ch5-button/ch5-button";
+import { Ch5Common } from "../../ch5-common/ch5-common";
 import { Ch5ButtonMode } from "../../ch5-button/ch5-button-mode";
 import { Ch5ButtonLabel } from "../../ch5-button/ch5-button-label";
-import { Ch5GenericListAttributes } from "../../ch5-generic-list-attributes/ch5-generic-list-attributes";
+import { Ch5SignalElementAttributeRegistryEntries } from "../../ch5-common/ch5-signal-attribute-registry";
 import { Ch5RoleAttributeMapping } from "../../utility-models/ch5-role-attribute-mapping";
-import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape } from './../interfaces/t-ch5-button-list';
+import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape, TCh5GenericListAttributesOrientation, TCh5GenericListAttributesStretch, TCh5GenericListContractItemLabelType, TCh5GenericListContractItemIconType, TCh5GenericListContractNumItemsType, TCh5GenericListContractScrollToType } from './../interfaces/t-ch5-button-list';
 import { ICh5ButtonListAttributes } from './../interfaces/i-ch5-button-list-attributes';
 import { Ch5Properties } from "../../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../../ch5-core/ch5-property";
@@ -13,7 +14,7 @@ import { Ch5ButtonModeState } from "../../ch5-button/ch5-button-mode-state";
 import { resizeObserver } from "../../ch5-core/resize-observer";
 import { Ch5AugmentVarSignalsNames } from '../../ch5-common/ch5-augment-var-signals-names';
 
-export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5ButtonListAttributes {
+export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttributes {
 
   //#region Variables
 
@@ -28,6 +29,12 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   public static readonly MODES_MAX_COUNT: number = 5;
 
   // Enum types
+  public static readonly ORIENTATION: TCh5GenericListAttributesOrientation[] = ['horizontal', 'vertical'];
+  public static readonly STRETCH: TCh5GenericListAttributesStretch[] = ['both'];
+  public static readonly CONTRACT_ITEM_LABEL_TYPE: TCh5GenericListContractItemLabelType[] = ['none', 'textContent', 'innerHTML'];
+  public static readonly CONTRACT_ITEM_ICON_TYPE: TCh5GenericListContractItemIconType[] = ['none', 'iconClass', 'url', 'sgStateName', 'sgStateNumber'];
+  public static readonly CONTRACT_NUM_ITEMS_TYPE: TCh5GenericListContractNumItemsType[] = ['absolute', 'visible', 'none'];
+  public static readonly CONTRACT_SCROLL_TO_TYPE: TCh5GenericListContractScrollToType[] = ['absolute', 'visible'];
   public static readonly BUTTON_TYPES: TCh5ButtonListButtonType[] = ['default', 'danger', 'text', 'warning', 'info', 'success', 'primary', 'secondary'];
   public static readonly BUTTON_HALIGN_LABEL_POSITIONS: TCh5ButtonListButtonHAlignLabel[] = ['center', 'left', 'right'];
   public static readonly BUTTON_VALIGN_LABEL_POSITIONS: TCh5ButtonListButtonVAlignLabel[] = ['middle', 'top', 'bottom'];
@@ -123,7 +130,250 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   };
 
   public static readonly COMPONENT_COMMON_PROPERTIES = ['disabled', 'show'];
+
+  public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+    ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+    receiveStateNumberOfItems: { direction: "state", numericJoin: 1, contractName: true },
+    receiveStateScrollToPosition: { direction: "state", numericJoin: 1, contractName: true },
+  };
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
+    {
+      default: Ch5ButtonListBase.ORIENTATION[0],
+      enumeratedValues: Ch5ButtonListBase.ORIENTATION,
+      name: "orientation",
+      removeAttributeOnNull: true,
+      type: "enum",
+      valueOnAttributeEmpty: Ch5ButtonListBase.ORIENTATION[0],
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "scrollbar",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "centerItems",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: null,
+      enumeratedValues: Ch5ButtonListBase.STRETCH,
+      name: "stretch",
+      removeAttributeOnNull: true,
+      type: "enum",
+      valueOnAttributeEmpty: null,
+      isObservableProperty: true,
+      isNullable: true,
+    },
+    {
+      default: false,
+      name: "endless",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: 1,
+      name: "rows",
+      removeAttributeOnNull: true,
+      type: "number",
+      valueOnAttributeEmpty: 1,
+      numberProperties: {
+        min: 1,
+        max: 500,
+        conditionalMin: 1,
+        conditionalMax: 500,
+        conditionalMinValue: 1,
+        conditionalMaxValue: 500
+      },
+      isObservableProperty: true
+    },
+    {
+      default: 1,
+      name: "columns",
+      removeAttributeOnNull: true,
+      type: "number",
+      valueOnAttributeEmpty: 1,
+      numberProperties: {
+        min: 1,
+        max: 500,
+        conditionalMin: 1,
+        conditionalMax: 500,
+        conditionalMinValue: 1,
+        conditionalMaxValue: 500
+      },
+      isObservableProperty: true
+    },
+    {
+      default: "",
+      name: "indexId",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+    {
+      default: 10,
+      name: "numberOfItems",
+      removeAttributeOnNull: true,
+      nameForSignal: "receiveStateNumberOfItems",
+      type: "number",
+      valueOnAttributeEmpty: 10,
+      numberProperties: {
+        min: 1,
+        max: 500,
+        conditionalMin: 1,
+        conditionalMax: 500,
+        conditionalMinValue: 1,
+        conditionalMaxValue: 500
+      },
+      isObservableProperty: true
+    },
+    {
+      default: "",
+      isSignal: true,
+      name: "receiveStateNumberOfItems",
+      signalType: "number",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+    {
+      default: 0,
+      name: "scrollToPosition",
+      removeAttributeOnNull: true,
+      nameForSignal: "receiveStateScrollToPosition",
+      type: "number",
+      valueOnAttributeEmpty: null,
+      numberProperties: {
+        min: 0,
+        max: 499,
+        conditionalMin: 0,
+        conditionalMax: 499,
+        conditionalMinValue: 0,
+        conditionalMaxValue: 499
+      },
+      isObservableProperty: true
+    },
+    {
+      default: "",
+      isSignal: true,
+      name: "receiveStateScrollToPosition",
+      signalType: "number",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+    {
+      default: "",
+      name: "contractName",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForEnable",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForShow",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForItemEnable",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForItemShow",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForCustomStyle",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForCustomClass",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: Ch5ButtonListBase.CONTRACT_ITEM_LABEL_TYPE[0],
+      enumeratedValues: Ch5ButtonListBase.CONTRACT_ITEM_LABEL_TYPE,
+      name: "contractItemLabelType",
+      removeAttributeOnNull: true,
+      type: "enum",
+      valueOnAttributeEmpty: Ch5ButtonListBase.CONTRACT_ITEM_LABEL_TYPE[0],
+      isObservableProperty: true,
+    },
+    {
+      default: Ch5ButtonListBase.CONTRACT_ITEM_ICON_TYPE[0],
+      enumeratedValues: Ch5ButtonListBase.CONTRACT_ITEM_ICON_TYPE,
+      name: "contractItemIconType",
+      removeAttributeOnNull: true,
+      type: "enum",
+      valueOnAttributeEmpty: Ch5ButtonListBase.CONTRACT_ITEM_ICON_TYPE[0],
+      isObservableProperty: true,
+    },
+    {
+      default: Ch5ButtonListBase.CONTRACT_NUM_ITEMS_TYPE[0],
+      enumeratedValues: Ch5ButtonListBase.CONTRACT_NUM_ITEMS_TYPE,
+      name: "contractNumItemsType",
+      removeAttributeOnNull: true,
+      type: "enum",
+      valueOnAttributeEmpty: Ch5ButtonListBase.CONTRACT_NUM_ITEMS_TYPE[0],
+      isObservableProperty: true,
+    },
+    {
+      default: Ch5ButtonListBase.CONTRACT_SCROLL_TO_TYPE[0],
+      enumeratedValues: Ch5ButtonListBase.CONTRACT_SCROLL_TO_TYPE,
+      name: "contractScrollToType",
+      removeAttributeOnNull: true,
+      type: "enum",
+      valueOnAttributeEmpty: Ch5ButtonListBase.CONTRACT_SCROLL_TO_TYPE[0],
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForNumItems",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
     {
       default: Ch5ButtonListBase.BUTTON_TYPES[0],
       enumeratedValues: Ch5ButtonListBase.BUTTON_TYPES,
@@ -348,6 +598,225 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
 
   //#region Getters and Setters
 
+
+  public set orientation(value: TCh5GenericListAttributesOrientation) {
+    this._ch5Properties.set<TCh5GenericListAttributesOrientation>("orientation", value, () => {
+      this.handleOrientation();
+    });
+  }
+  public get orientation(): TCh5GenericListAttributesOrientation {
+    return this._ch5Properties.get<TCh5GenericListAttributesOrientation>("orientation");
+  }
+
+  public set scrollbar(value: boolean) {
+    this._ch5Properties.set<boolean>("scrollbar", value, () => {
+      this.handleScrollbar();
+    });
+  }
+  public get scrollbar(): boolean {
+    return this._ch5Properties.get<boolean>("scrollbar");
+  }
+
+  public set centerItems(value: boolean) {
+    this._ch5Properties.set<boolean>("centerItems", value, () => {
+      this.handleCenterItems();
+    });
+  }
+  public get centerItems(): boolean {
+    return this._ch5Properties.get<boolean>("centerItems");
+  }
+
+  public set stretch(value: TCh5GenericListAttributesStretch | null) {
+    this._ch5Properties.set<TCh5GenericListAttributesStretch | null>("stretch", value, () => {
+      this.handleStretch();
+    });
+  }
+  public get stretch(): TCh5GenericListAttributesStretch | null {
+    return this._ch5Properties.get<TCh5GenericListAttributesStretch | null>("stretch");
+  }
+
+  public set endless(value: boolean) {
+    this._ch5Properties.set<boolean>("endless", value, () => {
+      this.handleEndless();
+    });
+  }
+  public get endless(): boolean {
+    return this._ch5Properties.get<boolean>("endless");
+  }
+
+  public set numberOfItems(value: number) {
+    this._ch5Properties.set<number>("numberOfItems", value, () => {
+      this.handleRowsAndColumn();
+    });
+  }
+  public get numberOfItems(): number {
+    return this._ch5Properties.get<number>("numberOfItems");
+  }
+
+  public set rows(value: number) {
+    this._ch5Properties.set<number>("rows", value, () => {
+      this.handleRowsAndColumn();
+    });
+  }
+  public get rows(): number {
+    return this._ch5Properties.get<number>("rows");
+  }
+
+  public set columns(value: number) {
+    this._ch5Properties.set<number>("columns", value, () => {
+      this.handleRowsAndColumn();
+    });
+  }
+  public get columns(): number {
+    return this._ch5Properties.get<number>("columns");
+  }
+
+  public set indexId(value: string) {
+    this._ch5Properties.set<string>("indexId", value);
+  }
+  public get indexId(): string {
+    return this._ch5Properties.get<string>("indexId");
+  }
+
+  public set receiveStateNumberOfItems(value: string) {
+    this._ch5Properties.set("receiveStateNumberOfItems", value, null, (newValue: number) => {
+      this._ch5Properties.setForSignalResponse<number>("numberOfItems", newValue, () => {
+        this.handleRowsAndColumn();
+      });
+    });
+  }
+  public get receiveStateNumberOfItems(): string {
+    return this._ch5Properties.get<string>('receiveStateNumberOfItems');
+  }
+
+  public set scrollToPosition(value: number) {
+    this._ch5Properties.set<number>("scrollToPosition", value, () => {
+      this.debounceHandleScrollToPosition(this.scrollToPosition);
+    });
+  }
+  public get scrollToPosition(): number {
+    return this._ch5Properties.get<number>("scrollToPosition");
+  }
+
+  public set receiveStateScrollToPosition(value: string) {
+    this._ch5Properties.set("receiveStateScrollToPosition", value, null, (newValue: number) => {
+      this._ch5Properties.setForSignalResponse<number>("scrollToPosition", newValue, () => {
+        this.debounceHandleScrollToPosition(newValue);
+      });
+    });
+  }
+  public get receiveStateScrollToPosition(): string {
+    return this._ch5Properties.get<string>('receiveStateScrollToPosition');
+  }
+
+  public set contractName(value: string) {
+    this._ch5Properties.set<string>("contractName", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get contractName(): string {
+    return this._ch5Properties.get<string>("contractName");
+  }
+
+  public set useContractForEnable(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForEnable", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get useContractForEnable(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForEnable");
+  }
+
+  public set useContractForShow(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForShow", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get useContractForShow(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForShow");
+  }
+
+  public set useContractForItemEnable(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForItemEnable", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get useContractForItemEnable(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForItemEnable");
+  }
+
+  public set useContractForItemShow(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForItemShow", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get useContractForItemShow(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForItemShow");
+  }
+
+  public set useContractForCustomStyle(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForCustomStyle", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get useContractForCustomStyle(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForCustomStyle");
+  }
+
+  public set useContractForCustomClass(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForCustomClass", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get useContractForCustomClass(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForCustomClass");
+  }
+
+  public set contractItemLabelType(value: TCh5GenericListContractItemLabelType) {
+    this._ch5Properties.set<TCh5GenericListContractItemLabelType>("contractItemLabelType", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get contractItemLabelType(): TCh5GenericListContractItemLabelType {
+    return this._ch5Properties.get<TCh5GenericListContractItemLabelType>("contractItemLabelType");
+  }
+
+  public set contractItemIconType(value: TCh5GenericListContractItemIconType) {
+    this._ch5Properties.set<TCh5GenericListContractItemIconType>("contractItemIconType", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get contractItemIconType(): TCh5GenericListContractItemIconType {
+    return this._ch5Properties.get<TCh5GenericListContractItemIconType>("contractItemIconType");
+  }
+
+  public set contractNumItemsType(value: TCh5GenericListContractNumItemsType) {
+    this._ch5Properties.set<TCh5GenericListContractNumItemsType>("contractNumItemsType", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get contractNumItemsType(): TCh5GenericListContractNumItemsType {
+    return this._ch5Properties.get<TCh5GenericListContractNumItemsType>("contractNumItemsType");
+  }
+
+  public set contractScrollToType(value: TCh5GenericListContractScrollToType) {
+    this._ch5Properties.set<TCh5GenericListContractScrollToType>("contractScrollToType", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get contractScrollToType(): TCh5GenericListContractScrollToType {
+    return this._ch5Properties.get<TCh5GenericListContractScrollToType>("contractScrollToType");
+  }
+
+  public set useContractForNumItems(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForNumItems", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get useContractForNumItems(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForNumItems");
+  }
+
   public set buttonType(value: TCh5ButtonListButtonType) {
     this._ch5Properties.set<TCh5ButtonListButtonType>("buttonType", value, () => {
       this.debounceButtonDisplay();
@@ -556,6 +1025,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
 
   public constructor() {
     super();
+    this.ignoreAttributes = ['receivestatehidepulse', 'receivestateshowpulse', 'sendeventonshow'];
     this.logger.start('constructor()');
     if (!this._wasInstatiated) {
       this.createInternalHtml();
@@ -566,7 +1036,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   }
 
   public static get observedAttributes(): string[] {
-    const inheritedObsAttrs = Ch5GenericListAttributes.observedAttributes;
+    const inheritedObsAttrs = Ch5Common.observedAttributes;
     const newObsAttrs: string[] = [];
     for (let i: number = 0; i < Ch5ButtonListBase.COMPONENT_PROPERTIES.length; i++) {
       if (Ch5ButtonListBase.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
@@ -1018,7 +1488,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
 
   private createButton(index: number, append: boolean = true) {
     if (index < 0 || index >= this.numberOfItems) { return };
-    const btn = new Ch5Button();
+    const btn = this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined ? new Ch5Button(index, 300, this.contractName) : new Ch5Button();
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
     if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined && this.useContractForItemShow === true) {
@@ -1254,16 +1724,14 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   private contractButtonHelper(btn: Ch5Button, index: number) {
     // useContractForEnable and receiveStateEnable
     if (this.useContractForEnable === true) {
-      this.setAttribute('receiveStateEnable', this.contractName + '.ListEnabled');
+      this.receiveStateEnable = this.contractName + '.ListEnabled';
     } else if (this.hasAttribute('receiveStateEnable') && this.getAttribute('receiveStateEnable')?.trim()) {
       this.setAttribute('receiveStateEnable', this.getAttribute('receiveStateEnable')?.trim() + '');
     }
 
     // useContractForShow and receiveStateShow
     if (this.useContractForShow === true) {
-      this.setAttribute('receiveStateShow', this.contractName + '.ListVisible');
-      this.setAttribute('receiveStateShowPulse', this.contractName + '.ShowPulse');
-      this.setAttribute('receiveStateShowHidePulse', this.contractName + '.HidePulse');
+      this.receiveStateShow = this.contractName + '.ListVisible';
     } else if (this.hasAttribute('receiveStateShow') && this.getAttribute('receiveStateShow')?.trim()) {
       this.setAttribute('receiveStateShow', this.getAttribute('receiveStateShow')?.trim() + '');
     }
@@ -1331,8 +1799,8 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     }
 
     btn.setAttribute('receiveStateMode', this.contractName + `.Button${index + 1}Mode`);
-    this.setAttribute('receiveStateNumberOfItems', this.contractName + `.ListNumberOfItems`);
-    this.setAttribute('receiveStateScrollToItem', this.contractName + `.ListScrollToItem`);
+    this.receiveStateNumberOfItems = this.contractName + `.ListNumberOfItems`;
+    this.receiveStateScrollToPosition = this.contractName + `.ListScrollToItem`;
 
     const remainingAttributes = ['buttonCheckboxPosition', 'buttonCheckboxShow', 'buttonVAlignLabel', 'buttonHAlignLabel', 'buttonIconClass',
       'buttonIconPosition', 'buttonIconUrl', 'buttonMode', 'buttonShape', 'buttonType', 'buttonSendEventOnClick', 'buttonPressed', 'buttonSelected'];
