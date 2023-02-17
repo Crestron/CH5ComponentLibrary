@@ -2578,25 +2578,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.stop();
 	}
 
-	// private updateForChangeInStretch(): void {
-	// 	const parentEl = this.parentElement as HTMLElement;
-	// 	const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
-	// 	if (!parentEl) {
-	// 		this.logger.log('updateForChangeInStretch() - parent element not found');
-	// 		return;
-	// 	}
-	// 	let stretchCssClassNameToAdd: string = '';
-	// 	if (!isNil(this.stretch) && Ch5ButtonBase.STRETCHES.indexOf(this.stretch) >= 0) {
-	// 		stretchCssClassNameToAdd = this.primaryCssClass + '--stretch-' + this.stretch;
-	// 	}
-	// 	Ch5ButtonBase.STRETCHES.forEach((stretch: TCh5ButtonStretch) => {
-	// 		const cssClass = this.primaryCssClass + '--stretch-' + stretch;
-	// 		if (cssClass !== stretchCssClassNameToAdd) {
-	// 			targetEl.classList.remove(cssClass);
-	// 		}
-	// 	});
-	// }
-
 	protected updateCssClassesForCustomState(): void {
 		const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
 		if (typeof targetEl.classList === 'undefined') {
