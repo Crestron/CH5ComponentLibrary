@@ -5,8 +5,8 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5GenericListDocumentation } from "../../ch5-common/interfaces/i-ch5-generic-list-documentation";
 import { ICh5TabButtonAttributes } from "./i-ch5-tab-button-attributes";
+import {ICh5TabButtonCommonDocumentation} from "../../ch5-common/interfaces/i-ch5-tab-button-documentation"
 
 /**
  * @name Ch5 Tab Button
@@ -85,12 +85,17 @@ import { ICh5TabButtonAttributes } from "./i-ch5-tab-button-attributes";
  *       "\tbuttonReceiveStateIconUrl=\"${18:}\"",
  *       "\tbuttonSendEventOnClick=\"${19:}\"",
  *       "\tbuttonReceiveStateShow=\"${20:}\"",
- *       "\tbuttonReceiveStateEnable=\"${21:}\">",
+ *       "\tbuttonReceiveStateEnable=\"${21:}\"",
+ *       "\tcontractName=\"${22:}\"",
+ *       "\tuseContractForEnable=\"${23:false}\"",
+ *       "\tuseContractForShow=\"${24:false}\"",
+ *       "\tuseContractForCustomClass=\"${25:false}\"",
+ *       "\tuseContractForCustomStyle=\"${26:false}\">",
  *       "</ch5-tab-button>$0"
  *       ]
  *    }
  *  ]
  */
-export interface ICh5TabButtonDocumentation extends ICh5GenericListDocumentation, ICh5TabButtonAttributes {
+export interface ICh5TabButtonDocumentation extends ICh5TabButtonCommonDocumentation, ICh5TabButtonAttributes {
 
 }
