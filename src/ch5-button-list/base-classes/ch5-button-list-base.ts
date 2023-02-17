@@ -1422,9 +1422,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   }
 
   public buttonDisplay() {
-    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
-      return this.contractDefaultHelper();
-    }
+    this.contractDefaultHelper();
     // The below line is added to remove the stretch class before calculating the button dimension
     this._elContainer.classList.remove(this.primaryCssClass + '--stretch-both');
 
@@ -1698,27 +1696,30 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   }
 
   private contractDefaultHelper() {
-    if (this.useContractForCustomStyle === true) {
-      this.receiveStateCustomStyle = this.contractName + '.CustomStyle';
-    }
+    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
 
-    if (this.useContractForCustomClass === true) {
-      this.receiveStateCustomClass = this.contractName + '.CustomClass';
-    }
+      if (this.useContractForCustomStyle === true) {
+        this.receiveStateCustomStyle = this.contractName + '.CustomStyle';
+      }
 
-    // useContractForEnable and receiveStateEnable
-    if (this.useContractForEnable === true) {
-      this.receiveStateEnable = this.contractName + '.ListEnabled';
-    }
+      if (this.useContractForCustomClass === true) {
+        this.receiveStateCustomClass = this.contractName + '.CustomClass';
+      }
 
-    // useContractForShow and receiveStateShow
-    if (this.useContractForShow === true) {
-      this.receiveStateShow = this.contractName + '.ListVisible';
+      // useContractForEnable and receiveStateEnable
+      if (this.useContractForEnable === true) {
+        this.receiveStateEnable = this.contractName + '.ListEnabled';
+      }
+
+      // useContractForShow and receiveStateShow
+      if (this.useContractForShow === true) {
+        this.receiveStateShow = this.contractName + '.ListVisible';
+      }
+      this.receiveStateNumberOfItems = this.contractName + `.ListNumberOfItems`;
+      this.receiveStateScrollToPosition = this.contractName + `.ListScrollToItem`;
     }
-    this.receiveStateNumberOfItems = this.contractName + `.ListNumberOfItems`;
-    this.receiveStateScrollToPosition = this.contractName + `.ListScrollToItem`;
   }
-  
+
   private contractButtonHelper(btn: Ch5Button, index: number) {
     if (this.useContractForItemEnable === true) {
       btn.setAttribute('receiveStateEnable', this.contractName + `.Button${index + 1}Enabled`);
