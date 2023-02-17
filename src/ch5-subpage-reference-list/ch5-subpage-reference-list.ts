@@ -9,6 +9,7 @@ import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { resizeObserver } from "../ch5-core/resize-observer";
 import { Ch5AugmentVarSignalsNames } from '../ch5-common/ch5-augment-var-signals-names';
 import { subscribeInViewPortChange, unSubscribeInViewPortChange } from '../ch5-core';
+import { async } from "rxjs";
 
 export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageReferenceListAttributes {
 
@@ -276,8 +277,10 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   // Default Row and Column value
   private rowClassValue: number = 1;
   private columnsClassValue: number = 1;
-  public debounceSubpageDisplay = this.debounce(() => {
-    this.subpageDisplay();
+  public debounceSubpageDisplay = this.debounce(async () => {
+    await this.subpageDisplay();
+    if (this.reInit) this.debounceInitScrollBar();
+
   }, 100);
 
   public debounceHandleScrollToPosition = this.debounce((value: number) => {
@@ -286,7 +289,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public debounceInitScrollBar = this.debounce(() => {
     this.initScrollbar();
-  }, 100);
+  }, 400);
 
   //#endregion
 
@@ -1091,6 +1094,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.SCROLLBAR_CLASSLIST_PREFIX + 'true');
         this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.SCROLLBAR_CLASSLIST_PREFIX + 'false');
       } else {
+        if (this.centerItems === true) this.centerItems = false;
         this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.SCROLLBAR_CLASSLIST_PREFIX + 'false');
         this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.SCROLLBAR_CLASSLIST_PREFIX + 'true');
       }
