@@ -1422,6 +1422,9 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   }
 
   public buttonDisplay() {
+    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+      return this.contractDefaultHelper();
+    }
     // The below line is added to remove the stretch class before calculating the button dimension
     this._elContainer.classList.remove(this.primaryCssClass + '--stretch-both');
 
@@ -1457,9 +1460,6 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
     if (this.centerItems === true && this.scrollbarDimension < 100) { this.centerItems = false; }
     if (this.scrollToPosition !== 0) { this.debounceHandleScrollToPosition(this.scrollToPosition); }
-    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
-      return this.contractDefaultHelper();
-    }
   }
 
   private createButton(index: number, append: boolean = true) {
