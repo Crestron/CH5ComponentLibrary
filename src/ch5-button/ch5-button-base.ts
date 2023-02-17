@@ -1582,21 +1582,26 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	}
 	private _subscribeToPressableIsPressedForButtonList() {
 		if (this._isPressedSubscription === null && this._pressable !== null) {
+			let isHeld = false;
 			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
 				this.logger.log(`Ch5Button.pressableSubscriptionCb(${value})`, this.pressed);
 				if (value === false) {
+					if (isHeld === false) {
+						Ch5SignalFactory.getInstance().getNumberSignal(this._contractNameForList + '.ListItemClicked')?.publish(this._indexForList);
+					}
 					if (this._repeatDigitalInterval !== null) {
 						window.clearInterval(this._repeatDigitalInterval as number);
+						isHeld = false;
 					}
 					setTimeout(() => {
 						this.setButtonDisplay();
 					}, this.STATE_CHANGE_TIMEOUTS);
 				} else {
-					Ch5SignalFactory.getInstance().getNumberSignal(this._contractNameForList + '.ListItemClicked')?.publish(this._indexForList);
 					if (this._repeatDigitalInterval !== null) {
 						window.clearInterval(this._repeatDigitalInterval as number);
 					}
 					this._repeatDigitalInterval = window.setInterval(() => {
+						isHeld = true;
 						Ch5SignalFactory.getInstance().getNumberSignal(this._contractNameForList + '.ListItemHeld')?.publish(this._indexForList);
 						window.clearInterval(this._repeatDigitalInterval as number);
 					}, this._clickAndHoldTimeForList);

@@ -4,7 +4,7 @@ import { Ch5ButtonMode } from "../../ch5-button/ch5-button-mode";
 import { Ch5ButtonLabel } from "../../ch5-button/ch5-button-label";
 import { Ch5SignalElementAttributeRegistryEntries } from "../../ch5-common/ch5-signal-attribute-registry";
 import { Ch5RoleAttributeMapping } from "../../utility-models/ch5-role-attribute-mapping";
-import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape, TCh5GenericListAttributesOrientation, TCh5GenericListAttributesStretch, TCh5GenericListContractItemLabelType, TCh5GenericListContractItemIconType, TCh5GenericListContractNumItemsType, TCh5GenericListContractScrollToType } from './../interfaces/t-ch5-button-list';
+import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape, TCh5ButtonListAttributesOrientation, TCh5ButtonListAttributesStretch, TCh5ButtonListContractItemLabelType, TCh5ButtonListContractItemIconType } from './../interfaces/t-ch5-button-list';
 import { ICh5ButtonListAttributes } from './../interfaces/i-ch5-button-list-attributes';
 import { Ch5Properties } from "../../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../../ch5-core/ch5-property";
@@ -29,12 +29,10 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   public static readonly MODES_MAX_COUNT: number = 5;
 
   // Enum types
-  public static readonly ORIENTATION: TCh5GenericListAttributesOrientation[] = ['horizontal', 'vertical'];
-  public static readonly STRETCH: TCh5GenericListAttributesStretch[] = ['both'];
-  public static readonly CONTRACT_ITEM_LABEL_TYPE: TCh5GenericListContractItemLabelType[] = ['none', 'textContent', 'innerHTML'];
-  public static readonly CONTRACT_ITEM_ICON_TYPE: TCh5GenericListContractItemIconType[] = ['none', 'iconClass', 'url', 'sgStateName', 'sgStateNumber'];
-  public static readonly CONTRACT_NUM_ITEMS_TYPE: TCh5GenericListContractNumItemsType[] = ['absolute', 'visible', 'none'];
-  public static readonly CONTRACT_SCROLL_TO_TYPE: TCh5GenericListContractScrollToType[] = ['absolute', 'visible'];
+  public static readonly ORIENTATION: TCh5ButtonListAttributesOrientation[] = ['horizontal', 'vertical'];
+  public static readonly STRETCH: TCh5ButtonListAttributesStretch[] = ['both'];
+  public static readonly CONTRACT_ITEM_LABEL_TYPE: TCh5ButtonListContractItemLabelType[] = ['none', 'textContent', 'innerHTML'];
+  public static readonly CONTRACT_ITEM_ICON_TYPE: TCh5ButtonListContractItemIconType[] = ['none', 'iconClass', 'url', 'sgStateName', 'sgStateNumber'];
   public static readonly BUTTON_TYPES: TCh5ButtonListButtonType[] = ['default', 'danger', 'text', 'warning', 'info', 'success', 'primary', 'secondary'];
   public static readonly BUTTON_HALIGN_LABEL_POSITIONS: TCh5ButtonListButtonHAlignLabel[] = ['center', 'left', 'right'];
   public static readonly BUTTON_VALIGN_LABEL_POSITIONS: TCh5ButtonListButtonVAlignLabel[] = ['middle', 'top', 'bottom'];
@@ -112,20 +110,6 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       key: 'contractItemIconType',
       attribute: 'contractItemIconType',
       classListPrefix: 'ch5-general--contract-item-icon-type-'
-    },
-    CONTRACT_NUM_ITEMS_TYPE: {
-      default: Ch5ButtonListBase.CONTRACT_NUM_ITEMS_TYPE[0],
-      values: Ch5ButtonListBase.CONTRACT_NUM_ITEMS_TYPE,
-      key: 'contractNumItemsType',
-      attribute: 'contractNumItemsType',
-      classListPrefix: 'ch5-general--contract-num-items-type-'
-    },
-    CONTRACT_SCROLL_TO_TYPE: {
-      default: Ch5ButtonListBase.CONTRACT_SCROLL_TO_TYPE[0],
-      values: Ch5ButtonListBase.CONTRACT_SCROLL_TO_TYPE,
-      key: 'contractScrollToType',
-      attribute: 'contractScrollToType',
-      classListPrefix: 'ch5-general--contract-scroll-to-type-'
     }
   };
 
@@ -349,24 +333,6 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       isObservableProperty: true,
     },
     {
-      default: Ch5ButtonListBase.CONTRACT_NUM_ITEMS_TYPE[0],
-      enumeratedValues: Ch5ButtonListBase.CONTRACT_NUM_ITEMS_TYPE,
-      name: "contractNumItemsType",
-      removeAttributeOnNull: true,
-      type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonListBase.CONTRACT_NUM_ITEMS_TYPE[0],
-      isObservableProperty: true,
-    },
-    {
-      default: Ch5ButtonListBase.CONTRACT_SCROLL_TO_TYPE[0],
-      enumeratedValues: Ch5ButtonListBase.CONTRACT_SCROLL_TO_TYPE,
-      name: "contractScrollToType",
-      removeAttributeOnNull: true,
-      type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonListBase.CONTRACT_SCROLL_TO_TYPE[0],
-      isObservableProperty: true,
-    },
-    {
       default: false,
       name: "useContractForNumItems",
       removeAttributeOnNull: true,
@@ -563,6 +529,23 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       type: "string",
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
+    },
+    {
+      default: 1500,
+      name: "clickHoldTime",
+      removeAttributeOnNull: true,
+      type: "number",
+      valueOnAttributeEmpty: null,
+      numberProperties: {
+        min: 300,
+        max: 30000,
+        conditionalMin: 300,
+        conditionalMax: 30000,
+        conditionalMinValue: 300,
+        conditionalMaxValue: 30000
+      },
+
+      isObservableProperty: true
     }
   ];
 
@@ -599,13 +582,13 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   //#region Getters and Setters
 
 
-  public set orientation(value: TCh5GenericListAttributesOrientation) {
-    this._ch5Properties.set<TCh5GenericListAttributesOrientation>("orientation", value, () => {
+  public set orientation(value: TCh5ButtonListAttributesOrientation) {
+    this._ch5Properties.set<TCh5ButtonListAttributesOrientation>("orientation", value, () => {
       this.handleOrientation();
     });
   }
-  public get orientation(): TCh5GenericListAttributesOrientation {
-    return this._ch5Properties.get<TCh5GenericListAttributesOrientation>("orientation");
+  public get orientation(): TCh5ButtonListAttributesOrientation {
+    return this._ch5Properties.get<TCh5ButtonListAttributesOrientation>("orientation");
   }
 
   public set scrollbar(value: boolean) {
@@ -626,13 +609,13 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     return this._ch5Properties.get<boolean>("centerItems");
   }
 
-  public set stretch(value: TCh5GenericListAttributesStretch | null) {
-    this._ch5Properties.set<TCh5GenericListAttributesStretch | null>("stretch", value, () => {
+  public set stretch(value: TCh5ButtonListAttributesStretch | null) {
+    this._ch5Properties.set<TCh5ButtonListAttributesStretch | null>("stretch", value, () => {
       this.handleStretch();
     });
   }
-  public get stretch(): TCh5GenericListAttributesStretch | null {
-    return this._ch5Properties.get<TCh5GenericListAttributesStretch | null>("stretch");
+  public get stretch(): TCh5ButtonListAttributesStretch | null {
+    return this._ch5Properties.get<TCh5ButtonListAttributesStretch | null>("stretch");
   }
 
   public set endless(value: boolean) {
@@ -772,40 +755,22 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     return this._ch5Properties.get<boolean>("useContractForCustomClass");
   }
 
-  public set contractItemLabelType(value: TCh5GenericListContractItemLabelType) {
-    this._ch5Properties.set<TCh5GenericListContractItemLabelType>("contractItemLabelType", value, () => {
+  public set contractItemLabelType(value: TCh5ButtonListContractItemLabelType) {
+    this._ch5Properties.set<TCh5ButtonListContractItemLabelType>("contractItemLabelType", value, () => {
       this.debounceButtonDisplay();
     });
   }
-  public get contractItemLabelType(): TCh5GenericListContractItemLabelType {
-    return this._ch5Properties.get<TCh5GenericListContractItemLabelType>("contractItemLabelType");
+  public get contractItemLabelType(): TCh5ButtonListContractItemLabelType {
+    return this._ch5Properties.get<TCh5ButtonListContractItemLabelType>("contractItemLabelType");
   }
 
-  public set contractItemIconType(value: TCh5GenericListContractItemIconType) {
-    this._ch5Properties.set<TCh5GenericListContractItemIconType>("contractItemIconType", value, () => {
+  public set contractItemIconType(value: TCh5ButtonListContractItemIconType) {
+    this._ch5Properties.set<TCh5ButtonListContractItemIconType>("contractItemIconType", value, () => {
       this.debounceButtonDisplay();
     });
   }
-  public get contractItemIconType(): TCh5GenericListContractItemIconType {
-    return this._ch5Properties.get<TCh5GenericListContractItemIconType>("contractItemIconType");
-  }
-
-  public set contractNumItemsType(value: TCh5GenericListContractNumItemsType) {
-    this._ch5Properties.set<TCh5GenericListContractNumItemsType>("contractNumItemsType", value, () => {
-      this.debounceButtonDisplay();
-    });
-  }
-  public get contractNumItemsType(): TCh5GenericListContractNumItemsType {
-    return this._ch5Properties.get<TCh5GenericListContractNumItemsType>("contractNumItemsType");
-  }
-
-  public set contractScrollToType(value: TCh5GenericListContractScrollToType) {
-    this._ch5Properties.set<TCh5GenericListContractScrollToType>("contractScrollToType", value, () => {
-      this.debounceButtonDisplay();
-    });
-  }
-  public get contractScrollToType(): TCh5GenericListContractScrollToType {
-    return this._ch5Properties.get<TCh5GenericListContractScrollToType>("contractScrollToType");
+  public get contractItemIconType(): TCh5ButtonListContractItemIconType {
+    return this._ch5Properties.get<TCh5ButtonListContractItemIconType>("contractItemIconType");
   }
 
   public set useContractForNumItems(value: boolean) {
@@ -1013,6 +978,14 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   }
   public get buttonReceiveStateEnable(): string {
     return this._ch5Properties.get<string>("buttonReceiveStateEnable");
+  }
+  public set clickHoldTime(value: number) {
+    this._ch5Properties.set<number>("clickHoldTime", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get clickHoldTime(): number {
+    return this._ch5Properties.get<number>("clickHoldTime");
   }
 
   //#endregion
@@ -1484,11 +1457,14 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
     if (this.centerItems === true && this.scrollbarDimension < 100) { this.centerItems = false; }
     if (this.scrollToPosition !== 0) { this.debounceHandleScrollToPosition(this.scrollToPosition); }
+    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+      return this.contractDefaultHelper();
+    }
   }
 
   private createButton(index: number, append: boolean = true) {
     if (index < 0 || index >= this.numberOfItems) { return };
-    const btn = this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined ? new Ch5Button(index, 300, this.contractName) : new Ch5Button();
+    const btn = this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined ? new Ch5Button(index + 1, this.clickHoldTime, this.contractName) : new Ch5Button();
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
     if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined && this.useContractForItemShow === true) {
@@ -1721,33 +1697,29 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     }
   }
 
-  private contractButtonHelper(btn: Ch5Button, index: number) {
+  private contractDefaultHelper() {
+    if (this.useContractForCustomStyle === true) {
+      this.receiveStateCustomStyle = this.contractName + '.CustomStyle';
+    }
+
+    if (this.useContractForCustomClass === true) {
+      this.receiveStateCustomClass = this.contractName + '.CustomClass';
+    }
+
     // useContractForEnable and receiveStateEnable
     if (this.useContractForEnable === true) {
       this.receiveStateEnable = this.contractName + '.ListEnabled';
-    } else if (this.hasAttribute('receiveStateEnable') && this.getAttribute('receiveStateEnable')?.trim()) {
-      this.setAttribute('receiveStateEnable', this.getAttribute('receiveStateEnable')?.trim() + '');
     }
 
     // useContractForShow and receiveStateShow
     if (this.useContractForShow === true) {
       this.receiveStateShow = this.contractName + '.ListVisible';
-    } else if (this.hasAttribute('receiveStateShow') && this.getAttribute('receiveStateShow')?.trim()) {
-      this.setAttribute('receiveStateShow', this.getAttribute('receiveStateShow')?.trim() + '');
     }
-
-    if (this.useContractForCustomStyle === true) {
-      this.setAttribute('receiveStateCustomStyle', this.contractName + '.CustomStyle');
-    } else if (this.hasAttribute('receiveStateCustomStyle') && this.getAttribute('receiveStateCustomStyle')?.trim()) {
-      this.setAttribute('receiveStateCustomStyle', this.getAttribute('receiveStateCustomStyle')?.trim() + '');
-    }
-
-    if (this.useContractForCustomClass === true) {
-      this.setAttribute('receiveStateCustomClass', this.contractName + '.CustomClass');
-    } else if (this.hasAttribute('receiveStateCustomClass') && this.getAttribute('receiveStateCustomClass')?.trim()) {
-      this.setAttribute('receiveStateCustomClass', this.getAttribute('receiveStateCustomClass')?.trim() + '');
-    }
-
+    this.receiveStateNumberOfItems = this.contractName + `.ListNumberOfItems`;
+    this.receiveStateScrollToPosition = this.contractName + `.ListScrollToItem`;
+  }
+  
+  private contractButtonHelper(btn: Ch5Button, index: number) {
     if (this.useContractForItemEnable === true) {
       btn.setAttribute('receiveStateEnable', this.contractName + `.Button${index + 1}Enabled`);
     } else if (this.hasAttribute('buttonReceiveStateEnable') && this.getAttribute('buttonReceiveStateEnable')?.trim()) {
@@ -1799,11 +1771,10 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     }
 
     btn.setAttribute('receiveStateMode', this.contractName + `.Button${index + 1}Mode`);
-    this.receiveStateNumberOfItems = this.contractName + `.ListNumberOfItems`;
-    this.receiveStateScrollToPosition = this.contractName + `.ListScrollToItem`;
+    btn.setAttribute('receiveStateSelected', this.contractName + `.Button${index + 1}ItemSelected`);
 
     const remainingAttributes = ['buttonCheckboxPosition', 'buttonCheckboxShow', 'buttonVAlignLabel', 'buttonHAlignLabel', 'buttonIconClass',
-      'buttonIconPosition', 'buttonIconUrl', 'buttonMode', 'buttonShape', 'buttonType', 'buttonSendEventOnClick', 'buttonPressed', 'buttonSelected'];
+      'buttonIconPosition', 'buttonIconUrl', 'buttonShape', 'buttonType', 'buttonSendEventOnClick', 'buttonPressed'];
     const individualButtons = this.getElementsByTagName(this.nodeName.toLowerCase() + '-individual-button');
     const individualButtonsLength = individualButtons.length;
     remainingAttributes.forEach((attr: string) => {
@@ -1825,19 +1796,6 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
             const attrValue = individualButtons[index].getAttribute('iconurl')?.trim();
             if (attrValue) {
               btn.setAttribute('iconurl', attrValue);
-            }
-          } else if (attr.toLowerCase().includes('button') && this.hasAttribute(attr)) {
-            const attrValue = this.getAttribute(attr)?.trim().replace(`{{${this.indexId}}}`, index + '');
-            if (attrValue) {
-              btn.setAttribute(attr.toLowerCase().replace('button', ''), attrValue.trim());
-            }
-          }
-        }
-        else if (attr.toLowerCase() === 'buttononrelease') {
-          if (individualButtons[index] && individualButtons[index].hasAttribute('onrelease')) {
-            const attrValue = individualButtons[index].getAttribute('onrelease')?.trim();
-            if (attrValue) {
-              btn.setAttribute('onrelease', attrValue);
             }
           } else if (attr.toLowerCase().includes('button') && this.hasAttribute(attr)) {
             const attrValue = this.getAttribute(attr)?.trim().replace(`{{${this.indexId}}}`, index + '');
@@ -1901,18 +1859,15 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       }
     });
 
-    if (index < individualButtonsLength && individualButtons[index] && individualButtons[index].hasAttribute('labelInnerHTML')) {
-      const attrValue = individualButtons[index].getAttribute('labelInnerHTML')?.trim();
-      if (attrValue) {
-        btn.setAttribute('labelInnerHTML', attrValue.trim());
+    const individualButtonAttributes = ['onRelease', 'labelInnerHTML'];
+    individualButtonAttributes.forEach((attr: string) => {
+      if (index < individualButtonsLength && individualButtons[index] && individualButtons[index].hasAttribute(attr)) {
+        const attrValue = individualButtons[index].getAttribute(attr)?.trim();
+        if (attrValue) {
+          btn.setAttribute(attr, attrValue.trim());
+        }
       }
-    }
-    // TODO: Pending Items
-    // itemSelected
-    // showPulse and hidePulse
-    // contractNumItemsType
-    // contractScrollToType
-    // Disable redraw
+    });
   }
 
   private indexIdReplaceHelper(btn: Ch5Button, attr: string, index: number) {

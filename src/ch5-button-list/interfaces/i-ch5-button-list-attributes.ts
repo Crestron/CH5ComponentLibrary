@@ -1,5 +1,5 @@
 import { ICh5ButtonListCommonAttributes } from "../../ch5-common/interfaces/i-ch5-button-list-attributes";
-import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape, TCh5GenericListAttributesOrientation, TCh5GenericListAttributesStretch, TCh5GenericListContractItemLabelType, TCh5GenericListContractItemIconType, TCh5GenericListContractNumItemsType, TCh5GenericListContractScrollToType } from './t-ch5-button-list';
+import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape, TCh5ButtonListAttributesOrientation, TCh5ButtonListAttributesStretch, TCh5ButtonListContractItemLabelType, TCh5ButtonListContractItemIconType } from './t-ch5-button-list';
 
 /**
  * @ignore
@@ -16,7 +16,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
  * @default horizontal
  * @attributeType "EnumeratedValue"
  */
-  orientation: TCh5GenericListAttributesOrientation;
+  orientation: TCh5ButtonListAttributesOrientation;
   /**
    * @documentation
    * [
@@ -52,7 +52,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @default false
    * @attributeType "Boolean"
    */
-  stretch: TCh5GenericListAttributesStretch | null;
+  stretch: TCh5ButtonListAttributesStretch | null;
   /**
    * @documentation
    * [
@@ -249,7 +249,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @default none
    * @attributeType "EnumeratedValue"
    */
-  contractItemLabelType: TCh5GenericListContractItemLabelType;
+  contractItemLabelType: TCh5ButtonListContractItemLabelType;
   /**
   * @documentation
   * [
@@ -261,31 +261,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   * @default none
   * @attributeType "EnumeratedValue"
   */
-  contractItemIconType: TCh5GenericListContractItemIconType;
-  /**
-  * @documentation
-  * [
-  * "`contractNumItemsType` attribute",
-  * "***",
-  * ". Valid values are 'absolute', 'visible' and 'none'. When 'none', contract NumItems join will not change the number of items displayed in the list. When 'absolute', if the value of the NumItems join is X, the items displayed are only those items where Show[0] through Show[X-1] is true. When 'visible', if the value of NumItems is X, the list will display up to X items, even displaying items X and higher if they are visible and lower numbered items are invisible. For example, first 3 item in a list have Show[0] = true, Show[1] = false, and Show[2] = true. If the type is 'absolute' and NumItems = 2, just item 0 is shown. If the type is 'visible' and NumItems = 2, item 0 and item 2 are shown."
-  * ]
-  * @name contractnumitemstype
-  * @default absolute
-  * @attributeType "EnumeratedValue"
-  */
-  contractNumItemsType: TCh5GenericListContractNumItemsType;
-  /**
-  * @documentation
-  * [
-  * "`contractScrollToType` attribute",
-  * "***",
-  * "Valid values are 'absolute' and 'visible'.  See contractNumItemsType for differentiation between 'absolute' and 'visible' enumeration values. "
-  * ]
-  * @name contractscrolltotype
-  * @default absolute
-  * @attributeType "EnumeratedValue"
-  */
-  contractScrollToType: TCh5GenericListContractScrollToType;
+  contractItemIconType: TCh5ButtonListContractItemIconType;
   /**
   * @documentation
   * [
@@ -564,4 +540,17 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @attributeType "String"
    */
   buttonReceiveStateEnable: string;
+  /**
+   * @documentation
+   * [
+   * "`clickHoldTime` attribute",
+   * "***",
+   * "The number of milliseconds that differentiates a tap from a press and hold for ItemClicked and ItemHeld Joins"
+   * ]
+   * @name clickholdtime
+   * @default 1500
+   * @limits [{"min": 300, "max": 30000}]
+   * @attributeType "Integer"
+   */
+  clickHoldTime: number;
 }
