@@ -32,6 +32,90 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributes
   /**
    * @documentation
    * [
+   * "`useContractForEnable` attribute",
+   * "***",
+   * "When true, contract 'Enable' state determines if the list is enabled. When false, the 'receiveStateEnable' join may be applied. Consistent with other components, if the 'receiveStateEnable' join is provide, the value of that join determines if the component is enabled. "
+   * ]
+   * @name usecontractforenable
+   * @default false
+   * @attributeType "Boolean"
+   */
+  useContractForEnable: boolean;
+  /**
+   * @documentation
+   * [
+   * "`useContractForShow` attribute",
+   * "***",
+   * " When true, contract 'Show' state determines if the list is enabled. When false, the 'receiveStateShow' join may be applied. Consistent with other components, if the 'receiveStateShow' join is provide, the value of that join determines if the component is visible. "
+   * ]
+   * @name usecontractforshow
+   * @default false
+   * @attributeType "Boolean"
+   */
+  useContractForShow: boolean;
+  /**
+   * @documentation
+   * [
+   * "`useContractForItemEnable` attribute",
+   * "***",
+   * "When true, contract 'ItemEnable[x]' state determines if an individual button x is enabled. "
+   * ]
+   * @name usecontractforitemenable
+   * @default false
+   * @attributeType "Boolean"
+   */
+  useContractForItemEnable: boolean;
+  /**
+   * @documentation
+   * [
+   * "`useContractForItemShow` attribute",
+   * "***",
+   * "When true, contract 'ItemShow[x]' state determines if an individual button x is visible. "
+   * ]
+   * @name usecontractforitemshow
+   * @default false
+   * @attributeType "Boolean"
+   */
+  useContractForItemShow: boolean;
+  /**
+   * @documentation
+   * [
+   * "`useContractForCustomStyle` attribute",
+   * "***",
+   * "contract for custom style "
+   * ]
+   * @name usecontractforcustomstyle
+   * @default false
+   * @attributeType "Boolean"
+   */
+  useContractForCustomStyle: boolean;
+  /**
+   * @documentation
+   * [
+   * "`useContractForCustomClass` attribute",
+   * "***",
+   * "contract for custom class"
+   * ]
+   * @name usecontractforcustomclass
+   * @default false
+   * @attributeType "Boolean"
+   */
+  useContractForCustomClass: boolean;
+  /**
+   * @documentation
+   * [
+   * "`useContractForNumItems` attribute",
+   * "***",
+   * "When false, the 'receiveStateNumberOfItems' join may be applied. Consistent with other components, if the 'receiveStateNumberOfItems' join is provide, the value of that join determines how many items in the list to show. "
+   * ]
+   * @name usecontractfornumitems
+   * @default false
+   * @attributeType "Boolean"
+   */
+  useContractForNumItems: boolean;
+  /**
+   * @documentation
+   * [
    * "`endless` attribute",
    * "***",
    * "The default value is false. If false, continued swiping when reaching end of list reveals no items beyond the last. If true, if the attribute is added without a value, the first list item will virtually follow the last item when the end of the list is reached. Swiping towards the beginning of the list items will also show the last item prior to the first. Note: Endless is set to false whenever there are multiple rows and columns."

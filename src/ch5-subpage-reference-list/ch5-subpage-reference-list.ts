@@ -69,6 +69,62 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     },
     {
       default: false,
+      name: "useContractForEnable",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForShow",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForItemEnable",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForItemShow",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForCustomStyle",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForCustomClass",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForNumItems",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
       name: "endless",
       removeAttributeOnNull: true,
       type: "boolean",
@@ -273,6 +329,15 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   private containerWidth: number = 0;
   private reInit: boolean = true;
 
+  private signalNameOnContract = {
+    contractName: "",
+    receiveStateCustomClass: "",
+    receiveStateCustomStyle: "",
+    receiveStateEnable: "",
+    receiveStateShow: "",
+    subpageReceiveStateScrollTo: "",
+    receiveStateNumberOfItems: ""
+  }
 
   // Default Row and Column value
   private rowClassValue: number = 1;
@@ -280,7 +345,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   public debounceSubpageDisplay = this.debounce(async () => {
     await this.subpageDisplay();
     if (this.reInit) this.debounceInitScrollBar();
-
   }, 100);
 
   public debounceHandleScrollToPosition = this.debounce((value: number) => {
@@ -307,11 +371,75 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public set contractName(value: string) {
     this._ch5Properties.set<string>("contractName", value, () => {
-      // enter Code
+      this.handleContractName();
     });
   }
   public get contractName(): string {
     return this._ch5Properties.get<string>("contractName");
+  }
+
+  public set useContractForEnable(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForEnable", value, () => {
+      this.debounceSubpageDisplay();
+    });
+  }
+  public get useContractForEnable(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForEnable");
+  }
+
+  public set useContractForShow(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForShow", value, () => {
+      this.debounceSubpageDisplay();
+    });
+  }
+  public get useContractForShow(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForShow");
+  }
+
+
+  public set useContractForItemEnable(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForItemEnable", value, () => {
+      this.debounceSubpageDisplay();
+    });
+  }
+  public get useContractForItemEnable(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForItemEnable");
+  }
+
+  public set useContractForItemShow(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForItemShow", value, () => {
+      this.debounceSubpageDisplay();
+    });
+  }
+  public get useContractForItemShow(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForItemShow");
+  }
+
+  public set useContractForCustomStyle(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForCustomStyle", value, () => {
+      this.debounceSubpageDisplay();
+    });
+  }
+  public get useContractForCustomStyle(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForCustomStyle");
+  }
+
+  public set useContractForCustomClass(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForCustomClass", value, () => {
+      this.debounceSubpageDisplay();
+    });
+  }
+  public get useContractForCustomClass(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForCustomClass");
+  }
+
+  public set useContractForNumItems(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForNumItems", value, () => {
+      this.debounceSubpageDisplay();
+    });
+  }
+  public get useContractForNumItems(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForNumItems");
   }
 
   public set endless(value: boolean) {
@@ -742,13 +870,13 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         const index = (this.numberOfItems + lastElement + 1) % this.numberOfItems;
         this.createSubpage(index);
         this._elContainer.firstElementChild?.remove();
-        this._elContainer.scrollLeft += this.subpageWidth / 2;
+        this._elContainer.scrollLeft += this.subpageWidth;
       } else if (Math.abs(scrollLeft) < this.subpageWidth / 4) {
         const firstElement = Number(this._elContainer.firstElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
         const index = (this.numberOfItems + firstElement - 1) % this.numberOfItems;
         this.createSubpage(index, false);
         this._elContainer.lastElementChild?.remove();
-        this._elContainer.scrollLeft -= this.subpageWidth / 2;
+        this._elContainer.scrollLeft -= this.subpageWidth;
       }
     } else if (this.orientation === 'horizontal') {
       if (scrollLeft < this.subpageWidth / 4) {
@@ -756,13 +884,13 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         const index = (this.numberOfItems + firstElement - 1) % this.numberOfItems;
         this.createSubpage(index, false);
         this._elContainer.lastElementChild?.remove();
-        this._elContainer.scrollLeft += this.subpageWidth / 2;
+        this._elContainer.scrollLeft += this.subpageWidth;
       } else if (scrollLeft + offsetWidth > scrollWidth - this.subpageWidth / 4) {
         const lastElement = Number(this._elContainer.lastElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
         const index = (this.numberOfItems + lastElement + 1) % this.numberOfItems;
         this.createSubpage(index);
         this._elContainer.firstElementChild?.remove();
-        this._elContainer.scrollLeft -= this.subpageWidth / 2;
+        this._elContainer.scrollLeft -= this.subpageWidth;
       }
     } else {
       if (scrollTop < this.subpageHeight / 4) {
@@ -770,13 +898,13 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         const index = (this.numberOfItems + firstElement - 1) % this.numberOfItems;
         this.createSubpage(index, false);
         this._elContainer.lastElementChild?.remove();
-        this._elContainer.scrollTop += this.subpageHeight / 2;
+        this._elContainer.scrollTop += this.subpageHeight;
       } else if (scrollTop + offsetHeight > scrollHeight - this.subpageHeight / 4) {
         const lastElement = Number(this._elContainer.lastElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
         const index = (this.numberOfItems + lastElement + 1) % this.numberOfItems;
         this.createSubpage(index);
         this._elContainer.firstElementChild?.remove();
-        this._elContainer.scrollTop -= this.subpageHeight / 2;
+        this._elContainer.scrollTop -= this.subpageHeight;
         if (this.scrollToPosition === this.numberOfItems - 1 && index === 0) { this._elContainer.scrollTop += this.subpageHeight; }
       }
     }
@@ -949,6 +1077,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
   }
   public subpageDisplay() {
+    this.contractDefaultHelper();
     // The below line is added to remove the stretch class before calculating the subpage dimension
     this._elContainer.classList.remove(this.primaryCssClass + '--stretch-both');
 
@@ -1003,6 +1132,10 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     documentContainer.innerHTML = this._templateElement.innerHTML;
     const spgContainer = document.createElement("div");
     spgContainer.setAttribute('id', this.getCrId() + '-' + index);
+    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined && this.useContractForItemShow === true) {
+      spgContainer.setAttribute('data-ch5-show', this.contractName + `.List_Item${index + 1}_Visible`);
+      spgContainer.setAttribute('data-ch5-noshow-type', 'display');
+    } else {
     if (this.hasAttribute('subpageReceiveStateShow') && this.getAttribute("subpageReceiveStateShow")?.trim() && !this.hasAttribute('receiveStateShow')) {
       const attrValue = this.replaceAll(this.getAttribute("subpageReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, '');
       const isNumber = /^[0-9]+$/.test(attrValue);
@@ -1016,6 +1149,10 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       spgContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("receiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
       spgContainer.setAttribute('data-ch5-noshow-type', 'display');
     }
+  }
+  if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined && this.useContractForItemEnable === true) {
+    spgContainer.setAttribute('data-ch5-enable', this.contractName + `.List_Item${index + 1}_Enable`);
+  } else {
     if (this.hasAttribute('subpageReceiveStateEnable') && this.getAttribute("subpageReceiveStateEnable")?.trim() && !this.hasAttribute('receiveStateEnable')) {
       const attrValue = this.replaceAll(this.getAttribute("subpageReceiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, '');
       const isNumber = /^[0-9]+$/.test(attrValue);
@@ -1027,6 +1164,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     } else if (this.hasAttribute('receiveStateEnable')) {
       spgContainer.setAttribute('data-ch5-enable', this.replaceAll(this.getAttribute("receiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, index + ''));
     }
+  }
     spgContainer.classList.add(this.nodeName.toLowerCase() + "--subpage-container");
     if (this.indexId !== null) {
       // replace indexId in attributes
@@ -1037,12 +1175,63 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         .replaceIndexIdInTmplElemsContent(documentContainer, (index), this.indexId as string);
     }
     spgContainer.appendChild(((documentContainer as HTMLTemplateElement).content));
-    // update templateContent attributes to increment join numbers and prefix contract name
-    Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(spgContainer, this.contractName || '',
-      parseInt(this.booleanJoinIncrement, 10) * index || 0,
-      parseInt(this.numericJoinIncrement, 10) * index || 0,
-      parseInt(this.stringJoinIncrement, 10) * index || 0);
+    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+      // update templateContent attributes to prefix contract name
+      Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(spgContainer, this.contractName + '.Items[' + index + '].', 0, 0, 0);
+    } else {
+      // update templateContent attributes to increment join numbers
+      Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(spgContainer, '',
+        parseInt(this.booleanJoinIncrement, 10) * index || 0,
+        parseInt(this.numericJoinIncrement, 10) * index || 0,
+        parseInt(this.stringJoinIncrement, 10) * index || 0);
+    }
     append ? this._elContainer.appendChild(spgContainer) : this._elContainer.prepend(spgContainer);
+  }
+  private handleContractName() {
+    if (this.contractName.trim().length === 0) {
+      this.signalNameOnContract.contractName = "";
+      this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
+      this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;
+      this.receiveStateCustomStyle = this.signalNameOnContract.receiveStateCustomStyle;
+      this.receiveStateCustomClass = this.signalNameOnContract.receiveStateCustomClass;
+      this.receiveStateNumberOfItems = this.signalNameOnContract.receiveStateNumberOfItems;
+      this.subpageReceiveStateScrollTo = this.signalNameOnContract.subpageReceiveStateScrollTo;
+    } else if (this.signalNameOnContract.contractName === "") {
+      this.signalNameOnContract.contractName = this.contractName;
+      this.signalNameOnContract.receiveStateShow = this.receiveStateShow;
+      this.signalNameOnContract.receiveStateEnable = this.receiveStateEnable;
+      this.signalNameOnContract.receiveStateCustomStyle = this.receiveStateCustomStyle;
+      this.signalNameOnContract.receiveStateCustomClass = this.receiveStateCustomClass;
+      this.signalNameOnContract.receiveStateNumberOfItems = this.receiveStateNumberOfItems;
+      this.signalNameOnContract.subpageReceiveStateScrollTo = this.subpageReceiveStateScrollTo;
+    }
+    this.debounceSubpageDisplay();
+  }
+  
+  private contractDefaultHelper() {
+    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+
+      if (this.useContractForCustomStyle === true) {
+        this.receiveStateCustomStyle = this.contractName + '.CustomStyle';
+      }
+
+      if (this.useContractForCustomClass === true) {
+        this.receiveStateCustomClass = this.contractName + '.CustomClass';
+      }
+
+      if (this.useContractForEnable === true) {
+        this.receiveStateEnable = this.contractName + '.List_Enable';
+      }
+
+      if (this.useContractForShow === true) {
+        this.receiveStateShow = this.contractName + '.List_Visible';
+      }
+
+      if (this.useContractForNumItems === true) {
+        this.receiveStateNumberOfItems = this.contractName + `.Set_Number_Of_Items`;
+      }
+      this.subpageReceiveStateScrollTo = this.contractName + `.ListScrollToItem`;
+    }
   }
 
   private updateCssClass() {
