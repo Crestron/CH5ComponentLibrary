@@ -537,12 +537,12 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       type: "number",
       valueOnAttributeEmpty: null,
       numberProperties: {
-        min: 300,
-        max: 30000,
-        conditionalMin: 300,
-        conditionalMax: 30000,
-        conditionalMinValue: 300,
-        conditionalMaxValue: 30000
+        min: 0,
+        max: 120000,
+        conditionalMin: 0,
+        conditionalMax: 120000,
+        conditionalMinValue: 0,
+        conditionalMaxValue: 120000
       },
 
       isObservableProperty: true
@@ -564,6 +564,16 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   private scrollbarDimension: number = 0;
   private buttonWidth: number = 0;
   private buttonHeight: number = 0;
+
+  private signalNameOnContract = {
+    contractName: "",
+    receiveStateCustomClass: "",
+    receiveStateCustomStyle: "",
+    receiveStateEnable: "",
+    receiveStateShow: "",
+    receiveStateScrollToPosition: "",
+    receiveStateNumberOfItems: ""
+  }
 
   // Default Row and Column value
   private rowClassValue: number = 1;
@@ -694,7 +704,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
 
   public set contractName(value: string) {
     this._ch5Properties.set<string>("contractName", value, () => {
-      this.debounceButtonDisplay();
+      this.handleContractName();
     });
   }
   public get contractName(): string {
@@ -1706,16 +1716,17 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
         this.receiveStateCustomClass = this.contractName + '.CustomClass';
       }
 
-      // useContractForEnable and receiveStateEnable
       if (this.useContractForEnable === true) {
         this.receiveStateEnable = this.contractName + '.ListEnabled';
       }
 
-      // useContractForShow and receiveStateShow
       if (this.useContractForShow === true) {
         this.receiveStateShow = this.contractName + '.ListVisible';
       }
-      this.receiveStateNumberOfItems = this.contractName + `.ListNumberOfItems`;
+
+      if (this.useContractForNumItems === true) {
+        this.receiveStateNumberOfItems = this.contractName + `.ListNumberOfItems`;
+      }
       this.receiveStateScrollToPosition = this.contractName + `.ListScrollToItem`;
     }
   }
@@ -1952,6 +1963,27 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       this._scrollbarContainer.classList.add('scrollbar-container');
       this.appendChild(this._scrollbarContainer);
     }
+  }
+
+  private handleContractName() {
+    if (this.contractName.trim().length === 0) {
+      this.signalNameOnContract.contractName = "";
+      this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
+      this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;
+      this.receiveStateCustomStyle = this.signalNameOnContract.receiveStateCustomStyle;
+      this.receiveStateCustomClass = this.signalNameOnContract.receiveStateCustomClass;
+      this.receiveStateNumberOfItems = this.signalNameOnContract.receiveStateNumberOfItems;
+      this.receiveStateScrollToPosition = this.signalNameOnContract.receiveStateScrollToPosition;
+    } else if (this.signalNameOnContract.contractName === "") {
+      this.signalNameOnContract.contractName = this.contractName;
+      this.signalNameOnContract.receiveStateShow = this.receiveStateShow;
+      this.signalNameOnContract.receiveStateEnable = this.receiveStateEnable;
+      this.signalNameOnContract.receiveStateCustomStyle = this.receiveStateCustomStyle;
+      this.signalNameOnContract.receiveStateCustomClass = this.receiveStateCustomClass;
+      this.signalNameOnContract.receiveStateNumberOfItems = this.receiveStateNumberOfItems;
+      this.signalNameOnContract.receiveStateScrollToPosition = this.receiveStateScrollToPosition;
+    }
+    this.debounceButtonDisplay();
   }
 
   private resizeHandler = () => {

@@ -1586,6 +1586,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
 				this.logger.log(`Ch5Button.pressableSubscriptionCb(${value})`, this.pressed);
 				if (value === false) {
+					Ch5SignalFactory.getInstance().getBooleanSignal(this._contractNameForList + `.Button${this._indexForList}ItemPress`)?.publish(value);
 					if (isHeld === false) {
 						Ch5SignalFactory.getInstance().getNumberSignal(this._contractNameForList + '.ListItemClicked')?.publish(this._indexForList);
 					}
@@ -1597,14 +1598,20 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 						this.setButtonDisplay();
 					}, this.STATE_CHANGE_TIMEOUTS);
 				} else {
+					Ch5SignalFactory.getInstance().getBooleanSignal(this._contractNameForList + `.Button${this._indexForList}ItemPress`)?.publish(value);
 					if (this._repeatDigitalInterval !== null) {
 						window.clearInterval(this._repeatDigitalInterval as number);
 					}
-					this._repeatDigitalInterval = window.setInterval(() => {
+					if (this._clickAndHoldTimeForList === 0) {
 						isHeld = true;
 						Ch5SignalFactory.getInstance().getNumberSignal(this._contractNameForList + '.ListItemHeld')?.publish(this._indexForList);
-						window.clearInterval(this._repeatDigitalInterval as number);
-					}, this._clickAndHoldTimeForList);
+					} else {
+						this._repeatDigitalInterval = window.setInterval(() => {
+							isHeld = true;
+							Ch5SignalFactory.getInstance().getNumberSignal(this._contractNameForList + '.ListItemHeld')?.publish(this._indexForList);
+							window.clearInterval(this._repeatDigitalInterval as number);
+						}, this._clickAndHoldTimeForList);
+					}
 					this.setButtonDisplay();
 				}
 			});

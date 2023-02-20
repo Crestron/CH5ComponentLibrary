@@ -137,7 +137,18 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *       "\tbuttonReceiveStateIconUrl=\"${30:}\"",
  *       "\tbuttonSendEventOnClick=\"${31:}\"",
  *       "\tbuttonReceiveStateShow=\"${32:}\"",
- *       "\tbuttonReceiveStateEnable=\"${33:}\">",
+ *       "\tbuttonReceiveStateEnable=\"${33:}\"",
+ *       "\tcontractName=\"${34:}\"",
+ *       "\tuseContractForEnable=\"${35:false}\"",
+ *       "\tuseContractForShow=\"${36:false}\"",
+ *       "\tuseContractForItemEnable=\"${37:false}\"",
+ *       "\tuseContractForItemShow=\"${38:false}\"",
+ *       "\tcontractItemLabelType=\"${39:none}\"",
+ *       "\tcontractItemIconType=\"${40:none}\"",
+ *       "\tuseContractForCustomStyle=\"${41:false}\"",
+ *       "\tuseContractForCustomClass=\"${42:false}\"",
+ *       "\tuseContractForNumItems=\"${43:false}\"",
+ *       "\tclickHoldTime=\"${44:1500}\">",
  *       "</ch5-button-list>$0"
  *       ]
  *    }
