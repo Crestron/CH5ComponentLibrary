@@ -301,6 +301,14 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
   protected _ch5Properties: Ch5Properties;
   protected _elContainer: HTMLElement = {} as HTMLElement;
 
+  private signalNameOnContract = {
+    contractName: "",
+    receiveStateCustomClass: "",
+    receiveStateCustomStyle: "",
+    receiveStateEnable: "",
+    receiveStateShow: "",
+  }
+
   public debounceButtonDisplay = this.debounce(() => {
     this.tabButtonDisplay();
   }, 50);
@@ -498,7 +506,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
 
   public set contractName(value: string) {
     this._ch5Properties.set<string>("contractName", value, () => {
-      this.debounceButtonDisplay();
+      this.handleContractName();
     });
   }
   public get contractName(): string {
@@ -808,9 +816,39 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
           if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
             btn.setAttribute('receiveStateSelected', this.contractName + `.Tab${index + 1}_Selected`);
           } else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
-            const attrValue = this.getAttribute(attr.name)?.trim().replace(`{{${this.indexId}}}`, index + '');
-            if (attrValue) {
-              btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
+            if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
+              const attrValue = this.getAttribute(attr.name)?.trim();
+              if (attrValue) {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
+              }
+            } else if (this.getAttribute(attr.name)?.trim().length !== 0) {
+              const attrValue = this.replaceAll(this.getAttribute(attr.name)?.trim() + '', `{{${this.indexId}}}`, '');
+              const isNumber = /^[0-9]+$/.test(attrValue);
+              if (isNumber) {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), Number(attrValue) + index + '');
+              } else {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), this.replaceAll(this.getAttribute(attr.name)?.trim() + '', `{{${this.indexId}}}`, index + ''));
+              }
+            }
+          }
+        }
+        else if (attr.name.toLowerCase() === 'buttonsendeventonclick') {
+          if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+            btn.setAttribute('sendEventOnClick', this.contractName + `.Tab${index + 1}_Press`);
+          } else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+            if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
+              const attrValue = this.getAttribute(attr.name)?.trim();
+              if (attrValue) {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
+              }
+            } else if (this.getAttribute(attr.name)?.trim().length !== 0) {
+              const attrValue = this.replaceAll(this.getAttribute(attr.name)?.trim() + '', `{{${this.indexId}}}`, '');
+              const isNumber = /^[0-9]+$/.test(attrValue);
+              if (isNumber) {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), Number(attrValue) + index + '');
+              } else {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), this.replaceAll(this.getAttribute(attr.name)?.trim() + '', `{{${this.indexId}}}`, index + ''));
+              }
             }
           }
         } else {
@@ -844,7 +882,46 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
         else if (attr.name.toLowerCase() === 'buttonreceivestateenable' && this.hasAttribute('receivestateenable')) {
           btn.setAttribute('receivestateenable', this.getAttribute('receivestateenable') + '');
         }
-        else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+        else if (attr.name.toLowerCase() === 'buttonreceivestateselected') {
+          if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+            btn.setAttribute('receiveStateSelected', this.contractName + `.Tab${index + 1}_Selected`);
+          } else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+            if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
+              const attrValue = this.getAttribute(attr.name)?.trim();
+              if (attrValue) {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
+              }
+            } else if (this.getAttribute(attr.name)?.trim().length !== 0) {
+              const attrValue = this.replaceAll(this.getAttribute(attr.name)?.trim() + '', `{{${this.indexId}}}`, '');
+              const isNumber = /^[0-9]+$/.test(attrValue);
+              if (isNumber) {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), Number(attrValue) + index + '');
+              } else {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), this.replaceAll(this.getAttribute(attr.name)?.trim() + '', `{{${this.indexId}}}`, index + ''));
+              }
+            }
+          }
+        }
+        else if (attr.name.toLowerCase() === 'buttonsendeventonclick') {
+          if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+            btn.setAttribute('sendEventOnClick', this.contractName + `.Tab${index + 1}_Press`);
+          } else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+            if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
+              const attrValue = this.getAttribute(attr.name)?.trim();
+              if (attrValue) {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
+              }
+            } else if (this.getAttribute(attr.name)?.trim().length !== 0) {
+              const attrValue = this.replaceAll(this.getAttribute(attr.name)?.trim() + '', `{{${this.indexId}}}`, '');
+              const isNumber = /^[0-9]+$/.test(attrValue);
+              if (isNumber) {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), Number(attrValue) + index + '');
+              } else {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), this.replaceAll(this.getAttribute(attr.name)?.trim() + '', `{{${this.indexId}}}`, index + ''));
+              }
+            }
+          }
+        } else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
           if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
             const attrValue = this.getAttribute(attr.name)?.trim();
             if (attrValue) {
@@ -885,6 +962,23 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
     } else {
       return str;
     }
+  }
+
+  private handleContractName() {
+    if (this.contractName.trim().length === 0) {
+      this.signalNameOnContract.contractName = "";
+      this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
+      this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;
+      this.receiveStateCustomStyle = this.signalNameOnContract.receiveStateCustomStyle;
+      this.receiveStateCustomClass = this.signalNameOnContract.receiveStateCustomClass;
+    } else if (this.signalNameOnContract.contractName === "") {
+      this.signalNameOnContract.contractName = this.contractName;
+      this.signalNameOnContract.receiveStateShow = this.receiveStateShow;
+      this.signalNameOnContract.receiveStateEnable = this.receiveStateEnable;
+      this.signalNameOnContract.receiveStateCustomStyle = this.receiveStateCustomStyle;
+      this.signalNameOnContract.receiveStateCustomClass = this.receiveStateCustomClass;
+    }
+    this.debounceButtonDisplay();
   }
 
   protected getTargetElementForCssClassesAndStyle(): HTMLElement {
