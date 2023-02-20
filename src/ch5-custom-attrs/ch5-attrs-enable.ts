@@ -88,7 +88,6 @@ export class Ch5AttrsEnable extends CustomAttribute<string> implements ICh5Attrs
   }
 
   public static handleDataCh5EnableReceived(el: Element, enable: boolean): void {
-    console.log(el, enable);
     if (!enable) {
       // disable element
       el.classList.add('ch5-disabled');
