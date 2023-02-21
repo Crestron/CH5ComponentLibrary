@@ -984,7 +984,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 				this.getTargetElementForCssClassesAndStyle().classList.add(this.primaryCssClass + '--dir--' + this.direction);
 				break;
 			case 'disabled':
-				this.disabled = hasValue
+				// this.disabled = hasValue
 				this.setAttribute('aria-disabled', hasValue.toString());
 
 				// The `tabindex` attribute does not provide a way to fully remove
@@ -1323,6 +1323,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 		this.info("Ch5Toggle._onClick()");
 		// Don't do anything if disabled.
 		if (this.disabled) {
+			console.log(' _onClick disabled');
 			return;
 		}
 		this.toggleChecked();
@@ -1338,6 +1339,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 	 * @private
 	 */
 	public toggleChecked() {
+		console.log('toggleChecked');
 		// The detail of the event.
 		let detail;
 
