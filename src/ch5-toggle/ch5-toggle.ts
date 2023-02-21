@@ -1323,7 +1323,6 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 		this.info("Ch5Toggle._onClick()");
 		// Don't do anything if disabled.
 		if (this.disabled) {
-			console.log(' _onClick disabled');
 			return;
 		}
 		this.toggleChecked();
@@ -1339,7 +1338,6 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 	 * @private
 	 */
 	public toggleChecked() {
-		console.log('toggleChecked');
 		// The detail of the event.
 		let detail;
 
