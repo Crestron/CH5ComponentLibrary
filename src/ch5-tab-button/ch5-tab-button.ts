@@ -1,7 +1,8 @@
 import { Ch5Button } from "../ch5-button/ch5-button";
 import { Ch5ButtonLabel } from "../ch5-button/ch5-button-label";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
-import { TCh5TabButtonButtonType, TCh5TabButtonButtonHAlignLabel, TCh5TabButtonButtonVAlignLabel, TCh5TabButtonButtonShape, TCh5TabButtonButtonIconPosition, TCh5TabButtonAttributesOrientation, ICh5ButtonListContractObj } from "./interfaces/t-ch5-tab-button";
+import { TCh5TabButtonButtonType, TCh5TabButtonButtonHAlignLabel, TCh5TabButtonButtonVAlignLabel, TCh5TabButtonButtonShape, TCh5TabButtonButtonIconPosition, TCh5TabButtonAttributesOrientation } from "./interfaces/t-ch5-tab-button";
+import { ICh5ButtonListContractObj } from "./interfaces/t-for-ch5-button-list-contract"
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
