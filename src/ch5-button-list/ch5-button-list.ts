@@ -1,5 +1,4 @@
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
-import { Ch5GenericListAttributes } from "../ch5-generic-list-attributes/ch5-generic-list-attributes";
 import { Ch5ButtonListBase } from "./base-classes/ch5-button-list-base";
 
 export class Ch5ButtonList extends Ch5ButtonListBase {
@@ -9,7 +8,7 @@ export class Ch5ButtonList extends Ch5ButtonListBase {
   public static ELEMENT_NAME = 'ch5-button-list';
 
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-    ...Ch5GenericListAttributes.SIGNAL_ATTRIBUTE_TYPES,
+    ...Ch5ButtonListBase.SIGNAL_ATTRIBUTE_TYPES,
   };
 
   //#endregion
