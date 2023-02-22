@@ -12,3 +12,13 @@ export type TCh5ButtonListButtonCheckboxPosition = 'left' | 'right';
 export type TCh5ButtonListButtonIconPosition = 'first' | 'last' | 'top' | 'bottom';
 export type TCh5ButtonListButtonShape = 'rectangle' | 'rounded-rectangle';
 export type TCh5ButtonListButtonModeState = 'normal' | 'pressed' | 'selected';
+export type TCh5ButtonListAttributesOrientation = 'horizontal' | 'vertical';
+export type TCh5ButtonListAttributesStretch = 'both';
+export type TCh5ButtonListContractItemLabelType = 'none' | 'textContent' | 'innerHTML';
+export type TCh5ButtonListContractItemIconType = 'none' | 'iconClass' | 'url' | 'sgStateName' | 'sgStateNumber';
+export interface ICh5ButtonListContractObj {
+  index: number;
+  clickHoldTime: number;
+  contractName: string;
+  parentComponent: string;
+};
