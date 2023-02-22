@@ -984,7 +984,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 				this.getTargetElementForCssClassesAndStyle().classList.add(this.primaryCssClass + '--dir--' + this.direction);
 				break;
 			case 'disabled':
-				this.disabled = hasValue
+				// this.disabled = hasValue
 				this.setAttribute('aria-disabled', hasValue.toString());
 
 				// The `tabindex` attribute does not provide a way to fully remove

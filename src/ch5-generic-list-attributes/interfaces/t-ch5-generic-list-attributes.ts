@@ -7,3 +7,7 @@
 
 export type TCh5GenericListAttributesOrientation = 'horizontal' | 'vertical';
 export type TCh5GenericListAttributesStretch = 'both';
+export type TCh5GenericListContractItemLabelType = 'none' | 'textContent' | 'innerHTML';
+export type TCh5GenericListContractItemIconType = 'none' | 'iconClass' | 'url' | 'sgStateName' | 'sgStateNumber';
+export type TCh5GenericListContractNumItemsType = 'absolute' | 'visible' | 'none';
+export type TCh5GenericListContractScrollToType = 'absolute' | 'visible';

@@ -1,6 +1,5 @@
 import { ICh5GenericListAttributes } from "../../ch5-common/interfaces/i-ch5-generic-list-attributes";
-import { TCh5GenericListAttributesOrientation, TCh5GenericListAttributesStretch } from './t-ch5-generic-list-attributes';
-
+import { TCh5GenericListAttributesOrientation, TCh5GenericListAttributesStretch, TCh5GenericListContractItemLabelType, TCh5GenericListContractItemIconType, TCh5GenericListContractNumItemsType, TCh5GenericListContractScrollToType } from './t-ch5-generic-list-attributes';
 /**
  * @ignore
  */
@@ -154,5 +153,149 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * @attributeType "Join"
    */
   receiveStateScrollToPosition: string;
+  /**
+   * @documentation
+   * [
+   * "`contractName` attribute",
+   * "***",
+   * "ContractName attribute sets the name of the contract"
+   * ]
+   * @name contractname
+   * @default 
+   * @attributeType "String"
+   */
+  contractName: string;
+  /**
+   * @documentation
+   * [
+   * "`useContractForEnable` attribute",
+   * "***",
+   * "When true, contract 'Enable' state determines if the list is enabled. When false, the 'receiveStateEnable' join may be applied. Consistent with other components, if the 'receiveStateEnable' join is provide, the value of that join determines if the component is enabled. "
+   * ]
+   * @name usecontractforenable
+   * @default false
+   * @attributeType "Boolean"
+   */
+  useContractForEnable: boolean;
+  /**
+   * @documentation
+   * [
+   * "`useContractForShow` attribute",
+   * "***",
+   * " When true, contract 'Show' state determines if the list is enabled. When false, the 'receiveStateShow' join may be applied. Consistent with other components, if the 'receiveStateShow' join is provide, the value of that join determines if the component is visible. "
+   * ]
+   * @name usecontractforshow
+   * @default false
+   * @attributeType "Boolean"
+   */
+  useContractForShow: boolean;
+  /**
+   * @documentation
+   * [
+   * "`useContractForItemEnable` attribute",
+   * "***",
+   * "When true, contract 'ItemEnable[x]' state determines if an individual button x is enabled. "
+   * ]
+   * @name usecontractforitemenable
+   * @default false
+   * @attributeType "Boolean"
+   */
+  useContractForItemEnable: boolean;
+  /**
+   * @documentation
+   * [
+   * "`useContractForItemShow` attribute",
+   * "***",
+   * "When true, contract 'ItemShow[x]' state determines if an individual button x is visible. "
+   * ]
+   * @name usecontractforitemshow
+   * @default false
+   * @attributeType "Boolean"
+   */
+  useContractForItemShow: boolean;
+  /**
+   * @documentation
+   * [
+   * "`useContractForCustomStyle` attribute",
+   * "***",
+   * "contract for custom style "
+   * ]
+   * @name usecontractforcustomstyle
+   * @default false
+   * @attributeType "Boolean"
+   */
+  useContractForCustomStyle: boolean;
+  /**
+   * @documentation
+   * [
+   * "`useContractForCustomClass` attribute",
+   * "***",
+   * "contract for custom class"
+   * ]
+   * @name usecontractforcustomclass
+   * @default false
+   * @attributeType "Boolean"
+   */
+  useContractForCustomClass: boolean;
+  /**
+   * @documentation
+   * [
+   * "`contractItemLabelType` attribute",
+   * "***",
+   * "Valid values are 'textContent', 'innerHTML', 'none'.   When 'none', contract 'ItemLabel[x]', will not change the label of button x. When 'textContent', change in value of contract 'ItemLabel[x]', will change the label as if it were text, not HTML markup. When 'innerHTML', change in value of contract 'ItemLabel[x]', will change the label as if it were HTML content"
+   * ]
+   * @name contractitemlabeltype
+   * @default none
+   * @attributeType "EnumeratedValue"
+   */
+  contractItemLabelType: TCh5GenericListContractItemLabelType;
+  /**
+  * @documentation
+  * [
+  * "`contractItemIconType` attribute",
+  * "***",
+  * "Valid values are 'none', 'iconClass', 'url', 'sgStateName' and 'sgStateNumber'. The last two are reserved for backward compatibility to Smart Graphics Extenders used for Dynamic Button List.  They should not be provided as choices for projects that are not converted from VtPro/Smart Graphics."
+  * ]
+  * @name contractitemicontype
+  * @default none
+  * @attributeType "EnumeratedValue"
+  */
+  contractItemIconType: TCh5GenericListContractItemIconType;
+  /**
+  * @documentation
+  * [
+  * "`contractNumItemsType` attribute",
+  * "***",
+  * ". Valid values are 'absolute', 'visible' and 'none'. When 'none', contract NumItems join will not change the number of items displayed in the list. When 'absolute', if the value of the NumItems join is X, the items displayed are only those items where Show[0] through Show[X-1] is true. When 'visible', if the value of NumItems is X, the list will display up to X items, even displaying items X and higher if they are visible and lower numbered items are invisible. For example, first 3 item in a list have Show[0] = true, Show[1] = false, and Show[2] = true. If the type is 'absolute' and NumItems = 2, just item 0 is shown. If the type is 'visible' and NumItems = 2, item 0 and item 2 are shown."
+  * ]
+  * @name contractnumitemstype
+  * @default absolute
+  * @attributeType "EnumeratedValue"
+  */
+  contractNumItemsType: TCh5GenericListContractNumItemsType;
+  /**
+  * @documentation
+  * [
+  * "`contractScrollToType` attribute",
+  * "***",
+  * "Valid values are 'absolute' and 'visible'.  See contractNumItemsType for differentiation between 'absolute' and 'visible' enumeration values. "
+  * ]
+  * @name contractscrolltotype
+  * @default absolute
+  * @attributeType "EnumeratedValue"
+  */
+  contractScrollToType: TCh5GenericListContractScrollToType;
+  /**
+  * @documentation
+  * [
+  * "`useContractForNumItems` attribute",
+  * "***",
+  * "When false, the 'receiveStateNumberOfItems' join may be applied. Consistent with other components, if the 'receiveStateNumberOfItems' join is provide, the value of that join determines how many items in the list to show. "
+  * ]
+  * @name usecontractfornumitems
+  * @default false
+  * @attributeType "Boolean"
+  */
+  useContractForNumItems: boolean;
 
 }
