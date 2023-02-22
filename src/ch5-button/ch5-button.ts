@@ -7,6 +7,7 @@
 
 import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
 import { Ch5ButtonBase } from "./ch5-button-base";
+import { buttonListContractObjInterface } from "./interfaces/t-ch5-button";
 
 export class Ch5Button extends Ch5ButtonBase {
 
@@ -34,8 +35,8 @@ export class Ch5Button extends Ch5ButtonBase {
 		}
 	}
 
-	constructor(public indexForList?: number, public clickAndHoldTimeForList?: number, public contractNameForList?: string, public parentComponent?: string) {
-		super(indexForList, clickAndHoldTimeForList, contractNameForList, parentComponent);
+	constructor(buttonListContractObj?: buttonListContractObjInterface) {
+		super(buttonListContractObj);
 	}
 
 }

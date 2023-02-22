@@ -21,7 +21,8 @@ import {
 	TCh5ButtonActionType,
 	TCh5ButtonCheckboxPosition,
 	TCh5ButtonHorizontalAlignLabel,
-	TCh5ButtonVerticalAlignLabel
+	TCh5ButtonVerticalAlignLabel,
+	buttonListContractObjInterface
 } from './interfaces/t-ch5-button';
 
 import { ICh5ButtonAttributes } from "./interfaces/i-ch5-button-attributes";
@@ -491,10 +492,12 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	private _customClassDisabled: string | null = null;
 
-	private _indexForList: number = 0;
-	private _clickAndHoldTimeForList: number = 300;
-	private _contractNameForList: string = "";
-	private _parentComponent: string = "";
+	private buttonListContractObj: buttonListContractObjInterface = {
+		clickHoldTime: 0,
+		index: -1,
+		contractName: "",
+		parentComponent: ""
+	};
 
 	private previousExtendedProperties: ICh5ButtonExtendedProperties = {};
 
@@ -1042,16 +1045,13 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	//#region 3. Lifecycle Hooks
 
-	public constructor(index: number = -1, clickAndHoldTime: number = 300, contractName: string = "", parentComponent: string = "") {
+	public constructor(buttonListContractObj?: buttonListContractObjInterface) {
 		super();
 		this.logger.start('constructor()', this.primaryCssClass);
 		if (!this._wasInstatiated) {
 			this.createInternalHtml();
 		}
-		this._indexForList = Number(index) as number;
-		this._clickAndHoldTimeForList = Number(clickAndHoldTime) as number;
-		this._contractNameForList = contractName?.trim() as string;
-		this._parentComponent = parentComponent.trim() as string;
+		if (buttonListContractObj) { this.buttonListContractObj = buttonListContractObj; }
 		this._wasInstatiated = true;
 		this._ch5ButtonSignal = new Ch5ButtonSignal();
 		this._onBlur = this._onBlur.bind(this);
@@ -1548,8 +1548,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	}
 
 	private _subscribeToPressableIsPressed() {
-		if (this._contractNameForList.trim() !== "" && this._parentComponent.trim() === 'ch5-button-list') { return this._subscribeToPressableIsPressedForButtonList(); }
-		if (this._contractNameForList.trim() !== "" && this._parentComponent.trim() === 'ch5-tab-button') { return this._subscribeToPressableIsPressedForTabButton(); }
+		if (this.buttonListContractObj.contractName.trim() !== "" && this.buttonListContractObj.parentComponent.trim() === 'ch5-button-list') { return this._subscribeToPressableIsPressedForButtonList(); }
+		if (this.buttonListContractObj.contractName.trim() !== "" && this.buttonListContractObj.parentComponent.trim() === 'ch5-tab-button') { return this._subscribeToPressableIsPressedForTabButton(); }
 		const REPEAT_DIGITAL_PERIOD = 200;
 		const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
 		if (this._isPressedSubscription === null && this._pressable !== null) {
@@ -1589,12 +1589,12 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
 				this.logger.log(`Ch5Button.pressableSubscriptionCb(${value})`, this.pressed);
 				if (value === false) {
-					Ch5SignalFactory.getInstance().getBooleanSignal(this._contractNameForList + `.Tab${this._indexForList}Press`)?.publish(value);
+					Ch5SignalFactory.getInstance().getBooleanSignal(this.buttonListContractObj.contractName + `.Tab${this.buttonListContractObj.index}Press`)?.publish(value);
 					setTimeout(() => {
 						this.setButtonDisplay();
 					}, this.STATE_CHANGE_TIMEOUTS);
 				} else {
-					Ch5SignalFactory.getInstance().getBooleanSignal(this._contractNameForList + `.Tab${this._indexForList}Press`)?.publish(value);
+					Ch5SignalFactory.getInstance().getBooleanSignal(this.buttonListContractObj.contractName + `.Tab${this.buttonListContractObj.index}Press`)?.publish(value);
 					this.setButtonDisplay();
 				}
 			});
@@ -1607,9 +1607,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
 				this.logger.log(`Ch5Button.pressableSubscriptionCb(${value})`, this.pressed);
 				if (value === false) {
-					Ch5SignalFactory.getInstance().getBooleanSignal(this._contractNameForList + `.Button${this._indexForList}ItemPress`)?.publish(value);
+					Ch5SignalFactory.getInstance().getBooleanSignal(this.buttonListContractObj.contractName + `.Button${this.buttonListContractObj.index}ItemPress`)?.publish(value);
 					if (isHeld === false) {
-						Ch5SignalFactory.getInstance().getNumberSignal(this._contractNameForList + '.ListItemClicked')?.publish(this._indexForList);
+						Ch5SignalFactory.getInstance().getNumberSignal(this.buttonListContractObj.contractName + '.ListItemClicked')?.publish(this.buttonListContractObj.index);
 					}
 					if (this._repeatDigitalInterval !== null) {
 						window.clearInterval(this._repeatDigitalInterval as number);
@@ -1619,19 +1619,19 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 						this.setButtonDisplay();
 					}, this.STATE_CHANGE_TIMEOUTS);
 				} else {
-					Ch5SignalFactory.getInstance().getBooleanSignal(this._contractNameForList + `.Button${this._indexForList}ItemPress`)?.publish(value);
+					Ch5SignalFactory.getInstance().getBooleanSignal(this.buttonListContractObj.contractName + `.Button${this.buttonListContractObj.index}ItemPress`)?.publish(value);
 					if (this._repeatDigitalInterval !== null) {
 						window.clearInterval(this._repeatDigitalInterval as number);
 					}
-					if (this._clickAndHoldTimeForList === 0) {
+					if (this.buttonListContractObj.clickHoldTime === 0) {
 						isHeld = true;
-						Ch5SignalFactory.getInstance().getNumberSignal(this._contractNameForList + '.ListItemHeld')?.publish(this._indexForList);
+						Ch5SignalFactory.getInstance().getNumberSignal(this.buttonListContractObj.contractName + '.ListItemHeld')?.publish(this.buttonListContractObj.index);
 					} else {
 						this._repeatDigitalInterval = window.setInterval(() => {
 							isHeld = true;
-							Ch5SignalFactory.getInstance().getNumberSignal(this._contractNameForList + '.ListItemHeld')?.publish(this._indexForList);
+							Ch5SignalFactory.getInstance().getNumberSignal(this.buttonListContractObj.contractName + '.ListItemHeld')?.publish(this.buttonListContractObj.index);
 							window.clearInterval(this._repeatDigitalInterval as number);
-						}, this._clickAndHoldTimeForList);
+						}, this.buttonListContractObj.clickHoldTime);
 					}
 					this.setButtonDisplay();
 				}

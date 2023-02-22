@@ -39,3 +39,11 @@ export type TCh5ButtonType = 'default' | 'primary' | 'info' | 'text' | 'danger' 
 export type TCh5ButtonVerticalAlignLabel = 'middle' | 'top' | 'bottom';
 
 export type TCh5ButtonModeState = 'normal' | 'pressed' | 'selected';
+
+
+export interface buttonListContractObjInterface {
+  index: number;
+  clickHoldTime: number;
+  contractName: string;
+  parentComponent: string;
+};
