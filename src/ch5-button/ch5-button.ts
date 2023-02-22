@@ -7,7 +7,7 @@
 
 import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
 import { Ch5ButtonBase } from "./ch5-button-base";
-import { buttonListContractObjInterface } from "./interfaces/t-ch5-button";
+import { ICh5ButtonListContractObj } from "./interfaces/t-ch5-button";
 
 export class Ch5Button extends Ch5ButtonBase {
 
@@ -35,7 +35,7 @@ export class Ch5Button extends Ch5ButtonBase {
 		}
 	}
 
-	constructor(buttonListContractObj?: buttonListContractObjInterface) {
+	constructor(public buttonListContractObj?: ICh5ButtonListContractObj) {
 		super(buttonListContractObj);
 	}
 

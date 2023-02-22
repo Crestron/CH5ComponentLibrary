@@ -16,7 +16,7 @@ export type TCh5ButtonListAttributesOrientation = 'horizontal' | 'vertical';
 export type TCh5ButtonListAttributesStretch = 'both';
 export type TCh5ButtonListContractItemLabelType = 'none' | 'textContent' | 'innerHTML';
 export type TCh5ButtonListContractItemIconType = 'none' | 'iconClass' | 'url' | 'sgStateName' | 'sgStateNumber';
-export interface buttonListContractObjInterface {
+export interface ICh5ButtonListContractObj {
   index: number;
   clickHoldTime: number;
   contractName: string;

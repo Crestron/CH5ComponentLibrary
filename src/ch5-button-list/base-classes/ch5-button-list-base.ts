@@ -4,7 +4,7 @@ import { Ch5ButtonMode } from "../../ch5-button/ch5-button-mode";
 import { Ch5ButtonLabel } from "../../ch5-button/ch5-button-label";
 import { Ch5SignalElementAttributeRegistryEntries } from "../../ch5-common/ch5-signal-attribute-registry";
 import { Ch5RoleAttributeMapping } from "../../utility-models/ch5-role-attribute-mapping";
-import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape, TCh5ButtonListAttributesOrientation, TCh5ButtonListAttributesStretch, TCh5ButtonListContractItemLabelType, TCh5ButtonListContractItemIconType, buttonListContractObjInterface } from './../interfaces/t-ch5-button-list';
+import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape, TCh5ButtonListAttributesOrientation, TCh5ButtonListAttributesStretch, TCh5ButtonListContractItemLabelType, TCh5ButtonListContractItemIconType, ICh5ButtonListContractObj } from './../interfaces/t-ch5-button-list';
 import { ICh5ButtonListAttributes } from './../interfaces/i-ch5-button-list-attributes';
 import { Ch5Properties } from "../../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../../ch5-core/ch5-property";
@@ -1472,7 +1472,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
 
   private createButton(index: number, append: boolean = true) {
     if (index < 0 || index >= this.numberOfItems) { return };
-    const buttonListContractObj: buttonListContractObjInterface = { index: index + 1, clickHoldTime: this.clickHoldTime, contractName: this.contractName, parentComponent: 'ch5-button-list' };
+    const buttonListContractObj: ICh5ButtonListContractObj = { index: index + 1, clickHoldTime: this.clickHoldTime, contractName: this.contractName, parentComponent: 'ch5-button-list' };
     const btn = this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined ? new Ch5Button(buttonListContractObj) : new Ch5Button();
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
