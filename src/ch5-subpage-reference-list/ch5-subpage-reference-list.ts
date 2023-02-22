@@ -623,7 +623,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public constructor() {
     super();
-    this.ignoreAttributes = ["receivestatecustomclass", "receivestatecustomstyle", "receivestatehidepulse", "receivestateshowpulse", "sendeventonshow"];
+    this.ignoreAttributes = ["receivestatehidepulse", "receivestateshowpulse", "sendeventonshow"];
     this.logger.start('constructor()', Ch5SubpageReferenceList.ELEMENT_NAME);
     if (!this._wasInstatiated) {
       this.createInternalHtml();

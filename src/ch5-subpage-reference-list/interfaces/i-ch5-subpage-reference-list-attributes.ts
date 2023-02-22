@@ -1,10 +1,10 @@
-import { ICh5CommonAttributesSet3 } from "../../ch5-common/interfaces/i-ch5-common-attributes-set3";
+import { ICh5SubpageReferenceListCommonAttributes } from "../../ch5-common/interfaces/i-ch5-subpage-reference-list-attributes";
 import { TCh5SubpageReferenceListOrientation, TCh5SubpageReferenceListStretch, } from './t-ch5-subpage-reference-list';
 
 /**
  * @ignore
  */
-export interface ICh5SubpageReferenceListAttributes extends ICh5CommonAttributesSet3 {
+export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReferenceListCommonAttributes {
   /**
   * @documentation
   * [
