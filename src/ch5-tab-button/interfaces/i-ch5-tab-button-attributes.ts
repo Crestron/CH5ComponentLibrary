@@ -1,11 +1,10 @@
-import { TCh5GenericListAttributesOrientation } from '../../ch5-generic-list-attributes/interfaces/t-ch5-generic-list-attributes';
+import { TCh5TabButtonAttributesOrientation } from '../interfaces/t-ch5-tab-button';
 import { TCh5TabButtonButtonType, TCh5TabButtonButtonHAlignLabel, TCh5TabButtonButtonVAlignLabel, TCh5TabButtonButtonIconPosition, TCh5TabButtonButtonShape } from '../../ch5-tab-button/interfaces/t-ch5-tab-button';
-import { ICh5GenericListAttributes } from "../../ch5-common/interfaces/i-ch5-generic-list-attributes";
-
+import { ICh5TabButtonCommonAttributes } from '../../ch5-common/interfaces/i-ch5-tab-button-attributes';
 /**
  * @ignore
  */
-export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
+export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
   /**
    * @documentation
    * [
@@ -17,7 +16,7 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * @default horizontal
    * @attributeType "EnumeratedValue"
    */
-  orientation: TCh5GenericListAttributesOrientation;
+  orientation: TCh5TabButtonAttributesOrientation;
   /**
    * @documentation
    * [
@@ -246,4 +245,64 @@ export interface ICh5TabButtonAttributes extends ICh5GenericListAttributes {
    * @attributeType "String"
    */
   buttonReceiveStateEnable: string;
+  /**
+   * @documentation
+   * [
+   * "`contractName` attribute",
+   * "***",
+   * "ContractName attribute sets the name of the contract"
+   * ]
+   * @name contractname
+   * @default 
+   * @attributeType "String"
+   */
+  contractName: string;
+  /**
+   * @documentation
+   * [
+   * "`useContractForEnable` attribute",
+   * "***",
+   * "Default value is false. When true, contract 'Enable' state determines if the list is enabled. When false, the 'receiveStateEnable' join may be applied. Consistent with other components, if the 'receiveStateEnable' join is provide, the value of that join determines if the component is enabled. "
+   * ]
+   * @name usecontractforenable
+   * @default false
+   * @attributeType "Boolean"
+   */
+  useContractForEnable: boolean;
+  /**
+   * @documentation
+   * [
+   * "`useContractForShow` attribute",
+   * "***",
+   * "Default value is false. When true, contract 'Show' state determines if the list is enabled. When false, the 'receiveStateShow' join may be applied. Consistent with other components, if the 'receiveStateShow' join is provide, the value of that join determines if the component is visible. "
+   * ]
+   * @name usecontractforshow
+   * @default false
+   * @attributeType "Boolean"
+   */
+  useContractForShow: boolean;
+  /**
+   * @documentation
+   * [
+   * "`useContractForCustomStyle` attribute",
+   * "***",
+   * "Default value is false. Contract for custom style "
+   * ]
+   * @name usecontractforcustomstyle
+   * @default false
+   * @attributeType "Boolean"
+   */
+  useContractForCustomStyle: boolean;
+  /**
+   * @documentation
+   * [
+   * "`useContractForCustomClass` attribute",
+   * "***",
+   * "Default value is false. Contract for custom class"
+   * ]
+   * @name usecontractforcustomclass
+   * @default false
+   * @attributeType "Boolean"
+   */
+  useContractForCustomClass: boolean;
 }

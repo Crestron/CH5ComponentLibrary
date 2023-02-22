@@ -1,14 +1,14 @@
 import { Ch5Button } from "../ch5-button/ch5-button";
 import { Ch5ButtonLabel } from "../ch5-button/ch5-button-label";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
-import { TCh5TabButtonButtonType, TCh5TabButtonButtonHAlignLabel, TCh5TabButtonButtonVAlignLabel, TCh5TabButtonButtonShape, TCh5TabButtonButtonIconPosition } from "./interfaces/t-ch5-tab-button";
-import { Ch5GenericListAttributes } from "../ch5-generic-list-attributes/ch5-generic-list-attributes";
+import { TCh5TabButtonButtonType, TCh5TabButtonButtonHAlignLabel, TCh5TabButtonButtonVAlignLabel, TCh5TabButtonButtonShape, TCh5TabButtonButtonIconPosition, TCh5TabButtonAttributesOrientation, ICh5ButtonListContractObj } from "./interfaces/t-ch5-tab-button";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { ICh5TabButtonAttributes } from "./interfaces/i-ch5-tab-button-attributes";
 import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
-export class Ch5TabButton extends Ch5GenericListAttributes implements ICh5TabButtonAttributes {
+import { Ch5Common } from "../ch5-common/ch5-common";
+export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
 
   //#region Variables
 
@@ -20,6 +20,7 @@ export class Ch5TabButton extends Ch5GenericListAttributes implements ICh5TabBut
   public static readonly BUTTON_VALIGN_LABEL_POSITIONS: TCh5TabButtonButtonVAlignLabel[] = ['middle', 'top', 'bottom'];
   public static readonly BUTTON_SHAPES: TCh5TabButtonButtonShape[] = ['rectangle', 'rounded-rectangle', 'tab'];
   public static readonly BUTTON_ICON_POSITIONS: TCh5TabButtonButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
+  public static readonly ORIENTATION: TCh5TabButtonAttributesOrientation[] = ['horizontal', 'vertical'];
 
   public static COMPONENT_DATA: any = {
     ORIENTATION: {
@@ -68,10 +69,18 @@ export class Ch5TabButton extends Ch5GenericListAttributes implements ICh5TabBut
 
   public static readonly COMPONENT_COMMON_PROPERTIES = ['disabled', 'show'];
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-    ...Ch5GenericListAttributes.SIGNAL_ATTRIBUTE_TYPES,
+    ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
   };
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
+    {
+      default: "",
+      name: "indexId",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
     {
       default: 3,
       name: "numberOfItems",
@@ -87,6 +96,15 @@ export class Ch5TabButton extends Ch5GenericListAttributes implements ICh5TabBut
         conditionalMaxValue: 15
       },
       isObservableProperty: true
+    },
+    {
+      default: Ch5TabButton.ORIENTATION[0],
+      enumeratedValues: Ch5TabButton.ORIENTATION,
+      name: "orientation",
+      removeAttributeOnNull: true,
+      type: "enum",
+      valueOnAttributeEmpty: Ch5TabButton.ORIENTATION[0],
+      isObservableProperty: true,
     },
     {
       default: Ch5TabButton.BUTTON_TYPES[0],
@@ -236,12 +254,60 @@ export class Ch5TabButton extends Ch5GenericListAttributes implements ICh5TabBut
       type: "string",
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
+    },
+    {
+      default: "",
+      name: "contractName",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForEnable",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForShow",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForCustomStyle",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForCustomClass",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
     }
   ];
 
   public primaryCssClass = 'ch5-tab-button';
   protected _ch5Properties: Ch5Properties;
   protected _elContainer: HTMLElement = {} as HTMLElement;
+
+  private signalNameOnContract = {
+    contractName: "",
+    receiveStateCustomClass: "",
+    receiveStateCustomStyle: "",
+    receiveStateEnable: "",
+    receiveStateShow: "",
+  }
 
   public debounceButtonDisplay = this.debounce(() => {
     this.tabButtonDisplay();
@@ -422,12 +488,67 @@ export class Ch5TabButton extends Ch5GenericListAttributes implements ICh5TabBut
     return this._ch5Properties.get<number>("numberOfItems");
   }
 
-  public set receiveStateNumberOfItems(value: string) {
-    // overriding the base class set receiveStateNumberOfItems
+  public set orientation(value: TCh5TabButtonAttributesOrientation) {
+    this._ch5Properties.set<TCh5TabButtonAttributesOrientation>("orientation", value, () => {
+      this.handleOrientation();
+    });
   }
-  public get receiveStateNumberOfItems(): string {
-    return this._ch5Properties.get<string>('receiveStateNumberOfItems');
+  public get orientation(): TCh5TabButtonAttributesOrientation {
+    return this._ch5Properties.get<TCh5TabButtonAttributesOrientation>("orientation");
   }
+
+  public set indexId(value: string) {
+    this._ch5Properties.set<string>("indexId", value);
+  }
+  public get indexId(): string {
+    return this._ch5Properties.get<string>("indexId");
+  }
+
+  public set contractName(value: string) {
+    this._ch5Properties.set<string>("contractName", value, () => {
+      this.handleContractName();
+    });
+  }
+  public get contractName(): string {
+    return this._ch5Properties.get<string>("contractName");
+  }
+
+  public set useContractForEnable(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForEnable", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get useContractForEnable(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForEnable");
+  }
+
+  public set useContractForShow(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForShow", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get useContractForShow(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForShow");
+  }
+
+  public set useContractForCustomStyle(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForCustomStyle", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get useContractForCustomStyle(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForCustomStyle");
+  }
+
+  public set useContractForCustomClass(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForCustomClass", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get useContractForCustomClass(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForCustomClass");
+  }
+
 
   //#endregion
 
@@ -452,6 +573,7 @@ export class Ch5TabButton extends Ch5GenericListAttributes implements ICh5TabBut
 
   public constructor() {
     super();
+    this.ignoreAttributes = ['receivestateshowpulse', 'receivestatehidepulse', 'sendeventonshow'];
     this.logger.start('constructor()');
     if (!this._wasInstatiated) {
       this.createInternalHtml();
@@ -462,7 +584,7 @@ export class Ch5TabButton extends Ch5GenericListAttributes implements ICh5TabBut
   }
 
   public static get observedAttributes(): string[] {
-    const inheritedObsAttrs = Ch5GenericListAttributes.observedAttributes;
+    const inheritedObsAttrs = Ch5Common.observedAttributes;
     const newObsAttrs: string[] = [];
     for (let i: number = 0; i < Ch5TabButton.COMPONENT_PROPERTIES.length; i++) {
       if (Ch5TabButton.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
@@ -510,13 +632,6 @@ export class Ch5TabButton extends Ch5GenericListAttributes implements ICh5TabBut
     this.removeEventListeners();
     this.unsubscribeFromSignals();
     this.logger.stop();
-  }
-
-  public handleOrientation() {
-    Array.from(Ch5TabButton.COMPONENT_DATA.ORIENTATION.values).forEach((orientation: any) => {
-      this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5TabButton.COMPONENT_DATA.ORIENTATION.classListPrefix + orientation);
-    });
-    this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5TabButton.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
   }
 
   //#endregion
@@ -577,8 +692,17 @@ export class Ch5TabButton extends Ch5GenericListAttributes implements ICh5TabBut
     });
   }
 
+  private handleOrientation() {
+    Array.from(Ch5TabButton.COMPONENT_DATA.ORIENTATION.values).forEach((orientation: any) => {
+      this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5TabButton.COMPONENT_DATA.ORIENTATION.classListPrefix + orientation);
+    });
+    this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5TabButton.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
+  }
+
   private tabButtonDisplay() {
     Array.from(this._elContainer.children).forEach(container => container.remove());
+    // Contract Helper
+    this.contractDefaultHelper();
     for (let i = 0; i < this.numberOfItems; i++) {
       this.createButton(i);
     }
@@ -587,9 +711,31 @@ export class Ch5TabButton extends Ch5GenericListAttributes implements ICh5TabBut
     this._elContainer.lastElementChild?.firstElementChild?.firstElementChild?.classList.replace(`${this.primaryCssClass + '--center-tab-style'}`, `${this.primaryCssClass + '--end-tab-style'}`);
   }
 
+  private contractDefaultHelper() {
+    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+      // useContractForEnable and receiveStateEnable
+      if (this.useContractForEnable === true) {
+        this.receiveStateEnable = this.contractName + '.Enable';
+      }
+      // useContractForShow and receiveStateShow
+      if (this.useContractForShow === true) {
+        this.receiveStateShow = this.contractName + '.Visible';
+      }
+      // useContractForCustomStyle and receiveStateCustomStyle
+      if (this.useContractForCustomStyle === true) {
+        this.receiveStateCustomStyle = this.contractName + '.CustomStyle';
+      }
+      // useContractForCustomClass and receiveStateCustomClass
+      if (this.useContractForCustomClass === true) {
+        this.receiveStateCustomClass = this.contractName + '.CustomClass';
+      }
+    }
+  }
+
   private createButton(index: number, append: boolean = true) {
     if (index < 0 || index >= this.numberOfItems) { return };
-    const btn = new Ch5Button();
+    const buttonListContractObj: ICh5ButtonListContractObj = { index: index + 1, clickHoldTime: 0, contractName: this.contractName, parentComponent: 'ch5-tab-button' };
+    const btn = this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined ? new Ch5Button(buttonListContractObj) : new Ch5Button();
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
     if (this.hasAttribute('buttonReceiveStateShow') && this.getAttribute("buttonReceiveStateShow")?.trim() && !this.hasAttribute('receiveStateShow')) {
@@ -667,6 +813,45 @@ export class Ch5TabButton extends Ch5GenericListAttributes implements ICh5TabBut
               btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
             }
           }
+        } else if (attr.name.toLowerCase() === 'buttonreceivestateselected') {
+          if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+            btn.setAttribute('receiveStateSelected', this.contractName + `.Tab${index + 1}_Selected`);
+          } else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+            if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
+              const attrValue = this.getAttribute(attr.name)?.trim();
+              if (attrValue) {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
+              }
+            } else if (this.getAttribute(attr.name)?.trim().length !== 0) {
+              const attrValue = this.replaceAll(this.getAttribute(attr.name)?.trim() + '', `{{${this.indexId}}}`, '');
+              const isNumber = /^[0-9]+$/.test(attrValue);
+              if (isNumber) {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), Number(attrValue) + index + '');
+              } else {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), this.replaceAll(this.getAttribute(attr.name)?.trim() + '', `{{${this.indexId}}}`, index + ''));
+              }
+            }
+          }
+        }
+        else if (attr.name.toLowerCase() === 'buttonsendeventonclick') {
+          if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+            // Ignore this attribute since it is handled in ch5-button when contract name is available
+          } else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+            if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
+              const attrValue = this.getAttribute(attr.name)?.trim();
+              if (attrValue) {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
+              }
+            } else if (this.getAttribute(attr.name)?.trim().length !== 0) {
+              const attrValue = this.replaceAll(this.getAttribute(attr.name)?.trim() + '', `{{${this.indexId}}}`, '');
+              const isNumber = /^[0-9]+$/.test(attrValue);
+              if (isNumber) {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), Number(attrValue) + index + '');
+              } else {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), this.replaceAll(this.getAttribute(attr.name)?.trim() + '', `{{${this.indexId}}}`, index + ''));
+              }
+            }
+          }
         } else {
           if (attr.name.toLowerCase() === 'buttonreceivestateshow' && this.hasAttribute('receivestateshow')) {
             btn.setAttribute('receivestateshow', this.getAttribute('receivestateshow') + '');
@@ -698,7 +883,46 @@ export class Ch5TabButton extends Ch5GenericListAttributes implements ICh5TabBut
         else if (attr.name.toLowerCase() === 'buttonreceivestateenable' && this.hasAttribute('receivestateenable')) {
           btn.setAttribute('receivestateenable', this.getAttribute('receivestateenable') + '');
         }
-        else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+        else if (attr.name.toLowerCase() === 'buttonreceivestateselected') {
+          if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+            btn.setAttribute('receiveStateSelected', this.contractName + `.Tab${index + 1}_Selected`);
+          } else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+            if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
+              const attrValue = this.getAttribute(attr.name)?.trim();
+              if (attrValue) {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
+              }
+            } else if (this.getAttribute(attr.name)?.trim().length !== 0) {
+              const attrValue = this.replaceAll(this.getAttribute(attr.name)?.trim() + '', `{{${this.indexId}}}`, '');
+              const isNumber = /^[0-9]+$/.test(attrValue);
+              if (isNumber) {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), Number(attrValue) + index + '');
+              } else {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), this.replaceAll(this.getAttribute(attr.name)?.trim() + '', `{{${this.indexId}}}`, index + ''));
+              }
+            }
+          }
+        }
+        else if (attr.name.toLowerCase() === 'buttonsendeventonclick') {
+          if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+            // Ignore this attribute since it is handled in ch5-button when contract name is available
+          } else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+            if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
+              const attrValue = this.getAttribute(attr.name)?.trim();
+              if (attrValue) {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
+              }
+            } else if (this.getAttribute(attr.name)?.trim().length !== 0) {
+              const attrValue = this.replaceAll(this.getAttribute(attr.name)?.trim() + '', `{{${this.indexId}}}`, '');
+              const isNumber = /^[0-9]+$/.test(attrValue);
+              if (isNumber) {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), Number(attrValue) + index + '');
+              } else {
+                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), this.replaceAll(this.getAttribute(attr.name)?.trim() + '', `{{${this.indexId}}}`, index + ''));
+              }
+            }
+          }
+        } else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
           if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
             const attrValue = this.getAttribute(attr.name)?.trim();
             if (attrValue) {
@@ -741,23 +965,21 @@ export class Ch5TabButton extends Ch5GenericListAttributes implements ICh5TabBut
     }
   }
 
-  handleScrollbar(): void {
-    // Not used in tab button
-  }
-  handleCenterItems(): void {
-    // Not used in tab button
-  }
-  handleEndless(): void {
-    // Not used in tab button
-  }
-  handleRowsAndColumn(): void {
-    // Not used in tab button
-  }
-  handleStretch(): void {
-    // Not used in tab button
-  }
-  debounceHandleScrollToPosition(value: number): void {
-    // Not used in tab button
+  private handleContractName() {
+    if (this.contractName.trim().length === 0) {
+      this.signalNameOnContract.contractName = "";
+      this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
+      this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;
+      this.receiveStateCustomStyle = this.signalNameOnContract.receiveStateCustomStyle;
+      this.receiveStateCustomClass = this.signalNameOnContract.receiveStateCustomClass;
+    } else if (this.signalNameOnContract.contractName === "") {
+      this.signalNameOnContract.contractName = this.contractName;
+      this.signalNameOnContract.receiveStateShow = this.receiveStateShow;
+      this.signalNameOnContract.receiveStateEnable = this.receiveStateEnable;
+      this.signalNameOnContract.receiveStateCustomStyle = this.receiveStateCustomStyle;
+      this.signalNameOnContract.receiveStateCustomClass = this.receiveStateCustomClass;
+    }
+    this.debounceButtonDisplay();
   }
 
   protected getTargetElementForCssClassesAndStyle(): HTMLElement {
