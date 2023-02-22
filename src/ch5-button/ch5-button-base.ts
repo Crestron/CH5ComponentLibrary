@@ -494,6 +494,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private _indexForList: number = 0;
 	private _clickAndHoldTimeForList: number = 300;
 	private _contractNameForList: string = "";
+	private _parentComponent: string = "";
 
 	private previousExtendedProperties: ICh5ButtonExtendedProperties = {};
 
@@ -1041,7 +1042,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	//#region 3. Lifecycle Hooks
 
-	public constructor(index: number = -1, clickAndHoldTime: number = 300, contractName: string = "") {
+	public constructor(index: number = -1, clickAndHoldTime: number = 300, contractName: string = "", parentComponent: string = "") {
 		super();
 		this.logger.start('constructor()', this.primaryCssClass);
 		if (!this._wasInstatiated) {
@@ -1050,6 +1051,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this._indexForList = Number(index) as number;
 		this._clickAndHoldTimeForList = Number(clickAndHoldTime) as number;
 		this._contractNameForList = contractName?.trim() as string;
+		this._parentComponent = parentComponent.trim() as string;
 		this._wasInstatiated = true;
 		this._ch5ButtonSignal = new Ch5ButtonSignal();
 		this._onBlur = this._onBlur.bind(this);
@@ -1546,7 +1548,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	}
 
 	private _subscribeToPressableIsPressed() {
-		if (this._contractNameForList.trim() !== "") { return this._subscribeToPressableIsPressedForButtonList(); }
+		if (this._contractNameForList.trim() !== "" && this._parentComponent.trim() === 'ch5-button-list') { return this._subscribeToPressableIsPressedForButtonList(); }
+		if (this._contractNameForList.trim() !== "" && this._parentComponent.trim() === 'ch5-tab-button') { return this._subscribeToPressableIsPressedForTabButton(); }
 		const REPEAT_DIGITAL_PERIOD = 200;
 		const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
 		if (this._isPressedSubscription === null && this._pressable !== null) {
@@ -1580,6 +1583,24 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			});
 		}
 	}
+
+	private _subscribeToPressableIsPressedForTabButton() {
+		if (this._isPressedSubscription === null && this._pressable !== null) {
+			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
+				this.logger.log(`Ch5Button.pressableSubscriptionCb(${value})`, this.pressed);
+				if (value === false) {
+					Ch5SignalFactory.getInstance().getBooleanSignal(this._contractNameForList + `.Tab${this._indexForList}Press`)?.publish(value);
+					setTimeout(() => {
+						this.setButtonDisplay();
+					}, this.STATE_CHANGE_TIMEOUTS);
+				} else {
+					Ch5SignalFactory.getInstance().getBooleanSignal(this._contractNameForList + `.Tab${this._indexForList}Press`)?.publish(value);
+					this.setButtonDisplay();
+				}
+			});
+		}
+	}
+
 	private _subscribeToPressableIsPressedForButtonList() {
 		if (this._isPressedSubscription === null && this._pressable !== null) {
 			let isHeld = false;

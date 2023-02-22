@@ -1472,7 +1472,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
 
   private createButton(index: number, append: boolean = true) {
     if (index < 0 || index >= this.numberOfItems) { return };
-    const btn = this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined ? new Ch5Button(index + 1, this.clickHoldTime, this.contractName) : new Ch5Button();
+    const btn = this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined ? new Ch5Button(index + 1, this.clickHoldTime, this.contractName, 'ch5-button-list') : new Ch5Button();
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
     if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined && this.useContractForItemShow === true) {
@@ -1786,7 +1786,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     btn.setAttribute('receiveStateSelected', this.contractName + `.Button${index + 1}ItemSelected`);
 
     const remainingAttributes = ['buttonCheckboxPosition', 'buttonCheckboxShow', 'buttonVAlignLabel', 'buttonHAlignLabel', 'buttonIconClass',
-      'buttonIconPosition', 'buttonIconUrl', 'buttonShape', 'buttonType', 'buttonSendEventOnClick', 'buttonPressed'];
+      'buttonIconPosition', 'buttonIconUrl', 'buttonShape', 'buttonType', 'buttonPressed'];
     const individualButtons = this.getElementsByTagName(this.nodeName.toLowerCase() + '-individual-button');
     const individualButtonsLength = individualButtons.length;
     remainingAttributes.forEach((attr: string) => {
