@@ -21,10 +21,9 @@ import {
 	TCh5ButtonActionType,
 	TCh5ButtonCheckboxPosition,
 	TCh5ButtonHorizontalAlignLabel,
-	TCh5ButtonVerticalAlignLabel,
-	ICh5ButtonListContractObj
+	TCh5ButtonVerticalAlignLabel
 } from './interfaces/t-ch5-button';
-
+import { ICh5ButtonListContractObj } from "./interfaces/t-for-ch5-button-list-contract"
 import { ICh5ButtonAttributes } from "./interfaces/i-ch5-button-attributes";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
