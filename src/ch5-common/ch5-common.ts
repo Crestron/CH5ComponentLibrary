@@ -385,8 +385,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		if (value !== this._customClass) {
 			this._customClass = value;
 			this.setAttribute('customclass', value);
+			}
 		}
-	}
 	public get customClass(): string {
 		return this._customClass;
 	}
@@ -461,6 +461,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 			return;
 		}
 
+		this.customClass = "";
+
 		this.clearStringSignalSubscription(this._receiveStateCustomClass, this._subKeySigReceiveCustomClass);
 
 		this._receiveStateCustomClass = value;
@@ -499,6 +501,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 			return;
 		}
 
+		this.customStyle = "";
 		this.clearStringSignalSubscription(this._receiveStateCustomStyle, this._subKeySigReceiveCustomStyle);
 
 		this._receiveStateCustomStyle = value;

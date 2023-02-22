@@ -1,4 +1,4 @@
-import { ICh5Common3 } from "../../ch5-common/interfaces/i-ch5-common-set3";
+import { ICh5SubpageReferenceListCommonDocumentation } from "../../ch5-common/interfaces/i-ch5-subpage-reference-list-documentation";
 import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-list-attributes";
 
 /**
@@ -68,12 +68,19 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  *       "\tnumberOfItems=\"${16:10}\"",
  *       "\treceiveStateNumberOfItems=\"${17:}\"",
  *       "\tscrollToPosition=\"${18:}\"",
- *       "\tindexId=\"${19:}\">",
+ *       "\tuseContractForEnable=\"${19:false}\"",
+ *       "\tuseContractForShow=\"${20:false}\"",
+ *       "\tuseContractForItemEnable=\"${21:false}\"",
+ *       "\tuseContractForItemShow=\"${22:false}\"",
+ *       "\tuseContractForCustomStyle=\"${23:false}\"",
+ *       "\tuseContractForCustomClass=\"${24:false}\"",
+ *       "\tuseContractForNumItems=\"${25:false}\"",
+ *       "\tindexId=\"${26:}\">",
  *       "</ch5-subpage-reference-list>$0"
  *       ]
  *    }
  *  ]
  */
-export interface ICh5SubpageReferenceListDocumentation extends ICh5Common3, ICh5SubpageReferenceListAttributes {
+export interface ICh5SubpageReferenceListDocumentation extends ICh5SubpageReferenceListCommonDocumentation, ICh5SubpageReferenceListAttributes {
 
 }
