@@ -329,7 +329,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   private containerWidth: number = 0;
   private reInit: boolean = true;
 
-  private signalNameOnContract = {
+  private previousSignalValues = {
     contractName: "",
     receiveStateCustomClass: "",
     receiveStateCustomStyle: "",
@@ -1189,21 +1189,21 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
   private handleContractName() {
     if (this.contractName.trim().length === 0) {
-      this.signalNameOnContract.contractName = "";
-      this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
-      this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;
-      this.receiveStateCustomStyle = this.signalNameOnContract.receiveStateCustomStyle;
-      this.receiveStateCustomClass = this.signalNameOnContract.receiveStateCustomClass;
-      this.receiveStateNumberOfItems = this.signalNameOnContract.receiveStateNumberOfItems;
-      this.subpageReceiveStateScrollTo = this.signalNameOnContract.subpageReceiveStateScrollTo;
-    } else if (this.signalNameOnContract.contractName === "") {
-      this.signalNameOnContract.contractName = this.contractName;
-      this.signalNameOnContract.receiveStateShow = this.receiveStateShow;
-      this.signalNameOnContract.receiveStateEnable = this.receiveStateEnable;
-      this.signalNameOnContract.receiveStateCustomStyle = this.receiveStateCustomStyle;
-      this.signalNameOnContract.receiveStateCustomClass = this.receiveStateCustomClass;
-      this.signalNameOnContract.receiveStateNumberOfItems = this.receiveStateNumberOfItems;
-      this.signalNameOnContract.subpageReceiveStateScrollTo = this.subpageReceiveStateScrollTo;
+      this.previousSignalValues.contractName = "";
+      this.receiveStateShow = this.previousSignalValues.receiveStateShow;
+      this.receiveStateEnable = this.previousSignalValues.receiveStateEnable;
+      this.receiveStateCustomStyle = this.previousSignalValues.receiveStateCustomStyle;
+      this.receiveStateCustomClass = this.previousSignalValues.receiveStateCustomClass;
+      this.receiveStateNumberOfItems = this.previousSignalValues.receiveStateNumberOfItems;
+      this.subpageReceiveStateScrollTo = this.previousSignalValues.subpageReceiveStateScrollTo;
+    } else if (this.previousSignalValues.contractName === "") {
+      this.previousSignalValues.contractName = this.contractName;
+      this.previousSignalValues.receiveStateShow = this.receiveStateShow;
+      this.previousSignalValues.receiveStateEnable = this.receiveStateEnable;
+      this.previousSignalValues.receiveStateCustomStyle = this.receiveStateCustomStyle;
+      this.previousSignalValues.receiveStateCustomClass = this.receiveStateCustomClass;
+      this.previousSignalValues.receiveStateNumberOfItems = this.receiveStateNumberOfItems;
+      this.previousSignalValues.subpageReceiveStateScrollTo = this.subpageReceiveStateScrollTo;
     }
     this.debounceSubpageDisplay();
   }
