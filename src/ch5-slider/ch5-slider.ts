@@ -1582,6 +1582,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		return;
 	}
 
+	// required for disable slider also
 	protected updateForChangeInDisabledStatus() {
 		super.updateForChangeInDisabledStatus();
 

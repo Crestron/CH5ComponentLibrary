@@ -464,9 +464,6 @@ export abstract class Ch5CommonInput extends Ch5Common implements ICh5CommonInpu
             this.tabIndex = Number(this.getAttribute('tabindex'));
         }
 
-        if (this.hasAttribute('disabled')) {
-            this.disabled = true;
-        }
 
         if (this.hasAttribute('feedbackmode')) {
             this.feedbackMode = this.getAttribute('feedbackmode') as TCh5CommonInputFeedbackModes;
