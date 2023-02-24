@@ -342,9 +342,8 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   // Default Row and Column value
   private rowClassValue: number = 1;
   private columnsClassValue: number = 1;
-  public debounceSubpageDisplay = this.debounce(async () => {
-    await this.subpageDisplay();
-    if (this.reInit) this.debounceInitScrollBar();
+  public debounceSubpageDisplay = this.debounce(() => {
+    this.subpageDisplay();
   }, 100);
 
   public debounceHandleScrollToPosition = this.debounce((value: number) => {
@@ -870,13 +869,13 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         const index = (this.numberOfItems + lastElement + 1) % this.numberOfItems;
         this.createSubpage(index);
         this._elContainer.firstElementChild?.remove();
-        this._elContainer.scrollLeft += this.subpageWidth;
+        this._elContainer.scrollLeft += this.subpageWidth / 2;
       } else if (Math.abs(scrollLeft) < this.subpageWidth / 4) {
         const firstElement = Number(this._elContainer.firstElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
         const index = (this.numberOfItems + firstElement - 1) % this.numberOfItems;
         this.createSubpage(index, false);
         this._elContainer.lastElementChild?.remove();
-        this._elContainer.scrollLeft -= this.subpageWidth;
+        this._elContainer.scrollLeft -= this.subpageWidth / 2;
       }
     } else if (this.orientation === 'horizontal') {
       if (scrollLeft < this.subpageWidth / 4) {
@@ -884,13 +883,13 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         const index = (this.numberOfItems + firstElement - 1) % this.numberOfItems;
         this.createSubpage(index, false);
         this._elContainer.lastElementChild?.remove();
-        this._elContainer.scrollLeft += this.subpageWidth;
+        this._elContainer.scrollLeft += this.subpageWidth / 2;
       } else if (scrollLeft + offsetWidth > scrollWidth - this.subpageWidth / 4) {
         const lastElement = Number(this._elContainer.lastElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
         const index = (this.numberOfItems + lastElement + 1) % this.numberOfItems;
         this.createSubpage(index);
         this._elContainer.firstElementChild?.remove();
-        this._elContainer.scrollLeft -= this.subpageWidth;
+        this._elContainer.scrollLeft -= this.subpageWidth / 2;
       }
     } else {
       if (scrollTop < this.subpageHeight / 4) {
@@ -898,13 +897,13 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         const index = (this.numberOfItems + firstElement - 1) % this.numberOfItems;
         this.createSubpage(index, false);
         this._elContainer.lastElementChild?.remove();
-        this._elContainer.scrollTop += this.subpageHeight;
+        this._elContainer.scrollTop += this.subpageHeight / 2;
       } else if (scrollTop + offsetHeight > scrollHeight - this.subpageHeight / 4) {
         const lastElement = Number(this._elContainer.lastElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
         const index = (this.numberOfItems + lastElement + 1) % this.numberOfItems;
         this.createSubpage(index);
         this._elContainer.firstElementChild?.remove();
-        this._elContainer.scrollTop -= this.subpageHeight;
+        this._elContainer.scrollTop -= this.subpageHeight / 2;
         if (this.scrollToPosition === this.numberOfItems - 1 && index === 0) { this._elContainer.scrollTop += this.subpageHeight; }
       }
     }
@@ -1136,35 +1135,35 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       spgContainer.setAttribute('data-ch5-show', this.contractName + `.List_Item${index + 1}_Visible`);
       spgContainer.setAttribute('data-ch5-noshow-type', 'display');
     } else {
-    if (this.hasAttribute('subpageReceiveStateShow') && this.getAttribute("subpageReceiveStateShow")?.trim() && !this.hasAttribute('receiveStateShow')) {
-      const attrValue = this.replaceAll(this.getAttribute("subpageReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, '');
-      const isNumber = /^[0-9]+$/.test(attrValue);
-      if (isNumber) {
-        spgContainer.setAttribute('data-ch5-show', Number(attrValue) + index + '');
-      } else {
-        spgContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("subpageReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
+      if (this.hasAttribute('subpageReceiveStateShow') && this.getAttribute("subpageReceiveStateShow")?.trim() && !this.hasAttribute('receiveStateShow')) {
+        const attrValue = this.replaceAll(this.getAttribute("subpageReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, '');
+        const isNumber = /^[0-9]+$/.test(attrValue);
+        if (isNumber) {
+          spgContainer.setAttribute('data-ch5-show', Number(attrValue) + index + '');
+        } else {
+          spgContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("subpageReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
+        }
+        spgContainer.setAttribute('data-ch5-noshow-type', 'display');
+      } else if (this.hasAttribute('receiveStateShow')) {
+        spgContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("receiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
+        spgContainer.setAttribute('data-ch5-noshow-type', 'display');
       }
-      spgContainer.setAttribute('data-ch5-noshow-type', 'display');
-    } else if (this.hasAttribute('receiveStateShow')) {
-      spgContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("receiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
-      spgContainer.setAttribute('data-ch5-noshow-type', 'display');
     }
-  }
-  if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined && this.useContractForItemEnable === true) {
-    spgContainer.setAttribute('data-ch5-enable', this.contractName + `.List_Item${index + 1}_Enable`);
-  } else {
-    if (this.hasAttribute('subpageReceiveStateEnable') && this.getAttribute("subpageReceiveStateEnable")?.trim() && !this.hasAttribute('receiveStateEnable')) {
-      const attrValue = this.replaceAll(this.getAttribute("subpageReceiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, '');
-      const isNumber = /^[0-9]+$/.test(attrValue);
-      if (isNumber) {
-        spgContainer.setAttribute('data-ch5-enable', Number(attrValue) + index + '');
-      } else {
-        spgContainer.setAttribute('data-ch5-enable', this.replaceAll(this.getAttribute("subpageReceiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, index + ''));
+    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined && this.useContractForItemEnable === true) {
+      spgContainer.setAttribute('data-ch5-enable', this.contractName + `.List_Item${index + 1}_Enable`);
+    } else {
+      if (this.hasAttribute('subpageReceiveStateEnable') && this.getAttribute("subpageReceiveStateEnable")?.trim() && !this.hasAttribute('receiveStateEnable')) {
+        const attrValue = this.replaceAll(this.getAttribute("subpageReceiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, '');
+        const isNumber = /^[0-9]+$/.test(attrValue);
+        if (isNumber) {
+          spgContainer.setAttribute('data-ch5-enable', Number(attrValue) + index + '');
+        } else {
+          spgContainer.setAttribute('data-ch5-enable', this.replaceAll(this.getAttribute("subpageReceiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, index + ''));
+        }
+      } else if (this.hasAttribute('receiveStateEnable')) {
+        spgContainer.setAttribute('data-ch5-enable', this.replaceAll(this.getAttribute("receiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, index + ''));
       }
-    } else if (this.hasAttribute('receiveStateEnable')) {
-      spgContainer.setAttribute('data-ch5-enable', this.replaceAll(this.getAttribute("receiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, index + ''));
     }
-  }
     spgContainer.classList.add(this.nodeName.toLowerCase() + "--subpage-container");
     if (this.indexId !== null) {
       // replace indexId in attributes
@@ -1249,7 +1248,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     // sets default center item class
     this._elContainer.classList.add(Ch5SubpageReferenceList.ELEMENT_NAME + Ch5SubpageReferenceList.CENTER_ITEMS_CLASSLIST_PREFIX + this.centerItems);
     this.logger.stop();
-    this.logger.stop();
   }
   private initScrollbar() {
 
@@ -1314,6 +1312,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       this.containerHeight = height;
       this.debounceSubpageDisplay();
     }
+    this.debounceInitScrollBar();
   }
 
   protected getTargetElementForCssClassesAndStyle(): HTMLElement {
