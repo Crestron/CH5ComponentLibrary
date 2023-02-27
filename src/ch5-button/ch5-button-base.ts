@@ -1079,8 +1079,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.previousExtendedProperties = {}; // Very important - for pages hidden with buttons and shown back with noshowtype remove
 
 		this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
-		if (this.buttonListContractObj?.parentComponent === "ch5-tab-button" || this.buttonListContractObj?.parentComponent === "ch5-button-list") {
-			this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix + ' ' + this.buttonListContractObj?.parentComponent + this.pressedCssClassPostfix);
+		if (this.buttonListContract?.parentComponent === "ch5-tab-button" || this.buttonListContract?.parentComponent === "ch5-button-list") {
+			this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix + ' ' + this.buttonListContract?.parentComponent + this.pressedCssClassPostfix);
 		} else {
 			this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
 		}
@@ -1592,12 +1592,12 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
 				this.logger.log(`Ch5Button.pressableSubscriptionCb(${value})`, this.pressed);
 				if (value === false) {
-					Ch5SignalFactory.getInstance().getBooleanSignal(this.buttonListContract.contractName + `.Tab${this.buttonListContract.index}Press`)?.publish(value);
+					Ch5SignalFactory.getInstance().getBooleanSignal(this.buttonListContract.contractName + `.Tab${this.buttonListContract.index}_Press`)?.publish(value);
 					setTimeout(() => {
 						this.setButtonDisplay();
 					}, this.STATE_CHANGE_TIMEOUTS);
 				} else {
-					Ch5SignalFactory.getInstance().getBooleanSignal(this.buttonListContract.contractName + `.Tab${this.buttonListContract.index}Press`)?.publish(value);
+					Ch5SignalFactory.getInstance().getBooleanSignal(this.buttonListContract.contractName + `.Tab${this.buttonListContract.index}_Press`)?.publish(value);
 					this.setButtonDisplay();
 				}
 			});
@@ -1767,8 +1767,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		// selected
 		cssClasses.push(this.primaryCssClass + this.selectedCssClassPostfix);
-		if (this.buttonListContractObj?.parentComponent === "ch5-tab-button" || this.buttonListContractObj?.parentComponent === "ch5-button-list") {
-			cssClasses.push(this.buttonListContractObj?.parentComponent + this.selectedCssClassPostfix);
+		if (this.buttonListContract?.parentComponent === "ch5-tab-button" || this.buttonListContract?.parentComponent === "ch5-button-list") {
+			cssClasses.push(this.buttonListContract?.parentComponent + this.selectedCssClassPostfix);
 		}
 
 		return cssClasses;
@@ -2614,13 +2614,13 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			const selectedCssClass = this.primaryCssClass + this.selectedCssClassPostfix;
 			if (this._selected) {
 				targetEl.classList.add(selectedCssClass);
-				if (this.buttonListContractObj?.parentComponent === "ch5-tab-button" || this.buttonListContractObj?.parentComponent === "ch5-button-list") {
-					targetEl.classList.add(this.buttonListContractObj?.parentComponent + this.selectedCssClassPostfix);
+				if (this.buttonListContract?.parentComponent === "ch5-tab-button" || this.buttonListContract?.parentComponent === "ch5-button-list") {
+					targetEl.classList.add(this.buttonListContract?.parentComponent + this.selectedCssClassPostfix);
 				}
 			} else {
 				targetEl.classList.remove(selectedCssClass);
-				if (this.buttonListContractObj?.parentComponent === "ch5-tab-button" || this.buttonListContractObj?.parentComponent === "ch5-button-list") {
-					targetEl.classList.remove(this.buttonListContractObj?.parentComponent + this.selectedCssClassPostfix);
+				if (this.buttonListContract?.parentComponent === "ch5-tab-button" || this.buttonListContract?.parentComponent === "ch5-button-list") {
+					targetEl.classList.remove(this.buttonListContract?.parentComponent + this.selectedCssClassPostfix);
 				}
 			}
 		}
