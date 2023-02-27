@@ -1052,17 +1052,15 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   private handleWidgetID() {
     if (isEmpty(this.widgetId)) {
-      throw new Error('[ch5-subpage-reference-list] Error: No templateId was provided');
+      throw new Error('[ch5-subpage-reference-list] Error: No widgetId was provided');
     }
 
     const template = document.getElementById(this.widgetId) as HTMLTemplateElement;
-    // if (!(template.tagName === "CH5-TEMPLATE")){
-    //   throw new Error('[ch5-subpage-reference-list] Error: Incorrect tag used'); }
-
+  
     if (!(isNil(template))) {
       this._templateElement = template as HTMLTemplateElement;
     } else {
-      throw new Error(`[ch5-subpage-reference-list] Error: No ch5-template with the id: "${this.widgetId}" found`);
+      throw new Error(`[ch5-subpage-reference-list] Error: No template with the id: "${this.widgetId}" found`);
     }
     this.debounceSubpageDisplay();
   }
