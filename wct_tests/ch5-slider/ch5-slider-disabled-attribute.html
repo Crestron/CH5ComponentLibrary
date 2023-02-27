@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+    
+<test-fixture id="ch5-slider-max-fixture">
+    <template>
+        <ch5-slider ></ch5-slider>
+    </template>
+</test-fixture>
+
+    <script>
+        suite('ch5-slider-disbled-attribute-fixture', () => {
+            let ch5Slider;
+             /* coverity[implicit_this_used] */
+            setup(() => {
+                ch5Slider = fixture('ch5-slider-max-fixture');
+                return Promise.all([
+                    customElements.whenDefined('ch5-slider'),
+            ]).then(_ => {
+                // wait for element to be defined
+            });
+            });
+
+            const testCases = ['true', 'false', 'invalid', 'valid', 'number', 'strings', 21, '', ' '];
+            const expectedOutput = [true, false, false, false, false, false, false, true, false]
+            
+            testCases.forEach((ele, i)=>{
+                test(`Check disabled :  "${ele}" to be equal: ${expectedOutput[i]}`, (done) => {
+                
+                flush(() => {
+                    ch5Slider.setAttribute('disabled', ele);
+                    setTimeout(() => {
+                        expect(ch5Slider.disabled).to.be.equal(expectedOutput[i]);
+                        done();
+                    }, 200);
+                });
+            });
+            });
+            
+        });
+    </script>
+</body>
+
+</html>
