@@ -1079,7 +1079,11 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.previousExtendedProperties = {}; // Very important - for pages hidden with buttons and shown back with noshowtype remove
 
 		this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
-		this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
+		if (this.buttonListContractObj?.parentComponent === "ch5-tab-button" || this.buttonListContractObj?.parentComponent === "ch5-button-list") {
+			this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix + ' ' + this.buttonListContractObj?.parentComponent + this.pressedCssClassPostfix);
+		} else {
+			this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
+		}
 
 		// WAI-ARIA Attributes
 		if (!this.hasAttribute('role')) {
@@ -1763,6 +1767,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		// selected
 		cssClasses.push(this.primaryCssClass + this.selectedCssClassPostfix);
+		if (this.buttonListContractObj?.parentComponent === "ch5-tab-button" || this.buttonListContractObj?.parentComponent === "ch5-button-list") {
+			cssClasses.push(this.buttonListContractObj?.parentComponent + this.selectedCssClassPostfix);
+		}
 
 		return cssClasses;
 	}
@@ -2607,8 +2614,14 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			const selectedCssClass = this.primaryCssClass + this.selectedCssClassPostfix;
 			if (this._selected) {
 				targetEl.classList.add(selectedCssClass);
+				if (this.buttonListContractObj?.parentComponent === "ch5-tab-button" || this.buttonListContractObj?.parentComponent === "ch5-button-list") {
+					targetEl.classList.add(this.buttonListContractObj?.parentComponent + this.selectedCssClassPostfix);
+				}
 			} else {
 				targetEl.classList.remove(selectedCssClass);
+				if (this.buttonListContractObj?.parentComponent === "ch5-tab-button" || this.buttonListContractObj?.parentComponent === "ch5-button-list") {
+					targetEl.classList.remove(this.buttonListContractObj?.parentComponent + this.selectedCssClassPostfix);
+				}
 			}
 		}
 

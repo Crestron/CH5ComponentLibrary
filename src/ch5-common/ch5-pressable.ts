@@ -643,7 +643,9 @@ export class Ch5Pressable {
 	private _addCssPressClass() {
 		if (this._options !== null &&
 			this._options.cssTargetElement.classList !== undefined) {
-			this._options.cssTargetElement.classList.add(this._options.cssPressedClass);
+			this._options.cssPressedClass.split(' ').forEach((ele) => {
+				this._options?.cssTargetElement.classList.add(ele);
+			});
 		}
 	}
 
@@ -653,7 +655,9 @@ export class Ch5Pressable {
 	private _removeCssPressClass() {
 		if (this._options !== null &&
 			this._options.cssTargetElement.classList !== undefined) {
-			this._options.cssTargetElement.classList.remove(this._options.cssPressedClass);
+			this._options.cssPressedClass.split(' ').forEach((ele) => {
+				this._options?.cssTargetElement.classList.remove(ele);
+			});
 		}
 	}
 
