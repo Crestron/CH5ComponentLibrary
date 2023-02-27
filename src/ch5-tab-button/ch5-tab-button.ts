@@ -736,7 +736,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
   private createButton(index: number, append: boolean = true) {
     if (index < 0 || index >= this.numberOfItems) { return };
     const buttonListContractObj: ICh5ButtonListContractObj = { index: index + 1, clickHoldTime: 0, contractName: this.contractName, parentComponent: 'ch5-tab-button' };
-    const btn = this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined ? new Ch5Button(buttonListContractObj) : new Ch5Button();
+    const btn = new Ch5Button(buttonListContractObj);
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
     if (this.hasAttribute('buttonReceiveStateShow') && this.getAttribute("buttonReceiveStateShow")?.trim() && !this.hasAttribute('receiveStateShow')) {
