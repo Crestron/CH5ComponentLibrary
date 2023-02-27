@@ -58,7 +58,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * [
    * "`useContractForItemEnable` attribute",
    * "***",
-   * "When true, contract 'ItemEnable[x]' state determines if an individual button x is enabled. "
+   * "When true, contract 'List_Item[x]_Enable' state determines if an individual subpage x is enabled. "
    * ]
    * @name usecontractforitemenable
    * @default false
@@ -70,7 +70,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * [
    * "`useContractForItemShow` attribute",
    * "***",
-   * "When true, contract 'ItemShow[x]' state determines if an individual button x is visible. "
+   * "When true, contract 'List_Item[x]_Visible' state determines if an individual subpage x is visible. "
    * ]
    * @name usecontractforitemshow
    * @default false
