@@ -736,6 +736,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       this.checkInternalHTML();
       this.attachEventListeners();
       this.initAttributes();
+      this.handleWidgetID();
       this.initCommonMutationObserver(this);
       this.debounceSubpageDisplay();
       this.info('Ch5Template --- Initialization Finished');
@@ -1265,22 +1266,32 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
       if (this.useContractForCustomStyle === true) {
         this.receiveStateCustomStyle = this.contractName + '.CustomStyle';
+      } else {
+        this.receiveStateCustomStyle = this.previousSignalValues.receiveStateCustomStyle;
       }
 
       if (this.useContractForCustomClass === true) {
         this.receiveStateCustomClass = this.contractName + '.CustomClass';
+      } else {
+        this.receiveStateCustomClass = this.previousSignalValues.receiveStateCustomClass;
       }
 
       if (this.useContractForEnable === true) {
         this.receiveStateEnable = this.contractName + '.List_Enable';
+      } else {
+        this.receiveStateEnable = this.previousSignalValues.receiveStateEnable;
       }
 
       if (this.useContractForShow === true) {
         this.receiveStateShow = this.contractName + '.List_Visible';
+      } {
+        this.receiveStateShow = this.previousSignalValues.receiveStateShow;
       }
 
       if (this.useContractForNumItems === true) {
         this.receiveStateNumberOfItems = this.contractName + `.Set_Number_Of_Items`;
+      } else {
+        this.receiveStateNumberOfItems = this.previousSignalValues.receiveStateNumberOfItems;
       }
       this.subpageReceiveStateScrollTo = this.contractName + `.ListScrollToItem`;
     }
