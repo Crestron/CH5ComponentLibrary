@@ -739,7 +739,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
     const btn = new Ch5Button(buttonListContractObj);
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
-    if (this.hasAttribute('buttonReceiveStateShow') && this.getAttribute("buttonReceiveStateShow")?.trim() && !this.hasAttribute('receiveStateShow')) {
+    if (this.hasAttribute('buttonReceiveStateShow') && this.getAttribute("buttonReceiveStateShow")?.trim()) {
       const attrValue = this.replaceAll(this.getAttribute("buttonReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, '');
       const isNumber = /^[0-9]+$/.test(attrValue);
       if (isNumber) {
@@ -747,9 +747,6 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
       } else {
         btnContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("buttonReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
       }
-      btnContainer.setAttribute('data-ch5-noshow-type', 'display');
-    } else if (this.hasAttribute('receiveStateShow')) {
-      btnContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("receiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
       btnContainer.setAttribute('data-ch5-noshow-type', 'display');
     }
     btnContainer.classList.add(this.nodeName.toLowerCase() + "--button-container");
@@ -854,13 +851,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
             }
           }
         } else {
-          if (attr.name.toLowerCase() === 'buttonreceivestateshow' && this.hasAttribute('receivestateshow')) {
-            btn.setAttribute('receivestateshow', this.getAttribute('receivestateshow') + '');
-          }
-          else if (attr.name.toLowerCase() === 'buttonreceivestateenable' && this.hasAttribute('receivestateenable')) {
-            btn.setAttribute('receivestateenable', this.getAttribute('receivestateenable') + '');
-          }
-          else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+          if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
             if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
               const attrValue = this.getAttribute(attr.name)?.trim();
               if (attrValue) {
@@ -878,13 +869,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
           }
         }
       } else {
-        if (attr.name.toLowerCase() === 'buttonreceivestateshow' && this.hasAttribute('receivestateshow')) {
-          btn.setAttribute('receivestateshow', this.getAttribute('receivestateshow') + '');
-        }
-        else if (attr.name.toLowerCase() === 'buttonreceivestateenable' && this.hasAttribute('receivestateenable')) {
-          btn.setAttribute('receivestateenable', this.getAttribute('receivestateenable') + '');
-        }
-        else if (attr.name.toLowerCase() === 'buttonreceivestateselected') {
+        if (attr.name.toLowerCase() === 'buttonreceivestateselected') {
           if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
             btn.setAttribute('receiveStateSelected', this.contractName + `.Tab${index + 1}_Selected`);
           } else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
