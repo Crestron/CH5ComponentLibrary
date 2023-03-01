@@ -19,6 +19,7 @@
   <script>
     suite('ch5-wifi-signal-level-gauge-default-attributes-value', () => {
       let ch5WifiSignalLevelGauge;
+      const signalTypes = CrComLib.Ch5WifiSignalLevelGauge.SIGNAL_ATTRIBUTE_TYPES;
 
       setup(async () => {
         ch5WifiSignalLevelGauge = fixture('ch5-wifi-signal-level-gauge-default-attributes');
@@ -49,6 +50,16 @@
         expect(ch5WifiSignalLevelGauge.getAttribute("size")).to.be.equal('regular');
         ch5WifiSignalLevelGauge.removeAttribute("size");
         expect(ch5WifiSignalLevelGauge.getAttribute("size")).to.be.equal('regular');
+      });
+
+      test('Check signal types', () => {
+        for (signal in signalTypes) {
+          if (signal.includes("sendevent")) {
+            expect(signalTypes[signal].direction).to.be.equal("event");
+          } else if (signal.includes("receivestate")) {
+            expect(signalTypes[signal].direction).to.be.equal("state");
+          }
+        }
       });
 
     });

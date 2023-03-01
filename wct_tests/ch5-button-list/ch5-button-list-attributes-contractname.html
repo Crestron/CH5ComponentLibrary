@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-button-list-button-contractname-default-attributes">
+    <template>
+      <ch5-button-list indexId="idx" contractName="LivingRoom.AppleTV">
+        <ch5-button-list-label>
+          <template>
+            label-{{idx}}
+          </template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-button-contractItemIconType">
+    <template>
+      <ch5-button-list indexId="idx" contractName="LivingRoom.AppleTV" buttonReceiveStateIconUrl="btn{{idx}}IconUrl"
+        buttonReceiveStateIconClass="btn{{idx}}IconClass">
+        <ch5-button-list-label>
+          <template>
+            label-{{idx}}
+          </template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture
+    id="ch5-button-list-button-contractItemIconType-without-buttonReceiveStateIconUrl-and-buttonReceiveStateIconClass">
+    <template>
+      <ch5-button-list indexId="idx" contractName="LivingRoom.AppleTV">
+        <ch5-button-list-label>
+          <template>
+            label-{{idx}}
+          </template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-button-contractItemLabelType">
+    <template>
+      <ch5-button-list indexId="idx" contractName="LivingRoom.AppleTV" buttonReceiveStateLabel="btn{{idx}}Text"
+        buttonReceiveStateScriptLabelHtml="btn{{x}}Text">
+        <ch5-button-list-label>
+          <template>
+            label-{{idx}}
+          </template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture
+    id="ch5-button-list-button-contractItemLabelType-with-no-buttonReceiveStateLabel-and-buttonReceiveStateScriptLabelHtml">
+    <template>
+      <ch5-button-list indexId="idx" contractName="LivingRoom.AppleTV">
+        <ch5-button-list-label>
+          <template>
+            label-{{idx}}
+          </template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-button-ItemPress">
+    <template>
+      <ch5-button-list indexId="idx" contractName="LivingRoom.AppleTV">
+        <ch5-button-list-label>
+          <template>
+            label-{{idx}}
+          </template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-button-useContractForCustomStyle">
+    <template>
+      <ch5-button-list indexId="idx" contractName="LivingRoom.AppleTV" receiveStateCustomStyle="btnListCustomClass">
+        <ch5-button-list-label>
+          <template>
+            label-{{idx}}
+          </template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-button-useContractForCustomStyle-without-receiveStateCustomStyle">
+    <template>
+      <ch5-button-list indexId="idx" contractName="LivingRoom.AppleTV">
+        <ch5-button-list-label>
+          <template>
+            label-{{idx}}
+          </template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-button-usecontractforcustomclass">
+    <template>
+      <ch5-button-list indexId="idx" contractName="LivingRoom.AppleTV" receiveStateCustomClass="btnListCustomClass">
+        <ch5-button-list-label>
+          <template>
+            label-{{idx}}
+          </template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-button-usecontractforcustomclass-without-receiveStateCustomClass">
+    <template>
+      <ch5-button-list indexId="idx" contractName="LivingRoom.AppleTV">
+        <ch5-button-list-label>
+          <template>
+            label-{{idx}}
+          </template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-button-usecontractforenable">
+    <template>
+      <ch5-button-list indexId="idx" contractName="LivingRoom.AppleTV" receiveStateenable="btnListShow">
+        <ch5-button-list-label>
+          <template>
+            label-{{idx}}
+          </template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-button-usecontractforenable-without-receivestateenable">
+    <template>
+      <ch5-button-list indexId="idx" contractName="LivingRoom.AppleTV">
+        <ch5-button-list-label>
+          <template>
+            label-{{idx}}
+          </template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-button-use-contract-for-item-enable">
+    <template>
+      <ch5-button-list buttonReceiveStateEnable="btn{{idx}}Enable" indexId="idx" contractName="LivingRoom.AppleTV">
+        <ch5-button-list-label>
+          <template>
+            label-{{idx}}
+          </template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-button-use-contract-for-item-enable-with-no-buttonreceivestateenable">
+    <template>
+      <ch5-button-list indexId="idx" contractName="LivingRoom.AppleTV" useContractForItemEnable="false">
+        <ch5-button-list-label>
+          <template>
+            label-{{idx}}
+          </template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-button-usecontractforitemshow">
+    <template>
+      <ch5-button-list indexId="idx" contractName="LivingRoom.AppleTV" buttonReceiveStateShow="btn{{idx}}Show">
+        <ch5-button-list-label>
+          <template>
+            label-{{idx}}
+          </template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-button-usecontractforitemshow-without-buttonreceivestateshow">
+    <template>
+      <ch5-button-list indexId="idx" contractName="LivingRoom.AppleTV">
+        <ch5-button-list-label>
+          <template>
+            label-{{idx}}
+          </template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-button-useContractForNumItems">
+    <template>
+      <ch5-button-list indexId="idx" contractName="LivingRoom.AppleTV" receiveStateNumberOfItems="btnListNumberOfItems">
+        <ch5-button-list-label>
+          <template>
+            label-{{idx}}
+          </template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-button-useContractForNumItems-without-receiveStateNumberOfItems">
+    <template>
+      <ch5-button-list indexId="idx" contractName="LivingRoom.AppleTV">
+        <ch5-button-list-label>
+          <template>
+            label-{{idx}}
+          </template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-button-usecontractforshow">
+    <template>
+      <ch5-button-list indexId="idx" contractName="LivingRoom.AppleTV" receiveStateShow="btnListShow">
+        <ch5-button-list-label>
+          <template>
+            label-{{idx}}
+          </template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-button-usecontractforshow-without-receivestateshow">
+    <template>
+      <ch5-button-list indexId="idx" contractName="LivingRoom.AppleTV">
+        <ch5-button-list-label>
+          <template>
+            label-{{idx}}
+          </template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-button-list-button-contractname-default-attributes', () => {
+      let ch5ButtonList;
+      setup(() => {
+        ch5ButtonList = fixture('ch5-button-list-button-contractname-default-attributes');
+      });
+
+      test('Check for receiveStateScrollToPosition', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateScrollToPosition')).to.be.equal('LivingRoom.AppleTV.ListScrollToItem');
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check for buttonReceiveStateMode', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receiveStateMode')).to.be.equal('LivingRoom.AppleTV.Button1Mode');
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateMode')).to.be.equal('LivingRoom.AppleTV.Button2Mode');
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check for buttonReceiveStateSelected', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receiveStateSelected')).to.be.equal('LivingRoom.AppleTV.Button1ItemSelected');
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateSelected')).to.be.equal('LivingRoom.AppleTV.Button2ItemSelected');
+            done();
+          }, 200);
+        });
+      });
+    });
+
+    suite('ch5-button-list-button-contractItemIconType', () => {
+      let ch5ButtonList;
+      setup(() => {
+        ch5ButtonList = fixture('ch5-button-list-button-contractItemIconType');
+      });
+
+      test('When contractItemIconType is url', (done) => {
+        ch5ButtonList.setAttribute('contractItemIconType', 'url');
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateiconurl')).to.be.equal(`${contractName}.Button1IconUrl`);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateIconUrl')).to.be.equal(`${contractName}.Button2IconUrl`);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When contractItemIconType is iconClass', (done) => {
+        ch5ButtonList.setAttribute('contractItemIconType', 'iconClass');
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateiconclass')).to.be.equal(`${contractName}.Button1IconClass`);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateIconclass')).to.be.equal(`${contractName}.Button2IconClass`);
+            done();
+          }, 200);
+        });
+      });
+      test('When contractItemIconType is none', (done) => {
+        ch5ButtonList.setAttribute('contractItemIconType', 'none');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateiconurl')).to.be.equal(`btn0IconUrl`);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateIconurl')).to.be.equal('btn1IconUrl');
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateiconclass')).to.be.equal('btn0IconClass');
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateIconclass')).to.be.equal('btn1IconClass');
+            done();
+          }, 200);
+        });
+      });
+
+      test('When contractItemIconType is invalid', (done) => {
+        ch5ButtonList.setAttribute('contractItemIconType', 'invalid');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateiconurl')).to.be.equal(`btn0IconUrl`);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateIconurl')).to.be.equal('btn1IconUrl');
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateiconclass')).to.be.equal('btn0IconClass');
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateIconclass')).to.be.equal('btn1IconClass');
+            done();
+          }, 200);
+        });
+      });
+    });
+
+    suite('ch5-button-list-button-contractItemIconType-without-buttonReceiveStateIconUrl-and-buttonReceiveStateIconClass', () => {
+      let ch5ButtonList;
+      setup(() => {
+        ch5ButtonList = fixture('ch5-button-list-button-contractItemIconType-without-buttonReceiveStateIconUrl-and-buttonReceiveStateIconClass');
+      });
+
+      test('When contractItemIconType is url', (done) => {
+        ch5ButtonList.setAttribute('contractItemIconType', 'url');
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateiconurl')).to.be.equal(`${contractName}.Button1IconUrl`);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateIconUrl')).to.be.equal(`${contractName}.Button2IconUrl`);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When contractItemIconType is iconClass', (done) => {
+        ch5ButtonList.setAttribute('contractItemIconType', 'iconClass');
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateiconclass')).to.be.equal(`${contractName}.Button1IconClass`);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateIconclass')).to.be.equal(`${contractName}.Button2IconClass`);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When contractItemIconType is none', (done) => {
+        ch5ButtonList.setAttribute('contractItemIconType', 'none');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateiconurl')).to.be.equal(null);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateIconurl')).to.be.equal(null);
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateiconclass')).to.be.equal(null);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateIconclass')).to.be.equal(null);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When contractItemIconType is invalid', (done) => {
+        ch5ButtonList.setAttribute('contractItemIconType', 'invalid');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateiconurl')).to.be.equal(null);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateIconurl')).to.be.equal(null);
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateiconclass')).to.be.equal(null);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateIconclass')).to.be.equal(null);
+            done();
+          }, 200);
+        });
+      });
+    });
+
+    suite('ch5-button-list-button-contractItemLabelType', () => {
+      let ch5ButtonList;
+      setup(() => {
+        ch5ButtonList = fixture('ch5-button-list-button-contractItemLabelType');
+      });
+
+      test('When contractItemLabelType: textContent', (done) => {
+        ch5ButtonList.setAttribute('contractItemLabelType', 'textContent');
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestatelabel')).to.be.equal(`${contractName}.Button1Text`);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receivestatelabel')).to.be.equal(`${contractName}.Button2Text`);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When contractItemLabelType: innerHTML', (done) => {
+        ch5ButtonList.setAttribute('contractItemLabelType', 'innerHTML');
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receiveStateScriptLabelHtml')).to.be.equal(`${contractName}.Button1Text`);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateScriptLabelHtml')).to.be.equal(`${contractName}.Button2Text`);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When contractItemLabelType: none', (done) => {
+        ch5ButtonList.setAttribute('contractItemLabelType', 'none');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receiveStateLabel')).to.be.equal('btn0Text');
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateLabel')).to.be.equal('btn1Text');
+            done();
+          }, 200);
+        });
+      });
+
+      test('When contractItemLabelType: invalid', (done) => {
+        ch5ButtonList.setAttribute('contractItemLabelType', 'invalid');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receiveStateLabel')).to.be.equal('btn0Text');
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateLabel')).to.be.equal('btn1Text');
+            done();
+          }, 200);
+        });
+      });
+    });
+
+    suite('ch5-button-list-button-contractItemLabelType-with-no-buttonReceiveStateLabel-and-buttonReceiveStateScriptLabelHtml', () => {
+      let ch5ButtonList;
+      setup(() => {
+        ch5ButtonList = fixture('ch5-button-list-button-contractItemLabelType-with-no-buttonReceiveStateLabel-and-buttonReceiveStateScriptLabelHtml');
+      });
+
+      test('When contractItemLabelType: textContent', (done) => {
+        ch5ButtonList.setAttribute('contractItemLabelType', 'textContent');
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestatelabel')).to.be.equal(`${contractName}.Button1Text`);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receivestatelabel')).to.be.equal(`${contractName}.Button2Text`);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When contractItemLabelType: innerHTML', (done) => {
+        ch5ButtonList.setAttribute('contractItemLabelType', 'innerHTML');
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receiveStateScriptLabelHtml')).to.be.equal(`${contractName}.Button1Text`);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateScriptLabelHtml')).to.be.equal(`${contractName}.Button2Text`);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When contractItemLabelType: none', (done) => {
+        ch5ButtonList.setAttribute('contractItemLabelType', 'none');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receiveStateLabel')).to.be.equal(null);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateLabel')).to.be.equal(null);
+            done();
+          }, 200);
+        });
+      });
+      test('When contractItemLabelType: invalid', (done) => {
+        ch5ButtonList.setAttribute('contractItemLabelType', 'invalid');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receiveStateLabel')).to.be.equal(null);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateLabel')).to.be.equal(null);
+            done();
+          }, 200);
+        });
+      });
+    });
+    suite('ch5-button-list-button-ItemPress', () => {
+      let ch5ButtonList;
+      setup(() => {
+        ch5ButtonList = fixture('ch5-button-list-button-ItemPress');
+      });
+
+      test('When buttonPressed is false', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').firstChild.classList.contains('ch5-button--pressed')).to.be.equal(false);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When buttonPressed is true', (done) => {
+        ch5ButtonList.setAttribute('buttonPressed', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').firstChild.classList.contains('ch5-button--pressed')).to.be.equal(true);
+            done();
+          }, 200);
+        });
+      });
+    });
+    suite('ch5-button-list-button-useContractForCustomStyle', () => {
+      let ch5ButtonList;
+      setup(() => {
+        ch5ButtonList = fixture('ch5-button-list-button-useContractForCustomStyle');
+      });
+
+      test('When useContractForCustomStyle is true', (done) => {
+        ch5ButtonList.setAttribute('useContractForCustomStyle', true);
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateCustomStyle')).to.be.equal(`${contractName}.CustomStyle`);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When useContractForCustomStyle is false', (done) => {
+        ch5ButtonList.setAttribute('useContractForCustomStyle', false);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateCustomStyle')).to.be.equal('btnListCustomClass');
+            done();
+          }, 200);
+        });
+      });
+
+      test('When useContractForCustomStyle is invalid', (done) => {
+        ch5ButtonList.setAttribute('useContractForCustomStyle', 'invalid');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateCustomStyle')).to.be.equal('btnListCustomClass');
+            done();
+          }, 200);
+        });
+      });
+    });
+
+    suite('ch5-button-list-button-useContractForCustomStyle-without-receiveStateCustomStyle', () => {
+      let ch5ButtonList;
+      setup(() => {
+        ch5ButtonList = fixture('ch5-button-list-button-useContractForCustomStyle-without-receiveStateCustomStyle');
+      });
+
+      test('When useContractForCustomStyle is true', (done) => {
+        ch5ButtonList.setAttribute('useContractForCustomStyle', true);
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateCustomStyle')).to.be.equal(`${contractName}.CustomStyle`);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When useContractForCustomStyle is false', (done) => {
+        ch5ButtonList.setAttribute('useContractForCustomStyle', false);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateCustomStyle')).to.be.equal(null);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When useContractForCustomStyle is invalid', (done) => {
+        ch5ButtonList.setAttribute('useContractForCustomStyle', 'invalid');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateCustomStyle')).to.be.equal(null);
+            done();
+          }, 200);
+        });
+      });
+    });
+    suite('ch5-button-list-button-usecontractforcustomclass', () => {
+      let ch5ButtonList;
+      setup(() => {
+        ch5ButtonList = fixture('ch5-button-list-button-usecontractforcustomclass');
+      });
+
+      test('When useContractForCustomClass is true', (done) => {
+        ch5ButtonList.setAttribute('useContractForCustomClass', true);
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateCustomClass')).to.be.equal(`${contractName}.CustomClass`);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When useContractForCustomClass is false', (done) => {
+        ch5ButtonList.setAttribute('useContractForCustomClass', false);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateCustomClass')).to.be.equal('btnListCustomClass');
+            done();
+          }, 200);
+        });
+      });
+
+      test('When useContractForCustomClass is invalid', (done) => {
+        ch5ButtonList.setAttribute('useContractForCustomClass', 'invalid');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateCustomClass')).to.be.equal('btnListCustomClass');
+            done();
+          }, 200);
+        });
+      });
+    });
+
+    suite('ch5-button-list-button-usecontractforcustomclass-without-receiveStateCustomClass', () => {
+      let ch5ButtonList;
+      setup(() => {
+        ch5ButtonList = fixture('ch5-button-list-button-usecontractforcustomclass-without-receiveStateCustomClass');
+      });
+
+      test('When useContractForCustomClass is true', (done) => {
+        ch5ButtonList.setAttribute('useContractForCustomClass', true);
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateCustomClass')).to.be.equal(`${contractName}.CustomClass`);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When useContractForCustomClass is false', (done) => {
+        ch5ButtonList.setAttribute('useContractForCustomClass', false);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateCustomClass')).to.be.equal(null);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When useContractForCustomClass is invalid', (done) => {
+        ch5ButtonList.setAttribute('useContractForCustomClass', 'invalid');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateCustomClass')).to.be.equal(null);
+            done();
+          }, 200);
+        });
+      });
+    });
+
+    suite('ch5-button-list-button-usecontractforenable', () => {
+      let ch5ButtonList;
+      setup(() => {
+        ch5ButtonList = fixture('ch5-button-list-button-usecontractforenable');
+      });
+
+      test('When useContractForEnable is true', (done) => {
+        ch5ButtonList.setAttribute('useContractForEnable', true);
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateenable')).to.be.equal(`${contractName}.ListEnabled`);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When useContractForEnable is false', (done) => {
+        ch5ButtonList.setAttribute('useContractForEnable', false);
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateenable')).to.be.equal('btnListShow');
+            done();
+          }, 200);
+        });
+      });
+
+      test('When useContractForEnable is invalid', (done) => {
+        ch5ButtonList.setAttribute('useContractForEnable', 'invalid');
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateenable')).to.be.equal('btnListShow');
+            done();
+          }, 200);
+        });
+      });
+    });
+
+    suite('ch5-button-list-button-usecontractforenable-without-receivestateenable', () => {
+      let ch5ButtonList;
+      setup(() => {
+        ch5ButtonList = fixture('ch5-button-list-button-usecontractforenable-without-receivestateenable');
+      });
+
+      test('When useContractForEnable is true', (done) => {
+        ch5ButtonList.setAttribute('useContractForEnable', true);
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateenable')).to.be.equal(`${contractName}.ListEnabled`);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When useContractForEnable is false', (done) => {
+        ch5ButtonList.setAttribute('useContractForEnable', false);
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateenable')).to.be.equal(null);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When useContractForEnable is invalid', (done) => {
+        ch5ButtonList.setAttribute('useContractForEnable', 'invalid');
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateenable')).to.be.equal(null);
+            done();
+          }, 200);
+        });
+      });
+    });
+    suite('ch5-button-list-button-use-contract-for-item-enable', () => {
+      let ch5ButtonList;
+      setup(() => {
+        ch5ButtonList = fixture('ch5-button-list-button-use-contract-for-item-enable');
+      });
+
+      test('Check buttonReceiveEnabledState when useContractForItemEnable is true', (done) => {
+        ch5ButtonList.setAttribute('useContractForItemEnable', true)
+        const contractName = ch5ButtonList.getAttribute('contractName');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateenable')).to.be.equal(`${contractName}.Button1Enabled`);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateenable')).to.be.equal(`${contractName}.Button2Enabled`);
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check buttonReceiveEnabledState when useContractForItemEnable is false', (done) => {
+        ch5ButtonList.setAttribute('useContractForItemEnable', false);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateenable')).to.be.equal('btn0Enable');
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receivestateenable')).to.be.equal('btn1Enable');
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check buttonReceiveEnableState when useContractForItemEnable is invalid', (done) => {
+        ch5ButtonList.setAttribute('useContractForItemEnable', 'invalid');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receiveStateEnable')).to.be.equal('btn0Enable');
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receivestateenable')).to.be.equal('btn1Enable');
+            done();
+          }, 200);
+        });
+      });
+    });
+
+    suite('ch5-button-list-button-use-contract-for-item-enable-with-no-buttonreceivestateenable', () => {
+      let ch5ButtonList;
+      setup(() => {
+        ch5ButtonList = fixture('ch5-button-list-button-use-contract-for-item-enable-with-no-buttonreceivestateenable');
+      });
+
+      test('Check for receivestateenable when buttonreceivestateenable is not provided', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receiveStateEnable')).to.be.equal(null);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receivestateenable')).to.be.equal(null);
+            done();
+          }, 200);
+        });
+      });
+    });
+    suite('ch5-button-list-button-usecontractforitemshow', () => {
+      let ch5ButtonList;
+      setup(() => {
+        ch5ButtonList = fixture('ch5-button-list-button-usecontractforitemshow');
+      });
+
+      test('When usecontractforitemshow is true', (done) => {
+        ch5ButtonList.setAttribute('usecontractforitemshow', true);
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receiveStateShow')).to.be.equal(`${contractName}.Button1Visible`);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateShow')).to.be.equal(`${contractName}.Button2Visible`)
+            done();
+          }, 200);
+        });
+      });
+
+      test('When usecontractforitemshow is false', (done) => {
+        ch5ButtonList.setAttribute('usecontractforitemshow', false);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receiveStateShow')).to.be.equal('btn0Show');
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateShow')).to.be.equal('btn1Show');
+            done();
+          }, 200);
+        });
+      });
+
+      test('When usecontractforitemshow is invalid', (done) => {
+        ch5ButtonList.setAttribute('usecontractforitemshow', 'invalid');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receiveStateShow')).to.be.equal('btn0Show');
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateShow')).to.be.equal('btn1Show');
+            done();
+          }, 200);
+        });
+      });
+    });
+
+    suite('ch5-button-list-button-usecontractforitemshow-without-buttonreceivestateshow', () => {
+      let ch5ButtonList;
+      setup(() => {
+        ch5ButtonList = fixture('ch5-button-list-button-usecontractforitemshow-without-buttonreceivestateshow');
+      });
+
+      test('When usecontractforitemshow is true', (done) => {
+        ch5ButtonList.setAttribute('usecontractforitemshow', true);
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receiveStateShow')).to.be.equal(`${contractName}.Button1Visible`);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateShow')).to.be.equal(`${contractName}.Button2Visible`)
+            done();
+          }, 200);
+        });
+      });
+
+      test('When usecontractforitemshow is false', (done) => {
+        ch5ButtonList.setAttribute('usecontractforitemshow', false);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receiveStateShow')).to.be.equal(null);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateShow')).to.be.equal(null);
+            done();
+          }, 200);
+        });
+      });
+      test('When usecontractforitemshow is invalid', (done) => {
+        ch5ButtonList.setAttribute('usecontractforitemshow', 'invalid');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receiveStateShow')).to.be.equal(null);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateShow')).to.be.equal(null);
+            done();
+          }, 200);
+        });
+      });
+    });
+    suite('ch5-button-list-button-useContractForNumItems', () => {
+      let ch5ButtonList;
+      setup(() => {
+        ch5ButtonList = fixture('ch5-button-list-button-useContractForNumItems');
+      });
+      test('When useContractForNumItems is true', (done) => {
+        ch5ButtonList.setAttribute('useContractForNumItems', true);
+        const contractName = ch5ButtonList.getAttribute('contractName');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateNumberOfItems')).to.be.equal(`${contractName}.ListNumberOfItems`);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When useContractForNumItems is false', (done) => {
+        ch5ButtonList.setAttribute('useContractForNumItems', false);
+        flush(() => {
+          setTimeout(() => {
+            console.log(ch5ButtonList);
+            console.log(ch5ButtonList.getAttribute('receiveStateNumberOfItems'));
+            expect(ch5ButtonList.getAttribute('receiveStateNumberOfItems')).to.be.equal('btnListNumberOfItems');
+            done();
+          }, 200);
+        });
+      });
+
+      test('When useContractForNumItems is invalid', (done) => {
+        ch5ButtonList.setAttribute('useContractForNumItems', 'invalid');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateNumberOfItems')).to.be.equal('btnListNumberOfItems');
+            done();
+          }, 200);
+        });
+      });
+    });
+
+    suite('ch5-button-list-button-useContractForNumItems-without-receiveStateNumberOfItems', () => {
+      let ch5ButtonList;
+      setup(() => {
+        ch5ButtonList = fixture('ch5-button-list-button-useContractForNumItems-without-receiveStateNumberOfItems');
+      });
+
+      test('When useContractForNumItems is true', (done) => {
+        ch5ButtonList.setAttribute('useContractForNumItems', true);
+        const contractName = ch5ButtonList.getAttribute('contractName');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateNumberOfItems')).to.be.equal(`${contractName}.ListNumberOfItems`);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When useContractForNumItems is false', (done) => {
+        ch5ButtonList.setAttribute('useContractForNumItems', false);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateNumberOfItems')).to.be.equal(null);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When useContractForNumItems is invalid', (done) => {
+        ch5ButtonList.setAttribute('useContractForNumItems', 'invalid');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateNumberOfItems')).to.be.equal(null);
+            done();
+          }, 200);
+        });
+      });
+    });
+    suite('ch5-button-list-button-usecontractforshow', () => {
+      let ch5ButtonList;
+      setup(() => {
+        ch5ButtonList = fixture('ch5-button-list-button-usecontractforshow');
+      });
+
+      test('When usecontractforshow is true', (done) => {
+        ch5ButtonList.setAttribute('useContractForShow', true);
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateShow')).to.be.equal(`${contractName}.ListVisible`);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When usecontractforshow is false', (done) => {
+        ch5ButtonList.setAttribute('useContractForShow', false);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateShow')).to.be.equal('btnListShow');
+            done();
+          }, 200);
+        });
+      });
+
+      test('When usecontractforshow is invalid', (done) => {
+        ch5ButtonList.setAttribute('useContractForShow', 'invalid');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateShow')).to.be.equal('btnListShow');
+            done();
+          }, 200);
+        });
+      });
+
+    });
+
+    suite('ch5-button-list-button-usecontractforshow-without-receivestateshow', () => {
+      let ch5ButtonList;
+      setup(() => {
+        ch5ButtonList = fixture('ch5-button-list-button-usecontractforshow-without-receivestateshow');
+      });
+
+      test('When usecontractforshow is true', (done) => {
+        ch5ButtonList.setAttribute('useContractForShow', true);
+        const contractName = ch5ButtonList.getAttribute('contractname');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateShow')).to.be.equal(`${contractName}.ListVisible`);
+            done();
+          }, 200);
+        });
+      });
+      test('When usecontractforshow is false', (done) => {
+        ch5ButtonList.setAttribute('useContractForShow', false);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateShow')).to.be.equal(null);
+            done();
+          }, 200);
+        });
+      });
+
+      test('When usecontractforshow is invalid', (done) => {
+        ch5ButtonList.setAttribute('useContractForShow', 'invalid');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.getAttribute('receiveStateShow')).to.be.equal(null);
+            done();
+          }, 200);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

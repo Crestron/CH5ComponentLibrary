@@ -19,9 +19,20 @@
   <script>
     suite('ch5-color-picker-default-attributes-value', () => {
       let ch5ColorPicker;
+      const signalTypes = CrComLib.Ch5ColorPicker.SIGNAL_ATTRIBUTE_TYPES;
 
       setup(async () => {
         ch5ColorPicker = fixture('ch5-color-picker-default-attributes');
+      });
+
+      test('Check signal types', () => {
+        for (signal in signalTypes) {
+          if (signal.includes("sendevent")) {
+            expect(signalTypes[signal].direction).to.be.equal("event");
+          } else if (signal.includes("receivestate")) {
+            expect(signalTypes[signal].direction).to.be.equal("state");
+          }
+        }
       });
 
     });

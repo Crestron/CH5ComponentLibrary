@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
+</head>
+
+<body>
+    <test-fixture id="ch5-tab-button-default-contractname-attributes">
+        <template>
+            <ch5-tab-button indexId="idx" buttonType="info">
+                <ch5-tab-button-label>
+                    <template>
+                        {{idx}}
+                    </template>
+                </ch5-tab-button-label>
+            </ch5-tab-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-tab-button-tabPress-attributes">
+        <template>
+            <ch5-tab-button indexId="idx" buttonType="info" contractName="LivingRoom.AppleTV">
+                <ch5-tab-button-label>
+                    <template>
+                        {{idx}}
+                    </template>
+                </ch5-tab-button-label>
+            </ch5-tab-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-tab-button-tabPress-buttonpressed-attributes">
+        <template>
+            <ch5-tab-button indexId="idx" buttonType="info" contractName="LivingRoom.AppleTV" buttonpressed="true">
+                <ch5-tab-button-label>
+                    <template>
+                        {{idx}}
+                    </template>
+                </ch5-tab-button-label>
+            </ch5-tab-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-tab-button-useContractForEnable-attributes">
+        <template>
+            <ch5-tab-button indexId="idx" buttonType="info" contractName="LivingRoom.AppleTV"
+                receiveStateEnable="tabBtnEnable">
+                <ch5-tab-button-label>
+                    <template>
+                        {{idx}}
+                    </template>
+                </ch5-tab-button-label>
+            </ch5-tab-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-tab-button-useContractForEnable-attributes-without-receiveStateEnable">
+        <template>
+            <ch5-tab-button indexId="idx" buttonType="info" contractName="LivingRoom.AppleTV">
+                <ch5-tab-button-label>
+                    <template>
+                        {{idx}}
+                    </template>
+                </ch5-tab-button-label>
+            </ch5-tab-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-tab-button-default-contractname-usecontractforcustomclass-attributes">
+        <template>
+            <ch5-tab-button indexId="idx" buttonType="info" contractName="LivingRoom.AppleTV"
+                receiveStateCustomClass="tabBtnCustomClass">
+                <ch5-tab-button-label>
+                    <template>
+                        {{idx}}
+                    </template>
+                </ch5-tab-button-label>
+            </ch5-tab-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture
+        id="ch5-tab-button-default-contractname-usecontractforcustomclass-attributes-without-receiveStateCustomClass">
+        <template>
+            <ch5-tab-button indexId="idx" buttonType="info" contractName="LivingRoom.AppleTV">
+                <ch5-tab-button-label>
+                    <template>
+                        {{idx}}
+                    </template>
+                </ch5-tab-button-label>
+            </ch5-tab-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-tab-button-default-contractname-useContractForCustomStyle-attributes">
+        <template>
+            <ch5-tab-button indexId="idx" buttonType="info" contractName="LivingRoom.AppleTV"
+                receiveStateCustomStyle="tabBtnCustomStyle">
+                <ch5-tab-button-label>
+                    <template>
+                        {{idx}}
+                    </template>
+                </ch5-tab-button-label>
+            </ch5-tab-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture
+        id="ch5-tab-button-default-contractname-useContractForCustomStyle-attributeswithout-receiveStateCustomStyle">
+        <template>
+            <ch5-tab-button indexId="idx" buttonType="info" contractName="LivingRoom.AppleTV">
+                <ch5-tab-button-label>
+                    <template>
+                        {{idx}}
+                    </template>
+                </ch5-tab-button-label>
+            </ch5-tab-button>
+        </template>
+    </test-fixture>
+    <test-fixture id="ch5-tab-button-useContractForShow-attributes">
+        <template>
+            <ch5-tab-button indexId="idx" buttonType="info" contractName="LivingRoom.AppleTV"
+                receiveStateShow="tabBtnShow">
+                <ch5-tab-button-label>
+                    <template>
+                        {{idx}}
+                    </template>
+                </ch5-tab-button-label>
+            </ch5-tab-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-tab-button-useContractForShow-attributes-without-receiveStateShow">
+        <template>
+            <ch5-tab-button indexId="idx" buttonType="info" contractName="LivingRoom.AppleTV">
+                <ch5-tab-button-label>
+                    <template>
+                        {{idx}}
+                    </template>
+                </ch5-tab-button-label>
+            </ch5-tab-button>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-tab-button-default-contractname-attributes', () => {
+            let ch5TabButton;
+            setup(() => {
+                ch5TabButton = fixture('ch5-tab-button-default-contractname-attributes');
+            });
+
+            const contractValues = ['LivingRoom.AppleTV', 'House', 'Home', 'Office'];
+            contractValues.forEach(ele => {
+                test('Check for the buttonReceiveStateSelected attribute', (done) => {
+                    ch5TabButton.setAttribute('contractname', ele);
+                    const contractName = ch5TabButton.getAttribute('contractname');
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5TabButton.querySelector('ch5-button').getAttribute('receiveStateSelected')).to.be.equal(`${contractName}.Tab1_Selected`);
+                            expect(ch5TabButton.querySelectorAll('ch5-button')[1].getAttribute('receiveStateSelected')).to.be.equal(`${contractName}.Tab2_Selected`);
+                            done();
+                        }, 200);
+                    });
+                });
+            })
+        });
+
+        suite('ch5-tab-button-tabPress-attributes', () => {
+            let ch5TabButton;
+            setup(() => {
+                ch5TabButton = fixture('ch5-tab-button-tabPress-attributes');
+            });
+
+            test('When the tab button is not pressed', (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.querySelector('ch5-button').pressed).to.be.equal(false);
+                        done();
+                    }, 200);
+                });
+            });
+
+            test('When the tab button is pressed', (done) => {
+                ch5TabButton.setAttribute('buttonpressed', true);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.querySelector('ch5-button').firstChild.classList.contains('ch5-tab-button--pressed')).to.be.equal(true);
+                        done();
+                    }, 100);
+                });
+            });
+        });
+
+        suite('ch5-tab-button-tabPress-buttonpressed-attributes', () => {
+            let ch5TabButton;
+            setup(() => {
+                ch5TabButton = fixture('ch5-tab-button-tabPress-buttonpressed-attributes');
+            });
+            test('When the tab button is pressed', (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.querySelector('ch5-button').firstChild.classList.contains('ch5-tab-button--pressed')).to.be.equal(true);
+                        done();
+                    }, 200);
+                });
+            });
+        });
+
+        suite('ch5-tab-button-useContractForEnable-attributes', () => {
+            let ch5TabButton;
+            setup(() => {
+                ch5TabButton = fixture('ch5-tab-button-useContractForEnable-attributes');
+            });
+            test('When useContractForEnable is true', (done) => {
+                ch5TabButton.setAttribute('useContractForEnable', true);
+                const contractName = ch5TabButton.getAttribute('contractname');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateEnable')).to.be.equal(`${contractName}.Enable`);
+                        done();
+                    }, 200);
+                });
+            });
+
+            test('When useContractForEnable is false', (done) => {
+                ch5TabButton.setAttribute('useContractForEnable', false);
+                const contractName = ch5TabButton.getAttribute('contractname');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateEnable')).to.be.equal(`tabBtnEnable`);
+                        done();
+                    }, 200);
+                });
+            });
+
+            test('When useContractForEnable is invalid', (done) => {
+                ch5TabButton.setAttribute('useContractForEnable', 'invalid');
+                const contractName = ch5TabButton.getAttribute('contractname');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateEnable')).to.be.equal(`tabBtnEnable`);
+                        done();
+                    }, 200);
+                });
+            });
+        });
+
+        suite('ch5-tab-button-useContractForEnable-attributes-without-receiveStateEnable', () => {
+            let ch5TabButton;
+            setup(() => {
+                ch5TabButton = fixture('ch5-tab-button-useContractForEnable-attributes-without-receiveStateEnable');
+            });
+
+            test('When useContractForEnable is true', (done) => {
+                ch5TabButton.setAttribute('useContractForEnable', true);
+                const contractName = ch5TabButton.getAttribute('contractname');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateEnable')).to.be.equal(`${contractName}.Enable`);
+                        done();
+                    }, 200);
+                });
+            });
+            test('When useContractForEnable is false', (done) => {
+                ch5TabButton.setAttribute('useContractForEnable', false);
+                const contractName = ch5TabButton.getAttribute('contractname');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateEnable')).to.be.equal(null);
+                        done();
+                    }, 200);
+                });
+            });
+
+            test('When useContractForEnable is invalid', (done) => {
+                ch5TabButton.setAttribute('useContractForEnable', 'invalid');
+                const contractName = ch5TabButton.getAttribute('contractname');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateEnable')).to.be.equal(null);
+                        done();
+                    }, 200);
+                });
+            });
+        });
+
+        suite('ch5-tab-button-default-contractname-usecontractforcustomclass-attributes', () => {
+            let ch5TabButton;
+            setup(() => {
+                ch5TabButton = fixture('ch5-tab-button-default-contractname-usecontractforcustomclass-attributes');
+            });
+
+            test('When useContractForCustomClass is true', (done) => {
+                ch5TabButton.setAttribute('useContractForCustomClass', true);
+                const contractName = ch5TabButton.getAttribute('contractName')
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateCustomClass')).to.be.equal(`${contractName}.CustomClass`);
+                        done();
+                    }, 200);
+                });
+            });
+
+            test('When useContractForCustomClass is false', (done) => {
+                ch5TabButton.setAttribute('useContractForCustomClass', false);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateCustomClass')).to.be.equal('tabBtnCustomClass');
+                        done();
+                    }, 200);
+                });
+            });
+
+            test('When useContractForCustomClass is invalid', (done) => {
+                ch5TabButton.setAttribute('useContractForCustomClass', 'invalid');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateCustomClass')).to.be.equal('tabBtnCustomClass');
+                        done();
+                    }, 200);
+                });
+            });
+        });
+
+        suite('ch5-tab-button-default-contractname-usecontractforcustomclass-attributes-without-receiveStateCustomClass', () => {
+            let ch5TabButton;
+            setup(() => {
+                ch5TabButton = fixture('ch5-tab-button-default-contractname-usecontractforcustomclass-attributes-without-receiveStateCustomClass');
+            });
+
+            test('When useContractForCustomClass is true', (done) => {
+                ch5TabButton.setAttribute('useContractForCustomClass', true);
+                const contractName = ch5TabButton.getAttribute('contractName')
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateCustomClass')).to.be.equal(`${contractName}.CustomClass`);
+                        done();
+                    }, 200);
+                });
+            });
+            test('When useContractForCustomClass is false', (done) => {
+                ch5TabButton.setAttribute('useContractForCustomClass', false);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateCustomClass')).to.be.equal(null);
+                        done();
+                    }, 200);
+                });
+            });
+
+            test('When useContractForCustomClass is invalid', (done) => {
+                ch5TabButton.setAttribute('useContractForCustomClass', 'invalid');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateCustomClass')).to.be.equal(null);
+                        done();
+                    }, 200);
+                });
+            });
+        });
+
+        suite('ch5-tab-button-default-contractname-useContractForCustomStyle-attributes', () => {
+            let ch5TabButton;
+            setup(() => {
+                ch5TabButton = fixture('ch5-tab-button-default-contractname-useContractForCustomStyle-attributes');
+            });
+
+            test('When useContractForCustomStyle is true', (done) => {
+                ch5TabButton.setAttribute('useContractForCustomStyle', true);
+                const contractName = ch5TabButton.getAttribute('contractName');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateCustomStyle')).to.be.equal(`${contractName}.CustomStyle`);
+                        done();
+                    }, 200);
+                });
+            });
+            test('When useContractForCustomStyle is false', (done) => {
+                ch5TabButton.setAttribute('useContractForCustomStyle', false);
+                const contractName = ch5TabButton.getAttribute('contractName');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateCustomStyle')).to.be.equal(`tabBtnCustomStyle`);
+                        done();
+                    }, 200);
+                });
+            });
+            test('When useContractForCustomStyle is invalid', (done) => {
+                ch5TabButton.setAttribute('useContractForCustomStyle', 'invalid');
+                const contractName = ch5TabButton.getAttribute('contractName');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateCustomStyle')).to.be.equal(`tabBtnCustomStyle`);
+                        done();
+                    }, 200);
+                });
+            });
+        });
+
+        suite('ch5-tab-button-default-contractname-useContractForCustomStyle-attributeswithout-receiveStateCustomStyle', () => {
+            let ch5TabButton;
+            setup(() => {
+                ch5TabButton = fixture('ch5-tab-button-default-contractname-useContractForCustomStyle-attributeswithout-receiveStateCustomStyle');
+            });
+            test('When useContractForCustomStyle is true', (done) => {
+                ch5TabButton.setAttribute('useContractForCustomStyle', true);
+                const contractName = ch5TabButton.getAttribute('contractName');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateCustomStyle')).to.be.equal(`${contractName}.CustomStyle`);
+                        done();
+                    }, 200);
+                });
+            });
+            test('When useContractForCustomStyle is false', (done) => {
+                ch5TabButton.setAttribute('useContractForCustomStyle', false);
+                const contractName = ch5TabButton.getAttribute('contractName');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateCustomStyle')).to.be.equal(null);
+                        done();
+                    }, 200);
+                });
+            });
+            test('When useContractForCustomStyle is invalid', (done) => {
+                ch5TabButton.setAttribute('useContractForCustomStyle', 'invalid');
+                const contractName = ch5TabButton.getAttribute('contractName');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateCustomStyle')).to.be.equal(null);
+                        done();
+                    }, 200);
+                });
+            });
+        });
+
+        suite('ch5-tab-button-useContractForShow-attributes', () => {
+            let ch5TabButton;
+            setup(() => {
+                ch5TabButton = fixture('ch5-tab-button-useContractForShow-attributes');
+            });
+
+            test('When receiveStateShow is true', (done) => {
+                ch5TabButton.setAttribute('useContractForShow', true);
+                const contractName = ch5TabButton.getAttribute('contractName');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateShow')).to.be.equal(`${contractName}.Visible`);
+                        done();
+                    }, 200);
+                });
+            });
+
+            test('When receiveStateShow is false', (done) => {
+                ch5TabButton.setAttribute('useContractForShow', false);
+                const contractName = ch5TabButton.getAttribute('contractName');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateShow')).to.be.equal('tabBtnShow');
+                        done();
+                    }, 200);
+                });
+            });
+
+            test('When receiveStateShow is invalid', (done) => {
+                ch5TabButton.setAttribute('useContractForShow', 'invalid');
+                const contractName = ch5TabButton.getAttribute('contractName');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateShow')).to.be.equal('tabBtnShow');
+                        done();
+                    }, 200);
+                });
+            });
+        });
+
+        suite('ch5-tab-button-useContractForShow-attributes-without-receiveStateShow', () => {
+            let ch5TabButton;
+            setup(() => {
+                ch5TabButton = fixture('ch5-tab-button-useContractForShow-attributes-without-receiveStateShow');
+            });
+
+            test('When receiveStateShow is true', (done) => {
+                ch5TabButton.setAttribute('useContractForShow', true);
+                const contractName = ch5TabButton.getAttribute('contractName');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateShow')).to.be.equal(`${contractName}.Visible`);
+                        done();
+                    }, 200);
+                });
+            });
+
+            test('When receiveStateShow is false', (done) => {
+                ch5TabButton.setAttribute('useContractForShow', false);
+                const contractName = ch5TabButton.getAttribute('contractName');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateShow')).to.be.equal(null);
+                        done();
+                    }, 200);
+                });
+            });
+
+            test('When receiveStateShow is invalid', (done) => {
+                ch5TabButton.setAttribute('useContractForShow', 'invalid');
+                const contractName = ch5TabButton.getAttribute('contractName');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5TabButton.getAttribute('receiveStateShow')).to.be.equal(null);
+                        done();
+                    }, 200);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

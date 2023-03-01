@@ -19,6 +19,7 @@
   <script>
     suite('ch5-signal-level-gauge-default-attributes-value', () => {
       let ch5SignalLevelGauge;
+      const signalTypes = CrComLib.Ch5SignalLevelGauge.SIGNAL_ATTRIBUTE_TYPES;
 
       setup(async () => {
         ch5SignalLevelGauge = fixture('ch5-signal-level-gauge-default-attributes');
@@ -40,6 +41,16 @@
         expect(ch5SignalLevelGauge.getAttribute("size")).to.be.equal('regular');
         ch5SignalLevelGauge.removeAttribute("size");
         expect(ch5SignalLevelGauge.getAttribute("size")).to.be.equal('regular');
+      });
+
+      test('Check signal types', () => {
+        for (signal in signalTypes) {
+          if (signal.includes("sendevent")) {
+            expect(signalTypes[signal].direction).to.be.equal("event");
+          } else if (signal.includes("receivestate")) {
+            expect(signalTypes[signal].direction).to.be.equal("state");
+          }
+        }
       });
     });
   </script>
