@@ -1481,7 +1481,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       btnContainer.setAttribute('data-ch5-show', this.contractName + `.Button${index + 1}Visible`);
       btnContainer.setAttribute('data-ch5-noshow-type', 'display');
     } else {
-      if (this.hasAttribute('buttonReceiveStateShow') && this.getAttribute("buttonReceiveStateShow")?.trim() && !this.hasAttribute('receiveStateShow')) {
+      if (this.hasAttribute('buttonReceiveStateShow') && this.getAttribute("buttonReceiveStateShow")?.trim()) {
         const attrValue = this.replaceAll(this.getAttribute("buttonReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, '');
         const isNumber = /^[0-9]+$/.test(attrValue);
         if (isNumber) {
@@ -1489,9 +1489,6 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
         } else {
           btnContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("buttonReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
         }
-        btnContainer.setAttribute('data-ch5-noshow-type', 'display');
-      } else if (this.hasAttribute('receiveStateShow')) {
-        btnContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("receiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
         btnContainer.setAttribute('data-ch5-noshow-type', 'display');
       }
     }
@@ -1633,13 +1630,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
             }
           }
         } else {
-          if (attr.name.toLowerCase() === 'buttonreceivestateshow' && this.hasAttribute('receivestateshow')) {
-            btn.setAttribute('receivestateshow', this.getAttribute('receivestateshow') + '');
-          }
-          else if (attr.name.toLowerCase() === 'buttonreceivestateenable' && this.hasAttribute('receivestateenable')) {
-            btn.setAttribute('receivestateenable', this.getAttribute('receivestateenable') + '');
-          }
-          else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+          if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
             if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
               const attrValue = this.getAttribute(attr.name)?.trim();
               if (attrValue) {
@@ -1657,13 +1648,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
           }
         }
       } else {
-        if (attr.name.toLowerCase() === 'buttonreceivestateshow' && this.hasAttribute('receivestateshow')) {
-          btn.setAttribute('receivestateshow', this.getAttribute('receivestateshow') + '');
-        }
-        else if (attr.name.toLowerCase() === 'buttonreceivestateenable' && this.hasAttribute('receivestateenable')) {
-          btn.setAttribute('receivestateenable', this.getAttribute('receivestateenable') + '');
-        }
-        else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+        if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
           if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
             const attrValue = this.getAttribute(attr.name)?.trim();
             if (attrValue) {
@@ -1737,27 +1722,19 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     if (this.useContractForItemEnable === true) {
       btn.setAttribute('receiveStateEnable', this.contractName + `.Button${index + 1}Enabled`);
     } else if (this.hasAttribute('buttonReceiveStateEnable') && this.getAttribute('buttonReceiveStateEnable')?.trim()) {
-      if (this.hasAttribute('receiveStateEnable') && this.getAttribute('receiveStateEnable')?.trim()) {
-        btn.setAttribute('receiveStateEnable', this.getAttribute('receiveStateEnable')?.trim() + '')
-      } else {
-        this.indexIdReplaceHelper(btn, 'buttonReceiveStateEnable', index);
-      }
+      this.indexIdReplaceHelper(btn, 'buttonReceiveStateEnable', index);
     }
 
     if (this.useContractForItemShow === true) {
       btn.setAttribute('receiveStateShow', this.contractName + `.Button${index + 1}Visible`);
     } else if (this.hasAttribute('buttonReceiveStateShow') && this.getAttribute('buttonReceiveStateShow')?.trim()) {
-      if (this.hasAttribute('receiveStateShow') && this.getAttribute('receiveStateShow')?.trim()) {
-        btn.setAttribute('receiveStateShow', this.getAttribute('receiveStateShow')?.trim() + '')
-      } else {
-        this.indexIdReplaceHelper(btn, 'buttonReceiveStateShow', index);
-      }
+      this.indexIdReplaceHelper(btn, 'buttonReceiveStateShow', index);
     }
 
     if (this.contractItemIconType === "iconClass") {
       btn.setAttribute('receiveStateIconClass', this.contractName + `.Button${index + 1}IconClass`);
     } else if (this.contractItemIconType === "url") {
-      btn.setAttribute('receiveStateIconUrl', this.contractName + `.Button${index + 1}IconUrl`);
+      btn.setAttribute('receiveStateIconUrl', this.contractName + `.Button${index + 1}IconURL`);
       // } else if (this.contractItemIconType === "sgStateNumber") {
       //   btn.setAttribute('', this.contractName + `.Button${index + 1}IconAnalog`);
       // } else if (this.contractItemIconType === "sgStateName") {
