@@ -1284,7 +1284,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
       if (this.useContractForShow === true) {
         this.receiveStateShow = this.contractName + '.List_Visible';
-      } {
+      } else {
         this.receiveStateShow = this.previousSignalValues.receiveStateShow;
       }
 
