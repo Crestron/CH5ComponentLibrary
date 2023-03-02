@@ -1186,24 +1186,35 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     const spgContainer = document.createElement("div");
     spgContainer.setAttribute('id', this.getCrId() + '-' + index);
     if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined && this.useContractForItemShow === true) {
-      spgContainer.setAttribute('data-ch5-show', this.contractName + `.List_Item${index + 1}_Visible`);
       spgContainer.setAttribute('data-ch5-noshow-type', 'display');
+      spgContainer.setAttribute('data-ch5-show', this.contractName + `.List_Item${index + 1}_Visible`);
     } else {
-      if (this.hasAttribute('subpageReceiveStateShow') && this.getAttribute("subpageReceiveStateShow")?.trim()) {
+      if (this.getAttribute('subpageReceiveStateShow')?.trim().includes(`{{${this.indexId}}}`) === false) {
+        const attrValue = this.getAttribute('subpageReceiveStateShow')?.trim();
+        if (attrValue) {
+          spgContainer.setAttribute('data-ch5-noshow-type', 'display');
+          spgContainer.setAttribute('data-ch5-show', attrValue.trim());
+        }
+      } else if (this.hasAttribute('subpageReceiveStateShow') && this.getAttribute("subpageReceiveStateShow")?.trim()) {
         const attrValue = this.replaceAll(this.getAttribute("subpageReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, '');
         const isNumber = /^[0-9]+$/.test(attrValue);
+        spgContainer.setAttribute('data-ch5-noshow-type', 'display');
         if (isNumber) {
           spgContainer.setAttribute('data-ch5-show', Number(attrValue) + index + '');
         } else {
           spgContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("subpageReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
         }
-        spgContainer.setAttribute('data-ch5-noshow-type', 'display');
       }
     }
     if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined && this.useContractForItemEnable === true) {
       spgContainer.setAttribute('data-ch5-enable', this.contractName + `.List_Item${index + 1}_Enable`);
     } else {
-      if (this.hasAttribute('subpageReceiveStateEnable') && this.getAttribute("subpageReceiveStateEnable")?.trim() && !this.hasAttribute('receiveStateEnable')) {
+      if (this.getAttribute('subpageReceiveStateEnable')?.trim().includes(`{{${this.indexId}}}`) === false) {
+        const attrValue = this.getAttribute('subpageReceiveStateEnable')?.trim();
+        if (attrValue) {
+          spgContainer.setAttribute('data-ch5-enable', attrValue.trim());
+        }
+      } else if (this.hasAttribute('subpageReceiveStateEnable') && this.getAttribute("subpageReceiveStateEnable")?.trim() && !this.hasAttribute('receiveStateEnable')) {
         const attrValue = this.replaceAll(this.getAttribute("subpageReceiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, '');
         const isNumber = /^[0-9]+$/.test(attrValue);
         if (isNumber) {
