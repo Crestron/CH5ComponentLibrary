@@ -1056,7 +1056,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
 
     const template = document.getElementById(this.widgetId) as HTMLTemplateElement;
-  
+
     if (!(isNil(template))) {
       this._templateElement = template as HTMLTemplateElement;
     } else {
@@ -1133,7 +1133,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       spgContainer.setAttribute('data-ch5-show', this.contractName + `.List_Item${index + 1}_Visible`);
       spgContainer.setAttribute('data-ch5-noshow-type', 'display');
     } else {
-      if (this.hasAttribute('subpageReceiveStateShow') && this.getAttribute("subpageReceiveStateShow")?.trim() && !this.hasAttribute('receiveStateShow')) {
+      if (this.hasAttribute('subpageReceiveStateShow') && this.getAttribute("subpageReceiveStateShow")?.trim()) {
         const attrValue = this.replaceAll(this.getAttribute("subpageReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, '');
         const isNumber = /^[0-9]+$/.test(attrValue);
         if (isNumber) {
@@ -1141,9 +1141,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         } else {
           spgContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("subpageReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
         }
-        spgContainer.setAttribute('data-ch5-noshow-type', 'display');
-      } else if (this.hasAttribute('receiveStateShow')) {
-        spgContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("receiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
         spgContainer.setAttribute('data-ch5-noshow-type', 'display');
       }
     }
@@ -1204,7 +1201,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
     this.debounceSubpageDisplay();
   }
-  
+
   private contractDefaultHelper() {
     if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
 
