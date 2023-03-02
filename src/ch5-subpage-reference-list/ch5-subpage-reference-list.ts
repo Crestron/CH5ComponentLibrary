@@ -9,7 +9,8 @@ import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { resizeObserver } from "../ch5-core/resize-observer";
 import { Ch5AugmentVarSignalsNames } from '../ch5-common/ch5-augment-var-signals-names';
 import { subscribeInViewPortChange, unSubscribeInViewPortChange } from '../ch5-core';
-import { async } from "rxjs";
+import { ch5subpageReferenceListSubject } from "./refresh-ch5-subpage-reference-list";
+import { Subscription } from "rxjs";
 
 export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageReferenceListAttributes {
 
@@ -328,6 +329,10 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   private containerHeight: number = 0;
   private containerWidth: number = 0;
   private reInit: boolean = true;
+  /**
+   * The subscription id of listener for refresh 
+   */
+  private _refreshSubId: Subscription | null = null;
 
   private previousSignalValues = {
     contractName: "",
@@ -689,7 +694,54 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         this.debounceInitScrollBar();
       }
     });
+
+    this.listenForCh5SubpageReferenceListRefreshRequests();
     this.logger.stop();
+  }
+  /**
+   * function to setup a subscription for a change 
+   * This functionality is primarily to support CCIDE update the template definition after a template 
+   * instance has been put onto the CCIDE canvas. 
+   * The implemetnation is 'good enough' for design time to show updated widget, but in a runtime environment,
+   * it will leak references over time. 
+   */
+  private listenForCh5SubpageReferenceListRefreshRequests() {
+    this.info('Ch5SubpageReferenceList.listenForCh5SubpageReferenceListRefreshRequests()');
+
+    this._refreshSubId = ch5subpageReferenceListSubject.subscribe((ch5SubpageReferenceListId: string) => {
+      this.info(`Ch5SubpageReferenceList.listenForCh5SubpageReferenceListRefreshRequests() new request for ${ch5SubpageReferenceListId}`);
+
+      if (!this.shouldRefresh(ch5SubpageReferenceListId)) {
+        return;
+      }
+
+      this.initializations(true);
+    });
+  }
+
+  private shouldRefresh(id: string) {
+    this.info(`Ch5SubpageReferenceList.shouldRefresh() got called for id ${id}`);
+    return this.getAttribute('widgetId') === id;
+  }
+
+  private initializations(force?: boolean): void {
+
+    this.info(`Ch5SubpageReferenceList.initializations(${force === true})`);
+
+    if (force === true || !this.widgetId) {
+      if (this._elContainer.parentElement !== this) {
+        this._elContainer.classList.add('ch5-subpage-reference-list');
+        this.appendChild(this._elContainer);
+      }
+      this.checkInternalHTML();
+      this.attachEventListeners();
+      this.initAttributes();
+      this.handleWidgetID();
+      this.initCommonMutationObserver(this);
+      this.debounceSubpageDisplay();
+      this.info('Ch5Template --- Initialization Finished');
+    }
+
   }
 
   public disconnectedCallback() {
@@ -697,7 +749,11 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.removeEventListeners();
     this.unsubscribeFromSignals();
     unSubscribeInViewPortChange(this);
-    this.reInitialize()
+    this.reInitialize();
+    if (this._refreshSubId !== null) {
+      this._refreshSubId.unsubscribe();
+      this._refreshSubId = null;
+    }
     this.logger.stop();
   }
 
@@ -1207,22 +1263,32 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
       if (this.useContractForCustomStyle === true) {
         this.receiveStateCustomStyle = this.contractName + '.CustomStyle';
+      } else {
+        this.receiveStateCustomStyle = this.previousSignalValues.receiveStateCustomStyle;
       }
 
       if (this.useContractForCustomClass === true) {
         this.receiveStateCustomClass = this.contractName + '.CustomClass';
+      } else {
+        this.receiveStateCustomClass = this.previousSignalValues.receiveStateCustomClass;
       }
 
       if (this.useContractForEnable === true) {
         this.receiveStateEnable = this.contractName + '.List_Enable';
+      } else {
+        this.receiveStateEnable = this.previousSignalValues.receiveStateEnable;
       }
 
       if (this.useContractForShow === true) {
         this.receiveStateShow = this.contractName + '.List_Visible';
+      } else {
+        this.receiveStateShow = this.previousSignalValues.receiveStateShow;
       }
 
       if (this.useContractForNumItems === true) {
         this.receiveStateNumberOfItems = this.contractName + `.Set_Number_Of_Items`;
+      } else {
+        this.receiveStateNumberOfItems = this.previousSignalValues.receiveStateNumberOfItems;
       }
       this.subpageReceiveStateScrollTo = this.contractName + `.ListScrollToItem`;
     }
