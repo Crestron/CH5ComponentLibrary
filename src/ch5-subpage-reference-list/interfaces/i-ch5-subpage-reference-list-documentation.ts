@@ -78,6 +78,31 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  *       "\tindexId=\"${26:}\">",
  *       "</ch5-subpage-reference-list>$0"
  *       ]
+ *    },
+ *    {
+ *      "prefix": "ch5-subpage-reference-list:contractbased",
+ *      "description": "Crestron Subpage Reference List",
+ *      "body": [
+ *        "<ch5-subpage-reference-list id=\"ch5-subpage-reference-list_${1:id}\"",
+ *        "\tcontractName=\"${2:}\">",
+ *        "</ch5-subpage-reference-list>$0"
+ *        ]
+ *    },
+ *    {
+ *      "prefix": "ch5-subpage-reference-list:contractbased-attributes",
+ *      "description": "Crestron Button List",
+ *      "body": [
+ *        "<ch5-subpage-reference-list id=\"ch5-subpage-reference-list_${1:id}\"",
+ *        "\tcontractName=\"${2:}\"",
+ *        "\tuseContractForEnable=\"${3:false}\"",
+ *        "\tuseContractForShow=\"${4:false}\"",
+ *        "\tuseContractForItemEnable=\"${5:false}\"",
+ *        "\tuseContractForItemShow=\"${6:false}\"",
+ *        "\tuseContractForCustomStyle=\"${7:false}\"",
+ *        "\tuseContractForCustomClass=\"${8:false}\"",
+ *        "\tuseContractForNumItems=\"${9:false}\">",
+ *        "</ch5-subpage-reference-list>$0"
+ *        ]
  *    }
  *  ]
  */
