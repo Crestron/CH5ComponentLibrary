@@ -32,6 +32,7 @@
   <script>
     suite('ch5-animation-default-attributes-value', () => {
       let ch5Animation;
+      const signalTypes = CrComLib.Ch5Animation.SIGNAL_ATTRIBUTE_TYPES;
       setup(async () => {
         ch5Animation = fixture('ch5-animation-default-attributes');
       });
@@ -42,6 +43,16 @@
         expect(ch5Animation.getAttribute("size")).to.be.equal('regular');
         ch5Animation.removeAttribute("size");
         expect(ch5Animation.getAttribute("size")).to.be.equal('regular');
+      });
+
+      test('Check signal types', () => {
+        for (signal in signalTypes) {
+          if (signal.includes("sendevent")) {
+            expect(signalTypes[signal].direction).to.be.equal("event");
+          } else if (signal.includes("receivestate")) {
+            expect(signalTypes[signal].direction).to.be.equal("state");
+          }
+        }
       });
     });
     suite('ch5-animation-receivestateAnimate-override-startAnimating', () => {

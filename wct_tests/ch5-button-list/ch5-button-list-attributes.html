@@ -19,6 +19,7 @@
   <script>
     suite('ch5-button-list-default-attributes-value', () => {
       let ch5ButtonList;
+      const signalTypes = CrComLib.Ch5ButtonList.SIGNAL_ATTRIBUTE_TYPES;
 
       setup(async () => {
         ch5ButtonList = fixture('ch5-button-list-default-attributes');
@@ -79,6 +80,16 @@
         expect(ch5ButtonList.getAttribute("buttonShape")).to.be.equal('rectangle');
         ch5ButtonList.removeAttribute("buttonShape");
         expect(ch5ButtonList.getAttribute("buttonShape")).to.be.equal('rectangle');
+      });
+
+      test('Check signal types', () => {
+        for (signal in signalTypes) {
+          if (signal.includes("sendevent")) {
+            expect(signalTypes[signal].direction).to.be.equal("event");
+          } else if (signal.includes("receivestate")) {
+            expect(signalTypes[signal].direction).to.be.equal("state");
+          }
+        }
       });
 
     });

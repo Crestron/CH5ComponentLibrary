@@ -20,6 +20,7 @@
   <script>
     suite('ch5-tab-button-default-attributes-value', () => {
       let ch5TabButton;
+      const signalTypes = CrComLib.Ch5TabButton.SIGNAL_ATTRIBUTE_TYPES;
 
       setup(async () => {
         ch5TabButton = fixture('ch5-tab-button-default-attributes');
@@ -72,6 +73,16 @@
         expect(ch5TabButton.getAttribute("buttonShape")).to.be.equal('rectangle');
         ch5TabButton.removeAttribute("buttonShape");
         expect(ch5TabButton.getAttribute("buttonShape")).to.be.equal('rectangle');
+      });
+
+      test('Check signal types', () => {
+        for (signal in signalTypes) {
+          if (signal.includes("sendevent")) {
+            expect(signalTypes[signal].direction).to.be.equal("event");
+          } else if (signal.includes("receivestate")) {
+            expect(signalTypes[signal].direction).to.be.equal("state");
+          }
+        }
       });
 
     });

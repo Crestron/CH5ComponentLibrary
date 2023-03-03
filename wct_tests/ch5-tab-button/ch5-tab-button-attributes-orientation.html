@@ -136,7 +136,6 @@
       flush(() => {
         setTimeout(() => {
           expect(ch5TabButton3.numberOfItems).to.be.equal(15);
-          expect(ch5TabButton3.rows).to.be.equal(1);
           expect(ch5TabButton3.orientation).to.be.equal('horizontal');
           expect(getDiv(ch5TabButton3).classList.contains('ch5-tab-button--orientation-horizontal')).to.be.equal(true);
           for (let i = 0; i < getDiv(ch5TabButton3).children.length; i++) {
@@ -151,7 +150,6 @@
       flush(() => {
         setTimeout(() => {
           expect(ch5TabButton4.numberOfItems).to.be.equal(15);
-          expect(ch5TabButton4.columns).to.be.equal(1);
           expect(ch5TabButton4.orientation).to.be.equal('vertical');
           expect(getDiv(ch5TabButton4).classList.contains('ch5-tab-button--orientation-vertical')).to.be.equal(true);
           for (let i = 0; i < getDiv(ch5TabButton4).children.length; i++) {

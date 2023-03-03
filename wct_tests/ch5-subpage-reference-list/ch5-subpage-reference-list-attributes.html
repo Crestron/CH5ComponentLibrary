@@ -19,9 +19,20 @@
   <script>
     suite('ch5-subpage-reference-list-default-attributes-value', () => {
       let ch5SubpageReferenceList;
+      const signalTypes = CrComLib.Ch5SubpageReferenceList.SIGNAL_ATTRIBUTE_TYPES;
 
       setup(async () => {
         ch5SubpageReferenceList = fixture('ch5-subpage-reference-list-default-attributes');
+      });
+
+      test('Check signal types', () => {
+        for (signal in signalTypes) {
+          if (signal.includes("sendevent")) {
+            expect(signalTypes[signal].direction).to.be.equal("event");
+          } else if (signal.includes("receivestate")) {
+            expect(signalTypes[signal].direction).to.be.equal("state");
+          }
+        }
       });
 
     });
