@@ -1478,18 +1478,24 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
     if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined && this.useContractForItemShow === true) {
-      btnContainer.setAttribute('data-ch5-show', this.contractName + `.Button${index + 1}Visible`);
       btnContainer.setAttribute('data-ch5-noshow-type', 'display');
+      btnContainer.setAttribute('data-ch5-show', this.contractName + `.Button${index + 1}Visible`);
     } else {
-      if (this.hasAttribute('buttonReceiveStateShow') && this.getAttribute("buttonReceiveStateShow")?.trim()) {
+      if (this.getAttribute('buttonReceiveStateShow')?.trim().includes(`{{${this.indexId}}}`) === false) {
+        const attrValue = this.getAttribute('buttonReceiveStateShow')?.trim();
+        if (attrValue) {
+          btnContainer.setAttribute('data-ch5-noshow-type', 'display');
+          btnContainer.setAttribute('data-ch5-show', attrValue.trim());
+        }
+      } else if (this.hasAttribute('buttonReceiveStateShow') && this.getAttribute("buttonReceiveStateShow")?.trim()) {
         const attrValue = this.replaceAll(this.getAttribute("buttonReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, '');
         const isNumber = /^[0-9]+$/.test(attrValue);
+        btnContainer.setAttribute('data-ch5-noshow-type', 'display');
         if (isNumber) {
           btnContainer.setAttribute('data-ch5-show', Number(attrValue) + index + '');
         } else {
           btnContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("buttonReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
         }
-        btnContainer.setAttribute('data-ch5-noshow-type', 'display');
       }
     }
     btnContainer.classList.add(this.nodeName.toLowerCase() + "--button-container");
