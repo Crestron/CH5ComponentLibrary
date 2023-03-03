@@ -1214,7 +1214,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         if (attrValue) {
           spgContainer.setAttribute('data-ch5-enable', attrValue.trim());
         }
-      } else if (this.hasAttribute('subpageReceiveStateEnable') && this.getAttribute("subpageReceiveStateEnable")?.trim() && !this.hasAttribute('receiveStateEnable')) {
+      } else if (this.hasAttribute('subpageReceiveStateEnable') && this.getAttribute("subpageReceiveStateEnable")?.trim()) {
         const attrValue = this.replaceAll(this.getAttribute("subpageReceiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, '');
         const isNumber = /^[0-9]+$/.test(attrValue);
         if (isNumber) {
@@ -1222,8 +1222,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         } else {
           spgContainer.setAttribute('data-ch5-enable', this.replaceAll(this.getAttribute("subpageReceiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, index + ''));
         }
-      } else if (this.hasAttribute('receiveStateEnable')) {
-        spgContainer.setAttribute('data-ch5-enable', this.replaceAll(this.getAttribute("receiveStateEnable")?.trim() + '', `{{${this.indexId}}}`, index + ''));
       }
     }
     spgContainer.classList.add(this.nodeName.toLowerCase() + "--subpage-container");
