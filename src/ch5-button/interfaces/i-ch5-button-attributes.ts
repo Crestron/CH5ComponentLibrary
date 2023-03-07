@@ -16,7 +16,8 @@ import {
   TCh5ButtonActionType,
   TCh5ButtonHorizontalAlignLabel,
   TCh5ButtonVerticalAlignLabel,
-  TCh5ButtonCheckboxPosition
+  TCh5ButtonCheckboxPosition,
+  TCh5ButtonBackgroundImageSize
 } from "./t-ch5-button";
 
 /**
@@ -441,4 +442,90 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @attributeType "Boolean"
    */
   pressed: boolean;
+
+  /**
+   * @documentation
+   * [
+   * "`backgroundImageUrl` attribute",
+   * "***",
+   * "BackgroundImageUrl"
+   * ]
+   * @name backgroundimageurl
+   * @default 
+   * @attributeType "String"
+   */
+   backgroundImageUrl: string;
+   /**
+    * @documentation
+    * [
+    * "`backgroundImageSize` attribute",
+    * "***",
+    * "Sets the size of the background image. Enum - Default value is 'stretch'. Applicable values are 'stretch', 'stretch-aspect', 'center', 'tile'. Uses the css property background-size for the implementation."
+    * ]
+    * @name backgroundimagesize
+    * @default stretch
+    * @attributeType "EnumeratedValue"
+    */
+   backgroundImageSize: TCh5ButtonBackgroundImageSize;
+   /**
+   * @documentation
+   * [
+   * "`backgroundImageUrlPressed` attribute",
+   * "***",
+   * "BackgroundImageUrlPressed"
+   * ]
+   * @name backgroundimageurlpressed
+   * @default 
+   * @attributeType "String"
+   */
+   backgroundImageUrlPressed: string;
+   /**
+    * @documentation
+    * [
+    * "`backgroundImageUrlSelected` attribute",
+    * "***",
+    * "BackgroundImageUrlSelected"
+    * ]
+    * @name backgroundimageurlselected
+    * @default 
+    * @attributeType "String"
+    */
+   backgroundImageUrlSelected: string;
+   /**
+    * @documentation
+    * [
+    * "`receiveStateBackgroundImageUrl` attribute",
+    * "***",
+    * "Sets the image to be displayed as the background for the button"
+    * ]
+    * @name receivestatebackgroundimageurl
+    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+    * @attributeType "Join"
+    */
+   receiveStateBackgroundImageUrl: string;
+   /**
+    * @documentation
+    * [
+    * "`receiveStateBackgroundImageUrlPressed` attribute",
+    * "***",
+    * "Sets the image to be displayed as the background for the button when pressed=true."
+    * ]
+    * @name receivestatebackgroundimageurlpressed
+    * @default 
+    * @attributeType "String"
+    */
+   receiveStateBackgroundImageUrlPressed: string;
+   /**
+    * @documentation
+    * [
+    * "`receiveStateBackgroundImageUrlSelected` attribute",
+    * "***",
+    * "Sets the image to be displayed as the background for the button when selected=true."
+    * ]
+    * @name receivestatebackgroundimageurlselected
+    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+    * @attributeType "Join"
+    */
+   receiveStateBackgroundImageUrlSelected: string;
+ 
 }

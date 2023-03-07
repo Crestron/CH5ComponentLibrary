@@ -123,7 +123,14 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *       "\tcustomclasspressed=\"${28}\"",
  *       "\tcustomclassdisabled=\"${29}\"",
  *       "\tselected=\"${30}\"",
- *       "\tpressed=\"${31}\">",
+ *       "\tpressed=\"${31}\"",
+ *       "\tbackgroundImageUrl=\"${32:}\"",
+ *       "\tbackgroundImageSize=\"${33:stretch}\"",
+ *       "\tbackgroundImageUrlPressed=\"${34:}\"",
+ *       "\tbackgroundImageUrlSelected=\"${35:}\"",
+ *       "\treceiveStateBackgroundImageUrl=\"${36:}\"",
+ *       "\treceiveStateBackgroundImageUrlPressed=\"${37:}\"",
+ *       "\treceiveStateBackgroundImageUrlSelected=\"${38:}\">",
  *       "</ch5-button>$0"
  *       ]
  *    }
