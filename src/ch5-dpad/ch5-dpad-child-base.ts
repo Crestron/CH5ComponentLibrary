@@ -14,6 +14,7 @@ import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core";
 import { normalizeEvent } from "../ch5-triggerview/utils";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { Ch5Dpad } from "./ch5-dpad";
+import { ComponentHelper } from "../ch5-common/utils/component-helper";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ICh5DpadChildBaseAttributes } from "./interfaces/i-ch5-dpad-child-base-attributes";
 import { TCh5DpadButtonClassListType, TCh5DpadChildButtonType, TCh5DpadConstructorParam } from "./interfaces/t-ch5-dpad";
@@ -141,7 +142,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
 		this._key = value;
 		this.setAttribute('key', value);
-		CH5DpadUtils.setAttributeToElement(this, 'key', value);
+		ComponentHelper.setAttributeToElement(this, 'key', value);
 	}
 	public get key() {
 		return this._key;
@@ -259,7 +260,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		this.ignoreAttributes = ["show", "disabled", "receivestateenable", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "receivestatecustomclass", "receivestatecustomstyle", "sendeventonshow"];
 		this.logger.start('constructor()', this.COMPONENT_NAME);
 
-		CH5DpadUtils.clearComponentContent(this);
+		ComponentHelper.clearComponentContent(this);
 
 		this._pressInfo = new Ch5ButtonPressInfo();
 
@@ -439,7 +440,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		for (const sigName of signalArr) {
 			const attrKeyPvt = '_' + sigName;
 			const attrKeySigName = attrKeyPvt + 'SignalValue';
-			CH5DpadUtils.clearSignalValue(csf, this, "attrKeySigName", "attrKeyPvt");
+			ComponentHelper.clearSignalValue(csf, this, "attrKeySigName", "attrKeyPvt");
 		}
 
 		this.logger.stop();
@@ -490,18 +491,18 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 				break;
 			case 'iconclass':
 				CH5DpadUtils.createIconTag(this);
-				this.iconClass = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+				this.iconClass = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
 				break;
 			case 'iconurl':
 				CH5DpadUtils.createIconTag(this);
-				this.iconUrl = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+				this.iconUrl = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
 				break;
 			case 'sendeventonclick':
-				this.sendEventOnClick = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+				this.sendEventOnClick = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
 				break;
 			case 'key':
-				CH5DpadUtils.setAttributeToElement(this, 'key', newValue);
-				this.key = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+				ComponentHelper.setAttributeToElement(this, 'key', newValue);
+				this.key = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
 				break;
 			case 'pressed':
 				let isPressed = false;
@@ -528,20 +529,20 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		this.logger.start("initAttributes", this.COMPONENT_NAME);
 		super.initAttributes();
 
-		CH5DpadUtils.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5DpadChild); // WAI-ARIA Attributes
+		ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5DpadChild); // WAI-ARIA Attributes
 
 		// below actions, set default value to the control's attribute if they dont exist, and assign them as a return value
-		this.iconClass = CH5DpadUtils.setAttributeToElement(this, 'iconClass', this._iconClass);
-		this.iconUrl = CH5DpadUtils.setAttributeToElement(this, 'iconUrl', this._iconUrl);
-		this.key = CH5DpadUtils.setAttributeToElement(this, 'key', this._key) as TCh5DpadChildButtonType;
+		this.iconClass = ComponentHelper.setAttributeToElement(this, 'iconClass', this._iconClass);
+		this.iconUrl = ComponentHelper.setAttributeToElement(this, 'iconUrl', this._iconUrl);
+		this.key = ComponentHelper.setAttributeToElement(this, 'key', this._key) as TCh5DpadChildButtonType;
 		const btnType = this.buttonType as TCh5DpadChildButtonType;
 		if (this.parentElement &&
 			this.parentElement.parentElement) {
 			const ele = this.parentElement.parentElement;
-			const parentContractName: string = CH5DpadUtils.getAttributeAsString(ele, 'contractname', '');
-			const parentContractEvent: string = CH5DpadUtils.getAttributeAsString(ele, 'sendeventonclickstart', '');
+			const parentContractName: string = ComponentHelper.getAttributeAsString(ele, 'contractname', '');
+			const parentContractEvent: string = ComponentHelper.getAttributeAsString(ele, 'sendeventonclickstart', '');
 			if (parentContractName.length > 0) {
-				const joinValue = parentContractName + CH5DpadUtils.contractSuffix[btnType];
+				const joinValue = parentContractName + "." + CH5DpadUtils.contractSuffix[btnType];
 				this.sendEventOnClick = joinValue.toString();
 			} else if (parentContractEvent.length > 0) {
 				const joinValue = parseInt(parentContractEvent, 10) +

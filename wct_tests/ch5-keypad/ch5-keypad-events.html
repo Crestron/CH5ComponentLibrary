@@ -41,7 +41,7 @@
 
       let ch5KeypadEvent;
 
-      setup(async () => {
+      setup(() => {
         ch5KeypadEvent = fixture('ch5-keypad-sendEventOnClick-fixture');
       });
 
@@ -64,7 +64,7 @@
       });
 
       test(`Check contractName - keypad`, () => {
-        expect(ch5KeypadEvent.getAttribute('contractName')).to.be.equal("LivingRoom.AppleTV.");
+        expect(ch5KeypadEvent.getAttribute('contractName')).to.be.equal("LivingRoom.AppleTV");
       });
     });
   </script>
