@@ -69,7 +69,7 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 			type: "boolean",
 			valueOnAttributeEmpty: false,
 			isObservableProperty: true,
-		},
+		}
 	];
 
 	//#endregion
@@ -143,7 +143,7 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
 		this.logger.start("attributeChangedCallback", this.primaryCssClass);
 		if (oldValue !== newValue) {
-			this.logger.log('ch5-dpad-button-prasaanth attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+			this.logger.log('ch5-dpad-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
 			const attributeChangedProperty = Ch5DpadButton.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
 			if (attributeChangedProperty) {
 				const thisRef: any = this;

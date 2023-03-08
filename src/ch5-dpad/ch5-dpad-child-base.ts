@@ -19,6 +19,7 @@ import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ICh5DpadChildBaseAttributes } from "./interfaces/i-ch5-dpad-child-base-attributes";
 import { TCh5DpadButtonClassListType, TCh5DpadChildButtonType, TCh5DpadConstructorParam } from "./interfaces/t-ch5-dpad";
 import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 
 export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttributes {
 
@@ -56,6 +57,61 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	protected _iconUrl: string = '';
 	protected _sendEventOnClick: string = '';
 	protected _key: TCh5DpadChildButtonType = null as unknown as TCh5DpadChildButtonType;
+
+	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
+		{
+			default: "",
+			name: "key",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			name: "iconClass",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			name: "iconUrl",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			name: "label",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: true,
+			name: "pressed",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: false,
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "sendEventOnClickStart",
+			signalType: "number",
+			removeAttributeOnNull: true,
+			type: "string",
+			isNullable: true,
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		}
+	];
+
 
 	// elements specific vars
 	protected _icon: HTMLElement = {} as HTMLElement;
@@ -447,25 +503,14 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	}
 
 	static get observedAttributes() {
-		const commonAttributes: string[] = Ch5Common.observedAttributes;
-
-		// attributes
-		const attributes: string[] = [
-			"iconclass",
-			"iconurl",
-			"sendeventonclick",
-			"pressed"
-		];
-
-		// received signals
-		const receivedSignals: string[] = [];
-
-		// sent signals
-		const sentSignals: string[] = [];
-
-		const ch5DpadAttributes = commonAttributes.concat(attributes).concat(receivedSignals).concat(sentSignals);
-
-		return ch5DpadAttributes;
+		const inheritedObsAttrs = Ch5Common.observedAttributes;
+		const newObsAttrs: string[] = [];
+		for (let i: number = 0; i < Ch5DpadChildBase.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5DpadChildBase.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				newObsAttrs.push(Ch5DpadChildBase.COMPONENT_PROPERTIES[i].name.toLowerCase());
+			}
+		}
+		return inheritedObsAttrs.concat(newObsAttrs);
 	}
 
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
@@ -518,6 +563,24 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 				super.attributeChangedCallback(attr, oldValue, newValue);
 				break;
 		}
+
+		// if (oldValue !== newValue) {
+		// 	this.logger.log('ch5-dpad-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+		// 	const attributeChangedProperty = Ch5DpadChildBase.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
+		// 	if (attributeChangedProperty) {
+		// 		const thisRef: any = this;
+		// 		const key = attributeChangedProperty.name;
+		// 		if (key == "label") {
+		// 			CH5DpadUtils.createIconTag(this);
+		// 		}
+		// 		else if (key == "key") {
+		// 			CH5DpadUtils.createIconTag(this);
+		// 		}
+		// 		thisRef[key] = newValue;
+		// 	} else {
+		// 		super.attributeChangedCallback(attr, oldValue, newValue);
+		// 	}
+		// }
 
 		this.logger.stop();
 	}
