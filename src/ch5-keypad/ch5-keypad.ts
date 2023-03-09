@@ -5,10 +5,9 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { Ch5Common, ICh5AttributeAndPropertySettings } from "../ch5-common/ch5-common";
+import { Ch5Common } from "../ch5-common/ch5-common";
 import { TCh5CreateReceiveStateSigParams } from "../ch5-common/interfaces";
 import { ComponentHelper } from "../ch5-common/utils/component-helper";
-import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5KeypadButton } from "./ch5-keypad-btn";
 import { CH5KeypadButtonData } from "./ch5-keypad-btn-data";
@@ -28,7 +27,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
 		receivestateextrabuttonshow: { direction: "state", stringJoin: 1, contractName: true },
-
 		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventonclickstart: { direction: "event", booleanJoin: 1, contractName: true },
@@ -46,7 +44,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	/**
 	 * The first value is considered the default one
 	 */
-	public static readonly SHAPES: TCh5KeypadShape[] = ['rounded-rectangle', 'rectangle', 'circle'];
+	public static readonly SHAPES: TCh5KeypadShape[] = ['rounded-rectangle', 'square', 'circle'];
 
 	/**
 	 * No default value for Stretch
@@ -114,7 +112,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	public readonly primaryCssClass = 'ch5-keypad';
 
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
-
 		{
 			default: "",
 			name: "contractName",
@@ -122,18 +119,15 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			type: "string",
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true,
-
 		},
 		{
 			default: Ch5Keypad.TYPES[0],
 			enumeratedValues: Ch5Keypad.TYPES,
 			name: "type",
 			removeAttributeOnNull: true,
-
 			type: "enum",
 			valueOnAttributeEmpty: Ch5Keypad.TYPES[0],
 			isObservableProperty: true,
-
 		},
 		{
 			default: Ch5Keypad.SHAPES[0],
@@ -143,7 +137,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			type: "enum",
 			valueOnAttributeEmpty: Ch5Keypad.SHAPES[0],
 			isObservableProperty: true,
-
 		},
 		{
 			default: Ch5Keypad.SIZES[0],
@@ -180,7 +173,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
-
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true,
 		},
@@ -192,7 +184,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			type: "enum",
 			valueOnAttributeEmpty: Ch5Keypad.TEXT_ORIENTATIONS[0],
 			isObservableProperty: true,
-
 		},
 		{
 			default: true,
@@ -217,31 +208,24 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			type: "boolean",
 			valueOnAttributeEmpty: true,
 			isObservableProperty: true,
-
 		},
 		{
 			default: "",
 			isSignal: true,
-			name: "sendEventOnClick",
+			name: "sendEventOnClickStart",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true,
-		},
-
+		}
 	];
 
-	private signalNameOnContract = {
-		contractName: "",
-		receiveStateEnable: "",
-		receiveStateShow: "",
-		showExtraButton: ""
-	}
 	//#endregion
 
 	//#region 1.2 private / protected variables
 	private COMPONENT_NAME: string = "ch5-keypad";
-
+	private _contractName: string = '';
+	private _type: TCh5KeypadType = Ch5Keypad.TYPES[0];
 	private _sendEventOnClickStart: string = '';
 	private _useContractForEnable: boolean = true;
 	private _useContractForShow: boolean = true;
@@ -268,7 +252,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	private childButtonList: { [key: string]: Ch5KeypadButton; } = {};
 	private runtimeChildButtonList: { [key: string]: TCh5KeypadButtonCreateDTO; } = {};
 
-
 	//#endregion
 
 	public static registerSignalAttributeTypes() {
@@ -278,13 +261,18 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	//#region 2. Setters and Getters
 	public set contractName(value: string) {
 		this.logger.start('set contractName("' + value + '")');
-		this._ch5Properties.set<string>("contractName", value, () => {
-			this.handleContractName();
-		})
+		value = (ComponentHelper.isNullOrUndefined(value)) ? '' : value;
+
+		if (value !== this.contractName) {
+			this._contractName = value;
+			if (this.getAttribute('type') !== this._type) {
+				this.setAttribute('contractname', this._contractName);
+			}
+		}
 		this.logger.stop();
 	}
 	public get contractName(): string {
-		return this._ch5Properties.get<string>("contractName");
+		return this._contractName;
 	}
 
 	public set type(value: TCh5KeypadType) {
@@ -295,7 +283,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		this.logger.stop();
 	}
 	public get type(): TCh5KeypadType {
-		return this._ch5Properties.get<TCh5KeypadType>("type")
+		return this._ch5Properties.get<TCh5KeypadType>("type");
 	}
 
 	public set shape(value: TCh5KeypadShape) {
@@ -345,7 +333,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	public set showExtraButton(value: boolean) {
 		this.logger.start('set showExtraButton ("' + value + '")');
 		this._ch5Properties.set<boolean>("showExtraButton", value, () => {
-			this.showExtraButtonHandler();
+			this.showExtraButtonForNonContract();
 		});
 		this.logger.stop();
 	}
@@ -355,22 +343,13 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 	public set sendEventOnClickStart(value: string) {
 		this.logger.start('set sendEventOnClickStart("' + value + '")');
-
-		if (ComponentHelper.isNullOrUndefined(value) || isNaN(parseInt(value, 10))) {
-			value = '';
-		}
-
-		if (value === this.sendEventOnClickStart) {
-			return;
-		}
-
-		this._sendEventOnClickStart = value;
-		this.setAttribute('sendEventOnClickStart'.toLowerCase(), value);
-		this.updateEventClickHandlers(parseInt(value, 10));
+		this._ch5Properties.set<string>("sendEventOnClickStart", value, () => {
+			this.updateEventClickHandlers(parseInt(value, 10));
+		});
 		this.logger.stop();
 	}
 	public get sendEventOnClickStart(): string {
-		return this._sendEventOnClickStart;
+		return this._ch5Properties.get<string>("sendEventOnClickStart");
 	}
 
 	public set useContractForEnable(value: boolean) {
@@ -555,9 +534,11 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			this._ch5Properties.setForSignalResponse<boolean>("showExtraButton", newValue, () => {
 				this.showExtraButtonHandler();
 			});
-
 		});
 		this.logger.stop();
+	}
+	public get receiveStateExtraButtonShow(): string {
+		return this._ch5Properties.get<string>("receiveStateExtraButtonShow");
 	}
 
 	//#endregion
@@ -567,7 +548,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	public constructor() {
 		super();
 		this.logger.start('constructor()', this.COMPONENT_NAME);
-
 		this._ch5Properties = new Ch5Properties(this, Ch5Keypad.COMPONENT_PROPERTIES);
 		this.logger.stop();
 	}
@@ -589,7 +569,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 				}
 			}
 		}
-
 		this.logger.stop();
 	}
 
@@ -711,9 +690,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
 		this.logger.start("attributeChangedCallback", this.COMPONENT_NAME);
-
 		if (oldValue !== newValue) {
-			this.logger.log('ch5-sharique attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+			this.logger.log('ch5-keypad attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
 			const attributeChangedProperty = Ch5Keypad.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
 			if (attributeChangedProperty) {
 				const thisRef: any = this;
@@ -723,7 +701,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 				super.attributeChangedCallback(attr, oldValue, newValue);
 			}
 		}
-
 		this.logger.stop();
 	}
 
@@ -907,18 +884,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		this.logger.stop();
 	}
 
-	private handleContractName() {
-		if (this.contractName.trim().length === 0) {
-			this.signalNameOnContract.contractName = "";
-			this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
-			this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;
-		} else if (this.signalNameOnContract.contractName === "") {
-			this.signalNameOnContract.contractName = this.contractName;
-			this.signalNameOnContract.receiveStateShow = this.receiveStateShow;
-			this.signalNameOnContract.receiveStateEnable = this.receiveStateEnable;
-		}
-	}
-
 	private shapeHandler() {
 		this.logger.start(this.COMPONENT_NAME + ' > shapeHandler');
 		this.updateCssClasses();
@@ -983,15 +948,22 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 	private updateEventClickHandlers(startIndex: number) {
 		this.logger.start(this.COMPONENT_NAME + ' > updateEventClickHandlers');
+		let joinIndex = 0;
 		if (this.contractName.length === 0) {
 			for (const key in this.childButtonList) {
 				if (this.childButtonList.hasOwnProperty(key)) {
 					const btn = this.childButtonList[key];
-					btn.setJoinBasedEventHandler(startIndex);
+					this.setSendEventOnClick(startIndex, btn, joinIndex);
+					joinIndex++
 				}
 			}
 		}
 		this.logger.stop();
+	}
+
+	private setSendEventOnClick(startIndex: number, refEle: any, joinCountIndex: number) {
+		const joinCountList: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 11];
+		refEle.sendEventOnClick = startIndex + joinCountList[joinCountIndex]
 	}
 
 	private sizeHandler() {
