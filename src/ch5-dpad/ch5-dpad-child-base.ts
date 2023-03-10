@@ -20,44 +20,12 @@ import { ICh5DpadChildBaseAttributes } from "./interfaces/i-ch5-dpad-child-base-
 import { TCh5DpadButtonClassListType, TCh5DpadChildButtonType, TCh5DpadConstructorParam } from "./interfaces/t-ch5-dpad";
 import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
+import { Ch5Properties } from "../ch5-core/ch5-properties";
+
 
 export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttributes {
 
 	//#region 1. Variables
-
-	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true }
-	};
-
-	//#region 1.1 readonly variables
-	public primaryCssClass = '';
-	public readonly pressedCssClassPostfix = '--pressed';
-
-	private readonly LABEL_CLASS: string = 'dpad-btn-label';
-
-	//#endregion
-
-	//#region 1.2 protected / protected variables
-	protected COMPONENT_NAME: string = "";
-	protected componentPrefix: string = 'ch5-dpad-button-';
-	protected readonly CSS_CLASS_LIST: TCh5DpadButtonClassListType = {
-		commonBtnClass: 'ch5-dpad-child',
-		primaryIconClass: 'fas',
-		imageClassName: 'image-url',
-		primaryTagClass: '',
-		defaultIconClass: '',
-		defaultArrowClass: ''
-	};
-
-	// protected setter getter specific vars
-	protected _label: string = '';
-	protected _iconClass: string = '';
-	protected _iconUrl: string = '';
-	protected _sendEventOnClick: string = '';
-	protected _key: TCh5DpadChildButtonType = null as unknown as TCh5DpadChildButtonType;
-
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
 		{
 			default: "",
@@ -111,6 +79,36 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			isObservableProperty: true,
 		}
 	];
+
+	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true }
+	};
+
+	//#region 1.1 readonly variables
+	public primaryCssClass = '';
+	public readonly pressedCssClassPostfix = '--pressed';
+
+	private readonly LABEL_CLASS: string = 'dpad-btn-label';
+
+	//#endregion
+
+	//#region 1.2 protected / protected variables
+	protected COMPONENT_NAME: string = "";
+	protected componentPrefix: string = 'ch5-dpad-button-';
+	protected readonly CSS_CLASS_LIST: TCh5DpadButtonClassListType = {
+		commonBtnClass: 'ch5-dpad-child',
+		primaryIconClass: 'fas',
+		imageClassName: 'image-url',
+		primaryTagClass: '',
+		defaultIconClass: '',
+		defaultArrowClass: ''
+	};
+	private _ch5Properties: Ch5Properties;
+
+	// protected setter getter specific vars
+	protected _sendEventOnClick: string = '';
 
 
 	// elements specific vars
@@ -175,11 +173,10 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			return;
 		}
 
-		this._label = value;
-		this.setAttribute('label', value);
+		this._ch5Properties.set<string>("label", value);
 	}
 	public get label() {
-		return this._label;
+		return this._ch5Properties.get<string>("label");
 	}
 
 	/**
@@ -196,12 +193,10 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			return;
 		}
 
-		this._key = value;
-		this.setAttribute('key', value);
-		ComponentHelper.setAttributeToElement(this, 'key', value);
+		this._ch5Properties.set<TCh5DpadChildButtonType>("key", value);
 	}
 	public get key() {
-		return this._key;
+		return this._ch5Properties.get<TCh5DpadChildButtonType>("key");
 	}
 
 	/**
@@ -218,27 +213,13 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			return;
 		}
 
-		const prevValue = this._iconClass;
-		this._iconClass = value;
-		this.setAttribute('iconClass', value);
-		if (this._iconUrl.length < 1) {
-			if (this._iconClass.length > 0) {
-				this._icon.classList.remove(this.CSS_CLASS_LIST.primaryIconClass);
-				if (this.CSS_CLASS_LIST.defaultIconClass) {
-					this._icon.classList.remove(this.CSS_CLASS_LIST.defaultIconClass);
-				}
-				this._icon.classList.add(...(this._iconClass.split(' ').filter(element => element))); // the filter removes empty spaces
-			} else {
-				this._icon.classList.remove(...(prevValue.split(' ').filter(element => element))); // the filter removes empty spaces
-				this._icon.classList.add(this.CSS_CLASS_LIST.primaryIconClass);
-				if (this.CSS_CLASS_LIST.defaultIconClass && this.CSS_CLASS_LIST.defaultIconClass !== "") {
-					this._icon.classList.add(this.CSS_CLASS_LIST.defaultIconClass);
-				}
-			}
-		}
+		const prevValue = this.iconClass;
+		this._ch5Properties.set<string>("iconClass", value, () => {
+			this.handleIconClass(prevValue);
+		});
 	}
 	public get iconClass() {
-		return this._iconClass;
+		return this._ch5Properties.get<string>("iconClass");
 	}
 
 	/**
@@ -255,8 +236,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			return;
 		}
 
-		this._iconUrl = value;
-		this.setAttribute('iconUrl', value);
+		this._ch5Properties.set<string>("iconUrl", value);
 		if (this.iconUrl.length > 0) {
 			this._icon.classList.add(this.CSS_CLASS_LIST.imageClassName);
 			this._icon.style.backgroundImage = `url(${value})`;
@@ -265,7 +245,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		}
 	}
 	public get iconUrl() {
-		return this._iconUrl;
+		return this._ch5Properties.get<string>("iconUrl");
 	}
 
 	/**
@@ -315,6 +295,8 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		super();
 		this.ignoreAttributes = ["show", "disabled", "receivestateenable", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "receivestatecustomclass", "receivestatecustomstyle", "sendeventonshow"];
 		this.logger.start('constructor()', this.COMPONENT_NAME);
+		this._ch5Properties = new Ch5Properties(this, Ch5DpadChildBase.COMPONENT_PROPERTIES);
+
 
 		ComponentHelper.clearComponentContent(this);
 
@@ -521,66 +503,37 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		}
 
 		this.info('ch5-dpad-button' + this.buttonType + ' attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
-		switch (attr) {
-			case 'receivestateshow':
-			case 'receivestateenable':
-			case 'receivestateshowpulse':
-			case 'receivestatehidepulse':
-			case 'receivestatecustomstyle':
-			case 'receivestatecustomclass':
-			case 'show':
-			case 'disabled':
-			case 'sendeventonshow':
-				// Do nothing for any of the receiveState*
-				// this.removeAttribute(attr);
-				break;
-			case 'iconclass':
-				CH5DpadUtils.createIconTag(this);
-				this.iconClass = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
-				break;
-			case 'iconurl':
-				CH5DpadUtils.createIconTag(this);
-				this.iconUrl = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
-				break;
-			case 'sendeventonclick':
-				this.sendEventOnClick = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
-				break;
-			case 'key':
-				ComponentHelper.setAttributeToElement(this, 'key', newValue);
-				this.key = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
-				break;
-			case 'pressed':
-				let isPressed = false;
-				if (this.hasAttribute('pressed')) {
-					isPressed = this.toBoolean(newValue, true);
+		if (oldValue !== newValue) {
+			this.logger.log('ch5-dpad-child-base attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+			const attributeChangedProperty = Ch5DpadChildBase.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
+			if (attributeChangedProperty) {
+				const thisRef: any = this;
+				const key = attributeChangedProperty.name;
+				thisRef[key] = newValue;
+				if (key === "iconclass") {
+					CH5DpadUtils.createIconTag(this);
 				}
-				if (this._pressable) {
-					this._pressable.setPressed(isPressed);
+				else if (key === "iconurl") {
+					CH5DpadUtils.createIconTag(this);
 				}
-				this.updateCssClasses();
-				break;
-			default:
+				else if (key === "key") {
+					ComponentHelper.setAttributeToElement(this, 'key', newValue);
+				}
+				else if (key === "pressed") {
+					let isPressed = false;
+					if (this.hasAttribute('pressed')) {
+						isPressed = this.toBoolean(newValue, true);
+					}
+					if (this._pressable) {
+						this._pressable.setPressed(isPressed);
+					}
+					this.updateCssClasses();
+				}
+			}
+			else {
 				super.attributeChangedCallback(attr, oldValue, newValue);
-				break;
+			}
 		}
-
-		// if (oldValue !== newValue) {
-		// 	this.logger.log('ch5-dpad-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
-		// 	const attributeChangedProperty = Ch5DpadChildBase.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
-		// 	if (attributeChangedProperty) {
-		// 		const thisRef: any = this;
-		// 		const key = attributeChangedProperty.name;
-		// 		if (key == "label") {
-		// 			CH5DpadUtils.createIconTag(this);
-		// 		}
-		// 		else if (key == "key") {
-		// 			CH5DpadUtils.createIconTag(this);
-		// 		}
-		// 		thisRef[key] = newValue;
-		// 	} else {
-		// 		super.attributeChangedCallback(attr, oldValue, newValue);
-		// 	}
-		// }
 
 		this.logger.stop();
 	}
@@ -595,9 +548,15 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5DpadChild); // WAI-ARIA Attributes
 
 		// below actions, set default value to the control's attribute if they dont exist, and assign them as a return value
-		this.iconClass = ComponentHelper.setAttributeToElement(this, 'iconClass', this._iconClass);
-		this.iconUrl = ComponentHelper.setAttributeToElement(this, 'iconUrl', this._iconUrl);
-		this.key = ComponentHelper.setAttributeToElement(this, 'key', this._key) as TCh5DpadChildButtonType;
+		const thisRef: any = this;
+		for (let i: number = 0; i < Ch5DpadChildBase.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5DpadChildBase.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				if (this.hasAttribute(Ch5DpadChildBase.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
+					const key = Ch5DpadChildBase.COMPONENT_PROPERTIES[i].name;
+					thisRef[key] = this.getAttribute(key);
+				}
+			}
+		}
 		const btnType = this.buttonType as TCh5DpadChildButtonType;
 		if (this.parentElement &&
 			this.parentElement.parentElement) {
@@ -730,6 +689,24 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		this._intervalIdForRepeatDigital = window.setInterval(() => {
 			this.sendValueForRepeatDigital(true);
 		}, this.TOUCH_TIMEOUT);
+	}
+
+	private handleIconClass(prevValue: string) {
+		if (this.iconUrl.length < 1) {
+			if (this.iconClass.length > 0) {
+				this._icon.classList.remove(this.CSS_CLASS_LIST.primaryIconClass);
+				if (this.CSS_CLASS_LIST.defaultIconClass) {
+					this._icon.classList.remove(this.CSS_CLASS_LIST.defaultIconClass);
+				}
+				this._icon.classList.add(...(this.iconClass.split(' ').filter(element => element))); // the filter removes empty spaces
+			} else {
+				this._icon.classList.remove(...(prevValue.split(' ').filter(element => element))); // the filter removes empty spaces
+				this._icon.classList.add(this.CSS_CLASS_LIST.primaryIconClass);
+				if (this.CSS_CLASS_LIST.defaultIconClass && this.CSS_CLASS_LIST.defaultIconClass !== "") {
+					this._icon.classList.add(this.CSS_CLASS_LIST.defaultIconClass);
+				}
+			}
+		}
 	}
 
 	/**

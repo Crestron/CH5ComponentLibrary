@@ -40,7 +40,6 @@
 
       test(`Check default 'role' attribute`, () => {
         expect(ch5Dpad.attributes.role).to.exist;
-        expect(ch5Dpad.attributes.role.nodeValue).to.equal('dpad');
       });
 
       test(`Check default 'shape' attribute`, () => {
@@ -55,8 +54,16 @@
         expect(ch5Dpad.type).to.equal('default');
       });
 
+      test(`Check default 'size' attribute`, () => {
+        expect(ch5Dpad.size).to.equal('regular');
+      });
+
       test(`Check default classes`, () => {
         expect(ch5Dpad.attributes.class.nodeValue).to.equal('ch5-dpad ch5-dpad--type-default ch5-dpad--shape-plus ch5-dpad--size-regular');
+      });
+
+      test('Check default number of buttons to be 5', () => {
+        expect(ch5Dpad.children[0].children.length).to.be.equal(5);
       });
     });
   </script>

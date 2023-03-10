@@ -148,10 +148,10 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 			if (attributeChangedProperty) {
 				const thisRef: any = this;
 				const key = attributeChangedProperty.name;
-				if (key == "label") {
+				if (key === "label") {
 					CH5DpadUtils.createIconTag(this);
 				}
-				else if (key == "key") {
+				else if (key === "key") {
 					CH5DpadUtils.createIconTag(this);
 					super.initializeParams({
 						primaryTagClass: newValue as TCh5DpadChildButtonType,
@@ -174,7 +174,7 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 	protected initAttributes(): void {
 		super.initAttributes();
 		// below actions, set default value to the control's attribute if they dont exist, and assign them as a return value
-		this.label = ComponentHelper.setAttributeToElement(this, 'label', this._label);
+		this.label = ComponentHelper.setAttributeToElement(this, 'label', this.label);
 	}
 
 	//#endregion

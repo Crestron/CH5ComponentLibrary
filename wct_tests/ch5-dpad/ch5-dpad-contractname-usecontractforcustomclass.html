@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-dpad/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-dpad-usecontractforcustomclass-fixture">
+    <template>
+      <ch5-dpad customclass="blue-border" contractName="LivingRoom.AppleTV">
+      </ch5-dpad>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-dpad-usecontractforcustomclass-fixture', () => {
+      let ch5Dpad;
+
+      setup(async () => {
+        ch5Dpad = fixture('ch5-dpad-usecontractforcustomclass-fixture');
+      });
+
+      test('Check if usecontractforcustomclass is "true"', () => {
+        flush(() => {
+          setTimeout(() => {
+            ch5Dpad.setAttribute("usecontractforcustomclass", "true");
+            expect(ch5Dpad.getAttribute("usecontractforcustomclass")).to.equal("true");
+            expect(ch5Dpad.getAttribute("receiveStateCustomClass")).to.equal("LivingRoom.AppleTV.CustomClass");
+            expect(ch5Dpad.classList.contains(ch5Dpad.customclass)).to.be.equal(false);
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check if usecontractforcustomclass is "false"', () => {
+        flush(() => {
+          setTimeout(() => {
+            ch5Dpad.setAttribute("usecontractforcustomclass", "false");
+            expect(ch5Dpad.getAttribute("usecontractforcustomclass")).to.equal("false");
+            expect(ch5Dpad.getAttribute("receiveStateCustomClass")).to.equal(null);
+            expect(ch5Dpad.classList.contains(ch5Dpad.customclass)).to.be.equal(true);
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

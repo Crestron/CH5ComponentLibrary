@@ -68,49 +68,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	public static readonly btnTextOrientationClassPrefix: string = "--orientation-";
 	public static readonly btnSizeClassPrefix: string = "--size-";
 
-	/**
-	 * COMPONENT_DATA is required for sass-schema generator file to build sufficient data
-	 */
-	public static readonly COMPONENT_DATA: any = {
-		TYPES: {
-			default: Ch5Keypad.TYPES[0],
-			values: Ch5Keypad.TYPES,
-			key: 'type',
-			attribute: 'type',
-			classListPrefix: Ch5Keypad.btnTypeClassPrefix
-		},
-		STRETCHES: {
-			default: null,
-			values: Ch5Keypad.STRETCHES,
-			key: 'stretch',
-			attribute: 'stretch',
-			classListPrefix: Ch5Keypad.btnStretchClassPrefix
-		},
-		SHAPES: {
-			default: Ch5Keypad.SHAPES[0],
-			values: Ch5Keypad.SHAPES,
-			key: 'shape',
-			attribute: 'shape',
-			classListPrefix: Ch5Keypad.btnShapeClassPrefix
-		},
-		TEXT_ORIENTATIONS: {
-			default: Ch5Keypad.TEXT_ORIENTATIONS[0],
-			values: Ch5Keypad.TEXT_ORIENTATIONS,
-			key: 'textorientation',
-			attribute: 'textorientation',
-			classListPrefix: Ch5Keypad.btnTextOrientationClassPrefix
-		},
-		SIZES: {
-			default: Ch5Keypad.SIZES[0],
-			values: Ch5Keypad.SIZES,
-			key: 'size',
-			attribute: 'size',
-			classListPrefix: '--size-'
-		},
-	};
-
-	public readonly primaryCssClass = 'ch5-keypad';
-
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
 		{
 			default: "",
@@ -219,6 +176,49 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			isObservableProperty: true,
 		}
 	];
+
+	/**
+	 * COMPONENT_DATA is required for sass-schema generator file to build sufficient data
+	 */
+	public static readonly COMPONENT_DATA: any = {
+		TYPES: {
+			default: Ch5Keypad.TYPES[0],
+			values: Ch5Keypad.TYPES,
+			key: 'type',
+			attribute: 'type',
+			classListPrefix: Ch5Keypad.btnTypeClassPrefix
+		},
+		STRETCHES: {
+			default: null,
+			values: Ch5Keypad.STRETCHES,
+			key: 'stretch',
+			attribute: 'stretch',
+			classListPrefix: Ch5Keypad.btnStretchClassPrefix
+		},
+		SHAPES: {
+			default: Ch5Keypad.SHAPES[0],
+			values: Ch5Keypad.SHAPES,
+			key: 'shape',
+			attribute: 'shape',
+			classListPrefix: Ch5Keypad.btnShapeClassPrefix
+		},
+		TEXT_ORIENTATIONS: {
+			default: Ch5Keypad.TEXT_ORIENTATIONS[0],
+			values: Ch5Keypad.TEXT_ORIENTATIONS,
+			key: 'textorientation',
+			attribute: 'textorientation',
+			classListPrefix: Ch5Keypad.btnTextOrientationClassPrefix
+		},
+		SIZES: {
+			default: Ch5Keypad.SIZES[0],
+			values: Ch5Keypad.SIZES,
+			key: 'size',
+			attribute: 'size',
+			classListPrefix: '--size-'
+		},
+	};
+
+	public readonly primaryCssClass = 'ch5-keypad';
 
 	//#endregion
 
@@ -530,7 +530,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 	public set receiveStateExtraButtonShow(value: string) {
 		this.logger.start(this.COMPONENT_NAME + 'receiveStateExtraButtonShow');
-		this._ch5Properties.set("receiveStateExtraButtonShow", value, null, (newValue: Boolean) => {
+		this._ch5Properties.set("receiveStateExtraButtonShow", value, null, (newValue: boolean) => {
 			this._ch5Properties.setForSignalResponse<boolean>("showExtraButton", newValue, () => {
 				this.showExtraButtonHandler();
 			});

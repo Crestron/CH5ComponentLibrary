@@ -49,76 +49,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	public static readonly CSS_CLASS_PREFIX_SHAPE: string = "--shape-";
 	public static readonly CSS_CLASS_PREFIX_SIZE: string = "--size-";
 
-	/**
-	 * COMPONENT_DATA is required for sass-schema generator file to build sufficient data
-	 */
-	public static readonly COMPONENT_DATA: any = {
-		TYPES: {
-			default: Ch5Dpad.TYPES[0],
-			values: Ch5Dpad.TYPES,
-			key: 'type',
-			attribute: 'type',
-			classListPrefix: Ch5Dpad.CSS_CLASS_PREFIX_TYPE
-		},
-		STRETCHES: {
-			default: null,
-			values: Ch5Dpad.STRETCHES,
-			key: 'stretch',
-			attribute: 'stretch',
-			classListPrefix: Ch5Dpad.CSS_CLASS_PREFIX_STRETCH
-		},
-		SHAPES: {
-			default: Ch5Dpad.SHAPES[0],
-			values: Ch5Dpad.SHAPES,
-			key: 'shape',
-			attribute: 'shape',
-			classListPrefix: Ch5Dpad.CSS_CLASS_PREFIX_SHAPE
-		},
-		SIZES: {
-			default: Ch5Dpad.SIZES[0],
-			values: Ch5Dpad.SIZES,
-			key: 'size',
-			attribute: 'size',
-			classListPrefix: Ch5Dpad.CSS_CLASS_PREFIX_SIZE
-		},
-	};
-
-	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		sendeventonclickstart: { direction: "event", booleanJoin: 1, contractName: true },
-		contractname: { contractName: true },
-		booleanjoinoffset: { booleanJoin: 1 },
-		numericjoinoffset: { numericJoin: 1 },
-		stringjoinoffset: { stringJoin: 1 }
-	};
-
-	public readonly primaryCssClass = 'ch5-dpad';
-
-	//#endregion
-
-	//#region 1.2 private / protected variables
-
-	private COMPONENT_NAME: string = "ch5-dpad";
-	private _useContractForEnable: boolean = true;
-	private _useContractForShow: boolean = true;
-	private _useContractForCustomStyle: boolean = false;
-	private _useContractForCustomClass: boolean = false;
-	private _useContractForEnableSignalValue: string = '';
-	private _useContractForShowSignalValue: string = '';
-	private _useContractForCustomStyleSignalValue: string = '';
-	private _useContractForCustomClassSignalValue: string = '';
-
-	private _ch5Properties: Ch5Properties;
-
-	// state specific vars
-	private isComponentLoaded: boolean = false;
-	private isResizeInProgress: boolean = false;
-	private readonly RESIZE_DEBOUNCE: number = 500;
-
-	// elements specific vars
-	private container: HTMLElement = {} as HTMLElement;
-	private containerClass: string = 'dpad-container';
-
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
 		{
 			default: "",
@@ -209,6 +139,76 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			isObservableProperty: true,
 		}
 	];
+
+	/**
+	 * COMPONENT_DATA is required for sass-schema generator file to build sufficient data
+	 */
+	public static readonly COMPONENT_DATA: any = {
+		TYPES: {
+			default: Ch5Dpad.TYPES[0],
+			values: Ch5Dpad.TYPES,
+			key: 'type',
+			attribute: 'type',
+			classListPrefix: Ch5Dpad.CSS_CLASS_PREFIX_TYPE
+		},
+		STRETCHES: {
+			default: null,
+			values: Ch5Dpad.STRETCHES,
+			key: 'stretch',
+			attribute: 'stretch',
+			classListPrefix: Ch5Dpad.CSS_CLASS_PREFIX_STRETCH
+		},
+		SHAPES: {
+			default: Ch5Dpad.SHAPES[0],
+			values: Ch5Dpad.SHAPES,
+			key: 'shape',
+			attribute: 'shape',
+			classListPrefix: Ch5Dpad.CSS_CLASS_PREFIX_SHAPE
+		},
+		SIZES: {
+			default: Ch5Dpad.SIZES[0],
+			values: Ch5Dpad.SIZES,
+			key: 'size',
+			attribute: 'size',
+			classListPrefix: Ch5Dpad.CSS_CLASS_PREFIX_SIZE
+		},
+	};
+
+	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		sendeventonclickstart: { direction: "event", booleanJoin: 1, contractName: true },
+		contractname: { contractName: true },
+		booleanjoinoffset: { booleanJoin: 1 },
+		numericjoinoffset: { numericJoin: 1 },
+		stringjoinoffset: { stringJoin: 1 }
+	};
+
+	public readonly primaryCssClass = 'ch5-dpad';
+
+	//#endregion
+
+	//#region 1.2 private / protected variables
+
+	private COMPONENT_NAME: string = "ch5-dpad";
+	private _useContractForEnable: boolean = true;
+	private _useContractForShow: boolean = true;
+	private _useContractForCustomStyle: boolean = false;
+	private _useContractForCustomClass: boolean = false;
+	private _useContractForEnableSignalValue: string = '';
+	private _useContractForShowSignalValue: string = '';
+	private _useContractForCustomStyleSignalValue: string = '';
+	private _useContractForCustomClassSignalValue: string = '';
+
+	private _ch5Properties: Ch5Properties;
+
+	// state specific vars
+	private isComponentLoaded: boolean = false;
+	private isResizeInProgress: boolean = false;
+	private readonly RESIZE_DEBOUNCE: number = 500;
+
+	// elements specific vars
+	private container: HTMLElement = {} as HTMLElement;
+	private containerClass: string = 'dpad-container';
 
 	//#endregion
 
@@ -312,7 +312,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			attrKey: 'useContractForEnable',
 			value: sigVal,
 			callbackOnSignalReceived: (newValue: string | boolean) => {
-				newValue = (!newValue).toString();
+				console.log(value);
+				newValue = (!value).toString();
+				console.log(newValue)
 				this.info(' subs callback for useContractForEnable: ', this._useContractForEnableSignalValue, ' Signal has value ', newValue);
 				ComponentHelper.setAttributeToElement(this, 'disabled', newValue);
 			}
