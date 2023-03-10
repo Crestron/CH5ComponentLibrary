@@ -42,7 +42,7 @@ import { ICh5SampleAttributes } from "./i-ch5-sample-attributes";
         *       "\tuserId=\"${7:}\"",
         *       "\tpassword=\"${8:}\"",
         *       "\tsnapShotURL=\"${9:}\"",
-        *       "\tsnapShotRefershRate=\"${10:0}\"",
+        *       "\tsnapShotRefreshRate=\"${10:0}\"",
         *       "\tsnapShotUserId=\"${11:}\"",
         *       "\tsnapShotPassword=\"${12:}\"",
         *       "\tsize=\"${13:regular}\"",

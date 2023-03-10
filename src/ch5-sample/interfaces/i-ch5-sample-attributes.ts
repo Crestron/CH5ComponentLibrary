@@ -104,16 +104,16 @@ export interface ICh5SampleAttributes extends ICh5CommonAttributes {
       /**
        * @documentation
        * [
-       * "`snapShotRefershRate` attribute",
+       * "`snapShotRefreshRate` attribute",
        * "***",
        * "Default 0. Defines the refresh period for a snapshot URL in units of seconds. 0 indicates no refresh. Superseded by receiveStateSnapShotRefreshrate"
        * ]
-       * @name snapshotrefershrate
+       * @name snapshotrefreshrate
        * @default 0
        * @limits [{"min": 0, "max": 5}]
        * @attributeType "Integer"
        */
-      snapShotRefershRate: number;
+      snapShotRefreshRate: number;
       /**
        * @documentation
        * [

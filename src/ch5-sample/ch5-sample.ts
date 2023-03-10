@@ -29,15 +29,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       attribute: 'aspectRatio',
       classListPrefix: '--aspect-ratio-'
     },
-
-    SOURCE_TYPE: {
-      default: Ch5Sample.SOURCE_TYPE[0],
-      values: Ch5Sample.SOURCE_TYPE,
-      key: 'sourceType',
-      attribute: 'sourceType',
-      classListPrefix: '--source-type-'
-    },
-
     SIZE: {
       default: Ch5Sample.SIZE[0],
       values: Ch5Sample.SIZE,
@@ -75,47 +66,39 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   };
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
-
     {
       default: "0",
       name: "indexId",
-
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "0",
       isObservableProperty: true,
-
     },
     {
       default: Ch5Sample.ASPECT_RATIO[0],
       enumeratedValues: Ch5Sample.ASPECT_RATIO,
       name: "aspectRatio",
       removeAttributeOnNull: true,
-
       type: "enum",
       valueOnAttributeEmpty: Ch5Sample.ASPECT_RATIO[0],
       isObservableProperty: true,
-
     },
     {
       default: false,
       name: "stretch",
-
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: false,
       isObservableProperty: true,
-
     },
     {
       default: "",
       name: "url",
-      nameForSignal: "receiveStateUrl",
+      nameForSignal: "receiveStateURL",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
-
     },
     {
       default: Ch5Sample.SOURCE_TYPE[0],
@@ -126,7 +109,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       type: "enum",
       valueOnAttributeEmpty: Ch5Sample.SOURCE_TYPE[0],
       isObservableProperty: true,
-
     },
     {
       default: "",
@@ -136,7 +118,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       type: "string",
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
-
     },
     {
       default: "",
@@ -146,7 +127,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       type: "string",
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
-
     },
     {
       default: "",
@@ -156,13 +136,12 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       type: "string",
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
-
     },
     {
       default: 0,
-      name: "snapShotRefershRate",
+      name: "snapShotRefreshRate",
       removeAttributeOnNull: true,
-      nameForSignal: "receiveStateSnapShotRefershRate",
+      nameForSignal: "receiveStateSnapShotRefreshRate",
       type: "number",
       valueOnAttributeEmpty: null,
       numberProperties: {
@@ -173,7 +152,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         conditionalMinValue: 0,
         conditionalMaxValue: 5
       },
-
       isObservableProperty: true
     },
     {
@@ -184,7 +162,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       type: "string",
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
-
     },
     {
       default: "",
@@ -194,24 +171,20 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       type: "string",
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
-
     },
     {
       default: Ch5Sample.SIZE[0],
       enumeratedValues: Ch5Sample.SIZE,
       name: "size",
       removeAttributeOnNull: true,
-
       type: "enum",
       valueOnAttributeEmpty: Ch5Sample.SIZE[0],
       isObservableProperty: true,
-
     },
     {
       default: 0,
       name: "zindex",
       removeAttributeOnNull: true,
-
       type: "number",
       valueOnAttributeEmpty: null,
       numberProperties: {
@@ -222,7 +195,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         conditionalMinValue: 0,
         conditionalMaxValue: 999
       },
-
       isObservableProperty: true
     },
     {
@@ -232,7 +204,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "boolean",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -243,7 +214,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "number",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -254,7 +224,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -265,7 +234,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -276,7 +244,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -287,7 +254,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -298,7 +264,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -309,7 +274,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "number",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -320,7 +284,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -331,7 +294,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -342,7 +304,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "number",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -353,7 +314,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "boolean",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -364,7 +324,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "number",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -375,7 +334,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -386,7 +344,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -397,7 +354,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -408,7 +364,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "number",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -419,7 +374,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "number",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -430,7 +384,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -441,7 +394,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "number",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -452,7 +404,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -463,7 +414,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "number",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -474,7 +424,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
@@ -524,118 +473,121 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
 
   public set indexId(value: string) {
     this._ch5Properties.set<string>("indexId", value, () => {
-        this.handleIndexId();
+      this.handleIndexId();
     });
   }
-  public get indexId():string {
+  public get indexId(): string {
     return this._ch5Properties.get<string>("indexId");
   }
-  
+
   public set aspectRatio(value: TCh5SampleAspectRatio) {
     this._ch5Properties.set<TCh5SampleAspectRatio>("aspectRatio", value, () => {
-      this.handleAspectRatio();          });
+      this.handleAspectRatio();
+    });
   }
   public get aspectRatio(): TCh5SampleAspectRatio {
     return this._ch5Properties.get<TCh5SampleAspectRatio>("aspectRatio");
   }
-  
+
   public set stretch(value: boolean) {
     this._ch5Properties.set<boolean>("stretch", value, () => {
-        this.handleStretch();
+      this.handleStretch();
     });
   }
-  public get stretch():boolean {
+  public get stretch(): boolean {
     return this._ch5Properties.get<boolean>("stretch");
   }
-  
+
   public set url(value: string) {
     this._ch5Properties.set<string>("url", value, () => {
-        this.handleUrl();
+      this.handleReceiveStateURL();
     });
   }
-  public get url():string {
+  public get url(): string {
     return this._ch5Properties.get<string>("url");
   }
-  
+
   public set sourceType(value: TCh5SampleSourceType) {
     this._ch5Properties.set<TCh5SampleSourceType>("sourceType", value, () => {
-      this.handleSourceType();          });
+      this.handleReceiveStateURL();
+    });
   }
   public get sourceType(): TCh5SampleSourceType {
     return this._ch5Properties.get<TCh5SampleSourceType>("sourceType");
   }
-  
+
   public set userId(value: string) {
     this._ch5Properties.set<string>("userId", value, () => {
-        this.handleUserId();
+      this.handleReceiveStateURL();
     });
   }
-  public get userId():string {
+  public get userId(): string {
     return this._ch5Properties.get<string>("userId");
   }
-  
+
   public set password(value: string) {
     this._ch5Properties.set<string>("password", value, () => {
-        this.handlePassword();
+      this.handleReceiveStateURL();
     });
   }
-  public get password():string {
+  public get password(): string {
     return this._ch5Properties.get<string>("password");
   }
-  
+
   public set snapShotURL(value: string) {
     this._ch5Properties.set<string>("snapShotURL", value, () => {
-        this.handleSnapShotURL();
+      this.handleSnapShotURL();
     });
   }
-  public get snapShotURL():string {
+  public get snapShotURL(): string {
     return this._ch5Properties.get<string>("snapShotURL");
   }
-  
-  public set snapShotRefershRate(value: number) {
-    this._ch5Properties.set<number>("snapShotRefershRate", value, () => {
-        this.handleSnapShotRefershRate();
+
+  public set snapShotRefreshRate(value: number) {
+    this._ch5Properties.set<number>("snapShotRefreshRate", value, () => {
+      this.handlesnapShotRefreshRate();
     });
   }
-  public get snapShotRefershRate():number {
-    return this._ch5Properties.get<number>("snapShotRefershRate");
+  public get snapShotRefreshRate(): number {
+    return this._ch5Properties.get<number>("snapShotRefreshRate");
   }
-  
+
   public set snapShotUserId(value: string) {
     this._ch5Properties.set<string>("snapShotUserId", value, () => {
-        this.handleSnapShotUserId();
+      this.handleSnapShotUserId();
     });
   }
-  public get snapShotUserId():string {
+  public get snapShotUserId(): string {
     return this._ch5Properties.get<string>("snapShotUserId");
   }
-  
+
   public set snapShotPassword(value: string) {
     this._ch5Properties.set<string>("snapShotPassword", value, () => {
-        this.handleSnapShotPassword();
+      this.handleSnapShotPassword();
     });
   }
-  public get snapShotPassword():string {
+  public get snapShotPassword(): string {
     return this._ch5Properties.get<string>("snapShotPassword");
   }
-  
+
   public set size(value: TCh5SampleSize) {
     this._ch5Properties.set<TCh5SampleSize>("size", value, () => {
-      this.handleSize();          });
+      this.handleSize();
+    });
   }
   public get size(): TCh5SampleSize {
     return this._ch5Properties.get<TCh5SampleSize>("size");
   }
-  
+
   public set zindex(value: number) {
     this._ch5Properties.set<number>("zindex", value, () => {
-        this.handleZindex();
+      this.handleZindex();
     });
   }
-  public get zindex():number {
+  public get zindex(): number {
     return this._ch5Properties.get<number>("zindex");
   }
-  
+
   public set receiveStatePlay(value: string) {
     this._ch5Properties.set("receiveStatePlay", value, null, (newValue: boolean) => {
       this.handleReceiveStatePlay();
@@ -644,7 +596,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   public get receiveStatePlay(): string {
     return this._ch5Properties.get<string>('receiveStatePlay');
   }
-  
+
   public set receiveStateSelect(value: string) {
     this._ch5Properties.set("receiveStateSelect", value, null, (newValue: number) => {
       this.handleReceiveStateSelect();
@@ -653,60 +605,62 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   public get receiveStateSelect(): string {
     return this._ch5Properties.get<string>('receiveStateSelect');
   }
-  
+
   public set receiveStateURL(value: string) {
     this._ch5Properties.set("receiveStateURL", value, null, (newValue: string) => {
-      this.handleReceiveStateURL();
+      this._ch5Properties.setForSignalResponse<string>("url", newValue, () => {
+        this.handleReceiveStateURL();
+      });
     });
   }
   public get receiveStateURL(): string {
     return this._ch5Properties.get<string>('receiveStateURL');
   }
-  
+
   public set receiveStateSourceType(value: string) {
     this._ch5Properties.set("receiveStateSourceType", value, null, (newValue: string) => {
-      this._ch5Properties.setForSignalResponse<string> ("sourceType", newValue, () => {
-      this.handleReceiveStateSourceType();
-  });
+      this._ch5Properties.setForSignalResponse<string>("sourceType", newValue, () => {
+        this.handleReceiveStateURL();
+      });
     });
   }
   public get receiveStateSourceType(): string {
     return this._ch5Properties.get<string>('receiveStateSourceType');
   }
-  
+
   public set receiveStateUserId(value: string) {
     this._ch5Properties.set("receiveStateUserId", value, null, (newValue: string) => {
-      this._ch5Properties.setForSignalResponse<string> ("userId", newValue, () => {
-      this.handleReceiveStateUserId();
-  });
+      this._ch5Properties.setForSignalResponse<string>("userId", newValue, () => {
+        this.handleReceiveStateURL();
+      });
     });
   }
   public get receiveStateUserId(): string {
     return this._ch5Properties.get<string>('receiveStateUserId');
   }
-  
+
   public set receiveStatePassword(value: string) {
     this._ch5Properties.set("receiveStatePassword", value, null, (newValue: string) => {
-      this._ch5Properties.setForSignalResponse<string> ("password", newValue, () => {
-      this.handleReceiveStatePassword();
-  });
+      this._ch5Properties.setForSignalResponse<string>("password", newValue, () => {
+        this.handleReceiveStateURL();
+      });
     });
   }
   public get receiveStatePassword(): string {
     return this._ch5Properties.get<string>('receiveStatePassword');
   }
-  
+
   public set receiveStateSnapShotURL(value: string) {
     this._ch5Properties.set("receiveStateSnapShotURL", value, null, (newValue: string) => {
-      this._ch5Properties.setForSignalResponse<string> ("snapShotURL", newValue, () => {
-      this.handleReceiveStateSnapShotURL();
-  });
+      this._ch5Properties.setForSignalResponse<string>("snapShotURL", newValue, () => {
+        this.handleReceiveStateSnapShotURL();
+      });
     });
   }
   public get receiveStateSnapShotURL(): string {
     return this._ch5Properties.get<string>('receiveStateSnapShotURL');
   }
-  
+
   public set receiveStateSnapShotRefreshRate(value: string) {
     this._ch5Properties.set("receiveStateSnapShotRefreshRate", value, null, (newValue: number) => {
       this.handleReceiveStateSnapShotRefreshRate();
@@ -715,29 +669,29 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   public get receiveStateSnapShotRefreshRate(): string {
     return this._ch5Properties.get<string>('receiveStateSnapShotRefreshRate');
   }
-  
+
   public set receiveStateSnapShotUserId(value: string) {
     this._ch5Properties.set("receiveStateSnapShotUserId", value, null, (newValue: string) => {
-      this._ch5Properties.setForSignalResponse<string> ("snapShotUserId", newValue, () => {
-      this.handleReceiveStateSnapShotUserId();
-  });
+      this._ch5Properties.setForSignalResponse<string>("snapShotUserId", newValue, () => {
+        this.handleReceiveStateSnapShotUserId();
+      });
     });
   }
   public get receiveStateSnapShotUserId(): string {
     return this._ch5Properties.get<string>('receiveStateSnapShotUserId');
   }
-  
+
   public set receiveStateSnapShotPassword(value: string) {
     this._ch5Properties.set("receiveStateSnapShotPassword", value, null, (newValue: string) => {
-      this._ch5Properties.setForSignalResponse<string> ("snapShotPassword", newValue, () => {
-      this.handleReceiveStateSnapShotPassword();
-  });
+      this._ch5Properties.setForSignalResponse<string>("snapShotPassword", newValue, () => {
+        this.handleReceiveStateSnapShotPassword();
+      });
     });
   }
   public get receiveStateSnapShotPassword(): string {
     return this._ch5Properties.get<string>('receiveStateSnapShotPassword');
   }
-  
+
   public set receivestatevideocount(value: string) {
     this._ch5Properties.set("receivestatevideocount", value, null, (newValue: number) => {
       this.handleReceivestatevideocount();
@@ -746,7 +700,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   public get receivestatevideocount(): string {
     return this._ch5Properties.get<string>('receivestatevideocount');
   }
-  
+
   public set sendEventOnClick(value: string) {
     this._ch5Properties.set("sendEventOnClick", value, null, (newValue: boolean) => {
       this.handleSendEventOnClick();
@@ -755,7 +709,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   public get sendEventOnClick(): string {
     return this._ch5Properties.get<string>('sendEventOnClick');
   }
-  
+
   public set sendEventSelectionChange(value: string) {
     this._ch5Properties.set("sendEventSelectionChange", value, null, (newValue: number) => {
       this.handleSendEventSelectionChange();
@@ -764,7 +718,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   public get sendEventSelectionChange(): string {
     return this._ch5Properties.get<string>('sendEventSelectionChange');
   }
-  
+
   public set sendEventSelectionSourceType(value: string) {
     this._ch5Properties.set("sendEventSelectionSourceType", value, null, (newValue: string) => {
       this.handleSendEventSelectionSourceType();
@@ -773,7 +727,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   public get sendEventSelectionSourceType(): string {
     return this._ch5Properties.get<string>('sendEventSelectionSourceType');
   }
-  
+
   public set sendEventSelectionURL(value: string) {
     this._ch5Properties.set("sendEventSelectionURL", value, null, (newValue: string) => {
       this.handleSendEventSelectionURL();
@@ -782,7 +736,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   public get sendEventSelectionURL(): string {
     return this._ch5Properties.get<string>('sendEventSelectionURL');
   }
-  
+
   public set sendEventSnapShotURL(value: string) {
     this._ch5Properties.set("sendEventSnapShotURL", value, null, (newValue: string) => {
       this.handleSendEventSnapShotURL();
@@ -791,7 +745,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   public get sendEventSnapShotURL(): string {
     return this._ch5Properties.get<string>('sendEventSnapShotURL');
   }
-  
+
   public set sendEventState(value: string) {
     this._ch5Properties.set("sendEventState", value, null, (newValue: number) => {
       this.handleSendEventState();
@@ -800,7 +754,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   public get sendEventState(): string {
     return this._ch5Properties.get<string>('sendEventState');
   }
-  
+
   public set sendEventErrorCode(value: string) {
     this._ch5Properties.set("sendEventErrorCode", value, null, (newValue: number) => {
       this.handleSendEventErrorCode();
@@ -809,7 +763,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   public get sendEventErrorCode(): string {
     return this._ch5Properties.get<string>('sendEventErrorCode');
   }
-  
+
   public set sendEventErrorMessage(value: string) {
     this._ch5Properties.set("sendEventErrorMessage", value, null, (newValue: string) => {
       this.handleSendEventErrorMessage();
@@ -818,7 +772,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   public get sendEventErrorMessage(): string {
     return this._ch5Properties.get<string>('sendEventErrorMessage');
   }
-  
+
   public set sendEventRetryCount(value: string) {
     this._ch5Properties.set("sendEventRetryCount", value, null, (newValue: number) => {
       this.handleSendEventRetryCount();
@@ -827,7 +781,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   public get sendEventRetryCount(): string {
     return this._ch5Properties.get<string>('sendEventRetryCount');
   }
-  
+
   public set sendEventResolution(value: string) {
     this._ch5Properties.set("sendEventResolution", value, null, (newValue: string) => {
       this.handleSendEventResolution();
@@ -836,7 +790,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   public get sendEventResolution(): string {
     return this._ch5Properties.get<string>('sendEventResolution');
   }
-  
+
   public set sendEventSnapShotStatus(value: string) {
     this._ch5Properties.set("sendEventSnapShotStatus", value, null, (newValue: number) => {
       this.handleSendEventSnapShotStatus();
@@ -845,7 +799,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   public get sendEventSnapShotStatus(): string {
     return this._ch5Properties.get<string>('sendEventSnapShotStatus');
   }
-  
+
   public set sendEventSnapShotLastUpdateTime(value: string) {
     this._ch5Properties.set("sendEventSnapShotLastUpdateTime", value, null, (newValue: string) => {
       this.handleSendEventSnapShotLastUpdateTime();
@@ -923,7 +877,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     this.logger.start('connectedCallback()', Ch5Sample.ELEMENT_NAME);
     // WAI-ARIA Attributes
     if (!this.hasAttribute('role')) {
-      // this.setAttribute('role', Ch5RoleAttributeMapping.ch5Sample);
+      this.setAttribute('role', Ch5RoleAttributeMapping.ch5Video);
     }
     if (this._elContainer.parentElement !== this) {
       this._elContainer.classList.add('ch5-sample');
@@ -1048,25 +1002,11 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   private handleStretch() {
     // Enter your Code here
   }
-  private handleUrl() {
-    // Enter your Code here
-  }
-  private handleSourceType() {
-    Array.from(Ch5Sample.COMPONENT_DATA.SOURCE_TYPE.values).forEach((e: any) => {
-      this._elContainer.classList.remove(Ch5Sample.COMPONENT_DATA.SOURCE_TYPE.classListPrefix + e);
-    });
-    this._elContainer.classList.add(Ch5Sample.COMPONENT_DATA.SOURCE_TYPE.classListPrefix + this.sourceType);
-  }
-  private handleUserId() {
-    // Enter your Code here
-  }
-  private handlePassword() {
-    // Enter your Code here
-  }
+
   private handleSnapShotURL() {
     // Enter your Code here
   }
-  private handleSnapShotRefershRate() {
+  private handlesnapShotRefreshRate() {
     // Enter your Code here
   }
   private handleSnapShotUserId() {
@@ -1091,10 +1031,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     // Enter your Code here
   }
   private handleReceiveStateURL() {
-    // Enter your Code here
-    console.log('_____________URL_________');
-    console.log(this.url);
-    console.log(this.receiveStateURL)
     if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE) {
       this.lastResponseStatus = CH5VideoUtils.VIDEO_ACTION.EMPTY;
       this.lastRequestStatus = CH5VideoUtils.VIDEO_ACTION.EMPTY;
@@ -1102,21 +1038,13 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       this.isExitFullscreen = false;
       if (this.url === '') {
         this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
-       // this.beforeVideoDisplay();
+        // this.beforeVideoDisplay();
       } else {
         this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.START);
       }
     }
   }
-  private handleReceiveStateSourceType() {
-    // Enter your Code here
-  }
-  private handleReceiveStateUserId() {
-    // Enter your Code here
-  }
-  private handleReceiveStatePassword() {
-    // Enter your Code here
-  }
+
   private handleReceiveStateSnapShotURL() {
     // Enter your Code here
   }
@@ -1175,8 +1103,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     super.updateCssClasses();
 
     this._elContainer.classList.add(Ch5Sample.COMPONENT_DATA.ASPECT_RATIO.classListPrefix + this.aspectRatio);
-
-    this._elContainer.classList.add(Ch5Sample.COMPONENT_DATA.SOURCE_TYPE.classListPrefix + this.sourceType);
 
     this._elContainer.classList.add(Ch5Sample.COMPONENT_DATA.SIZE.classListPrefix + this.size);
 
@@ -1346,8 +1272,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         "password": this.password
       },
       "source": {
-        //"type": this.sourceType,
-        "type": "Network",
+        "type": this.sourceType,
         "url": this.url
       },
       "location": {
