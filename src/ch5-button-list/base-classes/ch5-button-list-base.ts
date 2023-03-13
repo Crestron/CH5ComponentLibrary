@@ -548,7 +548,6 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
         conditionalMinValue: 0,
         conditionalMaxValue: 120000
       },
-
       isObservableProperty: true
     }
   ];
@@ -2156,11 +2155,10 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     // check whether all buttons are visible 
     const visibleButtons = this.showSignalHolder.filter((btn: any) => btn?.value === true).length
     this.allButtonsVisible = visibleButtons === this.numberOfItems ? true : false;
-    if (this.allButtonsVisible === true) { return this.initScrollbar(); }
+    if (this.allButtonsVisible === true) { return; }
 
     // check if any button needs to be added to make the container scrollable
     this.scrollToMiddleRange();
-    this.initScrollbar();
   }
 
   private getFirstChild() {
