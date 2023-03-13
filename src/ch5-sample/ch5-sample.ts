@@ -937,12 +937,14 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     super.attachEventListeners();
     this.addEventListener('click', this._manageControls.bind(this));
     this._controlFullScreen.addEventListener('click', this.toggleFullScreen.bind(this));
+    this._vidControlPanel.addEventListener('click', this._videoCP.bind(this));
   }
 
   protected removeEventListeners() {
     super.removeEventListeners();
     this.removeEventListener('click', this._manageControls.bind(this));
     this._controlFullScreen.removeEventListener('click', this.toggleFullScreen.bind(this));
+    this._vidControlPanel.addEventListener('click', this._videoCP.bind(this));
 
   }
 
@@ -1781,6 +1783,10 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     ev.preventDefault();
     ev.stopImmediatePropagation();
   }
+
+	private _videoCP(event: Event) { // To avoid unwanted events on touch in the full screen mode
+		event.stopPropagation();
+	}
 
   // #endregion
 
