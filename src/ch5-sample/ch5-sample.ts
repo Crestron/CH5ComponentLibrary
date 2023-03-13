@@ -1272,9 +1272,9 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   }
 
   /**
- * Publish the video stop request
- * @param actionType
- */
+   * Publish the video stop request
+   * @param actionType
+   */
   private _videoStopRequest(actionType: string) {
     //  Stop the video immediately
     publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(actionType, this.ch5UId));
@@ -1287,9 +1287,9 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   }
 
   /**
-  * Send event to the backend based on the action Type
-  * @param actionType Video request type
-  */
+   * Send event to the backend based on the action Type
+   * @param actionType Video request type
+   */
   private _publishVideoEvent(actionType: string) {
     /* this.info('*** publishVideoEvent: actionType -> ' + actionType + '; lastRequestStatus -> ' + this.lastRequestStatus
       + '; lastResponseStatus -> ' + this.lastResponseStatus + '; CH5UID: ' + this.ch5UId); */
@@ -1357,9 +1357,9 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   }
 
   /**
-  * Video Response on subscribe
-  * @param response
-  */
+   * Video Response on subscribe
+   * @param response
+   */
   private _videoResponse(response: TVideoResponse) {
     //  Process the backend response
     if (typeof response === 'string') {
@@ -1608,9 +1608,9 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   }
 
   /**
-     * This will call the methods in ch5-background component
-     * @param videoInfo send the video id, size and position details
-     */
+   * This will call the methods in ch5-background component
+   * @param videoInfo send the video id, size and position details
+   */
   private ch5BackgroundAction(videoInfo: ICh5VideoBackground) {
     //  avoid calls before proper initialization
     if (videoInfo.width <= 0 || videoInfo.height <= 0 || videoInfo.id === '') {
@@ -1635,21 +1635,21 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   }
 
   /**
-     * Function to add background color to bg if false and clears it if true
-     * @param isShowVideoBehind if true, clears background
-     */
+   * Function to add background color to bg if false and clears it if true
+   * @param isShowVideoBehind if true, clears background
+   */
   private clearBackgroundOfVideoWrapper(isShowVideoBehind: boolean) {
     this._elContainer.style.background = isShowVideoBehind ? 'transparent' : 'black';
   }
 
   /**
-     * Create the Video JSON object to send the video for background
-     * @param actionStatus
-     * @param xPosition
-     * @param yPosition
-     * @param width
-     * @param height
-     */
+   * Create the Video JSON object to send the video for background
+   * @param actionStatus
+   * @param xPosition
+   * @param yPosition
+   * @param width
+   * @param height
+   */
   private videoBGObjJSON(actionStatus: string): ICh5VideoBackground {
     const retObj: ICh5VideoBackground = {
       "action": actionStatus,
@@ -1670,8 +1670,8 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   }
 
   /**
-     * Delete any elements other than control panel element
-     */
+   * Delete any elements other than control panel element
+   */
   private resetVideoElement() {
     const nodeList: NodeList = this._elContainer.childNodes;
     this.clearBackgroundOfVideoWrapper(true);
