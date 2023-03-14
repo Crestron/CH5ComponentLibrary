@@ -5,8 +5,6 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
-
 export class CH5DpadUtils {
 
 	// the join number is applied to the up button, join+1 applies to down,

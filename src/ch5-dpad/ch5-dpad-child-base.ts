@@ -21,6 +21,7 @@ import { TCh5DpadButtonClassListType, TCh5DpadChildButtonType, TCh5DpadConstruct
 import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
+import { Ch5DpadButton } from "./ch5-dpad-button";
 
 
 export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttributes {
@@ -69,15 +70,12 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		},
 		{
 			default: "",
-			isSignal: true,
-			name: "sendEventOnClickStart",
-			signalType: "number",
+			name: "sendEventOnClick",
 			removeAttributeOnNull: true,
 			type: "string",
-			isNullable: true,
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true,
-		}
+		},
 	];
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
@@ -106,9 +104,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		defaultArrowClass: ''
 	};
 	private _ch5Properties: Ch5Properties;
-
-	// protected setter getter specific vars
-	protected _sendEventOnClick: string = '';
 
 
 	// elements specific vars
@@ -163,17 +158,9 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	 * label
 	 */
 	public set label(value: string) {
-		this.logger.start('set label("' + value + '")');
-
-		if (_.isNil(value)) {
-			value = '';
-		}
-
-		if (value === this.label) {
-			return;
-		}
-
-		this._ch5Properties.set<string>("label", value);
+		this._ch5Properties.set<string>("label", value, () => {
+			this.handleLabel();
+		});
 	}
 	public get label() {
 		return this._ch5Properties.get<string>("label");
@@ -183,16 +170,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	 * key
 	 */
 	public set key(value: TCh5DpadChildButtonType) {
-		this.logger.start('set key("' + value + '")');
-
-		if (_.isNil(value)) {
-			return;
-		}
-
-		if (value === this.key) {
-			return;
-		}
-
 		this._ch5Properties.set<TCh5DpadChildButtonType>("key", value);
 	}
 	public get key() {
@@ -203,14 +180,8 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	 * iconClass
 	 */
 	public set iconClass(value: string) {
-		this.logger.start('set iconClass("' + value + '")');
-
 		if (_.isNil(value)) {
 			value = this.CSS_CLASS_LIST.defaultIconClass;
-		}
-
-		if (value === this.iconClass) {
-			return;
 		}
 
 		const prevValue = this.iconClass;
@@ -226,23 +197,13 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	 * iconUrl
 	 */
 	public set iconUrl(value: string) {
-		this.logger.start('set iconUrl("' + value + '")');
-
 		if (_.isNil(value)) {
 			value = '';
 		}
 
-		if (value === this.iconUrl) {
-			return;
-		}
-
-		this._ch5Properties.set<string>("iconUrl", value);
-		if (this.iconUrl.length > 0) {
-			this._icon.classList.add(this.CSS_CLASS_LIST.imageClassName);
-			this._icon.style.backgroundImage = `url(${value})`;
-		} else {
-			this._icon.classList.remove(this.CSS_CLASS_LIST.imageClassName);
-		}
+		this._ch5Properties.set<string>("iconUrl", value, () => {
+			this.handleIconUrl(value);
+		});
 	}
 	public get iconUrl() {
 		return this._ch5Properties.get<string>("iconUrl");
@@ -252,18 +213,13 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	 * sendEventOnClick
 	 */
 	public set sendEventOnClick(value: string) {
-		this.logger.start('set sendEventOnClick("' + value + '")');
-		if ((value !== '') && (value !== this._sendEventOnClick)) {
-			this._sendEventOnClick = value;
-			this.setAttribute('sendEventOnClick'.toLowerCase(), value);
-		}
+		this._ch5Properties.set<string>("sendEventOnClick", value);
 	}
 	public get sendEventOnClick() {
-		return this._sendEventOnClick;
+		return this._ch5Properties.get<string>("sendEventOnClick");
 	}
 
 	public set pressed(value: boolean) {
-		this.logger.log('set pressed("' + value + '")');
 		if (typeof value !== 'boolean') {
 			if (value === 'true' || (this.hasAttribute('pressed') && value === '')) {
 				value = true;
@@ -510,25 +466,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 				const thisRef: any = this;
 				const key = attributeChangedProperty.name;
 				thisRef[key] = newValue;
-				if (key === "iconclass") {
-					CH5DpadUtils.createIconTag(this);
-				}
-				else if (key === "iconurl") {
-					CH5DpadUtils.createIconTag(this);
-				}
-				else if (key === "key") {
-					ComponentHelper.setAttributeToElement(this, 'key', newValue);
-				}
-				else if (key === "pressed") {
-					let isPressed = false;
-					if (this.hasAttribute('pressed')) {
-						isPressed = this.toBoolean(newValue, true);
-					}
-					if (this._pressable) {
-						this._pressable.setPressed(isPressed);
-					}
-					this.updateCssClasses();
-				}
 			}
 			else {
 				super.attributeChangedCallback(attr, oldValue, newValue);
@@ -566,9 +503,8 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			if (parentContractName.length > 0) {
 				const joinValue = parentContractName + "." + CH5DpadUtils.contractSuffix[btnType];
 				this.sendEventOnClick = joinValue.toString();
-			} else if (parentContractEvent.length > 0) {
-				const joinValue = parseInt(parentContractEvent, 10) +
-					CH5DpadUtils.sendEventOnClickSigCountToAdd[btnType];
+			} else if (parentContractName.length <= 0 && parentContractEvent.length > 0) {
+				const joinValue = parseInt(parentContractEvent, 10) + CH5DpadUtils.sendEventOnClickSigCountToAdd[btnType];
 				this.sendEventOnClick = joinValue.toString();
 			} else {
 				this.sendEventOnClick = "";
@@ -648,9 +584,9 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	}
 
 	protected sendValueForRepeatDigital(value: boolean): void {
-		if (!this._sendEventOnClick) { return; }
+		if (!this.sendEventOnClick) { return; }
 
-		const clickSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance().getObjectAsBooleanSignal(this._sendEventOnClick);
+		const clickSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance().getObjectAsBooleanSignal(this.sendEventOnClick);
 
 		if (clickSignal && clickSignal.name) {
 			clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
@@ -662,8 +598,8 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	 */
 	protected _sendOnClickSignal(preventTrue: boolean = false, preventFalse: boolean = false): void {
 		let sigClick: Ch5Signal<boolean> | null = null;
-		if (this._sendEventOnClick) {
-			sigClick = Ch5SignalFactory.getInstance().getBooleanSignal(this._sendEventOnClick);
+		if (this.sendEventOnClick) {
+			sigClick = Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick);
 
 			if (sigClick !== null) {
 				if (!preventTrue) {
@@ -691,7 +627,14 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		}, this.TOUCH_TIMEOUT);
 	}
 
+	private handleLabel() {
+		this._icon.classList.remove('dpad-btn-icon', 'fas', Ch5DpadButton.DEFAULT_ICONS.center);
+		this._icon.classList.add("dpad-btn-label");
+		this._icon.innerHTML = this.label;
+	}
+
 	private handleIconClass(prevValue: string) {
+		CH5DpadUtils.createIconTag(this);
 		if (this.iconUrl.length < 1) {
 			if (this.iconClass.length > 0) {
 				this._icon.classList.remove(this.CSS_CLASS_LIST.primaryIconClass);
@@ -706,6 +649,16 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 					this._icon.classList.add(this.CSS_CLASS_LIST.defaultIconClass);
 				}
 			}
+		}
+	}
+
+	private handleIconUrl(value: string) {
+		CH5DpadUtils.createIconTag(this);
+		if (this.iconUrl.length > 0) {
+			this._icon.classList.add(this.CSS_CLASS_LIST.imageClassName);
+			this._icon.style.backgroundImage = `url(${value})`;
+		} else {
+			this._icon.classList.remove(this.CSS_CLASS_LIST.imageClassName);
 		}
 	}
 

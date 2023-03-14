@@ -112,7 +112,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			isObservableProperty: true,
 		},
 		{
-			default: true,
+			default: false,
 			name: "useContractForCustomClass",
 			removeAttributeOnNull: true,
 			type: "boolean",
@@ -120,7 +120,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			isObservableProperty: true,
 		},
 		{
-			default: true,
+			default: false,
 			name: "useContractForCustomStyle",
 			removeAttributeOnNull: true,
 			type: "boolean",
@@ -190,19 +190,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	//#region 1.2 private / protected variables
 
 	private COMPONENT_NAME: string = "ch5-dpad";
-	private _useContractForEnable: boolean = true;
-	private _useContractForShow: boolean = true;
-	private _useContractForCustomStyle: boolean = false;
-	private _useContractForCustomClass: boolean = false;
-	private _useContractForEnableSignalValue: string = '';
-	private _useContractForShowSignalValue: string = '';
-	private _useContractForCustomStyleSignalValue: string = '';
-	private _useContractForCustomClassSignalValue: string = '';
-
 	private _ch5Properties: Ch5Properties;
 
 	// state specific vars
-	private isComponentLoaded: boolean = false;
 	private isResizeInProgress: boolean = false;
 	private readonly RESIZE_DEBOUNCE: number = 500;
 
@@ -297,64 +287,32 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		const isUseContractForEnable = this.toBoolean(value);
 		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
 
-		if (contractName.length === 0 || (this._useContractForEnable === isUseContractForEnable)) {
+		if (contractName.length === 0 || (this.useContractForEnable === isUseContractForEnable)) {
 			return;
 		}
 
-		this.setAttribute('useContractForEnable'.toLowerCase(), isUseContractForEnable.toString());
-		this._useContractForEnable = isUseContractForEnable;
-		this.contractDefaultHelper();
-
-		const sigVal = contractName + "Enable";
-
-		const params: TCh5CreateReceiveStateSigParams = {
-			caller: this,
-			attrKey: 'useContractForEnable',
-			value: sigVal,
-			callbackOnSignalReceived: (newValue: string | boolean) => {
-				console.log(value);
-				newValue = (!value).toString();
-				console.log(newValue)
-				this.info(' subs callback for useContractForEnable: ', this._useContractForEnableSignalValue, ' Signal has value ', newValue);
-				ComponentHelper.setAttributeToElement(this, 'disabled', newValue);
-			}
-		};
-
-		this.setValueForReceiveStateBoolean(params);
+		this._ch5Properties.set<string>("useContractForEnable", isUseContractForEnable, () => {
+			this.handleUseContractForEnable(contractName, value);
+		});
 	}
 	public get useContractForEnable(): boolean {
-		return this._useContractForEnable;
+		return this._ch5Properties.get<boolean>("useContractForEnable");
 	}
 
 	public set useContractForShow(value: boolean) {
 		const isUseContractForShow = this.toBoolean(value);
 		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
 
-		if (contractName.length === 0 || (this._useContractForShow === isUseContractForShow)) {
+		if (contractName.length === 0 || (this.useContractForShow === isUseContractForShow)) {
 			return;
 		}
 
-		this.setAttribute('useContractForShow'.toLowerCase(), isUseContractForShow.toString());
-		this._useContractForShow = isUseContractForShow;
-		this.contractDefaultHelper();
-
-		const sigVal = contractName + "Show";
-
-		const params: TCh5CreateReceiveStateSigParams = {
-			caller: this,
-			attrKey: 'useContractForShow',
-			value: sigVal,
-			callbackOnSignalReceived: (newValue: string | boolean) => {
-				newValue = (!newValue).toString();
-				this.info(' subs callback for signalReceiveShow: ', this._useContractForShowSignalValue, ' Signal has value ', newValue);
-				ComponentHelper.setAttributeToElement(this, 'show', newValue);
-			}
-		};
-
-		this.setValueForReceiveStateBoolean(params);
+		this._ch5Properties.set<boolean>("useContractForShow", isUseContractForShow, () => {
+			this.handleUseContractForShow(contractName);
+		});
 	}
 	public get useContractForShow(): boolean {
-		return this._useContractForShow;
+		return this._ch5Properties.get<boolean>("useContractForShow");
 	}
 
 	public set useContractForCustomStyle(value: boolean) {
@@ -363,32 +321,17 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		const isUseContractForCustomStyle = this.toBoolean(value);
 		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
 
-		if (contractName.length === 0 || (this._useContractForCustomStyle === isUseContractForCustomStyle)) {
+		if (contractName.length === 0 || (this.useContractForCustomStyle === isUseContractForCustomStyle)) {
 			return;
 		}
 
-		this.setAttribute('usecontractforcustomstyle', isUseContractForCustomStyle.toString());
-		this._useContractForCustomStyle = isUseContractForCustomStyle;
-		this.contractDefaultHelper();
-
-		const sigVal = contractName + "CustomStyle";
-
-		const params: TCh5CreateReceiveStateSigParams = {
-			caller: this,
-			attrKey: 'useContractForCustomStyle',
-			value: sigVal,
-			callbackOnSignalReceived: (newValue: string | boolean) => {
-				newValue = newValue as string;
-				this.info(' subs callback for useContractForCustomStyle: ', this._useContractForCustomStyleSignalValue, ' Signal has value ', newValue);
-				this.customStyle = newValue;
-			}
-		};
-
-		this.setValueForReceiveStateString(params);
+		this._ch5Properties.set<boolean>("useContractForCustomStyle", isUseContractForCustomStyle, () => {
+			this.handleUseContractForCustomStyle(contractName);
+		});
 		this.logger.stop();
 	}
 	public get useContractForCustomStyle(): boolean {
-		return this._useContractForCustomStyle;
+		return this._ch5Properties.get<boolean>("useContractForCustomStyle");
 	}
 
 	public set useContractForCustomClass(value: boolean) {
@@ -397,33 +340,17 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		const isUseContractForCustomClass = this.toBoolean(value);
 		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
 
-		if (contractName.length === 0 || (this._useContractForCustomClass === isUseContractForCustomClass)) {
+		if (contractName.length === 0 || (this.useContractForCustomClass === isUseContractForCustomClass)) {
 			return;
 		}
 
-		this.setAttribute('useContractForCustomClass', isUseContractForCustomClass.toString());
-		this._useContractForCustomClass = isUseContractForCustomClass;
-		this.contractDefaultHelper();
-
-		const sigVal = contractName + "CustomClass";
-
-		const params: TCh5CreateReceiveStateSigParams = {
-			caller: this,
-			attrKey: 'useContractForCustomClass',
-			value: sigVal,
-			callbackOnSignalReceived: (newValue: string | boolean) => {
-				newValue = newValue as string;
-				this.info(' subs callback for useContractForCustomClass: ', this._useContractForCustomClassSignalValue,
-					' Signal has value ', newValue);
-				this.customClass = newValue;
-			}
-		};
-
-		this.setValueForReceiveStateString(params);
+		this._ch5Properties.set<boolean>("useContractForCustomClass", isUseContractForCustomClass, () => {
+			this.handleUseContractForCustomClass(contractName);
+		});
 		this.logger.stop();
 	}
 	public get useContractForCustomClass(): boolean {
-		return this._useContractForCustomClass;
+		return this._ch5Properties.get<boolean>("useContractForCustomClass");
 	}
 
 	//#endregion
@@ -481,25 +408,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			this.stretchHandler();
 
 			this.contractDefaultHelper();
-
-			this.isComponentLoaded = true;
 		});
-
-		Promise.all([
-			customElements.whenDefined('ch5-dpad-button'),
-		]).then(() => {
-			// check if all components required to build dpad are ready, instantiated and available for consumption
-			this.onAllSubElementsCreated();
-		});
-		this.logger.stop();
-	}
-
-	/**
-	 * Function create and bind events for dpad once all the expected child elements are defined and
-	 * ready for consumption
-	 */
-	private onAllSubElementsCreated() {
-		this.logger.start('onAllSubElementsCreated() - start', this.COMPONENT_NAME);
 
 		this.logger.stop();
 	}
@@ -838,6 +747,66 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		this.updateCssClasses();
 
 		this.logger.stop();
+	}
+
+	private handleUseContractForEnable(contractName: string, value: boolean) {
+		this.contractDefaultHelper();
+		const sigVal = contractName + "Enable";
+		const params: TCh5CreateReceiveStateSigParams = {
+			caller: this,
+			attrKey: 'useContractForEnable',
+			value: sigVal,
+			callbackOnSignalReceived: (newValue: string | boolean) => {
+				newValue = (!value).toString();
+				ComponentHelper.setAttributeToElement(this, 'disabled', newValue);
+			}
+		};
+		this.setValueForReceiveStateBoolean(params);
+	}
+
+	private handleUseContractForShow(contractName: string) {
+		this.contractDefaultHelper();
+		const sigVal = contractName + "Show";
+		const params: TCh5CreateReceiveStateSigParams = {
+			caller: this,
+			attrKey: 'useContractForShow',
+			value: sigVal,
+			callbackOnSignalReceived: (newValue: string | boolean) => {
+				newValue = (!newValue).toString();
+				ComponentHelper.setAttributeToElement(this, 'show', newValue);
+			}
+		};
+		this.setValueForReceiveStateBoolean(params);
+	}
+
+	private handleUseContractForCustomStyle(contractName: string) {
+		this.contractDefaultHelper();
+		const sigVal = contractName + "CustomStyle";
+		const params: TCh5CreateReceiveStateSigParams = {
+			caller: this,
+			attrKey: 'useContractForCustomStyle',
+			value: sigVal,
+			callbackOnSignalReceived: (newValue: string | boolean) => {
+				newValue = newValue as string;
+				this.customStyle = newValue;
+			}
+		};
+		this.setValueForReceiveStateString(params);
+	}
+
+	private handleUseContractForCustomClass(contractName: string) {
+		this.contractDefaultHelper();
+		const sigVal = contractName + "CustomClass";
+		const params: TCh5CreateReceiveStateSigParams = {
+			caller: this,
+			attrKey: 'useContractForCustomClass',
+			value: sigVal,
+			callbackOnSignalReceived: (newValue: string | boolean) => {
+				newValue = newValue as string;
+				this.customClass = newValue;
+			}
+		};
+		this.setValueForReceiveStateString(params);
 	}
 
 	private contractDefaultHelper() {

@@ -246,9 +246,8 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	public constructor(params: TCh5KeypadButtonCreateDTO) {
 		super();
 		this.logger.start('constructor()', this.COMPONENT_NAME + 'Button');
-		this.params = params;
-
 		this._ch5Properties = new Ch5Properties(this, Ch5KeypadButton.COMPONENT_PROPERTIES);
+		this.params = params;
 		this.logger.stop();
 	}
 
@@ -260,7 +259,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		super.initAttributes();
 		// set data-ch5-id
 		this.setAttribute('data-ch5-id', this.getCrId());
-
 		ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5KeypadChild); // WAI-ARIA Attributes
 		const defaultMajors: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '#', ''];
 		const defaultMinors: string[] = ['+', '&nbsp;', 'ABC', 'DEF', 'GHI', 'JKL', 'MNO', 'PQRS', 'TUV', 'WXYZ', '', '', ''];
@@ -286,7 +284,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 				}
 			}
 		}
-
 		this.logger.stop();
 	}
 
@@ -318,9 +315,9 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		this.createElementsAndInitialize();
 
 		this.initCommonMutationObserver(this);
-		customElements.whenDefined('ch5-keypad-button').then(() => {
-			this.componentLoadedEvent(Ch5KeypadButton.ELEMENT_NAME, this.id);
-		});
+		// customElements.whenDefined('ch5-keypad-button').then(() => {
+		// 	this.componentLoadedEvent(Ch5KeypadButton.ELEMENT_NAME, this.id);
+		// });
 		this.logger.stop();
 	}
 
@@ -328,12 +325,12 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	 * Function to create HTML elements of the components including child elements
 	 */
 	protected createElementsAndInitialize() {
-
+		this.initAttributes();
 		if (!this._wasInstatiated) {
 			this.createHtmlElements();
 		}
 		this.attachEventListeners();
-		this.initAttributes();
+
 		this._wasInstatiated = true;
 
 		// this.updateCssClasses();
@@ -346,26 +343,24 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		this.logger.start('createHtmlElements', this.COMPONENT_NAME);
 		ComponentHelper.clearComponentContent(this);
 		this.classList.add(this.primaryCssClass);
-		setTimeout(() => {
-			this.classList.add(...(this.params.className.split(' ').filter(element => element))); // the filter removes empty spaces
-			this.setAttribute('key', this.params.name);
-			if (this.params.major.length > 0 ||
-				this.params.minor.length > 0 ||
-				this.params.iconClass.length > 0 || this.params.key.length > 0) {
-				this._elButton = document.createElement('button');
-				this._elMajorSpan = this.createLabelElementAndAppend(this.labelMajorCssClass, this.labelMajor);
-				this._elMinorSpan = this.createLabelElementAndAppend(this.labelMinorCssClass, this.labelMinor);
-				this._elButton.appendChild(this._elMajorSpan);
-				this._elButton.appendChild(this._elMinorSpan);
-				this.appendChild(this._elButton);
-			} else {
-				this.classList.add(this.emptyBtnCssClass);
-			}
+		this.classList.add(...(this.params.className.split(' ').filter(element => element))); // the filter removes empty spaces
+		this.setAttribute('key', this.params.name);
+		if (this.params.major.length > 0 ||
+			this.params.minor.length > 0 ||
+			this.params.iconClass.length > 0 || this.params.key.length > 0) {
+			this._elButton = document.createElement('button');
+			this._elMajorSpan = this.createLabelElementAndAppend(this.labelMajorCssClass, this.labelMajor);
+			this._elMinorSpan = this.createLabelElementAndAppend(this.labelMinorCssClass, this.labelMinor);
+			this._elButton.appendChild(this._elMajorSpan);
+			this._elButton.appendChild(this._elMinorSpan);
+			this.appendChild(this._elButton);
+		} else {
+			this.classList.add(this.emptyBtnCssClass);
+		}
 
-			if (this.params.pressed) {
-				this.classList.add(this.primaryCssClass + this.pressedCssClassPostfix);
-			}
-		})
+		if (this.params.pressed) {
+			this.classList.add(this.primaryCssClass + this.pressedCssClassPostfix);
+		}
 
 
 		this.logger.stop();
@@ -478,9 +473,9 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 	protected createLabelElementAndAppend(className: string, value: string = '') {
 		const element = document.createElement('span');
-		this._elIcon = document.createElement('span');
 		element.classList.add(className);
 		if (this.iconClass.length > 0 && className === this.labelMajorCssClass) {
+			this._elIcon = document.createElement('span');
 			this._elIcon.classList.add(...this.iconClass.split(' ').filter(ele => ele));
 			element.appendChild(this._elIcon);
 			element.classList.add('has-icon');

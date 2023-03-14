@@ -39,7 +39,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	/**
 	 * The first value is considered the default one
 	 */
-	public static readonly TYPES: TCh5KeypadType[] = ['default', 'info', 'text', 'danger', 'warning', 'success', 'primary', 'secondary'];
+	public static readonly TYPES: TCh5KeypadType[] = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
 
 	/**
 	 * The first value is considered the default one
@@ -144,7 +144,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		},
 		{
 			default: true,
-			name: "useContractforEnable",
+			name: "useContractForEnable",
 			removeAttributeOnNull: true,
 			type: "boolean",
 			valueOnAttributeEmpty: true,
@@ -226,7 +226,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	private COMPONENT_NAME: string = "ch5-keypad";
 	private _contractName: string = '';
 	private _type: TCh5KeypadType = Ch5Keypad.TYPES[0];
-	private _sendEventOnClickStart: string = '';
 	private _useContractForEnable: boolean = true;
 	private _useContractForShow: boolean = true;
 	private _useContractForCustomStyle: boolean = false;
@@ -354,6 +353,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 	public set useContractForEnable(value: boolean) {
 		this.logger.start('Ch5Keypad set useContractForEnable("' + value + '")');
+		
 		const isUseContractForEnable = this.toBoolean(value);
 		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
 
@@ -362,7 +362,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		}
 
 		this.setAttribute('useContractForEnable'.toLowerCase(), isUseContractForEnable.toString());
-		this._useContractForEnable = isUseContractForEnable;
+		this.useContractForEnable = isUseContractForEnable;
 		const sigVal = contractName + "Enable";
 
 		const params: TCh5CreateReceiveStateSigParams = {
@@ -532,7 +532,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		this.logger.start(this.COMPONENT_NAME + 'receiveStateExtraButtonShow');
 		this._ch5Properties.set("receiveStateExtraButtonShow", value, null, (newValue: boolean) => {
 			this._ch5Properties.setForSignalResponse<boolean>("showExtraButton", newValue, () => {
-				this.showExtraButtonHandler();
+				this.showExtraButtonForNonContract();
 			});
 		});
 		this.logger.stop();
