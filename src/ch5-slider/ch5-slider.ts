@@ -1080,7 +1080,12 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	constructor() {
 		super();
 		this.info('Ch5Slider.constructor()');
+		if (!this._wasInstatiated) {
+			this.createInternalHtml();
+		}
+		this._wasInstatiated = true;
 		this._ch5Properties = new Ch5Properties(this, Ch5Slider.COMPONENT_PROPERTIES);
+		this.updateCssClasses();
 	}
 
 	/**
@@ -1150,10 +1155,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			cssPressedClass: this.primaryCssClass + '--pressed'
 		});
 
-		if (!this._wasInstatiated) {
-			this.createInternalHtml();
-		}
-		this._wasInstatiated = true;
 
 		// WAI-ARIA Attributes
 		if (!this.hasAttribute('role')) {
