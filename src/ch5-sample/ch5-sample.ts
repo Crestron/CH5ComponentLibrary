@@ -131,8 +131,8 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     },
     {
       default: "",
-      name: "snapShotURL",
-      nameForSignal: "receiveStateSnapShotURL",
+      name: "snapshotURL",
+      nameForSignal: "receiveStateSnapshotURL",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -140,9 +140,9 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     },
     {
       default: 0,
-      name: "snapShotRefreshRate",
+      name: "snapshotRefreshRate",
       removeAttributeOnNull: true,
-      nameForSignal: "receiveStateSnapShotRefreshRate",
+      nameForSignal: "receiveStateSnapshotRefreshRate",
       type: "number",
       valueOnAttributeEmpty: null,
       numberProperties: {
@@ -157,8 +157,8 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     },
     {
       default: "",
-      name: "snapShotUserId",
-      nameForSignal: "receiveStateSnapShotUserId",
+      name: "snapshotUserId",
+      nameForSignal: "receiveStateSnapshotUserId",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -166,8 +166,8 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     },
     {
       default: "",
-      name: "snapShotPassword",
-      nameForSignal: "receiveStateSnapShotPassword",
+      name: "snapshotPassword",
+      nameForSignal: "receiveStateSnapshotPassword",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -261,7 +261,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     {
       default: "",
       isSignal: true,
-      name: "receiveStateSnapShotURL",
+      name: "receiveStateSnapshotURL",
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
@@ -271,7 +271,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     {
       default: "",
       isSignal: true,
-      name: "receiveStateSnapShotRefreshRate",
+      name: "receiveStateSnapshotRefreshRate",
       signalType: "number",
       removeAttributeOnNull: true,
       type: "string",
@@ -281,7 +281,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     {
       default: "",
       isSignal: true,
-      name: "receiveStateSnapShotUserId",
+      name: "receiveStateSnapshotUserId",
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
@@ -291,7 +291,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     {
       default: "",
       isSignal: true,
-      name: "receiveStateSnapShotPassword",
+      name: "receiveStateSnapshotPassword",
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
@@ -351,7 +351,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     {
       default: "",
       isSignal: true,
-      name: "sendEventSnapShotURL",
+      name: "sendEventSnapshotURL",
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
@@ -411,7 +411,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     {
       default: "",
       isSignal: true,
-      name: "sendEventSnapShotStatus",
+      name: "sendEventSnapshotStatus",
       signalType: "number",
       removeAttributeOnNull: true,
       type: "string",
@@ -421,7 +421,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     {
       default: "",
       isSignal: true,
-      name: "sendEventSnapShotLastUpdateTime",
+      name: "sendEventSnapshotLastUpdateTime",
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
@@ -539,40 +539,40 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     return this._ch5Properties.get<string>("password");
   }
 
-  public set snapShotURL(value: string) {
-    this._ch5Properties.set<string>("snapShotURL", value, () => {
-      this.handleSnapShotURL();
+  public set snapshotURL(value: string) {
+    this._ch5Properties.set<string>("snapshotURL", value, () => {
+      this.handleSnapshotURL();
     });
   }
-  public get snapShotURL(): string {
-    return this._ch5Properties.get<string>("snapShotURL");
+  public get snapshotURL(): string {
+    return this._ch5Properties.get<string>("snapshotURL");
   }
 
-  public set snapShotRefreshRate(value: number) {
-    this._ch5Properties.set<number>("snapShotRefreshRate", value, () => {
-      this.handlesnapShotRefreshRate();
+  public set snapshotRefreshRate(value: number) {
+    this._ch5Properties.set<number>("snapshotRefreshRate", value, () => {
+      this.handlesnapshotRefreshRate();
     });
   }
-  public get snapShotRefreshRate(): number {
-    return this._ch5Properties.get<number>("snapShotRefreshRate");
+  public get snapshotRefreshRate(): number {
+    return this._ch5Properties.get<number>("snapshotRefreshRate");
   }
 
-  public set snapShotUserId(value: string) {
-    this._ch5Properties.set<string>("snapShotUserId", value, () => {
-      this.handleSnapShotUserId();
+  public set snapshotUserId(value: string) {
+    this._ch5Properties.set<string>("snapshotUserId", value, () => {
+      this.handleSnapshotUserId();
     });
   }
-  public get snapShotUserId(): string {
-    return this._ch5Properties.get<string>("snapShotUserId");
+  public get snapshotUserId(): string {
+    return this._ch5Properties.get<string>("snapshotUserId");
   }
 
-  public set snapShotPassword(value: string) {
-    this._ch5Properties.set<string>("snapShotPassword", value, () => {
-      this.handleSnapShotPassword();
+  public set snapshotPassword(value: string) {
+    this._ch5Properties.set<string>("snapshotPassword", value, () => {
+      this.handleSnapshotPassword();
     });
   }
-  public get snapShotPassword(): string {
-    return this._ch5Properties.get<string>("snapShotPassword");
+  public get snapshotPassword(): string {
+    return this._ch5Properties.get<string>("snapshotPassword");
   }
 
   public set size(value: TCh5SampleSize) {
@@ -655,46 +655,46 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     return this._ch5Properties.get<string>('receiveStatePassword');
   }
 
-  public set receiveStateSnapShotURL(value: string) {
-    this._ch5Properties.set("receiveStateSnapShotURL", value, null, (newValue: string) => {
-      this._ch5Properties.setForSignalResponse<string>("snapShotURL", newValue, () => {
-        this.handleReceiveStateSnapShotURL();
+  public set receiveStateSnapshotURL(value: string) {
+    this._ch5Properties.set("receiveStateSnapshotURL", value, null, (newValue: string) => {
+      this._ch5Properties.setForSignalResponse<string>("snapshotURL", newValue, () => {
+        this.handleReceiveStateSnapshotURL();
       });
     });
   }
-  public get receiveStateSnapShotURL(): string {
-    return this._ch5Properties.get<string>('receiveStateSnapShotURL');
+  public get receiveStateSnapshotURL(): string {
+    return this._ch5Properties.get<string>('receiveStateSnapshotURL');
   }
 
-  public set receiveStateSnapShotRefreshRate(value: string) {
-    this._ch5Properties.set("receiveStateSnapShotRefreshRate", value, null, (newValue: number) => {
-      this.handleReceiveStateSnapShotRefreshRate();
+  public set receiveStateSnapshotRefreshRate(value: string) {
+    this._ch5Properties.set("receiveStateSnapshotRefreshRate", value, null, (newValue: number) => {
+      this.handleReceiveStateSnapshotRefreshRate();
     });
   }
-  public get receiveStateSnapShotRefreshRate(): string {
-    return this._ch5Properties.get<string>('receiveStateSnapShotRefreshRate');
+  public get receiveStateSnapshotRefreshRate(): string {
+    return this._ch5Properties.get<string>('receiveStateSnapshotRefreshRate');
   }
 
-  public set receiveStateSnapShotUserId(value: string) {
-    this._ch5Properties.set("receiveStateSnapShotUserId", value, null, (newValue: string) => {
-      this._ch5Properties.setForSignalResponse<string>("snapShotUserId", newValue, () => {
-        this.handleReceiveStateSnapShotUserId();
+  public set receiveStateSnapshotUserId(value: string) {
+    this._ch5Properties.set("receiveStateSnapshotUserId", value, null, (newValue: string) => {
+      this._ch5Properties.setForSignalResponse<string>("snapshotUserId", newValue, () => {
+        this.handleReceiveStateSnapshotUserId();
       });
     });
   }
-  public get receiveStateSnapShotUserId(): string {
-    return this._ch5Properties.get<string>('receiveStateSnapShotUserId');
+  public get receiveStateSnapshotUserId(): string {
+    return this._ch5Properties.get<string>('receiveStateSnapshotUserId');
   }
 
-  public set receiveStateSnapShotPassword(value: string) {
-    this._ch5Properties.set("receiveStateSnapShotPassword", value, null, (newValue: string) => {
-      this._ch5Properties.setForSignalResponse<string>("snapShotPassword", newValue, () => {
-        this.handleReceiveStateSnapShotPassword();
+  public set receiveStateSnapshotPassword(value: string) {
+    this._ch5Properties.set("receiveStateSnapshotPassword", value, null, (newValue: string) => {
+      this._ch5Properties.setForSignalResponse<string>("snapshotPassword", newValue, () => {
+        this.handleReceiveStateSnapshotPassword();
       });
     });
   }
-  public get receiveStateSnapShotPassword(): string {
-    return this._ch5Properties.get<string>('receiveStateSnapShotPassword');
+  public get receiveStateSnapshotPassword(): string {
+    return this._ch5Properties.get<string>('receiveStateSnapshotPassword');
   }
 
   public set receivestatevideocount(value: string) {
@@ -734,11 +734,11 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     return this._ch5Properties.get<string>('sendEventSelectionURL');
   }
 
-  public set sendEventSnapShotURL(value: string) {
-    this._ch5Properties.set("sendEventSnapShotURL", value);
+  public set sendEventSnapshotURL(value: string) {
+    this._ch5Properties.set("sendEventSnapshotURL", value);
   }
-  public get sendEventSnapShotURL(): string {
-    return this._ch5Properties.get<string>('sendEventSnapShotURL');
+  public get sendEventSnapshotURL(): string {
+    return this._ch5Properties.get<string>('sendEventSnapshotURL');
   }
 
   public set sendEventState(value: string) {
@@ -776,18 +776,18 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     return this._ch5Properties.get<string>('sendEventResolution');
   }
 
-  public set sendEventSnapShotStatus(value: string) {
-    this._ch5Properties.set("sendEventSnapShotStatus", value);
+  public set sendEventSnapshotStatus(value: string) {
+    this._ch5Properties.set("sendEventSnapshotStatus", value);
   }
-  public get sendEventSnapShotStatus(): string {
-    return this._ch5Properties.get<string>('sendEventSnapShotStatus');
+  public get sendEventSnapshotStatus(): string {
+    return this._ch5Properties.get<string>('sendEventSnapshotStatus');
   }
 
-  public set sendEventSnapShotLastUpdateTime(value: string) {
-    this._ch5Properties.set("sendEventSnapShotLastUpdateTime", value);
+  public set sendEventSnapshotLastUpdateTime(value: string) {
+    this._ch5Properties.set("sendEventSnapshotLastUpdateTime", value);
   }
-  public get sendEventSnapShotLastUpdateTime(): string {
-    return this._ch5Properties.get<string>('sendEventSnapShotLastUpdateTime');
+  public get sendEventSnapshotLastUpdateTime(): string {
+    return this._ch5Properties.get<string>('sendEventSnapshotLastUpdateTime');
   }
 
 
@@ -814,6 +814,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
 
   public constructor() {
     super();
+    this.ignoreAttributes = ['disabled', 'receiveStateEnable' ];
     this.logger.start('constructor()', Ch5Sample.ELEMENT_NAME);
     if (!this._wasInstatiated) {
       this.createInternalHtml();
@@ -989,16 +990,16 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     //  Enter your Code here
   }
 
-  private handleSnapShotURL() {
+  private handleSnapshotURL() {
     //  Enter your Code here
   }
-  private handlesnapShotRefreshRate() {
+  private handlesnapshotRefreshRate() {
     //  Enter your Code here
   }
-  private handleSnapShotUserId() {
+  private handleSnapshotUserId() {
     //  Enter your Code here
   }
-  private handleSnapShotPassword() {
+  private handleSnapshotPassword() {
     //  Enter your Code here
   }
   private handleSize() {
@@ -1034,16 +1035,16 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     }
   }
 
-  private handleReceiveStateSnapShotURL() {
+  private handleReceiveStateSnapshotURL() {
     //  Enter your Code here
   }
-  private handleReceiveStateSnapShotRefreshRate() {
+  private handleReceiveStateSnapshotRefreshRate() {
     //  Enter your Code here
   }
-  private handleReceiveStateSnapShotUserId() {
+  private handleReceiveStateSnapshotUserId() {
     //  Enter your Code here
   }
-  private handleReceiveStateSnapShotPassword() {
+  private handleReceiveStateSnapshotPassword() {
     //  Enter your Code here
   }
   private handleReceivestatevideocount() {
@@ -1280,7 +1281,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   private _videoStopRequest(actionType: string) {
     //  Stop the video immediately
     publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(actionType, this.ch5UId));
-    // 	this.stopLoadingSnapShots();
+    // 	this.stopLoadingSnapshots();
     this.fromExitFullScreen = false;
     // this.lastRequestUrl = '';
     //  /this._performanceDuration(CH5VideoUtils.VIDEO_ACTION.STOP, performance.now(), 'timerStart');
@@ -1564,7 +1565,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       case CH5VideoUtils.VIDEO_ACTION.STARTED:
         //  clearTimeout(this.exitSnapsShotTimer); //  clear timer to stop refreshing image
         this.resetVideoElement();
-        // 	this.switchLoadingSnapShot();
+        // 	this.switchLoadingSnapshot();
         // 	this.firstTime = false;
         this.ch5BackgroundAction(this.videoBGObjJSON(CH5VideoUtils.VIDEO_ACTION.STARTED));
         break;
@@ -1663,9 +1664,9 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       "image": {} as HTMLImageElement
     };
 
-    /* if (actionStatus === this.VIDEO_ACTION.SNAPSHOT) {
-      const sData: Ch5VideoSnapshot = this.snapShotMap.get(this.receivedStateSelect);
-      retObj.image = sData.getSnapShot();
+    /* if (actionStatus === this.VIDEO_ACTION.Snapshot) {
+      const sData: Ch5VideoSnapshot = this.snapshotMap.get(this.receivedStateSelect);
+      retObj.image = sData.getSnapshot();
     } */
     console.log('videoBGObjJSON-->', JSON.stringify(retObj));
     return retObj;

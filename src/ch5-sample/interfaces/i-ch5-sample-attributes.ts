@@ -92,7 +92,7 @@ export interface ICh5SampleAttributes extends ICh5CommonAttributes {
       /**
        * @documentation
        * [
-       * "`snapShotURL` attribute",
+       * "`snapshotURL` attribute",
        * "***",
        * "Default empty. Defines the still image URL as an attribute, superseded by receiveStateSnapshotURL"
        * ]
@@ -100,44 +100,44 @@ export interface ICh5SampleAttributes extends ICh5CommonAttributes {
        * @default 
        * @attributeType "String"
        */
-      snapShotURL: string;
+      snapshotURL: string;
       /**
        * @documentation
        * [
-       * "`snapShotRefreshRate` attribute",
+       * "`snapshotRefreshRate` attribute",
        * "***",
-       * "Default 0. Defines the refresh period for a snapshot URL in units of seconds. 0 indicates no refresh. Superseded by receiveStateSnapShotRefreshrate"
+       * "Default 0. Defines the refresh period for a snapshot URL in units of seconds. 0 indicates no refresh. Superseded by receiveStateSnapshotRefreshrate"
        * ]
        * @name snapshotrefreshrate
        * @default 0
        * @limits [{"min": 0, "max": 5}]
        * @attributeType "Integer"
        */
-      snapShotRefreshRate: number;
+      snapshotRefreshRate: number;
       /**
        * @documentation
        * [
-       * "`snapShotUserId` attribute",
+       * "`snapshotUserId` attribute",
        * "***",
-       * "Default empty. Defines the userid passed to the camera as credentials for the image URL. Superseded by receiveStateSnapShotUserId,"
+       * "Default empty. Defines the userid passed to the camera as credentials for the image URL. Superseded by receiveStateSnapshotUserId,"
        * ]
        * @name snapshotuserid
        * @default 
        * @attributeType "String"
        */
-      snapShotUserId: string;
+      snapshotUserId: string;
       /**
        * @documentation
        * [
-       * "`snapShotPassword` attribute",
+       * "`snapshotPassword` attribute",
        * "***",
-       * "Default empty. Defines the password passed to the camera as credentials for the image URL. Superseded by receiveStateSnapShotPassword."
+       * "Default empty. Defines the password passed to the camera as credentials for the image URL. Superseded by receiveStateSnapshotPassword."
        * ]
        * @name snapshotpassword
        * @default 
        * @attributeType "String"
        */
-      snapShotPassword: string;
+      snapshotPassword: string;
       /**
        * @documentation
        * [
@@ -238,7 +238,7 @@ export interface ICh5SampleAttributes extends ICh5CommonAttributes {
       /**
        * @documentation
        * [
-       * "`receiveStateSnapShotURL` attribute",
+       * "`receiveStateSnapshotURL` attribute",
        * "***",
        * "provides the still image URL to use when selection changes to INDEX value. See the description of INDEX in receiveStateURL."
        * ]
@@ -246,11 +246,11 @@ export interface ICh5SampleAttributes extends ICh5CommonAttributes {
        * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
        * @attributeType "Join"
        */
-      receiveStateSnapShotURL: string;
+      receiveStateSnapshotURL: string;
       /**
        * @documentation
        * [
-       * "`receiveStateSnapShotRefreshRate` attribute",
+       * "`receiveStateSnapshotRefreshRate` attribute",
        * "***",
        * "Defines the refresh period for a still image url when the selection changes to INDEX value. 0 indicates no refresh. See the description of INDEX in receiveStateURL."
        * ]
@@ -258,11 +258,11 @@ export interface ICh5SampleAttributes extends ICh5CommonAttributes {
        * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
        * @attributeType "Join"
        */
-      receiveStateSnapShotRefreshRate: string;
+      receiveStateSnapshotRefreshRate: string;
       /**
        * @documentation
        * [
-       * "`receiveStateSnapShotUserId` attribute",
+       * "`receiveStateSnapshotUserId` attribute",
        * "***",
        * "provides the userid for credentials supplied to camera for image URL. See description of INDEX in receiveStateURL"
        * ]
@@ -270,11 +270,11 @@ export interface ICh5SampleAttributes extends ICh5CommonAttributes {
        * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
        * @attributeType "Join"
        */
-      receiveStateSnapShotUserId: string;
+      receiveStateSnapshotUserId: string;
       /**
        * @documentation
        * [
-       * "`receiveStateSnapShotPassword` attribute",
+       * "`receiveStateSnapshotPassword` attribute",
        * "***",
        * "provides the password for credentials supplied to camera for image URL. See description of INDEX in receiveStateURL"
        * ]
@@ -282,7 +282,7 @@ export interface ICh5SampleAttributes extends ICh5CommonAttributes {
        * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
        * @attributeType "Join"
        */
-      receiveStateSnapShotPassword: string;
+      receiveStateSnapshotPassword: string;
       /**
        * @documentation
        * [
@@ -346,7 +346,7 @@ export interface ICh5SampleAttributes extends ICh5CommonAttributes {
       /**
        * @documentation
        * [
-       * "`sendEventSnapShotURL` attribute",
+       * "`sendEventSnapshotURL` attribute",
        * "***",
        * "current selected snapshot URL"
        * ]
@@ -354,7 +354,7 @@ export interface ICh5SampleAttributes extends ICh5CommonAttributes {
        * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
        * @attributeType "Join"
        */
-      sendEventSnapShotURL: string;
+      sendEventSnapshotURL: string;
       /**
        * @documentation
        * [
@@ -418,7 +418,7 @@ export interface ICh5SampleAttributes extends ICh5CommonAttributes {
       /**
        * @documentation
        * [
-       * "`sendEventSnapShotStatus` attribute",
+       * "`sendEventSnapshotStatus` attribute",
        * "***",
        * "current state of the still image associated with the current source selection numeric - 0 not shown, 1 -currently shown, 2 - in error"
        * ]
@@ -426,11 +426,11 @@ export interface ICh5SampleAttributes extends ICh5CommonAttributes {
        * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
        * @attributeType "Join"
        */
-      sendEventSnapShotStatus: string;
+      sendEventSnapshotStatus: string;
       /**
        * @documentation
        * [
-       * "`sendEventSnapShotLastUpdateTime` attribute",
+       * "`sendEventSnapshotLastUpdateTime` attribute",
        * "***",
        * "the timestamp of  the last update time of the still image associated with the current source selection string - serial in RFC 3339 format"
        * ]
@@ -438,6 +438,6 @@ export interface ICh5SampleAttributes extends ICh5CommonAttributes {
        * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
        * @attributeType "Join"
        */
-      sendEventSnapShotLastUpdateTime: string;
+      sendEventSnapshotLastUpdateTime: string;
 
 }
