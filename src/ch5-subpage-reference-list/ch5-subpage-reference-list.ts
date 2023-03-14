@@ -1595,14 +1595,13 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   private subpageShow() {
-    // check whether all buttons are visible 
+    // check whether all subpages are visible 
     const visibleButtons = this.showSignalHolder.filter((btn: any) => btn?.value === true).length
     this.allSubpageVisible = visibleButtons === this.numberOfItems ? true : false;
-    if (this.allSubpageVisible === true) { return this.initScrollbar(); }
+    if (this.allSubpageVisible === true) { return; }
 
-    // check if any button needs to be added to make the container scrollable
+    // check if any subpage needs to be added to make the container scrollable
     this.scrollToMiddleRange();
-    this.initScrollbar();
   }
 
   private getFirstChild() {
