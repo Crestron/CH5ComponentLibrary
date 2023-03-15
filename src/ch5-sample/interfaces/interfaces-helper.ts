@@ -71,3 +71,13 @@ export type IVideoElementDimensions = {
     totalHeight: number;
     totalWidth: number;
 }
+
+export type TSnapShotSignalName = {
+    index: number;
+    videoTagId: string;
+    snapshotURL: string;
+    snapshotRefreshRate: number;
+    snapshotUser: string;
+    snapshotPass: string;
+    isMultipleVideo: boolean;
+}
