@@ -1066,12 +1066,9 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   private updateCssClass() {
     this.logger.start('UpdateCssClass');
     super.updateCssClasses();
-
    /*  this._elContainer.classList.add(Ch5Sample.COMPONENT_DATA.ASPECT_RATIO.classListPrefix + this.aspectRatio);
-
     this._elContainer.classList.add(Ch5Sample.COMPONENT_DATA.SIZE.classListPrefix + this.size); */
     this._elContainer.classList.add(this.primaryCssClass);
-
     this.logger.stop();
   }
 
@@ -1324,13 +1321,12 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
           this.info("*** videoStartRequest");
           this._videoStartRequest(actionType);
         } else {
-          this.info("*** this.sendEvent");
+          // this.info("*** this.sendEvent");
           // this._sendEvent(this.sendEventState, 0, 'number');
         }
         break;
       case CH5VideoUtils.VIDEO_ACTION.STOP:
         this.info("VIDEO_ACTION.STOP - this.playValue", this.playValue);
-
         this.info("*** MyCase STOPPED - this.isVideoPublished", this.isVideoPublished);
         if (!this.isVideoPublished) { //  this flag avoids stop command since no video has started
           return;
@@ -1373,10 +1369,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     }
   }
 
-  /**
-   * Video Response on subscribe
-   * @param response
-   */
   private _videoResponse(response: TVideoResponse) {
     //  Process the backend response
     if (typeof response === 'string') {
@@ -1385,7 +1377,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       this.responseObj = response;
     }
     console.log("_videoResponse-->", JSON.stringify(this.responseObj));
-
     this.info(JSON.stringify(this.responseObj));
 
     const isMyObjectEmpty = !Object.keys(response).length;
@@ -1429,7 +1420,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     console.log('Response Status: ' + responseStatus.toLowerCase());
     switch (responseStatus.toLowerCase()) {
       case CH5VideoUtils.VIDEO_ACTION.STOPPED:
-
         //  When the user continously clicks on play and stop without a gap, started
         const vidResponses = ['connecting', 'buffering', 'retrying', 'resizing', 'error'];
         if (vidResponses.indexOf(this.lastResponseStatus) !== -1) {
@@ -1438,7 +1428,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
           this.lastResponseStatus = CH5VideoUtils.VIDEO_ACTION.STARTED;
           this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
         }
-
         this.isVideoReady = false;
         this.isOrientationChanged = false;
         this.isExitFullscreen = false;
@@ -1539,10 +1528,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     this.lastResponseStatus = responseStatus;
   }
 
-  /**
-   * Call back function if the video response has an error
-   * @param error
-   */
+  // Call back function if the video response has an error
   private _errorResponse(error: any) {
     this.info("Ch5Video - Error when the video response", error);
   }
@@ -1596,7 +1582,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         break;
       case CH5VideoUtils.VIDEO_ACTION.ERROR:
         if (this.elementIsInViewPort) {
-          this._elContainer.style.background = '#000';
+          this.clearBackgroundOfVideoWrapper(false);
           if (nodeList.length > 1) {
             this._elContainer.childNodes[1].remove();
           }
@@ -1826,7 +1812,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
           this._elContainer.style.removeProperty('border-bottom'); // remove the border if any
           //	this._sendEvent(this.sendEventSnapShotStatus, this.receivedStateSelect, 'number');
         } else {
-          this._elContainer.style.background = '#000';
+          this.clearBackgroundOfVideoWrapper(false)
           if (this.lastBackGroundRequest !== CH5VideoUtils.VIDEO_ACTION.MARK
             && this.url !== '' && this.lastResponseStatus !== CH5VideoUtils.VIDEO_ACTION.ERROR && this.playValue) {
             this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.MARK, 'drawSnapShot#3');
