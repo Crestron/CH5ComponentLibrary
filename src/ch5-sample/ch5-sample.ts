@@ -1205,12 +1205,9 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
    * @param yPosition
    * @param width
    * @param height
-   * @param zIndex
+   * @param zindex
    */
   public videoStartObjJSON(actionType: string, logInfo: string): ICh5VideoPublishEvent {
-    const uId: number = this.ch5UId;
-    const zIndex: number = parseInt('0', 0);
-    const alphaBlend: boolean = this.isAlphaBlend;
     const d = new Date();
     const startTime: number = d.getMilliseconds();
     const endTime: number = d.getMilliseconds() + 2000;
@@ -1238,7 +1235,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     //  Math.ceil is used to avoid this.
     const retObj = {
       "action": actionType,
-      "id": uId,
+      "id": this.ch5UId,
       "credentials": {
         "userid": this.userId,
         "password": this.password
@@ -1252,9 +1249,9 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         "left": Math.ceil(xPosition),
         "width": Math.ceil(width),
         "height": Math.ceil(height),
-        "z": zIndex
+        "z": this.zindex
       },
-      "alphablend": alphaBlend, //  optional, default true, false indicates video displayed above the HTML
+      "alphablend": this.isAlphaBlend, //  optional, default true, false indicates video displayed above the HTML
       "starttime": startTime, //  milliseconds since 1-1-1970 UTC
       "endtime": endTime, //  2000 msecs later
       "timing": "linear" //  only linear supported initially
