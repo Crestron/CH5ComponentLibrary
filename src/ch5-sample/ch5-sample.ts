@@ -672,7 +672,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
 
   public set receiveStateSnapshotRefreshRate(value: string) {
     this._ch5Properties.set("receiveStateSnapshotRefreshRate", value, null, (newValue: number) => {
-      this.handleReceiveStateSnapshotRefreshRate();
+      this.handleReceiveStateSnapshotURL();
     });
   }
   public get receiveStateSnapshotRefreshRate(): string {
@@ -682,7 +682,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   public set receiveStateSnapshotUserId(value: string) {
     this._ch5Properties.set("receiveStateSnapshotUserId", value, null, (newValue: string) => {
       this._ch5Properties.setForSignalResponse<string>("snapshotUserId", newValue, () => {
-        this.handleReceiveStateSnapshotUserId();
+        this.handleReceiveStateSnapshotURL();
       });
     });
   }
@@ -693,7 +693,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   public set receiveStateSnapshotPassword(value: string) {
     this._ch5Properties.set("receiveStateSnapshotPassword", value, null, (newValue: string) => {
       this._ch5Properties.setForSignalResponse<string>("snapshotPassword", newValue, () => {
-        this.handleReceiveStateSnapshotPassword();
+        this.handleReceiveStateSnapshotURL();
       });
     });
   }
@@ -1048,17 +1048,10 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   }
 
   private handleReceiveStateSnapshotURL() {
-    //  Enter your Code here
+    this.getAllSnapShotData(1);
+    this.loadAllSnapshots();
   }
-  private handleReceiveStateSnapshotRefreshRate() {
-    //  Enter your Code here
-  }
-  private handleReceiveStateSnapshotUserId() {
-    //  Enter your Code here
-  }
-  private handleReceiveStateSnapshotPassword() {
-    //  Enter your Code here
-  }
+
   private handleReceivestatevideocount() {
     //  Enter your Code here
   }
@@ -1066,8 +1059,8 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   private updateCssClass() {
     this.logger.start('UpdateCssClass');
     super.updateCssClasses();
-   /*  this._elContainer.classList.add(Ch5Sample.COMPONENT_DATA.ASPECT_RATIO.classListPrefix + this.aspectRatio);
-    this._elContainer.classList.add(Ch5Sample.COMPONENT_DATA.SIZE.classListPrefix + this.size); */
+    /*  this._elContainer.classList.add(Ch5Sample.COMPONENT_DATA.ASPECT_RATIO.classListPrefix + this.aspectRatio);
+     this._elContainer.classList.add(Ch5Sample.COMPONENT_DATA.SIZE.classListPrefix + this.size); */
     this._elContainer.classList.add(this.primaryCssClass);
     this.logger.stop();
   }
@@ -1115,9 +1108,9 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       this.calculation();
 
       // This condition will avoid drawing snapshot during orientation change in iOS devices
-			if (this.lastRequestStatus !== CH5VideoUtils.VIDEO_ACTION.START && this.lastRequestStatus !== CH5VideoUtils.VIDEO_ACTION.RESIZE) {
+      if (this.lastRequestStatus !== CH5VideoUtils.VIDEO_ACTION.START && this.lastRequestStatus !== CH5VideoUtils.VIDEO_ACTION.RESIZE) {
         this.beforeVideoDisplay();
-			}
+      }
 
       let isPublished = false;
       if (this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.EMPTY && this.isOrientationChanged ||
