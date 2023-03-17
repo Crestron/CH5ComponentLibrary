@@ -1575,7 +1575,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         break;
       case CH5VideoUtils.VIDEO_ACTION.ERROR:
         if (this.elementIsInViewPort) {
-          this.clearBackgroundOfVideoWrapper(false);
+          this._elContainer.style.background = '#000';
           if (nodeList.length > 1) {
             this._elContainer.childNodes[1].remove();
           }
@@ -1805,7 +1805,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
           this._elContainer.style.removeProperty('border-bottom'); // remove the border if any
           //	this._sendEvent(this.sendEventSnapShotStatus, this.receivedStateSelect, 'number');
         } else {
-          this.clearBackgroundOfVideoWrapper(false)
+          this._elContainer.style.background = '#000';
           if (this.lastBackGroundRequest !== CH5VideoUtils.VIDEO_ACTION.MARK
             && this.url !== '' && this.lastResponseStatus !== CH5VideoUtils.VIDEO_ACTION.ERROR && this.playValue) {
             this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.MARK, 'drawSnapShot#3');
