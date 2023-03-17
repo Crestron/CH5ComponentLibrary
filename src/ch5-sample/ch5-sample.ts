@@ -9,11 +9,14 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
 import { CH5VideoUtils } from "./ch5-video-utils";
-import { ICh5VideoPublishEvent, TDimension, TPosDimension, TSnapShotSignalName, TVideoResponse } from "./interfaces/interfaces-helper";
+import { ICh5VideoPublishEvent, ITouchOrdinates, TDimension, TPosDimension, TSnapShotSignalName, TVideoResponse, TVideoTouchManagerParams } from "./interfaces/interfaces-helper";
 import { publishEvent } from '../ch5-core/utility-functions/publish-signal';
 import { ICh5VideoBackground } from "../ch5-video/interfaces/types/t-ch5-video-publish-event-request";
 import { Ch5Background } from "../ch5-background";
 import { Ch5VideoSnapshot } from "./ch5-video-snapshot";
+import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
+import _ from "lodash";
+import { Ch5VideoTouchManager } from "../ch5-video/ch5-video-touch-manager";
 
 export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
 
@@ -440,6 +443,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   private _vidControlPanel: HTMLElement = {} as HTMLElement;
   private _controlFullScreen: HTMLElement = {} as HTMLElement;
   private _fullScreenOverlay: HTMLElement = {} as HTMLElement;
+  private _scrollableElm: HTMLElement = {} as HTMLElement;
 
 
   private responseObj: TVideoResponse = {} as TVideoResponse;
@@ -472,8 +476,23 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   private snapshotMap = new Map();
   private lastBackGroundRequest: string = '';
   private exitSnapsShotTimer: any;
-
+  private previousXPos: number = 0;
+  private previousYPos: number = 0;
   public ch5UId: number = 0; //  CH5 Unique ID
+
+  private firstTime: boolean = true;
+  private isPositionChanged: boolean = false;
+
+  // touch specific [params]
+  private videoTouchHandler: Ch5VideoTouchManager = {} as Ch5VideoTouchManager;
+  private isTouchInProgress: boolean = false;
+  private readonly swipeDeltaCheckNum: number = 20;
+  private touchCoordinates: ITouchOrdinates = {
+    startX: 0,
+    startY: 0,
+    endX: 0,
+    endY: 0
+  }; // instantiating empty object to proceed
 
   // #endregion
 
@@ -869,6 +888,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       this._elContainer.classList.add('ch5-sample');
       this.appendChild(this._elContainer);
     }
+    this._scrollableElm = getScrollableParent(this); // TODO: Is not working in all the scenarios
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
@@ -950,6 +970,10 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     this.addEventListener('click', this._manageControls.bind(this));
     this._controlFullScreen.addEventListener('click', this.toggleFullScreen.bind(this));
     this._vidControlPanel.addEventListener('click', this._videoCP.bind(this));
+    this._scrollableElm.addEventListener('scroll', _.debounce(this._positionChange.bind(this), 100, {
+      'leading': true,
+      'trailing': true
+    }));
   }
 
   protected removeEventListeners() {
@@ -957,6 +981,10 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     this.removeEventListener('click', this._manageControls.bind(this));
     this._controlFullScreen.removeEventListener('click', this.toggleFullScreen.bind(this));
     this._vidControlPanel.addEventListener('click', this._videoCP.bind(this));
+    this._scrollableElm.removeEventListener('scroll', _.debounce(this._positionChange.bind(this), 100, {
+      'leading': true,
+      'trailing': true
+    }));
 
   }
 
@@ -1087,12 +1115,12 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       this._OnVideoAspectRatioConditionNotMet();
     }
     //  Removes or Adds document level touch handlers if in view
-    /* if (this.elementIntersectionEntry.intersectionRatio > 0.1 && this.playValue) {
+    if (this.elementIntersectionEntry.intersectionRatio > 0.1 && this.playValue) {
       this.addTouchPollingForVideoMonitor();
     } else {
       this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
       this.removeTouchPollingForVideoMonitor();
-    } */
+    }
   }
 
   /**
@@ -1147,10 +1175,43 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       return;
     }
 
+    // During scroll, video goes out of the view port area but still running because of negative values in TSW
+    if ((this.videoTop < 0 || this.videoLeft < 0) && this.lastRequestStatus !== CH5VideoUtils.VIDEO_ACTION.STOP && !this.firstTime) {
+      this.info(">>> Stopping Video1");
+      this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
+    }
+
+    // During scroll, video goes out of the view port area but still running because of negative values in iOS
+    if (this.isPositionChanged && (this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.RESIZE || this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.START)) {
+      this.info(">>> Stopping Video2");
+      this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
+    }
+
     //  On exiting fullscreen and if the user swipes/leave the video page send the CH5VideoUtils.VIDEO_ACTION.STOP request
     if (this.isExitFullscreen && this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.RESIZED && !this.elementIsInViewPort) {
       this.info(">>> Stopping Video3");
       this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
+    }
+
+    // In some of the iOS devices, there is a delay in getting orientation
+    // change information, a small delay solves this problem.
+    // setTimeout(() => {
+    if (!this.firstTime && !this.isExitFullscreen && !this.isPositionChanged) {
+      // Avoid refilling when the project starts and the video page is not visible
+      // isFullScreen and isExitFullscreen is added to avoid refill on full screen and on exit full screen
+      if (!this.isFullScreen && this.lastResponseStatus !== CH5VideoUtils.VIDEO_ACTION.FULLSCREEN) {
+        if (this.lastBackGroundRequest !== CH5VideoUtils.VIDEO_ACTION.REFILL) {
+          this.info(">>> Refilling Background1");
+          this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL, 'OnVideoAspectRatioConditionNotMet');
+        }
+      }
+
+      // The above refill can't be called inside this block as it produces an additional
+      // unecessary cut in the background sometimes.
+      if (!this.isOrientationChanged && !this.elementIsInViewPort && !this.fromExitFullScreen) {
+        this.info(">>> Stopping Video4");
+        this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
+      }
     }
   }
 
@@ -1424,6 +1485,8 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         this.isVideoReady = false;
         this.isOrientationChanged = false;
         this.isExitFullscreen = false;
+        this.isPositionChanged = false;
+        this._hideFullScreenIcon();
         break;
       case 'connecting':
         this.isVideoReady = false;
@@ -1441,6 +1504,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         this.isVideoReady = true;
         this.isOrientationChanged = false;
         this.isExitFullscreen = false;
+        this.isPositionChanged = false;
         this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.STARTED, 'videoResponse');
 
         /*
@@ -1471,7 +1535,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
           this.isExitFullscreen = false;
           this.fromExitFullScreen = true;
         }
-        //  this.isPositionChanged = false;
+        this.isPositionChanged = false;
         //  iOS devices never returns STARTED, it returns RESIZED after it starts the video
         /* if (isSafariMobile()) {
           if (this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.START) {
@@ -1881,6 +1945,116 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     }
   }
 
+  /**
+   * When the user scolls the page, video will disappear and when the scrolling gets stopped
+   * then video starts playing in the new position.
+   */
+  private _positionChange() {
+    this.info('Ch5Video.positionChange()');
+    if ((this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.EMPTY || this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.STARTED ||
+      this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.RESIZED)) {
+      this.isPositionChanged = true;
+      //window.clearTimeout(this.exitTimer); // clear timer if the user scrolls immediately after fullscreen exit
+      clearTimeout(this.scrollTimer); // wait for half second
+      if (this.lastBackGroundRequest !== CH5VideoUtils.VIDEO_ACTION.REFILL) {
+        this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL, 'positionChange');
+      }
+      this.isExitFullscreen = false; // during scroll fullscreen is false
+      this.scrollTimer = setTimeout(() => {
+        if (this.elementIntersectionEntry.intersectionRatio >= 0.20) {
+          this._observePositionChangesAfterScrollEnds();
+        }
+      }, 500);
+    }
+  }
+
+  // The user scroll in iOS takes time to settle, sometimes soon sometimes late. The pre-cut will have a problem.
+  private _observePositionChangesAfterScrollEnds() {
+    this.info('Ch5Video.observePositionChangesAfterScrollEnds()');
+    if (this.previousXPos !== this.videoLeft || this.previousYPos !== this.videoTop) {
+      if (this.lastBackGroundRequest !== CH5VideoUtils.VIDEO_ACTION.REFILL) {
+        this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL, 'observePositionChangesAfterScrollEnds');
+      }
+    }
+    if (this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.STARTED || this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.RESIZED) {
+      this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.RESIZE);
+      this.previousXPos = this.videoLeft;
+      this.previousYPos = this.videoTop;
+    }
+  }
+
+  private addTouchPollingForVideoMonitor() {
+    this.info('HH Test: Ch5VideoTouchManager triggered');
+    this.videoTouchHandler = new Ch5VideoTouchManager({
+      onTouchStartHandler: this.touchBeginHandler.bind(this),
+      onTouchMoveHandler: this.checkIfVideoStoppedMoving.bind(this),
+      onTouchEndHandler: this.stopVideoWhileSectionStoppedMoving.bind(this),
+      onTouchCancelHandler: this.stopVideoWhileSectionStoppedMoving.bind(this),
+      pollingDuration: 300,
+      componentID: this.videoTagId
+    } as TVideoTouchManagerParams);
+  }
+
+  // Function to remove touch listeners when polling is stopped
+  private removeTouchPollingForVideoMonitor() {
+    this.info('HH Test: Destructor triggered');
+    if (!!this.videoTouchHandler &&
+      this.videoTouchHandler !== null &&
+      typeof (this.videoTouchHandler) !== 'undefined' &&
+      this.videoTouchHandler.destructor) {
+      this.videoTouchHandler.destructor();
+    }
+  }
+
+  // Function to handle touch start event
+  private touchBeginHandler() {
+    this.pollForStateUntilFalseAndRerenderVideo();
+  }
+
+  // Function to check if the touch swipe has stopped and video finally is a static position
+  private checkIfVideoStoppedMoving() {
+    this.info(`HH TEST: touch in progress/move  ${this.videoTagId}`);
+    if (!this.isTouchInProgress) {
+      const boundedRect = this.getBoundingClientRect();
+      this.touchCoordinates.endX = boundedRect.left;
+      this.touchCoordinates.endY = boundedRect.top;
+      if (Math.abs(this.touchCoordinates.startX - this.touchCoordinates.endX) > this.swipeDeltaCheckNum ||
+        Math.abs(this.touchCoordinates.startY - this.touchCoordinates.endY) > this.swipeDeltaCheckNum) {
+        this.info(`HH TEST: touch move [did move]  ${this.videoTagId}`);
+        this.isTouchInProgress = true;
+        // Adding stop over here
+        this.clearBackgroundOfVideoWrapper(false);
+        this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.STOP, 'receiveStatePlay');
+        this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.RESIZE);
+      }
+    }
+  }
+
+  // Function to manage video play/stop based on the position on touch end or cancel
+  private stopVideoWhileSectionStoppedMoving() {
+    this.info(`HH TEST: touch stop  ${this.videoTagId}`);
+    if (this.isTouchInProgress) {
+      this.info(`HH TEST: touch stop [did stop]  ${this.videoTagId}`);
+      setTimeout(() => {
+        this.clearBackgroundOfVideoWrapper(true);
+        this.videoIntersectionObserver();
+      }, 300);
+    }
+    this.isTouchInProgress = false;
+  }
+
+  // Function to handle onTouchStartEvent when triggered
+  private pollForStateUntilFalseAndRerenderVideo() {
+    // video should have played atleast once for polling to be addressed
+    if (!this.firstTime) {
+      this.info(`HH TEST: TOUCH TRIGGERED START : ${this.isTouchInProgress} ${this.videoTagId}`);
+      // keep hiding the background
+      const boundedRect = this.getBoundingClientRect();
+      this.touchCoordinates.startX = boundedRect.left;
+      this.touchCoordinates.startY = boundedRect.top;
+      this.isTouchInProgress = false;
+    }
+  }
   // #endregion
 
 }
