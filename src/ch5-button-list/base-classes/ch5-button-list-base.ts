@@ -123,6 +123,15 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
     receiveStateNumberOfItems: { direction: "state", numericJoin: 1, contractName: true },
     receiveStateScrollToPosition: { direction: "state", numericJoin: 1, contractName: true },
+    buttonReceiveStateEnable: { direction: "state", booleanJoin: 1, contractName: true },
+    buttonReceiveStateIconClass: { direction: "state", stringJoin: 1, contractName: true },
+    buttonReceiveStateIconUrl: { direction: "state", stringJoin: 1, contractName: true },
+    buttonReceiveStateLabel: { direction: "state", stringJoin: 1, contractName: true },
+    buttonReceiveStateMode: { direction: "state", numericJoin: 1, contractName: true },
+    buttonReceiveStateScriptLabelHtml: { direction: "state", stringJoin: 1, contractName: true },
+    buttonReceiveStateSelected: { direction: "state", booleanJoin: 1, contractName: true },
+    buttonReceiveStateShow: { direction: "state", booleanJoin: 1, contractName: true },
+    buttonSendEventOnClick: { direction: "event", booleanJoin: 1, contractName: true }
   };
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
     {
