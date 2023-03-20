@@ -56,7 +56,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: Ch5Dpad.TYPES[0],
@@ -65,7 +65,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			removeAttributeOnNull: true,
 			type: "enum",
 			valueOnAttributeEmpty: Ch5Dpad.TYPES[0],
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: Ch5Dpad.SHAPES[0],
@@ -74,7 +74,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			removeAttributeOnNull: true,
 			type: "enum",
 			valueOnAttributeEmpty: Ch5Dpad.SHAPES[0],
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: Ch5Dpad.SIZES[0],
@@ -83,7 +83,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			removeAttributeOnNull: true,
 			type: "enum",
 			valueOnAttributeEmpty: Ch5Dpad.SIZES[0],
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: null,
@@ -101,7 +101,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			removeAttributeOnNull: true,
 			type: "boolean",
 			valueOnAttributeEmpty: false,
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: true,
@@ -109,7 +109,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			removeAttributeOnNull: true,
 			type: "boolean",
 			valueOnAttributeEmpty: false,
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: false,
@@ -117,7 +117,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			removeAttributeOnNull: true,
 			type: "boolean",
 			valueOnAttributeEmpty: false,
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: false,
@@ -125,7 +125,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			removeAttributeOnNull: true,
 			type: "boolean",
 			valueOnAttributeEmpty: false,
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -136,7 +136,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			type: "string",
 			isNullable: true,
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		}
 	];
 
@@ -362,9 +362,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		this.logger.start('constructor()', this.COMPONENT_NAME);
 		ComponentHelper.clearComponentContent(this);
 		this._ch5Properties = new Ch5Properties(this, Ch5Dpad.COMPONENT_PROPERTIES);
-
-		// add missing elements, remove extra ones, before Dpad is finally rendered
-		this.checkAndRestructureDomOfDpad();
+		this.initCssClasses();
 
 		this.logger.stop();
 	}
@@ -392,16 +390,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			}
 			this._wasInstatiated = true;
 
-			// update class based on the current type chosen
-			this.updateCssClasses();
-
 			// events binding
 			this.attachEventListeners();
 
-			// check if the dpad element has been created by verifying one of its properties
-
-			// // initialize mutation observer if any
-			// this.initCommonMutationObserver(this);
 			this.initAttributes();
 
 			// required post initial setup
@@ -726,6 +717,18 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		for (const typeVal of Ch5Dpad.STRETCHES) {
 			this.classList.remove(Ch5Dpad.ELEMENT_NAME + Ch5Dpad.CSS_CLASS_PREFIX_STRETCH + typeVal);
 		}
+		if (!!this.stretch && this.stretch.length > 0) { // checking for length since it does not have a default value
+			this.classList.add(Ch5Dpad.ELEMENT_NAME + Ch5Dpad.CSS_CLASS_PREFIX_STRETCH + this.stretch);
+			if (!!this.size && this.size.length > 0) {
+				this.classList.remove(Ch5Dpad.ELEMENT_NAME + Ch5Dpad.CSS_CLASS_PREFIX_SIZE + this.size);
+			}
+		}
+	}
+
+	protected initCssClasses(): void {
+		this.classList.add(Ch5Dpad.ELEMENT_NAME + Ch5Dpad.CSS_CLASS_PREFIX_TYPE + this.type);
+		this.classList.add(Ch5Dpad.ELEMENT_NAME + Ch5Dpad.CSS_CLASS_PREFIX_SHAPE + this.shape);
+		this.classList.add(Ch5Dpad.ELEMENT_NAME + Ch5Dpad.CSS_CLASS_PREFIX_SIZE + this.size);
 		if (!!this.stretch && this.stretch.length > 0) { // checking for length since it does not have a default value
 			this.classList.add(Ch5Dpad.ELEMENT_NAME + Ch5Dpad.CSS_CLASS_PREFIX_STRETCH + this.stretch);
 			if (!!this.size && this.size.length > 0) {

@@ -23,7 +23,6 @@ import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { Ch5DpadButton } from "./ch5-dpad-button";
 
-
 export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttributes {
 
 	//#region 1. Variables
@@ -34,7 +33,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -42,7 +41,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -58,7 +57,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: true,
@@ -66,7 +65,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			removeAttributeOnNull: true,
 			type: "boolean",
 			valueOnAttributeEmpty: false,
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -74,7 +73,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 	];
 
@@ -180,10 +179,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	 * iconClass
 	 */
 	public set iconClass(value: string) {
-		if (_.isNil(value)) {
-			value = this.CSS_CLASS_LIST.defaultIconClass;
-		}
-
 		const prevValue = this.iconClass;
 		this._ch5Properties.set<string>("iconClass", value, () => {
 			this.handleIconClass(prevValue);
@@ -197,10 +192,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	 * iconUrl
 	 */
 	public set iconUrl(value: string) {
-		if (_.isNil(value)) {
-			value = '';
-		}
-
 		this._ch5Properties.set<string>("iconUrl", value, () => {
 			this.handleIconUrl(value);
 		});
@@ -228,6 +219,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 				value = false;
 			}
 		}
+		this._ch5Properties.set<boolean>("pressed", value);
 
 		if (this._pressable) {
 			if (this._pressable._pressed !== value) {
@@ -236,11 +228,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		}
 	}
 	public get pressed(): boolean {
-		if (this._pressable) {
-			return this._pressable._pressed;
-		} else {
-			return false;
-		}
+		return this._ch5Properties.get<boolean>("pressed");
 	}
 
 	//#endregion

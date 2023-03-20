@@ -34,7 +34,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -42,7 +42,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -50,7 +50,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -58,7 +58,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -68,7 +68,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: false,
@@ -98,8 +98,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 	// protected setter getter specific vars
 	protected _ch5Properties: Ch5Properties;
-	protected _sendEventOnClick: string = '';
-	// protected _key: string = '';
 
 	// signal based vars for each receive state
 
@@ -125,7 +123,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	// Time after that press will be triggered
 	protected _pressTimeout: number = 0;
 	// State of the button ( pressed or not )
-	protected _pressed: boolean = false;
 	protected _buttonPressed: boolean = false;
 	protected _buttonPressedInPressable: boolean = false;
 	protected _pressableIsPressedSubscription: Subscription | null = null;
@@ -246,8 +243,8 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	public constructor(params: TCh5KeypadButtonCreateDTO) {
 		super();
 		this.logger.start('constructor()', this.COMPONENT_NAME + 'Button');
-		this._ch5Properties = new Ch5Properties(this, Ch5KeypadButton.COMPONENT_PROPERTIES);
 		this.params = params;
+		this._ch5Properties = new Ch5Properties(this, Ch5KeypadButton.COMPONENT_PROPERTIES);
 		this.logger.stop();
 	}
 
@@ -259,6 +256,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		super.initAttributes();
 		// set data-ch5-id
 		this.setAttribute('data-ch5-id', this.getCrId());
+		// this.setAttribute('data-ch5-id', this.getCrId());
 		ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5KeypadChild); // WAI-ARIA Attributes
 		const defaultMajors: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '#', ''];
 		const defaultMinors: string[] = ['+', '&nbsp;', 'ABC', 'DEF', 'GHI', 'JKL', 'MNO', 'PQRS', 'TUV', 'WXYZ', '', '', ''];
@@ -315,9 +313,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		this.createElementsAndInitialize();
 
 		this.initCommonMutationObserver(this);
-		// customElements.whenDefined('ch5-keypad-button').then(() => {
-		// 	this.componentLoadedEvent(Ch5KeypadButton.ELEMENT_NAME, this.id);
-		// });
 		this.logger.stop();
 	}
 
@@ -333,7 +328,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 		this._wasInstatiated = true;
 
-		// this.updateCssClasses();
+		this.updateCssClasses();
 	}
 
 	/**
@@ -361,8 +356,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		if (this.params.pressed) {
 			this.classList.add(this.primaryCssClass + this.pressedCssClassPostfix);
 		}
-
-
 		this.logger.stop();
 	}
 
@@ -512,10 +505,10 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	}
 
 	protected sendValueForRepeatDigital(value: boolean): void {
-		if (!this._sendEventOnClick) { return; }
+		if (!this.sendEventOnClick) { return; }
 
 		const clickSignal: Ch5Signal<object | boolean> | null =
-			Ch5SignalFactory.getInstance().getObjectAsBooleanSignal(this._sendEventOnClick);
+			Ch5SignalFactory.getInstance().getObjectAsBooleanSignal(this.sendEventOnClick);
 
 		if (clickSignal && clickSignal.name) {
 			clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
@@ -527,8 +520,8 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	 */
 	protected _sendOnClickSignal(preventTrue: boolean = false, preventFalse: boolean = false): void {
 		let sigClick: Ch5Signal<boolean> | null = null;
-		if (this._sendEventOnClick) {
-			sigClick = Ch5SignalFactory.getInstance().getBooleanSignal(this._sendEventOnClick);
+		if (this.sendEventOnClick) {
+			sigClick = Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick);
 
 			if (sigClick !== null) {
 				if (!preventTrue) {
@@ -564,13 +557,13 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	protected pressHandler(): Promise<boolean> {
 		const pressHandler = () => {
 			this.logger.log("Ch5Button._onPress()");
-			this._pressed = true;
+			this.pressed = true;
 		}
 
 		const pressPromise = new Promise<boolean>((resolve, reject) => {
 			this._pressTimeout = window.setTimeout(() => {
 				pressHandler();
-				resolve(this._pressed);
+				resolve(this.pressed);
 			}, this.TOUCH_TIMEOUT);
 		});
 
@@ -579,7 +572,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 	protected cancelPress() {
 		window.clearTimeout(this._pressTimeout);
-		this._pressed = false;
+		this.pressed = false;
 	}
 
 	protected reactivatePress(): void {
@@ -700,7 +693,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 		if (this._intervalIdForRepeatDigital) {
 			this.stopRepeatDigital();
-		} else if (this._pressed) {
+		} else if (this.pressed) {
 			// this._onTapAction();
 		}
 
@@ -757,10 +750,10 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		this.logger.start("_onPressUp");
 		window.clearTimeout(this._pressTimeout);
 		this.reactivatePress();
-		if (this._pressed) {
+		if (this.pressed) {
 			this.logger.log("Ch5Button._onPressUp()");
 
-			this._pressed = false;
+			this.pressed = false;
 
 			if (this._intervalIdForRepeatDigital) {
 				window.clearInterval(this._intervalIdForRepeatDigital);
