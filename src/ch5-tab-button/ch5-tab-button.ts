@@ -71,14 +71,6 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
   public static readonly COMPONENT_COMMON_PROPERTIES = ['disabled', 'show'];
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-    buttonReceiveStateEnable: { direction: "state", booleanJoin: 1, contractName: true },
-    buttonReceiveStateIconClass: { direction: "state", stringJoin: 1, contractName: true },
-    buttonReceiveStateIconUrl: { direction: "state", stringJoin: 1, contractName: true },
-    buttonReceiveStateLabel: { direction: "state", stringJoin: 1, contractName: true },
-    buttonReceiveStateScriptLabelHtml: { direction: "state", stringJoin: 1, contractName: true },
-    buttonReceiveStateSelected: { direction: "state", booleanJoin: 1, contractName: true },
-    buttonReceiveStateShow: { direction: "state", booleanJoin: 1, contractName: true },
-    buttonSendEventOnClick: { direction: "event", booleanJoin: 1, contractName: true }
   };
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
