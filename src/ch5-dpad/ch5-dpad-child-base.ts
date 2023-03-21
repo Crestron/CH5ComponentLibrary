@@ -396,15 +396,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	public unsubscribeFromSignals() {
 		this.logger.start("unsubscribeFromSignals", this.COMPONENT_NAME);
 		super.unsubscribeFromSignals();
-
-		const csf = Ch5SignalFactory.getInstance();
-		const signalArr = [""];
-		for (const sigName of signalArr) {
-			const attrKeyPvt = '_' + sigName;
-			const attrKeySigName = attrKeyPvt + 'SignalValue';
-			ComponentHelper.clearSignalValue(csf, this, "attrKeySigName", "attrKeyPvt");
-		}
-
 		this.logger.stop();
 	}
 
@@ -636,7 +627,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	 */
 	protected pressHandler(): Promise<boolean> {
 		const pressHandler = () => {
-			this.logger.log("Ch5Button._onPress()");
+			this.logger.log("CH5DpadButton._onPress()");
 			this._pressed = true;
 		}
 
@@ -682,9 +673,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 						if (this._repeatDigitalInterval !== null) {
 							window.clearInterval(this._repeatDigitalInterval as number);
 						}
-						setTimeout(() => {
-							this.setButtonDisplay();
-						}, this.STATE_CHANGE_TIMEOUTS);
 					} else {
 						if (this._repeatDigitalInterval !== null) {
 							window.clearInterval(this._repeatDigitalInterval as number);
@@ -695,7 +683,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 								window.clearInterval(this._repeatDigitalInterval as number);
 							}
 						}, REPEAT_DIGITAL_PERIOD);
-						this.setButtonDisplay();
 					}
 				}
 			});
@@ -710,15 +697,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			this._isPressedSubscription.unsubscribe();
 			this._isPressedSubscription = null;
 		}
-	}
-
-	public setButtonDisplay() {
-		this.setButtonDisplayDetails();
-	}
-
-	protected setButtonDisplayDetails() {
-		this.logger.start("setButtonDisplayDetails");
-		this.logger.stop();
 	}
 
 	//#endregion
