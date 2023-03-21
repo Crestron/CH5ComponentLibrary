@@ -198,8 +198,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * "The Digital Join Increment will be used to increment the digital joins of each Sub Page reference in the list. If 0, the value of the Join Increment will be used."
    * ]
    * @name booleanjoinincrement
-   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "Join"
+   * @attributeType "Integer"
    */
   booleanJoinIncrement: string;
   /**
@@ -210,8 +209,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * "The Analog Join Increment will be used to increment the analog joins of each Sub Page reference in the list. If 0, the value of the Join Increment will be used."
    * ]
    * @name numericjoinincrement
-   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-   * @attributeType "Join"
+   * @attributeType "Integer"
    */
   numericJoinIncrement: string;
   /**
@@ -222,8 +220,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * "The Serial Join Increment will be used to increment the serial joins of each Sub Page reference in the list. If 0, the value of the Join Increment will be used."
    * ]
    * @name stringjoinincrement
-   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "Join"
+   * @attributeType "Integer"
    */
   stringJoinIncrement: string;
   /**
@@ -234,7 +231,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * "Enables use of enable joins on each list item. With this enabled, if a list item is not programmatically driven HIGH through the control system, the list item will be disabled."
    * ]
    * @name subpagereceivestateenable
-   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    * @attributeType "Join"
    */
   subpageReceiveStateEnable: string;
@@ -246,7 +243,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * "Enables use of visibility joins on each list item.If a list item is not programmatically driven HIGH through the control system, the list item will not be visible."
    * ]
    * @name subpagereceivestateshow
-   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    * @attributeType "Join"
    */
   subpageReceiveStateShow: string;
