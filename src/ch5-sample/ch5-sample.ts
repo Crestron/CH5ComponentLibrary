@@ -482,6 +482,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
 
   private firstTime: boolean = true;
   private isPositionChanged: boolean = false;
+  private orientationCount: number = 0;
 
   // touch specific [params]
   private videoTouchHandler: Ch5VideoTouchManager = {} as Ch5VideoTouchManager;
@@ -970,6 +971,8 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     this.addEventListener('click', this._manageControls.bind(this));
     this._controlFullScreen.addEventListener('click', this.toggleFullScreen.bind(this));
     this._vidControlPanel.addEventListener('click', this._videoCP.bind(this));
+    window.addEventListener('orientationchange', this._orientationChange.bind(this));
+    window.addEventListener(CH5VideoUtils.VIDEO_ACTION.RESIZE, this._orientationChange.bind(this));
     this._scrollableElm.addEventListener('scroll', _.debounce(this._positionChange.bind(this), 100, {
       'leading': true,
       'trailing': true
@@ -981,6 +984,8 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     this.removeEventListener('click', this._manageControls.bind(this));
     this._controlFullScreen.removeEventListener('click', this.toggleFullScreen.bind(this));
     this._vidControlPanel.addEventListener('click', this._videoCP.bind(this));
+    window.removeEventListener('orientationchange', this._orientationChange.bind(this));
+    window.removeEventListener(CH5VideoUtils.VIDEO_ACTION.RESIZE, this._orientationChange.bind(this));
     this._scrollableElm.removeEventListener('scroll', _.debounce(this._positionChange.bind(this), 100, {
       'leading': true,
       'trailing': true
@@ -1849,9 +1854,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     event.stopPropagation();
   }
 
-  /**
-   * Draw the snapshot on the background
-   */
+  // Draw the snapshot on the background
   private beforeVideoDisplay() {
     // return if not visible, exit timer
     if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE &&
@@ -2054,6 +2057,56 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       this.touchCoordinates.startY = boundedRect.top;
       this.isTouchInProgress = false;
     }
+  }
+
+  // detecting orientation has been changed
+  private _orientationChanged() {
+    const timeout = 120;
+    return new Promise((resolve: any) => {
+      const go = (i: number, height0: number) => {
+        window.innerHeight !== height0 || i >= timeout ? resolve() : window.requestAnimationFrame(() => go(i + 1, height0));
+      };
+      go(0, window.innerHeight);
+    });
+  }
+
+  // Send the resize request when the device orientation has been changed.
+  private _orientationChange() {
+    // Rags - this can be a boolean instead of number
+    this.info('Ch5Video.orientationChange()');
+
+    // Check visibililty
+    if (this.elementIntersectionEntry.intersectionRatio < this.INTERSECTION_RATIO_VALUE) {
+      return;
+    }
+
+    this.info('Ch5Video.orientationChange() -> 1');
+    this.info('this.orientationCount -> ' + this.orientationCount);
+    if (this.orientationCount === 1) {
+      this.orientationCount = 0;
+      this._hideFullScreenIcon();
+      this._orientationChanged().then(() => {
+        this.calculation();
+        if (this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.STARTED ||
+          (this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.RESIZED && this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.RESIZE)) {
+          if (this.elementIsInViewPort) {
+            this.isOrientationChanged = true; // When the orientation happens inside the view port, isorientationChaged flag will be set to true
+            if (this.isFullScreen) {
+              this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.FULLSCREEN);
+            } else {
+              this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.RESIZE);
+              //this._updateAppBackgroundStatus();
+            }
+          }
+        } else if ((this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.STOPPED || this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.EMPTY) &&
+          this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE) {
+          this.info(">>>>>>>>>>>>>>>>>>>>> DrawSnapshot3 <<<<<<<<<<<<<<<<<<<<<<<<<<<");
+          this.beforeVideoDisplay();
+          this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.START);
+        }
+      });
+    }
+    this.orientationCount++;
   }
   // #endregion
 
