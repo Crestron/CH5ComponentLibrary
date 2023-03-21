@@ -71,12 +71,12 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 		},
 		{
 			default: "",
-			name: "sendeventonclick",
+			name: "sendEventOnClick",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true
-		},
+		}
 	];
 
 	//#endregion
@@ -126,7 +126,6 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 		}
 		this.logger.stop();
 	}
-
 
 	//#endregion
 

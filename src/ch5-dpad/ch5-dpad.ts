@@ -19,7 +19,6 @@ import { subscribeInViewPortChange, unSubscribeInViewPortChange } from "../ch5-c
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 
-
 export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	//#region 1. Variables
@@ -27,21 +26,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	//#region 1.1 readonly variables
 	public static readonly ELEMENT_NAME = 'ch5-dpad';
 
-	/**
-	 * The first value is considered the default one
-	 */
 	public static readonly TYPES: TCh5DpadType[] = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
-
-	/**
-	 * The first value is considered the default one
-	 */
 	public static readonly SHAPES: TCh5DpadShape[] = ['plus', 'circle'];
-
 	public static readonly STRETCHES: TCh5DpadStretch[] = ['both', 'width', 'height'];
-
-	/**
-	 * The first value is considered the default one
-	 */
 	public static readonly SIZES: TCh5DpadSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
 
 	public static readonly CSS_CLASS_PREFIX_STRETCH: string = "--stretch-";
@@ -171,7 +158,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			key: 'size',
 			attribute: 'size',
 			classListPrefix: Ch5Dpad.CSS_CLASS_PREFIX_SIZE
-		},
+		}
 	};
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
@@ -189,7 +176,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	//#region 1.2 private / protected variables
 
-	private COMPONENT_NAME: string = "ch5-dpad";
 	private _ch5Properties: Ch5Properties;
 
 	// state specific vars
@@ -359,20 +345,18 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	public constructor() {
 		super();
-		this.logger.start('constructor()', this.COMPONENT_NAME);
+		this.logger.start('constructor()', Ch5Dpad.ELEMENT_NAME);
 		ComponentHelper.clearComponentContent(this);
 		this._ch5Properties = new Ch5Properties(this, Ch5Dpad.COMPONENT_PROPERTIES);
 		this.initCssClasses();
-
 		this.logger.stop();
 	}
 
 	/**
 	 * 	Called every time the element is inserted into the DOM.
-	 *  Useful for running setup code, such as fetching resources or rendering.
 	 */
 	public connectedCallback() {
-		this.logger.start('connectedCallback() - start', this.COMPONENT_NAME);
+		this.logger.start('connectedCallback() - start', Ch5Dpad.ELEMENT_NAME);
 		subscribeInViewPortChange(this, () => {
 			if (this.elementIsInViewPort) {
 				if (!_.isNil(this.stretch) && this.parentElement) {
@@ -406,7 +390,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	/**
 	 * Called every time the element is removed from the DOM.
-	 * Useful for running clean up code.
 	 */
 	public disconnectedCallback() {
 		this.removeEvents();
@@ -466,7 +449,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	 * Function to create all the elements required under the parent DPAD tag
 	 */
 	protected createHtmlElements(): void {
-		this.logger.start('createHtmlElements', this.COMPONENT_NAME);
+		this.logger.start('createHtmlElements', Ch5Dpad.ELEMENT_NAME);
 
 		this.classList.add(this.primaryCssClass);
 
@@ -489,7 +472,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	}
 
 	protected updateHtmlElements(): void {
-		this.logger.start('updateHtmlElements', this.COMPONENT_NAME);
+		this.logger.start('updateHtmlElements', Ch5Dpad.ELEMENT_NAME);
 
 		const childItemsContainer = this.children as HTMLCollection;
 		if (childItemsContainer.length === 0 || childItemsContainer[0].children.length === 0) {
@@ -668,7 +651,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	 *  Called to initialize all attributes
 	 */
 	protected initAttributes(): void {
-		this.logger.start("initAttributes", this.COMPONENT_NAME);
+		this.logger.start("initAttributes", Ch5Dpad.ELEMENT_NAME);
 		super.initAttributes();
 		// set data-ch5-id
 		this.setAttribute('data-ch5-id', this.getCrId());
@@ -745,7 +728,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	 * Function to restructure initial DOM before rendering commences
 	 */
 	private checkAndRestructureDomOfDpad() {
-		this.logger.start('checkAndRestructureDomOfDpad()', this.COMPONENT_NAME);
+		this.logger.start('checkAndRestructureDomOfDpad()', Ch5Dpad.ELEMENT_NAME);
 		this.updateHtmlElements();
 		this.updateCssClasses();
 
@@ -974,7 +957,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	}
 
 	private stretchHandler() {
-		this.logger.start(this.COMPONENT_NAME + ' > stretchHandler');
+		this.logger.start(Ch5Dpad.ELEMENT_NAME + ' > stretchHandler');
 		this.updateCssClasses();
 		const dpadHeight = this.offsetHeight;
 		const dpadWidth = this.offsetWidth;

@@ -79,8 +79,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true }
+		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true }
 	};
 
 	//#region 1.1 readonly variables
@@ -103,7 +102,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		defaultArrowClass: ''
 	};
 	private _ch5Properties: Ch5Properties;
-
 
 	// elements specific vars
 	protected _icon: HTMLElement = {} as HTMLElement;
@@ -153,9 +151,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
 	//#region 2. Setters and Getters
 
-	/**
-	 * label
-	 */
 	public set label(value: string) {
 		this._ch5Properties.set<string>("label", value, () => {
 			this.handleLabel();
@@ -165,9 +160,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		return this._ch5Properties.get<string>("label");
 	}
 
-	/**
-	 * key
-	 */
 	public set key(value: TCh5DpadChildButtonType) {
 		this._ch5Properties.set<TCh5DpadChildButtonType>("key", value);
 	}
@@ -175,9 +167,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		return this._ch5Properties.get<TCh5DpadChildButtonType>("key");
 	}
 
-	/**
-	 * iconClass
-	 */
 	public set iconClass(value: string) {
 		const prevValue = this.iconClass;
 		this._ch5Properties.set<string>("iconClass", value, () => {
@@ -188,9 +177,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		return this._ch5Properties.get<string>("iconClass");
 	}
 
-	/**
-	 * iconUrl
-	 */
 	public set iconUrl(value: string) {
 		this._ch5Properties.set<string>("iconUrl", value, () => {
 			this.handleIconUrl(value);
@@ -200,9 +186,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		return this._ch5Properties.get<string>("iconUrl");
 	}
 
-	/**
-	 * sendEventOnClick
-	 */
 	public set sendEventOnClick(value: string) {
 		this._ch5Properties.set<string>("sendEventOnClick", value);
 	}
@@ -241,7 +224,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		this.logger.start('constructor()', this.COMPONENT_NAME);
 		this._ch5Properties = new Ch5Properties(this, Ch5DpadChildBase.COMPONENT_PROPERTIES);
 
-
 		ComponentHelper.clearComponentContent(this);
 
 		this._pressInfo = new Ch5ButtonPressInfo();
@@ -271,16 +253,14 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		this.logger.start('connectedCallback() - start', this.COMPONENT_NAME);
 
 		if (!this.parentElement ||
-			(this.parentElement &&
-				this.parentElement.nodeName.toLowerCase() === 'ch5-dpad')) {
+			(this.parentElement && this.parentElement.nodeName.toLowerCase() === 'ch5-dpad')) {
 			// user created DOM structure brings the code here
 			// can be ignored on this run, since its restructured under dpad
 			// and will be rendered correctly skipping this step
 			return;
 		}
 
-		if (this.parentElement &&
-			this.parentElement.parentElement &&
+		if (this.parentElement && this.parentElement.parentElement &&
 			!(this.parentElement.parentElement instanceof Ch5Dpad)) {
 			throw new Error(`Invalid parent element for ch5-dpad-button-${this.buttonType}. 
             Please ensure the parent tag is ch5-dpad, and other mandatory sibling 
@@ -454,8 +434,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 				const thisRef: any = this;
 				const key = attributeChangedProperty.name;
 				thisRef[key] = newValue;
-			}
-			else {
+			} else {
 				super.attributeChangedCallback(attr, oldValue, newValue);
 			}
 		}
@@ -582,7 +561,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	}
 
 	/**
-	 * Sends the signal passed via sendEventOnClick or sendEventOnTouch
+	 * Sends the signal passed via sendEventOnClick
 	 */
 	protected _sendOnClickSignal(preventTrue: boolean = false, preventFalse: boolean = false): void {
 		let sigClick: Ch5Signal<boolean> | null = null;
@@ -821,7 +800,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	}
 
 	protected _onMouseMove(event: MouseEvent) {
-		// this.logger.start("_onMouseMove");
 		if (!this.isTouch
 			&& this._intervalIdForRepeatDigital
 			&& this._pressHorizontalStartingPoint
@@ -834,7 +812,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		) {
 			this.stopRepeatDigital();
 		}
-		// this.logger.stop();
 	}
 
 	protected async _onPress(event: TouchEvent) {
