@@ -305,7 +305,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     {
       default: "",
       isSignal: true,
-      name: "receivestatevideocount",
+      name: "receiveStateVideoCount",
       signalType: "number",
       removeAttributeOnNull: true,
       type: "string",
@@ -721,13 +721,13 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     return this._ch5Properties.get<string>('receiveStateSnapshotPassword');
   }
 
-  public set receivestatevideocount(value: string) {
-    this._ch5Properties.set("receivestatevideocount", value, null, (newValue: number) => {
-      this.handleReceivestatevideocount();
+  public set receiveStateVideoCount(value: string) {
+    this._ch5Properties.set("receiveStateVideoCount", value, null, (newValue: number) => {
+      this.handleReceiveStateVideoCount();
     });
   }
   public get receivestatevideocount(): string {
-    return this._ch5Properties.get<string>('receivestatevideocount');
+    return this._ch5Properties.get<string>('receiveStateVideoCount');
   }
 
   public set sendEventOnClick(value: string) {
@@ -1085,7 +1085,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     this.loadAllSnapshots();
   }
 
-  private handleReceivestatevideocount() {
+  private handleReceiveStateVideoCount() {
     //  Enter your Code here
   }
 
