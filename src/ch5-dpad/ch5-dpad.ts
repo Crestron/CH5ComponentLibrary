@@ -1,10 +1,3 @@
-// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
-// All rights reserved.
-// No part of this software may be reproduced in any form, machine
-// or natural, without the express written consent of Crestron Electronics.
-// Use of this source code is subject to the terms of the Crestron Software License Agreement
-// under which you licensed this source code.
-
 import _ from "lodash";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5RoleAttributeMapping } from "../utility-models";
@@ -26,9 +19,15 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	//#region 1.1 readonly variables
 	public static readonly ELEMENT_NAME = 'ch5-dpad';
 
+	/**
+	 * The first value is considered the default one
+	 */
 	public static readonly TYPES: TCh5DpadType[] = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
+
 	public static readonly SHAPES: TCh5DpadShape[] = ['plus', 'circle'];
+
 	public static readonly STRETCHES: TCh5DpadStretch[] = ['both', 'width', 'height'];
+
 	public static readonly SIZES: TCh5DpadSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
 
 	public static readonly CSS_CLASS_PREFIX_STRETCH: string = "--stretch-";
@@ -158,7 +157,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			key: 'size',
 			attribute: 'size',
 			classListPrefix: Ch5Dpad.CSS_CLASS_PREFIX_SIZE
-		}
+		},
 	};
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
@@ -175,7 +174,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	//#endregion
 
 	//#region 1.2 private / protected variables
-
 	private _ch5Properties: Ch5Properties;
 
 	// state specific vars
@@ -255,12 +253,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	}
 
 	public set sendEventOnClickStart(value: string) {
-		if (_.isNil(value) || isNaN(parseInt(value, 10))) {
-			value = '';
-		}
-		if (value === this.sendEventOnClickStart) {
-			return;
-		}
 		this._ch5Properties.set<string>("sendeventonclickstart", value, () => {
 			this.updateEventClickHandlers(parseInt(value, 10));
 		})
@@ -349,11 +341,13 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		ComponentHelper.clearComponentContent(this);
 		this._ch5Properties = new Ch5Properties(this, Ch5Dpad.COMPONENT_PROPERTIES);
 		this.initCssClasses();
+
 		this.logger.stop();
 	}
 
 	/**
 	 * 	Called every time the element is inserted into the DOM.
+	 *  Useful for running setup code, such as fetching resources or rendering.
 	 */
 	public connectedCallback() {
 		this.logger.start('connectedCallback() - start', Ch5Dpad.ELEMENT_NAME);
@@ -390,6 +384,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	/**
 	 * Called every time the element is removed from the DOM.
+	 * Useful for running clean up code.
 	 */
 	public disconnectedCallback() {
 		this.removeEvents();
