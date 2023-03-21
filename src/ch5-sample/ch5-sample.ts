@@ -442,9 +442,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   private _elContainer: HTMLElement = {} as HTMLElement;
   private _vidControlPanel: HTMLElement = {} as HTMLElement;
   private _controlFullScreen: HTMLElement = {} as HTMLElement;
-  private _fullScreenOverlay: HTMLElement = {} as HTMLElement;
   private _scrollableElm: HTMLElement = {} as HTMLElement;
-
 
   private responseObj: TVideoResponse = {} as TVideoResponse;
   private fullScreenObj: TPosDimension = {} as TPosDimension;
@@ -506,7 +504,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     snapshotPassword: '',
     snapshotRefreshRate: ''
   }
-
 
   // #endregion
 
@@ -982,12 +979,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     this.clearComponentContent();
     this._elContainer = document.createElement('div');
 
-    this.classList.add(this.primaryCssClass);
-    this.style.width = "100%";
-    this.style.height = "100%";
-    this.style.display = "flex";
-    this.style.justifyContent = "center";
-    this.style.alignItems = "center";
+    this._elContainer.classList.add(this.primaryCssClass);
     //  Create main control panel
     this._vidControlPanel = document.createElement("div");
     this._vidControlPanel.classList.add("control-panel");
@@ -1851,7 +1843,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     }, 10000);
   }
 
-
   private toggleFullScreen() {
     if (this.isFullScreen) {
       this._exitFullScreen();
@@ -1861,46 +1852,24 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       //  To avoid swiping on the full screen
       this.addEventListener('touchmove', this._handleTouchMoveEvent_Fullscreen, { passive: true });
       this._hideFullScreenIcon();
-
-      if (!!this._fullScreenOverlay && !!this._fullScreenOverlay.classList) {
-        this._fullScreenOverlay.classList.add(this.primaryCssClass + '--overlay');
-      }
       this._vidControlPanel.classList.add("fullScreen");
-      this._controlFullScreen.innerHTML = CH5VideoUtils.SVG_ICONS.EXIT_FULLSCREEN_ICON;
       this.classList.add('fullScreenStyle');
       document.body.classList.add('ch5-video-fullscreen');
-      this.style.visibility = 'visible';
       this.isVideoReady = true;
       this.isOrientationChanged = false;
-      this.style.width = "100%";
-      this.style.height = "100%";
       this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.FULLSCREEN);
     }
   }
 
   private _exitFullScreen() {
     this.info('Ch5Video.exitFullScreen()');
-    this._vidControlPanel.classList.remove("fullScreen");
-    //  When the Orientation change completes
-    if (!!this._fullScreenOverlay && !!this._fullScreenOverlay.classList) {
-      this._fullScreenOverlay.classList.remove(this.primaryCssClass + '--overlay');
-    }
-
-    this._controlFullScreen.innerHTML = '';
-    this._controlFullScreen.innerHTML = CH5VideoUtils.SVG_ICONS.FULLSCREEN_ICON;
-    //  this.zIndex = "0";
     this.isVideoReady = true;
     this.isOrientationChanged = false;
     this.isExitFullscreen = true;
-
     this.isFullScreen = false;
     this._vidControlPanel.classList.remove("fullScreen");
-    if (!!this._fullScreenOverlay && !!this._fullScreenOverlay.classList) {
-      this._fullScreenOverlay.classList.remove(this.primaryCssClass + '--overlay');
-    }
     this.classList.remove('fullScreenStyle');
     this._autoHideControls();
-    this.style.visibility = '';
     this.calculation();
     clearTimeout(this.scrollTimer);
     document.body.classList.remove('ch5-video-fullscreen');
@@ -1962,10 +1931,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     }
   }
 
-  /**
-   * Get all the data of the snapshots based on the video count provided
-   * @param videoCount
-   */
+
   private getAllSnapShotData(vCount: number) {
     if (vCount === 0) {
       return;
@@ -1989,10 +1955,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     }
   }
 
-  /**
-   * Stop loading snapshot when the camera is about to play video
-   * @param activeIndex
-   */
   private loadAllSnapshots(): void {
     if (this.snapshotMap.size > 0) {
       for (let idx = 0; idx < 1; idx++) {
