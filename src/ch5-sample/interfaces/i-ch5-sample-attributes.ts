@@ -286,7 +286,7 @@ export interface ICh5SampleAttributes extends ICh5CommonAttributes {
       /**
        * @documentation
        * [
-       * "`receivestatevideocount` attribute",
+       * "`receiveStateVideoCount` attribute",
        * "***",
        * "provides the count of videos."
        * ]
@@ -294,7 +294,7 @@ export interface ICh5SampleAttributes extends ICh5CommonAttributes {
        * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
        * @attributeType "Join"
        */
-      receivestatevideocount: string;
+      receiveStateVideoCount: string;
       /**
        * @documentation
        * [

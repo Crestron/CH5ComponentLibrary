@@ -57,7 +57,7 @@ import { ICh5SampleAttributes } from "./i-ch5-sample-attributes";
         *       "\treceiveStateSnapshotRefreshRate=\"${22:}\"",
         *       "\treceiveStateSnapshotUserId=\"${23:}\"",
         *       "\treceiveStateSnapshotPassword=\"${24:}\"",
-        *       "\treceivestatevideocount=\"${25:}\"",
+        *       "\treceiveStateVideoCount=\"${25:}\"",
         *       "\tsendEventOnClick=\"${26:}\"",
         *       "\tsendEventSelectionChange=\"${27:}\"",
         *       "\tsendEventSelectionSourceType=\"${28:}\"",
