@@ -1943,7 +1943,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		// backgroundIamgeSize
 		Ch5ButtonBase.BACKGROUND_IMAGE_SIZE.forEach((backgroundIamgeSize: TCh5ButtonBackgroundImageSize) => {
-			cssClasses.push(this.primaryCssClass + '--backgroundImageSize-' + backgroundIamgeSize);
+			cssClasses.push(this.primaryCssClass + '--background-image-size-' + backgroundIamgeSize);
 		});
 
 		// orientation
@@ -2793,8 +2793,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--' + this.shape);
 		
 		// backgroundImageSize
-		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--backgroundImageSize-' + this.backgroundImageSize);
-
+		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--background-image-size-' + this.backgroundImageSize);
 
 		// type
 		if (this.isButtonInitiated === true) {
