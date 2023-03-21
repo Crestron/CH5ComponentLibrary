@@ -97,3 +97,13 @@ export type TVideoTouchManagerParams = {
     pollingDuration: number; // defaults to 300ms if not passed
     componentID: string; // * this is a mandatory field
 }
+
+export interface TMultiVideoSignalName {
+    url: string;
+    userId: string;
+    password: string;
+    snapshotURL: string;
+    snapshotUserId: string;
+    snapshotPassword: string;
+    snapshotRefreshRate: string;
+}
