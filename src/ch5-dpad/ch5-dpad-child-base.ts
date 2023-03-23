@@ -599,6 +599,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 				if (this.CSS_CLASS_LIST.defaultIconClass) {
 					this._icon.classList.remove(this.CSS_CLASS_LIST.defaultIconClass);
 				}
+				this._icon.classList.remove(...(prevValue.split(' ').filter(element => element)));
 				this._icon.classList.add(...(this.iconClass.split(' ').filter(element => element))); // the filter removes empty spaces
 			} else {
 				this._icon.classList.remove(...(prevValue.split(' ').filter(element => element))); // the filter removes empty spaces
