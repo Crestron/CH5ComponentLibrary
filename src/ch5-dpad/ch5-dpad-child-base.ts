@@ -325,17 +325,17 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		// 5 iconClass
 		// 6 label
 		if (this.iconUrl.length > 0) {
-			this._icon = CH5DpadUtils.getImageContainer(this.iconUrl);
+			this._icon = this.getImageContainer(this.iconUrl);
 			this._icon.style.backgroundImage = `url(${this.iconUrl})`;
 		} else if (this.iconClass) {
-			this._icon = CH5DpadUtils.getIconContainer();
+			this._icon = this.getIconContainer();
 			this._icon.classList.add(...(this.iconClass.split(' ').filter(element => element))); // the filter removes empty spaces
 		} else if (this.label.length > 0 && this.key === 'center') {
-			this._icon = CH5DpadUtils.getLabelContainer(this.LABEL_CLASS);
+			this._icon = this.getLabelContainer(this.LABEL_CLASS);
 			this._icon.innerHTML = this.label;
 		} else {
 			// if nothing works, then render as default
-			this._icon = CH5DpadUtils.getIconContainer();
+			this._icon = this.getIconContainer();
 			this._icon.classList.add(this.CSS_CLASS_LIST.primaryIconClass);
 			if (this.CSS_CLASS_LIST.defaultIconClass && this.CSS_CLASS_LIST.defaultIconClass !== "") {
 				this._icon.classList.add(this.CSS_CLASS_LIST.defaultIconClass);
@@ -459,11 +459,9 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			const parentContractName: string = ComponentHelper.getAttributeAsString(ele, 'contractname', '');
 			const parentContractEvent: string = ComponentHelper.getAttributeAsString(ele, 'sendeventonclickstart', '');
 			if (parentContractName.length > 0) {
-				const joinValue = parentContractName + "." + CH5DpadUtils.contractSuffix[btnType];
-				this.sendEventOnClick = joinValue.toString();
+				this.sendEventOnClick = parentContractName + "." + CH5DpadUtils.contractSuffix[btnType];
 			} else if (parentContractName.length <= 0 && parentContractEvent.length > 0) {
-				const joinValue = parseInt(parentContractEvent, 10) + CH5DpadUtils.sendEventOnClickSigCountToAdd[btnType];
-				this.sendEventOnClick = joinValue.toString();
+				this.sendEventOnClick = (parseInt(parentContractEvent, 10) + CH5DpadUtils.sendEventOnClickSigCountToAdd[btnType]).toString();
 			} else {
 				this.sendEventOnClick = "";
 			}
@@ -701,7 +699,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
 	//#endregion
 
-
 	//#region 5. Events - event binding
 
 	protected _onTap(): void {
@@ -895,4 +892,45 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	}
 
 	//#endregion
+
+	//#region 6. Private Methods 
+
+	/**
+	 * Function to return an 'i' tag to be placed as icon for dpad child btn
+	 * @param iconClass icon class for icon
+	 * @returns HTMLElement, a 'i' tag
+	 */
+	private getIconContainer() {
+		const retEle = document.createElement('span');
+		retEle.classList.add('dpad-btn-icon');
+		retEle.classList.add('fas');
+		return retEle;
+	}
+
+	/**
+	 * Function to return an 'span' tag to be placed as label for dpad child btn
+	 * @param labelInput label instead of icon
+	 * @returns HTMLElement, a 'span' tag
+	 */
+	private getLabelContainer(labelClassName: string) {
+		const retEle = document.createElement('span');
+		retEle.classList.add(labelClassName);
+		return retEle;
+	}
+
+	/**
+	 * Function to return a 'span' tag to be placed as icon for dpad child btn
+	 * @param imageUrl image url for icon
+	 * @returns HTMLElement, a 'span' tag
+	 */
+	private getImageContainer(imageUrl: string) {
+		const retEle = document.createElement('span');
+		retEle.classList.add('dpad-btn-icon');
+		retEle.classList.add('image-url');
+		retEle.setAttribute('data-img-url', imageUrl);
+		return retEle;
+	}
+
+	//#endregion
+
 }

@@ -25,44 +25,6 @@ export class CH5DpadUtils {
 		center: 'Center'
 	};
 
-
-	/**
-	 * Function to return a 'span' tag to be placed as icon for dpad child btn
-	 * @param imageUrl image url for icon
-	 * @returns HTMLElement, a 'span' tag
-	 */
-	public static getImageContainer(imageUrl: string) {
-		const retEle = document.createElement('span');
-		retEle.classList.add('dpad-btn-icon');
-		retEle.classList.add('image-url');
-		retEle.setAttribute('data-img-url', imageUrl);
-		return retEle;
-	}
-
-	/**
-	 * Function to return an 'i' tag to be placed as icon for dpad child btn
-	 * @param iconClass icon class for icon
-	 * @returns HTMLElement, a 'i' tag
-	 */
-	public static getIconContainer() {
-		const retEle = document.createElement('span');
-		retEle.classList.add('dpad-btn-icon');
-		// retEle.classList.add('icon-class');
-		retEle.classList.add('fas');
-		return retEle;
-	}
-
-	/**
-	 * Function to return an 'span' tag to be placed as label for dpad child btn
-	 * @param labelInput label instead of icon
-	 * @returns HTMLElement, a 'span' tag
-	 */
-	public static getLabelContainer(labelClassName: string) {
-		const retEle = document.createElement('span');
-		retEle.classList.add(labelClassName);
-		return retEle;
-	}
-
 	public static createIconTag(thisRef: any) {
 		if (thisRef._icon.classList === undefined || thisRef._icon.classList.length <= 0) {
 			thisRef._icon = document.createElement('span');
