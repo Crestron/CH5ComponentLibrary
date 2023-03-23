@@ -263,7 +263,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	public set useContractForEnable(value: boolean) {
 		const isUseContractForEnable = this.toBoolean(value);
-		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
+		const contractName = this.contractName;
 
 		if (contractName.length === 0 || (this.useContractForEnable === isUseContractForEnable)) {
 			return;
@@ -279,7 +279,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	public set useContractForShow(value: boolean) {
 		const isUseContractForShow = this.toBoolean(value);
-		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
+		const contractName = this.contractName;
 
 		if (contractName.length === 0 || (this.useContractForShow === isUseContractForShow)) {
 			return;
@@ -294,10 +294,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	}
 
 	public set useContractForCustomStyle(value: boolean) {
-		this.logger.start('Ch5Dpad set useContractForCustomStyle("' + value + '")');
-
 		const isUseContractForCustomStyle = this.toBoolean(value);
-		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
+		const contractName = this.contractName;
 
 		if (contractName.length === 0 || (this.useContractForCustomStyle === isUseContractForCustomStyle)) {
 			return;
@@ -306,17 +304,14 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		this._ch5Properties.set<boolean>("useContractForCustomStyle", isUseContractForCustomStyle, () => {
 			this.handleUseContractForCustomStyle(contractName);
 		});
-		this.logger.stop();
 	}
 	public get useContractForCustomStyle(): boolean {
 		return this._ch5Properties.get<boolean>("useContractForCustomStyle");
 	}
 
 	public set useContractForCustomClass(value: boolean) {
-		this.logger.start('Ch5Dpad set useContractForCustomClass("' + value + '")');
-
 		const isUseContractForCustomClass = this.toBoolean(value);
-		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
+		const contractName = this.contractName;
 
 		if (contractName.length === 0 || (this.useContractForCustomClass === isUseContractForCustomClass)) {
 			return;
@@ -325,7 +320,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		this._ch5Properties.set<boolean>("useContractForCustomClass", isUseContractForCustomClass, () => {
 			this.handleUseContractForCustomClass(contractName);
 		});
-		this.logger.stop();
 	}
 	public get useContractForCustomClass(): boolean {
 		return this._ch5Properties.get<boolean>("useContractForCustomClass");
@@ -341,7 +335,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		ComponentHelper.clearComponentContent(this);
 		this._ch5Properties = new Ch5Properties(this, Ch5Dpad.COMPONENT_PROPERTIES);
 		this.initCssClasses();
-
 		this.logger.stop();
 	}
 
@@ -828,7 +821,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	 * @param eventKeyStart sendEventOnClickStart event's initial value
 	 */
 	private updateEventClickHandlers(eventKeyStart: number) {
-		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
+		const contractName = this.contractName;
 		const buttonList = this.getElementsByTagName("ch5-dpad-button");
 		let centerBtn;
 		let upBtn;
