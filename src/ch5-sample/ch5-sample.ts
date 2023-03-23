@@ -499,6 +499,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     url: '',
     userId: '',
     password: '',
+    sourceType: '',
     snapshotURL: '',
     snapshotUserId: '',
     snapshotPassword: '',
@@ -665,9 +666,13 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
 
   public set receiveStateSourceType(value: string) {
     this._ch5Properties.set("receiveStateSourceType", value, null, (newValue: string) => {
-      this._ch5Properties.setForSignalResponse<string>("sourceType", newValue, () => {
-        this.handleReceiveStateURL();
-      });
+      if (this.receiveStateSourceType.includes(`{{${this.indexId}}}`)) {
+        this.receiveStateSourceType = this.receiveStateSourceType.replace(`{{${this.indexId}}}`, this.selectedVideo.toString())
+      } else {
+        this._ch5Properties.setForSignalResponse<string>("sourceType", newValue, () => {
+          this.handleReceiveStateURL();
+        });
+      }
     });
   }
   public get receiveStateSourceType(): string {
@@ -1849,6 +1854,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     this.multiVideoSignalName.url = this.getAttribute('receiveStateURL')?.trim() ? this.getAttribute('receiveStateURL')?.trim() + '' : '';
     this.multiVideoSignalName.userId = this.getAttribute('receiveStateUserId')?.trim() ? this.getAttribute('receiveStateUserId')?.trim() + '' : '';
     this.multiVideoSignalName.password = this.getAttribute('receiveStatePassword')?.trim() ? this.getAttribute('receiveStatePassword')?.trim() + '' : '';
+    this.multiVideoSignalName.sourceType = this.getAttribute('receiveStateSourceType')?.trim() ? this.getAttribute('receiveStateSourceType')?.trim() + '' : '';
     this.multiVideoSignalName.snapshotURL = this.getAttribute('receiveStateSnapshotURL')?.trim() ? this.getAttribute('receiveStateSnapshotURL')?.trim() + '' : '';
     this.multiVideoSignalName.snapshotUserId = this.getAttribute('receiveStateSnapshotUserId')?.trim() ? this.getAttribute('receiveStateSnapshotUserId')?.trim() + '' : '';
     this.multiVideoSignalName.snapshotPassword = this.getAttribute('receiveStateSnapshotPassword')?.trim() ? this.getAttribute('receiveStateSnapshotPassword')?.trim() + '' : '';

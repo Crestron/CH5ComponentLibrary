@@ -102,6 +102,7 @@ export interface TMultiVideoSignalName {
     url: string;
     userId: string;
     password: string;
+    sourceType: string;
     snapshotURL: string;
     snapshotUserId: string;
     snapshotPassword: string;
