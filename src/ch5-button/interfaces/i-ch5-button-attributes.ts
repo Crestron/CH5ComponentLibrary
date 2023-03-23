@@ -511,8 +511,8 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
     * "Sets the image to be displayed as the background for the button when pressed=true."
     * ]
     * @name receivestatebackgroundimageurlpressed
-    * @default 
-    * @attributeType "String"
+    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+    * @attributeType "Join"
     */
    receiveStateBackgroundImageUrlPressed: string;
    /**

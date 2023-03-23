@@ -38,6 +38,7 @@ import _ from "lodash";
 import { Ch5ButtonMode } from "./ch5-button-mode";
 import { Ch5ButtonModeState } from "./ch5-button-mode-state";
 import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
+import { setTimeout } from "timers";
 
 /**
  * Html Attributes
@@ -254,7 +255,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		numericjoinoffset: { numericJoin: 1 },
 		stringjoinoffset: { stringJoin: 1 },
 		receivestatebackgroundimageurl: { direction: "state", stringJoin: 1, contractName: true },
-		receivestatebackgroundimageurlselected: { direction: "state", stringJoin: 1, contractName: true }
+		receivestatebackgroundimageurlselected: { direction: "state", stringJoin: 1, contractName: true },
+		receivestatebackgroundimageurlpressed: { direction: "state", stringJoin: 1, contractName: true }
 	};
 
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
@@ -311,7 +313,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		},
 		{
 			default: "",
+			isSignal: true,
 			name: "receiveStateBackgroundImageUrlPressed",
+			signalType: "string",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -886,6 +890,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.log('set selected("' + value + '")');
 		if (_.isNil(this.receiveStateSelected) || this.receiveStateSelected === "") {
 			this.setAttributeAndProperty(this.BUTTON_PROPERTIES.SELECTED, value);
+			this.backgroundImageURLHandler();
 		}
 	}
 	public get selected(): boolean {
@@ -915,6 +920,14 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			if (this._pressable?._pressed !== valueToSet) {
 				this._pressable.setPressed(valueToSet);
 			}
+		}
+		if (valueToSet === true) {
+			this.backgroundImageURLHandler();
+		}
+		else {
+			setTimeout(() => {
+				this.backgroundImageURLHandler();
+			}, 100);
 		}
 		this.updateCssClasses();
 	}
@@ -960,8 +973,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	}
 	public set backgroundImageUrl(value: string) {
 		this._ch5Properties.set<string>("backgroundImageUrl", value, () => {
-			this._elButton.style.backgroundImage = "url(" + this.backgroundImageUrl + ")";
-	    this._elButton.style.backgroundRepeat = "no-repeat";
+			this._elButton.style.backgroundRepeat = "no-repeat";
+			this.backgroundImageURLHandler();
 		});
 	}
 	public get backgroundImageUrl(): string {
@@ -970,7 +983,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	public set backgroundImageSize(value: TCh5ButtonBackgroundImageSize) {
 		this._ch5Properties.set<TCh5ButtonBackgroundImageSize>("backgroundImageSize", value, () => {
-			this.handleBackgroundImageSize();
+			this.updateCssClasses();
 		});
 	}
 	public get backgroundImageSize(): TCh5ButtonBackgroundImageSize {
@@ -979,7 +992,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	public set backgroundImageUrlPressed(value: string) {
 		this._ch5Properties.set<string>("backgroundImageUrlPressed", value, () => {
-			this.handleBackgroundImageUrlPressed();
+			this.backgroundImageURLHandler();
 		});
 	}
 	public get backgroundImageUrlPressed(): string {
@@ -988,7 +1001,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	public set backgroundImageUrlSelected(value: string) {
 		this._ch5Properties.set<string>("backgroundImageUrlSelected", value, () => {
-			this.handleBackgroundImageUrlSelected();
+			this.backgroundImageURLHandler();	
 		});
 	}
 	public get backgroundImageUrlSelected(): string {
@@ -998,7 +1011,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	public set receiveStateBackgroundImageUrl(value: string) {
 		this._ch5Properties.set("receiveStateBackgroundImageUrl", value, null, (newValue: string) => {
 			this._ch5Properties.setForSignalResponse<string>("backgroundImageUrl", newValue, () => {
-				this.handleReceiveStateBackgroundImageUrl();
+				this.backgroundImageURLHandler();
 			});
 		});
 	}
@@ -1007,8 +1020,13 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	}
 
 	public set receiveStateBackgroundImageUrlPressed(value: string) {
-		this._ch5Properties.set<string>("receiveStateBackgroundImageUrlPressed", value, () => {
-			this.handleReceiveStateBackgroundImageUrlPressed();
+		console.log("hello 1");
+		this._ch5Properties.set("receiveStateBackgroundImageUrlPressed", value, null, (newValue: string) => {
+			console.log("hello 2");
+			this._ch5Properties.setForSignalResponse<string>("backgroundImageUrlPressed", newValue, () => {
+				console.log("hello 3");
+				this.backgroundImageURLHandler(); 
+			});
 		});
 	}
 	public get receiveStateBackgroundImageUrlPressed(): string {
@@ -1018,7 +1036,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	public set receiveStateBackgroundImageUrlSelected(value: string) {
 		this._ch5Properties.set("receiveStateBackgroundImageUrlSelected", value, null, (newValue: string) => {
 			this._ch5Properties.setForSignalResponse<string>("backgroundImageUrlSelected", newValue, () => {
-				this.handleReceiveStateBackgroundImageUrlSelected();
+				this.backgroundImageURLHandler(); 
 			});
 		});
 	}
@@ -1332,6 +1350,16 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	protected initAttributes() {
 		super.initAttributes();
+
+		const thisRef: any = this;
+		for (let i: number = 0; i < Ch5ButtonBase.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5ButtonBase.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				if (this.hasAttribute(Ch5ButtonBase.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
+					const key = Ch5ButtonBase.COMPONENT_PROPERTIES[i].name;
+					thisRef[key] = this.getAttribute(key);
+				}
+			}
+		}
 		this.logger.start("initAttributes", this.primaryCssClass);
 
 		if (this.hasAttribute('checkboxposition')) {
@@ -1436,15 +1464,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		if (this.hasAttribute('sendeventontouch')) {
 			this.sendEventOnTouch = this.getAttribute('sendeventontouch') as string;
 		}
-		const thisRef: any = this;
-		for (let i: number = 0; i < Ch5ButtonBase.COMPONENT_PROPERTIES.length; i++) {
-			if (Ch5ButtonBase.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-				if (this.hasAttribute(Ch5ButtonBase.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
-					const key = Ch5ButtonBase.COMPONENT_PROPERTIES[i].name;
-					thisRef[key] = this.getAttribute(key);
-				}
-			}
-		}
+
 		this.updateCssClasses();
 		this.updateInternalHtml();
 		this.logger.stop();
@@ -1730,7 +1750,21 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this._pressable.options.pressDelayDistance = this.pressDelayDistance;
 		}
 	}
-
+	private backgroundImageURLHandler() {
+		if (this.pressed === true) {
+			if (this.backgroundImageUrlPressed !== "" && !_.isNil(this.backgroundImageUrlPressed)) {
+				this._elButton.style.backgroundImage = "url(" + this.backgroundImageUrlPressed + ")";
+			}
+		} else if (this.selected === true) {
+			if (this.backgroundImageUrlSelected !== "" && !_.isNil(this.backgroundImageUrlSelected)) {
+				this._elButton.style.backgroundImage = "url(" + this.backgroundImageUrlSelected + ")";
+			}
+		} else {
+			if (this.backgroundImageUrl !== "" && !_.isNil(this.backgroundImageUrl)) {
+				this._elButton.style.backgroundImage = "url(" + this.backgroundImageUrl + ")";
+			}
+		}
+	}
 	private _subscribeToPressableIsPressed() {
 		if (this.buttonListContract.contractName.trim() !== "" && this.buttonListContract.parentComponent.trim() === 'ch5-button-list') { return this._subscribeToPressableIsPressedForButtonList(); }
 		if (this.buttonListContract.contractName.trim() !== "" && this.buttonListContract.parentComponent.trim() === 'ch5-tab-button') { return this._subscribeToPressableIsPressedForTabButton(); }
@@ -1941,9 +1975,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			cssClasses.push(this.primaryCssClass + '--stretch-' + stretch);
 		});
 
-		// backgroundIamgeSize
-		Ch5ButtonBase.BACKGROUND_IMAGE_SIZE.forEach((backgroundIamgeSize: TCh5ButtonBackgroundImageSize) => {
-			cssClasses.push(this.primaryCssClass + '--background-image-size-' + backgroundIamgeSize);
+		// backgroundImageSize
+		Ch5ButtonBase.BACKGROUND_IMAGE_SIZE.forEach((backgroundImageSize: TCh5ButtonBackgroundImageSize) => {
+			cssClasses.push(this.primaryCssClass + '--background-image-size-' + backgroundImageSize);
 		});
 
 		// orientation
@@ -1990,25 +2024,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			});
 		}
 		this.logger.stop();
-	}
-
-	private handleBackgroundImageSize() {
-		this.updateCssClasses();
-	}
-	private handleBackgroundImageUrlPressed() {
-		// Enter your Code here
-	}
-	private handleBackgroundImageUrlSelected() {
-		// Enter your Code here
-	}
-	private handleReceiveStateBackgroundImageUrl() {
-		// Enter your Code here
-	}
-	private handleReceiveStateBackgroundImageUrlPressed() {
-		// Enter your Code here
-	}
-	private handleReceiveStateBackgroundImageUrlSelected() {
-		// Enter your Code here
 	}
 
 	public setLabel(labelHtml: string) {
@@ -2791,7 +2806,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		// shape
 		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--' + this.shape);
-		
+
 		// backgroundImageSize
 		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--background-image-size-' + this.backgroundImageSize);
 
