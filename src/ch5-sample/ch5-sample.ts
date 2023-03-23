@@ -576,7 +576,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   public set snapshotURL(value: string) {
     this._ch5Properties.set<string>("snapshotURL", value, () => {
       if (this.snapshotURL.trim() !== '') { this.maxVideoCount = 1 }
-      this.handleSnapshotURL();
+      this.handleReceiveStateSnapshotURL();
     });
   }
   public get snapshotURL(): string {
@@ -585,7 +585,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
 
   public set snapshotRefreshRate(value: number) {
     this._ch5Properties.set<number>("snapshotRefreshRate", value, () => {
-      this.handlesnapshotRefreshRate();
+      this.handleReceiveStateSnapshotURL();
     });
   }
   public get snapshotRefreshRate(): number {
@@ -594,7 +594,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
 
   public set snapshotUserId(value: string) {
     this._ch5Properties.set<string>("snapshotUserId", value, () => {
-      this.handleSnapshotUserId();
+      this.handleReceiveStateSnapshotURL();
     });
   }
   public get snapshotUserId(): string {
@@ -603,7 +603,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
 
   public set snapshotPassword(value: string) {
     this._ch5Properties.set<string>("snapshotPassword", value, () => {
-      this.handleSnapshotPassword();
+      this.handleReceiveStateSnapshotURL();
     });
   }
   public get snapshotPassword(): string {
@@ -620,9 +620,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   }
 
   public set zindex(value: number) {
-    this._ch5Properties.set<number>("zindex", value, () => {
-      this.handleZindex();
-    });
+    this._ch5Properties.set<number>("zindex", value);
   }
   public get zindex(): number {
     return this._ch5Properties.get<number>("zindex");
@@ -1055,9 +1053,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     });
   }
 
-  /**
-   * Initializes the elements of ch5-video
-   */
+  // Initializes the elements of ch5-video
   private _initializeVideo() {
     const uID = this.getCrId().split('cr-id-')[1];
     this.ch5UId = parseInt(uID[1], 0);
@@ -1071,36 +1067,24 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   private handleIndexId() {
     //  Enter your Code here
   }
+
   private handleAspectRatio() {
     Array.from(Ch5Sample.COMPONENT_DATA.ASPECT_RATIO.values).forEach((e: any) => {
       this._elContainer.classList.remove(Ch5Sample.COMPONENT_DATA.ASPECT_RATIO.classListPrefix + e);
     });
     this._elContainer.classList.add(Ch5Sample.COMPONENT_DATA.ASPECT_RATIO.classListPrefix + this.aspectRatio);
   }
+
   private handleStretch() {
     //  Enter your Code here
   }
 
-  private handleSnapshotURL() {
-    //  Enter your Code here
-  }
-  private handlesnapshotRefreshRate() {
-    //  Enter your Code here
-  }
-  private handleSnapshotUserId() {
-    //  Enter your Code here
-  }
-  private handleSnapshotPassword() {
-    //  Enter your Code here
-  }
+
   private handleSize() {
     Array.from(Ch5Sample.COMPONENT_DATA.SIZE.values).forEach((e: any) => {
       this._elContainer.classList.remove(Ch5Sample.COMPONENT_DATA.SIZE.classListPrefix + e);
     });
     this._elContainer.classList.add(Ch5Sample.COMPONENT_DATA.SIZE.classListPrefix + this.size);
-  }
-  private handleZindex() {
-    //  Enter your Code here
   }
   private handleReceiveStatePlay(value: boolean) {
     if (value === false) {
@@ -1109,6 +1093,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     this.beforeVideoDisplay();
     this.handleReceiveStateURL();
   }
+
   private handleReceiveStateSelect(select: number) {
     if (this.multiVideoSignalName.url.includes(`{{${this.indexId}}}`)) { this.receiveStateURL = this.multiVideoSignalName.url.replace(`{{${this.indexId}}}`, select.toString()) }
     if (this.multiVideoSignalName.userId.includes(`{{${this.indexId}}}`)) { this.receiveStateUserId = this.multiVideoSignalName.userId.replace(`{{${this.indexId}}}`, select.toString()) }
@@ -1118,6 +1103,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     if (this.multiVideoSignalName.snapshotPassword.includes(`{{${this.indexId}}}`)) { this.receiveStateSnapshotPassword = this.multiVideoSignalName.snapshotPassword.replace(`{{${this.indexId}}}`, select.toString()) }
     if (this.multiVideoSignalName.snapshotRefreshRate.includes(`{{${this.indexId}}}`)) { this.receiveStateSnapshotRefreshRate = this.multiVideoSignalName.snapshotRefreshRate.replace(`{{${this.indexId}}}`, select.toString()) }
   }
+
   private handleReceiveStateURL() {
     if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE) {
       this.lastResponseStatus = CH5VideoUtils.VIDEO_ACTION.EMPTY;
@@ -1136,11 +1122,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   private handleReceiveStateSnapshotURL() {
     this.getAllSnapShotData(1);
     this.loadAllSnapshots();
-  }
-
-
-  private handleReceiveStateVideoCount() {
-    //  Enter your Code here
   }
 
   private updateCssClass() {
