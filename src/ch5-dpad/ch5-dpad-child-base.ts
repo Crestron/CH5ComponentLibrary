@@ -82,8 +82,10 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true }
 	};
 
-	//#region 1.1 readonly variables
 	public primaryCssClass = '';
+
+	//#region 1.1 readonly variables
+
 	public readonly pressedCssClassPostfix = '--pressed';
 
 	private readonly LABEL_CLASS: string = 'dpad-btn-label';

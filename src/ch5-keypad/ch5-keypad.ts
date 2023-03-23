@@ -19,7 +19,9 @@ import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 
 export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
+	
 	//#region 1. Variables
+	
 	//#region 1.1 readonly variables
 
 	public static readonly ELEMENT_NAME = 'ch5-keypad';
@@ -256,9 +258,11 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Keypad.ELEMENT_NAME, Ch5Keypad.SIGNAL_ATTRIBUTE_TYPES);
 	}
 
+	//#endregion
+
 	//#region 2. Setters and Getters
+	
 	public set contractName(value: string) {
-		this.logger.start('set contractName("' + value + '")');
 		value = (ComponentHelper.isNullOrUndefined(value)) ? '' : value;
 		if (value !== this.contractName) {
 			this._contractName = value;
@@ -266,7 +270,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 				this.setAttribute('contractname', this._contractName);
 			}
 		}
-		this.logger.stop();
 	}
 	public get contractName(): string {
 		return this._contractName;
@@ -306,46 +309,38 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	public set size(value: TCh5KeypadSize) {
-		this.logger.start('set size ("' + value + '")');
 		this._ch5Properties.set<TCh5KeypadType>("size", value, () => {
 			this.sizeHandler();
 		});
-		this.logger.stop();
 	}
 	public get size() {
 		return this._ch5Properties.get<TCh5KeypadSize>("size");
 	}
 
 	public set textOrientation(value: TCh5KeypadTextOrientation) {
-		this.logger.start('set textOrientation ("' + value + '")');
 		this._ch5Properties.set<TCh5KeypadTextOrientation>("textOrientation", value, () => {
 			this.textOrientationHandler();
-		})
-		this.logger.stop();
+		});
 	}
 	public get textOrientation(): TCh5KeypadTextOrientation {
 		return this._ch5Properties.get<TCh5KeypadTextOrientation>("textOrientation");
 	}
 
 	public set showExtraButton(value: boolean) {
-		this.logger.start('set showExtraButton ("' + value + '")');
 		this._ch5Properties.set<boolean>("showExtraButton", value, () => {
 			if (!this._useContractForExtraButtonShow) {
 				this.showExtraButtonHandler();
 			}
 		});
-		this.logger.stop();
 	}
 	public get showExtraButton(): boolean {
 		return this._ch5Properties.get<boolean>("showExtraButton");
 	}
 
 	public set sendEventOnClickStart(value: string) {
-		this.logger.start('set sendEventOnClickStart("' + value + '")');
 		this._ch5Properties.set<string>("sendEventOnClickStart", value, () => {
 			this.updateEventClickHandlers(parseInt(value, 10));
 		});
-		this.logger.stop();
 	}
 	public get sendEventOnClickStart(): string {
 		return this._ch5Properties.get<string>("sendEventOnClickStart");
