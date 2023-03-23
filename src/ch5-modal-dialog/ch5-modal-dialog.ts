@@ -295,6 +295,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			this.createInternalHtml();
 			this._closeIcon = this.primaryCssClass + '-default-close-icon';
 		}
+		this.updateCssClasses();
 		this._crModalWasInstatiated = true;
 
 		this._okEvent = new CustomEvent('ok', {
@@ -309,7 +310,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 		this._cancelButtonLabel = this._btnCancelDefaultLabelText;
 		this._okButtonLabel = this._btnOkDefaultLabelText;
-
 	}
 
 	public static registerSignalAttributeTypes() {
@@ -444,8 +444,8 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		this._ready.then(() => {
 			this._initialize();
 			this.initCommonMutationObserver(this);
-		}
-		);
+		});
+		this.attachEventListeners();
 	}
 
 	public disconnectedCallback() {
@@ -454,6 +454,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 		// disconnect common mutation observer
 		this.disconnectCommonMutationObserver();
+		this.removeEventListeners();
 	}
 
 	private setShowBasedOnAttributes() {
@@ -524,8 +525,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 		this.initAttributes();
 		this._checkAndAttachMaskIfNeeded();
-		this.updateCssClasses();
-		this.attachEventListeners();
 	}
 
 	protected initAttributes() {
@@ -641,9 +640,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			this.sendEventOnCancel = '';
 		}
 
-		this._checkAndAttachMaskIfNeeded();
-		this.adjustInternalHtmlStructure();
-
 		if (this.hasAttribute('positionto')) {
 			this.removeAttribute('positionto');
 		}
@@ -720,7 +716,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 				if (this.hasAttribute('title')) {
 					this.title = this.getAttribute('title') as string;
 				}
-				this.adjustInternalHtmlStructure();
 				break;
 			case 'hideokbutton':
 				if (this.hasAttribute('hideokbutton')) {
@@ -733,7 +728,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 				} else {
 					this.hideOkButton = false;
 				}
-				this.adjustInternalHtmlStructure();
 				break;
 			case 'okbuttonlabel':
 				if (this.hasAttribute('okbuttonlabel')) {
@@ -761,7 +755,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 				} else {
 					this.hideCancelButton = false;
 				}
-				this.adjustInternalHtmlStructure();
 				break;
 			case 'cancelbuttonlabel':
 				if (this.hasAttribute('cancelbuttonlabel')) {
@@ -782,13 +775,11 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 				if (this.hasAttribute('prompt')) {
 					this.prompt = this.getAttribute('prompt') as string;
 				}
-				this.adjustInternalHtmlStructure();
 				break;
 			case 'prompticon':
 				if (this.hasAttribute('prompticon')) {
 					this.promptIcon = this.getAttribute('prompticon') as string;
 				}
-				this.adjustInternalHtmlStructure();
 				break;
 			case 'mask':
 				if (this.hasAttribute('mask')) {
