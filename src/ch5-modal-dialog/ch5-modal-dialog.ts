@@ -1090,6 +1090,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			this._hideOkButton = value;
 			this.setAttribute('hideokbutton', value.toString());
 		}
+		this.adjustInternalHtmlStructure();
 	}
 
 	public get hideOkButton(): boolean {
@@ -1153,6 +1154,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			this._hideCancelButton = value;
 			this.setAttribute('hidecancelbutton', value.toString());
 		}
+		this.adjustInternalHtmlStructure();
 	}
 
 	public get hideCancelButton(): boolean {
