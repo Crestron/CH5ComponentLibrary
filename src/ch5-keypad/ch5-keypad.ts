@@ -6,7 +6,6 @@
 // under which you licensed this source code.
 
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { TCh5CreateReceiveStateSigParams } from "../ch5-common/interfaces";
 import { ComponentHelper } from "../ch5-common/utils/component-helper";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5KeypadButton } from "./ch5-keypad-btn";
@@ -21,7 +20,7 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	
 	//#region 1. Variables
-	
+
 	//#region 1.1 readonly variables
 
 	public static readonly ELEMENT_NAME = 'ch5-keypad';
@@ -32,10 +31,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventonclickstart: { direction: "event", booleanJoin: 1, contractName: true },
-		contractname: { contractName: true },
-		booleanjoinoffset: { booleanJoin: 1 },
-		numericjoinoffset: { numericJoin: 1 },
-		stringjoinoffset: { stringJoin: 1 }
 	};
 
 	/**
@@ -161,6 +156,22 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			isObservableProperty: true
 		},
 		{
+			default: false,
+			name: "useContractForCustomStyle",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true
+		},
+		{
+			default: false,
+			name: "useContractForCustomClass",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true
+		},
+		{
 			default: true,
 			name: "useContractForExtraButtonShow",
 			removeAttributeOnNull: true,
@@ -226,20 +237,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 	//#region 1.2 private / protected variables
 	private COMPONENT_NAME: string = "ch5-keypad";
-	private _contractName: string = '';
-	private _useContractForEnable: boolean = true;
-	private _useContractForShow: boolean = true;
-	private _useContractForCustomStyle: boolean = false;
-	private _useContractForCustomClass: boolean = false;
-	private _useContractForExtraButtonShow: boolean = false;
-	private _useContractForEnableSignalValue: string = '';
-	private _useContractForShowSignalValue: string = '';
-	private _useContractForCustomStyleSignalValue: string = '';
-	private _useContractForCustomClassSignalValue: string = '';
-	private _useContractForExtraButtonShowSignalValue: string = '';
 
 	// state specific vars
-	private isComponentLoaded: boolean = false;
 	private isResizeInProgress: boolean = false;
 	private readonly resizeDebounce: number = 500;
 
@@ -252,6 +251,14 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	private childButtonList: { [key: string]: Ch5KeypadButton; } = {};
 	private runtimeChildButtonList: { [key: string]: TCh5KeypadButtonCreateDTO; } = {};
 
+	private signalNameOnContract = {
+		contractName: "",
+		receiveStateEnable: "",
+		receiveStateShow: "",
+		receiveStateCustomClass: "",
+    receiveStateCustomStyle: ""
+	}
+
 	//#endregion
 
 	public static registerSignalAttributeTypes() {
@@ -261,48 +268,37 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	//#endregion
 
 	//#region 2. Setters and Getters
-	
 	public set contractName(value: string) {
-		value = (ComponentHelper.isNullOrUndefined(value)) ? '' : value;
-		if (value !== this.contractName) {
-			this._contractName = value;
-			if (this.getAttribute('type') !== this.type) {
-				this.setAttribute('contractname', this._contractName);
-			}
-		}
+		this._ch5Properties.set<string>("contractName", value, () => {
+			this.contractDefaultHandler();
+		});
 	}
 	public get contractName(): string {
-		return this._contractName;
+		return this._ch5Properties.get<string>("contractName");
 	}
 
 	public set type(value: TCh5KeypadType) {
-		this.logger.start('set type ("' + value + '")');
 		this._ch5Properties.set<TCh5KeypadType>("type", value, () => {
 			this.typeHandler();
 		});
-		this.logger.stop();
 	}
 	public get type(): TCh5KeypadType {
 		return this._ch5Properties.get<TCh5KeypadType>("type");
 	}
 
 	public set shape(value: TCh5KeypadShape) {
-		this.logger.start('set shape ("' + value + '")');
 		this._ch5Properties.set<TCh5KeypadType>("shape", value, () => {
 			this.shapeHandler();
 		});
-		this.logger.stop();
 	}
 	public get shape(): TCh5KeypadShape {
 		return this._ch5Properties.get<TCh5KeypadShape>("shape");
 	}
 
 	public set stretch(value: TCh5KeypadStretch | null) {
-		this.logger.start('set stretch ("' + value + '")');
 		this._ch5Properties.set<TCh5KeypadStretch | null>("stretch", value, () => {
 			this.stretchHandler();
-		})
-		this.logger.stop();
+		});
 	}
 	public get stretch(): TCh5KeypadStretch | null {
 		return this._ch5Properties.get<TCh5KeypadStretch | null>("stretch");
@@ -328,7 +324,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 	public set showExtraButton(value: boolean) {
 		this._ch5Properties.set<boolean>("showExtraButton", value, () => {
-			if (!this._useContractForExtraButtonShow) {
+			if (!this.useContractForExtraButtonShow) {
 				this.showExtraButtonHandler();
 			}
 		});
@@ -347,191 +343,68 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	public set useContractForEnable(value: boolean) {
-		this.logger.start('Ch5Keypad set useContractForEnable("' + value + '")');
-
-		const isUseContractForEnable = this.toBoolean(value);
-		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
-
-		if (contractName.length === 0 || this._useContractForEnable === isUseContractForEnable) {
-			return;
-		}
-
-		this.setAttribute('useContractForEnable'.toLowerCase(), isUseContractForEnable.toString());
-		this._useContractForEnable = isUseContractForEnable;
-		const sigVal = contractName + "Enable";
-
-		const params: TCh5CreateReceiveStateSigParams = {
-			caller: this,
-			attrKey: 'useContractForEnable',
-			value: sigVal,
-			callbackOnSignalReceived: (newValue: string | boolean) => {
-				newValue = (!newValue).toString();
-				this.info(' subs callback for useContractForEnable: ', this._useContractForEnableSignalValue,
-					' Signal has value ', newValue);
-				ComponentHelper.setAttributeToElement(this, 'disabled', newValue);
-			}
-		};
-
-		this.setValueForReceiveStateBoolean(params);
-		this.logger.stop();
+		this._ch5Properties.set<boolean>("useContractForEnable", value, () => {
+			this.contractDefaultHelper();
+		});
 	}
 	public get useContractForEnable(): boolean {
-		return this._useContractForEnable;
+		return this._ch5Properties.get<boolean>("useContractForEnable");
 	}
 
 	/**
 	 * useContractForShow specific getter-setter
 	 */
 	public set useContractForShow(value: boolean) {
-		this.logger.start('Ch5Keypad set useContractForShow("' + value + '")');
-
-		const isUseContractForShow = this.toBoolean(value);
-		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
-
-		if (contractName.length === 0 || this._useContractForShow === isUseContractForShow) {
-			return;
-		}
-
-		this.setAttribute('useContractForShow'.toLowerCase(), isUseContractForShow.toString());
-		const sigVal = contractName + "Show";
-
-		const params: TCh5CreateReceiveStateSigParams = {
-			caller: this,
-			attrKey: 'useContractForShow',
-			value: sigVal,
-			callbackOnSignalReceived: (newValue: string | boolean) => {
-				newValue = newValue.toString();
-				this.info(' subs callback for signalReceiveShow: ', this._useContractForShowSignalValue,
-					' Signal has value ', newValue);
-				ComponentHelper.setAttributeToElement(this, 'show', newValue);
-			}
-		};
-
-		this.setValueForReceiveStateBoolean(params);
-		this.logger.stop();
+		this._ch5Properties.set<boolean>("useContractForShow", value, () => {
+			this.contractDefaultHelper();
+		});
 	}
 	public get useContractForShow(): boolean {
-		return this._useContractForShow;
+		return this._ch5Properties.get<boolean>("useContractForShow");
 	}
 
 	/**
 	 * useContractForCustomStyle specific getter-setter
 	 */
 	public set useContractForCustomStyle(value: boolean) {
-		this.logger.start('Ch5Keypad set useContractForCustomStyle("' + value + '")');
-		const isUseContractForCustomStyle = this.toBoolean(value);
-		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
-
-		if (contractName.length === 0 || this._useContractForCustomStyle === isUseContractForCustomStyle) {
-			return;
-		}
-
-		this.setAttribute('usecontractforcustomstyle', isUseContractForCustomStyle.toString());
-		this._useContractForCustomStyle = isUseContractForCustomStyle;
-		const sigVal = contractName + "CustomStyle";
-
-		const params: TCh5CreateReceiveStateSigParams = {
-			caller: this,
-			attrKey: 'useContractForCustomStyle',
-			value: sigVal,
-			callbackOnSignalReceived: (newValue: string | boolean) => {
-				newValue = newValue as string;
-				this.info(' subs callback for useContractForCustomStyle: ', this._useContractForCustomStyleSignalValue,
-					' Signal has value ', newValue);
-				this.customStyle = newValue;
-			}
-		};
-
-		this.setValueForReceiveStateString(params);
-		this.logger.stop();
+		this._ch5Properties.set<boolean>("useContractForCustomStyle", value, () => {
+			this.contractDefaultHelper();
+		});
 	}
 	public get useContractForCustomStyle(): boolean {
-		return this._useContractForCustomStyle;
+		return this._ch5Properties.get<boolean>("useContractForCustomStyle");
 	}
 
 	/**
 	 * useContractForCustomClass specific getter-setter
 	 */
 	public set useContractForCustomClass(value: boolean) {
-		this.logger.start(this.COMPONENT_NAME + ' set useContractForCustomClass("' + value + '")');
-
-		const isUuseContractForCustomClass = this.toBoolean(value);
-		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
-
-		if (contractName.length === 0 || this._useContractForCustomClass === isUuseContractForCustomClass) {
-			return;
-		}
-
-		this.setAttribute('useContractForCustomClass', isUuseContractForCustomClass.toString());
-		this._useContractForCustomClass = isUuseContractForCustomClass;
-		const sigVal = contractName + "CustomClass";
-
-		const params: TCh5CreateReceiveStateSigParams = {
-			caller: this,
-			attrKey: 'useContractForCustomClass',
-			value: sigVal,
-			callbackOnSignalReceived: (newValue: string | boolean) => {
-				newValue = newValue as string;
-				this.info(' subs callback for useContractForCustomClass: ',
-					this._useContractForCustomClassSignalValue, ' Signal has value ', newValue);
-				this.customClass = newValue;
-			}
-		};
-
-		this.setValueForReceiveStateString(params);
-		this.logger.stop();
+		this._ch5Properties.set<boolean>("useContractForCustomClass", value, () => {
+			this.contractDefaultHelper();
+		});
 	}
 	public get useContractForCustomClass(): boolean {
-		return this._useContractForCustomClass;
+		return this._ch5Properties.get<boolean>("useContractForCustomClass");
 	}
 
 	/**
 	 * useContractForExtraButtonShow specific getter-setter
 	 */
 	public set useContractForExtraButtonShow(value: boolean) {
-		this.logger.start(this.COMPONENT_NAME + ' set useContractForExtraButtonShow("' + value + '")');
-		const isUseContractForExtraButtonShow = this.toBoolean(value);
-		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
-
-		if (contractName.length === 0 || this._useContractForExtraButtonShow === isUseContractForExtraButtonShow) {
-			return;
-		}
-
-		this.setAttribute('useContractForExtraButtonShow'.toLowerCase(), isUseContractForExtraButtonShow.toString());
-		this._useContractForExtraButtonShow = isUseContractForExtraButtonShow;
-		const sigVal = contractName + "ExtraButton";
-
-		const params: TCh5CreateReceiveStateSigParams = {
-			caller: this,
-			attrKey: 'useContractForExtraButtonShow',
-			value: sigVal,
-			callbackOnSignalReceived: (newValue: string | boolean) => {
-				newValue = newValue as boolean;
-				this.info(' subs callback for useContractForExtraButtonShow: ', this._useContractForExtraButtonShowSignalValue,
-					' Signal has value ', newValue);
-				if (newValue || (!newValue && this.showExtraButton)) {
-					this.showExtraButtonHandler();
-				}
-			}
-		};
-
-		this.setValueForReceiveStateString(params);
-		this.logger.stop();
+		this._ch5Properties.set<boolean>("useContractForExtraButtonShow", value, () => {
+			this.contractDefaultHelper();
+		});
 	}
 	public get useContractForExtraButtonShow(): boolean {
-		return this._useContractForExtraButtonShow;
+		return this._ch5Properties.get<boolean>("useContractForExtraButtonShow");
 	}
 
 	public set receiveStateExtraButtonShow(value: string) {
-		this.logger.start(this.COMPONENT_NAME + 'receiveStateExtraButtonShow');
 		this._ch5Properties.set("receiveStateExtraButtonShow", value, null, (newValue: boolean) => {
 			this._ch5Properties.setForSignalResponse<boolean>("showExtraButton", newValue, () => {
-				if (!this._useContractForExtraButtonShow) {
-			this.showExtraButtonHandler();
-		}
+					this.showExtraButtonHandler();
 			});
 		});
-		this.logger.stop();
 	}
 	public get receiveStateExtraButtonShow(): string {
 		return this._ch5Properties.get<string>("receiveStateExtraButtonShow");
@@ -611,13 +484,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 			// check if the Keypad element has been created by verifying one of its properties
 
-			// // initialize mutation observer if any
-			// this.initCommonMutationObserver(this);
-
 			// required post initial setup
 			this.stretchHandler();
-
-			this.isComponentLoaded = true;
 		});
 		this.logger.stop();
 	}
@@ -702,9 +570,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 		this.classList.add(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnSizeClassPrefix + this.size);
 
-		// for (const typeVal of Ch5Keypad.STRETCHES) {
-		// 	this.classList.remove(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnStretchClassPrefix + typeVal);
-		// }
 		if (!!this.stretch && this.stretch.length > 0) { // checking for length since it does not have a default value
 			this.classList.add(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnStretchClassPrefix + this.stretch);
 		}
@@ -741,6 +606,9 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			item.remove();
 		}
 		this.createEmptyContainerDiv();
+		if (this.contractName !== "") {
+			this.contractDefaultHelper();
+		}
 		const data: TCh5KeypadButtonCreateDTO[] =
 			CH5KeypadButtonData.getBtnList(this.runtimeChildButtonList, this.contractName, this.sendEventOnClickStart);
 		let rowEle = this.appendKeysRowToContainer();
@@ -777,11 +645,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		}
 	}
 
-	private showExtraButtonForNonContract() {
-		if (!this._useContractForExtraButtonShow) {
-			this.showExtraButtonHandler();
-		}
-	}
 	/**
 	 * Function to add the extra row of buttons if contract or attribute permits
 	 */
@@ -829,7 +692,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		return divEle;
 	}
 
-	private buildRuntimeChildButtonList() {
+	private buildRuntimeChildButtonList() { 
 		const childElements: Element[] = Array.from(this.children);
 		if (childElements.length > 0) {
 			for (const ele of childElements) {
@@ -926,17 +789,12 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			for (const key in this.childButtonList) {
 				if (this.childButtonList.hasOwnProperty(key)) {
 					const btn = this.childButtonList[key];
-					this.setSendEventOnClick(startIndex, btn, joinIndex);
+					btn.setJoinBasedEventHandler(startIndex, joinIndex);
 					joinIndex++
 				}
 			}
 		}
 		this.logger.stop();
-	}
-
-	private setSendEventOnClick(startIndex: number, refEle: any, joinCountIndex: number) {
-		const joinCountList: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 11];
-		refEle.sendEventOnClick = startIndex + joinCountList[joinCountIndex]
 	}
 
 	private sizeHandler() {
@@ -948,6 +806,49 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		this.logger.stop();
 	}
 
+	private contractDefaultHandler() {
+		if (this.contractName.trim().length === 0) {
+      this.signalNameOnContract.contractName = "";
+			this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
+      this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;
+			this.receiveStateCustomStyle = this.signalNameOnContract.receiveStateCustomStyle;
+      this.receiveStateCustomClass = this.signalNameOnContract.receiveStateCustomClass;
+    } else if (this.signalNameOnContract.contractName === "") {
+      this.signalNameOnContract.contractName = this.contractName;
+			this.signalNameOnContract.receiveStateShow = this.receiveStateShow;
+      this.signalNameOnContract.receiveStateEnable = this.receiveStateEnable;
+			this.signalNameOnContract.receiveStateCustomStyle = this.receiveStateCustomStyle;
+      this.signalNameOnContract.receiveStateCustomClass = this.receiveStateCustomClass;
+    }
+		this.runtimeChildButtonList = {};
+		this.buildRuntimeChildButtonList();
+		this.createAndAppendAllButtonsUnderKeypad();
+	}
+
+	private contractDefaultHelper() {
+    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+
+      if (this.useContractForCustomStyle === true) {
+        this.receiveStateCustomStyle = this.contractName + '.CustomStyle';
+      }
+
+      if (this.useContractForCustomClass === true) {
+        this.receiveStateCustomClass = this.contractName + '.CustomClass';
+      }
+
+      if (this.useContractForEnable === true) {
+        this.receiveStateEnable = this.contractName + '.Enable';
+      }
+
+      if (this.useContractForShow === true) {
+        this.receiveStateShow = this.contractName + '.Show';
+      }
+
+			if (this.useContractForExtraButtonShow === true) {
+				this.showExtraButtonHandler();
+			}
+    }
+  }
 	/**
 	 * Function to handle the resize event for keypad to be redrawn if required
 	 */

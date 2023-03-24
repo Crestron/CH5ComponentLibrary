@@ -115,13 +115,14 @@ export class CH5KeypadButtonData {
 		return retArr;
 	}
 
-	public static getChildBtnDTOFromElement(ele: Element, contractName: string, sendEventOnClickStart: string): TCh5KeypadButtonCreateDTO {
+	public static getChildBtnDTOFromElement(ele: Element, parentContractName: string, sendEventOnClickStart: string): TCh5KeypadButtonCreateDTO {
 		let obj: TCh5KeypadButtonCreateDTO = {} as TCh5KeypadButtonCreateDTO;
 		const key = ele.getAttribute('key');
 		const index = (!!key && key.length > 0) ? key.replace('button', '') : null;
 		if (index !== null) {
-			const contractList: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Star', 'Hash', 'Extra'];
+			const contractList: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Star', 'Hash', 'ExtraButton'];
 			const indexRef = this.getIndexRefForChildBtn(index);
+			const contractName = parentContractName.length > 0 ? (parentContractName + '.Press' + contractList[indexRef]) : '';
 			const major = ele.getAttribute('labelmajor');
 			const minor = ele.getAttribute('labelminor');
 			const className = this.getClassNameForChildBtn(ele.getAttribute('classlist'), indexRef);

@@ -21,11 +21,12 @@ import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 
 export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttributes {
+	
 	//#region 1. Variables
 
-	public static readonly ELEMENT_NAME = 'ch5-keypad-button';
-
 	//#region 1.1 readonly variables
+
+	public static readonly ELEMENT_NAME = 'ch5-keypad-button';
 
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
 		{
@@ -161,11 +162,9 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	 * labelMajor
 	 */
 	public set labelMajor(value: string) {
-		this.logger.start('set labelMajor("' + value + '")');
 		this._ch5Properties.set<string>("labelMajor", value, () => {
 			this.labelMajorHandler();
 		});
-		this.logger.stop();
 	}
 	public get labelMajor() {
 		return this._ch5Properties.get<string>("labelMajor");
@@ -175,11 +174,9 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	 * labelMinor
 	 */
 	public set labelMinor(value: string) {
-		this.logger.start('set labelMinor("' + value + '")');
 		this._ch5Properties.set<string>("labelMinor", value, () => {
 			this.labelMinorHandler();
 		});
-		this.logger.stop();
 	}
 	public get labelMinor(): string {
 		return this._ch5Properties.get<string>("labelMinor")
@@ -189,11 +186,9 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	 * iconClass
 	 */
 	public set iconClass(value: string) {
-		this.logger.start('set iconClass("' + value + '")');
 		this._ch5Properties.set<string>("iconClass", value, () => {
 			this.iconHandler();
 		});
-		this.logger.stop();
 	}
 	public get iconClass(): string {
 		return this._ch5Properties.get<string>("iconClass")
@@ -203,9 +198,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	 * sendEventOnClick
 	 */
 	public set sendEventOnClick(value: string) {
-		this.logger.start('set sendEventOnClick("' + value + '")');
 		this._ch5Properties.set<string>("sendEventOnClick", value);
-		this.logger.stop();
 	}
 	public get sendEventOnClick() {
 		return this._ch5Properties.get<string>("sendEventOnClick");
@@ -215,22 +208,18 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	 * key
 	 */
 	public set key(value: string) {
-		this.logger.start('set key("' + value + '")');
 		this._ch5Properties.set<string>("key", value, () => {
 			this.keyHandler();
 		});
-		this.logger.stop();
 	}
 	public get key(): string {
 		return this._ch5Properties.get<string>('key');
 	}
 
 	public set pressed(value: boolean) {
-		this.logger.log('set pressed("' + value + '")');
 		this._ch5Properties.set<boolean>("pressed", value, () => {
 			this.pressedHandler();
 		});
-		this.logger.stop();
 	}
 	public get pressed(): boolean {
 		return this._ch5Properties.get<boolean>("pressed");
@@ -272,7 +261,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 		const eventHandlerValue = (contractName.length > 0) ? contractName : joinCountToAdd;
 		this.sendEventOnClick = eventHandlerValue;
-
 		const remainingParamsKeys = Object.keys(remainingParams);
 		const remainingParamsValues = Object.values(remainingParams);
 		if (remainingParamsKeys.length) {
@@ -400,7 +388,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 	public removeEventListeners() {
 		if (!!this._hammerManager && !!this._hammerManager.off) {
-			this._hammerManager.off('tap', this._onTap);
+			this._hammerManager.off('tap', this._onTapAction);
 		}
 		this.removeEventListener('mousedown', this._onPressClick);
 		this.removeEventListener('mouseup', this._onMouseUp);
@@ -421,15 +409,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	public unsubscribeFromSignals() {
 		this.logger.start("unsubscribeFromSignals", this.COMPONENT_NAME);
 		super.unsubscribeFromSignals();
-
-		const csf = Ch5SignalFactory.getInstance();
-		const signalArr = [""];
-		for (const sigName of signalArr) {
-			const attrKeyPvt = '_' + sigName;
-			const attrKeySigName = attrKeyPvt + 'SignalValue';
-			ComponentHelper.clearSignalValue(csf, this, "attrKeySigName", "attrKeyPvt");
-		}
-
 		this.logger.stop();
 	}
 
@@ -478,6 +457,46 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		return element;
 	}
 
+	protected labelMajorHandler() {
+		if (this.labelMajor.length !== 0) {
+			this._elMajorSpan.innerText = this.labelMajor
+		} else {
+			this.labelMajor = this.params.major;
+		}
+
+	}
+
+	protected labelMinorHandler() {
+		if (this.labelMinor.length !== 0) {
+			this._elMinorSpan.innerHTML = this.labelMinor;
+		} else {
+			this.labelMajor = this.params.minor;
+		}
+	}
+
+	protected keyHandler() {
+		if (this.key.length === 0) {
+			this.key = this.params.key;
+		}
+	}
+
+	protected iconHandler() {
+		const iconButton = this.getElementsByClassName("label-major has-icon");
+		if (iconButton && iconButton[0]) {
+			const spanBtn = iconButton[0].children[0];
+			if (spanBtn) {
+				spanBtn.setAttribute("class", this.iconClass);
+			}
+		}
+	}
+
+	protected pressedHandler() {
+		if (this.pressed === true) {
+			this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
+			this.classList.add(this.primaryCssClass + this.pressedCssClassPostfix);
+		}
+	}
+	
 	/**
 	 * Called when pressed class will be available
 	 * @param pressedClass is class name. it will add after press the ch5 button
@@ -489,7 +508,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		});
 	}
 	protected bindEventListenersToThis(): void {
-		this._onTap = this._onTap.bind(this);
+		this._onTapAction = this._onTapAction.bind(this);
 		this._onPressClick = this._onPressClick.bind(this);
 		this._onMouseUp = this._onMouseUp.bind(this);
 		this._onMouseMove = this._onMouseMove.bind(this);
@@ -501,7 +520,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		this._onTouchCancel = this._onTouchCancel.bind(this);
 		this._onFocus = this._onFocus.bind(this);
 		this._onBlur = this._onBlur.bind(this);
-		this._hammerManager.on('tap', this._onTap);
+		this._hammerManager.on('tap', this._onTapAction);
 	}
 
 	protected sendValueForRepeatDigital(value: boolean): void {
@@ -594,13 +613,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 			this._pressableIsPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
 				if (value !== this._buttonPressedInPressable) {
 					this._buttonPressedInPressable = value;
-					if (value === false) {
-						setTimeout(() => {
-							this.setButtonDisplay();
-						}, this.STATE_CHANGE_TIMEOUTS);
-					} else {
-						this.setButtonDisplay();
-					}
 				}
 			});
 		}
@@ -613,30 +625,16 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		}
 	}
 
-	public setButtonDisplay() {
-		this.setButtonDisplayDetails();
-	}
-
-	protected setButtonDisplayDetails() {
-		this.logger.start("setButtonDisplayDetails");
-		this.logger.stop();
-	}
-
-	public setJoinBasedEventHandler(joinValue: number) {
+	public setJoinBasedEventHandler(startIndex: number, joinCountIndex: number) {
 		this.logger.start("setJoinBasedEventHandler");
-		this.sendEventOnClick = joinValue + this.params.joinCountToAdd + '';
+		const joinCountList: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 11, 12];
+		this.sendEventOnClick = (startIndex + joinCountList[joinCountIndex]).toString();
 		this.logger.stop();
 	}
 
 	//#endregion
 
 	//#region 5. Events - event binding
-
-	protected _onTap(): void {
-		this.logger.start(this.COMPONENT_NAME, "- _onTap");
-		this._onTapAction();
-		this.logger.stop();
-	}
 
 	protected _onTapAction() {
 		this.logger.start(this.COMPONENT_NAME, "- _onTapAction");
@@ -824,45 +822,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		inEvent.stopPropagation();
 	}
 
-	protected labelMajorHandler() {
-		if (this.labelMajor.length !== 0) {
-			this._elMajorSpan.innerText = this.labelMajor
-		} else {
-			this.labelMajor = this.params.major;
-		}
-
-	}
-
-	protected labelMinorHandler() {
-		if (this.labelMinor.length !== 0) {
-			this._elMinorSpan.innerHTML = this.labelMinor;
-		} else {
-			this.labelMajor = this.params.minor;
-		}
-	}
-
-	protected keyHandler() {
-		if (this.key.length === 0) {
-			this.key = this.params.key;
-		}
-	}
-
-	protected iconHandler() {
-		const iconButton = this.getElementsByClassName("label-major has-icon");
-		if (iconButton && iconButton[0]) {
-			const spanBtn = iconButton[0].children[0];
-			if (spanBtn) {
-				spanBtn.setAttribute("class", this.iconClass);
-			}
-		}
-	}
-
-	protected pressedHandler() {
-		if (this.pressed === true) {
-			this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
-			this.classList.add(this.primaryCssClass + this.pressedCssClassPostfix);
-		}
-	}
 	//#endregion
 }
 
