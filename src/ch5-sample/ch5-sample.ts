@@ -440,8 +440,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
-  private _vidControlPanel: HTMLElement = {} as HTMLElement;
-  private _controlFullScreen: HTMLElement = {} as HTMLElement;
+  private _fullScreenIcon: HTMLElement = {} as HTMLElement;
   private _scrollableElm: HTMLElement = {} as HTMLElement;
 
   private responseObj: TVideoResponse = {} as TVideoResponse;
@@ -982,23 +981,13 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     this.clearComponentContent();
     this._elContainer = document.createElement('div');
 
-    this._elContainer.classList.add(this.primaryCssClass);
-    //  Create main control panel
-    this._vidControlPanel = document.createElement("div");
-    this._vidControlPanel.classList.add("control-panel");
     //  Create div for the right side of the control panel
-    this._controlFullScreen = document.createElement("a");
-    this._controlFullScreen.classList.add("control");
-    this._controlFullScreen.innerHTML = CH5VideoUtils.SVG_ICONS.FULLSCREEN_ICON;
-    this._vidControlPanel.appendChild(this._controlFullScreen);
-    this._vidControlPanel.style.width = '100%';
-    this._vidControlPanel.style.left = '-5px';
-    this._vidControlPanel.style.top = '5px';
+    this._fullScreenIcon = document.createElement("a");
+    this._fullScreenIcon.classList.add("full-screen-icon");
+    this._fullScreenIcon.classList.add("hide");
+    this._fullScreenIcon.innerHTML = CH5VideoUtils.SVG_ICONS.FULLSCREEN_ICON;
 
-    this._elContainer.classList.add('video-wrapper');
-    this._elContainer.style.background = '#000';
-    this.appendChild(this._elContainer);
-    this._elContainer.appendChild(this._vidControlPanel);
+    this._elContainer.appendChild(this._fullScreenIcon);
     this.logger.stop();
   }
 
@@ -1019,8 +1008,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   protected attachEventListeners() {
     super.attachEventListeners();
     this.addEventListener('click', this._manageControls.bind(this));
-    this._controlFullScreen.addEventListener('click', this.toggleFullScreen.bind(this));
-    this._vidControlPanel.addEventListener('click', this._videoCP.bind(this));
+    this._fullScreenIcon.addEventListener('click', this.toggleFullScreen.bind(this));
     window.addEventListener('orientationchange', this._orientationChange.bind(this));
     window.addEventListener(CH5VideoUtils.VIDEO_ACTION.RESIZE, this._orientationChange.bind(this));
     this._scrollableElm.addEventListener('scroll', _.debounce(this._positionChange.bind(this), 100, {
@@ -1032,8 +1020,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   protected removeEventListeners() {
     super.removeEventListeners();
     this.removeEventListener('click', this._manageControls.bind(this));
-    this._controlFullScreen.removeEventListener('click', this.toggleFullScreen.bind(this));
-    this._vidControlPanel.addEventListener('click', this._videoCP.bind(this));
+    this._fullScreenIcon.removeEventListener('click', this.toggleFullScreen.bind(this));
     window.removeEventListener('orientationchange', this._orientationChange.bind(this));
     window.removeEventListener(CH5VideoUtils.VIDEO_ACTION.RESIZE, this._orientationChange.bind(this));
     this._scrollableElm.removeEventListener('scroll', _.debounce(this._positionChange.bind(this), 100, {
@@ -1262,8 +1249,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         this.sizeObj = CH5VideoUtils.getDisplayWxH(this.aspectRatio, this.clientWidth, this.clientHeight);
       }
       this._getSizeAndPositionObj(this.sizeObj, this.clientWidth, this.clientHeight);
-      this._vidControlPanel.style.left = -5 + "px";
-      this._vidControlPanel.style.top = (this.position.yPos + 5) + "px";
+
       this.videoLeft = rect.left + this.position.xPos;
       this.videoTop = rect.top + this.position.yPos;
       this._elContainer.style.width = this.sizeObj.width + "px";
@@ -1460,7 +1446,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         this.isOrientationChanged = false;
         this.isExitFullscreen = false;
         this.isPositionChanged = false;
-        this._hideFullScreenIcon();
+        this._fullScreenIcon.classList.add('hide');
         break;
       case 'connecting':
         this.isVideoReady = false;
@@ -1690,61 +1676,47 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   }
 
   private _manageControls() {
+    // send event on ch5-video click
+    if (this.sendEventOnClick.trim().length !== 0 && this.sendEventOnClick !== null && this.sendEventOnClick !== undefined) {
+      Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(true);
+      Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(false);
+    }
+
+    // If ch5-video is in full screen mode then exit from the full screen
     if (this.isFullScreen) {
       this.removeEventListener('touchmove', this._handleTouchMoveEvent_Fullscreen, false);
       this._exitFullScreen();
       return;
     }
 
+    // Check whether the full screen option can be shown
     if (this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.STARTED ||
       this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.RESIZE ||
       this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.RESIZED) {
-      this._showFullScreenIcon();
+      this._fullScreenIcon.classList.remove('hide');
     } else {
-      this._hideFullScreenIcon();
+      this._fullScreenIcon.classList.add('hide');
     }
-    if (this.sendEventOnClick.trim().length !== 0 && this.sendEventOnClick !== null && this.sendEventOnClick !== undefined) {
-      Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(true);
-      Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(false);
-    }
-    this._autoHideControls();
-  }
 
-  private _showFullScreenIcon() {
-    if (!!this._vidControlPanel && !!this._vidControlPanel.classList) {
-      this._vidControlPanel.classList.add('show-control');
-    }
-  }
-
-  private _hideFullScreenIcon() {
-    if (!!this._vidControlPanel && !!this._vidControlPanel.classList) {
-      this._vidControlPanel.classList.remove('show-control');
-    }
-  }
-
-  private _autoHideControls() {
+    // remove the full screen icon from the ch5-video after 10 seconds
     clearTimeout(this.controlTimer);
     this.controlTimer = setTimeout(() => {
-      this._hideFullScreenIcon();
+      this._fullScreenIcon.classList.add('hide');
     }, 10000);
   }
 
-  private toggleFullScreen() {
-    if (this.isFullScreen) {
-      this._exitFullScreen();
-    } else {
-      this.info('Ch5Video.enterFullScreen()');
-      this.isFullScreen = true;
-      //  To avoid swiping on the full screen
-      this.addEventListener('touchmove', this._handleTouchMoveEvent_Fullscreen, { passive: true });
-      this._hideFullScreenIcon();
-      this._vidControlPanel.classList.add("fullScreen");
-      this.classList.add('fullScreenStyle');
-      document.body.classList.add('ch5-video-fullscreen');
-      this.isVideoReady = true;
-      this.isOrientationChanged = false;
-      this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.FULLSCREEN);
-    }
+  private toggleFullScreen(event: Event) {
+    this.info('Ch5Video.enterFullScreen()');
+    this.isFullScreen = true;
+    //  To avoid swiping on the full screen
+    this.addEventListener('touchmove', this._handleTouchMoveEvent_Fullscreen, { passive: true });
+    this.classList.add('full-screen');
+    this._fullScreenIcon.classList.add('hide');
+    document.body.classList.add('ch5-video-fullscreen');
+    this.isVideoReady = true;
+    this.isOrientationChanged = false;
+    this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.FULLSCREEN);
+    event.stopPropagation(); // to prevent the ch5-video from triggering click event 
   }
 
   private _exitFullScreen() {
@@ -1753,9 +1725,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     this.isOrientationChanged = false;
     this.isExitFullscreen = true;
     this.isFullScreen = false;
-    this._vidControlPanel.classList.remove("fullScreen");
-    this.classList.remove('fullScreenStyle');
-    this._autoHideControls();
+    this.classList.remove('full-screen');
     this.calculation();
     clearTimeout(this.scrollTimer);
     document.body.classList.remove('ch5-video-fullscreen');
@@ -1765,10 +1735,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   private _handleTouchMoveEvent_Fullscreen(ev: Event) {
     ev.preventDefault();
     ev.stopImmediatePropagation();
-  }
-
-  private _videoCP(event: Event) { // To avoid unwanted events on touch in the full screen mode
-    event.stopPropagation();
   }
 
   // Draw the snapshot on the background
@@ -1997,7 +1963,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     this.info('this.orientationCount -> ' + this.orientationCount);
     if (this.orientationCount === 1) {
       this.orientationCount = 0;
-      this._hideFullScreenIcon();
+      this._fullScreenIcon.classList.add('hide');
       this._orientationChanged().then(() => {
         this.calculation();
         if (this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.STARTED ||
