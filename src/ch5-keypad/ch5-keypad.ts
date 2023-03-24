@@ -18,7 +18,7 @@ import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 
 export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
-	
+
 	//#region 1. Variables
 
 	//#region 1.1 readonly variables
@@ -33,30 +33,14 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		sendeventonclickstart: { direction: "event", booleanJoin: 1, contractName: true },
 	};
 
-	/**
-	 * The first value is considered the default one
-	 */
 	public static readonly TYPES: TCh5KeypadType[] = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
 
-	/**
-	 * The first value is considered the default one
-	 */
 	public static readonly SHAPES: TCh5KeypadShape[] = ['rounded-rectangle', 'square', 'circle'];
 
-	/**
-	 * No default value for Stretch
-	 */
 	public static readonly STRETCHES: TCh5KeypadStretch[] = ['both', 'width', 'height'];
 
-	/**
-	 * No default value for Text Orientation
-	 * Value controls the way the major and minor render together
-	 */
 	public static readonly TEXT_ORIENTATIONS: TCh5KeypadTextOrientation[] = ['top', 'right', 'bottom', 'left'];
 
-	/**
-	 * The first value is considered the default one
-	 */
 	public static readonly SIZES: TCh5KeypadSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
 
 	public static readonly btnTypeClassPrefix: string = "--type-";
@@ -64,6 +48,47 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	public static readonly btnShapeClassPrefix: string = "--shape-";
 	public static readonly btnTextOrientationClassPrefix: string = "--orientation-";
 	public static readonly btnSizeClassPrefix: string = "--size-";
+
+	/**
+	 * COMPONENT_DATA is required for sass-schema generator file to build sufficient data
+	 */
+	public static readonly COMPONENT_DATA: any = {
+		TYPES: {
+			default: Ch5Keypad.TYPES[0],
+			values: Ch5Keypad.TYPES,
+			key: 'type',
+			attribute: 'type',
+			classListPrefix: Ch5Keypad.btnTypeClassPrefix
+		},
+		STRETCHES: {
+			default: null,
+			values: Ch5Keypad.STRETCHES,
+			key: 'stretch',
+			attribute: 'stretch',
+			classListPrefix: Ch5Keypad.btnStretchClassPrefix
+		},
+		SHAPES: {
+			default: Ch5Keypad.SHAPES[0],
+			values: Ch5Keypad.SHAPES,
+			key: 'shape',
+			attribute: 'shape',
+			classListPrefix: Ch5Keypad.btnShapeClassPrefix
+		},
+		TEXT_ORIENTATIONS: {
+			default: Ch5Keypad.TEXT_ORIENTATIONS[0],
+			values: Ch5Keypad.TEXT_ORIENTATIONS,
+			key: 'textorientation',
+			attribute: 'textorientation',
+			classListPrefix: Ch5Keypad.btnTextOrientationClassPrefix
+		},
+		SIZES: {
+			default: Ch5Keypad.SIZES[0],
+			values: Ch5Keypad.SIZES,
+			key: 'size',
+			attribute: 'size',
+			classListPrefix: '--size-'
+		},
+	};
 
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
 		{
@@ -190,47 +215,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		}
 	];
 
-	/**
-	 * COMPONENT_DATA is required for sass-schema generator file to build sufficient data
-	 */
-	public static readonly COMPONENT_DATA: any = {
-		TYPES: {
-			default: Ch5Keypad.TYPES[0],
-			values: Ch5Keypad.TYPES,
-			key: 'type',
-			attribute: 'type',
-			classListPrefix: Ch5Keypad.btnTypeClassPrefix
-		},
-		STRETCHES: {
-			default: null,
-			values: Ch5Keypad.STRETCHES,
-			key: 'stretch',
-			attribute: 'stretch',
-			classListPrefix: Ch5Keypad.btnStretchClassPrefix
-		},
-		SHAPES: {
-			default: Ch5Keypad.SHAPES[0],
-			values: Ch5Keypad.SHAPES,
-			key: 'shape',
-			attribute: 'shape',
-			classListPrefix: Ch5Keypad.btnShapeClassPrefix
-		},
-		TEXT_ORIENTATIONS: {
-			default: Ch5Keypad.TEXT_ORIENTATIONS[0],
-			values: Ch5Keypad.TEXT_ORIENTATIONS,
-			key: 'textorientation',
-			attribute: 'textorientation',
-			classListPrefix: Ch5Keypad.btnTextOrientationClassPrefix
-		},
-		SIZES: {
-			default: Ch5Keypad.SIZES[0],
-			values: Ch5Keypad.SIZES,
-			key: 'size',
-			attribute: 'size',
-			classListPrefix: '--size-'
-		},
-	};
-
 	public readonly primaryCssClass = 'ch5-keypad';
 
 	//#endregion
@@ -256,10 +240,20 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		receiveStateEnable: "",
 		receiveStateShow: "",
 		receiveStateCustomClass: "",
-    receiveStateCustomStyle: ""
+		receiveStateCustomStyle: ""
 	}
 
 	//#endregion
+
+	//#region Static Methods
+
+	public static registerCustomElement() {
+		if (typeof window === "object"
+			&& typeof window.customElements === "object"
+			&& typeof window.customElements.define === "function") {
+			window.customElements.define(Ch5Keypad.ELEMENT_NAME, Ch5Keypad);
+		}
+	}
 
 	public static registerSignalAttributeTypes() {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Keypad.ELEMENT_NAME, Ch5Keypad.SIGNAL_ATTRIBUTE_TYPES);
@@ -351,9 +345,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		return this._ch5Properties.get<boolean>("useContractForEnable");
 	}
 
-	/**
-	 * useContractForShow specific getter-setter
-	 */
 	public set useContractForShow(value: boolean) {
 		this._ch5Properties.set<boolean>("useContractForShow", value, () => {
 			this.contractDefaultHelper();
@@ -363,9 +354,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		return this._ch5Properties.get<boolean>("useContractForShow");
 	}
 
-	/**
-	 * useContractForCustomStyle specific getter-setter
-	 */
 	public set useContractForCustomStyle(value: boolean) {
 		this._ch5Properties.set<boolean>("useContractForCustomStyle", value, () => {
 			this.contractDefaultHelper();
@@ -375,9 +363,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		return this._ch5Properties.get<boolean>("useContractForCustomStyle");
 	}
 
-	/**
-	 * useContractForCustomClass specific getter-setter
-	 */
 	public set useContractForCustomClass(value: boolean) {
 		this._ch5Properties.set<boolean>("useContractForCustomClass", value, () => {
 			this.contractDefaultHelper();
@@ -387,9 +372,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		return this._ch5Properties.get<boolean>("useContractForCustomClass");
 	}
 
-	/**
-	 * useContractForExtraButtonShow specific getter-setter
-	 */
 	public set useContractForExtraButtonShow(value: boolean) {
 		this._ch5Properties.set<boolean>("useContractForExtraButtonShow", value, () => {
 			this.contractDefaultHelper();
@@ -402,7 +384,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	public set receiveStateExtraButtonShow(value: string) {
 		this._ch5Properties.set("receiveStateExtraButtonShow", value, null, (newValue: boolean) => {
 			this._ch5Properties.setForSignalResponse<boolean>("showExtraButton", newValue, () => {
-					this.showExtraButtonHandler();
+				this.showExtraButtonHandler();
 			});
 		});
 	}
@@ -427,7 +409,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	protected initAttributes(): void {
 		this.logger.start("initAttributes", this.COMPONENT_NAME);
 		super.initAttributes();
-		// set data-ch5-id
 		this.setAttribute('data-ch5-id', this.getCrId());
 		const thisRef: any = this;
 		for (let i: number = 0; i < Ch5Keypad.COMPONENT_PROPERTIES.length; i++) {
@@ -467,31 +448,22 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	/**
-	 * Function create and bind events for Keypad once all the expected child elements are defined and
+	 * Create and bind events for Keypad once all the expected child elements are defined and
 	 * ready for consumption
 	 */
 	private onAllSubElementsCreated() {
 		this.logger.start('onAllSubElementsCreated() - start', this.COMPONENT_NAME);
 		customElements.whenDefined('ch5-keypad').then(() => {
-			// create element
 			this.createElementsAndInitialize();
-
-			// update class based on the current type chosen
 			this.updateCssClasses();
-
-			// events binding
 			this.attachEventListeners();
-
-			// check if the Keypad element has been created by verifying one of its properties
-
-			// required post initial setup
 			this.stretchHandler();
 		});
 		this.logger.stop();
 	}
 
 	/**
-	 * Function to create HTML elements of the components including child elements
+	 * Create HTML elements of the components including child elements
 	 */
 	private createElementsAndInitialize() {
 		if (!this._wasInstatiated) {
@@ -519,16 +491,13 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	private removeEvents() {
-		// throw new Error("Method not implemented or element is not structured correctly.");
 		super.removeEventListeners();
 		window.removeEventListener('resize', this.onWindowResizeHandler);
 	}
 
-	/**
-	 * Unsubscribe signals
-	 */
 	public unsubscribeFromSignals() {
 		super.unsubscribeFromSignals();
+		this._ch5Properties.unsubscribe();
 	}
 
 	static get observedAttributes() {
@@ -559,7 +528,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	protected updateCssClasses(): void {
-		// apply css classes for attrs inherited from common (e.g. customClass, customStyle )
 		super.updateCssClasses();
 
 		this.classList.add(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnTypeClassPrefix + this.type);
@@ -587,7 +555,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	//#region 4. Other Methods
 
 	/**
-	 * Function to create all the elements required under the parent Keypad tag
+	 * Create all the elements required under the parent Keypad tag
 	 */
 	protected createHtmlElements(): void {
 		this.logger.start('createHtmlElements', this.COMPONENT_NAME);
@@ -597,7 +565,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	/**
-	 * Function to add all 5 buttons in the expected order if not added in the DOM
+	 * Add all 5 buttons in the expected order if not added in the DOM
 	 */
 	private createAndAppendAllButtonsUnderKeypad() {
 		// remove all child elements, since it will be created again in the right/expected order
@@ -628,7 +596,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	/**
-	 * Function to create the container div which holds all the 5 buttons within dpad
+	 * Create the container div which holds all the 5 buttons within dpad
 	 */
 	private createEmptyContainerDiv() {
 		if (ComponentHelper.isNullOrUndefined(this.container) ||
@@ -646,10 +614,9 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	/**
-	 * Function to add the extra row of buttons if contract or attribute permits
+	 * Add the extra row of buttons if contract or attribute permits
 	 */
 	private showExtraButtonHandler() {
-		this.logger.start(this.COMPONENT_NAME + ' > showExtraButtonHandler');
 		this.updateCssClasses();
 		// check if the row already exists, if yes then remove it and build again
 		const extraRow = this.getElementsByClassName(this.keysRowClassExtra);
@@ -682,8 +649,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		} else {
 			this.classList.remove('ch5-keypad--for-extra-button');
 		}
-
-		this.logger.stop();
 	}
 
 	private appendKeysRowToContainer() {
@@ -692,7 +657,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		return divEle;
 	}
 
-	private buildRuntimeChildButtonList() { 
+	private buildRuntimeChildButtonList() {
 		const childElements: Element[] = Array.from(this.children);
 		if (childElements.length > 0) {
 			for (const ele of childElements) {
@@ -707,12 +672,10 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	private shapeHandler() {
-		this.logger.start(this.COMPONENT_NAME + ' > shapeHandler');
 		for (const typeVal of Ch5Keypad.SHAPES) {
 			this.classList.remove(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnShapeClassPrefix + typeVal);
 		}
 		this.classList.add(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnShapeClassPrefix + this.shape);
-		this.logger.stop();
 	}
 
 	private setContainerHeightAndWidth(height: number, width: number) {
@@ -721,11 +684,10 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	private stretchHandler() {
-		this.logger.start(this.COMPONENT_NAME + ' > stretchHandler');
 		for (const typeVal of Ch5Keypad.STRETCHES) {
 			this.classList.remove(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnStretchClassPrefix + typeVal);
 		}
-		if (!!this.stretch && this.stretch.length > 0) { // checking for length since it does not have a default value
+		if (!!this.stretch && this.stretch.length > 0) {
 			this.classList.add(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnStretchClassPrefix + this.stretch);
 		}
 		if (!!this.container.classList &&
@@ -761,29 +723,23 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 				this.container.style.removeProperty('width');
 			}
 		}
-		this.logger.stop();
 	}
 
 	private typeHandler() {
-		this.logger.start(this.COMPONENT_NAME + ' > typeHandler');
 		for (const typeVal of Ch5Keypad.TYPES) {
 			this.classList.remove(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnTypeClassPrefix + typeVal);
 		}
 		this.classList.add(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnTypeClassPrefix + this.type);
-		this.logger.stop();
 	}
 
 	private textOrientationHandler() {
-		this.logger.start(this.COMPONENT_NAME + ' > textOrientationHandler');
 		for (const typeVal of Ch5Keypad.TEXT_ORIENTATIONS) {
 			this.classList.remove(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnTextOrientationClassPrefix + typeVal);
 		}
 		this.classList.add(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnTextOrientationClassPrefix + this.textOrientation);
-		this.logger.stop();
 	}
 
 	private updateEventClickHandlers(startIndex: number) {
-		this.logger.start(this.COMPONENT_NAME + ' > updateEventClickHandlers');
 		let joinIndex = 0;
 		if (this.contractName.length === 0) {
 			for (const key in this.childButtonList) {
@@ -794,63 +750,60 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 				}
 			}
 		}
-		this.logger.stop();
 	}
 
 	private sizeHandler() {
-		this.logger.start(this.COMPONENT_NAME + ' > sizeHandler');
 		for (const typeVal of Ch5Keypad.SIZES) {
 			this.classList.remove(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnSizeClassPrefix + typeVal);
 		}
 		this.classList.add(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnSizeClassPrefix + this.size);
-		this.logger.stop();
 	}
 
 	private contractDefaultHandler() {
 		if (this.contractName.trim().length === 0) {
-      this.signalNameOnContract.contractName = "";
+			this.signalNameOnContract.contractName = "";
 			this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
-      this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;
+			this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;
 			this.receiveStateCustomStyle = this.signalNameOnContract.receiveStateCustomStyle;
-      this.receiveStateCustomClass = this.signalNameOnContract.receiveStateCustomClass;
-    } else if (this.signalNameOnContract.contractName === "") {
-      this.signalNameOnContract.contractName = this.contractName;
+			this.receiveStateCustomClass = this.signalNameOnContract.receiveStateCustomClass;
+		} else if (this.signalNameOnContract.contractName === "") {
+			this.signalNameOnContract.contractName = this.contractName;
 			this.signalNameOnContract.receiveStateShow = this.receiveStateShow;
-      this.signalNameOnContract.receiveStateEnable = this.receiveStateEnable;
+			this.signalNameOnContract.receiveStateEnable = this.receiveStateEnable;
 			this.signalNameOnContract.receiveStateCustomStyle = this.receiveStateCustomStyle;
-      this.signalNameOnContract.receiveStateCustomClass = this.receiveStateCustomClass;
-    }
+			this.signalNameOnContract.receiveStateCustomClass = this.receiveStateCustomClass;
+		}
 		this.runtimeChildButtonList = {};
 		this.buildRuntimeChildButtonList();
 		this.createAndAppendAllButtonsUnderKeypad();
 	}
 
 	private contractDefaultHelper() {
-    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+		if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
 
-      if (this.useContractForCustomStyle === true) {
-        this.receiveStateCustomStyle = this.contractName + '.CustomStyle';
-      }
+			if (this.useContractForCustomStyle === true) {
+				this.receiveStateCustomStyle = this.contractName + '.CustomStyle';
+			}
 
-      if (this.useContractForCustomClass === true) {
-        this.receiveStateCustomClass = this.contractName + '.CustomClass';
-      }
+			if (this.useContractForCustomClass === true) {
+				this.receiveStateCustomClass = this.contractName + '.CustomClass';
+			}
 
-      if (this.useContractForEnable === true) {
-        this.receiveStateEnable = this.contractName + '.Enable';
-      }
+			if (this.useContractForEnable === true) {
+				this.receiveStateEnable = this.contractName + '.Enable';
+			}
 
-      if (this.useContractForShow === true) {
-        this.receiveStateShow = this.contractName + '.Show';
-      }
+			if (this.useContractForShow === true) {
+				this.receiveStateShow = this.contractName + '.Show';
+			}
 
 			if (this.useContractForExtraButtonShow === true) {
 				this.showExtraButtonHandler();
 			}
-    }
-  }
+		}
+	}
 	/**
-	 * Function to handle the resize event for keypad to be redrawn if required
+	 * Handle the resize event for keypad to be redrawn if required
 	 */
 	private onWindowResizeHandler() {
 		// since stretch has no default value, should fire stretchHandler only if required
@@ -867,10 +820,5 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 }
 
-if (typeof window === "object"
-	&& typeof window.customElements === "object"
-	&& typeof window.customElements.define === "function") {
-	window.customElements.define(Ch5Keypad.ELEMENT_NAME, Ch5Keypad);
-}
-
 Ch5Keypad.registerSignalAttributeTypes();
+Ch5Keypad.registerCustomElement();
