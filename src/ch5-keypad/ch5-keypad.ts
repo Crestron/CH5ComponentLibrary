@@ -9,13 +9,13 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 import { ComponentHelper } from "../ch5-common/utils/component-helper";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5KeypadButton } from "./ch5-keypad-btn";
-import { CH5KeypadButtonData } from "./ch5-keypad-btn-data";
 import { ICh5KeypadAttributes } from "./interfaces/i-ch5-keypad-attributes";
 import { TCh5KeypadButtonCreateDTO, TCh5KeypadShape, TCh5KeypadSize, TCh5KeypadStretch, TCh5KeypadTextOrientation, TCh5KeypadType } from "./interfaces/t-ch5-keypad";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 import { subscribeInViewPortChange, unSubscribeInViewPortChange } from "../ch5-core";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
+import _ from "lodash";
 
 export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
@@ -24,6 +24,11 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	//#region 1.1 readonly variables
 
 	public static readonly ELEMENT_NAME = 'ch5-keypad';
+
+	private static readonly NUMBER_TYPE_BUTTON_CSS_CLASS = 'number-btn';
+	private static readonly MISC_ONE_BUTTON_CSS_CLASS = 'misc-btn misc-btn-one';
+	private static readonly MISC_TWO_BUTTON_CSS_CLASS = 'misc-btn misc-btn-two';
+	private static readonly EXTRA_BUTTON_CSS_CLASS = 'extra-btn special-center';
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -220,6 +225,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	//#endregion
 
 	//#region 1.2 private / protected variables
+
 	private COMPONENT_NAME: string = "ch5-keypad";
 
 	// state specific vars
@@ -268,7 +274,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		});
 	}
 	public get contractName(): string {
-		return this._ch5Properties.get<string>("contractName");
+		return this._ch5Properties.get<string>("contractName")?.trim();
 	}
 
 	public set type(value: TCh5KeypadType) {
@@ -398,7 +404,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 	public constructor() {
 		super();
-		this.logger.start('constructor()', this.COMPONENT_NAME);
+		this.logger.start('constructor()', Ch5Keypad.ELEMENT_NAME);
 		this._ch5Properties = new Ch5Properties(this, Ch5Keypad.COMPONENT_PROPERTIES);
 		this.logger.stop();
 	}
@@ -407,7 +413,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	 *  Called to initialize all attributes
 	 */
 	protected initAttributes(): void {
-		this.logger.start("initAttributes", this.COMPONENT_NAME);
+		this.logger.start("initAttributes", Ch5Keypad.ELEMENT_NAME);
 		super.initAttributes();
 		this.setAttribute('data-ch5-id', this.getCrId());
 		const thisRef: any = this;
@@ -427,7 +433,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	 *  Useful for running setup code, such as fetching resources or rendering.
 	 */
 	public connectedCallback() {
-		this.logger.start('connectedCallback() - start', this.COMPONENT_NAME);
+		this.logger.start('connectedCallback() - start', Ch5Keypad.ELEMENT_NAME);
 
 		// set attributes based on onload attributes
 		if (!this.hasAttribute('role')) {
@@ -448,28 +454,24 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	/**
-	 * Create and bind events for Keypad once all the expected child elements are defined and
-	 * ready for consumption
+	 * Create and bind events for Keypad once all the expected child elements are defined and ready for consumption
 	 */
 	private onAllSubElementsCreated() {
-		this.logger.start('onAllSubElementsCreated() - start', this.COMPONENT_NAME);
+		this.logger.start('onAllSubElementsCreated() - start', Ch5Keypad.ELEMENT_NAME);
 		customElements.whenDefined('ch5-keypad').then(() => {
-			this.createElementsAndInitialize();
+			if (!this._wasInstatiated) {
+				this.createHtmlElements();
+			}
+			this._wasInstatiated = true;
+
+			// update class based on the current type chosen
 			this.updateCssClasses();
 			this.attachEventListeners();
+
+			// required post initial setup
 			this.stretchHandler();
 		});
 		this.logger.stop();
-	}
-
-	/**
-	 * Create HTML elements of the components including child elements
-	 */
-	private createElementsAndInitialize() {
-		if (!this._wasInstatiated) {
-			this.createHtmlElements();
-		}
-		this._wasInstatiated = true;
 	}
 
 	/**
@@ -512,7 +514,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
-		this.logger.start("attributeChangedCallback", this.COMPONENT_NAME);
+		this.logger.start("attributeChangedCallback", Ch5Keypad.ELEMENT_NAME);
 		if (oldValue !== newValue) {
 			this.logger.log('ch5-keypad attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
 			const attributeChangedProperty = Ch5Keypad.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
@@ -558,7 +560,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	 * Create all the elements required under the parent Keypad tag
 	 */
 	protected createHtmlElements(): void {
-		this.logger.start('createHtmlElements', this.COMPONENT_NAME);
+		this.logger.start('createHtmlElements', Ch5Keypad.ELEMENT_NAME);
 		this.classList.add(this.primaryCssClass);
 		this.createAndAppendAllButtonsUnderKeypad();
 		this.logger.stop();
@@ -578,7 +580,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			this.contractDefaultHelper();
 		}
 		const data: TCh5KeypadButtonCreateDTO[] =
-			CH5KeypadButtonData.getBtnList(this.runtimeChildButtonList, this.contractName, this.sendEventOnClickStart);
+			this.getBtnList(this.runtimeChildButtonList, this.contractName, this.sendEventOnClickStart);
 		let rowEle = this.appendKeysRowToContainer();
 		for (let i = 0; i < data.length; i++) {
 			if (i % 3 === 0) {
@@ -617,6 +619,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	 * Add the extra row of buttons if contract or attribute permits
 	 */
 	private showExtraButtonHandler() {
+		this.logger.start(Ch5Keypad.ELEMENT_NAME + ' > showExtraButtonHandler');
 		this.updateCssClasses();
 		// check if the row already exists, if yes then remove it and build again
 		const extraRow = this.getElementsByClassName(this.keysRowClassExtra);
@@ -640,7 +643,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 			rowEle.classList.add(this.keysRowClassExtra);
 			const extraBtns: TCh5KeypadButtonCreateDTO[] =
-				CH5KeypadButtonData.getBtnList_Extra(this.runtimeChildButtonList, this.contractName, this.sendEventOnClickStart);
+				this.getBtnList_Extra(this.runtimeChildButtonList, this.contractName, this.sendEventOnClickStart);
 			for (const btn of extraBtns) {
 				const keyBtn = new Ch5KeypadButton(btn);
 				this.childButtonList[btn.name] = keyBtn;
@@ -649,6 +652,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		} else {
 			this.classList.remove('ch5-keypad--for-extra-button');
 		}
+		this.logger.stop();
 	}
 
 	private appendKeysRowToContainer() {
@@ -662,7 +666,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		if (childElements.length > 0) {
 			for (const ele of childElements) {
 				if (ele.tagName.toLowerCase() === 'ch5-keypad-button') {
-					const item = CH5KeypadButtonData.getChildBtnDTOFromElement(ele, this.contractName, this.sendEventOnClickStart);
+					const item = this.getChildBtnDTOFromElement(ele, this.contractName, this.sendEventOnClickStart);
 					if (!this.runtimeChildButtonList.hasOwnProperty(item.name)) {
 						this.runtimeChildButtonList[item.name] = item;
 					}
@@ -672,10 +676,12 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	private shapeHandler() {
+		this.logger.start(Ch5Keypad.ELEMENT_NAME + ' > shapeHandler');
 		for (const typeVal of Ch5Keypad.SHAPES) {
 			this.classList.remove(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnShapeClassPrefix + typeVal);
 		}
 		this.classList.add(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnShapeClassPrefix + this.shape);
+	this.logger.stop();
 	}
 
 	private setContainerHeightAndWidth(height: number, width: number) {
@@ -746,7 +752,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 				if (this.childButtonList.hasOwnProperty(key)) {
 					const btn = this.childButtonList[key];
 					btn.setJoinBasedEventHandler(startIndex, joinIndex);
-					joinIndex++
+					joinIndex++;
 				}
 			}
 		}
@@ -760,7 +766,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	private contractDefaultHandler() {
-		if (this.contractName.trim().length === 0) {
+		if (this.contractName.length === 0) {
 			this.signalNameOnContract.contractName = "";
 			this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
 			this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;
@@ -779,8 +785,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	private contractDefaultHelper() {
-		if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
-
+		if (!_.isNil(this.contractName) && this.contractName !== "") {
 			if (this.useContractForCustomStyle === true) {
 				this.receiveStateCustomStyle = this.contractName + '.CustomStyle';
 			}
@@ -802,6 +807,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			}
 		}
 	}
+
 	/**
 	 * Handle the resize event for keypad to be redrawn if required
 	 */
@@ -814,6 +820,187 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 				this.isResizeInProgress = false; // reset debounce once completed
 			}, this.resizeDebounce);
 		}
+	}
+
+	/**
+	 * Generate a list of child button DTOs to create and render buttons
+	 * @returns list of buttons
+	 */
+	public getBtnList(
+		runtimeChildButtonList: { [key: string]: TCh5KeypadButtonCreateDTO; },
+		parentContractName: string,
+		sendEventOnClickStartVal: string
+	): TCh5KeypadButtonCreateDTO[] {
+		// populate by merging existing controls
+		const retArr: TCh5KeypadButtonCreateDTO[] = [];
+		const majors: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#'];
+		const minors: string[] = ['&nbsp;', 'ABC', 'DEF', 'GHI', 'JKL', 'MNO', 'PQRS', 'TUV', 'WXYZ', '', '+', ''];
+		const contractList: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'Star', '0', 'Hash'];
+		const joinCountList: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 11]; // STAR is 10, ZERO is 9, when it comes to serial joins
+		const classNameList: string[] = ['', '', '', '', '', '', '', '', '', Ch5Keypad.MISC_ONE_BUTTON_CSS_CLASS, '', Ch5Keypad.MISC_TWO_BUTTON_CSS_CLASS];
+
+		for (let i = 0; i < majors.length; i++) {
+			const name = 'button' + contractList[i];
+			let toMerge = {};
+			if (runtimeChildButtonList.hasOwnProperty(name)) {
+				toMerge = runtimeChildButtonList[name];
+			}
+			const contractName = parentContractName.length > 0 ? (parentContractName + '.Press' + contractList[i]) : '';
+			const className = classNameList[i].length > 0 ? classNameList[i] : Ch5Keypad.NUMBER_TYPE_BUTTON_CSS_CLASS;
+			const joinCount = (contractName.length === 0 && sendEventOnClickStartVal.length > 0) ?
+				parseInt(sendEventOnClickStartVal, 10) + joinCountList[i] : sendEventOnClickStartVal;
+			const obj: TCh5KeypadButtonCreateDTO = {
+				indexRef: i,
+				name,
+				major: majors[i],
+				minor: minors[i],
+				className,
+				iconClass: [],
+				contractName,
+				contractKey: contractList[i],
+				joinCountToAdd: joinCount.toString(),
+				key: '',
+				pressed: false,
+				...toMerge
+			};
+
+			// If none major and minor are set, use default values
+			if (!obj.major && !obj.minor) {
+				obj.major = majors[i];
+				obj.minor = minors[i];
+			}
+
+			retArr.push(obj);
+		}
+		return retArr;
+	}
+
+	/**
+	 * Generate a list of child button DTOs to create and render buttons
+	 * @returns list of buttons
+	 */
+	public getBtnList_Extra(
+		runtimeChildButtonList: { [key: string]: TCh5KeypadButtonCreateDTO; },
+		parentContractName: string,
+		sendEventOnClickStartVal: string = ''
+	): TCh5KeypadButtonCreateDTO[] {
+		// populate by merging existing controls
+		// DEV NOTE: below set of commented variables allow two extra buttons as part of the 5th row, if required
+		// const nameList: string[] = ['left', 'center', 'right'];
+		// const contractList: string[] = ['Star', 'ExtraButton', 'Hash'];
+		// const classNameList: string[] = ['extra-btn empty-btn', 'extra-btn special-center', 'extra-btn empty-btn'];
+		const retArr: TCh5KeypadButtonCreateDTO[] = [];
+		const nameList: string[] = ['Extra'];
+		const contractList: string[] = ['ExtraButton'];
+		const classNameList: string[] = [Ch5Keypad.EXTRA_BUTTON_CSS_CLASS];
+		const joinIndex: number = 12;
+		for (let i = 0; i < nameList.length; i++) {
+			const name: string = 'button' + nameList[i];
+			let toMerge = {};
+			if (runtimeChildButtonList.hasOwnProperty(name)) {
+				toMerge = runtimeChildButtonList[name];
+			}
+			const contractName = parentContractName.length > 0 ? (parentContractName + '.Press' + contractList[i]) : '';
+			const joinCount = (sendEventOnClickStartVal.length > 0) ?
+				parseInt(sendEventOnClickStartVal, 10) + joinIndex : sendEventOnClickStartVal;
+			const obj: TCh5KeypadButtonCreateDTO = {
+				indexRef: joinIndex,
+				name,
+				major: '',
+				minor: '',
+				className: classNameList[i],
+				iconClass: ['fas', 'fa-phone-alt'],
+				contractName,
+				contractKey: contractList[i],
+				joinCountToAdd: joinCount.toString(),
+				key: '',
+				pressed: false,
+				...toMerge
+			};
+			retArr.push(obj);
+		}
+		if (retArr[0].iconClass.length === 0) {
+			retArr[0].iconClass = ['fas', 'fa-phone-alt'];
+		}
+		return retArr;
+	}
+
+	public getChildBtnDTOFromElement(ele: Element, parentContractName: string, sendEventOnClickStart: string): TCh5KeypadButtonCreateDTO {
+		let obj: TCh5KeypadButtonCreateDTO = {} as TCh5KeypadButtonCreateDTO;
+		const key = ele.getAttribute('key');
+		const index = (!!key && key.length > 0) ? key.replace('button', '') : null;
+		if (index !== null) {
+			const contractList: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Star', 'Hash', 'ExtraButton'];
+			const indexRef = this.getIndexRefForChildBtn(index);
+			const contractName = parentContractName.length > 0 ? (parentContractName + '.Press' + contractList[indexRef]) : '';
+			const major = ele.getAttribute('labelmajor');
+			const minor = ele.getAttribute('labelminor');
+			const className = this.getClassNameForChildBtn(ele.getAttribute('classlist'), indexRef);
+			const iconClass = ele.getAttribute('iconclass');
+			const contractKey = contractList[indexRef];
+			const pressed = ele.hasAttribute('pressed') && ele.getAttribute('pressed') !== "false";
+			const joinCountToAdd = (contractName.length === 0 && sendEventOnClickStart.length > 0) ?
+				parseInt(sendEventOnClickStart, 10) + indexRef : '';
+
+			let extraAttributes = {};
+			// tslint:disable-next-line:prefer-for-of
+			for (let attrIndex = 0; attrIndex < ele.attributes.length; attrIndex++) {
+				const attribute = ele.attributes[attrIndex];
+				extraAttributes = {
+					...extraAttributes,
+					[attribute.nodeName]: attribute.nodeValue
+				}
+			}
+
+			obj = {
+				...extraAttributes,
+				indexRef,
+				name: 'button' + contractKey,
+				major: !!major ? major : '',
+				minor: !!minor ? minor : '',
+				className,
+				iconClass: !!iconClass ? iconClass.split(' ').filter(element => element) : [], // the filter removes empty spaces
+				contractName,
+				contractKey,
+				joinCountToAdd: joinCountToAdd.toString(),
+				key: !!key ? key : '',
+				pressed: pressed === true,
+			}
+		}
+		return obj;
+	}
+
+	private getIndexRefForChildBtn(str: string) {
+		let ret: number = -1;
+		switch (str.toLowerCase()) {
+			case 'star':
+				ret = 10;
+				break;
+			case 'hash':
+				ret = 11;
+				break;
+			case 'extra':
+				ret = 12;
+				break;
+			default:
+				ret = parseInt(str, 10);
+				break;
+		}
+		return ret;
+	}
+
+	private getClassNameForChildBtn(existingClassList: string | null, index: number) {
+		const ret = !!existingClassList ? [existingClassList] : [];
+		if (index > -1 && index < 9 || index === 10) {
+			ret.push(Ch5Keypad.NUMBER_TYPE_BUTTON_CSS_CLASS);
+		} else if (index === 9) {
+			ret.push(Ch5Keypad.MISC_ONE_BUTTON_CSS_CLASS);
+		} else if (index === 11) {
+			ret.push(Ch5Keypad.MISC_TWO_BUTTON_CSS_CLASS);
+		} else if (index === 12) {
+			ret.push(Ch5Keypad.EXTRA_BUTTON_CSS_CLASS);
+		}
+		return ret.join(' ');
 	}
 
 	//#endregion

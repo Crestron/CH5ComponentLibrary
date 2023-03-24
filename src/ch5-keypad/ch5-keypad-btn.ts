@@ -100,6 +100,8 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	protected labelMajorCssClass: string = 'label-major';
 	protected labelMinorCssClass: string = 'label-minor';
 	protected parentDivCssClass: string = 'keypad-row';
+
+	// elements specific vars
 	protected _elButton: HTMLElement = {} as HTMLElement;
 	protected _elMajorSpan: HTMLElement = {} as HTMLElement;
 	protected _elMinorSpan: HTMLElement = {} as HTMLElement;
