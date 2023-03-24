@@ -61,7 +61,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			isObservableProperty: true
 		},
 		{
-			default: true,
+			default: false,
 			name: "pressed",
 			removeAttributeOnNull: true,
 			type: "boolean",
@@ -94,7 +94,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	//#endregion
 
 	//#region 1.2 protected / protected variables
-	
+
 	protected readonly TOUCH_TIMEOUT: number = 250;
 	protected readonly DEBOUNCE_PRESS_TIME: number = 200;
 	protected readonly PRESS_MOVE_THRESHOLD: number = 10;
@@ -190,21 +190,9 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	}
 
 	public set pressed(value: boolean) {
-		if (typeof value !== 'boolean') {
-			if (value === 'true' || (this.hasAttribute('pressed') && value === '')) {
-				value = true;
-			}
-			else {
-				value = false;
-			}
-		}
-		this._ch5Properties.set<boolean>("pressed", value);
-
-		if (this._pressable) {
-			if (this._pressable._pressed !== value) {
-				this._pressable.setPressed(value);
-			}
-		}
+		this._ch5Properties.set<boolean>("pressed", value, () => {
+			this.handlePressed();
+		});
 	}
 	public get pressed(): boolean {
 		return this._ch5Properties.get<boolean>("pressed");
@@ -390,9 +378,8 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	 * Unsubscribe signals
 	 */
 	public unsubscribeFromSignals() {
-		this.logger.start("unsubscribeFromSignals", this.COMPONENT_NAME);
 		super.unsubscribeFromSignals();
-		this.logger.stop();
+		this._ch5Properties.unsubscribe();
 	}
 
 	static get observedAttributes() {
@@ -612,6 +599,14 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			this._icon.style.backgroundImage = `url(${value})`;
 		} else {
 			this._icon.classList.remove(this.CSS_CLASS_LIST.imageClassName);
+		}
+	}
+
+	private handlePressed() {
+		if (this._pressable) {
+			if (this._pressable._pressed !== this.pressed) {
+				this._pressable.setPressed(this.pressed);
+			}
 		}
 	}
 

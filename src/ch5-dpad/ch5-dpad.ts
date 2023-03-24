@@ -372,6 +372,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	 */
 	public unsubscribeFromSignals() {
 		super.unsubscribeFromSignals();
+		this._ch5Properties.unsubscribe();
 	}
 
 	static get observedAttributes() {

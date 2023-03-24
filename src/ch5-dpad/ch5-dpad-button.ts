@@ -62,7 +62,7 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 			isObservableProperty: true
 		},
 		{
-			default: true,
+			default: false,
 			name: "pressed",
 			removeAttributeOnNull: true,
 			type: "boolean",
