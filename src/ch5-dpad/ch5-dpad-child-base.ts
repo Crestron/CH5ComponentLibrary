@@ -26,6 +26,7 @@ import { Ch5DpadButton } from "./ch5-dpad-button";
 export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttributes {
 
 	//#region 1. Variables
+
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
 		{
 			default: "",
@@ -93,6 +94,15 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	//#endregion
 
 	//#region 1.2 protected / protected variables
+	
+	protected readonly TOUCH_TIMEOUT: number = 250;
+	protected readonly DEBOUNCE_PRESS_TIME: number = 200;
+	protected readonly PRESS_MOVE_THRESHOLD: number = 10;
+	protected readonly STATE_CHANGE_TIMEOUTS: number = 500;
+
+	protected readonly MAX_MODE_LENGTH: number = 99;
+	protected readonly DEBOUNCE_BUTTON_DISPLAY: number = 25;
+
 	protected COMPONENT_NAME: string = "";
 	protected componentPrefix: string = 'ch5-dpad-button-';
 	protected readonly CSS_CLASS_LIST: TCh5DpadButtonClassListType = {
@@ -120,31 +130,15 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	protected _lastTapTime: number = 0;
 	protected _pressable: Ch5Pressable | null = null;
 	protected _hammerManager: HammerManager = {} as HammerManager;
-	// Time after that press will be triggered
 	protected _pressTimeout: number = 0;
-	// State of the button ( pressed or not )
 	protected _pressed: boolean = false;
-	// protected _buttonPressed: boolean = false;
 	protected _buttonPressedInPressable: boolean = false;
-	// protected _pressableIsPressedSubscription: Subscription | null = null;
 	private _isPressedSubscription: Subscription | null = null;
 	private _repeatDigitalInterval: number | null = null;
-
-	protected readonly TOUCH_TIMEOUT: number = 250;
-	protected readonly DEBOUNCE_PRESS_TIME: number = 200;
-	protected readonly PRESS_MOVE_THRESHOLD: number = 10;
-	protected readonly STATE_CHANGE_TIMEOUTS: number = 500;
-
-	protected readonly MAX_MODE_LENGTH: number = 99;
-	protected readonly DEBOUNCE_BUTTON_DISPLAY: number = 25;
 
 	protected _pressHorizontalStartingPoint: number | null = null;
 	protected _pressVerticalStartingPoint: number | null = null;
 
-	/**
-	 * Information about start and end position
-	 * Including the threshold of px for valid presses
-	 */
 	protected _pressInfo: Ch5ButtonPressInfo = {} as Ch5ButtonPressInfo;
 
 	//#endregion
@@ -746,7 +740,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	}
 
 	protected _onMouseUp() {
-		this.logger.start("_onMouseUp");
 		if (this.isTouch) {
 			((btnObj) => {
 				setTimeout(() => {
@@ -774,7 +767,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			// sometimes a both click and press can happen on iOS/iPadOS, don't publish both
 			this.logger.log('Ch5Button debouncing duplicate press/hold and click ' + timeSinceLastPress);
 		}
-		this.logger.stop();
 	}
 
 	protected _onMouseMove(event: MouseEvent) {
@@ -793,7 +785,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	}
 
 	protected async _onPress(event: TouchEvent) {
-		this.logger.start("_onPress");
 		const normalizedEvent = normalizeEvent(event);
 		this.isTouch = true;
 		clearTimeout(this.allowPressTimeout);
@@ -810,14 +801,12 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	}
 
 	protected _onLeave() {
-		this.logger.start("_onPressUp");
 		if (this._intervalIdForRepeatDigital) {
 			this.stopRepeatDigital();
 		}
 	}
 
 	protected _onPressUp(): void {
-		this.logger.start("_onPressUp");
 		window.clearTimeout(this._pressTimeout);
 		this.reactivatePress();
 		if (this._pressed) {
@@ -834,7 +823,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	}
 
 	protected _onTouchMove(event: TouchEvent) {
-		this.logger.start("_onTouchMove");
 		// The event must be cancelable
 		if (event.cancelable) {
 			event.preventDefault();
@@ -858,14 +846,12 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	}
 
 	protected _onTouchEnd(inEvent: Event): void {
-		this.logger.start("_onTouchEnd");
 		if (this._intervalIdForRepeatDigital) {
 			this.stopRepeatDigital();
 		}
 	}
 
 	protected _onTouchCancel(inEvent: Event): void {
-		this.logger.start("_onTouchCancel");
 		if (this._intervalIdForRepeatDigital) {
 			this.stopRepeatDigital();
 		}

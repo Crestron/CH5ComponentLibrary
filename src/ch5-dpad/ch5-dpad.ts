@@ -246,7 +246,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	public set size(value: TCh5DpadSize) {
 		this._ch5Properties.set<TCh5DpadSize>("size", value, () => {
 			this.checkAndRestructureDomOfDpad();
-		})
+		});
 	}
 	public get size() {
 		return this._ch5Properties.get<TCh5DpadSize>("size");
@@ -255,7 +255,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	public set sendEventOnClickStart(value: string) {
 		this._ch5Properties.set<string>("sendEventOnClickStart", value, () => {
 			this.updateEventClickHandlers(parseInt(value, 10));
-		})
+		});
 	}
 	public get sendEventOnClickStart(): string {
 		return this._ch5Properties.get<string>("sendEventOnClickStart");
@@ -333,9 +333,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			}
 			this._wasInstatiated = true;
 
-			// events binding
 			this.attachEventListeners();
-
 			this.initAttributes();
 
 			// required post initial setup
@@ -360,8 +358,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			this.container.style.removeProperty('height');
 			this.container.style.removeProperty('width');
 		}
-
-		// disconnect common mutation observer
 		this.disconnectCommonMutationObserver();
 	}
 
@@ -452,7 +448,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	}
 
 	/**
-	 * Function to create the container div which holds all the 5 buttons within dpad
+	 * Create the container div which holds all the 5 buttons within dpad
 	 */
 	private createEmptyContainerDiv() {
 		if (_.isNil(this.container) || _.isNil(this.container.classList) || this.container.classList.length === 0) {
@@ -468,7 +464,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	}
 
 	/**
-	 * Function to add all 5 buttons in the expected order if not added in the DOM
+	 * Add all 5 buttons in the expected order if not added in the DOM
 	 */
 	private createAndAppendAllButtonsUnderDpad() {
 		const centerBtn = new Ch5DpadButton();
@@ -613,7 +609,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	protected initAttributes(): void {
 		this.logger.start("initAttributes", Ch5Dpad.ELEMENT_NAME);
 		super.initAttributes();
-		// set data-ch5-id
 		this.setAttribute('data-ch5-id', this.getCrId());
 		ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5Dpad);
 
@@ -626,7 +621,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				}
 			}
 		}
-
 		this.logger.stop();
 	}
 
@@ -639,7 +633,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	}
 
 	protected updateCssClasses(): void {
-		// apply css classes for attrs inherited from common (e.g. customClass, customStyle )
+		// apply css classes for attrs inherited from common (e.g. customClass, customStyle)
 		super.updateCssClasses();
 
 		for (const typeVal of Ch5Dpad.TYPES) {
@@ -685,19 +679,18 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	//#region 4. Other Methods
 
 	/**
-	 * Function to restructure initial DOM before rendering commences
+	 * Restructure initial DOM before rendering commences
 	 */
 	private checkAndRestructureDomOfDpad() {
 		this.logger.start('checkAndRestructureDomOfDpad()', Ch5Dpad.ELEMENT_NAME);
 		this.updateHtmlElements();
 		this.updateCssClasses();
-
 		this.logger.stop();
 	}
 
 	private handleUseContractForEnable(value: boolean) {
 		const isUseContractForEnable = this.toBoolean(value);
-		const contractName = this.contractName.trim();
+		const contractName = this.contractName;
 
 		if (contractName.length > 0 && (this.useContractForEnable !== isUseContractForEnable)) {
 			this.contractDefaultHelper();
@@ -716,8 +709,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	}
 
 	private handleUseContractForShow(value: boolean) {
-		const contractName = this.contractName.trim();
 		const isUseContractForShow = this.toBoolean(value);
+		const contractName = this.contractName;
 
 		if (contractName.length > 0 && (this.useContractForShow !== isUseContractForShow)) {
 			this.contractDefaultHelper();
@@ -737,7 +730,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	private handleUseContractForCustomStyle(value: boolean) {
 		const isUseContractForCustomStyle = this.toBoolean(value);
-		const contractName = this.contractName.trim();
+		const contractName = this.contractName;
 
 		if (contractName.length > 0 && (this.useContractForCustomStyle !== isUseContractForCustomStyle)) {
 			this.contractDefaultHelper();
@@ -757,7 +750,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	private handleUseContractForCustomClass(value: boolean) {
 		const isUseContractForCustomClass = this.toBoolean(value);
-		const contractName = this.contractName.trim();
+		const contractName = this.contractName;
 
 		if (contractName.length > 0 && (this.useContractForCustomClass !== isUseContractForCustomClass)) {
 			this.contractDefaultHelper();
@@ -805,7 +798,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	}
 
 	/**
-	 * Function to add the send event on click attribute to child elements if valid scenario
+	 * Add the send event on click attribute to child elements if valid scenario
 	 * contractName.length === 0 and eventKeyStart is a valid number
 	 * @param eventKeyStart sendEventOnClickStart event's initial value
 	 */
@@ -954,12 +947,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				this.container.style.width = dimensionVal + 'px';
 			}
 		}
-
 		this.logger.stop();
 	}
 
 	/**
-	 * Function to handle the resize event for dpad to be redrawn if required
+	 * Handle the resize event for dpad to be redrawn if required
 	 */
 	private onWindowResizeHandler() {
 		// since stretch has no default value, should fire stretchHandler only if required
