@@ -27,6 +27,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
 	//#region 1. Variables
 
+	//#region 1.1 readonly variables
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
 		{
 			default: "",
@@ -83,17 +84,12 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true }
 	};
 
-	public primaryCssClass = '';
-
-	//#region 1.1 readonly variables
-
 	public readonly pressedCssClassPostfix = '--pressed';
 
 	private readonly LABEL_CLASS: string = 'dpad-btn-label';
 
-	//#endregion
-
-	//#region 1.2 protected / protected variables
+	//#region 1.2 protected variables
+	public primaryCssClass = '';
 
 	protected readonly TOUCH_TIMEOUT: number = 250;
 	protected readonly DEBOUNCE_PRESS_TIME: number = 200;
@@ -140,8 +136,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	protected _pressVerticalStartingPoint: number | null = null;
 
 	protected _pressInfo: Ch5ButtonPressInfo = {} as Ch5ButtonPressInfo;
-
-	//#endregion
 
 	//#endregion
 
@@ -204,8 +198,8 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
 	public constructor() {
 		super();
-		this.ignoreAttributes = ["show", "disabled", "receivestateenable", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "receivestatecustomclass", "receivestatecustomstyle", "sendeventonshow"];
 		this.logger.start('constructor()', this.COMPONENT_NAME);
+		this.ignoreAttributes = ["show", "disabled", "receivestateenable", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "receivestatecustomclass", "receivestatecustomstyle", "sendeventonshow"];
 		this._ch5Properties = new Ch5Properties(this, Ch5DpadChildBase.COMPONENT_PROPERTIES);
 
 		ComponentHelper.clearComponentContent(this);
@@ -238,9 +232,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
 		if (!this.parentElement ||
 			(this.parentElement && this.parentElement.nodeName.toLowerCase() === 'ch5-dpad')) {
-			// user created DOM structure brings the code here
-			// can be ignored on this run, since its restructured under dpad
-			// and will be rendered correctly skipping this step
 			return;
 		}
 
@@ -261,13 +252,13 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
 		this._hammerManager = new Hammer(this);
 
-		// will have the flags ready for contract level content to be ready
 		this.createElementsAndInitialize();
 
 		customElements.whenDefined('ch5-dpad-button').then(() => {
 			this.initCommonMutationObserver(this);
-			this.logger.stop();
 		});
+
+		this.logger.stop();
 	}
 
 	/**
@@ -354,10 +345,10 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
 	public removeEventListeners() {
 		if (!!this._hammerManager && !!this._hammerManager.off) {
-			this._hammerManager.off('tap', this._onTap);
+			this._hammerManager.off('tap', this._onTapAction);
 		}
 		this.removeEventListener('mousedown', this._onPressClick);
-		this.removeEventListener('click', this._onTap);
+		this.removeEventListener('click', this._onTapAction);
 		this.removeEventListener('mouseup', this._onMouseUp);
 		this.removeEventListener('mousemove', this._onMouseMove);
 		this.removeEventListener('touchstart', this._onPress);
@@ -466,11 +457,10 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		super.attachEventListeners();
 
 		if (this._pressable !== null && this._pressable.ch5Component.gestureable === false) {
-			this._hammerManager.on('tap', this._onTap);
+			this._hammerManager.on('tap', this._onTapAction);
 		}
 
 		this.addEventListener('mousedown', this._onPressClick);
-		// this.addEventListener('click', this._onTap);
 		this.addEventListener('mouseup', this._onMouseUp);
 		this.addEventListener('mousemove', this._onMouseMove);
 		this.addEventListener('touchstart', this._onPress, { passive: true });
@@ -508,7 +498,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		});
 	}
 	protected bindEventListenersToThis(): void {
-		this._onTap = this._onTap.bind(this);
+		this._onTapAction = this._onTapAction.bind(this);
 		this._onPressClick = this._onPressClick.bind(this);
 		this._onMouseUp = this._onMouseUp.bind(this);
 		this._onMouseMove = this._onMouseMove.bind(this);
@@ -583,7 +573,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 				this._icon.classList.remove(...(prevValue.split(' ').filter(element => element)));
 				this._icon.classList.add(...(this.iconClass.split(' ').filter(element => element))); // the filter removes empty spaces
 			} else {
-				this._icon.classList.remove(...(prevValue.split(' ').filter(element => element))); // the filter removes empty spaces
+				this._icon.classList.remove(...(prevValue.split(' ').filter(element => element)));
 				this._icon.classList.add(this.CSS_CLASS_LIST.primaryIconClass);
 				if (this.CSS_CLASS_LIST.defaultIconClass && this.CSS_CLASS_LIST.defaultIconClass !== "") {
 					this._icon.classList.add(this.CSS_CLASS_LIST.defaultIconClass);
@@ -692,12 +682,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	//#endregion
 
 	//#region 5. Events - event binding
-
-	protected _onTap(): void {
-		this.logger.start(this.COMPONENT_NAME, "- _onTap");
-		this._onTapAction();
-		this.logger.stop();
-	}
 
 	protected _onTapAction() {
 		this.logger.start(this.COMPONENT_NAME, "- _onTapAction");
@@ -840,13 +824,13 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		}
 	}
 
-	protected _onTouchEnd(inEvent: Event): void {
+	protected _onTouchEnd(): void {
 		if (this._intervalIdForRepeatDigital) {
 			this.stopRepeatDigital();
 		}
 	}
 
-	protected _onTouchCancel(inEvent: Event): void {
+	protected _onTouchCancel(): void {
 		if (this._intervalIdForRepeatDigital) {
 			this.stopRepeatDigital();
 		}

@@ -421,7 +421,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		} else {
 			const isValidStructureInChildDiv = this.checkIfOrderOfTagsAreInTheRightOrder(childItemsContainer[0].children);
 			if (!isValidStructureInChildDiv) {
-				this.createAndAppendAllExistingButtonsUnderDpad(childItemsContainer);
+				this.createAndAppendAllExistingButtonsUnderDpad(childItemsContainer[0].children);
 			}
 		}
 
