@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { subscribeState } from "../ch5-core";
 import { Ch5SignalFactory } from "../ch5-core/index";
@@ -9,13 +10,12 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
 import { CH5VideoUtils } from "./ch5-video-utils";
-import { ICh5VideoPublishEvent, ITouchOrdinates, TDimension, TMultiVideoSignalName, TPosDimension, TSnapShotSignalName, TVideoResponse, TVideoTouchManagerParams } from "./interfaces/interfaces-helper";
+import { ICh5VideoPublishEvent, ITouchOrdinates, TDimension, TMultiVideoSignalName, TPosDimension, TVideoResponse, TVideoTouchManagerParams } from "./interfaces/interfaces-helper";
 import { publishEvent } from '../ch5-core/utility-functions/publish-signal';
 import { ICh5VideoBackground } from "../ch5-video/interfaces/types/t-ch5-video-publish-event-request";
 import { Ch5Background } from "../ch5-background";
-import { Ch5VideoSnapshot } from "./ch5-video-snapshot";
 import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
-import _ from "lodash";
+import { Ch5SampleSnapshot } from "./ch5-sample-snapshot";
 import { Ch5VideoTouchManager } from "../ch5-video/ch5-video-touch-manager";
 
 export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
@@ -470,11 +470,10 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   private isVideoPublished = false;
   private controlTimer: any;
   private scrollTimer: any;
-  private snapshotMap = new Map();
+  private snapshotImage = new Ch5SampleSnapshot();
   private maxVideoCount = 1;
   private selectedVideo = 0;
   private lastBackGroundRequest: string = '';
-  private exitSnapsShotTimer: any;
   private previousXPos: number = 0;
   private previousYPos: number = 0;
   public ch5UId: number = 0; //  CH5 Unique ID
@@ -576,7 +575,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   public set snapshotURL(value: string) {
     this._ch5Properties.set<string>("snapshotURL", value, () => {
       if (this.snapshotURL.trim() !== '') { this.maxVideoCount = 1 }
-      this.handleReceiveStateSnapshotURL();
+      this.validateAndAttachSnapshot();
     });
   }
   public get snapshotURL(): string {
@@ -585,7 +584,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
 
   public set snapshotRefreshRate(value: number) {
     this._ch5Properties.set<number>("snapshotRefreshRate", value, () => {
-      this.handleReceiveStateSnapshotURL();
+      this.validateAndAttachSnapshot();
     });
   }
   public get snapshotRefreshRate(): number {
@@ -594,7 +593,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
 
   public set snapshotUserId(value: string) {
     this._ch5Properties.set<string>("snapshotUserId", value, () => {
-      this.handleReceiveStateSnapshotURL();
+      this.validateAndAttachSnapshot();
     });
   }
   public get snapshotUserId(): string {
@@ -603,7 +602,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
 
   public set snapshotPassword(value: string) {
     this._ch5Properties.set<string>("snapshotPassword", value, () => {
-      this.handleReceiveStateSnapshotURL();
+      this.validateAndAttachSnapshot();
     });
   }
   public get snapshotPassword(): string {
@@ -714,7 +713,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         this.receiveStateSnapshotURL = this.receiveStateSnapshotURL.replace(`{{${this.indexId}}}`, this.selectedVideo.toString())
       } else {
         this._ch5Properties.setForSignalResponse<string>("snapshotURL", newValue, () => {
-          this.handleReceiveStateSnapshotURL();
+          this.validateAndAttachSnapshot();
         });
       }
     });
@@ -726,10 +725,10 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   public set receiveStateSnapshotRefreshRate(value: string) {
     this._ch5Properties.set("receiveStateSnapshotRefreshRate", value, null, (newValue: number) => {
       if (this.receiveStateSnapshotRefreshRate.includes(`{{${this.indexId}}}`)) {
-        this.receiveStateSnapshotRefreshRate = this.receiveStateSnapshotRefreshRate.replace(`{{${this.indexId}}}`, this.selectedVideo.toString())
+        this.receiveStateSnapshotRefreshRate = this.receiveStateSnapshotRefreshRate.replace(`{{${this.indexId}}}`, this.selectedVideo.toString());
       } else {
         this._ch5Properties.setForSignalResponse<number>("snapshotRefreshRate", newValue, () => {
-          this.handleReceiveStateSnapshotURL();
+          this.validateAndAttachSnapshot();
         });
       }
     });
@@ -744,7 +743,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         this.receiveStateSnapshotUserId = this.receiveStateSnapshotUserId.replace(`{{${this.indexId}}}`, this.selectedVideo.toString())
       } else {
         this._ch5Properties.setForSignalResponse<string>("snapshotUserId", newValue, () => {
-          this.handleReceiveStateSnapshotURL();
+          this.validateAndAttachSnapshot();
         });
       }
     });
@@ -759,7 +758,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         this.receiveStateSnapshotPassword = this.receiveStateSnapshotPassword.replace(`{{${this.indexId}}}`, this.selectedVideo.toString())
       } else {
         this._ch5Properties.setForSignalResponse<string>("snapshotPassword", newValue, () => {
-          this.handleReceiveStateSnapshotURL();
+          this.validateAndAttachSnapshot();
         });
       }
     });
@@ -950,10 +949,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
 
     customElements.whenDefined('ch5-sample').then(() => {
       this._initializeVideo();
-      // if (!this.indexId) {
-      this.getAllSnapShotData(1);
-      this.loadAllSnapshots(); // start loading snapshots
-      // }
+      this.validateAndAttachSnapshot();
       this.componentLoadedEvent(Ch5Sample.ELEMENT_NAME, this.id);
       this.lastRequestStatus = CH5VideoUtils.VIDEO_ACTION.EMPTY;
       this.isVideoReady = false;
@@ -968,7 +964,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     this.unsubscribeFromSignals();
     this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
     this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL, 'disconnect');
-    this.snapshotMap.get(0)?.stopLoadingSnapShot();// TODO
     this.logger.stop();
   }
 
@@ -988,6 +983,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     this._fullScreenIcon.innerHTML = CH5VideoUtils.SVG_ICONS.FULLSCREEN_ICON;
 
     this._elContainer.appendChild(this._fullScreenIcon);
+    this._elContainer.appendChild(this.snapshotImage.getImage());
     this.logger.stop();
   }
 
@@ -1078,11 +1074,14 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     });
     this._elContainer.classList.add(Ch5Sample.COMPONENT_DATA.SIZE.classListPrefix + this.size);
   }
+
   private handleReceiveStatePlay(value: boolean) {
     if (value === false) {
+      this.snapshotImage.stopLoadingSnapshot();
       return this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
     }
-    this.beforeVideoDisplay();
+    // this.beforeVideoDisplay();
+    this.validateAndAttachSnapshot();
     this.handleReceiveStateURL();
   }
 
@@ -1104,16 +1103,11 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       this.isExitFullscreen = false;
       if (this.url === '') {
         this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
-        this.beforeVideoDisplay();
+        this.snapshotImage.stopLoadingSnapshot();
       } else {
         this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.START);
       }
     }
-  }
-
-  private handleReceiveStateSnapshotURL() {
-    this.getAllSnapShotData(1);
-    this.loadAllSnapshots();
   }
 
   private updateCssClass() {
@@ -1141,7 +1135,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     this.info("videoIntersectionObserver#intersectionRatio -> " + this.elementIntersectionEntry.intersectionRatio);
     this.lastBackGroundRequest = "";
     if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE && this.playValue) {
-      //  this.loadAllSnapshots();
       this._onRatioAboveLimitToRenderVideo();
     } else {
       this._OnVideoAspectRatioConditionNotMet();
@@ -1166,7 +1159,8 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
 
       // This condition will avoid drawing snapshot during orientation change in iOS devices
       if (this.lastRequestStatus !== CH5VideoUtils.VIDEO_ACTION.START && this.lastRequestStatus !== CH5VideoUtils.VIDEO_ACTION.RESIZE) {
-        this.beforeVideoDisplay();
+        // this.beforeVideoDisplay();
+        // this.validateAndAttachSnapshot();
       }
 
       if (this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.EMPTY && this.isOrientationChanged ||
@@ -1377,7 +1371,8 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         }
         this.fromExitFullScreen = false;
         this.calculation();
-        this.beforeVideoDisplay();
+        // this.beforeVideoDisplay();
+        // this.validateAndAttachSnapshot();
         publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType, 'publishVideoEvent'));
         this.isVideoReady = false;
         break;
@@ -1561,13 +1556,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         }
         this._elContainer.style.borderBottom = '1rem solid #828282'; //  Gray color
         break;
-      case CH5VideoUtils.VIDEO_ACTION.MARK:
-        this.clearBackgroundOfVideoWrapper(false);
-        if (nodeList.length > 1) {
-          this._elContainer.childNodes[1].remove();
-        }
-        this._elContainer.style.borderBottom = '1rem solid #FFBF00'; //  Amber color
-        break;
       case CH5VideoUtils.VIDEO_ACTION.REFILL:
         if (this.lastBackGroundRequest !== actionType) {
           this.ch5BackgroundAction(this.videoBGObjJSON(CH5VideoUtils.VIDEO_ACTION.REFILL));
@@ -1579,16 +1567,12 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         this.ch5BackgroundAction(this.videoBGObjJSON(CH5VideoUtils.VIDEO_ACTION.RESIZE));
         break;
       case CH5VideoUtils.VIDEO_ACTION.STARTED:
-        clearTimeout(this.exitSnapsShotTimer); //  clear timer to stop refreshing image
         this.resetVideoElement();
-        // this.switchLoadingSnapshot();
-        const sData: Ch5VideoSnapshot = this.snapshotMap.get(0); // TO DO Multiple video
-        sData.stopLoadingSnapShot();
+        this.snapshotImage.stopLoadingSnapshot();
         // this.firstTime = false;
         this.ch5BackgroundAction(this.videoBGObjJSON(CH5VideoUtils.VIDEO_ACTION.STARTED));
         break;
       case CH5VideoUtils.VIDEO_ACTION.STOP:
-        clearTimeout(this.exitSnapsShotTimer); //  clear timer to stop refreshing image
         if (this.elementIsInViewPort) {
           this.resetVideoElement();
           this.ch5BackgroundAction(this.videoBGObjJSON(CH5VideoUtils.VIDEO_ACTION.STOP));
@@ -1626,7 +1610,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
 
   // This will call the methods in ch5-background component @param videoInfo send the video id, size and position details
   private ch5BackgroundAction(videoInfo: ICh5VideoBackground) {
-    //  avoid calls before proper initialization
+    // avoid calls before proper initialization
     if (videoInfo.width <= 0 || videoInfo.height <= 0 || videoInfo.id === '') {
       return;
     }
@@ -1639,13 +1623,13 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     }
   }
 
-  //Clear the previous response data, This prevents execution of blocks if the response is same
+  // Clear the previous response data, This prevents execution of blocks if the response is same
   private _clearOldResponseData() {
     this.oldResponseStatus = '';
     this.oldResponseId = 0;
   }
 
-  //Function to add background color to bg if false and clears it if true, @param isShowVideoBehind if true, clears background
+  // Function to add background color to bg if false and clears it if true, @param isShowVideoBehind if true, clears background
   private clearBackgroundOfVideoWrapper(isShowVideoBehind: boolean) {
     this._elContainer.style.background = isShowVideoBehind ? 'transparent' : 'black';
   }
@@ -1735,85 +1719,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   private _handleTouchMoveEvent_Fullscreen(ev: Event) {
     ev.preventDefault();
     ev.stopImmediatePropagation();
-  }
-
-  // Draw the snapshot on the background
-  private beforeVideoDisplay() {
-    // return if not visible, exit timer
-    if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE &&
-      this.lastResponseStatus !== CH5VideoUtils.VIDEO_ACTION.STARTED) {
-      const nodeList: NodeList = this._elContainer.childNodes;
-      if (this.snapshotMap.size > 0) {
-        const sData: Ch5VideoSnapshot = this.snapshotMap.get(0);
-        if (sData.getSnapShotStatus()) {
-          if (nodeList.length > 1) {
-            this._elContainer.childNodes[1].remove(); // remove the image tag
-            this._elContainer.appendChild(sData.getSnapShot());
-          } else {
-            this._elContainer.appendChild(sData.getSnapShot());
-          }
-          this._elContainer.style.removeProperty('border-bottom'); // remove the border if any
-          // this._sendEvent(this.sendEventSnapShotStatus, this.receivedStateSelect, 'number');
-        } else {
-          this._elContainer.style.background = '#000';
-          if (this.lastBackGroundRequest !== CH5VideoUtils.VIDEO_ACTION.MARK
-            && this.url !== '' && this.lastResponseStatus !== CH5VideoUtils.VIDEO_ACTION.ERROR && this.playValue) {
-            this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.MARK, 'drawSnapShot#3');
-          } else {
-            if (this.url === '' && this.lastBackGroundRequest !== CH5VideoUtils.VIDEO_ACTION.NOURL) {
-              this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.NOURL, 'drawSnapShot#2');
-            } else if (this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.ERROR) {
-              this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.ERROR, 'drawSnapShot#2');
-            }
-            clearTimeout(this.exitSnapsShotTimer); // stop the timer
-            return; // lets break here
-          }
-        }
-      }
-      clearTimeout(this.exitSnapsShotTimer);
-      const refreshRate: number = this.snapshotRefreshRate;
-      this.exitSnapsShotTimer = setTimeout(() => {
-        this.info("Snapshot refreshed with new image");
-        this.beforeVideoDisplay();
-      }, 1000 * refreshRate);
-    } else {
-      console.log("drawSnapShot#9");
-      clearTimeout(this.exitSnapsShotTimer);
-      return;
-    }
-  }
-
-
-  private getAllSnapShotData(vCount: number) {
-    if (vCount === 0) {
-      return;
-    }
-    for (let idx = 0; idx < vCount; idx++) {
-      const snapshotObject: TSnapShotSignalName = {
-        "index": 0,
-        "videoTagId": this.videoTagId,
-        "snapshotURL": "",
-        "snapshotRefreshRate": 0,
-        "snapshotUser": "",
-        "snapshotPass": "",
-        "isMultipleVideo": this.indexId === '0' ? false : true
-      };
-      snapshotObject.index = idx;
-      snapshotObject.snapshotURL = this.snapshotURL;
-      snapshotObject.snapshotUser = this.snapshotUserId;
-      snapshotObject.snapshotPass = this.snapshotPassword;
-      snapshotObject.snapshotRefreshRate = this.snapshotRefreshRate;
-      this.snapshotMap.set(idx, new Ch5VideoSnapshot(snapshotObject));
-    }
-  }
-
-  private loadAllSnapshots(): void {
-    if (this.snapshotMap.size > 0) {
-      for (let idx = 0; idx < 1; idx++) {
-        const sData: Ch5VideoSnapshot = this.snapshotMap.get(idx);
-        sData.startLoadingSnapShot();
-      }
-    }
   }
 
   private handleMultiVideo() {
@@ -1974,18 +1879,32 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
               this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.FULLSCREEN);
             } else {
               this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.RESIZE);
-              //this._updateAppBackgroundStatus();
+              // this._updateAppBackgroundStatus();
             }
           }
         } else if ((this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.STOPPED || this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.EMPTY) &&
           this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE) {
           this.info(">>>>>>>>>>>>>>>>>>>>> DrawSnapshot3 <<<<<<<<<<<<<<<<<<<<<<<<<<<");
-          this.beforeVideoDisplay();
           this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.START);
         }
       });
     }
     this.orientationCount++;
+  }
+
+  private validateAndAttachSnapshot() {
+    if (this.snapshotURL.trim() !== '' && this.url.trim() !== '') {
+      this.snapshotImage.url = this.snapshotURL;
+      this.snapshotImage.userId = this.snapshotUserId;
+      this.snapshotImage.password = this.snapshotPassword;
+      this.snapshotImage.refreshRate = this.snapshotRefreshRate;
+      if (this.lastResponseStatus !== CH5VideoUtils.VIDEO_ACTION.STARTED) {
+        this.snapshotImage.startLoadingSnapshot();
+        if (this.snapshotImage.getImage().isConnected === false) {
+          this._elContainer.appendChild(this.snapshotImage.getImage());
+        }
+      }
+    }
   }
   // #endregion
 
