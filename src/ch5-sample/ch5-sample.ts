@@ -1905,6 +1905,11 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         }
       }
     }
+    if (this.url === '' && this.lastBackGroundRequest !== CH5VideoUtils.VIDEO_ACTION.NOURL) {
+      this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.NOURL, '');
+    } else if (this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.ERROR) {
+      this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.ERROR, '');
+    }
   }
   // #endregion
 
