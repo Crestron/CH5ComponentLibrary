@@ -13,55 +13,6 @@ import { ICh5ModalDialogAttributes } from "./interfaces/i-ch5-modal-dialog-attri
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 import { Ch5Common } from '../ch5-common/ch5-common';
 
-// @ts-ignore
-/**
- * Html Attributes
- *
- * - width
- * - height
- * - title
- * - hideOkButton
- * - okButtonLabel
- * - okButtonIcon
- * - okButtonStyle
- * - hideCancelButton
- * - cancelButtonLabel
- * - cancelButtonIcon
- * - cancelButtonStyle
- * - prompt
- * - promptIcon
- *
- * - sendEventOnOk
- * - sendEventOnCancel
- *
- * - dismissable
- * - closable
- * - closeIcon
- * - mask
- * - maskStyle
- * - stretch
- * - overflow
- * - positionTo
- * - positionOffset
- *
- * - receiveStatePositionTo
- * - receiveStatePositionOffset
- * - sendEventOnBeforeShow
- * - sendEventOnAfterShow
- * - sendEventOnBeforeHide
- * - sendEventOnAfterHide
- *
- * Inherited from Ch5Common
- * - customClass
- * - customStyle
- * - receiveStateCustomClass
- * - receiveStateCustomStyle
- * - receiveStateShow
- * - receiveStateShowPulse
- * - receiveStateHidePulse
- * - sendEventOnShow
- *
- */
 export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAttributes {
 
 	public static readonly ELEMENT_NAME: string = 'ch5-modal-dialog';
@@ -135,39 +86,20 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 	protected _elBtnCancel: Ch5Button = {} as Ch5Button;
 
-	/**
-	 * The width of the window
-	 *
-	 * HTML attribute: width
-	 */
 	protected _width: string = '';
 
-	/**
-	 * The height of the window
-	 *
-	 * HTML attribute: height
-	 */
 	protected _height: string = '';
 
-	/**
-	 * Header title text
-	 * if absent or empty hides the title bar
-	 * HTML attribute: title
-	 */
 	protected _title: string = '';
 
 	/**
 	 * Default false
 	 * If true apply a background mask.
-	 *
-	 * HTML attribute name: mask
 	 */
 	protected _mask: boolean = false;
 
 	/**
 	 * Inline css style added to the background mask
-	 *
-	 * HTML attribute name: maskStyle
 	 */
 	protected _maskStyle: string = '';
 
@@ -179,70 +111,51 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 	/**
 	 * Text that will be used for the okButton.
-	 *
-	 * HTML attribute: okButtonLabel
 	 */
 	protected _okButtonLabel: string = '';
 
 	/**
 	 * Icon that will be used for the ok button
-	 *
-	 * HTML attribute: okButtonIcon
 	 */
 	protected _okButtonIcon: string = '';
 
 	/**
 	 * Inline style that will be used for the okButton
-	 *
-	 * HTML attribute: okButtonStyle
 	 */
 	protected _okButtonStyle: string = '';
 
 	/**
 	 * If true hides the cancelButton
-	 * HTML attribute: hideCancelButton
 	 */
 	protected _hideCancelButton: boolean = false;
 
 	/**
 	 * Text that will be used for the cancelButton.
-	 *
-	 * HTML attribute: cancelButtonLabel
 	 */
 	protected _cancelButtonLabel: string = '';
 
 	/**
 	 * Icon that will be used for the cancelButton
-	 *
-	 * HTML attribute: cancelButtonIcon
 	 */
 	protected _cancelButtonIcon: string = '';
 
 	/**
 	 * Inline style that will be used for the cancelButton
-	 *
-	 * HTML attribute: cancelButtonStyle
 	 */
 	protected _cancelButtonStyle: string = '';
 
 	/**
 	 * Optional message text
-	 *
-	 * HTML attribute: prompt
 	 */
 	protected _prompt: string = '';
 
 	/**
 	 * Icon that appears next to the prompt text
-	 *
-	 * HTML attribute: promptIcon
 	 */
 	protected _promptIcon: string = '';
 
 	/**
 	 * The name of the boolean signal that will be sent when the Ok button is pressed
-	 *
-	 * HTML attribute name: sendEventOnOk
 	 */
 	protected _sigNameSendOnOk: string = '';
 
@@ -284,7 +197,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 	private _crModalWasInstatiated: boolean = false;
 
-
 	public constructor() {
 		super();
 		this.info('Ch5ModalDialog.constructor()');
@@ -316,7 +228,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5ModalDialog.ELEMENT_NAME, Ch5ModalDialog.SIGNAL_ATTRIBUTE_TYPES);
 	}
 
-
 	protected attachEventListeners() {
 		super.attachEventListeners();
 
@@ -334,10 +245,8 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 	protected removeEventListeners() {
 		super.removeEventListeners();
-
 		this._elBtnOk.removeEventListener('click', this._onOkClick);
 		this._elBtnCancel.removeEventListener('click', this._onCancelClick);
-
 	}
 
 	protected _rebindEventCallbacks() {
@@ -478,7 +387,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		});
 
 		const newObsAttrs = [
-
 			'width',
 			'height',
 			'title',
@@ -495,10 +403,8 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			'mask',
 			'maskstyle',
 
-
 			'sendeventonok',
 			'sendeventoncancel'
-
 		];
 
 		return inheritedObsAttrs.concat(newObsAttrs);
@@ -655,7 +561,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		if (this.hasAttribute('receivestatepositionoffset')) {
 			this.removeAttribute('receivestatepositionoffset');
 		}
-
 	}
 
 	protected generateListOfAllPossibleComponentCssClasses(): string[] {
@@ -667,13 +572,9 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		// super.updateCssClasses();
 		this.info('called updateCssClasses()');
 
-		// let stretchCssClassName = '';
 		const setOfCssClassesToBeApplied = new Set<string>();
 
-		// primary
 		setOfCssClassesToBeApplied.add(this.primaryCssClass);
-
-		// overflow
 		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--overflow-' + this.overflow);
 
 		const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
@@ -838,9 +739,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		// super.createInternalHtml();
 
 		const existingModal = this.querySelector(`.${this.primaryCssClass}`);
-
 		if (!existingModal) {
-
 			this.info('ch5-modal-dialog create internal Html');
 			this._elContainer = document.createElement('div');
 
@@ -872,13 +771,11 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			this._elBtnOk = new Ch5Button();
 			this._elBtnOk.setAttribute('type', 'success');
 			this._elBtnOk.setAttribute('label', this._btnOkDefaultLabelText);
-			// this._elBtnOk.setAttribute('customClass', this.primaryCssClass + '-btn-ok');
 			this._elBtnOk.classList.add(this.primaryCssClass + '-btn-ok');
 
 			this._elBtnCancel = new Ch5Button();
 			this._elBtnCancel.setAttribute('type', 'warning');
 			this._elBtnCancel.setAttribute('label', this._btnCancelDefaultLabelText);
-			// this._elBtnCancel.setAttribute('customClass', this.primaryCssClass + '-btn-cancel');
 			this._elBtnCancel.classList.add(this.primaryCssClass + '-btn-cancel');
 
 			this._elContents = document.createElement('div');
@@ -886,10 +783,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 			this._elContainer.classList.add(this.primaryCssClass);
 			this._elContainer.setAttribute('data-ch5-id', this.getCrId());
-
-			// this._elContainer.appendChild(this._elCloseIconBtn);
-			// this._elContainer.appendChild(this._elContents);
-
 
 			this._elMask = document.createElement('div');
 			this._elMask.classList.add(this.primaryCssClass + '-mask');
@@ -909,7 +802,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			this._elContainer = existingModal as HTMLElement;
 			this._elMask = this.querySelector(`.${this.primaryCssClass}-mask`) as HTMLElement;
 		}
-
 	}
 
 	protected adjustInternalHtmlStructure() {
@@ -978,7 +870,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		// Using EventLoop to attach event listener
 		// to document only after all event pipeline was called ( mousedown -> mouseup -> click)
 		// Attaching it when mousedown is triggered and that event being attached to document
-		// this will be triggerd as well.
+		// this will be triggered as well.
 		setTimeout(() => {
 			if (this._elMask) {
 				this._elMask.addEventListener('click', this._clickedOnMask);
@@ -1163,8 +1055,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 	public set cancelButtonLabel(value: string) {
 		this.info('set cancelButtonLabel' + value);
-
-
 		if (value === undefined || value === null) {
 			value = '';
 		}
@@ -1194,7 +1084,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			this._elBtnCancel.setAttribute('iconClass', value);
 			this.setAttribute('cancelbuttonicon', value);
 		}
-
 	}
 
 	public get cancelButtonIcon(): string {
@@ -1216,9 +1105,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 	public set prompt(value: string) {
 		this.info('set prompt ' + value);
-
-		const _value = value;
-
 		if (value === undefined || value === null) {
 			value = '';
 		}
@@ -1233,7 +1119,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			this._elPromptText.textContent = trValue;
 		}
 		this.setAttribute('prompt', trValue);
-
 	}
 
 	public get prompt(): string {
@@ -1277,9 +1162,8 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 	public get sendEventOnCancel(): string {
 		return this._sigNameSendOnCancel;
 	}
-
-
 }
+
 if (typeof window === "object"
 	&& typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
