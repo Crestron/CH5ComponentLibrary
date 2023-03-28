@@ -638,6 +638,9 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     this._ch5Properties.set("receiveStateSelect", value, null, (newValue: number) => {
       this.selectedVideo = newValue;
       if (newValue >= 0 && newValue < this.maxVideoCount) {
+        if (this.sendEventSelectionChange.trim().length !== 0 && this.sendEventSelectionChange !== null && this.sendEventSelectionChange !== undefined) {
+          Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventSelectionChange)?.publish(this.selectedVideo);
+        }
         this.handleReceiveStateSelect(newValue);
       }
     });
@@ -653,6 +656,9 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         console.log("selected video", this.selectedVideo, this.maxVideoCount);
       } else {
         this._ch5Properties.setForSignalResponse<string>("url", newValue, () => {
+          if (this.sendEventSelectionURL.trim().length !== 0 && this.sendEventSelectionURL !== null && this.sendEventSelectionURL !== undefined) {
+            Ch5SignalFactory.getInstance().getStringSignal(this.sendEventSelectionURL)?.publish(this.url);
+          }
           this.handleReceiveStateURL();
         });
       }
@@ -668,6 +674,9 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         this.receiveStateSourceType = this.receiveStateSourceType.replace(`{{${this.indexId}}}`, this.selectedVideo.toString())
       } else {
         this._ch5Properties.setForSignalResponse<string>("sourceType", newValue, () => {
+          if (this.sendEventSelectionSourceType.trim().length !== 0 && this.sendEventSelectionSourceType !== null && this.sendEventSelectionSourceType !== undefined) {
+            Ch5SignalFactory.getInstance().getStringSignal(this.sendEventSelectionSourceType)?.publish(this.sourceType);
+          }
           this.handleReceiveStateURL();
         });
       }
@@ -713,6 +722,9 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         this.receiveStateSnapshotURL = this.receiveStateSnapshotURL.replace(`{{${this.indexId}}}`, this.selectedVideo.toString())
       } else {
         this._ch5Properties.setForSignalResponse<string>("snapshotURL", newValue, () => {
+          if (this.sendEventSnapshotURL.trim().length !== 0 && this.sendEventSnapshotURL !== null && this.sendEventSnapshotURL !== undefined) {
+            Ch5SignalFactory.getInstance().getStringSignal(this.sendEventSnapshotURL)?.publish(this.snapshotURL);
+          }
           this.validateAndAttachSnapshot();
         });
       }
@@ -1332,13 +1344,18 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(actionType, this.ch5UId)); // Stop the video immediately
     this.fromExitFullScreen = false;
     this.isVideoReady = false;
-    // this._sendEvent(this.sendEventState, 3, 'number');
+    if (this.sendEventState.trim().length !== 0 && this.sendEventState !== null && this.sendEventState !== undefined) {
+      Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventState)?.publish(3);
+    }
   }
 
   // Send event to the backend based on the action Type
   private _publishVideoEvent(actionType: string) {
     this.responseObj = {} as TVideoResponse;
     this.isAlphaBlend = !this.isFullScreen;
+    if (this.sendEventResolution.trim().length !== 0 && this.sendEventResolution !== null && this.sendEventResolution !== undefined) {
+      Ch5SignalFactory.getInstance().getStringSignal(this.sendEventResolution)?.publish(this.sizeObj.width + "x" + this.sizeObj.height + "@24fps");
+    }
     this._clearOldResponseData(); //  reset old response, required to check whether the second response is same.
     switch (actionType) {
       case CH5VideoUtils.VIDEO_ACTION.START:
@@ -1349,7 +1366,9 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
           this.info("*** videoStartRequest");
           this._videoStartRequest(actionType);
         } else {
-          // this._sendEvent(this.sendEventState, 0, 'number');
+          if (this.sendEventState.trim().length !== 0 && this.sendEventState !== null && this.sendEventState !== undefined) {
+            Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventState)?.publish(0);
+          }
         }
         break;
       case CH5VideoUtils.VIDEO_ACTION.STOP:
@@ -1441,25 +1460,35 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         this.isOrientationChanged = false;
         this.isExitFullscreen = false;
         this.isPositionChanged = false;
+        if (this.sendEventState.trim().length !== 0 && this.sendEventState !== null && this.sendEventState !== undefined) {
+          Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventState)?.publish(1);
+        }
         this._fullScreenIcon.classList.add('hide');
         break;
       case 'connecting':
         this.isVideoReady = false;
-        /* if (this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.START) {
-          this._sendEvent(this.sendEventState, 4, 'number');
-        } */
+        if (this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.START) {
+          if (this.sendEventState.trim().length !== 0 && this.sendEventState !== null && this.sendEventState !== undefined) {
+            Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventState)?.publish(4);
+          }
+        }
         break;
       case 'buffering':
         this.isVideoReady = false;
-        /* if (this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.START) {
-          this._sendEvent(this.sendEventState, 5, 'number');
-        } */
+        if (this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.START) {
+          if (this.sendEventState.trim().length !== 0 && this.sendEventState !== null && this.sendEventState !== undefined) {
+            Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventState)?.publish(5);
+          }
+        }
         break;
       case CH5VideoUtils.VIDEO_ACTION.STARTED:
         this.isVideoReady = true;
         this.isOrientationChanged = false;
         this.isExitFullscreen = false;
         this.isPositionChanged = false;
+        if (this.sendEventState.trim().length !== 0 && this.sendEventState !== null && this.sendEventState !== undefined) {
+          Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventState)?.publish(2);
+        }
         this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.STARTED, 'videoResponse');
 
         /*
@@ -1474,10 +1503,12 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         break;
       case 'retrying':
         this.isVideoReady = false;
-        /* if (this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.START) {
-          this._sendEvent(this.sendEventState, 6, 'number');
+        if (this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.START) {
+          if (this.sendEventState.trim().length !== 0 && this.sendEventState !== null && this.sendEventState !== undefined) {
+            Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventState)?.publish(6);
+          }
         }
-        this.retryCount = this.retryCount + 1;
+        /* this.retryCount = this.retryCount + 1;
         this._sendEvent(this.sendEventRetryCount, this.retryCount, 'number'); */
         break;
       case 'resizing':
@@ -1505,10 +1536,12 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         break;
       case 'error':
         this.info("Error case in Csig.video.response with status code : " + responseStatCode);
-        /* if (this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.START) {
-          this._sendEvent(this.sendEventState, 7, 'number');
+        if (this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.START) {
+          if (this.sendEventState.trim().length !== 0 && this.sendEventState !== null && this.sendEventState !== undefined) {
+            Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventState)?.publish(7);
+          }
         }
-        if (this.responseObj.statusCode) {
+       /*  if (this.responseObj.statusCode) {
           this._sendEvent(this.sendEventErrorCode, this.responseObj.statusCode, 'number');
           if (this._videoErrorMessages.has(this.responseObj.statusCode)) {
             this._sendEvent(this.sendEventErrorMessage, this._videoErrorMessages.get(this.responseObj.statusCode), 'string');
