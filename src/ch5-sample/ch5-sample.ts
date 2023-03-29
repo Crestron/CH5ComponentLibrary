@@ -1069,21 +1069,35 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
 
   private handleAspectRatio() {
     Array.from(Ch5Sample.COMPONENT_DATA.ASPECT_RATIO.values).forEach((e: any) => {
-      this._elContainer.classList.remove(Ch5Sample.COMPONENT_DATA.ASPECT_RATIO.classListPrefix + e);
+      this._elContainer.classList.remove(this.primaryCssClass + Ch5Sample.COMPONENT_DATA.ASPECT_RATIO.classListPrefix + e.replace(':', '-'));
     });
-    this._elContainer.classList.add(Ch5Sample.COMPONENT_DATA.ASPECT_RATIO.classListPrefix + this.aspectRatio);
+    this._elContainer.classList.add(this.primaryCssClass + Ch5Sample.COMPONENT_DATA.ASPECT_RATIO.classListPrefix + this.aspectRatio.replace(':', '-'));
+    this.ch5BackgroundAction(this.videoBGObjJSON(CH5VideoUtils.VIDEO_ACTION.RESIZE));
+    this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.RESIZE);
   }
 
   private handleStretch() {
-    //  Enter your Code here
+    if (this.stretch === true) {
+      this._elContainer.classList.add(this.primaryCssClass + '--stretch-true');
+      this.style.width = '100%';
+      this.style.height = '100%';
+    } else {
+      this._elContainer.classList.remove(this.primaryCssClass + '--stretch-true');
+      this.style.removeProperty('width');
+      this.style.removeProperty('height');
+    }
+    this.ch5BackgroundAction(this.videoBGObjJSON(CH5VideoUtils.VIDEO_ACTION.RESIZE));
+    this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.RESIZE);
   }
 
 
   private handleSize() {
     Array.from(Ch5Sample.COMPONENT_DATA.SIZE.values).forEach((e: any) => {
-      this._elContainer.classList.remove(Ch5Sample.COMPONENT_DATA.SIZE.classListPrefix + e);
+      this._elContainer.classList.remove(this.primaryCssClass + Ch5Sample.COMPONENT_DATA.SIZE.classListPrefix + e);
     });
-    this._elContainer.classList.add(Ch5Sample.COMPONENT_DATA.SIZE.classListPrefix + this.size);
+    this._elContainer.classList.add(this.primaryCssClass + Ch5Sample.COMPONENT_DATA.SIZE.classListPrefix + this.size);
+    this.ch5BackgroundAction(this.videoBGObjJSON(CH5VideoUtils.VIDEO_ACTION.RESIZE));
+    this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.RESIZE);
   }
 
   private handleReceiveStatePlay(value: boolean) {
@@ -1124,8 +1138,8 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   private updateCssClass() {
     this.logger.start('UpdateCssClass');
     super.updateCssClasses();
-    /*  this._elContainer.classList.add(Ch5Sample.COMPONENT_DATA.ASPECT_RATIO.classListPrefix + this.aspectRatio);
-     this._elContainer.classList.add(Ch5Sample.COMPONENT_DATA.SIZE.classListPrefix + this.size); */
+    this._elContainer.classList.add(this.primaryCssClass + Ch5Sample.COMPONENT_DATA.ASPECT_RATIO.classListPrefix + this.aspectRatio.replace(':', '-'));
+    this._elContainer.classList.add(this.primaryCssClass + Ch5Sample.COMPONENT_DATA.SIZE.classListPrefix + this.size);
     this._elContainer.classList.add(this.primaryCssClass);
     this.logger.stop();
   }
