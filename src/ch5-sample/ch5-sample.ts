@@ -444,7 +444,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   private _scrollableElm: HTMLElement = {} as HTMLElement;
 
   private responseObj: TVideoResponse = {} as TVideoResponse;
-  private fullScreenObj: TPosDimension = {} as TPosDimension;
   private sizeObj: TDimension = { width: 0, height: 0 };
   private ch5BackgroundElements: HTMLCollectionOf<Ch5Background> = document.getElementsByTagName('ch5-background') as HTMLCollectionOf<Ch5Background>;
 
@@ -1282,11 +1281,10 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
 
     if (actionType === CH5VideoUtils.VIDEO_ACTION.FULLSCREEN) {
       actionType = CH5VideoUtils.VIDEO_ACTION.RESIZE;
-      this.fullScreenObj = CH5VideoUtils.getFullScreenDimensions(this.aspectRatio, window.innerWidth, window.innerHeight);
-      xPosition = this.fullScreenObj.posX;
-      yPosition = this.fullScreenObj.posY;
-      width = this.fullScreenObj.width;
-      height = this.fullScreenObj.height;
+      xPosition = 0;
+      yPosition = 0;
+      width = window.innerWidth;
+      height = window.innerHeight;
     }
 
     this.lastRequestStatus = actionType;
@@ -1541,14 +1539,14 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
             Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventState)?.publish(7);
           }
         }
-       /*  if (this.responseObj.statusCode) {
-          this._sendEvent(this.sendEventErrorCode, this.responseObj.statusCode, 'number');
-          if (this._videoErrorMessages.has(this.responseObj.statusCode)) {
-            this._sendEvent(this.sendEventErrorMessage, this._videoErrorMessages.get(this.responseObj.statusCode), 'string');
-          } else {
-            this._sendEvent(this.sendEventErrorMessage, "Unknown Error Message", 'string');
-          }
-        } */
+        /*  if (this.responseObj.statusCode) {
+           this._sendEvent(this.sendEventErrorCode, this.responseObj.statusCode, 'number');
+           if (this._videoErrorMessages.has(this.responseObj.statusCode)) {
+             this._sendEvent(this.sendEventErrorMessage, this._videoErrorMessages.get(this.responseObj.statusCode), 'string');
+           } else {
+             this._sendEvent(this.sendEventErrorMessage, "Unknown Error Message", 'string');
+           }
+         } */
         this.lastResponseStatus = CH5VideoUtils.VIDEO_ACTION.ERROR;
         this.lastRequestStatus = CH5VideoUtils.VIDEO_ACTION.EMPTY;
         this.isVideoReady = false;
