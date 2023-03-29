@@ -464,7 +464,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   private fromExitFullScreen: boolean = false;
   private isAlphaBlend: boolean = true;
   private isSwipeDebounce: any;
-  private position: { xPos: number, yPos: number } = { xPos: 0, yPos: 0 };
   private _wasAppBackGrounded: boolean = false;
   private isVideoPublished = false;
   private controlTimer: any;
@@ -1072,8 +1071,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       this._elContainer.classList.remove(this.primaryCssClass + Ch5Sample.COMPONENT_DATA.ASPECT_RATIO.classListPrefix + e.replace(':', '-'));
     });
     this._elContainer.classList.add(this.primaryCssClass + Ch5Sample.COMPONENT_DATA.ASPECT_RATIO.classListPrefix + this.aspectRatio.replace(':', '-'));
-    this.ch5BackgroundAction(this.videoBGObjJSON(CH5VideoUtils.VIDEO_ACTION.RESIZE));
-    this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.RESIZE);
   }
 
   private handleStretch() {
@@ -1086,8 +1083,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       this.style.removeProperty('width');
       this.style.removeProperty('height');
     }
-    this.ch5BackgroundAction(this.videoBGObjJSON(CH5VideoUtils.VIDEO_ACTION.RESIZE));
-    this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.RESIZE);
   }
 
 
@@ -1096,8 +1091,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
       this._elContainer.classList.remove(this.primaryCssClass + Ch5Sample.COMPONENT_DATA.SIZE.classListPrefix + e);
     });
     this._elContainer.classList.add(this.primaryCssClass + Ch5Sample.COMPONENT_DATA.SIZE.classListPrefix + this.size);
-    this.ch5BackgroundAction(this.videoBGObjJSON(CH5VideoUtils.VIDEO_ACTION.RESIZE));
-    this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.RESIZE);
   }
 
   private handleReceiveStatePlay(value: boolean) {
@@ -1214,7 +1207,7 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     }
 
     // During scroll, video goes out of the view port area but still running because of negative values in TSW
-    if ((this.videoTop < 0 || this.videoLeft < 0) && this.lastRequestStatus !== CH5VideoUtils.VIDEO_ACTION.STOP && !this.firstTime) {
+    if ((this._elContainer.getBoundingClientRect().top < 0 || this._elContainer.getBoundingClientRect().left < 0) && this.lastRequestStatus !== CH5VideoUtils.VIDEO_ACTION.STOP && !this.firstTime) {
       this.info(">>> Stopping Video1");
       this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
     }
@@ -1258,21 +1251,10 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
    */
   private calculation(): void {
     if (!this.isFullScreen) {
-      const rect = this.getBoundingClientRect();
-      this.sizeObj = { width: 0, height: 0 };
-      // this.sizeObj = CH5VideoUtils.getAspectRatioForVideo(this.aspectRatio, 'large');
-      if (!this.stretch) {
-        //  Calculation for fixed display size like small, medium large
-        this.sizeObj = CH5VideoUtils.getAspectRatioForVideo(this.aspectRatio, this.size);
-      } else if (this.stretch) {
-        this.sizeObj = CH5VideoUtils.getDisplayWxH(this.aspectRatio, this.clientWidth, this.clientHeight);
-      }
-      this._getSizeAndPositionObj(this.sizeObj, this.clientWidth, this.clientHeight);
-
-      this.videoLeft = rect.left + this.position.xPos;
-      this.videoTop = rect.top + this.position.yPos;
-      this._elContainer.style.width = this.sizeObj.width + "px";
-      this._elContainer.style.height = this.sizeObj.height + "px";
+      this.sizeObj = {
+        width: this._elContainer.getBoundingClientRect().width,
+        height: this._elContainer.getBoundingClientRect().height
+      };
     }
   }
 
@@ -1288,8 +1270,8 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
 
   // Create the Video JSON object to start the video
   public videoStartObjJSON(actionType: string, logInfo: string): ICh5VideoPublishEvent {
-    let xPosition: number = this.videoLeft;
-    let yPosition: number = this.videoTop;
+    let xPosition: number = this._elContainer.getBoundingClientRect().left;
+    let yPosition: number = this._elContainer.getBoundingClientRect().top;
     let width: number = this.sizeObj.width;
     let height: number = this.sizeObj.height;
 
@@ -1603,24 +1585,24 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
         break;
       case CH5VideoUtils.VIDEO_ACTION.REFILL:
         if (this.lastBackGroundRequest !== actionType) {
-          this.ch5BackgroundAction(this.videoBGObjJSON(CH5VideoUtils.VIDEO_ACTION.REFILL));
+          this.ch5BackgroundAction(CH5VideoUtils.VIDEO_ACTION.REFILL);
         } else {
           isActionExecuted = false;
         }
         break;
       case CH5VideoUtils.VIDEO_ACTION.RESIZE:
-        this.ch5BackgroundAction(this.videoBGObjJSON(CH5VideoUtils.VIDEO_ACTION.RESIZE));
+        this.ch5BackgroundAction(CH5VideoUtils.VIDEO_ACTION.RESIZE);
         break;
       case CH5VideoUtils.VIDEO_ACTION.STARTED:
         this.resetVideoElement();
         this.snapshotImage.stopLoadingSnapshot();
         // this.firstTime = false;
-        this.ch5BackgroundAction(this.videoBGObjJSON(CH5VideoUtils.VIDEO_ACTION.STARTED));
+        this.ch5BackgroundAction(CH5VideoUtils.VIDEO_ACTION.STARTED);
         break;
       case CH5VideoUtils.VIDEO_ACTION.STOP:
         if (this.elementIsInViewPort) {
           this.resetVideoElement();
-          this.ch5BackgroundAction(this.videoBGObjJSON(CH5VideoUtils.VIDEO_ACTION.STOP));
+          this.ch5BackgroundAction(CH5VideoUtils.VIDEO_ACTION.STOP);
         } else {
           isActionExecuted = false;
         }
@@ -1643,18 +1625,19 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     this.lastBackGroundRequest = isActionExecuted ? actionType : this.lastBackGroundRequest;
   }
 
-  // Function to calculate the position based on the requested dimensions
-  private _getSizeAndPositionObj(sizeObj: TDimension, sWidth: number, sHeight: number) {
-    if (sizeObj.width < sWidth) {
-      this.position = CH5VideoUtils.calculatePillarBoxPadding(sWidth, sizeObj.width);
-    } else if (sizeObj.height < sHeight) {
-      this.position = CH5VideoUtils.calculateLetterBoxPadding(sHeight, sizeObj.height);
-    }
-    return this.position;
-  }
-
   // This will call the methods in ch5-background component @param videoInfo send the video id, size and position details
-  private ch5BackgroundAction(videoInfo: ICh5VideoBackground) {
+  private ch5BackgroundAction(actionStatus: string) {
+
+    const videoInfo: ICh5VideoBackground = {
+      action: actionStatus,
+      id: this.videoTagId,
+      top: this._elContainer.getBoundingClientRect().top,
+      left: this._elContainer.getBoundingClientRect().left,
+      width: this.sizeObj.width,
+      height: this.sizeObj.height,
+      image: {} as HTMLImageElement
+    };
+
     // avoid calls before proper initialization
     if (videoInfo.width <= 0 || videoInfo.height <= 0 || videoInfo.id === '') {
       return;
@@ -1679,20 +1662,6 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
     this._elContainer.style.background = isShowVideoBehind ? 'transparent' : 'black';
   }
 
-  // Create the Video JSON object to send the video for background
-  private videoBGObjJSON(actionStatus: string): ICh5VideoBackground {
-    const retObj: ICh5VideoBackground = {
-      "action": actionStatus,
-      "id": this.videoTagId,
-      "top": this.videoTop,
-      "left": this.videoLeft,
-      "width": this.sizeObj.width,
-      "height": this.sizeObj.height,
-      "image": {} as HTMLImageElement
-    };
-    console.log('videoBGObjJSON-->', JSON.stringify(retObj));
-    return retObj;
-  }
 
   // Delete any elements other than control panel element
   private resetVideoElement() {
@@ -1803,15 +1772,15 @@ export class Ch5Sample extends Ch5Common implements ICh5SampleAttributes {
   // The user scroll in iOS takes time to settle, sometimes soon sometimes late. The pre-cut will have a problem.
   private _observePositionChangesAfterScrollEnds() {
     this.info('Ch5Video.observePositionChangesAfterScrollEnds()');
-    if (this.previousXPos !== this.videoLeft || this.previousYPos !== this.videoTop) {
+    if (this.previousXPos !== this._elContainer.getBoundingClientRect().left || this.previousYPos !== this._elContainer.getBoundingClientRect().top) {
       if (this.lastBackGroundRequest !== CH5VideoUtils.VIDEO_ACTION.REFILL) {
         this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL, 'observePositionChangesAfterScrollEnds');
       }
     }
     if (this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.STARTED || this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.RESIZED) {
       this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.RESIZE);
-      this.previousXPos = this.videoLeft;
-      this.previousYPos = this.videoTop;
+      this.previousXPos = this._elContainer.getBoundingClientRect().left;
+      this.previousYPos = this._elContainer.getBoundingClientRect().top;
     }
   }
 
