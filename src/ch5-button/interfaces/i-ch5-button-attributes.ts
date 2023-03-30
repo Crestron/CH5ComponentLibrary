@@ -18,7 +18,9 @@ import {
   TCh5ButtonVerticalAlignLabel,
   TCh5ButtonCheckboxPosition,
   TCh5ButtonBackgroundImageFillType,
-  TCh5ButtonIconUrlFillType
+  TCh5ButtonIconUrlFillType,
+  TCh5ButtonHorizontalIconAlign,
+  TCh5ButtonVerticalIconAlign
 } from "./t-ch5-button";
 
 /**
@@ -456,6 +458,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @attributeType "String"
    */
   backgroundImageUrl: string;
+
   /**
    * @documentation
    * [
@@ -468,18 +471,46 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @attributeType "EnumeratedValue"
    */
   backgroundImageFillType: TCh5ButtonBackgroundImageFillType;
+
   /**
-  * @documentation
-  * [
-  * "`iconUrlFillType` attribute",
-  * "***",
-  * "Sets the icon url fill type. Enum - Default value is 'null'. Applicable values are 'null(default)', 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'. Uses the css property background-size for the implementation."
-  * ]
-  * @name iconurlfilltype
-  * @default null
-  * @attributeType "EnumeratedValue"
-  */
+   * @documentation
+   * [
+   * "`iconUrlFillType` attribute",
+   * "***",
+   * "Sets the icon url fill type. Default value is 'null'. Applicable values are 'null(default)', 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'. Uses the css property background-size for the implementation."
+   * ]
+   * @name iconurlfilltype
+   * @default null
+   * @attributeType "EnumeratedValue"
+   */
   iconUrlFillType: TCh5ButtonIconUrlFillType | null;
+
+  /**
+   * @documentation
+   * [
+   * "`hAlignIcon` attribute",
+   * "***",
+   * "Sets the horizontal icon alignment. Default value for hAlignIcon is left. Possible values are left(default), center, right. Uses the css property background-position for the implementation."
+   * ]
+   * @name halignicon
+   * @default left
+   * @attributeType "EnumeratedValue"
+   */
+  hAlignIcon: TCh5ButtonHorizontalIconAlign;
+
+  /**
+   * @documentation
+   * [
+   * "`vAlignIcon` attribute",
+   * "***",
+   * "Sets the vertical icon alignment. Default value for vAlignIcon is top. Possible values are top(default), middle, bottom. Uses the css property background-position for the implementation."
+   * ]
+   * @name valignicon
+   * @default top
+   * @attributeType "EnumeratedValue"
+   */
+  vAlignIcon: TCh5ButtonVerticalIconAlign;
+  
   /**
    * @documentation
    * [

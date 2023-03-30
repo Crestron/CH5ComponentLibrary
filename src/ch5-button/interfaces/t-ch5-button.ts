@@ -44,5 +44,6 @@ export type TCh5ButtonBackgroundImageFillType = 'stretch' | 'stretch-aspect' | '
 
 export type TCh5ButtonIconUrlFillType = 'stretch' | 'stretch-aspect' | 'center' | 'tile' | 'initial';
 
-export type TCh5ButtonHorizontalIconAlign = 'center' | 'left' | 'right';
+export type TCh5ButtonHorizontalIconAlign = 'left' | 'center' | 'right';
 
+export type TCh5ButtonVerticalIconAlign = 'top' | 'middle' | 'bottom';

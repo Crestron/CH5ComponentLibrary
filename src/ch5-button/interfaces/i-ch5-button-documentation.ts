@@ -125,9 +125,11 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *       "\tselected=\"${30}\"",
  *       "\tpressed=\"${31}\"",
  *       "\tbackgroundImageUrl=\"${32:}\"",
- *       "\tbackgroundImageFillType=\"${33:stretch}\"",
- *       "\ticonUrlFillType=\"${34:}\"",
- *       "\treceiveStateBackgroundImageUrl=\"${35:}\">",
+ *       "\tbackgroundImageFillType=\"${33|stretch, stretch-aspect, center, tile|}\"",
+ *       "\ticonUrlFillType=\"${34|null, stretch, stretch-aspect, center, tile, initial|}\"",
+ *       "\thAlignIcon=\"${35|left, center, right|}\"",
+ *       "\tvAlignIcon=\"${36|top, middle, bottom|}\"",
+ *       "\treceiveStateBackgroundImageUrl=\"${37:}\">",
  *       "</ch5-button>$0"
  *       ]
  *    }
