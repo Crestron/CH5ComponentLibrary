@@ -12,7 +12,6 @@ export interface ICh5TabButtonIndividualButtonAttributes {
    * @name labelinnerhtml
    * @default 
    * @attributeType "String"
-   * @applicableToListItem true
    */
   labelInnerHTML: string;
   /**
@@ -25,7 +24,6 @@ export interface ICh5TabButtonIndividualButtonAttributes {
    * @name iconurl
    * @default 
    * @attributeType "String"
-   * @applicableToListItem true
    */
   iconUrl: string;
   /**
@@ -38,7 +36,6 @@ export interface ICh5TabButtonIndividualButtonAttributes {
    * @name iconclass
    * @default 
    * @attributeType "String"
-   * @applicableToListItem true
    */
   iconClass: string;
   /**
@@ -51,7 +48,6 @@ export interface ICh5TabButtonIndividualButtonAttributes {
    * @name onrelease
    * @default 
    * @attributeType "String"
-   * @applicableToListItem true
    */
   onRelease: string;
 }

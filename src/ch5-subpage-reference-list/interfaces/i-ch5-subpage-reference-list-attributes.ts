@@ -15,7 +15,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
   * @name orientation
   * @default horizontal
   * @attributeType "EnumeratedValue"
-  * @applicableToListItem false
   */
   orientation: TCh5SubpageReferenceListOrientation;
   /**
@@ -28,7 +27,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * @name contractname
    * @default 
    * @attributeType "String"
-   * @applicableToListItem false
    */
   contractName: string;
   /**
@@ -41,7 +39,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * @name usecontractforenable
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem false
    */
   useContractForEnable: boolean;
   /**
@@ -54,7 +51,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * @name usecontractforshow
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem false
    */
   useContractForShow: boolean;
   /**
@@ -67,7 +63,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * @name usecontractforitemenable
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem true
    */
   useContractForItemEnable: boolean;
   /**
@@ -80,7 +75,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * @name usecontractforitemshow
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem true
    */
   useContractForItemShow: boolean;
   /**
@@ -93,7 +87,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * @name usecontractforcustomstyle
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem false
    */
   useContractForCustomStyle: boolean;
   /**
@@ -106,7 +99,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * @name usecontractforcustomclass
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem false
    */
   useContractForCustomClass: boolean;
   /**
@@ -119,7 +111,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * @name usecontractfornumitems
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem false
    */
   useContractForNumItems: boolean;
   /**
@@ -132,7 +123,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * @name endless
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem false
    */
   endless: boolean;
   /**
@@ -145,7 +135,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * @name centeritems
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem false
    */
   centerItems: boolean;
   /**
@@ -160,7 +149,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * @limits [{"min": 1, "max": 600}]
    * @attributeType "Integer"
    * @showWhen [{"orientation":"horizontal"}]
-   * @applicableToListItem false
    */
   rows: number;
   /**
@@ -175,7 +163,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * @limits [{"min": 1, "max": 600}]
    * @attributeType "Integer"
    * @showWhen [{"orientation":"vertical"}]
-   * @applicableToListItem false
    */
   columns: number;
   /**
@@ -189,7 +176,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
   * @default 0   
   * @limits [{"min": 0, "max": 599}]
   * @attributeType "Integer"
-  * @applicableToListItem false
   */
   scrollToPosition: number;
   /**
@@ -202,7 +188,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * @name scrollbar
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem false
    */
   scrollbar: boolean;
   /**
@@ -214,7 +199,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * ]
    * @name booleanjoinincrement
    * @attributeType "Integer"
-   * @applicableToListItem false
    */
   booleanJoinIncrement: string;
   /**
@@ -226,7 +210,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * ]
    * @name numericjoinincrement
    * @attributeType "Integer"
-   * @applicableToListItem false
    */
   numericJoinIncrement: string;
   /**
@@ -238,7 +221,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * ]
    * @name stringjoinincrement
    * @attributeType "Integer"
-   * @applicableToListItem false
    */
   stringJoinIncrement: string;
   /**
@@ -277,7 +259,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * @name widgetid
    * @default 
    * @attributeType "String"
-   * @applicableToListItem false
    */
   widgetId: string;
   /**
@@ -290,7 +271,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * @name subpagereceivestatescrollto
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    * @attributeType "Join"
-   * @applicableToListItem false
    */
   subpageReceiveStateScrollTo: string;
 
@@ -303,7 +283,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * ]
    * @name stretch
    * @attributeType "EnumeratedValue"
-   * @applicableToListItem false
    */
   stretch: TCh5SubpageReferenceListStretch | null;
 
@@ -318,7 +297,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * @default 10
    * @limits [{"min": 1, "max": 600}]
    * @attributeType "Integer"
-   * @applicableToListItem false
    */
   numberOfItems: number;
   /**
@@ -331,7 +309,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * @name receivestatenumberofitems
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    * @attributeType "Join"
-   * @applicableToListItem false
    */
   receiveStateNumberOfItems: string;
 
@@ -344,7 +321,6 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * ]
    * @name indexid
    * @attributeType "String"
-   * @applicableToListItem false
    */
   indexId: string;
 

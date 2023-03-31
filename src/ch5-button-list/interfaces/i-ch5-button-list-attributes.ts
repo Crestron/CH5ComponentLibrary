@@ -15,7 +15,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
  * @name orientation
  * @default horizontal
  * @attributeType "EnumeratedValue"
- * @applicableToListItem false
  */
   orientation: TCh5ButtonListAttributesOrientation;
   /**
@@ -28,7 +27,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name scrollbar
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem false
    */
   scrollbar: boolean;
   /**
@@ -41,7 +39,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name centeritems
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem false
    */
   centerItems: boolean;
   /**
@@ -54,7 +51,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name stretch
    * @default null
    * @attributeType "EnumeratedValue"
-   * @applicableToListItem false
    */
   stretch: TCh5ButtonListAttributesStretch | null;
   /**
@@ -67,7 +63,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name endless
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem false
    */
   endless: boolean;
   /**
@@ -81,7 +76,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   * @default 10
   * @limits [{"min": 1, "max": 500}]
   * @attributeType "Integer"
-  * @applicableToListItem false
   */
   numberOfItems: number;
   /**
@@ -96,7 +90,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @limits [{"min": 1, "max": 500}]
    * @attributeType "Integer"
    * @showWhen [{"orientation":"horizontal"}]
-   * @applicableToListItem false
    */
   rows: number;
   /**
@@ -111,7 +104,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @limits [{"min": 1, "max": 500}]
    * @attributeType "Integer"
    * @showWhen [{"orientation":"vertical"}]
-   * @applicableToListItem false
    */
   columns: number;
   /**
@@ -123,7 +115,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * ]
    * @name indexid
    * @attributeType "String"
-   * @applicableToListItem false
    */
   indexId: string;
   /**
@@ -136,7 +127,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name receivestatenumberofitems
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    * @attributeType "Join"
-   * @applicableToListItem false
    */
   receiveStateNumberOfItems: string;
   /**
@@ -150,7 +140,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   * @default 0
   * @limits [{"min": 0, "max": 499}]
   * @attributeType "Integer"
-  * @applicableToListItem false
   */
   scrollToPosition: number;
   /**
@@ -163,7 +152,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name receivestatescrolltoposition
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    * @attributeType "Join"
-   * @applicableToListItem false
    */
   receiveStateScrollToPosition: string;
   /**
@@ -176,7 +164,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name contractname
    * @default 
    * @attributeType "String"
-   * @applicableToListItem false
    */
   contractName: string;
   /**
@@ -189,7 +176,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name usecontractforenable
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem false
    */
   useContractForEnable: boolean;
   /**
@@ -202,7 +188,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name usecontractforshow
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem false
    */
   useContractForShow: boolean;
   /**
@@ -215,7 +200,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name usecontractforitemenable
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem true
    */
   useContractForItemEnable: boolean;
   /**
@@ -228,7 +212,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name usecontractforitemshow
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem true
    */
   useContractForItemShow: boolean;
   /**
@@ -241,7 +224,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name usecontractforcustomstyle
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem false
    */
   useContractForCustomStyle: boolean;
   /**
@@ -254,7 +236,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name usecontractforcustomclass
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem false
    */
   useContractForCustomClass: boolean;
   /**
@@ -267,7 +248,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name contractitemlabeltype
    * @default none
    * @attributeType "EnumeratedValue"
-   * @applicableToListItem true
    */
   contractItemLabelType: TCh5ButtonListContractItemLabelType;
   /**
@@ -280,7 +260,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   * @name contractitemicontype
   * @default none
   * @attributeType "EnumeratedValue"
-  * @applicableToListItem true
   */
   contractItemIconType: TCh5ButtonListContractItemIconType;
   /**
@@ -293,7 +272,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   * @name usecontractfornumitems
   * @default false
   * @attributeType "Boolean"
-  * @applicableToListItem false
   */
   useContractForNumItems: boolean;
   /**
@@ -306,7 +284,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   * @name buttontype
   * @default default
   * @attributeType "EnumeratedValue"
-  * @applicableToListItem true
   */
   buttonType: TCh5ButtonListButtonType;
   /**
@@ -319,7 +296,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   * @name buttonhalignlabel
   * @default center
   * @attributeType "EnumeratedValue"
-  * @applicableToListItem true
   */
   buttonHAlignLabel: TCh5ButtonListButtonHAlignLabel;
   /**
@@ -332,7 +308,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   * @name buttonvalignlabel
   * @default middle
   * @attributeType "EnumeratedValue"
-  * @applicableToListItem true
   */
   buttonVAlignLabel: TCh5ButtonListButtonVAlignLabel;
   /**
@@ -346,7 +321,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   * @default left
   * @attributeType "EnumeratedValue"
   * @showWhen [{"buttonCheckboxShow":true}]
-  * @applicableToListItem true
   */
   buttonCheckboxPosition: TCh5ButtonListButtonCheckboxPosition;
   /**
@@ -359,7 +333,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   * @name buttoniconposition
   * @default first
   * @attributeType "EnumeratedValue"
-  * @applicableToListItem true
   */
   buttonIconPosition: TCh5ButtonListButtonIconPosition;
   /**
@@ -372,7 +345,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   * @name buttonshape
   * @default rectangle
   * @attributeType "EnumeratedValue"
-  * @applicableToListItem true
   */
   buttonShape: TCh5ButtonListButtonShape;
   /**
@@ -385,7 +357,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttoncheckboxshow
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem true
    */
   buttonCheckboxShow: boolean;
   /**
@@ -398,7 +369,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttonselected
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem true
    */
   buttonSelected: boolean;
   /**
@@ -411,7 +381,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttonpressed
    * @default false
    * @attributeType "Boolean"
-   * @applicableToListItem true
    */
   buttonPressed: boolean;
   /**
@@ -425,7 +394,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @default 0
    * @limits [{"min": 0, "max": 4}]
    * @attributeType "Integer"
-   * @applicableToListItem true
    */
   buttonMode: number;
   /**
@@ -438,7 +406,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttoniconclass
    * @default 
    * @attributeType "String"
-   * @applicableToListItem true
    */
   buttonIconClass: string;
   /**
@@ -451,7 +418,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttoniconurl
    * @default 
    * @attributeType "String"
-   * @applicableToListItem true
    */
   buttonIconUrl: string;
   /**
@@ -464,7 +430,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttonlabelinnerhtml
    * @attributeType "EncodedHTML"
    * @hidden true
-   * @applicableToListItem true
    */
   buttonLabelInnerHtml: string;
   /**
@@ -595,7 +560,6 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @default 1500
    * @limits [{"min": 300, "max": 30000}]
    * @attributeType "Integer"
-   * @applicableToListItem true
    */
   clickHoldTime: number;
 }
