@@ -15,6 +15,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name orientation
    * @default horizontal
    * @attributeType "EnumeratedValue"
+   * @applicableToListItem false
    */
   orientation: TCh5TabButtonAttributesOrientation;
   /**
@@ -28,6 +29,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @default 3
    * @limits [{"min": 2, "max": 15}]
    * @attributeType "Integer"
+   * @applicableToListItem false
    */
   numberOfItems: number;
   /**
@@ -39,6 +41,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * ]
    * @name indexid
    * @attributeType "String"
+   * @applicableToListItem false
    */
   indexId: string;
   /**
@@ -51,6 +54,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttontype
    * @default default
    * @attributeType "EnumeratedValue"
+   * @applicableToListItem true
    */
   buttonType: TCh5TabButtonButtonType;
   /**
@@ -63,6 +67,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonhalignlabel
    * @default center
    * @attributeType "EnumeratedValue"
+   * @applicableToListItem true
    */
   buttonHAlignLabel: TCh5TabButtonButtonHAlignLabel;
   /**
@@ -75,6 +80,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonvalignlabel
    * @default middle
    * @attributeType "EnumeratedValue"
+   * @applicableToListItem true
    */
   buttonVAlignLabel: TCh5TabButtonButtonVAlignLabel;
   /**
@@ -87,6 +93,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttoniconposition
    * @default first
    * @attributeType "EnumeratedValue"
+   * @applicableToListItem true
    */
   buttonIconPosition: TCh5TabButtonButtonIconPosition;
   /**
@@ -99,6 +106,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonshape
    * @default rectangle
    * @attributeType "EnumeratedValue"
+   * @applicableToListItem true
    */
   buttonShape: TCh5TabButtonButtonShape;
   /**
@@ -111,6 +119,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonselected
    * @default false
    * @attributeType "Boolean"
+   * @applicableToListItem true
    */
   buttonSelected: boolean;
   /**
@@ -123,6 +132,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonpressed
    * @default false
    * @attributeType "Boolean"
+   * @applicableToListItem true
    */
   buttonPressed: boolean;
   /**
@@ -135,6 +145,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttoniconclass
    * @default 
    * @attributeType "String"
+   * @applicableToListItem true
    */
   buttonIconClass: string;
   /**
@@ -147,6 +158,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttoniconurl
    * @default 
    * @attributeType "String"
+   * @applicableToListItem true
    */
   buttonIconUrl: string;
   /**
@@ -159,6 +171,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonreceivestateselected
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateSelected: string;
   /**
@@ -171,6 +184,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonreceivestatelabel
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateLabel: string;
   /**
@@ -183,6 +197,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonreceivestatescriptlabelhtml
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateScriptLabelHtml: string;
   /**
@@ -195,6 +210,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonreceivestateiconclass
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateIconClass: string;
   /**
@@ -207,6 +223,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonreceivestateiconurl
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateIconUrl: string;
   /**
@@ -219,6 +236,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonsendeventonclick
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonSendEventOnClick: string;
   /**
@@ -231,6 +249,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonreceivestateshow
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateShow: string;
   /**
@@ -243,6 +262,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonreceivestateenable
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateEnable: string;
   /**
@@ -255,6 +275,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name contractname
    * @default 
    * @attributeType "String"
+   * @applicableToListItem false
    */
   contractName: string;
   /**
@@ -267,6 +288,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name usecontractforenable
    * @default false
    * @attributeType "Boolean"
+   * @applicableToListItem false
    */
   useContractForEnable: boolean;
   /**
@@ -279,6 +301,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name usecontractforshow
    * @default false
    * @attributeType "Boolean"
+   * @applicableToListItem false
    */
   useContractForShow: boolean;
   /**
@@ -291,6 +314,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name usecontractforcustomstyle
    * @default false
    * @attributeType "Boolean"
+   * @applicableToListItem false
    */
   useContractForCustomStyle: boolean;
   /**
@@ -303,6 +327,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name usecontractforcustomclass
    * @default false
    * @attributeType "Boolean"
+   * @applicableToListItem false
    */
   useContractForCustomClass: boolean;
 }
