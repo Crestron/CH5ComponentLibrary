@@ -49,8 +49,8 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * "The default value is null. Valid values are null and 'both'. NOTE: stretch is set to null whenever there are multiple rows and columns. Stretch attribute is set to both will take more priority than centerItems attribute."
    * ]
    * @name stretch
-   * @default false
-   * @attributeType "Boolean"
+   * @default null
+   * @attributeType "EnumeratedValue"
    */
   stretch: TCh5ButtonListAttributesStretch | null;
   /**
@@ -442,6 +442,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttonreceivestatemode
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateMode: string;
   /**
@@ -454,6 +455,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttonreceivestateselected
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateSelected: string;
   /**
@@ -466,6 +468,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttonreceivestatelabel
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateLabel: string;
   /**
@@ -478,6 +481,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttonreceivestatescriptlabelhtml
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateScriptLabelHtml: string;
   /**
@@ -490,6 +494,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttonreceivestateiconclass
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateIconClass: string;
   /**
@@ -502,6 +507,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttonreceivestateiconurl
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateIconUrl: string;
   /**
@@ -514,6 +520,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttonsendeventonclick
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonSendEventOnClick: string;
   /**
@@ -526,6 +533,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   * @name buttonreceivestateshow
   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
   * @attributeType "Join"
+  * @applicableToListItem true
   */
   buttonReceiveStateShow: string;
   /**
@@ -538,6 +546,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttonreceivestateenable
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateEnable: string;
   /**

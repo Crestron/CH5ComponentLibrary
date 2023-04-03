@@ -233,6 +233,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * @name subpagereceivestateenable
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   subpageReceiveStateEnable: string;
   /**
@@ -245,6 +246,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * @name subpagereceivestateshow
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   subpageReceiveStateShow: string;
   /**

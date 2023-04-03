@@ -159,6 +159,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonreceivestateselected
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateSelected: string;
   /**
@@ -171,6 +172,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonreceivestatelabel
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateLabel: string;
   /**
@@ -183,6 +185,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonreceivestatescriptlabelhtml
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateScriptLabelHtml: string;
   /**
@@ -195,6 +198,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonreceivestateiconclass
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateIconClass: string;
   /**
@@ -207,6 +211,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonreceivestateiconurl
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateIconUrl: string;
   /**
@@ -219,6 +224,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonsendeventonclick
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonSendEventOnClick: string;
   /**
@@ -231,6 +237,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonreceivestateshow
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateShow: string;
   /**
@@ -243,6 +250,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @name buttonreceivestateenable
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateEnable: string;
   /**
