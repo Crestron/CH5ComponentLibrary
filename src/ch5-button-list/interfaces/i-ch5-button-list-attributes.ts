@@ -6,17 +6,18 @@ import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonLi
  */
 export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes {
   /**
- * @documentation
- * [
- * "`orientation` attribute",
- * "***",
- * "The default value is 'horizontal'. Valid values: 'horizontal' or 'vertical'. Positions the list elements in a horizontal or vertical orientation."
- * ]
- * @name orientation
- * @default horizontal
- * @attributeType "EnumeratedValue"
- */
+   * @documentation
+   * [
+   * "`orientation` attribute",
+   * "***",
+   * "The default value is 'horizontal'. Valid values: 'horizontal' or 'vertical'. Positions the list elements in a horizontal or vertical orientation."
+   * ]
+   * @name orientation
+   * @default horizontal
+   * @attributeType "EnumeratedValue"
+   */
   orientation: TCh5ButtonListAttributesOrientation;
+  
   /**
    * @documentation
    * [
@@ -538,6 +539,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttonreceivestateenable
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateEnable: string;
   /**
