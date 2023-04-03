@@ -174,6 +174,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	//#endregion
 
 	//#region 1.2 private / protected variables
+
 	private _ch5Properties: Ch5Properties;
 
 	// state specific vars
@@ -327,7 +328,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			}
 		});
 		customElements.whenDefined('ch5-dpad').then(() => {
-			// create element
 			if (!this._wasInstatiated) {
 				this.createHtmlElements();
 			}
@@ -347,7 +347,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	/**
 	 * Called every time the element is removed from the DOM.
-	 * Useful for running clean up code.
 	 */
 	public disconnectedCallback() {
 		this.removeEvents();
@@ -409,7 +408,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		this.logger.start('createHtmlElements', Ch5Dpad.ELEMENT_NAME);
 
 		this.classList.add(this.primaryCssClass);
-
 		const childItemsContainer = this.children as HTMLCollection;
 
 		if (childItemsContainer.length === 0 || childItemsContainer[0].children.length === 0) {
@@ -578,7 +576,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	}
 
 	/**
-	 * Function to check if the tags are sequenced in the right/expected order
+	 * Check if the tags are sequenced in the right/expected order
 	 * @param childItems 
 	 * @returns true if the order is correct [order of appending is --- center, up, left/right, right/left, down]
 	 */
