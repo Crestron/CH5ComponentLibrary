@@ -71,12 +71,13 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		},
 		{
 			default: "",
+			isSignal: true,
 			name: "sendEventOnClick",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true
-		},
+		}
 	];
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
@@ -151,7 +152,9 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	}
 
 	public set key(value: TCh5DpadChildButtonType) {
-		this._ch5Properties.set<TCh5DpadChildButtonType>("key", value);
+		this._ch5Properties.set<TCh5DpadChildButtonType>("key", value, () => {
+			this.handleKey();
+		});
 	}
 	public get key() {
 		return this._ch5Properties.get<TCh5DpadChildButtonType>("key");
@@ -557,9 +560,21 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	}
 
 	private handleLabel() {
-		this._icon.classList.remove('dpad-btn-icon', 'fas', Ch5DpadButton.DEFAULT_ICONS.center);
-		this._icon.classList.add("dpad-btn-label");
-		this._icon.innerHTML = this.label;
+		if (this._icon.innerHTML !== undefined) {
+			this._icon.classList.remove('dpad-btn-icon', 'fas', Ch5DpadButton.DEFAULT_ICONS.center);
+			this._icon.classList.add("dpad-btn-label");
+			this._icon.innerHTML = this.label;
+		}
+	}
+
+	private handleKey() {
+		CH5DpadUtils.createIconTag(this);
+		this.initializeParams({
+			primaryTagClass: this.key as TCh5DpadChildButtonType,
+			defaultIconClass: Ch5DpadButton.DEFAULT_ICONS[this.key as TCh5DpadChildButtonType],
+			defaultArrowClass: this.key === 'center' ? '' : 'direction-btn',
+			btnType: this.key as TCh5DpadChildButtonType
+		});
 	}
 
 	private handleIconClass(prevValue: string) {
