@@ -157,7 +157,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			key: 'size',
 			attribute: 'size',
 			classListPrefix: Ch5Dpad.CSS_CLASS_PREFIX_SIZE
-		},
+		}
 	};
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
@@ -264,7 +264,12 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	public set useContractForEnable(value: boolean) {
 		this._ch5Properties.set<string>("useContractForEnable", value, () => {
-			this.handleUseContractForEnable(value);
+			const contractName = this.contractName;
+			if (contractName.length > 0) {
+				if (this.useContractForEnable === true) {
+					this.receiveStateEnable = contractName + '.Enable';
+				}
+			}	
 		});
 	}
 	public get useContractForEnable(): boolean {
@@ -273,7 +278,12 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	public set useContractForShow(value: boolean) {
 		this._ch5Properties.set<boolean>("useContractForShow", value, () => {
-			this.handleUseContractForShow(value);
+			const contractName = this.contractName;
+			if (contractName.length > 0) {
+				if (this.useContractForShow === true) {
+					this.receiveStateShow = contractName + '.Show';
+				}
+			}
 		});
 	}
 	public get useContractForShow(): boolean {
@@ -282,7 +292,12 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	public set useContractForCustomStyle(value: boolean) {
 		this._ch5Properties.set<boolean>("useContractForCustomStyle", value, () => {
-			this.handleUseContractForCustomStyle(value);
+			const contractName = this.contractName;
+			if (contractName.length > 0) {
+				if (this.useContractForCustomStyle === true) {
+					this.receiveStateCustomStyle = contractName + '.CustomStyle';
+				}
+			}	
 		});
 	}
 	public get useContractForCustomStyle(): boolean {
@@ -291,7 +306,12 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	public set useContractForCustomClass(value: boolean) {
 		this._ch5Properties.set<boolean>("useContractForCustomClass", value, () => {
-			this.handleUseContractForCustomClass(value);
+			const contractName = this.contractName;
+			if (contractName.length > 0) {
+				if (this.useContractForCustomClass === true) {
+					this.receiveStateCustomClass = contractName + '.CustomClass';
+				}
+			}	
 		});
 	}
 	public get useContractForCustomClass(): boolean {
@@ -338,8 +358,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 			// required post initial setup
 			this.stretchHandler();
-
-			this.contractDefaultHelper();
 		});
 
 		this.logger.stop();
@@ -685,115 +703,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		this.updateHtmlElements();
 		this.updateCssClasses();
 		this.logger.stop();
-	}
-
-	private handleUseContractForEnable(value: boolean) {
-		const isUseContractForEnable = this.toBoolean(value);
-		const contractName = this.contractName;
-
-		if (contractName.length > 0 && (this.useContractForEnable !== isUseContractForEnable)) {
-			this.contractDefaultHelper();
-			const sigVal = contractName + "Enable";
-			const params: TCh5CreateReceiveStateSigParams = {
-				caller: this,
-				attrKey: 'useContractForEnable',
-				value: sigVal,
-				callbackOnSignalReceived: (newValue: string | boolean) => {
-					newValue = (!isUseContractForEnable).toString();
-					ComponentHelper.setAttributeToElement(this, 'disabled', newValue);
-				}
-			};
-			this.setValueForReceiveStateBoolean(params);
-		}
-	}
-
-	private handleUseContractForShow(value: boolean) {
-		const isUseContractForShow = this.toBoolean(value);
-		const contractName = this.contractName;
-
-		if (contractName.length > 0 && (this.useContractForShow !== isUseContractForShow)) {
-			this.contractDefaultHelper();
-			const sigVal = contractName + "Show";
-			const params: TCh5CreateReceiveStateSigParams = {
-				caller: this,
-				attrKey: 'useContractForShow',
-				value: sigVal,
-				callbackOnSignalReceived: (newValue: string | boolean) => {
-					newValue = (!newValue).toString();
-					ComponentHelper.setAttributeToElement(this, 'show', newValue);
-				}
-			};
-			this.setValueForReceiveStateBoolean(params);
-		}
-	}
-
-	private handleUseContractForCustomStyle(value: boolean) {
-		const isUseContractForCustomStyle = this.toBoolean(value);
-		const contractName = this.contractName;
-
-		if (contractName.length > 0 && (this.useContractForCustomStyle !== isUseContractForCustomStyle)) {
-			this.contractDefaultHelper();
-			const sigVal = contractName + "CustomStyle";
-			const params: TCh5CreateReceiveStateSigParams = {
-				caller: this,
-				attrKey: 'useContractForCustomStyle',
-				value: sigVal,
-				callbackOnSignalReceived: (newValue: string | boolean) => {
-					newValue = newValue as string;
-					this.customStyle = newValue;
-				}
-			};
-			this.setValueForReceiveStateString(params);
-		}
-	}
-
-	private handleUseContractForCustomClass(value: boolean) {
-		const isUseContractForCustomClass = this.toBoolean(value);
-		const contractName = this.contractName;
-
-		if (contractName.length > 0 && (this.useContractForCustomClass !== isUseContractForCustomClass)) {
-			this.contractDefaultHelper();
-			const sigVal = contractName + "CustomClass";
-			const params: TCh5CreateReceiveStateSigParams = {
-				caller: this,
-				attrKey: 'useContractForCustomClass',
-				value: sigVal,
-				callbackOnSignalReceived: (newValue: string | boolean) => {
-					newValue = newValue as string;
-					this.customClass = newValue;
-				}
-			};
-			this.setValueForReceiveStateString(params);
-		}
-	}
-
-	private contractDefaultHelper() {
-		const contractName = this.contractName;
-		if (!_.isNil(contractName) && contractName !== "") {
-			if (this.getAttribute("useContractForCustomStyle") === "true") {
-				this.setAttribute("receiveStateCustomStyle", contractName + '.CustomStyle');
-			} else {
-				this.removeAttribute("receiveStateCustomStyle");
-			}
-
-			if (this.getAttribute("useContractForCustomClass") === "true") {
-				this.setAttribute("receiveStateCustomClass", contractName + '.CustomClass');
-			} else {
-				this.removeAttribute("receiveStateCustomClass");
-			}
-
-			if (this.getAttribute("useContractForEnable") === "true") {
-				this.setAttribute("receiveStateEnable", contractName + '.Enable');
-			} else {
-				this.removeAttribute("receiveStateEnable");
-			}
-
-			if (this.getAttribute("useContractForShow") === "true") {
-				this.setAttribute("receiveStateShow", contractName + '.Show');
-			} else {
-				this.removeAttribute("receiveStateShow");
-			}
-		}
 	}
 
 	/**
