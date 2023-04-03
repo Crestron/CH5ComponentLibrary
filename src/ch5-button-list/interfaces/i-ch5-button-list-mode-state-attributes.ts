@@ -14,7 +14,6 @@ export interface ICh5ButtonListModeStateAttributes {
   * @name state
   * @default normal
   * @attributeType "EnumeratedValue"
-  * @applicableToListItem true
   */
   state: TCh5ButtonListButtonModeState;
   /**
@@ -27,7 +26,6 @@ export interface ICh5ButtonListModeStateAttributes {
   * @name type
   * @default default
   * @attributeType "EnumeratedValue"
-  * @applicableToListItem true
   */
   type: TCh5ButtonListButtonType;
   /**
@@ -40,7 +38,6 @@ export interface ICh5ButtonListModeStateAttributes {
   * @name halignlabel
   * @default center
   * @attributeType "EnumeratedValue"
-  * @applicableToListItem true
   */
   hAlignLabel: TCh5ButtonListButtonHAlignLabel;
   /**
@@ -53,7 +50,6 @@ export interface ICh5ButtonListModeStateAttributes {
   * @name valignlabel
   * @default middle
   * @attributeType "EnumeratedValue"
-  * @applicableToListItem true
   */
   vAlignLabel: TCh5ButtonListButtonVAlignLabel;
   /**
@@ -66,7 +62,6 @@ export interface ICh5ButtonListModeStateAttributes {
   * @name checkboxposition
   * @default left
   * @attributeType "EnumeratedValue"
-  * @applicableToListItem true
   */
   checkboxPosition: TCh5ButtonListButtonCheckboxPosition;
   /**
@@ -79,7 +74,6 @@ export interface ICh5ButtonListModeStateAttributes {
   * @name iconposition
   * @default first
   * @attributeType "EnumeratedValue"
-  * @applicableToListItem true
   */
   iconPosition: TCh5ButtonListButtonIconPosition;
   /**
@@ -92,7 +86,6 @@ export interface ICh5ButtonListModeStateAttributes {
   * @name iconclass
   * @default 
   * @attributeType "String"
-  * @applicableToListItem true
   */
   iconClass: string;
   /**
@@ -105,7 +98,6 @@ export interface ICh5ButtonListModeStateAttributes {
    * @name iconurl
    * @default 
    * @attributeType "String"
-   * @applicableToListItem true
    */
   iconUrl: string;
   /**
@@ -118,7 +110,6 @@ export interface ICh5ButtonListModeStateAttributes {
    * @name customclass
    * @default 
    * @attributeType "String"
-   * @applicableToListItem false
    */
   customClass: string;
   /**
@@ -131,7 +122,6 @@ export interface ICh5ButtonListModeStateAttributes {
    * @name customstyle
    * @default 
    * @attributeType "String"
-   * @applicableToListItem false
    */
   customStyle: string;
   /**
@@ -144,7 +134,6 @@ export interface ICh5ButtonListModeStateAttributes {
    * @name labelinnerhtml
    * @attributeType "EncodedHTML"
    * @hidden true
-   * @applicableToListItem true
    */
   labelInnerHTML: string;
 
