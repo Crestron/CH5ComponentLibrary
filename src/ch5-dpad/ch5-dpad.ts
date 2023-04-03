@@ -3,7 +3,6 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5DpadAttributes } from "./interfaces/i-ch5-dpad-attributes";
 import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType, TCh5DpadSize } from "./interfaces/t-ch5-dpad";
-import { TCh5CreateReceiveStateSigParams } from "../ch5-common/interfaces";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ComponentHelper } from "../ch5-common/utils/component-helper";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";

@@ -15,10 +15,3 @@ export type TCh5ProcessUriParams = {
   password: string;
   url: string;
 };
-
-export type TCh5CreateReceiveStateSigParams = {
-  caller: any;
-  attrKey: string;
-  value: string;
-  callbackOnSignalReceived: (val: string | boolean) => void;
-};
