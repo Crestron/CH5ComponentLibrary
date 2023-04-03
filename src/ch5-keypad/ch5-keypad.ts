@@ -226,8 +226,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 	//#region 1.2 private / protected variables
 
-	private COMPONENT_NAME: string = "ch5-keypad";
-
 	// state specific vars
 	private isResizeInProgress: boolean = false;
 	private readonly resizeDebounce: number = 500;
@@ -251,8 +249,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 	//#endregion
 
-	//#region Static Methods
-
 	public static registerCustomElement() {
 		if (typeof window === "object"
 			&& typeof window.customElements === "object"
@@ -265,7 +261,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Keypad.ELEMENT_NAME, Ch5Keypad.SIGNAL_ATTRIBUTE_TYPES);
 	}
 
-	//#endregion
+	//#region Static Methods
 
 	//#region 2. Setters and Getters
 	public set contractName(value: string) {
@@ -476,7 +472,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 	/**
 	 * Called every time the element is removed from the DOM.
-	 * Useful for running clean up code.
 	 */
 	public disconnectedCallback() {
 		this.logger.log("disconnectedCallback");
@@ -567,7 +562,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	/**
-	 * Add all 5 buttons in the expected order if not added in the DOM
+	 * Add all 13 buttons in the expected order if not added in the DOM
 	 */
 	private createAndAppendAllButtonsUnderKeypad() {
 		// remove all child elements, since it will be created again in the right/expected order
@@ -598,7 +593,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	/**
-	 * Create the container div which holds all the 5 buttons within dpad
+	 * Create the container div which holds all the 13 buttons within keypad
 	 */
 	private createEmptyContainerDiv() {
 		if (ComponentHelper.isNullOrUndefined(this.container) ||
@@ -690,6 +685,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	private stretchHandler() {
+		this.logger.start(Ch5Keypad.ELEMENT_NAME + ' > stretchHandler');
 		for (const typeVal of Ch5Keypad.STRETCHES) {
 			this.classList.remove(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnStretchClassPrefix + typeVal);
 		}
@@ -729,6 +725,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 				this.container.style.removeProperty('width');
 			}
 		}
+		this.logger.stop();
 	}
 
 	private typeHandler() {

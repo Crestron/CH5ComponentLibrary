@@ -7,13 +7,11 @@
 
 import * as _ from 'lodash';
 import { Subscription } from "rxjs";
-import { Ch5ButtonPressInfo } from "../ch5-button/ch5-button-pressinfo";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import { Ch5SignalAttributeRegistry } from '../ch5-common/ch5-signal-attribute-registry';
 import { ComponentHelper } from "../ch5-common/utils/component-helper";
-import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core";
-import { normalizeEvent } from "../ch5-triggerview/utils";
+import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { ICh5KeypadButtonAttributes } from "./interfaces/i-ch5-keypad-btn-attributes";
 import { TCh5KeypadButtonCreateDTO } from "./interfaces/t-ch5-keypad";
@@ -88,8 +86,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 	//#region 1.2 private / protected variables
 
-	private COMPONENT_NAME: string = "ch5-keypad";
-
 	// protected setter getter specific vars
 	protected _ch5Properties: Ch5Properties;
 
@@ -108,16 +104,11 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	protected _elIcon: HTMLElement = {} as HTMLElement;
 
 	// state specific vars
-	protected isTouch: boolean = false;
-	protected allowPress: boolean = true;
-	protected allowPressTimeout: number = 0;
 	// The interval id ( from setInterval ) for reenforcing the  onTouch signal
 	// This id allow canceling the interval.
 	protected _intervalIdForRepeatDigital: number | null = null;
 	// this is last tap time used to determine if should send click pulse in focus event 
-	protected _lastTapTime: number = 0;
 	protected _pressable: Ch5Pressable | null = null;
-	protected _hammerManager: HammerManager = {} as HammerManager;
 	// Time after that press will be triggered
 	protected _pressTimeout: number = 0;
 	// State of the button ( pressed or not )
@@ -135,15 +126,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	protected readonly MAX_MODE_LENGTH: number = 99;
 	protected readonly DEBOUNCE_BUTTON_DISPLAY: number = 25;
 
-	protected _pressHorizontalStartingPoint: number | null = null;
-	protected _pressVerticalStartingPoint: number | null = null;
-
-	/**
-	 * Information about start and end position
-	 * Including the threshold of px for valid presses
-	 */
-	protected _pressInfo: Ch5ButtonPressInfo = {} as Ch5ButtonPressInfo;
-
 	//#endregion
 
 	public static registerCustomElement() {
@@ -157,7 +139,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	public static registerSignalAttributeTypes() {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5KeypadButton.ELEMENT_NAME, Ch5KeypadButton.SIGNAL_ATTRIBUTE_TYPES);
 	}
-
 
 	//#endregion
 
@@ -221,7 +202,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 	public constructor(params: TCh5KeypadButtonCreateDTO) {
 		super();
-		this.logger.start('constructor()', this.COMPONENT_NAME + 'Button');
+		this.logger.start('constructor()', Ch5KeypadButton.ELEMENT_NAME);
 		this.params = params;
 		this._ch5Properties = new Ch5Properties(this, Ch5KeypadButton.COMPONENT_PROPERTIES);
 		this.logger.stop();
@@ -231,6 +212,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	 *  Called to initialize all attributes
 	 */
 	protected initAttributes(): void {
+		this.logger.start("initAttributes", Ch5KeypadButton.ELEMENT_NAME);
 		super.initAttributes();
 		this.setAttribute('data-ch5-id', this.getCrId());
 		ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5KeypadChild); // WAI-ARIA Attributes
@@ -257,6 +239,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 				}
 			}
 		}
+		this.logger.stop();
 	}
 
 	/**
@@ -264,7 +247,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	 *  Useful for running setup code, such as fetching resources or rendering.
 	 */
 	public connectedCallback() {
-		this.logger.start('connectedCallback() - start', this.COMPONENT_NAME);
+		this.logger.start('connectedCallback() - start', Ch5KeypadButton.ELEMENT_NAME);
 		if (this.parentElement && !this.parentElement.classList.contains(this.parentDivCssClass)) {
 			this.logger.stop();
 			return;
@@ -280,8 +263,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
 		}
-
-		this._hammerManager = new Hammer(this);
 
 		// will have the flags ready for contract level content to be ready
 		this.createElementsAndInitialize();
@@ -309,7 +290,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	 * Create all inner html elements required to complete keypad child-base button
 	 */
 	protected createHtmlElements(): void {
-		this.logger.start('createHtmlElements', this.COMPONENT_NAME);
+		this.logger.start('createHtmlElements', Ch5KeypadButton.ELEMENT_NAME);
 		ComponentHelper.clearComponentContent(this);
 		this.classList.add(this.primaryCssClass);
 		this.classList.add(...(this.params.className.split(' ').filter(element => element))); // the filter removes empty spaces
@@ -347,7 +328,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	 * Useful for running clean up code.
 	 */
 	public disconnectedCallback() {
-		this.logger.start('disconnectedCallback() - start', this.COMPONENT_NAME);
+		this.logger.start('disconnectedCallback() - start', Ch5KeypadButton.ELEMENT_NAME);
 
 		if (this.parentElement && !this.parentElement.classList.contains(this.parentDivCssClass)) {
 			this.logger.stop();
@@ -373,20 +354,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	}
 
 	public removeEventListeners() {
-		if (!!this._hammerManager && !!this._hammerManager.off) {
-			this._hammerManager.off('tap', this._onTapAction);
-		}
-		this.removeEventListener('mousedown', this._onPressClick);
-		this.removeEventListener('mouseup', this._onMouseUp);
-		this.removeEventListener('mousemove', this._onMouseMove);
-		this.removeEventListener('touchstart', this._onPress);
-		this.removeEventListener('mouseleave', this._onLeave);
-		this.removeEventListener('touchend', this._onPressUp);
-		this.removeEventListener('touchmove', this._onTouchMove);
-		this.removeEventListener('touchend', this._onTouchEnd);
-		this.removeEventListener('touchcancel', this._onTouchCancel);
-		this.removeEventListener('focus', this._onFocus);
-		this.removeEventListener('blur', this._onBlur);
+		this.removeEventListener('click', this._onTapAction);
 	}
 
 	/**
@@ -409,7 +377,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	}
 
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
-		this.logger.start("attributeChangedCallback", this.COMPONENT_NAME);
+		this.logger.start("attributeChangedCallback", Ch5KeypadButton.ELEMENT_NAME);
 		if (oldValue !== newValue) {
 			this.logger.log('ch5-keypad attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
 			const attributeChangedProperty = Ch5KeypadButton.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
@@ -484,7 +452,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 	/**
 	 * Called when pressed class will be available
-	 * @param pressedClass is class name. it will add after press the ch5 button
+	 * @param pressedClass is class name. it will add after press the ch5 keypad button
 	 */
 	protected updatePressedClass(pressedClass: string) {
 		this._pressable = new Ch5Pressable(this, {
@@ -493,29 +461,17 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		});
 	}
 	protected bindEventListenersToThis(): void {
-		this._onTapAction = this._onTapAction.bind(this);
-		this._onPressClick = this._onPressClick.bind(this);
-		this._onMouseUp = this._onMouseUp.bind(this);
-		this._onMouseMove = this._onMouseMove.bind(this);
-		this._onPress = this._onPress.bind(this);
-		this._onLeave = this._onLeave.bind(this);
-		this._onPressUp = this._onPressUp.bind(this);
-		this._onTouchMove = this._onTouchMove.bind(this);
-		this._onTouchEnd = this._onTouchEnd.bind(this);
-		this._onTouchCancel = this._onTouchCancel.bind(this);
-		this._onFocus = this._onFocus.bind(this);
-		this._onBlur = this._onBlur.bind(this);
-		this._hammerManager.on('tap', this._onTapAction);
+		this.addEventListener('click', this._onTapAction);
 	}
 
-	protected sendValueForRepeatDigital(value: boolean): void {
+	protected sendValueForClickValue(value: boolean): void {
 		if (!this.sendEventOnClick) { return; }
 
 		const clickSignal: Ch5Signal<object | boolean> | null =
 			Ch5SignalFactory.getInstance().getObjectAsBooleanSignal(this.sendEventOnClick);
 
 		if (clickSignal && clickSignal.name) {
-			clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
+			clickSignal.publish(value);
 		}
 	}
 
@@ -529,28 +485,13 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 			if (sigClick !== null) {
 				if (!preventTrue) {
-					this.sendValueForRepeatDigital(true);
+					this.sendValueForClickValue(true);
 				}
 				if (!preventFalse) {
-					this.sendValueForRepeatDigital(false);
+					this.sendValueForClickValue(false);
 				}
 			}
 		}
-	}
-
-	protected stopRepeatDigital() {
-		this.logger.log("stopRepeatDigital", this._intervalIdForRepeatDigital);
-		if (this._intervalIdForRepeatDigital) {
-			window.clearInterval(this._intervalIdForRepeatDigital);
-			this.sendValueForRepeatDigital(false);
-			this._intervalIdForRepeatDigital = null;
-			return;
-		}
-		this.sendValueForRepeatDigital(true);
-
-		this._intervalIdForRepeatDigital = window.setInterval(() => {
-			this.sendValueForRepeatDigital(true);
-		}, this.TOUCH_TIMEOUT);
 	}
 
 	/**
@@ -572,25 +513,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		});
 
 		return pressPromise;
-	}
-
-	protected cancelPress() {
-		window.clearTimeout(this._pressTimeout);
-		this.pressed = false;
-	}
-
-	protected reactivatePress(): void {
-		clearTimeout(this.allowPressTimeout);
-		this.allowPressTimeout = setTimeout(() => {
-			this.allowPress = true;
-		}, this.DEBOUNCE_PRESS_TIME) as never as number;
-	}
-
-	protected isExceedingPressMoveThreshold(x1: number, y1: number, x2: number, y2: number) {
-		const startingPoint: number = x2 - x1;
-		const endingPoint: number = y2 - y1;
-		const distance: number = Math.sqrt(startingPoint ** 2 + endingPoint ** 2);
-		return distance > this.PRESS_MOVE_THRESHOLD;
 	}
 
 	protected _subscribeToPressableIsPressed() {
@@ -622,169 +544,11 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	protected _onTapAction() {
 		if (null !== this._intervalIdForRepeatDigital) {
 			window.clearInterval(this._intervalIdForRepeatDigital);
-			this.sendValueForRepeatDigital(false);
+			this.sendValueForClickValue(false);
 			this._intervalIdForRepeatDigital = null;
 		} else {
 			this._sendOnClickSignal(false, false);
 		}
-	}
-
-	protected async _onPressClick(event: MouseEvent) {
-		if (this.isTouch) {
-			return;
-		}
-
-		clearTimeout(this.allowPressTimeout);
-		await this.pressHandler();
-
-		this._pressHorizontalStartingPoint = event.clientX;
-		this._pressVerticalStartingPoint = event.clientY;
-
-		this._lastTapTime = new Date().valueOf();
-
-		if (!this.allowPress) {
-			return;
-		}
-
-		this.allowPress = false;
-		this.stopRepeatDigital();
-	}
-
-	protected _onMouseUp() {
-		if (this.isTouch) {
-			((btnObj) => {
-				setTimeout(() => {
-					if (btnObj._intervalIdForRepeatDigital != null) {
-						clearTimeout(btnObj._intervalIdForRepeatDigital);
-						btnObj._intervalIdForRepeatDigital = null;
-					}
-					btnObj.sendValueForRepeatDigital(false);
-				}, 200);
-			})(this);
-			return;
-		}
-
-		this.cancelPress();
-		this.reactivatePress();
-
-		if (this._intervalIdForRepeatDigital) {
-			this.stopRepeatDigital();
-		}
-
-		const timeSinceLastPress = new Date().valueOf() - this._lastTapTime;
-		if (this._lastTapTime && timeSinceLastPress < this.DEBOUNCE_PRESS_TIME) {
-			// sometimes a both click and press can happen on iOS/iPadOS, don't publish both
-			this.logger.log('Ch5Button debouncing duplicate press/hold and click ' + timeSinceLastPress);
-		}
-	}
-
-	protected _onMouseMove(event: MouseEvent) {
-		if (!this.isTouch
-			&& this._intervalIdForRepeatDigital
-			&& this._pressHorizontalStartingPoint
-			&& this._pressVerticalStartingPoint
-			&& this.isExceedingPressMoveThreshold(
-				this._pressHorizontalStartingPoint,
-				this._pressVerticalStartingPoint,
-				event.clientX,
-				event.clientY)
-		) {
-			this.stopRepeatDigital();
-		}
-	}
-
-	protected async _onPress(event: TouchEvent) {
-		const normalizedEvent = normalizeEvent(event);
-		this.isTouch = true;
-		clearTimeout(this.allowPressTimeout);
-		this._pressInfo.saveStart(
-			normalizedEvent.x,
-			normalizedEvent.y
-		);
-		await this.pressHandler();
-		if (!this.allowPress) {
-			return;
-		}
-		this.allowPress = false;
-		this.stopRepeatDigital();
-	}
-
-	protected _onLeave() {
-		if (this._intervalIdForRepeatDigital) {
-			this.stopRepeatDigital();
-		}
-	}
-
-	protected _onPressUp(): void {
-		window.clearTimeout(this._pressTimeout);
-		this.reactivatePress();
-		if (this.pressed) {
-			this.logger.log("Ch5Button._onPressUp()");
-
-			this.pressed = false;
-
-			if (this._intervalIdForRepeatDigital) {
-				window.clearInterval(this._intervalIdForRepeatDigital);
-				this.sendValueForRepeatDigital(false);
-				this._intervalIdForRepeatDigital = null;
-			}
-		}
-	}
-
-	protected _onTouchMove(event: TouchEvent) {
-		// The event must be cancelable
-		if (event.cancelable) {
-			event.preventDefault();
-		}
-		const normalizedEvent = normalizeEvent(event);
-
-		this._pressInfo.saveEnd(
-			normalizedEvent.x,
-			normalizedEvent.y
-		);
-
-		const validPress = this._pressInfo.valid();
-
-		if (!validPress) {
-			window.clearTimeout(this._pressTimeout);
-			if (this._intervalIdForRepeatDigital !== null) {
-				this.stopRepeatDigital();
-			}
-			return;
-		}
-	}
-
-	protected _onTouchEnd(inEvent: Event): void {
-		if (this._intervalIdForRepeatDigital) {
-			this.stopRepeatDigital();
-		}
-	}
-
-	protected _onTouchCancel(inEvent: Event): void {
-		if (this._intervalIdForRepeatDigital) {
-			this.stopRepeatDigital();
-		}
-	}
-
-	protected _onFocus(inEvent: Event): void {
-		let clonedEvent: Event;
-		clonedEvent = new Event(inEvent.type, inEvent);
-		this.dispatchEvent(clonedEvent);
-
-		inEvent.preventDefault();
-		inEvent.stopPropagation();
-	}
-
-	protected _onBlur(inEvent: Event): void {
-		let clonedEvent: Event;
-
-		this.reactivatePress();
-
-		clonedEvent = new Event(inEvent.type, inEvent);
-		this.dispatchEvent(clonedEvent);
-
-		inEvent.preventDefault();
-		inEvent.stopPropagation();
 	}
 
 	//#endregion
