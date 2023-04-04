@@ -126,7 +126,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	// this is last tap time used to determine if should send click pulse in focus event
 	protected _lastTapTime: number = 0;
 	protected _pressable: Ch5Pressable | null = null;
-	protected _hammerManager: HammerManager = {} as HammerManager;
 	protected _pressTimeout: number = 0;
 	protected _pressed: boolean = false;
 	protected _buttonPressedInPressable: boolean = false;
@@ -209,8 +208,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
 		this._pressInfo = new Ch5ButtonPressInfo();
 
-		// events binding
-		this.bindEventListenersToThis();
 		this.logger.stop();
 	}
 
@@ -252,8 +249,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
 		}
-
-		this._hammerManager = new Hammer(this);
 
 		this.createElementsAndInitialize();
 
@@ -347,21 +342,14 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	}
 
 	public removeEventListeners() {
-		if (!!this._hammerManager && !!this._hammerManager.off) {
-			this._hammerManager.off('tap', this._onTapAction);
-		}
 		this.removeEventListener('mousedown', this._onPressClick);
 		this.removeEventListener('click', this._onTapAction);
 		this.removeEventListener('mouseup', this._onMouseUp);
-		this.removeEventListener('mousemove', this._onMouseMove);
 		this.removeEventListener('touchstart', this._onPress);
 		this.removeEventListener('mouseleave', this._onLeave);
 		this.removeEventListener('touchend', this._onPressUp);
 		this.removeEventListener('touchmove', this._onTouchMove);
 		this.removeEventListener('touchend', this._onTouchEnd);
-		this.removeEventListener('touchcancel', this._onTouchCancel);
-		this.removeEventListener('focus', this._onFocus);
-		this.removeEventListener('blur', this._onBlur);
 
 		if (!_.isNil(this._pressable)) {
 			this._unsubscribeFromPressableIsPressed();
@@ -454,26 +442,19 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	}
 
 	/**
-	 * Called to bind proper listeners
+	 * Called to attach proper listeners
 	 */
 	protected attachEventListeners() {
 		super.attachEventListeners();
 
-		if (this._pressable !== null && this._pressable.ch5Component.gestureable === false) {
-			this._hammerManager.on('tap', this._onTapAction);
-		}
-
+		this.addEventListener('click', this._onTapAction);
 		this.addEventListener('mousedown', this._onPressClick);
 		this.addEventListener('mouseup', this._onMouseUp);
-		this.addEventListener('mousemove', this._onMouseMove);
 		this.addEventListener('touchstart', this._onPress, { passive: true });
 		this.addEventListener('mouseleave', this._onLeave);
 		this.addEventListener('touchend', this._onPressUp);
-		this.addEventListener('touchmove', this._onTouchMove, { passive: true });
+		this.addEventListener('touchmove', this._onTouchMove);
 		this.addEventListener('touchend', this._onTouchEnd);
-		this.addEventListener('touchcancel', this._onTouchCancel);
-		this.addEventListener('focus', this._onFocus);
-		this.addEventListener('blur', this._onBlur);
 
 		if (!_.isNil(this._pressable)) {
 			this._pressable?.init();
@@ -499,20 +480,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
 			cssPressedClass: pressedClass
 		});
-	}
-	protected bindEventListenersToThis(): void {
-		this._onTapAction = this._onTapAction.bind(this);
-		this._onPressClick = this._onPressClick.bind(this);
-		this._onMouseUp = this._onMouseUp.bind(this);
-		this._onMouseMove = this._onMouseMove.bind(this);
-		this._onPress = this._onPress.bind(this);
-		this._onLeave = this._onLeave.bind(this);
-		this._onPressUp = this._onPressUp.bind(this);
-		this._onTouchMove = this._onTouchMove.bind(this);
-		this._onTouchEnd = this._onTouchEnd.bind(this);
-		this._onTouchCancel = this._onTouchCancel.bind(this);
-		this._onFocus = this._onFocus.bind(this);
-		this._onBlur = this._onBlur.bind(this);
 	}
 
 	protected sendValueForRepeatDigital(value: boolean): void {
@@ -763,21 +730,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		}
 	}
 
-	protected _onMouseMove(event: MouseEvent) {
-		if (!this.isTouch
-			&& this._intervalIdForRepeatDigital
-			&& this._pressHorizontalStartingPoint
-			&& this._pressVerticalStartingPoint
-			&& this.isExceedingPressMoveThreshold(
-				this._pressHorizontalStartingPoint,
-				this._pressVerticalStartingPoint,
-				event.clientX,
-				event.clientY)
-		) {
-			this.stopRepeatDigital();
-		}
-	}
-
 	protected async _onPress(event: TouchEvent) {
 		const normalizedEvent = normalizeEvent(event);
 		this.isTouch = true;
@@ -843,35 +795,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		if (this._intervalIdForRepeatDigital) {
 			this.stopRepeatDigital();
 		}
-	}
-
-	protected _onTouchCancel(): void {
-		if (this._intervalIdForRepeatDigital) {
-			this.stopRepeatDigital();
-		}
-	}
-
-	protected _onFocus(inEvent: Event): void {
-		this.logger.start("_onFocus");
-		let clonedEvent: Event;
-		clonedEvent = new Event(inEvent.type, inEvent);
-		this.dispatchEvent(clonedEvent);
-
-		inEvent.preventDefault();
-		inEvent.stopPropagation();
-	}
-
-	protected _onBlur(inEvent: Event): void {
-		this.logger.start("_onBlur");
-		let clonedEvent: Event;
-
-		this.reactivatePress();
-
-		clonedEvent = new Event(inEvent.type, inEvent);
-		this.dispatchEvent(clonedEvent);
-
-		inEvent.preventDefault();
-		inEvent.stopPropagation();
 	}
 
 	//#endregion
