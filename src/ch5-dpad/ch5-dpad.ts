@@ -441,8 +441,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			}
 		}
 
-		this.checkDefaultUseContracts();
-
 		this.logger.stop();
 	}
 
@@ -861,18 +859,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			}
 		}
 		this.logger.stop();
-	}
-
-	private checkDefaultUseContracts() {
-		const contractName = this.contractName;
-		if (contractName.length > 0) {
-			if (this.useContractForEnable === true) {
-				this.receiveStateEnable = contractName + '.Enable';
-			}
-			if (this.useContractForShow === true) {
-				this.receiveStateShow = contractName + '.Show';
-			}
-		}
 	}
 
 	/**
