@@ -268,7 +268,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				if (this.useContractForEnable === true) {
 					this.receiveStateEnable = contractName + '.Enable';
 				}
-			}	
+			}
 		});
 	}
 	public get useContractForEnable(): boolean {
@@ -296,7 +296,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				if (this.useContractForCustomStyle === true) {
 					this.receiveStateCustomStyle = contractName + '.CustomStyle';
 				}
-			}	
+			}
 		});
 	}
 	public get useContractForCustomStyle(): boolean {
@@ -310,7 +310,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				if (this.useContractForCustomClass === true) {
 					this.receiveStateCustomClass = contractName + '.CustomClass';
 				}
-			}	
+			}
 		});
 	}
 	public get useContractForCustomClass(): boolean {
@@ -440,6 +440,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				this.createAndAppendAllExistingButtonsUnderDpad(childItemsContainer[0].children);
 			}
 		}
+
+		this.checkDefaultUseContracts();
 
 		this.logger.stop();
 	}
@@ -859,6 +861,18 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			}
 		}
 		this.logger.stop();
+	}
+
+	private checkDefaultUseContracts() {
+		const contractName = this.contractName;
+		if (contractName.length > 0) {
+			if (this.useContractForEnable === true) {
+				this.receiveStateEnable = contractName + '.Enable';
+			}
+			if (this.useContractForShow === true) {
+				this.receiveStateShow = contractName + '.Show';
+			}
+		}
 	}
 
 	/**

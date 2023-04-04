@@ -35,6 +35,12 @@
         ch5Dpad = fixture('ch5-dpad-usecontractforshow-fixture');
       });
 
+      test('Check if default value of usecontractforshow is "true"', () => {
+        expect(ch5Dpad.useContractForShow).to.equal(true);
+        expect(ch5Dpad.getAttribute("receiveStateShow")).to.equal("LivingRoom.AppleTV.Show");
+        expect(ch5Dpad.getAttribute("show")).to.be.equal("false");
+      });
+
       test('Check if usecontractforshow is "true"', () => {
         flush(() => {
           setTimeout(() => {
