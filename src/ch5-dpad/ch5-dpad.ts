@@ -336,6 +336,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	 */
 	public connectedCallback() {
 		this.logger.start('connectedCallback() - start', Ch5Dpad.ELEMENT_NAME);
+
 		subscribeInViewPortChange(this, () => {
 			if (this.elementIsInViewPort) {
 				if (!_.isNil(this.stretch) && this.parentElement) {
@@ -634,6 +635,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				if (this.hasAttribute(Ch5Dpad.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
 					const key = Ch5Dpad.COMPONENT_PROPERTIES[i].name;
 					thisRef[key] = this.getAttribute(key);
+				} else {
+					const key = Ch5Dpad.COMPONENT_PROPERTIES[i].name;
+					thisRef[key] = Ch5Dpad.COMPONENT_PROPERTIES[i].default;
 				}
 			}
 		}
