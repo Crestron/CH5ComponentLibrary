@@ -126,6 +126,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	// this is last tap time used to determine if should send click pulse in focus event
 	protected _lastTapTime: number = 0;
 	protected _pressable: Ch5Pressable | null = null;
+	protected _hammerManager: HammerManager = {} as HammerManager;
 	protected _pressTimeout: number = 0;
 	protected _pressed: boolean = false;
 	protected _buttonPressedInPressable: boolean = false;
@@ -208,6 +209,8 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
 		this._pressInfo = new Ch5ButtonPressInfo();
 
+		// events binding
+		this.bindEventListenersToThis();
 		this.logger.stop();
 	}
 
@@ -249,6 +252,8 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
 		}
+
+		this._hammerManager = new Hammer(this);
 
 		this.createElementsAndInitialize();
 
@@ -342,8 +347,10 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	}
 
 	public removeEventListeners() {
+		if (!!this._hammerManager && !!this._hammerManager.off) {
+			this._hammerManager.off('tap', this._onTapAction);
+		}
 		this.removeEventListener('mousedown', this._onPressClick);
-		this.removeEventListener('click', this._onTapAction);
 		this.removeEventListener('mouseup', this._onMouseUp);
 		this.removeEventListener('touchstart', this._onPress);
 		this.removeEventListener('mouseleave', this._onLeave);
@@ -442,12 +449,15 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	}
 
 	/**
-	 * Called to attach proper listeners
+	 * Called to bind proper listeners
 	 */
 	protected attachEventListeners() {
 		super.attachEventListeners();
 
-		this.addEventListener('click', this._onTapAction);
+		if (this._pressable !== null && this._pressable.ch5Component.gestureable === false) {
+			this._hammerManager.on('tap', this._onTapAction);
+		}
+
 		this.addEventListener('mousedown', this._onPressClick);
 		this.addEventListener('mouseup', this._onMouseUp);
 		this.addEventListener('touchstart', this._onPress, { passive: true });
@@ -480,6 +490,9 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
 			cssPressedClass: pressedClass
 		});
+	}
+	protected bindEventListenersToThis(): void {
+		this._onTapAction = this._onTapAction.bind(this);
 	}
 
 	protected sendValueForRepeatDigital(value: boolean): void {
