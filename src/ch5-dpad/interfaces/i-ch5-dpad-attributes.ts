@@ -31,9 +31,9 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`type` attribute",
 	 * "***",
-	 * "Overrides the appearance of each of the buttons inside <ch5-dpad> with alternative CSS  ",
-	 * "defined in classes defined with ch5-dpad--type where type is the value of the property. ",
-	 * "If no 'type' is provided, type of 'default' is used."
+	 * "Overrides the appearance of dpad with alternative CSS that is defined in classes ",
+	 * "defined with ch5-dpad--type-typeValue where typeValue is the value of 'type' ",
+	 * "property. If no 'type' is provided, type of 'default' is used."
 	 * ]
 	 * @name type
 	 * @default default
@@ -46,7 +46,9 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`shape` attribute",
 	 * "***",
-	 * "Sets the overall <ch5-dpad> component shape to plus or circle."
+	 * "Sets the overall <ch5-dpad> component shape to plus or circle.",
+	 * "CSS class of ch5-dpad--shape-shapeValue is added to the dpad, where shapeValue ",
+	 * "is the value of 'shape' property. If no 'shape' is provided, shape of 'plus' is used."
 	 * ]
 	 * @name shape
 	 * @default plus
@@ -77,7 +79,9 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`size` attribute",
 	 *  "***",
-	 *  "Overrides the appearance of the dpad with alternative CSS that is defined in classes defined with ch5-dpad--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
+	 * "Overrides the appearance of dpad with alternative CSS that is defined in classes ",
+	 * "defined with ch5-dpad--size-sizeValue where sizeValue is the value of 'size'.",
+	 * "If no 'size' is provided, type of 'default' is used."
 	 * ]
 	 * @default regular
 	 * @attributeType "EnumeratedValue"
