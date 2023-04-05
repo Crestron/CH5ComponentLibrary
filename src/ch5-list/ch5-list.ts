@@ -103,7 +103,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 			default: Ch5List.ORIENTATION[0],
 			values: Ch5List.ORIENTATION,
 			key: 'scale',
-			classListPrefix: 'ch5-orientation--'
+			classListPrefix: '--'
 		},
 	};
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
@@ -125,7 +125,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 	public static ITEMCLASS = 'list-item';
 	private _ch5Properties: Ch5Properties;
 
-	public cssClassPrefix = 'ch5-list';
+	public primaryCssClass = 'ch5-list';
 
 	public _bufferedItems: ICh5ListBufferedItems = {
 		bufferActive: false,
@@ -491,7 +491,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 	}
 
 	public getCssClassDisabled() {
-		return `${this.cssClassPrefix}--disabled`;
+		return `${this.primaryCssClass}--disabled`;
 	}
 
 	public connectedCallback() {

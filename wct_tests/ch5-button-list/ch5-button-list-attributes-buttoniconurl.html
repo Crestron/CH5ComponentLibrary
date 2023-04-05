@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-button-list-iconurl-attributes1">
+    <template>
+      <ch5-button-list>
+        <ch5-button-list-mode></ch5-button-list-mode>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-button-list-iconUrl-attributes-value', () => {
+      let ch5ButtonList;
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-iconurl-attributes1');
+      });
+
+      const valid_iconPosition = CrComLib.Ch5ButtonList.BUTTON_ICON_POSITIONS;
+      const invalid_iconPosition = ['sadfadsfas', '', ' ', 'null', null, undefined, 'undefined', 'middle', 'LEFT', 'RIGHT'];
+      const iconUrlArray = [
+        "./../assets/img/finger.svg",
+        "./../assets/img/something.svg",
+        "./../assets/img/video.svg",
+        "https://www.searchpng.com/wp-content/uploads/2018/12/Splash-Instagraam-Icon-Png-1024x1024.png",
+        "https://e1.pngegg.com/pngimages/298/527/png-clipart-snoopy.png"
+      ];
+      iconUrlArray.forEach((iconUrl, i) => {
+        test(`Check attribute iconUrl: "${iconUrl}"`, (done) => {
+          ch5ButtonList.setAttribute('buttonIconUrl', iconUrl);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonList.buttonIconUrl).to.be.equal(iconUrl);
+              const expectedValueForIconUrl = iconUrl;
+              const expectedIconPositionForIconUrl = "first";
+              const getObjectClassListForIconUrl = getITagInSpanForIcon(ch5ButtonList).classList;
+              expect(getObjectClassListForIconUrl.contains("cx-button-icon-pos-" + expectedIconPositionForIconUrl)).to.be.equal(true);
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+
+        valid_iconPosition.forEach((iconPosition, k) => {
+          test(`Check attribute iconUrl: "${iconUrl}" and iconPosition: "${iconPosition}"`, (done) => {
+            ch5ButtonList.setAttribute('buttonIconUrl', iconUrl);
+            ch5ButtonList.setAttribute('buttonIconPosition', iconPosition);
+            flush(() => {
+              setTimeout(() => {
+                expect(ch5ButtonList.buttonIconUrl).to.be.equal(iconUrl);
+                expect(ch5ButtonList.buttonIconPosition).to.be.equal(iconPosition);
+                const getObjectClassListForIconUrl = getITagInSpanForIcon(ch5ButtonList).classList;
+                expect(getObjectClassListForIconUrl.contains("cx-button-icon-pos-" + iconPosition)).to.be.equal(true);
+                expect(ch5ButtonList.getAttribute("buttonIconPosition")).to.be.equal(iconPosition);
+                done();
+              }, COMPONENT_TESTING_TIMEOUT);
+            });
+          });
+        });
+
+        invalid_iconPosition.forEach((iconPosition, k) => {
+          test(`Check attribute iconUrl: "${iconUrl}" and Invalid iconPosition: "${iconPosition}"`, (done) => {
+            ch5ButtonList.setAttribute('buttonIconUrl', iconUrl);
+            ch5ButtonList.setAttribute('buttonIconPosition', iconPosition);
+            flush(() => {
+              setTimeout(() => {
+                expect(ch5ButtonList.buttonIconUrl).to.be.equal(iconUrl);
+                expect(ch5ButtonList.buttonIconPosition).to.be.equal("first");
+                const getObjectClassListForIconUrl = getITagInSpanForIcon(ch5ButtonList).classList;
+                expect(getObjectClassListForIconUrl.contains("cx-button-icon-pos-first")).to.be.equal(true);
+                expect(ch5ButtonList.getAttribute("buttonIconPosition")).to.be.equal("first");
+                done();
+              }, COMPONENT_TESTING_TIMEOUT);
+            });
+          });
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

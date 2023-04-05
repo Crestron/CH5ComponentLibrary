@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-button-list-default-attributes">
+    <template>
+      <ch5-button-list></ch5-button-list>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-button-list-default-attributes-value', () => {
+      let ch5ButtonList;
+      const signalTypes = CrComLib.Ch5ButtonList.SIGNAL_ATTRIBUTE_TYPES;
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-default-attributes');
+      });
+
+      test('Check Default value for orientation', () => {
+        expect(ch5ButtonList.getAttribute("orientation")).to.be.equal(null);
+        ch5ButtonList.setAttribute('orientation', 'horizontal');
+        expect(ch5ButtonList.children[0].classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
+        expect(ch5ButtonList.getAttribute("orientation")).to.be.equal('horizontal');
+        ch5ButtonList.removeAttribute("orientation");
+        expect(ch5ButtonList.getAttribute("orientation")).to.be.equal('horizontal');
+      });
+
+      test('Check Default value for buttonType', () => {
+        expect(ch5ButtonList.getAttribute("buttonType")).to.be.equal(null);
+        ch5ButtonList.setAttribute('buttonType', 'default');
+        expect(ch5ButtonList.getAttribute("buttonType")).to.be.equal('default');
+        ch5ButtonList.removeAttribute("buttonType");
+        expect(ch5ButtonList.getAttribute("buttonType")).to.be.equal('default');
+      });
+
+      test('Check Default value for buttonHAlignLabel', () => {
+        expect(ch5ButtonList.getAttribute("buttonHAlignLabel")).to.be.equal(null);
+        ch5ButtonList.setAttribute('buttonHAlignLabel', 'center');
+        expect(ch5ButtonList.getAttribute("buttonHAlignLabel")).to.be.equal('center');
+        ch5ButtonList.removeAttribute("buttonHAlignLabel");
+        expect(ch5ButtonList.getAttribute("buttonHAlignLabel")).to.be.equal('center');
+      });
+
+      test('Check Default value for buttonVAlignLabel', () => {
+        expect(ch5ButtonList.getAttribute("buttonVAlignLabel")).to.be.equal(null);
+        ch5ButtonList.setAttribute('buttonVAlignLabel', 'middle');
+        expect(ch5ButtonList.getAttribute("buttonVAlignLabel")).to.be.equal('middle');
+        ch5ButtonList.removeAttribute("buttonVAlignLabel");
+        expect(ch5ButtonList.getAttribute("buttonVAlignLabel")).to.be.equal('middle');
+      });
+
+      test('Check Default value for buttonCheckboxPosition', () => {
+        expect(ch5ButtonList.getAttribute("buttonCheckboxPosition")).to.be.equal(null);
+        ch5ButtonList.setAttribute('buttonCheckboxPosition', 'left');
+        expect(ch5ButtonList.getAttribute("buttonCheckboxPosition")).to.be.equal('left');
+        ch5ButtonList.removeAttribute("buttonCheckboxPosition");
+        expect(ch5ButtonList.getAttribute("buttonCheckboxPosition")).to.be.equal('left');
+      });
+
+      test('Check Default value for buttonIconPosition', () => {
+        expect(ch5ButtonList.getAttribute("buttonIconPosition")).to.be.equal(null);
+        ch5ButtonList.setAttribute('buttonIconPosition', 'first');
+        expect(ch5ButtonList.getAttribute("buttonIconPosition")).to.be.equal('first');
+        ch5ButtonList.removeAttribute("buttonIconPosition");
+        expect(ch5ButtonList.getAttribute("buttonIconPosition")).to.be.equal('first');
+      });
+
+      test('Check Default value for buttonShape', () => {
+        expect(ch5ButtonList.getAttribute("buttonShape")).to.be.equal(null);
+        ch5ButtonList.setAttribute('buttonShape', 'rectangle');
+        expect(ch5ButtonList.getAttribute("buttonShape")).to.be.equal('rectangle');
+        ch5ButtonList.removeAttribute("buttonShape");
+        expect(ch5ButtonList.getAttribute("buttonShape")).to.be.equal('rectangle');
+      });
+
+      test('Check signal types', () => {
+        for (signal in signalTypes) {
+          if (signal.includes("sendevent")) {
+            expect(signalTypes[signal].direction).to.be.equal("event");
+          } else if (signal.includes("receivestate")) {
+            expect(signalTypes[signal].direction).to.be.equal("state");
+          }
+        }
+      });
+
+    });
+  </script>
+</body>
+
+</html>

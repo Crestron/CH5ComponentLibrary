@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-button-list-rows-attributes">
+    <template>
+      <ch5-button-list></ch5-button-list>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-button-list-rows-attributes-value', () => {
+      let ch5ButtonList;
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-rows-attributes');
+      });
+
+      const validRows = ['1', '10', '12', '20', '100', '450', '500'];
+      const invalidRows = ['-1', 'a', 'color', '0'];
+
+      validRows.forEach((val, i) => {
+        test(`Check attribute row "${val}" for button list`, (done) => {
+          ch5ButtonList.setAttribute('rows', val);
+          ch5ButtonList.setAttribute('numberOfItems', val);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonList.rows).to.be.equal(Number(val));
+              expect(ch5ButtonList.numberOfItems).to.be.equal(Number(val));
+              expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--rows-' + val)).to.be.equal(true);
+              expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+
+        invalidRows.forEach((val, i) => {
+          test(`Check attribute row invalid values "${val}" for button list`, (done) => {
+            ch5ButtonList.setAttribute('rows', val);
+            flush(() => {
+              setTimeout(() => {
+                expect(ch5ButtonList.rows).to.be.equal(1);
+                expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--rows-1')).to.be.equal(true);
+                expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
+                done();
+              }, COMPONENT_TESTING_TIMEOUT);
+            });
+          });
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

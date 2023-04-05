@@ -464,9 +464,6 @@ export abstract class Ch5CommonInput extends Ch5Common implements ICh5CommonInpu
             this.tabIndex = Number(this.getAttribute('tabindex'));
         }
 
-        if (this.hasAttribute('disabled')) {
-            this.disabled = true;
-        }
 
         if (this.hasAttribute('feedbackmode')) {
             this.feedbackMode = this.getAttribute('feedbackmode') as TCh5CommonInputFeedbackModes;
@@ -515,7 +512,7 @@ export abstract class Ch5CommonInput extends Ch5Common implements ICh5CommonInpu
      */
     protected handleModifierClass(className: string, action: string = 'add'): void {
 
-        const modifierClassName = this.cssClassPrefix + '--' + className;
+        const modifierClassName = this.primaryCssClass + '--' + className;
 
         if (action === 'add') {
             this.classList.add(modifierClassName);

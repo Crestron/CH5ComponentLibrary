@@ -24,7 +24,7 @@ import { Ch5ImageUriModel } from "../ch5-image/ch5-image-uri-model";
 import isEmpty from 'lodash/isEmpty';
 import isNil from 'lodash/isNil';
 import { Ch5CommonLog } from './ch5-common-log';
-import { ICh5CommonAttributes, TCh5ShowType, TCh5ProcessUriParams, TCh5CreateReceiveStateSigParams } from './interfaces';
+import { ICh5CommonAttributes, TCh5ShowType, TCh5ProcessUriParams } from './interfaces';
 import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import _ from 'lodash';
 
@@ -97,9 +97,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	// The first value of the array is considered the default one	 
 	private showTypes: TCh5ShowType[] = ['display', 'visibility', 'remove'];
 
-	protected ignoreAttributes: string[] = [];
+	private _ignoreAttributes: string[] = [];
 	public primaryCssClass: string = 'ch5-common';
-	public cssClassPrefix: string = 'ch5-common';
 
 	// Current language for each component
 	public currentLanguage: string | null = '';
@@ -373,14 +372,21 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
 	//#region Setters and Getters
 
+	protected set ignoreAttributes(value: string[]) {
+		this._ignoreAttributes = value.map((attrName: string) => attrName.toLowerCase());
+	}
+	protected get ignoreAttributes(): string[] {
+		return this._ignoreAttributes;
+	}
+
 	public set customClass(value: string) {
 		this.logger.log('set customClass(\'' + value + '\')');
 		value = this._checkAndSetStringValue(value);
 		if (value !== this._customClass) {
 			this._customClass = value;
 			this.setAttribute('customclass', value);
+			}
 		}
-	}
 	public get customClass(): string {
 		return this._customClass;
 	}
@@ -455,6 +461,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 			return;
 		}
 
+		this.customClass = "";
+
 		this.clearStringSignalSubscription(this._receiveStateCustomClass, this._subKeySigReceiveCustomClass);
 
 		this._receiveStateCustomClass = value;
@@ -493,6 +501,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 			return;
 		}
 
+		this.customStyle = "";
 		this.clearStringSignalSubscription(this._receiveStateCustomStyle, this._subKeySigReceiveCustomStyle);
 
 		this._receiveStateCustomStyle = value;
@@ -730,7 +739,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		this.logger = new Ch5CommonLog(false, false, this._crId);
 		const cssClasses: string[] = [];
 
-		cssClasses.push(this.cssClassPrefix + '--disabled');
+		cssClasses.push(this.primaryCssClass + '--disabled');
 
 		this._listOfAllPossibleComponentCssClasses = cssClasses;
 		this.observableGestureableProperty = new Subject<boolean>();
@@ -1092,7 +1101,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	}
 
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
-		if (oldValue === newValue || this.ignoreAttributes.includes(attr)) {
+		if (oldValue === newValue || this.ignoreAttributes.includes(attr.toLowerCase())) {
 			return;
 		}
 		this.logger.log('ch5-common attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + ')"');
@@ -1247,7 +1256,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	 * attaching it again.
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @return {void}
 	 */
 	protected repaint(): void {
@@ -1817,82 +1826,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	 */
 	public checkIfValueIsTruey(str: string = '') {
 		return (!!str && str.length > 0 && str !== 'false' && str !== '0' && str !== null);
-	}
-
-	/**
-	 * (Generic) Function to set the value of a given attribute and perform the callback if required
-	 * DEVNOTE:
-	 * 1. Refer ch5-dpad-button.ts for usage example
-	 * 2. The "attrKeyPvt" and "attrKeyPvt" are actual variables to be existing in the same manner within the caller class
-	 * @param caller the dpad child component
-	 * @param attrKey receiveState* for the child component
-	 * @param value to set
-	 * @returns
-	 */
-	public setValueForReceiveStateString(params: TCh5CreateReceiveStateSigParams) {
-		const { caller, attrKey, value, callbackOnSignalReceived } = params;
-		this.logger.log(`set ${attrKey}(\'' + ${value} + ')`);
-
-		const attrKeyPvt = '_' + attrKey;
-		const attrKeySigName = '_' + attrKey + 'SignalValue';
-		if (!value || caller[attrKeyPvt] === value) {
-			return;
-		}
-
-		this.clearStringSignalSubscription(caller[attrKeyPvt], caller[attrKeySigName]);
-
-		caller[attrKeyPvt] = value;
-
-		const recSigShowPulseName: string = Ch5Signal.getSubscriptionSignalName(caller[attrKeyPvt]);
-		const recSig: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(recSigShowPulseName);
-
-		if (null === recSig) {
-			return;
-		}
-
-		caller[attrKeySigName] = recSig.subscribe((newValue: string) => {
-			if (callbackOnSignalReceived !== null) {
-				callbackOnSignalReceived(newValue);
-			}
-		});
-	}
-
-	/**
-	 * (Generic) Function to set the value of a given attribute and perform the callback if required
-	 * DEVNOTE:
-	 * 1. Refer ch5-dpad-button.ts for usage example
-	 * 2. The "attrKeyPvt" and "attrKeyPvt" are actual variables to be existing in the same manner within the caller class
-	 * @param caller the dpad child component
-	 * @param attrKey receiveState* for the child component
-	 * @param value to set
-	 * @returns
-	 */
-	public setValueForReceiveStateBoolean(params: TCh5CreateReceiveStateSigParams) {
-		const { caller, attrKey, value, callbackOnSignalReceived } = params;
-		this.logger.log(`set ${attrKey}(\'' + ${value} + ')`);
-
-		const attrKeyPvt = '_' + attrKey;
-		const attrKeySigName = '_' + attrKey + 'SignalValue';
-		if (!value || caller[attrKeyPvt] === value) {
-			return;
-		}
-
-		this.clearBooleanSignalSubscription(caller[attrKeyPvt], caller[attrKeySigName]);
-
-		caller[attrKeyPvt] = value;
-
-		const recSigShowPulseName: string = Ch5Signal.getSubscriptionSignalName(caller[attrKeyPvt]);
-		const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigShowPulseName);
-
-		if (null === recSig) {
-			return;
-		}
-
-		caller[attrKeySigName] = recSig.subscribe((newValue: boolean) => {
-			if (callbackOnSignalReceived !== null) {
-				callbackOnSignalReceived(newValue);
-			}
-		});
 	}
 
 	// protected setCommonBooleanProperty(property: any, value: boolean) {

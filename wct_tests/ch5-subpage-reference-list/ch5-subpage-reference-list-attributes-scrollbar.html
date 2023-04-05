@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-subpage-reference-list-scrollBar-attributes">
+    <template id="templateWidgetId">
+      <div>
+        <ch5-toggle label="tgl_{{idx}}">
+        </ch5-toggle>
+      </div>
+    </template>
+    <div>
+      <ch5-subpage-reference-list id="subpagereferencelistone" widgetId="templateWidgetId" indexId="idx">
+      </ch5-subpage-reference-list>
+    </div>
+  </test-fixture>
+  <test-fixture id="ch5-subpage-reference-list-scrollBar-attributes-div-height">
+    <div style="height:300px">
+      <template id="templateWidgetId">
+        <div>
+          <ch5-toggle label="tgl_{{idx}}">
+          </ch5-toggle>
+        </div>
+      </template>
+      <ch5-subpage-reference-list id="subpagereferencelisttwo" orientation="vertical" scrollbar="true"
+        widgetId="templateWidgetId" indexId="idx" noOfItems="50">
+      </ch5-subpage-reference-list>
+    </div>
+  </test-fixture>
+  <test-fixture id="ch5-subpage-reference-list-scrollBar-attributes-div-with-text">
+    <div style="height:300px">
+      <template id="templateWidgetId">
+        <div>
+          <ch5-toggle label="tgl_{{idx}}">
+          </ch5-toggle>
+        </div>
+      </template>
+      <ch5-subpage-reference-list id="subpagereferencelistthree" orientation="vertical" scrollbar="true"
+        widgetId="templateWidgetId" indexId="idx" noOfItems="50">
+      </ch5-subpage-reference-list>
+      some-text
+    </div>
+  </test-fixture>
+  <script>
+    suite('ch5-subpage-reference-list-scrollBar-attributes-value', () => {
+      let ch5SubpageReferenceList;
+
+      setup(async () => {
+        ch5SubpageReferenceList = document.getElementById("subpagereferencelistone");
+      });
+
+      let testCases = ['a', '', ' ', false, true, 'number'];
+      let expectedResult = ['false', 'true', 'false', 'false', 'true', 'false'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "scrollBar"', () => {
+          ch5SubpageReferenceList.setAttribute('scrollBar', ele);
+          expect(ch5SubpageReferenceList.getAttribute('scrollBar')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+    });
+    suite('ch5-subpage-reference-list-scrollBar-attributes-div-height-value', () => {
+      let ch5SubpageReferenceList;
+
+      setup(async () => {
+        ch5SubpageReferenceList = document.getElementById("subpagereferencelisttwo");
+      });
+      test('Check Value "scrollBar"', () => {
+        expect(ch5SubpageReferenceList.children[0].classList.contains('ch5-subpage-reference-list--scrollbar-true')).to.be.equal(true);
+      });
+
+    });
+    suite('ch5-subpage-reference-list-scrollBar-attributes-div-with-text', () => {
+      let ch5SubpageReferenceList;
+
+      setup(async () => {
+        ch5SubpageReferenceList = document.getElementById("subpagereferencelistthree");
+      });
+      test('Check Value "scrollBar"', () => {
+        expect(ch5SubpageReferenceList.children[0].classList.contains('ch5-subpage-reference-list--scrollbar-true')).to.be.equal(true);
+      });
+
+    });
+  </script>
+</body>
+
+</html>

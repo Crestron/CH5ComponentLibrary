@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-button-list-custom-style-1">
+    <template>
+      <ch5-button-list customStyle="background-color:green">
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-custom-style-2">
+    <template>
+      <ch5-button-list customStyle="border:1px solid salmon">
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-custom-style-3">
+    <template>
+      <ch5-button-list customStyle="width:200px">
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-custom-style-4">
+    <template>
+      <ch5-button-list customStyle="height:150px">
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-custom-style-5">
+    <template>
+      <ch5-button-list customStyle="">
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-custom-style-6">
+    <template>
+      <ch5-button-list customStyle>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-custom-style-7">
+    <template>
+      <ch5-button-list customStyle="invalid">
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-custom-style-8">
+    <template>
+      <ch5-button-list customStyle=" ">
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-button-list-custom-style background color', () => {
+      let ch5ButtonList;
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-custom-style-1');
+      });
+      test('Check Default custom style', () => {
+        expect(ch5ButtonList.children[0].style.backgroundColor).to.be.equal('green');
+      });
+    });
+
+    suite('ch5-button-list-custom-style border', () => {
+      let ch5ButtonList;
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-custom-style-2');
+      });
+      test('Check Default custom style', () => {
+        expect(ch5ButtonList.children[0].style.border).to.be.equal('1px solid salmon');
+      });
+    });
+    suite('ch5-button-list-custom-style width', () => {
+      let ch5ButtonList;
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-custom-style-3');
+      });
+      test('Check Default custom style', () => {
+        expect(ch5ButtonList.children[0].style.width).to.be.equal('200px');
+      });
+    });
+    suite('ch5-button-list-custom-style Height', () => {
+      let ch5ButtonList;
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-custom-style-4');
+      });
+      test('Check Default custom style', () => {
+        expect(ch5ButtonList.children[0].style.height).to.be.equal('150px');
+      });
+    });
+    suite('ch5-button-list-custom-style empty', () => {
+      let ch5ButtonList;
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-custom-style-5');
+      });
+      test('Check Default custom style', () => {
+        console.log(ch5ButtonList);
+        expect(ch5ButtonList.children[0].getAttribute('style')).to.be.equal('');
+      });
+    });
+    suite('ch5-button-list-custom-style null', () => {
+      let ch5ButtonList;
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-custom-style-6');
+      });
+      test('Check Default custom style', () => {
+        expect(ch5ButtonList.children[0].getAttribute('style')).to.be.equal('');
+      });
+    });
+    suite('ch5-button-list-custom-style invalid', () => {
+      let ch5ButtonList;
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-custom-style-7');
+      });
+      test('Check Default custom style', () => {
+        expect(ch5ButtonList.children[0].getAttribute('style')).to.be.equal('');
+      });
+    });
+    suite('ch5-button-list-custom-style empty space', () => {
+      let ch5ButtonList;
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-custom-style-8');
+      });
+      test('Check Default custom style', () => {
+        expect(ch5ButtonList.children[0].getAttribute('style')).to.be.equal('');
+      });
+    });
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,332 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-subpage-reference-list-endless-attributes">
+      <template id="templateWidgetId">
+        <div>
+          <ch5-toggle label="tgl_{{idx}}">
+          </ch5-toggle>
+        </div>
+      </template>
+      <div>
+        <ch5-subpage-reference-list id="subpagereferencelistone" widgetId="templateWidgetId" numberOfItems="30" rows="1" indexId="idx">
+        </ch5-subpage-reference-list>
+      </div>
+  </test-fixture>
+  <test-fixture id="ch5-subpage-reference-list-endless-attributes-1">
+      <template id="templateWidgetId2">
+        <div>
+          <ch5-toggle label="tgl_{{idx}}">
+          </ch5-toggle>
+        </div>
+      </template>
+      <div>
+        <ch5-subpage-reference-list id="subpagereferencelisttwo" widgetId="templateWidgetId2"  indexId="idx">
+        </ch5-subpage-reference-list>
+      </div>
+  </test-fixture>
+  <script>
+    suite('ch5-subpage-reference-list-endless-attributes-value', () => {
+      let ch5SubpageReferenceList;
+      let ch5SubpageReferenceList1;
+
+      setup(async () => {
+        ch5SubpageReferenceList = document.getElementById("subpagereferencelistone");
+        ch5SubpageReferenceList1 = document.getElementById("subpagereferencelisttwo");
+      });
+
+      validTest = [true, false];
+      const scrollBarVal = [
+        {
+          columns: 1,
+          numberOfItems: 50
+        },
+        {
+          columns: 1,
+          numberOfItems: 150
+        },
+        {
+          columns: 1,
+          numberOfItems: 450
+        },
+        {
+          columns: 1,
+          numberOfItems: 301
+        },
+      ];
+      const scrollBarRow = [
+        {
+          rows: 1,
+          numberOfItems: 50
+        },
+        {
+          rows: 1,
+          numberOfItems: 150
+        },
+        {
+          rows: 1,
+          numberOfItems: 450
+        },
+        {
+          rows: 1,
+          numberOfItems: 301
+        },
+      ];
+      validTest.forEach((val, i) => {
+        test(`Check attribute endless "${val}" for subpage reference list`, (done) => {
+          ch5SubpageReferenceList.setAttribute('endless', val);
+          ch5SubpageReferenceList.setAttribute('scrollbar', val);
+          console.log('test', ch5SubpageReferenceList.getAttribute('scrollbar'));
+          ch5SubpageReferenceList.setAttribute('customStyle', 'width:100%');
+          flush(() => {
+            setTimeout(() => {
+              document.querySelector(".ch5-subpage-reference-list").scrollLeft = 100;
+              expect(ch5SubpageReferenceList.rows).to.be.equal(1);
+              expect(ch5SubpageReferenceList.endless).to.be.equal(val);
+              expect(ch5SubpageReferenceList.scrollbar).to.be.equal(false);
+              expect(ch5SubpageReferenceList.numberOfItems).to.be.equal(30);
+              expect(ch5SubpageReferenceList.customStyle).to.be.equal('width:100%');
+              expect(ch5SubpageReferenceList.children[0].classList.contains('ch5-subpage-reference-list--rows-1')).to.be.equal(true);
+              //expect(ch5SubpageReferenceList.children[0].classList.contains('ch5-subpage-reference-list--scrollbar-'+val)).to.be.equal(val);
+              expect(ch5SubpageReferenceList.children[0].classList.contains('ch5-subpage-reference-list--orientation-horizontal')).to.be.equal(true);
+              for (let i = 0; i < ch5SubpageReferenceList.children[0].children.length; i++) {
+                document.querySelector(".ch5-subpage-reference-list").scrollLeft += 100;
+                expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].getAttribute('label')).to.be.equal('tgl_' + i);
+              }
+              done();
+            }, 400);
+          });
+        });
+      });
+
+      scrollBarVal.forEach((val, i) => {
+        test(`Check attribute endless columns ${val.columns} with scrollbar & orientation vertical`, (done) => {
+          ch5SubpageReferenceList1.setAttribute('endless', true);
+          ch5SubpageReferenceList1.setAttribute('scrollbar', true);
+          ch5SubpageReferenceList1.setAttribute('columns', val.columns);
+          ch5SubpageReferenceList1.setAttribute('orientation', 'vertical');
+          ch5SubpageReferenceList1.setAttribute('numberOfItems', val.numberOfItems);
+          ch5SubpageReferenceList1.setAttribute('customStyle', 'height:50%; width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              document.querySelector(".ch5-subpage-reference-list").scrollTop = 100;
+              expect(ch5SubpageReferenceList1.scrollbar).to.be.equal(false);
+              expect(ch5SubpageReferenceList1.columns).to.be.equal(scrollBarVal[i].columns);
+              expect(ch5SubpageReferenceList1.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+           //   expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--scrollbar-'+val)).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--orientation-vertical')).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+              for (let i = 0; i < ch5SubpageReferenceList.children[0].children.length; i++) {
+                document.querySelector(".ch5-subpage-reference-list").scrollTop += 100;
+                expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].getAttribute('label')).to.be.equal('tgl_' + i);
+              }
+              done();
+            }, 100);
+          });
+        });
+
+        test(`Check attribute endless columns ${val.columns} without scrollbar & orientation vertical`, (done) => {
+          ch5SubpageReferenceList1.setAttribute('endless', true);
+          ch5SubpageReferenceList1.setAttribute('scrollbar', false);
+          ch5SubpageReferenceList1.setAttribute('columns', val.columns);
+          ch5SubpageReferenceList1.setAttribute('orientation', 'vertical');
+          ch5SubpageReferenceList1.setAttribute('numberOfItems', val.numberOfItems);
+          ch5SubpageReferenceList1.setAttribute('customStyle', 'height:50%; width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              document.querySelector(".ch5-subpage-reference-list").scrollTop = 100;
+              expect(ch5SubpageReferenceList1.scrollbar).to.be.equal(false);
+              expect(ch5SubpageReferenceList1.columns).to.be.equal(scrollBarVal[i].columns);
+              expect(ch5SubpageReferenceList1.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+              //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--scrollbar-'+val)).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--orientation-vertical')).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+              for (let i = 0; i < ch5SubpageReferenceList.children[0].children.length; i++) {
+                document.querySelector(".ch5-subpage-reference-list").scrollTop += 100;
+                expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].getAttribute('label')).to.be.equal('tgl_' + i);
+              } done();
+            }, 100);
+          });
+        });
+
+        test(`Check attribute endless for columns ${val.columns} with scrollbar & orientation horizontal`, (done) => {
+          ch5SubpageReferenceList1.setAttribute('endless', true);
+          ch5SubpageReferenceList1.setAttribute('scrollbar', true);
+          ch5SubpageReferenceList1.setAttribute('columns', val.columns);
+          ch5SubpageReferenceList1.setAttribute('orientation', 'horizontal');
+          ch5SubpageReferenceList1.setAttribute('numberOfItems', val.numberOfItems);
+          ch5SubpageReferenceList1.setAttribute('customStyle', 'height:50%; width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              document.querySelector(".ch5-subpage-reference-list").scrollLeft = 100;
+              expect(ch5SubpageReferenceList1.scrollbar).to.be.equal(false);
+              expect(ch5SubpageReferenceList1.columns).to.be.equal(scrollBarVal[i].columns);
+              expect(ch5SubpageReferenceList1.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+              //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--scrollbar-'+val)).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--orientation-horizontal')).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--columns-' + scrollBarVal[i].columns)).to.be.equal(false);
+              for (let i = 0; i < ch5SubpageReferenceList.children[0].children.length; i++) {
+                document.querySelector(".ch5-subpage-reference-list").scrollLeft += 100;
+                expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].getAttribute('label')).to.be.equal('tgl_' + i);
+              }
+              done();
+            }, 100);
+          });
+        });
+
+        test(`Check attribute endless for columns ${val.columns} without scrollbar & orientation horizontal`, (done) => {
+          ch5SubpageReferenceList1.setAttribute('endless', true);
+          ch5SubpageReferenceList1.setAttribute('scrollbar', false);
+          ch5SubpageReferenceList1.setAttribute('columns', val.columns);
+          ch5SubpageReferenceList1.setAttribute('orientation', 'horizontal');
+          ch5SubpageReferenceList1.setAttribute('numberOfItems', val.numberOfItems);
+          ch5SubpageReferenceList1.setAttribute('customStyle', 'height:50%; width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              document.querySelector(".ch5-subpage-reference-list").scrollLeft = 100;
+              expect(ch5SubpageReferenceList1.scrollbar).to.be.equal(false);
+              expect(ch5SubpageReferenceList1.columns).to.be.equal(scrollBarVal[i].columns);
+              expect(ch5SubpageReferenceList1.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+              //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--scrollbar-'+val)).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--orientation-horizontal')).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--columns-' + scrollBarVal[i].columns)).to.be.equal(false);
+              for (let i = 0; i < ch5SubpageReferenceList.children[0].children.length; i++) {
+                document.querySelector(".ch5-subpage-reference-list").scrollLeft += 100;
+                expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].getAttribute('label')).to.be.equal('tgl_' + i);
+              }
+              done();
+            }, 100);
+          });
+        });
+      });
+
+      scrollBarRow.forEach((val, i) => {
+        test(`Check attribute endless rows ${val.rows} with scrollbar & orientation vertical`, (done) => {
+          ch5SubpageReferenceList1.setAttribute('endless', true);
+          ch5SubpageReferenceList1.setAttribute('scrollbar', true);
+          ch5SubpageReferenceList1.setAttribute('rows', val.rows);
+          console.log(val.rows);
+          console.log(ch5SubpageReferenceList1.getAttribute('rows'));
+          ch5SubpageReferenceList1.setAttribute('orientation', 'vertical');
+          ch5SubpageReferenceList1.setAttribute('numberOfItems', val.numberOfItems);
+          ch5SubpageReferenceList1.setAttribute('customStyle', 'height:50%; width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              document.querySelector(".ch5-subpage-reference-list").scrollTop = 100;
+              expect(ch5SubpageReferenceList1.scrollbar).to.be.equal(false);
+              console.log(scrollBarVal[i].rows);
+              expect(ch5SubpageReferenceList1.rows).to.be.equal(scrollBarRow[i].rows);
+              expect(ch5SubpageReferenceList1.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(scrollBarRow[i].numberOfItems);
+              //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--scrollbar-'+val)).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--orientation-vertical')).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--rows-' + scrollBarRow[i].rows)).to.be.equal(false);
+              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--columns-' + scrollBarRow[i].rows)).to.be.equal(true);
+              for (let i = 0; i < ch5SubpageReferenceList.children[0].children.length; i++) {
+                document.querySelector(".ch5-subpage-reference-list").scrollLTop += 100;
+                expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].getAttribute('label')).to.be.equal('tgl_' + i);
+              }
+              done();
+            }, 100);
+          });
+        });
+
+        test(`Check attribute endless rows ${val.rows} without scrollbar & orientation vertical`, (done) => {
+          ch5SubpageReferenceList1.setAttribute('endless', true);
+          ch5SubpageReferenceList1.setAttribute('scrollbar', false);
+          ch5SubpageReferenceList1.setAttribute('rows', val.rows);
+          ch5SubpageReferenceList1.setAttribute('orientation', 'vertical');
+          ch5SubpageReferenceList1.setAttribute('numberOfItems', val.numberOfItems);
+          ch5SubpageReferenceList1.setAttribute('customStyle', 'height:50%; width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              document.querySelector(".ch5-subpage-reference-list").scrollTop = 100;
+              expect(ch5SubpageReferenceList1.scrollbar).to.be.equal(false);
+              expect(ch5SubpageReferenceList1.rows).to.be.equal(scrollBarRow[i].rows);
+              expect(ch5SubpageReferenceList1.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(scrollBarRow[i].numberOfItems);
+             // expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--scrollbar-'+val)).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--orientation-vertical')).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--columns-' + scrollBarRow[i].rows)).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--rows-' + scrollBarRow[i].rows)).to.be.equal(false);
+              for (let i = 0; i < ch5SubpageReferenceList.children[0].children.length; i++) {
+                document.querySelector(".ch5-subpage-reference-list").scrollTop += 100;
+                expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].getAttribute('label')).to.be.equal('tgl_' + i);
+              }
+              done();
+            }, 100);
+          });
+        });
+
+        test(`Check attribute endless for rows ${val.rows} with scrollbar & orientation horizontal`, (done) => {
+          ch5SubpageReferenceList1.setAttribute('endless', true);
+          ch5SubpageReferenceList1.setAttribute('scrollbar', true);
+          ch5SubpageReferenceList1.setAttribute('rows', val.rows);
+          ch5SubpageReferenceList1.setAttribute('orientation', 'horizontal');
+          ch5SubpageReferenceList1.setAttribute('numberOfItems', val.numberOfItems);
+          ch5SubpageReferenceList1.setAttribute('customStyle', 'height:50%; width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              document.querySelector(".ch5-subpage-reference-list").scrollLeft = 100;
+              expect(ch5SubpageReferenceList1.scrollbar).to.be.equal(false);
+              expect(ch5SubpageReferenceList1.rows).to.be.equal(scrollBarRow[i].rows);
+              expect(ch5SubpageReferenceList1.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(scrollBarRow[i].numberOfItems);
+              //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--scrollbar-'+val)).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--orientation-horizontal')).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--rows-' + scrollBarRow[i].rows)).to.be.equal(true);
+              for (let i = 0; i < ch5SubpageReferenceList.children[0].children.length; i++) {
+                document.querySelector(".ch5-subpage-reference-list").scrollLeft += 100;
+                expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].getAttribute('label')).to.be.equal('tgl_' + i);
+              }
+              done();
+            }, 100);
+          });
+        });
+
+        test(`Check attribute endless for rows ${val.rows} without scrollbar & orientation horizontal`, (done) => {
+          ch5SubpageReferenceList1.setAttribute('endless', true);
+          ch5SubpageReferenceList1.setAttribute('scrollbar', false);
+          ch5SubpageReferenceList1.setAttribute('rows', val.rows);
+          ch5SubpageReferenceList1.setAttribute('orientation', 'horizontal');
+          ch5SubpageReferenceList1.setAttribute('numberOfItems', val.numberOfItems);
+          ch5SubpageReferenceList1.setAttribute('customStyle', 'height:50%; width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              document.querySelector(".ch5-subpage-reference-list").scrollLeft = 100;
+              expect(ch5SubpageReferenceList1.scrollbar).to.be.equal(false);
+              expect(ch5SubpageReferenceList1.rows).to.be.equal(scrollBarRow[i].rows);
+              expect(ch5SubpageReferenceList1.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(scrollBarRow[i].numberOfItems);
+              //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--scrollbar-'+val)).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--orientation-horizontal')).to.be.equal(true);
+              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--rows-' + scrollBarRow[i].rows)).to.be.equal(true);
+              for (let i = 0; i < ch5SubpageReferenceList.children[0].children.length; i++) {
+                document.querySelector(".ch5-subpage-reference-list").scrollLeft += 100;
+                expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].getAttribute('label')).to.be.equal('tgl_' + i);
+              }
+              done();
+            }, 100);
+          });
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

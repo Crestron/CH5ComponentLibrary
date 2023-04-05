@@ -185,7 +185,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
   /**
    * @documentation
    * [
-   * "`sendisignalonbeforehide` attribute",
+   * "`sendeventonbeforehide` attribute",
    * "***",
    * "Sends a signal on overlay panel before hide."
    * ]
@@ -198,7 +198,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
   /**
    * @documentation
    * [
-   * "`sendisgnalonafterhide` attribute",
+   * "`sendeventonafterhide` attribute",
    * "***",
    * "Sends a signal on overlay panel after hide."
    * ]

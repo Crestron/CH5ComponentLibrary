@@ -34,14 +34,14 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 			default: Ch5Background.SCALE[0],
 			values: Ch5Background.SCALE,
 			key: 'scale',
-			classListPrefix: 'ch5-background--'
+			classListPrefix: '--'
 		},
 		REPEAT: {
 			default: null,
 			values: Ch5Background.REPEAT,
 			key: 'repeat',
-			classListPrefix: 'ch5-background--'
-		},
+			classListPrefix: '--'
+		}
 	};
 
 	/**

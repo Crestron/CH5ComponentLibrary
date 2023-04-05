@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-dpad/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-dpad-buttons-key-fixture">
+    <template>
+      <ch5-dpad shape="plus">
+      </ch5-dpad>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-dpad-buttons-key-fixture', () => {
+      let ch5Dpad;
+
+      setup(async () => {
+        ch5Dpad = fixture('ch5-dpad-buttons-key-fixture');
+      });
+
+      test('Check shape to be "plus"', () => {
+        expect(ch5Dpad.shape).to.be.equal("plus");
+      });
+
+      test('Check button keys to be in correct order if shape is "plus"', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            let correctKeys = ["center", "up", "left", "right", "down"];
+            let buttons = ch5Dpad.children[0].children;
+            for (let i = 0; i < buttons.length; i++) {
+              expect(buttons[i].key).to.be.equal(correctKeys[i]);
+            }
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check shape to be "circle"', () => {
+        ch5Dpad.setAttribute("shape", "circle");
+        expect(ch5Dpad.shape).to.be.equal("circle");
+      });
+
+      test('Check button keys to be in correct order if shape is "circle"', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            let correctKeys = ["center", "up", "left", "right", "down"];
+            let buttons = ch5Dpad.children[0].children;
+            for (let i = 0; i < buttons.length; i++) {
+              expect(buttons[i].key).to.be.equal(correctKeys[i]);
+            }
+            done();
+          }, 100);
+        });
+      });
+
+    })
+  </script>
+</body>
+
+</html>

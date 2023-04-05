@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-button-list-buttonHAlignLabel-attributes1">
+    <template>
+      <ch5-button-list></ch5-button-list>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-button-list-buttonHAlignLabel-attributes-value', () => {
+      let ch5ButtonList;
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-buttonHAlignLabel-attributes1');
+      });
+
+      const valid_hAlignLabel = CrComLib.Ch5ButtonList.BUTTON_HALIGN_LABEL_POSITIONS;
+      const invalid_hAlignLabel = ['', 'junk', 'null', null, undefined, 'undefined', '0', '1', 'top', 'bottom', 'middle'];
+
+      valid_hAlignLabel.forEach((hAlignLabelName, i) => {
+        test(`Check attribute hAlignLabel: "${hAlignLabelName}"`, (done) => {
+          ch5ButtonList.setAttribute('buttonHAlignLabel', hAlignLabelName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonList.buttonHAlignLabel).to.be.equal(hAlignLabelName);
+              expect(getSpan(ch5ButtonList).classList.contains("ch5-button--horizontal-" + hAlignLabelName)).to.be.equal(true);
+              valid_hAlignLabel.forEach((hAlignLabelNameErrorCheck, j) => {
+                if (hAlignLabelNameErrorCheck !== hAlignLabelName) {
+                  expect(getSpan(ch5ButtonList).classList.contains("ch5-button--horizontal-" + hAlignLabelNameErrorCheck)).to.be.equal(false);
+                }
+              });
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      invalid_hAlignLabel.forEach((hAlignLabelName, i) => {
+        test(`Check attribute hAlignLabel: "${hAlignLabelName}" for invalid values`, (done) => {
+          ch5ButtonList.setAttribute('buttonHAlignLabel', hAlignLabelName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonList.buttonHAlignLabel).to.be.equal("center");
+              expect(getSpan(ch5ButtonList).classList.contains("ch5-button--horizontal-center")).to.be.equal(true);
+              valid_hAlignLabel.forEach((hAlignLabelNameErrorCheck, j) => {
+                if (hAlignLabelNameErrorCheck !== "center") {
+                  expect(getSpan(ch5ButtonList).classList.contains("ch5-button--horizontal-" + hAlignLabelNameErrorCheck)).to.be.equal(false);
+                }
+              });
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

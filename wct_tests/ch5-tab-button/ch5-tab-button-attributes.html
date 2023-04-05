@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-tab-button-default-attributes">
+    <template>
+      <ch5-tab-button></ch5-tab-button>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-tab-button-default-attributes-value', () => {
+      let ch5TabButton;
+      const signalTypes = CrComLib.Ch5TabButton.SIGNAL_ATTRIBUTE_TYPES;
+
+      setup(async () => {
+        ch5TabButton = fixture('ch5-tab-button-default-attributes');
+      });
+
+      test('Check Default value for orientation', () => {
+        expect(ch5TabButton.getAttribute("orientation")).to.be.equal(null);
+        ch5TabButton.setAttribute('orientation', 'horizontal');
+        expect(ch5TabButton.children[0].classList.contains('ch5-tab-button--orientation-horizontal')).to.be.equal(true);
+        expect(ch5TabButton.getAttribute("orientation")).to.be.equal('horizontal');
+        ch5TabButton.removeAttribute("orientation");
+        expect(ch5TabButton.getAttribute("orientation")).to.be.equal('horizontal');
+      });
+
+      test('Check Default value for buttonType', () => {
+        expect(ch5TabButton.getAttribute("buttonType")).to.be.equal(null);
+        ch5TabButton.setAttribute('buttonType', 'default');
+        expect(ch5TabButton.getAttribute("buttonType")).to.be.equal('default');
+        ch5TabButton.removeAttribute("buttonType");
+        expect(ch5TabButton.getAttribute("buttonType")).to.be.equal('default');
+      });
+
+      test('Check Default value for buttonHAlignLabel', () => {
+        expect(ch5TabButton.getAttribute("buttonHAlignLabel")).to.be.equal(null);
+        ch5TabButton.setAttribute('buttonHAlignLabel', 'center');
+        expect(ch5TabButton.getAttribute("buttonHAlignLabel")).to.be.equal('center');
+        ch5TabButton.removeAttribute("buttonHAlignLabel");
+        expect(ch5TabButton.getAttribute("buttonHAlignLabel")).to.be.equal('center');
+      });
+
+      test('Check Default value for buttonVAlignLabel', () => {
+        expect(ch5TabButton.getAttribute("buttonVAlignLabel")).to.be.equal(null);
+        ch5TabButton.setAttribute('buttonVAlignLabel', 'middle');
+        expect(ch5TabButton.getAttribute("buttonVAlignLabel")).to.be.equal('middle');
+        ch5TabButton.removeAttribute("buttonVAlignLabel");
+        expect(ch5TabButton.getAttribute("buttonVAlignLabel")).to.be.equal('middle');
+      });
+
+      test('Check Default value for buttonIconPosition', () => {
+        expect(ch5TabButton.getAttribute("buttonIconPosition")).to.be.equal(null);
+        ch5TabButton.setAttribute('buttonIconPosition', 'first');
+        expect(ch5TabButton.getAttribute("buttonIconPosition")).to.be.equal('first');
+        ch5TabButton.removeAttribute("buttonIconPosition");
+        expect(ch5TabButton.getAttribute("buttonIconPosition")).to.be.equal('first');
+      });
+
+      test('Check Default value for buttonShape', () => {
+        expect(ch5TabButton.getAttribute("buttonShape")).to.be.equal(null);
+        ch5TabButton.setAttribute('buttonShape', 'rectangle');
+        expect(ch5TabButton.getAttribute("buttonShape")).to.be.equal('rectangle');
+        ch5TabButton.removeAttribute("buttonShape");
+        expect(ch5TabButton.getAttribute("buttonShape")).to.be.equal('rectangle');
+      });
+
+      test('Check signal types', () => {
+        for (signal in signalTypes) {
+          if (signal.includes("sendevent")) {
+            expect(signalTypes[signal].direction).to.be.equal("event");
+          } else if (signal.includes("receivestate")) {
+            expect(signalTypes[signal].direction).to.be.equal("state");
+          }
+        }
+      });
+
+    });
+  </script>
+</body>
+
+</html>

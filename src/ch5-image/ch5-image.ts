@@ -42,8 +42,8 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 			default: Ch5Common.DIRECTION[0],
 			values: Ch5Common.DIRECTION,
 			key: 'direction',
-			classListPrefix: 'ch5-image--dir--'
-		},
+			classListPrefix: '--dir--'
+		}
 	};
 
 	private readonly MODES: {
@@ -565,9 +565,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		return commonAttributes.concat(ch5ImageAttributes);
 	};
 
-
 	public primaryCssClass = 'ch5-image';
-	public cssClassPrefix = 'ch5-image';
 
 	private _img: HTMLImageElement = {} as HTMLImageElement;
 
@@ -973,7 +971,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 				} else {
 					this.direction = Ch5Common.DIRECTION[0];
 				}
-				this._img.classList.add(this.cssClassPrefix + '--dir--' + this.direction);
+				this._img.classList.add(this.primaryCssClass + '--dir--' + this.direction);
 				break;
 			case 'user':
 				if (this.hasAttribute('user')) {
@@ -1182,7 +1180,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	}
 
 	public getCssClassDisabled() {
-		return this.cssClassPrefix + '--disabled';
+		return this.primaryCssClass + '--disabled';
 	}
 
 	public canProcessUri(): boolean {

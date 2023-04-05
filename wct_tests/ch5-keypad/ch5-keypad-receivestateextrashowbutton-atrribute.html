@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-keypad-receiveStateExtraShowButton-attribute">
+    <template>
+      <ch5-keypad type="primary" receiveStateExtraButtonShow="receive_trigger_event">
+      </ch5-keypad>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-keypad-receiveStateExtraShowButton-set-logic-attribute">
+    <template>
+      <ch5-keypad type="primary" receiveStateExtraButtonShow="receive_state_event_1">
+      </ch5-keypad>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-keypad-receiveStateExtraShowButton-attribute', () => {
+      let ch5Keypad;
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestateextrabuttonshow.json').then(response => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Keypad = fixture('ch5-keypad-receiveStateExtraShowButton-attribute');
+      });
+
+      test('Check the extra button in the keypad', (done) => {
+        CrComLib.publishEvent('boolean', 'trigger_event', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Keypad.querySelectorAll('ch5-keypad-button').length).to.be.equal(13);
+            done();
+          }, 100);
+        });
+      });
+    });
+
+    suite('ch5-keypad-receiveStateExtraShowButton-set-logic-attribute', () => {
+      let ch5Keypad;
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestateextrabuttonshow.json').then(response => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Keypad = fixture('ch5-keypad-receiveStateExtraShowButton-set-logic-attribute');
+      });
+
+      test('Check the extra button with logic set', (done) => {
+        CrComLib.publishEvent('boolean', 'trigger_event_1', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Keypad.querySelectorAll('ch5-keypad-button').length).to.be.equal(13);
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

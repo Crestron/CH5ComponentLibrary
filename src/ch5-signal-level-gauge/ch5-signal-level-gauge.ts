@@ -20,15 +20,15 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
       values: Ch5SignalLevelGauge.ORIENTATION,
       key: 'orientation',
       attribute: 'orientation',
-      classListPrefix: 'ch5-signal-level-gauge--orientation-'
+      classListPrefix: '--orientation-'
     },
     SIZE: {
       default: Ch5SignalLevelGauge.SIZE[0],
       values: Ch5SignalLevelGauge.SIZE,
       key: 'size',
       attribute: 'size',
-      classListPrefix: 'ch5-signal-level-gauge--size-'
-    },
+      classListPrefix: '--size-'
+    }
   };
 
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
@@ -150,7 +150,6 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
 
   public static readonly ELEMENT_NAME = 'ch5-signal-level-gauge';
 
-  public cssClassPrefix = 'ch5-signal-level-gauge';
   public primaryCssClass = 'ch5-signal-level-gauge';
 
   private _ch5Properties: Ch5Properties;
@@ -380,10 +379,12 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
 
   private handleOrientation() {
     Array.from(Ch5SignalLevelGauge.COMPONENT_DATA.ORIENTATION.values).forEach((e: any) => {
-      this._elContainer.classList.remove(Ch5SignalLevelGauge.COMPONENT_DATA.ORIENTATION.classListPrefix + e);
+      this._elContainer.classList.remove(Ch5SignalLevelGauge.ELEMENT_NAME + Ch5SignalLevelGauge.COMPONENT_DATA.ORIENTATION.classListPrefix + e);
     });
-    this._elContainer.classList.add(Ch5SignalLevelGauge.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
+    this._elContainer.classList.add(Ch5SignalLevelGauge.ELEMENT_NAME + Ch5SignalLevelGauge.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
+    this.handleNumberOfBars();
   }
+
   private handleValue() {
     this._elContainer.querySelectorAll('.ch5-signal-level-gauge--selected-bar-color').forEach((ele) => ele.classList.remove('ch5-signal-level-gauge--selected-bar-color'));
     const currBar = Math.floor(((this.value - this.minValue) * this.numberOfBars) / (this.maxValue - this.minValue));
@@ -410,17 +411,17 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
 
   private handleSize() {
     Array.from(Ch5SignalLevelGauge.COMPONENT_DATA.SIZE.values).forEach((e: any) => {
-      this._elContainer.classList.remove(Ch5SignalLevelGauge.COMPONENT_DATA.SIZE.classListPrefix + e);
+      this._elContainer.classList.remove(Ch5SignalLevelGauge.ELEMENT_NAME + Ch5SignalLevelGauge.COMPONENT_DATA.SIZE.classListPrefix + e);
     });
-    this._elContainer.classList.add(Ch5SignalLevelGauge.COMPONENT_DATA.SIZE.classListPrefix + this.size);
+    this._elContainer.classList.add(Ch5SignalLevelGauge.ELEMENT_NAME + Ch5SignalLevelGauge.COMPONENT_DATA.SIZE.classListPrefix + this.size);
     this.handleNumberOfBars();
   }
 
   private updateCssClass() {
     this.logger.start('UpdateCssClass');
     super.updateCssClasses();
-    this._elContainer.classList.add(Ch5SignalLevelGauge.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
-    this._elContainer.classList.add(Ch5SignalLevelGauge.COMPONENT_DATA.SIZE.classListPrefix + this.size);
+    this._elContainer.classList.add(Ch5SignalLevelGauge.ELEMENT_NAME + Ch5SignalLevelGauge.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
+    this._elContainer.classList.add(Ch5SignalLevelGauge.ELEMENT_NAME + Ch5SignalLevelGauge.COMPONENT_DATA.SIZE.classListPrefix + this.size);
     this._elContainer.style.gap = this.signalBarSpacing + 'px';
     this.logger.stop();
   }
@@ -430,7 +431,7 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
   }
 
   public getCssClassDisabled() {
-    return this.cssClassPrefix + '--disabled';
+    return this.primaryCssClass + '--disabled';
   }
 
   //#endregion

@@ -121,13 +121,13 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
 
   public static readonly ELEMENT_NAME = 'ch5-color-chip';
 
-  public cssClassPrefix = 'ch5-color-chip';
   public primaryCssClass = 'ch5-color-chip';
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
   private redValue: number = 0;
   private greenValue: number = 0;
   private blueValue: number = 0;
+  private _onClick: any = null;
 
   //#endregion
 
@@ -246,6 +246,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
     }
     this._wasInstatiated = true;
     this._ch5Properties = new Ch5Properties(this, Ch5ColorChip.COMPONENT_PROPERTIES);
+    this._onClick = this.handleSendEventOnClick.bind(this);
   }
 
   public static get observedAttributes(): string[] {
@@ -329,12 +330,12 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
 
   protected attachEventListeners() {
     super.attachEventListeners();
-    this.addEventListener('click', this.handleSendEventOnClick);
+    this._elContainer.addEventListener('click', this._onClick);
   }
 
   protected removeEventListeners() {
     super.removeEventListeners();
-    this.removeEventListener('click', this.handleSendEventOnClick);
+    this._elContainer.removeEventListener('click', this._onClick);
   }
 
   protected unsubscribeFromSignals() {
@@ -345,11 +346,10 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
   private handlePreviewColor() {
     const color = Ch5ColorUtils.col2rgb(this.previewColor);
     if (color && !this.hasAttribute('receiveStateBlueValue') && !this.hasAttribute('receiveStateGreenValue') && !this.hasAttribute('receiveStateRedValue')) {
-      const rgb: string[] = color;
-      this.redValue = Ch5ColorUtils.getDigitalValue(Number(rgb[0]), this.maxValue);
-      this.greenValue = Ch5ColorUtils.getDigitalValue(Number(rgb[1]), this.maxValue);
-      this.blueValue = Ch5ColorUtils.getDigitalValue(Number(rgb[2]), this.maxValue);
-      this._elContainer.style.backgroundColor = `rgb(${this.redValue}, ${this.greenValue}, ${this.blueValue})`;
+      this.redValue = Number(color[0]);
+      this.greenValue = Number(color[1]);
+      this.blueValue = Number(color[2]);
+      this._elContainer.style.backgroundColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
     }
     this.previewColor = `rgb(${this.redValue}, ${this.greenValue}, ${this.blueValue})`;
   }
@@ -359,7 +359,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
   }
 
   public getCssClassDisabled() {
-    return this.cssClassPrefix + '--disabled';
+    return this.primaryCssClass + '--disabled';
   }
 
   private handleSendSignals(color: string) {

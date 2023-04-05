@@ -1,0 +1,247 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "enable_disable_button",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "btn_enable-0",
+          "type": "boolean",
+          "logic": "toggle"
+        },
+        {
+          "state": "btn_enable-1",
+          "type": "boolean",
+          "logic": "toggle"
+        },
+        {
+          "state": "btn_enable-2",
+          "type": "boolean",
+          "logic": "toggle"
+        },
+        {
+          "state": "btn_enable-3",
+          "type": "boolean",
+          "logic": "toggle"
+        },
+        {
+          "state": "btn_enable-4",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "btn-enable",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "button-enable-0",
+          "value": true,
+          "type": "s",
+          "logic": "set"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "btn-icon-class",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "button-icon-0",
+          "value": "fas fa-anchor",
+          "type": "s",
+          "logic": "set"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "btn-script-label",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "btn-script",
+          "value": "<i>set-script-0</i>",
+          "type": "s",
+          "logic": "set"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "btn-select",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "btn-selected",
+          "type": "b",
+          "value": true,
+          "logic": "set"
+        },
+        {
+          "state": "button-icon-0",
+          "value": "fas fa-anchor",
+          "type": "s",
+          "logic": "set"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "btn-icon-class-url",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "button-icon-0",
+          "value": "fas fa-anchor",
+          "type": "s",
+          "logic": "set"
+        },
+        {
+          "state": "button-url-0",
+          "type": "s",
+          "value": "./img/volume_mute.svg",
+          "logic": "set"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "btn-scriptlabel-label",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "button-script-0",
+          "value": "<i>set-script-0</i>",
+          "type": "s",
+          "logic": "set"
+        },
+        {
+          "state": "button-label-0",
+          "value": "label-tab",
+          "type": "s",
+          "logic": "set"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "trig1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "btn-show",
+          "type": "boolean",
+          "logic": "set",
+          "value": false
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "state": "btn_enable-0",
+      "type": "boolean",
+      "value": false
+    },
+    {
+      "state": "btn_enable-1",
+      "type": "boolean",
+      "value": false
+    },
+    {
+      "state": "btn_enable-2",
+      "type": "boolean",
+      "value": false
+    },
+    {
+      "state": "btn_enable-3",
+      "type": "boolean",
+      "value": false
+    },
+    {
+      "state": "btn_enable-4",
+      "type": "boolean",
+      "value": false
+    },
+    {
+      "state": "btn_icon-0",
+      "type": "s",
+      "value": "https://img.icons8.com/material/24/000000/search.png"
+    },
+    {
+      "state": "btn_icon-1",
+      "type": "s",
+      "value": "https://img.icons8.com/material/24/000000/search.png"
+    },
+    {
+      "state": "btn_icon-2",
+      "type": "s",
+      "value": "https://img.icons8.com/material/24/000000/search.png"
+    },
+    {
+      "state": "btn_icon-3",
+      "type": "s",
+      "value": "https://img.icons8.com/material/24/000000/search.png"
+    },
+    {
+      "state": "btn_icon-4",
+      "type": "s",
+      "value": "https://img.icons8.com/material/24/000000/search.png"
+    },
+    {
+      "state": "btn_label-0",
+      "type": "s",
+      "value": "clicked"
+    },
+    {
+      "state": "btn_label-1",
+      "type": "s",
+      "value": "clicked"
+    },
+    {
+      "state": "btn_label-2",
+      "type": "s",
+      "value": "clicked"
+    },
+    {
+      "state": "btn_label-3",
+      "type": "s",
+      "value": "clicked"
+    },
+    {
+      "state": "btn_label-4",
+      "type": "s",
+      "value": "clicked"
+    },
+    {
+      "state": "btn_show-0",
+      "type": "b",
+      "value": true
+    },
+    {
+      "state": "btn_show-1",
+      "type": "b",
+      "value": true
+    },
+    {
+      "state": "btn_show-2",
+      "type": "b",
+      "value": true
+    },
+    {
+      "state": "btn_show-3",
+      "type": "b",
+      "value": true
+    },
+    {
+      "state": "btn_show-4",
+      "type": "b",
+      "value": true
+    }
+  ]
+}

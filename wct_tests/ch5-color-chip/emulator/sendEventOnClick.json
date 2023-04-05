@@ -38,6 +38,19 @@
           "value": 128
         }
       ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener3",
+          "type": "n",
+          "logic": "set",
+          "value": 255
+        }
+      ]
     }
   ]
 }

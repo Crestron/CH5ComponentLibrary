@@ -178,7 +178,6 @@ export class Ch5TriggerViewChild extends Ch5Common implements ICh5TriggerViewChi
 	 * CSS classes
 	 */
 	public primaryCssClass = 'ch5-viewchild';
-	public cssClassPrefix = 'ch5-viewchild';
 
 	/**
 	 * Set this._noshowType with only value accepted
@@ -362,7 +361,7 @@ export class Ch5TriggerViewChild extends Ch5Common implements ICh5TriggerViewChi
 	 * @return {string }
 	 */
 	public getCssClassDisabled(): string {
-		return this.cssClassPrefix + '--disabled';
+		return this.primaryCssClass + '--disabled';
 	}
 
 	public getTriggerViewParent(): Ch5TriggerView | null {

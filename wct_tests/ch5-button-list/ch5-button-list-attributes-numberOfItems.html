@@ -1,0 +1,257 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-button-list-numberOfItems-attributes">
+    <template>
+      <ch5-button-list></ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-receiveStateNumberOfItems-attributes-0">
+    <template>
+      <ch5-button-list receivestatenumberofitems="trigger_event_listener-0"></ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-receiveStateNumberOfItems-attributes-1">
+    <template>
+      <ch5-button-list receivestatenumberofitems="trigger_event_listener-1"></ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-receiveStateNumberOfItems-attributes-2">
+    <template>
+      <ch5-button-list receivestatenumberofitems="trigger_event_listener-2"></ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-receiveStateNumberOfItems-attributes-3">
+    <template>
+      <ch5-button-list receivestatenumberofitems="trigger_event_listener-3"></ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-receiveStateNumberOfItems-attributes-4">
+    <template>
+      <ch5-jointotext-numeric receivestatevalue="trigger_event_listener-1"></ch5-jointotext-numeric>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-button-list-numberOfItems-attributes-value', () => {
+      let ch5ButtonList;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatenumberofitems.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5ButtonList = fixture('ch5-button-list-numberOfItems-attributes');
+        ch5ButtonList1 = fixture('ch5-button-list-receiveStateNumberOfItems-attributes-0');
+        btn4 = fixture('ch5-button-list-receiveStateNumberOfItems-attributes-4');
+      });
+      const inputOutput = [
+        {
+          input: 'a',
+          output: 10
+        },
+        {
+          input: '',
+          output: 10
+        },
+        {
+          input: ' ',
+          output: 10
+        },
+        {
+          input: 'number',
+          output: 10
+        },
+        {
+          input: '0',
+          output: 1
+        },
+        {
+          input: '1',
+          output: 1
+        },
+        {
+          input: '2',
+          output: 2
+        },
+        {
+          input: '499',
+          output: 499
+        },
+        {
+          input: '500',
+          output: 500
+        },
+        {
+          input: '501',
+          output: 500
+        },
+        {
+          input: '-1',
+          output: 1
+        },
+        {
+          input: '-0',
+          output: 1
+        },
+        {
+          input: -1,
+          output: 1
+        },
+        {
+          input: 0,
+          output: 1
+        },
+        {
+          input: 1,
+          output: 1
+        },
+        {
+          input: 2,
+          output: 2
+        },
+        {
+          input: 499,
+          output: 499
+        },
+        {
+          input: 500,
+          output: 500
+        },
+        {
+          input: 501,
+          output: 500
+        },
+        {
+          input: 600,
+          output: 500
+        },
+        {
+          input: -20,
+          output: 1
+        },
+        {
+          input: -30,
+          output: 1
+        },
+        {
+          input: -0,
+          output: 1
+        }
+      ];
+      inputOutput.forEach((ele, i) => {
+        test(`Check Value "numberOfItems" for input ` + ele.input, () => {
+          ch5ButtonList.setAttribute('numberOfItems', ele.input);
+          expect(ch5ButtonList.getAttribute('numberOfItems')).to.be.equal(String(inputOutput[i].output));
+          expect(ch5ButtonList.numberOfItems).to.be.equal(inputOutput[i].output);
+        });
+      });
+    });
+
+    suite('ch5-button-list-receiveStateNumberOfItems-invalid-attribute-value', () => {
+      let ch5ButtonList1;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatenumberofitems.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5ButtonList1 = fixture('ch5-button-list-receiveStateNumberOfItems-attributes-0');
+      });
+
+      test(`Check value "receiveStateNumber" of items for invalid value`, (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_0', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList1.receiveStateNumberOfItems).to.be.equal('trigger_event_listener-0');
+            expect(ch5ButtonList1.numberOfItems).to.be.equal(1);
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+      });
+    });
+
+    suite('ch5-button-list-receiveStateNumberOfItems-valid-attribute-value', () => {
+      let ch5ButtonList2;
+      let btn4;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatenumberofitems.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5ButtonList2 = fixture('ch5-button-list-receiveStateNumberOfItems-attributes-1');
+        btn4 = fixture('ch5-button-list-receiveStateNumberOfItems-attributes-4');
+        console.log(btn4,emulator.toString());
+      });
+
+      test(`Check value "receiveStateNumber" of items for valid value`, (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_1', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList2.receiveStateNumberOfItems).to.be.equal('trigger_event_listener-1');
+            expect(ch5ButtonList2.numberOfItems).to.be.equal(10);
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+      });
+    });
+
+    suite('ch5-button-list-receiveStateNumberOfItems-max-attribute-value', () => {
+      let ch5ButtonList3;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatenumberofitems.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5ButtonList3 = fixture('ch5-button-list-receiveStateNumberOfItems-attributes-2');
+      });
+
+      test(`Check value "receiveStateNumber" of items for maximum value`, (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_2', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList3.receiveStateNumberOfItems).to.be.equal('trigger_event_listener-2');
+            expect(ch5ButtonList3.numberOfItems).to.be.equal(500);
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+      });
+    });
+
+    suite('ch5-button-list-receiveStateNumberOfItems-0-attribute-value', () => {
+      let ch5ButtonList2;
+      let btn4;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatenumberofitems.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5ButtonList4 = fixture('ch5-button-list-receiveStateNumberOfItems-attributes-3');
+        btn4 = fixture('ch5-button-list-receiveStateNumberOfItems-attributes-4');
+      });
+
+      test(`Check value "receiveStateNumber" of items for 0 value`, (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_3', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList4.receiveStateNumberOfItems).to.be.equal('trigger_event_listener-3');
+            expect(ch5ButtonList4.numberOfItems).to.be.equal(0);
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

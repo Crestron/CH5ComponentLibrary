@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-button-list-button-checkboxPosition">
+    <template>
+      <ch5-button-list maxNumItems="1" buttonCheckboxPosition=""></ch5-button-list>
+    </template>
+  </test-fixture>
+  <script>
+    const BASIC_TESTING_TIMEOUT = 100;
+    suite('ch5-button-list-button-CheckboxPosition', () => {
+      let ch5ButtonList;
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-button-checkboxPosition');
+      });
+
+      test('button checkbox position Empty', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const buttonListContainer = ch5ButtonList.children[0];
+            const buttonContainer = buttonListContainer.children[0];
+            const button = buttonContainer.children[0];
+            expect(button.checkboxPosition).to.be.equal("left");
+            done();
+          }, BASIC_TESTING_TIMEOUT);
+        });
+      });
+      test('button checkbox position Empty string', (done) => {
+        ch5ButtonList.setAttribute("buttonCheckboxPosition", "  ");
+        flush(() => {
+          setTimeout(() => {
+            const buttonListContainer = ch5ButtonList.children[0];
+            const buttonContainer = buttonListContainer.children[0];
+            const button = buttonContainer.children[0];
+            expect(button.checkboxPosition).to.be.equal("left");
+            done();
+          }, BASIC_TESTING_TIMEOUT);
+        });
+      });
+      test('button checkbox position left', (done) => {
+        ch5ButtonList.setAttribute("buttonCheckboxPosition", "left");
+
+        flush(() => {
+          setTimeout(() => {
+            const buttonListContainer = ch5ButtonList.children[0];
+            const buttonContainer = buttonListContainer.children[0];
+            const button = buttonContainer.children[0];
+            expect(button.checkboxPosition).to.be.equal("left");
+            done();
+          }, BASIC_TESTING_TIMEOUT);
+        });
+      });
+      test('button checkbox position right', (done) => {
+        ch5ButtonList.setAttribute("buttonCheckboxPosition", "right");
+        flush(() => {
+          setTimeout(() => {
+            const buttonListContainer = ch5ButtonList.children[0];
+            const buttonContainer = buttonListContainer.children[0];
+            const button = buttonContainer.children[0];
+            expect(button.checkboxPosition).to.be.equal("right");
+            done();
+          }, BASIC_TESTING_TIMEOUT);
+        });
+      });
+
+    });
+  </script>
+</body>
+
+</html>

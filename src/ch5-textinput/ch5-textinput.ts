@@ -161,7 +161,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 					this._elIcon.classList.add(className.trim());
 				}
 			});
-			this._elIcon.classList.add(this.cssClassPrefix + '__icon');
+			this._elIcon.classList.add(this.primaryCssClass + '__icon');
 		}
 
 	}
@@ -206,7 +206,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 					this._elIcon.classList.add(className.trim());
 				}
 			});
-			this._elIcon.classList.add(this.cssClassPrefix + '__icon');
+			this._elIcon.classList.add(this.primaryCssClass + '__icon');
 		}
 	}
 
@@ -240,7 +240,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 		if (this._elIcon.constructor === HTMLElement) {
 			this._removeModifierClass(Ch5TextInput.ICONPOSITION as [string]);
-			this._elIcon.classList.add(this.cssClassPrefix + '__icon--' + position);
+			this._elIcon.classList.add(this.primaryCssClass + '__icon--' + position);
 		}
 	}
 	public get iconPosition(): TCh5TextInputIconPosition {
@@ -428,7 +428,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 				this._stretch = null;
 				this.removeAttribute('stretch');
 				Ch5TextInput.STRETCH.forEach((stretchValue: string) => {
-					this.classList.remove(this.cssClassPrefix + '--' + stretchValue);
+					this.classList.remove(this.primaryCssClass + '--' + stretchValue);
 				});
 			} else {
 				if (Ch5TextInput.STRETCH.indexOf(value) >= 0) {
@@ -439,7 +439,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 					this._stretch = null;
 					this.removeAttribute('stretch');
 					Ch5TextInput.STRETCH.forEach((stretchValue: string) => {
-						this.classList.remove(this.cssClassPrefix + '--' + stretchValue);
+						this.classList.remove(this.primaryCssClass + '--' + stretchValue);
 					});
 				}
 			}
@@ -1119,31 +1119,31 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 			default: Ch5TextInput.TYPES[0],
 			values: Ch5TextInput.TYPES,
 			key: 'type',
-			classListPrefix: 'ch5-textinput--'
+			classListPrefix: '--'
 		},
 		SIZES: {
 			default: Ch5TextInput.SIZES[0],
 			values: Ch5TextInput.SIZES,
 			key: 'size',
-			classListPrefix: 'ch5-textinput--'
+			classListPrefix: '--'
 		},
 		STRETCH: {
 			default: Ch5TextInput.STRETCH[0],
 			values: Ch5TextInput.STRETCH,
 			key: 'stretch',
-			classListPrefix: 'ch5-textinput--'
+			classListPrefix: '--'
 		},
 		TEXT_TRANSFORM: {
 			default: Ch5TextInput.TEXTTRANSFORM[0],
 			values: Ch5TextInput.TEXTTRANSFORM,
 			key: 'text_transform',
-			classListPrefix: 'ch5-textinput--'
+			classListPrefix: '--'
 		},
 		ICON_POSITION: {
 			default: Ch5TextInput.ICONPOSITION[0],
 			values: Ch5TextInput.ICONPOSITION,
 			key: 'icon_position',
-			classListPrefix: 'ch5-textinput--'
+			classListPrefix: '--'
 		}
 	};
 
@@ -1165,18 +1165,10 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	public primaryCssClass: string = 'ch5-textinput' as string;
 
 	/**
-	 * Class prefix
-	 *
-	 * @public
-	 * @type {string}
-	 */
-	public cssClassPrefix: string = 'ch5-textinput' as string;
-
-	/**
 	 * The input element
 	 *
 	 * @protected
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {HTMLInputElement}
 	 */
 	protected _elInput: HTMLInputElement = {} as HTMLInputElement;
@@ -1185,7 +1177,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * The icon element
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {HTMLElement}
 	 */
 	private _elIcon: HTMLElement = {} as HTMLElement;
@@ -1194,7 +1186,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * The label element
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {HTMLLabelElement}
 	 */
 	private _labelElement: HTMLLabelElement = {} as HTMLLabelElement;
@@ -1203,7 +1195,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * Input placeholder
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {string}
 	 */
 	private _placeholder: string = '' as string;
@@ -1217,7 +1209,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * See https://github.com/estelle/input-masking as example
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {string}
 	 */
 	private _mask: string = '' as string;
@@ -1228,7 +1220,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * This will affect the validation, length of the component.
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {TCh5TextInputType}
 	 */
 	private _inputType: TCh5TextInputType = 'text' as TCh5TextInputType;
@@ -1244,7 +1236,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * attribute of same name
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {string}
 	 */
 	private _pattern: string = '' as string;
@@ -1265,7 +1257,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * Icon attribute is deprecated and it was replaced by iconClass attribute.
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {string}
 	 */
 	private _iconClass: string = '' as string;
@@ -1277,7 +1269,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * Icon attribute is deprecated and it was replaced by iconClass attribute.
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {string}
 	 */
 	private _icon: string = '' as string;
@@ -1291,7 +1283,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * the opposite of 'first'.
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {TCh5TextInputIconPosition}
 	 */
 	private _iconPosition: TCh5TextInputIconPosition = 'first';
@@ -1300,7 +1292,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * Applicable only in feedbackmode='submit'.
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {number}
 	 */
 	private _minLength: number = 0 as number;
@@ -1309,7 +1301,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * Applicable only in feedbackmode='submit'.
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {number}
 	 */
 	private _maxLength: number = 0 as number;
@@ -1320,7 +1312,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * attribute.
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {number}
 	 */
 	private _minValue: number = 0 as number;
@@ -1331,7 +1323,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * the attribute.
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {number}
 	 */
 	private _maxValue: number = 0 as number;
@@ -1341,7 +1333,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * 'large', and 'x-large'. Sets the relative size of this Component.
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {TCh5TextInputSize}
 	 */
 	private _size: TCh5TextInputSize = 'regular' as TCh5TextInputSize;
@@ -1356,7 +1348,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * Metrics ( depending on font name, font size, bold and so on )
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {TCh5TextInputStretch}
 	 */
 	private _stretch: TCh5TextInputStretch | null = null;
@@ -1365,7 +1357,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * Activate the scaling for the input
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {boolean}
 	 */
 	private _scaling: boolean = false;
@@ -1374,7 +1366,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * The minimum font size
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {number}
 	 */
 	private _minimumFontSize: number = 12;
@@ -1383,7 +1375,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * The utility object which contains functionality for scaling
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {Ch5TextInputScaling}
 	 */
 	private _scalingUtility: Ch5TextInputScaling = {} as Ch5TextInputScaling;
@@ -1392,7 +1384,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * The utility object which contains functionality for masking
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {Ch5tTextInputMask}
 	 */
 	private _maskingUtility: Ch5tTextInputMask = {} as Ch5tTextInputMask;
@@ -1405,7 +1397,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * 'none' – don't change input
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {TCh5TextInputTextTransform}
 	 */
 	private _textTransform: TCh5TextInputTextTransform = 'none';
@@ -1414,7 +1406,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * Text for the label element
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {string}
 	 */
 	private _label: string = '' as string;
@@ -1423,7 +1415,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * send signal on value change
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {string}
 	 */
 	private _sendEventOnChange: string = '' as string;
@@ -1432,7 +1424,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * send signal on focus event
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {string}
 	 */
 	private _sendEventOnFocus: string = '' as string;
@@ -1441,7 +1433,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * send signal on blur event
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {string}
 	 */
 	private _sendEventOnBlur: string = '' as string;
@@ -1450,7 +1442,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * When focused, true, when unfocuses, send
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {string}
 	 */
 	private _receiveStateFocus: string = '' as string;
@@ -1459,7 +1451,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * Receive signal with focus state
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {string}
 	 */
 	private _receiveStateFocusSub: string = '' as string;
@@ -1468,7 +1460,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * When receive change the value of the text input field
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {string}
 	 */
 	private _receiveStateValue: string = '' as string;
@@ -1477,7 +1469,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * Receive the value from signal
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {string}
 	 */
 	private _receiveStateValueSub: string = '' as string;
@@ -1491,7 +1483,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * Bind to the validity change
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {CustomEvent}
 	 */
 	private _validityChangeEvent: CustomEvent = {} as CustomEvent;
@@ -1500,7 +1492,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * Fires on change if feedbackMode attribute has 'submit' value
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {CustomEvent}
 	 */
 	private _dirtyCustomEvent: CustomEvent = {} as CustomEvent;
@@ -1509,7 +1501,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * Fires when the input is getting clean
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {CustomEvent}
 	 */
 	private _cleanCustomEvent: CustomEvent = {} as CustomEvent;
@@ -1521,49 +1513,49 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * current input valid value
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {boolean}
 	 */
 	private _lastValidState: boolean = false as boolean;
 
 	/**
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {EventListenerOrEventListenerObject}
 	 */
 	private _onFocusListener: EventListenerOrEventListenerObject = {} as EventListenerOrEventListenerObject;
 
 	/**
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {EventListenerOrEventListenerObject}
 	 */
 	private _onBlurListener: EventListenerOrEventListenerObject = {} as EventListenerOrEventListenerObject;
 
 	/**
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {EventListenerOrEventListenerObject}
 	 */
 	private _onChangeListener: EventListenerOrEventListenerObject = {} as EventListenerOrEventListenerObject;
 
 	/**
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {EventListenerOrEventListenerObject}
 	 */
 	private _onKeyPressListener: EventListenerOrEventListenerObject = {} as EventListenerOrEventListenerObject;
 
 	/**
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {HTMLElement}
 	 */
 	private _assetsWrapper: HTMLElement = {} as HTMLElement;
 
 	/**
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @type {HTMLElement}
 	 */
 	private _onvaliditychange: HtmlCallback | ((this: any, arg: any) => void) = {} as HtmlCallback;
@@ -1842,7 +1834,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	}
 
 	public getCssClassDisabled() {
-		return this.cssClassPrefix + '--disabled';
+		return this.primaryCssClass + '--disabled';
 	}
 
 	/**
@@ -2057,7 +2049,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * before creating view for ch5-textinput
 	 */
 	protected clearComponentContent() {
-		const containers = this.getElementsByClassName(this.cssClassPrefix + Ch5TextInput.COMPONENT_CONTENT_POSTFIX);
+		const containers = this.getElementsByClassName(this.primaryCssClass + Ch5TextInput.COMPONENT_CONTENT_POSTFIX);
 		Array.from(containers).forEach((container) => {
 			container.remove();
 		})
@@ -2074,13 +2066,13 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 		this.classList.add(this.primaryCssClass);
 
 		this._elIcon = document.createElement('i');
-		this._elIcon.classList.add(this.cssClassPrefix + '__icon');
+		this._elIcon.classList.add(this.primaryCssClass + '__icon');
 
 		this._elInput = document.createElement('input');
-		this._elInput.classList.add(this.cssClassPrefix + '__input');
+		this._elInput.classList.add(this.primaryCssClass + '__input');
 
 		this._assetsWrapper = document.createElement('div');
-		this._assetsWrapper.classList.add(this.cssClassPrefix + Ch5TextInput.COMPONENT_CONTENT_POSTFIX);
+		this._assetsWrapper.classList.add(this.primaryCssClass + Ch5TextInput.COMPONENT_CONTENT_POSTFIX);
 
 		this._assetsWrapper.appendChild(this._elInput);
 
@@ -2093,7 +2085,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * Decide where the icon has to be ( left || right side of the input)
 	 *
 	 * @protected
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @see iconPositioningHandler()
 	 * @return {void}
 	 */
@@ -2115,7 +2107,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * Handles the icon positioning
 	 *
 	 * @protected
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @return {void}
 	 */
 	protected iconPositioningHandler(): void {
@@ -2140,7 +2132,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * First initialization of attributes
 	 *
 	 * @protected
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @return {void}
 	 */
 	protected initAttributes() {
@@ -2288,7 +2280,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * Used when the element is detached from the DOM
 	 *
 	 * @protected
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @return {void}
 	 */
 	protected removeEvents(): void {
@@ -2308,7 +2300,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * Mask functionality
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @return {void}
 	 */
 	private _maskInit(): void {
@@ -2322,7 +2314,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * Create the validityChange event
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @param {string} message
 	 * @return void
 	 */
@@ -2334,7 +2326,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 	/**
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @param {string} message
 	 * @return {void}
 	 */
@@ -2352,7 +2344,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	/**
 	 *
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @param {string} eventName
 	 * @param {string} message
 	 * @return {CustomEvent}
@@ -2374,7 +2366,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 	/**
 	 * @private
-	 * @memberof Ch5Textinput
+	 * @memberof Ch5TextInput
 	 * @return {void}
 	 */
 	private _addLabel(): void {
@@ -2383,7 +2375,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 		if (this.querySelector('label') === null) {
 			this._labelElement = document.createElement('label');
 			this._labelElement.innerHTML = this.label;
-			this._labelElement.classList.add(this.cssClassPrefix + '__label');
+			this._labelElement.classList.add(this.primaryCssClass + '__label');
 
 			let element: HTMLElement = this._assetsWrapper as HTMLElement;
 
@@ -2408,18 +2400,18 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 		this.info("<ch5-textinput />._addModifierClass(" + className + "," + toChildrens + ")");
 
 		this._removeModifierClass(staticClasses as [string]);
-		this.classList.add(this.cssClassPrefix + '--' + className);
+		this.classList.add(this.primaryCssClass + '--' + className);
 
 		if (toChildrens === true) {
-			this._elInput.classList.add(this.cssClassPrefix + '__input--' + className);
-			this._assetsWrapper.classList.add(this.cssClassPrefix + '__assets--' + className);
+			this._elInput.classList.add(this.primaryCssClass + '__input--' + className);
+			this._assetsWrapper.classList.add(this.primaryCssClass + '__assets--' + className);
 
 			if (this._labelElement !== undefined && this._labelElement.constructor === HTMLLabelElement) {
-				this._labelElement.classList.add(this.cssClassPrefix + '__label--' + className);
+				this._labelElement.classList.add(this.primaryCssClass + '__label--' + className);
 			}
 
 			if (this._elIcon !== undefined && this._elIcon.constructor === HTMLElement) {
-				this._elIcon.classList.add(this.cssClassPrefix + '__icon--' + className);
+				this._elIcon.classList.add(this.primaryCssClass + '__icon--' + className);
 			}
 		}
 	}
@@ -2434,14 +2426,14 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 		this.info('<ch5-textinput />._removeModifierClass()');
 
 		classes.forEach((className) => {
-			this.classList.remove(this.cssClassPrefix + '--' + className);
-			this._elInput.classList.remove(this.cssClassPrefix + '__input--' + className);
+			this.classList.remove(this.primaryCssClass + '--' + className);
+			this._elInput.classList.remove(this.primaryCssClass + '__input--' + className);
 			if (this._labelElement !== undefined && this._labelElement.constructor === HTMLLabelElement) {
-				this._labelElement.classList.remove(this.cssClassPrefix + '__label--' + className);
+				this._labelElement.classList.remove(this.primaryCssClass + '__label--' + className);
 			}
 
 			if (this._elIcon.constructor === HTMLElement) {
-				this._elIcon.classList.remove(this.cssClassPrefix + '__icon--' + className);
+				this._elIcon.classList.remove(this.primaryCssClass + '__icon--' + className);
 			}
 		})
 

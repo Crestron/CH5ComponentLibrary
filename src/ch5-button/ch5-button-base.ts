@@ -23,7 +23,7 @@ import {
 	TCh5ButtonHorizontalAlignLabel,
 	TCh5ButtonVerticalAlignLabel
 } from './interfaces/t-ch5-button';
-
+import { ICh5ButtonListContractObj } from "./interfaces/t-for-ch5-button-list-contract"
 import { ICh5ButtonAttributes } from "./interfaces/i-ch5-button-attributes";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
@@ -149,41 +149,49 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	public static readonly ORIENTATIONS: TCh5ButtonOrientation[] = ['horizontal', 'vertical'];
 
+	public static readonly MODES: {
+		MIN_LENGTH: number,
+		MAX_LENGTH: number
+	} = {
+			MIN_LENGTH: 0,
+			MAX_LENGTH: 99
+		};
+
 	public static readonly COMPONENT_DATA: any = {
 		TYPES: {
 			default: Ch5ButtonBase.TYPES[0],
 			values: Ch5ButtonBase.TYPES,
 			key: 'type',
 			attribute: 'type',
-			classListPrefix: 'ch5-button--'
+			classListPrefix: '--'
 		},
 		SHAPES: {
 			default: Ch5ButtonBase.SHAPES[0],
 			values: Ch5ButtonBase.SHAPES,
 			key: 'shape',
 			attribute: 'shape',
-			classListPrefix: 'ch5-button--'
+			classListPrefix: '--'
 		},
 		SIZES: {
 			default: Ch5ButtonBase.SIZES[0],
 			values: Ch5ButtonBase.SIZES,
 			key: 'size',
 			attribute: 'size',
-			classListPrefix: 'ch5-button--size-'
+			classListPrefix: '--size-'
 		},
 		STRETCH: {
 			default: null,
 			values: Ch5ButtonBase.STRETCHES,
 			key: 'stretch',
 			attribute: 'stretch',
-			classListPrefix: 'ch5-button--stretch-'
+			classListPrefix: '--stretch-'
 		},
 		ICON_POSITIONS: {
 			default: Ch5ButtonBase.ICON_POSITIONS[0],
 			values: Ch5ButtonBase.ICON_POSITIONS,
 			key: 'iconposition',
 			attribute: 'iconPosition',
-			classListPrefix: 'ch5-button--iconposition-'
+			classListPrefix: '--iconposition-'
 		},
 		CHECKBOX_POSITIONS: {
 			default: Ch5ButtonBase.CHECKBOX_POSITIONS[0],
@@ -197,20 +205,20 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			values: Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS,
 			key: 'halignlabel',
 			attribute: 'hAlignLabel',
-			classListPrefix: 'ch5-button--horizontal-'
+			classListPrefix: '--horizontal-'
 		},
 		VERTICAL_LABEL_ALIGNMENTS: {
 			default: Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0],
 			values: Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS,
 			key: 'valignlabel',
 			attribute: 'vAlignLabel',
-			classListPrefix: 'ch5-button--vertical-'
+			classListPrefix: '--vertical-'
 		},
 		ORIENTATIONS: {
 			default: Ch5ButtonBase.ORIENTATIONS[0],
 			values: Ch5ButtonBase.ORIENTATIONS,
 			key: 'orientation',
-			classListPrefix: 'ch5-button--'
+			classListPrefix: '--'
 		}
 	};
 
@@ -294,21 +302,12 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private readonly selectedCssClassPostfix: string = '--selected';
 	private readonly iosCssClassPostfix: string = '--ios-vertical';
 
-	private readonly MODES: {
-		MIN_LENGTH: number,
-		MAX_LENGTH: number
-	} = {
-			MIN_LENGTH: 0,
-			MAX_LENGTH: 99
-		};
-
 	//#endregion
 
 	//#region 1.2 private / protected variables
 
 	public readonly ELEMENT_NAME: string = 'ch5-button';
 	public primaryCssClass: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
-	public cssClassPrefix: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
 
 	private DEBOUNCE_BUTTON_DISPLAY: number = 25;
 
@@ -492,6 +491,13 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	private _customClassDisabled: string | null = null;
 
+	private buttonListContract: ICh5ButtonListContractObj = {
+		clickHoldTime: 0,
+		index: -1,
+		contractName: "",
+		parentComponent: ""
+	};
+
 	private previousExtendedProperties: ICh5ButtonExtendedProperties = {};
 
 	private debounceSetButtonDisplay = this.debounce(() => {
@@ -629,7 +635,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			if (Number.isNaN(value)) {
 				this._mode = 0;
 			} else {
-				if (value >= this.MODES.MIN_LENGTH && value <= this.MODES.MAX_LENGTH) {
+				if (value >= Ch5ButtonBase.MODES.MIN_LENGTH && value <= Ch5ButtonBase.MODES.MAX_LENGTH) {
 					const buttonModesArray = this.getElementsByTagName("ch5-button-mode");
 					if (buttonModesArray && buttonModesArray.length > 0) {
 						if (value < buttonModesArray.length) {
@@ -1038,12 +1044,13 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	//#region 3. Lifecycle Hooks
 
-	public constructor() {
+	public constructor(public buttonListContractObj?: ICh5ButtonListContractObj) {
 		super();
 		this.logger.start('constructor()', this.primaryCssClass);
 		if (!this._wasInstatiated) {
 			this.createInternalHtml();
 		}
+		if (buttonListContractObj) { this.buttonListContract = buttonListContractObj; }
 		this._wasInstatiated = true;
 		this._ch5ButtonSignal = new Ch5ButtonSignal();
 		this._onBlur = this._onBlur.bind(this);
@@ -1072,7 +1079,11 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.previousExtendedProperties = {}; // Very important - for pages hidden with buttons and shown back with noshowtype remove
 
 		this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
-		this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
+		if (this.buttonListContract?.parentComponent === "ch5-tab-button" || this.buttonListContract?.parentComponent === "ch5-button-list") {
+			this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix + ' ' + this.buttonListContract?.parentComponent + this.pressedCssClassPostfix);
+		} else {
+			this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
+		}
 
 		// WAI-ARIA Attributes
 		if (!this.hasAttribute('role')) {
@@ -1540,6 +1551,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	}
 
 	private _subscribeToPressableIsPressed() {
+		if (this.buttonListContract.contractName.trim() !== "" && this.buttonListContract.parentComponent.trim() === 'ch5-button-list') { return this._subscribeToPressableIsPressedForButtonList(); }
+		if (this.buttonListContract.contractName.trim() !== "" && this.buttonListContract.parentComponent.trim() === 'ch5-tab-button') { return this._subscribeToPressableIsPressedForTabButton(); }
 		const REPEAT_DIGITAL_PERIOD = 200;
 		const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
 		if (this._isPressedSubscription === null && this._pressable !== null) {
@@ -1570,6 +1583,61 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 					this.setButtonDisplay();
 				}
 				// }
+			});
+		}
+	}
+
+	private _subscribeToPressableIsPressedForTabButton() {
+		if (this._isPressedSubscription === null && this._pressable !== null) {
+			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
+				this.logger.log(`Ch5Button.pressableSubscriptionCb(${value})`, this.pressed);
+				if (value === false) {
+					Ch5SignalFactory.getInstance().getBooleanSignal(this.buttonListContract.contractName + `.Tab${this.buttonListContract.index}_Press`)?.publish(value);
+					setTimeout(() => {
+						this.setButtonDisplay();
+					}, this.STATE_CHANGE_TIMEOUTS);
+				} else {
+					Ch5SignalFactory.getInstance().getBooleanSignal(this.buttonListContract.contractName + `.Tab${this.buttonListContract.index}_Press`)?.publish(value);
+					this.setButtonDisplay();
+				}
+			});
+		}
+	}
+
+	private _subscribeToPressableIsPressedForButtonList() {
+		if (this._isPressedSubscription === null && this._pressable !== null) {
+			let isHeld = false;
+			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
+				this.logger.log(`Ch5Button.pressableSubscriptionCb(${value})`, this.pressed);
+				if (value === false) {
+					Ch5SignalFactory.getInstance().getBooleanSignal(this.buttonListContract.contractName + `.Button${this.buttonListContract.index}ItemPress`)?.publish(value);
+					if (isHeld === false) {
+						Ch5SignalFactory.getInstance().getNumberSignal(this.buttonListContract.contractName + '.ListItemClicked')?.publish(this.buttonListContract.index);
+					}
+					if (this._repeatDigitalInterval !== null) {
+						window.clearInterval(this._repeatDigitalInterval as number);
+						isHeld = false;
+					}
+					setTimeout(() => {
+						this.setButtonDisplay();
+					}, this.STATE_CHANGE_TIMEOUTS);
+				} else {
+					Ch5SignalFactory.getInstance().getBooleanSignal(this.buttonListContract.contractName + `.Button${this.buttonListContract.index}ItemPress`)?.publish(value);
+					if (this._repeatDigitalInterval !== null) {
+						window.clearInterval(this._repeatDigitalInterval as number);
+					}
+					if (this.buttonListContract.clickHoldTime === 0) {
+						isHeld = true;
+						Ch5SignalFactory.getInstance().getNumberSignal(this.buttonListContract.contractName + '.ListItemHeld')?.publish(this.buttonListContract.index);
+					} else {
+						this._repeatDigitalInterval = window.setInterval(() => {
+							isHeld = true;
+							Ch5SignalFactory.getInstance().getNumberSignal(this.buttonListContract.contractName + '.ListItemHeld')?.publish(this.buttonListContract.index);
+							window.clearInterval(this._repeatDigitalInterval as number);
+						}, this.buttonListContract.clickHoldTime);
+					}
+					this.setButtonDisplay();
+				}
 			});
 		}
 	}
@@ -1699,6 +1767,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		// selected
 		cssClasses.push(this.primaryCssClass + this.selectedCssClassPostfix);
+		if (this.buttonListContract?.parentComponent === "ch5-tab-button" || this.buttonListContract?.parentComponent === "ch5-button-list") {
+			cssClasses.push(this.buttonListContract?.parentComponent + this.selectedCssClassPostfix);
+		}
 
 		return cssClasses;
 	}
@@ -1774,6 +1845,18 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		this._elContainer.appendChild(this._elButton);
 		this.logger.stop();
+	}
+
+	public addContainerClass(input: string) {
+		if (!this._elContainer.classList.contains(input)) {
+			this._elContainer.classList.add(input);
+		}
+	}
+
+	public removeContainerClass(input: string) {
+		if (this._elContainer.classList.contains(input)) {
+			this._elContainer.classList.remove(input);
+		}
 	}
 
 	// adding ellipsis in iOS device with vertical button
@@ -2381,17 +2464,17 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 			Ch5ButtonBase.ICON_POSITIONS.forEach((iconPositionObj, i) => {
 				if (this.iconPosition === iconPositionObj) {
-					this._elContainer.classList.add(`${this.cssClassPrefix}--iconposition-${iconPositionObj}`);
+					this._elContainer.classList.add(`${this.primaryCssClass}--iconposition-${iconPositionObj}`);
 					this._elIcon.classList.add(`cx-button-icon-pos-${iconPositionObj}`);
 				} else {
-					this._elContainer.classList.remove(`${this.cssClassPrefix}--iconposition-${iconPositionObj}`);
+					this._elContainer.classList.remove(`${this.primaryCssClass}--iconposition-${iconPositionObj}`);
 					this._elIcon.classList.remove(`cx-button-icon-pos-${iconPositionObj}`);
 				}
 			});
 
 			// // Handle vertical button with iconPosition top or bottom
 			// if (['top', 'bottom'].indexOf(this.iconPosition) >= 0 && this.orientation === Ch5ButtonBase.ORIENTATIONS[1]) {
-			// 	this._elButton.classList.add(`${this.cssClassPrefix}--vertical--icon-${this.iconPosition}`);
+			// 	this._elButton.classList.add(`${this.primaryCssClass}--vertical--icon-${this.iconPosition}`);
 			// }
 
 			let hasIcon = false;
@@ -2531,8 +2614,14 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			const selectedCssClass = this.primaryCssClass + this.selectedCssClassPostfix;
 			if (this._selected) {
 				targetEl.classList.add(selectedCssClass);
+				if (this.buttonListContract?.parentComponent === "ch5-tab-button" || this.buttonListContract?.parentComponent === "ch5-button-list") {
+					targetEl.classList.add(this.buttonListContract?.parentComponent + this.selectedCssClassPostfix);
+				}
 			} else {
 				targetEl.classList.remove(selectedCssClass);
+				if (this.buttonListContract?.parentComponent === "ch5-tab-button" || this.buttonListContract?.parentComponent === "ch5-button-list") {
+					targetEl.classList.remove(this.buttonListContract?.parentComponent + this.selectedCssClassPostfix);
+				}
 			}
 		}
 
@@ -2566,25 +2655,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		this.logger.stop();
 	}
-
-	// private updateForChangeInStretch(): void {
-	// 	const parentEl = this.parentElement as HTMLElement;
-	// 	const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
-	// 	if (!parentEl) {
-	// 		this.logger.log('updateForChangeInStretch() - parent element not found');
-	// 		return;
-	// 	}
-	// 	let stretchCssClassNameToAdd: string = '';
-	// 	if (!isNil(this.stretch) && Ch5ButtonBase.STRETCHES.indexOf(this.stretch) >= 0) {
-	// 		stretchCssClassNameToAdd = this.primaryCssClass + '--stretch-' + this.stretch;
-	// 	}
-	// 	Ch5ButtonBase.STRETCHES.forEach((stretch: TCh5ButtonStretch) => {
-	// 		const cssClass = this.primaryCssClass + '--stretch-' + stretch;
-	// 		if (cssClass !== stretchCssClassNameToAdd) {
-	// 			targetEl.classList.remove(cssClass);
-	// 		}
-	// 	});
-	// }
 
 	protected updateCssClassesForCustomState(): void {
 		const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();

@@ -56,7 +56,7 @@
           ch5Keypad.setAttribute('stretch', stretch);
           flush(() => {
             setTimeout(() => {
-              expect(ch5Keypad.stretch).to.be.equal(null);
+              expect(ch5Keypad.stretch).to.be.equal('null');
               expect(Array.from(ch5Keypad.classList).includes('stretch')).to.equal(false);
               done();
             }, 100);

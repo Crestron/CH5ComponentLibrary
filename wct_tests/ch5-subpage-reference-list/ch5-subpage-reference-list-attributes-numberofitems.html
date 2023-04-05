@@ -1,0 +1,209 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-subpage-reference-list-numberOfItems-attributes">
+    <template id="templateWidgetId">
+      <div>
+        <ch5-toggle label="tgl_{{idx}}">
+        </ch5-toggle>
+      </div>
+    </template>
+    <div>
+      <ch5-subpage-reference-list id="subpagereferencelistone" widgetId="templateWidgetId" indexId="idx">
+      </ch5-subpage-reference-list>
+    </div>
+  </test-fixture>
+  <test-fixture id="ch5-subpage-reference-list-numberOfItems-attributes-1">
+    <template id="templateWidgetId1">
+      <div>
+        <ch5-toggle label="tgl_{{idx}}">
+        </ch5-toggle>
+      </div>
+    </template>
+    <div>
+      <ch5-subpage-reference-list id="subpagereferencelisttwo" numberOfItems="10" widgetId="templateWidgetId1"
+        indexId="idx">
+      </ch5-subpage-reference-list>
+    </div>
+  </test-fixture>
+  <test-fixture id="ch5-subpage-reference-list-numberOfItems-attributes-2">
+    <template id="templateWidgetId2">
+
+      <ch5-toggle label="tgl_{{idx}}">
+      </ch5-toggle>
+
+    </template>
+    <div style="width:800px">
+      <ch5-subpage-reference-list id="subpagereferencelistthree" numberOfItems="6" widgetId="templateWidgetId2"
+        indexId="idx">
+      </ch5-subpage-reference-list>
+    </div>
+  </test-fixture>
+  <script>
+    suite('ch5-subpage-reference-list-numberOfItems-attributes-2', () => {
+      let ch5SubpageReferenceList;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatenumberofitems.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5SubpageReferenceList = document.getElementById("subpagereferencelistthree");
+      });
+
+      test(`Check value for label when number of item is 6 `, (done) => {
+        flush(() => {
+          setTimeout(() => {
+            ch5SubpageReferenceList.querySelectorAll('.ch5-subpage-reference-list--subpage-container').forEach((ele, index) => {
+              expect(ele.children[0].getAttribute('label')).to.be.equal('tgl_' + index);
+            });
+            done();
+          }, 1000);
+        });
+      });
+
+    });
+
+
+    suite('ch5-subpage-reference-list-numberOfItems-attributes-value', () => {
+      let ch5SubpageReferenceList;
+      let ch5SubpageReferenceList1;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatenumberofitems.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5SubpageReferenceList = document.getElementById("subpagereferencelistone");
+        ch5SubpageReferenceList1 = document.getElementById("subpagereferencelistone");
+      });
+
+      const validOutput = [10, 500, 1, 1];
+      const inputOutput = [
+        {
+          input: 'a',
+          output: 10
+        },
+        {
+          input: '',
+          output: 10
+        },
+        {
+          input: ' ',
+          output: 10
+        },
+        {
+          input: 'number',
+          output: 10
+        },
+        {
+          input: '0',
+          output: 1
+        },
+        {
+          input: '1',
+          output: 1
+        },
+        {
+          input: '2',
+          output: 2
+        },
+        {
+          input: '499',
+          output: 499
+        },
+        {
+          input: '500',
+          output: 500
+        },
+        {
+          input: '501',
+          output: 501
+        },
+        {
+          input: '-1',
+          output: 1
+        },
+        {
+          input: '-0',
+          output: 1
+        },
+        {
+          input: -1,
+          output: 1
+        },
+        {
+          input: 0,
+          output: 1
+        },
+        {
+          input: 1,
+          output: 1
+        },
+        {
+          input: 2,
+          output: 2
+        },
+        {
+          input: 499,
+          output: 499
+        },
+        {
+          input: 500,
+          output: 500
+        },
+        {
+          input: 501,
+          output: 501
+        },
+        {
+          input: 600,
+          output: 600
+        },
+        {
+          input: -20,
+          output: 1
+        },
+        {
+          input: -30,
+          output: 1
+        },
+        {
+          input: -0,
+          output: 1
+        }
+      ];
+      inputOutput.forEach((ele, i) => {
+        test(`Check Value "numberOfItems" for input ` + ele.input, () => {
+          ch5SubpageReferenceList.setAttribute('numberOfItems', ele.input);
+          expect(ch5SubpageReferenceList.getAttribute('numberOfItems')).to.be.equal(String(inputOutput[i].output));
+          expect(ch5SubpageReferenceList.numberOfItems).to.be.equal(inputOutput[i].output);
+        });
+      });
+
+      validOutput.forEach((val, i) => {
+        test(`Check value "receiveStateNumber" of items ` + val, () => {
+          CrComLib.publishEvent('n', 'trigger_signal', true);
+          ch5SubpageReferenceList1.setAttribute('receiveStateNumberOfItems', `trigger_event_listener-${i}`);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(val);
+              done();
+            }, 100);
+          });
+        });
+      });
+
+    });
+  </script>
+</body>
+
+</html>

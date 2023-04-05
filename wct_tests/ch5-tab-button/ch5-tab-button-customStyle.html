@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-tab-button-custom-style-1">
+    <template>
+      <ch5-tab-button customStyle="background-color:green">
+      </ch5-tab-button>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-tab-button-custom-style-2">
+    <template>
+      <ch5-tab-button customStyle="border:1px solid salmon">
+      </ch5-tab-button>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-tab-button-custom-style-3">
+    <template>
+      <ch5-tab-button customStyle="width:200px">
+      </ch5-tab-button>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-tab-button-custom-style-4">
+    <template>
+      <ch5-tab-button customStyle="height:150px">
+      </ch5-tab-button>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-tab-button-custom-style-5">
+    <template>
+      <ch5-tab-button customStyle="">
+      </ch5-tab-button>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-tab-button-custom-style-6">
+    <template>
+      <ch5-tab-button customStyle>
+      </ch5-tab-button>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-tab-button-custom-style-7">
+    <template>
+      <ch5-tab-button customStyle="invalid">
+      </ch5-tab-button>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-tab-button-custom-style-8">
+    <template>
+      <ch5-tab-button customStyle=" ">
+      </ch5-tab-button>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-tab-button-custom-style background color', () => {
+      let ch5TabButton;
+      setup(async () => {
+        ch5TabButton = fixture('ch5-tab-button-custom-style-1');
+      });
+      test('Check Default custom style', () => {
+        expect(ch5TabButton.children[0].style.backgroundColor).to.be.equal('green');
+      });
+    });
+
+    suite('ch5-tab-button-custom-style border', () => {
+      let ch5TabButton;
+      setup(async () => {
+        ch5TabButton = fixture('ch5-tab-button-custom-style-2');
+      });
+      test('Check Default custom style', () => {
+        expect(ch5TabButton.children[0].style.border).to.be.equal('1px solid salmon');
+      });
+    });
+    suite('ch5-tab-button-custom-style width', () => {
+      let ch5TabButton;
+      setup(async () => {
+        ch5TabButton = fixture('ch5-tab-button-custom-style-3');
+      });
+      test('Check Default custom style', () => {
+        expect(ch5TabButton.children[0].style.width).to.be.equal('200px');
+      });
+    });
+    suite('ch5-tab-button-custom-style Height', () => {
+      let ch5TabButton;
+      setup(async () => {
+        ch5TabButton = fixture('ch5-tab-button-custom-style-4');
+      });
+      test('Check Default custom style', () => {
+        expect(ch5TabButton.children[0].style.height).to.be.equal('150px');
+      });
+    });
+    suite('ch5-tab-button-custom-style empty', () => {
+      let ch5TabButton;
+      setup(async () => {
+        ch5TabButton = fixture('ch5-tab-button-custom-style-5');
+      });
+      test('Check Default custom style', () => {
+        expect(ch5TabButton.children[0].getAttribute('style')).to.be.equal('');
+      });
+    });
+    suite('ch5-tab-button-custom-style null', () => {
+      let ch5TabButton;
+      setup(async () => {
+        ch5TabButton = fixture('ch5-tab-button-custom-style-6');
+      });
+      test('Check Default custom style', () => {
+        expect(ch5TabButton.children[0].getAttribute('style')).to.be.equal('');
+      });
+    });
+    suite('ch5-tab-button-custom-style invalid', () => {
+      let ch5TabButton;
+      setup(async () => {
+        ch5TabButton = fixture('ch5-tab-button-custom-style-7');
+      });
+      test('Check Default custom style', () => {
+        expect(ch5TabButton.children[0].getAttribute('style')).to.be.equal('');
+      });
+    });
+    suite('ch5-tab-button-custom-style empty space', () => {
+      let ch5TabButton;
+      setup(async () => {
+        ch5TabButton = fixture('ch5-tab-button-custom-style-8');
+      });
+      test('Check Default custom style', () => {
+        expect(ch5TabButton.children[0].getAttribute('style')).to.be.equal('');
+      });
+    });
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-button-list-mode-state-hAlignLabel-attributes">
+    <template>
+      <ch5-button-list>
+        <ch5-button-list-mode>
+          <ch5-button-list-mode-state></ch5-button-list-mode-state>
+        </ch5-button-list-mode>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-mode-state-hAlignLabel-attributes-classList">
+    <template>
+      <ch5-button-list>
+        <ch5-button-list-mode>
+          <ch5-button-list-mode-state state="normal">
+          </ch5-button-list-mode-state>
+          <ch5-button-list-mode-state state="pressed">
+          </ch5-button-list-mode-state>
+          <ch5-button-list-mode-state checkboxPosition="right" state="selected">
+          </ch5-button-list-mode-state>
+        </ch5-button-list-mode>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-mode-state-halignLabel-pressed">
+    <template>
+      <ch5-button-list buttonSelected="true" buttonCheckboxShow="true">
+        <ch5-button-list-mode>
+          <ch5-button-list-mode-state state="normal">
+          </ch5-button-list-mode-state>
+          <ch5-button-list-mode-state state="pressed" hAlignLabel="right">
+          </ch5-button-list-mode-state>
+          <ch5-button-list-mode-state state="selected" hAlignLabel="left">
+          </ch5-button-list-mode-state>
+        </ch5-button-list-mode>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-button-list-mode-state-hAlignLabel-attributes-value', () => {
+      let ch5ButtonList;
+      let ch5ButtonListMode;
+      let ch5ButtonListModeState;
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-mode-state-hAlignLabel-attributes');
+        ch5ButtonListMode = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[0];
+        ch5ButtonListModeState = ch5ButtonListMode.getElementsByTagName('ch5-button-list-mode-state')[0];
+      });
+
+      let testCases = ['a', '', ' ', 'number', 'center', 'left', 'right'];
+      let expectedResult = ['center', 'center', 'center', 'center', 'center', 'left', 'right'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "hAlignLabel"', () => {
+          ch5ButtonListModeState.setAttribute('hAlignLabel', ele);
+          expect(ch5ButtonListModeState.getAttribute('hAlignLabel')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+    });
+    suite('ch5-button-list-mode-state-hAlignLabel-attributes-classList', () => {
+      let ch5ButtonList;
+      let ch5ButtonListMode;
+      let ch5ButtonListModeState0;
+      let ch5ButtonListModeState1;
+      let ch5ButtonListModeState2;
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-mode-state-hAlignLabel-attributes-classList');
+        ch5ButtonListModeState0 = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[0];
+        ch5ButtonListModeState1 = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[1];
+        ch5ButtonListModeState2 = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[2];
+      });
+
+      const valid_hAlignLabel = CrComLib.Ch5ButtonList.BUTTON_HALIGN_LABEL_POSITIONS;
+      const invalid_hAlignLabel = ['', 'junk', 'null', null, undefined, 'undefined', '0', '1', 'top', 'bottom', 'middle'];
+
+      valid_hAlignLabel.forEach((hAlignLabelName, i) => {
+        test(`Check attribute hAlignLabel: "${hAlignLabelName}"`, (done) => {
+          ch5ButtonListModeState0.setAttribute('hAlignLabel', hAlignLabelName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonListModeState0.hAlignLabel).to.be.equal(hAlignLabelName);
+              expect(getSpan(ch5ButtonList).classList.contains("ch5-button--horizontal-" + hAlignLabelName)).to.be.equal(true);
+              valid_hAlignLabel.forEach((hAlignLabelNameErrorCheck, j) => {
+                if (hAlignLabelNameErrorCheck !== hAlignLabelName) {
+                  expect(getSpan(ch5ButtonList).classList.contains("ch5-button--horizontal-" + hAlignLabelNameErrorCheck)).to.be.equal(false);
+                }
+              });
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      invalid_hAlignLabel.forEach((hAlignLabelName, i) => {
+        test(`Check attribute hAlignLabel: "${hAlignLabelName}" for invalid values`, (done) => {
+          ch5ButtonListModeState0.setAttribute('hAlignLabel', hAlignLabelName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonListModeState0.hAlignLabel).to.be.equal("center");
+              expect(getSpan(ch5ButtonList).classList.contains("ch5-button--horizontal-center")).to.be.equal(true);
+              valid_hAlignLabel.forEach((hAlignLabelNameErrorCheck, j) => {
+                if (hAlignLabelNameErrorCheck !== "center") {
+                  expect(getSpan(ch5ButtonList).classList.contains("ch5-button--horizontal-" + hAlignLabelNameErrorCheck)).to.be.equal(false);
+                }
+              });
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+    });
+    suite('ch5-button-list-mode-state-halignLabel-selected-and-pressed-value', () => {
+      let ch5ButtonList;
+      let ch5ButtonListMode;
+      let ch5ButtonListModeState0;
+      let ch5ButtonListModeState1;
+      let ch5ButtonListModeState2;
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-mode-state-halignLabel-pressed');
+        ch5ButtonListModeState0 = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[0];
+        ch5ButtonListModeState1 = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[1];
+        ch5ButtonListModeState2 = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[2];
+      });
+      test(`Check attribute halignLabel for selected mode:"`, (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(getFirstButton(ch5ButtonList).children[0].classList.contains('ch5-button--pressed')).to.be.equal(false);
+            expect(getSpan(ch5ButtonList).classList.contains("ch5-button--horizontal-left")).to.be.equal(true);
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+      });
+      test(`Check attribute checkboxPosition for pressed mode:"`, (done) => {
+        flush(() => {
+          setTimeout(() => {
+            getAllButtons(ch5ButtonList)[0].setAttribute('pressed', 'true');
+            expect(getFirstButton(ch5ButtonList).children[0].classList.contains('ch5-button--pressed')).to.be.equal(true);
+            expect(getSpan(ch5ButtonList).classList.contains("ch5-button--horizontal-right")).to.be.equal(true);
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+      });
+
+    });
+  </script>
+</body>
+
+</html>

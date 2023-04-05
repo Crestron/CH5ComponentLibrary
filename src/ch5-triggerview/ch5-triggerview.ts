@@ -501,7 +501,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 	 * CSS classes
 	 */
 	public readonly primaryCssClass: string = 'ch5-triggerview';
-	public readonly cssClassPrefix: string = 'ch5-triggerview';
 
 	/**
 	 * COMPONENT PUBLIC ATTRIBUTES
@@ -808,7 +807,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 	 * @return { string }
 	 */
 	public getCssClassDisabled(): string {
-		return this.cssClassPrefix + '--disabled';
+		return this.primaryCssClass + '--disabled';
 	}
 
 	public getPlainActiveView() {

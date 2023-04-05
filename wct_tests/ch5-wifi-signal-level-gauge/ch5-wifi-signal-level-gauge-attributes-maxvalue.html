@@ -16,6 +16,11 @@
       <ch5-wifi-signal-level-gauge></ch5-wifi-signal-level-gauge>
     </template>
   </test-fixture>
+  <test-fixture id="ch5-wifi-signal-level-gauge-maxValue-with-minValue-attributes">
+    <template>
+      <ch5-wifi-signal-level-gauge minValue="50"></ch5-wifi-signal-level-gauge>
+    </template>
+  </test-fixture>
   <script>
     suite('ch5-wifi-signal-level-gauge-maxValue-attributes-value', () => {
       let ch5WifiSignalLevelGauge;
@@ -32,7 +37,21 @@
           expect(ch5WifiSignalLevelGauge.getAttribute('maxValue')).to.be.equal(expectedResult[i]);
         });
       });
+    });
+    suite('ch5-wifi-signal-level-gauge-maxValue-with-minValue-attributes', () => {
+      let ch5WifiSignalLevelGauge;
 
+      setup(async () => {
+        ch5WifiSignalLevelGauge = fixture('ch5-wifi-signal-level-gauge-maxValue-with-minValue-attributes');
+      });
+      let testCases = ['a', '', ' ', 'number', '0', '49', '99', '100', '101', '50'];
+      let expectedResult = ['100', '100', '100', '100', '100', '100', '99', '100', '100', '100'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "maxValue"', () => {
+          ch5WifiSignalLevelGauge.setAttribute('maxValue', ele);
+          expect(ch5WifiSignalLevelGauge.getAttribute('maxValue')).to.be.equal(expectedResult[i]);
+        });
+      });
     });
   </script>
 </body>

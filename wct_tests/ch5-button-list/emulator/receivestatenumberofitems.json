@@ -1,0 +1,52 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_event_0",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener-0",
+          "type": "s",
+          "value": "a"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener-1",
+          "type": "n",
+          "value": 10
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener-2",
+          "type": "n",
+          "value": 600
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event_3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener-3",
+          "type": "n",
+          "value": 0
+        }
+      ]
+    }
+  ]
+}

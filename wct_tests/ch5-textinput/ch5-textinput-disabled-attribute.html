@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+    <test-fixture id="ch5-textinput-disabled-attribute">
+        <template>
+            <ch5-textinput placeholder="Address">
+            </ch5-textinput>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-textinput-disabled-attribute', ()=>{
+            let ch5Textinput;
+            setup(()=>{
+                ch5Textinput = fixture('ch5-textinput-disabled-attribute');
+            });
+
+            const testCases = ['true', 'false', 'invalid', 'valid', 'number', 'strings', 21, '', ' '];
+            const expectedOutput = [true, false, false, false, false, false, false, true, false];
+
+            testCases.forEach((ele, i)=>{
+                test(`Check disabled: "${ele}" to be ${expectedOutput[i]}`, (done)=>{
+                    ch5Textinput.setAttribute('disabled', ele);
+                    flush(()=>{
+                        setTimeout(()=>{
+                            expect(ch5Textinput.disabled).to.be.equal(expectedOutput[i]);
+                            done();
+                        },100)
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

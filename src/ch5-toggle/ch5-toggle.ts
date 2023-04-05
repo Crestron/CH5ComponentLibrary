@@ -536,25 +536,25 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 			default: Ch5Toggle.SHAPES[0],
 			values: Ch5Toggle.SHAPES,
 			key: 'shape',
-			classListPrefix: 'ch5-toggle--'
+			classListPrefix: '--'
 		},
 		ORIENTATIONS: {
 			default: Ch5Toggle.ORIENTATIONS[0],
 			values: Ch5Toggle.ORIENTATIONS,
 			key: 'orientation',
-			classListPrefix: 'ch5-toggle--'
+			classListPrefix: '--'
 		},
 		MODES: {
 			default: Ch5Toggle.MODES[0],
 			values: Ch5Toggle.MODES,
 			key: 'mode',
-			classListPrefix: 'ch5-toggle--'
+			classListPrefix: '--'
 		},
 		DIRECTION: {
 			default: Ch5Common.DIRECTION[0],
 			values: Ch5Common.DIRECTION,
 			key: 'mode',
-			classListPrefix: 'ch5-toggle--dir--'
+			classListPrefix: '--dir--'
 		},
 	};
 
@@ -578,8 +578,6 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 	 * CSS classes
 	 */
 	public primaryCssClass = 'ch5-toggle';
-	public cssClassPrefix = 'ch5-toggle';
-
 
 	/**
 	 * COMPONENT ATTRIBUTES
@@ -983,10 +981,10 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 				} else {
 					this.direction = Ch5Common.DIRECTION[0];
 				}
-				this.getTargetElementForCssClassesAndStyle().classList.add(this.cssClassPrefix + '--dir--' + this.direction);
+				this.getTargetElementForCssClassesAndStyle().classList.add(this.primaryCssClass + '--dir--' + this.direction);
 				break;
 			case 'disabled':
-				this.disabled = hasValue
+				// this.disabled = hasValue
 				this.setAttribute('aria-disabled', hasValue.toString());
 
 				// The `tabindex` attribute does not provide a way to fully remove
@@ -1153,7 +1151,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 	 * @return {string }
 	 */
 	public getCssClassDisabled(): string {
-		return this.cssClassPrefix + '--disabled';
+		return this.primaryCssClass + '--disabled';
 	}
 
 	/**
@@ -1243,10 +1241,10 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 		setOfCssClassesToBeApplied.add(this.primaryCssClass);
 
 		// shape
-		setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.handleShape);
+		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--' + this.handleShape);
 
 		// orientation
-		setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.orientation);
+		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--' + this.orientation);
 
 		const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
 		if (typeof targetEl.classList !== 'undefined') {
@@ -1303,13 +1301,13 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 
 		// shapes
 		Ch5Toggle.SHAPES.forEach((shape: TCh5ToggleShape) => {
-			const newClass = this.cssClassPrefix + '--' + shape;
+			const newClass = this.primaryCssClass + '--' + shape;
 			cssClasses.push(newClass);
 		});
 
 		// orientation
 		Ch5Toggle.ORIENTATIONS.forEach((orientation: TCh5ToggleOrientation) => {
-			cssClasses.push(this.cssClassPrefix + '--' + orientation);
+			cssClasses.push(this.primaryCssClass + '--' + orientation);
 		});
 
 		return cssClasses;

@@ -20,14 +20,14 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
       values: Ch5Animation.SIZES,
       key: 'size',
       attribute: 'size',
-      classListPrefix: 'ch5-animation--size-'
+      classListPrefix: '--size-'
     },
     ANIMATION_STYLE: {
       default: Ch5Animation.ANIMATION_STYLES[0],
       values: Ch5Animation.ANIMATION_STYLES,
       key: 'animationstyle',
       attribute: 'animationstyle',
-      classListPrefix: 'ch5-animation--style-'
+      classListPrefix: '--style-'
     }
   };
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
@@ -101,7 +101,6 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
   public static readonly MAX_FRAMES_PER_SECOND = 1;
   public static readonly FRAMES_PER_SECOND_MIN = 3;
   public static readonly FRAMES_PER_SECOND_MAX = 100;
-  public cssClassPrefix = 'ch5-animation';
   public primaryCssClass = 'ch5-animation';
 
   private _ch5Properties: Ch5Properties;
@@ -319,9 +318,9 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
   }
   private handleSize() {
     Array.from(Ch5Animation.COMPONENT_DATA.SIZE.values).forEach((e: any) => {
-      this._iconContainer.classList.remove(Ch5Animation.COMPONENT_DATA.SIZE.classListPrefix + e);
+      this._iconContainer.classList.remove(Ch5Animation.ELEMENT_NAME + Ch5Animation.COMPONENT_DATA.SIZE.classListPrefix + e);
     });
-    this._iconContainer.classList.add(Ch5Animation.COMPONENT_DATA.SIZE.classListPrefix + this.size);
+    this._iconContainer.classList.add(Ch5Animation.ELEMENT_NAME + Ch5Animation.COMPONENT_DATA.SIZE.classListPrefix + this.size);
   }
   private handleAnimationStyle(value: TCh5AnimationStyle) {
     Ch5Animation.ANIMATION_STYLES_CLASS.forEach((clsName) => {
@@ -333,7 +332,7 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
   private updateCssClass() {
     this.logger.start('UpdateCssClass');
     super.updateCssClasses();
-    this._iconContainer.classList.add(Ch5Animation.COMPONENT_DATA.SIZE.classListPrefix + this.size);
+    this._iconContainer.classList.add(Ch5Animation.ELEMENT_NAME + Ch5Animation.COMPONENT_DATA.SIZE.classListPrefix + this.size);
     this._iconContainer.classList.add('ch5-animation--start-animating-' + this.startAnimating.toString());
     this._iconContainer.setAttribute('style', `animation-duration:${Ch5Animation.DEFAULT_FRAMES_PER_SECOND}ms;`);
     this.logger.stop();
@@ -344,7 +343,7 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
   }
 
   public getCssClassDisabled() {
-    return this.cssClassPrefix + '--disabled';
+    return this.primaryCssClass + '--disabled';
   }
 
   //#endregion
