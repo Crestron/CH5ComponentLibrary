@@ -41,6 +41,7 @@ export interface ICh5JoinToTextNumericAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatevalue
    * @default ""
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    * @attributeType "Join"
    */
   receiveStateValue: string;

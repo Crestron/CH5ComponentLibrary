@@ -53,6 +53,7 @@ export interface ICh5JoinToTextBooleanAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatevalue
    * @default ""
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    * @attributeType "Join"
    */
   receiveStateValue: string;
