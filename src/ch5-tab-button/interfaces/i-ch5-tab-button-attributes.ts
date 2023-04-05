@@ -56,6 +56,18 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
   /**
    * @documentation
    * [
+   * "`buttonLabelInnerHtml` attribute",
+   * "***",
+   * "This attribute provides the ability of a template that applies for all the buttons in the tab button."
+   * ]
+   * @name buttonlabelinnerhtml
+   * @attributeType "EncodedHTML"
+   * @hidden true
+   */
+  buttonLabelInnerHtml: string;
+  /**
+   * @documentation
+   * [
    * "`buttonHAlignLabel` attribute",
    * "***",
    * "Default value is center. Possible values are 'center', 'left', 'right'. When the buttonHAlignLabel property is set, the label and the icon of the button are horizontally aligned.The center property sets the horizontal alignment of the label to the center of the button. The left property sets the horizontal alignment of the label to the left of the button. The right property sets the horizontal alignment of the label to the right of the button."
