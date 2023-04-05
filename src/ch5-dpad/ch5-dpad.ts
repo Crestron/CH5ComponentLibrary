@@ -245,7 +245,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	public set size(value: TCh5DpadSize) {
 		this._ch5Properties.set<TCh5DpadSize>("size", value, () => {
-			this.checkAndRestructureDomOfDpad();
+			this.updateCssClasses();
 		});
 	}
 	public get size() {
@@ -497,25 +497,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 		this.createEmptyContainerDiv();
 
-		// order of appending is --- center, up, left/right, right/left, down
-		this.container.appendChild(centerBtn);
-		this.container.appendChild(upBtn);
-
-		if (this.shape === Ch5Dpad.SHAPES[0]) {
-			// if the selected shape is 'plus'
-			this.container.appendChild(leftBtn);
-			this.container.appendChild(rightBtn);
-		}
-		else if (this.shape === Ch5Dpad.SHAPES[1]) {
-			// if the selected shape is 'circle'
-			this.container.appendChild(rightBtn);
-			this.container.appendChild(leftBtn);
-		} else {
-			// if the selected shape is an invalid value
-			throw new Error("Seems to be an invalid shape. Must be 'plus' or 'circle' as values.");
-		}
-
-		this.container.appendChild(downBtn);
+		this.appendButtonsInRightOrder(centerBtn, upBtn, leftBtn, rightBtn, downBtn);
 	}
 
 	private createAndAppendAllExistingButtonsUnderDpad(buttonsList: HTMLCollection) {
@@ -572,6 +554,10 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 		this.createEmptyContainerDiv();
 
+		this.appendButtonsInRightOrder(centerBtn, upBtn, leftBtn, rightBtn, downBtn);
+	}
+
+	private appendButtonsInRightOrder(centerBtn: Ch5DpadButton, upBtn: Ch5DpadButton, leftBtn: Ch5DpadButton, rightBtn: Ch5DpadButton, downBtn: Ch5DpadButton) {
 		// order of appending is --- center, up, left/right, right/left, down
 		this.container.appendChild(centerBtn);
 		this.container.appendChild(upBtn);
