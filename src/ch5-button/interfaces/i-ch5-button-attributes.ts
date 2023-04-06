@@ -16,7 +16,9 @@ import {
   TCh5ButtonActionType,
   TCh5ButtonHorizontalAlignLabel,
   TCh5ButtonVerticalAlignLabel,
-  TCh5ButtonCheckboxPosition
+  TCh5ButtonCheckboxPosition,
+  TCh5ButtonBackgroundImageFillType,
+  TCh5ButtonIconUrlFillType
 } from "./t-ch5-button";
 
 /**
@@ -117,7 +119,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @limits [{"min": 0, "max": 99}]
    * @attributeType "Integer"
    */
-   mode: number;
+  mode: number;
 
   /**
    * @documentation
@@ -441,4 +443,56 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @attributeType "Boolean"
    */
   pressed: boolean;
+
+  /**
+   * @documentation
+   * [
+   * "`backgroundImageUrl` attribute",
+   * "***",
+   * "Sets the image to be displayed as the background for the button. The attribute type is String. default value is empty."
+   * ]
+   * @name backgroundimageurl
+   * @default 
+   * @attributeType "String"
+   */
+  backgroundImageUrl: string;
+
+  /**
+   * @documentation
+   * [
+   * "`backgroundImageFillType` attribute",
+   * "***",
+   * "Sets the background image for button. Enum - Default value is 'stretch-aspect'. Applicable values are 'stretch', 'stretch-aspect', 'center', 'tile'. Uses the css property background-size for the implementation."
+   * ]
+   * @name backgroundimagefilltype
+   * @default stretch-aspect
+   * @attributeType "EnumeratedValue"
+   */
+  backgroundImageFillType: TCh5ButtonBackgroundImageFillType;
+
+  /**
+   * @documentation
+   * [
+   * "`iconUrlFillType` attribute",
+   * "***",
+   * "Sets the icon url fill type. Default value is 'null'. Applicable values are 'null', 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'. Uses the css property background-size for the implementation."
+   * ]
+   * @name iconurlfilltype
+   * @default null
+   * @attributeType "EnumeratedValue"
+   */
+  iconUrlFillType: TCh5ButtonIconUrlFillType | null;
+
+  /**
+   * @documentation
+   * [
+   * "`receiveStateBackgroundImageUrl` attribute",
+   * "***",
+   * "Sets the image to be displayed as the background for the button. The attribute type with String response."
+   * ]
+   * @name receivestatebackgroundimageurl
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @attributeType "Join"
+   */
+  receiveStateBackgroundImageUrl: string;
 }

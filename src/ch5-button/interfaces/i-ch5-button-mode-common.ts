@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { TCh5ButtonCheckboxPosition, TCh5ButtonHorizontalAlignLabel, TCh5ButtonIconPosition, TCh5ButtonType, TCh5ButtonVerticalAlignLabel } from ".";
+import { TCh5ButtonCheckboxPosition, TCh5ButtonHorizontalAlignLabel, TCh5ButtonIconPosition, TCh5ButtonIconUrlFillType, TCh5ButtonType, TCh5ButtonVerticalAlignLabel } from ".";
 
 /**
  * @ignore
@@ -79,6 +79,19 @@ export interface ICh5ButtonModeCommonAttributes {
    * @attributeType "ImageURL"
    */
   iconUrl: string;
+
+  /**
+   * @documentation
+   * [
+   * "`iconUrlFillType` attribute",
+   * "***",
+   * "Sets the icon url fill type. Default value is 'null'. Applicable values are 'null', 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'. Uses the css property background-size for the implementation."
+   * ]
+   * @name iconurlfilltype
+   * @default null
+   * @attributeType "EnumeratedValue"
+   */
+  iconUrlFillType: TCh5ButtonIconUrlFillType | null;
 
   /**
    * @documentation
