@@ -6,17 +6,18 @@ import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonLi
  */
 export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes {
   /**
- * @documentation
- * [
- * "`orientation` attribute",
- * "***",
- * "The default value is 'horizontal'. Valid values: 'horizontal' or 'vertical'. Positions the list elements in a horizontal or vertical orientation."
- * ]
- * @name orientation
- * @default horizontal
- * @attributeType "EnumeratedValue"
- */
+   * @documentation
+   * [
+   * "`orientation` attribute",
+   * "***",
+   * "The default value is 'horizontal'. Valid values: 'horizontal' or 'vertical'. Positions the list elements in a horizontal or vertical orientation."
+   * ]
+   * @name orientation
+   * @default horizontal
+   * @attributeType "EnumeratedValue"
+   */
   orientation: TCh5ButtonListAttributesOrientation;
+  
   /**
    * @documentation
    * [
@@ -49,8 +50,8 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * "The default value is null. Valid values are null and 'both'. NOTE: stretch is set to null whenever there are multiple rows and columns. Stretch attribute is set to both will take more priority than centerItems attribute."
    * ]
    * @name stretch
-   * @default false
-   * @attributeType "Boolean"
+   * @default null
+   * @attributeType "EnumeratedValue"
    */
   stretch: TCh5ButtonListAttributesStretch | null;
   /**
@@ -440,8 +441,9 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * "When received, applies a value to the mode attribute from the signal on all the buttons in the button list."
    * ]
    * @name buttonreceivestatemode
-   * @default 
-   * @attributeType "String"
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}   
+   * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateMode: string;
   /**
@@ -452,8 +454,9 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * "When received, applies a true value applied by the selected class (ch5-button--selected) on all the buttons in the button list."
    * ]
    * @name buttonreceivestateselected
-   * @default 
-   * @attributeType "String"
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
+   * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateSelected: string;
   /**
@@ -464,8 +467,9 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * "When received, applies the value on the label on all the buttons in the button list."
    * ]
    * @name buttonreceivestatelabel
-   * @default 
-   * @attributeType "String"
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
+   * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateLabel: string;
   /**
@@ -476,8 +480,9 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * "Allows the signal script evaluation to be applied to the button.innerHTML class. Allows for multiline, multiStyled labels."
    * ]
    * @name buttonreceivestatescriptlabelhtml
-   * @default 
-   * @attributeType "String"
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
+   * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateScriptLabelHtml: string;
   /**
@@ -488,8 +493,9 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * "After receiving stateIconClass value from control system, this value is applied to the iconClass attribute of all the buttons in the list."
    * ]
    * @name buttonreceivestateiconclass
-   * @default 
-   * @attributeType "String"
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
+   * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateIconClass: string;
   /**
@@ -500,8 +506,9 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute of all the buttons in the list."
    * ]
    * @name buttonreceivestateiconurl
-   * @default 
-   * @attributeType "String"
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
+   * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateIconUrl: string;
   /**
@@ -512,8 +519,9 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * "Sends an event on click or tap (mouse or swipe up and down quickly). Use this when the control system takes an action on the rising edge from false to true of a boolean digital event."
    * ]
    * @name buttonsendeventonclick
-   * @default 
-   * @attributeType "String"
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}   
+   * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonSendEventOnClick: string;
   /**
@@ -524,8 +532,9 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   * ". When the signal is low, the component will not be displayed, and the area will not be pressable. If receiveStateShow attribute is given for ch5-button-list than it takes more preference over buttonReceiveStateShow attribute."
   * ]
   * @name buttonreceivestateshow
-  * @default 
-  * @attributeType "String"
+  * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
+  * @attributeType "Join"
+  * @applicableToListItem true
   */
   buttonReceiveStateShow: string;
   /**
@@ -536,8 +545,9 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * "When the signal is low, the look of the component will change to represent a disabled state and the component will not be pressable. If receiveStateEnable attribute is given for ch5-button-list than it takes more preference over buttonReceiveStateEnable attribute."
    * ]
    * @name buttonreceivestateenable
-   * @default 
-   * @attributeType "String"
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
+   * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateEnable: string;
   /**
