@@ -18,9 +18,7 @@ import {
   TCh5ButtonVerticalAlignLabel,
   TCh5ButtonCheckboxPosition,
   TCh5ButtonBackgroundImageFillType,
-  TCh5ButtonIconUrlFillType,
-  TCh5ButtonHorizontalIconAlign,
-  TCh5ButtonVerticalIconAlign
+  TCh5ButtonIconUrlFillType
 } from "./t-ch5-button";
 
 /**
@@ -451,7 +449,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * [
    * "`backgroundImageUrl` attribute",
    * "***",
-   * "BackgroundImageUrl"
+   * "Sets the image to be displayed as the background for the button. The attribute type is String. default value is empty."
    * ]
    * @name backgroundimageurl
    * @default 
@@ -464,10 +462,10 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * [
    * "`backgroundImageFillType` attribute",
    * "***",
-   * "Sets the background image for button. Enum - Default value is 'stretch'. Applicable values are 'stretch', 'stretch-aspect', 'center', 'tile'. Uses the css property background-size for the implementation."
+   * "Sets the background image for button. Enum - Default value is 'stretch-aspect'. Applicable values are 'stretch', 'stretch-aspect', 'center', 'tile'. Uses the css property background-size for the implementation."
    * ]
    * @name backgroundimagefilltype
-   * @default stretch
+   * @default stretch-aspect
    * @attributeType "EnumeratedValue"
    */
   backgroundImageFillType: TCh5ButtonBackgroundImageFillType;
@@ -477,7 +475,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * [
    * "`iconUrlFillType` attribute",
    * "***",
-   * "Sets the icon url fill type. Default value is 'null'. Applicable values are 'null(default)', 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'. Uses the css property background-size for the implementation."
+   * "Sets the icon url fill type. Default value is 'null'. Applicable values are 'null', 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'. Uses the css property background-size for the implementation."
    * ]
    * @name iconurlfilltype
    * @default null
@@ -488,35 +486,9 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
   /**
    * @documentation
    * [
-   * "`hAlignIcon` attribute",
-   * "***",
-   * "Sets the horizontal icon alignment. Default value for hAlignIcon is left. Possible values are left(default), center, right. Uses the css property background-position for the implementation."
-   * ]
-   * @name halignicon
-   * @default left
-   * @attributeType "EnumeratedValue"
-   */
-  hAlignIcon: TCh5ButtonHorizontalIconAlign;
-
-  /**
-   * @documentation
-   * [
-   * "`vAlignIcon` attribute",
-   * "***",
-   * "Sets the vertical icon alignment. Default value for vAlignIcon is top. Possible values are top(default), middle, bottom. Uses the css property background-position for the implementation."
-   * ]
-   * @name valignicon
-   * @default top
-   * @attributeType "EnumeratedValue"
-   */
-  vAlignIcon: TCh5ButtonVerticalIconAlign;
-  
-  /**
-   * @documentation
-   * [
    * "`receiveStateBackgroundImageUrl` attribute",
    * "***",
-   * "Sets the image to be displayed as the background for the button"
+   * "Sets the image to be displayed as the background for the button. The attribute type with String response."
    * ]
    * @name receivestatebackgroundimageurl
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}

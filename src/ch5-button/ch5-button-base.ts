@@ -26,8 +26,6 @@ import {
 	TCh5ButtonVerticalAlignLabel,
 	TCh5ButtonBackgroundImageFillType,
 	TCh5ButtonIconUrlFillType,
-	TCh5ButtonHorizontalIconAlign,
-	TCh5ButtonVerticalIconAlign
 } from './interfaces/t-ch5-button';
 import { ICh5ButtonListContractObj } from "./interfaces/t-for-ch5-button-list-contract"
 import { ICh5ButtonAttributes } from "./interfaces/i-ch5-button-attributes";
@@ -135,23 +133,12 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	/**
 	 * The first value is in the array is the default value 
 	 */
-	public static readonly BACKGROUND_IMAGE_FILL_TYPE: TCh5ButtonBackgroundImageFillType[] = ['stretch', 'stretch-aspect', 'center', 'tile'];
+	public static readonly BACKGROUND_IMAGE_FILL_TYPE: TCh5ButtonBackgroundImageFillType[] = ['stretch-aspect', 'stretch', 'center', 'tile'];
 
 	/**
 	 * The first value is in the array is the default value 
 	 */
 	public static readonly ICON_URL_FILL_TYPE: TCh5ButtonIconUrlFillType[] = ['stretch', 'stretch-aspect', 'center', 'tile', 'initial'];
-
-	/**
-	 * The first value is in the array is the default value
-	 */
-	public static readonly HORIZONTAL_ICON_ALIGNMENTS: TCh5ButtonHorizontalIconAlign[] = ['left', 'center', 'right'];
-
-	/**
-	 * The first value is in the array is the default value
-	 */
-	public static readonly VERTICAL_ICON_ALIGNMENTS: TCh5ButtonVerticalIconAlign[] = ['top', 'middle', 'bottom'];
-
 
 	/**
 	 * The first value is in the array is the default value
@@ -261,21 +248,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			key: 'iconUrlFillType',
 			attribute: 'iconUrlFillType',
 			classListPrefix: '--icon-url-fill-type-'
-		},
-		HORIZONTAL_ICON_ALIGNMENTS: {
-			default: Ch5ButtonBase.HORIZONTAL_ICON_ALIGNMENTS[0],
-			values: Ch5ButtonBase.HORIZONTAL_ICON_ALIGNMENTS,
-			key: 'hAlignIcon',
-			attribute: 'hAlignIcon',
-			classListPrefix: '--horizontal-icon-'
-		},
-		VERTICAL_ICON_ALIGNMENTS: {
-			default: Ch5ButtonBase.VERTICAL_ICON_ALIGNMENTS[0],
-			values: Ch5ButtonBase.VERTICAL_ICON_ALIGNMENTS,
-			key: 'vAlignIcon',
-			attribute: 'vAlignIcon',
-			classListPrefix: '--vertical-icon-'
-		},
+		}
 	};
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
@@ -326,24 +299,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			valueOnAttributeEmpty: null,
 			isObservableProperty: true,
 			isNullable: true
-		},
-		{
-			default: Ch5ButtonBase.HORIZONTAL_ICON_ALIGNMENTS[0],
-			enumeratedValues: Ch5ButtonBase.HORIZONTAL_ICON_ALIGNMENTS,
-			name: "hAlignIcon",
-			removeAttributeOnNull: true,
-			type: "enum",
-			valueOnAttributeEmpty: Ch5ButtonBase.HORIZONTAL_ICON_ALIGNMENTS[0],
-			isObservableProperty: true
-		},
-		{
-			default: Ch5ButtonBase.VERTICAL_ICON_ALIGNMENTS[0],
-			enumeratedValues: Ch5ButtonBase.VERTICAL_ICON_ALIGNMENTS,
-			name: "vAlignIcon",
-			removeAttributeOnNull: true,
-			type: "enum",
-			valueOnAttributeEmpty: Ch5ButtonBase.VERTICAL_ICON_ALIGNMENTS[0],
-			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -526,6 +481,13 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 * where type is the value of the property. If no "type" is provided, type of 'default' is used.
 	 */
 	private _type: TCh5ButtonType = 'default';
+
+	/**
+	 * Valid values: null, stretch, stretch-aspect, tile, center, initial.
+	 * Sets the fill type of the image set in iconUrl. Uses the css property background-size for the implementation. 
+	 * The attribute type is Enum.
+	 */
+	private _iconUrlFillType: TCh5ButtonIconUrlFillType | null = null;
 
 	/**
 	 * Reflects the selected state of the component. If set to true a CSS class named 'ch5-button--..._selected' will be applied
@@ -1006,30 +968,15 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	public set iconUrlFillType(value: TCh5ButtonIconUrlFillType | null) {
 		this._ch5Properties.set<TCh5ButtonIconUrlFillType | null>("iconUrlFillType", value, () => {
-			// this.handleIconUrlFillType();
-			this.updateCssClasses();
+			if (this._iconUrlFillType !== value) {
+				this.setButtonDisplay();
+				this.updateCssClasses();
+			}
 		});
 	}
 	public get iconUrlFillType(): TCh5ButtonIconUrlFillType | null {
-		return this._ch5Properties.get<TCh5ButtonIconUrlFillType | null>("iconUrlFillType");
-	}
-
-	public set hAlignIcon(value: TCh5ButtonHorizontalIconAlign) {
-		this._ch5Properties.set<TCh5ButtonHorizontalIconAlign>("hAlignIcon", value, () => {
-			this.updateCssClasses();
-		});
-	}
-	public get hAlignIcon(): TCh5ButtonHorizontalIconAlign {
-		return this._ch5Properties.get<TCh5ButtonHorizontalIconAlign>('hAlignIcon');
-	}
-
-	public set vAlignIcon(value: TCh5ButtonVerticalIconAlign) {
-		this._ch5Properties.set<TCh5ButtonVerticalIconAlign>("vAlignIcon", value, () => {
-			this.updateCssClasses();
-		});
-	}
-	public get vAlignIcon(): TCh5ButtonVerticalIconAlign {
-		return this._ch5Properties.get<TCh5ButtonVerticalIconAlign>('vAlignIcon');
+		return this._iconUrlFillType;
+		// return this._ch5Properties.get<TCh5ButtonIconUrlFillType | null>("iconUrlFillType");
 	}
 
 	public set receiveStateBackgroundImageUrl(value: string) {
@@ -1336,7 +1283,11 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			'receivestatetype',
 
 			'sendeventonclick',
-			'sendeventontouch'
+			'sendeventontouch',
+			'iconurlfilltype',
+			'backgroundimageurl',
+			'backgroundimagefilltype',
+			'receivestatebackgroundimageurl'
 		];
 		for (let i: number = 0; i < Ch5ButtonBase.COMPONENT_PROPERTIES.length; i++) {
 			if (Ch5ButtonBase.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
@@ -1709,10 +1660,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				this.receiveStateMode = Ch5ButtonUtils.getAttributeValue<string>(this, 'receivestatemode', newValue, '');
 				break;
 
-			case 'hAlignIcon':
-				this.hAlignIcon = Ch5ButtonUtils.getAttributeValue<TCh5ButtonHorizontalIconAlign>(this, 'halignicon', newValue as TCh5ButtonHorizontalIconAlign, Ch5ButtonBase.HORIZONTAL_ICON_ALIGNMENTS[0]);
-				break;
-
 			default:
 				super.attributeChangedCallback(attr, oldValue, newValue);
 				break;
@@ -1976,16 +1923,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		// iconUrlFillType
 		Ch5ButtonBase.ICON_URL_FILL_TYPE.forEach((iconUrlFillType: TCh5ButtonIconUrlFillType) => {
 			cssClasses.push(this.primaryCssClass + '--icon-url-fill-type-' + iconUrlFillType);
-		});
-
-		// hAlignIcon
-		Ch5ButtonBase.HORIZONTAL_ICON_ALIGNMENTS.forEach((iconHAlign: TCh5ButtonHorizontalIconAlign) => {
-			cssClasses.push(this.primaryCssClass + '--horizontal-icon-' + iconHAlign);
-		});
-
-		// vAlignIcon
-		Ch5ButtonBase.VERTICAL_ICON_ALIGNMENTS.forEach((iconVAlign: TCh5ButtonVerticalIconAlign) => {
-			cssClasses.push(this.primaryCssClass + '--vertical-icon-' + iconVAlign);
 		});
 
 		// orientation
@@ -2390,6 +2327,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 							extendedProperties.vAlignLabel = selectedButtonModeState.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel;
 						}
 
+						if (isNil(extendedProperties.iconUrlFillType) && !isNil(selectedButtonModeState.getAttribute("iconurlfilltype"))) {
+							extendedProperties.iconUrlFillType = selectedButtonModeState.getAttribute("iconurlfilltype") as TCh5ButtonIconUrlFillType | null;
+						}
+
 						const selectedButtonModeStateLabelButton = selectedButtonModeState.getElementsByTagName("ch5-button-label");
 						if ((isNil(extendedProperties.labelHtml) && isNil(extendedProperties.label)) && selectedButtonModeStateLabelButton && selectedButtonModeStateLabelButton.length > 0 &&
 							(selectedButtonModeStateLabelButton[0].children[0])) {
@@ -2427,6 +2368,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				}
 				if (isNil(extendedProperties.vAlignLabel) && !isNil(selectedButtonMode.getAttribute("valignlabel"))) {
 					extendedProperties.vAlignLabel = selectedButtonMode.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel;
+				}
+
+				if (isNil(extendedProperties.iconUrlFillType) && !isNil(selectedButtonMode.getAttribute("iconurlfilltype"))) {
+					extendedProperties.iconUrlFillType = selectedButtonMode.getAttribute("iconurlfilltype") as TCh5ButtonIconUrlFillType | null;
 				}
 
 				const selectedButtonModeLabelButton = selectedButtonMode.getElementsByTagName("ch5-button-label");
@@ -2471,6 +2416,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 		if (isNil(extendedProperties.vAlignLabel) && !isNil(this.getAttribute("valignlabel"))) {
 			extendedProperties.vAlignLabel = this.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel;
+		}
+		if (isNil(extendedProperties.iconUrlFillType) && !isNil(this.getAttribute("iconurlfilltype"))) {
+			extendedProperties.iconUrlFillType = this.getAttribute("iconurlfilltype") as TCh5ButtonIconUrlFillType | null;
 		}
 		if (isNil(extendedProperties.labelHtml) && isNil(extendedProperties.label)) {
 			const templateData = this.getElementsByTagName("ch5-button-label");
@@ -2625,6 +2573,19 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			updateUIMethods.updateCssClasses = true;
 		}
 
+		// iconUrlFillType
+		if (!isNil(updatedNodes.iconUrlFillType)) {
+			if (Ch5ButtonBase.ICON_URL_FILL_TYPE.indexOf(updatedNodes.iconUrlFillType) === -1) {
+				updatedNodes.iconUrlFillType = null;
+			}
+		} else {
+			updatedNodes.iconUrlFillType = null;
+		}
+		this._iconUrlFillType = updatedNodes.iconUrlFillType;
+		if (this.previousExtendedProperties.iconUrlFillType !== this.iconUrlFillType) {
+			updateUIMethods.updateCssClasses = true;
+		}
+
 		// label
 		if (!isNil(updatedNodes.labelHtml)) {
 			this._label = updatedNodes.labelHtml;
@@ -2700,16 +2661,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				}
 			});
 
-			// Ch5ButtonBase.ICON_URL_FILL_TYPE.forEach((fillType, i) => {
-			// 	if (this.iconUrlFillType === fillType) {
-			// 		this._elContainer.classList.add(`${this.primaryCssClass}--icon-url-fill-type-${fillType}`);
-			// 		this._elIcon.classList.add(this.primaryCssClass + `--icon-url-fill-type-${fillType}`);
-			// 	} else {
-			// 		this._elContainer.classList.remove(`${this.primaryCssClass}--icon-url-fill-type-${fillType}`);
-			// 		this._elIcon.classList.remove(this.primaryCssClass + `--icon-url-fill-type-${fillType}`);
-			// 	}
-			// });
-
 			// // Handle vertical button with iconPosition top or bottom
 			// if (['top', 'bottom'].indexOf(this.iconPosition) >= 0 && this.orientation === Ch5ButtonBase.ORIENTATIONS[1]) {
 			// 	this._elButton.classList.add(`${this.primaryCssClass}--vertical--icon-${this.iconPosition}`);
@@ -2751,13 +2702,19 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				this._elIcon.style.backgroundImage = `url(${this.iconUrl})`;
 				this._elIcon.classList.remove(this.primaryCssClass + '--icon');
 				this._elIcon.classList.remove(this.primaryCssClass + '--img');
-				this._elIcon.classList.remove(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
+				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
+					this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
+				})
 				this._elIcon.classList.add(this.primaryCssClass + '--img');
-				this._elIcon.classList.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
+				if (this.iconUrlFillType !== null) {
+					this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
+				}
 			} else if (hasIcon) {
 				this._elIcon.classList.remove(this.primaryCssClass + '--icon');
 				this._elIcon.classList.remove(this.primaryCssClass + '--img');
-				this._elIcon.classList.remove(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
+				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
+					this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
+				})
 				this._elIcon.classList.add(this.primaryCssClass + '--icon');
 			}
 			this._elButton.appendChild(this._elSpanForLabelIconImg);
@@ -2831,9 +2788,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		// backgroundImageFillType
 		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--background-image-fill-type-' + this.backgroundImageFillType);
 
-		// iconUrlFillType
-		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--icon-url-fill-type-' + this.iconUrlFillType);
-
 		// type
 		if (this.isButtonInitiated === true) {
 			setOfCssClassesToBeApplied.add(this.primaryCssClass + '--' + this.type);
@@ -2892,26 +2846,16 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		// vertical align
 		setOfCssClassesToBeAppliedForLabelAlignment.add(this.primaryCssClass + '--vertical-' + this.vAlignLabel);
 
+		// iconUrlFillType
+		if (this.iconUrlFillType !== null) {
+			setOfCssClassesToBeAppliedForLabelAlignment.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
+		}
+
 		this._listOfAllPossibleComponentCssClasses.forEach((cssClass: string) => {
 			if (setOfCssClassesToBeAppliedForLabelAlignment.has(cssClass)) {
 				this._elSpanForLabelIconImg.classList.add(cssClass);
 			} else {
 				this._elSpanForLabelIconImg.classList.remove(cssClass);
-			}
-		});
-
-		// halignIcon
-		const setOfCssClassesToBeAppliedForIconAlignment = new Set<string>();
-
-		setOfCssClassesToBeAppliedForIconAlignment.add(this.primaryCssClass + '--horizontal-icon-' + this.hAlignIcon);
-
-		setOfCssClassesToBeAppliedForIconAlignment.add(this.primaryCssClass + '--vertical-icon-' + this.vAlignIcon);
-
-		this._listOfAllPossibleComponentCssClasses.forEach((cssClass: string) => {
-			if (setOfCssClassesToBeAppliedForIconAlignment.has(cssClass)) {
-				this._elIcon.classList.add(cssClass);
-			} else {
-				this._elIcon.classList.remove(cssClass);
 			}
 		});
 

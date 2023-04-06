@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5ButtonModeAttributes, TCh5ButtonCheckboxPosition, TCh5ButtonHorizontalAlignLabel, TCh5ButtonIconPosition, TCh5ButtonType, TCh5ButtonVerticalAlignLabel } from "./interfaces";
+import { ICh5ButtonModeAttributes, TCh5ButtonCheckboxPosition, TCh5ButtonHorizontalAlignLabel, TCh5ButtonIconPosition, TCh5ButtonIconUrlFillType, TCh5ButtonType, TCh5ButtonVerticalAlignLabel } from "./interfaces";
 import { Ch5Button } from "./ch5-button";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5Log } from "../ch5-common/ch5-log";
@@ -102,6 +102,13 @@ export class Ch5ButtonMode extends Ch5Log implements ICh5ButtonModeAttributes {
     return this.getAttribute("customstyle") as string;
   }
 
+  public set iconUrlFillType(value: TCh5ButtonIconUrlFillType | null) {
+      this.validateAndSetAttributeWithCustomType("iconUrlFillType", Ch5Button.ICON_URL_FILL_TYPE, value);
+  }
+  public get iconUrlFillType(): TCh5ButtonIconUrlFillType | null {
+    return this.getAttribute("iconurlfilltype") as TCh5ButtonIconUrlFillType | null;
+  }
+
   //#endregion
 
   //#region 2. Life Cycle Hooks
@@ -158,7 +165,8 @@ export class Ch5ButtonMode extends Ch5Log implements ICh5ButtonModeAttributes {
       'iconurl',
       'customclass',
       'customstyle',
-      'labelinnerhtml'
+      'labelinnerhtml',
+      'iconurlfilltype'
     ];
 
     return commonAttributes.concat(ch5ButtonModeChildAttributes);
@@ -237,6 +245,12 @@ export class Ch5ButtonMode extends Ch5Log implements ICh5ButtonModeAttributes {
         case 'iconurl':
           if (this.hasAttribute('iconurl')) {
             this.iconUrl = newValue as string;
+          }
+          break;
+
+        case 'iconurlfilltype':
+          if (this.hasAttribute('iconurlfilltype')) {
+            this.iconUrlFillType = newValue as TCh5ButtonIconUrlFillType;
           }
           break;
 
