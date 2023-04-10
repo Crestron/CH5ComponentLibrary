@@ -416,14 +416,13 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		} else {
 			this.labelMajor = this.params.major;
 		}
-
 	}
 
 	protected labelMinorHandler() {
 		if (this.labelMinor.length !== 0) {
 			this._elMinorSpan.innerHTML = this.labelMinor;
 		} else {
-			this.labelMajor = this.params.minor;
+			this.labelMinor = this.params.minor;
 		}
 	}
 
@@ -439,6 +438,10 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 			const spanBtn = iconButton[0].children[0];
 			if (spanBtn) {
 				spanBtn.setAttribute("class", this.iconClass);
+			} else {
+				this._elIcon.setAttribute("class", this.iconClass);
+				this._elMajorSpan.innerHTML = '';
+				this._elMajorSpan.appendChild(this._elIcon);
 			}
 		}
 	}
