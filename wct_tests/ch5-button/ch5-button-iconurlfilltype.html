@@ -1,0 +1,375 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+
+  <test-fixture id="ch5-button-iconUrlFillType-fixture">
+    <template>
+      <ch5-button iconUrl="https://www.w3schools.com/css/paris.jpg"></ch5-button>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-button', () => {
+
+      let ch5Button;
+      const valid_fill_types = ["stretch", "stretch-aspect", "center", "tile", "initial"];
+      const invalid_fill_types = ["", "asdjfsf", 1, true, 'false'];
+      const halignlabel_valid_values = ['left', 'center', 'right'];
+      const valignlabel_valid_values = ['top', 'middle', 'bottom'];
+      const iconUrlArray = [
+        "./../assets/img/finger.svg",
+        "./../assets/img/something.svg",
+        "./../assets/img/video.svg",
+        "https://www.searchpng.com/wp-content/uploads/2018/12/Splash-Instagraam-Icon-Png-1024x1024.png",
+        "https://e1.pngegg.com/pngimages/298/527/png-clipart-snoopy.png"
+      ];
+
+      setup(() => {
+        ch5Button = fixture('ch5-button-iconUrlFillType-fixture');
+      });
+
+      test('Check the default value of iconUrlFillType to be ""', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Button.iconUrlFillType).to.be.equal(null);
+            expect(ch5Button.getAttribute("iconUrlFillType")).to.be.equal(null);
+            expect(ch5Button.firstChild.firstChild.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+            done();
+          }, BASIC_TESTING_TIMEOUT);
+        });
+      });
+
+      valid_fill_types.forEach((val) => {
+        test(`Check the value of iconUrlFillType to be ${val}`, (done) => {
+          ch5Button.setAttribute('iconUrlFillType', val);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.iconUrlFillType).to.be.equal(val);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-${val}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      invalid_fill_types.forEach((val) => {
+        test(`Check the invalid value of iconUrlFillType to be ${val}`, (done) => {
+          ch5Button.setAttribute('iconUrlFillType', val);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.iconUrlFillType).to.be.equal(null);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-${val}`)).to.be.equal(false);
+              expect(ch5Button.firstChild.firstChild.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      halignlabel_valid_values.forEach((val) => {
+        test(`Check the value of iconUrlFillType to be initial with hAlignLabel=${val}, vAlignLabel="middle"`, (done) => {
+          ch5Button.setAttribute('iconUrlFillType', 'initial');
+          ch5Button.setAttribute('hAlignLabel', val);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.iconUrlFillType).to.be.equal('initial');
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-${val}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-middle`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      halignlabel_valid_values.forEach((val) => {
+        test(`Check the value of iconUrlFillType to be initial with hAlignLabel=${val}, vAlignLabel="top"`, (done) => {
+          ch5Button.setAttribute('iconUrlFillType', 'initial');
+          ch5Button.setAttribute('hAlignLabel', val);
+          ch5Button.setAttribute('vAlignLabel', 'top');
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.iconUrlFillType).to.be.equal('initial');
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-${val}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-top`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      halignlabel_valid_values.forEach((val) => {
+        test(`Check the value of iconUrlFillType to be initial with hAlignLabel=${val}, vAlignLabel="bottom"`, (done) => {
+          ch5Button.setAttribute('iconUrlFillType', 'initial');
+          ch5Button.setAttribute('hAlignLabel', val);
+          ch5Button.setAttribute('vAlignLabel', 'bottom');
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.iconUrlFillType).to.be.equal('initial');
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-${val}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-bottom`)).to.be.equal(true);
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      valignlabel_valid_values.forEach((val) => {
+        test(`Check the value of iconUrlFillType to be initial with hAlignLabel="center", vAlignLabel=${val}`, (done) => {
+          ch5Button.setAttribute('iconUrlFillType', 'initial');
+          ch5Button.setAttribute('vAlignLabel', val);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.iconUrlFillType).to.be.equal('initial');
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-center`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-${val}`)).to.be.equal(true);
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      valignlabel_valid_values.forEach((val) => {
+        test(`Check the value of iconUrlFillType to be initial with hAlignLabel="left", vAlignLabel=${val}`, (done) => {
+          ch5Button.setAttribute('iconUrlFillType', 'initial');
+          ch5Button.setAttribute('vAlignLabel', val);
+          ch5Button.setAttribute('hAlignLabel', 'left');
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.iconUrlFillType).to.be.equal('initial');
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-left`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-${val}`)).to.be.equal(true);
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      valignlabel_valid_values.forEach((val) => {
+        test(`Check the value of iconUrlFillType to be initial with hAlignLabel="right", vAlignLabel=${val}`, (done) => {
+          ch5Button.setAttribute('iconUrlFillType', 'initial');
+          ch5Button.setAttribute('vAlignLabel', val);
+          ch5Button.setAttribute('hAlignLabel', 'right');
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.iconUrlFillType).to.be.equal('initial');
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-right`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-${val}`)).to.be.equal(true);
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      valid_fill_types.forEach((val) => {
+        test(`Check the value of iconUrlFillType to be ${val} with hAlignLabel="center", vAlignLabel=middle`, (done) => {
+          ch5Button.setAttribute('iconUrlFillType', val);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.iconUrlFillType).to.be.equal(val);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-${val}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-center`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-middle`)).to.be.equal(true);
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      valid_fill_types.forEach((val) => {
+        test(`Check attribute receiveStateIconUrl with iconUrlFillType`, (done) => {
+          ch5Button.setAttribute('receiveStateIconUrl', "receiveStateIconUrl_for_fixture_test1");
+          ch5Button.setAttribute('iconUrlFillType', val);
+          const receiveStateSignalValue = "./../assets/img/idea.svg";
+          CrComLib.publishEvent('s', 'receiveStateIconUrl_for_fixture_test1', receiveStateSignalValue);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.iconUrl).to.be.equal(receiveStateSignalValue);
+              const getObjectForIconUrl = getITagInSpanForIcon(ch5Button);
+              expect(getObjectForIconUrl.style.backgroundImage).to.be.equal('url("' + receiveStateSignalValue + '")');
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-${val}`)).to.be.equal(true);
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      invalid_fill_types.forEach((val) => {
+        test(`Check attribute receiveStateIconUrl with invalid iconUrlFillType`, (done) => {
+          ch5Button.setAttribute('receiveStateIconUrl', "receiveStateIconUrl_for_fixture_test1");
+          ch5Button.setAttribute('iconUrlFillType', val);
+          const receiveStateSignalValue = "./../assets/img/idea.svg";
+          CrComLib.publishEvent('s', 'receiveStateIconUrl_for_fixture_test1', receiveStateSignalValue);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.iconUrl).to.be.equal(receiveStateSignalValue);
+              const getObjectForIconUrl = getITagInSpanForIcon(ch5Button);
+              expect(getObjectForIconUrl.style.backgroundImage).to.be.equal('url("' + receiveStateSignalValue + '")');
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-${val}`)).to.be.equal(false);
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      halignlabel_valid_values.forEach((val) => {
+        test(`Check attribute receiveStateIconUrl with iconUrlFillType="initial", hAlignLabel=${val} and vAlignLabel="middle"`, (done) => {
+          ch5Button.setAttribute('receiveStateIconUrl', "receiveStateIconUrl_for_fixture_test1");
+          ch5Button.setAttribute('iconUrlFillType', 'initial');
+          ch5Button.setAttribute('hAlignLabel', val);
+          ch5Button.setAttribute('vAlignLabel', 'middle');
+          const receiveStateSignalValue = "./../assets/img/idea.svg";
+          CrComLib.publishEvent('s', 'receiveStateIconUrl_for_fixture_test1', receiveStateSignalValue);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.iconUrl).to.be.equal(receiveStateSignalValue);
+              const getObjectForIconUrl = getITagInSpanForIcon(ch5Button);
+              expect(getObjectForIconUrl.style.backgroundImage).to.be.equal('url("' + receiveStateSignalValue + '")');
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-${val}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-middle`)).to.be.equal(true);
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      halignlabel_valid_values.forEach((val) => {
+        test(`Check attribute receiveStateIconUrl with iconUrlFillType="initial", hAlignLabel=${val} and vAlignLabel="top"`, (done) => {
+          ch5Button.setAttribute('receiveStateIconUrl', "receiveStateIconUrl_for_fixture_test1");
+          ch5Button.setAttribute('iconUrlFillType', 'initial');
+          ch5Button.setAttribute('hAlignLabel', val);
+          ch5Button.setAttribute('vAlignLabel', 'top');
+          const receiveStateSignalValue = "./../assets/img/idea.svg";
+          CrComLib.publishEvent('s', 'receiveStateIconUrl_for_fixture_test1', receiveStateSignalValue);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.iconUrl).to.be.equal(receiveStateSignalValue);
+              const getObjectForIconUrl = getITagInSpanForIcon(ch5Button);
+              expect(getObjectForIconUrl.style.backgroundImage).to.be.equal('url("' + receiveStateSignalValue + '")');
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-${val}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-top`)).to.be.equal(true);
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      halignlabel_valid_values.forEach((val) => {
+        test(`Check attribute receiveStateIconUrl with iconUrlFillType="initial", hAlignLabel=${val} and vAlignLabel="bottom"`, (done) => {
+          ch5Button.setAttribute('receiveStateIconUrl', "receiveStateIconUrl_for_fixture_test1");
+          ch5Button.setAttribute('iconUrlFillType', 'initial');
+          ch5Button.setAttribute('hAlignLabel', val);
+          ch5Button.setAttribute('vAlignLabel', 'bottom');
+          const receiveStateSignalValue = "./../assets/img/idea.svg";
+          CrComLib.publishEvent('s', 'receiveStateIconUrl_for_fixture_test1', receiveStateSignalValue);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.iconUrl).to.be.equal(receiveStateSignalValue);
+              const getObjectForIconUrl = getITagInSpanForIcon(ch5Button);
+              expect(getObjectForIconUrl.style.backgroundImage).to.be.equal('url("' + receiveStateSignalValue + '")');
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-${val}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-bottom`)).to.be.equal(true);
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      valignlabel_valid_values.forEach((val) => {
+        test(`Check attribute receiveStateIconUrl with iconUrlFillType="initial", hAlignLabel="left" and vAlignLabel=${val}`, (done) => {
+          ch5Button.setAttribute('receiveStateIconUrl', "receiveStateIconUrl_for_fixture_test1");
+          ch5Button.setAttribute('iconUrlFillType', 'initial');
+          ch5Button.setAttribute('hAlignLabel', 'left');
+          ch5Button.setAttribute('vAlignLabel', val);
+          const receiveStateSignalValue = "./../assets/img/idea.svg";
+          CrComLib.publishEvent('s', 'receiveStateIconUrl_for_fixture_test1', receiveStateSignalValue);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.iconUrl).to.be.equal(receiveStateSignalValue);
+              const getObjectForIconUrl = getITagInSpanForIcon(ch5Button);
+              expect(getObjectForIconUrl.style.backgroundImage).to.be.equal('url("' + receiveStateSignalValue + '")');
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-left`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-${val}`)).to.be.equal(true);
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      valignlabel_valid_values.forEach((val) => {
+        test(`Check attribute receiveStateIconUrl with iconUrlFillType="initial", hAlignLabel="right" and vAlignLabel=${val}`, (done) => {
+          ch5Button.setAttribute('receiveStateIconUrl', "receiveStateIconUrl_for_fixture_test1");
+          ch5Button.setAttribute('iconUrlFillType', 'initial');
+          ch5Button.setAttribute('hAlignLabel', 'right');
+          ch5Button.setAttribute('vAlignLabel', val);
+          const receiveStateSignalValue = "./../assets/img/idea.svg";
+          CrComLib.publishEvent('s', 'receiveStateIconUrl_for_fixture_test1', receiveStateSignalValue);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.iconUrl).to.be.equal(receiveStateSignalValue);
+              const getObjectForIconUrl = getITagInSpanForIcon(ch5Button);
+              expect(getObjectForIconUrl.style.backgroundImage).to.be.equal('url("' + receiveStateSignalValue + '")');
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-right`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-${val}`)).to.be.equal(true);
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      valignlabel_valid_values.forEach((val) => {
+        test(`Check attribute receiveStateIconUrl with iconUrlFillType="initial", hAlignLabel="center" and vAlignLabel=${val}`, (done) => {
+          ch5Button.setAttribute('receiveStateIconUrl', "receiveStateIconUrl_for_fixture_test1");
+          ch5Button.setAttribute('iconUrlFillType', 'initial');
+          ch5Button.setAttribute('hAlignLabel', 'center');
+          ch5Button.setAttribute('vAlignLabel', val);
+          const receiveStateSignalValue = "./../assets/img/idea.svg";
+          CrComLib.publishEvent('s', 'receiveStateIconUrl_for_fixture_test1', receiveStateSignalValue);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.iconUrl).to.be.equal(receiveStateSignalValue);
+              const getObjectForIconUrl = getITagInSpanForIcon(ch5Button);
+              expect(getObjectForIconUrl.style.backgroundImage).to.be.equal('url("' + receiveStateSignalValue + '")');
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-center`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-${val}`)).to.be.equal(true);
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
