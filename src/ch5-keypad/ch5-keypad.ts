@@ -35,7 +35,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		receivestateextrabuttonshow: { direction: "state", stringJoin: 1, contractName: true },
 		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventonclickstart: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventonclickstart: { direction: "event", booleanJoin: 1, contractName: true }
 	};
 
 	public static readonly TYPES: TCh5KeypadType[] = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
@@ -662,9 +662,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			for (const ele of childElements) {
 				if (ele.tagName.toLowerCase() === 'ch5-keypad-button') {
 					const item = this.getChildBtnDTOFromElement(ele, this.contractName, this.sendEventOnClickStart);
-					if (!this.runtimeChildButtonList.hasOwnProperty(item.name)) {
-						this.runtimeChildButtonList[item.name] = item;
-					}
+					this.runtimeChildButtonList[item.name] = item;
 				}
 			}
 		}
@@ -776,7 +774,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			this.signalNameOnContract.receiveStateCustomStyle = this.receiveStateCustomStyle;
 			this.signalNameOnContract.receiveStateCustomClass = this.receiveStateCustomClass;
 		}
-		this.runtimeChildButtonList = {};
 		this.buildRuntimeChildButtonList();
 		this.createAndAppendAllButtonsUnderKeypad();
 	}
