@@ -172,7 +172,9 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	}
 
 	public set sendEventOnClick(value: string) {
-		this._ch5Properties.set<string>("sendEventOnClick", value);
+		this._ch5Properties.set<string>("sendEventOnClick", value, () => {
+			this.setAttribute('sendEventOnClick'.toLowerCase(), value);
+		});
 	}
 	public get sendEventOnClick() {
 		return this._ch5Properties.get<string>("sendEventOnClick");
