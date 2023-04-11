@@ -71,22 +71,6 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributesDpadChi
     /**
      * @documentation
      * [
-     * "`sendeventonclick` attribute",
-     * "***",
-     * "Sends an event on click or tap (mouse or swipe up and down quickly).",
-     * "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
-     * "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
-     * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
-     * ]
-     * @name sendeventonclick
-     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-     * @attributeType "Join"
-     */
-    sendEventOnClick: string;
-
-    /**
-     * @documentation
-     * [
      * "`pressed` attribute",
      * "***",
      * "The default value is false.",
