@@ -223,6 +223,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		this.labelMinor = minor ? minor : defaultMinors[indexRef];
 		if (this.labelMajor === "*") {
 			this.labelMinor = "";
+			this._elMinorSpan.innerHTML = "";
 		}
 		this.iconClass = iconClass.join(' ');
 		this.key = key;
