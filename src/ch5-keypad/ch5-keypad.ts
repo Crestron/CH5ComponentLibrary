@@ -892,7 +892,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		const classNameList: string[] = [Ch5Keypad.EXTRA_BUTTON_CSS_CLASS];
 		const joinIndex: number = 12;
 		for (let i = 0; i < nameList.length; i++) {
-			const name: string = 'button' + nameList[i];
+			const name: string = 'button' + contractList[i];
 			let toMerge = {};
 			if (runtimeChildButtonList.hasOwnProperty(name)) {
 				toMerge = runtimeChildButtonList[name];
