@@ -40,14 +40,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
 		{
-			default: true,
-			name: "dismissable",
-			removeAttributeOnNull: true,
-			type: "boolean",
-			valueOnAttributeEmpty: true,
-			isObservableProperty: true,
-		},
-		{
 			default: false,
 			name: "closable",
 			removeAttributeOnNull: true,
