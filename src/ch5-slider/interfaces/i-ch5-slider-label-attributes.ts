@@ -7,6 +7,7 @@
 
 import { TCh5SliderHorizontalAlignLabel, TCh5SliderOrientation, TCh5SliderSize, TCh5SliderType, TCh5SliderVerticalAlignLabel } from "./t-ch5-slider";
 
+
 /**
  * @ignore
  */
@@ -20,7 +21,6 @@ export interface ICh5SliderLabelAttributes {
    * "The label of the button element."
    * ]
    * @name label
-   * @attributeType "String"
    */
   label: string;
 
@@ -36,7 +36,6 @@ export interface ICh5SliderLabelAttributes {
    * ]
    * @name orientation
    * @default horizontal
-   * @attributeType "EnumeratedValue"
    */
   orientation: TCh5SliderOrientation;
 
@@ -45,7 +44,7 @@ export interface ICh5SliderLabelAttributes {
    * [
    * "`type` attribute",
    * "***",
-   * "Valid values: 'default','primary' ,'info', 'text', 'danger', 'warning', 'success', 'secondary'.",
+   * "Valid values: 'default', 'info', 'text', 'danger', 'warning', 'success', 'primary', 'secondary'.",
    * "Overrides the appearance of the button with alternative CSS ",
    * "defined in classes defined with ch5-button--type, where type is ",
    * "the value of the property. If no 'type' is provided, the type of ",
@@ -53,7 +52,6 @@ export interface ICh5SliderLabelAttributes {
    * ]
    * @name type
    * @default default
-   * @attributeType "EnumeratedValue"
    */
   type: TCh5SliderType;
 
@@ -70,7 +68,6 @@ export interface ICh5SliderLabelAttributes {
    * ]
    * @name halignlabel
    * @default center
-   * @attributeType "EnumeratedValue"
    */
   hAlignLabel: TCh5SliderHorizontalAlignLabel;
 
@@ -87,7 +84,6 @@ export interface ICh5SliderLabelAttributes {
    * ]
    * @name valignlabel
    * @default middle
-   * @attributeType "EnumeratedValue"
    */
   vAlignLabel: TCh5SliderVerticalAlignLabel;
 
@@ -99,7 +95,6 @@ export interface ICh5SliderLabelAttributes {
    * "When received, applies the value on the label."
    * ]
    * @name receivestatelabel
-   * @attributeType "Join"
    */
   receiveStateLabel: string;
 
