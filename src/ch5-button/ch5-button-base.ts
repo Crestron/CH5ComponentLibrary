@@ -1194,8 +1194,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	public set receiveStateSGIconNumeric(value: string) {
 		this._ch5Properties.set("receiveStateSGIconNumeric", value, null, (newValue: number) => {
-			this.sgIconNumeric = newValue;
-			this.setButtonDisplay();
+			if (newValue >= 0 && newValue <= 212) {
+				this.sgIconNumeric = newValue;
+				this.setButtonDisplay();
+			}
 		});
 	}
 	public get receiveStateSGIconNumeric(): string {
@@ -2038,12 +2040,28 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this._elIcon.classList.remove('sg-' + this._previousSgIconString);
 		}
 
+		this._elIcon.classList.remove('sg');
+		Array.from(Ch5ButtonBase.SG_ICON_THEME).forEach((theme) => this._elIcon.classList.remove('sg-' + theme));
+
 		if (!isNil(this.sgIconString) && this.sgIconString !== '') {
 			this._elIcon.classList.add('sg-' + this.sgIconString);
 			this._previousSgIconString = this.sgIconString;
+			this._elIcon.classList.add('sg');
+			this._elIcon.classList.add('sg-' + this.sgIconTheme);
 		} else if (!isNil(this.sgIconNumeric) && this.sgIconNumeric !== -1) {
 			this._elIcon.classList.add('sg-' + this.sgIconNumeric + '');
 			this._previousSgIconNumeric = this.sgIconNumeric;
+			this._elIcon.classList.add('sg');
+			this._elIcon.classList.add('sg-' + this.sgIconTheme);
+		} else if (!isNil(this.iconUrl) && this.iconUrl !== '' && this.iconUrl === this._ch5ButtonSignal.getSignal('receiveStateUrl')?.currentValue) {
+			this._elIcon.style.backgroundImage = this.iconUrl;
+		} else if (!isNil(this.iconClass) && this.iconClass !== '' && this.iconClass === this._ch5ButtonSignal.getSignal('receiveStateiconClass')?.currentValue) {
+			this.iconClass.split(' ').forEach((className: string) => {
+				className = className.trim();
+				if (className !== '') {
+					this._elIcon.classList.add(className);
+				}
+			});
 		} else if (!isNil(this.iconUrl) && this.iconUrl !== '') {
 			this._elIcon.style.backgroundImage = this.iconUrl;
 		} else if (!isNil(this.iconClass) && this.iconClass !== '') {
@@ -2083,8 +2101,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this._elSpanForLabelOnly.classList.add('cb-lbl');
 		this._elIcon = document.createElement('i');
 		this._elIcon.classList.add('cb-icon');
-		this._elIcon.classList.add('sg');
-		this._elIcon.classList.add('sg-icon-lg');
 
 		this._elContainer.classList.add(this.primaryCssClass);
 		this._elButton.setAttribute('data-ch5-id', this.getCrId());
@@ -2822,6 +2838,22 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				}
 				this._elIcon.classList.add(this.primaryCssClass + '--img');
 
+			} else if (hasImage && this.iconUrl === this._ch5ButtonSignal.getSignal('receiveStateUrl')?.currentValue) {
+				this._elIcon.style.backgroundImage = `url(${this.iconUrl})`;
+				this._elIcon.classList.remove(this.primaryCssClass + '--icon');
+				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
+					this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
+				});
+				this._elIcon.classList.add(this.primaryCssClass + '--img');
+				if (this.iconUrlFillType !== null) {
+					this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
+				}
+			} else if (hasIcon && this.iconClass === this._ch5ButtonSignal.getSignal('receiveStateiconClass')?.currentValue) {
+				this._elIcon.classList.remove(this.primaryCssClass + '--img');
+				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
+					this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
+				});
+				this._elIcon.classList.add(this.primaryCssClass + '--icon');
 			} else if (hasImage) {
 				this._elIcon.style.backgroundImage = `url(${this.iconUrl})`;
 				this._elIcon.classList.remove(this.primaryCssClass + '--icon');
