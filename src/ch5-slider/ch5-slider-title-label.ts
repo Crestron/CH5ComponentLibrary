@@ -72,7 +72,7 @@ export class Ch5SliderTitleLabel extends Ch5Label implements ICh5SliderTitleLabe
 	 */
 	public connectedCallback() {
 		this.logger.start('connectedCallback()', Ch5SliderTitleLabel.ELEMENT_NAME);
-		this.setAttribute('role', Ch5RoleAttributeMapping.ch5SliderButton);
+		super.connectedCallback();
 		this.setAttribute('data-ch5-id', this.getCrId());
 		this.logger.stop();
 	}
@@ -133,7 +133,7 @@ export class Ch5SliderTitleLabel extends Ch5Label implements ICh5SliderTitleLabe
 
 	protected updateCssClass() {
 		this.logger.start('UpdateCssClass');
-		super.updateCssClasses();
+		super.updateCssClass();
 		this.logger.stop();
 	}
 

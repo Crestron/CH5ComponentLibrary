@@ -149,8 +149,9 @@ export class Ch5Label extends Ch5Common implements ICh5LabelAttributes {
 		}
 		this.attachEventListeners();
 		this.initAttributes();
+		this.updateCssClass();
 		this.initCommonMutationObserver(this);
-    this.handleLabel();
+		this.handleLabel();
 		customElements.whenDefined('ch5-label').then(() => {
 			this.componentLoadedEvent(Ch5Label.ELEMENT_NAME, this.id);
 		});
@@ -235,7 +236,7 @@ export class Ch5Label extends Ch5Common implements ICh5LabelAttributes {
 	protected updateCssClass() {
 		this.logger.start('UpdateCssClass');
 		super.updateCssClasses();
-
+		this._elContainer.classList.add("ch5-label-prop");
 		this.logger.stop();
 	}
 
