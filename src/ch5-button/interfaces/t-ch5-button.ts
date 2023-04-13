@@ -43,3 +43,5 @@ export type TCh5ButtonModeState = 'normal' | 'pressed' | 'selected';
 export type TCh5ButtonBackgroundImageFillType = 'stretch-aspect' | 'stretch' | 'center' | 'tile';
 
 export type TCh5ButtonIconUrlFillType = 'stretch' | 'stretch-aspect' | 'center' | 'tile' | 'initial';
+
+export type TCh5ButtonSgIconTheme = 'icon-lg' | 'icon-sg' | 'media-transports-accents' | 'media-transports-light' | 'media-transports-dark';

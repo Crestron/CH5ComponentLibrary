@@ -16,3 +16,4 @@ export type TCh5ButtonListAttributesOrientation = 'horizontal' | 'vertical';
 export type TCh5ButtonListAttributesStretch = 'both';
 export type TCh5ButtonListContractItemLabelType = 'none' | 'textContent' | 'innerHTML';
 export type TCh5ButtonListContractItemIconType = 'none' | 'iconClass' | 'url' | 'sgStateName' | 'sgStateNumber';
+export type TCh5ButtonListSgIconTheme = 'icon-lg' | 'icon-sg' | 'media-transports-accents' | 'media-transports-light' | 'media-transports-dark';
