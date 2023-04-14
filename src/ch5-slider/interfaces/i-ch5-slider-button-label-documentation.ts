@@ -1,4 +1,3 @@
-import { ICh5Common } from "../../_interfaces";
 import { ICh5SliderButtonLabelAttributes } from "./i-ch5-slider-button-label-attributes";
 
 /**
@@ -42,6 +41,6 @@ import { ICh5SliderButtonLabelAttributes } from "./i-ch5-slider-button-label-att
       // TODO: DEV:CHANGES
  *  ]
  */
-export interface ICh5LabelDocumentation extends ICh5Common, ICh5SliderButtonLabelAttributes {
+export interface ICh5LabelDocumentation extends ICh5SliderButtonLabelAttributes {
 
 }

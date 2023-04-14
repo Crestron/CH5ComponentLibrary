@@ -42,6 +42,6 @@ import { ICh5SliderTitleLabelAttributes } from "./i-ch5-slider-title-label-attri
       // TODO: DEV:CHANGES
  *  ]
  */
-export interface ICh5LabelDocumentation extends ICh5Common, ICh5SliderTitleLabelAttributes {
+export interface ICh5LabelDocumentation extends ICh5SliderTitleLabelAttributes {
 
 }

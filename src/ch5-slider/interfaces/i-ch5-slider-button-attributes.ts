@@ -4,7 +4,7 @@ import { TCh5SliderButtonKey,  }from './t-ch5-slider-button';
 /**
  * @ignore
  */
-export interface ICh5SliderButtonAttributes extends ICh5CommonAttributes {
+export interface ICh5SliderButtonAttributes  {
   /**
         * @documentation
         * [

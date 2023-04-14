@@ -26,6 +26,7 @@ export class Ch5SliderTitleLabel extends Ch5Label implements ICh5SliderTitleLabe
 
 	public constructor(public parent?: Ch5Slider) {
 		super("ch5-slider");
+		this.ignoreAttributes = ["disabled", "debug", "show", "customclass", "customstyle", "noshowtype", "receivestatecustomclass", "receivestatecustomstyle", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "receivestateenable", "sendeventonshow", "gestureable", "dir", "appendclasswheninviewport"];
 		this.logger.start('constructor()', Ch5SliderTitleLabel.ELEMENT_NAME);
 		if (!_.isNil(parent)) {
 			this._parentCh5Slider = parent;

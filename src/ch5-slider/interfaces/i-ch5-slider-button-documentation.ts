@@ -41,6 +41,6 @@ import { ICh5SliderButtonAttributes } from "./i-ch5-slider-button-attributes";
       // TODO: DEV:CHANGES
  *  ]
  */
-export interface ICh5SliderButtonDocumentation extends ICh5Common, ICh5SliderButtonAttributes {
+export interface ICh5SliderButtonDocumentation extends  ICh5SliderButtonAttributes {
 
 }

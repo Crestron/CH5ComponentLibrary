@@ -27,6 +27,7 @@ export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLa
 
 	public constructor(public parent?: Ch5SliderButton) {
 		super("Ch5-slider-button");
+		this.ignoreAttributes = ["disabled", "debug", "show", "customclass", "customstyle", "noshowtype", "receivestatecustomclass", "receivestatecustomstyle", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "receivestateenable", "sendeventonshow", "gestureable", "dir", "appendclasswheninviewport"];
 		this.logger.start('constructor()', Ch5SliderButtonLabel.ELEMENT_NAME);
 		if (!_.isNil(parent)) {
 			this._parentCh5Slider = parent;
