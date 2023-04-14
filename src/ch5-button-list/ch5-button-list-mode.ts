@@ -28,6 +28,11 @@ export class Ch5ButtonListMode extends Ch5ButtonListModeBase {
    */
   public connectedCallback() {
     const _parentCh5ButtonList = this.getParentButton();
+
+    if (!(this.parentElement instanceof Ch5ButtonList)) {
+      throw new Error(`Invalid parent element for ch5-button-list-mode.`);
+    }
+
     if (_.isNil(_parentCh5ButtonList)) {
       throw new Error(`Invalid parent element for ${this.nodeName}.`);
     }
