@@ -68,7 +68,6 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
     }
   };
 
-  public static readonly COMPONENT_COMMON_PROPERTIES = ['disabled', 'show'];
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
   };
@@ -930,11 +929,6 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
             }
           }
         }
-      }
-    });
-    Ch5TabButton.COMPONENT_COMMON_PROPERTIES.forEach((attr: string) => {
-      if (this.hasAttribute(attr)) {
-        btn.setAttribute(attr, this.getAttribute(attr) + '');
       }
     });
 

@@ -140,6 +140,19 @@
           "value": false
         }
       ]
+    },
+    {
+      "type": "b",
+      "event": "tab-enable",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "tab_button_enable",
+          "type": "b",
+          "logic": "set",
+          "value": false
+        }
+      ]
     }
   ],
   "onStart": [

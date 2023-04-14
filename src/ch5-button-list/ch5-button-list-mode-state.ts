@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { Ch5ButtonListModeBase } from "./base-classes/ch5-button-list-mode-base";
 import { Ch5ButtonListModeStateBase } from "./base-classes/ch5-button-list-mode-state-base";
 import { Ch5ButtonList } from "./ch5-button-list";
 
@@ -28,6 +29,11 @@ export class Ch5ButtonListModeState extends Ch5ButtonListModeStateBase {
    */
   public connectedCallback() {
     const _parentCh5ButtonList = this.getParentButton();
+
+    if (!(this.parentElement instanceof Ch5ButtonListModeBase)) {
+      throw new Error(`Invalid parent element for ch5-button-list-mode-state.`);
+    }
+
     if (_.isNil(_parentCh5ButtonList)) {
       throw new Error(`Invalid parent element for ${this.nodeName}.`);
     }

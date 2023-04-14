@@ -117,7 +117,6 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     }
   };
 
-  public static readonly COMPONENT_COMMON_PROPERTIES = ['disabled', 'show'];
 
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -1794,12 +1793,6 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       }
     });
 
-    Ch5ButtonListBase.COMPONENT_COMMON_PROPERTIES.forEach((attr: string) => {
-      if (this.hasAttribute(attr)) {
-        btn.setAttribute(attr, this.getAttribute(attr) + '');
-      }
-    });
-
     const individualButtonAttributes = ['onRelease', 'labelInnerHTML'];
     individualButtonAttributes.forEach((attr: string) => {
       if (index < individualButtonsLength && individualButtons[index] && individualButtons[index].hasAttribute(attr)) {
@@ -1968,12 +1961,6 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
             }
           }
         }
-      }
-    });
-
-    Ch5ButtonListBase.COMPONENT_COMMON_PROPERTIES.forEach((attr: string) => {
-      if (this.hasAttribute(attr)) {
-        btn.setAttribute(attr, this.getAttribute(attr) + '');
       }
     });
 
