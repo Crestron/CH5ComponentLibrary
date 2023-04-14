@@ -25,7 +25,7 @@ export class Ch5SliderTitleLabel extends Ch5Label implements ICh5SliderTitleLabe
 	//#region Component Lifecycle
 
 	public constructor(public parent?: Ch5Slider) {
-		super();
+		super("ch5-slider");
 		this.logger.start('constructor()', Ch5SliderTitleLabel.ELEMENT_NAME);
 		if (!_.isNil(parent)) {
 			this._parentCh5Slider = parent;
@@ -63,7 +63,9 @@ export class Ch5SliderTitleLabel extends Ch5Label implements ICh5SliderTitleLabe
 				super.attributeChangedCallback(attr, oldValue, newValue);
 			}
 		}
-		this._parentCh5Slider.setValues("title", this.getTargetElementForCssClassesAndStyle());
+		if (this._parentCh5Slider.setValues) {
+			this._parentCh5Slider.setValues("title", this.getTargetElementForCssClassesAndStyle());
+		}
 		this.logger.stop();
 	}
 

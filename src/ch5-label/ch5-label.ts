@@ -48,6 +48,7 @@ export class Ch5Label extends Ch5Common implements ICh5LabelAttributes {
 	private _ch5Properties: Ch5Properties;
 	private _elContainer: HTMLElement = {} as HTMLElement;
 	public templateElement: HTMLTemplateElement = {} as HTMLTemplateElement;
+	private parentElem: string = "";
 
 	//#endregion
 
@@ -96,11 +97,14 @@ export class Ch5Label extends Ch5Common implements ICh5LabelAttributes {
 
 	//#region Component Lifecycle
 
-	public constructor() {
+	public constructor(public _parent?: string) {
 		super();
 		this.logger.start('constructor()', Ch5Label.ELEMENT_NAME);
 		if (!this._wasInstatiated) {
 			this.createInternalHtml();
+		}
+		if (_parent) {
+			this.parentElem = _parent;
 		}
 		this._wasInstatiated = true;
 		this._ch5Properties = new Ch5Properties(this, Ch5Label.COMPONENT_PROPERTIES);
@@ -143,7 +147,7 @@ export class Ch5Label extends Ch5Common implements ICh5LabelAttributes {
 		if (!this.hasAttribute('role')) {
 			// this.setAttribute('role', Ch5RoleAttributeMapping.ch5Label);
 		}
-		if (this._elContainer.parentElement !== this) {
+		if (this._elContainer.parentElement !== this && this.parentElem === "") {
 			this._elContainer.classList.add('ch5-label');
 			this.appendChild(this._elContainer);
 		}
@@ -216,7 +220,7 @@ export class Ch5Label extends Ch5Common implements ICh5LabelAttributes {
 	}
 
 
-	private handleLabel() {
+	protected handleLabel() {
 		if (!(this.templateElement instanceof HTMLTemplateElement)) {
 			this.templateElement = this.getElementsByTagName('template')[0] as HTMLTemplateElement;
 		}

@@ -111,7 +111,9 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 				super.attributeChangedCallback(attr, oldValue, newValue);
 			}
 		}
-		this._parentCh5Slider.setValues(this.key, this.getTargetElementForCssClassesAndStyle());
+		if (this._parentCh5Slider.setValues) {
+			this._parentCh5Slider.setValues(this.key, this.getTargetElementForCssClassesAndStyle());
+		}
 		this.logger.stop();
 	}
 
@@ -120,7 +122,6 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	 */
 	public connectedCallback() {
 		this.logger.start('connectedCallback()', Ch5SliderButton.ELEMENT_NAME);
-		this.setAttribute('role', Ch5RoleAttributeMapping.ch5SliderButton);
 		this.setAttribute('data-ch5-id', this.getCrId());
 		// this.attachEventListeners();
 		// this.initAttributes();

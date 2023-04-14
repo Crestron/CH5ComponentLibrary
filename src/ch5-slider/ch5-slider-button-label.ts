@@ -26,14 +26,14 @@ export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLa
 	//#region Component Lifecycle
 
 	public constructor(public parent?: Ch5SliderButton) {
-		super();
+		super("Ch5-slider-button");
 		this.logger.start('constructor()', Ch5SliderButtonLabel.ELEMENT_NAME);
 		if (!_.isNil(parent)) {
 			this._parentCh5Slider = parent;
 			this.createInternalHtml();
 			this.initAttributes();
 			this.updateCssClass();
-		//	this._parentCh5Slider.setValues("title", this.getTargetElementForCssClassesAndStyle());
+			//	this._parentCh5Slider.setValues("title", this.getTargetElementForCssClassesAndStyle());
 		} else {
 			this._parentCh5Slider = this.getParentButton();
 		}
@@ -63,7 +63,9 @@ export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLa
 				super.attributeChangedCallback(attr, oldValue, newValue);
 			}
 		}
-		this._parentCh5Slider.setValues("label", this.getTargetElementForCssClassesAndStyle());
+		if (this._parentCh5Slider.setValues) {
+			this._parentCh5Slider.setValues("label", this.getTargetElementForCssClassesAndStyle());
+		}
 		this.logger.stop();
 	}
 
@@ -74,6 +76,7 @@ export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLa
 		this.logger.start('connectedCallback()', Ch5SliderButtonLabel.ELEMENT_NAME);
 		this.setAttribute('role', Ch5RoleAttributeMapping.ch5SliderButton);
 		this.setAttribute('data-ch5-id', this.getCrId());
+		super.connectedCallback();
 		this.logger.stop();
 	}
 
