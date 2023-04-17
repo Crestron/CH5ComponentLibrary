@@ -18,7 +18,8 @@ import {
   TCh5ButtonVerticalAlignLabel,
   TCh5ButtonCheckboxPosition,
   TCh5ButtonBackgroundImageFillType,
-  TCh5ButtonIconUrlFillType
+  TCh5ButtonIconUrlFillType,
+  TCh5ButtonSgIconTheme
 } from "./t-ch5-button";
 
 /**
@@ -495,4 +496,43 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @attributeType "Join"
    */
   receiveStateBackgroundImageUrl: string;
+
+  /**
+   * @documentation
+   * [
+   * "`receiveStateSGIconNumeric` attribute",
+   * "***",
+   * "This would contain a mapping on analog joins to each of the sg icons."
+   * ]
+   * @name receivestatesgiconnumeric
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+   * @attributeType "Join"
+   */
+  receiveStateSGIconNumeric: string;
+
+  /**
+   * @documentation
+   * [
+   * "`receiveStateSGIconString` attribute",
+   * "***",
+   * "This would contain a mapping of serial joins to each of the sg icons."
+   * ]
+   * @name receivestatesgiconstring
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @attributeType "Join"
+   */
+  receiveStateSGIconString: string;
+
+  /**
+   * @documentation
+   * [
+   * "`sgIconTheme:` attribute",
+   * "***",
+   * "This will contain an enumeration of 5 values - icons-sg, icons-lg, mediatransports-accents, media-transports-light, media-transports-dark. Default. value is icon-lg."
+   * ]
+   * @name sgicontheme
+   * @attributeType "EnumeratedValue"
+   * @default icon-lg
+   */
+  sgIconTheme: TCh5ButtonSgIconTheme;
 }

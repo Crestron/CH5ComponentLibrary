@@ -1194,7 +1194,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	public set receiveStateSGIconNumeric(value: string) {
 		this._ch5Properties.set("receiveStateSGIconNumeric", value, null, (newValue: number) => {
-			if (newValue >= 0 && newValue <= 212) {
+			if (newValue >= 0 && newValue <= 214) {
 				this.sgIconNumeric = newValue;
 				this.setButtonDisplay();
 			}
