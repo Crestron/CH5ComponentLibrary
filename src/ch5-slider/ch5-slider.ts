@@ -458,6 +458,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
   private _tgtEls: NodeListOf<HTMLElement>[] = [];
   private _tooltip: NodeListOf<HTMLElement> = {} as NodeListOf<HTMLElement>;
   private _sendEventValue: number = -1;
+  private _titlePresent: number = -1;
 
   /**
    * CSS classes
@@ -670,6 +671,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
   public set value(value: number) {
     this._ch5Properties.set<number>("value", value, () => {
       this.handleValue();
+      this.setCleanValue(this.value);
     });
   }
   public get value(): number {
@@ -683,6 +685,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
   public set valueHigh(value: number) {
     this._ch5Properties.set<number>("valueHigh", value, () => {
       this.handleValueHigh();
+      this._cleanValueHigh = this.valueHigh;
     });
   }
 
@@ -768,15 +771,16 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
   public set toolTipShowType(value: TCh5SliderToolTipShowType) {
     this._ch5Properties.set<TCh5SliderToolTipShowType>("toolTipShowType", value, () => {
+      this.handleToolTipShowType();
       if (this._wasRendered) { this._render(); }
+      // subscribe to analog value if tooltip is on
+      if (this.toolTipShowType === Ch5Slider.TOOL_TIP_SHOW_TYPE[1]) {
+        this.subscribeToAnalogSignal();
+        this.subscribeToAnalogHighSignal();
+      } else {
+        this.unsubscribeFromAnalogSignals();
+      }
     });
-    // subscribe to analog value if tooltip is on
-    if (this.toolTipShowType === Ch5Slider.TOOL_TIP_SHOW_TYPE[1]) {
-      this.subscribeToAnalogSignal();
-      this.subscribeToAnalogHighSignal();
-    } else {
-      this.unsubscribeFromAnalogSignals();
-    }
   }
   public get toolTipShowType(): TCh5SliderToolTipShowType {
     return this._ch5Properties.get<TCh5SliderToolTipShowType>("toolTipShowType");
@@ -879,6 +883,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
       };
 
       this.setCleanValue(newValue);
+      this.value = newValue;
 
       if (this._dirtyTimerHandle === null) {
         this._wasRendered = false;
@@ -972,6 +977,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
       };
 
       this._cleanValueHigh = newValue;
+      this.valueHigh = newValue;
       if (this._dirtyTimerHandleHigh === null) {
 
         this._wasRendered = false;
@@ -1117,72 +1123,42 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
     }
     this.dir = "ltr";
 
-    if (this._elContainer.parentElement !== this) {
-      this.appendChild(this._elContainer);
-    }
+    Promise.all([customElements.whenDefined('ch5-slider')]).then(() => {
+      this.cacheComponentChildrens();
+      const existingSliderElement = this.querySelector('.noUi-target');
 
-    this.initAttributes();
-    if (!this._wasRendered ||
-      'undefined' === typeof (this._innerContainer as target).noUiSlider ||
-      null === (this._innerContainer as target).noUiSlider) {
-      this._render()
-        .then(() => {
-          this._wasRendered = true;
-          window.setTimeout(() => { this._applySignalReceivedBeforeRender() }, 0);
-        });
-    }
-    this.onOffButtonHelper();
-    this.titleHelper();
-    // attach event listeners
-    this.attachEventListeners();
+      if (existingSliderElement instanceof HTMLElement) {
+        existingSliderElement.remove();
+      }
 
-    this.updateCssClasses();
+      if (this._elContainer.parentElement !== this) {
+        this.appendChild(this._elContainer);
+      }
 
+      this.initAttributes();
+      this.updateCssClasses();
 
-    this.initCommonMutationObserver(this);
+      if (!this._wasRendered ||
+        'undefined' === typeof (this._innerContainer as target).noUiSlider ||
+        null === (this._innerContainer as target).noUiSlider) {
+        this._render()
+          .then(() => {
+            this._wasRendered = true;
+            window.setTimeout(() => {
+              this._applySignalReceivedBeforeRender();
+            }, 0);
+          });
+      }
+      // attach event listeners
+      this.attachEventListeners();
 
-    // init clean values
-    this.setCleanValue(this.value);
-    this._cleanValueHigh = this.valueHigh;
-    // Promise.all([customElements.whenDefined('ch5-slider')]).then(() => {
-    // 	this.cacheComponentChildrens();
-    // 	const existingSliderElement = this.querySelector('.noUi-target');
-
-    // 	if (existingSliderElement instanceof HTMLElement) {
-    // 		existingSliderElement.remove();
-    // 	}
-
-    // 	if (this._elContainer.parentElement !== this) {
-    // 		this.appendChild(this._elContainer);
-    // 	}
-
-
-    // 	this.initAttributes();
-    // 	this.updateCssClasses();
-
-    // 	if (!this._wasRendered ||
-    // 		'undefined' === typeof (this._innerContainer as target).noUiSlider ||
-    // 		null === (this._innerContainer as target).noUiSlider) {
-    // 		this._render()
-    // 			.then(() => {
-    // 				this._wasRendered = true;
-    // 				window.setTimeout(() => { this._applySignalReceivedBeforeRender() }, 0);
-    // 			});
-    // 	}
-
-    // 	// attach event listeners
-    // 	this.attachEventListeners();
-
-    // 	this.initCommonMutationObserver(this);
-
-    // 	// init clean values
-    // 	this.setCleanValue(this.value);
-    // 	this._cleanValueHigh = this.valueHigh;
-    // });
-
-    customElements.whenDefined('ch5-color-chip').then(() => {
-      this.componentLoadedEvent(Ch5Slider.ELEMENT_NAME, this.id);
+      this.initCommonMutationObserver(this);
+      // init clean values
+      this.setCleanValue(this.value);
+      this._cleanValueHigh = this.valueHigh;
     });
+    this.titleHelper();
+    this.onOffButtonHelper();
   }
   protected eventBinding() {
     // events binding
@@ -1501,7 +1477,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
     this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
 
-    this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
+    if (this.onOffOnly !== true) {
+      this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
+    }
 
     this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.HANDLE_SIZE.classListPrefix + this.handleSize);
 
@@ -1810,7 +1788,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
     this.info('Ch5Slider._onSliderChange()');
 
     // set component value | valueHigh based on handle
-    this._applyHandleValueToComponent(handle, value);
+    // this._applyHandleValueToComponent(handle, value);
 
     // send value signal
     if (undefined !== value
@@ -2743,10 +2721,15 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
   private _getStartValue(): number | number[] {
     var val = this.value;
     var valHigh = this.valueHigh;
-    if (this.value < this.min || this.value >= this.max)
+    if (this.value < this.min)
       val = this.min;
-    if (this.valueHigh > this.max || this.valueHigh < this.value)
+    if (this.value > this.max)
+      val = this.max
+    if (this.valueHigh > this.max)
       valHigh = this.max;
+    if (this.valueHigh < this.value)
+      valHigh = this.value + 1;
+
     let start = (this.range === false) ? val : [val, valHigh];
     this._cleanValue = val;
     if (this.range === true) {
@@ -2844,7 +2827,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
       clearTimeout(this._dirtyTimerHandle);
       this._dirtyTimerHandle = null;
     }
-
     if (this._wasRendered) {
       (this._innerContainer as target)?.noUiSlider?.set(this.value);
     }
@@ -2884,6 +2866,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
     if (this.max <= this.min) {
       this.max = this.min + 1;
     }
+    if (this.value > this.max) {
+      this.value = this.max;
+    }
 
     // step should be honored over max when not an even divisor of max
     const numberOfSteps = (this.max - this.min) / this.step;
@@ -2900,7 +2885,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
     if (this.min >= this.max) {
       this.min = this.max - 1;
     }
-
+    if (this.value < this.min) {
+      this.value = this.min;
+    }
     if (this._wasRendered) { this._render(); }
 
   }
@@ -2966,9 +2953,12 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
   private handleOnOffOnly() {
     if (this.onOffOnly === true) {
       this._innerContainer.classList.add("ch5-hide-dis");
+      this._elContainer.classList.remove(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
     } else {
       this._innerContainer.classList.remove("ch5-hide-dis");
+      this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
     }
+    // if (this._wasRendered) { this._render(); }
   }
 
   private handleSendEventOnUpper() {
@@ -2991,6 +2981,14 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
       this._elContainer.classList.remove("nohandle");
     }
   }
+
+  private handleToolTipShowType() {
+    Array.from(Ch5Slider.COMPONENT_DATA.TOOL_TIP_SHOW_TYPE.values).forEach((e: any) => {
+      this._elContainer.classList.remove(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.TOOL_TIP_SHOW_TYPE.classListPrefix + e);
+    });
+    this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.TOOL_TIP_SHOW_TYPE.classListPrefix + this.toolTipShowType);
+  }
+
   private handleSendSignalOnChange() {
     // Enter your Code here
   }
@@ -3016,20 +3014,22 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
           var sliderBtn: Ch5SliderButton;
 
           if (btn.getAttribute("key") === 'on') {
+            console.log("on1");
             sliderBtn = new Ch5SliderButton(this);
+            console.log("on2");
             if (!btn.hasAttribute("label")) {
-              sliderBtn.setAttribute("label", "on");
+              btn.setAttribute("label", "on");
             }
             key_on = 1;
           } else if (btn.getAttribute("key") === 'off') {
             sliderBtn = new Ch5SliderButton(this);
             if (!btn.hasAttribute("label")) {
-              sliderBtn.setAttribute("label", "off");
+              btn.setAttribute("label", "off");
             }
             key_off = 1;
           }
           Ch5SliderButton.observedAttributes.forEach((attr) => {
-            if (btn.hasAttribute(attr)) {
+            if (btn.hasAttribute(attr) && sliderBtn) {
               sliderBtn.setAttribute(attr, btn.getAttribute(attr) + '');
             }
           });
@@ -3037,16 +3037,18 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
       })
 
       if (key_on === 0) {
+        console.log("on4");
         var sliderBtn: Ch5SliderButton;
         sliderBtn = new Ch5SliderButton(this);
-        sliderBtn.setAttribute("key", "on");
-        sliderBtn.setAttribute("label", "on");
+        sliderBtn.key = "on";
+        sliderBtn.label = "on";
       }
       if (key_off === 0) {
+        console.log("on5");
         var sliderBtn: Ch5SliderButton;
         sliderBtn = new Ch5SliderButton(this);
-        sliderBtn.setAttribute("key", "off");
-        sliderBtn.setAttribute("label", "off");
+        sliderBtn.key = "off";
+        sliderBtn.label = "off";
       }
     }
   }
@@ -3080,12 +3082,20 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
       return;
     this._elContainer.style.padding = "0px";
     if (elem === "title") {
+      if (val.innerHTML !== "") {
+        this._titlePresent = 1;
+      }
       this.helper(this._elTitleContainer, val);
     } else if (elem === "on") {
       this.helper(this._elOnContainer, val);
     } else if (elem === "off") {
       this.helper(this._elOffContainer, val);
     }
+  }
+
+  public titlePresent() {
+    if (this._titlePresent === 1) return true;
+    else return false;
   }
   //#endregion
 

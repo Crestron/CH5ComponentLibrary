@@ -58,7 +58,11 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	public set key(value: TCh5SliderButtonKey) {
 		this._ch5Properties.set<TCh5SliderButtonKey>("key", value, () => {
-			// Enter Code
+			// if (this.key === "on") {
+			// 	this.classList.add("ch5-slider-key--on");
+			// } else {
+			// 	this.classList.add("ch5-slider-key--off");
+			// }
 		});
 	}
 	public get key(): TCh5SliderButtonKey {
@@ -69,7 +73,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	//#region Static Methods
 
-	//#endregion
+	//#endregion1
 
 	//#region Component Lifecycle
 
@@ -84,6 +88,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 		} else {
 			this._parentCh5Slider = this.getParentButton();
 		}
+		this.classList.add("ch5-slider-button");
 		this._ch5Properties = new Ch5Properties(this, Ch5SliderButton.COMPONENT_PROPERTIES);
 	}
 
@@ -100,7 +105,6 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
 		this.logger.start("attributeChangedCallback", this.primaryCssClass);
-		console.log("attr", attr, oldValue, newValue);
 		if (!Ch5SliderButton.inheritedObsAttrs.includes(attr.toLowerCase())) {
 			return;
 		}
@@ -143,6 +147,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 		// this.updateCssClass();
 		this.buttonIgonredAttributes();
 		super.connectedCallback();
+		this.updateCssClass();
 		this.handleLabel();
 		this.logger.stop();
 	}
@@ -258,7 +263,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	protected updateCssClass() {
 		this.logger.start('UpdateCssClass');
 		super.updateCssClasses();
-		this.getTargetElementForCssClassesAndStyle().classList.add("ch5-button--default");
+		this.classList.add("ch5-slider-key--" + this.key);
 		this.logger.stop();
 	}
 

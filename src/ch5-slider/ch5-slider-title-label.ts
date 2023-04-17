@@ -33,7 +33,6 @@ export class Ch5SliderTitleLabel extends Ch5Label implements ICh5SliderTitleLabe
 			this.createInternalHtml();
 			this.initAttributes();
 			this.updateCssClass();
-			console.log(this._parentCh5Slider, "constructor");
 			this._parentCh5Slider.setValues("title", this.getTargetElementForCssClassesAndStyle());
 		} else {
 			this._parentCh5Slider = this.getParentButton();
