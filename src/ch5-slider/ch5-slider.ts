@@ -3013,7 +3013,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
         if (btn.parentElement instanceof Ch5Slider) {
           var sliderBtn: Ch5SliderButton;
 
-          if (btn.getAttribute("key") === 'on') {
+          if (btn.getAttribute("key") === 'on' || btn.getAttribute("key") === '' || !btn.hasAttribute("key")) {
             console.log("on1");
             sliderBtn = new Ch5SliderButton(this);
             console.log("on2");
@@ -3042,6 +3042,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
         sliderBtn = new Ch5SliderButton(this);
         sliderBtn.key = "on";
         sliderBtn.label = "on";
+        this.appendChild(sliderBtn);
       }
       if (key_off === 0) {
         console.log("on5");
@@ -3049,6 +3050,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
         sliderBtn = new Ch5SliderButton(this);
         sliderBtn.key = "off";
         sliderBtn.label = "off";
+        this.appendChild(sliderBtn);
       }
     }
   }

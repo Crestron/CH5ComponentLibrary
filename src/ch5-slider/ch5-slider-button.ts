@@ -142,9 +142,6 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	public connectedCallback() {
 		this.logger.start('connectedCallback()', Ch5SliderButton.ELEMENT_NAME);
 		this.setAttribute('data-ch5-id', this.getCrId());
-		// this.attachEventListeners();
-		// this.initAttributes();
-		// this.updateCssClass();
 		this.buttonIgonredAttributes();
 		super.connectedCallback();
 		this.updateCssClass();
