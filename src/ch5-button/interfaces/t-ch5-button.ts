@@ -44,4 +44,4 @@ export type TCh5ButtonBackgroundImageFillType = 'stretch-aspect' | 'stretch' | '
 
 export type TCh5ButtonIconUrlFillType = 'stretch' | 'stretch-aspect' | 'center' | 'tile' | 'initial';
 
-export type TCh5ButtonSgIconTheme = 'icon-lg' | 'icon-sg' | 'media-transports-accents' | 'media-transports-light' | 'media-transports-dark';
+export type TCh5ButtonSgIconTheme = 'icons-lg' | 'icons-sm' | 'media-transports-accents' | 'media-transports-light' | 'media-transports-dark';

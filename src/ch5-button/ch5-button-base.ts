@@ -165,7 +165,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	public static readonly ORIENTATIONS: TCh5ButtonOrientation[] = ['horizontal', 'vertical'];
 
-	public static readonly SG_ICON_THEME: TCh5ButtonSgIconTheme[] = ['icon-lg', 'icon-sg', 'media-transports-accents', 'media-transports-light', 'media-transports-dark'];
+	public static readonly SG_ICON_THEME: TCh5ButtonSgIconTheme[] = ['icons-lg', 'icons-sm', 'media-transports-accents', 'media-transports-light', 'media-transports-dark'];
 
 	public static readonly MODES: {
 		MIN_LENGTH: number,
@@ -1206,7 +1206,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	public set receiveStateSGIconString(value: string) {
 		this._ch5Properties.set("receiveStateSGIconString", value, null, (newValue: string) => {
-			this.sgIconString = newValue;
+			this.sgIconString = newValue.trim().toLowerCase().split(' ').join('-');
 			this.setButtonDisplay();
 		});
 	}
