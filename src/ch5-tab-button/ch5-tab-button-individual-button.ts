@@ -162,7 +162,7 @@ export class Ch5TabButtonIndividualButton extends Ch5Log implements ICh5TabButto
 	public connectedCallback() {
 		this.logger.start('connectedCallback()');
 		const _parentCh5TabButton = this.getParentButton();
-		if (_.isNil(_parentCh5TabButton)) {
+		if (_.isNil(_parentCh5TabButton) || this.parentElement?.nodeName.toString().toUpperCase() !== "CH5-TAB-BUTTON") {
 			throw new Error(`Invalid parent element for ch5-tab-button-individual-button.`);
 		}
 		this.setAttribute('role', Ch5RoleAttributeMapping.ch5TabButtonIndividualButton);

@@ -28,7 +28,7 @@ export class Ch5ButtonListIndividualButton extends Ch5ButtonListIndividualButton
 	 */
 	public connectedCallback() {
 		const _parentCh5ButtonList = this.getParentButton();
-		if (_.isNil(_parentCh5ButtonList)) {
+		if (_.isNil(_parentCh5ButtonList) || this.parentElement?.nodeName.toString().toUpperCase() !== "CH5-BUTTON-LIST") {
 			throw new Error(`Invalid parent element for ch5-button-list-individual-button.`);
 		}
 		super.connectedCallback();

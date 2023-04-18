@@ -97,14 +97,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
 		{
-			default: "",
-			name: "contractName",
-			removeAttributeOnNull: true,
-			type: "string",
-			valueOnAttributeEmpty: "",
-			isObservableProperty: true
-		},
-		{
 			default: Ch5Keypad.TYPES[0],
 			enumeratedValues: Ch5Keypad.TYPES,
 			name: "type",
@@ -207,6 +199,14 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			removeAttributeOnNull: true,
 			type: "boolean",
 			valueOnAttributeEmpty: true,
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			name: "contractName",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
 			isObservableProperty: true
 		},
 		{
@@ -418,6 +418,9 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 				if (this.hasAttribute(Ch5Keypad.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
 					const key = Ch5Keypad.COMPONENT_PROPERTIES[i].name;
 					thisRef[key] = this.getAttribute(key);
+				} else {
+					const key = Ch5Keypad.COMPONENT_PROPERTIES[i].name;
+					thisRef[key] = Ch5Keypad.COMPONENT_PROPERTIES[i].default;
 				}
 			}
 		}
@@ -436,7 +439,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			this.setAttribute('role', Ch5RoleAttributeMapping.ch5Keypad);
 		}
 		ComponentHelper.clearComponentContent(this);
-		this.initAttributes();
 		this.onAllSubElementsCreated();
 		subscribeInViewPortChange(this, () => {
 			if (this.elementIsInViewPort) {
@@ -463,7 +465,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			// update class based on the current type chosen
 			this.updateCssClasses();
 			this.attachEventListeners();
-
+			this.initAttributes();
 			// required post initial setup
 			this.stretchHandler();
 		});
@@ -571,9 +573,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			item.remove();
 		}
 		this.createEmptyContainerDiv();
-		if (this.contractName !== "") {
-			this.contractDefaultHelper();
-		}
 		const data: TCh5KeypadButtonCreateDTO[] =
 			this.getBtnList(this.runtimeChildButtonList, this.contractName, this.sendEventOnClickStart);
 		let rowEle = this.appendKeysRowToContainer();
@@ -662,7 +661,9 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			for (const ele of childElements) {
 				if (ele.tagName.toLowerCase() === 'ch5-keypad-button') {
 					const item = this.getChildBtnDTOFromElement(ele, this.contractName, this.sendEventOnClickStart);
-					this.runtimeChildButtonList[item.name] = item;
+					if (!this.runtimeChildButtonList.hasOwnProperty(item.name)) {
+						this.runtimeChildButtonList[item.name] = item;
+					}
 				}
 			}
 		}
@@ -674,7 +675,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			this.classList.remove(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnShapeClassPrefix + typeVal);
 		}
 		this.classList.add(Ch5Keypad.ELEMENT_NAME + Ch5Keypad.btnShapeClassPrefix + this.shape);
-	this.logger.stop();
+		this.logger.stop();
 	}
 
 	private setContainerHeightAndWidth(height: number, width: number) {
@@ -774,8 +775,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			this.signalNameOnContract.receiveStateCustomStyle = this.receiveStateCustomStyle;
 			this.signalNameOnContract.receiveStateCustomClass = this.receiveStateCustomClass;
 		}
-		this.buildRuntimeChildButtonList();
-		this.createAndAppendAllButtonsUnderKeypad();
+		this.contractDefaultHelper();
+		this.updateContractBasedEvent();
 	}
 
 	private contractDefaultHelper() {
@@ -798,6 +799,17 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 			if (this.useContractForExtraButtonShow === true) {
 				this.showExtraButtonHandler();
+			}
+		}
+	}
+
+	private updateContractBasedEvent() {
+		if (this.contractName.length > 0) {
+			for (const key in this.childButtonList) {
+				if (this.childButtonList.hasOwnProperty(key)) {
+					const btn = this.childButtonList[key];
+					btn.setJoinBasedContractEventHandler(this.contractName);
+				}
 			}
 		}
 	}
