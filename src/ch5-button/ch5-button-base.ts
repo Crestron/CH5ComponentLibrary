@@ -2055,7 +2055,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this._previousSgIconNumeric = this.sgIconNumeric;
 			this._elIcon.classList.add('sg');
 			this._elIcon.classList.add('sg-' + this.sgIconTheme);
-		} else if (!isNil(this.iconUrl) && this.iconUrl !== '' && this.iconUrl === this._ch5ButtonSignal.getSignal('receiveStateUrl')?.currentValue) {
+		} else if (!isNil(this.iconUrl) && this.iconUrl !== '' && this.iconUrl === this._ch5ButtonSignal.getSignal('receiveStateIconUrl')?.currentValue) {
 			this._elIcon.style.backgroundImage = this.iconUrl;
 		} else if (!isNil(this.iconClass) && this.iconClass !== '' && this.iconClass === this._ch5ButtonSignal.getSignal('receiveStateiconClass')?.currentValue) {
 			this.iconClass.split(' ').forEach((className: string) => {
@@ -2840,7 +2840,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				}
 				this._elIcon.classList.add(this.primaryCssClass + '--img');
 
-			} else if (hasImage && this.iconUrl === this._ch5ButtonSignal.getSignal('receiveStateUrl')?.currentValue) {
+			} else if (hasImage && this.iconUrl === this._ch5ButtonSignal.getSignal('receiveStateIconUrl')?.currentValue) {
 				this._elIcon.style.backgroundImage = `url(${this.iconUrl})`;
 				this._elIcon.classList.remove(this.primaryCssClass + '--icon');
 				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
