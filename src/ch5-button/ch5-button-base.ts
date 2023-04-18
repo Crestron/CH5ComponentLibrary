@@ -175,6 +175,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			MAX_LENGTH: 99
 		};
 
+	public static readonly MAX_SG_NUMERIC: number = 214;
+
 	public static readonly COMPONENT_DATA: any = {
 		TYPES: {
 			default: Ch5ButtonBase.TYPES[0],
@@ -1194,7 +1196,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	public set receiveStateSGIconNumeric(value: string) {
 		this._ch5Properties.set("receiveStateSGIconNumeric", value, null, (newValue: number) => {
-			if (newValue >= 0 && newValue <= 214) {
+			if (newValue >= 0 && newValue <= Ch5ButtonBase.MAX_SG_NUMERIC) {
 				this.sgIconNumeric = newValue;
 				this.setButtonDisplay();
 			}

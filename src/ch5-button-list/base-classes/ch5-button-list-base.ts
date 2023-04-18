@@ -1002,6 +1002,30 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   public get buttonReceiveStateIconUrl(): string {
     return this._ch5Properties.get<string>("buttonReceiveStateIconUrl");
   }
+  public set buttonReceiveStateSGIconString(value: string) {
+    this._ch5Properties.set<string>("buttonReceiveStateSGIconString", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get buttonReceiveStateSGIconString(): string {
+    return this._ch5Properties.get<string>("buttonReceiveStateSGIconString");
+  }
+  public set buttonReceiveStateSGIconNumeric(value: string) {
+    this._ch5Properties.set<string>("buttonReceiveStateSGIconNumeric", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get buttonReceiveStateSGIconNumeric(): string {
+    return this._ch5Properties.get<string>("buttonReceiveStateSGIconNumeric");
+  }
+  public set buttonSgIconTheme(value: TCh5ButtonListSgIconTheme) {
+    this._ch5Properties.set<TCh5ButtonListSgIconTheme>("buttonSgIconTheme", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get buttonSgIconTheme(): TCh5ButtonListSgIconTheme {
+    return this._ch5Properties.get<TCh5ButtonListSgIconTheme>("buttonSgIconTheme");
+  }
 
   public set buttonSendEventOnClick(value: string) {
     this._ch5Properties.set<string>("buttonSendEventOnClick", value, () => {
