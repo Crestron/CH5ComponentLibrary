@@ -788,6 +788,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
   public set toolTipDisplayType(value: TCh5SliderToolTipDisplayType) {
     this._ch5Properties.set<TCh5SliderToolTipDisplayType>("toolTipDisplayType", value, () => {
+      this.handleToolTipDisplayType();
       if (this._wasRendered) { this._render(); }
     });
   }
@@ -1483,11 +1484,11 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
     this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.HANDLE_SIZE.classListPrefix + this.handleSize);
 
-    this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.STRETCH.classListPrefix + this.stretch);
+    // this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.STRETCH.classListPrefix + this.stretch);
 
     this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.TOOL_TIP_SHOW_TYPE.classListPrefix + this.toolTipShowType);
 
-    this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.TOOL_TIP_DISPLAY_TYPE.classListPrefix + this.toolTipDisplayType);
+    // this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.TOOL_TIP_DISPLAY_TYPE.classListPrefix + this.toolTipDisplayType);
 
     this.logger.stop();
   }
@@ -2945,7 +2946,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
         if (this.stretch === 'height') {
           if (this._elContainer.classList.contains("adv-slider")) {
             this._elSliderContainer.style.height = titleHeight + 'px';
-            this._elContainer.style.height = sliderHeight + 'px'; 
+            this._elContainer.style.height = sliderHeight + 'px';
           } else { this._elContainer.style.height = sliderHeight + 'px'; }
         }
         else if (this.stretch === 'width') {
@@ -3019,6 +3020,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
   }
   private onOffButtonHelper() {
     const buttonSlider = this.getElementsByTagName("ch5-slider-button");
+    console.log("buttonSlider", buttonSlider);
     if (buttonSlider.length === 0 || this.range === true) {
       this._elOffContainer.classList.add("adv-slider-btn");
       this._elOnContainer.classList.add("adv-slider-btn");
@@ -3034,22 +3036,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
         if (btn.parentElement instanceof Ch5Slider) {
           var sliderBtn: Ch5SliderButton;
-
-          if (btn.getAttribute("key") === 'on' || btn.getAttribute("key") === '' || !btn.hasAttribute("key")) {
-            console.log("on1");
+          if (btn.getAttribute("key") === 'off') {
             sliderBtn = new Ch5SliderButton(this);
-            console.log("on2");
-            if (!btn.hasAttribute("label")) {
-              btn.setAttribute("label", "on");
-            }
-            if (this.stretch && this.orientation === "horizontal") {
-              btn.classList.add("ch5-slider-horizontal-stretch");
-            } else if (this.orientation === "vertical" && (this.stretch === "both" || this.stretch === "width")) {
-              btn.classList.add("ch5-slider-vertical-stretch");
-            }
-            key_on = 1;
-          } else if (btn.getAttribute("key") === 'off') {
-            sliderBtn = new Ch5SliderButton(this);
+            sliderBtn.key = "off"
             if (!btn.hasAttribute("label")) {
               btn.setAttribute("label", "off");
             }
@@ -3059,7 +3048,21 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
               btn.classList.add("ch5-slider-vertical-stretch");
             }
             key_off = 1;
-          }
+          } else
+            if (btn.getAttribute("key") === 'on' || btn.getAttribute("key") === '' || !btn.hasAttribute("key")) {
+              console.log("on1");
+              sliderBtn = new Ch5SliderButton(this);
+              console.log("on2");
+              if (!btn.hasAttribute("label")) {
+                btn.setAttribute("label", "on");
+              }
+              if (this.stretch && this.orientation === "horizontal") {
+                btn.classList.add("ch5-slider-horizontal-stretch");
+              } else if (this.orientation === "vertical" && (this.stretch === "both" || this.stretch === "width")) {
+                btn.classList.add("ch5-slider-vertical-stretch");
+              }
+              key_on = 1;
+            }
           Ch5SliderButton.observedAttributes.forEach((attr) => {
             if (btn.hasAttribute(attr) && sliderBtn) {
               sliderBtn.setAttribute(attr, btn.getAttribute(attr) + '');
@@ -3132,6 +3135,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
   public titlePresent() {
     if (this._titlePresent === 1) return true;
     else return false;
+  }
+
+  private handleToolTipDisplayType() {
+    Array.from(Ch5Slider.COMPONENT_DATA.TOOL_TIP_DISPLAY_TYPE.values).forEach((e: any) => {
+      this._elContainer.classList.remove(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.TOOL_TIP_DISPLAY_TYPE.classListPrefix + e);
+    });
+    this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.TOOL_TIP_DISPLAY_TYPE.classListPrefix + this.toolTipDisplayType);
   }
   //#endregion
 
