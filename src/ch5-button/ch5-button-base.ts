@@ -26,6 +26,7 @@ import {
 	TCh5ButtonVerticalAlignLabel,
 	TCh5ButtonBackgroundImageFillType,
 	TCh5ButtonIconUrlFillType,
+	TCh5ButtonSgIconTheme
 } from './interfaces/t-ch5-button';
 import { ICh5ButtonListContractObj } from "./interfaces/t-for-ch5-button-list-contract"
 import { ICh5ButtonAttributes } from "./interfaces/i-ch5-button-attributes";
@@ -164,6 +165,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	public static readonly ORIENTATIONS: TCh5ButtonOrientation[] = ['horizontal', 'vertical'];
 
+	public static readonly SG_ICON_THEME: TCh5ButtonSgIconTheme[] = ['icons-lg', 'icons-sm', 'media-transports-accents', 'media-transports-light', 'media-transports-dark'];
+
 	public static readonly MODES: {
 		MIN_LENGTH: number,
 		MAX_LENGTH: number
@@ -171,6 +174,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			MIN_LENGTH: 0,
 			MAX_LENGTH: 99
 		};
+
+	public static readonly MAX_SG_NUMERIC: number = 214;
 
 	public static readonly COMPONENT_DATA: any = {
 		TYPES: {
@@ -248,6 +253,13 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			key: 'iconUrlFillType',
 			attribute: 'iconUrlFillType',
 			classListPrefix: '--icon-url-fill-type-'
+		},
+		SG_ICON_THEME: {
+			default: Ch5ButtonBase.SG_ICON_THEME[0],
+			values: Ch5ButtonBase.SG_ICON_THEME,
+			key: 'sgIconTheme',
+			attribute: 'sgIconTheme',
+			classListPrefix: '--sg-icon-theme-'
 		}
 	};
 
@@ -260,6 +272,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		receivestateiconclass: { direction: "state", stringJoin: 1, contractName: true },
 		receivestateiconurl: { direction: "state", stringJoin: 1, contractName: true },
 		receivestatetype: { direction: "state", stringJoin: 1, contractName: true },
+		receivestatesgiconnumeric: { direction: "state", numericJoin: 1, contractName: true },
+		receivestatesgiconstring: { direction: "state", stringJoin: 1, contractName: true },
 
 		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true },
@@ -271,7 +285,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	};
 
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
-
 		{
 			default: "",
 			name: "backgroundImageUrl",
@@ -310,7 +323,35 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true,
 		},
-
+		{
+			default: Ch5ButtonBase.SG_ICON_THEME[0],
+			enumeratedValues: Ch5ButtonBase.SG_ICON_THEME,
+			name: "sgIconTheme",
+			removeAttributeOnNull: true,
+			type: "enum",
+			valueOnAttributeEmpty: Ch5ButtonBase.SG_ICON_THEME[0],
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "receiveStateSGIconNumeric",
+			signalType: "number",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "receiveStateSGIconString",
+			signalType: "string",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
 	];
 
 	private readonly BUTTON_PROPERTIES: {
@@ -416,6 +457,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	private _iconClass: string = '';
 	private _previousIconClass: string = '';
+	private _previousSgIconNumeric: number = -1;
+	private _previousSgIconString: string = '';
 
 	/**
 	 * Icon position relative to label
@@ -571,6 +614,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 * CSS class applied while the button is disabled.
 	 */
 	private _customClassDisabled: string | null = null;
+
+	private sgIconNumeric: number = -1;
+	private sgIconString: string = "";
 
 	private buttonListContract: ICh5ButtonListContractObj = {
 		clickHoldTime: 0,
@@ -1136,6 +1182,38 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	}
 	public get receiveStateType(): string {
 		return this._attributeValueAsString('receivestatetype');
+	}
+
+	public set sgIconTheme(value: TCh5ButtonSgIconTheme) {
+		this._ch5Properties.set<TCh5ButtonSgIconTheme>("sgIconTheme", value, () => {
+			Array.from(Ch5ButtonBase.SG_ICON_THEME).forEach((theme) => this._elIcon.classList.remove('sg-' + theme));
+			this._elIcon.classList.add('sg-' + this.sgIconTheme);
+		});
+	}
+	public get sgIconTheme(): TCh5ButtonSgIconTheme {
+		return this._ch5Properties.get<TCh5ButtonSgIconTheme>("sgIconTheme");
+	}
+
+	public set receiveStateSGIconNumeric(value: string) {
+		this._ch5Properties.set("receiveStateSGIconNumeric", value, null, (newValue: number) => {
+			if (newValue >= 0 && newValue <= Ch5ButtonBase.MAX_SG_NUMERIC) {
+				this.sgIconNumeric = newValue;
+				this.setButtonDisplay();
+			}
+		});
+	}
+	public get receiveStateSGIconNumeric(): string {
+		return this._ch5Properties.get<string>('receiveStateSGIconNumeric');
+	}
+
+	public set receiveStateSGIconString(value: string) {
+		this._ch5Properties.set("receiveStateSGIconString", value, null, (newValue: string) => {
+			this.sgIconString = newValue.trim().toLowerCase().split(' ').join('-');
+			this.setButtonDisplay();
+		});
+	}
+	public get receiveStateSGIconString(): string {
+		return this._ch5Properties.get<string>('receiveStateSGIconString');
 	}
 
 	// Rewriting this property from base class since it has to follow more features for button like buttonmode and state
@@ -1957,8 +2035,36 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				}
 			});
 		}
+		if (this._previousSgIconNumeric !== -1) {
+			this._elIcon.classList.remove('sg-' + this._previousSgIconNumeric + '');
+		}
+		if (this._previousSgIconString !== '') {
+			this._elIcon.classList.remove('sg-' + this._previousSgIconString);
+		}
 
-		if (!isNil(this.iconUrl) && this.iconUrl !== '') {
+		this._elIcon.classList.remove('sg');
+		Array.from(Ch5ButtonBase.SG_ICON_THEME).forEach((theme) => this._elIcon.classList.remove('sg-' + theme));
+
+		if (!isNil(this.sgIconString) && this.sgIconString !== '') {
+			this._elIcon.classList.add('sg-' + this.sgIconString);
+			this._previousSgIconString = this.sgIconString;
+			this._elIcon.classList.add('sg');
+			this._elIcon.classList.add('sg-' + this.sgIconTheme);
+		} else if (!isNil(this.sgIconNumeric) && this.sgIconNumeric !== -1) {
+			this._elIcon.classList.add('sg-' + this.sgIconNumeric + '');
+			this._previousSgIconNumeric = this.sgIconNumeric;
+			this._elIcon.classList.add('sg');
+			this._elIcon.classList.add('sg-' + this.sgIconTheme);
+		} else if (!isNil(this.iconUrl) && this.iconUrl !== '' && this.iconUrl === this._ch5ButtonSignal.getSignal('receiveStateIconUrl')?.currentValue) {
+			this._elIcon.style.backgroundImage = this.iconUrl;
+		} else if (!isNil(this.iconClass) && this.iconClass !== '' && this.iconClass === this._ch5ButtonSignal.getSignal('receiveStateiconClass')?.currentValue) {
+			this.iconClass.split(' ').forEach((className: string) => {
+				className = className.trim();
+				if (className !== '') {
+					this._elIcon.classList.add(className);
+				}
+			});
+		} else if (!isNil(this.iconUrl) && this.iconUrl !== '') {
 			this._elIcon.style.backgroundImage = this.iconUrl;
 		} else if (!isNil(this.iconClass) && this.iconClass !== '') {
 			this.iconClass.split(' ').forEach((className: string) => {
@@ -2501,7 +2607,13 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 		this._iconClass = updatedNodes.iconClass;
 
-		if (this.previousExtendedProperties.iconUrl !== this.iconUrl) {
+		if (this._previousSgIconNumeric !== this.sgIconNumeric) {
+			updateUIMethods.updateIconDisplay = true;
+			updateUIMethods.updateInternalHtml = true;
+		} else if (this._previousSgIconString !== this.sgIconString) {
+			updateUIMethods.updateIconDisplay = true;
+			updateUIMethods.updateInternalHtml = true;
+		} else if (this.previousExtendedProperties.iconUrl !== this.iconUrl) {
 			updateUIMethods.updateIconDisplay = true;
 			updateUIMethods.updateInternalHtml = true; // Applicable when iconUrl changes and iconclass and url combines
 		} else if (this.previousExtendedProperties.iconClass !== this.iconClass) {
@@ -2669,6 +2781,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			let hasIcon = false;
 			let hasLabel = false;
 			let hasImage = false;
+			let hasSgNumeric = false;
+			let hasSgString = false;
 			let hasAriaLabel = false;
 
 			if ((!isNil(this.iconClass) && this.iconClass !== "") || (this.receiveStateIconClass && this.receiveStateIconClass !== '')) {
@@ -2676,6 +2790,14 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			}
 			if ((!isNil(this.iconUrl) && this.iconUrl !== "") || (this.receiveStateIconUrl && this.receiveStateIconUrl !== '')) {
 				hasImage = true;
+			}
+
+			if ((!isNil(this.sgIconNumeric) && this.sgIconNumeric !== -1) || (this.receiveStateSGIconNumeric && this.receiveStateSGIconNumeric !== '')) {
+				hasSgNumeric = true;
+			}
+
+			if ((!isNil(this.sgIconString) && this.sgIconString !== '') || (this.receiveStateSGIconString && this.receiveStateSGIconString !== '')) {
+				hasSgString = true;
 			}
 
 			// TODO - check the below for empty<template> tag
@@ -2698,29 +2820,63 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				}
 			}
 
-			if (hasImage) {
+			if (hasSgString) {
+				this._elIcon.classList.remove(this.primaryCssClass + '--icon');
+				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
+					this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
+				});
+				if (this.iconUrlFillType !== null) {
+					this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
+				}
+				this._elIcon.classList.add(this.primaryCssClass + '--img');
+
+			} else if (hasSgNumeric) {
+				this._elIcon.classList.remove(this.primaryCssClass + '--icon');
+				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
+					this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
+				});
+				if (this.iconUrlFillType !== null) {
+					this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
+				}
+				this._elIcon.classList.add(this.primaryCssClass + '--img');
+
+			} else if (hasImage && this.iconUrl === this._ch5ButtonSignal.getSignal('receiveStateIconUrl')?.currentValue) {
 				this._elIcon.style.backgroundImage = `url(${this.iconUrl})`;
 				this._elIcon.classList.remove(this.primaryCssClass + '--icon');
+				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
+					this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
+				});
+				this._elIcon.classList.add(this.primaryCssClass + '--img');
+				if (this.iconUrlFillType !== null) {
+					this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
+				}
+			} else if (hasIcon && this.iconClass === this._ch5ButtonSignal.getSignal('receiveStateiconClass')?.currentValue) {
 				this._elIcon.classList.remove(this.primaryCssClass + '--img');
 				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
 					this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
-				})
+				});
+				this._elIcon.classList.add(this.primaryCssClass + '--icon');
+			} else if (hasImage) {
+				this._elIcon.style.backgroundImage = `url(${this.iconUrl})`;
+				this._elIcon.classList.remove(this.primaryCssClass + '--icon');
+				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
+					this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
+				});
 				this._elIcon.classList.add(this.primaryCssClass + '--img');
 				if (this.iconUrlFillType !== null) {
 					this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
 				}
 			} else if (hasIcon) {
-				this._elIcon.classList.remove(this.primaryCssClass + '--icon');
 				this._elIcon.classList.remove(this.primaryCssClass + '--img');
 				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
 					this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
-				})
+				});
 				this._elIcon.classList.add(this.primaryCssClass + '--icon');
 			}
 			this._elButton.appendChild(this._elSpanForLabelIconImg);
 			this._elSpanForLabelIconImg.appendChild(this._elSpanForLabelOnly);
 
-			if (hasLabel && (hasIcon || hasImage)) {
+			if (hasLabel && (hasIcon || hasImage || hasSgNumeric || hasSgString)) {
 				this.logger.log("Has Label and Icon");
 				if ((this._elSpanForLabelOnly as any).isConnected === false) {
 					this._elSpanForLabelIconImg.appendChild(this._elSpanForLabelOnly);
@@ -2742,12 +2898,12 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 						this._elSpanForLabelIconImg.insertBefore(this._elIcon as Node, this._elSpanForLabelOnly as Node);
 					}
 				}
-			} else if (hasLabel && !(hasIcon || hasImage)) {
+			} else if (hasLabel && !(hasIcon || hasImage || hasSgNumeric || hasSgString)) {
 				this.logger.log("Has Label Only");
 				if (this._elIcon.parentNode) {
 					this._elIcon.remove();
 				}
-			} else if (!hasLabel && (hasIcon || hasImage)) {
+			} else if (!hasLabel && (hasIcon || hasImage || hasSgNumeric || hasSgString)) {
 				this.logger.log("Has Icon Only");
 				this._elSpanForLabelIconImg.appendChild(this._elIcon);
 				if (this._elSpanForLabelOnly.parentNode) {
