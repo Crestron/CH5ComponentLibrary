@@ -1023,7 +1023,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
   public set sendEventOnUpper(value: string) {
     this._ch5Properties.set("sendEventOnUpper", value, null, (newValue: boolean) => {
-      this.handleSendEventOnUpper();
+      if (this._wasRendered) { this._render(); }
     });
   }
   public get sendEventOnUpper(): string {
@@ -1041,7 +1041,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
   public set sendEventOnLower(value: string) {
     this._ch5Properties.set("sendEventOnLower", value, null, (newValue: boolean) => {
-      this.handleSendEventOnLower();
+      if (this._wasRendered) { this._render(); }
     });
   }
   public get sendEventOnLower(): string {
@@ -2162,6 +2162,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
       behaviour = 'hover';
       if (this.toolTipDisplayType === "%") {
         this.toolTipShowType = "off";
+        console.log("Hello");
       }
     }
     // in our case is bottom to top so we need to change it to 'rtl'
@@ -2924,6 +2925,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
   private stretchHandler() {
     let sliderHeight = this.offsetHeight;
     let sliderWidth = this.offsetWidth;
+    let titleHeight = sliderHeight;
     if (!!this.stretch && this.stretch.length === 0) {
       sliderHeight = 0;
       sliderWidth = 0;
@@ -2937,15 +2939,35 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
       if (!!this.stretch && this.stretch.trim().length > 0 && !!parentElement) {
         sliderWidth = parentElement.offsetWidth;
         sliderHeight = parentElement.offsetHeight;
+        if (this._titlePresent === 1) {
+          titleHeight = sliderHeight - 24;
+        }
         if (this.stretch === 'height') {
-          this._elContainer.style.height = sliderHeight + 'px';
+          if (this._elContainer.classList.contains("adv-slider")) {
+            this._elSliderContainer.style.height = titleHeight + 'px';
+            this._elContainer.style.height = sliderHeight + 'px'; 
+          } else { this._elContainer.style.height = sliderHeight + 'px'; }
         }
         else if (this.stretch === 'width') {
-          this._elContainer.style.width = sliderWidth + 'px';
+          if (this._elContainer.classList.contains("adv-slider")) {
+            this._elSliderContainer.style.width = sliderWidth + 'px';
+            this._elContainer.style.width = sliderWidth + 'px';
+          }
+          else {
+            this._elContainer.style.width = sliderWidth + 'px';
+          }
         }
         else if (this.stretch === "both") {
-          this._elContainer.style.height = sliderHeight + 'px';
-          this._elContainer.style.width = sliderWidth + 'px';
+          if (this._elContainer.classList.contains("adv-slider")) {
+            this._elSliderContainer.style.width = sliderWidth + 'px';
+            this._elSliderContainer.style.height = titleHeight + 'px';
+            this._elContainer.style.width = sliderWidth + 'px';
+            this._elContainer.style.height = sliderHeight + 'px';
+          }
+          else {
+            this._elContainer.style.width = sliderWidth + 'px';
+            this._elContainer.style.height = sliderHeight + 'px';
+          }
         }
       }
     }
@@ -3020,11 +3042,21 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
             if (!btn.hasAttribute("label")) {
               btn.setAttribute("label", "on");
             }
+            if (this.stretch && this.orientation === "horizontal") {
+              btn.classList.add("ch5-slider-horizontal-stretch");
+            } else if (this.orientation === "vertical" && (this.stretch === "both" || this.stretch === "width")) {
+              btn.classList.add("ch5-slider-vertical-stretch");
+            }
             key_on = 1;
           } else if (btn.getAttribute("key") === 'off') {
             sliderBtn = new Ch5SliderButton(this);
             if (!btn.hasAttribute("label")) {
               btn.setAttribute("label", "off");
+            }
+            if (this.stretch && this.orientation === "horizontal") {
+              btn.classList.add("ch5-slider-horizontal-stretch");
+            } else if (this.orientation === "vertical" && (this.stretch === "both" || this.stretch === "width")) {
+              btn.classList.add("ch5-slider-vertical-stretch");
             }
             key_off = 1;
           }
@@ -3086,6 +3118,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
     if (elem === "title") {
       if (val.innerHTML !== "") {
         this._titlePresent = 1;
+      } else {
+        this._titlePresent = -1;
       }
       this.helper(this._elTitleContainer, val);
     } else if (elem === "on") {
