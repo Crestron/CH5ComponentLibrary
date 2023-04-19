@@ -52,13 +52,11 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  *    "prefix": "ch5-dpad-button:all-attributes",
  *     "description": "Crestron Dpad All Attributes",
  *     "body": [
- *       "<ch5-dpad-button key=\"${1|center,up,down,left,right|}\">",
+ *       "<ch5-dpad-button key=\"${1|center,up,down,left,right|}\"",
  *       "\ticonurl=\"btn_${2:IconUrl}\"",
- *       "\tshow=\"${3:Show}\"",
- *       "\tenable=\"${4:Enable}\"",
- *       "\tpressed=\"${5:Pressed}\"",
- *       "\tsendeventonclick=\"${6:sendEventOnClick}\"",
- *       "\ticonclass=\"${7:iconClass}\">",
+ *       "\tpressed=\"${3:false}\"",
+ *       "\tlabel=\"${4:Label}\"",
+ *       "\ticonclass=\"${5:iconClass}\">",
  *       "</ch5-dpad-button>$0"
  *     ]
  *  }

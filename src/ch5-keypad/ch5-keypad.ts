@@ -340,7 +340,18 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 	public set useContractForEnable(value: boolean) {
 		this._ch5Properties.set<boolean>("useContractForEnable", value, () => {
-			this.contractDefaultHelper();
+			// this.contractDefaultHelper();
+			if (this.useContractForEnable === true && !_.isNil(this.contractName) && this.contractName !== "") {
+				this.receiveStateEnable = this.contractName + '.Enable';
+			} else {
+				if (this.signalNameOnContract.receiveStateEnable.trim() === "" && this.receiveStateEnable === this.contractName + '.Enable') {
+					this.clearBooleanSignalSubscription(this._receiveStateEnable, this._subKeySigReceiveEnable);
+					this.setAttribute('receiveStateEnable', this.signalNameOnContract.receiveStateEnable.trim());
+					this.disabled = false;
+				} else {
+					this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable.trim() || this.receiveStateEnable;
+				}
+			}
 		});
 	}
 	public get useContractForEnable(): boolean {
@@ -349,7 +360,18 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 	public set useContractForShow(value: boolean) {
 		this._ch5Properties.set<boolean>("useContractForShow", value, () => {
-			this.contractDefaultHelper();
+			// this.contractDefaultHelper();
+			if (this.useContractForShow === true && !_.isNil(this.contractName) && this.contractName !== "") {
+				this.receiveStateShow = this.contractName + '.Show';
+			} else {
+				if (this.signalNameOnContract.receiveStateShow.trim() === "" && this.receiveStateShow === this.contractName + '.Show') {
+					this.clearBooleanSignalSubscription(this._receiveStateShow, this._subKeySigReceiveShow);
+					this.setAttribute('receiveStateShow', this.signalNameOnContract.receiveStateShow.trim());
+					this.show = true;
+				} else {
+					this.receiveStateShow = this.signalNameOnContract.receiveStateShow.trim() || this.receiveStateShow;
+				}
+			}
 		});
 	}
 	public get useContractForShow(): boolean {
@@ -438,6 +460,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		if (!this.hasAttribute('role')) {
 			this.setAttribute('role', Ch5RoleAttributeMapping.ch5Keypad);
 		}
+		// build child elements ref object
+		this.buildRuntimeChildButtonList();
 		ComponentHelper.clearComponentContent(this);
 		this.onAllSubElementsCreated();
 		subscribeInViewPortChange(this, () => {
@@ -445,8 +469,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 				this.stretchHandler();
 			}
 		});
-		// build child elements ref object
-		this.buildRuntimeChildButtonList();
 		this.initCommonMutationObserver(this);
 		this.logger.stop();
 	}
