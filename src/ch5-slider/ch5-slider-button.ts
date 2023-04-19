@@ -182,7 +182,6 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 			}
 		}
 		this.debounceCreateBtn();
-		//	super.initAttributes();
 	}
 
 	public getParentButton(): Ch5Slider {
@@ -220,13 +219,13 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 
 	private labelHelper() {
-		const LabelSlider = this.getElementsByTagName("ch5-slider-button-label");
+		const labelSlider = this.getElementsByTagName("ch5-slider-button-label");
 
-		Array.from(LabelSlider).forEach((label, index) => {
+		Array.from(labelSlider).forEach((label, index) => {
 			if (index >= 1) {
 				return;
 			}
-			var sliderTtl = new Ch5SliderButtonLabel(this);
+			const sliderTtl = new Ch5SliderButtonLabel(this);
 			Ch5SliderButtonLabel.observedAttributes.forEach((attr) => {
 				if (label.hasAttribute(attr)) {
 					sliderTtl.setAttribute(attr, label.getAttribute(attr) + '');
@@ -235,7 +234,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 		})
 	}
 
-	public setValues(elem: String, val: HTMLElement) {
+	public setValues(elem: string, val: HTMLElement) {
 		if (elem === "label" && !(this.receiveStateLabel !== null && this.receiveStateLabel.trim() !== "")) {
 			this.label = val.innerHTML;
 		}

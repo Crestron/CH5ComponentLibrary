@@ -765,9 +765,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
   public set ticks(value: string) {
     this._ch5Properties.set<string>("ticks", value, () => {
-      if(this.ticks){
+      if (this.ticks) {
         this._elContainer.classList.add("ch5-slider-ticks");
-      }else{
+      } else {
         this._elContainer.classList.remove("ch5-slider-ticks");
       }
       this._parsedSliderOptions();
@@ -858,7 +858,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
     // setup new subscription.
     this._receiveStateValueSignal = value;
-    //	this.setAttribute('receivestatevalue', value);
 
     const recSignalName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateValueSignal);
     const receiveSignal: Ch5Signal<object> | null = Ch5SignalFactory.getInstance().getObjectSignal(recSignalName);
@@ -896,7 +895,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
       this.value = newValue;
       this._wasRendered = false;
       this._ch5Properties.setForSignalResponse<number>("value", newValue, () => {
-        //this._elContainer.innerText = this.label;
+        // this._elContainer.innerText = this.label;
       });
       this._wasRendered = true;
 
@@ -959,7 +958,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
     // setup new subscription.
     this._receiveStateValueSignalHigh = value;
-    //	this.setAttribute('receivestatevaluehigh', value);
     const recSignalName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateValueSignalHigh);
     const receiveSignal: Ch5Signal<object> | null = Ch5SignalFactory.getInstance().getObjectSignal(recSignalName);
 
@@ -995,7 +993,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
       this.valueHigh = newValue;
       this._wasRendered = false;
       this._ch5Properties.setForSignalResponse<number>("valueHigh", newValue, () => {
-        //this._elContainer.innerText = this.label;
+        // this._elContainer.innerText = this.label;
       });
       this._wasRendered = true;
       if (this._dirtyTimerHandleHigh === null) {
@@ -1248,7 +1246,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
    */
   public unsubscribeFromSignals() {
     super.unsubscribeFromSignals();
-    //	this._ch5Properties.unsubscribe();
     this.unsubscribeFromObjectSignals();
     this.unsubscribeFromAnalogSignals();
   }
@@ -1274,7 +1271,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
     return this.primaryCssClass + '--disabled';
   }
 
-  /**
+/**
  * METHODS
  *
  * - submit
@@ -1455,9 +1452,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
     this._elSliderContainer = document.createElement('div');
     this._elSliderContainer.classList.add('ch5-slider-button-container');
     this._elContainer.classList.add('ch5-slider');
-    //const childItemsContainer = this.children as HTMLCollection;
-    // this.onOffButtonHelper();
-    // this.titleHelper();
     this._elSliderContainer.appendChild(this._elOffContainer);
     this._elSliderContainer.appendChild(this._innerContainer);
     this._elSliderContainer.appendChild(this._elOnContainer);
@@ -2177,7 +2171,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
    * @private
    */
   private _parsedSliderOptions() {
-    var behaviour = this.tapSettable ? 'tap' : 'none';
+    let behaviour = this.tapSettable ? 'tap' : 'none';
     if ((this.sendEventOnUpper || this.sendEventOnLower) && this.tapSettable === false) {
       behaviour = 'hover';
       if (this.toolTipDisplayType === "%") {
@@ -2739,8 +2733,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
    * Get start value of the slider
    */
   private _getStartValue(): number | number[] {
-    var val = this.value;
-    var valHigh = this.valueHigh;
+    let val = this.value;
+    let valHigh = this.valueHigh;
     if (this.value < this.min)
       val = this.min;
     if (this.value > this.max)
@@ -3047,36 +3041,30 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
       this._elOnContainer.classList.remove("adv-slider-btn");
       this._elContainer.classList.add('adv-slider');
 
-      var key_on = 0;
-      var key_off = 0;
+      let keyOn = 0;
+      let keyOff = 0;
       Array.from(buttonSlider).forEach((btn) => {
 
         if (btn.parentElement instanceof Ch5Slider) {
-          var sliderBtn: Ch5SliderButton;
+          let sliderBtn: Ch5SliderButton;
           if (btn.getAttribute("key") === 'off') {
             sliderBtn = new Ch5SliderButton(this);
             sliderBtn.key = "off"
-            // if (!btn.hasAttribute("label")) {
-            //   btn.setAttribute("label", "off");
-            // }
             if (this.stretch && this.orientation === "horizontal") {
               btn.classList.add("ch5-slider-horizontal-stretch");
             } else if (this.orientation === "vertical" && (this.stretch === "both" || this.stretch === "width")) {
               btn.classList.add("ch5-slider-vertical-stretch");
             }
-            key_off = 1;
+            keyOff = 1;
           } else
             if (btn.getAttribute("key") === 'on' || btn.getAttribute("key") === '' || !btn.hasAttribute("key")) {
               sliderBtn = new Ch5SliderButton(this);
-              // if (!btn.hasAttribute("label")) {
-              //   btn.setAttribute("label", "on");
-              // }
               if (this.stretch && this.orientation === "horizontal") {
                 btn.classList.add("ch5-slider-horizontal-stretch");
               } else if (this.orientation === "vertical" && (this.stretch === "both" || this.stretch === "width")) {
                 btn.classList.add("ch5-slider-vertical-stretch");
               }
-              key_on = 1;
+              keyOn = 1;
             }
           Ch5SliderButton.observedAttributes.forEach((attr) => {
             if (btn.hasAttribute(attr) && sliderBtn) {
@@ -3086,50 +3074,21 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
         }
       })
 
-      if (key_on === 0) {
-        var sliderBtn: Ch5SliderButton;
+      if (keyOn === 0) {
+        let sliderBtn: Ch5SliderButton;
         sliderBtn = new Ch5SliderButton(this);
         sliderBtn.key = "on";
         sliderBtn.label = "on";
         this.appendChild(sliderBtn);
       }
-      if (key_off === 0) {
-        var sliderBtn: Ch5SliderButton;
+      if (keyOff === 0) {
+        let sliderBtn: Ch5SliderButton;
         sliderBtn = new Ch5SliderButton(this);
         sliderBtn.key = "off";
         sliderBtn.label = "off";
         this.appendChild(sliderBtn);
       }
     }
-  }
-  private onOffButtonHelper1() {
-    const buttonSlider = this.getElementsByTagName("ch5-slider-button");
-    if (buttonSlider.length === 0) {
-      this._elOffContainer.classList.add("adv-slider-btn");
-      this._elOnContainer.classList.add("adv-slider-btn");
-      this._elContainer.classList.remove('adv-slider');
-    } else {
-      this._elOffContainer.classList.remove("adv-slider-btn");
-      this._elOnContainer.classList.remove("adv-slider-btn");
-      this._elContainer.classList.add('adv-slider');
-    }
-
-    Array.from(buttonSlider).forEach((btn) => {
-
-      if (btn.parentElement instanceof Ch5Slider) {
-        var sliderBtn: Ch5SliderButton;
-        if (btn.getAttribute("key") === 'on')
-          sliderBtn = new Ch5SliderButton(this);
-        else if (btn.getAttribute("key") === 'off')
-          sliderBtn = new Ch5SliderButton(this);
-
-        Ch5SliderButton.observedAttributes.forEach((attr) => {
-          if (btn.hasAttribute(attr)) {
-            sliderBtn.setAttribute(attr, btn.getAttribute(attr) + '');
-          }
-        });
-      }
-    })
   }
   private titleHelper() {
     if (this.range === true)
@@ -3141,7 +3100,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
         return;
       }
       if (title.parentElement instanceof Ch5Slider) {
-        var sliderTtl = new Ch5SliderTitleLabel(this);
+        const sliderTtl = new Ch5SliderTitleLabel(this);
         Ch5SliderTitleLabel.observedAttributes.forEach((attr) => {
           if (title.hasAttribute(attr)) {
             sliderTtl.setAttribute(attr, title.getAttribute(attr) + '');
@@ -3156,7 +3115,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
     elem.appendChild(val);
   }
 
-  public setValues(elem: String, val: HTMLElement) {
+  public setValues(elem: string, val: HTMLElement) {
     console.log(elem, "setvalue", val);
     if (this.range === true)
       return;

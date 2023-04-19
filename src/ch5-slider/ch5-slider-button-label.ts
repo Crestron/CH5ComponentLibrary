@@ -34,8 +34,7 @@ export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLa
 			this.createInternalHtml();
 			this.initAttributes();
 			this.updateCssClass();
-			//	this._parentCh5Slider.setValues("title", this.getTargetElementForCssClassesAndStyle());
-		} else {
+			} else {
 			this._parentCh5Slider = this.getParentButton();
 		}
 	}
