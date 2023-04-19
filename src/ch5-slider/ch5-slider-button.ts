@@ -49,7 +49,12 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	private _parentCh5Slider: Ch5Slider;
 
-	private sliderBtn: HTMLElement = {} as HTMLElement;
+	private debounceCreateBtn = this.debounce(() => {
+		if (this._parentCh5Slider.setValues) {
+			this._parentCh5Slider.setValues(this.key, this.getTargetElementForCssClassesAndStyle());
+		}
+		this.setButtonDisplay();
+	}, 50);
 
 	//#endregion
 
@@ -58,9 +63,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	public set key(value: TCh5SliderButtonKey) {
 		this._ch5Properties.set<TCh5SliderButtonKey>("key", value, () => {
-			if (this._parentCh5Slider.setValues) {
-				this._parentCh5Slider.setValues(this.key, this.getTargetElementForCssClassesAndStyle());
-			}
+			this.debounceCreateBtn();
 		});
 	}
 	public get key(): TCh5SliderButtonKey {
@@ -82,7 +85,6 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 		if (!_.isNil(parent)) {
 			this._parentCh5Slider = parent;
 			this.createInternalHtml();
-			//	this._parentCh5Slider.setValues(this.key, this.getTargetElementForCssClassesAndStyle());
 		} else {
 			this._parentCh5Slider = this.getParentButton();
 		}
@@ -91,7 +93,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	}
 
 	public static get observedAttributes(): string[] {
-		const inheritedObsAttrs = ["label", "sgicontheme", "iconclass", "iconurl", "filltype", "sendeventonclick", "receivestatelabel", "receivestateiconclass", "receivestateiconurl"];
+		const inheritedObsAttrs = ["key", "label", "sgicontheme", "iconclass", "iconurl", "filltype", "sendeventonclick", "receivestatelabel", "receivestateiconclass", "receivestateiconurl"];
 		const newObsAttrs: string[] = [];
 		for (let i: number = 0; i < Ch5SliderButton.COMPONENT_PROPERTIES.length; i++) {
 			if (Ch5SliderButton.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
@@ -117,11 +119,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 				super.attributeChangedCallback(attr, oldValue, newValue);
 			}
 		}
-		setTimeout(() => {
-			if (this._parentCh5Slider.setValues) {
-				this._parentCh5Slider.setValues(this.key, this.getTargetElementForCssClassesAndStyle());
-			}
-		}, 50);
+		this.debounceCreateBtn();
 		this.logger.stop();
 	}
 
@@ -183,6 +181,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 				thisRef[key] = this.getAttribute(key);
 			}
 		}
+		this.debounceCreateBtn();
 		//	super.initAttributes();
 	}
 
@@ -251,9 +250,9 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	}
 
 	public setButtonDisplay() {
-		if (this.receiveStateLabel !== null && this.receiveStateLabel.trim() !== "") {
-			return;
-		}
+		// if (this.receiveStateLabel !== null && this.receiveStateLabel.trim() !== "") {
+		// 	return;
+		// }
 		super.setButtonDisplay();
 	}
 
