@@ -39,7 +39,7 @@ import { ICh5KeypadAttributes, ICh5KeypadButtonAttributes } from "./index";
  *     "description": "Crestron Keypad",
  *     "body": [
  *       "<ch5-keypad id=\"keypad_${0:id}\"",
- *       "\tcontractname=\"${1:Contract Name}\"",
+ *       "\tcontractname=\"${1:}\"",
  *        ">",
  *       "</ch5-keypad>"
  *     ]
@@ -49,7 +49,7 @@ import { ICh5KeypadAttributes, ICh5KeypadButtonAttributes } from "./index";
  *     "description": "Crestron Keypad",
  *     "body": [
  *       "<ch5-keypad id=\"keypad_${0:id}\"",
- *       "\tsendeventonclickstart=\"${1:Event_Click_Index}\"",
+ *       "\tsendeventonclickstart=\"${1:}\"",
  *        ">",
  *       "</ch5-keypad>"
  *     ]
@@ -59,19 +59,17 @@ import { ICh5KeypadAttributes, ICh5KeypadButtonAttributes } from "./index";
  *     "description": "Crestron Keypad",
  *     "body": [
  *       "<ch5-keypad id=\"keypad_${0:id}\"",
- *       "\tcontractname=\"${1:Contract Name}\"",
- *       "\tshape=\"${2:Shape}\"",
- *       "\ttype=\"${3:type}\"",
- *       "\tstretch=\"${4:stretch}\"",
- *       "\ttextorientation=\"${5:textOrientation}\"",
- *       "\tshowextrabutton=\"${6:showExtraButton}\"",
- *       "\treceivestateextrabuttonshow=\"${7:receiveStateExtraButtonShow}\"",
- *       "\tusecontractforenable=\"${8:useContractForEnable}\"",
- *       "\tusecontractforshow=\"${9:useContractForShow}\"",
- *       "\tusecontractforcustomclass=\"${10:useContractForCustomClass}\"",
- *       "\tusecontractforcustomstyle=\"${11:useContractForCustomStyle}\"",
- *       "\tusecontractforshow=\"${12:useContractForShow}\"",
- *       "\tsendeventonclickstart=\"${13:sendEventOnClickStart}\"",
+ *       "\tcontractname=\"${1:}\"",
+ *       "\tshape=\"${2:rounded-rectangle}\"",
+ *       "\ttype=\"${3:default}\"",
+ *       "\ttextorientation=\"${4:top}\"",
+ *       "\tshowextrabutton=\"${5:true}\"",
+ *       "\treceivestateextrabuttonshow=\"${6:}\"",
+ *       "\tusecontractforenable=\"${7:true}\"",
+ *       "\tusecontractforshow=\"${8:true}\"",
+ *       "\tusecontractforcustomclass=\"${9:false}\"",
+ *       "\tusecontractforcustomstyle=\"${10:false}\"",
+ *       "\tsendeventonclickstart=\"${11:}\"",
  *        ">",
  *       "</ch5-keypad>"
  *     ]

@@ -72,7 +72,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * [
    * "`iconClass` attribute",
    * "***",
-   * "The icon class."
+   * "The iconclass attribute with Font Awesome icons and Material Icons. We can declare more than one css class in the iconClass attribute."
    * ]
    * @name iconclass
    * @attributeType "IconClass"
@@ -502,7 +502,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * [
    * "`receiveStateSGIconNumeric` attribute",
    * "***",
-   * "This would contain a mapping on analog joins to each of the sg icons."
+   * "This would contain a mapping on analog joins to each of the sg icons. receiveStateSGIconString takes preference over receiveStateSGIconNumeric incase both are provided. receiveStateSGIconString, and receiveStateSGIconNumeric take precedence over receiveStateIconClass and receiveStateIconUrl"
    * ]
    * @name receivestatesgiconnumeric
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
@@ -515,7 +515,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * [
    * "`receiveStateSGIconString` attribute",
    * "***",
-   * "This would contain a mapping of serial joins to each of the sg icons."
+   * "This would contain a mapping of serial joins to each of the sg icons. receiveStateSGIconString takes preference over receiveStateSGIconNumeric incase both are provided. receiveStateSGIconString, and receiveStateSGIconNumeric take precedence over receiveStateIconClass and receiveStateIconUrl"
    * ]
    * @name receivestatesgiconstring
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
