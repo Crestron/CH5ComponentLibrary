@@ -1,12 +1,10 @@
-import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5ButtonBase } from "../ch5-button";
-import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { TCh5SliderButtonKey, } from './interfaces/t-ch5-slider-button';
 import { ICh5SliderButtonAttributes } from './interfaces/i-ch5-slider-button-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Slider } from "./ch5-slider";
-import { Ch5RoleAttributeMapping, Ch5SignalFactory } from "..";
 import _ from "lodash";
 import { Ch5SliderButtonLabel } from "./ch5-slider-button-label";
 
@@ -74,7 +72,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	//#region Static Methods
 
-	//#endregion1
+	//#endregion
 
 	//#region Component Lifecycle
 

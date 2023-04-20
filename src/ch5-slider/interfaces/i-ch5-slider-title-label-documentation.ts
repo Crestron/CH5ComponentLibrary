@@ -1,47 +1,58 @@
-import { ICh5Common } from "../../_interfaces";
 import { ICh5SliderTitleLabelAttributes } from "./i-ch5-slider-title-label-attributes";
 
 /**
- * @name Ch5 slidre-title-Label
+ * @name Ch5 slider-title-Label
  * @isattribute false
  * @tagName ch5-slider-title-label
- * @role 
- * @description of the component.
- * @componentVersion 1.0.0
+ * @role slider-title-label
+ * @description Ch5 Slider title Label tag provide the ability to set label of the title of the advance slider.
+ * @componentVersion 2.4.0
  * @childElements
  * [
- *    
+ *    {
+ *     "tagName": "template",
+ *     "optional": false,
+ *     "childElements": []
+ *    }
  * ]
  * @documentation
  * [
  *   "`ch5-slider-title-label` element",
  *   "***",
- *   "Component description"
-      // TODO: DEV:CHANGES
+ *   "Ch5 Slider title Label tag provide the ability to set label of the title of the advance slider."
  * ]
  * @snippets
  * [
  *  {
- *    "prefix": "ch5-label:blank",
- *     "description": "Crestron label",
+ *    "prefix": "ch5-slider-title-label:blank",
+ *     "description": "Crestron Slider Title Label",
  *     "body": [
- *       "<ch5-label>",
- *       "</ch5-label>$0"
+ *       "<ch5-slider-title-label>",
+ *       "\t<template>",
+ *       "\t$1",
+ *       "\t</template>",
+ *       "</ch5-slider-title-label>$0"
  *     ]
  *   },
  *   {
- *     "prefix": "ch5-label:all-attributes",
- *     "description": "Crestron label (All Attributes)",
+ *     "prefix": "ch5-slider-title-label:all-attributes",
+ *     "description": "Crestron Slider Title Label (All Attributes)",
  *     "body": [
- *       "<ch5-label id=\"ch5-label_${1:id}\"",
+ *       "<ch5-slider-title-label id=\"ch5-slider-title-label_${1:id}\"",
  *       "\tlabel=\"${2:}\"",
-        *       "\treceiveStateLabel=\"${3:}\">",
- *       "</ch5-label>$0"
+ *       "\treceiveStateLabel=\"${3:}\">",
+ *       "</ch5-slider-title-label>$0"
+ *       ]
+ *    },
+ *    {
+ *      "prefix": "ch5-slider-title-label:default",
+ *      "description": "Crestron Slider Title Label (Default)",
+ *      "body": [
+ *        "<ch5-slider-title-label label=\"${1:}\">",
+ *        "</ch5-slider-title-label>$0"
  *       ]
  *    }
-      // TODO: DEV:CHANGES
  *  ]
  */
-export interface ICh5LabelDocumentation extends ICh5SliderTitleLabelAttributes {
-
+export interface ICh5SliderTitleLabelDocumentation extends ICh5SliderTitleLabelAttributes {
 }

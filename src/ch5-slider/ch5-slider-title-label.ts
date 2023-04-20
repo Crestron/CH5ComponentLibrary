@@ -1,13 +1,8 @@
-import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5ButtonBase } from "../ch5-button";
-import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { ICh5SliderTitleLabelAttributes } from './interfaces/i-ch5-slider-title-label-attributes';
-import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Slider } from ".";
 import { Ch5Label } from "../ch5-label";
 import _ from "lodash";
-import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 
 export class Ch5SliderTitleLabel extends Ch5Label implements ICh5SliderTitleLabelAttributes {
 

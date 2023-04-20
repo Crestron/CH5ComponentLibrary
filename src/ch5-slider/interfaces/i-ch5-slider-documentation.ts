@@ -73,6 +73,53 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *            "\treceivestatevalue=\"${5:receive_slider_value}\">",
  *            "</ch5-slider>$0"
  *        ]
+ *    },
+ *    {
+ *      "prefix": "ch5-slider:onOffOnly",
+ *      "description": "Crestron slider onOffOnly",
+ *      "body": [
+ *         "<ch5-slider onOffOnly=\"${1:false}\">",
+ *         "\t<ch5-slider-title-label label=\"${1:Title}">",
+ *         "\t</ch5-slider-title-label>",
+ *         "\t<ch5-slider-button key=\"${1:on}">",
+ *         "\t</ch5-slider-button>",
+ *         "\t<ch5-slider-button key=\"${1:off}">",
+ *         "\t</ch5-slider-button>",
+ *         "<ch5-slider>$0"
+ *      ]
+ *    },
+ *    {
+ *      "prefix": "ch5-slider:all-attribute",
+ *      "description": "Crestron slider (All attribute)",
+ *      "body": [
+ *        "<ch5-slider handleshape=\"${1:}\"",
+ *        "\trange=\"${2:false}\"",
+ *        "\tvalue=\"${3:0}\"",
+ *        "\tvaluehigh=\"${4:65535}\"",
+ *        "\tmin=\"${5:}\"",
+ *        "\tmax=\"${6:}\"",
+ *        "\tnohandle=\"${7:false}\"",
+ *        "\tonoffonly=\"${8:false}\"",
+ *        "\torientation=\"${9:horizontal}\"",
+ *        "\tsize=\"${10:regular}\"",
+ *        "\thandlesize=\"${11:regular}\"",
+ *        "\tstep=\"${12:1}\"",
+ *        "\tticks=\'${14:{\"0\":\"-60\", \"25\":\"-40\", \"50\":\"-20\", \"75\":\"-10\", \"100\": \"0\" }}\'",
+ *        "\tshowtickvalues=\"${15:false}\"",
+ *        "\ttooltipshowtype=\"${16:off}\"",
+ *        "\ttooltipdisplaytype=\"${17:%}\"",
+ *        "\ttapsettable=\"${18:false}\"",
+ *        "\tsendeventonchange=\"${19:}\"",
+ *        "\tsendeventonchangehigh=\"${20:}\"",
+ *        "\treceivestatevalue=\"${21:}\"",
+ *        "\treceivestatevaluehigh=\"${22:}\"",
+ *        "\treceivestateshowonoffonly=\"${23:}\"",
+ *        "\tsendeventonupper=\"${24:}\"",
+ *        "\tsendeventonlower=\"${25:}\"",
+ *        "\treceivestateupper=\"${26:}\"",
+ *        "\treceivestatelower=\"${27:}\">",
+ *        "</ch5-slider>$0"
+ *      ]
  *    }
  * ]
  */

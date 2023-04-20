@@ -13,11 +13,11 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`handleShape` attribute",
     * "***",
+    * "It defines the handle shape."
     * "The default value is 'rounded-rectangle'. Valid Values: 'rectangle', 'circle', 'oval', 'rounded-rectangle' ",
-    * "Defines the handle shape."
     * ]
     * @name handleshape
-    * @default rectangle
+    * @default rounded-rectangle
     * @attributeType "EnumeratedValue"
     */
    handleShape: TCh5SliderHandleShape;
@@ -41,7 +41,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`valueHigh` attribute",
     * "***",
-    * "The higher value is only applicable if range=true."
+    * "The higher value is only applicable if range = true. valueHigh should always greater than value."
     * ]
     * @name valuehigh
     * @default 65535
@@ -55,7 +55,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`max` attribute",
     * "***",
-    * "The maximum value determines the analog value sent to and received from the control system that will reflect the topmost point of the slider. Default value is 65535"
+    * "The maximum value determines the analog value sent to and received from the control system that will reflect the topmost point of the slider. Default value is 65535.It can range from 1 to 65535."
     * ]
     * @name max
     * @default 65535
@@ -69,7 +69,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`min` attribute",
     * "***",
-    * "The minimum value determines the analog value sent to and received from the control system that will reflect the lowest position of the slider. Default value is 0"
+    * "The minimum value determines the analog value sent to and received from the control system that will reflect the lowest position of the slider. Default value is 0.It can range from 0 to 65534."
     * ]
     * @name min
     * @default 0
@@ -83,7 +83,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`orientation` attribute",
     * "***",
-    * "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'."
+    * "Sets the orientation (horizontal or vertical) of the slider.The default value is 'horizontal'."
     * ]
     * @name orientation
     * @default horizontal
@@ -95,8 +95,8 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`size` attribute",
     * "***",
-    * "The default value is 'regular'. Valid values: 'x-small', 'small', 'regular', 'large', 'xlarge'. ",
-    * "The size of the slider."
+    * "defines the different sizes of slider. Possible values are 'x-small', 'small', 'regular', 'large', 'x-large'.",
+    * "The default value is 'regular'."
     * ]
     * @name size
     * @default regular
@@ -108,8 +108,8 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`handleSize` attribute",
     * "***",
-    * "The default value is 'regular'. The size of the handle.",
-    * "Valid values: 'x-small', 'small', 'regular', 'large', 'x-large'."
+    * "defines the different sizes of slider handle. Possible values are 'x-small', 'small', 'regular', 'large', 'x-large'.",
+    * "The default value is 'regular'."
     * ]
     * @name handlesize
     * @default regular
@@ -121,10 +121,10 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`step` attribute",
     * "***",
-    * "The default value is 1. Defines the size or amount of each interval or step the slider takes between the min and max values.
-    If the value range between max and min (i.e. max - min) is not evenly divisible by step value, the max will be adjusted accordingly.
-    Since all values on the slider are part of a range, step is strictly related to min and max attributes.
-    If you want quarters (0, 25, 50, 75, 100), then 25 is the value for step attribute, 0 is value for min, and 100 is value for max."
+    * "The default value is 1. Defines the size or amount of each interval or step the slider takes between the min and max values.",
+    * "If the value range between max and min (i.e. max - min) is not evenly divisible by step value, the max will be adjusted accordingly.",
+    * "Since all values on the slider are part of a range, step is strictly related to min and max attributes.",
+    * "If you want quarters (0, 25, 50, 75, 100), then 25 is the value for step attribute, 0 is value for min, and 100 is value for max."
     * ]
     * @name step
     * @default 1
@@ -138,9 +138,9 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`stretch` attribute",
     * "***",
-    * "The default value is 'both'. Valid Values: 'width', 'height', 'both'. ",
     * "When the stretch property is set, the slider inherits the width and/or ",
     * "height of the container."
+    * "The default value is 'both'. Valid Values are 'width', 'height', 'both'. ",
     * ]
     * @name stretch
     * @default both
@@ -154,7 +154,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * "***",
     * "Defines the ticks on the slider. ",
     * "This definition is based on advanced tick scales: non-linear or logarithmic. ",
-    * "Sliders can be created with ever-increasing increments b ",
+    * "Sliders can be created with ever-increasing increments by",
     * "specifying the value for the slider at certain intervals. ",
     * "- The first value defines the % position along the length of the slider scale to place a tick mark. ",
     * "- The second value is the label value to place next to the tick at that position.",
@@ -168,19 +168,19 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    ticks: string;
 
    /**
-    * @documentation
-    * [
-    * "`toolTipShowType` attribute",
-    * "***",
-    * "The default value is "off". Displays an optional tooltip above (horizontal) or to the right (vertical) of the handle. 
-    Valid values: ",
-    * "-'off': Not displayed ",
-    * "-'on': Always displayed ",
-    * "-'auto': Displayed while user interacts with the slider"
-    * ]
-    * @name tooltipshowtype
-    * @default off
-    */
+  * @documentation
+  * [
+  * "`tooltipshowtype` attribute",
+  * "***",
+  * "The default value is 'off'.  Provides the ability to display a tooltip above (horizontal) or right (vertical) of the handle.  Valid values: ",
+  * "-'off': Not displayed ",
+  * "-'on': Always displayed ",
+  * "-'auto': Displayed while user interacts with the slider"
+  * ]
+  * @name tooltipshowtype
+  * @default off
+  * @attributeType "EnumeratedValue"
+  */
    toolTipShowType: TCh5SliderToolTipShowType;
 
    /**
@@ -188,7 +188,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`toolTipDisplayType` attribute",
     * "***",
-    * "The default value is 'percent'. Sets what is displayed in the tooltip. Valid values: ",
+    * "The default value is '%'. Sets what is displayed in the tooltip. Valid values: ",
     * "'%' - The value is displayed as a percent ",
     * "'value' - The actual value provided"
     * ]
@@ -220,7 +220,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`feedbackmode` attribute",
     * "***",
-    * "The default value is direct. ",
+    * "The default value is direct.",
     * "If set to direct, value send and receive will be instant. On submit, it ",
     * "will send and listen for the first received event."
     * ]
@@ -256,7 +256,8 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`range` attribute",
     * "***",
-    * "The default value is false. If true, the slider will have two handles so two different values can be defined."
+    * "If true, the slider will have two handles so two different values can be defined.The default value is false."
+    * "Advance slider is not supported when range is true."
     * ]
     * @name range
     * @default false
@@ -280,7 +281,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`noHandle` attribute",
     * "***",
-    * "The default value is false. Hides the slider handle."
+    * "If the noHandle attribute is set to true, then the handle of the slider will hide. The possible values are true/false. The default value is false."
     * ]
     * @name nohandle
     * @default false
@@ -315,7 +316,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`receiveStateValueHigh` attribute",
     * "***",
-    * "when receive change the value of the high Handle of the slider, if range slider is set to true,"
+    * "when receive, change the value of the high Handle of the slider, if range slider is set to true."
     * ]
     * @name receivestatevaluehigh
     */
@@ -348,7 +349,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`onOffOnly` attribute",
     * "***",
-    * "Enables or disables whether the control is on/off only. This will cause the Fader Slider to not be shown, leaving only the two On and Off buttons."
+    * "The onOffOnly set to true will hide the slider leaving only the two buttons showing. The default value is false."
     * ]
     * @name onoffonly
     * @default false
@@ -360,7 +361,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`receiveStateShowOnOffOnly` attribute",
     * "***",
-    * "You may optionally select a digital join that will hide the slider leaving only the two buttons showing. "
+    * "Receive the signal(true) that value will hide the slider leaving only the two buttons showing."
     * ]
     * @name receivestateshowonoffonly
     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
@@ -372,7 +373,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`sendEventOnUpper` attribute",
     * "***",
-    * "You may optionally select a digital join to send a value to the control system if the user presses the top half(vertical) or right half(horizontal) of the slider. The control system can then use the analog feedback join to increment the gauge. "
+    * "Digital join to send a value to the control system if the user presses the top 3/4 half(vertical) or right 3/4 half(horizontal) of the slider."
     * ]
     * @name sendeventonupper
     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
@@ -384,10 +385,10 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`receiveStateUpper` attribute",
     * "***",
-    * "Analog join to receive feedback from sendEventOnUpper"
+    * "Boolean join to receive feedback from sendEventOnUpper."
     * ]
     * @name receivestateupper
-    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
     * @attributeType "Join"
     */
    receiveStateUpper: string;
@@ -396,7 +397,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`sendEventOnLower` attribute",
     * "***",
-    * "You may optionally select a digital join to send a value to the control system if the user presses the bottom half(vertical) or left half(horizontal) of the slider. The control system can then use the analog feedback join to decrement the gauge. "
+    * "Digital join to send a value to the control system if the user presses the bottom 1/4 half(vertical) or left 1/4 half(horizontal) of the slider."
     * ]
     * @name sendeventonlower
     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
@@ -408,10 +409,10 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`receiveStateLower` attribute",
     * "***",
-    * "Analog join to receive feedback from sendEventOnLower"
+    * "Boolean join to receive feedback from sendEventOnLower"
     * ]
     * @name receivestatelower
-    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
     * @attributeType "Join"
     */
    receiveStateLower: string;

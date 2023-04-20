@@ -224,7 +224,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
       removeAttributeOnNull: true,
 
       type: "enum",
-      valueOnAttributeEmpty: "",
+      valueOnAttributeEmpty: Ch5Slider.STRETCH[0],
       isObservableProperty: true,
 
     },
@@ -1271,13 +1271,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
     return this.primaryCssClass + '--disabled';
   }
 
-/**
- * METHODS
- *
- * - submit
- * - reset
- * - getDirty - inherit
- */
+  /**
+   * METHODS
+   *
+   * - submit
+   * - reset
+   * - getDirty - inherit
+   */
 
   /**
    * Submit the value ( send a signal )
@@ -2172,10 +2172,12 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
    */
   private _parsedSliderOptions() {
     let behaviour = this.tapSettable ? 'tap' : 'none';
-    if ((this.sendEventOnUpper || this.sendEventOnLower) && this.tapSettable === false) {
-      behaviour = 'hover';
-      if (this.toolTipDisplayType === "%") {
-        this.toolTipShowType = "off";
+    if (this.tapSettable === false) {
+      if (this.sendEventOnUpper || this.sendEventOnLower) {
+        behaviour = 'hover';
+        if (this.toolTipDisplayType === "%") {
+          this.toolTipShowType = "off";
+        }
       }
     }
     // in our case is bottom to top so we need to change it to 'rtl'
