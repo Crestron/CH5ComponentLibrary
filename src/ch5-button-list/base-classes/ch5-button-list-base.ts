@@ -1933,6 +1933,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
 
     btn.setAttribute('receiveStateMode', this.contractName + `.Button${index + 1}Mode`);
     btn.setAttribute('receiveStateSelected', this.contractName + `.Button${index + 1}ItemSelected`);
+    btn.setAttribute('sgIconTheme', this.buttonSgIconTheme);
 
     const remainingAttributes = ['buttonCheckboxPosition', 'buttonCheckboxShow', 'buttonVAlignLabel', 'buttonHAlignLabel', 'buttonIconClass',
       'buttonIconPosition', 'buttonIconUrl', 'buttonShape', 'buttonType', 'buttonPressed'];
