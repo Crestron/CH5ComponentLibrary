@@ -9,7 +9,7 @@ export interface ICh5SliderButtonAttributes {
    * [
    * "`key` attribute",
    * "***",
-   * "Used to set the type of button i.e on ,off."
+   * "Used to set the type of button i.e on ,off.",
    * "The default value of key is on."
    * ]
    * @name key

@@ -13,8 +13,8 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`handleShape` attribute",
     * "***",
-    * "It defines the handle shape."
-    * "The default value is 'rounded-rectangle'. Valid Values: 'rectangle', 'circle', 'oval', 'rounded-rectangle' ",
+    * "It defines the handle shape.",
+    * "The default value is 'rounded-rectangle'. Valid Values: 'rectangle', 'circle', 'oval', 'rounded-rectangle' "
     * ]
     * @name handleshape
     * @default rounded-rectangle
@@ -139,8 +139,8 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * "`stretch` attribute",
     * "***",
     * "When the stretch property is set, the slider inherits the width and/or ",
-    * "height of the container."
-    * "The default value is 'both'. Valid Values are 'width', 'height', 'both'. ",
+    * "height of the container.",
+    * "The default value is 'both'. Valid Values are 'width', 'height', 'both'. "
     * ]
     * @name stretch
     * @default both
@@ -256,7 +256,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`range` attribute",
     * "***",
-    * "If true, the slider will have two handles so two different values can be defined.The default value is false."
+    * "If true, the slider will have two handles so two different values can be defined.The default value is false.",
     * "Advance slider is not supported when range is true."
     * ]
     * @name range

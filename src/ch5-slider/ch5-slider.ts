@@ -459,6 +459,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
   private _tooltip: NodeListOf<HTMLElement> = {} as NodeListOf<HTMLElement>;
   private _sendEventValue: number = -1;
   private _titlePresent: number = -1;
+  private _userLowValue: number = -1;
+  private _userHighValue: number = -1;
 
   /**
    * CSS classes
@@ -1290,7 +1292,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
       this._submitted = true;
 
       this._setDirtyHandler(TCh5SliderHandle.VALUE);
-      this._sendValueForChangeSignal(this.value);
+      this._sendValueForChangeSignal(this._userLowValue);
     }
 
     // send signal for second handle
@@ -1298,7 +1300,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
       this._submitted = true;
 
       this._setDirtyHandler(TCh5SliderHandle.HIGHVALUE);
-      this._sendHighValueForChangeSignal(this.valueHigh);
+      this._sendHighValueForChangeSignal(this._userHighValue);
     }
   }
 
@@ -1802,7 +1804,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
     this.info('Ch5Slider._onSliderChange()');
 
     // set component value | valueHigh based on handle
-    // this._applyHandleValueToComponent(handle, value);
+     this._applyHandleValueToComponent(handle, value);
 
     // send value signal
     if (undefined !== value
@@ -1984,10 +1986,10 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
   private _applyHandleValueToComponent(handle: TCh5SliderHandle, value: (number | string)[]): void {
     switch (handle) {
       case TCh5SliderHandle.VALUE:
-        this.value = Number(value[handle]);
+        this._userLowValue = Number(value[handle]);
         break;
       case TCh5SliderHandle.HIGHVALUE:
-        this.valueHigh = Number(value[handle]);
+        this._userHighValue = Number(value[handle]);
         break;
       default:
         break;
