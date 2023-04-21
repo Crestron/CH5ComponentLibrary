@@ -2579,7 +2579,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
   }
 
   public setSendEvent(send: string, key: string) {
-    console.log(send, key);
     if (key === "off") {
       this._sendEventOffClick = send;
     } else if (key === "on") {
