@@ -250,6 +250,11 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 		// if (this.receiveStateLabel !== null && this.receiveStateLabel.trim() !== "") {
 		// 	return;
 		// }
+		if (this.iconUrlFillType) {
+			this._parentCh5Slider.setIconFill(1);
+		} else {
+			this._parentCh5Slider.setIconFill(0);
+		}
 		super.setButtonDisplay();
 	}
 

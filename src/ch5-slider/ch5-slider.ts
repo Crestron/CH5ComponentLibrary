@@ -2637,7 +2637,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
       && this._rcbSignalValueHigh.rcb.startv !== undefined
       && this._rcbSignalValueHigh.rcb.startt !== undefined
   }
-
+public setIconFill(val:number){
+  if(val===1){
+  this._elContainer.classList.add("ch5-slider-iconfill");}
+  else{
+    this._elContainer.classList.remove("ch5-slider-iconfill");
+  }
+}
   /**
    * Apply last value received from signal
    * This is used if in connectedCallback in case that value signal is received before rendering the slider
