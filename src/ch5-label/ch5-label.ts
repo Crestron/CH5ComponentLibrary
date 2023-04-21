@@ -49,6 +49,7 @@ export class Ch5Label extends Ch5Common implements ICh5LabelAttributes {
 	private _elContainer: HTMLElement = {} as HTMLElement;
 	public templateElement: HTMLTemplateElement = {} as HTMLTemplateElement;
 	private parentElem: string = "";
+	protected labelRec: string = "";
 
 	//#endregion
 
@@ -72,7 +73,8 @@ export class Ch5Label extends Ch5Common implements ICh5LabelAttributes {
 	public set receiveStateLabel(value: string) {
 		this._ch5Properties.set("receiveStateLabel", value, null, (newValue: string) => {
 			this._ch5Properties.setForSignalResponse<string>("label", newValue, () => {
-				this._elContainer.innerText = this.label;
+				this.labelRec = newValue;
+				this.handleLabel();
 			});
 		});
 	}

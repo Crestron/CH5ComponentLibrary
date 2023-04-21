@@ -29,7 +29,7 @@ export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLa
 			this.createInternalHtml();
 			this.initAttributes();
 			this.updateCssClass();
-			} else {
+		} else {
 			this._parentCh5Slider = this.getParentButton();
 		}
 	}
@@ -135,7 +135,18 @@ export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLa
 		this.logger.stop();
 	}
 
+	protected handleLabel() {
+		if (!this._parentCh5Slider.receiveStateLabel) {
+			super.handleLabel();
+			if (this.receiveStateLabel) {
+				this._parentCh5Slider.label = this.labelRec;
+				if (this.labelRec === "") {
+					this.getTargetElementForCssClassesAndStyle().innerText = "";
+				}
+			}
+		}
 
+	}
 
 	public getCssClassDisabled() {
 		return this.primaryCssClass + '--disabled';

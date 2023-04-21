@@ -13,7 +13,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	//#region Variables
 
 	public static readonly KEY: TCh5SliderButtonKey[] = ['on', 'off'];
-	public static readonly inheritedObsAttrs = ["key", "label", "sgicontheme", "iconclass", "iconurl", "filltype", "sendeventonclick", "receivestatelabel", "receivestateiconclass", "receivestateiconurl"];
+	public static readonly inheritedObsAttrs = ["key", "label", "sgicontheme", "iconclass", "iconurl", "iconurlfilltype", "sendeventonclick", "receivestatelabel", "receivestateiconclass", "receivestateiconurl"];
 	public static readonly COMPONENT_DATA: any = {
 		KEY: {
 			default: Ch5SliderButton.KEY[0],
@@ -91,7 +91,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	}
 
 	public static get observedAttributes(): string[] {
-		const inheritedObsAttrs = ["key", "label", "sgicontheme", "iconclass", "iconurl", "filltype", "sendeventonclick", "receivestatelabel", "receivestateiconclass", "receivestateiconurl"];
+		const inheritedObsAttrs = ["key", "label", "sgicontheme", "iconclass", "iconurl", "iconurlfilltype", "sendeventonclick", "receivestatelabel", "receivestateiconclass", "receivestateiconurl"];
 		const newObsAttrs: string[] = [];
 		for (let i: number = 0; i < Ch5SliderButton.COMPONENT_PROPERTIES.length; i++) {
 			if (Ch5SliderButton.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
@@ -123,7 +123,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	private buttonIgonredAttributes() {
 		const buttonIgnoredAttr = [
-			'labelinnerhtml', 'iconposition', 'orientation', 'checkboxshow', 'checkboxposition', 'halignlabel', 'valignlabel', 'pressdelaytime', 'pressdelaydistance', 'shape', 'size', 'stretch', 'type', 'formtype', 'mode', 'pressed', 'selected', 'customclassselected', 'customclasspressed', 'customclassdisabled', 'receivestatemode', 'receivestateselected', 'receivestatescriptlabelhtml', 'receivestatetype', 'sendeventontouch', 'iconurlfilltype', 'backgroundimageurl', 'backgroundimagefilltype', 'receivestatebackgroundimageurl', 'receivestatecustomclass', 'receivestatecustomstyle', 'disabled', 'show', 'customclass', 'customstyle'
+			'labelinnerhtml', 'iconposition', 'orientation', 'checkboxshow', 'checkboxposition', 'halignlabel', 'valignlabel', 'pressdelaytime', 'pressdelaydistance', 'shape', 'size', 'stretch', 'type', 'formtype', 'mode', 'pressed', 'selected', 'customclassselected', 'customclasspressed', 'customclassdisabled', 'receivestatemode', 'receivestateselected', 'receivestatescriptlabelhtml', 'receivestatetype', 'sendeventontouch', 'backgroundimageurl', 'backgroundimagefilltype', 'receivestatebackgroundimageurl', 'receivestatecustomclass', 'receivestatecustomstyle', 'disabled', 'show', 'customclass', 'customstyle'
 		];
 		for (let i = 0; i < buttonIgnoredAttr.length; i++) {
 			if (this.hasAttribute(buttonIgnoredAttr[i].toLowerCase())) {

@@ -1555,51 +1555,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
     return this._elContainer;
   }
 
-  // /**
-  //  * Generates a list of all possible components css classes
-  //  *
-  //  * @private
-  //  * @returns {string[]}
-  //  */
-  // private _generateListOfAllPossibleComponentCssClasses(): string[] {
-  // 	const cssClasses: string[] = this._listOfAllPossibleComponentCssClasses;
-
-  // 	// primary class
-  // 	cssClasses.push(this.primaryCssClass);
-
-  // 	// shapes
-  // 	Ch5Slider.SHAPES.forEach((shape: TCh5SliderShape) => {
-  // 		cssClasses.push(this.primaryCssClass + '--shape--' + shape);
-  // 	});
-
-  // 	// sizes
-  // 	Ch5Slider.SIZES.forEach((size: TCh5SliderSize) => {
-  // 		cssClasses.push(this.primaryCssClass + '--size--' + size);
-  // 	});
-
-  // 	// handle sizes
-  // 	Ch5Slider.SIZES.forEach((size: TCh5SliderSize) => {
-  // 		cssClasses.push(this.primaryCssClass + '--handle-size--' + size);
-  // 	});
-
-  // 	// stretches
-  // 	Ch5Slider.STRETCHES.forEach((stretch: TCh5SliderStretch) => {
-  // 		cssClasses.push(this.primaryCssClass + '--stretch--' + stretch);
-  // 	});
-
-  // 	// orientation
-  // 	Ch5Slider.ORIENTATIONS.forEach((orientation: TCh5SliderOrientation) => {
-  // 		cssClasses.push(this.primaryCssClass + '--orientation--' + orientation);
-  // 	});
-
-  // 	// orientation
-  // 	Ch5Slider.TOOLTIPS.forEach((tooltip: TCh5SliderTooltipType) => {
-  // 		cssClasses.push(this.primaryCssClass + '--tooltip--' + tooltip);
-  // 	});
-
-  // 	return cssClasses;
-  // }
-
   /**
    * Render the slide
    *
@@ -2604,11 +2559,11 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
     if (undefined !== tooltip
       && null !== tooltip
     ) {
-      if (value > this.max)
-        value = this.max;
-      else
-        if (value < this.min)
-          value = this.min
+      // if (value > this.max)
+      //   value = this.max;
+      // else
+      //   if (value < this.min)
+      //     value = this.min
       tooltip.textContent = this._toolTipDisplayTypeFormatter(value);
     }
   }
@@ -3120,7 +3075,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
   }
 
   public setValues(elem: string, val: HTMLElement) {
-    console.log(elem, "setvalue", val);
     if (this.range === true)
       return;
     this._elContainer.style.padding = "0px";

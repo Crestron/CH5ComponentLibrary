@@ -1,4 +1,4 @@
-import { TCh5SliderButtonKey } from './t-ch5-slider-button';
+import { TCh5IconUrlFillType, TCh5SliderButtonKey } from './t-ch5-slider-button';
 
 /**
  * @ignore
@@ -104,5 +104,17 @@ export interface ICh5SliderButtonAttributes {
   * @attributeType "Join"
   */
   receiveStateIconUrl: string;
+  /**
+   * @documentation
+   * [
+   * "`iconUrlFillType` attribute",
+   * "***",
+   * "Sets the icon url fill type. Default value is 'null'. Applicable values are 'null', 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'. Uses the css property background-size for the implementation."
+   * ]
+   * @name iconurlfilltype
+   * @default null
+   * @attributeType "EnumeratedValue"
+   */
+  iconUrlFillType: TCh5IconUrlFillType | null;
 
 }

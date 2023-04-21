@@ -104,7 +104,7 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *        "\tsize=\"${10:regular}\"",
  *        "\thandlesize=\"${11:regular}\"",
  *        "\tstep=\"${12:1}\"",
- *         "\tticks='${13:{\"0\":\"-60\", \"25\":\"-40\", \"50\":\"-20\", \"75\":\"-10\", \"100\": \"0\" }}'",
+ *        "\tticks='${13:{\"0\":\"-60\", \"25\":\"-40\", \"50\":\"-20\", \"75\":\"-10\", \"100\": \"0\" }}'",
  *        "\tshowtickvalues=\"${14:false}\"",
  *        "\ttooltipshowtype=\"${15:off}\"",
  *        "\ttooltipdisplaytype=\"${16:%}\"",
