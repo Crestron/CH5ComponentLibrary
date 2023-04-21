@@ -10,38 +10,9 @@ import { Ch5Signal, Ch5SignalFactory } from "../ch5-core/index";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5OverlayPanelAttributes, TCh5OverlayPanelOverflow, TCh5OverlayPanelPositionOffset, TCh5OverlayPanelStretch } from "./interfaces";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import { ICh5PropertySettings } from "../ch5-core/ch5-property";
+import { Ch5Properties } from "../ch5-core/ch5-properties";
 
-/**
- * Html Attributes
- *
- * - dismissable
- * - closable
- * - closeIcon
- * - mask
- * - maskStyle
- * - stretch
- * - overflow
- * - positionTo
- * - positionOffset
- *
- * - receiveStatePositionTo
- * - receiveStatePositionOffset
- * - sendEventOnBeforeShow
- * - sendEventOnAfterShow
- * - sendEventOnBeforeHide
- * - sendEventOnAfterHide
- *
- * Inherited
- * - customClass
- * - customStyle
- * - receiveStateCustomClass
- * - receiveStateCustomStyle
- * - receiveStateShow
- * - receiveStateShowPulse
- * - receiveStateHidePulse
- * - sendEventOnShow
- *
- */
 export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttributes {
 
 	public static readonly ELEMENT_NAME: string = 'ch5-overlay-panel';
@@ -51,24 +22,19 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		receivestatepositionto: { direction: "state", numericJoin: 1, contractName: true },
 		receivestatepositionoffset: { direction: "state", numericJoin: 1, contractName: true },
 
-		sendeventonbeforeshow: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventonaftershow: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventonbeforehide: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventonafterhide: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignalonshow: { direction: "state", stringJoin: 1, contractName: true },
+		sendsignalonhide: { direction: "state", stringJoin: 1, contractName: true },
+		sendsignalonbeforeshow: { direction: "state", stringJoin: 1, contractName: true },
+		sendsignalonaftershow: { direction: "state", stringJoin: 1, contractName: true },
+		sendsignalonbeforehide: { direction: "state", stringJoin: 1, contractName: true },
+		sendsignalonafterhide: { direction: "state", stringJoin: 1, contractName: true },
 	};
 
 	/**
 	 * The first value is considered the default one
 	 */
-	public static POSITION_OFFSETS: TCh5OverlayPanelPositionOffset[] = ['top-left', 'top-center', 'top-right',
-		'bottom-left', 'bottom-center', 'bottom-right', 'left-center', 'right-center'];
-	/**
-	 * The first value is considered the default one
-	 */
+	public static POSITION_OFFSETS: TCh5OverlayPanelPositionOffset[] = ['top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right', 'left-center', 'right-center'];
 	public static STRETCHES: TCh5OverlayPanelStretch[] = ['both', 'width', 'height'];
-	/**
-	 * The first value is considered the default one
-	 */
 	public static OVERFLOWS: TCh5OverlayPanelOverflow[] = ['scroll', 'show'];
 
 
@@ -93,7 +59,170 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		},
 	};
 
+	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
+		{
+			default: true,
+			name: "dismissable",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true,
+		},
+		{
+			default: false,
+			name: "closable",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			name: "closeIcon",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: false,
+			name: "mask",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			name: "maskStyle",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: null,
+			enumeratedValues: Ch5OverlayPanel.STRETCHES,
+			name: "stretch",
+			removeAttributeOnNull: true,
+			type: "enum",
+			valueOnAttributeEmpty: null,
+			isObservableProperty: true,
+			isNullable: true,
+		},
+		{
+			default: Ch5OverlayPanel.OVERFLOWS[0],
+			enumeratedValues: Ch5OverlayPanel.OVERFLOWS,
+			name: "overflow",
+			removeAttributeOnNull: true,
+			type: "enum",
+			valueOnAttributeEmpty: Ch5OverlayPanel.OVERFLOWS[0],
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			name: "positionTo",
+			nameForSignal: "receiveStatePositionTo",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: Ch5OverlayPanel.POSITION_OFFSETS[0],
+			enumeratedValues: Ch5OverlayPanel.POSITION_OFFSETS,
+			name: "positionOffset",
+			removeAttributeOnNull: true,
+			nameForSignal: "receiveStatePositionOffset",
+			type: "enum",
+			valueOnAttributeEmpty: Ch5OverlayPanel.POSITION_OFFSETS[0],
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "sendEventOnBeforeShow",
+			signalType: "string",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "sendEventOnHide",
+			signalType: "string",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "sendEventOnBeforeShow",
+			signalType: "string",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "sendEventOnAfterShow",
+			signalType: "string",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "sendEventOnBeforeHide",
+			signalType: "string",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "sendEventOnAfterHide",
+			signalType: "string",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "receiveStatePositionTo",
+			signalType: "string",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "receiveStatePositionOffset",
+			signalType: "string",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		},
+	];
+
 	public primaryCssClass = 'ch5-overlay-panel';
+
+	public _ch5Properties: Ch5Properties
 
 	/**
 	 * A div element that wraps the internal structure of the overlay
@@ -113,143 +242,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 	 */
 	protected _elCloseIconBtn: HTMLElement = {} as HTMLElement;
 
-	/**
-	 * Controls the ability to hide the panel when a touch/click event is detected outside of it
-	 * Defaults to false.
-	 *
-	 * HTML attribute name: dismissable
-	 */
-	protected _dismissable: boolean = true;
-
-	/**
-	 * If true, a close icon will be shown on the corner of the panel.
-	 * Defaults to false.
-	 *
-	 * HTML attribute name: closable
-	 */
-	protected _closable: boolean = false;
-
-	protected _mask: boolean = false;
-
-	/**
-	 * A string containing css class names that will be added to the close icon element.
-	 *
-	 * HTML attribute name: closeIcon
-	 */
-	protected _closeIcon: string = '';
-
-	/**
-	 * When stretch property is set, the element inherits the width or/and height of the container.
-	 *
-	 * HTML attribute name: stretch
-	 */
-	protected _stretch: TCh5OverlayPanelStretch | null = null;
-
-	/**
-	 * Valid values: scroll, show.
-	 * Specifies whether to add scrollbars when an element's content is too big to fit in a specified area
-	 *
-	 * HTML attribute name: overflow
-	 */
-	protected _overflow: TCh5OverlayPanelOverflow = 'scroll';
-
-	/**
-	 * Positions the element related to window or to an element specified by id
-	 * If not specified it will be positioned related to window
-	 *
-	 * HTML attribute name: positionTo
-	 */
-	protected _positionTo: string = '';
-
-	/**
-	 * Specifies the position of the panel with respect to the 'positionTo' attribute
-	 *
-	 * HTML attribute name: positionOffset
-	 */
-	protected _positionOffset: TCh5OverlayPanelPositionOffset = 'top-left';
-
-	/**
-	 * The name of a string signal.
-	 * Updates the 'positionTo' attribute
-	 *
-	 * HTML attribute name: receiveStatePositionTo
-	 */
-	protected _sigNameReceivePositionTo: string = '';
-
-	/**
-	 * The subscription id for the receiveStatePositionTo signal
-	 */
-	protected _subReceivePositionTo: string = '';
-
-	/**
-	 * The name of a string signal
-	 * Updates the 'positionOffset' attribute
-	 *
-	 * HTML attribute name: receiveStatePositionOffset
-	 */
-	protected _sigNameReceivePositionOffset: string = '';
-
-	/**
-	 * The subscription id for the receiveStateLabel signal
-	 */
-	protected _subReceivePositionOffset: string = '';
-
-
-	/**
-	 * The name of the boolean signal that will be sent to native just before the panel is being shown.
-	 * It is a pulse signal.
-	 *
-	 * HTML attribute name: sendEventOnBeforeShow
-	 */
-	protected _sigNameSendOnBeforeShow: string = '';
-
-	/**
-	 * The boolean Ch5Signal for sendEventOnBeforeShow
-	 */
-	protected _sigSendOnBeforeShow: Ch5Signal<boolean> | null = null;
-
-	/**
-	 * The name of the boolean signal that will be sent to native just after the panel was shown.
-	 * It is a pulse signal.
-	 *
-	 * HTML attribute name: sendEventOnAfterShow
-	 */
-	protected _sigNameSendOnAfterShow: string = '';
-
-	/**
-	 * The boolean Ch5Signal for sendEventOnAfterShow
-	 */
-	protected _sigSendOnAfterShow: Ch5Signal<boolean> | null = null;
-
-	/**
-	 * The name of the boolean signal that will be sent to native just before the panel is being hidden.
-	 * It is a pulse signal.
-	 *
-	 * HTML attribute name: sendEventOnBeforeHide
-	 */
-	protected _sigNameSendOnBeforeHide: string = '';
-
-	/**
-	 * The boolean Ch5Signal for sendEventOnBeforeHide
-	 */
-	protected _sigSendOnBeforeHide: Ch5Signal<boolean> | null = null;
-
-	/**
-	 * The name of the boolean signal that will be sent to native just after the panel was hidden.
-	 * It is a pulse signal.
-	 *
-	 * HTML attribute name: sendEventOnAfterHide
-	 */
-	protected _sigNameSendOnAfterHide: string = '';
-
-	/**
-	 * The boolean Ch5Signal for sendEventOnAfterHide
-	 */
-	protected _sigSendOnAfterHide: Ch5Signal<boolean> | null = null;
-
-
 	protected _wasInstatiated: boolean = false;
-
 
 	protected _isShown: boolean = false;
 
@@ -282,18 +275,154 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5OverlayPanel.ELEMENT_NAME, Ch5OverlayPanel.SIGNAL_ATTRIBUTE_TYPES);
 	}
 
+	public static registerCustomElement() {
+		if (typeof window === "object"
+			&& typeof window.customElements === "object"
+			&& typeof window.customElements.define === "function") {
+			window.customElements.define(Ch5OverlayPanel.ELEMENT_NAME, Ch5OverlayPanel);
+		}
+	}
+
+	//#region Getters and Setters
+
+	public set dismissable(value: boolean) {
+		this._ch5Properties.set<boolean>("dismissable", value);
+	}
+	public get dismissable(): boolean {
+		return this._ch5Properties.get<boolean>("dismissable");
+	}
+
+	public set closable(value: boolean) {
+		this._ch5Properties.set<boolean>("closable", value, () => {
+			this.updateForChangeInClosable();
+		});
+	}
+	public get closable(): boolean {
+		return this._ch5Properties.get<boolean>("closable");
+	}
+
+	public set mask(value: boolean) {
+		this._ch5Properties.set<boolean>("mask", value);
+	}
+	public get mask(): boolean {
+		return this._ch5Properties.get<boolean>("mask");
+	}
+
+	public set closeIcon(value: string) {
+		const prevValue = this.closeIcon === "" ? this.primaryCssClass + '-default-close-icon' : this.closeIcon;
+		this._ch5Properties.set<string>("closeIcon", value, () => {
+			this.handleCloseIcon(prevValue, value)
+		})
+	}
+	public get closeIcon(): string {
+		return this._ch5Properties.get<string>("closeIcon");
+	}
+
+	public set stretch(value: TCh5OverlayPanelStretch | null) {
+		this._ch5Properties.set<TCh5OverlayPanelStretch | null>("stretch", value, () => {
+			this.updateForChangeInStretch();
+		});
+	}
+	public get stretch(): (TCh5OverlayPanelStretch | null) {
+		return this._ch5Properties.get<TCh5OverlayPanelStretch | null>("stretch");
+	}
+
+	public set overflow(value: TCh5OverlayPanelOverflow) {
+		this._ch5Properties.set<TCh5OverlayPanelOverflow>("overflow", value, () => {
+			this.updateCssClasses();
+		});
+	}
+	public get overflow(): TCh5OverlayPanelOverflow {
+		return this._ch5Properties.get<TCh5OverlayPanelOverflow>("overflow");
+	}
+
+	public set positionTo(value: string) {
+		this._ch5Properties.set<string>("positionTo", value, () => {
+			this.updatePosition();
+		});
+	}
+	public get positionTo(): string {
+		return this._ch5Properties.get<string>("positionTo");
+	}
+
+	public set positionOffset(value: TCh5OverlayPanelPositionOffset) {
+		this._ch5Properties.set<TCh5OverlayPanelPositionOffset>("positionOffset", value, () => {
+			this.updatePosition();
+		});
+	}
+	public get positionOffset(): TCh5OverlayPanelPositionOffset {
+		return this._ch5Properties.get<TCh5OverlayPanelPositionOffset>("positionOffset");
+	}
+
+	public set receiveStatePositionTo(value: string) {
+		this._ch5Properties.set("receiveStatePositionTo", value, null, (newValue: string) => {
+			this._ch5Properties.setForSignalResponse<string>("positionTo", newValue, () => {
+				this.updatePosition();
+			});
+		});
+	}
+
+	public get receiveStatePositionTo(): string {
+		return this._ch5Properties.get<string>('receiveStatePositionTo');
+	}
+
+	public set receiveStatePositionOffset(value: string) {
+		this._ch5Properties.set("receiveStatePositionOffset", value, null, (newValue: string) => {
+			this._ch5Properties.setForSignalResponse<string>("positionOffset", newValue, () => {
+				this.updatePosition();
+			});
+		});
+	}
+
+	public get receiveStatePositionOffset(): string {
+		return this._ch5Properties.get<string>('receiveStatePositionOffset');
+	}
+
+	public set sendEventOnBeforeShow(value: string) {
+		this._ch5Properties.set<string>("sendEventOnBeforeShow", value);
+	}
+
+	public get sendEventOnBeforeShow(): string {
+		return this._ch5Properties.get<string>("sendEventOnBeforeShow");
+	}
+
+	public set sendEventOnAfterShow(value: string) {
+		this._ch5Properties.set<string>("sendEventOnAfterShow", value);
+	}
+
+	public get sendEventOnAfterShow(): string {
+		return this._ch5Properties.get<string>("sendEventOnAfterShow");
+	}
+
+	public set sendEventOnBeforeHide(value: string) {
+		this._ch5Properties.set<string>("sendEventOnBeforeHide", value);
+	}
+
+	public get sendEventOnBeforeHide(): string {
+		return this._ch5Properties.get<string>("sendEventOnBeforeHide");
+	}
+
+	public set sendEventOnAfterHide(value: string) {
+		this._ch5Properties.set<string>("sendEventOnAfterHide", value);
+	}
+
+	public get sendEventOnAfterHide(): string {
+		return this._ch5Properties.get<string>("sendEventOnAfterHide");
+	}
+
+	//#endregion
+
+
 	public constructor() {
 		super();
 		this.info('Ch5OverlayPanel.constructor()');
-		this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
-
 
 		if (!this._wasInstatiated) {
 			this.createInternalHtml();
 			this._rebindEventCallbacks();
-			this._closeIcon = this.primaryCssClass + '-default-close-icon';
 		}
 		this._wasInstatiated = true;
+		this._ch5Properties = new Ch5Properties(this, Ch5OverlayPanel.COMPONENT_PROPERTIES);
 
 
 		this._showEvent = new CustomEvent('show', {
@@ -363,10 +492,6 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		this.disconnectCommonMutationObserver();
 	}
 
-	public getListOfAllPossibleComponentCssClasses(): string[] {
-		return this._listOfAllPossibleComponentCssClasses;
-	}
-
 	protected _initialize() {
 		this.info('ch5-overlay-panel _initialize()');
 		if (this._elContainer.parentElement !== this) {
@@ -383,7 +508,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 	}
 
 	protected generateListOfAllPossibleComponentCssClasses(): string[] {
-		const cssClasses: string[] = this._listOfAllPossibleComponentCssClasses;
+		const cssClasses: string[] = [];
 		cssClasses.push(this.primaryCssClass);
 
 		// position offsets
@@ -410,26 +535,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 
 	public unsubscribeFromSignals() {
 		super.unsubscribeFromSignals();
-
-		const csf = Ch5SignalFactory.getInstance();
-		if ('' !== this._subReceivePositionOffset && '' !== this._sigNameReceivePositionOffset) {
-			const subSignalOffsetName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceivePositionOffset);
-			const sigOffset: Ch5Signal<string> | null = csf.getStringSignal(subSignalOffsetName);
-			if (null !== sigOffset) {
-				sigOffset.unsubscribe(this._subReceivePositionOffset);
-				this._sigNameReceivePositionOffset = '';
-			}
-		}
-
-		if ('' !== this._subReceivePositionTo && '' !== this._sigNameReceivePositionTo) {
-			const subSignalPosToName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceivePositionTo);
-			const sigPosTo: Ch5Signal<boolean> | null = csf.getBooleanSignal(subSignalPosToName);
-			if (null !== sigPosTo) {
-				sigPosTo.unsubscribe(this._subReceivePositionTo);
-				this._sigNameReceivePositionTo = '';
-			}
-		}
-
+		this._ch5Properties.unsubscribe();
 	}
 
 	protected createInternalHtml() {
@@ -460,18 +566,12 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 
 	}
 
-	protected refreshComponent() {
-		this.updateCssClasses();
-	}
-
 	protected updateCssClasses(): void {
 		// apply css classes for attrs inherited from common (e.g. customClass, customStyle )
 		super.updateCssClasses();
 
 		this.info('called updateCssClasses()');
 
-
-		// let stretchCssClassName = '';
 		const setOfCssClassesToBeApplied = new Set<string>();
 
 		// primary
@@ -482,7 +582,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 
 		const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
 		if (typeof targetEl.classList !== 'undefined') {
-			this._listOfAllPossibleComponentCssClasses.forEach((cssClass: string) => {
+			this.generateListOfAllPossibleComponentCssClasses().forEach((cssClass: string) => {
 				if (setOfCssClassesToBeApplied.has(cssClass)) {
 					targetEl.classList.add(cssClass);
 					this.info('add CSS class', cssClass);
@@ -492,107 +592,31 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 				}
 			});
 		}
-
 	}
 
 	public static get observedAttributes() {
 		const inheritedObsAttrs = Ch5Common.observedAttributes;
-		const newObsAttrs = [
-			'dismissable',
-			'closable',
-			'closeicon',
-			'mask',
-			'maskstyle',
-			'stretch',
-			'overflow',
-			'positionto',
-			'positionoffset',
-
-			'receivestatepositionto',
-			'receivestatepositionoffset',
-			'sendeventonbeforeshow',
-			'sendeventonaftershow',
-			'sendeventonbeforehide',
-			'sendeventonafterhide'
-		];
-
+		const newObsAttrs: string[] = [];
+		for (let i: number = 0; i < Ch5OverlayPanel.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5OverlayPanel.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				newObsAttrs.push(Ch5OverlayPanel.COMPONENT_PROPERTIES[i].name.toLowerCase());
+			}
+		}
 		return inheritedObsAttrs.concat(newObsAttrs);
 	}
 
 	protected initAttributes() {
 		super.initAttributes();
 
-
-		if (this.hasAttribute('dismissable')) {
-			const tmpDismissable = this.getAttribute('dismissable') as string;
-			if ('0' === tmpDismissable
-				|| 'false' === tmpDismissable.toLowerCase()) {
-				this.dismissable = false;
-			} else {
-				this.dismissable = true;
+		const thisRef: any = this;
+		for (let i: number = 0; i < Ch5OverlayPanel.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5OverlayPanel.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				if (this.hasAttribute(Ch5OverlayPanel.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
+					const key = Ch5OverlayPanel.COMPONENT_PROPERTIES[i].name;
+					thisRef[key] = this.getAttribute(key);
+				}
 			}
-		} else {
-			this.dismissable = true;
 		}
-		this.updateForChangeInDismissable();
-
-		if (this.hasAttribute('closable')) {
-			const tmpClosable = this.getAttribute('closable') as string;
-			if ('0' === tmpClosable
-				|| 'false' === tmpClosable.toLowerCase()) {
-				this.closable = false;
-			} else {
-				this.closable = true;
-			}
-		} else {
-			this.closable = false;
-		}
-		this.updateForChangeInClosable();
-
-		if (this.hasAttribute('closeicon')) {
-			this.closeIcon = this.getAttribute('closeicon') as string;
-		}
-
-		if (this.hasAttribute('stretch')) {
-			this.stretch = this.getAttribute('stretch') as TCh5OverlayPanelStretch;
-		}
-
-		if (this.hasAttribute('overflow')) {
-			this.overflow = this.getAttribute('overflow') as TCh5OverlayPanelOverflow;
-		}
-
-		if (this.hasAttribute('positionto')) {
-			this.positionTo = this.getAttribute('positionto') as string;
-		}
-
-		if (this.hasAttribute('positionoffset')) {
-			this.positionOffset = this.getAttribute('positionoffset') as TCh5OverlayPanelPositionOffset;
-		}
-
-		if (this.hasAttribute('receivestatepositionto')) {
-			this.receiveStatePositionTo = this.getAttribute('receivestatepositionto') as string;
-		}
-
-		if (this.hasAttribute('receivestatepositionoffset')) {
-			this.receiveStatePositionOffset = this.getAttribute('receivestatepositionoffset') as string;
-		}
-
-		if (this.hasAttribute('sendeventonbeforeshow')) {
-			this.sendEventOnBeforeShow = this.getAttribute('sendeventonbeforeshow') as string;
-		}
-
-		if (this.hasAttribute('sendeventonaftershow')) {
-			this.sendEventOnAfterShow = this.getAttribute('sendeventonaftershow') as string;
-		}
-
-		if (this.hasAttribute('sendeventonbeforehide')) {
-			this.sendEventOnBeforeHide = this.getAttribute('sendeventonbeforehide') as string;
-		}
-
-		if (this.hasAttribute('sendeventonafterhide')) {
-			this.sendEventOnAfterHide = this.getAttribute('sendeventonafterhide') as string;
-		}
-
 	}
 
 	protected attachEventListeners() {
@@ -683,129 +707,23 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			return;
 		}
 
-		this.info('ch5-overlay-panel attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + ')');
-
-		switch (attr) {
-			case 'dismissable':
-				if (this.hasAttribute('dismissable')) {
-					const tmpDismissable = this.getAttribute('dismissable') as string;
-					if ('0' === tmpDismissable
-						|| 'false' === tmpDismissable.toLowerCase()) {
-						this.dismissable = false;
-					} else {
-						this.dismissable = true;
-					}
-				} else {
-					this.dismissable = true;
-				}
-				this.updateForChangeInDismissable();
-				break;
-			case 'closable':
-				if (this.hasAttribute('closable')) {
-					const tmpClosable = this.getAttribute('closable') as string;
-					if ('0' === tmpClosable
-						|| 'false' === tmpClosable.toLowerCase()) {
-						this.closable = false;
-					} else {
-						this.closable = true;
-					}
-				} else {
-					this.closable = false;
-				}
-				this.updateForChangeInClosable();
-				break;
-			case 'closeicon':
-				if (this.hasAttribute('closeicon')) {
-					this.closeIcon = newValue;
-				} else {
-					this.closeIcon = '';
-				}
-				break;
-			case 'stretch':
-				if (this.hasAttribute('stretch')) {
-					this.stretch = newValue as TCh5OverlayPanelStretch | null;
-				} else {
-					this.stretch = null;
-				}
-				this.updateForChangeInStretch();
-				break;
-			case 'overflow':
-				if (this.hasAttribute('overflow')) {
-					this.overflow = newValue as TCh5OverlayPanelOverflow;
-				} else {
-					this.overflow = Ch5OverlayPanel.OVERFLOWS[0];
-				}
-				break;
-			case 'positionto':
-				if (this.hasAttribute('positionto')) {
-					this.positionTo = newValue;
-				} else {
-					this.positionTo = '';
-				}
-				this.updateForChangeInPositionTo();
-				break;
-			case 'positionoffset':
-				if (this.hasAttribute('positionoffset')) {
-					this.positionOffset = newValue as TCh5OverlayPanelPositionOffset;
-				} else {
-					this.positionOffset = Ch5OverlayPanel.POSITION_OFFSETS[0];
-				}
-				this.updateForChangeInPositionOffset();
-				break;
-			case 'receivestatepositionto':
-				if (this.hasAttribute('receivestatepositionto')) {
-					this.receiveStatePositionTo = newValue;
-				} else {
-					this.receiveStatePositionTo = '';
-				}
-				break;
-			case 'receivestatepositionoffset':
-				if (this.hasAttribute('receivestatepositionoffset')) {
-					this.receiveStatePositionOffset = newValue;
-				} else {
-					this.receiveStatePositionOffset = '';
-				}
-				break;
-			case 'sendeventonbeforeshow':
-				if (this.hasAttribute('sendeventonbeforeshow')) {
-					this.sendEventOnBeforeShow = newValue;
-				} else {
-					this.sendEventOnBeforeShow = '';
-				}
-				break;
-			case 'sendeventonaftershow':
-				if (this.hasAttribute('sendeventonaftershow')) {
-					this.sendEventOnAfterShow = newValue;
-				} else {
-					this.sendEventOnAfterShow = '';
-				}
-				break;
-			case 'sendeventonbeforehide':
-				if (this.hasAttribute('sendeventonbeforehide')) {
-					this.sendEventOnBeforeHide = newValue;
-				} else {
-					this.sendEventOnBeforeHide = '';
-				}
-				break;
-			case 'sendeventonafterhide':
-				if (this.hasAttribute('sendeventonafterhide')) {
-					this.sendEventOnAfterHide = newValue;
-				} else {
-					this.sendEventOnAfterHide = '';
-				}
-				break;
-			default:
+		this.logger.start("attributeChangedCallback", this.primaryCssClass);
+		if (oldValue !== newValue) {
+			this.logger.log('ch5-overlay-panel-prasaanth attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+			const attributeChangedProperty = Ch5OverlayPanel.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
+			if (attributeChangedProperty) {
+				const thisRef: any = this;
+				const key = attributeChangedProperty.name;
+				thisRef[key] = newValue;
+			} else {
 				super.attributeChangedCallback(attr, oldValue, newValue);
-				break;
+			}
 		}
+		this.logger.stop();
 	}
 
 	public getCssClassDisabled() {
 		return this.primaryCssClass + '--disabled';
-	}
-
-	protected updateForChangeInDismissable() {
-		this.info('updateForChangeInDismissable()')
 	}
 
 	protected updateForChangeInStretch() {
@@ -827,14 +745,6 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 				targetEl.style.height = parentEl.offsetHeight + 'px';
 				break;
 		}
-	}
-
-	protected updateForChangeInPositionTo() {
-		this.updatePosition();
-	}
-
-	protected updateForChangeInPositionOffset() {
-		this.updatePosition();
 	}
 
 	protected updatePosition() {
@@ -911,6 +821,30 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		}
 	}
 
+	private handleCloseIcon(prevValue: string, value: string) {
+		if (typeof this._elCloseIcon.classList === "undefined") {
+			return;
+		}
+		if (prevValue !== value) {
+			if ('' !== prevValue) {
+				prevValue.split(' ').forEach((className: string) => {
+					className = className.trim();
+					if ('' !== className) {
+						this._elCloseIcon.classList.remove(className); // remove previous class
+					}
+				});
+			}
+			if ('' !== value) {
+				value.split(' ').forEach((className: string) => {
+					className = className.trim();
+					if ('' !== className) {
+						this._elCloseIcon.classList.add(className); // adds the new icon class if present
+					}
+				});
+			}
+		}
+	}
+
 	protected _dismissElement(inEvent: Event) {
 		this.info('_dismissElement()');
 
@@ -946,8 +880,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		this.info('beforeHandlingShow()');
 		this.dispatchEvent(this._beforeShowEvent);
 		this.dispatchEvent(this._showEvent);
-		this._sendPulse(this._sigNameSendOnBeforeShow);
-
+		this._sendPulse(this.sendEventOnBeforeShow);
 		return;
 	}
 
@@ -957,7 +890,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 	protected afterHandlingShow(): void {
 		this.info('afterHandlingShow()');
 		this.dispatchEvent(this._afterShowEvent);
-		this._sendPulse(this._sigNameSendOnAfterShow);
+		this._sendPulse(this.sendEventOnAfterShow);
 		this.updatePosition();
 		this._isShown = true;
 
@@ -976,7 +909,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 	protected beforeHandlingHide(): void {
 		this.info('beforeHandlingHide()');
 		this.dispatchEvent(this._beforeHideEvent);
-		this._sendPulse(this._sigNameSendOnBeforeHide);
+		this._sendPulse(this.sendEventOnBeforeHide);
 
 		document.removeEventListener("click", this._dismissElement);
 	}
@@ -988,312 +921,15 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		this.info('afterHandlingHide()');
 		this.dispatchEvent(this._hideEvent);
 		this.dispatchEvent(this._afterHideEvent);
-		this._sendPulse(this._sigNameSendOnAfterHide);
+		this._sendPulse(this.sendEventOnAfterHide);
 		this._isShown = false;
 		return;
-	}
-
-	//
-	// Attr getters and setters
-	//
-
-	public set dismissable(value: boolean) {
-		this.info('set dismissable("' + value + '")');
-		if (this._dismissable !== value) {
-			if (value === undefined || value === null) {
-				value = false;
-			}
-			this._dismissable = value;
-			this.setAttribute('dismissable', value.toString());
-		}
-	}
-
-	public get dismissable(): boolean {
-		return this._dismissable;
-	}
-
-	public set closable(value: boolean) {
-		this.info('set closable("' + value + '")');
-		if (this._closable !== value) {
-			if (value === undefined || value === null) {
-				value = false;
-			}
-			this._closable = value;
-			this.setAttribute('closable', value.toString());
-		}
-	}
-
-	public get closable(): boolean {
-		return this._closable;
-	}
-
-	/**
-	 * TODO: This proprety was not existing earlier, but is consumed/referred within the code
-	 * This property is created for the same and needs to be tested
-	 */
-	public set mask(value: boolean) {
-		this.info('set mask("' + value + '")');
-		if (this._mask !== value) {
-			if (value === undefined || value === null) {
-				value = false;
-			}
-			this._mask = value;
-			this.setAttribute('mask', value.toString());
-		}
-	}
-
-	public get mask(): boolean {
-		return this._mask;
-	}
-
-	public set closeIcon(value: string) {
-		if (typeof this._elCloseIcon.classList === "undefined") {
-			return;
-		}
-		this.info('set closeIcon("' + value + '")');
-		if (this._closeIcon !== value) {
-			if ('' !== this._closeIcon) {
-				this._closeIcon.split(' ').forEach((className: string) => {
-					className = className.trim();
-					if ('' !== className) {
-						this._elCloseIcon.classList.remove(className); // remove previous class
-					}
-				});
-			}
-			this._closeIcon = value;
-			if ('' !== this._closeIcon) {
-				this._closeIcon.split(' ').forEach((className: string) => {
-					className = className.trim();
-					if ('' !== className) {
-						this._elCloseIcon.classList.add(className); // adds the new icon class if present
-					}
-				});
-			}
-			this.setAttribute('closeicon', value);
-		}
-	}
-
-	public get closeIcon(): string {
-		return this._closeIcon;
-	}
-
-	/**
-	 * Setter step
-	 * @param {TCh5OverlayPanelStretch | null} value
-	 */
-	public set stretch(value: TCh5OverlayPanelStretch | null) {
-		if (value !== null) {
-			if (this._stretch !== value) {
-				if (Ch5OverlayPanel.STRETCHES.indexOf(value) >= 0) {
-					this._stretch = value;
-					this.setAttribute('stretch', this._stretch);
-				} else {
-					this._stretch = null;
-				}
-			}
-		} else {
-			this._stretch = null;
-		}
-	}
-
-	public get stretch(): (TCh5OverlayPanelStretch | null) {
-		return this._stretch;
-	}
-
-	public set overflow(value: TCh5OverlayPanelOverflow) {
-		this.info('set overflow("' + value + '")');
-		if (this._overflow !== value) {
-			if (Ch5OverlayPanel.OVERFLOWS.indexOf(value) >= 0) {
-				this._overflow = value;
-			} else {
-				this._overflow = Ch5OverlayPanel.OVERFLOWS[0];
-			}
-			this.setAttribute('overflow', this._overflow);
-		}
-	}
-
-	public get overflow(): TCh5OverlayPanelOverflow {
-		return this._overflow;
-	}
-
-	public set positionTo(value: string) {
-		this.info('set positionTo("' + value + '")');
-		if (this._positionTo !== value) {
-			this._positionTo = value;
-			this.setAttribute('positionto', value);
-		}
-	}
-
-	public get positionTo(): string {
-		return this._positionTo;
-	}
-
-	public set positionOffset(value: TCh5OverlayPanelPositionOffset) {
-		this.info('set positionOffset("' + value + '")');
-		if (this._positionOffset !== value) {
-			if (Ch5OverlayPanel.POSITION_OFFSETS.indexOf(value) >= 0) {
-				this._positionOffset = value;
-			} else {
-				this._positionOffset = Ch5OverlayPanel.POSITION_OFFSETS[0];
-			}
-			this.setAttribute('positionoffset', this._positionOffset);
-		}
-	}
-
-	public get positionOffset(): TCh5OverlayPanelPositionOffset {
-		return this._positionOffset;
-	}
-
-	//
-	// Signal related attribute setter/getters
-	//
-
-	public set receiveStatePositionTo(value: string) {
-		this.info('set receiveStatePositionTo(\'' + value + '\')');
-		if ('' === value
-			|| this._sigNameReceivePositionTo === value
-			|| null === value
-			|| undefined === value) {
-			return;
-		}
-		// clean up old subscription
-		if (this._sigNameReceivePositionTo !== ''
-			&& this._sigNameReceivePositionTo !== undefined
-			&& this._sigNameReceivePositionTo !== null) {
-
-			const oldSignalName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceivePositionTo);
-			const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-				.getStringSignal(oldSignalName);
-
-			if (oldSignal !== null) {
-				oldSignal.unsubscribe(this._subReceivePositionTo);
-			}
-		}
-
-		this._sigNameReceivePositionTo = value;
-		this.setAttribute('receivestatepositionto', value);
-
-		// setup new subscription.
-		const receiveSignalName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceivePositionTo);
-		const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-			.getStringSignal(receiveSignalName);
-
-		if (receiveSignal === null) {
-			return;
-		}
-
-		this._subReceivePositionTo = receiveSignal.subscribe((newValue: string) => {
-			if (newValue !== this._positionTo) {
-				this.setAttribute('positionto', newValue)
-			}
-		});
-	}
-
-	public get receiveStatePositionTo(): string {
-		// The internal property is changed if/when the element is removed from DOM
-		// Returning the attribute instead of the internal property preserves functionality
-		return this._attributeValueAsString('receivestatepositionto');
-	}
-
-	public set receiveStatePositionOffset(value: string) {
-		this.info('set receiveStatePositionOffset(\'' + value + '\')');
-		if ('' === value
-			|| this._sigNameReceivePositionOffset === value
-			|| null === value
-			|| undefined === value) {
-			return;
-		}
-		// clean up old subscription
-		if (this._sigNameReceivePositionOffset !== ''
-			&& this._sigNameReceivePositionOffset !== undefined
-			&& this._sigNameReceivePositionOffset !== null) {
-			const oldSignalName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceivePositionOffset);
-			const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-				.getStringSignal(oldSignalName);
-
-			if (oldSignal !== null) {
-				oldSignal.unsubscribe(this._subReceivePositionOffset);
-			}
-		}
-
-		this._sigNameReceivePositionOffset = value;
-		this.setAttribute('receivestatepositionoffset', value);
-
-		// setup new subscription.
-		const subSignalName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceivePositionOffset);
-		const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-			.getStringSignal(subSignalName);
-
-		if (receiveSignal === null) {
-			return;
-		}
-
-		this._subReceivePositionOffset = receiveSignal.subscribe((newValue: string) => {
-			if (newValue !== this._positionOffset) {
-				this.setAttribute('positionoffset', newValue)
-			}
-		});
-	}
-
-	public get receiveStatePositionOffset(): string {
-		// The internal property is changed if/when the element is removed from DOM
-		// Returning the attribute instead of the internal property preserves functionality
-		return this._attributeValueAsString('receivestatepositionoffset');
-	}
-
-	public set sendEventOnBeforeShow(value: string) {
-		this.info('set sendEventOnBeforeShow(\'' + value + '\')');
-		if ('' !== value && value !== this.sendEventOnBeforeShow) {
-			this._sigNameSendOnBeforeShow = value;
-			this.setAttribute('sendeventonbeforeshow', value);
-		}
-	}
-
-	public get sendEventOnBeforeShow(): string {
-		return this._sigNameSendOnBeforeShow;
-	}
-
-	public set sendEventOnAfterShow(value: string) {
-		this.info('set sendEventOnAfterShow(\'' + value + '\')');
-		if ('' !== value && value !== this.sendEventOnAfterShow) {
-			this._sigNameSendOnAfterShow = value;
-			this.setAttribute('sendeventonaftershow', value);
-		}
-	}
-
-	public get sendEventOnAfterShow(): string {
-		return this._sigNameSendOnAfterShow;
-	}
-
-	public set sendEventOnBeforeHide(value: string) {
-		this.info('set sendEventOnBeforeHide(\'' + value + '\')');
-		if ('' !== value && value !== this.sendEventOnBeforeHide) {
-			this._sigNameSendOnBeforeHide = value;
-			this.setAttribute('sendeventonbeforehide', value);
-		}
-	}
-
-	public get sendEventOnBeforeHide(): string {
-		return this._sigNameSendOnBeforeHide;
-	}
-
-	public set sendEventOnAfterHide(value: string) {
-		this.info('set sendEventOnAfterHide(\'' + value + '\')');
-		if ('' !== value && value !== this.sendEventOnAfterHide) {
-			this._sigNameSendOnAfterHide = value;
-			this.setAttribute('sendeventonafterhide', value);
-		}
-	}
-
-	public get sendEventOnAfterHide(): string {
-		return this._sigNameSendOnAfterHide;
 	}
 
 	//
 	// Events
 	//
 
-	//
 	protected _onShow(inEvent: Event): void {
 		this.info('_onShow()');
 
@@ -1306,22 +942,22 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 
 	protected _onBeforeShow(inEvent: Event): void {
 		this.info('_onBeforeShow()');
-		// this._sendPulse(this._sigNameSendOnBeforeShow);
+		// this._sendPulse(this.sendEventOnBeforeShow);
 	}
 
 	protected _onAfterShow(inEvent: Event): void {
 		this.info('_onAfterShow()');
-		// this._sendPulse(this._sigNameSendOnAfterShow);
+		// this._sendPulse(this.sendEventOnAfterShow);
 	}
 
 	protected _onBeforeHide(inEvent: Event): void {
 		this.info('_onBeforeHide()');
-		// this._sendPulse(this._sigNameSendOnBeforeHide);
+		// this._sendPulse(this.sendEventOnBeforeHide);
 	}
 
 	protected _onAfterHide(inEvent: Event): void {
 		this.info('_onAfterHide()');
-		// this._sendPulse(this._sigNameSendOnAfterHide);
+		// this._sendPulse(this.sendEventOnAfterHide);
 	}
 
 	protected _sendPulse(sigName: string) {
@@ -1346,10 +982,5 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 	}
 }
 
-if (typeof window === "object"
-	&& typeof window.customElements === "object"
-	&& typeof window.customElements.define === "function") {
-	window.customElements.define(Ch5OverlayPanel.ELEMENT_NAME, Ch5OverlayPanel);
-}
-
+Ch5OverlayPanel.registerCustomElement();
 Ch5OverlayPanel.registerSignalAttributeTypes();

@@ -40,6 +40,14 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
 		{
+			default: true,
+			name: "dismissable",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true,
+		},
+		{
 			default: false,
 			name: "closable",
 			removeAttributeOnNull: true,
@@ -252,7 +260,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 	public static readonly ELEMENT_NAME: string = 'ch5-modal-dialog';
 	public primaryCssClass = 'ch5-modal-dialog';
 
-	private _ch5Properties: Ch5Properties;
+	public _ch5Properties: Ch5Properties;
 	/**
 	 * A div element that is external to this component. Its role is to provide mask that stretches over the entire
 	 * viewport. The overlay will be displayed over this mask. The mask will capture click/touch events made outside
@@ -469,7 +477,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		if (!this._crModalWasInstatiated) {
 			this._rebindEventCallbacks();
 			this.createInternalHtml();
-			this._closeIcon = this.primaryCssClass + '-default-close-icon';
 		}
 		this._crModalWasInstatiated = true;
 		this._ch5Properties = new Ch5Properties(this, Ch5ModalDialog.COMPONENT_PROPERTIES);
