@@ -50,6 +50,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 			this._parentCh5Slider.setValues(this.key, this.getTargetElementForCssClassesAndStyle());
 		}
 		this.setButtonDisplay();
+		this.updateInternalHtml();
 	}, 50);
 
 	//#endregion
