@@ -139,8 +139,6 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	public disconnectedCallback() {
 		this.logger.start('disconnectedCallback()');
-		this.removeEventListeners();
-		this.unsubscribeFromSignals();
 		this.logger.stop();
 	}
 

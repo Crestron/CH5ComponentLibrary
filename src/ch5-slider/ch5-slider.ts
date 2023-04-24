@@ -2089,7 +2089,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
   private _parsedSliderOptions() {
     let behaviour = this.tapSettable ? 'tap' : 'none';
     if (this.tapSettable === false) {
-      if (this.sendEventOnUpper || this.sendEventOnLower) {
+      if ((this.sendEventOnUpper || this.sendEventOnLower) && this._elContainer.classList.contains("adv-slider")) {
         behaviour = 'hover';
         if (this.toolTipDisplayType === "%") {
           this.toolTipShowType = "off";
@@ -2708,6 +2708,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
   }
 
   private handleSendEvent(): void {
+    if (this.range || !this._elContainer.classList.contains("adv-slider")) {
+      return;
+    }
     if (this.sendEventOnUpper && this._sendEventValue >= ((this.max - this.min) * 3 / 4)) {
       Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnUpper)?.publish(true);
       Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnUpper)?.publish(false);
@@ -2897,7 +2900,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
   }
 
   private handleOnOffOnly() {
-    if (this.range) {
+    if (this.range || !this._elContainer.classList.contains("adv-slider")) {
+      this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
       return;
     }
     if (this.onOffOnly === true) {

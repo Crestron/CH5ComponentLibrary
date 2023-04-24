@@ -87,6 +87,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * ]
     * @name orientation
     * @default horizontal
+    * @attributeType "EnumeratedValue"
     */
    orientation: TCh5SliderOrientation;
 
@@ -100,6 +101,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * ]
     * @name size
     * @default regular
+    * @attributeType "EnumeratedValue"
     */
    size: TCh5SliderSize;
 
@@ -113,6 +115,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * ]
     * @name handlesize
     * @default regular
+    * @attributeType "EnumeratedValue"
     */
    handleSize: TCh5SliderHandleSize;
 
@@ -144,6 +147,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * ]
     * @name stretch
     * @default both
+    * @attributeType "EnumeratedValue"
     */
    stretch: TCh5SliderStretch;
 
@@ -194,9 +198,6 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * ]
     * @name tooltipdisplaytype
     * @default %
-    *  {"tooltipdisplaytype": [null, "off"]},
-    *  {"nohandle": ["true", ""] }
-    * ]
     * @attributeType "EnumeratedValue"
     */
    toolTipDisplayType: TCh5SliderToolTipDisplayType;
@@ -269,10 +270,11 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`showTickValues` attribute",
     * "***",
-    * "The default value is false. Used to display optional value labels next to tick marks at each tick increment."
+    * "The default value is false. Used to display optional value labels next to tick marks at each tick increment.Possible values are true/false."
     * ]
     * @name showtickvalues
     * @default false
+    * @attributeType "Boolean"
     */
    showTickValues: boolean;
 
@@ -285,6 +287,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * ]
     * @name nohandle
     * @default false
+    * @attributeType "Boolean"
     */
    noHandle: boolean
 
@@ -293,10 +296,11 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`tapSettable` attribute",
     * "***",
-    * "The default value is false. If true, sets the handle closest to the area where slider gets tapped."
+    * "The default value is false. If true, sets the handle closest to the area where slider gets tapped. Possible values are true/false."
     * ]
     * @name tapsettable
     * @default false
+    * @attributeType "Boolean"
     */
    tapSettable: boolean
 
@@ -308,6 +312,8 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * "On receive, changes the value of the slider handle. Ramp Control Blocks (RCB) are defined as a numerical value and a time duration sent as a single signal."
     * ]
     * @name receivestatevalue
+    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+    * @attributeType "Join"
     */
    receiveStateValue: string;
 
@@ -319,6 +325,8 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * "when receive, change the value of the high Handle of the slider, if range slider is set to true."
     * ]
     * @name receivestatevaluehigh
+    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+    * @attributeType "Join"
     */
    receiveStateValueHigh: string;
 
@@ -330,6 +338,8 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * "Sends a signal value on slider change."
     * ]
     * @name sendeventonchange
+    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+    * @attributeType "Join"
     */
    sendEventOnChange: string;
 
@@ -341,6 +351,8 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * "If the range slider is set to true, sends a signal value high on the slider change."
     * ]
     * @name sendeventonchangehigh
+    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+    * @attributeType "Join"
     */
    sendEventOnChangeHigh: string;
 
