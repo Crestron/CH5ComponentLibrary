@@ -736,9 +736,11 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		switch (this.stretch) {
 			case 'width':
 				targetEl.style.width = parentEl.offsetWidth + 'px';
+				targetEl.style.height = "";
 				break;
 			case 'height':
 				targetEl.style.height = parentEl.offsetHeight + 'px';
+				targetEl.style.width = parentEl.offsetHeight + 'px';
 				break;
 			case 'both':
 				targetEl.style.width = parentEl.offsetWidth + 'px';

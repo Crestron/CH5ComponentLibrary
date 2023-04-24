@@ -6,6 +6,7 @@ import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } 
 import { Ch5Common } from '../ch5-common/ch5-common';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
+import { TCh5OverlayPanelStretch } from "../ch5-overlay-panel/interfaces"
 
 export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAttributes {
 
@@ -77,6 +78,25 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: null,
+			enumeratedValues: Ch5OverlayPanel.STRETCHES,
+			name: "stretch",
+			removeAttributeOnNull: true,
+			type: "enum",
+			valueOnAttributeEmpty: null,
+			isObservableProperty: true,
+			isNullable: true,
+		},
+		{
+			default: Ch5OverlayPanel.OVERFLOWS[0],
+			enumeratedValues: Ch5OverlayPanel.OVERFLOWS,
+			name: "overflow",
+			removeAttributeOnNull: true,
+			type: "enum",
+			valueOnAttributeEmpty: Ch5OverlayPanel.OVERFLOWS[0],
 			isObservableProperty: true,
 		},
 		{
@@ -319,6 +339,18 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 	}
 	public get height(): string {
 		return this._ch5Properties.get<string>("height");
+	}
+
+	public set stretch(value: TCh5OverlayPanelStretch | null) {
+		const prevValue = this.stretch;
+		this._ch5Properties.set<TCh5OverlayPanelStretch | null>("stretch", value, () => {
+			if (prevValue !== null) {
+				this.updateChangeInStretch(prevValue);
+			}
+		});
+	}
+	public get stretch(): (TCh5OverlayPanelStretch | null) {
+		return this._ch5Properties.get<TCh5OverlayPanelStretch | null>("stretch");
 	}
 
 	public set closable(value: boolean) {
@@ -736,6 +768,12 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		if (this._elHeader instanceof HTMLElement) {
 			this._elHeader.textContent = value;
 		}
+	}
+
+	private updateChangeInStretch(prevValue: string) {
+		const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
+		targetEl.classList.remove(this.primaryCssClass + '--stretch-' + prevValue);
+		targetEl.classList.add(this.primaryCssClass + '--stretch-' + this.stretch);
 	}
 
 	private handleOkButtonLabel() {
