@@ -162,7 +162,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			isObservableProperty: true
 		},
 		{
-			default: true,
+			default: false,
 			name: "useContractForEnable",
 			removeAttributeOnNull: true,
 			type: "boolean",
@@ -170,7 +170,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			isObservableProperty: true
 		},
 		{
-			default: true,
+			default: false,
 			name: "useContractForShow",
 			removeAttributeOnNull: true,
 			type: "boolean",
@@ -340,7 +340,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 	public set useContractForEnable(value: boolean) {
 		this._ch5Properties.set<boolean>("useContractForEnable", value, () => {
-			// this.contractDefaultHelper();
 			if (this.useContractForEnable === true && !_.isNil(this.contractName) && this.contractName !== "") {
 				this.receiveStateEnable = this.contractName + '.Enable';
 			} else {
@@ -360,7 +359,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 	public set useContractForShow(value: boolean) {
 		this._ch5Properties.set<boolean>("useContractForShow", value, () => {
-			// this.contractDefaultHelper();
 			if (this.useContractForShow === true && !_.isNil(this.contractName) && this.contractName !== "") {
 				this.receiveStateShow = this.contractName + '.Show';
 			} else {
