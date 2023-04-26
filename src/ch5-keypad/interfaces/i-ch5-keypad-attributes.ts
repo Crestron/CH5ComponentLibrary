@@ -111,7 +111,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "The details can be seen in the table above."
      * ]
      * @name usecontractforenable
-     * @default true
+     * @default false
      * @attributeType "Boolean"
      */
     useContractForEnable: boolean;
@@ -128,7 +128,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "<ch5-keypad> component. The details can be seen in the table above."
      * ]
      * @name usecontractforshow
-     * @default true
+     * @default false
      * @attributeType "Boolean"
      */
     useContractForShow: boolean;
