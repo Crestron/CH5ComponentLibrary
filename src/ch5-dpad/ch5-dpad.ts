@@ -81,7 +81,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			isNullable: true,
 		},
 		{
-			default: true,
+			default: false,
 			name: "useContractForEnable",
 			removeAttributeOnNull: true,
 			type: "boolean",
@@ -89,7 +89,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			isObservableProperty: true
 		},
 		{
-			default: true,
+			default: false,
 			name: "useContractForShow",
 			removeAttributeOnNull: true,
 			type: "boolean",
@@ -796,6 +796,14 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			}
 		}
 		if (contractName.length > 0) {
+			if (this.useContractForEnable === true) {
+				this.receiveStateEnable = contractName + '.Enable';
+			}
+
+			if (this.useContractForShow === true) {
+				this.receiveStateShow = contractName + '.Show';
+			}
+
 			if (!_.isNil(centerBtn)) {
 				const contractVal = contractName + "." + CH5DpadUtils.contractSuffix.center;
 				centerBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
