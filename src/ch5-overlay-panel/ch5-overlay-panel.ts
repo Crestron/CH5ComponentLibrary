@@ -66,7 +66,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			removeAttributeOnNull: true,
 			type: "boolean",
 			valueOnAttributeEmpty: true,
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: false,
@@ -74,7 +74,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			removeAttributeOnNull: true,
 			type: "boolean",
 			valueOnAttributeEmpty: true,
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -82,23 +82,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
-		},
-		{
-			default: false,
-			name: "mask",
-			removeAttributeOnNull: true,
-			type: "boolean",
-			valueOnAttributeEmpty: true,
-			isObservableProperty: true,
-		},
-		{
-			default: "",
-			name: "maskStyle",
-			removeAttributeOnNull: true,
-			type: "string",
-			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: null,
@@ -108,7 +92,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			type: "enum",
 			valueOnAttributeEmpty: null,
 			isObservableProperty: true,
-			isNullable: true,
+			isNullable: true
 		},
 		{
 			default: Ch5OverlayPanel.OVERFLOWS[0],
@@ -117,7 +101,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			removeAttributeOnNull: true,
 			type: "enum",
 			valueOnAttributeEmpty: Ch5OverlayPanel.OVERFLOWS[0],
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -126,7 +110,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: Ch5OverlayPanel.POSITION_OFFSETS[0],
@@ -136,7 +120,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			nameForSignal: "receiveStatePositionOffset",
 			type: "enum",
 			valueOnAttributeEmpty: Ch5OverlayPanel.POSITION_OFFSETS[0],
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -146,7 +130,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -156,7 +140,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -166,7 +150,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -176,7 +160,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -186,7 +170,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -196,7 +180,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -217,7 +201,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			type: "string",
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true
-		},
+		}
 	];
 
 	public primaryCssClass = 'ch5-overlay-panel';
@@ -301,12 +285,12 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		return this._ch5Properties.get<boolean>("closable");
 	}
 
-	public set mask(value: boolean) {
-		this._ch5Properties.set<boolean>("mask", value);
-	}
-	public get mask(): boolean {
-		return this._ch5Properties.get<boolean>("mask");
-	}
+	// public set mask(value: boolean) {
+	// 	this._ch5Properties.set<boolean>("mask", value);
+	// }
+	// public get mask(): boolean {
+	// 	return this._ch5Properties.get<boolean>("mask");
+	// }
 
 	public set closeIcon(value: string) {
 		const prevValue = this.closeIcon === "" ? this.primaryCssClass + '-default-close-icon' : this.closeIcon;
@@ -458,9 +442,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		this._ready = this._getReadyCheckPromise();
 	}
 
-	/**
-	 * Called when the ch5-button component is first connected to the DOM
-	 */
+
 	public connectedCallback() {
 		this.info('called connectedCallback()');
 
@@ -480,9 +462,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		);
 	}
 
-	/**
-	 * Called when the ch5-button component is disconnected from the DOM
-	 */
+
 	public disconnectedCallback() {
 		this.info('called disconnectedCallback()');
 		this.removeEventListeners();
@@ -722,10 +702,6 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		this.logger.stop();
 	}
 
-	public getCssClassDisabled() {
-		return this.primaryCssClass + '--disabled';
-	}
-
 	protected updateForChangeInStretch() {
 		const parentEl = this.parentElement as HTMLElement;
 		const targetEl = this.getTargetElementForCssClassesAndStyle();
@@ -740,7 +716,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 				break;
 			case 'height':
 				targetEl.style.height = parentEl.offsetHeight + 'px';
-				targetEl.style.width = parentEl.offsetHeight + 'px';
+				targetEl.style.width = "";
 				break;
 			case 'both':
 				targetEl.style.width = parentEl.offsetWidth + 'px';
@@ -934,7 +910,6 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 
 	protected _onShow(inEvent: Event): void {
 		this.info('_onShow()');
-
 	}
 
 	protected _onHide(inEvent: Event): void {

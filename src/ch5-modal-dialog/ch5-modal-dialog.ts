@@ -29,8 +29,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestatepositionto: { direction: "state", numericJoin: 1, contractName: true },
-		receivestatepositionoffset: { direction: "state", numericJoin: 1, contractName: true },
 		sendsignalonbeforeshow: { direction: "state", stringJoin: 1, contractName: true },
 		sendsignalonaftershow: { direction: "state", stringJoin: 1, contractName: true },
 		sendsignalonbeforehide: { direction: "state", stringJoin: 1, contractName: true },
@@ -46,7 +44,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "boolean",
 			valueOnAttributeEmpty: true,
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: false,
@@ -54,7 +52,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "boolean",
 			valueOnAttributeEmpty: true,
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -62,7 +60,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: false,
@@ -70,7 +68,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "boolean",
 			valueOnAttributeEmpty: true,
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -78,7 +76,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: null,
@@ -88,7 +86,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			type: "enum",
 			valueOnAttributeEmpty: null,
 			isObservableProperty: true,
-			isNullable: true,
+			isNullable: true
 		},
 		{
 			default: Ch5OverlayPanel.OVERFLOWS[0],
@@ -97,7 +95,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "enum",
 			valueOnAttributeEmpty: Ch5OverlayPanel.OVERFLOWS[0],
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -105,7 +103,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -113,7 +111,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -121,7 +119,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: false,
@@ -130,7 +128,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "boolean",
 			valueOnAttributeEmpty: true,
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "Ok",
@@ -138,7 +136,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -146,7 +144,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -154,7 +152,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: false,
@@ -163,7 +161,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "boolean",
 			valueOnAttributeEmpty: true,
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "Cancel",
@@ -171,7 +169,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -179,7 +177,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -187,7 +185,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -195,7 +193,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -203,7 +201,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -213,7 +211,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -223,7 +221,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -233,7 +231,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -243,7 +241,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -253,7 +251,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -263,7 +261,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -273,8 +271,8 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
-		},
+			isObservableProperty: true
+		}
 	];
 
 	public static readonly ELEMENT_NAME: string = 'ch5-modal-dialog';
@@ -943,7 +941,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 		this._elContainer.appendChild(docFrag);
 	}
-
 }
 
 
