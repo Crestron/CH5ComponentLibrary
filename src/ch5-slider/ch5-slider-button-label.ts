@@ -15,6 +15,12 @@ export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLa
 
 	private _parentCh5Slider: Ch5SliderButton;
 
+	private debounceCreateBtnLabel = this.debounce(() => {
+		if (this._parentCh5Slider.setValues) {
+			this._parentCh5Slider.setValues("label", this.getTargetElementForCssClassesAndStyle());
+		}
+	}, 50);
+
 	//#endregion
 
 
@@ -58,9 +64,7 @@ export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLa
 				super.attributeChangedCallback(attr, oldValue, newValue);
 			}
 		}
-		if (this._parentCh5Slider.setValues) {
-			this._parentCh5Slider.setValues("label", this.getTargetElementForCssClassesAndStyle());
-		}
+		this.debounceCreateBtnLabel();
 		this.logger.stop();
 	}
 
