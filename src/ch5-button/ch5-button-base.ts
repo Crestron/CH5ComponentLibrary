@@ -1275,6 +1275,22 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 						this.style.width = setValue + 'px';
 					}
 				}
+				if (!_.isNil(this.stretch) && this.orientation === "vertical" && this.parentElement) {
+					const { height, width } = this.parentElement.getBoundingClientRect();
+					if (this.stretch === 'height') {
+						this._elButton.style.width = height + "px";
+						this._elButton.style.removeProperty('height');
+					} else if (this.stretch === 'width') {
+						this._elButton.style.height = width + "px";
+						this._elButton.style.removeProperty('width');
+					} else if (this.stretch === 'both') {
+						this._elButton.style.width = height + "px";
+						this._elButton.style.height = width + "px";
+					}
+				} else if (_.isNil(this.stretch) || this.orientation === 'horizontal') {
+					this._elButton.style.removeProperty('width');
+					this._elButton.style.removeProperty('height');
+				}
 			}
 		});
 		this.isButtonInitiated = false;
@@ -2992,6 +3008,23 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		} else {
 			this.style.removeProperty('height');
 			this.style.removeProperty('width');
+		}
+
+		if (!_.isNil(this.stretch) && this.orientation === "vertical" && this.parentElement) {
+			const { height, width } = this.parentElement.getBoundingClientRect();
+			if (this.stretch === 'height') {
+				this._elButton.style.width = height + "px";
+				this._elButton.style.removeProperty('height');
+			} else if (this.stretch === 'width') {
+				this._elButton.style.height = width + "px";
+				this._elButton.style.removeProperty('width');
+			} else if (this.stretch === 'both') {
+				this._elButton.style.width = height + "px";
+				this._elButton.style.height = width + "px";
+			}
+		} else if (_.isNil(this.stretch) || this.orientation === 'horizontal') {
+			this._elButton.style.removeProperty('width');
+			this._elButton.style.removeProperty('height');
 		}
 
 		const setOfCssClassesToBeAppliedForLabelAlignment = new Set<string>();
