@@ -1045,6 +1045,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
     }
     this._wasInstatiated = true;
     this._ch5Properties = new Ch5Properties(this, Ch5Slider.COMPONENT_PROPERTIES);
+    this.eventBinding();
     this.logger.stop();
   }
 
@@ -1079,8 +1080,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
    */
   public connectedCallback() {
     this.logger.start('Ch5Slider.connectedCallback()');
-
-    this.eventBinding();
 
     // WAI-ARIA Attributes
     if (!this.hasAttribute('role')) {
@@ -1782,7 +1781,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
    */
   private _onFocus(inEvent: Event): void {
     this.logger.start('Ch5Slider._onFocus()');
-
+   if(inEvent.cancelable)
     inEvent.preventDefault();
     inEvent.stopPropagation();
 
@@ -1797,6 +1796,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
   private _onTouchMoveEnd(inEvent: any): void {
     this.isSliderStarted = false;
+		if(inEvent.cancelable)
     inEvent.preventDefault();
     inEvent.stopPropagation();
   }
@@ -1877,7 +1877,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
    */
   private _onBlur(inEvent: Event): void {
     this.logger.start('Ch5Slider._onBlur()');
-
+		if(inEvent.cancelable)
     inEvent.preventDefault();
     inEvent.stopPropagation();
 
