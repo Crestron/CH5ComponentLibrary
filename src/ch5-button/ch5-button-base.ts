@@ -1287,7 +1287,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 						this._elButton.style.width = height + "px";
 						this._elButton.style.height = width + "px";
 					}
-				} else if (this.stretch === null || this.orientation === 'horizontal') {
+				} else if (_.isNil(this.stretch) || this.orientation === 'horizontal') {
 					this._elButton.style.removeProperty('width');
 					this._elButton.style.removeProperty('height');
 				}
@@ -3022,7 +3022,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				this._elButton.style.width = height + "px";
 				this._elButton.style.height = width + "px";
 			}
-		} else if (this.stretch === null || this.orientation === 'horizontal') {
+		} else if (_.isNil(this.stretch) || this.orientation === 'horizontal') {
 			this._elButton.style.removeProperty('width');
 			this._elButton.style.removeProperty('height');
 		}
