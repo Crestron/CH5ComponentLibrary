@@ -609,6 +609,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		if (this.useContractForExtraButtonShow || this.showExtraButton) {
 			this.showExtraButtonHandler();
 		}
+		this.contractDefaultHandler();
 	}
 
 	/**
@@ -824,11 +825,13 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	private updateContractBasedEvent() {
+		let joinIndex = 0;
 		if (this.contractName.length > 0) {
 			for (const key in this.childButtonList) {
 				if (this.childButtonList.hasOwnProperty(key)) {
 					const btn = this.childButtonList[key];
-					btn.setJoinBasedContractEventHandler(this.contractName);
+					btn.setJoinBasedContractEventHandler(this.contractName, joinIndex);
+					joinIndex++;
 				}
 			}
 		}

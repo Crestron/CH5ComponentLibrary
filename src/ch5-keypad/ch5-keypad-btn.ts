@@ -543,9 +543,9 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		this.sendEventOnClick = (startIndex + joinCountList[joinCountIndex]).toString();
 	}
 
-	public setJoinBasedContractEventHandler(parentContract: string) {
-		const keyIndex = this.key.replace("button", "");
-		this.sendEventOnClick = parentContract + ".Press" + keyIndex;
+	public setJoinBasedContractEventHandler(parentContract: string, joinIndex: number) {
+		const joinCountList: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'Star', 0, 'Hash', 'ExtraButton'];
+		this.sendEventOnClick = parentContract + ".Press" + joinCountList[joinIndex];
 	}
 
 	//#endregion
