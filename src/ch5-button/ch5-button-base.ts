@@ -41,6 +41,7 @@ import { Ch5ButtonMode } from "./ch5-button-mode";
 import { Ch5ButtonModeState } from "./ch5-button-mode-state";
 import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
 import { setTimeout } from "timers";
+import { resizeObserver } from "../ch5-core/resize-observer";
 
 /**
  * Html Attributes
@@ -419,6 +420,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	//#endregion
 
 	//#region 1.2 private / protected variables
+
+	private isResizeInProgress: boolean = false;
+	private readonly RESIZE_DEBOUNCE: number = 500;
 
 	public readonly ELEMENT_NAME: string = 'ch5-button';
 	public primaryCssClass: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
@@ -1267,30 +1271,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.start('connectedCallback()', this.primaryCssClass);
 		subscribeInViewPortChange(this, () => {
 			if (this.elementIsInViewPort) {
-				if (!_.isNil(this.stretch) && this.shape === "circle" && this.parentElement) {
-					const { offsetHeight: parentHeight, offsetWidth: parentWidth } = this.parentElement;
-					const setValue = parentWidth <= parentHeight ? parentWidth : parentHeight;
-					if (setValue !== 0) {
-						this.style.height = setValue + 'px';
-						this.style.width = setValue + 'px';
-					}
-				}
-				if (!_.isNil(this.stretch) && this.orientation === "vertical" && this.parentElement) {
-					const { height, width } = this.parentElement.getBoundingClientRect();
-					if (this.stretch === 'height') {
-						this._elButton.style.width = height + "px";
-						this._elButton.style.removeProperty('height');
-					} else if (this.stretch === 'width') {
-						this._elButton.style.height = width + "px";
-						this._elButton.style.removeProperty('width');
-					} else if (this.stretch === 'both') {
-						this._elButton.style.width = height + "px";
-						this._elButton.style.height = width + "px";
-					}
-				} else if (_.isNil(this.stretch) || this.orientation === 'horizontal') {
-					this._elButton.style.removeProperty('width');
-					this._elButton.style.removeProperty('height');
-				}
+				this.verticalOrientationHandler();
 			}
 		});
 		this.isButtonInitiated = false;
@@ -1333,6 +1314,50 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			// publishEvent('object', `ch5-button:${this.id}`, { loaded: true, id: this.id });
 		});
 		this.logger.stop();
+	}
+
+	private onWindowResizeHandler() {
+		// since stretch has no default value, should fire stretchHandler only if required
+		if (!this.isResizeInProgress) {
+			this.isResizeInProgress = true;
+			setTimeout(() => {
+				this.verticalOrientationHandler();
+				this.isResizeInProgress = false; // reset debounce once completed
+			}, this.RESIZE_DEBOUNCE);
+		}
+	}
+
+	private verticalOrientationHandler() {
+		if (!_.isNil(this.stretch) && this.shape === "circle" && this.parentElement) {
+			const { offsetHeight: parentHeight, offsetWidth: parentWidth } = this.parentElement;
+			const setValue = parentWidth <= parentHeight ? parentWidth : parentHeight;
+			if (setValue !== 0) {
+				this.style.height = setValue + 'px';
+				this.style.width = setValue + 'px';
+			}
+		}
+		if (this.orientation === "vertical") {
+			if (!_.isNil(this.stretch) && this.parentElement) {
+				const { height, width } = this.parentElement.getBoundingClientRect();
+				if (this.stretch === 'height') {
+					this._elButton.style.width = height + "px";
+					this._elButton.style.removeProperty('height');
+				} else if (this.stretch === 'width') {
+					this._elButton.style.height = width + "px";
+					this._elButton.style.removeProperty('width');
+				} else if (this.stretch === 'both') {
+					this._elButton.style.height = width + "px";
+					this._elButton.style.width = height + "px";
+				}
+			} else if (_.isNil(this.stretch) && this.shape !== "circle") {
+				const { height, width } = this._elContainer.getBoundingClientRect();
+				this._elButton.style.width = height + "px";
+				this._elButton.style.height = width + "px";
+			}
+		} else {
+			this._elButton.style.removeProperty('width');
+			this._elButton.style.removeProperty('height');
+		}
 	}
 
 	public static get observedAttributes() {
@@ -1524,6 +1549,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
 		}
+		resizeObserver(this._elContainer, this.onWindowResizeHandler.bind(this));
 	}
 
 	protected removeEventListeners() {
@@ -2998,34 +3024,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			}
 		}
 
-		if (!_.isNil(this.stretch) && this.shape === "circle" && this.parentElement) {
-			const { offsetHeight: parentHeight, offsetWidth: parentWidth } = this.parentElement;
-			const setValue = parentWidth <= parentHeight ? parentWidth : parentHeight;
-			if (setValue !== 0) {
-				this.style.height = setValue + 'px';
-				this.style.width = setValue + 'px';
-			}
-		} else {
-			this.style.removeProperty('height');
-			this.style.removeProperty('width');
-		}
-
-		if (!_.isNil(this.stretch) && this.orientation === "vertical" && this.parentElement) {
-			const { height, width } = this.parentElement.getBoundingClientRect();
-			if (this.stretch === 'height') {
-				this._elButton.style.width = height + "px";
-				this._elButton.style.removeProperty('height');
-			} else if (this.stretch === 'width') {
-				this._elButton.style.height = width + "px";
-				this._elButton.style.removeProperty('width');
-			} else if (this.stretch === 'both') {
-				this._elButton.style.width = height + "px";
-				this._elButton.style.height = width + "px";
-			}
-		} else if (_.isNil(this.stretch) || this.orientation === 'horizontal') {
-			this._elButton.style.removeProperty('width');
-			this._elButton.style.removeProperty('height');
-		}
+		this.verticalOrientationHandler();
 
 		const setOfCssClassesToBeAppliedForLabelAlignment = new Set<string>();
 
