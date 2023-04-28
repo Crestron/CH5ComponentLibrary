@@ -1341,10 +1341,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				const { height, width } = this.parentElement.getBoundingClientRect();
 				if (this.stretch === 'height') {
 					this._elButton.style.width = height + "px";
-					this._elButton.style.removeProperty('height');
+					this._elButton.style.height = this._elContainer.getBoundingClientRect().width + "px";
 				} else if (this.stretch === 'width') {
 					this._elButton.style.height = width + "px";
-					this._elButton.style.removeProperty('width');
+					this._elButton.style.width = this._elContainer.getBoundingClientRect().height + "px";
 				} else if (this.stretch === 'both') {
 					this._elButton.style.height = width + "px";
 					this._elButton.style.width = height + "px";
@@ -1353,7 +1353,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				const { height, width } = this._elContainer.getBoundingClientRect();
 				this._elButton.style.width = height + "px";
 				this._elButton.style.height = width + "px";
-			}
+			}			
 		} else {
 			this._elButton.style.removeProperty('width');
 			this._elButton.style.removeProperty('height');
