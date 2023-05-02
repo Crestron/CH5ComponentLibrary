@@ -285,13 +285,6 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		return this._ch5Properties.get<boolean>("closable");
 	}
 
-	// public set mask(value: boolean) {
-	// 	this._ch5Properties.set<boolean>("mask", value);
-	// }
-	// public get mask(): boolean {
-	// 	return this._ch5Properties.get<boolean>("mask");
-	// }
-
 	public set closeIcon(value: string) {
 		const prevValue = this.closeIcon === "" ? this.primaryCssClass + '-default-close-icon' : this.closeIcon;
 		this._ch5Properties.set<string>("closeIcon", value, () => {

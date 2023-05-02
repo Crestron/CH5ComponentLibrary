@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+  <test-fixture id="ch5-modal-dialog-title">
+    <template>
+      <ch5-modal-dialog>
+        <h1>Modal</h1>
+      </ch5-modal-dialog>
+    </template>
+  </test-fixture>
+
+
+  <script>
+    suite('ch5-modal-dialog-title-attribute', () => {
+
+      setup(async () => {
+        ch5ModalDialog = fixture('ch5-modal-dialog-title');
+      });
+
+      test('Check default value of "title" to be " "', () => {
+        expect(ch5ModalDialog.title).to.be.equal("");
+        expect(ch5ModalDialog.getAttribute("title")).to.be.equal(null);
+      });
+
+      test('Check if title is being set and appearing on the modal dialog', (done) => {
+        ch5ModalDialog.setAttribute("title", "Sample title");
+        expect(ch5ModalDialog.getAttribute("title")).to.be.equal("Sample title");
+        expect(ch5ModalDialog.title).to.be.equal("Sample title");
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ModalDialog.children[0].children[0].classList.contains("ch5-modal-dialog-header")).to.be.equal(true);
+            expect(ch5ModalDialog.children[0].children[0].innerText).to.be.equal("Sample title");
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
