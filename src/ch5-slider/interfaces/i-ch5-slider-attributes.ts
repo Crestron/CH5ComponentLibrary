@@ -395,18 +395,6 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    /**
     * @documentation
     * [
-    * "`receiveStateUpper` attribute",
-    * "***",
-    * "Boolean join to receive feedback from sendEventOnUpper."
-    * ]
-    * @name receivestateupper
-    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
-    * @attributeType "Join"
-    */
-   receiveStateUpper: string;
-   /**
-    * @documentation
-    * [
     * "`sendEventOnLower` attribute",
     * "***",
     * "Digital join to send a value to the control system if the user presses the bottom 1/4 half(vertical) or left 1/4 half(horizontal) of the slider."
@@ -416,17 +404,5 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * @attributeType "Join"
     */
    sendEventOnLower: string;
-   /**
-    * @documentation
-    * [
-    * "`receiveStateLower` attribute",
-    * "***",
-    * "Boolean join to receive feedback from sendEventOnLower"
-    * ]
-    * @name receivestatelower
-    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
-    * @attributeType "Join"
-    */
-   receiveStateLower: string;
 
 }

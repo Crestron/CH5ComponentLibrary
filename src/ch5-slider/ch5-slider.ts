@@ -359,27 +359,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		{
 			default: "",
 			isSignal: true,
-			name: "receiveStateUpper",
-			signalType: "boolean",
-			removeAttributeOnNull: true,
-			type: "string",
-			valueOnAttributeEmpty: "",
-			isObservableProperty: true
-		},
-		{
-			default: "",
-			isSignal: true,
 			name: "sendEventOnLower",
-			signalType: "boolean",
-			removeAttributeOnNull: true,
-			type: "string",
-			valueOnAttributeEmpty: "",
-			isObservableProperty: true
-		},
-		{
-			default: "",
-			isSignal: true,
-			name: "receiveStateLower",
 			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
@@ -1005,15 +985,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		return this._ch5Properties.get<string>('sendEventOnUpper');
 	}
 
-	public set receiveStateUpper(value: string) {
-		this._ch5Properties.set("receiveStateUpper", value, null, (newValue: boolean) => {
-			// Enter your Code here
-		});
-	}
-	public get receiveStateUpper(): string {
-		return this._ch5Properties.get<string>('receiveStateUpper');
-	}
-
 	public set sendEventOnLower(value: string) {
 		this._ch5Properties.set("sendEventOnLower", value, null, (newValue: boolean) => {
 			if (this._wasRendered) { this._render(); }
@@ -1022,16 +993,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	public get sendEventOnLower(): string {
 		return this._ch5Properties.get<string>('sendEventOnLower');
 	}
-
-	public set receiveStateLower(value: string) {
-		this._ch5Properties.set("receiveStateLower", value, null, (newValue: boolean) => {
-			// Enter your Code here
-		});
-	}
-	public get receiveStateLower(): string {
-		return this._ch5Properties.get<string>('receiveStateLower');
-	}
-
 
 	//#endregion
 
