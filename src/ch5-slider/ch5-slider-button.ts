@@ -123,6 +123,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 				this.removeAttribute(buttonIgnoredAttr[i].toLowerCase());
 			}
 		}
+		this.setAttribute("iconPosition", "top");
 	}
 
 	/**
@@ -132,7 +133,6 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 		this.logger.start('connectedCallback()', Ch5SliderButton.ELEMENT_NAME);
 		this.setAttribute('data-ch5-id', this.getCrId());
 		this.buttonIgonredAttributes();
-		this.iconPosition = "top";
 		super.connectedCallback();
 		this.updateCssClass();
 		this.handleLabel();

@@ -176,7 +176,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			name: "range",
 			removeAttributeOnNull: true,
 			type: "boolean",
-			valueOnAttributeEmpty: false,
+			valueOnAttributeEmpty: true,
 			isObservableProperty: true
 		},
 		{
@@ -271,7 +271,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			name: "tapSettable",
 			removeAttributeOnNull: true,
 			type: "boolean",
-			valueOnAttributeEmpty: false,
+			valueOnAttributeEmpty: true,
 			isObservableProperty: true
 		},
 		{
@@ -1097,6 +1097,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		});
 		this.titleHelper();
 		this.onOffButtonHelper();
+		this.handleOnOffOnly();
 		this.logger.stop();
 	}
 	protected eventBinding() {
@@ -2704,10 +2705,15 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		} else {
 			valueHigh = this.valueHigh;
 		}
-		if (value < this.min || value >= this.max)
+		if (this.value < this.min)
 			value = this.min;
-		if (valueHigh > this.max || valueHigh < this.value)
+		if (this.value > this.max)
+			value = this.max
+		if (this.valueHigh > this.max)
 			valueHigh = this.max;
+		if (this.valueHigh < this.value)
+			valueHigh = this.value + 1;
+
 
 		this._cleanValue = value;
 		if (this.range === true) {
@@ -2757,7 +2763,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		}
 		setTimeout(() => {
 			this._elOnContainer.classList.remove("ch5-slider-button--pressed");
-		}, 10);
+		}, 30);
 
 	}
 
@@ -2769,7 +2775,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		}
 		setTimeout(() => {
 			this._elOffContainer.classList.remove("ch5-slider-button--pressed");
-		}, 10);
+		}, 30);
 	}
 
 	private handleValue() {
@@ -2794,7 +2800,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	}
 
 	private handleValueHigh() {
-		// not allowing valueHigh to be greater than this._max
+		// not allowing valueHigh to be greater than this.max
 		if (this.range === false) {
 			return;
 		}
