@@ -47,23 +47,28 @@
       });
 
       test(`Check icon attribute button center`, () => {
-        expect(ch5DpadIcons.children[0].children[0]._iconClass).to.be.equal('fas fa-adjust');
+        expect(ch5DpadIcons.children[0].children[0].iconClass).to.be.equal('fas fa-adjust');
+        expect(ch5DpadIcons.children[0].children[0].getAttribute("iconclass")).to.be.equal('fas fa-adjust');
       });
 
       test(`Check icon attribute button up`, () => {
-        expect(ch5DpadIcons.children[0].children[1]._iconClass).to.be.equal('fas fa-angle-double-up');
+        expect(ch5DpadIcons.children[0].children[1].iconClass).to.be.equal('fas fa-angle-double-up');
+        expect(ch5DpadIcons.children[0].children[1].getAttribute("iconclass")).to.be.equal('fas fa-angle-double-up');
       });
 
       test(`Check icon attribute button left`, () => {
-        expect(ch5DpadIcons.children[0].children[2]._iconClass).to.be.equal('fas fa-angle-double-left');
+        expect(ch5DpadIcons.children[0].children[2].iconClass).to.be.equal('fas fa-angle-double-left');
+        expect(ch5DpadIcons.children[0].children[2].getAttribute("iconclass")).to.be.equal('fas fa-angle-double-left');
       });
 
       test(`Check icon attribute button right`, () => {
-        expect(ch5DpadIcons.children[0].children[3]._iconClass).to.be.equal('fas fa-angle-double-right');
+        expect(ch5DpadIcons.children[0].children[3].iconClass).to.be.equal('fas fa-angle-double-right');
+        expect(ch5DpadIcons.children[0].children[3].getAttribute("iconclass")).to.be.equal('fas fa-angle-double-right');
       });
 
       test(`Check icon attribute button bottom`, () => {
-        expect(ch5DpadIcons.children[0].children[4]._iconClass).to.be.equal('fas fa-angle-double-down');
+        expect(ch5DpadIcons.children[0].children[4].iconClass).to.be.equal('fas fa-angle-double-down');
+        expect(ch5DpadIcons.children[0].children[4].getAttribute("iconclass")).to.be.equal('fas fa-angle-double-down');
       });
     });
 
@@ -76,7 +81,6 @@
       });
 
       test(`Check default icon attribute button center`, () => {
-        console.log(ch5DpadNoIcons.children[0].children[0].CSS_CLASS_LIST.defaultIconClass)
         expect(ch5DpadNoIcons.children[0].children[0].CSS_CLASS_LIST.defaultIconClass).to.be.equal('fa-circle');
       });
 

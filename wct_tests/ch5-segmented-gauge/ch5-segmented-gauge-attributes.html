@@ -19,6 +19,7 @@
   <script>
     suite('ch5-segmented-gauge-default-attributes-value', () => {
       let ch5SegmentedGauge;
+      const signalTypes = CrComLib.Ch5SegmentedGauge.SIGNAL_ATTRIBUTE_TYPES;
 
       setup(async () => {
         ch5SegmentedGauge = fixture('ch5-segmented-gauge-default-attributes');
@@ -76,6 +77,16 @@
         expect(ch5SegmentedGauge.getAttribute("maxValue")).to.be.equal(null);
         ch5SegmentedGauge.setAttribute('maxValue', '65535');
         expect(ch5SegmentedGauge.getAttribute("maxValue")).to.be.equal('65535');
+      });
+
+      test('Check signal types', () => {
+        for (signal in signalTypes) {
+          if (signal.includes("sendevent")) {
+            expect(signalTypes[signal].direction).to.be.equal("event");
+          } else if (signal.includes("receivestate")) {
+            expect(signalTypes[signal].direction).to.be.equal("state");
+          }
+        }
       });
     });
   </script>

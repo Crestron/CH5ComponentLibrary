@@ -56,6 +56,18 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
   /**
    * @documentation
    * [
+   * "`buttonLabelInnerHtml` attribute",
+   * "***",
+   * "This attribute provides the ability of a template that applies for all the buttons in the tab button."
+   * ]
+   * @name buttonlabelinnerhtml
+   * @attributeType "EncodedHTML"
+   * @hidden true
+   */
+  buttonLabelInnerHtml: string;
+  /**
+   * @documentation
+   * [
    * "`buttonHAlignLabel` attribute",
    * "***",
    * "Default value is center. Possible values are 'center', 'left', 'right'. When the buttonHAlignLabel property is set, the label and the icon of the button are horizontally aligned.The center property sets the horizontal alignment of the label to the center of the button. The left property sets the horizontal alignment of the label to the left of the button. The right property sets the horizontal alignment of the label to the right of the button."
@@ -157,8 +169,9 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * "When received, applies a true value applied by the selected class (ch5-button--selected) on all the buttons in the tab button."
    * ]
    * @name buttonreceivestateselected
-   * @default 
-   * @attributeType "String"
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
+   * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateSelected: string;
   /**
@@ -169,8 +182,9 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * "When received, applies the value on the label on all the buttons in the tab button."
    * ]
    * @name buttonreceivestatelabel
-   * @default 
-   * @attributeType "String"
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
+   * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateLabel: string;
   /**
@@ -181,8 +195,9 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * "Allows the signal script evaluation to be applied to the button.innerHTML class. Allows for multiline, multiStyled labels."
    * ]
    * @name buttonreceivestatescriptlabelhtml
-   * @default 
-   * @attributeType "String"
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
+   * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateScriptLabelHtml: string;
   /**
@@ -193,8 +208,9 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * "After receiving stateIconClass value from control system, this value is applied to the iconClass attribute of all the tab button."
    * ]
    * @name buttonreceivestateiconclass
-   * @default 
-   * @attributeType "String"
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
+   * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateIconClass: string;
   /**
@@ -205,8 +221,9 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute of all the buttons in the tab button."
    * ]
    * @name buttonreceivestateiconurl
-   * @default 
-   * @attributeType "String"
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
+   * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateIconUrl: string;
   /**
@@ -217,8 +234,9 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * "Sends an event on click or tap. Use this when the control system takes an action on the rising edge from false to true of a boolean digital event."
    * ]
    * @name buttonsendeventonclick
-   * @default 
-   * @attributeType "String"
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}   
+   * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonSendEventOnClick: string;
   /**
@@ -229,8 +247,9 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * "When the signal is low, the component will not be displayed, and the area will not be pressable. Note: If receiveStateShow attribute is given for ch5-tab-button then it will over ride buttonReceiveStateShow attribute"
    * ]
    * @name buttonreceivestateshow
-   * @default 
-   * @attributeType "String"
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
+   * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateShow: string;
   /**
@@ -241,8 +260,9 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * "When the signal is low, the look of the component will change to represent a disabled state and the component will not be pressable. Note: If receiveStateEnable attribute is given for ch5-tab-button then it will over ride buttonReceiveStateEnable attribute"
    * ]
    * @name buttonreceivestateenable
-   * @default 
-   * @attributeType "String"
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
+   * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateEnable: string;
   /**

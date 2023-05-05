@@ -19,6 +19,7 @@
   <script>
     suite('ch5-color-chip-previewcolor-attributes-value', () => {
       let ch5ColorChip;
+      const signalTypes = CrComLib.Ch5ColorChip.SIGNAL_ATTRIBUTE_TYPES;
 
       setup(async () => {
         ch5ColorChip = fixture('ch5-color-chip-previewcolor-attributes');
@@ -38,6 +39,16 @@
           console.log(ch5ColorChip);
           expect(ch5ColorChip.getAttribute('previewcolor')).to.be.equal(expectedResult[i]);
         });
+      });
+
+      test('Check signal types', () => {
+        for (signal in signalTypes) {
+          if (signal.includes("sendevent")) {
+            expect(signalTypes[signal].direction).to.be.equal("event");
+          } else if (signal.includes("receivestate")) {
+            expect(signalTypes[signal].direction).to.be.equal("state");
+          }
+        }
       });
     });
 

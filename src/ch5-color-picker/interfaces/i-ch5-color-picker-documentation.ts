@@ -16,7 +16,7 @@ import { ICh5ColorPickerAttributes } from "./i-ch5-color-picker-attributes";
  * [
  *   "`ch5-color-picker` element",
  *   "***",
- *   "Component description"
+ *   "Component to render the color picker"
  * ]
  * @snippets
  * [

@@ -16,7 +16,10 @@ import {
   TCh5ButtonActionType,
   TCh5ButtonHorizontalAlignLabel,
   TCh5ButtonVerticalAlignLabel,
-  TCh5ButtonCheckboxPosition
+  TCh5ButtonCheckboxPosition,
+  TCh5ButtonBackgroundImageFillType,
+  TCh5ButtonIconUrlFillType,
+  TCh5ButtonSgIconTheme
 } from "./t-ch5-button";
 
 /**
@@ -69,7 +72,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * [
    * "`iconClass` attribute",
    * "***",
-   * "The icon class."
+   * "The iconclass attribute with Font Awesome icons and Material Icons. We can declare more than one css class in the iconClass attribute."
    * ]
    * @name iconclass
    * @attributeType "IconClass"
@@ -117,7 +120,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @limits [{"min": 0, "max": 99}]
    * @attributeType "Integer"
    */
-   mode: number;
+  mode: number;
 
   /**
    * @documentation
@@ -441,4 +444,95 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @attributeType "Boolean"
    */
   pressed: boolean;
+
+  /**
+   * @documentation
+   * [
+   * "`backgroundImageUrl` attribute",
+   * "***",
+   * "Sets the image to be displayed as the background for the button. The attribute type is String. default value is empty."
+   * ]
+   * @name backgroundimageurl
+   * @default 
+   * @attributeType "String"
+   */
+  backgroundImageUrl: string;
+
+  /**
+   * @documentation
+   * [
+   * "`backgroundImageFillType` attribute",
+   * "***",
+   * "Sets the background image for button. Enum - Default value is 'stretch-aspect'. Applicable values are 'stretch', 'stretch-aspect', 'center', 'tile'. Uses the css property background-size for the implementation."
+   * ]
+   * @name backgroundimagefilltype
+   * @default stretch-aspect
+   * @attributeType "EnumeratedValue"
+   */
+  backgroundImageFillType: TCh5ButtonBackgroundImageFillType;
+
+  /**
+   * @documentation
+   * [
+   * "`iconUrlFillType` attribute",
+   * "***",
+   * "Sets the icon url fill type. Default value is 'null'. Applicable values are 'null', 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'. Uses the css property background-size for the implementation."
+   * ]
+   * @name iconurlfilltype
+   * @default null
+   * @attributeType "EnumeratedValue"
+   */
+  iconUrlFillType: TCh5ButtonIconUrlFillType | null;
+
+  /**
+   * @documentation
+   * [
+   * "`receiveStateBackgroundImageUrl` attribute",
+   * "***",
+   * "Sets the image to be displayed as the background for the button. The attribute type with String response."
+   * ]
+   * @name receivestatebackgroundimageurl
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @attributeType "Join"
+   */
+  receiveStateBackgroundImageUrl: string;
+
+  /**
+   * @documentation
+   * [
+   * "`receiveStateSGIconNumeric` attribute",
+   * "***",
+   * "This would contain a mapping on analog joins to each of the sg icons. receiveStateSGIconString takes preference over receiveStateSGIconNumeric incase both are provided. receiveStateSGIconString, and receiveStateSGIconNumeric take precedence over receiveStateIconClass and receiveStateIconUrl"
+   * ]
+   * @name receivestatesgiconnumeric
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+   * @attributeType "Join"
+   */
+  receiveStateSGIconNumeric: string;
+
+  /**
+   * @documentation
+   * [
+   * "`receiveStateSGIconString` attribute",
+   * "***",
+   * "This would contain a mapping of serial joins to each of the sg icons. receiveStateSGIconString takes preference over receiveStateSGIconNumeric incase both are provided. receiveStateSGIconString, and receiveStateSGIconNumeric take precedence over receiveStateIconClass and receiveStateIconUrl"
+   * ]
+   * @name receivestatesgiconstring
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @attributeType "Join"
+   */
+  receiveStateSGIconString: string;
+
+  /**
+   * @documentation
+   * [
+   * "`sgIconTheme:` attribute",
+   * "***",
+   * "This will contain an enumeration of 5 values - icons-sg, icons-lg, mediatransports-accents, media-transports-light, media-transports-dark. Default. value is icon-lg."
+   * ]
+   * @name sgicontheme
+   * @attributeType "EnumeratedValue"
+   * @default icon-lg
+   */
+  sgIconTheme: TCh5ButtonSgIconTheme;
 }

@@ -93,6 +93,28 @@ import {ICh5TabButtonCommonDocumentation} from "../../ch5-common/interfaces/i-ch
  *       "\tuseContractForCustomStyle=\"${26:false}\">",
  *       "</ch5-tab-button>$0"
  *       ]
+ *    },
+ *    {
+ *      "prefix": "ch5-tab-button:contractbased",
+ *      "description": "Crestron Tab Button(contractbased)",
+ *      "body": [
+ *        "<ch5-tab-button id=\"ch5-tab-button_${1:id}\"",
+ *        "\tcontractName=\"${2:}\">",
+ *        "</ch5-tab-button>$0"
+ *        ]
+ *    },
+ *    {
+ *      "prefix": "ch5-tab-button:contractbased-attributes",
+ *      "description": "Crestron Tab Button(contractbased-attributes)",
+ *      "body": [
+ *        "<ch5-tab-button id=\"ch5-tab-button_${1:id}\"",
+ *        "\tcontractName=\"${2:}\"",
+ *        "\tuseContractForEnable=\"${3:false}\"",
+ *        "\tuseContractForShow=\"${4:false}\"",
+ *        "\tuseContractForCustomClass=\"${5:false}\"",
+ *        "\tuseContractForCustomStyle=\"${6:false}\">",
+ *        "</ch5-tab-button>$0"
+ *        ]
  *    }
  *  ]
  */

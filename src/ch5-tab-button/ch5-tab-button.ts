@@ -68,7 +68,6 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
     }
   };
 
-  public static readonly COMPONENT_COMMON_PROPERTIES = ['disabled', 'show'];
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
   };
@@ -739,15 +738,21 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
     const btn = new Ch5Button(buttonListContractObj);
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
-    if (this.hasAttribute('buttonReceiveStateShow') && this.getAttribute("buttonReceiveStateShow")?.trim()) {
+    if (this.getAttribute('buttonReceiveStateShow')?.trim().includes(`{{${this.indexId}}}`) === false) {
+      const attrValue = this.getAttribute('buttonReceiveStateShow')?.trim();
+      if (attrValue) {
+        btnContainer.setAttribute('data-ch5-noshow-type', 'display');
+        btnContainer.setAttribute('data-ch5-show', attrValue.trim());
+      }
+    } else if (this.hasAttribute('buttonReceiveStateShow') && this.getAttribute("buttonReceiveStateShow")?.trim()) {
       const attrValue = this.replaceAll(this.getAttribute("buttonReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, '');
       const isNumber = /^[0-9]+$/.test(attrValue);
+      btnContainer.setAttribute('data-ch5-noshow-type', 'display');
       if (isNumber) {
         btnContainer.setAttribute('data-ch5-show', Number(attrValue) + index + '');
       } else {
         btnContainer.setAttribute('data-ch5-show', this.replaceAll(this.getAttribute("buttonReceiveStateShow")?.trim() + '', `{{${this.indexId}}}`, index + ''));
       }
-      btnContainer.setAttribute('data-ch5-noshow-type', 'display');
     }
     btnContainer.classList.add(this.nodeName.toLowerCase() + "--button-container");
     btnContainer.appendChild(btn);
@@ -924,11 +929,6 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
             }
           }
         }
-      }
-    });
-    Ch5TabButton.COMPONENT_COMMON_PROPERTIES.forEach((attr: string) => {
-      if (this.hasAttribute(attr)) {
-        btn.setAttribute(attr, this.getAttribute(attr) + '');
       }
     });
 

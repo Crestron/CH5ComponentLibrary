@@ -202,7 +202,7 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 	 * function to setup a subscription for a change 
 	 * This functionality is primarily to support CCIDE update the template definition after a template 
 	 * instance has been put onto the CCIDE canvas. 
-	 * The implemetnation is 'good enough' for design time to show updated widget, but in a runtime environment,
+	 * The implementation is 'good enough' for design time to show updated widget, but in a runtime environment,
 	 * it will leak references over time. 
 	 */
 	private listenForCh5TemplateRefreshRequests() {

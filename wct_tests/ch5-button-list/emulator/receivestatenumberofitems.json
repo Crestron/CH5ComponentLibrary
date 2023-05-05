@@ -47,6 +47,19 @@
           "value": 0
         }
       ]
+    },
+    {
+      "type": "b",
+      "event": "button-enable",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "button_receivestate_enable",
+          "type": "b",
+          "logic": "set",
+          "value": false
+        }
+      ]
     }
   ]
 }

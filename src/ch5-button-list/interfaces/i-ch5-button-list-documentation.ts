@@ -148,9 +148,40 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *       "\tuseContractForCustomStyle=\"${41:false}\"",
  *       "\tuseContractForCustomClass=\"${42:false}\"",
  *       "\tuseContractForNumItems=\"${43:false}\"",
+ *       "\tbuttonReceiveStateSGIconNumeric=\"${44:}\"",
+ *       "\tbuttonReceiveStateSGIconString=\"${45:}\"",
+ *       "\tbuttonSgIconTheme=\"${46:icons-lg}\"",
  *       "\tclickHoldTime=\"${44:1500}\">",
  *       "</ch5-button-list>$0"
  *       ]
+ *    },
+ *    {
+ *      "prefix": "ch5-button-list:contractbased",
+ *      "description": "Crestron Button List(contractbased)",
+ *      "body": [
+ *        "<ch5-button-list id=\"ch5-button-list_${1:id}\"",
+ *        "\tcontractName=\"${2:}\">",
+ *        "</ch5-button-list>$0"
+ *        ]
+ *    },
+ *    {
+ *      "prefix": "ch5-button-list:contractbased-attributes",
+ *      "description": "Crestron Button List(contractbased-attributes)",
+ *      "body": [
+ *        "<ch5-button-list id=\"ch5-button-list_${1:id}\"",
+ *        "\tcontractName=\"${2:}\"",
+ *        "\tuseContractForEnable=\"${3:false}\"",
+ *        "\tuseContractForShow=\"${4:false}\"",
+ *        "\tuseContractForItemEnable=\"${5:false}\"",
+ *        "\tuseContractForItemShow=\"${6:false}\"",
+ *        "\tcontractItemLabelType=\"${7:none}\"",
+ *        "\tcontractItemIconType=\"${8:none}\"",
+ *        "\tuseContractForCustomStyle=\"${9:false}\"",
+ *        "\tuseContractForCustomClass=\"${10:false}\"",
+ *        "\tuseContractForNumItems=\"${11:false}\"",
+ *        "\tclickHoldTime=\"${12:1500}\">",
+ *        "</ch5-button-list>$0"
+ *        ]
  *    }
  *  ]
  */

@@ -1439,7 +1439,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	private _sendEventOnBlur: string = '' as string;
 
 	/**
-	 * When focused, true, when unfocuses, send
+	 * When focussed, true, when unfocuses, send
 	 *
 	 * @private
 	 * @memberof Ch5TextInput
