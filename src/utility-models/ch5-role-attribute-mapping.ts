@@ -23,6 +23,7 @@ export class Ch5RoleAttributeMapping {
     public static readonly ch5DpadChild = 'dpad-child';
     public static readonly ch5Keypad = 'keypad';
     public static readonly ch5KeypadChild = 'keypad-child';
+    public static readonly ch5Label = 'label';
     public static readonly ch5List = 'list';
     public static readonly ch5Form = 'form';
     public static readonly ch5Image = 'img';
@@ -34,6 +35,7 @@ export class Ch5RoleAttributeMapping {
     public static readonly ch5Select = 'listbox';
     public static readonly ch5SelectOption = 'option';
     public static readonly ch5Slider = 'slider';
+    public static readonly ch5SliderButton = 'slider-button';
     public static readonly ch5Spinner = 'listbox';
     public static readonly ch5SubpageReferenceList = 'subpage-reference-list';
     public static readonly ch5TabButton = 'tab-button';

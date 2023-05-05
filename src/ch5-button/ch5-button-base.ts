@@ -436,7 +436,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private _elIcon: HTMLElement = {} as HTMLElement;
 	private _elCheckboxIcon: HTMLElement = {} as HTMLElement;
 	private _elIosDots: HTMLElement = {} as HTMLElement;
-	private _ch5Properties: Ch5Properties;
+	protected _ch5Properties: Ch5Properties;
 
 	private isLabelLoaded: boolean = false;
 	private _isPressedSubscription: Subscription | null = null;
@@ -1289,7 +1289,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this.setAttribute('role', Ch5RoleAttributeMapping.ch5Button);
 		}
 
-		if (this._elContainer.parentElement !== this) {
+		if (this._elContainer.parentElement !== this && this.buttonListContract?.parentComponent !== "ch5-slider") {
 			this.appendChild(this._elContainer);
 		}
 
