@@ -16,23 +16,11 @@ import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } 
 
 export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 
+	//#region Variables
 
-	/**
-	 * ATTR GETTERS AND SETTERS
-	 */
-
-	/**
-	 * Getter label
-	 * @return {string }
-	 */
 	public get label(): string {
 		return this._label;
 	}
-
-	/**
-	 * Setter label
-	 * @param {string } value
-	 */
 	public set label(value: string) {
 		this.logger.log("set label: ", value);
 		if (this._label !== value) {
@@ -49,22 +37,11 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 		}
 	}
 
-	/**
-	 * Getter labelOn
-	 * @return {string }
-	 */
 	public get labelOn(): string {
 		return this._labelOn;
 	}
-
-	/**
-	 * Setter labelOn
-	 * @param {string } value
-	 */
 	public set labelOn(value: string) {
-
 		let _value = value;
-
 		if (value === undefined || value === null) {
 			_value = '';
 		} else {
@@ -77,21 +54,11 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 		if (_value !== value) {
 			this.setAttribute('labelon', _value);
 		}
-
 	}
 
-	/**
-	 * Getter labelOff
-	 * @return {string }
-	 */
 	public get labelOff(): string {
 		return this._labelOff;
 	}
-
-	/**
-	 * Setter labelOff
-	 * @param {string } value
-	 */
 	public set labelOff(value: string) {
 
 		let _value = value;
@@ -110,18 +77,9 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 		}
 	}
 
-	/**
-	 * Getter iconOn
-	 * @return {string }
-	 */
 	public get iconOn(): string {
 		return this._iconOn;
 	}
-
-	/**
-	 * Setter iconOn
-	 * @param {string } value
-	 */
 	public set iconOn(value: string) {
 		if (this._iconOn !== value) {
 			if ('' !== this.iconOn) {
@@ -147,18 +105,9 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 		}
 	}
 
-	/**
-	 * Getter iconOff
-	 * @return {string }
-	 */
 	public get iconOff(): string {
 		return this._iconOff;
 	}
-
-	/**
-	 * Setter iconOff
-	 * @param {string } value
-	 */
 	public set iconOff(value: string) {
 		if (this._iconOff !== value) {
 			if ('' !== this.iconOff) {
@@ -184,18 +133,9 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 		}
 	}
 
-	/**
-	 * Getter handleShape
-	 * @return {TCh5ToggleShape }
-	 */
 	public get handleShape(): TCh5ToggleShape {
 		return this._handleShape;
 	}
-
-	/**
-	 * Setter handleShape
-	 * @param {TCh5ToggleShape } value
-	 */
 	public set handleShape(value: TCh5ToggleShape) {
 		if (this._handleShape !== value && value !== null) {
 			if (Ch5Toggle.SHAPES.indexOf(value) >= 0) {
@@ -208,18 +148,9 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 		}
 	}
 
-	/**
-	 * Getter orientation
-	 * @return {TCh5ToggleOrientation }
-	 */
 	public get orientation(): TCh5ToggleOrientation {
 		return this._orientation;
 	}
-
-	/**
-	 * Setter orientation
-	 * @param {TCh5ToggleOrientation } value
-	 */
 	public set orientation(value: TCh5ToggleOrientation) {
 		if (this._orientation !== value) {
 			if (Ch5Toggle.ORIENTATIONS.indexOf(value) >= 0) {
@@ -232,18 +163,9 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 		}
 	}
 
-
-	/**
-	 * Getter value
-	 */
 	public get value() {
 		return this._value;
 	}
-
-	/**
-	 * Setter value
-	 * @param {boolean} value
-	 */
 	public set value(value: boolean) {
 		const booleanValue = this.toBoolean(value);
 
@@ -555,7 +477,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 			values: Ch5Common.DIRECTION,
 			key: 'mode',
 			classListPrefix: '--dir--'
-		},
+		}
 	};
 
 	/**
@@ -729,7 +651,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 	 * COMPONENT EVENTS
 	 *
 	 * change - custom event.
-	 * click - inerhit
+	 * click - inherit
 	 * focus - custom
 	 * blur - custom
 	 * dirty - custom
@@ -1267,7 +1189,6 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 	 */
 	protected attachEventListeners() {
 		super.attachEventListeners();
-
 		this.addEventListener('click', this._onClick);
 	}
 
@@ -1338,12 +1259,10 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 	 * @private
 	 */
 	public toggleChecked() {
-		// The detail of the event.
-		let detail;
-
 		// Change the value of checked.
 		this.checked = !this.checked;
-		detail = { value: this.checked };
+		// The detail of the event.
+		const detail = { value: this.checked };
 
 		// set dirty state and dirty value
 		if (!this._dirty) {
@@ -1376,10 +1295,9 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 			clearTimeout(this._dirtyTimerHandle);
 		}
 
-		this._dirtyTimerHandle = window.setTimeout(
-			() => this._onDirtyTimerFinished(),
-			this._signalValueSyncTimeout
-		);
+		this._dirtyTimerHandle = window.setTimeout(() => {
+			this._onDirtyTimerFinished()
+		}, this._signalValueSyncTimeout);
 	}
 
 	private _onDirtyTimerFinished() {
@@ -1433,8 +1351,8 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 	}
 
 	private sendSignalForClickAndTouch(): void {
-		const clickSignal = ('' !== this._sigNameSendOnClick && undefined !== this._sigNameSendOnClick && null !== this._sigNameSendOnClick);
-		const touchSignal = ('' !== this._sigNameSendOnTouch && undefined !== this._sigNameSendOnTouch && null !== this._sigNameSendOnTouch);
+		const clickSignal = Ch5Common.isNotNil(this._sigNameSendOnClick);
+		const touchSignal = Ch5Common.isNotNil(this._sigNameSendOnTouch);
 
 		if (!clickSignal && !touchSignal) { return; }
 
@@ -1453,14 +1371,8 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 	 * @private
 	 */
 	private _sendValueForClickSignal(): void {
-		let sigClick: Ch5Signal<boolean> | null = null;
-
-		if ('' !== this._sigNameSendOnClick
-			&& undefined !== this._sigNameSendOnClick
-			&& null !== this._sigNameSendOnClick) {
-
-			sigClick = Ch5SignalFactory.getInstance().getBooleanSignal(this._sigNameSendOnClick);
-
+		if (Ch5Common.isNotNil(this._sigNameSendOnClick)) {
+			const sigClick: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(this._sigNameSendOnClick);
 			if (sigClick !== null) {
 				sigClick.publish(true);
 				sigClick.publish(false);
@@ -1473,14 +1385,8 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 	 * @private
 	 */
 	private _sendValueForTouchSignal(): void {
-		let sigTouch: Ch5Signal<boolean> | null = null;
-
-		if ('' !== this._sigNameSendOnTouch
-			&& undefined !== this._sigNameSendOnTouch
-			&& null !== this._sigNameSendOnTouch) {
-
-			sigTouch = Ch5SignalFactory.getInstance().getBooleanSignal(this._sigNameSendOnTouch);
-
+		if (Ch5Common.isNotNil(this._sigNameSendOnTouch)) {
+			const sigTouch: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(this._sigNameSendOnTouch);
 			if (sigTouch !== null) {
 				sigTouch.publish(true);
 				sigTouch.publish(false);

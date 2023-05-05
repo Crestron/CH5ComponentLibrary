@@ -28,26 +28,10 @@ if (NO_CE === '1') { // for browsers that do not support customElements
 const basePath = path.resolve(__dirname);
 const MODULE_TYPE = process.env.MODULE_TYPE;
 
-
-
-
-
 const moduleTypes = ['cjs', 'umd', 'amd']; // 'esm' cannot be obtained from webpack, will be compiled with tsc
 let moduleType = 'umd'; // UMD includes commonjs, amd and attaching a property to the window object
 if (process.env.MODULE_TYPE && moduleTypes.indexOf(process.env.MODULE_TYPE) >= 0) {
     moduleType = process.env.MODULE_TYPE;
-}
-let libraryTarget = 'umd';
-switch (moduleType) {
-    case 'cjs':
-        libraryTarget = 'commonjs2';
-        break;
-    case 'amd':
-        libraryTarget = 'amd';
-        break;
-    default:
-        libraryTarget = 'umd';
-        break;
 }
 
 let moduleBuildFolder = moduleType;
@@ -59,11 +43,9 @@ let buildPath = path.resolve(basePath, 'build_bundles', moduleBuildFolder);
 let pathForSchemaJson = path.resolve(basePath, 'build_bundles');
 
 const CI = process.env.CI;
-
 if (CI) {
     buildPath = path.resolve(basePath, 'build_bundles_dev', moduleBuildFolder);
 }
-
 
 console.log(`${chalk.underline('Running in Environment:')} ${chalk.bold.green(envLabel)}`);
 process.noDeprecation = true;
@@ -123,8 +105,7 @@ module.exports = function () {
                     "No part of this software may be reproduced in any form, machine\n" +
                     "or natural, without the express written consent of Crestron Electronics.\n" +
                     "Use of this source code is subject to the terms of the Crestron Software License Agreement\n" +
-                    "under which you licensed this source code.\n" +
-                    "\n"
+                    "under which you licensed this source code.\n\n"
             }),
             new WrapperPlugin({
                 test: /\.js$/, // only wrap output of bundle files with '.js' extension 

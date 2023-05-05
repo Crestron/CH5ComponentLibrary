@@ -1961,6 +1961,42 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 		this.highlightInputIfNotValid();
 	}
 
+
+	/**
+	 * Add the related modifier if input is not valid
+	 * 
+	 * @protected
+	 * @memberof Ch5CommonInput
+	 * @return {void}
+	 */
+	protected highlightInputIfNotValid(): void {
+		if (!this.getValid()) {
+			this.handleModifierClass('error');
+		} else {
+			this.handleModifierClass('error', 'remove')
+		}
+	}
+	
+		/**
+	 * Add modifier classes to the component and input elements
+	 * 
+	 * @param {string} className 
+	 * @param {string} action 
+	 * @protected
+	 * @memberof Ch5CommonInput
+	 * @return {void}
+	 */
+		protected handleModifierClass(className: string, action: string = 'add'): void {
+			const modifierClassName = this.primaryCssClass + '--' + className;
+			if (action === 'add') {
+				this.classList.add(modifierClassName);
+				this._elInput.classList.add(modifierClassName);
+			} else if (action === 'remove') {
+				this.classList.remove(modifierClassName);
+				this._elInput.classList.remove(modifierClassName);
+			}
+		}
+		
 	/**
 	 *
 	 * @param {Event} inEvent

@@ -21,7 +21,6 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "Defines the primary contract name to derive the component's contract details."
 	 * ]
 	 * @name contractname
-	 * @join { isContractName: true }
 	 * @attributeType "String"
 	 */
 	contractName: string;

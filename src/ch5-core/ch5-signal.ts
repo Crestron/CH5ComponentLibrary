@@ -7,7 +7,7 @@
 
 import { Subscription } from 'rxjs';
 
-import { TSignalStandardTypeName, TSignalSubscriptions } from "./core";
+import { TSignalStandardTypeName, TSignalSubscriptions } from "./types/core";
 import { Ch5SignalBridge } from './ch5-signal-bridge';
 import { Ch5SignalBehaviorSubject } from "./ch5-signal-behavior-subject";
 import { TSignal } from './types/signal.type';

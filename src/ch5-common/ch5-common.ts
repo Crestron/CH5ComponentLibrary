@@ -5,18 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import {
-	Ch5Signal,
-	Ch5SignalFactory,
-	Ch5TranslationUtility,
-	Ch5Uid,
-	languageChangedSignalName,
-	subscribeInViewPortChange,
-	Ch5Platform,
-	ICh5PlatformInfo,
-	publishEvent
-} from '../ch5-core';
-
+import { Ch5Signal, Ch5SignalFactory, Ch5TranslationUtility, Ch5Uid, languageChangedSignalName, subscribeInViewPortChange, Ch5Platform, ICh5PlatformInfo, publishEvent } from '../ch5-core';
 import { Subject } from 'rxjs';
 import { Ch5Config } from './ch5-config';
 import { Ch5MutationObserver } from './ch5-mutation-observer';
@@ -46,12 +35,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	//#region Variables
 
 	public static DIRECTION: string[] = ['ltr', 'rtl'];
-
-	/**
-	 * The containing components will not be observed by MutationObserver
-	 * @type {string[]}
-	 */
-	public static ELEMENTS_MO_EXCEPTION = ['swiper-wrapper'];
 
 	protected static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		receivestatecustomclass: { direction: "state", stringJoin: 1, contractName: true },
@@ -286,18 +269,13 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	protected _ch5Id: number = 0;
 
 	/**
-	 * Css class name prefix for the visibility classes
-	 */
-	private readonly _visibilityCssClassPrefix = 'ch5';
-
-	/**
 	 * CSS class name for noshowtype = visibility
 	 */
-	private readonly _cssClassHideVisibility = this._visibilityCssClassPrefix + '-hide-vis';
+	private readonly _cssClassHideVisibility = 'ch5-hide-vis';
 	/**
 	 * CSS class name for noshowtype = none
 	 */
-	private readonly _cssClassHideDisplay = this._visibilityCssClassPrefix + '-hide-dis';
+	private readonly _cssClassHideDisplay = 'ch5-hide-dis';
 
 	/**
 	 * Cached parent element. Used in the case when noshowType is set to remove and the component has to be reattached to the DOM
@@ -324,7 +302,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
 	/**
 	 * An RxJs observable for the gestureable property.
-	 * Other classes cand subscribe to this and be notified when the gestureable property changes.
+	 * Other classes can subscribe to this and be notified when the gestureable property changes.
 	 */
 	public observableGestureableProperty: Subject<boolean>;
 
@@ -385,8 +363,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		if (value !== this._customClass) {
 			this._customClass = value;
 			this.setAttribute('customclass', value);
-			}
 		}
+	}
 	public get customClass(): string {
 		return this._customClass;
 	}
@@ -779,23 +757,16 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	 * @return {string}
 	 */
 	public static getMeasurementUnitFromSizeValue(sizeValue: string): string {
-
 		const pattern = new RegExp("^(?:[0-9]+)(\\w*|%)$");
 		let measurementUnit: string = 'px';
-
-		if (sizeValue !== null && sizeValue !== undefined) {
-
+		if (!_.isNil(sizeValue)) {
 			const matchedValues = sizeValue.match(pattern);
-
-			if (
-				matchedValues !== null &&
-				matchedValues[1] !== undefined &&
-				matchedValues[1] !== ''
-			) {
-				measurementUnit = matchedValues[1];
+			if (matchedValues !== null) {
+				if (Ch5Common.isNotNil(matchedValues[1])) {
+					measurementUnit = matchedValues[1];
+				}
 			}
 		}
-
 		return measurementUnit;
 	}
 
@@ -956,6 +927,18 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		return uriStr;
 	}
 
+	public static isNil(value: any, validateWithTrim: boolean = true) {
+		if (validateWithTrim === true) {
+			return _.isNil(value) || (value === "") || value.toString().trim() === "";
+		} else {
+			return _.isNil(value) || (value === "");
+		}
+	}
+
+	public static isNotNil(value: any, validateWithTrim: boolean = true) {
+		return !Ch5Common.isNil(value, validateWithTrim);
+	}
+
 	public _t(valueToTranslate: string) {
 		let translatedValue = valueToTranslate;
 		const translationUtility = Ch5TranslationUtility.getInstance();
@@ -973,7 +956,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 						translatedValue = translatedValue.replace(identifier, identifierTranslated);
 					}
 				}
-			})
+			});
 		}
 		return translatedValue;
 	}
@@ -993,12 +976,11 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		if (!isNil(template.content) && template.content.childElementCount === 0 && template.children.length > 0) {
 			Array.from(template.children).forEach((child) => {
 				template.content.appendChild(child);
-			})
+			});
 		}
 	}
 
 	public _getTranslatedValue(valueToSave: string, valueToTranslate: string) {
-
 		const translationUtility = Ch5TranslationUtility.getInstance();
 
 		let translationKey = valueToTranslate;;
@@ -1018,23 +1000,19 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		if (typeof savedValue === 'undefined') {
 			savedValue = valueToTranslate;
 			_value = this._t(valueToTranslate);
-
 		} else {
 			const isTranslatableLabel = translationUtility.isTranslationIdentifier(savedValue);
-
 			if (!isTranslatableLabel) {
 				if (savedValue !== valueToTranslate) {
 					savedValue = valueToTranslate;
 				}
-				_value = this._t(valueToTranslate)
-
+				_value = this._t(valueToTranslate);
 			} else {
 				if (this._t(savedValue) !== valueToTranslate && translationUtility.hasMultipleIdentifiers(savedValue)) {
 					savedValue = valueToTranslate;
 				}
 				_value = this._t(savedValue);
 			}
-
 		}
 		this.translatableObjects[valueToSave] = savedValue;
 
@@ -1063,9 +1041,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 			'trace',
 			'dir',
 			'appendclasswheninviewport'
-		]
+		];
 	}
-
 
 	/**
 	 * Returns the internal ch5 unique identifier assigned to the component
@@ -1329,14 +1306,12 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	protected updateForChangeInStyleCss() {
 		const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
 		this.logger.log("from common - updateForChangeInStyleCss()");
-
 		targetElement.style.cssText = this.customStyle;
 	}
 
 	protected updateForChangeInShowStatusOld() {
 		const targetElement: HTMLElement = this;
 		this.logger.log("from common - updateForChangeInShowStatus()");
-		// show/hide
 		if (false === this._show) {
 			this.handleHide(targetElement);
 		} else {
@@ -1354,7 +1329,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 			this.noshowType = 'display';
 		}
 
-		// show/hide
 		if (false === this._show) {
 			this.handleHide(targetElement);
 		} else {
@@ -1588,11 +1562,9 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	/**
 	 * Helper method. For internal use.
 	 */
-	protected clearNumberSignalSubscription(sigName: string | null | undefined, subscriptionKey: string) {
+	protected clearNumberSignalSubscription(sigName: string, subscriptionKey: string) {
 		let oldSig: Ch5Signal<number> | null = null;
-		if ('' !== sigName
-			&& null !== sigName
-			&& undefined !== sigName) {
+		if (Ch5Common.isNotNil(sigName)) {
 			const subSigName: string = Ch5Signal.getSubscriptionSignalName(sigName);
 			oldSig = Ch5SignalFactory.getInstance().getNumberSignal(subSigName);
 		}
@@ -1605,7 +1577,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		this.logger.log('sendShowSignal ' + value + ' ' + this._sigNameSendOnShow);
 		if ('' !== this._sigNameSendOnShow) {
 			const sig = Ch5SignalFactory.getInstance().getBooleanSignal(this._sigNameSendOnShow);
-
 			if (null !== sig) {
 				sig.publish(value);
 			}
@@ -1629,7 +1600,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	 */
 	protected applyPreConfiguredAttributes(): void {
 		const preConfiguredAttributes = Ch5Config.getAttributesForElement(this);
-
 		for (const attrName in preConfiguredAttributes) {
 			if (preConfiguredAttributes.hasOwnProperty(attrName)) {
 				if (!this.hasAttribute(attrName)) {
@@ -1685,32 +1655,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		}
 	}
 
-	/**
-	 * Invoke an incompatibility warning when an attribute cannot work as
-	 * expected because of the component definition.
-	 *
-	 * A good example in this case is `pagedSwipe` attribute which cannot work
-	 * properly when the list size doesn't correspond to at least two pages.
-	 *
-	 * @param {string} attribute the attribute name to invoke incompatibility
-	 */
-	protected invokePropIncompatibility(attribute: string): void {
-		switch (attribute) {
-			case 'pagedSwipe':
-				console.warn(this.definePropIncompatibilityInfo(
-					attribute,
-					[
-						'size',
-						'endless'
-					]
-				));
-				break;
-		}
-	}
-
-	// Returns a function, that, as long as it continues to be invoked, will not
-	// be triggered. The function will be called after it stops being called for
-	// `wait` milliseconds.
+	// Returns a function, that, as long as it continues to be invoked, will not be triggered. 
+	// The function will be called after it stops being called for `wait` milliseconds.
 	public debounce = (func: any, wait: number) => {
 		let timeout: any;
 		return function executedFunction(...args: any[]) {
@@ -1764,6 +1710,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		publishEvent('object', elementName, { loaded: true, id: idValue });
 		// publishEvent('object', `ch5-list:${this.id}`, { loaded: true, id: this.id });
 	}
+
 	protected updateInViewPortClass() {
 		const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
 		this.logger.log("from common - updateInViewPortClass()");
@@ -1775,17 +1722,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 				targetElement.classList.remove(this._appendClassWhenInViewPort);
 			}
 		}
-	}
-
-	/**
-	 * Defines the information to be logged on
-	 *
-	 * @param {string} attribute
-	 * @param {string[]} reasons
-	 */
-	private definePropIncompatibilityInfo(attribute: string, reasons: string[]): string {
-		const reasonsList = reasons.join(',');
-		return `For element #${this.id} - ${attribute} doesn't work as expected. See(${reasonsList})`;
 	}
 
 	public updateElementVisibility(visible: boolean) {
@@ -1824,30 +1760,9 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	 * @param str input string to check if its truey or not
 	 * @returns boolean
 	 */
-	public checkIfValueIsTruey(str: string = '') {
+	public checkIfValueIsTruey(str: string = ''): boolean {
 		return (!!str && str.length > 0 && str !== 'false' && str !== '0' && str !== null);
 	}
-
-	// protected setCommonBooleanProperty(property: any, value: boolean) {
-	// 	const attribute = property.attributeName.toLowerCase();
-	// 	const thisRef = property.componentReference;
-
-	// 	// this[property.variableName + "Initialized"] !== true is for first time - variable isn't declared and is not required
-	// 	// This variable is required only for checking first time and making changes when the default value is true
-	// 	if (thisRef[property.propertyName] !== value || thisRef[property.variableName + "Initialized"] !== true) {
-	// 		thisRef[property.variableName] = value;
-	// 		thisRef[property.variableName + "Initialized"] = true;
-	// 		if (thisRef.hasAttribute(attribute) === true && (['true', 'false'].indexOf(String(thisRef.getAttribute(attribute))) < 0) && thisRef[property.propertyName] === property.defaultValue) {
-	// 			// Remove only for thisRef[property.propertyName] === defaultValue cos it must still show up for its opposite
-	// 			thisRef.removeAttribute(attribute);
-	// 		} else {
-	// 			thisRef.setAttribute(attribute, thisRef[property.propertyName].toString());
-	// 		}
-	// 		if (property.callback !== null) {
-	// 			property.callback();
-	// 		}
-	// 	}
-	// }
 
 	protected setAttributeAndProperty(property: ICh5AttributeAndPropertySettings, value: any, setFromSignal: boolean = false) {
 		this.logger.log('setAttributeAndProperty: ' + property.attributeName + ' - "' + value + '"');

@@ -9,7 +9,6 @@
 
 import { TCh5ListElementOrientation } from "./interfaces";
 
-
 export class Ch5ListSizeResolver {
 
   /**
@@ -42,11 +41,7 @@ export class Ch5ListSizeResolver {
    */
   public orientation: TCh5ListElementOrientation = 'horizontal';
 
-
-  constructor(
-    elements: HTMLElement[],
-    orientation: TCh5ListElementOrientation,
-  ) {
+  constructor(elements: HTMLElement[], orientation: TCh5ListElementOrientation) {
     this.elements = Array.from(elements);
     this.orientation = orientation;
 
@@ -110,7 +105,6 @@ export class Ch5ListSizeResolver {
     return this.viewPortSize + this.getOverflowSize();
   }
 
-
   /**
    * This method can be called to update the viewport size if is the
    * subject to change
@@ -145,7 +139,7 @@ export class Ch5ListSizeResolver {
     if (this.orientation === 'horizontal') {
       return element.offsetWidth;
     }
-
     return element.offsetHeight;
   }
+
 }
