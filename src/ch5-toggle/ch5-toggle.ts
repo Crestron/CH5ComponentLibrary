@@ -13,6 +13,7 @@ import HtmlCallback from "../ch5-common/utils/html-callback";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5ToggleAttributes, TCh5ToggleShape, TCh5ToggleOrientation, TCh5ToggleFeedbackMode } from "./interfaces";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import _ from "lodash";
 
 export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 
@@ -60,10 +61,8 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 		return this._labelOff;
 	}
 	public set labelOff(value: string) {
-
 		let _value = value;
-
-		if (value === undefined || value === null) {
+		if (_.isNil(value)) {
 			_value = '';
 		} else {
 			_value = this._getTranslatedValue('labelOff', value);
@@ -158,7 +157,6 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 			} else {
 				this._orientation = Ch5Toggle.ORIENTATIONS[0];
 			}
-
 			this.setAttribute('orientation', this._orientation);
 		}
 	}
@@ -191,11 +189,10 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 	 *
 	 * @public
 	 * @param {boolean} value
-	 *   If truthy, `checked` will be set to true, otherwise `checked` will be set to false.
+	 *   If truey, `checked` will be set to true, otherwise `checked` will be set to false.
 	 */
 	public set checked(value: boolean | string) {
 		const isChecked = this.toBoolean(value);
-
 		if (isChecked) {
 			this.setAttribute('checked', '');
 			this._elBody.classList.add(this.primaryCssClass + '--on')
@@ -208,15 +205,13 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 	public get direction() {
 		return this._direction;
 	}
-
 	public set direction(value: string | null) {
 		if (value == null) {
 			value = Ch5Common.DIRECTION[0];
 		}
 		if (Ch5Common.DIRECTION.indexOf(value) >= 0) {
 			this._direction = value;
-		}
-		else {
+		} else {
 			this._direction = Ch5Common.DIRECTION[0];
 		}
 	}
@@ -243,21 +238,14 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 	public set receiveStateValue(value: string) {
 		this.info('Ch5Toggle receiveStateValue: ' + value);
 
-		if ('' === value
-			|| this._sigNameReceiveValue === value
-			|| null === value
-			|| undefined === value) {
+		if (Ch5Common.isNil(value) || this._sigNameReceiveValue === value) {
 			return;
 		}
 
 		// clean up old subscription
-		if (this._sigNameReceiveValue !== ''
-			&& this._sigNameReceiveValue !== undefined
-			&& this._sigNameReceiveValue !== null) {
-
+		if (Ch5Common.isNotNil(this._sigNameReceiveValue)) {
 			const oldSignalName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveValue);
-			const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance()
-				.getBooleanSignal(oldSignalName);
+			const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(oldSignalName);
 
 			if (oldSignal !== null) {
 				oldSignal.unsubscribe(this._subReceiveValueId);
@@ -269,8 +257,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 		this.setAttribute('receivestatevalue', value);
 
 		const receiveStateName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveValue);
-		const receiveState: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance()
-			.getBooleanSignal(receiveStateName);
+		const receiveState: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(receiveStateName);
 
 		if (receiveState === null) {
 			return;
@@ -279,7 +266,6 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 		this._subReceiveValueId = receiveState.subscribe((newValue: boolean) => {
 			this.setAttribute('value', '' + newValue);
 			this._cleanValue = newValue;
-
 			this.checked = newValue;
 
 			// set ch5-toggle as clean

@@ -6,6 +6,4 @@
 // under which you licensed this source code.
 
 export * from "./i-ch5-toggle-attributes";
-export * from './t-ch5-toggle-feedback-mode';
-export * from './t-ch5-toggle-orientation';
-export * from './t-ch5-toggle-shape';
+export * from './t-ch5-toggle';
