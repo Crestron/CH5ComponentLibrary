@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-export type TCh5SampleAspectRatio = '16:9' | '4:3';
-export type TCh5SampleSourceType = 'Network' | 'HDMI' | 'DM';
-export type TCh5SampleSize = 'regular' | 'x-small' | 'small' | 'large' | 'x-large' | 'xx-large';
+export type TCh5VideoAspectRatio = '16:9' | '4:3';
+export type TCh5VideoSourceType = 'Network' | 'HDMI' | 'DM';
+export type TCh5VideoSize = 'regular' | 'x-small' | 'small' | 'large' | 'x-large' | 'xx-large';
 

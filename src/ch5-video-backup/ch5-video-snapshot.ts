@@ -6,11 +6,11 @@
 // under which you licensed this source code.
 
 import { subscribeState, unsubscribeState } from "../ch5-core";
+import { TSnapShotSignalName } from "./interfaces/types";
 import { Ch5ImageUriModel } from "../ch5-image/ch5-image-uri-model";
 import _ from "lodash";
 import { TCh5ProcessUriParams } from "../ch5-common/interfaces";
 import { CH5VideoUtils } from "./ch5-video-utils";
-import { TSnapShotSignalName } from "./interfaces/interfaces-helper";
 
 export class Ch5VideoSnapshot {
     private snapShotImage: HTMLImageElement = {} as HTMLImageElement;
@@ -25,24 +25,23 @@ export class Ch5VideoSnapshot {
     private password: string = '';
     private refreshRate: number = -1;
     private snapShotTimer: any;
-    private snapshotObj: TSnapShotSignalName;
+    private snapShotObj: TSnapShotSignalName;
     private isSnapShotloaded: boolean = false;
     private videoImage = new Image();
 
-    public constructor(snapshotObj: TSnapShotSignalName) {
+    public constructor(snapShotObj: TSnapShotSignalName) {
         this.videoImage.style.width = "100%";
         this.videoImage.style.height = "100%";
         this.videoImage.alt = "Video Snapshot";
-        this.snapshotObj = snapshotObj;
-        if (this.snapshotObj.isMultipleVideo) {
+        this.snapShotObj = snapShotObj;
+        if (this.snapShotObj.isMultipleVideo) {
             this.unSubscribeStates(); // Unsubscribe if it is already subscribed
             this.setSnapShotData();
         } else {
-            console.log(JSON.stringify(snapshotObj));
-            this.url = snapshotObj.snapshotURL;
-            this.userId = snapshotObj.snapshotUser;
-            this.password = snapshotObj.snapshotPass;
-            this.refreshRate = snapshotObj.snapshotRefreshRate;
+            this.url = snapShotObj.snapShotUrl;
+            this.userId = snapShotObj.snapShotUser;
+            this.password = snapShotObj.snapShotPass;
+            this.refreshRate = parseInt(snapShotObj.snapShotRefreshRate, 0);
         }
     }
 
@@ -50,7 +49,6 @@ export class Ch5VideoSnapshot {
      * Start loading the snapshots with refresh rate
      */
     public startLoadingSnapShot() {
-        console.log('startLoadingSnapShot');
         this.isSnapShotLoading = true;
         // return if the snapshot url is empty
         if (this.url === "" || this.refreshRate === -1) {
@@ -133,7 +131,6 @@ export class Ch5VideoSnapshot {
 
         // adding a '#' makes the request a new one, while not intrusing with the request
         // this way, it won't be a "bad request" while making a new img request
-        console.log(uri.toString())
         this.url = uri.toString();
         return;
     }
@@ -149,21 +146,17 @@ export class Ch5VideoSnapshot {
      * Load the snapshot once on CH5-video load`
      */
     private setSnapShot() {
-        console.log('setSnapShot');
-        console.log();
         this.videoImage.onerror = () => {
             this.snapShotImage = {} as HTMLImageElement;
             this.isSnapShotloaded = false;
-            console.log("Video Tag Id: " + this.snapshotObj.videoTagId + ", snapshot failed to load.");
+            console.log("Video Tag Id: " + this.snapShotObj.videoTagId + ", snapshot failed to load.");
         }
 
         this.videoImage.onload = (ev: Event) => {
-            console.log('this.videoImage.onload', JSON.stringify(this.videoImage));
             this.snapShotImage = this.videoImage;
             this.isSnapShotloaded = true;
         };
         this.videoImage.src = this.url + '#' + CH5VideoUtils.rfc3339TimeStamp();
-        console.log('----*************', this.videoImage.src,'----*************');
     }
 
     /**
@@ -171,16 +164,16 @@ export class Ch5VideoSnapshot {
      */
     private unSubscribeStates() {
         if (this.videoSnapShotUrl) {
-            unsubscribeState('s', this.snapshotObj.snapshotURL, this.videoSnapShotUrl);
+            unsubscribeState('s', this.snapShotObj.snapShotUrl, this.videoSnapShotUrl);
         }
         if (this.videoSnapShotUser) {
-            unsubscribeState('s', this.snapshotObj.snapshotUser, this.videoSnapShotUser);
+            unsubscribeState('s', this.snapShotObj.snapShotUser, this.videoSnapShotUser);
         }
         if (this.videoSnapShotPass) {
-            unsubscribeState('s', this.snapshotObj.snapshotPass, this.videoSnapShotPass);
+            unsubscribeState('s', this.snapShotObj.snapShotPass, this.videoSnapShotPass);
         }
         if (this.videoSnapShotRefreshRate) {
-            unsubscribeState('n', this.snapshotObj.snapshotRefreshRate.toString(), this.videoSnapShotRefreshRate);
+            unsubscribeState('n', this.snapShotObj.snapShotRefreshRate, this.videoSnapShotRefreshRate);
         }
     }
 
@@ -188,10 +181,10 @@ export class Ch5VideoSnapshot {
      * Read all the snapshot related information from the control system
      */
     private setSnapShotData() {
-        this.setSnapshotUrl(this.snapshotObj.snapshotURL);
-        this.setSnapshotUserId(this.snapshotObj.snapshotUser);
-        this.setSnapshotPassword(this.snapshotObj.snapshotPass);
-        this.setSnapshotRefreshRate(this.snapshotObj.snapshotRefreshRate);
+        this.setSnapshotUrl(this.snapShotObj.snapShotUrl);
+        this.setSnapshotUserId(this.snapShotObj.snapShotUser);
+        this.setSnapshotPassword(this.snapShotObj.snapShotPass);
+        this.setSnapshotRefreshRate(this.snapShotObj.snapShotRefreshRate);
     }
 
     /**
