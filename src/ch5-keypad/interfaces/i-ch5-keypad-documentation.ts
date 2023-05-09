@@ -13,7 +13,7 @@ import { ICh5KeypadAttributes, ICh5KeypadButtonAttributes } from "./index";
  * @isattribute false
  * @tagName ch5-keypad
  * @role container
- * @description Ch5 Keypad offers a control set of 12 buttons (+ 1 extra button) to preform specific changes
+ * @description Ch5 Keypad offers a control set of 12 buttons (+ 1 extra button)
  * @componentVersion 1.0.0
  * @documentation
  * [

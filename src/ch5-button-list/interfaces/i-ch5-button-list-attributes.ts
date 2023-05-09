@@ -441,7 +441,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * "When received, applies a value to the mode attribute from the signal on all the buttons in the button list."
    * ]
    * @name buttonreceivestatemode
-   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}   
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}   
    * @attributeType "Join"
    * @applicableToListItem true
    */
@@ -454,7 +454,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * "When received, applies a true value applied by the selected class (ch5-button--selected) on all the buttons in the button list."
    * ]
    * @name buttonreceivestateselected
-   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
    * @attributeType "Join"
    * @applicableToListItem true
    */
@@ -467,7 +467,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * "When received, applies the value on the label on all the buttons in the button list."
    * ]
    * @name buttonreceivestatelabel
-   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
    * @attributeType "Join"
    * @applicableToListItem true
    */
@@ -480,7 +480,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * "Allows the signal script evaluation to be applied to the button.innerHTML class. Allows for multiline, multiStyled labels."
    * ]
    * @name buttonreceivestatescriptlabelhtml
-   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
    * @attributeType "Join"
    * @applicableToListItem true
    */
@@ -493,7 +493,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * "After receiving stateIconClass value from control system, this value is applied to the iconClass attribute of all the buttons in the list."
    * ]
    * @name buttonreceivestateiconclass
-   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
    * @attributeType "Join"
    * @applicableToListItem true
    */
@@ -506,7 +506,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute of all the buttons in the list."
    * ]
    * @name buttonreceivestateiconurl
-   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
    * @attributeType "Join"
    * @applicableToListItem true
    */
@@ -519,7 +519,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * "Sends an event on click or tap (mouse or swipe up and down quickly). Use this when the control system takes an action on the rising edge from false to true of a boolean digital event."
    * ]
    * @name buttonsendeventonclick
-   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}   
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}   
    * @attributeType "Join"
    * @applicableToListItem true
    */
@@ -532,7 +532,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   * ". When the signal is low, the component will not be displayed, and the area will not be pressable. If receiveStateShow attribute is given for ch5-button-list than it takes more preference over buttonReceiveStateShow attribute."
   * ]
   * @name buttonreceivestateshow
-  * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
+  * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
   * @attributeType "Join"
   * @applicableToListItem true
   */
@@ -545,7 +545,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * "When the signal is low, the look of the component will change to represent a disabled state and the component will not be pressable. If receiveStateEnable attribute is given for ch5-button-list than it takes more preference over buttonReceiveStateEnable attribute."
    * ]
    * @name buttonreceivestateenable
-   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
    * @attributeType "Join"
    * @applicableToListItem true
    */

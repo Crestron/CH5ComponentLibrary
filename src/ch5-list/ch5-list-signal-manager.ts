@@ -11,7 +11,7 @@ import { Ch5List, Ch5ListSignature } from "./ch5-list";
 import { Ch5SignalFactory, Ch5Signal } from "../ch5-core";
 import { Ch5ListAbstractHelper } from "./ch5-list-abstract-helper";
 import { TSignal } from '../ch5-core/types/signal.type';
-import {Ch5SignalUpdateCallback} from "../ch5-core/types/callbacks";
+import { Ch5SignalUpdateCallback } from "../ch5-core/types/callbacks";
 
 export type SignalSubscription = (sigName: string | null | undefined, subscriptionKey: string) => void;
 export type SignalSubscriptionCallback = (newValue: string | number | boolean) => void;
@@ -22,16 +22,12 @@ export class Ch5ListSignalManager extends Ch5ListAbstractHelper {
 
     const _listComponent = this._list as Ch5List;
 
-    this.clearSubscription(
-      clearStringSignalSubscription, _listComponent.receiveStateScrollToSub as string, 'receiveStateScrollTo');
-    this.clearSubscription(
-      clearStringSignalSubscription, _listComponent.receiveStateSize as string, 'receiveStateSize');
-    this.clearSubscription(
-      clearStringSignalSubscription, _listComponent.receiveStateTemplateVarsSub as string, 'receiveStateTemplateVars');
+    this.clearSubscription(clearStringSignalSubscription, _listComponent.receiveStateScrollToSub as string, 'receiveStateScrollTo');
+    this.clearSubscription(clearStringSignalSubscription, _listComponent.receiveStateSize as string, 'receiveStateSize');
+    this.clearSubscription(clearStringSignalSubscription, _listComponent.receiveStateTemplateVarsSub as string, 'receiveStateTemplateVars');
   }
 
   public subscribeToSignal<T extends TSignal>(type: T, signalPropName: string, signalSub: string, callback: Ch5SignalUpdateCallback<T>): string {
-
     if (signalPropName === undefined || signalSub === undefined) {
       return '';
     }

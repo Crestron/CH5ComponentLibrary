@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { TSignalNonStandardTypeName } from "../core";
+import { TSignalNonStandardTypeName } from "../types/core";
 import { Ch5SignalFactory } from "../ch5-signal-factory";
 import { Ch5Signal } from "../ch5-signal";
 import {
@@ -24,9 +24,7 @@ import { isNil } from 'lodash';
 export function subscribeState(signalType: TSignalNonStandardTypeName, signalName: string,
                                callback: TAllSignalSubscriptionUpdateCallbacks,
                                errCallback?: Ch5SignalErrorCallback): string {
-    /** The tslint comments provide a double purpose: to disable the linting error and to signal that the fallthrough was
-     * intentional
-     */
+    // The tslint comments provide a double purpose: to disable the linting error and to signal that the fallthrough was intentional.
     const csf = Ch5SignalFactory.getInstance();
     let subId: string = '';
     

@@ -21,7 +21,6 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "Defines the primary contract name to derive the component's contract details."
 	 * ]
 	 * @name contractname
-	 * @join { isContractName: true }
 	 * @attributeType "String"
 	 */
 	contractName: string;
@@ -95,7 +94,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "***",
 	 * "If the contract name exists, by default this becomes true. ",
 	 * "If the contract name does not exist, by default this becomes false. ",
-	 * "If this value is set to true then the value received from the contract will be considered to enable ",
+	 * "If this value is set to true then the value received from the contract will be considered to enable ",
 	 * "<ch5-dpad> tag and also to enable the buttons under <ch5-dpad> component i.e. <ch5-dpad-button>.",
 	 * "The names from the contract will be different for each of the buttons and the overall <ch5-dpad> component. ",
 	 * "The details can be seen in the table above."
@@ -113,7 +112,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "***",
 	 * "If the contract name exists, by default this becomes true. ",
 	 * "If the contract name does not exist, by default this becomes false. ",
-	 * "If this value is set to true then the value received from the contract will be considered to show / hide ",
+	 * "If this value is set to true then the value received from the contract will be considered to show / hide ",
 	 * "<ch5-dpad> tag. The names from the contract will be different for each of the buttons and the overall ",
 	 * "<ch5-dpad> component. The details can be seen in the table above."
 	 * ]
@@ -130,7 +129,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "***",
 	 * "If the contract name exists, by default this becomes true. ",
 	 * "If the contract name does not exist, by default this becomes false. ",
-	 * "If this value is set to true then the value received from the contract will be considered for remaining ",
+	 * "If this value is set to true then the value received from the contract will be considered for remaining ",
 	 * "ch5-dpad button as a custom class."
 	 * ]
 	 * @name usecontractforcustomclass

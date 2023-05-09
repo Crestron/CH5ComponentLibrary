@@ -12,7 +12,7 @@ declare var CommunicationInterface: ISWebXPanel;
 
 import { isObject, isUndefined, isFunction } from 'lodash';
 
-import { TSignalsSubscriptionsByType, TSignalStandardTypeName, TRepeatDigitalSignalValue } from './core';
+import { TSignalsSubscriptionsByType, TSignalStandardTypeName, TRepeatDigitalSignalValue } from './types/core';
 import { Ch5Debug } from "./ch5-debug";
 
 export class Ch5SignalBridge {

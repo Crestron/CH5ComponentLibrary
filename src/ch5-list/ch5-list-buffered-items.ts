@@ -14,7 +14,7 @@ export interface ICh5ListBufferedItems {
 	forwardBufferedItems: HTMLElement[];
 	bufferBackwardsStartIndex: number;
 	backwardsBufferedItems: HTMLElement[];
-}
+};
 
 export class Ch5ListBufferedItems extends Ch5ListAbstractHelper {
 

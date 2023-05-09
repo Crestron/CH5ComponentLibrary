@@ -15,6 +15,12 @@ export interface IShowStyle {
 
 export class Ch5MutationObserver {
 
+    /**
+     * The containing components will not be observed by MutationObserver
+     * @type {string[]}
+     */
+    public static ELEMENTS_MO_EXCEPTION = ['swiper-wrapper'];
+
     public isConnected = false;
     private _mutationsObserver: MutationObserver;
     private _mutationsObserverConfig: object;
@@ -33,12 +39,12 @@ export class Ch5MutationObserver {
             (
                 (target.classList === undefined) ||
                 (target.classList.length <= 0) ||
-                (Ch5Common.ELEMENTS_MO_EXCEPTION.indexOf(target.classList[0]) < 0)
+                (Ch5MutationObserver.ELEMENTS_MO_EXCEPTION.indexOf(target.classList[0]) < 0)
             )
         );
     }
 
-    constructor (element: Ch5Common) {
+    constructor(element: Ch5Common) {
         this._element = element;
 
         this._mutationsObserver = new MutationObserver((mutations) => {
@@ -76,7 +82,7 @@ export class Ch5MutationObserver {
      * @param {Node} node
      * @memberof Ch5MutationObserver
      */
-    private _updateComponentVisibility (node: Node) {
+    private _updateComponentVisibility(node: Node) {
         const htmlElement = node as HTMLElement;
         if (_.isNil(htmlElement.offsetParent)) {
             this._element.updateElementVisibility(false);
@@ -95,7 +101,7 @@ export class Ch5MutationObserver {
         if (document && document.defaultView) {
             styles = document.defaultView.getComputedStyle(node as Element) as IShowStyle;
 
-            if (styles.opacity === '0' || styles.visibility === 'hidden' ||  (node as Element).hasAttribute('inert')) {
+            if (styles.opacity === '0' || styles.visibility === 'hidden' || (node as Element).hasAttribute('inert')) {
                 return false;
             }
         }
