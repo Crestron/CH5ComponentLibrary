@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+  <test-fixture id="ch5-modal-dialog-mask">
+    <template>
+      <ch5-modal-dialog>
+        <h1>Modal</h1>
+      </ch5-modal-dialog>
+    </template>
+  </test-fixture>
+
+
+  <script>
+    suite('ch5-modal-dialog-mask-attribute', () => {
+
+      setup(async () => {
+        ch5ModalDialog = fixture('ch5-modal-dialog-mask');
+      });
+
+      test('Check type of mask to be boolean', () => {
+        expect(typeof ch5ModalDialog.mask).to.be.equal("boolean");
+      });
+
+      test('Check default value of "mask" to be false', () => {
+        expect(ch5ModalDialog.mask).to.be.equal(false);
+        expect(ch5ModalDialog.getAttribute("mask")).to.be.equal(null);
+      });
+
+      test('Check if attribute is present and given random value, does it default to "false"', () => {
+        ch5ModalDialog.setAttribute("mask", "helo");
+        expect(ch5ModalDialog.getAttribute("mask")).to.be.equal("false");
+        expect(ch5ModalDialog.mask).to.be.equal(false);
+      });
+
+      test('Check if mask is set to "true", does the mask appear', () => {
+        ch5ModalDialog.setAttribute("mask", "true");
+        expect(ch5ModalDialog.getAttribute("mask")).to.be.equal("true");
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ModalDialog.children[0].classList.contains("ch5-modal-dialog-mask")).to.be.equal("true");
+            expect(ch5ModalDialog.children[0].classList.contains("ch5-modal-dialog-mask-default-style")).to.be.equal("true");
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check if mask is set to "false", does the mask disappear', () => {
+        ch5ModalDialog.setAttribute("mask", "false");
+        expect(ch5ModalDialog.getAttribute("mask")).to.be.equal("false");
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ModalDialog.children[0].classList.contains("ch5-modal-dialog-mask")).to.be.equal("false");
+            expect(ch5ModalDialog.children[0].classList.contains("ch5-modal-dialog-mask-default-style")).to.be.equal("false");
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
