@@ -310,11 +310,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 	protected _elBtnCancel: Ch5Button = {} as Ch5Button;
 
 
-	// protected _btnOkDefaultLabelText = 'Ok';
-
-	// protected _btnCancelDefaultLabelText = 'Cancel';
-
-
 	private _okEvent: Event;
 
 	private _cancelEvent: Event;
@@ -503,13 +498,14 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		super();
 		this.info('Ch5ModalDialog.constructor()');
 		this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
-
+	
+		this._ch5Properties = new Ch5Properties(this, Ch5ModalDialog.COMPONENT_PROPERTIES);
 		if (!this._crModalWasInstatiated) {
 			this._rebindEventCallbacks();
 			this.createInternalHtml();
 		}
 		this._crModalWasInstatiated = true;
-		this._ch5Properties = new Ch5Properties(this, Ch5ModalDialog.COMPONENT_PROPERTIES);
+		
 		this.updateCssClasses();
 
 		this._okEvent = new CustomEvent('ok', {
@@ -521,9 +517,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			bubbles: true,
 			cancelable: false
 		});
-
-		// this.cancelButtonLabel = this._btnCancelDefaultLabelText;
-		// this.okButtonLabel = this._btnOkDefaultLabelText;
 	}
 
 	public static registerSignalAttributeTypes() {
@@ -548,12 +541,14 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		}
 		this._elBtnOk.addEventListener('click', this._onOkClick);
 		this._elBtnCancel.addEventListener('click', this._onCancelClick);
+		this._elMask.addEventListener('click', this._clickedOnMask);
 	}
 
 	protected removeEventListeners() {
 		super.removeEventListeners();
 		this._elBtnOk.removeEventListener('click', this._onOkClick);
 		this._elBtnCancel.removeEventListener('click', this._onCancelClick);
+		this._elMask.removeEventListener('click', this._clickedOnMask);
 	}
 
 	protected _rebindEventCallbacks() {
@@ -622,6 +617,9 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		if (!this.hasAttribute('show')) {
 			this.setShowBasedOnAttributes();
 		}
+
+		this.initializeButtonAttributes();
+		
 		this._ready.then(() => {
 			this._initialize();
 			this.initCommonMutationObserver(this);
@@ -671,6 +669,13 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		this.initAttributes();
 		this._checkAndAttachMaskIfNeeded();
 		this.updateCssClasses();
+	}
+
+	protected initializeButtonAttributes() {
+		this._elBtnOk.setAttribute('type', 'success');
+		this._elBtnOk.setAttribute('label', this.okButtonLabel);
+		this._elBtnCancel.setAttribute('type', 'warning');
+		this._elBtnCancel.setAttribute('label', this.cancelButtonLabel);
 	}
 
 	protected initAttributes() {
@@ -739,7 +744,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		if (this.mask === true) {
 			this._elMask.classList.add(this.primaryCssClass + '-mask-default-style');
 		} else {
-			this._elMask.classList.remove(this.primaryCssClass + '-mask-default-style');
+			this._elMask.remove();
 		}
 		this._checkAndAttachMaskIfNeeded();
 	}
@@ -846,13 +851,9 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			this._elFooter.classList.add(this.primaryCssClass + '-footer');
 
 			this._elBtnOk = new Ch5Button();
-			this._elBtnOk.setAttribute('type', 'success');
-			this._elBtnOk.setAttribute('label', this.okButtonLabel);
 			this._elBtnOk.classList.add(this.primaryCssClass + '-btn-ok');
 
 			this._elBtnCancel = new Ch5Button();
-			this._elBtnCancel.setAttribute('type', 'warning');
-			this._elBtnCancel.setAttribute('label', this.cancelButtonLabel);
 			this._elBtnCancel.classList.add(this.primaryCssClass + '-btn-cancel');
 
 			this._elContents = document.createElement('div');
