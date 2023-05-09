@@ -1,22 +1,23 @@
 import { ICh5ButtonListCommonAttributes } from "../../ch5-common/interfaces/i-ch5-button-list-attributes";
-import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape, TCh5ButtonListAttributesOrientation, TCh5ButtonListAttributesStretch, TCh5ButtonListContractItemLabelType, TCh5ButtonListContractItemIconType } from './t-ch5-button-list';
+import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape, TCh5ButtonListAttributesOrientation, TCh5ButtonListAttributesStretch, TCh5ButtonListContractItemLabelType, TCh5ButtonListContractItemIconType, TCh5ButtonListSgIconTheme } from './t-ch5-button-list';
 
 /**
  * @ignore
  */
 export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes {
   /**
- * @documentation
- * [
- * "`orientation` attribute",
- * "***",
- * "The default value is 'horizontal'. Valid values: 'horizontal' or 'vertical'. Positions the list elements in a horizontal or vertical orientation."
- * ]
- * @name orientation
- * @default horizontal
- * @attributeType "EnumeratedValue"
- */
+   * @documentation
+   * [
+   * "`orientation` attribute",
+   * "***",
+   * "The default value is 'horizontal'. Valid values: 'horizontal' or 'vertical'. Positions the list elements in a horizontal or vertical orientation."
+   * ]
+   * @name orientation
+   * @default horizontal
+   * @attributeType "EnumeratedValue"
+   */
   orientation: TCh5ButtonListAttributesOrientation;
+
   /**
    * @documentation
    * [
@@ -49,8 +50,8 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * "The default value is null. Valid values are null and 'both'. NOTE: stretch is set to null whenever there are multiple rows and columns. Stretch attribute is set to both will take more priority than centerItems attribute."
    * ]
    * @name stretch
-   * @default false
-   * @attributeType "Boolean"
+   * @default null
+   * @attributeType "EnumeratedValue"
    */
   stretch: TCh5ButtonListAttributesStretch | null;
   /**
@@ -442,6 +443,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttonreceivestatemode
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateMode: string;
   /**
@@ -454,6 +456,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttonreceivestateselected
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateSelected: string;
   /**
@@ -466,6 +469,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttonreceivestatelabel
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateLabel: string;
   /**
@@ -478,6 +482,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttonreceivestatescriptlabelhtml
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateScriptLabelHtml: string;
   /**
@@ -490,6 +495,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttonreceivestateiconclass
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateIconClass: string;
   /**
@@ -502,6 +508,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttonreceivestateiconurl
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateIconUrl: string;
   /**
@@ -514,6 +521,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttonsendeventonclick
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonSendEventOnClick: string;
   /**
@@ -526,6 +534,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   * @name buttonreceivestateshow
   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
   * @attributeType "Join"
+  * @applicableToListItem true
   */
   buttonReceiveStateShow: string;
   /**
@@ -538,6 +547,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @name buttonreceivestateenable
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   buttonReceiveStateEnable: string;
   /**
@@ -553,4 +563,40 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @attributeType "Integer"
    */
   clickHoldTime: number;
+  /**
+   * @documentation
+   * [
+   * "`buttonReceiveStateSGIconNumeric` attribute",
+   * "***",
+   * "This would contain a mapping on analog joins to each of the sg icons."
+   * ]
+   * @name buttonreceivestatesgiconnumeric
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+   * @attributeType "Join"
+   */
+  buttonReceiveStateSGIconNumeric: string;
+  /**
+   * @documentation
+   * [
+   * "`buttonReceiveStateSGIconString` attribute",
+   * "***",
+   * "This would contain a mapping of serial joins to each of the sg icons."
+   * ]
+   * @name buttonreceivestatesgiconstring
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @attributeType "Join"
+   */
+  buttonReceiveStateSGIconString: string;
+  /**
+   * @documentation
+   * [
+   * "`buttonSgIconTheme:` attribute",
+   * "***",
+   * "This will contain an enumeration of 5 values - icons-lg, icons-sm, media-transports-accents, media-transports-light, media-transports-dark. Default. value is icons-lg."
+   * ]
+   * @name buttonsgicontheme
+   * @attributeType "EnumeratedValue"
+   * @default icons-lg
+   */
+  buttonSgIconTheme: TCh5ButtonListSgIconTheme;
 }

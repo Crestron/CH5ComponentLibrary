@@ -251,10 +251,10 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`receivestatefocus` attribute",
    * "***",
-   * "When focused, send true. When focus is lost, send false."
+   * "When focussed, send true. When focus is lost, send false."
    * ]
    * @name receivestatefocus
-   * @join {"direction": "state", "isContractName": true, "boolean": 1}
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    * @attributeType "Join"
    */
   receiveStateFocus: string;
@@ -264,7 +264,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`receivestatevalue` attribute",
    * "***",
-   * "When recevied, changes the value of the text input field."
+   * "When received, changes the value of the text input field."
    * ]
    * @name receivestatevalue
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}

@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+
+  <test-fixture id="ch5-button-backgroundimageurl-fixture">
+    <template>
+      <ch5-button label="backgroundImage"></ch5-button>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-button', () => {
+
+      let ch5Button;
+
+      setup(() => {
+        ch5Button = fixture('ch5-button-backgroundimageurl-fixture');
+      });
+
+      test('Check the default value of backgroundImageUrl to be ""', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Button.backgroundImageUrl).to.be.equal("");
+            expect(ch5Button.getAttribute("backgroundImageUrl")).to.be.equal(null);
+            done();
+          }, BASIC_TESTING_TIMEOUT);
+        });
+      });
+
+      test('Check if ch5-button has the default "ch5-button--background-image-fill-type-stretch-aspect" class', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Button.children[0].classList.contains("ch5-button--background-image-fill-type-stretch-aspect")).to.be.equal(true);
+            done();
+          }, BASIC_TESTING_TIMEOUT);
+        });
+      });
+
+      test('Check if background-image is being set when backgroundImageUrl is set', (done) => {
+        flush(() => {
+          ch5Button.setAttribute("backgroundImageUrl", "https://www.w3schools.com/css/paris.jpg");
+          setTimeout(() => {
+            expect(ch5Button.getAttribute("backgroundImageUrl",)).to.be.equal("https://www.w3schools.com/css/paris.jpg");
+            expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal(`url("${ch5Button.getAttribute("backgroundImageUrl")}")`)
+            done();
+          }, BASIC_TESTING_TIMEOUT);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

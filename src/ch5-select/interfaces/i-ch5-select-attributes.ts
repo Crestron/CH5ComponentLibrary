@@ -294,7 +294,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
   /**
    * @documentation
    * [
-   * "`snedsignalonfocus` attribute",
+   * "`sendeventonfocus` attribute",
    * "***",
    * "Send a signal on the focus event. Set to true if in focus and set to false if not in focus."
    * ]

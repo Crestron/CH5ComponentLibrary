@@ -148,6 +148,9 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *       "\tuseContractForCustomStyle=\"${41:false}\"",
  *       "\tuseContractForCustomClass=\"${42:false}\"",
  *       "\tuseContractForNumItems=\"${43:false}\"",
+ *       "\tbuttonReceiveStateSGIconNumeric=\"${44:}\"",
+ *       "\tbuttonReceiveStateSGIconString=\"${45:}\"",
+ *       "\tbuttonSgIconTheme=\"${46:icons-lg}\"",
  *       "\tclickHoldTime=\"${44:1500}\">",
  *       "</ch5-button-list>$0"
  *       ]

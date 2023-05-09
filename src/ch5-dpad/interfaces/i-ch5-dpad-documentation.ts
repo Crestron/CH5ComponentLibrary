@@ -46,9 +46,9 @@ import { ICh5DpadAttributes } from "./index";
  *     "description": "Crestron Dpad",
  *     "body": [
  *       "<ch5-dpad id=\"btn_${0:id}\"",
- *       "\tcontractname=\"${1:Contract Name}\"",
+ *       "\tcontractname=\"${1:}\"",
  *        ">",
- *       "</ch5-dpad>"
+ *       "</ch5-dpad>$0"
  *     ]
  *  },
  *  {
@@ -56,9 +56,9 @@ import { ICh5DpadAttributes } from "./index";
  *     "description": "Crestron Dpad",
  *     "body": [
  *       "<ch5-dpad id=\"btn_${0:id}\"",
- *       "\tsendeventonclickstart=\"${1:Event_Click_Index}\"",
+ *       "\tsendeventonclickstart=\"${1:}\"",
  *        ">",
- *       "</ch5-dpad>"
+ *       "</ch5-dpad>$0"
  *     ]
  *  },
  *  {
@@ -66,17 +66,15 @@ import { ICh5DpadAttributes } from "./index";
  *     "description": "Crestron Dpad",
  *     "body": [
  *       "<ch5-dpad id=\"btn_${0:id}\"",
- *       "\tcontractname=\"${1:Contract Name}\"",
- *       "\tshape=\"${2:Shape}\"",
- *       "\ttype=\"${3:type}\"",
- *       "\tstretch=\"${4:stretch}\"",
- *       "\tusecontractforenable=\"${5:useContractForEnable}\"",
- *       "\tusecontractforshow=\"${6:useContractForShow}\"",
- *       "\tusecontractforcustomclass=\"${7:useContractForCustomClass}\"",
- *       "\tusecontractforcustomstyle=\"${8:useContractForCustomStyle}\"",
- *       "\tsendeventonclickstart=\"${9:sendEventOnClickStart}\"",
- *        ">",
- *       "</ch5-dpad>"
+ *       "\tcontractname=\"${1:}\"",
+ *       "\tshape=\"${2:plus}\"",
+ *       "\ttype=\"${3:default}\"",
+ *       "\tusecontractforenable=\"${4:false}\"",
+ *       "\tusecontractforshow=\"${5:false}\"",
+ *       "\tusecontractforcustomclass=\"${6:false}\"",
+ *       "\tusecontractforcustomstyle=\"${7:false}\"",
+ *       "\tsendeventonclickstart=\"${8:}\">",
+ *       "</ch5-dpad>$0"
  *     ]
  *   }
  * ]

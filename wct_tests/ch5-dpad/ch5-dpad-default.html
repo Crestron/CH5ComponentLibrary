@@ -2,66 +2,71 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script src="/bower_components/web-component-tester/browser.js"></script>
-    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
-    <script src="/build_bundles/umd/cr-com-lib.js"></script>
-    <script src="/wct_tests/js/helpers.js"></script>
-    <script src="/wct_tests/ch5-dpad/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-dpad/js/helpers.js"></script>
 </head>
 
 <body>
-<test-fixture id="ch5-dpad-default-fixture">
+  <test-fixture id="ch5-dpad-default-fixture">
     <template>
-        <ch5-dpad></ch5-dpad>
+      <ch5-dpad></ch5-dpad>
     </template>
-</test-fixture>
+  </test-fixture>
 
-<script>
-  suite('ch5-dpad', () => {
+  <script>
+    suite('ch5-dpad', () => {
 
-    let ch5Dpad;
+      let ch5Dpad;
 
-    setup(async () => {
-      ch5Dpad = fixture('ch5-dpad-default-fixture');
+      setup(async () => {
+        ch5Dpad = fixture('ch5-dpad-default-fixture');
+      });
+
+      test(`Check default 'dir' attribute`, () => {
+        expect(ch5Dpad.attributes.dir).to.exist;
+        expect(ch5Dpad.attributes.dir.nodeValue).to.equal('ltr');
+      });
+
+      test(`Check default 'data-ch5-id' attribute`, () => {
+        expect(ch5Dpad.attributes['data-ch5-id']).to.exist;
+        expect(ch5Dpad.attributes['data-ch5-id'].nodeValue).to.contain('cr-id-');
+      });
+
+      test(`Check default 'role' attribute`, () => {
+        expect(ch5Dpad.attributes.role).to.exist;
+      });
+
+      test(`Check default 'shape' attribute`, () => {
+        expect(ch5Dpad.shape).to.equal('plus');
+      });
+
+      test(`Check default 'stretch' attribute`, () => {
+        expect(ch5Dpad.attributes.stretch).not.to.exist;
+      });
+
+      test(`Check default 'type' attribute`, () => {
+        expect(ch5Dpad.type).to.equal('default');
+      });
+
+      test(`Check default 'size' attribute`, () => {
+        expect(ch5Dpad.size).to.equal('regular');
+      });
+
+      test(`Check default classes`, () => {
+        expect(ch5Dpad.attributes.class.nodeValue).to.equal('ch5-dpad ch5-dpad--type-default ch5-dpad--shape-plus ch5-dpad--size-regular');
+      });
+
+      test('Check default number of buttons to be 5', () => {
+        expect(ch5Dpad.children[0].children.length).to.be.equal(5);
+      });
     });
-
-    test(`Check default 'dir' attribute`, () => {
-      expect(ch5Dpad.attributes.dir).to.exist;
-      expect(ch5Dpad.attributes.dir.nodeValue).to.equal('ltr');
-    });
-
-    test(`Check default 'data-ch5-id' attribute`, () => {
-      expect(ch5Dpad.attributes['data-ch5-id']).to.exist;
-      expect(ch5Dpad.attributes['data-ch5-id'].nodeValue).to.contain('cr-id-');
-    });
-
-    test(`Check default 'role' attribute`, () => {
-      expect(ch5Dpad.attributes.role).to.exist;
-      expect(ch5Dpad.attributes.role.nodeValue).to.equal('dpad');
-    });
-
-    test(`Check default 'shape' attribute`, () => {
-      expect(ch5Dpad.attributes.shape).to.exist;
-      expect(ch5Dpad.attributes.shape.nodeValue).to.equal('plus');
-    });
-
-    test(`Check default 'stretch' attribute`, () => {
-      expect(ch5Dpad.attributes.stretch).not.to.exist;
-    });
-
-    test(`Check default 'type' attribute`, () => {
-      expect(ch5Dpad.attributes.type).to.exist;
-      expect(ch5Dpad.attributes.type.nodeValue).to.equal('default');
-    });
-
-    test(`Check default classes`, () => {
-      expect(ch5Dpad.attributes.class.nodeValue).to.equal('ch5-dpad ch5-dpad--type-default ch5-dpad--shape-plus ch5-dpad--size-regular');
-    });
-  });
-</script>
+  </script>
 </body>
 
 </html>

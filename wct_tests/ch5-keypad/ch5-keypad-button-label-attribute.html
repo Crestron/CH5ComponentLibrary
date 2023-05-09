@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-keypad-button-labelMajor-attribute">
+    <template>
+      <ch5-keypad>
+        <ch5-keypad-button key="button2" labelmajor="54">
+        </ch5-keypad-button>
+      </ch5-keypad>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-keypad-button-labelMinor-attribute">
+    <template>
+      <ch5-keypad>
+        <ch5-keypad-button key="button2" labelminor="oooo">
+        </ch5-keypad-button>
+      </ch5-keypad>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-keypad-button-labelMajor-attribute', () => {
+      let ch5Keypad;
+      setup(() => {
+        ch5Keypad = fixture('ch5-keypad-button-labelMajor-attribute');
+      });
+
+      test('Check LableMajor', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Keypad.querySelectorAll('ch5-keypad-button')[1].children[0].children[0].innerHTML).to.be.equal('54');
+            expect(ch5Keypad.querySelectorAll('ch5-keypad-button')[1].children[0].children[1].innerHTML).to.be.equal('ABC');
+            done();
+          });
+        });
+      });
+    });
+
+    suite('ch5-keypad-button-labelMinor-attribute', () => {
+      let ch5Keypad;
+      setup(() => {
+        ch5Keypad = fixture('ch5-keypad-button-labelMinor-attribute');
+      });
+
+      test('Check LableMajor', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Keypad.querySelectorAll('ch5-keypad-button')[1].children[0].children[0].innerHTML).to.be.equal('2');
+            expect(ch5Keypad.querySelectorAll('ch5-keypad-button')[1].children[0].children[1].innerHTML).to.be.equal('oooo');
+            done();
+          });
+        });
+      });
+    })
+  </script>
+</body>
+
+</html>

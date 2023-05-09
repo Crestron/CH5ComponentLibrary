@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5ButtonModeStateAttributes, TCh5ButtonCheckboxPosition, TCh5ButtonHorizontalAlignLabel, TCh5ButtonIconPosition, TCh5ButtonModeState, TCh5ButtonType, TCh5ButtonVerticalAlignLabel } from "./interfaces";
+import { ICh5ButtonModeStateAttributes, TCh5ButtonCheckboxPosition, TCh5ButtonHorizontalAlignLabel, TCh5ButtonIconPosition, TCh5ButtonIconUrlFillType, TCh5ButtonModeState, TCh5ButtonType, TCh5ButtonVerticalAlignLabel } from "./interfaces";
 import { Ch5Button } from "./ch5-button";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5ButtonMode } from "./ch5-button-mode";
@@ -36,7 +36,7 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
     }
     this._parentCh5Button.createButtonLabel(this);
     this._parentCh5Button.setButtonDisplay();
-  this.logger.stop();
+    this.logger.stop();
   }
   public get labelInnerHTML(): string {
     return this.getAttribute("labelinnerhtml") as string;
@@ -121,6 +121,13 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
     return this.getAttribute("customstyle") as string;
   }
 
+  public set iconUrlFillType(value: TCh5ButtonIconUrlFillType | null) {
+    this.validateAndSetAttributeWithCustomType("iconUrlFillType", Ch5Button.ICON_URL_FILL_TYPE, value);
+  }
+  public get iconUrlFillType(): TCh5ButtonIconUrlFillType | null {
+    return this.getAttribute("iconurlfilltype") as TCh5ButtonIconUrlFillType | null;
+  }
+
   //#endregion
 
   //#region 3. Life Cycle Hooks
@@ -183,7 +190,8 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
       'state',
       'customclass',
       'customstyle',
-      'labelinnerhtml'
+      'labelinnerhtml',
+      'iconurlfilltype'
     ];
 
     return commonAttributes.concat(ch5ButtonModeChildAttributes);
@@ -268,6 +276,12 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
         case 'state':
           if (this.hasAttribute('state')) {
             this.state = newValue as TCh5ButtonModeState;
+          }
+          break;
+
+        case 'iconurlfilltype':
+          if (this.hasAttribute('iconurlfilltype')) {
+            this.iconUrlFillType = newValue as TCh5ButtonIconUrlFillType;
           }
           break;
 

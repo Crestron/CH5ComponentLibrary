@@ -68,7 +68,7 @@
       test(`Check sendeventonclick - button down`, () => {
         expect(ch5DpadEvent.children[0].children[4].getAttribute('sendeventonclick')).to.be.equal("6");
       });
-      
+
     });
 
     suite('ch5-dpad-contractName', () => {
@@ -80,7 +80,7 @@
       });
 
       test(`Check contractname - dpad`, () => {
-        expect(ch5DpadEvent.getAttribute('contractname')).to.be.equal("LivingRoom.AppleTV.");
+        expect(ch5DpadEvent.getAttribute('contractname')).to.be.equal("LivingRoom.AppleTV");
       });
 
       test(`Check sendeventonclick - button center`, () => {
@@ -103,7 +103,7 @@
         expect(ch5DpadEvent.children[0].children[3].getAttribute('sendeventonclick')).to.be.equal("LivingRoom.AppleTV.Right");
       });
 
-     
+
     });
   </script>
 </body>

@@ -35,8 +35,8 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
  *     "description": "Crestron Keypad Child Button",
  *     "body": [
  *       "<ch5-keypad-button key=\"button${1:Button_Key}\"",
- *       "\tlabelmajor=\"${2:Label_Major}\"",
- *       "\tlabelminor=\"${3:Label_Minor}\"",
+ *       "\tlabelmajor=\"${2:}\"",
+ *       "\tlabelminor=\"${3:}\"",
  *        ">",
  *       "</ch5-keypad-button>$0"
  *     ]
@@ -50,6 +50,18 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
  *        ">",
  *       "</ch5-keypad-button>$0"
  *     ]
+ *   },
+ *   {
+ *      "prefix": "ch5-keypad-button:all-attribute",
+ *      "description":"Crestron Keypad Child Button (All attribute)",
+ *      "body": [
+ *        "<ch5-keypad-button key=\"button${1:Button_Key}\"",
+ *        "\tlabelMajor=\"${2:}\"",
+ *        "\tlabelMinor=\"${3:}\"",
+ *        "\ticonClass=\"${4:}\"",
+ *        "\tpressed=\"${5:false}\">",
+ *        "</ch5-keypad-button>$0"
+ *      ]
  *   }
  * ]
  * 
@@ -112,21 +124,6 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      */
      key: string;
 
-    /**
-     * @documentation
-     * [
-     * "`sendEventOnClick` attribute",
-     * "***",
-     * "Sends an event on click or tap (mouse or swipe up and down quickly).",
-     * "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
-     * "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
-     * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
-     * ]
-     * @name sendeventonclick
-     * @attributeType "Join"
-     */
-    sendEventOnClick: string;
-    
     /**
      * @documentation
      * [

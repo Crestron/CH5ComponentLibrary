@@ -46,10 +46,10 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * [
      * "`shape` attribute",
      * "***",
-     * "Sets the overall <ch5-keypad> component shape to plus or circle."
+     * "Sets the overall <ch5-keypad> component shape to rounded-rectangle, square or circle."
      * ]
      * @name shape
-     * @default plus
+     * @default rounded-rectangle
      * @attributeType "EnumeratedValue"
      */
     shape: TCh5KeypadShape;
@@ -106,8 +106,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "If the contract name exists, by default this becomes true. ",
      * "If the contract name does not exist, by default this becomes false. ",
      * "If this value is set to true then the value received from the contract will be considered to enable ",
-     * "<ch5-keypad> tag and also to enable the buttons under <ch5-keypad> component i.e. <ch5-keypad-button-left>, ",
-     * "<ch5-keypad-button-right>, <ch5-keypad-button-top>, <ch5-keypad-button-bottom>, <ch5-keypad-button-center>. ",
+     * "<ch5-keypad> tag and also to enable the buttons under <ch5-keypad> component.",
      * "The names from the contract will be different for each of the buttons and the overall <ch5-keypad> component. ",
      * "The details can be seen in the table above."
      * ]
@@ -206,7 +205,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "Only applicable if contractName is not provided as a parameter."
      * ]
      * @name receivestateextrabuttonshow
-     * @join { direction: "state", booleanJoin: 1, isContractName: true }
+     * @join { "direction": "state", "booleanJoin": 1, "isContractName": true }
      * @attributeType "Join"
      */
     receiveStateExtraButtonShow: string;
