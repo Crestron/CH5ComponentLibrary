@@ -1,4 +1,4 @@
-// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+// Copyright (C) 2023 to the present, Crestron Electronics, Inc.
 // All rights reserved.
 // No part of this software may be reproduced in any form, machine
 // or natural, without the express written consent of Crestron Electronics.
@@ -8,8 +8,6 @@
 export type TCh5OverlayPanelPositionOffset = 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center'
     | 'bottom-right' | 'left-center' | 'right-center';
 
-
 export type TCh5OverlayPanelOverflow = 'scroll' | 'show';
-
 
 export type TCh5OverlayPanelStretch = 'both' | 'width' | 'height';

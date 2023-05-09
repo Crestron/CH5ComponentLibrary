@@ -29,12 +29,12 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		sendsignalonbeforeshow: { direction: "state", stringJoin: 1, contractName: true },
-		sendsignalonaftershow: { direction: "state", stringJoin: 1, contractName: true },
-		sendsignalonbeforehide: { direction: "state", stringJoin: 1, contractName: true },
-		sendsignalonafterhide: { direction: "state", stringJoin: 1, contractName: true },
-		sendsignalonok: { direction: "state", stringJoin: 1, contractName: true },
-		sendsignaloncancel: { direction: "state", stringJoin: 1, contractName: true },
+		sendsignalonbeforeshow: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignalonaftershow: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignalonbeforehide: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignalonafterhide: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignalonok: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignaloncancel: { direction: "event", booleanJoin: 1, contractName: true },
 	};
 
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
@@ -135,7 +135,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			name: "okButtonLabel",
 			removeAttributeOnNull: true,
 			type: "string",
-			valueOnAttributeEmpty: "",
+			valueOnAttributeEmpty: "Ok",
 			isObservableProperty: true
 		},
 		{
@@ -168,7 +168,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			name: "cancelButtonLabel",
 			removeAttributeOnNull: true,
 			type: "string",
-			valueOnAttributeEmpty: "",
+			valueOnAttributeEmpty: "Cancel",
 			isObservableProperty: true
 		},
 		{
@@ -207,7 +207,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			default: "",
 			isSignal: true,
 			name: "sendEventOnBeforeShow",
-			signalType: "string",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -217,7 +217,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			default: "",
 			isSignal: true,
 			name: "sendEventOnAfterShow",
-			signalType: "string",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -227,7 +227,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			default: "",
 			isSignal: true,
 			name: "sendEventOnBeforeHide",
-			signalType: "string",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -237,7 +237,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			default: "",
 			isSignal: true,
 			name: "sendEventOnAfterHide",
-			signalType: "string",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -247,7 +247,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			default: "",
 			isSignal: true,
 			name: "sendEventOnShow",
-			signalType: "string",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -257,7 +257,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			default: "",
 			isSignal: true,
 			name: "sendEventOnOk",
-			signalType: "string",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -267,7 +267,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			default: "",
 			isSignal: true,
 			name: "sendEventOnCancel",
-			signalType: "string",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -310,9 +310,9 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 	protected _elBtnCancel: Ch5Button = {} as Ch5Button;
 
 
-	protected _btnOkDefaultLabelText = 'Ok';
+	// protected _btnOkDefaultLabelText = 'Ok';
 
-	protected _btnCancelDefaultLabelText = 'Cancel';
+	// protected _btnCancelDefaultLabelText = 'Cancel';
 
 
 	private _okEvent: Event;
@@ -522,8 +522,8 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			cancelable: false
 		});
 
-		this.cancelButtonLabel = this._btnCancelDefaultLabelText;
-		this.okButtonLabel = this._btnOkDefaultLabelText;
+		// this.cancelButtonLabel = this._btnCancelDefaultLabelText;
+		// this.okButtonLabel = this._btnOkDefaultLabelText;
 	}
 
 	public static registerSignalAttributeTypes() {
@@ -847,12 +847,12 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 			this._elBtnOk = new Ch5Button();
 			this._elBtnOk.setAttribute('type', 'success');
-			this._elBtnOk.setAttribute('label', this._btnOkDefaultLabelText);
+			this._elBtnOk.setAttribute('label', this.okButtonLabel);
 			this._elBtnOk.classList.add(this.primaryCssClass + '-btn-ok');
 
 			this._elBtnCancel = new Ch5Button();
 			this._elBtnCancel.setAttribute('type', 'warning');
-			this._elBtnCancel.setAttribute('label', this._btnCancelDefaultLabelText);
+			this._elBtnCancel.setAttribute('label', this.cancelButtonLabel);
 			this._elBtnCancel.classList.add(this.primaryCssClass + '-btn-cancel');
 
 			this._elContents = document.createElement('div');
