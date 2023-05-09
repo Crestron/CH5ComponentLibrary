@@ -1039,7 +1039,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   // Initializes the elements of ch5-video
   private _initializeVideo() {
     const uID = this.getCrId().split('cr-id-')[1];
-    this.ch5UId = parseInt(uID[1], 0);
+    this.ch5UId = parseInt(uID, 0);
     this.videoTagId = this.getCrId();
     this.setAttribute("id", this.getCrId());
     //  A dummy call to make the video to play on first project load
@@ -1143,7 +1143,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.logger.log("videoIntersectionObserver#intersectionRatio -> " + this.elementIntersectionEntry.intersectionRatio);
     this.lastBackGroundRequest = "";
     if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE && this.playValue) {
-
       this._onRatioAboveLimitToRenderVideo();
     } else {
       this._OnVideoAspectRatioConditionNotMet();
@@ -1183,9 +1182,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
    */
   private _OnVideoAspectRatioConditionNotMet() {
     if (this.isFullScreen) { return; }
-
-    this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL, 'OnVideoAspectRatioConditionNotMet');
-    publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(CH5VideoUtils.VIDEO_ACTION.STOP, this.ch5UId)); // Stop the video immediately
+    this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
+    this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL, 'disconnect');
+    //this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL, 'OnVideoAspectRatioConditionNotMet');
+    //publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(CH5VideoUtils.VIDEO_ACTION.STOP, this.ch5UId)); // Stop the video immediately
   }
 
   /**
@@ -1207,6 +1207,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       "id": uId
     };
     this.logger.log(JSON.stringify(retObj));
+    console.log('return obj', JSON.stringify(retObj));
     return retObj;
   }
 
@@ -1268,7 +1269,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       return;
     }
     this.isVideoReady = true;
-    publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType, 'videoStartRequest'));
+    if (this.responseObj?.id && this.responseObj?.id !== this.ch5UId && this.responseObj?.status === 'started') {
+      publishEvent('o', 'Csig.video.request', this.videoStopObjJSON('stop', this.responseObj?.id));
+      setTimeout(() => {
+        publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType, 'videoStartRequest'));
+      }, 300);
+    } else {
+      publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType, 'videoStartRequest'));
+    }
     this.requestID = this.ch5UId;
   }
 
@@ -1282,7 +1290,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   // Send event to the backend based on the action Type
   private _publishVideoEvent(actionType: string) {
-    this.responseObj = {} as TVideoResponse;
+    // this.responseObj = {} as TVideoResponse; // TODO
     this.isAlphaBlend = !this.isFullScreen;
     if (this.sendEventResolution.trim().length !== 0 && this.sendEventResolution !== null && this.sendEventResolution !== undefined) {
       Ch5SignalFactory.getInstance().getStringSignal(this.sendEventResolution)?.publish(this.sizeObj.width + "x" + this.sizeObj.height + "@24fps");
