@@ -1977,7 +1977,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 		}
 	}
 	
-		/**
+	/**
 	 * Add modifier classes to the component and input elements
 	 * 
 	 * @param {string} className 

@@ -192,7 +192,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * [
     * "`toolTipDisplayType` attribute",
     * "***",
-    * "The default value is '%'. Sets what is displayed in the tooltip. Valid values: ",
+    * "The default value is '%'. Sets what is displayed in the tooltip. Valid values: ",
     * "'%' - The value is displayed as a percent ",
     * "'value' - The actual value provided"
     * ]

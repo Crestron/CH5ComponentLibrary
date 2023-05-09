@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-export type TCh5SliderHandleShape = 'rectangle' | 'circle' | 'oval' | 'rounded-rectangle';
+export type TCh5SliderHandleShape = 'rounded-rectangle' | 'rectangle' | 'circle' | 'oval';
 export enum TCh5SliderHandle { VALUE = 0, HIGHVALUE = 1 };
 export type TCh5SliderOrientation = 'horizontal' | 'vertical';
 export type TCh5SliderSize = 'regular' | 'x-small' | 'small' | 'large' | 'x-large';
