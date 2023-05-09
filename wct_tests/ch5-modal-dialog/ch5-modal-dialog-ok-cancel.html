@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+  <test-fixture id="ch5-modal-dialog-height-width">
+    <template>
+      <ch5-modal-dialog>
+        <h1>Modal</h1>
+      </ch5-modal-dialog>
+    </template>
+  </test-fixture>
+
+
+  <script>
+    suite('ch5-modal-dialog-height-width-attribute', () => {
+
+      setup(async () => {
+        ch5ModalDialog = fixture('ch5-modal-dialog-height-width');
+      });
+
+      test('Check default value of okButtonLabel to be "Ok"', () => {
+        expect(ch5ModalDialog.okButtonLabel).to.be.equal("Ok");
+        expect(ch5ModalDialog.getAttribute("okButtonLabel")).to.be.equal(null);
+      });
+
+      test('Check default value of okButtonIcon to be " "', () => {
+        expect(ch5ModalDialog.okButtonIcon).to.be.equal("");
+        expect(ch5ModalDialog.getAttribute("okButtonIcon")).to.be.equal(null);
+      });
+
+      test('Check default value of okButtonStyle to be " "', () => {
+        expect(ch5ModalDialog.okButtonStyle).to.be.equal("");
+        expect(ch5ModalDialog.getAttribute("okButtonStyle")).to.be.equal(null);
+      });
+
+      test('Check default value of cancelButtonLabel to be "Cancel"', () => {
+        expect(ch5ModalDialog.cancelButtonLabel).to.be.equal("Cancel");
+        expect(ch5ModalDialog.getAttribute("canceButtonLabel")).to.be.equal(null);
+      });
+
+      test('Check default value of cancelButtonIcon to be " "', () => {
+        expect(ch5ModalDialog.cancelButtonIcon).to.be.equal("");
+        expect(ch5ModalDialog.getAttribute("cancelButtonIcon")).to.be.equal(null);
+      });
+
+      test('Check default value of cancelButtonStyle to be " "', () => {
+        expect(ch5ModalDialog.cancelButtonStyle).to.be.equal("");
+        expect(ch5ModalDialog.getAttribute("cancelButtonStyle")).to.be.equal(null);
+      });
+
+      test('Check if okButtonLabel is being set and visible in the modal dialog', (done) => {
+        ch5ModalDialog.setAttribute("okButtonLabel", "Hello");
+        expect(ch5ModalDialog.getAttribute("okButtonLabel")).to.be.equal("Hello");
+        expect(ch5ModalDialog.okButtonLabel).to.be.equal("Hello");
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ModalDialog.children[0].children[1].classList.contains("ch5-modal-dialog-footer")).to.be.equal(true);
+            expect(ch5ModalDialog.children[0].children[1].children[0].label).to.be.equal("Hello");
+            expect(ch5ModalDialog.children[0].children[1].children[0].type).to.be.equal("success");
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check if cancelButtonLabel is being set and visible in the modal dialog', (done) => {
+        ch5ModalDialog.setAttribute("cancelButtonLabel", "Hello");
+        expect(ch5ModalDialog.getAttribute("cancelButtonLabel")).to.be.equal("Hello");
+        expect(ch5ModalDialog.cancelButtonLabel).to.be.equal("Hello");
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ModalDialog.children[0].children[1].classList.contains("ch5-modal-dialog-footer")).to.be.equal(true);
+            expect(ch5ModalDialog.children[0].children[1].children[1].label).to.be.equal("Hello");
+            expect(ch5ModalDialog.children[0].children[1].children[1].type).to.be.equal("warning");
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check if okButtonIcon is being set and visible in the modal dialog', (done) => {
+        ch5ModalDialog.setAttribute("okButtonIcon", "fas fa-plus");
+        expect(ch5ModalDialog.getAttribute("okButtonIcon")).to.be.equal("fas fa-plus");
+        expect(ch5ModalDialog.okButtonIcon).to.be.equal("fas fa-plus");
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ModalDialog.children[0].children[1].children[0].children[0].children[0].children[0].children[0].classList.contains("fas")).to.be.equal(true);
+            expect(ch5ModalDialog.children[0].children[1].children[0].children[0].children[0].children[0].children[0].classList.contains("fa-plus")).to.be.equal(true);
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check if cancelButtonIcon is being set and visible in the modal dialog', (done) => {
+        ch5ModalDialog.setAttribute("cancelButtonIcon", "fas fa-minus");
+        expect(ch5ModalDialog.getAttribute("cancelButtonIcon")).to.be.equal("fas fa-minus");
+        expect(ch5ModalDialog.cancelButtonIcon).to.be.equal("fas fa-minus");
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ModalDialog.children[0].children[1].children[1].children[0].children[0].children[0].children[0].classList.contains("fas")).to.be.equal(true);
+            expect(ch5ModalDialog.children[0].children[1].children[1].children[0].children[0].children[0].children[0].classList.contains("fa-minus")).to.be.equal(true);
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

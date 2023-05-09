@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+  <test-fixture id="ch5-modal-dialog-closable">
+    <template>
+      <ch5-modal-dialog>
+        <h1>Modal</h1>
+      </ch5-modal-dialog>
+    </template>
+  </test-fixture>
+
+
+  <script>
+    suite('ch5-modal-dialog-closable-attribute', () => {
+
+      setup(async () => {
+        ch5ModalDialog = fixture('ch5-modal-dialog-closable');
+      });
+
+      test('Check type of closable to be boolean', () => {
+        expect(typeof ch5ModalDialog.closable).to.be.equal("boolean");
+      });
+
+      test('Check default value of "closable" to be false', () => {
+        expect(ch5ModalDialog.closable).to.be.equal(false);
+        expect(ch5ModalDialog.getAttribute("closable")).to.be.equal(null);
+      });
+
+      test('Check if closable is being assigned to "true" and the icon is visible', (done) => {
+        ch5ModalDialog.setAttribute("closable", true);
+        expect(ch5ModalDialog.getAttribute("closable")).to.be.equal("true");
+        expect(ch5ModalDialog.closable).to.be.equal(true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ModalDialog.children[0].children[0].classList.contains("ch5-modal-dialog-close-icon-btn")).to.be.equal(true);
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check if closable is being assigned to "false" and the icon is not visible', (done) => {
+        ch5ModalDialog.setAttribute("closable", false);
+        expect(ch5ModalDialog.getAttribute("closable")).to.be.equal("false");
+        expect(ch5ModalDialog.closable).to.be.equal(false);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ModalDialog.children[0].children[0].classList.contains("ch5-modal-dialog-close-icon-btn")).to.be.equal(false);
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

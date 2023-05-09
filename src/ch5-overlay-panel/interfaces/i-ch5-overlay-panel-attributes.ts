@@ -117,20 +117,6 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
   /**
    * @documentation
    * [
-   * "`mask` attribute",
-   * "***",
-   * "The default value is false. ",
-   * "Specifies whether or not to apply a background mask."
-   * ]
-   * @name mask
-   * @default false
-   * @attributeType "Boolean"
-   */
-  mask: boolean;
-
-  /**
-   * @documentation
-   * [
    * "`receivestatepositionto` attribute ",
    * "***",
    * "When received, positions to this component."

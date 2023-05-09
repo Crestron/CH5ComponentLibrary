@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+  <test-fixture id="ch5-modal-dialog-closeIcon">
+    <template>
+      <ch5-modal-dialog>
+        <h1>Modal</h1>
+      </ch5-modal-dialog>
+    </template>
+  </test-fixture>
+
+
+  <script>
+    suite('ch5-modal-dialog-closeIcon-attribute', () => {
+
+      setup(async () => {
+        ch5ModalDialog = fixture('ch5-modal-dialog-closeIcon');
+      });
+
+      test('Check type of closeIcon to be string', () => {
+        expect(typeof ch5ModalDialog.closeIcon).to.be.equal("string");
+      });
+
+      test('Check default value of "closeIcon" to be "" if closable is false', () => {
+        expect(ch5ModalDialog.closable).to.be.equal(false);
+        expect(ch5ModalDialog.closeIcon).to.be.equal("");
+      });
+    });
+  </script>
+</body>
+
+</html>

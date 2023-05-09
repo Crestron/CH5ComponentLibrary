@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+  <test-fixture id="ch5-modal-dialog-dismissable">
+    <template>
+      <ch5-modal-dialog>
+        <h1>Modal</h1>
+      </ch5-modal-dialog>
+    </template>
+  </test-fixture>
+
+
+  <script>
+    suite('ch5-modal-dialog-dismissable-attribute', () => {
+
+      setup(async () => {
+        ch5ModalDialog = fixture('ch5-modal-dialog-dismissable');
+      });
+
+      test('Check type of dismissable to be boolean', () => {
+        expect(typeof ch5ModalDialog.dismissable).to.be.equal("boolean");
+      });
+
+      test('Check default value of "dismissable" to be true', () => {
+        expect(ch5ModalDialog.dismissable).to.be.equal(true);
+        expect(ch5ModalDialog.getAttribute("dismissable")).to.be.equal(null);
+      });
+
+      test('Check if attribute is present and given random value, does it default to "true"', () => {
+        ch5ModalDialog.setAttribute("dismissable", "helo");
+        expect(ch5ModalDialog.getAttribute("dismissable")).to.be.equal("true");
+        expect(ch5ModalDialog.dismissable).to.be.equal(true);
+      });
+    });
+  </script>
+</body>
+
+</html>
