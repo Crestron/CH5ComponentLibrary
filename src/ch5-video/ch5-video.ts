@@ -150,11 +150,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       type: "number",
       valueOnAttributeEmpty: null,
       numberProperties: {
-        min: 5,
+        min: 0,
         max: 60,
-        conditionalMin: 5,
+        conditionalMin: 0,
         conditionalMax: 60,
-        conditionalMinValue: 5,
+        conditionalMinValue: 0,
         conditionalMaxValue: 60
       },
       isObservableProperty: true

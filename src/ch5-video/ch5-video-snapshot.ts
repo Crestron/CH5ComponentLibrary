@@ -28,9 +28,11 @@ export class Ch5VideoSnapshot {
         }
         this.setSnapshot();
         this.videoImage.classList.remove('hide');
-        this.snapshotTimer = window.setInterval(() => {
-            this.setSnapshot();
-        }, 1000 * this.refreshRate, 0);
+        if (this.refreshRate !== 0) {
+            this.snapshotTimer = window.setInterval(() => {
+                this.setSnapshot();
+            }, 1000 * this.refreshRate, 0);
+        }
     }
 
     public stopLoadingSnapshot() {

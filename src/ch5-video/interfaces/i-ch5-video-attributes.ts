@@ -6,29 +6,33 @@ import { TCh5VideoAspectRatio, TCh5VideoSourceType, TCh5VideoSize, } from './t-c
  */
 export interface ICh5VideoAttributes extends ICh5CommonAttributes {
       /**
-            * @documentation
-            * [
-            * "`indexId` attribute",
-            * "***",
-            * "Provides the name of the offset identifier to be substituted with 0 based index of the item in list within the signal names provided in other attributes surrounded by {{ }} delimiters.   See examples. Note: 0-based.  Other components, e.g. List, Spinner, Select, are currently 1-based, but will be changed to 0-based in the future.  This component will start as 0-based. "
-            * ]
-            * @name indexid
-            * @default 0
-            * @attributeType "String"
-            */
+      * @documentation
+      * [
+      * "`indexId` attribute",
+      * "***",
+      * "Provides the name of the offset identifier to be substituted with 0 based index of the item in list within the signal names provided in other attributes surrounded by {{ }} delimiters.   See examples. Note: 0-based.  Other components, e.g. List, Spinner, Select, are currently 1-based, but will be changed to 0-based in the future.  This component will start as 0-based. "
+      * ]
+      * @name indexid
+      * @default 0
+      * @attributeType "String"
+      */
       indexId: string;
+
       /**
        * @documentation
        * [
        * "`aspectRatio` attribute",
        * "***",
-       * "Sets the ratio of width to height of the video. Width and height of the component to be controlled by css style classes. Values are "16:9" (default), "4:3", and custom. When size of container is not match the aspect ratio, the full height or the full width should be used and the dimension that is not full should be centered. In other words, use letterbox or pillarbox logic to place the video component view. Note: this attribute only defines the size of the component within the project, it does not define the size of video displayed within the component."
+       * "Sets the ratio of width to height of the video. Width and height of the component to be controlled by css style classes.",
+       * "Values are '16:9' (default), '4:3', and custom. When size of container is not match the aspect ratio, the full height or the full width should be used and the dimension that is not full should be centered.",
+       * "In other words, use letterbox or pillarbox logic to place the video component view. Note: this attribute only defines the size of the component within the project, it does not define the size of video displayed within the component."
        * ]
        * @name aspectratio
        * @default 16:9
        * @attributeType "EnumeratedValue"
        */
       aspectRatio: TCh5VideoAspectRatio;
+
       /**
       * @documentation
       * [
@@ -106,11 +110,11 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
        * [
        * "`snapshotRefreshRate` attribute",
        * "***",
-       * "Default 0. Defines the refresh period for a snapshot URL in units of seconds. 0 indicates no refresh. Superseded by receiveStateSnapshotRefreshrate"
+       * "Default 5. Defines the refresh period for a snapshot URL in units of seconds. 0 indicates no refresh. Superseded by receiveStateSnapshotRefreshrate"
        * ]
        * @name snapshotrefreshrate
-       * @default 0
-       * @limits [{"min": 0, "max": 5}]
+       * @default 5
+       * @limits [{"min": 0, "max": 60}]
        * @attributeType "Integer"
        */
       snapshotRefreshRate: number;
@@ -192,7 +196,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
        * [
        * "`receiveStateURL` attribute",
        * "***",
-       * "provides the video URL to use when the selection changes to the INDEX value. INDEX is the value passed in the 'indexId' attribute that can be used as prefix or suffix of a signal template name. INDEX is 0-based offset into the list of up to maximum number of sources. As an example, if the value provided as indexId is "INDEX" and the value provided for receiveStateURL is "panel2.videourl[{{INDEX}}]", this video control will use "panel2.videourl[0]", "panel2.videourl[1]", ..., "panel2.video_url[31]" as string state names to be associated with select value 0, 1, ..., 31."
+       * "provides the video URL to use when the selection changes to the INDEX value. INDEX is the value passed in the 'indexId' attribute that can be used as prefix or suffix of a signal template name. INDEX is 0-based offset into the list of up to maximum number of sources. As an example, if the value provided as indexId is 'INDEX' and the value provided for receiveStateURL is 'panel2.videourl[{{INDEX}}]', this video control will use 'panel2.videourl[0]', 'panel2.videourl[1]', ..., 'panel2.video_url[31]' as string state names to be associated with select value 0, 1, ..., 31."
        * ]
        * @name receivestateurl
        * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
@@ -408,7 +412,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
        * [
        * "`sendEventResolution` attribute",
        * "***",
-       * "current video resolution string - "0x0@0fps" for unknown and not streaming, WxH@Rfps where W is width, H is height and R is a frame rate when the valid video source"
+       * "current video resolution string."
        * ]
        * @name sendeventresolution
        * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
