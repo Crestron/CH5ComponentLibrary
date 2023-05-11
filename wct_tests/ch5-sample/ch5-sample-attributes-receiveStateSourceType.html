@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-sample-receiveStateSourceType-attributes">
+    <template>
+      <ch5-sample receiveStateSourceType="trigger_event_listener"></ch5-sample>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-sample-receiveStateSourceType-attributes-value', () => {
+      let ch5Sample;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatesourcetype.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Sample = fixture('ch5-sample-receiveStateSourceType-attributes');
+      });
+        
+          test('receiveStateSourceType', (done) => {
+                CrComLib.publishEvent('b', 'trigger_event_0',true );
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Sample.getAttribute('sourceType')).to.be.equal('Network');
+                        done();
+                    }, 100);
+                });
+              }); 
+          
+          test('receiveStateSourceType', (done) => {
+                CrComLib.publishEvent('b', 'trigger_event_1',true );
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Sample.getAttribute('sourceType')).to.be.equal('HDMI');
+                        done();
+                    }, 100);
+                });
+              }); 
+          
+          test('receiveStateSourceType', (done) => {
+                CrComLib.publishEvent('b', 'trigger_event_2',true );
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Sample.getAttribute('sourceType')).to.be.equal('DM');
+                        done();
+                    }, 100);
+                });
+              }); 
+          
+    });
+  </script>
+</body>
+
+</html>

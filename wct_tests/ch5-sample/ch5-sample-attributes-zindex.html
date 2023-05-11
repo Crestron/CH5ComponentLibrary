@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-sample-zindex-attributes">
+    <template>
+      <ch5-sample></ch5-sample>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-sample-zindex-attributes-value', () => {
+      let ch5Sample;
+
+      setup(async () => {
+        ch5Sample = fixture('ch5-sample-zindex-attributes');
+      });
+        
+        let testCases = ['a', '', ' ', 'number', '-1', '0', '1', '998', '999', '1000'];
+        let expectedResult = ['0', '0', '0', '0','0', '0', '1', '998', '999', '999'];
+        testCases.forEach((ele, i) => {
+              test('Check Value "zindex"', () => {
+                  ch5Sample.setAttribute('zindex', ele);
+                  expect(ch5Sample.getAttribute('zindex')).to.be.equal(expectedResult[i]);
+              });
+          });
+        
+    });
+  </script>
+</body>
+
+</html>

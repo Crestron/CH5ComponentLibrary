@@ -1,0 +1,47 @@
+{
+  "cues": [
+    
+          {
+                "type": "boolean",
+                "event": "trigger_event_0",
+                "trigger": true,
+                "actions": [
+                  {
+                    "type": "string",
+                    "state": "trigger_event_listener",
+                    "logic": "set",
+                    "value": "Network"
+                  }
+                ]
+              }
+              ,
+          {
+                "type": "boolean",
+                "event": "trigger_event_1",
+                "trigger": true,
+                "actions": [
+                  {
+                    "type": "string",
+                    "state": "trigger_event_listener",
+                    "logic": "set",
+                    "value": "HDMI"
+                  }
+                ]
+              }
+              ,
+          {
+                "type": "boolean",
+                "event": "trigger_event_2",
+                "trigger": true,
+                "actions": [
+                  {
+                    "type": "string",
+                    "state": "trigger_event_listener",
+                    "logic": "set",
+                    "value": "DM"
+                  }
+                ]
+              }
+              
+  ]
+}
