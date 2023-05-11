@@ -257,26 +257,26 @@ export class Ch5SpinnerScroll {
         this.element.templateHelper instanceof Ch5SpinnerTemplate &&
         this.element.templateHelper.wrapperElement instanceof HTMLElement
       ) {
-      this._mouseDownListener = this._onMouseDown.bind(this) as unknown as EventListener;
-      this._mouseUpListener = this._onMouseUp.bind(this) as unknown as EventListener;
-      this._mouseMoveListener = this._onMouseMove.bind(this) as unknown as EventListener;
-      this._touchstartListener = this._onMouseDown.bind(this) as unknown as EventListener;
-      this._toucheendUpListener = this._onMouseUp.bind(this) as unknown as EventListener;
-      this._touchmoveListener = this._onMouseMove.bind(this) as unknown as EventListener;
-      this._mouseLeaveListener = this._onMouseLeave.bind(this) as unknown as EventListener;
-      this._touchendLeaveListener = this._onMouseLeave.bind(this) as unknown as EventListener;
+        this._mouseDownListener = this._onMouseDown.bind(this) as unknown as EventListener;
+        this._mouseUpListener = this._onMouseUp.bind(this) as unknown as EventListener;
+        this._mouseMoveListener = this._onMouseMove.bind(this) as unknown as EventListener;
+        this._touchstartListener = this._onMouseDown.bind(this) as unknown as EventListener;
+        this._toucheendUpListener = this._onMouseUp.bind(this) as unknown as EventListener;
+        this._touchmoveListener = this._onMouseMove.bind(this) as unknown as EventListener;
+        this._mouseLeaveListener = this._onMouseLeave.bind(this) as unknown as EventListener;
+        this._touchendLeaveListener = this._onMouseLeave.bind(this) as unknown as EventListener;
 
-      this.element.templateHelper.wrapperElement.addEventListener('mousedown', this._mouseDownListener, { passive: true });
-      this.element.addEventListener('mouseup', this._mouseUpListener);
-      this.element.addEventListener('mousemove', this._mouseMoveListener);
+        this.element.templateHelper.wrapperElement.addEventListener('mousedown', this._mouseDownListener, { passive: true });
+        this.element.addEventListener('mouseup', this._mouseUpListener);
+        this.element.addEventListener('mousemove', this._mouseMoveListener);
 
-      this.element.templateHelper.wrapperElement.addEventListener('touchstart', this._touchstartListener, { passive: true });
-      this.element.addEventListener('touchend', this._toucheendUpListener);
-      this.element.addEventListener('touchmove', this._touchmoveListener, { passive: true });
+        this.element.templateHelper.wrapperElement.addEventListener('touchstart', this._touchstartListener, { passive: true });
+        this.element.addEventListener('touchend', this._toucheendUpListener);
+        this.element.addEventListener('touchmove', this._touchmoveListener, { passive: true });
 
-      // reset on mouse leave
-      this.element.addEventListener('mouseleave', this._mouseLeaveListener);
-      this.element.addEventListener('touchend', this._touchendLeaveListener);
+        // reset on mouse leave
+        this.element.addEventListener('mouseleave', this._mouseLeaveListener);
+        this.element.addEventListener('touchend', this._touchendLeaveListener);
       }
     } catch (e) {
       console.log('Adding listeners have problems', e);
@@ -491,16 +491,16 @@ export class Ch5SpinnerScroll {
 
     const mouseYPos = this.getMousePosition(event).y;
     let offsetX = 0;
-		let offsetY = 0;
-		let sliderElement = this.element as unknown as any;
-		while (sliderElement && !isNaN(sliderElement.offsetLeft) && !isNaN(sliderElement.offsetTop)) {
-			offsetX += sliderElement.offsetLeft - sliderElement.scrollLeft + sliderElement.clientLeft;
-			offsetY += sliderElement.offsetTop - sliderElement.scrollTop + sliderElement.clientTop;
-			sliderElement = sliderElement.offsetParent;
-		}
+    let offsetY = 0;
+    let sliderElement = this.element as unknown as any;
+    while (sliderElement && !isNaN(sliderElement.offsetLeft) && !isNaN(sliderElement.offsetTop)) {
+      offsetX += sliderElement.offsetLeft - sliderElement.scrollLeft + sliderElement.clientLeft;
+      offsetY += sliderElement.offsetTop - sliderElement.scrollTop + sliderElement.clientTop;
+      sliderElement = sliderElement.offsetParent;
+    }
 
     let eventOffsetX = null;
-		let eventOffsetY = null;
+    let eventOffsetY = null;
 
     const maxOffsetLeft = offsetX;
     const maxOffsetRight = offsetX + this.element.clientWidth;
@@ -508,19 +508,19 @@ export class Ch5SpinnerScroll {
     const maxOffestBottom = offsetY + this.element.clientHeight;
 
     if (event.type === 'touchmove') {
-			const touch = event.touches[0] || event.changedTouches[0];
-			eventOffsetX = touch.clientX;
-			eventOffsetY = touch.clientY;
-		} else {
-			eventOffsetX = event.clientX;
-			eventOffsetY = event.clientY;
-		}
+      const touch = event.touches[0] || event.changedTouches[0];
+      eventOffsetX = touch.clientX;
+      eventOffsetY = touch.clientY;
+    } else {
+      eventOffsetX = event.clientX;
+      eventOffsetY = event.clientY;
+    }
 
     if (eventOffsetX < maxOffsetLeft ||
-			eventOffsetX > maxOffsetRight ||
-			eventOffsetY < maxOffestTop ||
-			eventOffsetY > maxOffestBottom
-		) {
+      eventOffsetX > maxOffsetRight ||
+      eventOffsetY < maxOffestTop ||
+      eventOffsetY > maxOffestBottom
+    ) {
       if (this.mouseDown === true && event.type === 'touchmove') {
         this.mouseDown = false;
         this.moveTheList();
@@ -618,9 +618,7 @@ export class Ch5SpinnerScroll {
       offsetWithVelocity = this.currentYOffset - (this.element.getItemHeightValue() * velocity);
     }
 
-    if (this._isBoundary(offsetWithVelocity, minimumTopOffset, maximumTopOffset) &&
-      velocity > 0
-    ) {
+    if (this._isBoundary(offsetWithVelocity, minimumTopOffset, maximumTopOffset) && velocity > 0) {
       return this._handleVelocity(--velocity, minimumTopOffset, maximumTopOffset);
     }
 
@@ -647,7 +645,6 @@ export class Ch5SpinnerScroll {
    * @return {boolean | string}
    */
   private _isBoundary(currentOffset: number, minimumTopOffset: number, maximumTopOffset: number): (boolean | string) {
-
     if (
       this.direction === 'up' &&
       currentOffset < minimumTopOffset ||
@@ -674,7 +671,6 @@ export class Ch5SpinnerScroll {
       this.moveTheList();
       this.element.eventsHelper.dispatchMouseUp();
     }
-
   }
 
   private getMousePosition(event: MouseEvent | TouchEvent) {
@@ -708,7 +704,6 @@ export class Ch5SpinnerScroll {
    * @param {string} action
    */
   private handleCursor(action: string = 'click') {
-
     if (action === 'click') {
       this.element.templateHelper.wrapperElement.style.cursor = 'pointer';
     } else if (action === 'drag') {
@@ -716,11 +711,8 @@ export class Ch5SpinnerScroll {
     }
   }
 
-  /**
-   *
-   */
   private toggleActiveItem() {
-
     this.element.templateHelper.setActiveItem(this.currentElement);
   }
+
 }

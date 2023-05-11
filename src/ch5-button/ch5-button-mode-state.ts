@@ -280,7 +280,7 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
           break;
 
         case 'iconurlfilltype':
-          if (this.hasAttribute('state')) {
+          if (this.hasAttribute('iconurlfilltype')) {
             this.iconUrlFillType = newValue as TCh5ButtonIconUrlFillType;
           }
           break;

@@ -1,6 +1,6 @@
 {
   "version": "2.3.0",
-  "componentsVersion": "2.3.0",
+  "componentsVersion": "2.3.1",
   "htmlElements": {
     "common": {
       "attributes": [
@@ -45,7 +45,7 @@
             "`data-ch5-innerhtml` custom attribute",
             "***",
             "The 'data-ch5-innerhtml' custom HTML attribute allows for dynamic HTML content to be applied to ",
-            "standard HTML elements such as <div>. This is a very powerful construct that, when used incorrecly, ",
+            "standard HTML elements such as <div>. This is a very powerful construct that, when used incorrectly, ",
             "can lead to functional and performance issues if used to inject badly-formed HTML. The ",
             "attribute value is signalScript as described in the ch5.subscribeStateScript utility function description."
           ],
@@ -1261,6 +1261,26 @@
           },
           {
             "documentation": [
+              "`iconUrlFillType` attribute",
+              "***",
+              "Sets the icon url fill type. Default value is 'null'. Applicable values are 'null', 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'. Uses the css property background-size for the implementation."
+            ],
+            "value": [
+              "stretch",
+              "stretch-aspect",
+              "center",
+              "tile",
+              "initial"
+            ],
+            "name": "iconurlfilltype",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
               "`customclass` attribute",
               "***",
               "The attribute used for add a SVG image."
@@ -1546,6 +1566,26 @@
           },
           {
             "documentation": [
+              "`iconUrlFillType` attribute",
+              "***",
+              "Sets the icon url fill type. Default value is 'null'. Applicable values are 'null', 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'. Uses the css property background-size for the implementation."
+            ],
+            "value": [
+              "stretch",
+              "stretch-aspect",
+              "center",
+              "tile",
+              "initial"
+            ],
+            "name": "iconurlfilltype",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
               "`customclass` attribute",
               "***",
               "The attribute used for add a SVG image."
@@ -1640,7 +1680,7 @@
               "`state` attribute",
               "***",
               "Valid values: 'normal', 'pressed', 'selected'.",
-              "This attribute is used to define the ch5-button-mode-state attribues on the basis of the state of the parent ch5-button. ",
+              "This attribute is used to define the ch5-button-mode-state attributes on the basis of the state of the parent ch5-button. ",
               "If the button is neither in the 'pressed' state nor in the 'selected' state, then the button is considered to be in 'normal' state. ",
               "The attributes of 'state' as 'normal' are considered in this case for the ch5-button. ",
               "If the button is in the 'pressed' state, then the attributes of 'state' as 'pressed' are considered in this case for the ch5-button.  ",
@@ -2051,7 +2091,7 @@
             "documentation": [
               "`iconClass` attribute",
               "***",
-              "The icon class."
+              "The iconclass attribute with Font Awesome icons and Material Icons. We can declare more than one css class in the iconClass attribute."
             ],
             "value": [],
             "name": "iconclass",
@@ -2558,6 +2598,136 @@
           },
           {
             "documentation": [
+              "`backgroundImageUrl` attribute",
+              "***",
+              "Sets the image to be displayed as the background for the button. The attribute type is String. default value is empty."
+            ],
+            "value": [],
+            "name": "backgroundimageurl",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`backgroundImageFillType` attribute",
+              "***",
+              "Sets the background image for button. Enum - Default value is 'stretch-aspect'. Applicable values are 'stretch', 'stretch-aspect', 'center', 'tile'. Uses the css property background-size for the implementation."
+            ],
+            "value": [
+              "stretch-aspect",
+              "stretch",
+              "center",
+              "tile"
+            ],
+            "name": "backgroundimagefilltype",
+            "default": "stretch-aspect",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`iconUrlFillType` attribute",
+              "***",
+              "Sets the icon url fill type. Default value is 'null'. Applicable values are 'null', 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'. Uses the css property background-size for the implementation."
+            ],
+            "value": [
+              "stretch",
+              "stretch-aspect",
+              "center",
+              "tile",
+              "initial"
+            ],
+            "name": "iconurlfilltype",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`receiveStateBackgroundImageUrl` attribute",
+              "***",
+              "Sets the image to be displayed as the background for the button. The attribute type with String response."
+            ],
+            "value": [],
+            "name": "receivestatebackgroundimageurl",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receiveStateSGIconNumeric` attribute",
+              "***",
+              "This would contain a mapping on analog joins to each of the sg icons. receiveStateSGIconString takes preference over receiveStateSGIconNumeric incase both are provided. receiveStateSGIconString, and receiveStateSGIconNumeric take precedence over receiveStateIconClass and receiveStateIconUrl"
+            ],
+            "value": [],
+            "name": "receivestatesgiconnumeric",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "numericJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receiveStateSGIconString` attribute",
+              "***",
+              "This would contain a mapping of serial joins to each of the sg icons. receiveStateSGIconString takes preference over receiveStateSGIconNumeric incase both are provided. receiveStateSGIconString, and receiveStateSGIconNumeric take precedence over receiveStateIconClass and receiveStateIconUrl"
+            ],
+            "value": [],
+            "name": "receivestatesgiconstring",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`sgIconTheme:` attribute",
+              "***",
+              "This will contain an enumeration of 5 values - icons-sg, icons-lg, mediatransports-accents, media-transports-light, media-transports-dark. Default. value is icon-lg."
+            ],
+            "value": [
+              "icons-lg",
+              "icons-sm",
+              "media-transports-accents",
+              "media-transports-light",
+              "media-transports-dark"
+            ],
+            "name": "sgicontheme",
+            "default": "icon-lg",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -2736,7 +2906,13 @@
               "\tcustomclasspressed=\"${28}\"",
               "\tcustomclassdisabled=\"${29}\"",
               "\tselected=\"${30}\"",
-              "\tpressed=\"${31}\">",
+              "\tpressed=\"${31}\"",
+              "\tbackgroundimageurl=\"${32:}\"",
+              "\tbackgroundimagefilltype=\"${33:stretch-aspect}\"",
+              "\treceivestatesgiconnumeric=\"${34}\"",
+              "\treceivestatesgiconstring=\"${35}\"",
+              "\tsgicontheme=\"${36|icons-lg, icons-sm, media-transports-accents, media-transports-light, media-transports-dark|}\"",
+              "\treceivestatebackgroundimageurl=\"${37:}\">",
               "</ch5-button>$0"
             ]
           }
@@ -3054,11 +3230,11 @@
               "both"
             ],
             "name": "stretch",
-            "default": "false",
+            "default": "null",
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "Boolean"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -3630,6 +3806,7 @@
               "numericJoin": 1
             },
             "limits": [],
+            "applicableToListItem": true,
             "attributeType": "Join"
           },
           {
@@ -3649,6 +3826,7 @@
               "booleanJoin": 1
             },
             "limits": [],
+            "applicableToListItem": true,
             "attributeType": "Join"
           },
           {
@@ -3668,6 +3846,7 @@
               "stringJoin": 1
             },
             "limits": [],
+            "applicableToListItem": true,
             "attributeType": "Join"
           },
           {
@@ -3687,6 +3866,7 @@
               "stringJoin": 1
             },
             "limits": [],
+            "applicableToListItem": true,
             "attributeType": "Join"
           },
           {
@@ -3706,6 +3886,7 @@
               "stringJoin": 1
             },
             "limits": [],
+            "applicableToListItem": true,
             "attributeType": "Join"
           },
           {
@@ -3725,6 +3906,7 @@
               "stringJoin": 1
             },
             "limits": [],
+            "applicableToListItem": true,
             "attributeType": "Join"
           },
           {
@@ -3744,6 +3926,7 @@
               "booleanJoin": 1
             },
             "limits": [],
+            "applicableToListItem": true,
             "attributeType": "Join"
           },
           {
@@ -3763,6 +3946,7 @@
               "booleanJoin": 1
             },
             "limits": [],
+            "applicableToListItem": true,
             "attributeType": "Join"
           },
           {
@@ -3803,6 +3987,64 @@
               }
             ],
             "attributeType": "Integer"
+          },
+          {
+            "documentation": [
+              "`buttonReceiveStateSGIconNumeric` attribute",
+              "***",
+              "This would contain a mapping on analog joins to each of the sg icons."
+            ],
+            "value": [],
+            "name": "buttonreceivestatesgiconnumeric",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "numericJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`buttonReceiveStateSGIconString` attribute",
+              "***",
+              "This would contain a mapping of serial joins to each of the sg icons."
+            ],
+            "value": [],
+            "name": "buttonreceivestatesgiconstring",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`buttonSgIconTheme:` attribute",
+              "***",
+              "This will contain an enumeration of 5 values - icons-lg, icons-sm, media-transports-accents, media-transports-light, media-transports-dark. Default. value is icons-lg."
+            ],
+            "value": [
+              "icons-lg",
+              "icons-sm",
+              "media-transports-accents",
+              "media-transports-light",
+              "media-transports-dark"
+            ],
+            "name": "buttonsgicontheme",
+            "default": "icons-lg",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -3962,6 +4204,9 @@
               "\tuseContractForCustomStyle=\"${41:false}\"",
               "\tuseContractForCustomClass=\"${42:false}\"",
               "\tuseContractForNumItems=\"${43:false}\"",
+              "\tbuttonReceiveStateSGIconNumeric=\"${44:}\"",
+              "\tbuttonReceiveStateSGIconString=\"${45:}\"",
+              "\tbuttonSgIconTheme=\"${46:icons-lg}\"",
               "\tclickHoldTime=\"${44:1500}\">",
               "</ch5-button-list>$0"
             ]
@@ -5516,7 +5761,7 @@
         "documentation": [
           "`ch5-color-picker` element",
           "***",
-          "Component description"
+          "Component to render the color picker"
         ],
         "snippets": [
           {
@@ -5740,28 +5985,6 @@
           },
           {
             "documentation": [
-              "`sendeventonclick` attribute",
-              "***",
-              "Sends an event on click or tap (mouse or swipe up and down quickly).",
-              "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
-              "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
-              "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
-            ],
-            "value": [],
-            "name": "sendeventonclick",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
               "`pressed` attribute",
               "***",
               "The default value is false.",
@@ -5816,13 +6039,11 @@
             "prefix": "ch5-dpad-button:all-attributes",
             "description": "Crestron Dpad All Attributes",
             "body": [
-              "<ch5-dpad-button key=\"${1|center,up,down,left,right|}\">",
+              "<ch5-dpad-button key=\"${1|center,up,down,left,right|}\"",
               "\ticonurl=\"btn_${2:IconUrl}\"",
-              "\tshow=\"${3:Show}\"",
-              "\tenable=\"${4:Enable}\"",
-              "\tpressed=\"${5:Pressed}\"",
-              "\tsendeventonclick=\"${6:sendEventOnClick}\"",
-              "\ticonclass=\"${7:iconClass}\">",
+              "\tpressed=\"${3:false}\"",
+              "\tlabel=\"${4:Label}\"",
+              "\ticonclass=\"${5:iconClass}\">",
               "</ch5-dpad-button>$0"
             ]
           }
@@ -6109,9 +6330,9 @@
             "documentation": [
               "`type` attribute",
               "***",
-              "Overrides the appearance of each of the buttons inside <ch5-dpad> with alternative CSS  ",
-              "defined in classes defined with ch5-dpad--type where type is the value of the property. ",
-              "If no 'type' is provided, type of 'default' is used."
+              "Overrides the appearance of dpad with alternative CSS that is defined in classes ",
+              "defined with ch5-dpad--type-typeValue where typeValue is the value of 'type' ",
+              "property. If no 'type' is provided, type of 'default' is used."
             ],
             "value": [
               "default",
@@ -6134,7 +6355,9 @@
             "documentation": [
               "`shape` attribute",
               "***",
-              "Sets the overall <ch5-dpad> component shape to plus or circle."
+              "Sets the overall <ch5-dpad> component shape to plus or circle.",
+              "CSS class of ch5-dpad--shape-shapeValue is added to the dpad, where shapeValue ",
+              "is the value of 'shape' property. If no 'shape' is provided, shape of 'plus' is used."
             ],
             "value": [
               "plus",
@@ -6174,7 +6397,9 @@
             "documentation": [
               "`size` attribute",
               "***",
-              "Overrides the appearance of the dpad with alternative CSS that is defined in classes defined with ch5-dpad--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
+              "Overrides the appearance of dpad with alternative CSS that is defined in classes ",
+              "defined with ch5-dpad--size-sizeValue where sizeValue is the value of 'size'.",
+              "If no 'size' is provided, type of 'default' is used."
             ],
             "value": [
               "regular",
@@ -6196,7 +6421,7 @@
               "***",
               "If the contract name exists, by default this becomes true. ",
               "If the contract name does not exist, by default this becomes false. ",
-              "If this value is set to true then the value received from the contract will be considered to enable ",
+              "If this value is set to true then the value received from the contract will be considered to enable ",
               "<ch5-dpad> tag and also to enable the buttons under <ch5-dpad> component i.e. <ch5-dpad-button>.",
               "The names from the contract will be different for each of the buttons and the overall <ch5-dpad> component. ",
               "The details can be seen in the table above."
@@ -6218,7 +6443,7 @@
               "***",
               "If the contract name exists, by default this becomes true. ",
               "If the contract name does not exist, by default this becomes false. ",
-              "If this value is set to true then the value received from the contract will be considered to show / hide ",
+              "If this value is set to true then the value received from the contract will be considered to show / hide ",
               "<ch5-dpad> tag. The names from the contract will be different for each of the buttons and the overall ",
               "<ch5-dpad> component. The details can be seen in the table above."
             ],
@@ -6239,7 +6464,7 @@
               "***",
               "If the contract name exists, by default this becomes true. ",
               "If the contract name does not exist, by default this becomes false. ",
-              "If this value is set to true then the value received from the contract will be considered for remaining ",
+              "If this value is set to true then the value received from the contract will be considered for remaining ",
               "ch5-dpad button as a custom class."
             ],
             "value": [
@@ -6394,9 +6619,9 @@
             "description": "Crestron Dpad",
             "body": [
               "<ch5-dpad id=\"btn_${0:id}\"",
-              "\tcontractname=\"${1:Contract Name}\"",
+              "\tcontractname=\"${1:}\"",
               ">",
-              "</ch5-dpad>"
+              "</ch5-dpad>$0"
             ]
           },
           {
@@ -6404,9 +6629,9 @@
             "description": "Crestron Dpad",
             "body": [
               "<ch5-dpad id=\"btn_${0:id}\"",
-              "\tsendeventonclickstart=\"${1:Event_Click_Index}\"",
+              "\tsendeventonclickstart=\"${1:}\"",
               ">",
-              "</ch5-dpad>"
+              "</ch5-dpad>$0"
             ]
           },
           {
@@ -6414,17 +6639,15 @@
             "description": "Crestron Dpad",
             "body": [
               "<ch5-dpad id=\"btn_${0:id}\"",
-              "\tcontractname=\"${1:Contract Name}\"",
-              "\tshape=\"${2:Shape}\"",
-              "\ttype=\"${3:type}\"",
-              "\tstretch=\"${4:stretch}\"",
-              "\tusecontractforenable=\"${5:useContractForEnable}\"",
-              "\tusecontractforshow=\"${6:useContractForShow}\"",
-              "\tusecontractforcustomclass=\"${7:useContractForCustomClass}\"",
-              "\tusecontractforcustomstyle=\"${8:useContractForCustomStyle}\"",
-              "\tsendeventonclickstart=\"${9:sendEventOnClickStart}\"",
-              ">",
-              "</ch5-dpad>"
+              "\tcontractname=\"${1:}\"",
+              "\tshape=\"${2:plus}\"",
+              "\ttype=\"${3:default}\"",
+              "\tusecontractforenable=\"${4:false}\"",
+              "\tusecontractforshow=\"${5:false}\"",
+              "\tusecontractforcustomclass=\"${6:false}\"",
+              "\tusecontractforcustomstyle=\"${7:false}\"",
+              "\tsendeventonclickstart=\"${8:}\">",
+              "</ch5-dpad>$0"
             ]
           }
         ],
@@ -6435,7 +6658,7 @@
             "childElements": []
           }
         ],
-        "description": "Ch5 Dpad offers a control set of 5 buttons to preform specific changes",
+        "description": "Ch5 Dpad offers a control set of 5 buttons",
         "name": "Ch5 Dpad",
         "tagName": "ch5-dpad",
         "role": "container",
@@ -6738,7 +6961,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "Join"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8391,6 +8614,11 @@
             "default": "\"\"",
             "hideWhen": [],
             "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
             "limits": [],
             "attributeType": "Join"
           },
@@ -8812,6 +9040,11 @@
             "default": "\"\"",
             "hideWhen": [],
             "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
             "limits": [],
             "attributeType": "Join"
           },
@@ -9239,6 +9472,11 @@
             "default": "\"\"",
             "hideWhen": [],
             "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "numericJoin": 1
+            },
             "limits": [],
             "attributeType": "Join"
           },
@@ -9743,23 +9981,6 @@
           },
           {
             "documentation": [
-              "`sendEventOnClick` attribute",
-              "***",
-              "Sends an event on click or tap (mouse or swipe up and down quickly).",
-              "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
-              "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
-              "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
-            ],
-            "value": [],
-            "name": "sendeventonclick",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
               "`pressed` attribute",
               "***",
               "The default value is false.",
@@ -9797,8 +10018,8 @@
             "description": "Crestron Keypad Child Button",
             "body": [
               "<ch5-keypad-button key=\"button${1:Button_Key}\"",
-              "\tlabelmajor=\"${2:Label_Major}\"",
-              "\tlabelminor=\"${3:Label_Minor}\"",
+              "\tlabelmajor=\"${2:}\"",
+              "\tlabelminor=\"${3:}\"",
               ">",
               "</ch5-keypad-button>$0"
             ]
@@ -9810,6 +10031,18 @@
               "<ch5-keypad-button key=\"button${1:Button_Key}\"",
               "\ticonclass=\"${2:Icon_Class}\"",
               ">",
+              "</ch5-keypad-button>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-keypad-button:all-attribute",
+            "description": "Crestron Keypad Child Button (All attribute)",
+            "body": [
+              "<ch5-keypad-button key=\"button${1:Button_Key}\"",
+              "\tlabelMajor=\"${2:}\"",
+              "\tlabelMinor=\"${3:}\"",
+              "\ticonClass=\"${4:}\"",
+              "\tpressed=\"${5:false}\">",
               "</ch5-keypad-button>$0"
             ]
           }
@@ -10121,7 +10354,7 @@
             "documentation": [
               "`shape` attribute",
               "***",
-              "Sets the overall <ch5-keypad> component shape to plus or circle."
+              "Sets the overall <ch5-keypad> component shape to rounded-rectangle, square or circle."
             ],
             "value": [
               "rounded-rectangle",
@@ -10129,7 +10362,7 @@
               "circle"
             ],
             "name": "shape",
-            "default": "plus",
+            "default": "rounded-rectangle",
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
@@ -10204,9 +10437,8 @@
               "***",
               "If the contract name exists, by default this becomes true. ",
               "If the contract name does not exist, by default this becomes false. ",
-              "If this value is set to true then the value received from the contract will be considered to enable ",
-              "<ch5-keypad> tag and also to enable the buttons under <ch5-keypad> component i.e. <ch5-keypad-button-left>, ",
-              "<ch5-keypad-button-right>, <ch5-keypad-button-top>, <ch5-keypad-button-bottom>, <ch5-keypad-button-center>. ",
+              "If this value is set to true then the value received from the contract will be considered to enable ",
+              "<ch5-keypad> tag and also to enable the buttons under <ch5-keypad> component.",
               "The names from the contract will be different for each of the buttons and the overall <ch5-keypad> component. ",
               "The details can be seen in the table above."
             ],
@@ -10227,7 +10459,7 @@
               "***",
               "If the contract name exists, by default this becomes true. ",
               "If the contract name does not exist, by default this becomes false. ",
-              "If this value is set to true then the value received from the contract will be considered to show / hide ",
+              "If this value is set to true then the value received from the contract will be considered to show / hide ",
               "<ch5-keypad> tag. The names from the contract will be different for each of the buttons and the overall ",
               "<ch5-keypad> component. The details can be seen in the table above."
             ],
@@ -10248,7 +10480,7 @@
               "***",
               "If the contract name exists, by default this becomes true. ",
               "If the contract name does not exist, by default this becomes false. ",
-              "If this value is set to true then the value received from the contract will be considered for remaining ",
+              "If this value is set to true then the value received from the contract will be considered for remaining ",
               "ch5-keypad button as a custom class."
             ],
             "value": [
@@ -10333,6 +10565,11 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
+            "join": {
+              "direction": "state",
+              "booleanJoin": 1,
+              "isContractName": true
+            },
             "limits": [],
             "attributeType": "Join"
           },
@@ -10461,7 +10698,7 @@
             "description": "Crestron Keypad",
             "body": [
               "<ch5-keypad id=\"keypad_${0:id}\"",
-              "\tcontractname=\"${1:Contract Name}\"",
+              "\tcontractname=\"${1:}\"",
               ">",
               "</ch5-keypad>"
             ]
@@ -10471,7 +10708,7 @@
             "description": "Crestron Keypad",
             "body": [
               "<ch5-keypad id=\"keypad_${0:id}\"",
-              "\tsendeventonclickstart=\"${1:Event_Click_Index}\"",
+              "\tsendeventonclickstart=\"${1:}\"",
               ">",
               "</ch5-keypad>"
             ]
@@ -10481,26 +10718,24 @@
             "description": "Crestron Keypad",
             "body": [
               "<ch5-keypad id=\"keypad_${0:id}\"",
-              "\tcontractname=\"${1:Contract Name}\"",
-              "\tshape=\"${2:Shape}\"",
-              "\ttype=\"${3:type}\"",
-              "\tstretch=\"${4:stretch}\"",
-              "\ttextorientation=\"${5:textOrientation}\"",
-              "\tshowextrabutton=\"${6:showExtraButton}\"",
-              "\treceivestateextrabuttonshow=\"${7:receiveStateExtraButtonShow}\"",
-              "\tusecontractforenable=\"${8:useContractForEnable}\"",
-              "\tusecontractforshow=\"${9:useContractForShow}\"",
-              "\tusecontractforcustomclass=\"${10:useContractForCustomClass}\"",
-              "\tusecontractforcustomstyle=\"${11:useContractForCustomStyle}\"",
-              "\tusecontractforshow=\"${12:useContractForShow}\"",
-              "\tsendeventonclickstart=\"${13:sendEventOnClickStart}\"",
+              "\tcontractname=\"${1:}\"",
+              "\tshape=\"${2:rounded-rectangle}\"",
+              "\ttype=\"${3:default}\"",
+              "\ttextorientation=\"${4:top}\"",
+              "\tshowextrabutton=\"${5:true}\"",
+              "\treceivestateextrabuttonshow=\"${6:}\"",
+              "\tusecontractforenable=\"${7:false}\"",
+              "\tusecontractforshow=\"${8:false}\"",
+              "\tusecontractforcustomclass=\"${9:false}\"",
+              "\tusecontractforcustomstyle=\"${10:false}\"",
+              "\tsendeventonclickstart=\"${11:}\"",
               ">",
               "</ch5-keypad>"
             ]
           }
         ],
         "childElements": [],
-        "description": "Ch5 Keypad offers a control set of 5 buttons to preform specific changes",
+        "description": "Ch5 Keypad offers a control set of 12 buttons (+ 1 extra button)",
         "name": "Ch5 Keypad",
         "tagName": "ch5-keypad",
         "role": "container",
@@ -12423,24 +12658,6 @@
           },
           {
             "documentation": [
-              "`mask` attribute",
-              "***",
-              "The default value is false. ",
-              "Specifies whether or not to apply a background mask."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "mask",
-            "default": "false",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "Boolean"
-          },
-          {
-            "documentation": [
               "`receivestatepositionto` attribute ",
               "***",
               "When received, positions to this component."
@@ -13840,7 +14057,7 @@
           },
           {
             "documentation": [
-              "`snedsignalonfocus` attribute",
+              "`sendeventonfocus` attribute",
               "***",
               "Send a signal on the focus event. Set to true if in focus and set to false if not in focus."
             ],
@@ -15610,6 +15827,7 @@
               "booleanJoin": 1
             },
             "limits": [],
+            "applicableToListItem": true,
             "attributeType": "Join"
           },
           {
@@ -15629,6 +15847,7 @@
               "booleanJoin": 1
             },
             "limits": [],
+            "applicableToListItem": true,
             "attributeType": "Join"
           },
           {
@@ -15914,6 +16133,395 @@
         "attributes": [
           {
             "documentation": [
+              "`key` attribute",
+              "***",
+              "Used to set the type of button i.e on ,off.",
+              "The default value of key is on."
+            ],
+            "value": [
+              "on",
+              "off"
+            ],
+            "name": "key",
+            "default": "on",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`label` attribute",
+              "***",
+              "Used to set the label displayed for the on/off button."
+            ],
+            "value": [],
+            "name": "label",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
+              "`iconClass` attribute",
+              "***",
+              "The iconClass attribute with Font Awesome icons and Material Icons. We can declare more than one css class in the iconClass attribute."
+            ],
+            "value": [],
+            "name": "iconclass",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
+              "`iconurl` attribute",
+              "***",
+              "The iconUrl attribute with SVG icons and PNG Icons. We can pass only one url in the iconUrl attribute."
+            ],
+            "value": [],
+            "name": "iconurl",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
+              "`sendeventonclick` attribute",
+              "***",
+              "Sends a high signal when user places the finger on the control and low signal when finger is released."
+            ],
+            "value": [],
+            "name": "sendeventonclick",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestatelabel` attribute",
+              "***",
+              "When received, applies the value to set the label displayed for the on/off button."
+            ],
+            "value": [],
+            "name": "receivestatelabel",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestateiconclass` attribute",
+              "***",
+              "After receiving the signal iconClass value from control system,It sets the icon class received from the control system."
+            ],
+            "value": [],
+            "name": "receivestateiconclass",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestateiconurl` attribute",
+              "***",
+              "After receiving the signal iconUrl value from control system, this value is applied to the iconUrl."
+            ],
+            "value": [],
+            "name": "receivestateiconurl",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`iconUrlFillType` attribute",
+              "***",
+              "Sets the icon url fill type. Default value is 'null'. Applicable values are 'null', 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'. Uses the css property background-size for the implementation."
+            ],
+            "value": [
+              "stretch",
+              "stretch-aspect",
+              "center",
+              "tile",
+              "initial"
+            ],
+            "name": "iconurlfilltype",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          }
+        ],
+        "documentation": [
+          "`ch5-slider-button` element",
+          "***",
+          "Ch5 Slider Button tag provide the ability to set on/off buttons of the advance slider."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-slider-button:blank",
+            "description": "Crestron Slider Button",
+            "body": [
+              "<ch5-slider-button>",
+              "</ch5-slider-button>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-slider-button:all-attributes",
+            "description": "Crestron Slider Button (All Attributes)",
+            "body": [
+              "<ch5-slider-button id=\"ch5-slider-button_${1:id}\"",
+              "\tkey=\"${2:on}\"",
+              "\tlabel=\"${3:}\"",
+              "\ticonClass=\"${4:}\"",
+              "\ticonUrl=\"${5:}\"",
+              "\tsendEventOnClick=\"${6:}\"",
+              "\treceiveStateLabel=\"${7:}\"",
+              "\treceiveStateIconClass=\"${8:}\"",
+              "\treceiveStateIconUrl=\"${9:}\">",
+              "</ch5-slider-button>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-slider-button:default",
+            "description": "Crestron Slider Button (default)",
+            "body": [
+              "<ch5-slider-button id=\"ch5-slider-button_${1:id}\"",
+              "\tkey=\"${2:on}\"",
+              "\tlabel=\"${3:}\">",
+              "<ch5-slider-button>$0"
+            ]
+          }
+        ],
+        "childElements": [
+          {
+            "tagName": "ch5-slider-button-label",
+            "optional": true,
+            "childElements": [
+              {
+                "tagName": "template",
+                "optional": false,
+                "childElements": []
+              }
+            ]
+          }
+        ],
+        "description": "Ch5 Slider Button tag provide the ability to set on/off buttons of the advance slider.",
+        "name": "Ch5 Slider Button",
+        "tagName": "ch5-slider-button",
+        "role": "slider-button",
+        "componentVersion": "2.4.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`label` attribute",
+              "***",
+              "It adds the label to the slider Title."
+            ],
+            "value": [],
+            "name": "label",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`receiveStateLabel` attribute",
+              "***",
+              "When received, applies the value to set the label displayed for the title of the advance slider."
+            ],
+            "value": [],
+            "name": "receivestatelabel",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          }
+        ],
+        "documentation": [
+          "`ch5-slider-title-label` element",
+          "***",
+          "Ch5 Slider title Label tag provide the ability to set label of the title of the advance slider."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-slider-title-label:blank",
+            "description": "Crestron Slider Title Label",
+            "body": [
+              "<ch5-slider-title-label>",
+              "\t<template>",
+              "\t$1",
+              "\t</template>",
+              "</ch5-slider-title-label>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-slider-title-label:all-attributes",
+            "description": "Crestron Slider Title Label (All Attributes)",
+            "body": [
+              "<ch5-slider-title-label id=\"ch5-slider-title-label_${1:id}\"",
+              "\tlabel=\"${2:}\"",
+              "\treceiveStateLabel=\"${3:}\">",
+              "</ch5-slider-title-label>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-slider-title-label:default",
+            "description": "Crestron Slider Title Label (Default)",
+            "body": [
+              "<ch5-slider-title-label label=\"${1:}\">",
+              "</ch5-slider-title-label>$0"
+            ]
+          }
+        ],
+        "childElements": [
+          {
+            "tagName": "template",
+            "optional": false,
+            "childElements": []
+          }
+        ],
+        "description": "Ch5 Slider title Label tag provide the ability to set label of the title of the advance slider.",
+        "name": "Ch5 slider-title-Label",
+        "tagName": "ch5-slider-title-label",
+        "role": "slider-title-label",
+        "componentVersion": "2.4.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`label` attribute",
+              "***",
+              "It adds the label to the slider button."
+            ],
+            "value": [],
+            "name": "label",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`receiveStateLabel` attribute",
+              "***",
+              "When received, applies the value to set the label displayed for the on/off button of the advance slider."
+            ],
+            "value": [],
+            "name": "receivestatelabel",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          }
+        ],
+        "documentation": [
+          "`ch5-slider-button-label` element",
+          "***",
+          "Ch5 Slider Button Label tag provide the ability to set label of the on/off buttons of the advance slider."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-slider-button-label:blank",
+            "description": "Crestron slider button label",
+            "body": [
+              "<ch5-slider-button-label>",
+              "\t<template>",
+              "\t$1",
+              "\t</template>",
+              "</ch5-slider-button-label>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-slider-button-label:all-attributes",
+            "description": "Crestron slider button label (All Attributes)",
+            "body": [
+              "<ch5-slider-button-label id=\"ch5-slider-button-label_${1:id}\"",
+              "\tlabel=\"${2:}\"",
+              "\treceiveStateLabel=\"${3:}\">",
+              "</ch5-slider-button-label>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-slider-button-label:default",
+            "description": "Crestron slider button label (Default)",
+            "body": [
+              "<ch5-slider-button-label label=\"${1:}\">",
+              "</ch5-slider-button-label>$0"
+            ]
+          }
+        ],
+        "childElements": [
+          {
+            "tagName": "template",
+            "optional": false,
+            "childElements": []
+          }
+        ],
+        "description": "Ch5 Slider Button Label tag provide the ability to set label of the on/off buttons of the advance slider.",
+        "name": "Ch5 slider button label",
+        "tagName": "ch5-slider-button-label",
+        "role": "slider-button-label",
+        "componentVersion": "2.4.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
               "`id` attribute",
               "***",
               "This is a standard id HTML attribute."
@@ -16169,10 +16777,10 @@
           },
           {
             "documentation": [
-              "`handleshape` attribute",
+              "`handleShape` attribute",
               "***",
-              "The default value is 'rounded-rectangle'. Valid Values: 'rectangle', 'circle', 'oval', ",
-              "'rounded-rectangle'. Defines the handle shape."
+              "It defines the handle shape.",
+              "The default value is 'rounded-rectangle'. Valid Values: 'rectangle', 'circle', 'oval', 'rounded-rectangle' "
             ],
             "value": [
               "rounded-rectangle",
@@ -16191,71 +16799,83 @@
             "documentation": [
               "`value` attribute",
               "***",
-              "The initial values of single value or lower value if range=true."
+              "The Initial values of the single value, or a lower value if range=true."
             ],
             "value": [],
             "name": "value",
-            "default": "null",
+            "default": "0",
             "hideWhen": [],
             "showWhen": [],
-            "limits": [],
+            "limits": [
+              {
+                "min": 0,
+                "max": 65535
+              }
+            ],
             "attributeType": "Integer"
           },
           {
             "documentation": [
-              "`valuehigh` attribute",
+              "`valueHigh` attribute",
               "***",
-              "The higher value only applicable if range=true."
+              "The higher value is only applicable if range = true. valueHigh should always greater than value."
             ],
             "value": [],
             "name": "valuehigh",
-            "default": "null",
-            "hideWhen": [
+            "default": "65535",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [
               {
-                "range": [
-                  null,
-                  "false"
-                ]
+                "min": 1,
+                "max": 65535
               }
             ],
-            "showWhen": [],
-            "limits": [],
             "attributeType": "Integer"
           },
           {
             "documentation": [
               "`max` attribute",
               "***",
-              "The maximum value."
+              "The maximum value determines the analog value sent to and received from the control system that will reflect the topmost point of the slider. Default value is 65535.It can range from 1 to 65535."
             ],
             "value": [],
             "name": "max",
-            "default": "null",
+            "default": "65535",
             "hideWhen": [],
             "showWhen": [],
-            "limits": [],
+            "limits": [
+              {
+                "min": 1,
+                "max": 65535
+              }
+            ],
             "attributeType": "Integer"
           },
           {
             "documentation": [
               "`min` attribute",
               "***",
-              "The minimum value."
+              "The minimum value determines the analog value sent to and received from the control system that will reflect the lowest position of the slider. Default value is 0.It can range from 0 to 65534."
             ],
             "value": [],
             "name": "min",
-            "default": "null",
+            "default": "0",
             "hideWhen": [],
             "showWhen": [],
-            "limits": [],
+            "limits": [
+              {
+                "min": 0,
+                "max": 65534
+              }
+            ],
             "attributeType": "Integer"
           },
           {
             "documentation": [
               "`orientation` attribute",
               "***",
-              "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'. ",
-              "The orientation of the slider."
+              "Sets the orientation (horizontal or vertical) of the slider.The default value is 'horizontal'."
             ],
             "value": [
               "horizontal",
@@ -16272,8 +16892,8 @@
             "documentation": [
               "`size` attribute",
               "***",
-              "The default value is 'regular'. Valid values: 'regular', 'x-small', 'small', 'large', 'xlarge'. ",
-              "The size of the slider."
+              "defines the different sizes of slider. Possible values are 'x-small', 'small', 'regular', 'large', 'x-large'.",
+              "The default value is 'regular'."
             ],
             "value": [
               "regular",
@@ -16291,10 +16911,10 @@
           },
           {
             "documentation": [
-              "`handlesize` attribute",
+              "`handleSize` attribute",
               "***",
-              "The default value is 'regular'. The size of the handle.",
-              "Valid values: 'regular', 'x-small', 'small', 'large', 'x-large'."
+              "defines the different sizes of slider handle. Possible values are 'x-small', 'small', 'regular', 'large', 'x-large'.",
+              "The default value is 'regular'."
             ],
             "value": [
               "regular",
@@ -16314,30 +16934,36 @@
             "documentation": [
               "`step` attribute",
               "***",
-              "The default value is 100. The maximum value is 100. ",
-              "Defines the number of steps values in the slider. ",
-              "For example, if the slider should have quarters 0, 25, 50, 75, 100, then 5 is the numbers of steps."
+              "The default value is 1. Defines the size or amount of each interval or step the slider takes between the min and max values.",
+              "If the value range between max and min (i.e. max - min) is not evenly divisible by step value, the max will be adjusted accordingly.",
+              "Since all values on the slider are part of a range, step is strictly related to min and max attributes.",
+              "If you want quarters (0, 25, 50, 75, 100), then 25 is the value for step attribute, 0 is value for min, and 100 is value for max."
             ],
             "value": [],
             "name": "step",
-            "default": "100",
+            "default": "1",
             "hideWhen": [],
             "showWhen": [],
-            "limits": [],
-            "attributeType": "String"
+            "limits": [
+              {
+                "min": 1,
+                "max": 65535
+              }
+            ],
+            "attributeType": "Integer"
           },
           {
             "documentation": [
               "`stretch` attribute",
               "***",
-              "The default value is 'both'. Valid Values: 'both', 'width', 'height'. ",
               "When the stretch property is set, the slider inherits the width and/or ",
-              "height of the container."
+              "height of the container.",
+              "The default value is 'both'. Valid Values are 'width', 'height', 'both'. "
             ],
             "value": [
               "both",
-              "width",
-              "height"
+              "height",
+              "width"
             ],
             "name": "stretch",
             "default": "both",
@@ -16352,7 +16978,7 @@
               "***",
               "Defines the ticks on the slider. ",
               "This definition is based on advanced tick scales: non-linear or logarithmic. ",
-              "Sliders can be created with ever-increasing increments b ",
+              "Sliders can be created with ever-increasing increments by",
               "specifying the value for the slider at certain intervals. ",
               "- The first value defines the % position along the length of the slider scale to place a tick mark. ",
               "- The second value is the label value to place next to the tick at that position.",
@@ -16371,7 +16997,7 @@
             "documentation": [
               "`tooltipshowtype` attribute",
               "***",
-              "The default value is 'off'.  Provides the ability to display a tooltip above (horizontal) or right (vertical) of the handle.  Valid values: ",
+              "The default value is 'off'.  Provides the ability to display a tooltip above (horizontal) or right (vertical) of the handle.  Valid values: ",
               "-'off': Not displayed ",
               "-'on': Always displayed ",
               "-'auto': Displayed while user interacts with the slider"
@@ -16390,9 +17016,9 @@
           },
           {
             "documentation": [
-              "`tooltipdisplaytype` attribute",
+              "`toolTipDisplayType` attribute",
               "***",
-              "The default value is 'percent'. Sets what is displayed in the tooltip. Valid values: ",
+              "The default value is '%'. Sets what is displayed in the tooltip. Valid values: ",
               "'%' - The value is displayed as a percent ",
               "'value' - The actual value provided"
             ],
@@ -16401,21 +17027,8 @@
               "value"
             ],
             "name": "tooltipdisplaytype",
-            "default": "percent",
-            "hideWhen": [
-              {
-                "tooltipdisplaytype": [
-                  null,
-                  "off"
-                ]
-              },
-              {
-                "nohandle": [
-                  "true",
-                  ""
-                ]
-              }
-            ],
+            "default": "%",
+            "hideWhen": [],
             "showWhen": [],
             "limits": [],
             "attributeType": "EnumeratedValue"
@@ -16434,13 +17047,13 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "Integer"
+            "attributeType": ""
           },
           {
             "documentation": [
               "`feedbackmode` attribute",
               "***",
-              "The default value is direct. ",
+              "The default value is direct.",
               "If set to direct, value send and receive will be instant. On submit, it ",
               "will send and listen for the first received event."
             ],
@@ -16453,7 +17066,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "EnumeratedValue"
+            "attributeType": ""
           },
           {
             "documentation": [
@@ -16469,7 +17082,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": ""
           },
           {
             "documentation": [
@@ -16485,13 +17098,14 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": ""
           },
           {
             "documentation": [
               "`range` attribute",
               "***",
-              "The default value is false. If true, the slider will have two handles so two different values can be defined."
+              "If true, the slider will have two handles so two different values can be defined.The default value is false.",
+              "Advance slider is not supported when range is true."
             ],
             "value": [
               "false",
@@ -16502,14 +17116,13 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "Boolean"
+            "attributeType": ""
           },
           {
             "documentation": [
-              "`showtickvalues` attribute",
+              "`showTickValues` attribute",
               "***",
-              "The default value is false. Provides the ability to display value labels next to tick marks ",
-              "at each tick increment."
+              "The default value is false. Used to display optional value labels next to tick marks at each tick increment.Possible values are true/false."
             ],
             "value": [
               "false",
@@ -16526,7 +17139,7 @@
             "documentation": [
               "`noHandle` attribute",
               "***",
-              "The default value is false. Hides the slider handle."
+              "If the noHandle attribute is set to true, then the handle of the slider will hide. The possible values are true/false. The default value is false."
             ],
             "value": [
               "false",
@@ -16543,7 +17156,7 @@
             "documentation": [
               "`tapSettable` attribute",
               "***",
-              "The default value is false. Sets the slider value on tap."
+              "The default value is false. If true, sets the handle closest to the area where slider gets tapped. Possible values are true/false."
             ],
             "value": [
               "false",
@@ -16558,9 +17171,9 @@
           },
           {
             "documentation": [
-              "`receivestatevalue` attribute",
+              "`receiveStateValue` attribute",
               "***",
-              "On receive, changes the value of the slider handle."
+              "On receive, changes the value of the slider handle. Ramp Control Blocks (RCB) are defined as a numerical value and a time duration sent as a single signal."
             ],
             "value": [],
             "name": "receivestatevalue",
@@ -16577,9 +17190,9 @@
           },
           {
             "documentation": [
-              "`receivestatevaluehigh` attribute",
+              "`receiveStateValueHigh` attribute",
               "***",
-              "On receive, changes the value of the right slider handle (available when range is true)."
+              "when receive, change the value of the high Handle of the slider, if range slider is set to true."
             ],
             "value": [],
             "name": "receivestatevaluehigh",
@@ -16596,7 +17209,7 @@
           },
           {
             "documentation": [
-              "`sendeventonchange` attribute",
+              "`sendEventOnChange` attribute",
               "***",
               "Sends a signal value on slider change."
             ],
@@ -16606,7 +17219,7 @@
             "hideWhen": [],
             "showWhen": [],
             "join": {
-              "direction": "event",
+              "direction": "state",
               "isContractName": true,
               "numericJoin": 1
             },
@@ -16615,9 +17228,9 @@
           },
           {
             "documentation": [
-              "`sendeventonchangehigh` attribute",
+              "`sendEventOnChangeHigh` attribute",
               "***",
-              "If a range slider is set to true, sends a signal value high on slider change."
+              "If the range slider is set to true, sends a signal value high on the slider change."
             ],
             "value": [],
             "name": "sendeventonchangehigh",
@@ -16625,9 +17238,83 @@
             "hideWhen": [],
             "showWhen": [],
             "join": {
-              "direction": "event",
+              "direction": "state",
               "isContractName": true,
               "numericJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`onOffOnly` attribute",
+              "***",
+              "The onOffOnly set to true will hide the slider leaving only the two buttons showing. The default value is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "onoffonly",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`receiveStateShowOnOffOnly` attribute",
+              "***",
+              "Receive the signal(true) that value will hide the slider leaving only the two buttons showing."
+            ],
+            "value": [],
+            "name": "receivestateshowonoffonly",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`sendEventOnUpper` attribute",
+              "***",
+              "Digital join to send a value to the control system if the user presses the top 3/4 half(vertical) or right 3/4 half(horizontal) of the slider."
+            ],
+            "value": [],
+            "name": "sendeventonupper",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`sendEventOnLower` attribute",
+              "***",
+              "Digital join to send a value to the control system if the user presses the bottom 1/4 half(vertical) or left 1/4 half(horizontal) of the slider."
+            ],
+            "value": [],
+            "name": "sendeventonlower",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
             },
             "limits": [],
             "attributeType": "Join"
@@ -16766,6 +17453,53 @@
               "\tticks='${3:{\"0\":\"-60\", \"25\":\"-40\", \"50\":\"-20\", \"75\":\"-10\", \"100\": \"0\" }}'",
               "\tsendeventonchange=\"${4:slider_value_on_change}\"",
               "\treceivestatevalue=\"${5:receive_slider_value}\">",
+              "</ch5-slider>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-slider:onOffOnly",
+            "description": "Crestron slider onOffOnly",
+            "body": [
+              "<ch5-slider onOffOnly=\"${1:false}\">",
+              "\t<ch5-slider-title-label >",
+              "\t</ch5-slider-title-label>",
+              "\t<ch5-slider-button >",
+              "\t</ch5-slider-button>",
+              "\t<ch5-slider-button >",
+              "\t</ch5-slider-button>",
+              "<ch5-slider>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-slider:all-attribute",
+            "description": "Crestron slider (All attribute)",
+            "body": [
+              "<ch5-slider id=\"ch5-slider_${1:id}\"",
+              "\thandleshape=\"${2:rounded-rectangle}\"",
+              "\trange=\"${3:false}\"",
+              "\tvalue=\"${4:0}\"",
+              "\tvaluehigh=\"${5:65535}\"",
+              "\tmin=\"${6:0}\"",
+              "\tmax=\"${7:65535}\"",
+              "\tnohandle=\"${8:false}\"",
+              "\tonoffonly=\"${9:false}\"",
+              "\torientation=\"${10:horizontal}\"",
+              "\tsize=\"${11:regular}\"",
+              "\thandlesize=\"${12:regular}\"",
+              "\tstep=\"${13:1}\"",
+              "\tticks='${14:{\"0\":\"-60\", \"25\":\"-40\", \"50\":\"-20\", \"75\":\"-10\", \"100\": \"0\" }}'",
+              "\tshowtickvalues=\"${15:false}\"",
+              "\ttooltipshowtype=\"${16:off}\"",
+              "\ttooltipdisplaytype=\"${17:%}\"",
+              "\ttapsettable=\"${18:false}\"",
+              "\tsendeventonchange=\"${19:}\"",
+              "\tsendeventonchangehigh=\"${20:}\"",
+              "\treceivestatevalue=\"${21:}\"",
+              "\treceivestatevaluehigh=\"${22:}\"",
+              "\treceivestateshowonoffonly=\"${23:}\"",
+              "\tsendeventonupper=\"${24:}\"",
+              "\tsendeventonlower=\"${25:}\"",
+              "\tstretch=\"${26:both}\">",
               "</ch5-slider>$0"
             ]
           }
@@ -17873,6 +18607,21 @@
           },
           {
             "documentation": [
+              "`buttonLabelInnerHtml` attribute",
+              "***",
+              "This attribute provides the ability of a template that applies for all the buttons in the tab button."
+            ],
+            "value": [],
+            "name": "buttonlabelinnerhtml",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EncodedHTML",
+            "hidden": true
+          },
+          {
+            "documentation": [
               "`buttonHAlignLabel` attribute",
               "***",
               "Default value is center. Possible values are 'center', 'left', 'right'. When the buttonHAlignLabel property is set, the label and the icon of the button are horizontally aligned.The center property sets the horizontal alignment of the label to the center of the button. The left property sets the horizontal alignment of the label to the left of the button. The right property sets the horizontal alignment of the label to the right of the button."
@@ -18023,6 +18772,7 @@
               "booleanJoin": 1
             },
             "limits": [],
+            "applicableToListItem": true,
             "attributeType": "Join"
           },
           {
@@ -18042,6 +18792,7 @@
               "stringJoin": 1
             },
             "limits": [],
+            "applicableToListItem": true,
             "attributeType": "Join"
           },
           {
@@ -18061,6 +18812,7 @@
               "stringJoin": 1
             },
             "limits": [],
+            "applicableToListItem": true,
             "attributeType": "Join"
           },
           {
@@ -18080,6 +18832,7 @@
               "stringJoin": 1
             },
             "limits": [],
+            "applicableToListItem": true,
             "attributeType": "Join"
           },
           {
@@ -18099,6 +18852,7 @@
               "stringJoin": 1
             },
             "limits": [],
+            "applicableToListItem": true,
             "attributeType": "Join"
           },
           {
@@ -18118,6 +18872,7 @@
               "booleanJoin": 1
             },
             "limits": [],
+            "applicableToListItem": true,
             "attributeType": "Join"
           },
           {
@@ -18137,6 +18892,7 @@
               "booleanJoin": 1
             },
             "limits": [],
+            "applicableToListItem": true,
             "attributeType": "Join"
           },
           {
@@ -18156,6 +18912,7 @@
               "booleanJoin": 1
             },
             "limits": [],
+            "applicableToListItem": true,
             "attributeType": "Join"
           },
           {
@@ -19565,7 +20322,7 @@
             "documentation": [
               "`receivestatefocus` attribute",
               "***",
-              "When focused, send true. When focus is lost, send false."
+              "When focussed, send true. When focus is lost, send false."
             ],
             "value": [],
             "name": "receivestatefocus",
@@ -19575,7 +20332,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "boolean": 1
+              "booleanJoin": 1
             },
             "limits": [],
             "attributeType": "Join"
@@ -19584,7 +20341,7 @@
             "documentation": [
               "`receivestatevalue` attribute",
               "***",
-              "When recevied, changes the value of the text input field."
+              "When received, changes the value of the text input field."
             ],
             "value": [],
             "name": "receivestatevalue",

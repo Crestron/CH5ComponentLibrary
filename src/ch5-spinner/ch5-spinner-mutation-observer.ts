@@ -12,14 +12,11 @@ export class Ch5SpinnerMutationObserver {
   public static _observer: MutationObserver = {} as MutationObserver;
 
   constructor(element: Ch5Spinner) {
-
     if (Ch5SpinnerMutationObserver._observer.constructor !== MutationObserver) {
       Ch5SpinnerMutationObserver._observer = new MutationObserver(this.mutationsCallback);
     }
-
     this.registerElement(element);
   }
-
 
   /**
    * Register the element to observer
@@ -36,7 +33,6 @@ export class Ch5SpinnerMutationObserver {
       attributes: true
     });
   }
-
 
   /**
    * @private 

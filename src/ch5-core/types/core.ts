@@ -26,9 +26,3 @@ export type TSignalsSubscriptionsByType = {
 export type TSignalSubscriptions = {
     [key: string]:Subscription;
 };
-
-/* tslint:disable */
-export class Core {
-
-}
-

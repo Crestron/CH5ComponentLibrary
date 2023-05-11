@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+  <test-fixture id="ch5-modal-dialog-height-width">
+    <template>
+      <ch5-modal-dialog>
+        <h1>Modal</h1>
+      </ch5-modal-dialog>
+    </template>
+  </test-fixture>
+
+
+  <script>
+    suite('ch5-modal-dialog-height-width-attribute', () => {
+
+      setup(async () => {
+        ch5ModalDialog = fixture('ch5-modal-dialog-height-width');
+      });
+
+      test('Check default value of height and width to be " "', () => {
+        expect(ch5ModalDialog.height).to.be.equal("");
+        expect(ch5ModalDialog.width).to.be.equal("");
+        expect(ch5ModalDialog.getAttribute("height")).to.be.equal(null);
+        expect(ch5ModalDialog.getAttribute("width")).to.be.equal(null);
+      });
+
+      test('Check if height is being set and changing the height of the modal dialog', (done) => {
+        ch5ModalDialog.setAttribute("height", "400");
+        expect(ch5ModalDialog.getAttribute("height")).to.be.equal("400px");
+        expect(ch5ModalDialog.height).to.be.equal("400px");
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ModalDialog.children[0].classList.contains("ch5-modal-dialog")).to.be.equal(true);
+            expect(ch5ModalDialog.children[0].style.height).to.be.equal("400px");
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check if width is being set and changing the width of the modal dialog', (done) => {
+        ch5ModalDialog.setAttribute("width", "400");
+        expect(ch5ModalDialog.getAttribute("width")).to.be.equal("400px");
+        expect(ch5ModalDialog.width).to.be.equal("400px");
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ModalDialog.children[0].classList.contains("ch5-modal-dialog")).to.be.equal(true);
+            expect(ch5ModalDialog.children[0].style.width).to.be.equal("400px");
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

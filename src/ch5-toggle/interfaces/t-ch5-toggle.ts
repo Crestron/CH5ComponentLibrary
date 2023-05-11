@@ -6,3 +6,7 @@
 // under which you licensed this source code.
 
 export type TCh5ToggleFeedbackMode = 'direct' | 'submit';
+
+export type TCh5ToggleShape = 'circle' | 'rectangle';
+
+export type TCh5ToggleOrientation = 'horizontal' | 'vertical';
