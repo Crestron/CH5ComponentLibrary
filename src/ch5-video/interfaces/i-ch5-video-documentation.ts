@@ -56,7 +56,7 @@ import { ICh5VideoAttributes } from "./i-ch5-video-attributes";
  *     "description": "Crestron video (All Attributes)",
  *     "body": [
  *       "<ch5-video id=\"ch5-video_${1:id}\"",
- *       "\tindexId=\"${2:0}\"",
+ *       "\tindexId=\"${2:}\"",
  *       "\taspectRatio=\"${3:16:9}\"",
  *       "\tstretch=\"${4:false}\"",
  *       "\turl=\"${5:}\"",
@@ -100,7 +100,7 @@ import { ICh5VideoAttributes } from "./i-ch5-video-attributes";
  *      "description": "Crestron video (Default)",
  *       "body": [
  *          "<ch5-video id=\"ch5-video_${1:id}\"",
- *          "\tindexId=\"${2:0}\"",
+ *          "\tindexId=\"${2:}\"",
  *          "\taspectRatio=\"${3:16:9}\"",
  *          "\tstretch=\"${4:false}\"",
  *          "\turl=\"${5:}\"",
