@@ -1,1 +1,1 @@
-export type TCH5VideoStretch = 'true' | 'false';
+// export type TCH5VideoStretch = 'true' | 'false';

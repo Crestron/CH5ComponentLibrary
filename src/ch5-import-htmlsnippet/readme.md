@@ -1,4 +1,4 @@
-# Creston ch5-import-htmlsnippet web component
+# Crestron ch5-import-htmlsnippet web component
 A component to load HTML snippets during run time.
 This component allows users to load HTML snippets without HTML, HEAD, and BODY tags.
 Users can modularize the HTML files into pages or sections using this component.

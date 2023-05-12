@@ -1,4 +1,4 @@
-# Creston ch5-list web component
+# Crestron ch5-list web component
 
 
 ## CSS Classes

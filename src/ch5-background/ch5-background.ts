@@ -8,7 +8,7 @@ import { Ch5Common } from './../ch5-common/ch5-common';
 import { ICh5BackgroundAttributes } from './interfaces/i-ch5-background-attributes';
 import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState, publishEvent } from '../ch5-core';
 import { TCh5BackgroundScale, TCh5BackgroundRepeat, TCh5BackgroundTransitionEffect } from './interfaces';
-import { ICh5VideoBackground } from './../ch5-video/interfaces/types/t-ch5-video-publish-event-request';
+import { ICh5VideoBackground } from './../ch5-video/interfaces';
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
 import { resizeObserver } from '../ch5-core/resize-observer';
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';

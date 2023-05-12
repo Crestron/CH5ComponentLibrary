@@ -1,4 +1,4 @@
-# Creston ch5-import-htmlsnippet web component
+# Crestron ch5-import-htmlsnippet web component
 Provides a view onto a streaming video window.  Components that are to be placed above the 
 video that need to be visible and active (examples include buttons to control playback, 
 text describing the video, and annotation controls) need to be defined as child elements 

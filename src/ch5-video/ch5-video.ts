@@ -1,3 +1,10 @@
+// Copyright (C) 2022 to the present, Crestron Electronics, Inc.
+// All rights reserved.
+// No part of this software may be reproduced in any form, machine
+// or natural, without the express written consent of Crestron Electronics.
+// Use of this source code is subject to the terms of the Crestron Software License Agreement
+// under which you licensed this source code.
+
 import _ from "lodash";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { subscribeState } from "../ch5-core";
@@ -10,17 +17,20 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
 import { CH5VideoUtils } from "./ch5-video-utils";
-import { ICh5VideoPublishEvent, ITouchOrdinates, TDimension, TMultiVideoSignalName, TPosDimension, TVideoResponse, TVideoTouchManagerParams } from "./interfaces/interfaces-helper";
+import { ICh5VideoPublishEvent, ITouchOrdinates, TDimension, TMultiVideoSignalName, TPosDimension, TVideoResponse, TVideoTouchManagerParams } from "./interfaces";
 import { publishEvent } from '../ch5-core/utility-functions/publish-signal';
-import { ICh5VideoBackground } from "./interfaces/types/t-ch5-video-publish-event-request";
+import { ICh5VideoBackground } from "./interfaces";
 import { Ch5Background } from "../ch5-background";
-import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
 import { Ch5VideoSnapshot } from "./ch5-video-snapshot";
 import { Ch5VideoTouchManager } from "./ch5-video-touch-manager";
 
 export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   // #region Variables
+
+  public static readonly SVG_ICONS = {
+    FULLSCREEN_ICON: '<svg xmlns="http://www.w3.org/2000/svg" class="svgIconStyle" class="svgIconStyle" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>',
+  };
 
   public static readonly ASPECT_RATIO: TCh5VideoAspectRatio[] = ['16:9', '4:3'];
   public static readonly SOURCE_TYPE: TCh5VideoSourceType[] = ['Network', 'HDMI', 'DM'];
@@ -39,7 +49,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       key: 'size',
       attribute: 'size',
       classListPrefix: '--size-'
-    },
+    }
   };
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -66,18 +76,17 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     sendeventretrycount: { direction: "event", numericJoin: 1, contractName: true },
     sendeventresolution: { direction: "event", stringJoin: 1, contractName: true },
     sendeventsnapshotstatus: { direction: "event", numericJoin: 1, contractName: true },
-    sendeventsnapshotlastupdatetime: { direction: "event", stringJoin: 1, contractName: true },
-
+    sendeventsnapshotlastupdatetime: { direction: "event", stringJoin: 1, contractName: true }
   };
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
     {
-      default: "0",
+      default: "",
       name: "indexId",
       removeAttributeOnNull: true,
       type: "string",
-      valueOnAttributeEmpty: "0",
-      isObservableProperty: true,
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true
     },
     {
       default: Ch5Video.ASPECT_RATIO[0],
@@ -86,7 +95,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "enum",
       valueOnAttributeEmpty: Ch5Video.ASPECT_RATIO[0],
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: false,
@@ -94,7 +103,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: false,
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -103,7 +112,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: Ch5Video.SOURCE_TYPE[0],
@@ -113,7 +122,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       nameForSignal: "receiveStateSourceType",
       type: "enum",
       valueOnAttributeEmpty: Ch5Video.SOURCE_TYPE[0],
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -122,7 +131,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -131,7 +140,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -140,7 +149,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: 5,
@@ -166,7 +175,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -175,7 +184,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: Ch5Video.SIZE[0],
@@ -184,7 +193,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "enum",
       valueOnAttributeEmpty: Ch5Video.SIZE[0],
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: 0,
@@ -210,7 +219,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -220,7 +229,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -230,7 +239,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -240,7 +249,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -250,7 +259,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -260,7 +269,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -270,7 +279,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -280,7 +289,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -290,7 +299,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -300,7 +309,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -310,7 +319,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -320,7 +329,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -330,7 +339,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -340,7 +349,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -350,7 +359,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -360,7 +369,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -370,7 +379,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -380,7 +389,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -390,7 +399,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -400,7 +409,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -410,7 +419,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -420,7 +429,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -430,7 +439,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
   ];
 
@@ -447,14 +456,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   private ch5BackgroundElements: HTMLCollectionOf<Ch5Background> = document.getElementsByTagName('ch5-background') as HTMLCollectionOf<Ch5Background>;
 
   private readonly INTERSECTION_RATIO_VALUE: number = 0.98;
+
   private playValue: boolean = true;
   private lastRequestStatus: string = '';
   private isVideoReady: boolean = false;
   private lastResponseStatus: string = '';
-  private videoTagId: string = ''; //  to pass video bg object json
+  private videoTagId: string = ''; // to pass video bg object json
   private oldResponseStatus: string = '';
   private oldResponseId: number = 0;
-  private requestID: number = 0; //  to cross check req id and resp id
+  private requestID: number = 0; // to cross check req id and resp id
   private isOrientationChanged: boolean = false;
   private isFullScreen: boolean = false;
   private isAlphaBlend: boolean = true;
@@ -467,9 +477,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   private maxVideoCount = 1;
   private selectedVideo = 0;
   private lastBackGroundRequest: string = '';
-  private previousXPos: number = 0;
-  private previousYPos: number = 0;
-  public ch5UId: number = 0; //  CH5 Unique ID
+  public ch5UId: number = 0; // CH5 Unique ID
 
   private firstTime: boolean = true;
   private orientationCount: number = 0;
@@ -499,7 +507,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   // #endregion
 
   // #region Getters and Setters
-
 
   public set indexId(value: string) {
     this._ch5Properties.set<string>("indexId", value, () => {
@@ -645,7 +652,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this._ch5Properties.set("receiveStateURL", value, null, (newValue: string) => {
       if (this.receiveStateURL.includes(`{{${this.indexId}}}`)) {
         this.receiveStateURL = this.receiveStateURL.replace(`{{${this.indexId}}}`, this.selectedVideo.toString());
-        console.log("selected video", this.selectedVideo, this.maxVideoCount);
+        // console.log("selected video", this.selectedVideo, this.maxVideoCount);
       } else {
         this._ch5Properties.setForSignalResponse<string>("url", newValue, () => {
           if (this.sendEventSelectionURL.trim().length !== 0 && this.sendEventSelectionURL !== null && this.sendEventSelectionURL !== undefined) {
@@ -870,7 +877,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     return this._ch5Properties.get<string>('sendEventSnapshotLastUpdateTime');
   }
 
-
   // #endregion
 
   // #region Static Methods
@@ -938,7 +944,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()', Ch5Video.ELEMENT_NAME);
-    //  WAI-ARIA Attributes
+    // WAI-ARIA Attributes
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5Video);
     }
@@ -980,11 +986,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.clearComponentContent();
     this._elContainer = document.createElement('div');
 
-    //  Create div for the right side of the control panel
+    // Create div for the right side of the control panel
     this._fullScreenIcon = document.createElement("a");
     this._fullScreenIcon.classList.add("full-screen-icon");
     this._fullScreenIcon.classList.add("hide");
-    this._fullScreenIcon.innerHTML = CH5VideoUtils.SVG_ICONS.FULLSCREEN_ICON;
+    this._fullScreenIcon.innerHTML = Ch5Video.SVG_ICONS.FULLSCREEN_ICON;
 
     this._elContainer.appendChild(this._fullScreenIcon);
     this._elContainer.appendChild(this.snapshotImage.getImage());
@@ -1042,13 +1048,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.ch5UId = parseInt(uID, 0);
     this.videoTagId = this.getCrId();
     this.setAttribute("id", this.getCrId());
-    //  A dummy call to make the video to play on first project load
+    // A dummy call to make the video to play on first project load
     publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(CH5VideoUtils.VIDEO_ACTION.STOP, this.ch5UId));
   }
 
 
   private handleIndexId() {
-    //  Enter your Code here
+    // Enter your Code here
   }
 
   private handleAspectRatio() {
@@ -1129,7 +1135,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     return this.primaryCssClass + '--disabled';
   }
 
-
   private stopAndRefill() {
     this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL, 'OnVideoAspectRatioConditionNotMet');
     publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(CH5VideoUtils.VIDEO_ACTION.STOP, this.ch5UId));
@@ -1147,7 +1152,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     } else {
       this._OnVideoAspectRatioConditionNotMet();
     }
-    //  Removes or Adds document level touch handlers if in view
+    // Removes or Adds document level touch handlers if in view
     if (this.elementIntersectionEntry.intersectionRatio > 0.1 && this.playValue) {
       this.addTouchPollingForVideoMonitor();
     } else {
@@ -1173,7 +1178,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.isVideoReady = false;
         this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.START);
       }
-    }, 300); //  reducing this will create a cut at wrong place
+    }, 300); // reducing this will create a cut at wrong place
   }
 
   /**
@@ -1184,8 +1189,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     if (this.isFullScreen) { return; }
     this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
     this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL, 'disconnect');
-    //this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL, 'OnVideoAspectRatioConditionNotMet');
-    //publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(CH5VideoUtils.VIDEO_ACTION.STOP, this.ch5UId)); // Stop the video immediately
+    // this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL, 'OnVideoAspectRatioConditionNotMet');
+    // publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(CH5VideoUtils.VIDEO_ACTION.STOP, this.ch5UId)); // Stop the video immediately
   }
 
   /**
@@ -1207,7 +1212,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       "id": uId
     };
     this.logger.log(JSON.stringify(retObj));
-    console.log('return obj', JSON.stringify(retObj));
+    // console.log('return obj', JSON.stringify(retObj));
     return retObj;
   }
 
@@ -1227,7 +1232,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     this.lastRequestStatus = actionType;
-    this.clearBackgroundOfVideoWrapper(true); //  always clears the background of the video tag to display video behind it
+    this.clearBackgroundOfVideoWrapper(true); // always clears the background of the video tag to display video behind it
     // any negative values in location object will throw backend error sometimes decimal values are returned by position related functions. Math.ceil is used to avoid this.
     const retObj = {
       action: actionType,
@@ -1247,14 +1252,23 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         height: Math.ceil(height),
         z: this.zindex
       },
-      alphablend: this.isAlphaBlend, //  optional, default true, false indicates video displayed above the HTML
-      starttime: new Date().getMilliseconds(), //  milliseconds since 1-1-1970 UTC
-      endtime: new Date().getMilliseconds() + 2000, //  2000 msecs later
-      timing: "linear" //  only linear supported initially
+      alphablend: this.isAlphaBlend, // optional, default true, false indicates video displayed above the HTML
+      starttime: new Date().getMilliseconds(), // milliseconds since 1-1-1970 UTC
+      endtime: new Date().getMilliseconds() + 2000, // 2000 msecs later
+      timing: "linear" // only linear supported initially
     };
 
-    console.log(logInfo + JSON.stringify(retObj));
+    // console.log(logInfo + JSON.stringify(retObj));
     return retObj;
+  }
+
+  private validateVideoUrl(videoUrl: string): boolean {
+    if (videoUrl.startsWith('rtsp://') || videoUrl.startsWith('http://')
+      || videoUrl.startsWith('https://')) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // Publish the video start request
@@ -1263,7 +1277,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.NOURL, 'videoStartRequest');
       return;
     }
-    if (!CH5VideoUtils.validateVideoUrl(this.url)) { //  Invalid URL scenario, validation error                
+    if (!this.validateVideoUrl(this.url)) { // Invalid URL scenario, validation error                
       this.lastResponseStatus = CH5VideoUtils.VIDEO_ACTION.ERROR;
       this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.ERROR, 'videoStartRequest');
       return;
@@ -1295,7 +1309,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     if (this.sendEventResolution.trim().length !== 0 && this.sendEventResolution !== null && this.sendEventResolution !== undefined) {
       Ch5SignalFactory.getInstance().getStringSignal(this.sendEventResolution)?.publish(this.sizeObj.width + "x" + this.sizeObj.height + "@24fps");
     }
-    this._clearOldResponseData(); //  reset old response, required to check whether the second response is same.
+    this._clearOldResponseData(); // reset old response, required to check whether the second response is same.
     switch (actionType) {
       case CH5VideoUtils.VIDEO_ACTION.START:
         this.isVideoPublished = true;
@@ -1311,7 +1325,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
         break;
       case CH5VideoUtils.VIDEO_ACTION.STOP:
-        if (!this.isVideoPublished) { //  this flag avoids stop command since no video has started
+        if (!this.isVideoPublished) { // this flag avoids stop command since no video has started
           return;
         }
         if (this.lastRequestStatus !== CH5VideoUtils.VIDEO_ACTION.STOP && (this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.EMPTY ||
@@ -1321,7 +1335,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
         break;
       case CH5VideoUtils.VIDEO_ACTION.RESIZE:
-        //  If the video has already stopped then there is no need to resize.
+        // If the video has already stopped then there is no need to resize.
         if (this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.STOPPED || this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.EMPTY ||
           this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.STOP) {
           return;
@@ -1337,16 +1351,17 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
         break;
       default:
+        break;
     }
   }
 
-  private _videoResponse(response: TVideoResponse) { //  Process the backend response
+  private _videoResponse(response: TVideoResponse) { // Process the backend response
     if (typeof response === 'string') {
       this.responseObj = JSON.parse(response);
     } else {
       this.responseObj = response;
     }
-    console.log("_videoResponse-->", JSON.stringify(this.responseObj));
+    // console.log("_videoResponse-->", JSON.stringify(this.responseObj));
     const isMyObjectEmpty = !Object.keys(response).length;
     if (this.responseObj.id !== this.ch5UId || isMyObjectEmpty) {
       return;
@@ -1355,19 +1370,19 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       this.isVideoReady = false;
       return;
     }
-    //  Return if the previous id and status of the response matches with current id and status of the response
+    // Return if the previous id and status of the response matches with current id and status of the response
     if (this.oldResponseStatus === this.responseObj.status && this.oldResponseId === this.responseObj.id) {
       return;
     }
-    //  Return if response object id is negative or empty
+    // Return if response object id is negative or empty
     if (this.responseObj.id === -1 || !this.responseObj.id) {
       return;
     }
-    //  Return if the request Id and response Id is not same
+    // Return if the request Id and response Id is not same
     if (this.requestID !== this.responseObj.id) {
       return;
     }
-    //  Return if response status is queued as we do not take any action in UI
+    // Return if response status is queued as we do not take any action in UI
     if (this.responseObj.status === 'queued') {
       return;
     }
@@ -1378,10 +1393,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.oldResponseId = this.responseObj.id;
     const responseStatCode: number = this.responseObj.statusCode || 0;
     const responseStatus = this.responseObj.status.toLowerCase();
-    console.log('Response Status: ' + responseStatus.toLowerCase());
+    // console.log('Response Status: ' + responseStatus.toLowerCase());
     switch (responseStatus.toLowerCase()) {
       case CH5VideoUtils.VIDEO_ACTION.STOPPED:
-        //  When the user continously clicks on play and stop without a gap, started
+        // When the user continuously clicks on play and stop without a gap, started
         const vidResponses = ['connecting', 'buffering', 'retrying', 'resizing', 'error'];
         if (vidResponses.indexOf(this.lastResponseStatus) !== -1) {
           this.lastRequestStatus = CH5VideoUtils.VIDEO_ACTION.EMPTY;
@@ -1390,7 +1405,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
         this.isVideoReady = false;
         this.isOrientationChanged = false;
-
 
         if (this.sendEventState.trim().length !== 0 && this.sendEventState !== null && this.sendEventState !== undefined) {
           Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventState)?.publish(1);
@@ -1449,8 +1463,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       case CH5VideoUtils.VIDEO_ACTION.RESIZED:
         this.isOrientationChanged = false;
 
-
-        //  iOS devices never returns STARTED, it returns RESIZED after it starts the video
+        // iOS devices never returns STARTED, it returns RESIZED after it starts the video
         /* if (isSafariMobile()) {
           if (this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.START) {
             this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.STARTED, 'videoResponse');
@@ -1481,17 +1494,17 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.lastResponseStatus = CH5VideoUtils.VIDEO_ACTION.ERROR;
         this.lastRequestStatus = CH5VideoUtils.VIDEO_ACTION.EMPTY;
         this.isVideoReady = false;
-        //  Increment the errorCount and send the background stop only once to avoid flickering during
-        //  continuous error feedback
+        // Increment the errorCount and send the background stop only once to avoid flickering during
+        // continuous error feedback
         /* if (this.errorCount === 0) {
           this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.ERROR, 'videoResponse');
         } */
-        //  this.errorCount = this.errorCount + 1;
+        // this.errorCount = this.errorCount + 1;
         break;
       default:
         this.info("Default case in Csig.video.response with status : " + responseStatus);
         this.isVideoReady = false;
-        //  Increment the retryCount and send the feedback
+        // Increment the retryCount and send the feedback
         /* if (responseStatus === 'retrying connection') {
           this.retryCount += this.retryCount;
           this._sendEvent(this.sendEventRetryCount, this.retryCount, 'number');
@@ -1516,7 +1529,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         if (nodeList.length > 1) {
           this._elContainer.childNodes[1].remove();
         }
-        this._elContainer.style.borderBottom = '1rem solid #828282'; //  Gray color
+        this._elContainer.style.borderBottom = '1rem solid #828282'; // Gray color
         break;
       case CH5VideoUtils.VIDEO_ACTION.REFILL:
         if (this.lastBackGroundRequest !== actionType) {
@@ -1548,13 +1561,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
           if (nodeList.length > 1) {
             this._elContainer.childNodes[1].remove();
           }
-          this._elContainer.style.borderBottom = '1rem solid #CF142B'; //  Red color
+          this._elContainer.style.borderBottom = '1rem solid #CF142B'; // Red color
         } else {
           isActionExecuted = false;
         }
         break;
       default:
-        //  Nothing here as of now
+        // Nothing here as of now
         break;
     }
     this.lastBackGroundRequest = isActionExecuted ? actionType : this.lastBackGroundRequest;
@@ -1641,7 +1654,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   private toggleFullScreen(event: Event) {
     this.info('Ch5Video.enterFullScreen()');
     this.isFullScreen = true;
-    //  To avoid swiping on the full screen
+    // To avoid swiping on the full screen
     this.addEventListener('touchmove', this._handleTouchMoveEvent_Fullscreen, { passive: true });
     this.classList.add('full-screen');
     this._fullScreenIcon.classList.add('hide');
@@ -1753,7 +1766,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   // Send the resize request when the device orientation has been changed.
   private _orientationChange() {
 
-    // Check visibililty
+    // Check visibility
     if (this.elementIntersectionEntry.intersectionRatio < this.INTERSECTION_RATIO_VALUE) {
       return;
     }

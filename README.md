@@ -2,7 +2,7 @@
   <img src="https://kenticoprod.azureedge.net/kenticoblob/crestron/media/crestron/generalsiteimages/crestron-logo.png">
 </p>
  
-# CH5 - Creston Components library (CrComLib) - Getting Started
+# CH5 -  Crestron Components library (CrComLib) - Getting Started
 
 #### Continuous Integration and Deployment Status
 
