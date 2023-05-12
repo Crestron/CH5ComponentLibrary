@@ -112,6 +112,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "`okbuttonlabel` attribute",
    * "The OK button text. If absent or empty, the default translated 'OK' text is shown."
    * ]
+   * @default "Ok"
    * @name okbuttonlabel
    * @attributeType "String"
    */
@@ -149,6 +150,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The Cancel button text. If absent or empty, the default translated 'Cancel' text ",
    * "is shown."
    * ]
+   * @default "Cancel"
    * @name cancelbuttonlabel
    * @attributeType "String"
    */

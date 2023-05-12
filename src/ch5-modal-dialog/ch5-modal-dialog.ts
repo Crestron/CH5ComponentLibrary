@@ -29,12 +29,12 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		sendsignalonbeforeshow: { direction: "state", stringJoin: 1, contractName: true },
-		sendsignalonaftershow: { direction: "state", stringJoin: 1, contractName: true },
-		sendsignalonbeforehide: { direction: "state", stringJoin: 1, contractName: true },
-		sendsignalonafterhide: { direction: "state", stringJoin: 1, contractName: true },
-		sendsignalonok: { direction: "state", stringJoin: 1, contractName: true },
-		sendsignaloncancel: { direction: "state", stringJoin: 1, contractName: true },
+		sendsignalonbeforeshow: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignalonaftershow: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignalonbeforehide: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignalonafterhide: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignalonok: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignaloncancel: { direction: "event", booleanJoin: 1, contractName: true },
 	};
 
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
@@ -124,7 +124,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		{
 			default: false,
 			name: "hideOkButton",
-			nameForSignal: "receiveStateHideOkButton",
 			removeAttributeOnNull: true,
 			type: "boolean",
 			valueOnAttributeEmpty: true,
@@ -135,7 +134,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			name: "okButtonLabel",
 			removeAttributeOnNull: true,
 			type: "string",
-			valueOnAttributeEmpty: "",
+			valueOnAttributeEmpty: "Ok",
 			isObservableProperty: true
 		},
 		{
@@ -157,7 +156,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		{
 			default: false,
 			name: "hideCancelButton",
-			nameForSignal: "receiveStateHideCancelButton",
 			removeAttributeOnNull: true,
 			type: "boolean",
 			valueOnAttributeEmpty: true,
@@ -168,7 +166,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			name: "cancelButtonLabel",
 			removeAttributeOnNull: true,
 			type: "string",
-			valueOnAttributeEmpty: "",
+			valueOnAttributeEmpty: "Cancel",
 			isObservableProperty: true
 		},
 		{
@@ -207,7 +205,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			default: "",
 			isSignal: true,
 			name: "sendEventOnBeforeShow",
-			signalType: "string",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -217,7 +215,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			default: "",
 			isSignal: true,
 			name: "sendEventOnAfterShow",
-			signalType: "string",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -227,7 +225,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			default: "",
 			isSignal: true,
 			name: "sendEventOnBeforeHide",
-			signalType: "string",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -237,7 +235,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			default: "",
 			isSignal: true,
 			name: "sendEventOnAfterHide",
-			signalType: "string",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -247,7 +245,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			default: "",
 			isSignal: true,
 			name: "sendEventOnShow",
-			signalType: "string",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -257,7 +255,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			default: "",
 			isSignal: true,
 			name: "sendEventOnOk",
-			signalType: "string",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -267,7 +265,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			default: "",
 			isSignal: true,
 			name: "sendEventOnCancel",
-			signalType: "string",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -308,11 +306,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 	protected _elBtnOk: Ch5Button = {} as Ch5Button;
 
 	protected _elBtnCancel: Ch5Button = {} as Ch5Button;
-
-
-	protected _btnOkDefaultLabelText = 'Ok';
-
-	protected _btnCancelDefaultLabelText = 'Cancel';
 
 
 	private _okEvent: Event;
@@ -504,12 +497,13 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		this.info('Ch5ModalDialog.constructor()');
 		this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
 
+		this._ch5Properties = new Ch5Properties(this, Ch5ModalDialog.COMPONENT_PROPERTIES);
 		if (!this._crModalWasInstatiated) {
 			this._rebindEventCallbacks();
 			this.createInternalHtml();
 		}
 		this._crModalWasInstatiated = true;
-		this._ch5Properties = new Ch5Properties(this, Ch5ModalDialog.COMPONENT_PROPERTIES);
+
 		this.updateCssClasses();
 
 		this._okEvent = new CustomEvent('ok', {
@@ -521,9 +515,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			bubbles: true,
 			cancelable: false
 		});
-
-		this.cancelButtonLabel = this._btnCancelDefaultLabelText;
-		this.okButtonLabel = this._btnOkDefaultLabelText;
 	}
 
 	public static registerSignalAttributeTypes() {
@@ -546,14 +537,24 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		if (!this._elBtnOk) {
 			return;
 		}
-		this._elBtnOk.addEventListener('click', this._onOkClick);
-		this._elBtnCancel.addEventListener('click', this._onCancelClick);
+		if (!this.hideOkButton) {
+			this._elBtnOk.addEventListener('click', this._onOkClick);
+		}
+		if (!this.hideCancelButton) {
+			this._elBtnCancel.addEventListener('click', this._onCancelClick);
+		}
+		this._elMask.addEventListener('click', this._clickedOnMask);
 	}
 
 	protected removeEventListeners() {
 		super.removeEventListeners();
-		this._elBtnOk.removeEventListener('click', this._onOkClick);
-		this._elBtnCancel.removeEventListener('click', this._onCancelClick);
+		if (this._elBtnOk.childNodes !== undefined) {
+			this._elBtnOk.removeEventListener('click', this._onOkClick);
+		}
+		if (this._elBtnCancel.childNodes !== undefined) {
+			this._elBtnCancel.removeEventListener('click', this._onCancelClick);
+		}
+		this._elMask.removeEventListener('click', this._clickedOnMask);
 	}
 
 	protected _rebindEventCallbacks() {
@@ -568,9 +569,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 	protected _onOkClick(inEvent: Event) {
 		this.info('_onOkClick()');
 		this.dispatchEvent(this._okEvent);
-		// TODO: The show attribute works but the biggest challenge comes with receiveStateShow
-		// This must be globally corrected in the next version for ok, cancel and close icon
-		// Creating a hard show to false
 		this.setShowBasedOnAttributes();
 	}
 
@@ -622,6 +620,9 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		if (!this.hasAttribute('show')) {
 			this.setShowBasedOnAttributes();
 		}
+
+		this.initializeButton();
+
 		this._ready.then(() => {
 			this._initialize();
 			this.initCommonMutationObserver(this);
@@ -671,6 +672,24 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		this.initAttributes();
 		this._checkAndAttachMaskIfNeeded();
 		this.updateCssClasses();
+	}
+
+	protected initializeButton() {
+		if (!this.hideOkButton && this._elBtnOk.childNodes === undefined) {
+			this._elBtnOk = new Ch5Button();
+			this._elBtnOk.classList.add(this.primaryCssClass + '-btn-ok');
+			this._elBtnOk.setAttribute('type', 'success');
+			this._elBtnOk.setAttribute('label', this.okButtonLabel);
+			this._elFooter.append(this._elBtnOk);
+		}
+
+		if (!this.hideCancelButton && this._elBtnCancel.childNodes === undefined) {
+			this._elBtnCancel = new Ch5Button();
+			this._elBtnCancel.classList.add(this.primaryCssClass + '-btn-cancel');
+			this._elBtnCancel.setAttribute('type', 'warning');
+			this._elBtnCancel.setAttribute('label', this.cancelButtonLabel);
+			this._elFooter.append(this._elBtnCancel);
+		}
 	}
 
 	protected initAttributes() {
@@ -739,7 +758,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		if (this.mask === true) {
 			this._elMask.classList.add(this.primaryCssClass + '-mask-default-style');
 		} else {
-			this._elMask.classList.remove(this.primaryCssClass + '-mask-default-style');
+			this._elMask.remove();
 		}
 		this._checkAndAttachMaskIfNeeded();
 	}
@@ -845,16 +864,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			this._elFooter = document.createElement('div');
 			this._elFooter.classList.add(this.primaryCssClass + '-footer');
 
-			this._elBtnOk = new Ch5Button();
-			this._elBtnOk.setAttribute('type', 'success');
-			this._elBtnOk.setAttribute('label', this._btnOkDefaultLabelText);
-			this._elBtnOk.classList.add(this.primaryCssClass + '-btn-ok');
-
-			this._elBtnCancel = new Ch5Button();
-			this._elBtnCancel.setAttribute('type', 'warning');
-			this._elBtnCancel.setAttribute('label', this._btnCancelDefaultLabelText);
-			this._elBtnCancel.classList.add(this.primaryCssClass + '-btn-cancel');
-
 			this._elContents = document.createElement('div');
 			this._elContents.classList.add(this.primaryCssClass + '-contents');
 
@@ -923,18 +932,18 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		docFrag.appendChild(this._elContents);
 
 		if (!this.hideOkButton || !this.hideCancelButton) {
-			docFrag.appendChild(this._elFooter);
+			this.initializeButton();
 			if (!this.hideOkButton) {
 				this._elFooter.appendChild(this._elBtnOk);
-			} else if (this._elBtnOk) {
+			} else if (this.hideOkButton && this._elBtnOk.childNodes !== undefined) {
 				this._elBtnOk.remove();
 			}
-
 			if (!this.hideCancelButton) {
 				this._elFooter.appendChild(this._elBtnCancel);
-			} else if (this._elBtnCancel) {
+			} else if (this.hideCancelButton && this._elBtnCancel.childNodes !== undefined) {
 				this._elBtnCancel.remove();
 			}
+			docFrag.appendChild(this._elFooter);
 		} else if (this._elFooter) {
 			this._elFooter.remove();
 		}
@@ -942,7 +951,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		this._elContainer.appendChild(docFrag);
 	}
 }
-
 
 Ch5ModalDialog.registerCustomElement();
 Ch5ModalDialog.registerSignalAttributeTypes();

@@ -1,4 +1,4 @@
-// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+// Copyright (C) 2023 to the present, Crestron Electronics, Inc.
 // All rights reserved.
 // No part of this software may be reproduced in any form, machine
 // or natural, without the express written consent of Crestron Electronics.
@@ -19,15 +19,15 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestatepositionto: { direction: "state", numericJoin: 1, contractName: true },
-		receivestatepositionoffset: { direction: "state", numericJoin: 1, contractName: true },
+		receivestatepositionto: { direction: "state", stringJoin: 1, contractName: true },
+		receivestatepositionoffset: { direction: "state", stringJoin: 1, contractName: true },
 
-		sendsignalonshow: { direction: "state", stringJoin: 1, contractName: true },
-		sendsignalonhide: { direction: "state", stringJoin: 1, contractName: true },
-		sendsignalonbeforeshow: { direction: "state", stringJoin: 1, contractName: true },
-		sendsignalonaftershow: { direction: "state", stringJoin: 1, contractName: true },
-		sendsignalonbeforehide: { direction: "state", stringJoin: 1, contractName: true },
-		sendsignalonafterhide: { direction: "state", stringJoin: 1, contractName: true },
+		sendsignalonshow: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignalonhide: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignalonbeforeshow: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignalonaftershow: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignalonbeforehide: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignalonafterhide: { direction: "event", booleanJoin: 1, contractName: true },
 	};
 
 	/**
@@ -36,7 +36,6 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 	public static POSITION_OFFSETS: TCh5OverlayPanelPositionOffset[] = ['top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right', 'left-center', 'right-center'];
 	public static STRETCHES: TCh5OverlayPanelStretch[] = ['both', 'width', 'height'];
 	public static OVERFLOWS: TCh5OverlayPanelOverflow[] = ['scroll', 'show'];
-
 
 	public static readonly COMPONENT_DATA: any = {
 		POSITION_OFFSETS: {
@@ -56,7 +55,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			values: Ch5OverlayPanel.OVERFLOWS,
 			key: 'overflow',
 			classListPrefix: '--overflow-'
-		},
+		}
 	};
 
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
@@ -126,7 +125,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			default: "",
 			isSignal: true,
 			name: "sendEventOnBeforeShow",
-			signalType: "string",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -136,7 +135,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			default: "",
 			isSignal: true,
 			name: "sendEventOnHide",
-			signalType: "string",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -146,7 +145,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			default: "",
 			isSignal: true,
 			name: "sendEventOnBeforeShow",
-			signalType: "string",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -156,7 +155,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			default: "",
 			isSignal: true,
 			name: "sendEventOnAfterShow",
-			signalType: "string",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -166,7 +165,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			default: "",
 			isSignal: true,
 			name: "sendEventOnBeforeHide",
-			signalType: "string",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -176,7 +175,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			default: "",
 			isSignal: true,
 			name: "sendEventOnAfterHide",
-			signalType: "string",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -204,7 +203,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		}
 	];
 
-	public primaryCssClass = 'ch5-overlay-panel';
+	public primaryCssClass: string = 'ch5-overlay-panel';
 
 	public _ch5Properties: Ch5Properties
 
@@ -390,6 +389,8 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 	//#endregion
 
 
+	//#region "Lifecycle Hooks"
+
 	public constructor() {
 		super();
 		this.info('Ch5OverlayPanel.constructor()');
@@ -435,7 +436,6 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		this._ready = this._getReadyCheckPromise();
 	}
 
-
 	public connectedCallback() {
 		this.info('called connectedCallback()');
 
@@ -451,10 +451,8 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		this._ready.then(() => {
 			this._initialize();
 			this.initCommonMutationObserver(this);
-		}
-		);
+		});
 	}
-
 
 	public disconnectedCallback() {
 		this.info('called disconnectedCallback()');
@@ -504,7 +502,6 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 
 		return cssClasses;
 	}
-
 
 	public unsubscribeFromSignals() {
 		super.unsubscribeFromSignals();
@@ -608,7 +605,6 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		this.addEventListener('afterShow', this._onAfterShow);
 		this.addEventListener('beforeHide', this._onBeforeHide);
 		this.addEventListener('afterHide', this._onAfterHide);
-
 	}
 
 	protected removeEventListeners() {
@@ -623,7 +619,6 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		this.removeEventListener('afterShow', this._onAfterShow);
 		this.removeEventListener('beforeHide', this._onBeforeHide);
 		this.removeEventListener('afterHide', this._onAfterHide);
-
 	}
 
 	protected _rebindEventCallbacks() {
@@ -638,6 +633,8 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		this._dismissElement = this._dismissElement.bind(this);
 		this._clickAndTouchEvent = this._clickAndTouchEvent.bind(this);
 	}
+
+	//#endregion
 
 	protected getTargetElementForCssClassesAndStyle(): HTMLElement {
 		return this._elContainer;
@@ -682,7 +679,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 
 		this.logger.start("attributeChangedCallback", this.primaryCssClass);
 		if (oldValue !== newValue) {
-			this.logger.log('ch5-overlay-panel-prasaanth attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+			this.logger.log('ch5-overlay-panel attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
 			const attributeChangedProperty = Ch5OverlayPanel.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
 			if (attributeChangedProperty) {
 				const thisRef: any = this;
@@ -897,10 +894,8 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		return;
 	}
 
-	//
-	// Events
-	//
-
+	//#region "Events"
+	
 	protected _onShow(inEvent: Event): void {
 		this.info('_onShow()');
 	}
