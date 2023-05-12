@@ -984,7 +984,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 	public set sendEventOnUpper(value: string) {
 		this._ch5Properties.set("sendEventOnUpper", value, null, (newValue: boolean) => {
-			// Enter Code Here
+			if (this.toolTipDisplayType === "%") {
+				this.toolTipShowType = "off";
+			}
 		});
 	}
 	public get sendEventOnUpper(): string {
@@ -993,7 +995,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 	public set sendEventOnLower(value: string) {
 		this._ch5Properties.set("sendEventOnLower", value, null, (newValue: boolean) => {
-			// Enter Code Here
+			if (this.toolTipDisplayType === "%") {
+				this.toolTipShowType = "off";
+			}
 		});
 	}
 	public get sendEventOnLower(): string {
@@ -1098,6 +1102,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		this.titleHelper();
 		this.onOffButtonHelper();
 		this.handleOnOffOnly();
+		if (this._innerContainer.isConnected === false) {
+			this._elSliderContainer.insertBefore(this._innerContainer as Node, this._elOnContainer as Node);
+		}
 		this.logger.stop();
 	}
 	protected eventBinding() {
@@ -1402,6 +1409,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 					thisRef[key] = this.getAttribute(key);
 				}
 			}
+		}
+		if (this._innerContainer.isConnected === false) {
+			this._elSliderContainer.insertBefore(this._innerContainer as Node, this._elOnContainer as Node);
 		}
 	}
 
@@ -2730,7 +2740,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	}
 
 	private handleSendEventHold(): void {
-		if (this.range || !this._elContainer.classList.contains("adv-slider")) {
+		if (this.range || !this._elContainer.classList.contains("adv-slider") || this.disabled) {
 			return;
 		}
 		this._holdState = true;
@@ -2744,7 +2754,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 	private handleSendEventRelease(): void {
 		this._holdState = false;
-		if (this.range || !this._elContainer.classList.contains("adv-slider")) {
+		if (this.range || !this._elContainer.classList.contains("adv-slider") || this.disabled) {
 			return;
 		}
 		if (this.sendEventOnUpper && this._sendEventValue >= ((this.max - this.min) * 3 / 4)) {
