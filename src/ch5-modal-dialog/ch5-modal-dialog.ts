@@ -354,8 +354,9 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 	}
 
 	public set title(value: string) {
-		this._ch5Properties.set<string>("title", value, () => {
-			this.handleTitle(value);
+		const trValue = this._getTranslatedValue('title', value);
+		this._ch5Properties.set<string>("title", trValue, () => {
+			this.handleTitle(trValue);
 		});
 	}
 	public get title(): string {
@@ -390,8 +391,9 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 	}
 
 	public set okButtonLabel(value: string) {
-		this._ch5Properties.set<string>("okButtonLabel", value, () => {
-			this.handleOkButtonLabel();
+		const trValue = this._getTranslatedValue('okButtonLabel', value);
+		this._ch5Properties.set<string>("okButtonLabel", trValue, () => {
+			this.handleOkButtonLabel(trValue);
 		});
 	}
 	public get okButtonLabel(): string {
@@ -426,8 +428,9 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 	}
 
 	public set cancelButtonLabel(value: string) {
-		this._ch5Properties.set<string>("cancelButtonLabel", value, () => {
-			this.handleCancelButtonLabel();
+		const trValue = this._getTranslatedValue('cancelButtonLabel', value);
+		this._ch5Properties.set<string>("cancelButtonLabel", trValue, () => {
+			this.handleCancelButtonLabel(trValue);
 		});
 	}
 	public get cancelButtonLabel(): string {
@@ -453,8 +456,9 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 	}
 
 	public set prompt(value: string) {
-		this._ch5Properties.set<string>("prompt", value, () => {
-			this.handlePrompt(value);
+		const trValue = this._getTranslatedValue('prompt', value);
+		this._ch5Properties.set<string>("prompt", trValue, () => {
+			this.handlePrompt(trValue);
 		});
 	}
 	public get prompt(): string {
@@ -793,8 +797,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		targetEl.classList.add(this.primaryCssClass + '--stretch-' + this.stretch);
 	}
 
-	private handleOkButtonLabel() {
-		const trValue = this._getTranslatedValue('okButtonLabel', this.okButtonLabel);
+	private handleOkButtonLabel(trValue: string) {
 		this._elBtnOk.setAttribute('label', trValue);
 	}
 
@@ -806,8 +809,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		this._elBtnOk.setAttribute('customStyle', this.okButtonStyle);
 	}
 
-	private handleCancelButtonLabel() {
-		const trValue = this._getTranslatedValue('cancelButtonLabel', this.cancelButtonLabel);
+	private handleCancelButtonLabel(trValue: string) {
 		if (this._elBtnCancel instanceof HTMLElement) {
 			this._elBtnCancel.setAttribute('label', trValue);
 		}
@@ -821,9 +823,9 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		this._elBtnCancel.setAttribute('customStyle', this.cancelButtonStyle);
 	}
 
-	private handlePrompt(value: string) {
+	private handlePrompt(trValue: string) {
 		if (this._elPromptText instanceof HTMLElement) {
-			this._elPromptText.textContent = value;
+			this._elPromptText.textContent = trValue;
 		}
 	}
 
