@@ -1789,11 +1789,17 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       this.snapshotImage.userId = this.snapshotUserId;
       this.snapshotImage.password = this.snapshotPassword;
       this.snapshotImage.refreshRate = this.snapshotRefreshRate;
+      this.snapshotImage.sendEventSnapshotStatus = this.sendEventSnapshotStatus;
+      this.snapshotImage.sendEventSnapshotLastUpdateTime = this.sendEventSnapshotLastUpdateTime;
       if (this.lastResponseStatus !== CH5VideoUtils.VIDEO_ACTION.STARTED) {
         this.snapshotImage.startLoadingSnapshot();
         if (this.snapshotImage.getImage().isConnected === false) {
           this._elContainer.appendChild(this.snapshotImage.getImage());
         }
+      }
+    } else if (this.snapshotURL.trim() === '') {
+      if (this.sendEventSnapshotStatus !== null && this.sendEventSnapshotStatus !== undefined && this.sendEventSnapshotStatus !== "") {
+        Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventSnapshotStatus)?.publish(0);
       }
     }
     if (this.url === '' && this.lastBackGroundRequest !== CH5VideoUtils.VIDEO_ACTION.NOURL) {

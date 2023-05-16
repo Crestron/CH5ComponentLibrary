@@ -7,6 +7,7 @@
 
 import _ from "lodash";
 import { Ch5ImageUriModel } from "../ch5-image/ch5-image-uri-model";
+import { Ch5SignalFactory } from "../ch5-core/index";
 
 export class Ch5VideoSnapshot {
 
@@ -16,6 +17,8 @@ export class Ch5VideoSnapshot {
 	public refreshRate: number = 5;
 	private snapshotTimer: any;
 	private videoImage = new Image();
+	public sendEventSnapshotStatus: string = '';
+	public sendEventSnapshotLastUpdateTime: string = '';
 
 	constructor() {
 		this.videoImage.alt = "Video Snapshot";
@@ -76,7 +79,20 @@ export class Ch5VideoSnapshot {
 	}
 
 	private setSnapshot() {
+		this.videoImage.onerror = () => {
+			if (this.sendEventSnapshotStatus !== null && this.sendEventSnapshotStatus !== undefined && this.sendEventSnapshotStatus !== "") {
+				Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventSnapshotStatus)?.publish(2);
+			}
+		}
+		this.videoImage.onload = (ev: Event) => {
+			if (this.sendEventSnapshotStatus !== null && this.sendEventSnapshotStatus !== undefined && this.sendEventSnapshotStatus !== "") {
+				Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventSnapshotStatus)?.publish(1);
+			}
+		};
 		this.videoImage.src = this.url + '#' + (new Date().getTime() / 1000.0); // epoch time
+		if (this.sendEventSnapshotLastUpdateTime !== null && this.sendEventSnapshotLastUpdateTime !== undefined && this.sendEventSnapshotLastUpdateTime !== "") {
+			Ch5SignalFactory.getInstance().getStringSignal(this.sendEventSnapshotLastUpdateTime)?.publish(this.videoImage.src);
+		}
 	}
 
 	public getImage() {
