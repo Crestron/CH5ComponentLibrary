@@ -222,6 +222,25 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       isObservableProperty: true
     },
     {
+      default: true,
+      name: "show",
+      nameForSignal: "receiveStateShow",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true
+    },
+    {
+      default: "",
+      isSignal: true,
+      name: "receiveStateShow",
+      signalType: "boolean",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true
+    },
+    {
       default: "",
       isSignal: true,
       name: "receiveStateSelect",
@@ -875,6 +894,27 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     return this._ch5Properties.get<string>('sendEventSnapshotLastUpdateTime');
   }
 
+  public set show(value: boolean) {
+    this._ch5Properties.set("show", value, () => {
+      this.handleReceiveStateShow();
+    });
+  }
+  public get show(): boolean {
+    return this._ch5Properties.get<boolean>('show');
+  }
+
+  public set receiveStateShow(value: string) {
+    this._ch5Properties.set("receiveStateShow", value, null, (newValue: boolean) => {
+      this._ch5Properties.setForSignalResponse<boolean>("show", newValue, () => {
+        this.handleReceiveStateShow();
+      });
+    });
+  }
+  public get receiveStateShow(): string {
+    return this._ch5Properties.get<string>('receiveStateShow');
+  }
+
+
   // #endregion
 
   // #region Static Methods
@@ -898,7 +938,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   public constructor() {
     super();
-    this.ignoreAttributes = ['disabled', 'receiveStateEnable'];
+    this.ignoreAttributes = ['disabled', 'receiveStateEnable', 'show', 'receiveStateShow'];
     this.logger.start('constructor()', Ch5Video.ELEMENT_NAME);
     if (!this._wasInstatiated) {
       this.createInternalHtml();
@@ -1120,6 +1160,16 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
   }
 
+  private handleReceiveStateShow() {
+    if (this.show === true) {
+      this.validateAndAttachSnapshot();
+      this.videoIntersectionObserver();
+    } else {
+      this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
+      this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.STOP, 'disconnect');
+    }
+  }
+
   private updateCssClass() {
     this.logger.start('UpdateCssClass');
     super.updateCssClasses();
@@ -1148,7 +1198,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   public videoIntersectionObserver() {
     this.logger.log("videoIntersectionObserver#intersectionRatio -> " + this.elementIntersectionEntry.intersectionRatio);
     this.lastBackGroundRequest = "";
-    if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE && this.playValue) {
+    if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE && this.playValue && this.show) {
       this.videoInViewPort();
     } else {
       this.videoNotInViewport();
