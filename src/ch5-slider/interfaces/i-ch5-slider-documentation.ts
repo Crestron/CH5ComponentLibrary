@@ -117,7 +117,8 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *        "\treceivestateshowonoffonly=\"${23:}\"",
  *        "\tsendeventonupper=\"${24:}\"",
  *        "\tsendeventonlower=\"${25:}\"",
- *        "\tstretch=\"${26:both}\">",
+ *        "\thandlesendeventonclick=\"${26:}\"",
+ *        "\tstretch=\"${27:both}\">",
  *        "</ch5-slider>$0"
  *      ]
  *    }
