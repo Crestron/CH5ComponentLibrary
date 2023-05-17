@@ -123,7 +123,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`snapshotRefreshRate` attribute",
 	 * "***",
-	 * "Default 5. Defines the refresh period for a snapshot URL in units of seconds. 0 indicates no refresh. Superseded by receiveStateSnapshotRefreshrate"
+	 * "Default 5. Defines the refresh period for a snapshot URL in units of seconds. 0 indicates no refresh, max is 60. Superseded by receiveStateSnapshotRefreshrate"
 	 * ]
 	 * @name snapshotrefreshrate
 	 * @default 5
