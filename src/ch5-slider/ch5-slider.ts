@@ -2855,7 +2855,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	}
 
 	private handleSendEventOnClickHandle(): void {
-		if (this.handleSendEventOnClick) {
+		if (this.handleSendEventOnClick && !this.disabled) {
 			Ch5SignalFactory.getInstance().getBooleanSignal(this.handleSendEventOnClick)?.publish(true);
 			Ch5SignalFactory.getInstance().getBooleanSignal(this.handleSendEventOnClick)?.publish(false);
 		}
