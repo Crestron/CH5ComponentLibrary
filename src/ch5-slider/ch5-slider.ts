@@ -386,6 +386,16 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			type: "string",
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "handleSendEventOnClick",
+			signalType: "boolean",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
 		}
 	];
 
@@ -778,6 +788,15 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	public get sendEventOnChangeHigh(): string {
 		return this._ch5Properties.get<string>('sendEventOnChangeHigh');
 	}
+
+	public set handleSendEventOnClick(value: string) {
+		this._ch5Properties.set("handleSendEventOnClick", value, null, (newValue: number) => {
+			// Enter your Code here
+		});
+	}
+	public get handleSendEventOnClick(): string {
+		return this._ch5Properties.get<string>('handleSendEventOnClick');
+	}
 	/**
 	 * Getter receiveStateValue
 	 * @type {string}
@@ -810,6 +829,10 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			if (oldSignal !== null) {
 				oldSignal.unsubscribe(this._subReceiveValueId);
 			}
+		}
+
+		if (this.ticks) {
+			this._parsedSliderOptions();
 		}
 
 		// setup new subscription.
@@ -905,7 +928,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				oldSignal.unsubscribe(this._subReceiveValueHighId);
 			}
 		}
-
+		if (this.ticks) {
+			this._parsedSliderOptions();
+		}
 		// setup new subscription.
 		this._receiveStateValueSignalHigh = value;
 		const recSignalName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateValueSignalHigh);
@@ -1121,7 +1146,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		this.handleSendEventHold = this.handleSendEventHold.bind(this);
 		this.handleSendEventRelease = this.handleSendEventRelease.bind(this);
 		this.handleSendEventOffClick = this.handleSendEventOffClick.bind(this);
-		this.handleSendEventOnClick = this.handleSendEventOnClick.bind(this);
+		this.handleSendEventOnClickButton = this.handleSendEventOnClickButton.bind(this);
+		this.handleSendEventOnClickHandle = this.handleSendEventOnClickHandle.bind(this);
 	}
 	private setCleanValue(value: string | number) {
 		this._cleanValue = value;
@@ -1455,12 +1481,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			const noUiHandle = this._innerContainer.querySelector('.noUi-handle') as HTMLElement;
 			noUiHandle.addEventListener('focus', this._onFocus);
 			noUiHandle.addEventListener('blur', this._onBlur);
+			noUiHandle.addEventListener('click', this.handleSendEventOnClickHandle);
 			this._innerContainer.addEventListener('mouseleave', this._onMouseLeave);
 			this._innerContainer.addEventListener('touchmove', this._onMouseLeave);
 			this._innerContainer.addEventListener('mousedown', () => { this._holdState = true; });
 			this._innerContainer.addEventListener('touchstart', () => { this._holdState = true; });
 			this._elOffContainer.addEventListener('click', this.handleSendEventOffClick);
-			this._elOnContainer.addEventListener('click', this.handleSendEventOnClick);
+			this._elOnContainer.addEventListener('click', this.handleSendEventOnClickButton);
 			noUiHandle.addEventListener('pointermove', (event) => { event.stopPropagation() });
 		}
 		// init pressable
@@ -1483,12 +1510,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			const noUiHandle = this._innerContainer.querySelector('.noUi-handle') as HTMLElement;
 			noUiHandle.removeEventListener('focus', this._onFocus);
 			noUiHandle.removeEventListener('blur', this._onBlur);
+			noUiHandle.removeEventListener('click', this.handleSendEventOnClickHandle);
 			this._innerContainer.removeEventListener('mouseleave', this._onMouseLeave);
 			this._innerContainer.removeEventListener('touchmove', this._onMouseLeave);
 			this._innerContainer.removeEventListener('mousedown', () => { this._holdState = true; });
 			this._innerContainer.removeEventListener('touchstart', () => { this._holdState = true; });
 			this._elOffContainer.removeEventListener('click', this.handleSendEventOffClick);
-			this._elOnContainer.removeEventListener('click', this.handleSendEventOnClick);
+			this._elOnContainer.removeEventListener('click', this.handleSendEventOnClickButton);
 			noUiHandle.removeEventListener('pointermove', (event) => { event.stopPropagation() });
 		}
 		if (!isNil(this._pressable)) {
@@ -2724,7 +2752,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		if (this.valueHigh < this.value)
 			valueHigh = this.value + 1;
 
-
 		this._cleanValue = value;
 		if (this.range === true) {
 			this._cleanValueHigh = valueHigh;
@@ -2765,7 +2792,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		}
 	}
 
-	private handleSendEventOnClick(): void {
+	private handleSendEventOnClickButton(): void {
 		this._elOnContainer.classList.add("ch5-slider-button--pressed");
 		if (this._sendEventOnClick) {
 			Ch5SignalFactory.getInstance().getBooleanSignal(this._sendEventOnClick)?.publish(true);
@@ -2775,6 +2802,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this._elOnContainer.classList.remove("ch5-slider-button--pressed");
 		}, 30);
 
+	}
+
+	private handleSendEventOnClickHandle(): void {
+		if (this.handleSendEventOnClick) {
+			Ch5SignalFactory.getInstance().getBooleanSignal(this.handleSendEventOnClick)?.publish(true);
+			Ch5SignalFactory.getInstance().getBooleanSignal(this.handleSendEventOnClick)?.publish(false);
+		}
 	}
 
 	private handleSendEventOffClick(): void {
@@ -2899,18 +2933,20 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	private stretchHandler() {
 		let sliderHeight = this.offsetHeight;
 		let sliderWidth = this.offsetWidth;
-		let titleHeight = sliderHeight;
-		if (!!this.stretch && this.stretch.length === 0) {
+		let titleHeight = this.offsetHeight;
+		if (!this.stretch) {
 			sliderHeight = 0;
 			sliderWidth = 0;
 		}
-		if (!!this._elContainer && !!this._elContainer.style) {
+		if (this._elContainer && this._elContainer.style) {
 			const parentElement = this.parentElement;
-			if (!!this.stretch && this.stretch.trim().length > 0 && !!parentElement) {
+			if (this.stretch && this.stretch.trim().length > 0 && parentElement) {
 				sliderWidth = parentElement.offsetWidth;
 				sliderHeight = parentElement.offsetHeight;
 				if (this._titlePresent === 1) {
 					titleHeight = sliderHeight - 24;
+				} else {
+					titleHeight = sliderHeight;
 				}
 				if (this.stretch === 'height') {
 					if (this._elContainer.classList.contains("adv-slider")) {

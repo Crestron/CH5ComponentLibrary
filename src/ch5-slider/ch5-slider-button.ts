@@ -1,5 +1,5 @@
 import { Ch5ButtonBase } from "../ch5-button";
-import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { TCh5SliderButtonKey, } from './interfaces/t-ch5-slider-button';
 import { ICh5SliderButtonAttributes } from './interfaces/i-ch5-slider-button-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
@@ -22,8 +22,6 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 			attribute: 'key',
 			classListPrefix: '--key-'
 		},
-	};
-	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 	};
 
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
@@ -94,6 +92,10 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 		return newObsAttrs.concat(Ch5SliderButton.inheritedObsAttrs);
 	}
 
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5SliderButton.ELEMENT_NAME, Ch5SliderButton.SIGNAL_ATTRIBUTE_TYPES);
+	}
+	
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
 		this.logger.start("attributeChangedCallback", this.primaryCssClass);
 		if (!Ch5SliderButton.inheritedObsAttrs.includes(attr.toLowerCase())) {
@@ -267,3 +269,4 @@ if (typeof window === "object" &&
 	typeof window.customElements.define === "function") {
 	window.customElements.define(Ch5SliderButton.ELEMENT_NAME, Ch5SliderButton);
 }
+Ch5SliderButton.registerSignalAttributeTypes();
