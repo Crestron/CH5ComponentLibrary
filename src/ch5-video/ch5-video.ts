@@ -17,7 +17,7 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
 import { CH5VideoUtils } from "./ch5-video-utils";
-import { ICh5VideoPublishEvent, ITouchOrdinates, TDimension, TMultiVideoSignalName, TPosDimension, TVideoResponse, TVideoTouchManagerParams } from "./interfaces";
+import { ICh5VideoPublishEvent, ITouchOrdinates, TDimension, TMultiVideoSignalName, TVideoResponse, TVideoTouchManagerParams } from "./interfaces";
 import { publishEvent } from '../ch5-core/utility-functions/publish-signal';
 import { ICh5VideoBackground } from "./interfaces";
 import { Ch5Background } from "../ch5-background";
@@ -805,7 +805,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       }
     });
   }
-
   public get receiveStateVideoCount(): string {
     return this._ch5Properties.get<string>('receiveStateVideoCount');
   }
@@ -1070,9 +1069,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this._ch5Properties.unsubscribe();
   }
 
-  /**
-   * Clear the content of component in order to avoid duplication of elements
-   */
+
+  // Clear the content of component in order to avoid duplication of elements
   private clearComponentContent() {
     const containers = this.getElementsByTagName("div");
     Array.from(containers).forEach((container) => {
@@ -1088,7 +1086,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     // A dummy call to make the video to play on first project load
     publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(CH5VideoUtils.VIDEO_ACTION.STOP, this.ch5UId));
   }
-
 
   private handleIndexId() {
     if (this.multiVideoSignalName.url.includes(`{{${this.indexId}}}`)) { this.receiveStateURL = this.multiVideoSignalName.url.replace(`{{${this.indexId}}}`, this.selectedVideo.toString()) }
@@ -1228,16 +1225,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }, 300); // reducing this will create a cut at wrong place
   }
 
-
   private videoNotInViewport() {
     if (this.isFullScreen) { return; }
     this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
     this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL, 'disconnect');
   }
 
-  /**
-   * Calculate the size and position of the canvas
-   */
+  // Calculate the size and position of the canvas
   private calculation(): void {
     if (!this.isFullScreen) {
       this.sizeObj = {
