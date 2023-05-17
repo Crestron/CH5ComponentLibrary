@@ -53,7 +53,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		sendeventonupper: { direction: "state", booleanJoin: 1, contractName: true },
 		receivestateupper: { direction: "state", booleanJoin: 1, contractName: true },
 		sendeventonlower: { direction: "state", booleanJoin: 1, contractName: true },
-		receivestatelower: { direction: "state", booleanJoin: 1, contractName: true }
+		receivestatelower: { direction: "state", booleanJoin: 1, contractName: true },
+		handlesendeventonclick: { direction: "state", booleanJoin: 1, contractName: true }
 	};
 
 	public static readonly MIN_VALUE: number = 0;
@@ -2854,7 +2855,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	}
 
 	private handleSendEventOnClickHandle(): void {
-		if (this.handleSendEventOnClick) {
+		if (this.handleSendEventOnClick && !this.disabled) {
 			Ch5SignalFactory.getInstance().getBooleanSignal(this.handleSendEventOnClick)?.publish(true);
 			Ch5SignalFactory.getInstance().getBooleanSignal(this.handleSendEventOnClick)?.publish(false);
 		}
