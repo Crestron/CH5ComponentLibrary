@@ -172,7 +172,9 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	}
 
 	public set sendEventOnClick(value: string) {
-		this._ch5Properties.set<string>("sendEventOnClick", value);
+		this._ch5Properties.set<string>("sendEventOnClick", value, () => {
+			this.setAttribute('sendEventOnClick'.toLowerCase(), value);
+		});
 	}
 	public get sendEventOnClick() {
 		return this._ch5Properties.get<string>("sendEventOnClick");
@@ -221,10 +223,11 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		const { major, minor, contractName, joinCountToAdd, iconClass, key, pressed, name, indexRef, contractKey, className, ...remainingParams } = this.params;
 		this.labelMajor = major ? major : defaultMajors[indexRef];
 		this.labelMinor = minor ? minor : defaultMinors[indexRef];
-		if (this.labelMajor === "*") {
-			this.labelMinor = "";
-		}
 		this.iconClass = iconClass.join(' ');
+		if (!this.iconClass && this.labelMajor === "*") {
+			this.labelMinor = "";
+			this._elMinorSpan.innerHTML = "";
+		}
 		this.key = key;
 		this.pressed = pressed;
 
@@ -416,14 +419,13 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		} else {
 			this.labelMajor = this.params.major;
 		}
-
 	}
 
 	protected labelMinorHandler() {
 		if (this.labelMinor.length !== 0) {
 			this._elMinorSpan.innerHTML = this.labelMinor;
 		} else {
-			this.labelMajor = this.params.minor;
+			this.labelMinor = this.params.minor;
 		}
 	}
 
@@ -439,6 +441,10 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 			const spanBtn = iconButton[0].children[0];
 			if (spanBtn) {
 				spanBtn.setAttribute("class", this.iconClass);
+			} else {
+				this._elIcon.setAttribute("class", this.iconClass);
+				this._elMajorSpan.innerHTML = '';
+				this._elMajorSpan.appendChild(this._elIcon);
 			}
 		}
 	}
@@ -535,6 +541,11 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	public setJoinBasedEventHandler(startIndex: number, joinCountIndex: number) {
 		const joinCountList: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 11, 12];
 		this.sendEventOnClick = (startIndex + joinCountList[joinCountIndex]).toString();
+	}
+
+	public setJoinBasedContractEventHandler(parentContract: string, joinIndex: number) {
+		const joinCountList: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'Star', 0, 'Hash', 'ExtraButton'];
+		this.sendEventOnClick = parentContract + ".Press" + joinCountList[joinIndex];
 	}
 
 	//#endregion

@@ -66,6 +66,13 @@
     </template>
   </test-fixture>
 
+  <test-fixture id="ch5-tab-button-receiveStateEnable">
+    <template>
+      <ch5-tab-button receiveStateEnable="tab_button_enable">
+      </ch5-tab-button>
+    </template>
+  </test-fixture>
+
   <script>
 
     suite('ch5-tab-button-buttonReceiveStateIconClass', () => {
@@ -266,6 +273,32 @@
             const divTag = document.querySelector('.ch5-button');
             expect(ch5TabButton1.buttonReceiveStateEnable).to.be.equal('button-enable-0');
             expect(divTag.classList.contains('ch5-button--disabled')).to.be.equal(true);
+            expect(getDiv(ch5TabButton1).classList.contains('ch5-tab-button--orientation-vertical')).to.be.equal(true);
+            done();
+          }, 500);
+        });
+      });
+    });
+
+    suite('ch5-tab-button-receiveStateEnable', () => {
+      let ch5TabButton1;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/buttonreceivestateenable.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5TabButton1 = fixture('ch5-tab-button-receiveStateEnable');
+      });
+
+      test(`check attribute receiveStateEnable`, (done) => {
+        ch5TabButton1.setAttribute('numberOfItems', 3);
+        ch5TabButton1.setAttribute('orientation', 'vertical');
+        CrComLib.publishEvent('b', 'tab-enable', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5TabButton1.receiveStateEnable).to.be.equal('tab_button_enable');
+            expect(getDiv(ch5TabButton1).classList.contains('ch5-tab-button--disabled')).to.be.equal(true);
+            expect(getDiv(ch5TabButton1).firstChild.firstChild.firstChild.classList.contains('ch5-tab-button--disabled')).to.be.equal(false);
             expect(getDiv(ch5TabButton1).classList.contains('ch5-tab-button--orientation-vertical')).to.be.equal(true);
             done();
           }, 500);

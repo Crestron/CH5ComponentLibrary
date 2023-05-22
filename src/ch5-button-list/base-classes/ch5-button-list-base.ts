@@ -4,7 +4,7 @@ import { Ch5ButtonMode } from "../../ch5-button/ch5-button-mode";
 import { Ch5ButtonLabel } from "../../ch5-button/ch5-button-label";
 import { Ch5SignalElementAttributeRegistryEntries } from "../../ch5-common/ch5-signal-attribute-registry";
 import { Ch5RoleAttributeMapping } from "../../utility-models/ch5-role-attribute-mapping";
-import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape, TCh5ButtonListAttributesOrientation, TCh5ButtonListAttributesStretch, TCh5ButtonListContractItemLabelType, TCh5ButtonListContractItemIconType } from './../interfaces/t-ch5-button-list';
+import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape, TCh5ButtonListAttributesOrientation, TCh5ButtonListAttributesStretch, TCh5ButtonListContractItemLabelType, TCh5ButtonListContractItemIconType, TCh5ButtonListSgIconTheme } from './../interfaces/t-ch5-button-list';
 import { ICh5ButtonListContractObj } from '../interfaces/t-for-ch5-button-list-contract';
 import { ICh5ButtonListAttributes } from './../interfaces/i-ch5-button-list-attributes';
 import { Ch5Properties } from "../../ch5-core/ch5-properties";
@@ -43,6 +43,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   public static readonly BUTTON_CHECKBOX_POSITIONS: TCh5ButtonListButtonCheckboxPosition[] = ['left', 'right'];
   public static readonly BUTTON_ICON_POSITIONS: TCh5ButtonListButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
   public static readonly BUTTON_SHAPES: TCh5ButtonListButtonShape[] = ['rectangle', 'rounded-rectangle'];
+  public static readonly SG_ICON_THEME: TCh5ButtonListSgIconTheme[] = ['icons-lg', 'icons-sm', 'media-transports-accents', 'media-transports-light', 'media-transports-dark'];
 
   public static COMPONENT_DATA: any = {
     ORIENTATION: {
@@ -117,7 +118,6 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     }
   };
 
-  public static readonly COMPONENT_COMMON_PROPERTIES = ['disabled', 'show'];
 
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -399,6 +399,15 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       isObservableProperty: true
     },
     {
+      default: Ch5ButtonListBase.SG_ICON_THEME[0],
+      enumeratedValues: Ch5ButtonListBase.SG_ICON_THEME,
+      name: "buttonSgIconTheme",
+      removeAttributeOnNull: true,
+      type: "enum",
+      valueOnAttributeEmpty: Ch5ButtonListBase.SG_ICON_THEME[0],
+      isObservableProperty: true,
+    },
+    {
       default: false,
       name: "buttonCheckboxShow",
       removeAttributeOnNull: true,
@@ -505,6 +514,22 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     {
       default: "",
       name: "buttonReceiveStateIconUrl",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true
+    },
+    {
+      default: "",
+      name: "buttonReceiveStateSGIconNumeric",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true
+    },
+    {
+      default: "",
+      name: "buttonReceiveStateSGIconString",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -976,6 +1001,30 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   }
   public get buttonReceiveStateIconUrl(): string {
     return this._ch5Properties.get<string>("buttonReceiveStateIconUrl");
+  }
+  public set buttonReceiveStateSGIconString(value: string) {
+    this._ch5Properties.set<string>("buttonReceiveStateSGIconString", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get buttonReceiveStateSGIconString(): string {
+    return this._ch5Properties.get<string>("buttonReceiveStateSGIconString");
+  }
+  public set buttonReceiveStateSGIconNumeric(value: string) {
+    this._ch5Properties.set<string>("buttonReceiveStateSGIconNumeric", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get buttonReceiveStateSGIconNumeric(): string {
+    return this._ch5Properties.get<string>("buttonReceiveStateSGIconNumeric");
+  }
+  public set buttonSgIconTheme(value: TCh5ButtonListSgIconTheme) {
+    this._ch5Properties.set<TCh5ButtonListSgIconTheme>("buttonSgIconTheme", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get buttonSgIconTheme(): TCh5ButtonListSgIconTheme {
+    return this._ch5Properties.get<TCh5ButtonListSgIconTheme>("buttonSgIconTheme");
   }
 
   public set buttonSendEventOnClick(value: string) {
@@ -1794,12 +1843,6 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       }
     });
 
-    Ch5ButtonListBase.COMPONENT_COMMON_PROPERTIES.forEach((attr: string) => {
-      if (this.hasAttribute(attr)) {
-        btn.setAttribute(attr, this.getAttribute(attr) + '');
-      }
-    });
-
     const individualButtonAttributes = ['onRelease', 'labelInnerHTML'];
     individualButtonAttributes.forEach((attr: string) => {
       if (index < individualButtonsLength && individualButtons[index] && individualButtons[index].hasAttribute(attr)) {
@@ -1862,10 +1905,10 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       btn.setAttribute('receiveStateIconClass', this.contractName + `.Button${index + 1}IconClass`);
     } else if (this.contractItemIconType === "url") {
       btn.setAttribute('receiveStateIconUrl', this.contractName + `.Button${index + 1}IconURL`);
-      // } else if (this.contractItemIconType === "sgStateNumber") {
-      //   btn.setAttribute('', this.contractName + `.Button${index + 1}IconAnalog`);
-      // } else if (this.contractItemIconType === "sgStateName") {
-      //   btn.setAttribute('', this.contractName + `.Button${index + 1}IconSerial`);
+    } else if (this.contractItemIconType === "sgStateNumber") {
+      btn.setAttribute('receiveStateSGIconNumeric', this.contractName + `.Button${index + 1}IconAnalog`);
+    } else if (this.contractItemIconType === "sgStateName") {
+      btn.setAttribute('receiveStateSGIconString', this.contractName + `.Button${index + 1}IconSerial`);
     } else if (this.contractItemIconType === "none") {
       if (this.hasAttribute('buttonReceiveStateIconClass') && this.getAttribute('buttonReceiveStateIconClass')?.trim()) {
         this.indexIdReplaceHelper(btn, 'buttonReceiveStateIconClass', index);
@@ -1890,6 +1933,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
 
     btn.setAttribute('receiveStateMode', this.contractName + `.Button${index + 1}Mode`);
     btn.setAttribute('receiveStateSelected', this.contractName + `.Button${index + 1}ItemSelected`);
+    btn.setAttribute('sgIconTheme', this.buttonSgIconTheme);
 
     const remainingAttributes = ['buttonCheckboxPosition', 'buttonCheckboxShow', 'buttonVAlignLabel', 'buttonHAlignLabel', 'buttonIconClass',
       'buttonIconPosition', 'buttonIconUrl', 'buttonShape', 'buttonType', 'buttonPressed'];
@@ -1968,12 +2012,6 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
             }
           }
         }
-      }
-    });
-
-    Ch5ButtonListBase.COMPONENT_COMMON_PROPERTIES.forEach((attr: string) => {
-      if (this.hasAttribute(attr)) {
-        btn.setAttribute(attr, this.getAttribute(attr) + '');
       }
     });
 

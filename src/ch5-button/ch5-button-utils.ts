@@ -13,7 +13,8 @@ import {
 	TCh5ButtonType,
 	TCh5ButtonCheckboxPosition,
 	TCh5ButtonHorizontalAlignLabel,
-	TCh5ButtonVerticalAlignLabel
+	TCh5ButtonVerticalAlignLabel,
+	TCh5ButtonIconUrlFillType
 } from './interfaces/t-ch5-button';
 
 export interface ICh5ButtonExtendedProperties {
@@ -28,6 +29,7 @@ export interface ICh5ButtonExtendedProperties {
 	vAlignLabel?: TCh5ButtonVerticalAlignLabel;
 	label?: string;
 	labelHtml?: string;
+	iconUrlFillType?: TCh5ButtonIconUrlFillType | null;
 }
 
 export class Ch5ButtonUtils {

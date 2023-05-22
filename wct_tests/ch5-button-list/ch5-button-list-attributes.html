@@ -8,6 +8,8 @@
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
 </head>
 
 <body>
@@ -16,6 +18,14 @@
       <ch5-button-list></ch5-button-list>
     </template>
   </test-fixture>
+
+  <test-fixture id="ch5-tab-button-receiveStateEnable">
+    <template>
+      <ch5-button-list receiveStateEnable="button_receivestate_enable">
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
   <script>
     suite('ch5-button-list-default-attributes-value', () => {
       let ch5ButtonList;
@@ -91,6 +101,30 @@
           }
         }
       });
+
+      suite('ch5-tab-button-receiveStateEnable', () => {
+      let ch5ButtonList;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatenumberofitems.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5ButtonList = fixture('ch5-tab-button-receiveStateEnable');
+      });
+
+      test(`check attribute receiveStateEnable`, (done) => {
+        ch5ButtonList.setAttribute('numberOfItems', 10);
+        CrComLib.publishEvent('b', 'button-enable', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.receiveStateEnable).to.be.equal('button_receivestate_enable');
+            expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--disabled')).to.be.equal(true);
+            expect(getDiv(ch5ButtonList).firstChild.firstChild.firstChild.classList.contains('ch5-button-list--disabled')).to.be.equal(false);
+            done();
+          }, 500);
+        });
+      });
+    });
 
     });
   </script>

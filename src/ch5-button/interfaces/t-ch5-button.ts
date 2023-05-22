@@ -39,3 +39,9 @@ export type TCh5ButtonType = 'default' | 'primary' | 'info' | 'text' | 'danger' 
 export type TCh5ButtonVerticalAlignLabel = 'middle' | 'top' | 'bottom';
 
 export type TCh5ButtonModeState = 'normal' | 'pressed' | 'selected';
+
+export type TCh5ButtonBackgroundImageFillType = 'stretch-aspect' | 'stretch' | 'center' | 'tile';
+
+export type TCh5ButtonIconUrlFillType = 'stretch' | 'stretch-aspect' | 'center' | 'tile' | 'initial';
+
+export type TCh5ButtonSgIconTheme = 'icons-lg' | 'icons-sm' | 'media-transports-accents' | 'media-transports-light' | 'media-transports-dark';

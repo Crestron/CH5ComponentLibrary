@@ -1451,7 +1451,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 				}
 				else if (_newValue > 1000) {
 
-					this.info(`List size exceded : ${_newValue} ; `)
+					this.info(`List size exceeded : ${_newValue} ; `)
 				}
 			}
 		};

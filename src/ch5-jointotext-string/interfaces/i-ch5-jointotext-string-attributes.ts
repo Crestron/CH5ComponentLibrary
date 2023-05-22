@@ -40,6 +40,7 @@ export interface ICh5JoinToTextStringAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatevalue
    * @default ""
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    * @attributeType "Join"
    */
    receiveStateValue: string;

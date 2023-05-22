@@ -1,0 +1,327 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+
+  <test-fixture id="ch5-button-backgroundimagefilltype-fixture">
+    <template>
+      <ch5-button label="backgroundImage" backgroundimageurl="https://www.w3schools.com/css/paris.jpg"></ch5-button>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-button', () => {
+
+      let ch5Button;
+
+      setup(() => {
+        ch5Button = fixture('ch5-button-backgroundimagefilltype-fixture');
+      });
+
+      test('Check the default value of backgroundImageFillType to be "stretch-aspect"', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Button.backgroundImageFillType).to.be.equal("stretch-aspect");
+            expect(ch5Button.getAttribute("backgroundImageFillType")).to.be.equal(null);
+            expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+            expect(ch5Button)
+            done();
+          }, BASIC_TESTING_TIMEOUT);
+        });
+      });
+
+      const valid_fill_types = ["stretch", "stretch-aspect", "center", "tile"];
+      const invalid_fill_types = ["jsfsjkf", "", 1, true, "9fs"];
+      const attribute_combination = [{
+        size: 'x-small',
+        fillType: 'stretch-aspect',
+        shape: 'rounded-rectangle',
+        type: 'text'
+      },
+      {
+        size: 'x-small',
+        fillType: 'stretch',
+        shape: 'rounded-rectangle',
+        type: 'text'
+      },
+      {
+        size: 'x-small',
+        fillType: 'center',
+        shape: 'rounded-rectangle',
+        type: 'text'
+      },
+      {
+        size: 'x-small',
+        fillType: 'tile',
+        shape: 'rounded-rectangle',
+        type: 'text'
+      },
+      {
+        size: 'small',
+        fillType: 'stretch',
+        shape: 'rectangle',
+        type: 'info'
+      },
+      {
+        size: 'small',
+        fillType: 'stretch-aspect',
+        shape: 'rectangle',
+        type: 'info'
+      },
+      {
+        size: 'small',
+        fillType: 'center',
+        shape: 'rectangle',
+        type: 'info'
+      },
+      {
+        size: 'small',
+        fillType: 'tile',
+        shape: 'rectangle',
+        type: 'info'
+      },
+      {
+        size: 'regular',
+        fillType: 'stretch',
+        shape: 'oval',
+        type: 'secondary'
+      },
+      {
+        size: 'regular',
+        fillType: 'stretch-aspect',
+        shape: 'oval',
+        type: 'secondary'
+      },
+      {
+        size: 'regular',
+        fillType: 'center',
+        shape: 'oval',
+        type: 'secondary'
+      },
+      {
+        size: 'regular',
+        fillType: 'tile',
+        shape: 'oval',
+        type: 'secondary'
+      },
+      {
+        size: 'large',
+        fillType: 'stretch',
+        shape: 'circle',
+        type: 'secondary'
+      },
+      {
+        size: 'large',
+        fillType: 'stretch-aspect',
+        shape: 'circle',
+        type: 'primary'
+      },
+      {
+        size: 'large',
+        fillType: 'center',
+        shape: 'circle',
+        type: 'primary'
+      },
+      {
+        size: 'large',
+        fillType: 'tile',
+        shape: 'circle',
+        type: 'primary'
+      },
+      {
+        size: 'x-large',
+        fillType: 'stretch',
+        shape: 'tab',
+        type: 'default'
+      },
+      {
+        size: 'x-large',
+        fillType: 'stretch-aspect',
+        shape: 'tab',
+        type: 'default'
+      },
+      {
+        size: 'x-large',
+        fillType: 'center',
+        shape: 'tab',
+        type: 'default'
+      },
+      {
+        size: 'x-large',
+        fillType: 'tile',
+        shape: 'tab',
+        type: 'default'
+      }
+      ];
+      valid_fill_types.forEach((fillName, i) => {
+        test(`Check attribute backgroundImageFillType: "${fillName}"`, (done) => {
+          ch5Button.setAttribute('backgroundImageFillType', fillName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.backgroundImageFillType).to.be.equal(fillName);
+              expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      valid_fill_types.forEach((fillName, i) => {
+        test(`Check div class name for backgroundImageFillType: "${fillName}"`, (done) => {
+          ch5Button.setAttribute('backgroundImageFillType', fillName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--background-image-fill-type-${fillName}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      valid_fill_types.forEach((fillName, i) => {
+        test(`Check if added div class name is removed for backgroundImageFillType: "${fillName}"`, (done) => {
+          ch5Button.setAttribute('backgroundImageFillType', fillName);
+          ch5Button.removeAttribute('backgroundImageFillType');
+          flush(() => {
+            setTimeout(() => {
+              if (fillName === 'stretch-aspect') {
+                expect(ch5Button.firstChild.classList.contains(`ch5-button--background-image-fill-type-${fillName}`)).to.be.equal(true);
+                expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              } else {
+                expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+                expect(ch5Button.firstChild.classList.contains(`ch5-button--background-image-fill-type-${fillName}`)).to.be.equal(false);
+              }
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      invalid_fill_types.forEach((val) => {
+        test(`Check invalid values, backgroundImageFillType set to default`, (done) => {
+          ch5Button.setAttribute('backgroundImageFillType', val);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--background-image-fill-type-stretch-aspect`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      attribute_combination.forEach((val) => {
+        test(`Check backgroundImageFillType=${val.fillType} with size=${val.size}`, (done) => {
+          ch5Button.setAttribute('size', val.size);
+          ch5Button.setAttribute('backgroundImageFillType', val.fillType);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--background-image-fill-type-${val.fillType}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--size-${val.size}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      attribute_combination.forEach((val) => {
+        test(`Check backgroundImageFillType=${val.fillType}, size=${val.size} and shape=${val.shape}`, (done) => {
+          ch5Button.setAttribute('size', val.size);
+          ch5Button.setAttribute('shape', val.shape);
+          ch5Button.setAttribute('backgroundImageFillType', val.fillType);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--background-image-fill-type-${val.fillType}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--size-${val.size}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--${val.shape}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      attribute_combination.forEach((val) => {
+        test(`Check backgroundImageFillType=${val.fillType}, size=${val.size}, shape=${val.shape}, orientation="vertical" and type=${val.type}`, (done) => {
+          ch5Button.setAttribute('size', val.size);
+          ch5Button.setAttribute('shape', val.shape);
+          ch5Button.setAttribute('type', val.type);
+          ch5Button.setAttribute('orientation', 'vertical');
+          ch5Button.setAttribute('backgroundImageFillType', val.fillType);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--background-image-fill-type-${val.fillType}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--size-${val.size}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--${val.shape}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--${val.type}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--vertical`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      attribute_combination.forEach((val) => {
+        test(`Check backgroundImageUrl="https://img.icons8.com/material/24/000000/search.png", backgroundImageFillType=${val.fillType}, size=${val.size}, shape=${val.shape}, orientation="vertical" and type=${val.type}`, (done) => {
+          ch5Button.setAttribute('backgroundImageUrl', 'https://img.icons8.com/material/24/000000/search.png');
+          ch5Button.setAttribute('size', val.size);
+          ch5Button.setAttribute('shape', val.shape);
+          ch5Button.setAttribute('type', val.type);
+          ch5Button.setAttribute('orientation', 'vertical');
+          ch5Button.setAttribute('backgroundImageFillType', val.fillType);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--background-image-fill-type-${val.fillType}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--size-${val.size}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--${val.shape}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--${val.type}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--vertical`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://img.icons8.com/material/24/000000/search.png")');
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      attribute_combination.forEach((val) => {
+        test(`Check backgroundImageUrl="https://img.icons8.com/material/24/000000/search.png", backgroundImageFillType=${val.fillType}, size=${val.size}, shape=${val.shape}, orientation="vertical", type=${val.type} and label=${val.fillType}`, (done) => {
+          ch5Button.setAttribute('backgroundImageUrl', 'https://img.icons8.com/material/24/000000/search.png');
+          ch5Button.setAttribute('size', val.size);
+          ch5Button.setAttribute('shape', val.shape);
+          ch5Button.setAttribute('type', val.type);
+          ch5Button.setAttribute('orientation', 'vertical');
+          ch5Button.setAttribute('backgroundImageFillType', val.fillType);
+          ch5Button.setAttribute('label', val.fillType);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--background-image-fill-type-${val.fillType}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--size-${val.size}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--${val.shape}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--${val.type}`)).to.be.equal(true);
+              expect(ch5Button.firstChild.classList.contains(`ch5-button--vertical`)).to.be.equal(true);
+              expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://img.icons8.com/material/24/000000/search.png")');
+              expect(ch5Button.firstChild.firstChild.firstChild.firstChild.innerHTML).to.be.equal(`${val.fillType}`);
+              done();
+            }, BASIC_TESTING_TIMEOUT);
+          });
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
