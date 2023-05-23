@@ -5,13 +5,13 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
+import { ICh5CommonAttributesVideo } from "../../ch5-common/interfaces/i-ch5-common-attributes-video";
 import { TCh5VideoAspectRatio, TCh5VideoSourceType, TCh5VideoSize, } from './t-ch5-video';
 
 /**
  * @ignore
  */
-export interface ICh5VideoAttributes extends ICh5CommonAttributes {
+export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	/**
 	 * @documentation
 	 * [
