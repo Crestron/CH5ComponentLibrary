@@ -3,6 +3,7 @@ import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Slider } from ".";
 import { Ch5Label } from "../ch5-label";
 import _ from "lodash";
+import { Ch5SignalAttributeRegistry } from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5SliderTitleLabel extends Ch5Label implements ICh5SliderTitleLabelAttributes {
 
@@ -44,7 +45,10 @@ export class Ch5SliderTitleLabel extends Ch5Label implements ICh5SliderTitleLabe
 		}
 		return inheritedObsAttrs.concat(newObsAttrs);
 	}
-
+	
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5SliderTitleLabel.ELEMENT, Ch5SliderTitleLabel.SIGNAL_ATTRIBUTE_TYPES);
+	}
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
 		this.logger.start("attributeChangedCallback", this.primaryCssClass);
 		if (oldValue !== newValue) {
@@ -148,3 +152,4 @@ if (typeof window === "object" &&
 	typeof window.customElements.define === "function") {
 	window.customElements.define(Ch5SliderTitleLabel.ELEMENT, Ch5SliderTitleLabel);
 }
+Ch5SliderTitleLabel.registerSignalAttributeTypes();
