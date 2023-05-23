@@ -1489,10 +1489,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 		// Focus | Blur events
 		if (null !== this._innerContainer.querySelector('.noUi-handle')) {
-			const noUiHandle = this._innerContainer.querySelector('.noUi-handle') as HTMLElement;
-			noUiHandle.addEventListener('focus', this._onFocus);
-			noUiHandle.addEventListener('blur', this._onBlur);
-			noUiHandle.addEventListener('click', this.handleSendEventOnClickHandle);
 			this._innerContainer.addEventListener('mouseleave', this._onMouseLeave);
 			this._innerContainer.addEventListener('touchmove', this._onMouseLeave);
 			this._innerContainer.addEventListener('mousedown', () => { this._holdState = true; });
@@ -1501,7 +1497,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this._elOffContainer.addEventListener('touchstart', () => { this._holdOffState = true; });
 			this._elOnContainer.addEventListener('mousedown', () => { this._holdOnState = true; });
 			this._elOnContainer.addEventListener('touchstart', () => { this._holdOnState = true; });
-			noUiHandle.addEventListener('pointermove', (event) => { event.stopPropagation() });
 		}
 		// init pressable
 		if (null !== this._pressable) {
@@ -1586,7 +1581,11 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				(this._innerContainer as target)?.noUiSlider?.on('hover', (value: (number | string)[]) => {
 					this._sendEventValue = Number(value);
 				});
-
+				const noUiHandle = this._innerContainer.querySelector('.noUi-handle') as HTMLElement;
+				noUiHandle.addEventListener('focus', this._onFocus);
+				noUiHandle.addEventListener('blur', this._onBlur);
+				noUiHandle.addEventListener('click', this.handleSendEventOnClickHandle);
+				noUiHandle.addEventListener('pointermove', (event) => { event.stopPropagation() });
 				// store internal slider elements
 				this._tgtEls = [];
 				this._tgtEls.push(this._innerContainer.querySelectorAll('.noUi-connect'));
