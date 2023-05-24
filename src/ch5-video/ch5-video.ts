@@ -496,7 +496,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   private lastBackGroundRequest: string = '';
   public ch5UId: number = 0; // CH5 Unique ID
 
-  private firstTime: boolean = true;
   private orientationCount: number = 0;
 
   // touch specific [params]
@@ -1577,7 +1576,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       case CH5VideoUtils.VIDEO_ACTION.STARTED:
         this.resetVideoElement();
         this.snapshotImage.stopLoadingSnapshot();
-        // this.firstTime = false;
         this.ch5BackgroundAction(CH5VideoUtils.VIDEO_ACTION.STARTED);
         break;
       case CH5VideoUtils.VIDEO_ACTION.STOP:
@@ -1748,12 +1746,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   // Function to handle touch start event
   private touchBeginHandler() {
-    if (!this.firstTime) {
       const boundedRect = this.getBoundingClientRect();
       this.touchCoordinates.startX = boundedRect.left;
       this.touchCoordinates.startY = boundedRect.top;
       this.isTouchInProgress = false;
-    }
   }
 
   // Function to check if the touch swipe has stopped and video finally is a static position
