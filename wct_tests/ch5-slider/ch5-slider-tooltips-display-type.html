@@ -51,7 +51,7 @@
 
         // this will test if noUiSlider was rendered with current setup
         test('Default toolTipDisplayType: "%" rendered noUiSlider', function() {
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
 
         test('toolTipDisplayType "value"', function() {
@@ -63,7 +63,7 @@
         test('toolTipDisplayType: "value" rendered noUiSlider', function() {
             ch5Slider.setAttribute('toolTipDisplayType', 'value')
             expect(ch5Slider.toolTipDisplayType).to.be.equal('value');
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
     });
 
@@ -87,7 +87,7 @@
         // this will test if noUiSlider was rendered with current setup
         test('Invalid toolTipDisplayType rendered noUiSlider with default "%"', function() {
             expect(ch5Slider.toolTipDisplayType).to.be.equal('%');
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
     })
 </script>

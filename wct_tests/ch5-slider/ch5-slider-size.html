@@ -43,12 +43,12 @@
         });
 
         test('Default size has class name: "ch5-slider--size--regular"', function() {
-            expect(ch5Slider.className).to.contain('ch5-slider--size--regular');
+            expect(ch5Slider.firstElementChild.className).to.contain('ch5-slider--size--regular');
         });
 
         // this will test if noUiSlider was rendered with current setup
         test('Default size: "regular" rendered noUiSlider', function() {
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
 
         const availablesizes = ['x-small', 'small', 'regular', 'large', 'x-large'];
@@ -62,12 +62,12 @@
 
             test(`size: "${sizeName}" has class name: "ch5-slider--size--${sizeName}"`, function() {
                 ch5Slider.setAttribute('size',sizeName);
-                expect(ch5Slider.className).to.contain('ch5-slider--size--' + sizeName);
+                expect(ch5Slider.firstElementChild.className).to.contain('ch5-slider--size--' + sizeName);
             });
 
             // this will test if noUiSlider was rendered with current setup
             test(`size: "${sizeName}" rendered noUiSlider`, function() {
-                expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+                expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
             });
         });
     });
@@ -90,13 +90,13 @@
         })
 
         test('Invalid size has default class name: "ch5-slider--size--regular"', function() {
-            expect(ch5Slider.className).to.contain('ch5-slider--size--regular');
+            expect(ch5Slider.firstElementChild.className).to.contain('ch5-slider--size--regular');
         });
 
         // this will test if noUiSlider was rendered with current setup
         test('Invalid size rendered noUiSlider with default "regular"', function() {
             expect(ch5Slider.size).to.be.equal('regular');
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
     })
 </script>

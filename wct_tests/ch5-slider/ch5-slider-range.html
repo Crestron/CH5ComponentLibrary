@@ -44,7 +44,7 @@
 
         // this will test if noUiSlider was rendered with current setup
         test('range "false" rendered noUiSlider', function() {
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
 
         test('range "true"', function() {
@@ -55,7 +55,7 @@
         // this will test if noUiSlider was rendered with current setup
         test('range "true" rendered noUiSlider', function() {
             ch5Slider.setAttribute('range', true);
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
     });
 
@@ -78,7 +78,7 @@
 
         // this will test if noUiSlider was rendered with current setup
         test('Invalid range rendered noUiSlider with default "false"', function() {
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
     })
 </script>

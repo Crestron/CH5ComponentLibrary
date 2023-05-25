@@ -45,7 +45,7 @@
 
         // this will test if noUiSlider was rendered with current setup
         test('Default valueHigh "65535" rendered noUiSlider', function() {
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
 
         test('valueHigh "2000"', function() {
@@ -56,7 +56,7 @@
         // this will test if noUiSlider was rendered with current setup
         test('valueHigh "2000" rendered noUiSlider', function() {
             ch5Slider.setAttribute('valueHigh', 2000);
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
     });
 
@@ -80,7 +80,7 @@
         // this will test if noUiSlider was rendered with current setup
         test('Invalid valueHigh rendered noUiSlider with default "65535"', function() {
             expect(ch5Slider.valueHigh).to.be.equal(65535);
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
 
         test('invalid valueHigh "2000000" should be switched to default "65535"', function() {
@@ -92,7 +92,7 @@
         test('invalid valueHigh "2000000" rendered noUiSlider with default "65535"', function() {
             ch5Slider.setAttribute('valueHigh', 2000000);
             expect(ch5Slider.valueHigh).to.be.equal(65535);
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
     })
 

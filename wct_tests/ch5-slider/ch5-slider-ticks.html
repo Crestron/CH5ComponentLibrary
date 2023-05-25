@@ -74,7 +74,7 @@
 
         // this will test if noUiSlider was rendered with current setup
         test('ticks value as valid JSON rendered noUiSlider', function() {
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
     });
 
@@ -93,7 +93,7 @@
 
         test('invalid ticks should render the noUiSlider without ticks', function() {
             expect(document.querySelector('.noUi-pips')).to.be.a('null');
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
     });
 
