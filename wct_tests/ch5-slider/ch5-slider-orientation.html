@@ -44,12 +44,12 @@
         });
 
         test('Default orientation has class name: "ch5-slider--orientation--horizontal"', function() {
-            expect(ch5Slider.className).to.contain('ch5-slider--orientation--horizontal');
+            expect(ch5Slider.firstElementChild.className).to.contain('ch5-slider--orientation--horizontal');
         });
 
         // this will test if noUiSlider was rendered with current setup
         test('Default orientation: "horizontal" rendered noUiSlider', function() {
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
 
         const availableOrientations = ['horizontal', 'vertical']
@@ -63,12 +63,12 @@
 
             test(`orientation: "${orientationName}" has class name: "ch5-slider--orientation--${orientationName}"`, function() {
                 ch5Slider.setAttribute('orientation',orientationName);
-                expect(ch5Slider.className).to.contain('ch5-slider--orientation--' + orientationName);
+                expect(ch5Slider.firstElementChild.className).to.contain('ch5-slider--orientation--' + orientationName);
             });
 
             // this will test if noUiSlider was rendered with current setup
             test(`orientation: "${orientationName}" rendered noUiSlider`, function() {
-                expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+                expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
             });
         });
     });
@@ -93,7 +93,7 @@
         // this will test if noUiSlider was rendered with current setup
         test('Invalid orientation rendered noUiSlider with default "horizontal"', function() {
             expect(ch5Slider.orientation).to.be.equal('horizontal');
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
     })
 </script>

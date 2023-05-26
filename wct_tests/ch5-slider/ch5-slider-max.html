@@ -46,7 +46,7 @@
 
         // this will test if noUiSlider was rendered with current setup
         test('Default max "0" rendered noUiSlider', function() {
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
 
         test('max "2000"', function() {
@@ -57,7 +57,7 @@
         // this will test if noUiSlider was rendered with current setup
         test('max "2000" rendered noUiSlider', function() {
             ch5Slider.setAttribute('max', 2000);
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
     });
 
@@ -81,7 +81,7 @@
         // this will test if noUiSlider was rendered with current setup
         test('Invalid max rendered noUiSlider with default "65535"', function() {
             expect(ch5Slider.max).to.be.equal(65535);
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
 
         test('invalid max "2000000" should be switched to default "65535"', function() {
@@ -93,7 +93,7 @@
         test('invalid max "2000000" rendered noUiSlider with default "65535"', function() {
             ch5Slider.setAttribute('max', 2000000);
             expect(ch5Slider.max).to.be.equal(65535);
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
     })
 </script>
