@@ -586,7 +586,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   public set snapshotURL(value: string) {
     this._ch5Properties.set<string>("snapshotURL", value, () => {
-      if (this.snapshotURL.trim() !== '') { this.maxVideoCount = 1 }
+      // if (this.snapshotURL.trim() !== '') { this.maxVideoCount = 1 }
       this.validateAndAttachSnapshot();
     });
   }
@@ -989,7 +989,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.initCommonMutationObserver(this);
     customElements.whenDefined('ch5-video').then(() => {
       this._initializeVideo();
-      this.validateAndAttachSnapshot();
       this.componentLoadedEvent(Ch5Video.ELEMENT_NAME, this.id);
       this.lastRequestStatus = CH5VideoUtils.VIDEO_ACTION.EMPTY;
       this.isVideoReady = false;
@@ -1119,8 +1118,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       this.snapshotImage.stopLoadingSnapshot();
       return this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
     }
-    this.validateAndAttachSnapshot();
-    this.handleReceiveStateURL();
+    this.videoIntersectionObserver();
   }
 
   private handleReceiveStateSelect(select: number) {
@@ -1149,7 +1147,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   private handleReceiveStateShow() {
     if (this.show === true) {
-      this.validateAndAttachSnapshot();
       this.videoIntersectionObserver();
     } else {
       this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
@@ -1186,6 +1183,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.logger.log("videoIntersectionObserver#intersectionRatio -> " + this.elementIntersectionEntry.intersectionRatio);
     this.lastBackGroundRequest = "";
     if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE && this.playValue && this.show) {
+      this.validateAndAttachSnapshot();
       this.videoInViewPort();
     } else {
       this.videoNotInViewport();
@@ -1796,7 +1794,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     else {
       this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL, 'OnVideoAspectRatioConditionNotMet');
       publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(CH5VideoUtils.VIDEO_ACTION.STOP, this.ch5UId));
-      this.validateAndAttachSnapshot();
       this.videoIntersectionObserver();
     }
   }
