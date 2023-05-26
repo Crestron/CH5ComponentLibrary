@@ -1726,10 +1726,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   // Function to handle touch start event
   private touchBeginHandler() {
-    const boundedRect = this.getBoundingClientRect();
-    this.touchCoordinates.startX = boundedRect.left;
-    this.touchCoordinates.startY = boundedRect.top;
-    this.isTouchInProgress = false;
+      const boundedRect = this.getBoundingClientRect();
+      this.touchCoordinates.startX = boundedRect.left;
+      this.touchCoordinates.startY = boundedRect.top;
+      this.isTouchInProgress = false;
   }
 
   // Function to check if the touch swipe has stopped and video finally is a static position
