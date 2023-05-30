@@ -2192,7 +2192,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	private _parsedSliderOptions() {
 		let behaviour = this.tapSettable ? 'tap' : 'none';
 		if (this.tapSettable === false) {
-			if ((this.sendEventOnUpper || this.sendEventOnLower) && this._elContainer.classList.contains("adv-slider")) {
+			if ((this.sendEventOnUpper || this.sendEventOnLower) && this._elContainer.classList.contains("ch5-advanced-slider-container")) {
 				behaviour = 'hover';
 				if (this.toolTipDisplayType === "%") {
 					this.toolTipShowType = "off";
@@ -2818,7 +2818,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	}
 
 	private handleSendEventHold(): void {
-		if (this.range || !this._elContainer.classList.contains("adv-slider") || this.disabled) {
+		if (this.range || !this._elContainer.classList.contains("ch5-advanced-slider-container") || this.disabled) {
 			return;
 		}
 		this._holdState = true;
@@ -2832,7 +2832,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 	private handleSendEventRelease(): void {
 		this._holdState = false;
-		if (this.range || !this._elContainer.classList.contains("adv-slider") || this.disabled) {
+		if (this.range || !this._elContainer.classList.contains("ch5-advanced-slider-container") || this.disabled) {
 			return;
 		}
 		if (this.sendEventOnUpper && this._sendEventValue >= ((this.max - this.min) * 3 / 4)) {
@@ -3011,7 +3011,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 					titleHeight = sliderHeight;
 				}
 				if (this.stretch === 'height') {
-					if (this._elContainer.classList.contains("adv-slider")) {
+					if (this._elContainer.classList.contains("ch5-advanced-slider-container")) {
 						this._elSliderContainer.style.height = titleHeight + 'px';
 						this._elContainer.style.height = sliderHeight + 'px';
 						this._elSliderContainer.style.removeProperty("width");
@@ -3019,7 +3019,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 					this._elContainer.style.removeProperty("width");
 				}
 				else if (this.stretch === 'width') {
-					if (this._elContainer.classList.contains("adv-slider")) {
+					if (this._elContainer.classList.contains("ch5-advanced-slider-container")) {
 						this._elSliderContainer.style.width = sliderWidth + 'px';
 						this._elContainer.style.width = sliderWidth + 'px';
 						this._elSliderContainer.style.removeProperty("height");
@@ -3031,7 +3031,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 					this._elContainer.style.removeProperty("height");
 				}
 				else if (this.stretch === "both") {
-					if (this._elContainer.classList.contains("adv-slider")) {
+					if (this._elContainer.classList.contains("ch5-advanced-slider-container")) {
 						this._elSliderContainer.style.width = sliderWidth + 'px';
 						this._elSliderContainer.style.height = titleHeight + 'px';
 						this._elContainer.style.width = sliderWidth + 'px';
@@ -3047,7 +3047,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	}
 
 	private handleOnOffOnly() {
-		if (this.range || !this._elContainer.classList.contains("adv-slider")) {
+		if (this.range || !this._elContainer.classList.contains("ch5-advanced-slider-container")) {
 			this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
 			return;
 		}
@@ -3078,13 +3078,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	private onOffButtonHelper() {
 		const buttonSlider = this.getElementsByTagName("ch5-slider-button");
 		if (buttonSlider.length === 0 || this.range === true) {
-			this._elOffContainer.classList.add("adv-slider-btn");
-			this._elOnContainer.classList.add("adv-slider-btn");
-			this._elContainer.classList.remove('adv-slider');
+			this._elOffContainer.classList.add("ch5-advanced-slider-button");
+			this._elOnContainer.classList.add("ch5-advanced-slider-button");
+			this._elContainer.classList.remove('ch5-advanced-slider-container');
 		} else {
-			this._elOffContainer.classList.remove("adv-slider-btn");
-			this._elOnContainer.classList.remove("adv-slider-btn");
-			this._elContainer.classList.add('adv-slider');
+			this._elOffContainer.classList.remove("ch5-advanced-slider-button");
+			this._elOnContainer.classList.remove("ch5-advanced-slider-button");
+			this._elContainer.classList.add('ch5-advanced-slider-container');
 
 			let keyOn = 0;
 			let keyOff = 0;
