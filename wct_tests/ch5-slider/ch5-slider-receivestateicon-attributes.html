@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-adv-slider-receivestateiconclass-fixture">
+    <template>
+      <ch5-slider>
+        <ch5-slider-title-label label="Advance Slider"></ch5-slider-title-label>
+        <ch5-slider-button key="on" label="on" receivestateiconclass="trigger_event_listener"></ch5-slider-button>
+        <ch5-slider-button key="off" label="off"></ch5-slider-button>
+      </ch5-slider>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-adv-slider-receivestateiconurl-fixture">
+    <template>
+      <ch5-slider>
+        <ch5-slider-title-label label="Advance Slider"></ch5-slider-title-label>
+        <ch5-slider-button key="on" label="on" receivestateiconurl="trigger_event_listener_1"></ch5-slider-button>
+        <ch5-slider-button key="off" label="off"></ch5-slider-button>
+      </ch5-slider>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-adv-slider-receivestateiconclass-fixture', ()=>{
+      let ch5Slider;
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestateicons.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Slider = fixture("ch5-adv-slider-receivestateiconclass-fixture");
+        return Promise.all([
+          customElements.whenDefined('ch5-slider'),
+        ]).then(_ => {
+          // wait for element to be defined
+        });
+      });
+
+      test('Check iconClass received through receivestateiconclass attribute', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_1', true);
+        flush(()=>{
+          setTimeout(()=>{
+            const sliderButton = ch5Slider.getElementsByTagName('ch5-slider-button')[0];
+            expect(sliderButton.iconClass).to.be.equal('fas fa-user');
+            done();
+          }, 100);
+        });
+      });
+    });
+
+    suite('ch5-adv-slider-receivestateiconurl-fixture', ()=>{
+      let ch5Slider;
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestateicons.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Slider = fixture("ch5-adv-slider-receivestateiconurl-fixture");
+        return Promise.all([
+          customElements.whenDefined('ch5-slider'),
+        ]).then(_ => {
+          // wait for element to be defined
+        });
+      });
+
+      test('Check iconClass received through receivestateiconclass attribute', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_2', true);
+        flush(()=>{
+          setTimeout(()=>{
+            const sliderButton = ch5Slider.getElementsByTagName('ch5-slider-button')[0];
+            expect(sliderButton.iconUrl).to.be.equal('https://img.icons8.com/material/24/000000/search.png');
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

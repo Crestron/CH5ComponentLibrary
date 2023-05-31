@@ -43,12 +43,12 @@
         });
 
         test('Default handleSize has class name: "ch5-slider--handle-size--regular"', function() {
-            expect(ch5Slider.className).to.contain('ch5-slider--handle-size--regular');
+            expect(ch5Slider.firstElementChild.className).to.contain('ch5-slider--handle-size--regular');
         });
 
         // this will test if noUiSlider was rendered with current setup
         test('Default handleSize: "regular" rendered noUiSlider', function() {
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
 
         const availablehandleSizes = ['x-small', 'small', 'regular', 'large', 'x-large'];
@@ -62,12 +62,12 @@
 
             test(`handleSize: "${handleSizeName}" has class name: "ch5-slider--handle-size--${handleSizeName}"`, function() {
                 ch5Slider.setAttribute('handleSize',handleSizeName);
-                expect(ch5Slider.className).to.contain('ch5-slider--handle-size--' + handleSizeName);
+                expect(ch5Slider.firstElementChild.className).to.contain('ch5-slider--handle-size--' + handleSizeName);
             });
 
             // this will test if noUiSlider was rendered with current setup
             test(`handleSize: "${handleSizeName}" rendered noUiSlider`, function() {
-                expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+                expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
             });
         });
     });
@@ -91,13 +91,13 @@
         })
 
         test('Invalid handleSize has default class name: "ch5-slider--handle-size--regular"', function() {
-            expect(ch5Slider.className).to.contain('ch5-slider--handle-size--regular');
+            expect(ch5Slider.firstElementChild.className).to.contain('ch5-slider--handle-size--regular');
         });
 
         // this will test if noUiSlider was rendered with current setup
         test('Invalid handleSize rendered noUiSlider with default "regular"', function() {
             expect(ch5Slider.handleSize).to.be.equal('regular');
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
     })
 </script>

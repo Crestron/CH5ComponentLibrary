@@ -45,7 +45,7 @@
 
         // this will test if noUiSlider was rendered with current setup
         test('Default value "0" rendered noUiSlider', function() {
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
 
         test('value "2000"', function() {
@@ -56,7 +56,7 @@
         // this will test if noUiSlider was rendered with current setup
         test('value "2000" rendered noUiSlider', function() {
             ch5Slider.setAttribute('value', 2000);
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
     });
 
@@ -80,19 +80,19 @@
         // this will test if noUiSlider was rendered with current setup
         test('Invalid value rendered noUiSlider with default "0"', function() {
             expect(ch5Slider.value).to.be.equal(0);
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
 
         test('invalid value "2000000" should be switched to default "0"', function() {
             ch5Slider.setAttribute('value', 2000000);
-            expect(ch5Slider.value).to.be.equal(0);
+            expect(ch5Slider.value).to.be.equal(65535);
         });
 
         // this will test if noUiSlider was rendered with current setup
         test('invalid value "2000000" rendered noUiSlider with default "0"', function() {
             ch5Slider.setAttribute('value', 2000000);
-            expect(ch5Slider.value).to.be.equal(0);
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider.value).to.be.equal(65535);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
     })
 

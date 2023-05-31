@@ -9,11 +9,10 @@ export interface ICh5SliderButtonAttributes {
    * [
    * "`key` attribute",
    * "***",
-   * "Used to set the type of button i.e on ,off.",
-   * "The default value of key is on."
+   * "Used to set the type of button i.e on ,off."
    * ]
    * @name key
-   * @default on
+   * @default
    * @attributeType "EnumeratedValue"
    */
   key: TCh5SliderButtonKey;

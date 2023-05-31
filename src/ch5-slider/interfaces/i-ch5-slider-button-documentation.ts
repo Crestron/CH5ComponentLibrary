@@ -43,7 +43,7 @@ import { ICh5SliderButtonAttributes } from "./i-ch5-slider-button-attributes";
  *     "description": "Crestron Slider Button (All Attributes)",
  *     "body": [
  *       "<ch5-slider-button id=\"ch5-slider-button_${1:id}\"",
- *       "\tkey=\"${2:on}\"",
+ *       "\tkey=\"${2:}\"",
  *       "\tlabel=\"${3:}\"",
  *       "\ticonClass=\"${4:}\"",
  *       "\ticonUrl=\"${5:}\"",
