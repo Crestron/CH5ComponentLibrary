@@ -3110,8 +3110,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this._elOnContainer.classList.remove("ch5-advanced-slider-button");
 			this._elContainer.classList.add('ch5-advanced-slider-container');
 
-			let keyOn = 0;
-			let keyOff = 0;
 			Array.from(buttonSlider).forEach((btn) => {
 
 				if (btn.parentElement instanceof Ch5Slider) {
@@ -3124,16 +3122,14 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 						} else if (this.orientation === "vertical" && (this.stretch === "both" || this.stretch === "width")) {
 							btn.classList.add("ch5-slider-vertical-stretch");
 						}
-						keyOff = 1;
 					} else
-						if (btn.getAttribute("key") === 'on' || btn.getAttribute("key") === '' || !btn.hasAttribute("key")) {
+						if (btn.getAttribute("key") === 'on') {
 							sliderBtn = new Ch5SliderButton(this);
 							if (this.stretch && this.orientation === "horizontal") {
 								btn.classList.add("ch5-slider-horizontal-stretch");
 							} else if (this.orientation === "vertical" && (this.stretch === "both" || this.stretch === "width")) {
 								btn.classList.add("ch5-slider-vertical-stretch");
 							}
-							keyOn = 1;
 						}
 					Ch5SliderButton.observedAttributes.forEach((attr) => {
 						if (btn.hasAttribute(attr) && sliderBtn) {
@@ -3142,21 +3138,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 					});
 				}
 			})
-
-			if (keyOn === 0) {
-				let sliderBtn: Ch5SliderButton;
-				sliderBtn = new Ch5SliderButton(this);
-				sliderBtn.key = "on";
-				sliderBtn.label = "on";
-				this.appendChild(sliderBtn);
-			}
-			if (keyOff === 0) {
-				let sliderBtn: Ch5SliderButton;
-				sliderBtn = new Ch5SliderButton(this);
-				sliderBtn.key = "off";
-				sliderBtn.label = "off";
-				this.appendChild(sliderBtn);
-			}
 		}
 	}
 

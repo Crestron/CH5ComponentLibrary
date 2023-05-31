@@ -32,7 +32,7 @@
       });
 
       const testCases = ['true', 'false', 'om', 'on', 'off', 21, '90'];
-      const expectedOutput = ['on', 'on', 'on', 'on', 'off', 'on', 'on'];
+      const expectedOutput = ['', '', '', 'on', 'off', '', ''];
 
       testCases.forEach((ele, i) => {
         test(`Check key: ${ele} to be equal ${expectedOutput[i]}`, (done) => {

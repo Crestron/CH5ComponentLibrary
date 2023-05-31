@@ -27,12 +27,12 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
 
 		{
-			default: Ch5SliderButton.KEY[0],
+			default: "",
 			enumeratedValues: Ch5SliderButton.KEY,
 			name: "key",
 			removeAttributeOnNull: true,
 			type: "enum",
-			valueOnAttributeEmpty: Ch5SliderButton.KEY[0],
+			valueOnAttributeEmpty: "",
 			isObservableProperty: true
 		},
 	];
