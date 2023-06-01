@@ -119,6 +119,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			attribute: 'toolTipDisplayType',
 			classListPrefix: '--tooltip-display-type-'
 		},
+		ON_OFF_ONLY: {
+			default: false,
+			values: [true, false],
+			key: 'onOffOnly',
+			attribute: 'onOffOnly',
+			classListPrefix: '--on-off-only-'
+		}
 	};
 
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
@@ -648,7 +655,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	public get value(): number {
 		return this._ch5Properties.get<number>("value");
 	}
-
 
 	public get valueHigh(): number {
 		return this._ch5Properties.get<number>("valueHigh");
@@ -1464,9 +1470,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 		this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
 
-		if (this.onOffOnly !== true) {
-			this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
-		}
+		// if (this.onOffOnly !== true) {
+		this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
+		// }
+
+		this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.ON_OFF_ONLY.classListPrefix + this.onOffOnly);
+
+		// this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
 
 		this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.HANDLE_SIZE.classListPrefix + this.handleSize);
 
@@ -3071,16 +3081,25 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	}
 
 	private handleOnOffOnly() {
-		if (this.range || !this._elContainer.classList.contains("ch5-advanced-slider-container")) {
-			this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
-			return;
-		}
-		if (this.onOffOnly === true) {
-			this._innerContainer.classList.add("ch5-hide-dis");
-			this._elContainer.classList.remove(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
+		if ((this.range || !this._elContainer.classList.contains("ch5-advanced-slider-container"))) {
+			Array.from(Ch5Slider.COMPONENT_DATA.ON_OFF_ONLY.values).forEach((e: any) => {
+				this._elContainer.classList.remove(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.ON_OFF_ONLY.classListPrefix + String(e));
+			});
+			// this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
+			// 	return;
 		} else {
-			this._innerContainer.classList.remove("ch5-hide-dis");
-			this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
+			Array.from(Ch5Slider.COMPONENT_DATA.ON_OFF_ONLY.values).forEach((e: any) => {
+				this._elContainer.classList.remove(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.ON_OFF_ONLY.classListPrefix + String(e));
+			});
+			if (this.onOffOnly === true) {
+				this._innerContainer.classList.add("ch5-hide-vis");
+				this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.ON_OFF_ONLY.classListPrefix + String(this.onOffOnly));
+				// this._elContainer.classList.remove(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
+			} else {
+				this._innerContainer.classList.remove("ch5-hide-vis");
+				this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.ON_OFF_ONLY.classListPrefix + String(this.onOffOnly));
+				// this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
+			}
 		}
 	}
 
