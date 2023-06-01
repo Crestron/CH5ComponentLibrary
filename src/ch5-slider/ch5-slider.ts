@@ -3092,11 +3092,11 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				this._elContainer.classList.remove(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.ON_OFF_ONLY.classListPrefix + String(e));
 			});
 			if (this.onOffOnly === true) {
-				this._innerContainer.classList.add("ch5-hide-dis");
+				this._innerContainer.classList.add("ch5-hide-vis");
 				this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.ON_OFF_ONLY.classListPrefix + String(this.onOffOnly));
 				// this._elContainer.classList.remove(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
 			} else {
-				this._innerContainer.classList.remove("ch5-hide-dis");
+				this._innerContainer.classList.remove("ch5-hide-vis");
 				this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.ON_OFF_ONLY.classListPrefix + String(this.onOffOnly));
 				// this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
 			}
