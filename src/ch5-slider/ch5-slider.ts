@@ -1646,7 +1646,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 							this.handleSendEventOnClickButtonRelease();
 						}
 					}, REPEAT_DIGITAL_PERIOD);
-				} else if (this._holdOffState) {
+				} else if (this._holdOffState && !this._holdOnState) {
 					this.handleSendEventOffClickHold();
 					if (this._repeatDigitalInterval !== null) {
 						window.clearInterval(this._repeatDigitalInterval as number);
@@ -3104,7 +3104,12 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		if (buttonSlider.length === 0 || this.range === true) {
 			this._elOffContainer.classList.add("ch5-advanced-slider-button");
 			this._elOnContainer.classList.add("ch5-advanced-slider-button");
-			this._elContainer.classList.remove('ch5-advanced-slider-container');
+			const titleSlider = this.getElementsByTagName("ch5-slider-title-label");
+			if (titleSlider.length !== 0) {
+				this._elContainer.classList.add('ch5-advanced-slider-container');
+			} else {
+				this._elContainer.classList.remove('ch5-advanced-slider-container');
+			}
 		} else {
 			this._elOffContainer.classList.remove("ch5-advanced-slider-button");
 			this._elOnContainer.classList.remove("ch5-advanced-slider-button");
