@@ -42,7 +42,8 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  *       "\trows=\"${8:1}\"",
  *       "\tcolumns=\"${9:1}\"",
  *       "\tindexId=\"${10:}\"",
- *       "\tscrollToPosition=\"${11:0}\">",
+ *       "\tloadItems=\"${11:visible-only}\"",
+ *       "\tscrollToPosition=\"${12:0}\">",
  *       "</ch5-subpage-reference-list>$0"
  *       ]
  *    },
@@ -75,7 +76,8 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  *       "\tuseContractForCustomStyle=\"${23:false}\"",
  *       "\tuseContractForCustomClass=\"${24:false}\"",
  *       "\tuseContractForNumItems=\"${25:false}\"",
- *       "\tindexId=\"${26:}\">",
+ *       "\tloadItems=\"${26:visible-only}\"",
+ *       "\tindexId=\"${27:}\">",
  *       "</ch5-subpage-reference-list>$0"
  *       ]
  *    },

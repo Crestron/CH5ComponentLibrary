@@ -2,7 +2,7 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 import { isEmpty, isNil } from 'lodash';
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
-import { TCh5SubpageReferenceListOrientation, TCh5SubpageReferenceListStretch, } from './interfaces/t-ch5-subpage-reference-list';
+import { TCh5SubpageReferenceListOrientation, TCh5SubpageReferenceListStretch,TCh5SubpageReferenceListAttributesLoadItems } from './interfaces/t-ch5-subpage-reference-list';
 import { ICh5SubpageReferenceListAttributes } from './interfaces/i-ch5-subpage-reference-list-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
@@ -27,6 +27,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   public static readonly SUBPAGE_CONTAINER_BUFFER: number = 4;
   public static readonly STRETCH: TCh5SubpageReferenceListStretch[] = ['both'];
   public static readonly ORIENTATION: TCh5SubpageReferenceListOrientation[] = ['horizontal', 'vertical'];
+  public static readonly LOAD_ITEMS: TCh5SubpageReferenceListAttributesLoadItems[] = ['visible-only', 'load-new', 'all'];
   public static readonly COMPONENT_DATA: any = {
     ORIENTATION: {
       default: Ch5SubpageReferenceList.ORIENTATION[0],
@@ -34,6 +35,12 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       key: 'orientation',
       attribute: 'orientation',
       classListPrefix: '--orientation-'
+    },LOAD_ITEMS: {
+      default: Ch5SubpageReferenceList.LOAD_ITEMS[0],
+      values: Ch5SubpageReferenceList.LOAD_ITEMS,
+      key: 'loadItems',
+      attribute: 'loadItems',
+      classListPrefix: '--load-items-'
     },
     STRETCH: {
       default: Ch5SubpageReferenceList.STRETCH[0],
@@ -45,9 +52,9 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   };
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-    booleanjoinoffset: { direction: "state", booleanJoin: 1, contractName: true },
-    numericjoinoffset: { direction: "state", numericJoin: 1, contractName: true },
-    stringjoinoffset: { direction: "state", stringJoin: 1, contractName: true },
+    booleanjoinincrement: { direction: "state", booleanJoin: 1, contractName: true },
+    numericjoinincrement: { direction: "state", numericJoin: 1, contractName: true },
+    stringjoinincrement: { direction: "state", stringJoin: 1, contractName: true },
     subpagereceivestatescrollto: { direction: "state", numericJoin: 1, contractName: true },
     receivestatenumberofitems: { direction: "state", numericJoin: 1, contractName: true }
   };
@@ -307,7 +314,16 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       type: "string",
       valueOnAttributeEmpty: "",
       isObservableProperty: true
-    }
+    },
+    {
+      default: Ch5SubpageReferenceList.LOAD_ITEMS[0],
+      enumeratedValues: Ch5SubpageReferenceList.LOAD_ITEMS,
+      name: "loadItems",
+      removeAttributeOnNull: true,
+      type: "enum",
+      valueOnAttributeEmpty: Ch5SubpageReferenceList.LOAD_ITEMS[0],
+      isObservableProperty: true,
+    },
   ];
 
   public static readonly ELEMENT_NAME = 'ch5-subpage-reference-list';
@@ -359,7 +375,13 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }, 150);
 
   public debounceSubpageDisplay = this.debounce((isReceiveStateScrollTo = false) => {
-    this.subpageDisplay(isReceiveStateScrollTo);
+    if (this.loadItems === "visible-only") {
+      this.subpageDisplay(isReceiveStateScrollTo);
+    } else if (this.loadItems === "load-new") {
+      this.subpageDisplayForLoadItemsNew(isReceiveStateScrollTo);
+    } else {
+      this.subpageDisplayForLoadItemsAll(isReceiveStateScrollTo);
+    }
   }, 100);
 
   public debounceInitScrollBar = this.debounce(() => {
@@ -475,6 +497,15 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     return this._ch5Properties.get<boolean>("centerItems");
   }
 
+  public set loadItems(value: TCh5SubpageReferenceListAttributesLoadItems) {
+    this._ch5Properties.set<TCh5SubpageReferenceListAttributesLoadItems>("loadItems", value, () => {
+      this.debounceSubpageDisplay();
+    });
+  }
+  public get loadItems(): TCh5SubpageReferenceListAttributesLoadItems {
+    return this._ch5Properties.get<TCh5SubpageReferenceListAttributesLoadItems>("loadItems");
+  }
+
   public set rows(value: number) {
     this._ch5Properties.set<number>("rows", value, () => {
       this.handleRowsAndColumn();
@@ -516,8 +547,8 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   public set booleanJoinIncrement(value: string) {
-    this._ch5Properties.set("booleanJoinIncrement", value, null, (newValue: boolean) => {
-      // enter code
+    this._ch5Properties.set("booleanJoinIncrement", value, () => {
+      this.debounceSubpageDisplay();
     });
   }
   public get booleanJoinIncrement(): string {
@@ -525,8 +556,8 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   public set numericJoinIncrement(value: string) {
-    this._ch5Properties.set("numericJoinIncrement", value, null, (newValue: number) => {
-      // enter code
+    this._ch5Properties.set("numericJoinIncrement",value, () => {
+      this.debounceSubpageDisplay();
     });
   }
   public get numericJoinIncrement(): string {
@@ -534,8 +565,8 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   public set stringJoinIncrement(value: string) {
-    this._ch5Properties.set("stringJoinIncrement", value, null, (newValue: string) => {
-      // enter code
+    this._ch5Properties.set("stringJoinIncrement", value, () => {
+      this.debounceSubpageDisplay();
     });
   }
   public get stringJoinIncrement(): string {
@@ -781,7 +812,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       this.handleWidgetID();
       this.initCommonMutationObserver(this);
       this.debounceSubpageDisplay();
-      this.info('Ch5Template --- Initialization Finished');
+      this.info('Ch5SubpageReferenceList --- Initialization Finished');
     }
 
   }
@@ -886,7 +917,78 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.initScrollbar();
 
     // endless is handled in endlessHelper method
-    if (this.endless) { return this.endlessHelper(); }
+    if (this.endless) {
+      if (this.loadItems === "all") {
+        this.subpageWidth = this._elContainer.children[0].getBoundingClientRect().width;
+        this.subpageHeight = this._elContainer.children[0].getBoundingClientRect().height;
+      }
+      return this.endlessHelper();
+    }
+    if (this.loadItems === "visible-only") {
+      this.scrollHelper();
+    } else if (this.loadItems === "load-new") {
+      this.scrollHelperForNew();
+    }
+  }
+
+  private scrollHelperForNew() {
+    if (this.dir === 'rtl' && this.orientation === 'horizontal') {
+      const { offsetWidth, scrollLeft, scrollWidth } = this._elContainer;
+      if (scrollWidth - offsetWidth < this.subpageWidth) { return; }
+      let lastElement = this.getLastChild();
+      if (Math.abs(scrollLeft) + offsetWidth > scrollWidth - this.subpageWidth && lastElement !== this.numberOfItems - 1) {
+        for (let i = 0; i < this.rows; i++) {
+          this.createSubpage(++lastElement);
+          if (this.loadSubpageForShow === true && this.allSubpageVisible === false) {
+            let showValue = lastElement;
+            while (showValue < this.numberOfItems && this.showSignalHolder[showValue]?.value === false) {
+              this.createSubpage(++showValue);
+            }
+          }
+        }
+        this.initScrollbar();
+      }
+    } else if (this.orientation === 'horizontal') {
+      // auto  addition of subpages is handled
+      const { offsetWidth, scrollLeft, scrollWidth } = this._elContainer;
+      if (scrollWidth - offsetWidth < this.subpageWidth) { return; }
+      let lastElement = this.getLastChild();
+      if (scrollLeft + offsetWidth > scrollWidth - this.subpageWidth && lastElement !== this.numberOfItems - 1) {
+        for (let i = 0; i < this.rows; i++) {
+          if (lastElement + 1 < this.numberOfItems) {
+            this.createSubpage(++lastElement);
+            if (this.loadSubpageForShow === true && this.allSubpageVisible === false) {
+              let showValue = lastElement;
+              while (showValue < this.numberOfItems && this.showSignalHolder[showValue]?.value === false) {
+                this.createSubpage(++showValue);
+              }
+            }
+          }
+        }
+        this.initScrollbar();
+      }
+    } else {
+      const { offsetHeight, scrollTop, scrollHeight } = this._elContainer;
+      if (scrollHeight - offsetHeight < this.subpageHeight) { return; }
+      let lastElement = this.getLastChild();
+      if (scrollTop + offsetHeight > scrollHeight - this.subpageHeight && lastElement !== this.numberOfItems - 1) {
+        for (let i = 0; i < this.columns; i++) {
+          if (lastElement + 1 < this.numberOfItems) {
+            this.createSubpage(++lastElement);
+            if (this.loadSubpageForShow === true && this.allSubpageVisible === false) {
+              let showValue = lastElement;
+              while (showValue < this.numberOfItems && this.showSignalHolder[showValue]?.value === false) {
+                this.createSubpage(++showValue);
+              }
+            }
+          }
+        }
+        this.initScrollbar();
+      }
+    }
+  }
+
+  private scrollHelper() {
 
     if (this.dir === 'rtl' && this.orientation === 'horizontal') {
       const { offsetWidth, scrollLeft, scrollWidth } = this._elContainer;
@@ -1243,6 +1345,86 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.debounceInitScrollBar();
   }
 
+  public handleScrollToPositionForNew(value: number) {
+    // return if the value is less than 0 or more than equal to numberOfItems
+    if (value >= this.numberOfItems || value < 0) { return; }
+
+    // return if the subpage list contains more than one row or one column
+    if ((this.orientation === 'horizontal' && this.rows !== 1) || (this.orientation === 'vertical' && this.columns !== 1)) { return; }
+
+    if (this.subpageWidth === 0 || this.subpageHeight === 0) {
+      this.createSubpage(0, false);
+      this.subpageWidth = this._elContainer.firstElementChild?.getBoundingClientRect().width || this.subpageWidth;
+      this.subpageHeight = this._elContainer.firstElementChild?.getBoundingClientRect().height || this.subpageHeight;
+    }
+
+    // Remove all the children in the container
+    Array.from(this._elContainer.children).forEach(container => container.remove());
+
+    if ((this.contractName.length !== 0 && this.useContractForItemShow === true) || (this.subpageReceiveStateShow.length !== 0 && this.subpageReceiveStateShow.trim().includes(`{{${this.indexId}}}`) === true)) {
+      this.loadSubpageForShow = true;
+      if (this.showSignalHolder.length === 0) { this.signalHolder(); }
+      const visibleButtons = this.showSignalHolder.filter((btn: any) => btn?.value === true).length
+      this.allSubpageVisible = visibleButtons === this.numberOfItems ? true : false;
+    } else {
+      this.loadSubpageForShow = false;
+    }
+
+    if (this.dir === 'rtl' && this.orientation === 'horizontal') {
+      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      const loadableButtons = Math.ceil(containerWidth / this.subpageWidth) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
+      for (let index = 0; index < this.numberOfItems && index < value + loadableButtons; index++) { this.createSubpage(index); }
+      if (value !== 0) { this._elContainer.scrollLeft = (value * this.subpageWidth) * -1 }
+    } else if (this.orientation === 'horizontal') {
+      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      const loadableButtons = Math.ceil(containerWidth / this.subpageWidth) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
+      for (let index = 0; index < this.numberOfItems && index < value + loadableButtons; index++) { this.createSubpage(index); }
+      if (value !== 0) { this._elContainer.scrollLeft = value * this.subpageWidth }
+    } else {
+      const containerHeight = this._elContainer.getBoundingClientRect().height;
+      const loadableButtons = Math.ceil(containerHeight / this.subpageHeight) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
+      // If container height is not set then display all the subpage
+      if (containerHeight <= 10 || containerHeight <= this.subpageHeight + 10) {
+        for (let i = 0; i < this.numberOfItems; i++) { this.createSubpage(i); }
+      } else {
+        for (let index = 0; index < this.numberOfItems && index < value + loadableButtons; index++) { this.createSubpage(index); }
+      }
+      if (value === 0) { this._elContainer.scrollTop = value * this.subpageHeight }
+    }
+    if (this.allSubpageVisible === false && this.loadSubpageForShow === true) {
+      let counter = 0;
+      for (let j = this.getFirstChild(); j <= this.getLastChild(); j++) {
+        if (this.showSignalHolder[j].value === false) { counter = counter + 1; }
+      }
+      let k = 0;
+      while (counter !== 0 && k < counter && this.getLastChild() !== this.numberOfItems - 1) {
+        if (this.showSignalHolder[this.getLastChild() + 1].value === true) { k = k + 1; }
+        this.createSubpage(this.getLastChild() + 1);
+      }
+    }
+    this.initScrollbar();
+  }
+
+  public handleScrollToPositionForAll(value: number) {
+    // return if the value is less than 0 or more than equal to numberOfItems
+    if (value >= this.numberOfItems || value < 0) { return; }
+
+    // return if the subpage list contains more than one row or one column
+    if ((this.orientation === 'horizontal' && this.rows !== 1) || (this.orientation === 'vertical' && this.columns !== 1)) { return; }
+
+    this.subpageWidth = this._elContainer.firstElementChild?.getBoundingClientRect().width || this.subpageWidth;
+    this.subpageHeight = this._elContainer.firstElementChild?.getBoundingClientRect().height || this.subpageHeight;
+
+    if (this.dir === 'rtl' && this.orientation === 'horizontal') {
+      this._elContainer.scrollLeft = (value * this.subpageWidth) * -1;
+    } else if (this.orientation === 'horizontal') {
+      this._elContainer.scrollLeft = value * this.subpageWidth;
+    } else {
+      this._elContainer.scrollTop = value * this.subpageHeight;
+    }
+    this.initScrollbar();
+  }
+
   private handleWidgetID() {
     if (isEmpty(this.widgetId)) {
       throw new Error('[ch5-subpage-reference-list] Error: No widgetId was provided');
@@ -1309,6 +1491,69 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.signalHolder();
     if (this.scrollToPosition !== 0) { this.handleScrollToPosition(this.scrollToPosition); }
   }
+
+  public subpageDisplayForLoadItemsNew(isReceiveStateScrollTo = false) {
+    this.contractDefaultHelper();
+
+    // Needed for page startup and receiveStateScrollToPosition executed first
+    if (isReceiveStateScrollTo === true) { return this.handleScrollToPositionForNew(this.scrollToPosition); }
+
+    // The below line is added to remove the stretch class before calculating the subpage dimension
+    this._elContainer.classList.remove(this.primaryCssClass + '--stretch-both');
+
+    // Remove all the children containers from the container
+    Array.from(this._elContainer.children).forEach(container => container.remove());
+
+    // create first subpage and find the dimension of the subpage
+    this.createSubpage(0);
+    this.subpageWidth = this._elContainer.children[0].getBoundingClientRect().width;
+    this.subpageHeight = this._elContainer.children[0].getBoundingClientRect().height;
+    let loadedButtons = 0;
+    if (this.orientation === 'horizontal') {
+      // Find the number of initial subpages which can be loaded based on container width
+      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      loadedButtons = Math.floor(containerWidth / this.subpageWidth) * this.rows + this.rows * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
+    } else {
+      const containerHeight = this._elContainer.getBoundingClientRect().height;
+      // Check whether the container is set with custom height
+      if (containerHeight > this.subpageHeight + 10) {
+        loadedButtons = Math.floor(containerHeight / this.subpageHeight) * this.columns + this.columns * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
+      } else {
+        loadedButtons = this.numberOfItems;
+      }
+    }
+    loadedButtons = loadedButtons > this.numberOfItems ? this.numberOfItems : loadedButtons;
+    for (let index = 1; index < loadedButtons; index++) {
+      this.createSubpage(index);
+    }
+    if (this.endless) {
+      this.orientation === 'horizontal' ? this._elContainer.scrollLeft = 5 : this._elContainer.scrollTop = 5;
+    }
+    this.initScrollbar();
+    if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
+    if (this.centerItems === true && this.scrollbarDimension < 100) { this.centerItems = false; }
+    this.signalHolder();
+    if (this.scrollToPosition !== 0) { this.handleScrollToPositionForNew(this.scrollToPosition); }
+  }
+
+  public subpageDisplayForLoadItemsAll(isReceiveStateScrollTo = false) {
+    this.contractDefaultHelper();
+
+    // Remove all the children containers from the container
+    Array.from(this._elContainer.children).forEach(container => container.remove());
+
+    for (let index = 0; index < this.numberOfItems; index++) { this.createSubpage(index); }
+
+    if (this.endless) { this.orientation === 'horizontal' ? this._elContainer.scrollLeft = 5 : this._elContainer.scrollTop = 5; }
+    this.initScrollbar();
+    if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
+    if (this.centerItems === true && this.scrollbarDimension < 100) { this.centerItems = false; }
+    if (isReceiveStateScrollTo === true && this.scrollToPosition === 0) {
+      this.orientation === "horizontal" ? this._elContainer.scrollLeft = 0 : this._elContainer.scrollTop = 0;
+    }
+    if (this.scrollToPosition !== 0) { this.handleScrollToPositionForAll(this.scrollToPosition); }
+  }
+
   private replaceAll(str: string, find: string, replace: string) {
     if (str && String(str).trim() !== "") {
       return String(str).split(find).join(replace);
