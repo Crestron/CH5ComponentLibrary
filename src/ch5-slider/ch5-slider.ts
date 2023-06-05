@@ -1565,13 +1565,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				return reject(false);
 			}
 
-			if (this.orientation === 'vertical') {
-				this._innerContainer.style.width = '';
-				this._innerContainer.style.height = 'inherit';
-			} else { // horizontal
-				this._innerContainer.style.width = 'inherit';
-				this._innerContainer.style.height = '';
-			}
+			// if (this.orientation === 'vertical') {
+			// 	this._innerContainer.style.width = '';
+			// 	this._innerContainer.style.height = 'inherit';
+			// } else { // horizontal
+			// 	this._innerContainer.style.width = 'inherit';
+			// 	this._innerContainer.style.height = '';
+			// }
 
 			// noUiSlider.Options
 			const options = this._parsedSliderOptions();
