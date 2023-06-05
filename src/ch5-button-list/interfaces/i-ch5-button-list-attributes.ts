@@ -1,5 +1,5 @@
 import { ICh5ButtonListCommonAttributes } from "../../ch5-common/interfaces/i-ch5-button-list-attributes";
-import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape, TCh5ButtonListAttributesOrientation, TCh5ButtonListAttributesStretch, TCh5ButtonListContractItemLabelType, TCh5ButtonListContractItemIconType, TCh5ButtonListSgIconTheme } from './t-ch5-button-list';
+import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape, TCh5ButtonListAttributesOrientation, TCh5ButtonListAttributesStretch, TCh5ButtonListContractItemLabelType, TCh5ButtonListContractItemIconType, TCh5ButtonListSgIconTheme, TCh5ButtonListAttributesLoadItems } from './t-ch5-button-list';
 
 /**
  * @ignore
@@ -599,4 +599,16 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @default icons-lg
    */
   buttonSgIconTheme: TCh5ButtonListSgIconTheme;
+  /**
+   * @documentation
+   * [
+   * "`loadItems:` attribute",
+   * "***",
+   * "The default value is visible-only. The possible values are visible-only, load-new, all. This attribute allows for buttons to be created and loaded on demand. Will determine if buttons are removed or not after they are no longer invisibility."
+   * ]
+   * @name loaditems
+   * @attributeType "EnumeratedValue"
+   * @default visible-only
+   */
+  loadItems: TCh5ButtonListAttributesLoadItems;
 }

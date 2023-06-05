@@ -97,7 +97,8 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *       "\trows=\"${7:1}\"",
  *       "\tcolumns=\"${8:1}\"",
  *       "\tindexId=\"${9:}\"",
- *       "\tscrollToPosition=\"${10:0}\">",
+ *       "\tloadItems=\"${10:visible-only}\"",
+ *       "\tscrollToPosition=\"${11:0}\">",
  *       "</ch5-button-list>$0"
  *       ]
  *    },
@@ -151,7 +152,8 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *       "\tbuttonReceiveStateSGIconNumeric=\"${44:}\"",
  *       "\tbuttonReceiveStateSGIconString=\"${45:}\"",
  *       "\tbuttonSgIconTheme=\"${46:icons-lg}\"",
- *       "\tclickHoldTime=\"${44:1500}\">",
+ *       "\tloadItems=\"${47:visible-only}\"",
+ *       "\tclickHoldTime=\"${48:1500}\">",
  *       "</ch5-button-list>$0"
  *       ]
  *    },
