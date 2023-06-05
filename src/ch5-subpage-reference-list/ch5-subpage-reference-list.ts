@@ -1389,7 +1389,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       } else {
         for (let index = 0; index < this.numberOfItems && index < value + loadableButtons; index++) { this.createSubpage(index); }
       }
-      if (value === 0) { this._elContainer.scrollTop = value * this.subpageHeight }
+      if (value !== 0) { this._elContainer.scrollTop = value * this.subpageHeight }
     }
     if (this.allSubpageVisible === false && this.loadSubpageForShow === true) {
       let counter = 0;

@@ -1749,7 +1749,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       } else {
         for (let index = 0; index < this.numberOfItems && index < value + loadableButtons; index++) { this.createButton(index); }
       }
-      if (value === 0) { this._elContainer.scrollTop = value * this.buttonHeight }
+      if (value !== 0) { this._elContainer.scrollTop = value * this.buttonHeight }
     }
     if (this.allButtonsVisible === false && this.loadButtonForShow === true) {
       let counter = 0;
