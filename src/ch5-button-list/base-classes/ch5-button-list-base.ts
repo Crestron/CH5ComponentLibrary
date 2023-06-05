@@ -2186,7 +2186,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     btn.setAttribute('sgIconTheme', this.buttonSgIconTheme);
 
     const remainingAttributes = ['buttonCheckboxPosition', 'buttonCheckboxShow', 'buttonVAlignLabel', 'buttonHAlignLabel', 'buttonIconClass',
-      'buttonIconPosition', 'buttonIconUrl', 'buttonShape', 'buttonType', 'buttonPressed'];
+      'buttonIconPosition', 'buttonIconUrl', 'buttonShape', 'buttonType', 'buttonPressed', 'buttonLabelInnerHtml'];
     const individualButtons = this.getElementsByTagName(this.nodeName.toLowerCase() + '-individual-button');
     const individualButtonsLength = individualButtons.length;
     remainingAttributes.forEach((attr: string) => {
