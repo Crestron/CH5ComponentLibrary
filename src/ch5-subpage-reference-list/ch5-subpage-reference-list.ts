@@ -52,9 +52,9 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   };
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-    booleanjoinoffset: { direction: "state", booleanJoin: 1, contractName: true },
-    numericjoinoffset: { direction: "state", numericJoin: 1, contractName: true },
-    stringjoinoffset: { direction: "state", stringJoin: 1, contractName: true },
+    booleanjoinincrement: { direction: "state", booleanJoin: 1, contractName: true },
+    numericjoinincrement: { direction: "state", numericJoin: 1, contractName: true },
+    stringjoinincrement: { direction: "state", stringJoin: 1, contractName: true },
     subpagereceivestatescrollto: { direction: "state", numericJoin: 1, contractName: true },
     receivestatenumberofitems: { direction: "state", numericJoin: 1, contractName: true }
   };
@@ -547,8 +547,8 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   public set booleanJoinIncrement(value: string) {
-    this._ch5Properties.set("booleanJoinIncrement", value, null, (newValue: boolean) => {
-      // enter code
+    this._ch5Properties.set("booleanJoinIncrement", value, () => {
+      this.debounceSubpageDisplay();
     });
   }
   public get booleanJoinIncrement(): string {
@@ -556,8 +556,8 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   public set numericJoinIncrement(value: string) {
-    this._ch5Properties.set("numericJoinIncrement", value, null, (newValue: number) => {
-      // enter code
+    this._ch5Properties.set("numericJoinIncrement",value, () => {
+      this.debounceSubpageDisplay();
     });
   }
   public get numericJoinIncrement(): string {
@@ -565,8 +565,8 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   public set stringJoinIncrement(value: string) {
-    this._ch5Properties.set("stringJoinIncrement", value, null, (newValue: string) => {
-      // enter code
+    this._ch5Properties.set("stringJoinIncrement", value, () => {
+      this.debounceSubpageDisplay();
     });
   }
   public get stringJoinIncrement(): string {
@@ -812,7 +812,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       this.handleWidgetID();
       this.initCommonMutationObserver(this);
       this.debounceSubpageDisplay();
-      this.info('Ch5Template --- Initialization Finished');
+      this.info('Ch5SubpageReferenceList --- Initialization Finished');
     }
 
   }
