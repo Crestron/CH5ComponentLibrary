@@ -1,5 +1,5 @@
 import { ICh5SubpageReferenceListCommonAttributes } from "../../ch5-common/interfaces/i-ch5-subpage-reference-list-attributes";
-import { TCh5SubpageReferenceListOrientation, TCh5SubpageReferenceListStretch, } from './t-ch5-subpage-reference-list';
+import { TCh5SubpageReferenceListAttributesLoadItems, TCh5SubpageReferenceListOrientation, TCh5SubpageReferenceListStretch, } from './t-ch5-subpage-reference-list';
 
 /**
  * @ignore
@@ -323,5 +323,18 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * @attributeType "String"
    */
   indexId: string;
+
+  /**
+   * @documentation
+   * [
+   * "`loadItems:` attribute",
+   * "***",
+   * "The default value is visible-only. The possible values are visible-only, load-new, all. This attribute allows for subpages to be created and loaded on demand. Will determine if subpages are removed or not after they are no longer invisibility."
+   * ]
+   * @name loaditems
+   * @attributeType "EnumeratedValue"
+   * @default visible-only
+   */
+   loadItems: TCh5SubpageReferenceListAttributesLoadItems;
 
 }
