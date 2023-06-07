@@ -604,7 +604,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * [
    * "`loadItems:` attribute",
    * "***",
-   * "The default value is visible-only. The possible values are visible-only, load-new, all. This attribute allows for buttons to be created and loaded on demand. Will determine if buttons are removed or not after they are no longer invisibility."
+   * "The default value is visible-only. The possible values are visible-only, load-new, all. This attribute allows for buttons to be created and loaded on demand. Will determine if buttons are removed or not after they are no longer in visibility."
    * ]
    * @name loaditems
    * @attributeType "EnumeratedValue"

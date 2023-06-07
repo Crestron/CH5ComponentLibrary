@@ -2,7 +2,7 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 import { isEmpty, isNil } from 'lodash';
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
-import { TCh5SubpageReferenceListOrientation, TCh5SubpageReferenceListStretch,TCh5SubpageReferenceListAttributesLoadItems } from './interfaces/t-ch5-subpage-reference-list';
+import { TCh5SubpageReferenceListOrientation, TCh5SubpageReferenceListStretch, TCh5SubpageReferenceListAttributesLoadItems } from './interfaces/t-ch5-subpage-reference-list';
 import { ICh5SubpageReferenceListAttributes } from './interfaces/i-ch5-subpage-reference-list-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
@@ -35,7 +35,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       key: 'orientation',
       attribute: 'orientation',
       classListPrefix: '--orientation-'
-    },LOAD_ITEMS: {
+    }, LOAD_ITEMS: {
       default: Ch5SubpageReferenceList.LOAD_ITEMS[0],
       values: Ch5SubpageReferenceList.LOAD_ITEMS,
       key: 'loadItems',
@@ -556,7 +556,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   public set numericJoinIncrement(value: string) {
-    this._ch5Properties.set("numericJoinIncrement",value, () => {
+    this._ch5Properties.set("numericJoinIncrement", value, () => {
       this.debounceSubpageDisplay();
     });
   }
@@ -921,6 +921,9 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       if (this.loadItems === "all") {
         this.subpageWidth = this._elContainer.children[0].getBoundingClientRect().width;
         this.subpageHeight = this._elContainer.children[0].getBoundingClientRect().height;
+        return this.endlessHelper();
+      } else if (this.loadItems === "load-new") {
+        return this.endlessHelperForNew();
       }
       return this.endlessHelper();
     }
@@ -1182,6 +1185,104 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
           }
         }
         this._elContainer.firstElementChild?.remove();
+        this._elContainer.scrollTop -= this.subpageHeight / 2;
+        if (this.scrollToPosition === this.numberOfItems - 1 && index === 0) { this._elContainer.scrollTop += this.subpageHeight; }
+      }
+    }
+  }
+
+  private endlessHelperForNew() {
+    const { offsetHeight, offsetWidth, scrollLeft, scrollTop, scrollWidth, scrollHeight } = this._elContainer;
+    const endlessScrollable = this.orientation === 'horizontal' ? offsetWidth + this.subpageWidth < scrollWidth : offsetHeight + this.subpageHeight < scrollHeight;
+    if (endlessScrollable === false) { return; }
+    if (this.orientation === 'horizontal' && this.dir === 'rtl') {
+      if (Math.abs(scrollLeft) + offsetWidth > scrollWidth - this.subpageWidth / 4) {
+        const lastElement = this.getLastChild();
+        const index = (this.numberOfItems + lastElement + 1) % this.numberOfItems;
+        this.createSubpage(index);
+        if (this.loadSubpageForShow === true && this.allSubpageVisible === false) {
+          let showValue = index;
+          while (showValue < this.numberOfItems && this.showSignalHolder[showValue]?.value === false) {
+            this.createSubpage(++showValue);
+          }
+        }
+        while (this._elContainer.children.length > this.numberOfItems) {
+          this._elContainer.firstElementChild?.remove();
+        }
+        this._elContainer.scrollLeft += this.subpageWidth / 2;
+      } else if (Math.abs(scrollLeft) < this.subpageWidth / 4) {
+        const firstElement = this.getFirstChild();
+        const index = (this.numberOfItems + firstElement - 1) % this.numberOfItems;
+        this.createSubpage(index, false);
+        if (this.loadSubpageForShow === true && this.allSubpageVisible === false) {
+          let showValue = index;
+          while (showValue > 0 && this.showSignalHolder[showValue]?.value === false) {
+            this.createSubpage(--showValue, false);
+          }
+        }
+        while (this._elContainer.children.length > this.numberOfItems) {
+          this._elContainer.lastElementChild?.remove();
+        }
+        this._elContainer.scrollLeft -= this.subpageWidth / 2;
+      }
+    } else if (this.orientation === 'horizontal') {
+      if (scrollLeft < this.subpageWidth / 4) {
+        const firstElement = this.getFirstChild();
+        const index = (this.numberOfItems + firstElement - 1) % this.numberOfItems;
+        this.createSubpage(index, false);
+        if (this.loadSubpageForShow === true && this.allSubpageVisible === false) {
+          let showValue = index;
+          while (showValue > 0 && this.showSignalHolder[showValue]?.value === false) {
+            this.createSubpage(--showValue, false);
+          }
+        }
+        while (this._elContainer.children.length > this.numberOfItems) {
+          this._elContainer.lastElementChild?.remove();
+        }
+        this._elContainer.scrollLeft += this.subpageWidth / 2;
+      } else if (scrollLeft + offsetWidth > scrollWidth - this.subpageWidth / 4) {
+        const lastElement = this.getLastChild();
+        const index = (this.numberOfItems + lastElement + 1) % this.numberOfItems;
+        this.createSubpage(index);
+        if (this.loadSubpageForShow === true && this.allSubpageVisible === false) {
+          let showValue = index;
+          while (showValue < this.numberOfItems && this.showSignalHolder[showValue]?.value === false) {
+            this.createSubpage(++showValue);
+          }
+        }
+        while (this._elContainer.children.length > this.numberOfItems) {
+          this._elContainer.firstElementChild?.remove();
+        }
+        this._elContainer.scrollLeft -= this.subpageWidth / 2;
+      }
+    } else {
+      if (scrollTop < this.subpageHeight / 4) {
+        const firstElement = this.getFirstChild();
+        const index = (this.numberOfItems + firstElement - 1) % this.numberOfItems;
+        this.createSubpage(index, false);
+        if (this.loadSubpageForShow === true && this.allSubpageVisible === false) {
+          let showValue = index;
+          while (showValue > 0 && this.showSignalHolder[showValue]?.value === false) {
+            this.createSubpage(--showValue, false);
+          }
+        }
+        while (this._elContainer.children.length > this.numberOfItems) {
+          this._elContainer.lastElementChild?.remove();
+        }
+        this._elContainer.scrollTop += this.subpageHeight / 2;
+      } else if (scrollTop + offsetHeight > scrollHeight - this.subpageHeight / 4) {
+        const lastElement = this.getLastChild();
+        const index = (this.numberOfItems + lastElement + 1) % this.numberOfItems;
+        this.createSubpage(index);
+        if (this.loadSubpageForShow === true && this.allSubpageVisible === false) {
+          let showValue = index;
+          while (showValue < this.numberOfItems && this.showSignalHolder[showValue]?.value === false) {
+            this.createSubpage(++showValue);
+          }
+        }
+        while (this._elContainer.children.length > this.numberOfItems) {
+          this._elContainer.firstElementChild?.remove();
+        }
         this._elContainer.scrollTop -= this.subpageHeight / 2;
         if (this.scrollToPosition === this.numberOfItems - 1 && index === 0) { this._elContainer.scrollTop += this.subpageHeight; }
       }

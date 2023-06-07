@@ -1289,7 +1289,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this.setAttribute('role', Ch5RoleAttributeMapping.ch5Button);
 		}
 
-		if (this._elContainer.parentElement !== this && this.buttonListContract?.parentComponent !== "ch5-slider") {
+		if (this._elContainer.parentElement !== this) {
 			this.appendChild(this._elContainer);
 		}
 
