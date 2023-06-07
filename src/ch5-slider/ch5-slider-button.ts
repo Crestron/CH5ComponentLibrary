@@ -128,8 +128,9 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 			return;
 		}
 		if (this.getAttribute('key')) {
-			if(this.getAttribute('key')?.toLowerCase() !== 'on' && this.getAttribute('key')?.toLowerCase() !== 'off')
-			return;
+			if (this.getAttribute('key')?.toLowerCase() !== 'on' && this.getAttribute('key')?.toLowerCase() !== 'off') {
+				return;
+			}
 		}
 		super.connectedCallback();
 		this.updateCssClass();

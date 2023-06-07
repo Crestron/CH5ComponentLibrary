@@ -1814,13 +1814,16 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     if ((this.orientation === 'horizontal' && this.rows !== 1) || (this.orientation === 'vertical' && this.columns !== 1)) { return; }
 
     if (this.buttonWidth === 0 || this.buttonHeight === 0) {
-      this.createButton(0, false);
-      this.buttonWidth = this._elContainer.firstElementChild?.getBoundingClientRect().width || this.buttonWidth;
-      this.buttonHeight = this._elContainer.firstElementChild?.getBoundingClientRect().height || this.buttonHeight;
+      if (this._elContainer.children.length === 0) {
+        this.createButton(0);
+        this.buttonWidth = this._elContainer.firstElementChild?.getBoundingClientRect().width || this.buttonWidth;
+        this.buttonHeight = this._elContainer.firstElementChild?.getBoundingClientRect().height || this.buttonHeight;
+        this._elContainer.firstElementChild?.remove();
+      } else {
+        this.buttonWidth = this._elContainer.firstElementChild?.getBoundingClientRect().width || this.buttonWidth;
+        this.buttonHeight = this._elContainer.firstElementChild?.getBoundingClientRect().height || this.buttonHeight;
+      }
     }
-
-    // Remove all the children in the container
-    Array.from(this._elContainer.children).forEach(container => container.remove());
 
     if ((this.contractName.length !== 0 && this.useContractForItemShow === true) || (this.buttonReceiveStateShow.length !== 0 && this.buttonReceiveStateShow.trim().includes(`{{${this.indexId}}}`) === true)) {
       this.loadButtonForShow = true;
@@ -1834,13 +1837,21 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     if (this.dir === 'rtl' && this.orientation === 'horizontal') {
       const containerWidth = this._elContainer.getBoundingClientRect().width;
       const loadableButtons = Math.ceil(containerWidth / this.buttonWidth) + Ch5ButtonListBase.BUTTON_CONTAINER_BUFFER;
-      for (let index = 0; index < this.numberOfItems && index < value + loadableButtons; index++) { this.createButton(index); }
-      if (value !== 0) { this._elContainer.scrollLeft = (value * this.buttonWidth) * -1 }
+      if (this._elContainer.children.length === 0) {
+        for (let index = 0; index < this.numberOfItems && index < value + loadableButtons - 1; index++) { this.createButton(index); }
+      } else if (this.getLastChild() < value + loadableButtons) {
+        for (let index = this.getLastChild() + 1; index < this.numberOfItems && index < value + loadableButtons; index++) { this.createButton(index); }
+      }
+      this._elContainer.scrollLeft = value !== 0 ? (value * this.buttonWidth) * -1 : 0;
     } else if (this.orientation === 'horizontal') {
       const containerWidth = this._elContainer.getBoundingClientRect().width;
       const loadableButtons = Math.ceil(containerWidth / this.buttonWidth) + Ch5ButtonListBase.BUTTON_CONTAINER_BUFFER;
-      for (let index = 0; index < this.numberOfItems && index < value + loadableButtons; index++) { this.createButton(index); }
-      if (value !== 0) { this._elContainer.scrollLeft = value * this.buttonWidth }
+      if (this._elContainer.children.length === 0) {
+        for (let index = 0; index < this.numberOfItems && index < value + loadableButtons - 1; index++) { this.createButton(index); }
+      } else if (this.getLastChild() < value + loadableButtons) {
+        for (let index = this.getLastChild() + 1; index < this.numberOfItems && index < value + loadableButtons; index++) { this.createButton(index); }
+      }
+      this._elContainer.scrollLeft = value !== 0 ? value * this.buttonWidth : 0;
     } else {
       const containerHeight = this._elContainer.getBoundingClientRect().height;
       const loadableButtons = Math.ceil(containerHeight / this.buttonHeight) + Ch5ButtonListBase.BUTTON_CONTAINER_BUFFER;
@@ -1848,9 +1859,13 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       if (containerHeight <= 10 || containerHeight <= this.buttonHeight + 10) {
         for (let i = 0; i < this.numberOfItems; i++) { this.createButton(i); }
       } else {
-        for (let index = 0; index < this.numberOfItems && index < value + loadableButtons; index++) { this.createButton(index); }
+        if (this._elContainer.children.length === 0) {
+          for (let index = 0; index < this.numberOfItems && index < value + loadableButtons - 1; index++) { this.createButton(index); }
+        } else if (this.getLastChild() < value + loadableButtons) {
+          for (let index = this.getLastChild() + 1; index < this.numberOfItems && index < value + loadableButtons; index++) { this.createButton(index); }
+        }
       }
-      if (value !== 0) { this._elContainer.scrollTop = value * this.buttonHeight }
+      this._elContainer.scrollTop = value !== 0 ? value * this.buttonHeight : 0;
     }
     if (this.allButtonsVisible === false && this.loadButtonForShow === true) {
       let counter = 0;
