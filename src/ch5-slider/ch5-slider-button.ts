@@ -43,9 +43,6 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 
 	private debounceCreateBtn = this.debounce(() => {
-		// if (this._parentCh5Slider.setValues) {
-		// 	this._parentCh5Slider.setValues(this.key, this.getTargetElementForCssClassesAndStyle());
-		// }
 		this.setButtonDisplay();
 		this.updateInternalHtml();
 	}, 50);
@@ -73,12 +70,6 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 		console.log("constructor");
 		this.ignoreAttributes = ["disabled", "debug", "show", "customclass", "customstyle", "noshowtype", "receivestatecustomclass", "receivestatecustomstyle", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "receivestateenable", "sendeventonshow", "gestureable", "dir", "appendclasswheninviewport"];
 		this.logger.start('constructor()', Ch5SliderButton.ELEMENT_NAME);
-		// if (!_.isNil(parent)) {
-		// 	this._parentCh5Slider = parent;
-		// 	this.createInternalHtml();
-		// } else {
-		// 	this._parentCh5Slider = this.getParentButton();
-		// }
 		this._ch5Properties = new Ch5Properties(this, Ch5SliderButton.COMPONENT_PROPERTIES);
 	}
 
@@ -239,16 +230,6 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	}
 
 	public setButtonDisplay() {
-		// if (this._parentCh5Slider.setSendEvent) {
-		// 	this._parentCh5Slider.setSendEvent(this.sendEventOnClick, this.key);
-		// }
-		// if (this._parentCh5Slider.setIconFill) {
-		// 	if (this.iconUrlFillType) {
-		// 		this._parentCh5Slider.setIconFill(1);
-		// 	} else {
-		// 		this._parentCh5Slider.setIconFill(0);
-		// 	}
-		// }
 		super.setButtonDisplay();
 	}
 

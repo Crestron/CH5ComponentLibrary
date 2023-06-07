@@ -450,9 +450,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 	private _holdState: boolean = false;
 
-	private _holdOnState: boolean = false;
-
-	private _holdOffState: boolean = false;
 	/**
 	 * COMPONENT RECEIVE SIGNALS
 	 *
@@ -1158,10 +1155,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		this._onTouchMoveEnd = this._onTouchMoveEnd.bind(this);
 		this.handleSendEventHold = this.handleSendEventHold.bind(this);
 		this.handleSendEventRelease = this.handleSendEventRelease.bind(this);
-		this.handleSendEventOffClickHold = this.handleSendEventOffClickHold.bind(this);
-		this.handleSendEventOffClickRelease = this.handleSendEventOffClickRelease.bind(this);
-		this.handleSendEventOnClickButtonHold = this.handleSendEventOnClickButtonHold.bind(this);
-		this.handleSendEventOnClickButtonRelease = this.handleSendEventOnClickButtonRelease.bind(this);
 		this.handleSendEventOnClickHandle = this.handleSendEventOnClickHandle.bind(this);
 		this._onTouchHandler = this._onTouchHandler.bind(this);
 	}
@@ -1532,10 +1525,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this._innerContainer.removeEventListener('touchmove', this._onMouseLeave);
 			this._innerContainer.removeEventListener('mousedown', () => { this._holdState = true; });
 			this._innerContainer.removeEventListener('touchstart', this._onTouchHandler);
-			this._elOffContainer.removeEventListener('mousedown', () => { this._holdOffState = true; });
-			this._elOffContainer.removeEventListener('touchstart', () => { this._holdOffState = true; });
-			this._elOnContainer.removeEventListener('mousedown', () => { this._holdOnState = true; });
-			this._elOnContainer.removeEventListener('touchstart', () => { this._holdOnState = true; });
 			noUiHandle.removeEventListener('pointermove', (event) => { event.stopPropagation() });
 		}
 		if (!isNil(this._pressable)) {
@@ -1621,15 +1610,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 					if (this._holdState) {
 						this.handleSendEventRelease();
 					}
-					if (this._holdOnState) {
-						this.handleSendEventOnClickButtonRelease();
-					}
-					if (this._holdOffState) {
-						this.handleSendEventOffClickRelease();
-					}
-					this._holdState = false;
-					this._holdOnState = false;
-					this._holdOffState = false;
 				} else if (this._holdState) {
 					this.handleSendEventHold();
 					if (this._repeatDigitalInterval !== null) {
@@ -1641,32 +1621,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 						if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
 							window.clearInterval(this._repeatDigitalInterval as number);
 							this.handleSendEventRelease();
-						}
-					}, REPEAT_DIGITAL_PERIOD);
-				} else if (this._holdOnState && !this._holdOffState) {
-					this.handleSendEventOnClickButtonHold();
-					if (this._repeatDigitalInterval !== null) {
-						window.clearInterval(this._repeatDigitalInterval as number);
-					}
-					let numRepeatDigitals = 0;
-					this._repeatDigitalInterval = window.setInterval(() => {
-						this.handleSendEventOnClickButtonHold();
-						if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
-							window.clearInterval(this._repeatDigitalInterval as number);
-							this.handleSendEventOnClickButtonRelease();
-						}
-					}, REPEAT_DIGITAL_PERIOD);
-				} else if (this._holdOffState && !this._holdOnState) {
-					this.handleSendEventOffClickHold();
-					if (this._repeatDigitalInterval !== null) {
-						window.clearInterval(this._repeatDigitalInterval as number);
-					}
-					let numRepeatDigitals = 0;
-					this._repeatDigitalInterval = window.setInterval(() => {
-						this.handleSendEventOffClickHold();
-						if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
-							window.clearInterval(this._repeatDigitalInterval as number);
-							this.handleSendEventOffClickRelease();
 						}
 					}, REPEAT_DIGITAL_PERIOD);
 				}
@@ -2705,14 +2659,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		return scalarValue;
 	}
 
-	public setIconFill(val: number) {
-		if (val === 1) {
-			this._elContainer.classList.add("ch5-slider-iconfill");
-		}
-		else {
-			this._elContainer.classList.remove("ch5-slider-iconfill");
-		}
-	}
 
 	public setSendEvent(send: string, key: string) {
 		if (key === "off") {
@@ -2877,45 +2823,11 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		}, 30);
 	}
 
-	private handleSendEventOnClickButtonHold(): void {
-		this._elOnContainer.classList.add("ch5-slider-button--pressed");
-		if (this._sendEventOnClick) {
-			Ch5SignalFactory.getInstance().getBooleanSignal(this._sendEventOnClick)?.publish(true);
-		}
-	}
-
-	private handleSendEventOnClickButtonRelease(): void {
-		this._holdOnState = false;
-		setTimeout(() => {
-			if (this._sendEventOnClick) {
-				Ch5SignalFactory.getInstance().getBooleanSignal(this._sendEventOnClick)?.publish(false);
-			}
-			this._elOnContainer.classList.remove("ch5-slider-button--pressed");
-		}, 30);
-	}
-
 	private handleSendEventOnClickHandle(): void {
 		if (this.handleSendEventOnClick && !this.disabled) {
 			Ch5SignalFactory.getInstance().getBooleanSignal(this.handleSendEventOnClick)?.publish(true);
 			Ch5SignalFactory.getInstance().getBooleanSignal(this.handleSendEventOnClick)?.publish(false);
 		}
-	}
-
-	private handleSendEventOffClickHold(): void {
-		this._elOffContainer.classList.add("ch5-slider-button--pressed");
-		if (this._sendEventOffClick) {
-			Ch5SignalFactory.getInstance().getBooleanSignal(this._sendEventOffClick)?.publish(true);
-		}
-	}
-
-	private handleSendEventOffClickRelease(): void {
-		this._holdOffState = false;
-		setTimeout(() => {
-			if (this._sendEventOffClick) {
-				Ch5SignalFactory.getInstance().getBooleanSignal(this._sendEventOffClick)?.publish(false);
-			}
-			this._elOffContainer.classList.remove("ch5-slider-button--pressed");
-		}, 30);
 	}
 
 	private handleValue() {
@@ -3122,6 +3034,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		const buttonSlider = this.getElementsByTagName("ch5-slider-button");
 		let onBtn: any = null;
 		let offBtn: any = null;
+		const sliderBtn: Ch5SliderButton = new Ch5SliderButton();
 		if (buttonSlider.length === 0 || this.range === true) {
 			this._elOffContainer.classList.add("ch5-advanced-slider-button");
 			this._elOnContainer.classList.add("ch5-advanced-slider-button");
