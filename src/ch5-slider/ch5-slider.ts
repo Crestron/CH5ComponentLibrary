@@ -1502,10 +1502,10 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this._innerContainer.addEventListener('touchmove', this._onMouseLeave);
 			this._innerContainer.addEventListener('mousedown', () => { this._holdState = true; });
 			this._innerContainer.addEventListener('touchstart', this._onTouchHandler);
-			this._elOffContainer.addEventListener('mousedown', () => { this._holdOffState = true; });
-			this._elOffContainer.addEventListener('touchstart', () => { this._holdOffState = true; });
-			this._elOnContainer.addEventListener('mousedown', () => { this._holdOnState = true; });
-			this._elOnContainer.addEventListener('touchstart', () => { this._holdOnState = true; });
+			// this._elOffContainer.addEventListener('mousedown', () => { this._holdOffState = true; });
+			// this._elOffContainer.addEventListener('touchstart', () => { this._holdOffState = true; });
+			// this._elOnContainer.addEventListener('mousedown', () => { this._holdOnState = true; });
+			// this._elOnContainer.addEventListener('touchstart', () => { this._holdOnState = true; });
 		}
 		// init pressable
 		if (null !== this._pressable) {
@@ -3120,6 +3120,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 	private onOffButtonHelper() {
 		const buttonSlider = this.getElementsByTagName("ch5-slider-button");
+		let onBtn: any = null;
+		let offBtn: any = null;
 		if (buttonSlider.length === 0 || this.range === true) {
 			this._elOffContainer.classList.add("ch5-advanced-slider-button");
 			this._elOnContainer.classList.add("ch5-advanced-slider-button");
@@ -3133,35 +3135,30 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this._elOffContainer.classList.remove("ch5-advanced-slider-button");
 			this._elOnContainer.classList.remove("ch5-advanced-slider-button");
 			this._elContainer.classList.add('ch5-advanced-slider-container');
-
-			Array.from(buttonSlider).forEach((btn) => {
-
-				if (btn.parentElement instanceof Ch5Slider) {
-					let sliderBtn: Ch5SliderButton;
-					if (btn.getAttribute("key") === 'off') {
-						sliderBtn = new Ch5SliderButton(this);
-						sliderBtn.key = "off";
+			Array.from(buttonSlider).forEach(btn => {
+				if (btn.getAttribute("key") === 'off') {
+					offBtn = btn;
+					if (this.stretch && this.orientation === "horizontal") {
+						btn.classList.add("ch5-slider-horizontal-stretch");
+					} else if (this.orientation === "vertical" && (this.stretch === "both" || this.stretch === "width")) {
+						btn.classList.add("ch5-slider-vertical-stretch");
+					}
+				} else
+					if (btn.getAttribute("key") === 'on') {
+						onBtn = btn;
 						if (this.stretch && this.orientation === "horizontal") {
 							btn.classList.add("ch5-slider-horizontal-stretch");
 						} else if (this.orientation === "vertical" && (this.stretch === "both" || this.stretch === "width")) {
 							btn.classList.add("ch5-slider-vertical-stretch");
 						}
-					} else
-						if (btn.getAttribute("key") === 'on') {
-							sliderBtn = new Ch5SliderButton(this);
-							if (this.stretch && this.orientation === "horizontal") {
-								btn.classList.add("ch5-slider-horizontal-stretch");
-							} else if (this.orientation === "vertical" && (this.stretch === "both" || this.stretch === "width")) {
-								btn.classList.add("ch5-slider-vertical-stretch");
-							}
-						}
-					Ch5SliderButton.observedAttributes.forEach((attr) => {
-						if (btn.hasAttribute(attr) && sliderBtn) {
-							sliderBtn.setAttribute(attr, btn.getAttribute(attr) + '');
-						}
-					});
+					}
+				if (onBtn) {
+					this._elOnContainer.appendChild(onBtn);
 				}
-			})
+				if (offBtn) {
+					this._elOffContainer.appendChild(offBtn);
+				}
+			});
 		}
 	}
 

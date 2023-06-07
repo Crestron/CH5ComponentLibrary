@@ -41,12 +41,11 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	public primaryCssClass = 'ch5-button';
 
-	private _parentCh5Slider: Ch5Slider;
 
 	private debounceCreateBtn = this.debounce(() => {
-		if (this._parentCh5Slider.setValues) {
-			this._parentCh5Slider.setValues(this.key, this.getTargetElementForCssClassesAndStyle());
-		}
+		// if (this._parentCh5Slider.setValues) {
+		// 	this._parentCh5Slider.setValues(this.key, this.getTargetElementForCssClassesAndStyle());
+		// }
 		this.setButtonDisplay();
 		this.updateInternalHtml();
 	}, 50);
@@ -69,16 +68,17 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	//#region Component Lifecycle
 
-	public constructor(public parent?: Ch5Slider) {
-		super({ index: 0, clickHoldTime: 0, contractName: '', parentComponent: 'ch5-slider' });
+	public constructor() {
+		super();
+		console.log("constructor");
 		this.ignoreAttributes = ["disabled", "debug", "show", "customclass", "customstyle", "noshowtype", "receivestatecustomclass", "receivestatecustomstyle", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "receivestateenable", "sendeventonshow", "gestureable", "dir", "appendclasswheninviewport"];
 		this.logger.start('constructor()', Ch5SliderButton.ELEMENT_NAME);
-		if (!_.isNil(parent)) {
-			this._parentCh5Slider = parent;
-			this.createInternalHtml();
-		} else {
-			this._parentCh5Slider = this.getParentButton();
-		}
+		// if (!_.isNil(parent)) {
+		// 	this._parentCh5Slider = parent;
+		// 	this.createInternalHtml();
+		// } else {
+		// 	this._parentCh5Slider = this.getParentButton();
+		// }
 		this._ch5Properties = new Ch5Properties(this, Ch5SliderButton.COMPONENT_PROPERTIES);
 	}
 
@@ -132,6 +132,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	 * Called when the Ch5SliderButton component is first connected to the DOM
 	 */
 	public connectedCallback() {
+		console.log("connnectedCallback");
 		this.logger.start('connectedCallback()', Ch5SliderButton.ELEMENT_NAME);
 		this.setAttribute('data-ch5-id', this.getCrId());
 		this.buttonIgonredAttributes();
@@ -187,10 +188,10 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	}
 
 	protected attachEventListeners() {
-		// super.attachEventListeners();
+		 super.attachEventListeners();
 	}
 	protected removeEventListeners() {
-		// super.removeEventListeners();
+		 super.removeEventListeners();
 	}
 
 
@@ -238,16 +239,16 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	}
 
 	public setButtonDisplay() {
-		if (this._parentCh5Slider.setSendEvent) {
-			this._parentCh5Slider.setSendEvent(this.sendEventOnClick, this.key);
-		}
-		if (this._parentCh5Slider.setIconFill) {
-			if (this.iconUrlFillType) {
-				this._parentCh5Slider.setIconFill(1);
-			} else {
-				this._parentCh5Slider.setIconFill(0);
-			}
-		}
+		// if (this._parentCh5Slider.setSendEvent) {
+		// 	this._parentCh5Slider.setSendEvent(this.sendEventOnClick, this.key);
+		// }
+		// if (this._parentCh5Slider.setIconFill) {
+		// 	if (this.iconUrlFillType) {
+		// 		this._parentCh5Slider.setIconFill(1);
+		// 	} else {
+		// 		this._parentCh5Slider.setIconFill(0);
+		// 	}
+		// }
 		super.setButtonDisplay();
 	}
 
