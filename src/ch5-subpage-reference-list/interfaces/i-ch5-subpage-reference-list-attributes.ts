@@ -329,7 +329,7 @@ export interface ICh5SubpageReferenceListAttributes extends ICh5SubpageReference
    * [
    * "`loadItems:` attribute",
    * "***",
-   * "The default value is visible-only. The possible values are visible-only, load-new, all. This attribute allows for subpages to be created and loaded on demand. Will determine if subpages are removed or not after they are no longer invisibility."
+   * "The default value is visible-only. The possible values are visible-only, load-new, all. This attribute allows for subpages to be created and loaded on demand. Will determine if subpages are removed or not after they are no longer in visibility."
    * ]
    * @name loaditems
    * @attributeType "EnumeratedValue"
