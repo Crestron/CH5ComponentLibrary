@@ -41,7 +41,6 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	public primaryCssClass = 'ch5-button';
 
-
 	private debounceCreateBtn = this.debounce(() => {
 		this.setButtonDisplay();
 		this.updateInternalHtml();
@@ -85,7 +84,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	public static registerSignalAttributeTypes() {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5SliderButton.ELEMENT_NAME, Ch5SliderButton.SIGNAL_ATTRIBUTE_TYPES);
 	}
-	
+
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
 		this.logger.start("attributeChangedCallback", this.primaryCssClass);
 		if (!Ch5SliderButton.inheritedObsAttrs.includes(attr.toLowerCase())) {
@@ -125,6 +124,13 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 		this.logger.start('connectedCallback()', Ch5SliderButton.ELEMENT_NAME);
 		this.setAttribute('data-ch5-id', this.getCrId());
 		this.buttonIgonredAttributes();
+		if (!(this.parentElement?.classList.contains('slider-on-button') || this.parentElement?.classList.contains('slider-off-button'))) {
+			return;
+		}
+		if (this.getAttribute('key')) {
+			if(this.getAttribute('key')?.toLowerCase() !== 'on' && this.getAttribute('key')?.toLowerCase() !== 'off')
+			return;
+		}
 		super.connectedCallback();
 		this.updateCssClass();
 		this.handleLabel();
@@ -166,21 +172,11 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 		this.debounceCreateBtn();
 	}
 
-	public getParentButton(): Ch5Slider {
-		const getTheMatchingParent = (node: Node): Ch5Slider => {
-			if (!_.isNil(node) && node.nodeName.toString().toUpperCase() !== "CH5-SLIDER") {
-				return getTheMatchingParent(node.parentNode as Node);
-			}
-			return node as Ch5Slider;
-		}
-		return getTheMatchingParent(this.parentElement as Node);
-	}
-
 	protected attachEventListeners() {
-		 super.attachEventListeners();
+		super.attachEventListeners();
 	}
 	protected removeEventListeners() {
-		 super.removeEventListeners();
+		super.removeEventListeners();
 	}
 
 

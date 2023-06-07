@@ -3034,7 +3034,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		const buttonSlider = this.getElementsByTagName("ch5-slider-button");
 		let onBtn: any = null;
 		let offBtn: any = null;
-		const sliderBtn: Ch5SliderButton = new Ch5SliderButton();
 		if (buttonSlider.length === 0 || this.range === true) {
 			this._elOffContainer.classList.add("ch5-advanced-slider-button");
 			this._elOnContainer.classList.add("ch5-advanced-slider-button");
@@ -3065,13 +3064,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 							btn.classList.add("ch5-slider-vertical-stretch");
 						}
 					}
-				if (onBtn) {
-					this._elOnContainer.appendChild(onBtn);
-				}
-				if (offBtn) {
-					this._elOffContainer.appendChild(offBtn);
-				}
 			});
+			if (onBtn) {
+				this._elOnContainer.appendChild(onBtn);
+			}
+			if (offBtn) {
+				this._elOffContainer.appendChild(offBtn);
+			}
 		}
 	}
 
