@@ -1260,6 +1260,9 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       if (this.loadItems === "all") {
         this.buttonWidth = this._elContainer.children[0].getBoundingClientRect().width;
         this.buttonHeight = this._elContainer.children[0].getBoundingClientRect().height;
+        return this.endlessHelper();
+      } else if (this.loadItems === "load-new") {
+        return this.endlessHelperForNew();
       }
       return this.endlessHelper();
     }
@@ -1523,6 +1526,104 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
           }
         }
         this._elContainer.firstElementChild?.remove();
+        this._elContainer.scrollTop -= this.buttonHeight / 2;
+        if (this.scrollToPosition === this.numberOfItems - 1 && index === 0) { this._elContainer.scrollTop += this.buttonHeight; }
+      }
+    }
+  }
+
+  private endlessHelperForNew() {
+    const { offsetHeight, offsetWidth, scrollLeft, scrollTop, scrollWidth, scrollHeight } = this._elContainer;
+    const endlessScrollable = this.orientation === 'horizontal' ? offsetWidth + this.buttonWidth < scrollWidth : offsetHeight + this.buttonHeight < scrollHeight;
+    if (endlessScrollable === false) { return; }
+    if (this.orientation === 'horizontal' && this.dir === 'rtl') {
+      if (Math.abs(scrollLeft) + offsetWidth > scrollWidth - this.buttonWidth / 4) {
+        const lastElement = this.getLastChild();
+        const index = (this.numberOfItems + lastElement + 1) % this.numberOfItems;
+        this.createButton(index);
+        if (this.loadButtonForShow === true && this.allButtonsVisible === false) {
+          let showValue = index;
+          while (showValue < this.numberOfItems && this.showSignalHolder[showValue]?.value === false) {
+            this.createButton(++showValue);
+          }
+        }
+        while (this._elContainer.children.length > this.numberOfItems) {
+          this._elContainer.firstElementChild?.remove();
+        }
+        this._elContainer.scrollLeft += this.buttonWidth / 2;
+      } else if (Math.abs(scrollLeft) < this.buttonWidth / 4) {
+        const firstElement = this.getFirstChild();
+        const index = (this.numberOfItems + firstElement - 1) % this.numberOfItems;
+        this.createButton(index, false);
+        if (this.loadButtonForShow === true && this.allButtonsVisible === false) {
+          let showValue = index;
+          while (showValue > 0 && this.showSignalHolder[showValue]?.value === false) {
+            this.createButton(--showValue, false);
+          }
+        }
+        while (this._elContainer.children.length > this.numberOfItems) {
+          this._elContainer.lastElementChild?.remove();
+        }
+        this._elContainer.scrollLeft -= this.buttonWidth / 2;
+      }
+    } else if (this.orientation === 'horizontal') {
+      if (scrollLeft < this.buttonWidth / 4) {
+        const firstElement = this.getFirstChild();
+        const index = (this.numberOfItems + firstElement - 1) % this.numberOfItems;
+        this.createButton(index, false);
+        if (this.loadButtonForShow === true && this.allButtonsVisible === false) {
+          let showValue = index;
+          while (showValue > 0 && this.showSignalHolder[showValue]?.value === false) {
+            this.createButton(--showValue, false);
+          }
+        }
+        while (this._elContainer.children.length > this.numberOfItems) {
+          this._elContainer.lastElementChild?.remove();
+        }
+        this._elContainer.scrollLeft += this.buttonWidth / 2;
+      } else if (scrollLeft + offsetWidth > scrollWidth - this.buttonWidth / 4) {
+        const lastElement = this.getLastChild();
+        const index = (this.numberOfItems + lastElement + 1) % this.numberOfItems;
+        this.createButton(index);
+        if (this.loadButtonForShow === true && this.allButtonsVisible === false) {
+          let showValue = index;
+          while (showValue < this.numberOfItems && this.showSignalHolder[showValue]?.value === false) {
+            this.createButton(++showValue);
+          }
+        }
+        while (this._elContainer.children.length > this.numberOfItems) {
+          this._elContainer.firstElementChild?.remove();
+        }
+        this._elContainer.scrollLeft -= this.buttonWidth / 2;
+      }
+    } else {
+      if (scrollTop < this.buttonHeight / 4) {
+        const firstElement = this.getFirstChild();
+        const index = (this.numberOfItems + firstElement - 1) % this.numberOfItems;
+        this.createButton(index, false);
+        if (this.loadButtonForShow === true && this.allButtonsVisible === false) {
+          let showValue = index;
+          while (showValue > 0 && this.showSignalHolder[showValue]?.value === false) {
+            this.createButton(--showValue, false);
+          }
+        }
+        while (this._elContainer.children.length > this.numberOfItems) {
+          this._elContainer.lastElementChild?.remove();
+        }
+        this._elContainer.scrollTop += this.buttonHeight / 2;
+      } else if (scrollTop + offsetHeight > scrollHeight - this.buttonHeight / 4) {
+        const lastElement = this.getLastChild();
+        const index = (this.numberOfItems + lastElement + 1) % this.numberOfItems;
+        this.createButton(index);
+        if (this.loadButtonForShow === true && this.allButtonsVisible === false) {
+          let showValue = index;
+          while (showValue < this.numberOfItems && this.showSignalHolder[showValue]?.value === false) {
+            this.createButton(++showValue);
+          }
+        }
+        while (this._elContainer.children.length > this.numberOfItems) {
+          this._elContainer.firstElementChild?.remove();
+        }
         this._elContainer.scrollTop -= this.buttonHeight / 2;
         if (this.scrollToPosition === this.numberOfItems - 1 && index === 0) { this._elContainer.scrollTop += this.buttonHeight; }
       }
