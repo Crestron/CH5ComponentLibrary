@@ -1454,13 +1454,16 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     if ((this.orientation === 'horizontal' && this.rows !== 1) || (this.orientation === 'vertical' && this.columns !== 1)) { return; }
 
     if (this.subpageWidth === 0 || this.subpageHeight === 0) {
-      this.createSubpage(0, false);
-      this.subpageWidth = this._elContainer.firstElementChild?.getBoundingClientRect().width || this.subpageWidth;
-      this.subpageHeight = this._elContainer.firstElementChild?.getBoundingClientRect().height || this.subpageHeight;
+      if (this._elContainer.children.length === 0) {
+        this.createSubpage(0);
+        this.subpageWidth = this._elContainer.firstElementChild?.getBoundingClientRect().width || this.subpageWidth;
+        this.subpageHeight = this._elContainer.firstElementChild?.getBoundingClientRect().height || this.subpageHeight;
+        this._elContainer.firstElementChild?.remove();
+      } else {
+        this.subpageWidth = this._elContainer.firstElementChild?.getBoundingClientRect().width || this.subpageWidth;
+        this.subpageHeight = this._elContainer.firstElementChild?.getBoundingClientRect().height || this.subpageHeight;
+      }
     }
-
-    // Remove all the children in the container
-    Array.from(this._elContainer.children).forEach(container => container.remove());
 
     if ((this.contractName.length !== 0 && this.useContractForItemShow === true) || (this.subpageReceiveStateShow.length !== 0 && this.subpageReceiveStateShow.trim().includes(`{{${this.indexId}}}`) === true)) {
       this.loadSubpageForShow = true;
@@ -1474,13 +1477,21 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     if (this.dir === 'rtl' && this.orientation === 'horizontal') {
       const containerWidth = this._elContainer.getBoundingClientRect().width;
       const loadableButtons = Math.ceil(containerWidth / this.subpageWidth) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
-      for (let index = 0; index < this.numberOfItems && index < value + loadableButtons; index++) { this.createSubpage(index); }
-      if (value !== 0) { this._elContainer.scrollLeft = (value * this.subpageWidth) * -1 }
+      if (this._elContainer.children.length === 0) {
+        for (let index = 0; index < this.numberOfItems && index < value + loadableButtons - 1; index++) { this.createSubpage(index); }
+      } else if (this.getLastChild() < value + loadableButtons) {
+        for (let index = this.getLastChild() + 1; index < this.numberOfItems && index < value + loadableButtons; index++) { this.createSubpage(index); }
+      }
+      this._elContainer.scrollLeft = value !== 0 ? (value * this.subpageWidth) * -1 : 0;
     } else if (this.orientation === 'horizontal') {
       const containerWidth = this._elContainer.getBoundingClientRect().width;
       const loadableButtons = Math.ceil(containerWidth / this.subpageWidth) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
-      for (let index = 0; index < this.numberOfItems && index < value + loadableButtons; index++) { this.createSubpage(index); }
-      if (value !== 0) { this._elContainer.scrollLeft = value * this.subpageWidth }
+      if (this._elContainer.children.length === 0) {
+        for (let index = 0; index < this.numberOfItems && index < value + loadableButtons - 1; index++) { this.createSubpage(index); }
+      } else if (this.getLastChild() < value + loadableButtons) {
+        for (let index = this.getLastChild() + 1; index < this.numberOfItems && index < value + loadableButtons; index++) { this.createSubpage(index); }
+      }
+      this._elContainer.scrollLeft = value !== 0 ? value * this.subpageWidth : 0;
     } else {
       const containerHeight = this._elContainer.getBoundingClientRect().height;
       const loadableButtons = Math.ceil(containerHeight / this.subpageHeight) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
@@ -1488,9 +1499,13 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       if (containerHeight <= 10 || containerHeight <= this.subpageHeight + 10) {
         for (let i = 0; i < this.numberOfItems; i++) { this.createSubpage(i); }
       } else {
-        for (let index = 0; index < this.numberOfItems && index < value + loadableButtons; index++) { this.createSubpage(index); }
+        if (this._elContainer.children.length === 0) {
+          for (let index = 0; index < this.numberOfItems && index < value + loadableButtons - 1; index++) { this.createSubpage(index); }
+        } else if (this.getLastChild() < value + loadableButtons) {
+          for (let index = this.getLastChild() + 1; index < this.numberOfItems && index < value + loadableButtons; index++) { this.createSubpage(index); }
+        }
       }
-      if (value !== 0) { this._elContainer.scrollTop = value * this.subpageHeight }
+      this._elContainer.scrollTop = value !== 0 ? value * this.subpageHeight : 0;
     }
     if (this.allSubpageVisible === false && this.loadSubpageForShow === true) {
       let counter = 0;
