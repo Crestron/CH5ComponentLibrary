@@ -398,7 +398,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		{
 			default: "",
 			isSignal: true,
-			name: "handleSendEventOnClick",
+			name: "sendEventOnHandleClick",
 			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
@@ -797,13 +797,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		return this._ch5Properties.get<string>('sendEventOnChangeHigh');
 	}
 
-	public set handleSendEventOnClick(value: string) {
-		this._ch5Properties.set("handleSendEventOnClick", value, null, (newValue: number) => {
+	public set sendEventOnHandleClick(value: string) {
+		this._ch5Properties.set("sendEventOnHandleClick", value, null, (newValue: number) => {
 			// Enter your Code here
 		});
 	}
-	public get handleSendEventOnClick(): string {
-		return this._ch5Properties.get<string>('handleSendEventOnClick');
+	public get sendEventOnHandleClick(): string {
+		return this._ch5Properties.get<string>('sendEventOnHandleClick');
 	}
 	/**
 	 * Getter receiveStateValue
@@ -1155,7 +1155,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		this._onTouchMoveEnd = this._onTouchMoveEnd.bind(this);
 		this.handleSendEventHold = this.handleSendEventHold.bind(this);
 		this.handleSendEventRelease = this.handleSendEventRelease.bind(this);
-		this.handleSendEventOnClickHandle = this.handleSendEventOnClickHandle.bind(this);
+		this.sendEventOnHandleClickHandle = this.sendEventOnHandleClickHandle.bind(this);
 		this._onTouchHandler = this._onTouchHandler.bind(this);
 	}
 	private setCleanValue(value: string | number) {
@@ -1520,7 +1520,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			const noUiHandle = this._innerContainer.querySelector('.noUi-handle') as HTMLElement;
 			noUiHandle.removeEventListener('focus', this._onFocus);
 			noUiHandle.removeEventListener('blur', this._onBlur);
-			noUiHandle.removeEventListener('click', this.handleSendEventOnClickHandle);
+			noUiHandle.removeEventListener('click', this.sendEventOnHandleClickHandle);
 			this._innerContainer.removeEventListener('mouseleave', this._onMouseLeave);
 			this._innerContainer.removeEventListener('touchmove', this._onMouseLeave);
 			this._innerContainer.removeEventListener('mousedown', () => { this._holdState = true; });
@@ -1582,7 +1582,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				const noUiHandle = this._innerContainer.querySelector('.noUi-handle') as HTMLElement;
 				noUiHandle.addEventListener('focus', this._onFocus);
 				noUiHandle.addEventListener('blur', this._onBlur);
-				noUiHandle.addEventListener('click', this.handleSendEventOnClickHandle);
+				noUiHandle.addEventListener('click', this.sendEventOnHandleClickHandle);
 				noUiHandle.addEventListener('pointermove', (event) => { event.stopPropagation() });
 				// store internal slider elements
 				this._tgtEls = [];
@@ -2823,10 +2823,10 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		}, 30);
 	}
 
-	private handleSendEventOnClickHandle(): void {
-		if (this.handleSendEventOnClick && !this.disabled) {
-			Ch5SignalFactory.getInstance().getBooleanSignal(this.handleSendEventOnClick)?.publish(true);
-			Ch5SignalFactory.getInstance().getBooleanSignal(this.handleSendEventOnClick)?.publish(false);
+	private sendEventOnHandleClickHandle(): void {
+		if (this.sendEventOnHandleClick && !this.disabled) {
+			Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnHandleClick)?.publish(true);
+			Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnHandleClick)?.publish(false);
 		}
 	}
 

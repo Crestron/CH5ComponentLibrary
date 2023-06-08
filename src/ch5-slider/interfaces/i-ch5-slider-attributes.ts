@@ -407,15 +407,15 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    /**
     * @documentation
     * [
-    * "`handleSendEventOnClick` attribute",
+    * "`sendEventOnHandleClick` attribute",
     * "***",
     * "Sends a high signal when user places the finger on the handle and low signal when finger is released."
     * ]
-    * @name handlesendeventonclick
+    * @name sendeventonhandleclick
     * @default
     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
     * @attributeType "Join"
     */
-   handleSendEventOnClick: string;
+   sendEventOnHandleClick: string;
 
 }
