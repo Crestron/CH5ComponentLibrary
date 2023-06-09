@@ -54,7 +54,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		receivestateupper: { direction: "state", booleanJoin: 1, contractName: true },
 		sendeventonlower: { direction: "state", booleanJoin: 1, contractName: true },
 		receivestatelower: { direction: "state", booleanJoin: 1, contractName: true },
-		handlesendeventonclick: { direction: "state", booleanJoin: 1, contractName: true }
+		sendeventonhandleclick: { direction: "state", booleanJoin: 1, contractName: true }
 	};
 
 	public static readonly MIN_VALUE: number = 0;
