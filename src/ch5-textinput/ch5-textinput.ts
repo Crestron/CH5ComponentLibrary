@@ -58,7 +58,9 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 			'receivestatevalue',
 			'sendeventonchange',
 			'sendeventonfocus',
-			'sendeventonblur'
+			'sendeventonblur',
+			'sendeventonenterkey',
+			'sendeventonesckey'
 		];
 
 		return contextAttributes.concat(superAttributes, commonAttributes);
@@ -670,6 +672,70 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	}
 
 	/**
+	 * Setter for sendEventOnEnterKey
+	 *
+	 * @param {string} value
+	 */
+	public set sendEventOnEnterKey(value: string) {
+
+		this.info('set <ch5-textinput sendEventOnEnterKey="' + value + '"');
+
+		if (this.sendEventOnEnterKey !== value) {
+			if (value === undefined || value === null) {
+				value = '';
+			}
+
+			this.setAttribute('sendEventOnEnterKey', value);
+		}
+
+		this._sendEventOnEnterKey = value;
+	}
+
+	/**
+	 * Getter for sendEventOnEnterKey
+	 *
+	 * @return {string}
+	 */
+	public get sendEventOnEnterKey(): string {
+
+		this.info('get <ch5-textinput sendEventOnEnterKey />');
+
+		return this._sendEventOnEnterKey;
+	}
+
+	/**
+	 * Setter for sendEventOnEscKey
+	 *
+	 * @param {string} value
+	 */
+	public set sendEventOnEscKey(value: string) {
+
+		this.info('set <ch5-textinput sendEventOnEscKey="' + value + '"');
+
+		if (this.sendEventOnEscKey !== value) {
+			if (value === undefined || value === null) {
+				value = '';
+			}
+
+			this.setAttribute('sendEventOnEscKey', value);
+		}
+
+		this._sendEventOnEscKey = value;
+	}
+
+	/**
+	 * Getter for sendEventOnEscKey
+	 *
+	 * @return {string}
+	 */
+	public get sendEventOnEscKey(): string {
+
+		this.info('get <ch5-textinput sendEventOnEscKey />');
+
+		return this._sendEventOnEscKey;
+	}
+
+	/**
 	 * Setter for receiveStateFocus
 	 *
 	 * @param {string} value
@@ -1066,7 +1132,9 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 		sendeventonchange: { direction: "event", stringJoin: 1, contractName: true },
 		sendeventonfocus: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventonblur: { direction: "event", booleanJoin: 1, contractName: true }
+		sendeventonblur: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventonenterkey: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventonesckey: { direction: "event", booleanJoin: 1, contractName: true },
 	};
 
 	/**
@@ -1439,6 +1507,24 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	private _sendEventOnBlur: string = '' as string;
 
 	/**
+	 * send signal on enter event key
+	 *
+	 * @private
+	 * @memberof Ch5TextInput
+	 * @type {string}
+	 */
+	private _sendEventOnEnterKey: string = '' as string;
+
+	/**
+	 * send signal on esc event
+	 *
+	 * @private
+	 * @memberof Ch5TextInput
+	 * @type {string}
+	 */
+	private _sendEventOnEscKey: string = '' as string;
+
+	/**
 	 * When focussed, true, when unfocuses, send
 	 *
 	 * @private
@@ -1545,6 +1631,13 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * @type {EventListenerOrEventListenerObject}
 	 */
 	private _onKeyPressListener: EventListenerOrEventListenerObject = {} as EventListenerOrEventListenerObject;
+
+	/**
+	 * @private
+	 * @memberof Ch5TextInput
+	 * @type {EventListenerOrEventListenerObject}
+	 */
+	private _onKeyDownListener: EventListenerOrEventListenerObject = {} as EventListenerOrEventListenerObject;
 
 	/**
 	 * @private
@@ -1728,6 +1821,12 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 					break;
 				case 'sendeventonblur':
 					this.sendEventOnBlur = this.attributeChangeHandler('sendeventonblur', oldValue, newValue);
+					break;
+				case 'sendeventonenterkey':
+					this.sendEventOnEnterKey = this.attributeChangeHandler('sendeventonenterkey', oldValue, newValue);
+					break;
+				case 'sendeventonesckey':
+					this.sendEventOnEscKey = this.attributeChangeHandler('sendeventonesckey', oldValue, newValue);
 					break;
 				default:
 					break;
@@ -1921,6 +2020,53 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 	}
 
+	public _onKeyDown(inEvent: KeyboardEvent): void {
+		this.info("<ch5-textinput />._onKeyDown()");
+		const isEnterDown = inEvent.keyCode === 13 || inEvent.code === 'Enter' || inEvent.key === 'Enter'
+		// code for esc is Escape or Esc on different browsers
+		const isEscDown = inEvent.keyCode === 27 || inEvent.code.includes('Esc') || inEvent.key.includes('Esc')
+
+		if (isEnterDown) {
+			const currentElement = inEvent.currentTarget as HTMLInputElement;
+
+			this._dirty = true;
+			this._clean = false;
+			this.dirtyValue = currentElement.value
+
+
+			if (!!this.sendEventOnEnterKey) {
+				const sigClick = Ch5SignalFactory
+					.getInstance()
+					.getBooleanSignal(this.sendEventOnEnterKey);
+
+				if (sigClick !== null) {
+					sigClick.publish(true);
+					sigClick.publish(false);
+				}
+			}
+		}
+
+		if (isEscDown) {
+			const currentElement = inEvent.currentTarget as HTMLInputElement;
+
+			this._dirty = true;
+			this._clean = false;
+			this.dirtyValue = currentElement.value
+
+
+			if (!!this.sendEventOnEscKey) {
+				const sigClick = Ch5SignalFactory
+					.getInstance()
+					.getBooleanSignal(this.sendEventOnEscKey);
+
+				if (sigClick !== null) {
+					sigClick.publish(true);
+					sigClick.publish(false);
+				}
+			}
+		}
+	}
+
 	/**
 	 * @param {Event} inEvent
 	 */
@@ -1976,7 +2122,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 			this.handleModifierClass('error', 'remove')
 		}
 	}
-	
+
 	/**
 	 * Add modifier classes to the component and input elements
 	 * 
@@ -1986,17 +2132,17 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * @memberof Ch5CommonInput
 	 * @return {void}
 	 */
-		protected handleModifierClass(className: string, action: string = 'add'): void {
-			const modifierClassName = this.primaryCssClass + '--' + className;
-			if (action === 'add') {
-				this.classList.add(modifierClassName);
-				this._elInput.classList.add(modifierClassName);
-			} else if (action === 'remove') {
-				this.classList.remove(modifierClassName);
-				this._elInput.classList.remove(modifierClassName);
-			}
+	protected handleModifierClass(className: string, action: string = 'add'): void {
+		const modifierClassName = this.primaryCssClass + '--' + className;
+		if (action === 'add') {
+			this.classList.add(modifierClassName);
+			this._elInput.classList.add(modifierClassName);
+		} else if (action === 'remove') {
+			this.classList.remove(modifierClassName);
+			this._elInput.classList.remove(modifierClassName);
 		}
-		
+	}
+
 	/**
 	 *
 	 * @param {Event} inEvent
@@ -2277,6 +2423,14 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 			this.sendEventOnBlur = this.getAttribute('sendeventonblur') as string;
 		}
 
+		if (this.hasAttribute('sendeventonenterkey')) {
+			this.sendEventOnEnterKey = this.getAttribute('sendeventonenterkey') as string;
+		}
+
+		if (this.hasAttribute('sendeventonesckey')) {
+			this.sendEventOnEscKey = this.getAttribute('sendeventonesckey') as string;
+		}
+
 		if (this.hasAttribute('receivestatefocus')) {
 			this.receiveStateFocus = this.getAttribute('receivestatefocus') as string;
 		}
@@ -2304,11 +2458,13 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 		this._onBlurListener = this._onBlur.bind(this);
 		this._onFocusListener = this._onFocus.bind(this);
 		this._onKeyPressListener = this._onKeyPress.bind(this);
+		this._onKeyDownListener = this._onKeyDown.bind(this) as unknown as EventListener;
 
 		this._elInput.addEventListener('keyup', this._onChangeListener);
 		this._elInput.addEventListener('focus', this._onFocusListener);
 		this._elInput.addEventListener('blur', this._onBlurListener);
 		this._elInput.addEventListener('input', this._onKeyPressListener);
+		this._elInput.addEventListener('keydown', this._onKeyDownListener);
 	}
 
 	/**
