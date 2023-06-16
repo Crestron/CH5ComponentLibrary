@@ -880,8 +880,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			};
 
 			this.setCleanValue(newValue);
-			this._tooltipValueFromSignal = newValue;
-			this._adjustTooltipValue(TCh5SliderHandle.VALUE);
 			this._wasRendered = false;
 			this._ch5Properties.setForSignalResponse<number>("value", newValue, () => {
 				// to handleValue 
@@ -891,6 +889,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			if (this._dirtyTimerHandle === null) {
 				if (this._wasRendered && animationDuration === 0) {
 					this._render();
+					this._tooltipValueFromSignal = newValue;
+					this._adjustTooltipValue(TCh5SliderHandle.VALUE);
 				} else {
 					this._setSliderValue(newValue, TCh5SliderHandle.VALUE, animationDuration);
 
@@ -975,8 +975,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			};
 
 			this._cleanValueHigh = newValue;
-			this._tooltipHighValueFromSignal = newValue;
-			this._adjustTooltipValue(TCh5SliderHandle.HIGHVALUE);
 			this._wasRendered = false;
 			this._ch5Properties.setForSignalResponse<number>("valueHigh", newValue, () => {
 				// handle highValue
@@ -985,6 +983,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			if (this._dirtyTimerHandleHigh === null) {
 				if (this._wasRendered && animationDuration === 0) {
 					this._render();
+					this._tooltipHighValueFromSignal = newValue;
+					this._adjustTooltipValue(TCh5SliderHandle.HIGHVALUE);
 				} else {
 					this._setSliderValue(newValue, TCh5SliderHandle.HIGHVALUE, animationDuration);
 				}
