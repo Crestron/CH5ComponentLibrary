@@ -16,11 +16,15 @@ import { Ch5RoleAttributeMapping } from "../utility-models";
 import { TCh5CommonInputFeedbackModes } from "../ch5-common-input/interfaces/t-ch5-common-input";
 import { ICh5TextInputAttributes, TCh5TextInputIconPosition, TCh5TextInputSize, TCh5TextInputStretch, TCh5TextInputTextTransform, TCh5TextInputType } from "./interfaces";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import { ICh5PropertySettings } from "../ch5-core/ch5-property";
+import { Ch5Properties } from "../ch5-core/ch5-properties";
 
 export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttributes {
 
 	constructor() {
 		super();
+
+		this._ch5Properties = new Ch5Properties(this, Ch5TextInput.COMPONENT_PROPERTIES);
 	}
 
 	/**
@@ -677,7 +681,42 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * @param {string} value
 	 */
 	public set sendEventOnEnterKey(value: string) {
+		this._ch5Properties.set("sendEventOnEnterKey", value, null, (newValue: boolean) => {
+			this.handleSendEventOnEnterKey(value);
+		});
+	}
 
+	/**
+	 * Getter for sendEventOnEnterKey
+	 *
+	 * @return {string}
+	 */
+	public get sendEventOnEnterKey(): string {
+		return this._ch5Properties.get<string>('sendEventOnEnterKey');
+	}
+
+	/**
+	 * Setter for sendEventOnEscKey
+	 *
+	 * @param {string} value
+	 */
+	public set sendEventOnEscKey(value: string) {
+		this._ch5Properties.set("sendEventOnEscKey", value, null, (newValue: boolean) => {
+			this.handleSendEventOnEscKey(value);
+		});
+	}
+
+	/**
+	 * Getter for sendEventOnEscKey
+	 *
+	 * @return {string}
+	 */
+	public get sendEventOnEscKey(): string {
+		return this._ch5Properties.get<string>('sendEventOnEscKey');
+	}
+
+	private handleSendEventOnEnterKey(value: string) {
+		// Enter your Code here
 		this.info('set <ch5-textinput sendEventOnEnterKey="' + value + '"');
 
 		if (this.sendEventOnEnterKey !== value) {
@@ -690,26 +729,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 		this._sendEventOnEnterKey = value;
 	}
-
-	/**
-	 * Getter for sendEventOnEnterKey
-	 *
-	 * @return {string}
-	 */
-	public get sendEventOnEnterKey(): string {
-
-		this.info('get <ch5-textinput sendEventOnEnterKey />');
-
-		return this._sendEventOnEnterKey;
-	}
-
-	/**
-	 * Setter for sendEventOnEscKey
-	 *
-	 * @param {string} value
-	 */
-	public set sendEventOnEscKey(value: string) {
-
+	private handleSendEventOnEscKey(value: string) {
 		this.info('set <ch5-textinput sendEventOnEscKey="' + value + '"');
 
 		if (this.sendEventOnEscKey !== value) {
@@ -721,18 +741,6 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 		}
 
 		this._sendEventOnEscKey = value;
-	}
-
-	/**
-	 * Getter for sendEventOnEscKey
-	 *
-	 * @return {string}
-	 */
-	public get sendEventOnEscKey(): string {
-
-		this.info('get <ch5-textinput sendEventOnEscKey />');
-
-		return this._sendEventOnEscKey;
 	}
 
 	/**
@@ -1136,6 +1144,35 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 		sendeventonenterkey: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventonesckey: { direction: "event", booleanJoin: 1, contractName: true },
 	};
+
+	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
+
+		{
+			default: "",
+			isSignal: true,
+			name: "sendEventOnEnterKey",
+			signalType: "boolean",
+			removeAttributeOnNull: true,
+			type: "string",
+
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "sendEventOnEscKey",
+			signalType: "boolean",
+			removeAttributeOnNull: true,
+			type: "string",
+
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+	];
+
+	private _ch5Properties: Ch5Properties;
+
 
 	/**
 	 * Contains the values of type attribute
@@ -1717,6 +1754,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 		this._receiveStateFocus = '';
 		this.clearStringSignalSubscription(this._receiveStateValue, this._receiveStateValueSub);
 		this._receiveStateValue = '';
+		this._ch5Properties.unsubscribe();
 	}
 	/**
 	 *
