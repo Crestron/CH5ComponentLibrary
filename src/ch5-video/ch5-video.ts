@@ -22,6 +22,7 @@ import { ICh5VideoBackground } from "./interfaces";
 import { Ch5Background } from "../ch5-background";
 import { Ch5VideoSnapshot } from "./ch5-video-snapshot";
 import { Ch5VideoTouchManager } from "./ch5-video-touch-manager";
+import { resizeObserver } from "../ch5-core/resize-observer";
 
 export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
@@ -586,7 +587,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   public set snapshotURL(value: string) {
     this._ch5Properties.set<string>("snapshotURL", value, () => {
-      // if (this.snapshotURL.trim() !== '') { this.maxVideoCount = 1 }
       this.validateAndAttachSnapshot();
     });
   }
@@ -984,9 +984,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       this._elContainer.classList.add(this.primaryCssClass);
       this.appendChild(this._elContainer);
     }
+    
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
+    resizeObserver(this._elContainer, this.resizeHandler);
     customElements.whenDefined('ch5-video').then(() => {
       this._initializeVideo();
       this.componentLoadedEvent(Ch5Video.ELEMENT_NAME, this.id);
@@ -1003,6 +1005,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.unsubscribeFromSignals();
     this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
     this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL, 'disconnect');
+    this.selectedVideo = 0;
+    this.maxVideoCount = 1;
     this.logger.stop();
   }
 
@@ -1726,10 +1730,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   // Function to handle touch start event
   private touchBeginHandler() {
-      const boundedRect = this.getBoundingClientRect();
-      this.touchCoordinates.startX = boundedRect.left;
-      this.touchCoordinates.startY = boundedRect.top;
-      this.isTouchInProgress = false;
+    const boundedRect = this.getBoundingClientRect();
+    this.touchCoordinates.startX = boundedRect.left;
+    this.touchCoordinates.startY = boundedRect.top;
+    this.isTouchInProgress = false;
   }
 
   // Function to check if the touch swipe has stopped and video finally is a static position
@@ -1786,6 +1790,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
   }
 
+  private resizeHandler = () => {
+    this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.RESIZE);
+  }
   private handleOrientation = () => {
     if (this.isFullScreen === true) {
       this.orientationChanged = true;
