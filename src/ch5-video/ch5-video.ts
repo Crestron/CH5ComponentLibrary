@@ -22,7 +22,6 @@ import { ICh5VideoBackground } from "./interfaces";
 import { Ch5Background } from "../ch5-background";
 import { Ch5VideoSnapshot } from "./ch5-video-snapshot";
 import { Ch5VideoTouchManager } from "./ch5-video-touch-manager";
-import { resizeObserver } from "../ch5-core/resize-observer";
 import _ from "lodash";
 
 export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
@@ -477,6 +476,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   private isVideoPublished = false;
   private controlTimer: any;
   private snapshotImage = new Ch5VideoSnapshot();
+  private videoErrorMessages = new Map<number, string>();
   private maxVideoCount = 1;
   private selectedVideo = 0;
   private retryCount = 0;
@@ -903,7 +903,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   public constructor() {
     super();
-    this.ignoreAttributes = ['disabled', 'receiveStateEnable', 'show', 'receiveStateShow'];
+    this.ignoreAttributes = ['show', 'receiveStateShow'];
     this.logger.start('constructor()', Ch5Video.ELEMENT_NAME);
     if (!this._wasInstatiated) {
       this.createInternalHtml();
@@ -911,6 +911,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this._wasInstatiated = true;
     this._ch5Properties = new Ch5Properties(this, Ch5Video.COMPONENT_PROPERTIES);
     this.updateCssClass();
+    this.setErrorMessages();
     this.handleMultiVideo();
     subscribeState('o', 'Csig.video.response', this._videoResponse.bind(this), this._errorResponse.bind(this));
   }
@@ -948,20 +949,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   public connectedCallback() {
     this.logger.start('connectedCallback()', Ch5Video.ELEMENT_NAME);
     // WAI-ARIA Attributes
-    if (!this.hasAttribute('role')) {
-      this.setAttribute('role', Ch5RoleAttributeMapping.ch5Video);
-    }
-    if (this._elContainer.parentElement !== this) {
-      this._elContainer.classList.add(this.primaryCssClass);
-      this.appendChild(this._elContainer);
-    }
+    if (!this.hasAttribute('role')) { this.setAttribute('role', Ch5RoleAttributeMapping.ch5Video); }
+    if (this._elContainer.parentElement !== this) { this.appendChild(this._elContainer); }
 
     this.ch5UId = parseInt(this.getCrId().split('cr-id-')[1], 0);
     this.setAttribute('data-ch5-id', this.getCrId());
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
-    resizeObserver(this._elContainer, this.resizeHandler);
     customElements.whenDefined('ch5-video').then(() => {
       this.componentLoadedEvent(Ch5Video.ELEMENT_NAME, this.getCrId());
       this.lastRequestStatus = CH5VideoUtils.VIDEO_ACTION.EMPTY;
@@ -990,6 +985,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
     this._elContainer = document.createElement('div');
+    this._elContainer.classList.add(this.primaryCssClass);
 
     // Create full screen icon on top right corner of the container
     this._fullScreenIcon = document.createElement("a");
@@ -1018,14 +1014,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   protected attachEventListeners() {
     super.attachEventListeners();
-    this.addEventListener('click', this._manageControls.bind(this));
+    this._elContainer.addEventListener('click', this._manageControls.bind(this));
     this._fullScreenIcon.addEventListener('click', this.toggleFullScreen.bind(this));
     window.addEventListener('resize', this.handleOrientation);
   }
 
   protected removeEventListeners() {
     super.removeEventListeners();
-    this.removeEventListener('click', this._manageControls.bind(this));
+    this._elContainer.removeEventListener('click', this._manageControls.bind(this));
     this._fullScreenIcon.removeEventListener('click', this.toggleFullScreen.bind(this));
     window.removeEventListener('resize', this.handleOrientation);
   }
@@ -1373,6 +1369,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       case 'error':
         this.ch5BackgroundRequest('error');
         this.sendEvent(this.sendEventState, 7);
+        this.sendEvent(this.sendEventErrorCode, Number(this.responseObj.statusCode));
+        this.sendEvent(this.sendEventErrorMessage, this.videoErrorMessages.get(Number(this.responseObj.statusCode)) || 'Unknown Error Message')
         break;
       case 'connecting':
         this.sendEvent(this.sendEventState, 4);
@@ -1504,7 +1502,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.sendEvent(this.sendEventOnClick, true)
     // If ch5-video is in full screen mode then exit from the full screen
     if (this.isFullScreen) {
-      this.removeEventListener('touchmove', this.handleTouchEventOnFullScreen, false);
+      this._elContainer.removeEventListener('touchmove', this.handleTouchEventOnFullScreen, false);
       this._exitFullScreen();
       return;
     }
@@ -1520,11 +1518,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   private toggleFullScreen(event: Event) {
-    this.info('Ch5Video.enterFullScreen()');
     this.isFullScreen = true;
     this.orientationChanged = false;
     // To avoid swiping on the full screen
-    this.addEventListener('touchmove', this.handleTouchEventOnFullScreen, { passive: true });
+    this._elContainer.addEventListener('touchmove', this.handleTouchEventOnFullScreen, { passive: true });
     this.classList.add('full-screen');
     this._fullScreenIcon.classList.add('hide');
     document.body.classList.add('ch5-video-fullscreen');
@@ -1546,6 +1543,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       this.videoIntersectionObserver();
     } else {
       this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.RESIZE);
+      this.lastResponseStatus = "started";
     }
   }
 
@@ -1646,10 +1644,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
   }
 
-  private resizeHandler = () => {
-    this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.RESIZE);
-  }
-
   public getParentBackground(): Ch5Background {
     const getTheMatchingParent = (node: HTMLElement): Ch5Background => {
       if (node && node.classList.contains('ch5-background--parent')) {
@@ -1670,6 +1664,26 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(CH5VideoUtils.VIDEO_ACTION.STOP, this.ch5UId));
       this.videoIntersectionObserver();
     }
+  }
+
+  private setErrorMessages() {
+    this.videoErrorMessages.set(1, "Miscellaneous transient issue");
+    this.videoErrorMessages.set(2, "Connection timeout");
+    this.videoErrorMessages.set(3, "No input sync");
+    this.videoErrorMessages.set(-1, "Miscellaneous error");
+    this.videoErrorMessages.set(-2, "Hostname could not be resolved");
+    this.videoErrorMessages.set(-3, "Unsupported source type for this platform");
+    this.videoErrorMessages.set(-4, "Connection timeout");
+    this.videoErrorMessages.set(-5, "Invalid credentials");
+    this.videoErrorMessages.set(-6, "Unsupported streaming protocol");
+    this.videoErrorMessages.set(-7, "Unsupported codec");
+    this.videoErrorMessages.set(-1001, "Credentials required");
+    this.videoErrorMessages.set(-1002, "Hostname invalid");
+    this.videoErrorMessages.set(-1003, "Unsupported codec");
+    this.videoErrorMessages.set(-9001, "Unsupported source type");
+    this.videoErrorMessages.set(-9002, "Invalid URL");
+    this.videoErrorMessages.set(-9003, "Request for greater than maximum simultaneous sessions per source type");
+    this.videoErrorMessages.set(-9004, "Request for greater than maximum simultaneous sessions per device");
   }
   // #endregion
 
