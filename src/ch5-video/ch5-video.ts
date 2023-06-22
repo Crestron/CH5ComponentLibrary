@@ -957,12 +957,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     this.ch5UId = parseInt(this.getCrId().split('cr-id-')[1], 0);
+    this.setAttribute('data-ch5-id', this.getCrId());
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
     resizeObserver(this._elContainer, this.resizeHandler);
     customElements.whenDefined('ch5-video').then(() => {
-      this.componentLoadedEvent(Ch5Video.ELEMENT_NAME, this.id);
+      this.componentLoadedEvent(Ch5Video.ELEMENT_NAME, this.getCrId());
       this.lastRequestStatus = CH5VideoUtils.VIDEO_ACTION.EMPTY;
       this.isVideoReady = false;
     });
