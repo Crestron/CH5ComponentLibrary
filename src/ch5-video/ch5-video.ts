@@ -537,6 +537,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   public set url(value: string) {
     this._ch5Properties.set<string>("url", value, () => {
+      this.sendEvent(this.sendEventSelectionURL, this.url);
       this.handleReceiveStateURL();
     });
   }
@@ -546,6 +547,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   public set sourceType(value: TCh5VideoSourceType) {
     this._ch5Properties.set<TCh5VideoSourceType>("sourceType", value, () => {
+      this.sendEvent(this.sendEventSelectionSourceType, this.sourceType);
       this.handleReceiveStateURL();
     });
   }
@@ -573,6 +575,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   public set snapshotURL(value: string) {
     this._ch5Properties.set<string>("snapshotURL", value, () => {
+      this.sendEvent(this.sendEventSnapshotURL, this.snapshotURL);
       this.validateAndAttachSnapshot();
     });
   }
@@ -1079,6 +1082,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.playValue = value;
     if (this.playValue === false) {
       this.snapshotImage.stopLoadingSnapshot();
+      this.sendEvent(this.sendEventSnapshotStatus, 0);
       return this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
     }
     this.videoIntersectionObserver();
@@ -1102,6 +1106,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       if (this.url === '') {
         this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
         this.snapshotImage.stopLoadingSnapshot();
+        this.sendEvent(this.sendEventSnapshotStatus, 0);
       } else {
         this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.START);
       }
@@ -1160,6 +1165,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   private videoInViewPort() {
+    this.snapshotImage.startLoadingSnapshot();
     clearTimeout(this.isSwipeDebounce);
     this.isSwipeDebounce = setTimeout(() => {
       this.calculation();
@@ -1192,6 +1198,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       "action": actionType,
       "id": uId
     };
+    console.log("stop request", retObj);
     this.sendEvent(this.sendEventState, 3);
     // this.logger.log(JSON.stringify(retObj));
     return retObj;
@@ -1239,6 +1246,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       timing: "linear" // only linear supported initially
     };
 
+    console.log("start request", retObj);
     return retObj;
   }
 
@@ -1254,6 +1262,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
     // Invalid URL scenario, validation error                
     if (!this.validateVideoUrl(this.url)) {
+      this.sendEvent(this.sendEventErrorMessage, 'Invalid URL');
+      this.sendEvent(this.sendEventErrorCode, -9002);
       this.lastResponseStatus = CH5VideoUtils.VIDEO_ACTION.ERROR;
       this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.ERROR);
       return;
@@ -1278,6 +1288,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   private _publishVideoEvent(actionType: string) {
     // this.responseObj = {} as TVideoResponse; // TODO
     this.isAlphaBlend = !this.isFullScreen;
+    this.calculation();
     this.sendEvent(this.sendEventResolution, this.sizeObj.width + "x" + this.sizeObj.height + "@24fps");
     this._clearOldResponseData(); // reset old response, required to check whether the second response is same.
     switch (actionType) {
@@ -1430,6 +1441,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       case CH5VideoUtils.VIDEO_ACTION.STARTED:
         this.resetVideoElement();
         this.snapshotImage.stopLoadingSnapshot();
+        this.sendEvent(this.sendEventSnapshotStatus, 0);
         this.ch5BackgroundAction(CH5VideoUtils.VIDEO_ACTION.STARTED);
         break;
       case CH5VideoUtils.VIDEO_ACTION.STOP:
@@ -1440,6 +1452,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this._elContainer.style.background = '#000';
         if (nodeList.length > 1) { this._elContainer.childNodes[1].remove(); }
         this._elContainer.style.borderBottom = '1rem solid #CF142B'; // Red color
+        this.sendEvent(this.sendEventErrorCode, Number(this.responseObj.statusCode));
         break;
       default:
         // Nothing here as of now
@@ -1629,7 +1642,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       this.snapshotImage.sendEventSnapshotStatus = this.sendEventSnapshotStatus;
       this.snapshotImage.sendEventSnapshotLastUpdateTime = this.sendEventSnapshotLastUpdateTime;
       if (this.lastResponseStatus !== CH5VideoUtils.VIDEO_ACTION.STARTED) {
-        this.snapshotImage.startLoadingSnapshot();
         if (this.snapshotImage.getImage().isConnected === false) {
           this._elContainer.appendChild(this.snapshotImage.getImage());
         }
@@ -1639,8 +1651,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
     if (this.url === '') {
       this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.NOURL);
-    } else if (this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.ERROR) {
-      this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.ERROR);
     }
   }
 

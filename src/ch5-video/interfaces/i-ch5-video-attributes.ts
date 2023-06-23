@@ -31,7 +31,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * "`aspectRatio` attribute",
 	 * "***",
 	 * "Sets the ratio of width to height of the video. Width and height of the component to be controlled by css style classes.",
-	 * "Values are '16:9' (default), '4:3', and custom. When size of container is not match the aspect ratio, the full height or the full width should be used and the dimension that is not full should be centered.",
+	 * "Values are '16:9' (default), '4:3'. When size of container is not match the aspect ratio, the full height or the full width should be used and the dimension that is not full should be centered.",
 	 * "In other words, use letterbox or pillarbox logic to place the video component view. Note: this attribute only defines the size of the component within the project, it does not define the size of video displayed within the component."
 	 * ]
 	 * @name aspectratio
