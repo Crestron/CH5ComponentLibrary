@@ -5,13 +5,13 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5CommonAttributesVideo } from "../../ch5-common/interfaces/i-ch5-common-attributes-video";
+import { ICh5CommonAttributes } from "../../ch5-common/interfaces/i-ch5-common-attributes";
 import { TCh5VideoAspectRatio, TCh5VideoSourceType, TCh5VideoSize, } from './t-ch5-video';
 
 /**
  * @ignore
  */
-export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
+export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	/**
 	 * @documentation
 	 * [
@@ -31,7 +31,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	 * "`aspectRatio` attribute",
 	 * "***",
 	 * "Sets the ratio of width to height of the video. Width and height of the component to be controlled by css style classes.",
-	 * "Values are '16:9' (default), '4:3', and custom. When size of container is not match the aspect ratio, the full height or the full width should be used and the dimension that is not full should be centered.",
+	 * "Values are '16:9' (default), '4:3'. When size of container is not match the aspect ratio, the full height or the full width should be used and the dimension that is not full should be centered.",
 	 * "In other words, use letterbox or pillarbox logic to place the video component view. Note: this attribute only defines the size of the component within the project, it does not define the size of video displayed within the component."
 	 * ]
 	 * @name aspectratio
@@ -170,20 +170,6 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	 * @attributeType "EnumeratedValue"
 	 */
 	size: TCh5VideoSize;
-
-	/**
-	 * @documentation
-	 * [
-	 * "`zindex` attribute",
-	 * "***",
-	 * "Default 0. To overlap one video with the other, useful to create PIP (picture-in-picture). Not supported on Day 1 Release."
-	 * ]
-	 * @name zindex
-	 * @default 0
-	 * @limits [{"min": 0, "max": 999}]
-	 * @attributeType "Integer"
-	 */
-	zindex: number;
 
 	/**
 	 * @documentation
@@ -336,7 +322,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	 * "send a signal on click or tap event (mouse or finger up and down in a small period of time)"
 	 * ]
 	 * @name sendeventonclick
-	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+	 * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
 	 * @attributeType "Join"
 	 */
 	sendEventOnClick: string;
@@ -349,7 +335,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	 * "send signal on source selection change"
 	 * ]
 	 * @name sendeventselectionchange
-	 * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+	 * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
 	 * @attributeType "Join"
 	 */
 	sendEventSelectionChange: string;
@@ -362,7 +348,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	 * "current selected source type"
 	 * ]
 	 * @name sendeventselectionsourcetype
-	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
 	 * @attributeType "Join"
 	 */
 	sendEventSelectionSourceType: string;
@@ -375,7 +361,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	 * "current selected video URL"
 	 * ]
 	 * @name sendeventselectionurl
-	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
 	 * @attributeType "Join"
 	 */
 	sendEventSelectionURL: string;
@@ -388,7 +374,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	 * "current selected snapshot URL"
 	 * ]
 	 * @name sendeventsnapshoturl
-	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
 	 * @attributeType "Join"
 	 */
 	sendEventSnapshotURL: string;
@@ -401,7 +387,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	 * "current state of the video stream numeric enumeration 0 - no selected source or uninitialized 1 - stopped 2 - playing 3 - stop requested 4 - play requested, connecting 5 - play requested, buffering 6 - play requested, retrying 7 - play requested, error"
 	 * ]
 	 * @name sendeventstate
-	 * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+	 * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
 	 * @attributeType "Join"
 	 */
 	sendEventState: string;
@@ -414,7 +400,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	 * "current state video error code numeric enumeration, applicable only when state of video is error 0 - no error transient issues (retry is appropriate) > 0 1 - miscellaneous transient issue (error not known or none of the below) 2 - connection timeout (network issues, camera offline, etc) 3 - No input sync (HDMI not plugged in, DM not streaming) setup and system issues (retry is not appropriate) < 0 -1 - miscellaneous error (error not known or none of below) -2 - host name could not be resolved -3 - unsupported source type for this platform -4 - connection timeout -5 - invalid credentials -6 - unsupported streaming protocol -7 - unsupported codec"
 	 * ]
 	 * @name sendeventerrorcode
-	 * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+	 * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
 	 * @attributeType "Join"
 	 */
 	sendEventErrorCode: string;
@@ -427,7 +413,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	 * "current state video error message string - diagnostic information on error as propagated from the video rendering engine. Not intended for end user to see"
 	 * ]
 	 * @name sendeventerrormessage
-	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
 	 * @attributeType "Join"
 	 */
 	sendEventErrorMessage: string;
@@ -440,7 +426,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	 * "current state video  retry count numeric - the count of times the video engine has retried to stream the current video source"
 	 * ]
 	 * @name sendeventretrycount
-	 * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+	 * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
 	 * @attributeType "Join"
 	 */
 	sendEventRetryCount: string;
@@ -453,7 +439,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	 * "current video resolution string."
 	 * ]
 	 * @name sendeventresolution
-	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
 	 * @attributeType "Join"
 	 */
 	sendEventResolution: string;
@@ -466,7 +452,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	 * "current state of the still image associated with the current source selection numeric - 0 not shown, 1 -currently shown, 2 - in error"
 	 * ]
 	 * @name sendeventsnapshotstatus
-	 * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+	 * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
 	 * @attributeType "Join"
 	 */
 	sendEventSnapshotStatus: string;
@@ -479,7 +465,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	 * "the timestamp of  the last update time of the still image associated with the current source selection string - serial in RFC 3339 format"
 	 * ]
 	 * @name sendeventsnapshotlastupdatetime
-	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
 	 * @attributeType "Join"
 	 */
 	sendEventSnapshotLastUpdateTime: string;

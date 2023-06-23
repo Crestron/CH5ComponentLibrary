@@ -15,7 +15,7 @@ export class Ch5VideoSnapshot {
 	public userId: string = '';
 	public password: string = '';
 	public refreshRate: number = 5;
-	private snapshotTimer: any;
+	private snapshotTimer: number | null = null;
 	private videoImage = new Image();
 	public sendEventSnapshotStatus: string = '';
 	public sendEventSnapshotLastUpdateTime: string = '';
@@ -34,19 +34,21 @@ export class Ch5VideoSnapshot {
 			this.processUri();
 		}
 		if (!!this.snapshotTimer) {
-			clearInterval(this.snapshotTimer);
+			window.clearInterval(this.snapshotTimer as number);
+			this.snapshotTimer = null
 		}
 		this.setSnapshot();
 		this.videoImage.classList.remove('hide');
 		if (this.refreshRate !== 0) {
 			this.snapshotTimer = window.setInterval(() => {
-				this.setSnapshot();
+				if (this.snapshotTimer) { this.setSnapshot(); }
 			}, 1000 * this.refreshRate, 0);
 		}
 	}
 
 	public stopLoadingSnapshot() {
-		clearInterval(this.snapshotTimer);
+		window.clearInterval(this.snapshotTimer as number);
+		this.snapshotTimer = null;
 		this.videoImage.classList.add('hide');
 	}
 
