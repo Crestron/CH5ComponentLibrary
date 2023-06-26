@@ -2184,8 +2184,14 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			}
 		}
 		// in our case is bottom to top so we need to change it to 'rtl'
-		const verticalDirection = this.dir === 'rtl' ? 'ltr' : 'rtl';
-		const direction = (this.orientation) === 'vertical' ? verticalDirection : this.dir;
+		const verticalDirection = (this.dir === 'rtl') ? 'ltr' : 'rtl';
+		let direction = (this.orientation === 'vertical') ? verticalDirection : this.dir;
+
+		// console.log("New direction is ", direction, verticalDirection);
+		if (_.isNil(direction) || direction === "") {
+			// This is defensive code for CCIDE purpose only and should not be removed.
+			direction = "ltr";
+		}
 
 		// The connect option can be used to control the bar between the handles or the edges of the slider.
 		const connect = this._connectDisplayFormatter();
