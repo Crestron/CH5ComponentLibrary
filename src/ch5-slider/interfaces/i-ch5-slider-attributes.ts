@@ -338,7 +338,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * "Sends a signal value on slider change."
     * ]
     * @name sendeventonchange
-    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+    * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
     * @attributeType "Join"
     */
    sendEventOnChange: string;
@@ -351,7 +351,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * "If the range slider is set to true, sends a signal value high on the slider change."
     * ]
     * @name sendeventonchangehigh
-    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+    * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
     * @attributeType "Join"
     */
    sendEventOnChangeHigh: string;
@@ -388,7 +388,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * "Digital join to send a value to the control system if the user presses the top 3/4 half(vertical) or right 3/4 half(horizontal) of the slider."
     * ]
     * @name sendeventonupper
-    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
     * @attributeType "Join"
     */
    sendEventOnUpper: string;
@@ -400,7 +400,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
     * "Digital join to send a value to the control system if the user presses the bottom 1/4 half(vertical) or left 1/4 half(horizontal) of the slider."
     * ]
     * @name sendeventonlower
-    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
     * @attributeType "Join"
     */
    sendEventOnLower: string;
