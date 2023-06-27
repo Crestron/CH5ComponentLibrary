@@ -4,6 +4,7 @@ import { Ch5Slider } from ".";
 import { Ch5Label } from "../ch5-label";
 import _ from "lodash";
 import { Ch5SignalAttributeRegistry } from '../ch5-common/ch5-signal-attribute-registry';
+import { Ch5Common } from '../ch5-common/ch5-common';
 
 export class Ch5SliderTitleLabel extends Ch5Label implements ICh5SliderTitleLabelAttributes {
 
@@ -36,7 +37,7 @@ export class Ch5SliderTitleLabel extends Ch5Label implements ICh5SliderTitleLabe
 	}
 
 	public static get observedAttributes(): string[] {
-		const inheritedObsAttrs = super.observedAttributes;
+		const inheritedObsAttrs = Ch5Label.observedAttributes;
 		const newObsAttrs: string[] = [];
 		for (let i: number = 0; i < Ch5SliderTitleLabel.COMPONENT_PROPERTIES.length; i++) {
 			if (Ch5SliderTitleLabel.COMPONENT_PROPERTIES[i].isObservableProperty === true) {

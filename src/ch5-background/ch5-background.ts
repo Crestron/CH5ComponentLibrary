@@ -570,7 +570,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @returns {boolean} return true or false
 	 */
 	private isInViewport(elId: string): boolean {
-		const el: any = document.getElementById(elId);
+		const el: any = document.querySelector(`[data-ch5-id="${elId}"]`);
 		if (el) {
 			const rect = el.getBoundingClientRect();
 			return (
