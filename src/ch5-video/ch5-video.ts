@@ -1380,8 +1380,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       case 'error':
         this.ch5BackgroundRequest('error');
         this.sendEvent(this.sendEventState, 7);
-        this.sendEvent(this.sendEventErrorCode, Number(this.responseObj.statusCode));
-        this.sendEvent(this.sendEventErrorMessage, this.videoErrorMessages.get(Number(this.responseObj.statusCode)) || 'Unknown Error Message')
+        this.sendEvent(this.sendEventErrorCode, Number(this.responseObj.statuscode));
+        this.sendEvent(this.sendEventErrorMessage, this.videoErrorMessages.get(Number(this.responseObj.statuscode)) || 'Unknown Error Message')
         break;
       case 'connecting':
         this.sendEvent(this.sendEventState, 4);
@@ -1452,7 +1452,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this._elContainer.style.background = '#000';
         if (nodeList.length > 1) { this._elContainer.childNodes[1].remove(); }
         this._elContainer.style.borderBottom = '1rem solid #CF142B'; // Red color
-        this.sendEvent(this.sendEventErrorCode, Number(this.responseObj.statusCode));
+        this.sendEvent(this.sendEventErrorCode, Number(this.responseObj.statuscode));
         break;
       default:
         // Nothing here as of now
