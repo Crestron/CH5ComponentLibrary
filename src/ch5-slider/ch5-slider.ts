@@ -50,11 +50,11 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
 		receivestatevaluehigh: { direction: "state", numericJoin: 1, contractName: true },
 		receivestateshowonoffonly: { direction: "state", booleanJoin: 1, contractName: true },
-		sendeventonupper: { direction: "state", booleanJoin: 1, contractName: true },
+		sendeventonupper: { direction: "event", booleanJoin: 1, contractName: true },
 		receivestateupper: { direction: "state", booleanJoin: 1, contractName: true },
-		sendeventonlower: { direction: "state", booleanJoin: 1, contractName: true },
+		sendeventonlower: { direction: "event", booleanJoin: 1, contractName: true },
 		receivestatelower: { direction: "state", booleanJoin: 1, contractName: true },
-		sendeventonhandleclick: { direction: "state", booleanJoin: 1, contractName: true }
+		sendeventonhandleclick: { direction: "event", booleanJoin: 1, contractName: true }
 	};
 
 	public static readonly MIN_VALUE: number = 0;
@@ -2184,8 +2184,14 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			}
 		}
 		// in our case is bottom to top so we need to change it to 'rtl'
-		const verticalDirection = this.dir === 'rtl' ? 'ltr' : 'rtl';
-		const direction = (this.orientation) === 'vertical' ? verticalDirection : this.dir;
+		const verticalDirection = (this.dir === 'rtl') ? 'ltr' : 'rtl';
+		let direction = (this.orientation === 'vertical') ? verticalDirection : this.dir;
+
+		// console.log("New direction is ", direction, verticalDirection);
+		if (_.isNil(direction) || direction === "") {
+			// This is defensive code for CCIDE purpose only and should not be removed.
+			direction = "ltr";
+		}
 
 		// The connect option can be used to control the bar between the handles or the edges of the slider.
 		const connect = this._connectDisplayFormatter();

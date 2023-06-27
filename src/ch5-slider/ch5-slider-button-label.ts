@@ -4,6 +4,7 @@ import { Ch5Label } from "../ch5-label";
 import _ from "lodash";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SliderButton } from "./ch5-slider-button";
+import { Ch5Common } from '../ch5-common/ch5-common';
 
 export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLabelAttributes {
 
@@ -41,7 +42,7 @@ export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLa
 	}
 
 	public static get observedAttributes(): string[] {
-		const inheritedObsAttrs = super.observedAttributes;
+		const inheritedObsAttrs = Ch5Label.observedAttributes;
 		const newObsAttrs: string[] = [];
 		for (let i: number = 0; i < Ch5SliderButtonLabel.COMPONENT_PROPERTIES.length; i++) {
 			if (Ch5SliderButtonLabel.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
