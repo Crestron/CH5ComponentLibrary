@@ -1502,7 +1502,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
 		}
-		resizeObserver(this.parentElement as HTMLElement, this.onWindowResizeHandler.bind(this));
+		if (this.stretch) {
+			resizeObserver(this.parentElement as HTMLElement, this.onWindowResizeHandler.bind(this));
+		}
 	}
 
 	/**
