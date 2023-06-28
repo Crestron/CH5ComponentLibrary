@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-video-aspectRatio-attributes">
+    <template>
+      <ch5-video></ch5-video>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-video-aspectRatio-attributes-value', () => {
+      let ch5Video;
+
+      setup(async () => {
+        ch5Video = fixture('ch5-video-aspectRatio-attributes');
+      });
+
+      let testCases = ['a', '', ' ', 'number', '16:9', '4:3'];
+      let expectedResult = ['16:9', '16:9', '16:9', '16:9', '16:9', '4:3'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "aspectRatio"', () => {
+          ch5Video.setAttribute('aspectRatio', ele);
+          expect(ch5Video.getAttribute('aspectRatio')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+    });
+  </script>
+</body>
+
+</html>
