@@ -44,7 +44,6 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	private debounceCreateBtn = this.debounce(() => {
 		this.setButtonDisplay();
 		this.updateInternalHtml();
-		console.log("shape", this.shape);
 	}, 50);
 
 	//#endregion
