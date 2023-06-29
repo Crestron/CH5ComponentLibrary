@@ -43,12 +43,12 @@
         });
 
         test('Default tooltipShowType has class name: "ch5-slider--tooltip--off"', function() {
-            expect(ch5Slider.className).to.contain('ch5-slider--tooltip--off');
+            expect(ch5Slider.firstElementChild.className).to.contain('ch5-slider--tooltip--off');
         });
 
         // this will test if noUiSlider was rendered with current setup
         test('Default tooltipShowType: "off" rendered noUiSlider', function() {
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
 
         const availabletooltipShowTypes = ['off', 'on', 'auto']
@@ -62,12 +62,12 @@
 
             test(`tooltipShowType: "${tooltipShowTypeName}" has class name: "ch5-slider--tooltip--${tooltipShowTypeName}"`, function() {
                 ch5Slider.setAttribute('tooltipShowType',tooltipShowTypeName);
-                expect(ch5Slider.className).to.contain('ch5-slider--tooltip--' + tooltipShowTypeName);
+                expect(ch5Slider.firstElementChild.className).to.contain('ch5-slider--tooltip--' + tooltipShowTypeName);
             });
 
             // this will test if noUiSlider was rendered with current setup
             test(`tooltipShowType: "${tooltipShowTypeName}" rendered noUiSlider`, function() {
-                expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+                expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
             });
         });
     });
@@ -92,7 +92,7 @@
         // this will test if noUiSlider was rendered with current setup
         test('Invalid tooltipShowType rendered noUiSlider with default "off"', function() {
             expect(ch5Slider.toolTipShowType).to.be.equal('off');
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
     })
 </script>

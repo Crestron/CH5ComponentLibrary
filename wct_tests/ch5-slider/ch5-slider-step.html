@@ -46,7 +46,7 @@
         // this will test if noUiSlider was rendered with current setup
         test('Default step "1" rendered noUiSlider', function() {
             expect(ch5Slider.step).to.be.equal(1);
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
 
         test('step "25"', function() {
@@ -57,7 +57,7 @@
         // this will test if noUiSlider was rendered with current setup
         test('step "25" rendered noUiSlider', function() {
             ch5Slider.setAttribute('step', 25);
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
     });
 
@@ -81,19 +81,19 @@
         // this will test if noUiSlider was rendered with current setup
         test('Invalid step rendered noUiSlider with default "1"', function() {
             expect(ch5Slider.step).to.be.equal(1);
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
 
         test('invalid step "2000000" should be switched to default "1"', function() {
             ch5Slider.setAttribute('step', 2000000);
-            expect(ch5Slider.step).to.be.equal(1);
+            expect(ch5Slider.step).to.be.equal(65535);
         });
 
         // this will test if noUiSlider was rendered with current setup
         test('invalid step "2000000" rendered noUiSlider with default "1"', function() {
             ch5Slider.setAttribute('step', 2000000);
-            expect(ch5Slider.step).to.be.equal(1);
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider.step).to.be.equal(65535);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
     })
 

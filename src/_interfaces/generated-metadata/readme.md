@@ -3,4 +3,4 @@
 </p>
  
 # Extension schema generation folder
-This folder contains the generated schema out of the library code.
+This folder contains the generated schema and other json output files from the library and theme code.

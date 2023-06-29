@@ -1,0 +1,17 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_event_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "s",
+          "logic": "set",
+          "value": "Advance"
+        }
+      ]
+    }
+  ]
+}

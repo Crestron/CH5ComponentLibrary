@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+  <test-fixture id="ch5-modal-dialog-label">
+    <template>
+      <ch5-modal-dialog>
+        <h1>Modal</h1>
+      </ch5-modal-dialog>
+    </template>
+  </test-fixture>
+
+
+  <script>
+    suite('ch5-modal-dialog-stretch-attribute', () => {
+
+      setup(async () => {
+        ch5ModalDialog = fixture('ch5-modal-dialog-stretch');
+      });
+
+      test('Check default value of "stretch" to be null', () => {
+        expect(ch5ModalDialog.stretch).to.be.equal(null);
+        expect(ch5ModalDialog.getAttribute("stretch")).to.be.equal(null);
+      });
+
+      test('Check if stretch is being assigned to "height" and the modal dialog is stretched to height', (done) => {
+        ch5ModalDialog.setAttribute("stretch", "height");
+        expect(ch5ModalDialog.getAttribute("stretch")).to.be.equal("height");
+        expect(ch5ModalDialog.stretch).to.be.equal("height");
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ModalDialog.children[0].classList.contains("ch5-modal-dialog--stretch-height")).to.be.equal(true);
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check if stretch is being assigned to "width" and the modal dialog is stretched to width', (done) => {
+        ch5ModalDialog.setAttribute("stretch", "width");
+        expect(ch5ModalDialog.getAttribute("stretch")).to.be.equal("width");
+        expect(ch5ModalDialog.stretch).to.be.equal("width");
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ModalDialog.children[0].classList.contains("ch5-modal-dialog--stretch-width")).to.be.equal(true);
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check if stretch is being assigned to "both" and the modal dialog is stretched to both sides', (done) => {
+        ch5ModalDialog.setAttribute("stretch", "both");
+        expect(ch5ModalDialog.getAttribute("stretch")).to.be.equal("both");
+        expect(ch5ModalDialog.stretch).to.be.equal("both");
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ModalDialog.children[0].classList.contains("ch5-modal-dialog--stretch-both")).to.be.equal(true);
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

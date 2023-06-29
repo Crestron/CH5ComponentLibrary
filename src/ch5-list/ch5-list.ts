@@ -2125,6 +2125,40 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 		return true;
 	}
 
+	/**
+	 * Invoke an incompatibility warning when an attribute cannot work as
+	 * expected because of the component definition.
+	 *
+	 * A good example in this case is `pagedSwipe` attribute which cannot work
+	 * properly when the list size doesn't correspond to at least two pages.
+	 *
+	 * @param {string} attribute the attribute name to invoke incompatibility
+	 */
+	protected invokePropIncompatibility(attribute: string): void {
+		switch (attribute) {
+			case 'pagedSwipe':
+				console.warn(this.definePropIncompatibilityInfo(
+					attribute,
+					[
+						'size',
+						'endless'
+					]
+				));
+				break;
+		}
+	}
+
+	/**
+	 * Defines the information to be logged on
+	 *
+	 * @param {string} attribute
+	 * @param {string[]} reasons
+	 */
+	private definePropIncompatibilityInfo(attribute: string, reasons: string[]): string {
+		const reasonsList = reasons.join(',');
+		return `For element #${this.id} - ${attribute} doesn't work as expected. See(${reasonsList})`;
+	}
+
 	private _getCssBiggestSizeValue(maxSize: string, actualValue: number): number {
 		let s: number = actualValue;
 		if (maxSize) {

@@ -1,514 +1,473 @@
-// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+// Copyright (C) 2022 to the present, Crestron Electronics, Inc.
 // All rights reserved.
 // No part of this software may be reproduced in any form, machine
 // or natural, without the express written consent of Crestron Electronics.
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5CommonAttributes } from '../../ch5-common/interfaces';
-import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceType } from './types';
+import { ICh5CommonAttributes } from "../../ch5-common/interfaces/i-ch5-common-attributes";
+import { TCh5VideoAspectRatio, TCh5VideoSourceType, TCh5VideoSize, } from './t-ch5-video';
 
 /**
  * @ignore
  */
- export interface ICh5VideoAttributes extends ICh5CommonAttributes {
+export interface ICh5VideoAttributes extends ICh5CommonAttributes {
+	/**
+	 * @documentation
+	 * [
+	 * "`indexId` attribute",
+	 * "***",
+	 * "Provides the name of the offset identifier to be substituted with 0 based index of the item in list within the signal names provided in other attributes surrounded by {{ }} delimiters.   See examples. Note: 0-based.  Other components, e.g. List, Spinner, Select, are currently 1-based, but will be changed to 0-based in the future.  This component will start as 0-based. "
+	 * ]
+	 * @name indexid
+	 * @default 
+	 * @attributeType "String"
+	 */
+	indexId: string;
 
-    /**
-     * @name indexid
-     * @documentation
-     * [
-     * "`indexId` attribute",
-     *  "***",
-     *  "Provides the name of the offset identifier to be substituted with a 0-based index of the list items within the signal names provided in other attributes surrounded by {{ }} delimiters."
-     * ]
-     * @attributeType "String"
-     */
-    indexId: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`aspectRatio` attribute",
+	 * "***",
+	 * "Sets the ratio of width to height of the video. Width and height of the component to be controlled by css style classes.",
+	 * "Values are '16:9' (default), '4:3'. When size of container is not match the aspect ratio, the full height or the full width should be used and the dimension that is not full should be centered.",
+	 * "In other words, use letterbox or pillarbox logic to place the video component view. Note: this attribute only defines the size of the component within the project, it does not define the size of video displayed within the component."
+	 * ]
+	 * @name aspectratio
+	 * @default 16:9
+	 * @attributeType "EnumeratedValue"
+	 */
+	aspectRatio: TCh5VideoAspectRatio;
 
-    /**
-     * @name userid
-     * @documentation
-     * [
-     * "`userId` attribute",
-     *  "***",
-     *  "The user ID to access the video along with a password."
-     * ]
-     * @attributeType "String"
-     */
-    userId: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`stretch` attribute",
+	 * "***",
+	 * "Default false. When true, video will be displayed in the whole component. When false, video will be displayed as letter or pillar box based upon the aspect ratio of the video feed and the size of the component. Note: this attribute is independent of aspectRatio."
+	 * ]
+	 * @name stretch
+	 * @default false
+	 * @attributeType "Boolean"
+	 */
+	stretch: boolean;
 
-    /**
-     * @name snapshotuserid
-     * @documentation
-     * [
-     * "`snapShotUserId` attribute",
-     *  "***",
-     *  "The user ID to access the snapshot along with a password."
-     * ]
-     * @attributeType "String"
-     */
-    snapShotUserId: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`url` attribute",
+	 * "***",
+	 * "Default empty. Defines the video URL as an attribute, superseded by receiveStateURL"
+	 * ]
+	 * @name url
+	 * @default 
+	 * @attributeType "String"
+	 */
+	url: string;
 
-    /**
-     * @name password
-     * @documentation
-     * [
-     * "`password` attribute",
-     *  "***",
-     *  "The password to access the video along with a user ID."
-     * ]
-     * @attributeType "String"
-     */
-    password: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`sourceType` attribute",
+	 * "***",
+	 * "Default 'Network'. Defines the type of Video stream, superseded by receiveStateSourceType. See enumeration values in receiveStateSourceType."
+	 * ]
+	 * @name sourcetype
+	 * @default Network
+	 * @attributeType "EnumeratedValue"
+	 */
+	sourceType: TCh5VideoSourceType;
 
-    /**
-     * @name snapshotpassword
-     * @documentation
-     * [
-     * "`snapShotPassword` attribute",
-     *  "***",
-     *  "The password to access the snapshot along with user ID."
-     * ]
-     * @attributeType "String"
-     */
-    snapShotPassword: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`userId` attribute",
+	 * "***",
+	 * "Default empty. Defines the userid passed to camera as credentials for video URL. Superseded by receiveStateUserId,"
+	 * ]
+	 * @name userid
+	 * @default 
+	 * @attributeType "String"
+	 */
+	userId: string;
 
-    /**
-     * @name snapshotrefreshrate
-     * @documentation
-     * [
-     * "`snapShotRefreshRate` attribute",
-     *  "***",
-     *  "The refresh rate of the snapshot."
-     * ]
-     * @attributeType "String"
-     */
-    snapShotRefreshRate: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`password` attribute",
+	 * "***",
+	 * "Default empty. Defines the password passed to the camera as credentials for the video URL. Superseded by receiveStatePassword,"
+	 * ]
+	 * @name password
+	 * @default 
+	 * @attributeType "String"
+	 */
+	password: string;
 
-    /**
-     * @name aspectratio
-     * @documentation
-     * [
-     * "`aspectRatio` attribute",
-     *  "***",
-     *  "Sets the width-to-height ration of the video. ",
-     *  "The width and height of the component to be controlled by CSS style classes. ",
-     *  "Values are 16:9 (default), 4:3, and custom.  When the size of the container does not match the aspect ratio, ",
-     *  "the full height or width should be used and the dimension that is empty should be centered."
-     * ]
-     * @attributeType "EnumeratedValue"
-     */
-    aspectRatio: TCH5VideoAspectRatio | string;
+	/**
+	 * @documentation
+	 * [
+	 * "`snapshotURL` attribute",
+	 * "***",
+	 * "Default empty. Defines the still image URL as an attribute, superseded by receiveStateSnapshotURL"
+	 * ]
+	 * @name snapshoturl
+	 * @default 
+	 * @attributeType "String"
+	 */
+	snapshotURL: string;
 
-    /**
-     * @name stretch
-     * @documentation
-     * [
-     * "`stretch` attribute",
-     *  "***",
-     *  "The default value is false. When true, video will occupy the size of the parent container. The user ",
-     *  "needs to specify the width and height of the parent container for the video to appear correctly. ",
-     *  "The video will be displayed as a letter or pillar box based on the aspect ratio and size of the ",
-     *  "parent container. The parent container should not contain any tags other than ch5-background ",
-     *  "and CH5-Video."
-     * ]
-     * @attributeType "EnumeratedValue"
-     */
-    stretch: TCH5VideoStretch | string;
+	/**
+	 * @documentation
+	 * [
+	 * "`snapshotRefreshRate` attribute",
+	 * "***",
+	 * "Default 5. Defines the refresh period for a snapshot URL in units of seconds. 0 indicates no refresh, max is 60. Superseded by receiveStateSnapshotRefreshrate"
+	 * ]
+	 * @name snapshotrefreshrate
+	 * @default 5
+	 * @limits [{"min": 0, "max": 60}]
+	 * @attributeType "Integer"
+	 */
+	snapshotRefreshRate: number;
 
-    /**
-     * @name url
-     * @documentation
-     * [
-     * "`url` attribute",
-     *  "***",
-     *  "The source path of the video."
-     * ]
-     * @attributeType "String"
-     */
-    url: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`snapshotUserId` attribute",
+	 * "***",
+	 * "Default empty. Defines the userid passed to the camera as credentials for the image URL. Superseded by receiveStateSnapshotUserId,"
+	 * ]
+	 * @name snapshotuserid
+	 * @default 
+	 * @attributeType "String"
+	 */
+	snapshotUserId: string;
 
-    /**
-     * @name sourcetype
-     * @documentation
-     * [
-     * "`sourceType` attribute",
-     *  "***",
-     *  "The video Source type, which can be 'Network', 'HDMI' or 'DM'."
-     * ]
-     * @attributeType "EnumeratedValue"
-     */
-    sourceType: TCH5VideoSourceType | string;
+	/**
+	 * @documentation
+	 * [
+	 * "`snapshotPassword` attribute",
+	 * "***",
+	 * "Default empty. Defines the password passed to the camera as credentials for the image URL. Superseded by receiveStateSnapshotPassword."
+	 * ]
+	 * @name snapshotpassword
+	 * @default 
+	 * @attributeType "String"
+	 */
+	snapshotPassword: string;
 
-    /**
-     * @name snapshoturl
-     * @documentation
-     * [
-     * "`snapShotUrl` attribute",
-     *  "***",
-     *  "A snapshot of the video, if any."
-     * ]
-     * @attributeType "ImageURL"
-     */
-    snapShotUrl: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`size` attribute",
+	 * "***",
+	 * "Default regular. Defines the size of the video. The options available are 'x-small' | 'small' | 'regular' | 'large' | 'xlarge' | 'xx-large'."
+	 * ]
+	 * @name size
+	 * @default regular
+	 * @attributeType "EnumeratedValue"
+	 */
+	size: TCh5VideoSize;
 
-    /**
-     * @name size
-     * @documentation
-     * [
-     * "`size` attribute",
-     *  "***",
-     * "The default value is large. ",
-     *  "The display size for the video. The default size is 'large' if not entered. ",
-     *  "The size options for the aspect ratio 16:9 and 4:3 are 'x-small' (width: 25vw, height: 25vh), ",
-     *  "'small' (width: 40vw, height: 40vh), 'large' (width: 55vw, ",
-     *  "height: 55vh), 'x-large' (width: 70vw, height: 70vh) and 'xx-large' (width: 85vw, height: 80vh). ",
-     *  "The user needs to select the appropriate size to fit the container."
-     * ]
-     * @default large
-     * @attributeType "EnumeratedValue"
-     */
-    size: TCH5VideoSize | string;
+	/**
+	 * @documentation
+	 * [
+	 * "`receiveStatePlay` attribute",
+	 * "***",
+	 * "when defined, will play video only when the value is true, will stop video when value is false.  If not defined, the video will play whenever the component is visible.  If defined and value of false, display background of ch5-video--nosource css class."
+	 * ]
+	 * @name receivestateplay
+	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+	 * @attributeType "Join"
+	 */
+	receiveStatePlay: string;
 
-    /**
-     * @name zindex
-     * @documentation
-     * [
-     * "`zIndex` attribute",
-     *  "***",
-     *  "The video display moves back and forth with regards to the z-axis."
-     * ]
-     * @attributeType "String"
-     */
-    zIndex: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`receiveStateSelect` attribute",
+	 * "***",
+	 * "when defined, will play 0-based index of the video source list. Value of < 0 or > 31 will select no video to play Value of 0 to 31 will play the selected video source provided the video source type (see receiveStateSourceType) is valid. when not defined, the first video source defined (equivalent of index 0) in the list will be played"
+	 * ]
+	 * @name receivestateselect
+	 * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+	 * @attributeType "Join"
+	 */
+	receiveStateSelect: string;
 
-    /**
-     * @documentation
-     * [
-     * "`onpress` attribute",
-     * "***",
-     * "Runs when a press event is initiated."
-     * ]
-     * @name onpress
-     * @attributeType "String"
-     */
-    onpress: {};
+	/**
+	 * @documentation
+	 * [
+	 * "`receiveStateURL` attribute",
+	 * "***",
+	 * "provides the video URL to use when the selection changes to the INDEX value. INDEX is the value passed in the 'indexId' attribute that can be used as prefix or suffix of a signal template name. INDEX is 0-based offset into the list of up to maximum number of sources. As an example, if the value provided as indexId is 'INDEX' and the value provided for receiveStateURL is 'panel2.videourl[{{INDEX}}]', this video control will use 'panel2.videourl[0]', 'panel2.videourl[1]', ..., 'panel2.video_url[31]' as string state names to be associated with select value 0, 1, ..., 31."
+	 * ]
+	 * @name receivestateurl
+	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+	 * @attributeType "Join"
+	 */
+	receiveStateURL: string;
 
-    /**
-     * @documentation
-     * [
-     * "`onrelease` attribute",
-     * "***",
-     * "Runs when a release event is initiated."
-     * ]
-     * @name onrelease
-     * @attributeType "String"
-     */
-    onrelease: {};
+	/**
+	 * @documentation
+	 * [
+	 * "`receiveStateSourceType` attribute",
+	 * "***",
+	 * "provides the video source type when the selection changes to INDEX value. See description of INDEX in receiveStateURL. enumerated values are “Network”, “HDMI”, and “DM”"
+	 * ]
+	 * @name receivestatesourcetype
+	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+	 * @attributeType "Join"
+	 */
+	receiveStateSourceType: string;
 
-    /**
-     * @name sendeventonclick
-     * @documentation
-     * [
-     * "`sendEventOnClick` attribute",
-     *  "***",
-     *  "Sends a signal on a click or tap event (mouse or swipe up and down quickly)."
-     * ]
-     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-     * @attributeType "Join"
-     */
-    sendEventOnClick: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`receiveStateUserId` attribute",
+	 * "***",
+	 * "provides the userid for credentials supplied to camera for video URL. See description of INDEX in receiveStateURL"
+	 * ]
+	 * @name receivestateuserid
+	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+	 * @attributeType "Join"
+	 */
+	receiveStateUserId: string;
 
-    /**
-     * @name sendeventselectionchange
-     * @documentation
-     * [
-     * "`sendEventSelectionChange` attribute",
-     *  "***",
-     *  "Sends a signal on a source selection change when the source selection ",
-     *  "is updated using the 'receivestateselect' attribute."
-     * ]
-     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-     * @attributeType "Join"
-     */
-    sendEventSelectionChange: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`receiveStatePassword` attribute",
+	 * "***",
+	 * "provides the password for credentials supplied to camera for video URL. See description of INDEX in receiveStateURL"
+	 * ]
+	 * @name receivestatepassword
+	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+	 * @attributeType "Join"
+	 */
+	receiveStatePassword: string;
 
-    /**
-     * @name sendeventselectionsourcetype
-     * @documentation
-     * [
-     * "`sendEventSelectionSourceType` attribute",
-     *  "***",
-     *  "The current selected source type."
-     * ]
-     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
-     * @attributeType "Join"
-     */
-    sendEventSelectionSourceType: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`receiveStateSnapshotURL` attribute",
+	 * "***",
+	 * "provides the still image URL to use when selection changes to INDEX value. See the description of INDEX in receiveStateURL."
+	 * ]
+	 * @name receivestatesnapshoturl
+	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+	 * @attributeType "Join"
+	 */
+	receiveStateSnapshotURL: string;
 
-    /**
-     * @name sendeventselectionurl
-     * @documentation
-     * [
-     * "`sendEventSelectionURL` attribute",
-     *  "***",
-     * "Sends a signal on an url change when the source url ",
-     * "is updated using the 'receiveStateUrl' attribute."
-     * ]
-     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
-     * @attributeType "Join"
-     */
-    sendEventSelectionURL: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`receiveStateSnapshotRefreshRate` attribute",
+	 * "***",
+	 * "Defines the refresh period for a still image url when the selection changes to INDEX value. 0 indicates no refresh. See the description of INDEX in receiveStateURL."
+	 * ]
+	 * @name receivestatesnapshotrefreshrate
+	 * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+	 * @attributeType "Join"
+	 */
+	receiveStateSnapshotRefreshRate: string;
 
-    /**
-     * @name sendeventsnapshoturl
-     * @documentation
-     * [
-     * "`sendEventSnapShotURL` attribute",
-     *  "***",
-     *  "The current selected snapshot URL."
-     * ]
-     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
-     * @attributeType "Join"
-     */
-    sendEventSnapShotURL: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`receiveStateSnapshotUserId` attribute",
+	 * "***",
+	 * "provides the userid for credentials supplied to camera for image URL. See description of INDEX in receiveStateURL"
+	 * ]
+	 * @name receivestatesnapshotuserid
+	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+	 * @attributeType "Join"
+	 */
+	receiveStateSnapshotUserId: string;
 
-    /**
-     * @name sendeventerrorcode
-     * @documentation
-     * [
-     * "`sendEventErrorCode` attribute",
-     *  "***",
-     *  "The current video error code state."
-     * ]
-     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
-     * @attributeType "Join"
-     */
-    sendEventErrorCode: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`receiveStateSnapshotPassword` attribute",
+	 * "***",
+	 * "provides the password for credentials supplied to camera for image URL. See description of INDEX in receiveStateURL"
+	 * ]
+	 * @name receivestatesnapshotpassword
+	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+	 * @attributeType "Join"
+	 */
+	receiveStateSnapshotPassword: string;
 
-    /**
-     * @name sendeventerrormessage
-     * @documentation
-     * [
-     * "`sendEventErrorMessage` attribute",
-     *  "***",
-     *  "The current video error message state."
-     * ]
-     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
-     * @attributeType "Join"
-     */
-    sendEventErrorMessage: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`receiveStateVideoCount` attribute",
+	 * "***",
+	 * "provides the count of videos."
+	 * ]
+	 * @name receivestatevideocount
+	 * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+	 * @attributeType "Join"
+	 */
+	receiveStateVideoCount: string;
 
-    /**
-     * @name sendeventretrycount
-     * @documentation
-     * [
-     * "`sendEventRetryCount` attribute",
-     *  "***",
-     *  "The current video retry count state."
-     * ]
-     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
-     * @attributeType "Join"
-     */
-    sendEventRetryCount: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`sendEventOnClick` attribute",
+	 * "***",
+	 * "send a signal on click or tap event (mouse or finger up and down in a small period of time)"
+	 * ]
+	 * @name sendeventonclick
+	 * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+	 * @attributeType "Join"
+	 */
+	sendEventOnClick: string;
 
-    /**
-     * @name sendeventresolution
-     * @documentation
-     * [
-     * "`sendEventResolution` attribute",
-     *  "***",
-     *  "The current video resolution."
-     * ]
-     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
-     * @attributeType "Join"
-     */
-    sendEventResolution: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`sendEventSelectionChange` attribute",
+	 * "***",
+	 * "send signal on source selection change"
+	 * ]
+	 * @name sendeventselectionchange
+	 * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
+	 * @attributeType "Join"
+	 */
+	sendEventSelectionChange: string;
 
-    /**
-     * @name sendeventstate
-     * @documentation
-     * [
-     * "`sendEventState` attribute",
-     *  "***",
-     *  "The current state of the video associated with the current source selection."
-     * ]
-     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
-     * @attributeType "Join"
-     */
-    sendEventState: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`sendEventSelectionSourceType` attribute",
+	 * "***",
+	 * "current selected source type"
+	 * ]
+	 * @name sendeventselectionsourcetype
+	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+	 * @attributeType "Join"
+	 */
+	sendEventSelectionSourceType: string;
 
-    /**
-     * @name sendeventsnapshotstatus
-     * @documentation
-     * [
-     * "`sendEventSnapShotStatus` attribute",
-     *  "***",
-     *  "The current state of the snapshot associated with the current source selection."
-     * ]
-     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
-     * @attributeType "Join"
-     */
-    sendEventSnapShotStatus: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`sendEventSelectionURL` attribute",
+	 * "***",
+	 * "current selected video URL"
+	 * ]
+	 * @name sendeventselectionurl
+	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+	 * @attributeType "Join"
+	 */
+	sendEventSelectionURL: string;
 
-    /**
-     * @name sendeventsnapshotlastupdatetime
-     * @documentation
-     * [
-     * "`sendEventSnapShotLastUpdateTime` attribute",
-     *  "***",
-     *  "The timestamp of the last update time of the still image associated with the current source selection."
-     * ]
-     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
-     * @attributeType "Join"
-     */
-    sendEventSnapShotLastUpdateTime: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`sendEventSnapshotURL` attribute",
+	 * "***",
+	 * "current selected snapshot URL"
+	 * ]
+	 * @name sendeventsnapshoturl
+	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+	 * @attributeType "Join"
+	 */
+	sendEventSnapshotURL: string;
 
-    /**
-     * @name receivestateurl
-     * @documentation
-     * [
-     * "`receiveStateUrl` attribute",
-     *  "***",
-     *  "The default value is empty. Defines the video URL as an attribute."
-     * ]
-     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-     * @attributeType "Join"
-     */
-    receiveStateUrl: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`sendEventState` attribute",
+	 * "***",
+	 * "current state of the video stream numeric enumeration 0 - no selected source or uninitialized 1 - stopped 2 - playing 3 - stop requested 4 - play requested, connecting 5 - play requested, buffering 6 - play requested, retrying 7 - play requested, error"
+	 * ]
+	 * @name sendeventstate
+	 * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
+	 * @attributeType "Join"
+	 */
+	sendEventState: string;
 
-    /**
-     * @name receivestatesnapshoturl
-     * @documentation
-     * [
-     * "`receiveStateSnapShotURL` attribute",
-     *  "***",
-     *  "Provides the still image URL to use when selection changes to an INDEX value."
-     * ]
-     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-     * @attributeType "Join"
-     */
-    receiveStateSnapShotURL: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`sendEventErrorCode` attribute",
+	 * "***",
+	 * "current state video error code numeric enumeration, applicable only when state of video is error 0 - no error transient issues (retry is appropriate) > 0 1 - miscellaneous transient issue (error not known or none of the below) 2 - connection timeout (network issues, camera offline, etc) 3 - No input sync (HDMI not plugged in, DM not streaming) setup and system issues (retry is not appropriate) < 0 -1 - miscellaneous error (error not known or none of below) -2 - host name could not be resolved -3 - unsupported source type for this platform -4 - connection timeout -5 - invalid credentials -6 - unsupported streaming protocol -7 - unsupported codec"
+	 * ]
+	 * @name sendeventerrorcode
+	 * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
+	 * @attributeType "Join"
+	 */
+	sendEventErrorCode: string;
 
-    /**
-     * @name receivestateplay
-     * @documentation
-     * [
-     * "`receiveStatePlay` attribute",
-     *  "***",
-     *  "When defined, this will play video only when the value is true and will stop video when the value is false. ",
-     *  "If not defined, the video will play whenever the component is visible. If defined with a value of false, ",
-     *  "the background of ch5-video--nosource css class is displayed."
-     * ]
-     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-     * @attributeType "Join"
-     */
-    receiveStatePlay: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`sendEventErrorMessage` attribute",
+	 * "***",
+	 * "current state video error message string - diagnostic information on error as propagated from the video rendering engine. Not intended for end user to see"
+	 * ]
+	 * @name sendeventerrormessage
+	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+	 * @attributeType "Join"
+	 */
+	sendEventErrorMessage: string;
 
-    /**
-     * @name receivestateselect
-     * @documentation
-     * [
-     * "`receiveStateSelect` attribute",
-     *  "***",
-     *  "When defined, this will play 0-based index of the video source list. ",
-     *  "A value of <0 or >31 will select no video to play. A Value of 0 to 31 will play the selected video source ",
-     *  "provided the video source type (see receiveStateVideoSourceType) is valid. When not defined, ",
-     *  "the first video source defined (equivalent of index 0) in the list will be played."
-     * ]
-     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-     * @attributeType "Join"
-     */
-    receiveStateSelect: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`sendEventRetryCount` attribute",
+	 * "***",
+	 * "current state video  retry count numeric - the count of times the video engine has retried to stream the current video source"
+	 * ]
+	 * @name sendeventretrycount
+	 * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
+	 * @attributeType "Join"
+	 */
+	sendEventRetryCount: string;
 
-    /**
-     * @name receivestatesourcetype
-     * @documentation
-     * [
-     * "`receiveStateSourceType` attribute",
-     *  "***",
-     *  "Provides the video source type when the selection changes to an INDEX value."
-     * ]
-     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-     * @attributeType "Join"
-     */
-    receiveStateSourceType: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`sendEventResolution` attribute",
+	 * "***",
+	 * "current video resolution string."
+	 * ]
+	 * @name sendeventresolution
+	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+	 * @attributeType "Join"
+	 */
+	sendEventResolution: string;
 
-    /**
-     * @name receivestatesnapshotrefreshrate
-     * @documentation
-     * [
-     * "`receiveStateSnapShotRefreshRate` attribute",
-     *  "***",
-     *  "Defines the refresh rate for a still image url. 0 indicates no refresh."
-     * ]
-     * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-     * @attributeType "Join"
-     */
-    receiveStateSnapShotRefreshRate: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`sendEventSnapshotStatus` attribute",
+	 * "***",
+	 * "current state of the still image associated with the current source selection numeric - 0 not shown, 1 -currently shown, 2 - in error"
+	 * ]
+	 * @name sendeventsnapshotstatus
+	 * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
+	 * @attributeType "Join"
+	 */
+	sendEventSnapshotStatus: string;
 
-    /**
-     * @name receivestateuserid
-     * @documentation
-     * [
-     * "`receiveStateUserId` attribute",
-     *  "***",
-     *  "Provides the user ID for credentials supplied to a camera for a video URL."
-     * ]
-     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-     * @attributeType "Join"
-     */
-    receiveStateUserId: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`sendEventSnapshotLastUpdateTime` attribute",
+	 * "***",
+	 * "the timestamp of  the last update time of the still image associated with the current source selection string - serial in RFC 3339 format"
+	 * ]
+	 * @name sendeventsnapshotlastupdatetime
+	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+	 * @attributeType "Join"
+	 */
+	sendEventSnapshotLastUpdateTime: string;
 
-    /**
-     * @name receivestatesnapshotuserid
-     * @documentation
-     * [
-     * "`receiveStateSnapShotUserId` attribute",
-     *  "***",
-     *  "Provides the user ID for credentials supplied to a camera for an image URL."
-     * ]
-     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-     * @attributeType "Join"
-     */
-    receiveStateSnapShotUserId: string;
-
-    /**
-     * @name receivestatepassword
-     * @documentation
-     * [
-     * "`receiveStatePassword` attribute",
-     *  "***",
-     *  "Provides the password for credentials supplied to a camera for a video URL."
-     * ]
-     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-     * @attributeType "Join"
-     */
-    receiveStatePassword: string;
-
-    /**
-     * @name receivestatesnapshotpassword
-     * @documentation
-     * [
-     * "`receiveStateSnapShotPassword` attribute",
-     *  "***",
-     *  "Provides the password for credentials supplied to a camera for an image URL."
-     * ]
-     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-     * @attributeType "Join"
-     */
-    receiveStateSnapShotPassword: string;
-
-    /**
-     * @name receivestatevideocount
-     * @documentation
-     * [
-     * "`receiveStateVideoCount` attribute",
-     *  "***",
-     *  "Provides the count of the videos."
-     * ]
-     * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-     * @attributeType "Join"
-     */
-    receiveStateVideoCount: string;
 }

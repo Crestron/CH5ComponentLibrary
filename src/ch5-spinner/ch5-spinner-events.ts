@@ -11,6 +11,8 @@ import isNull from 'lodash/isNull';
 import { Ch5SignalFactory } from '../ch5-core';
 import { Ch5Spinner } from './ch5-spinner';
 import HtmlCallback from '../ch5-common/utils/html-callback';
+import _ from 'lodash';
+import { Ch5Common } from '../ch5-common/ch5-common';
 
 export class Ch5SpinnerEvents {
 
@@ -22,29 +24,15 @@ export class Ch5SpinnerEvents {
   protected _element: Ch5Spinner = {} as Ch5Spinner;
 
   constructor(element: Ch5Spinner) {
-
     this.element = element;
   }
 
-  /**
-   * Setter for element property
-   * 
-   * @param {Ch5Spinner} element
-   */
   public set element(element: Ch5Spinner) {
-    
     if (element !== undefined && element !== null) {
       this._element = element;
     }
   }
-
-  /**
-   * Getter for element property
-   * 
-   * @return {Ch5Spinner}
-   */
   public get element(): Ch5Spinner {
-
     return this._element
   }
 
@@ -53,19 +41,14 @@ export class Ch5SpinnerEvents {
    * @return {void} 
    */
   public dispatchFocus(): void {
-
     const sendEventOnFocus = this.element.sendEventOnFocus;
-
-    if ('' !== sendEventOnFocus && null !== sendEventOnFocus && undefined !== sendEventOnFocus) {
-      const sigFocus = Ch5SignalFactory.getInstance()
-        .getBooleanSignal(this.element.sendEventOnFocus);
-
+    if (Ch5Common.isNotNil(sendEventOnFocus)) {
+      const sigFocus = Ch5SignalFactory.getInstance().getBooleanSignal(this.element.sendEventOnFocus);
       if (sigFocus !== null) {
-          sigFocus.publish(true);
+        sigFocus.publish(true);
       }
     }
-
-    this.dispatch('focus');  
+    this.dispatch('focus');
   }
 
   /**
@@ -73,13 +56,9 @@ export class Ch5SpinnerEvents {
    * @return {void}
    */
   public dispatchBlur(): void {
-
     const sendEventOnFocus = this.element.sendEventOnFocus;
-    
-    if (!isEmpty(sendEventOnFocus) && !isNil(sendEventOnFocus)) {
-      const sigFocus = Ch5SignalFactory.getInstance()
-        .getBooleanSignal(sendEventOnFocus);
-
+    if (Ch5Common.isNotNil(sendEventOnFocus)) {
+      const sigFocus = Ch5SignalFactory.getInstance().getBooleanSignal(sendEventOnFocus);
       if (!isNull(sigFocus)) {
         sigFocus.publish(false);
       }
@@ -99,12 +78,12 @@ export class Ch5SpinnerEvents {
     const sendEventOnChange = this.element.sendEventOnChange;
 
     if (this.element.feedbackMode === 'direct') {
-      if ('' !== sendEventOnChange && null !== sendEventOnChange && undefined !== sendEventOnChange){
+      if ('' !== sendEventOnChange && null !== sendEventOnChange && undefined !== sendEventOnChange) {
         const sigClick = Ch5SignalFactory.getInstance()
-            .getNumberSignal(this.element.sendEventOnChange);
+          .getNumberSignal(this.element.sendEventOnChange);
 
         if (sigClick !== null) {
-            sigClick.publish(parseFloat(message));
+          sigClick.publish(parseFloat(message));
         }
       }
     }
@@ -123,7 +102,7 @@ export class Ch5SpinnerEvents {
 
     if (this.element.ondirty instanceof HtmlCallback) {
       this.element.ondirty.run(dirtyCustomEvent);
-    } else if (this.element.ondirty instanceof Function) { 
+    } else if (this.element.ondirty instanceof Function) {
       this.element.ondirty.call(this.element, dirtyCustomEvent);
     }
   }
@@ -135,7 +114,7 @@ export class Ch5SpinnerEvents {
    */
   public dispatchClean(): void {
     const cleanCustomEvent = this.dispatch('clean');
-    
+
     if (this.element.onclean instanceof HtmlCallback) {
       this.element.onclean.run(cleanCustomEvent);
     } else if (this.element.onclean instanceof Function) {
@@ -151,10 +130,8 @@ export class Ch5SpinnerEvents {
    * @return {void}
    */
   protected dispatch(eventName: string, message: string = '', cancelable: boolean = true): CustomEvent {
-
     const event = this.createEvent(eventName, message, cancelable);
     this.element.dispatchEvent(event);
-
     return event;
   }
 
@@ -182,8 +159,8 @@ export class Ch5SpinnerEvents {
    * Dispatch the mouseup event
    * @return {void}
    */
-   public dispatchMouseUp(): void {
-      this.dispatch('mouseup');
+  public dispatchMouseUp(): void {
+    this.dispatch('mouseup');
   }
 
   /**

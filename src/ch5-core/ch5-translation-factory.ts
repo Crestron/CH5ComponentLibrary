@@ -6,55 +6,50 @@
 // under which you licensed this source code.
 
 import translateEngine, { i18n } from 'i18next';
-import { Ch5Signal } from "./ch5-signal";
 import { Ch5TranslationListeners } from "./ch5-translation-listeners";
 
 export class Ch5TranslationFactory {
 
-  /**
-   * Saves the signal subscription
-   * 
-   * @memberof Ch5TranslationFactory
-   * @type {string}
-   */
-  public receiveUpdateSub: string = '';
+	/**
+	 * Saves the signal subscription
+	 * 
+	 * @memberof Ch5TranslationFactory
+	 * @type {string}
+	 */
+	public receiveUpdateSub: string = '';
 
-  /**
-   * Contains the translator helper. This will be usually a i18next interface
-   * 
-   * @memberof Ch5TranslationFactory
-   * @protected
-   */
-  protected _translator: i18n = {} as i18n;
+	/**
+	 * Contains the translator helper. This will be usually a i18next interface
+	 * 
+	 * @memberof Ch5TranslationFactory
+	 * @protected
+	 */
+	protected _translator: i18n = {} as i18n;
 
-  /**
-   * Getter for translator helper
-   * 
-   * @return {ITranslator}
-   */
-  public get translator(): i18n {
+	/**
+	 * Getter for translator helper
+	 * 
+	 * @return {i18n}
+	 */
+	public get translator(): i18n {
+		return this._translator;
+	}
 
-    return this._translator;
-  }
+	/**
+	 * Setter for translator helper
+	 * 
+	 * @param {ITranslator} translator
+	 */
+	public set translator(translator: i18n) {
+		if (Object.keys(translator).length > 0) {
+			this._translator = translator;
+			this.runListeners();
+		}
+	}
 
-  /**
-   * Setter for translator helper
-   * 
-   * @param {ITranslator} translator
-   */
-  public set translator(translator: i18n) {
-
-    if (Object.keys(translator).length > 0) {
-      this._translator = translator;
-      this.runListeners();
-    }
-
-    // console.log(this.translator);
-  }
-
-  private runListeners() {
-    return new Ch5TranslationListeners(this.translator);
-  }
+	private runListeners() {
+		return new Ch5TranslationListeners(this.translator);
+	}
 }
 
 export const translationFactory = new Ch5TranslationFactory;

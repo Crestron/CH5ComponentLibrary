@@ -5,23 +5,23 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import {Ch5SignalFactory} from './ch5-signal-factory';
-import {Ch5Debug} from "./ch5-debug";
-import {Ch5Signal} from "./ch5-signal";
+import { Ch5SignalFactory } from './ch5-signal-factory';
+import { Ch5Debug } from "./ch5-debug";
+import { Ch5Signal } from "./ch5-signal";
 
 export type Ch5RcbSimpleObject = {
-    'rcb':{
-        'value':number;// integer value
-        'time':number ;  // timestamp
+    'rcb': {
+        'value': number; // integer value
+        'time': number; // timestamp
     };
 }
 
-export type Ch5RcbExtendedObject={
-    'rcb':{
-        'value':number;  // integer value
-        'time':number;  // timestamp
-        'startv':number; // starting value
-        'startt':number;  // starting timestamp
+export type Ch5RcbExtendedObject = {
+    'rcb': {
+        'value': number; // integer value
+        'time': number; // timestamp
+        'startv': number; // starting value
+        'startt': number; // starting timestamp
     };
 }
 
@@ -43,7 +43,7 @@ export function bridgeReceiveIntegerFromNative(signalName: string, value: number
     const _signalName: string = Ch5Signal.getSubscriptionSignalName(signalName);
 
     const dbgKey = 'bridgeReceiveIntegerFromNative';
-    Ch5Debug.info(dbgKey,'"' + _signalName + '":' + value);
+    Ch5Debug.info(dbgKey, '"' + _signalName + '":' + value);
 
     clearTimersForSignal(_signalName);
 
@@ -53,9 +53,9 @@ export function bridgeReceiveIntegerFromNative(signalName: string, value: number
     }
 
     const o = Ch5SignalFactory.getInstance().getObjectSignal(_signalName);
-    const obj:Ch5RcbSimpleObject = {'rcb':{'value':value,'time':0}};
+    const obj: Ch5RcbSimpleObject = { 'rcb': { 'value': value, 'time': 0 } };
     // Ch5Debug.info(dbgKey,' additional rcb signal ', 'signalName ' +signalName, ' value ',obj);
-    if (o !== null){
+    if (o !== null) {
         o.fromSignalBridge(obj);
     }
     // Ch5Debug.info(dbgKey,' end ');
@@ -66,7 +66,7 @@ export function bridgeReceiveBooleanFromNative(signalName: string, value: boolea
     const _signalName: string = Ch5Signal.getSubscriptionSignalName(signalName);
 
     const dbgKey = 'bridgeReceiveBooleanFromNative';
-    Ch5Debug.info(dbgKey,'"' + _signalName + '":' + value);
+    Ch5Debug.info(dbgKey, '"' + _signalName + '":' + value);
 
     const s = Ch5SignalFactory.getInstance().getBooleanSignal(_signalName);
     if (s !== null) {
@@ -80,7 +80,7 @@ export function bridgeReceiveStringFromNative(signalName: string, value: string)
     const _signalName: string = Ch5Signal.getSubscriptionSignalName(signalName);
 
     const dbgKey = 'bridgeReceiveStringFromNative';
-    Ch5Debug.info(dbgKey,'"' + _signalName + '":"' + value + '"');
+    Ch5Debug.info(dbgKey, '"' + _signalName + '":"' + value + '"');
 
     const s = Ch5SignalFactory.getInstance().getStringSignal(_signalName);
     if (s !== null) {
@@ -95,14 +95,14 @@ export function bridgeReceiveObjectFromNative(signalName: string, value: object)
 
     const dbgKey = 'bridgeReceiveObjectFromNative';
     if (Ch5Debug.shouldDisplay(dbgKey)) {
-        Ch5Debug.info(dbgKey,'"' + _signalName + '":\'' + JSON.stringify(value) + '\'');
+        Ch5Debug.info(dbgKey, '"' + _signalName + '":\'' + JSON.stringify(value) + '\'');
     }
     const s = Ch5SignalFactory.getInstance().getObjectSignal(_signalName);
     if (s !== null) {
         if (isRcbObject(value)) {
             let scalarValue = 0;
             const n = Ch5SignalFactory.getInstance().getNumberSignal(_signalName);
-            if (n !== null){
+            if (n !== null) {
                 scalarValue = n.value;
             }
             s.fromSignalBridge(processReceivedRcb(_signalName, value as Ch5RcbSimpleObject, scalarValue));
@@ -114,7 +114,7 @@ export function bridgeReceiveObjectFromNative(signalName: string, value: object)
 }
 
 
-function isRcbObject(obj: any):boolean {
+function isRcbObject(obj: any): boolean {
     return (obj.hasOwnProperty('rcb')
         && obj.rcb.hasOwnProperty('value')
         && obj.rcb.hasOwnProperty('time'));
@@ -123,12 +123,12 @@ function isRcbObject(obj: any):boolean {
 /**
  * This function processes an RCB
  */
-function processReceivedRcb(signalName:string, rcbObj:Ch5RcbSimpleObject, currentScalarValue:number):Ch5RcbExtendedObject {
+function processReceivedRcb(signalName: string, rcbObj: Ch5RcbSimpleObject, currentScalarValue: number): Ch5RcbExtendedObject {
     const dbgKey = 'bridge.processReceivedRcb';
-    Ch5Debug.info(dbgKey,' process rcb ', 'signalName ' + signalName, ' rcbObject ',rcbObj, ' current scalar value', currentScalarValue);
+    Ch5Debug.info(dbgKey, ' process rcb ', 'signalName ' + signalName, ' rcbObject ', rcbObj, ' current scalar value', currentScalarValue);
     clearTimersForSignal(signalName);
-    const rcbObject:Ch5RcbExtendedObject = {
-        'rcb':{
+    const rcbObject: Ch5RcbExtendedObject = {
+        'rcb': {
             'value': rcbObj.rcb.value,
             'time': rcbObj.rcb.time,
             'startv': currentScalarValue,
@@ -149,9 +149,9 @@ function processReceivedRcb(signalName:string, rcbObj:Ch5RcbSimpleObject, curren
  * This function is used as a callback for the interval timer that runs every RCB_INTERVAL_DURATION_MS ms and updates the
  * number signal
  */
-function rcbIntervalTimerCallback(signalName:string, rcbObject:Ch5RcbExtendedObject):void {
+function rcbIntervalTimerCallback(signalName: string, rcbObject: Ch5RcbExtendedObject): void {
     const dbgKey = 'bridge.rcbIntervalTimerCallback';
-    Ch5Debug.info(dbgKey,' start ', 'signalName ' + signalName, ' rcbObject ',rcbObject);
+    Ch5Debug.info(dbgKey, ' start ', 'signalName ' + signalName, ' rcbObject ', rcbObject);
 
     if (rcbObject.rcb.time === 0) { // safeguard against undefined slope
         return;
@@ -202,7 +202,7 @@ function rcbIntervalTimerCallback(signalName:string, rcbObject:Ch5RcbExtendedObj
 
       Using only ( s!==null ) will allow sending the same value multiple times.
      */
-    if ( s !== null && s.value !== scalarValue ) {
+    if (s !== null && s.value !== scalarValue) {
         s.fromSignalBridge(scalarValue);
     }
     /*
@@ -215,9 +215,9 @@ function rcbIntervalTimerCallback(signalName:string, rcbObject:Ch5RcbExtendedObj
  * This function is executed when the rcb timeout passes.
  * When the timeout expires this function publishes a numeric signal and an object ( rcb with time =0 ) signal
  */
-function rcbTimerCallback(signalName:string, rcbObject:Ch5RcbObject):void {
+function rcbTimerCallback(signalName: string, rcbObject: Ch5RcbObject): void {
     const dbgKey = 'bridge.rcbTimerCallback';
-    Ch5Debug.info(dbgKey,' start ', 'signalName ' + signalName, ' rcbObject ',rcbObject);
+    Ch5Debug.info(dbgKey, ' start ', 'signalName ' + signalName, ' rcbObject ', rcbObject);
     const value = rcbObject.rcb.value;
 
     const s = Ch5SignalFactory.getInstance().getNumberSignal(signalName);
@@ -226,8 +226,8 @@ function rcbTimerCallback(signalName:string, rcbObject:Ch5RcbObject):void {
     }
 
     const o = Ch5SignalFactory.getInstance().getObjectSignal(signalName);
-    const obj = {'rcb':{'value':value,'time':0}};
-    if (o !== null){
+    const obj = { 'rcb': { 'value': value, 'time': 0 } };
+    if (o !== null) {
         o.fromSignalBridge(obj);
     }
 
@@ -237,14 +237,14 @@ function rcbTimerCallback(signalName:string, rcbObject:Ch5RcbObject):void {
 /**
  * Clears the timeout and the timer interval for a signal
  */
-function clearTimersForSignal(signalName:string) {
+function clearTimersForSignal(signalName: string) {
     const dbgKey = 'bridge.clearTimersForSignal';
-    Ch5Debug.info(dbgKey,' start ', 'signalName ' + signalName);
-    if (rcbIntervalTimers.hasOwnProperty(signalName)){
+    Ch5Debug.info(dbgKey, ' start ', 'signalName ' + signalName);
+    if (rcbIntervalTimers.hasOwnProperty(signalName)) {
         window.clearInterval(rcbIntervalTimers[signalName]);
         delete rcbIntervalTimers[signalName];
     }
-    if (rcbTimers.hasOwnProperty(signalName)){
+    if (rcbTimers.hasOwnProperty(signalName)) {
         window.clearTimeout(rcbTimers[signalName]);
         delete rcbTimers[signalName];
     }

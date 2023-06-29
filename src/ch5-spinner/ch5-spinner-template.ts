@@ -130,7 +130,6 @@ export class Ch5SpinnerTemplate {
 
 
   constructor(element: Ch5Spinner) {
-
     this.element = element;
     this.checkTemplateDefined();
 

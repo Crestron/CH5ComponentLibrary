@@ -11,7 +11,7 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 
 export class Ch5CoreIntersectionObserver {
 
-    public static observerTreshhold = [0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 0.91, 0.92, 0.93, 1.00];
+    public static observerThreshold = [0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 0.91, 0.92, 0.93, 1.00];
     public static observerRootMargin: string = '0px';
     private static _instance: Ch5CoreIntersectionObserver;
     private _intersectionObserverConfig: object;
@@ -21,7 +21,7 @@ export class Ch5CoreIntersectionObserver {
         this._intersectionObserverConfig = {
             root: null,
             rootMargin: (!!customRootMargin && customRootMargin.length > 0) ? customRootMargin : Ch5CoreIntersectionObserver.observerRootMargin,
-            threshold: Ch5CoreIntersectionObserver.observerTreshhold
+            threshold: Ch5CoreIntersectionObserver.observerThreshold
         };
 
         this._intersectionObserver = new IntersectionObserver(this.intersectionObserverCallback, this._intersectionObserverConfig);

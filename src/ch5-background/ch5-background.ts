@@ -8,7 +8,7 @@ import { Ch5Common } from './../ch5-common/ch5-common';
 import { ICh5BackgroundAttributes } from './interfaces/i-ch5-background-attributes';
 import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState, publishEvent } from '../ch5-core';
 import { TCh5BackgroundScale, TCh5BackgroundRepeat, TCh5BackgroundTransitionEffect } from './interfaces';
-import { ICh5VideoBackground } from './../ch5-video/interfaces/types/t-ch5-video-publish-event-request';
+import { ICh5VideoBackground } from './../ch5-video/interfaces';
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
 import { resizeObserver } from '../ch5-core/resize-observer';
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
@@ -570,7 +570,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @returns {boolean} return true or false
 	 */
 	private isInViewport(elId: string): boolean {
-		const el: any = document.getElementById(elId);
+		const el: any = document.querySelector(`[data-ch5-id="${elId}"]`);
 		if (el) {
 			const rect = el.getBoundingClientRect();
 			return (
@@ -695,13 +695,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 				}
 				this.createCanvas();
 				this.updateBackground();
-				if (oldValue !== null) {
-					this._canvasSubscriptionId = subscribeState('b', 'canvas.created', (response: boolean) => {
-						if (response) {
-							this.videoBGAction();
-						}
-					});
-				}
 				break;
 			case 'backgroundcolor':
 				if (!this.hasAttribute('url') && !this.hasAttribute('receivestateurl')) {
@@ -712,13 +705,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 					}
 					this.createCanvas();
 					this.updateBackground();
-					if (oldValue !== null) {
-						this._canvasSubscriptionId = subscribeState('b', 'canvas.created', (response: boolean) => {
-							if (response) {
-								this.videoBGAction();
-							}
-						});
-					}
 				}
 				// }
 				break;
@@ -1183,6 +1169,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 			if (this._imgUrls.length === idx + 1) {
 				this.changeBackground(this._imgUrls.length);
 			}
+			this.videoBGUpdateAction();
 			this._elImages[idx].onload = null;
 		};
 
@@ -1207,6 +1194,23 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 		this.updateBgColor(this._bgColors[idx], ctx);
 		if (this._bgColors.length === idx + 1) {
 			this.changeBackground(this._bgColors.length);
+		}
+		this.videoBGUpdateAction();
+	}
+
+	private videoBGUpdateAction() {
+		if (this._videoCrop !== "") {
+			this._videoDimensions.forEach((video) => {
+				if (this.isCanvasListValid()) {
+					this._canvasList.forEach((canvas: HTMLCanvasElement) => {
+						const ctx: any = canvas.getContext('2d');
+						if (video.action === this.VIDEO_ACTION.STARTED) {
+							ctx.clearRect(video.left, video.top, video.width, video.height);
+							this._isRefilled = false;
+						}
+					})
+				}
+			});
 		}
 	}
 

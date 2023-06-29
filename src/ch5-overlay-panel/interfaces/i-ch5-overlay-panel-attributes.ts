@@ -1,4 +1,4 @@
-// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+// Copyright (C) 2023 to the present, Crestron Electronics, Inc.
 // All rights reserved.
 // No part of this software may be reproduced in any form, machine
 // or natural, without the express written consent of Crestron Electronics.
@@ -113,20 +113,6 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * @attributeType "Boolean"
    */
   closable: boolean;
-
-  /**
-   * @documentation
-   * [
-   * "`mask` attribute",
-   * "***",
-   * "The default value is false. ",
-   * "Specifies whether or not to apply a background mask."
-   * ]
-   * @name mask
-   * @default false
-   * @attributeType "Boolean"
-   */
-  mask: boolean;
 
   /**
    * @documentation

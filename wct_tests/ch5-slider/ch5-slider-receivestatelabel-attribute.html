@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-adv-slider-receivestatelabel-for-title-label-fixture">
+    <template>
+      <ch5-slider>
+        <ch5-slider-title-label label="Advance Slider" receiveStateLabel="trigger_event_listener"></ch5-slider-title-label>
+        <ch5-slider-button key="on" label="on"></ch5-slider-button>
+        <ch5-slider-button key="off" label="off"></ch5-slider-button>
+      </ch5-slider>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-adv-slider-receivestatelabel-for-slider-button-fixture">
+    <template>
+      <ch5-slider>
+        <ch5-slider-title-label label="Advance Slider" ></ch5-slider-title-label>
+        <ch5-slider-button key="on" label="on" receiveStateLabel="trigger_event_listener"></ch5-slider-button>
+        <ch5-slider-button key="off" label="off"></ch5-slider-button>
+      </ch5-slider>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-adv-slider-receivestatelabel-for-slider-button-label-fixture">
+    <template>
+      <ch5-slider>
+        <ch5-slider-title-label label="Advance Slider" ></ch5-slider-title-label>
+        <ch5-slider-button key="on">
+          <ch5-slider-button-label label="on" receiveStateLabel="trigger_event_listener"></ch5-slider-button-label>
+        </ch5-slider-button>
+        <ch5-slider-button key="off" label="off">
+          <ch5-slider-button-label label="OFF"></ch5-slider-button-label>
+        </ch5-slider-button>
+      </ch5-slider>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite("ch5-adv-slider-receivestatelabel-for-title-label-fixture", () => {
+      let ch5Slider;
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatelabel.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Slider = fixture("ch5-adv-slider-receivestatelabel-for-title-label-fixture");
+        return Promise.all([
+          customElements.whenDefined('ch5-slider'),
+        ]).then(_ => {
+          // wait for element to be defined
+        });
+      });
+
+      test('Check the label of ch5-slider-title-label received through receivestatelabel', (done)=>{
+        CrComLib.publishEvent('b', 'trigger_event_1', true);
+        flush(()=>{
+          setTimeout(()=>{
+            const sliderTitle = ch5Slider.getElementsByTagName('ch5-slider-title-label')[0];
+            expect(sliderTitle.label).to.be.equal('Advance');
+            done();
+          }, 100);
+        });
+      });
+    });
+
+    suite('ch5-adv-slider-receivestatelabel-for-slider-button-fixture', () => {
+      let ch5Slider;
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatelabel.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Slider = fixture("ch5-adv-slider-receivestatelabel-for-slider-button-fixture");
+        return Promise.all([
+          customElements.whenDefined('ch5-slider'),
+        ]).then(_ => {
+          // wait for element to be defined
+        });
+      });
+
+      test('Check the label of ch5-slider-button received through receivestatelabel', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_1', true);
+        flush(()=>{
+          setTimeout(()=>{
+            const sliderButton = ch5Slider.getElementsByTagName('ch5-slider-button')[0];
+            console.log(sliderButton)
+            expect(sliderButton.label).to.be.equal('Advance');
+            done();
+          }, 200);
+        });
+      });
+    });
+
+    suite('ch5-adv-slider-receivestatelabel-for-slider-button-label-fixture', () => {
+      let ch5Slider;
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatelabel.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Slider = fixture("ch5-adv-slider-receivestatelabel-for-slider-button-label-fixture");
+        return Promise.all([
+          customElements.whenDefined('ch5-slider'),
+        ]).then(_ => {
+          // wait for element to be defined
+        });
+      });
+
+      test('Check the label of ch5-slider-button-label received through receivestatelabel', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_1', 'true');
+        flush(()=>{
+          setTimeout(()=>{
+            const sliderButtonLabel = ch5Slider.getElementsByTagName('ch5-slider-button-label')[0];
+            expect(sliderButtonLabel.label).to.be.equal('Advance');
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

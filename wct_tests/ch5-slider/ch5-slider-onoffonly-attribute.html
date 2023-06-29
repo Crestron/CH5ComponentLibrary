@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-adv-slider-fixture">
+    <template>
+      <ch5-slider>
+        <ch5-slider-title-label label="Advance Slider"></ch5-slider-title-label>
+        <ch5-slider-button key="on" label="on"></ch5-slider-button>
+        <ch5-slider-button key="off" label="off"></ch5-slider-button>
+      </ch5-slider>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-adv-slider-with-range-fixture">
+    <template>
+      <ch5-slider range="true">
+        <ch5-slider-title-label label="Advance Slider"></ch5-slider-title-label>
+        <ch5-slider-button key="on" label="on"></ch5-slider-button>
+        <ch5-slider-button key="off" label="off"></ch5-slider-button>
+      </ch5-slider>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-adv-slider-receivestateshowonoffonly-fixture">
+    <template>
+      <ch5-slider range="true" receivestateshowonoffonly="trigger_event_listener">
+        <ch5-slider-title-label label="Advance Slider"></ch5-slider-title-label>
+        <ch5-slider-button key="on" label="on"></ch5-slider-button>
+        <ch5-slider-button key="off" label="off"></ch5-slider-button>
+      </ch5-slider>
+    </template>
+  </test-fixture>
+  <script>
+    suite("ch5-adv-slider-fixture", () => {
+      let ch5Slider;
+      setup(() => {
+        ch5Slider = fixture("ch5-adv-slider-fixture");
+        return Promise.all([
+          customElements.whenDefined('ch5-slider'),
+        ]).then(_ => {
+          // wait for element to be defined
+        });
+      });
+
+      test("Check if Slider has adv-slider class", (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Slider.lastChild.classList.contains('adv-slider')).to.be.equal(true);
+            done();
+          }, 100);
+        });
+      });
+
+      const values = [true, false, '21', 71, 'string'];
+      const expectedOutput = [true, false, false, false, false];
+
+      values.forEach((ele, i) => {
+        test(`Check onOffOnly: ${ele} to be equal ${expectedOutput[i]}`, (done) => {
+          ch5Slider.setAttribute('onoffonly', ele);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Slider.onOffOnly).to.be.equal(expectedOutput[i]);
+              done();
+            }, 100);
+          });
+        });
+      });
+    });
+
+    suite('ch5-adv-slider-with-range-fixture', () => {
+      let ch5Slider;
+      setup(() => {
+        ch5Slider = fixture("ch5-adv-slider-with-range-fixture");
+        return Promise.all([
+          customElements.whenDefined('ch5-slider'),
+        ]).then(_ => {
+          // wait for element to be defined
+        });
+      });
+
+      test("Check advance slider when range is true", (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Slider.lastChild.classList.contains('adv-slider')).to.be.equal(false);
+            done();
+          });
+        });
+      });
+    });
+
+    suite("ch5-adv-slider-receivestateshowonoffonly-fixture", () => {
+      let ch5Slider;
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestateshowonoffonly.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Slider = fixture("ch5-adv-slider-receivestateshowonoffonly-fixture");
+        return Promise.all([
+          customElements.whenDefined('ch5-slider'),
+        ]).then(_ => {
+          // wait for element to be defined
+        });
+      });
+
+      test('Check onOffOnly value received through receiveStateShowOnOffOnly', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_1', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Slider.onOffOnly).to.be.equal(false);
+            done();
+          });
+        });
+      });
+    });
+
+    
+  </script>
+</body>
+
+</html>

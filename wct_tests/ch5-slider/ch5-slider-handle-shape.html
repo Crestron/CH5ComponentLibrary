@@ -44,12 +44,12 @@
         });
 
         test('Default handleShape has class name: "ch5-slider--shape--rounded-rectangle"', function() {
-            expect(ch5Slider.className).to.contain('ch5-slider--shape--rounded-rectangle');
+            expect(ch5Slider.firstElementChild.className).to.contain('ch5-slider--shape--rounded-rectangle');
         });
 
         // this will test if noUiSlider was rendered with current setup
         test('Default handleShape: "rounded-rectangle" rendered noUiSlider', function() {
-            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
         });
 
         const availableHandleShapes = ['rounded-rectangle', 'rectangle', 'circle', 'oval'];
@@ -63,12 +63,12 @@
 
             test(`handleShape: "${handleShapeName}" has class name: "ch5-slider--shape--${handleShapeName}"`, function() {
                 ch5Slider.setAttribute('handleShape',handleShapeName);
-                expect(ch5Slider.className).to.contain('ch5-slider--shape--' + handleShapeName);
+                expect(ch5Slider.firstElementChild.className).to.contain('ch5-slider--shape--' + handleShapeName);
             });
 
             // this will test if noUiSlider was rendered with current setup
             test(`handleShape: "${handleShapeName}" rendered noUiSlider`, function() {
-                expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+                expect(ch5Slider._innerContainer.hasOwnProperty('noUiSlider')).to.be.equal(true);
             });
         });
     });

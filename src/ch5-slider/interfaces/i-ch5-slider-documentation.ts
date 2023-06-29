@@ -73,8 +73,56 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *            "\treceivestatevalue=\"${5:receive_slider_value}\">",
  *            "</ch5-slider>$0"
  *        ]
+ *    },
+ *    {
+ *      "prefix": "ch5-slider:onOffOnly",
+ *      "description": "Crestron slider onOffOnly",
+ *      "body": [
+ *         "<ch5-slider onOffOnly=\"${1:false}\">",
+ *         "\t<ch5-slider-title-label >",
+ *         "\t</ch5-slider-title-label>",
+ *         "\t<ch5-slider-button >",
+ *         "\t</ch5-slider-button>",
+ *         "\t<ch5-slider-button >",
+ *         "\t</ch5-slider-button>",
+ *         "<ch5-slider>$0"
+ *      ]
+ *    },
+ *    {
+ *      "prefix": "ch5-slider:all-attribute",
+ *      "description": "Crestron slider (All attribute)",
+ *      "body": [
+ *        "<ch5-slider id=\"ch5-slider_${1:id}\"",
+ *        "\thandleshape=\"${2:rounded-rectangle}\"",
+ *        "\trange=\"${3:false}\"",
+ *        "\tvalue=\"${4:0}\"",
+ *        "\tvaluehigh=\"${5:65535}\"",
+ *        "\tmin=\"${6:0}\"",
+ *        "\tmax=\"${7:65535}\"",
+ *        "\tnohandle=\"${8:false}\"",
+ *        "\tonoffonly=\"${9:false}\"",
+ *        "\torientation=\"${10:horizontal}\"",
+ *        "\tsize=\"${11:regular}\"",
+ *        "\thandlesize=\"${12:regular}\"",
+ *        "\tstep=\"${13:1}\"",
+ *        "\tticks='${14:{\"0\":\"-60\", \"25\":\"-40\", \"50\":\"-20\", \"75\":\"-10\", \"100\": \"0\" }}'",
+ *        "\tshowtickvalues=\"${15:false}\"",
+ *        "\ttooltipshowtype=\"${16:off}\"",
+ *        "\ttooltipdisplaytype=\"${17:%}\"",
+ *        "\ttapsettable=\"${18:false}\"",
+ *        "\tsendeventonchange=\"${19:}\"",
+ *        "\tsendeventonchangehigh=\"${20:}\"",
+ *        "\treceivestatevalue=\"${21:}\"",
+ *        "\treceivestatevaluehigh=\"${22:}\"",
+ *        "\treceivestateshowonoffonly=\"${23:}\"",
+ *        "\tsendeventonupper=\"${24:}\"",
+ *        "\tsendeventonlower=\"${25:}\"",
+ *        "\tsendeventonhandleclick=\"${26:}\"",
+ *        "\tstretch=\"${27:both}\">",
+ *        "</ch5-slider>$0"
+ *      ]
  *    }
  * ]
  */
- export interface ICh5SliderDocumentation extends ICh5Common, ICh5SliderAttributes {
+export interface ICh5SliderDocumentation extends ICh5Common, ICh5SliderAttributes {
 }

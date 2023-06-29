@@ -1,110 +1,282 @@
-// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
-// All rights reserved.
-// No part of this software may be reproduced in any form, machine
-// or natural, without the express written consent of Crestron Electronics.
-// Use of this source code is subject to the terms of the Crestron Software License Agreement
-// under which you licensed this source code.
-
 import { Ch5OverlayPanel, } from "../ch5-overlay-panel/index";
-import { Ch5Signal } from "../ch5-core/index";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { Ch5Button } from "../ch5-button/ch5-button";
 import { ICh5ModalDialogAttributes } from "./interfaces/i-ch5-modal-dialog-attributes";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 import { Ch5Common } from '../ch5-common/ch5-common';
+import { Ch5Properties } from "../ch5-core/ch5-properties";
+import { ICh5PropertySettings } from "../ch5-core/ch5-property";
+import { TCh5OverlayPanelStretch } from "../ch5-overlay-panel/interfaces"
 
-// @ts-ignore
-/**
- * Html Attributes
- *
- * - width
- * - height
- * - title
- * - hideOkButton
- * - okButtonLabel
- * - okButtonIcon
- * - okButtonStyle
- * - hideCancelButton
- * - cancelButtonLabel
- * - cancelButtonIcon
- * - cancelButtonStyle
- * - prompt
- * - promptIcon
- *
- * - sendEventOnOk
- * - sendEventOnCancel
- *
- * - dismissable
- * - closable
- * - closeIcon
- * - mask
- * - maskStyle
- * - stretch
- * - overflow
- * - positionTo
- * - positionOffset
- *
- * - receiveStatePositionTo
- * - receiveStatePositionOffset
- * - sendEventOnBeforeShow
- * - sendEventOnAfterShow
- * - sendEventOnBeforeHide
- * - sendEventOnAfterHide
- *
- * Inherited from Ch5Common
- * - customClass
- * - customStyle
- * - receiveStateCustomClass
- * - receiveStateCustomStyle
- * - receiveStateShow
- * - receiveStateShowPulse
- * - receiveStateHidePulse
- * - sendEventOnShow
- *
- */
 export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAttributes {
 
-	public static readonly ELEMENT_NAME: string = 'ch5-modal-dialog';
-
-	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestatepositionto: { direction: "state", numericJoin: 1, contractName: true },
-		receivestatepositionoffset: { direction: "state", numericJoin: 1, contractName: true },
-
-		sendeventonbeforeshow: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventonaftershow: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventonbeforehide: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventonafterhide: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventonok: { direction: "event", booleanJoin: 1, contractName: true },
-		contractname: { contractName: true },
-		booleanjoinoffset: { booleanJoin: 1 },
-		numericjoinoffset: { numericJoin: 1 },
-		stringjoinoffset: { stringJoin: 1 }
-	};
-
 	public static readonly COMPONENT_DATA: any = {
-		POSITION_OFFSETS: {
-			default: Ch5OverlayPanel.POSITION_OFFSETS[0],
-			values: Ch5OverlayPanel.POSITION_OFFSETS,
-			key: 'position_offset',
-			classListPrefix: '--pos-'
-		},
 		STRETCH: {
 			default: Ch5OverlayPanel.STRETCHES[0],
 			values: Ch5OverlayPanel.STRETCHES,
 			key: 'stretch',
+			attribute: 'stretch',
 			classListPrefix: '--stretch-'
 		},
 		OVERFLOWS: {
 			default: Ch5OverlayPanel.OVERFLOWS[0],
 			values: Ch5OverlayPanel.OVERFLOWS,
 			key: 'overflow',
+			attribute: 'overflow',
 			classListPrefix: '--overflow-'
 		}
 	};
 
+	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		sendsignalonbeforeshow: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignalonaftershow: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignalonbeforehide: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignalonafterhide: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignalonok: { direction: "event", booleanJoin: 1, contractName: true },
+		sendsignaloncancel: { direction: "event", booleanJoin: 1, contractName: true },
+	};
+
+	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
+		{
+			default: true,
+			name: "dismissable",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true
+		},
+		{
+			default: false,
+			name: "closable",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			name: "closeIcon",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		},
+		{
+			default: false,
+			name: "mask",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			name: "maskStyle",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		},
+		{
+			default: null,
+			enumeratedValues: Ch5OverlayPanel.STRETCHES,
+			name: "stretch",
+			removeAttributeOnNull: true,
+			type: "enum",
+			valueOnAttributeEmpty: null,
+			isObservableProperty: true,
+			isNullable: true
+		},
+		{
+			default: Ch5OverlayPanel.OVERFLOWS[0],
+			enumeratedValues: Ch5OverlayPanel.OVERFLOWS,
+			name: "overflow",
+			removeAttributeOnNull: true,
+			type: "enum",
+			valueOnAttributeEmpty: Ch5OverlayPanel.OVERFLOWS[0],
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			name: "width",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			name: "height",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			name: "title",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		},
+		{
+			default: false,
+			name: "hideOkButton",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true
+		},
+		{
+			default: "Ok",
+			name: "okButtonLabel",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "Ok",
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			name: "okButtonIcon",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			name: "okButtonStyle",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		},
+		{
+			default: false,
+			name: "hideCancelButton",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true
+		},
+		{
+			default: "Cancel",
+			name: "cancelButtonLabel",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "Cancel",
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			name: "cancelButtonIcon",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			name: "cancelButtonStyle",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			name: "prompt",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			name: "promptIcon",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "sendEventOnBeforeShow",
+			signalType: "boolean",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "sendEventOnAfterShow",
+			signalType: "boolean",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "sendEventOnBeforeHide",
+			signalType: "boolean",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "sendEventOnAfterHide",
+			signalType: "boolean",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "sendEventOnShow",
+			signalType: "boolean",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "sendEventOnOk",
+			signalType: "boolean",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "sendEventOnCancel",
+			signalType: "boolean",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		}
+	];
+
+	public static readonly ELEMENT_NAME: string = 'ch5-modal-dialog';
 	public primaryCssClass = 'ch5-modal-dialog';
 
+	public _ch5Properties: Ch5Properties;
 	/**
 	 * A div element that is external to this component. Its role is to provide mask that stretches over the entire
 	 * viewport. The overlay will be displayed over this mask. The mask will capture click/touch events made outside
@@ -135,167 +307,208 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 	protected _elBtnCancel: Ch5Button = {} as Ch5Button;
 
-	/**
-	 * The width of the window
-	 *
-	 * HTML attribute: width
-	 */
-	protected _width: string = '';
-
-	/**
-	 * The height of the window
-	 *
-	 * HTML attribute: height
-	 */
-	protected _height: string = '';
-
-	/**
-	 * Header title text
-	 * if absent or empty hides the title bar
-	 * HTML attribute: title
-	 */
-	protected _title: string = '';
-
-	/**
-	 * Default false
-	 * If true apply a background mask.
-	 *
-	 * HTML attribute name: mask
-	 */
-	protected _mask: boolean = false;
-
-	/**
-	 * Inline css style added to the background mask
-	 *
-	 * HTML attribute name: maskStyle
-	 */
-	protected _maskStyle: string = '';
-
-	/**
-	 * If true hides the ok button
-	 * HTML attribute: hideOkButton
-	 */
-	protected _hideOkButton: boolean = false;
-
-	/**
-	 * Text that will be used for the okButton.
-	 *
-	 * HTML attribute: okButtonLabel
-	 */
-	protected _okButtonLabel: string = '';
-
-	/**
-	 * Icon that will be used for the ok button
-	 *
-	 * HTML attribute: okButtonIcon
-	 */
-	protected _okButtonIcon: string = '';
-
-	/**
-	 * Inline style that will be used for the okButton
-	 *
-	 * HTML attribute: okButtonStyle
-	 */
-	protected _okButtonStyle: string = '';
-
-	/**
-	 * If true hides the cancelButton
-	 * HTML attribute: hideCancelButton
-	 */
-	protected _hideCancelButton: boolean = false;
-
-	/**
-	 * Text that will be used for the cancelButton.
-	 *
-	 * HTML attribute: cancelButtonLabel
-	 */
-	protected _cancelButtonLabel: string = '';
-
-	/**
-	 * Icon that will be used for the cancelButton
-	 *
-	 * HTML attribute: cancelButtonIcon
-	 */
-	protected _cancelButtonIcon: string = '';
-
-	/**
-	 * Inline style that will be used for the cancelButton
-	 *
-	 * HTML attribute: cancelButtonStyle
-	 */
-	protected _cancelButtonStyle: string = '';
-
-	/**
-	 * Optional message text
-	 *
-	 * HTML attribute: prompt
-	 */
-	protected _prompt: string = '';
-
-	/**
-	 * Icon that appears next to the prompt text
-	 *
-	 * HTML attribute: promptIcon
-	 */
-	protected _promptIcon: string = '';
-
-	/**
-	 * The name of the boolean signal that will be sent when the Ok button is pressed
-	 *
-	 * HTML attribute name: sendEventOnOk
-	 */
-	protected _sigNameSendOnOk: string = '';
-
-	/**
-	 * The boolean Ch5Signal for sendEventOnOk
-	 */
-	protected _sigSendOnOk: Ch5Signal<boolean> | null = null;
-
-	/**
-	 * The name of the boolean signal that will be sent when the Cancel button is pressed
-	 *
-	 * HTML attribute name: sendEventOnCancel
-	 */
-	protected _sigNameSendOnCancel: string = '';
-
-	/**
-	 * The boolean Ch5Signal for sendEventOnCancel
-	 */
-	protected _sigSendOnCancel: Ch5Signal<boolean> | null = null;
-
-	protected _btnOkDefaultLabelText = 'Ok';
-
-	protected _btnCancelDefaultLabelText = 'Cancel';
-
-	/**
-	 * Events
-	 * Inherited
-	 * show
-	 * hide
-	 * beforeShow
-	 * afterShow
-	 * beforeHide
-	 * afterHide
-	 */
 
 	private _okEvent: Event;
 
 	private _cancelEvent: Event;
 
-	private _crModalWasInstatiated: boolean = false;
+	//#region Getters and Setters
 
+	public set width(value: string) {
+		this._ch5Properties.set<string>("width", this._parseSizeAttr(value), () => {
+			this.handleWidth();
+		});
+	}
+	public get width(): string {
+		return this._ch5Properties.get<string>("width");
+	}
+
+	public set height(value: string) {
+		this._ch5Properties.set<string>("height", this._parseSizeAttr(value), () => {
+			this.handleHeight();
+		});
+	}
+	public get height(): string {
+		return this._ch5Properties.get<string>("height");
+	}
+
+	public set stretch(value: TCh5OverlayPanelStretch | null) {
+		const prevValue = this.stretch;
+		this._ch5Properties.set<TCh5OverlayPanelStretch | null>("stretch", value, () => {
+			if (prevValue !== null) {
+				this.updateChangeInStretch(prevValue);
+			}
+		});
+	}
+	public get stretch(): (TCh5OverlayPanelStretch | null) {
+		return this._ch5Properties.get<TCh5OverlayPanelStretch | null>("stretch");
+	}
+
+	public set closable(value: boolean) {
+		this._ch5Properties.set<boolean>("closable", value, () => {
+			this.adjustInternalHtmlStructure();
+		});
+	}
+	public get closable(): boolean {
+		return this._ch5Properties.get<boolean>("closable");
+	}
+
+	public set title(value: string) {
+		const trValue = this._getTranslatedValue('title', value);
+		this._ch5Properties.set<string>("title", trValue, () => {
+			this.handleTitle(trValue);
+		});
+	}
+	public get title(): string {
+		return this._ch5Properties.get<string>("title");
+	}
+
+	public set mask(value: boolean) {
+		this._ch5Properties.set<boolean>("mask", value, () => {
+			this.handleMask();
+		});
+	}
+	public get mask(): boolean {
+		return this._ch5Properties.get<boolean>("mask");
+	}
+
+	public set maskStyle(value: string) {
+		this._ch5Properties.set<string>("maskStyle", value, () => {
+			this.handleMaskStyle();
+		});
+	}
+	public get maskStyle() {
+		return this._ch5Properties.get<string>("maskStyle");
+	}
+
+	public set hideOkButton(value: boolean) {
+		this._ch5Properties.set<boolean>("hideOkButton", value, () => {
+			this.adjustInternalHtmlStructure();
+		});
+	}
+	public get hideOkButton(): boolean {
+		return this._ch5Properties.get<boolean>("hideOkButton");
+	}
+
+	public set okButtonLabel(value: string) {
+		const trValue = this._getTranslatedValue('okButtonLabel', value);
+		this._ch5Properties.set<string>("okButtonLabel", trValue, () => {
+			this.handleOkButtonLabel(trValue);
+		});
+	}
+	public get okButtonLabel(): string {
+		return this._ch5Properties.get<string>("okButtonLabel");
+	}
+
+	public set okButtonIcon(value: string) {
+		this._ch5Properties.set<string>("okButtonIcon", value, () => {
+			this.handleOkButtonIcon();
+		});
+	}
+	public get okButtonIcon(): string {
+		return this._ch5Properties.get<string>("okButtonIcon");
+	}
+
+	public set okButtonStyle(value: string) {
+		this._ch5Properties.set<string>("okButtonStyle", value, () => {
+			this.handleOkButtonStyle();
+		});
+	}
+	public get okButtonStyle(): string {
+		return this._ch5Properties.get<string>("okButtonStyle");
+	}
+
+	public set hideCancelButton(value: boolean) {
+		this._ch5Properties.set<boolean>("hideCancelButton", value, () => {
+			this.adjustInternalHtmlStructure();
+		});
+	}
+	public get hideCancelButton(): boolean {
+		return this._ch5Properties.get<boolean>("hideCancelButton");
+	}
+
+	public set cancelButtonLabel(value: string) {
+		const trValue = this._getTranslatedValue('cancelButtonLabel', value);
+		this._ch5Properties.set<string>("cancelButtonLabel", trValue, () => {
+			this.handleCancelButtonLabel(trValue);
+		});
+	}
+	public get cancelButtonLabel(): string {
+		return this._ch5Properties.get<string>("cancelButtonLabel");
+	}
+
+	public set cancelButtonIcon(value: string) {
+		this._ch5Properties.set<string>("cancelButtonIcon", value, () => {
+			this.handleCancelButtonIcon();
+		});
+	}
+	public get cancelButtonIcon(): string {
+		return this._ch5Properties.get<string>("cancelButtonIcon");
+	}
+
+	public set cancelButtonStyle(value: string) {
+		this._ch5Properties.set<string>("cancelButtonStyle", value, () => {
+			this.handleCancelButtonStyle();
+		});
+	}
+	public get cancelButtonStyle(): string {
+		return this._ch5Properties.get<string>("cancelButtonStyle");
+	}
+
+	public set prompt(value: string) {
+		const trValue = this._getTranslatedValue('prompt', value);
+		this._ch5Properties.set<string>("prompt", trValue, () => {
+			this.handlePrompt(trValue);
+		});
+	}
+	public get prompt(): string {
+		return this._ch5Properties.get<string>("prompt");
+	}
+
+	public set promptIcon(value: string) {
+		this._ch5Properties.set<string>("promptIcon", value, () => {
+			this.handlePromptIcon(value);
+		});
+	}
+	public get promptIcon(): string {
+		return this._ch5Properties.get<string>("promptIcon");
+	}
+
+	public set sendEventOnOk(value: string) {
+		this._ch5Properties.set("sendEventOnOk", value, () => {
+			this._elBtnOk.setAttribute('sendEventOnClick', value);
+		});
+	}
+	public get sendEventOnOk(): string {
+		return this._ch5Properties.get<string>('sendEventOnOk');
+	}
+
+	public set sendEventOnCancel(value: string) {
+		this._ch5Properties.set("sendEventOnCancel", value, () => {
+			this._elBtnCancel.setAttribute('sendEventOnClick', value);
+		});
+	}
+	public get sendEventOnCancel(): string {
+		return this._ch5Properties.get<string>('sendEventOnCancel');
+	}
+
+	//#endregion
+
+	private _crModalWasInstatiated: boolean = false;
 
 	public constructor() {
 		super();
 		this.info('Ch5ModalDialog.constructor()');
 		this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
 
+		this._ch5Properties = new Ch5Properties(this, Ch5ModalDialog.COMPONENT_PROPERTIES);
 		if (!this._crModalWasInstatiated) {
 			this._rebindEventCallbacks();
 			this.createInternalHtml();
-			this._closeIcon = this.primaryCssClass + '-default-close-icon';
 		}
 		this._crModalWasInstatiated = true;
+
+		this.updateCssClasses();
 
 		this._okEvent = new CustomEvent('ok', {
 			bubbles: true,
@@ -306,38 +519,46 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			bubbles: true,
 			cancelable: false
 		});
-
-		this._cancelButtonLabel = this._btnCancelDefaultLabelText;
-		this._okButtonLabel = this._btnOkDefaultLabelText;
-
 	}
 
 	public static registerSignalAttributeTypes() {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5ModalDialog.ELEMENT_NAME, Ch5ModalDialog.SIGNAL_ATTRIBUTE_TYPES);
 	}
 
+	public static registerCustomElement() {
+		if (typeof window === "object"
+			&& typeof window.customElements === "object"
+			&& typeof window.customElements.define === "function") {
+			window.customElements.define(Ch5ModalDialog.ELEMENT_NAME, Ch5ModalDialog);
+		}
+	}
 
 	protected attachEventListeners() {
 		super.attachEventListeners();
-
 		if (!this._elBtnCancel) {
 			return;
 		}
-
 		if (!this._elBtnOk) {
 			return;
 		}
-
-		this._elBtnOk.addEventListener('click', this._onOkClick);
-		this._elBtnCancel.addEventListener('click', this._onCancelClick);
+		if (!this.hideOkButton) {
+			this._elBtnOk.addEventListener('click', this._onOkClick);
+		}
+		if (!this.hideCancelButton) {
+			this._elBtnCancel.addEventListener('click', this._onCancelClick);
+		}
+		this._elMask.addEventListener('click', this._clickedOnMask);
 	}
 
 	protected removeEventListeners() {
 		super.removeEventListeners();
-
-		this._elBtnOk.removeEventListener('click', this._onOkClick);
-		this._elBtnCancel.removeEventListener('click', this._onCancelClick);
-
+		if (this._elBtnOk.childNodes !== undefined) {
+			this._elBtnOk.removeEventListener('click', this._onOkClick);
+		}
+		if (this._elBtnCancel.childNodes !== undefined) {
+			this._elBtnCancel.removeEventListener('click', this._onCancelClick);
+		}
+		this._elMask.removeEventListener('click', this._clickedOnMask);
 	}
 
 	protected _rebindEventCallbacks() {
@@ -352,9 +573,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 	protected _onOkClick(inEvent: Event) {
 		this.info('_onOkClick()');
 		this.dispatchEvent(this._okEvent);
-		// TODO: The show attribute works but the biggest challenge comes with receiveStateShow
-		// This must be globally corrected in the next version for ok, cancel and close icon
-		// Creating a hard show to false
 		this.setShowBasedOnAttributes();
 	}
 
@@ -395,41 +613,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		return this._elContainer;
 	}
 
-	protected updatePosition() {
-		// do nothing since ch5-modal-dialog does not implement positionTo and positionOffset
-	}
-
-	protected updateForChangeInClosable() {
-		this.adjustInternalHtmlStructure();
-	}
-
-	protected updateForChangeInStretch() {
-		const targetEl = this.getTargetElementForCssClassesAndStyle();
-		const horizontalMargin = 10;
-		const verticalMargin = 5;
-
-		switch (this.stretch) {
-			case 'width':
-				if (!this.hasAttribute('width')) {
-					targetEl.style.width = window.innerWidth - (2 * horizontalMargin) + 'px';
-				}
-				break;
-			case 'height':
-				if (!this.hasAttribute('height')) {
-					targetEl.style.height = window.innerHeight - (2 * verticalMargin) + 'px';
-				}
-				break;
-			case 'both':
-				if (!this.hasAttribute('width')) {
-					targetEl.style.width = window.innerWidth - (2 * horizontalMargin) + 'px';
-				}
-				if (!this.hasAttribute('height')) {
-					targetEl.style.height = window.innerHeight - (2 * verticalMargin) + 'px';
-				}
-				break;
-		}
-	}
-
 	public connectedCallback() {
 		// super.connectedCallback();
 		this.info('ch5-modal connectedCallback()');
@@ -441,11 +624,14 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		if (!this.hasAttribute('show')) {
 			this.setShowBasedOnAttributes();
 		}
+
+		this.initializeButton();
+
 		this._ready.then(() => {
 			this._initialize();
 			this.initCommonMutationObserver(this);
-		}
-		);
+		});
+		this.attachEventListeners();
 	}
 
 	public disconnectedCallback() {
@@ -454,6 +640,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 		// disconnect common mutation observer
 		this.disconnectCommonMutationObserver();
+		this.removeEventListeners();
 	}
 
 	private setShowBasedOnAttributes() {
@@ -461,50 +648,14 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 	}
 
 	public static get observedAttributes() {
-		const inheritedObsAttrs = Ch5OverlayPanel.observedAttributes;
-
-		// remove positionTo, positionOffset, receiveStatePositionTo, receiveStatePositionOffset
-		inheritedObsAttrs.filter((attr: string) => {
-			let skip = false;
-			const lcAttr = attr.toLowerCase();
-			if (lcAttr === 'positionto' || lcAttr === 'positionoffset'
-				|| lcAttr === 'receivestatepositionto'
-				|| lcAttr === 'receivestatepositionoffset') {
-				skip = true;
+		const inheritedObsAttrs = Ch5Common.observedAttributes;
+		const newObsAttrs: string[] = [];
+		for (let i: number = 0; i < Ch5ModalDialog.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5ModalDialog.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				newObsAttrs.push(Ch5ModalDialog.COMPONENT_PROPERTIES[i].name.toLowerCase());
 			}
-
-			return skip;
-		});
-
-		const newObsAttrs = [
-
-			'width',
-			'height',
-			'title',
-			'hideokbutton',
-			'okbuttonlabel',
-			'okbuttonicon',
-			'okbuttonstyle',
-			'hidecancelbutton',
-			'cancelbuttonlabel',
-			'cancelbuttonicon',
-			'cancelbuttonstyle',
-			'prompt',
-			'prompticon',
-			'mask',
-			'maskstyle',
-
-
-			'sendeventonok',
-			'sendeventoncancel'
-
-		];
-
+		}
 		return inheritedObsAttrs.concat(newObsAttrs);
-	}
-
-	public getListOfAllPossibleComponentCssClasses(): string[] {
-		return super.getListOfAllPossibleComponentCssClasses();
 	}
 
 	protected _initialize() {
@@ -525,141 +676,38 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		this.initAttributes();
 		this._checkAndAttachMaskIfNeeded();
 		this.updateCssClasses();
-		this.attachEventListeners();
+	}
+
+	protected initializeButton() {
+		if (!this.hideOkButton && this._elBtnOk.childNodes === undefined) {
+			this._elBtnOk = new Ch5Button();
+			this._elBtnOk.classList.add(this.primaryCssClass + '-btn-ok');
+			this._elBtnOk.setAttribute('type', 'success');
+			this._elBtnOk.setAttribute('label', this.okButtonLabel);
+			this._elFooter.append(this._elBtnOk);
+		}
+
+		if (!this.hideCancelButton && this._elBtnCancel.childNodes === undefined) {
+			this._elBtnCancel = new Ch5Button();
+			this._elBtnCancel.classList.add(this.primaryCssClass + '-btn-cancel');
+			this._elBtnCancel.setAttribute('type', 'warning');
+			this._elBtnCancel.setAttribute('label', this.cancelButtonLabel);
+			this._elFooter.append(this._elBtnCancel);
+		}
 	}
 
 	protected initAttributes() {
 		super.initAttributes();
 
-		if (this.hasAttribute('width')
-			&& null !== this.getAttribute('width')) {
-			this.width = this._parseSizeAttr(this.getAttribute('width') as string);
-		}
-
-		if (this.hasAttribute('height')
-			&& null !== this.getAttribute('height')) {
-			this.height = this._parseSizeAttr(this.getAttribute('height') as string);
-		}
-
-		if (this.hasAttribute('title')
-			&& null !== this.getAttribute('title')) {
-			this.title = this.getAttribute('title') as string;
-		}
-
-		if (this.hasAttribute('hideokbutton')) {
-			const tmpHideOk = this.getAttribute('hideokbutton') as string;
-			if ('0' === tmpHideOk || 'false' === tmpHideOk.toLowerCase()) {
-				this.hideOkButton = false;
-			} else {
-				this.hideOkButton = true;
+		const thisRef: any = this;
+		for (let i: number = 0; i < Ch5ModalDialog.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5ModalDialog.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				if (this.hasAttribute(Ch5ModalDialog.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
+					const key = Ch5ModalDialog.COMPONENT_PROPERTIES[i].name;
+					thisRef[key] = this.getAttribute(key);
+				}
 			}
-		} else {
-			this.hideOkButton = false;
 		}
-
-		if (this.hasAttribute('okbuttonlabel')
-			&& null !== this.getAttribute('okbuttonlabel')) {
-			this.okButtonLabel = this.getAttribute('okbuttonlabel') as string;
-		}
-
-		if (this.hasAttribute('okbuttonicon')
-			&& null !== this.getAttribute('okbuttonicon')) {
-			this.okButtonIcon = this.getAttribute('okbuttonicon') as string;
-		}
-
-		if (this.hasAttribute('okbuttonstyle')
-			&& null !== this.getAttribute('okbuttonstyle')) {
-			this.okButtonStyle = this.getAttribute('okbuttonstyle') as string;
-		}
-
-		if (this.hasAttribute('hidecancelbutton')) {
-			const tmpHideCancel = this.getAttribute('hidecancelbutton') as string;
-			if ('0' === tmpHideCancel || 'false' === tmpHideCancel.toLowerCase()) {
-				this.hideCancelButton = false;
-			} else {
-				this.hideCancelButton = true;
-			}
-		} else {
-			this.hideCancelButton = false;
-		}
-
-		if (this.hasAttribute('cancelbuttonlabel')
-			&& null !== this.getAttribute('cancelbuttonlabel')) {
-			this.cancelButtonLabel = this.getAttribute('cancelbuttonlabel') as string;
-		}
-
-		if (this.hasAttribute('cancelbuttonicon')
-			&& null !== this.getAttribute('cancelbuttonicon')) {
-			this.cancelButtonIcon = this.getAttribute('cancelbuttonicon') as string;
-		}
-
-		if (this.hasAttribute('cancelbuttonstyle')
-			&& null !== this.getAttribute('cancelbuttonstyle')) {
-			this.cancelButtonStyle = this.getAttribute('cancelbuttonstyle') as string;
-		}
-
-		if (this.hasAttribute('prompt')
-			&& null !== this.getAttribute('prompt')) {
-			this.prompt = this.getAttribute('prompt') as string;
-		}
-
-		if (this.hasAttribute('prompticon')
-			&& null !== this.getAttribute('prompticon')) {
-			this.promptIcon = this.getAttribute('prompticon') as string;
-		}
-
-		if (this.hasAttribute('mask')) {
-			const tmpMask = this.getAttribute('mask') as string;
-			if ('0' === tmpMask
-				|| 'false' === tmpMask.toLowerCase()) {
-				this.mask = false;
-			} else {
-				this.mask = true;
-			}
-		} else {
-			this.mask = false;
-		}
-
-		if (this.hasAttribute('maskstyle')
-			&& null !== this.getAttribute('maskstyle')) {
-			this.maskStyle = this.getAttribute('maskstyle') as string;
-		} else {
-			this.maskStyle = '';
-		}
-
-		if (this.hasAttribute('sendeventonok')
-			&& null !== this.getAttribute('sendeventonok')) {
-			this.sendEventOnOk = this.getAttribute('sendeventonok') as string;
-		} else {
-			this.sendEventOnOk = '';
-		}
-
-		if (this.hasAttribute('sendeventoncancel')
-			&& null !== this.getAttribute('sendeventoncancel')) {
-			this.sendEventOnCancel = this.getAttribute('sendeventoncancel') as string;
-		} else {
-			this.sendEventOnCancel = '';
-		}
-
-		this._checkAndAttachMaskIfNeeded();
-		this.adjustInternalHtmlStructure();
-
-		if (this.hasAttribute('positionto')) {
-			this.removeAttribute('positionto');
-		}
-
-		if (this.hasAttribute('positionoffset')) {
-			this.removeAttribute('positionoffset');
-		}
-
-		if (this.hasAttribute('receivestatepositionto')) {
-			this.removeAttribute('receivestatepositionto');
-		}
-
-		if (this.hasAttribute('receivestatepositionoffset')) {
-			this.removeAttribute('receivestatepositionoffset');
-		}
-
 	}
 
 	protected generateListOfAllPossibleComponentCssClasses(): string[] {
@@ -668,17 +716,14 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 	protected updateCssClasses(): void {
 		// apply css classes for attrs inherited from common (e.g. customClass, customStyle )
-		// super.updateCssClasses();
+		super.updateCssClasses();
 		this.info('called updateCssClasses()');
 
-		// let stretchCssClassName = '';
 		const setOfCssClassesToBeApplied = new Set<string>();
 
-		// primary
 		setOfCssClassesToBeApplied.add(this.primaryCssClass);
-
-		// overflow
 		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--overflow-' + this.overflow);
+		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--stretch-' + this.stretch);
 
 		const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
 		if (typeof targetEl.classList !== 'undefined') {
@@ -698,158 +743,101 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 	 * Called when an HTML attribute is changed, added or removed
 	 */
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
-		if (oldValue === newValue) {
-			return;
-		}
-
-		this.info('ch5-modal-dialog attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + ')');
-
-		switch (attr) {
-			case 'width':
-				if (this.hasAttribute('width')) {
-					this.width = this._parseSizeAttr(this.getAttribute('width') as string);
-				}
-				break;
-
-			case 'height':
-				if (this.hasAttribute('height')) {
-					this.height = this._parseSizeAttr(this.getAttribute('height') as string);
-				}
-				break;
-			case 'title':
-				if (this.hasAttribute('title')) {
-					this.title = this.getAttribute('title') as string;
-				}
-				this.adjustInternalHtmlStructure();
-				break;
-			case 'hideokbutton':
-				if (this.hasAttribute('hideokbutton')) {
-					const tmpHideOk = this.getAttribute('hideokbutton') as string;
-					if ('0' === tmpHideOk || 'false' === tmpHideOk.toLowerCase()) {
-						this.hideOkButton = false;
-					} else {
-						this.hideOkButton = true;
-					}
-				} else {
-					this.hideOkButton = false;
-				}
-				this.adjustInternalHtmlStructure();
-				break;
-			case 'okbuttonlabel':
-				if (this.hasAttribute('okbuttonlabel')) {
-					this.okButtonLabel = this.getAttribute('okbuttonlabel') as string;
-				}
-				break;
-			case 'okbuttonicon':
-				if (this.hasAttribute('okbuttonicon')) {
-					this.okButtonIcon = this.getAttribute('okbuttonicon') as string;
-				}
-				break;
-			case 'okbuttonstyle':
-				if (this.hasAttribute('okbuttonstyle')) {
-					this.okButtonStyle = this.getAttribute('okbuttonstyle') as string;
-				}
-				break;
-			case 'hidecancelbutton':
-				if (this.hasAttribute('hidecancelbutton')) {
-					const tmpHideCancel = this.getAttribute('hidecancelbutton') as string;
-					if ('0' === tmpHideCancel || 'false' === tmpHideCancel.toLowerCase()) {
-						this.hideCancelButton = false;
-					} else {
-						this.hideCancelButton = true;
-					}
-				} else {
-					this.hideCancelButton = false;
-				}
-				this.adjustInternalHtmlStructure();
-				break;
-			case 'cancelbuttonlabel':
-				if (this.hasAttribute('cancelbuttonlabel')) {
-					this.cancelButtonLabel = this.getAttribute('cancelbuttonlabel') as string;
-				}
-				break;
-			case 'cancelbuttonicon':
-				if (this.hasAttribute('cancelbuttonicon')) {
-					this.cancelButtonIcon = this.getAttribute('cancelbuttonicon') as string;
-				}
-				break;
-			case 'cancelbuttonstyle':
-				if (this.hasAttribute('cancelbuttonstyle')) {
-					this.cancelButtonStyle = this.getAttribute('cancelbuttonstyle') as string;
-				}
-				break;
-			case 'prompt':
-				if (this.hasAttribute('prompt')) {
-					this.prompt = this.getAttribute('prompt') as string;
-				}
-				this.adjustInternalHtmlStructure();
-				break;
-			case 'prompticon':
-				if (this.hasAttribute('prompticon')) {
-					this.promptIcon = this.getAttribute('prompticon') as string;
-				}
-				this.adjustInternalHtmlStructure();
-				break;
-			case 'mask':
-				if (this.hasAttribute('mask')) {
-					const tmpMask = this.getAttribute('mask') as string;
-					if ('0' === tmpMask
-						|| 'false' === tmpMask.toLowerCase()) {
-						this.mask = false;
-					} else {
-						this.mask = true;
-					}
-				} else {
-					this.mask = false;
-				}
-				this._checkAndAttachMaskIfNeeded();
-				break;
-			case 'maskstyle':
-				if (this.hasAttribute('maskstyle')) {
-					this.maskStyle = newValue;
-				} else {
-					this.maskStyle = '';
-				}
-				break;
-			case 'sendeventonok':
-				if (this.hasAttribute('sendeventonok')) {
-					this.sendEventOnOk = newValue;
-				} else {
-					this.sendEventOnOk = '';
-				}
-				break;
-			case 'sendeventoncancel':
-				if (this.hasAttribute('sendeventoncancel')) {
-					this.sendEventOnCancel = newValue;
-				} else {
-					this.sendEventOnCancel = '';
-				}
-				break;
-			case 'positionto':
-				// do nothing
-				break;
-			case 'positionoffset':
-				// do nothing
-				break;
-			case 'receivestatepositionto':
-				// do nothing
-				break;
-			case 'receivestatepositionoffset':
-				// do nothing
-				break;
-			default:
+		this.logger.start("attributeChangedCallback", this.primaryCssClass);
+		if (oldValue !== newValue) {
+			this.logger.log('ch5-modal-dialog-prasaanth attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+			const attributeChangedProperty = Ch5ModalDialog.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
+			if (attributeChangedProperty) {
+				const thisRef: any = this;
+				const key = attributeChangedProperty.name;
+				thisRef[key] = newValue;
+			} else {
 				super.attributeChangedCallback(attr, oldValue, newValue);
-				break;
+			}
+		}
+		this.logger.stop();
+	}
+
+	private handleMask() {
+		if (this.mask === true) {
+			this._elMask.classList.add(this.primaryCssClass + '-mask-default-style');
+		} else {
+			this._elMask.remove();
+		}
+		this._checkAndAttachMaskIfNeeded();
+	}
+
+	private handleMaskStyle() {
+		this._elMask.style.cssText = this.maskStyle;
+	}
+
+	private handleWidth() {
+		const targetEl = this.getTargetElementForCssClassesAndStyle();
+		if (targetEl) {
+			targetEl.style.width = this._parseSizeAttr(this.width);
+		}
+	}
+
+	private handleHeight() {
+		const targetEl = this.getTargetElementForCssClassesAndStyle();
+		if (targetEl) {
+			targetEl.style.height = this._parseSizeAttr(this.height);
+		}
+	}
+
+	private handleTitle(value: string) {
+		if (this._elHeader instanceof HTMLElement) {
+			this._elHeader.textContent = value;
+		}
+	}
+
+	private updateChangeInStretch(prevValue: string) {
+		const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
+		targetEl.classList.remove(this.primaryCssClass + '--stretch-' + prevValue);
+		targetEl.classList.add(this.primaryCssClass + '--stretch-' + this.stretch);
+	}
+
+	private handleOkButtonLabel(trValue: string) {
+		this._elBtnOk.setAttribute('label', trValue);
+	}
+
+	private handleOkButtonIcon() {
+		this._elBtnOk.setAttribute('iconClass', this.okButtonIcon);
+	}
+
+	private handleOkButtonStyle() {
+		this._elBtnOk.setAttribute('customStyle', this.okButtonStyle);
+	}
+
+	private handleCancelButtonLabel(trValue: string) {
+		if (this._elBtnCancel instanceof HTMLElement) {
+			this._elBtnCancel.setAttribute('label', trValue);
+		}
+	}
+
+	private handleCancelButtonIcon() {
+		this._elBtnCancel.setAttribute('iconClass', this.cancelButtonIcon);
+	}
+
+	private handleCancelButtonStyle() {
+		this._elBtnCancel.setAttribute('customStyle', this.cancelButtonStyle);
+	}
+
+	private handlePrompt(trValue: string) {
+		if (this._elPromptText instanceof HTMLElement) {
+			this._elPromptText.textContent = trValue;
+		}
+	}
+
+	private handlePromptIcon(value: string) {
+		if (this._elPromptIcon instanceof HTMLElement) {
+			this._elPromptIcon.setAttribute('src', value);
 		}
 	}
 
 	protected createInternalHtml() {
-		// super.createInternalHtml();
-
 		const existingModal = this.querySelector(`.${this.primaryCssClass}`);
-
 		if (!existingModal) {
-
 			this.info('ch5-modal-dialog create internal Html');
 			this._elContainer = document.createElement('div');
 
@@ -878,27 +866,11 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			this._elFooter = document.createElement('div');
 			this._elFooter.classList.add(this.primaryCssClass + '-footer');
 
-			this._elBtnOk = new Ch5Button();
-			this._elBtnOk.setAttribute('type', 'success');
-			this._elBtnOk.setAttribute('label', this._btnOkDefaultLabelText);
-			// this._elBtnOk.setAttribute('customClass', this.primaryCssClass + '-btn-ok');
-			this._elBtnOk.classList.add(this.primaryCssClass + '-btn-ok');
-
-			this._elBtnCancel = new Ch5Button();
-			this._elBtnCancel.setAttribute('type', 'warning');
-			this._elBtnCancel.setAttribute('label', this._btnCancelDefaultLabelText);
-			// this._elBtnCancel.setAttribute('customClass', this.primaryCssClass + '-btn-cancel');
-			this._elBtnCancel.classList.add(this.primaryCssClass + '-btn-cancel');
-
 			this._elContents = document.createElement('div');
 			this._elContents.classList.add(this.primaryCssClass + '-contents');
 
 			this._elContainer.classList.add(this.primaryCssClass);
 			this._elContainer.setAttribute('data-ch5-id', this.getCrId());
-
-			// this._elContainer.appendChild(this._elCloseIconBtn);
-			// this._elContainer.appendChild(this._elContents);
-
 
 			this._elMask = document.createElement('div');
 			this._elMask.classList.add(this.primaryCssClass + '-mask');
@@ -918,7 +890,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 			this._elContainer = existingModal as HTMLElement;
 			this._elMask = this.querySelector(`.${this.primaryCssClass}-mask`) as HTMLElement;
 		}
-
 	}
 
 	protected adjustInternalHtmlStructure() {
@@ -963,334 +934,25 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		docFrag.appendChild(this._elContents);
 
 		if (!this.hideOkButton || !this.hideCancelButton) {
-			docFrag.appendChild(this._elFooter);
+			this.initializeButton();
 			if (!this.hideOkButton) {
 				this._elFooter.appendChild(this._elBtnOk);
-			} else if (this._elBtnOk) {
+			} else if (this.hideOkButton && this._elBtnOk.childNodes !== undefined) {
 				this._elBtnOk.remove();
 			}
-
 			if (!this.hideCancelButton) {
 				this._elFooter.appendChild(this._elBtnCancel);
-			} else if (this._elBtnCancel) {
+			} else if (this.hideCancelButton && this._elBtnCancel.childNodes !== undefined) {
 				this._elBtnCancel.remove();
 			}
+			docFrag.appendChild(this._elFooter);
 		} else if (this._elFooter) {
 			this._elFooter.remove();
 		}
 
 		this._elContainer.appendChild(docFrag);
 	}
-
-	protected afterHandlingShow() {
-		super.afterHandlingShow();
-		// Using EventLoop to attach event listener
-		// to document only after all event pipeline was called ( mousedown -> mouseup -> click)
-		// Attaching it when mousedown is triggered and that event being attached to document
-		// this will be triggerd as well.
-		setTimeout(() => {
-			if (this._elMask) {
-				this._elMask.addEventListener('click', this._clickedOnMask);
-			}
-		})
-	}
-
-	protected afterHandlingHide() {
-		super.afterHandlingHide();
-		if (this._elMask) {
-			this._elMask.removeEventListener('click', this._clickedOnMask);
-		}
-	}
-
-	// Getters and setters
-	public set width(value: string) {
-		this.info('set width' + value);
-		if (value !== this._width) {
-			this._width = value;
-			const targetEl = this.getTargetElementForCssClassesAndStyle();
-			if (targetEl) {
-				targetEl.style.width = this._parseSizeAttr(this._width);
-			}
-			this.setAttribute('width', value);
-		}
-	}
-
-	public get width(): string {
-		return this._width;
-	}
-
-	public set height(value: string) {
-		this.info('set height' + value);
-		if (value !== this._height) {
-			this._height = value;
-			const targetEl = this.getTargetElementForCssClassesAndStyle();
-			if (targetEl) {
-				targetEl.style.height = this._parseSizeAttr(this._height);
-			}
-			this.setAttribute('height', value);
-		}
-	}
-
-	public get height(): string {
-		return this._height;
-	}
-
-	public set title(value: string) {
-		this.info('set title ' + value);
-
-		if (value === undefined || value === null) {
-			value = '';
-		}
-		const trValue = this._getTranslatedValue('title', value);
-
-		if (trValue === this.title) {
-			return;
-		}
-
-		this._title = trValue;
-		this.setAttribute('title', trValue);
-
-		if (this._elHeader instanceof HTMLElement) {
-			this._elHeader.textContent = trValue;
-		}
-
-	}
-
-	public get title(): string {
-		return this._title;
-	}
-
-	public set mask(value: boolean) {
-		this.info('set mask("' + value + '")');
-		if (this._mask !== value) {
-			if (typeof value === 'undefined' || null === value) {
-				value = false;
-			}
-			this._mask = value;
-			this.setAttribute('mask', value.toString());
-		}
-		if (true === this._mask) {
-			this._elMask.classList.add(this.primaryCssClass + '-mask-default-style');
-		} else {
-			this._elMask.classList.remove(this.primaryCssClass + '-mask-default-style');
-		}
-	}
-
-	public get mask(): boolean {
-		return this._mask;
-	}
-
-	public set maskStyle(value: string) {
-		this.info('set maskStyle("' + value + '")');
-		if (this._maskStyle !== value) {
-			this._maskStyle = value;
-			this._elMask.style.cssText = value;
-			this.setAttribute('maskstyle', value);
-		}
-	}
-
-	public get maskStyle() {
-		return this._maskStyle;
-	}
-
-	public set hideOkButton(value: boolean) {
-		this.info('set hideOkButton("' + value + '")');
-		if (value !== this._hideOkButton) {
-			this._hideOkButton = value;
-			this.setAttribute('hideokbutton', value.toString());
-		}
-	}
-
-	public get hideOkButton(): boolean {
-		return this._hideOkButton;
-	}
-
-	public set okButtonLabel(value: string) {
-		this.info('set okButtonLabel' + value);
-
-		if (value === undefined || value === null) {
-			value = '';
-		}
-		const trValue = this._getTranslatedValue('okButtonLabel', value);
-
-		if (this.okButtonLabel === trValue) {
-			return;
-		}
-
-		this._okButtonLabel = trValue;
-		if (this._elBtnOk instanceof HTMLElement) {
-			this._elBtnOk.setAttribute('label', trValue);
-		}
-		this.setAttribute('okbuttonlabel', trValue);
-
-	}
-
-	public get okButtonLabel(): string {
-		return this._okButtonLabel;
-	}
-
-	public set okButtonIcon(value: string) {
-		this.info('set okButtonIcon ' + value);
-
-		if (this._okButtonIcon !== value) {
-			this._okButtonIcon = value;
-			this._elBtnOk.setAttribute('iconClass', value);
-			this.setAttribute('okbuttonicon', value);
-		}
-	}
-
-	public get okButtonIcon(): string {
-		return this._okButtonIcon;
-	}
-
-	public set okButtonStyle(value: string) {
-		this.info('set okButtonStyle ' + value);
-		if (value !== this._okButtonStyle) {
-			this._okButtonStyle = value;
-			this._elBtnOk.setAttribute('customStyle', value);
-			this.setAttribute('okbuttonstyle', value);
-		}
-	}
-
-	public get okButtonStyle(): string {
-		return this._okButtonStyle;
-	}
-
-	public set hideCancelButton(value: boolean) {
-		this.info('set hideCancelButton' + value);
-		if (value !== this._hideCancelButton) {
-			this._hideCancelButton = value;
-			this.setAttribute('hidecancelbutton', value.toString());
-		}
-	}
-
-	public get hideCancelButton(): boolean {
-		return this._hideCancelButton;
-	}
-
-	public set cancelButtonLabel(value: string) {
-		this.info('set cancelButtonLabel' + value);
-
-
-		if (value === undefined || value === null) {
-			value = '';
-		}
-		const trValue = this._getTranslatedValue('cancelButtonLabel', value);
-
-		if (this.cancelButtonLabel === trValue) {
-			return;
-		}
-
-		this._cancelButtonLabel = trValue;
-
-		if (this._elBtnCancel instanceof HTMLElement) {
-			this._elBtnCancel.setAttribute('label', trValue);
-		}
-		this.setAttribute('cancelbuttonlabel', trValue);
-	}
-
-	public get cancelButtonLabel(): string {
-		return this._cancelButtonLabel;
-	}
-
-	public set cancelButtonIcon(value: string) {
-		this.info('set cancelButtonIcon ' + value);
-
-		if (this._cancelButtonIcon !== value) {
-			this._cancelButtonIcon = value;
-			this._elBtnCancel.setAttribute('iconClass', value);
-			this.setAttribute('cancelbuttonicon', value);
-		}
-
-	}
-
-	public get cancelButtonIcon(): string {
-		return this._cancelButtonIcon;
-	}
-
-	public set cancelButtonStyle(value: string) {
-		this.info('set cancelButtonStyle ' + value);
-		if (value !== this._cancelButtonStyle) {
-			this._cancelButtonStyle = value;
-			this._elBtnCancel.setAttribute('customStyle', value);
-			this.setAttribute('cancelbuttonstyle', value);
-		}
-	}
-
-	public get cancelButtonStyle(): string {
-		return this._cancelButtonStyle;
-	}
-
-	public set prompt(value: string) {
-		this.info('set prompt ' + value);
-
-		const _value = value;
-
-		if (value === undefined || value === null) {
-			value = '';
-		}
-		const trValue = this._getTranslatedValue('prompt', value);
-
-		if (this.prompt === trValue) {
-			return;
-		}
-		this._prompt = trValue;
-
-		if (this._elPromptText instanceof HTMLElement) {
-			this._elPromptText.textContent = trValue;
-		}
-		this.setAttribute('prompt', trValue);
-
-	}
-
-	public get prompt(): string {
-		return this._prompt
-	}
-
-	public set promptIcon(value: string) {
-		this.info('set promptIcon ' + value);
-		if (value !== this._promptIcon) {
-			this._promptIcon = value;
-			this.setAttribute('prompticon', value);
-		}
-	}
-
-	public get promptIcon(): string {
-		return this._promptIcon;
-	}
-
-	public set sendEventOnOk(value: string) {
-		this.info('set sendEventOnOk ' + value);
-		if (value !== this._sigNameSendOnOk) {
-			this._sigNameSendOnOk = value;
-			this._elBtnOk.setAttribute('sendEventOnClick', value);
-			this.setAttribute('sendeventonok', value);
-		}
-	}
-
-	public get sendEventOnOk(): string {
-		return this._sigNameSendOnOk;
-	}
-
-	public set sendEventOnCancel(value: string) {
-		this.info('set sendEventOnCancel ' + value);
-		if (value !== this._sigNameSendOnCancel) {
-			this._sigNameSendOnCancel = value;
-			this._elBtnCancel.setAttribute('sendEventOnClick', value);
-			this.setAttribute('sendeventoncancel', value);
-		}
-	}
-
-	public get sendEventOnCancel(): string {
-		return this._sigNameSendOnCancel;
-	}
-
-
-}
-if (typeof window === "object"
-	&& typeof window.customElements === "object"
-	&& typeof window.customElements.define === "function") {
-	window.customElements.define(Ch5ModalDialog.ELEMENT_NAME, Ch5ModalDialog);
 }
 
+Ch5ModalDialog.registerCustomElement();
 Ch5ModalDialog.registerSignalAttributeTypes();
