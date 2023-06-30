@@ -1216,6 +1216,34 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       yPosition = 0;
       width = window.innerWidth;
       height = window.innerHeight;
+      // handling the aspect ratio in full screen video
+      if (window.innerWidth < window.innerHeight) {
+        if (this.aspectRatio === '4:3') {
+          width = window.innerWidth;
+          height = (window.innerWidth / 4) * 3;
+          yPosition = (window.innerHeight - height) / 2;
+        } else {
+          width = window.innerWidth;
+          height = (window.innerWidth / 16) * 9;
+          yPosition = (window.innerHeight - height) / 2;
+        }
+      } else {
+        if (this.aspectRatio === '4:3') {
+          height = window.innerHeight;
+          width = (window.innerHeight / 3) * 4;
+          if (width > window.innerWidth) {
+            width = window.innerWidth;
+          }
+          xPosition = (window.innerWidth - width) / 2;
+        } else {
+          height = window.innerHeight;
+          width = (window.innerHeight / 9) * 16;
+          if (width > window.innerWidth) {
+            width = window.innerWidth;
+          }
+          xPosition = (window.innerWidth - width) / 2;
+        }
+      }
     }
 
     this.lastRequestStatus = actionType;
