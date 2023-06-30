@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import 'hammerjs';
 import { Subject } from 'rxjs';
 import _ from 'lodash';
+import { isIosDevice } from '../ch5-core';
 
 export interface ICh5PressableOptions {
 	cssTargetElement: HTMLElement;
@@ -97,6 +98,11 @@ export class Ch5Pressable {
 	 * Reflects the touchend state of the component.
 	 */
 	private _touchEnd: boolean = false;
+
+	/**
+	 * Reflects the touch of IOS.
+	 */
+	private _touchIos: boolean = false;
 
 	/**
 	 * Reflects the pressed state of the component
@@ -455,7 +461,16 @@ export class Ch5Pressable {
 		if (this.isMouse) {
 			return;
 		}
-
+		if (this._touchIos === true) {
+			return;
+		}
+		if (isIosDevice()) {
+			this._touchIos = true;
+			setTimeout(() => {
+				this._touchIos = false;
+				this._onRelease();
+			}, 300);
+		}
 		this.isTouch = true;
 		this.isMouse = false;
 
