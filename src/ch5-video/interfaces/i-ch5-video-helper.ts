@@ -61,7 +61,7 @@ export type TVideoResponse = {
     currenttime: number;
     id: number;
     status: string;
-    statusCode: number;
+    statuscode: number;
     location: TVideoLocationResponse;
 }
 
