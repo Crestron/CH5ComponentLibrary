@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-video-default-attributes">
+    <template>
+      <ch5-video></ch5-video>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-video-default-attributes-value', () => {
+      let ch5Video;
+
+      setup(async () => {
+        ch5Video = fixture('ch5-video-default-attributes');
+      });
+
+      test('Check Default value for aspectRatio', () => {
+        expect(ch5Video.getAttribute("aspectRatio")).to.be.equal(null);
+        ch5Video.setAttribute('aspectRatio', '16:9');
+        expect(ch5Video.children[0].classList.contains('ch5-video--aspect-ratio-16-9')).to.be.equal(true);
+        expect(ch5Video.getAttribute("aspectRatio")).to.be.equal('16:9');
+        ch5Video.removeAttribute("aspectRatio");
+        expect(ch5Video.getAttribute("aspectRatio")).to.be.equal('16:9');
+      });
+
+      test('Check Default value for sourceType', () => {
+        expect(ch5Video.getAttribute("sourceType")).to.be.equal(null);
+        ch5Video.setAttribute('sourceType', 'Network');
+        expect(ch5Video.getAttribute("sourceType")).to.be.equal('Network');
+        ch5Video.removeAttribute("sourceType");
+        expect(ch5Video.getAttribute("sourceType")).to.be.equal('Network');
+      });
+
+      test('Check Default value for size', () => {
+        expect(ch5Video.getAttribute("size")).to.be.equal(null);
+        ch5Video.setAttribute('size', 'regular');
+        expect(ch5Video.children[0].classList.contains('ch5-video--size-regular')).to.be.equal(true);
+        expect(ch5Video.getAttribute("size")).to.be.equal('regular');
+        ch5Video.removeAttribute("size");
+        expect(ch5Video.getAttribute("size")).to.be.equal('regular');
+      });
+
+    });
+  </script>
+</body>
+
+</html>

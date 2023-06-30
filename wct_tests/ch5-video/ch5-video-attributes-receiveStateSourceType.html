@@ -11,27 +11,27 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-sample-receiveStateSourceType-attributes">
+  <test-fixture id="ch5-video-receiveStateSourceType-attributes">
     <template>
-      <ch5-sample receiveStateSourceType="trigger_event_listener"></ch5-sample>
+      <ch5-video receiveStateSourceType="trigger_event_listener"></ch5-video>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-sample-receiveStateSourceType-attributes-value', () => {
-      let ch5Sample;
+    suite('ch5-video-receiveStateSourceType-attributes-value', () => {
+      let ch5Video;
 
       setup(async () => {
         const emulatorJson = await fetch('./emulator/receivestatesourcetype.json').then((response) => response.json());
         const emulator = CrComLib.Ch5Emulator.getInstance();
         emulator.loadScenario(emulatorJson);
-        ch5Sample = fixture('ch5-sample-receiveStateSourceType-attributes');
+        ch5Video = fixture('ch5-video-receiveStateSourceType-attributes');
       });
         
           test('receiveStateSourceType', (done) => {
                 CrComLib.publishEvent('b', 'trigger_event_0',true );
                 flush(() => {
                     setTimeout(() => {
-                        expect(ch5Sample.getAttribute('sourceType')).to.be.equal('Network');
+                        expect(ch5Video.getAttribute('sourceType')).to.be.equal('Network');
                         done();
                     }, 100);
                 });
@@ -41,7 +41,7 @@
                 CrComLib.publishEvent('b', 'trigger_event_1',true );
                 flush(() => {
                     setTimeout(() => {
-                        expect(ch5Sample.getAttribute('sourceType')).to.be.equal('HDMI');
+                        expect(ch5Video.getAttribute('sourceType')).to.be.equal('HDMI');
                         done();
                     }, 100);
                 });
@@ -51,7 +51,7 @@
                 CrComLib.publishEvent('b', 'trigger_event_2',true );
                 flush(() => {
                     setTimeout(() => {
-                        expect(ch5Sample.getAttribute('sourceType')).to.be.equal('DM');
+                        expect(ch5Video.getAttribute('sourceType')).to.be.equal('DM');
                         done();
                     }, 100);
                 });

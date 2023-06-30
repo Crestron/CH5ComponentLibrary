@@ -11,25 +11,25 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-sample-sourceType-attributes">
+  <test-fixture id="ch5-video-sourceType-attributes">
     <template>
-      <ch5-sample></ch5-sample>
+      <ch5-video></ch5-video>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-sample-sourceType-attributes-value', () => {
-      let ch5Sample;
+    suite('ch5-video-sourceType-attributes-value', () => {
+      let ch5Video;
 
       setup(async () => {
-        ch5Sample = fixture('ch5-sample-sourceType-attributes');
+        ch5Video = fixture('ch5-video-sourceType-attributes');
       });
         
         let testCases = ['a', '', ' ', 'number', 'Network', 'HDMI', 'DM'];
         let expectedResult = ['Network', 'Network', 'Network', 'Network', 'Network', 'HDMI', 'DM'];
         testCases.forEach((ele, i) => {
               test('Check Value "sourceType"', () => {
-                  ch5Sample.setAttribute('sourceType', ele);
-                  expect(ch5Sample.getAttribute('sourceType')).to.be.equal(expectedResult[i]);
+                  ch5Video.setAttribute('sourceType', ele);
+                  expect(ch5Video.getAttribute('sourceType')).to.be.equal(expectedResult[i]);
               });
           });
         
