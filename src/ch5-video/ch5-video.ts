@@ -1177,7 +1177,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   private videoNotInViewport() {
-    if (this.isFullScreen) { return; }
+    if (this.isFullScreen || this.isVideoPublished === false) { return; }
     this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
     this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL);
   }
@@ -1198,7 +1198,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       "action": actionType,
       "id": uId
     };
-    console.log("stop request", retObj);
     this.sendEvent(this.sendEventState, 3);
     // this.logger.log(JSON.stringify(retObj));
     return retObj;
@@ -1246,7 +1245,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       timing: "linear" // only linear supported initially
     };
 
-    console.log("start request", retObj);
     return retObj;
   }
 
