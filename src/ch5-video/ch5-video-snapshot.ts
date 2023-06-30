@@ -91,7 +91,7 @@ export class Ch5VideoSnapshot {
 				Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventSnapshotStatus)?.publish(1);
 			}
 		};
-		this.videoImage.src = this.url + '#' + (new Date().getTime() / 1000.0); // epoch time
+		this.videoImage.src = this.url + '#' + (new Date().toISOString()); // epoch time
 		if (this.sendEventSnapshotLastUpdateTime !== null && this.sendEventSnapshotLastUpdateTime !== undefined && this.sendEventSnapshotLastUpdateTime !== "") {
 			Ch5SignalFactory.getInstance().getStringSignal(this.sendEventSnapshotLastUpdateTime)?.publish(this.videoImage.src);
 		}
