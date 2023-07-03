@@ -13,7 +13,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	//#region Variables
 
 	public static readonly KEY: TCh5SliderButtonKey[] = ['on', 'off'];
-	public static readonly inheritedObsAttrs = ["key", "label", "sgicontheme", "iconclass", "iconurl", "iconurlfilltype", "sendeventonclick", "receivestatelabel", "receivestateiconclass", "receivestateiconurl"];
+	public static readonly inheritedObsAttrs = ["key", "label", "sgicontheme", "iconclass", "pressed", "selected", "shape", "hAlignLabel", "vAlignLabel", "type", "iconurl", "iconurlfilltype", "sendeventonclick", "receivestatelabel", "receivestateiconclass", "receivestateiconurl"];
 	public static readonly COMPONENT_DATA: any = {
 		KEY: {
 			default: Ch5SliderButton.KEY[0],
@@ -107,7 +107,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	private buttonIgonredAttributes() {
 		const buttonIgnoredAttr = [
-			'labelinnerhtml', 'iconposition', 'orientation', 'checkboxshow', 'checkboxposition', 'halignlabel', 'valignlabel', 'pressdelaytime', 'pressdelaydistance', 'shape', 'size', 'stretch', 'type', 'formtype', 'mode', 'pressed', 'selected', 'customclassselected', 'customclasspressed', 'customclassdisabled', 'receivestatemode', 'receivestateselected', 'receivestatescriptlabelhtml', 'receivestatetype', 'sendeventontouch', 'backgroundimageurl', 'backgroundimagefilltype', 'receivestatebackgroundimageurl', 'receivestatecustomclass', 'receivestatecustomstyle', 'disabled', 'show', 'customclass', 'customstyle'
+			'labelinnerhtml', 'iconposition', 'orientation', 'checkboxshow', 'checkboxposition', 'pressdelaytime', 'pressdelaydistance', 'size', 'stretch', 'formtype', 'mode', 'customclassselected', 'customclasspressed', 'customclassdisabled', 'receivestatemode', 'receivestateselected', 'receivestatescriptlabelhtml', 'receivestatetype', 'sendeventontouch', 'backgroundimageurl', 'backgroundimagefilltype', 'receivestatebackgroundimageurl', 'receivestatecustomclass', 'receivestatecustomstyle', 'disabled', 'show', 'customclass', 'customstyle'
 		];
 		for (let i = 0; i < buttonIgnoredAttr.length; i++) {
 			if (this.hasAttribute(buttonIgnoredAttr[i].toLowerCase())) {

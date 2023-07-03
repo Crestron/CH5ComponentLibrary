@@ -1,4 +1,4 @@
-import { TCh5IconUrlFillType, TCh5SliderButtonKey } from './t-ch5-slider-button';
+import { TCh5SliderButtonShape,TCh5IconUrlFillType, TCh5SliderButtonKey, TCh5SliderButtonVerticalAlignLabel, TCh5SliderButtonType, TCh5SliderButtonHorizontalAlignLabel } from './t-ch5-slider-button';
 
 /**
  * @ignore
@@ -115,5 +115,97 @@ export interface ICh5SliderButtonAttributes {
    * @attributeType "EnumeratedValue"
    */
   iconUrlFillType: TCh5IconUrlFillType | null;
+
+  /**
+   * @documentation
+   * [
+   * "`type` attribute",
+   * "***",
+   * "Valid values: 'default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'.",
+   * "Overrides the appearance of the slider button with alternative CSS ",
+   * "If no 'type' is provided, the type of ",
+   * "'default' is used."
+   * ]
+   * @name type
+   * @default default
+   * @attributeType "EnumeratedValue"
+   */
+   type: TCh5SliderButtonType;
+
+     /**
+   * @documentation
+   * [
+   * "`halignlabel` attribute",
+   * "***",
+   * "Valid values: 'left', 'right', 'center'.",
+   * "When the hAlignLabel property is set, the label and the icon of the button are horizontally aligned. ",
+   * "The center property sets the horizontal alignment of the label to the center of the button. ",
+   * "The left property sets the horizontal alignment of the label to the left of the button. ",
+   * "The right property sets the horizontal alignment of the label to the right of the button. "
+   * ]
+   * @name halignlabel
+   * @default center
+   * @attributeType "EnumeratedValue"
+   */
+  hAlignLabel: TCh5SliderButtonHorizontalAlignLabel;
+
+  /**
+   * @documentation
+   * [
+   * "`valignlabel` attribute",
+   * "***",
+   * "Valid values: 'top', 'bottom', 'middle'.",
+   * "When the vAlignLabel property is set, the label and the icon of the button are vertically aligned. ",
+   * "The middle property sets the vertical alignment of the label to the middle of the button. ",
+   * "The top property sets the vertical alignment of the label to the top of the button. ",
+   * "The bottom property sets the vertical alignment of the label to the bottom of the button. "
+   * ]
+   * @name valignlabel
+   * @default middle
+   * @attributeType "EnumeratedValue"
+   */
+  vAlignLabel: TCh5SliderButtonVerticalAlignLabel;
+
+  /**
+   * @documentation
+   * [
+   * "`selected` attribute",
+   * "***",
+   * "The default value is false.",
+   * "This property reflects the selected state of the component."
+   * ]
+   * @name selected
+   * @default false
+   * @attributeType "Boolean"
+   */
+  selected: boolean;
+
+  /**
+   * @documentation
+   * [
+   * "`pressed` attribute",
+   * "***",
+   * "The default value is false.",
+   * "This property reflects the pressed state of the component."
+   * ]
+   * @name pressed
+   * @default false
+   * @attributeType "Boolean"
+   */
+  pressed: boolean;
+
+    /**
+   * @documentation
+   * [
+   * "`shape` attribute",
+   * "***",
+   * "The default value is 'rounded-rectangle'. Valid values: 'rounded-rectangle', ",
+   * "'rectangle', 'tab', 'circle', 'oval'. The shape of the button."
+   * ]
+   * @name shape
+   * @default rounded-rectangle
+   * @attributeType "EnumeratedValue"
+   */
+     shape: TCh5SliderButtonShape;
 
 }
