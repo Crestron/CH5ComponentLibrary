@@ -462,6 +462,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   private playValue: boolean = true;
   private lastResponseStatus: string = '';
+  private lastRequestStatus: string = '';
 
   private orientationChanged: boolean = false;
   private isVideoPublished: boolean = false;
@@ -502,12 +503,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   // #region Getters and Setters
 
   public set indexId(value: string) {
-    this._ch5Properties.set<string>("indexId", value, () => {
+    this._ch5Properties.set<string>("indexId", value.trim(), () => {
       this.handleIndexId();
     });
   }
   public get indexId(): string {
-    return this._ch5Properties.get<string>("indexId").trim();
+    return this._ch5Properties.get<string>("indexId");
   }
 
   public set aspectRatio(value: TCh5VideoAspectRatio) {
@@ -529,13 +530,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   public set url(value: string) {
-    this._ch5Properties.set<string>("url", value, () => {
+    this._ch5Properties.set<string>("url", value.trim(), () => {
       this.sendEvent(this.sendEventSelectionURL, this.url);
       this.checkUrl();
     });
   }
   public get url(): string {
-    return this._ch5Properties.get<string>("url").trim();
+    return this._ch5Properties.get<string>("url");
   }
 
   public set sourceType(value: TCh5VideoSourceType) {
@@ -549,31 +550,31 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   public set userId(value: string) {
-    this._ch5Properties.set<string>("userId", value, () => {
+    this._ch5Properties.set<string>("userId", value.trim(), () => {
       this.videoIntersectionObserver();
     });
   }
   public get userId(): string {
-    return this._ch5Properties.get<string>("userId").trim();
+    return this._ch5Properties.get<string>("userId");
   }
 
   public set password(value: string) {
-    this._ch5Properties.set<string>("password", value, () => {
+    this._ch5Properties.set<string>("password", value.trim(), () => {
       this.videoIntersectionObserver();
     });
   }
   public get password(): string {
-    return this._ch5Properties.get<string>("password").trim();
+    return this._ch5Properties.get<string>("password");
   }
 
   public set snapshotURL(value: string) {
-    this._ch5Properties.set<string>("snapshotURL", value, () => {
+    this._ch5Properties.set<string>("snapshotURL", value.trim(), () => {
       this.sendEvent(this.sendEventSnapshotURL, this.snapshotURL);
       this.validateAndAttachSnapshot();
     });
   }
   public get snapshotURL(): string {
-    return this._ch5Properties.get<string>("snapshotURL").trim();
+    return this._ch5Properties.get<string>("snapshotURL");
   }
 
   public set snapshotRefreshRate(value: number) {
@@ -636,15 +637,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   public set receiveStateURL(value: string) {
+    value = this.checkIndexIdAndReplace(value);
     this._ch5Properties.set("receiveStateURL", value, null, (newValue: string) => {
-      if (this.receiveStateURL.includes(`{{${this.indexId}}}`)) {
-        this.receiveStateURL = this.receiveStateURL.replace(`{{${this.indexId}}}`, this.selectedVideo.toString());
-      } else {
-        this._ch5Properties.setForSignalResponse<string>("url", newValue, () => {
-          this.sendEvent(this.sendEventSelectionURL, this.url);
-          this.checkUrl();
-        });
-      }
+      this._ch5Properties.setForSignalResponse<string>("url", newValue, () => {
+        this.sendEvent(this.sendEventSelectionURL, this.url);
+        this.checkUrl();
+      });
     });
   }
   public get receiveStateURL(): string {
@@ -652,15 +650,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   public set receiveStateSourceType(value: string) {
+    value = this.checkIndexIdAndReplace(value);
     this._ch5Properties.set("receiveStateSourceType", value, null, (newValue: string) => {
-      if (this.receiveStateSourceType.includes(`{{${this.indexId}}}`)) {
-        this.receiveStateSourceType = this.receiveStateSourceType.replace(`{{${this.indexId}}}`, this.selectedVideo.toString())
-      } else {
-        this._ch5Properties.setForSignalResponse<string>("sourceType", newValue, () => {
-          this.sendEvent(this.sendEventSelectionSourceType, this.sourceType);
-          this.videoIntersectionObserver();
-        });
-      }
+      this._ch5Properties.setForSignalResponse<string>("sourceType", newValue, () => {
+        this.sendEvent(this.sendEventSelectionSourceType, this.sourceType);
+        this.videoIntersectionObserver();
+      });
     });
   }
   public get receiveStateSourceType(): string {
@@ -668,14 +663,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   public set receiveStateUserId(value: string) {
+    value = this.checkIndexIdAndReplace(value);
     this._ch5Properties.set("receiveStateUserId", value, null, (newValue: string) => {
-      if (this.receiveStateUserId.includes(`{{${this.indexId}}}`)) {
-        this.receiveStateUserId = this.receiveStateUserId.replace(`{{${this.indexId}}}`, this.selectedVideo.toString())
-      } else {
-        this._ch5Properties.setForSignalResponse<string>("userId", newValue, () => {
-          this.videoIntersectionObserver();
-        });
-      }
+      this._ch5Properties.setForSignalResponse<string>("userId", newValue, () => {
+        this.videoIntersectionObserver();
+      });
     });
   }
   public get receiveStateUserId(): string {
@@ -683,14 +675,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   public set receiveStatePassword(value: string) {
+    value = this.checkIndexIdAndReplace(value);
     this._ch5Properties.set("receiveStatePassword", value, null, (newValue: string) => {
-      if (this.receiveStatePassword.includes(`{{${this.indexId}}}`)) {
-        this.receiveStatePassword = this.receiveStatePassword.replace(`{{${this.indexId}}}`, this.selectedVideo.toString())
-      } else {
-        this._ch5Properties.setForSignalResponse<string>("password", newValue, () => {
-          this.videoIntersectionObserver();
-        });
-      }
+      this._ch5Properties.setForSignalResponse<string>("password", newValue, () => {
+        this.videoIntersectionObserver();
+      });
     });
   }
   public get receiveStatePassword(): string {
@@ -698,15 +687,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   public set receiveStateSnapshotURL(value: string) {
+    value = this.checkIndexIdAndReplace(value);
     this._ch5Properties.set("receiveStateSnapshotURL", value, null, (newValue: string) => {
-      if (this.receiveStateSnapshotURL.includes(`{{${this.indexId}}}`)) {
-        this.receiveStateSnapshotURL = this.receiveStateSnapshotURL.replace(`{{${this.indexId}}}`, this.selectedVideo.toString())
-      } else {
-        this._ch5Properties.setForSignalResponse<string>("snapshotURL", newValue, () => {
-          this.sendEvent(this.sendEventSnapshotURL, this.snapshotURL);
-          this.validateAndAttachSnapshot();
-        });
-      }
+      this._ch5Properties.setForSignalResponse<string>("snapshotURL", newValue, () => {
+        this.sendEvent(this.sendEventSnapshotURL, this.snapshotURL);
+        this.validateAndAttachSnapshot();
+      });
     });
   }
   public get receiveStateSnapshotURL(): string {
@@ -714,14 +700,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   public set receiveStateSnapshotRefreshRate(value: string) {
+    value = this.checkIndexIdAndReplace(value);
     this._ch5Properties.set("receiveStateSnapshotRefreshRate", value, null, (newValue: number) => {
-      if (this.receiveStateSnapshotRefreshRate.includes(`{{${this.indexId}}}`)) {
-        this.receiveStateSnapshotRefreshRate = this.receiveStateSnapshotRefreshRate.replace(`{{${this.indexId}}}`, this.selectedVideo.toString());
-      } else {
-        this._ch5Properties.setForSignalResponse<number>("snapshotRefreshRate", newValue, () => {
-          this.validateAndAttachSnapshot();
-        });
-      }
+      this._ch5Properties.setForSignalResponse<number>("snapshotRefreshRate", newValue, () => {
+        this.validateAndAttachSnapshot();
+      });
     });
   }
   public get receiveStateSnapshotRefreshRate(): string {
@@ -729,14 +712,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   public set receiveStateSnapshotUserId(value: string) {
+    value = this.checkIndexIdAndReplace(value);
     this._ch5Properties.set("receiveStateSnapshotUserId", value, null, (newValue: string) => {
-      if (this.receiveStateSnapshotUserId.includes(`{{${this.indexId}}}`)) {
-        this.receiveStateSnapshotUserId = this.receiveStateSnapshotUserId.replace(`{{${this.indexId}}}`, this.selectedVideo.toString())
-      } else {
-        this._ch5Properties.setForSignalResponse<string>("snapshotUserId", newValue, () => {
-          this.validateAndAttachSnapshot();
-        });
-      }
+      this._ch5Properties.setForSignalResponse<string>("snapshotUserId", newValue, () => {
+        this.validateAndAttachSnapshot();
+      });
     });
   }
   public get receiveStateSnapshotUserId(): string {
@@ -744,14 +724,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   public set receiveStateSnapshotPassword(value: string) {
+    value = this.checkIndexIdAndReplace(value);
     this._ch5Properties.set("receiveStateSnapshotPassword", value, null, (newValue: string) => {
-      if (this.receiveStateSnapshotPassword.includes(`{{${this.indexId}}}`)) {
-        this.receiveStateSnapshotPassword = this.receiveStateSnapshotPassword.replace(`{{${this.indexId}}}`, this.selectedVideo.toString())
-      } else {
-        this._ch5Properties.setForSignalResponse<string>("snapshotPassword", newValue, () => {
-          this.validateAndAttachSnapshot();
-        });
-      }
+      this._ch5Properties.setForSignalResponse<string>("snapshotPassword", newValue, () => {
+        this.validateAndAttachSnapshot();
+      });
     });
   }
   public get receiveStateSnapshotPassword(): string {
@@ -759,6 +736,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   public set receiveStateVideoCount(value: string) {
+    value = this.checkIndexIdAndReplace(value);
     this._ch5Properties.set("receiveStateVideoCount", value, null, (newValue: number) => {
       if (newValue >= 1 && newValue <= 32) {
         this.maxVideoCount = newValue;
@@ -1083,7 +1061,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       this.sendEvent(this.sendEventSnapshotStatus, 0);
       this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
     } else {
-      this.videoIntersectionObserver();
+      this.videoIntersectionObserver()
     }
   }
 
@@ -1106,7 +1084,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this._exitFullScreen();
       }
       this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
-      this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.STOP);
+      this.refillBackground();
     }
   }
 
@@ -1277,6 +1255,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       default:
         break;
     }
+    this.lastRequestStatus = actionType;
   }
 
   private _videoResponse(response: TVideoResponse) { // Process the backend response
@@ -1444,7 +1423,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     // Check whether the full screen option can be shown
-    this.lastResponseStatus === 'started' ? this._fullScreenIcon.classList.remove('hide') : this._fullScreenIcon.classList.add('hide');
+    if (this.lastResponseStatus === 'started' || (this.lastRequestStatus === 'resize' && this.lastResponseStatus === 'resized')) {
+      this._fullScreenIcon.classList.remove('hide')
+    }
 
     // remove the full screen icon from the ch5-video after 10 seconds
     clearTimeout(this.controlTimer);
@@ -1589,9 +1570,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       this.orientationChanged = true;
       this.publishVideo('fullscreen')
     } else {
-      this.ch5BackgroundRequest('refill');
-      this.publishVideo('stop')
-      this.videoIntersectionObserver();
+      if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE && this.playValue && this.show) {
+        this.publishVideo('resize');
+        setTimeout(() => this.ch5BackgroundRequest('resize'), 30);
+      }
     }
   }
 
@@ -1614,6 +1596,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     if (this.shellCh5Background !== this.parentCh5Background) {
       this.parentCh5Background?.refillBackground();
     }
+  }
+
+  private checkIndexIdAndReplace(value: string): string {
+    if (value && this.indexId === "" && this.getAttribute('indexid') !== null && this.getAttribute('indexid')?.trim().length !== 0) {
+      value = value.replace(`{{${this.getAttribute('indexid')?.trim() + ''}}}`, this.selectedVideo.toString());
+    } else if (value && this.indexId !== "") {
+      value = value.replace(`{{${this.indexId}}}`, this.selectedVideo.toString());
+    }
+    return value;
   }
 
   private setErrorMessages() {
