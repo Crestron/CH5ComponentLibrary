@@ -1054,14 +1054,19 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.playValue = value;
     if (this.playValue === false) {
       this.snapshotImage.stopLoadingSnapshot();
-     /*  if (this.isFullScreen) {
-        this._elContainer.removeEventListener('touchmove', this.handleTouchEventOnFullScreen, false);
-        this._exitFullScreen();
-      } */
+      /*  if (this.isFullScreen) {
+         this._elContainer.removeEventListener('touchmove', this.handleTouchEventOnFullScreen, false);
+         this._exitFullScreen();
+       } */
       this.sendEvent(this.sendEventSnapshotStatus, 0);
       this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
     } else {
-      this.videoIntersectionObserver()
+      // below 4 lines are used for ch5c-6947
+      if (this.isFullScreen) {
+        this.publishVideo('fullscreen');
+      } else {
+        this.videoIntersectionObserver()
+      }
     }
   }
 
@@ -1079,10 +1084,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     if (this.show === true) {
       this.videoIntersectionObserver();
     } else {
-     /*  if (this.isFullScreen) {
-        this._elContainer.removeEventListener('touchmove', this.handleTouchEventOnFullScreen, false);
-        this._exitFullScreen();
-      } */
+      /*  if (this.isFullScreen) {
+         this._elContainer.removeEventListener('touchmove', this.handleTouchEventOnFullScreen, false);
+         this._exitFullScreen();
+       } */
       this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
       this.refillBackground();
     }
