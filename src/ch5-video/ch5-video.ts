@@ -1054,10 +1054,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.playValue = value;
     if (this.playValue === false) {
       this.snapshotImage.stopLoadingSnapshot();
-      if (this.isFullScreen) {
+     /*  if (this.isFullScreen) {
         this._elContainer.removeEventListener('touchmove', this.handleTouchEventOnFullScreen, false);
         this._exitFullScreen();
-      }
+      } */
       this.sendEvent(this.sendEventSnapshotStatus, 0);
       this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
     } else {
@@ -1079,10 +1079,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     if (this.show === true) {
       this.videoIntersectionObserver();
     } else {
-      if (this.isFullScreen) {
+     /*  if (this.isFullScreen) {
         this._elContainer.removeEventListener('touchmove', this.handleTouchEventOnFullScreen, false);
         this._exitFullScreen();
-      }
+      } */
       this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
       this.refillBackground();
     }
