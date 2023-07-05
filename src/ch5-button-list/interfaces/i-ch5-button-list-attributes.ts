@@ -1,5 +1,5 @@
 import { ICh5ButtonListCommonAttributes } from "../../ch5-common/interfaces/i-ch5-button-list-attributes";
-import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape, TCh5ButtonListAttributesOrientation, TCh5ButtonListAttributesStretch, TCh5ButtonListContractItemLabelType, TCh5ButtonListContractItemIconType, TCh5ButtonListSgIconTheme, TCh5ButtonListAttributesLoadItems } from './t-ch5-button-list';
+import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape, TCh5ButtonListAttributesOrientation, TCh5ButtonListAttributesStretch, TCh5ButtonListContractItemLabelType, TCh5ButtonListContractItemIconType, TCh5ButtonListSgIconTheme, TCh5ButtonListAttributesLoadItems, TCh5ButtonListButtonIconUrlFillType } from './t-ch5-button-list';
 
 /**
  * @ignore
@@ -611,4 +611,16 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @default visible-only
    */
   loadItems: TCh5ButtonListAttributesLoadItems;
+  /**
+   * @documentation
+   * [
+   * "`buttonIconUrlFillType` attribute",
+   * "***",
+   * "Sets the icon url fill type for all the buttons in the list. Default value is 'null'. Applicable values are 'null', 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'. Uses the css property background-size for the implementation."
+   * ]
+   * @name buttoniconurlfilltype
+   * @default null
+   * @attributeType "EnumeratedValue"
+   */
+  buttonIconUrlFillType: TCh5ButtonListButtonIconUrlFillType | null;
 }
