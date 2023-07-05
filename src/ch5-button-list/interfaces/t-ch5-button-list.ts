@@ -18,3 +18,4 @@ export type TCh5ButtonListContractItemLabelType = 'none' | 'textContent' | 'inne
 export type TCh5ButtonListContractItemIconType = 'none' | 'iconClass' | 'url' | 'sgStateName' | 'sgStateNumber';
 export type TCh5ButtonListSgIconTheme = 'icons-lg' | 'icons-sm' | 'media-transports-accents' | 'media-transports-light' | 'media-transports-dark';
 export type TCh5ButtonListAttributesLoadItems = 'visible-only' | 'load-new' | 'all';
+export type TCh5ButtonListButtonIconUrlFillType = 'stretch' | 'stretch-aspect' | 'center' | 'tile' | 'initial';
