@@ -53,7 +53,7 @@
       test("Check if Slider has adv-slider class", (done) => {
         flush(() => {
           setTimeout(() => {
-            expect(ch5Slider.lastChild.classList.contains('adv-slider')).to.be.equal(true);
+            expect(ch5Slider.lastChild.classList.contains('ch5-advanced-slider-container')).to.be.equal(true);
             done();
           }, 100);
         });

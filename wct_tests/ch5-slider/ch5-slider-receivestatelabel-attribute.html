@@ -89,7 +89,7 @@
           setTimeout(()=>{
             const sliderButton = ch5Slider.getElementsByTagName('ch5-slider-button')[0];
             console.log(sliderButton)
-            expect(sliderButton.label).to.be.equal('Advance');
+            expect(sliderButton.label).to.be.equal('off');
             done();
           }, 200);
         });
@@ -115,7 +115,7 @@
         flush(()=>{
           setTimeout(()=>{
             const sliderButtonLabel = ch5Slider.getElementsByTagName('ch5-slider-button-label')[0];
-            expect(sliderButtonLabel.label).to.be.equal('Advance');
+            expect(sliderButtonLabel.label).to.be.equal('OFF');
             done();
           }, 100);
         });

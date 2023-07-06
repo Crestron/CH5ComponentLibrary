@@ -4,7 +4,6 @@ import { Ch5Label } from "../ch5-label";
 import _ from "lodash";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SliderButton } from "./ch5-slider-button";
-import { Ch5Common } from '../ch5-common/ch5-common';
 
 export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLabelAttributes {
 

@@ -4,7 +4,6 @@ import { Ch5Slider } from ".";
 import { Ch5Label } from "../ch5-label";
 import _ from "lodash";
 import { Ch5SignalAttributeRegistry } from '../ch5-common/ch5-signal-attribute-registry';
-import { Ch5Common } from '../ch5-common/ch5-common';
 
 export class Ch5SliderTitleLabel extends Ch5Label implements ICh5SliderTitleLabelAttributes {
 
