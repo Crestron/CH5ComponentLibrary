@@ -1381,7 +1381,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.ch5BackgroundAction('started');
         break;
       case 'stop':
-        this.clearBackgroundOfVideoWrapper(true);
+        this.clearBackgroundOfVideoWrapper(false);
         this._elContainer.style.removeProperty('border-bottom');
         this.ch5BackgroundAction('stop');
         break;
@@ -1540,13 +1540,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   // Function to manage video play/stop based on the position on touch end or cancel
   private touchEndHandler() {
-    if (this.isTouchInProgress) {
-      setTimeout(() => {
-        this.clearBackgroundOfVideoWrapper(true);
-        this.videoIntersectionObserver();
-      }, 100);
-    }
-    this.isTouchInProgress = false;
+    this.isTouchInProgress ? setTimeout(() => this.videoIntersectionObserver(), 100) : this.isTouchInProgress = false;
   }
 
   private validateAndAttachSnapshot() {
