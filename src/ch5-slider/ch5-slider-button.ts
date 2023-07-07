@@ -4,7 +4,6 @@ import { TCh5SliderButtonKey, } from './interfaces/t-ch5-slider-button';
 import { ICh5SliderButtonAttributes } from './interfaces/i-ch5-slider-button-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
-import { Ch5Slider } from "./ch5-slider";
 import _ from "lodash";
 import { Ch5SliderButtonLabel } from "./ch5-slider-button-label";
 
@@ -21,11 +20,10 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 			key: 'key',
 			attribute: 'key',
 			classListPrefix: '--key-'
-		},
+		}
 	};
 
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
-
 		{
 			default: "",
 			enumeratedValues: Ch5SliderButton.KEY,
@@ -34,7 +32,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 			type: "enum",
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true
-		},
+		}
 	];
 
 	public static readonly ELEMENT_NAME = 'ch5-slider-button';
@@ -49,7 +47,6 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	//#endregion
 
 	//#region Getters and Setters
-
 
 	public set key(value: TCh5SliderButtonKey) {
 		this._ch5Properties.set<TCh5SliderButtonKey>("key", value, () => {
@@ -66,8 +63,8 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	public constructor() {
 		super();
-		this.ignoreAttributes = ["disabled", "debug", "show", "customclass", "customstyle", "noshowtype", "receivestatecustomclass", "receivestatecustomstyle", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "receivestateenable", "sendeventonshow", "gestureable", "dir", "appendclasswheninviewport"];
 		this.logger.start('constructor()', Ch5SliderButton.ELEMENT_NAME);
+		this.ignoreAttributes = ["disabled", "debug", "show", "customclass", "customstyle", "noshowtype", "receivestatecustomclass", "receivestatecustomstyle", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "receivestateenable", "sendeventonshow", "gestureable", "dir", "appendclasswheninviewport"];
 		this._ch5Properties = new Ch5Properties(this, Ch5SliderButton.COMPONENT_PROPERTIES);
 	}
 
@@ -107,7 +104,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	private buttonIgonredAttributes() {
 		const buttonIgnoredAttr = [
-			'labelinnerhtml', 'iconposition', 'orientation', 'checkboxshow', 'checkboxposition', 'pressdelaytime', 'pressdelaydistance', 'size', 'stretch', 'formtype', 'mode', 'customclassselected', 'customclasspressed', 'customclassdisabled', 'receivestatemode', 'receivestateselected', 'receivestatescriptlabelhtml', 'receivestatetype', 'sendeventontouch', 'backgroundimageurl', 'backgroundimagefilltype', 'receivestatebackgroundimageurl', 'receivestatecustomclass', 'receivestatecustomstyle', 'disabled', 'show', 'customclass', 'customstyle'
+			"labelinnerhtml", 'iconposition', 'orientation', 'checkboxshow', 'checkboxposition', 'pressdelaytime', 'pressdelaydistance', 'size', 'stretch', 'formtype', 'mode', 'customclassselected', 'customclasspressed', 'customclassdisabled', 'receivestatemode', 'receivestateselected', 'receivestatescriptlabelhtml', 'receivestatetype', 'sendeventontouch', 'backgroundimageurl', 'backgroundimagefilltype', 'receivestatebackgroundimageurl', 'receivestatecustomclass', 'receivestatecustomstyle', 'disabled', 'show', 'customclass', 'customstyle'
 		];
 		for (let i = 0; i < buttonIgnoredAttr.length; i++) {
 			if (this.hasAttribute(buttonIgnoredAttr[i].toLowerCase())) {
@@ -218,7 +215,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	private handleLabel() {
 		if (this.receiveStateLabel !== null && this.receiveStateLabel.trim() !== "") {
-			// something
+			// Do Nothing
 		} else if (this.getElementsByTagName("ch5-slider-button-label").length >= 1) {
 			this.labelHelper();
 		}

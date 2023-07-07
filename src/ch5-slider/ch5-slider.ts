@@ -834,14 +834,14 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			};
 
 			this.setCleanValue(newValue);
-			// this._wasRendered = false;
+			this._wasRendered = false;
 			this._ch5Properties.setForSignalResponse<number>("value", newValue, () => {
 				// to handleValue 
 			});
-			// this._wasRendered = true;
+			this._wasRendered = true;
 
 			if (this._dirtyTimerHandle === null) {
-				if (!this._wasRendered && animationDuration === 0) {
+				if (this._wasRendered && animationDuration === 0) {
 					this._render();
 					this._tooltipValueFromSignal = newValue;
 					this._adjustTooltipValue(TCh5SliderHandle.VALUE);
@@ -914,11 +914,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			};
 
 			this._cleanValueHigh = newValue;
+			this._wasRendered = false;
 			this._ch5Properties.setForSignalResponse<number>("valueHigh", newValue, () => {
 				// handle highValue
 			});
+			this._wasRendered = true;
 			if (this._dirtyTimerHandleHigh === null) {
-				if (!this._wasRendered && animationDuration === 0) {
+				if (this._wasRendered && animationDuration === 0) {
 					this._render();
 					this._tooltipHighValueFromSignal = newValue;
 					this._adjustTooltipValue(TCh5SliderHandle.HIGHVALUE);
@@ -983,7 +985,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	constructor() {
 		super();
 		this.logger.start('Ch5Slider.constructor()');
-		// this.dir = "ltr";
 		if (!this._wasInstatiated) {
 			this.createInternalHtml();
 		}
@@ -1053,7 +1054,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			if (!this._wasRendered ||
 				'undefined' === typeof (this._innerContainer as target).noUiSlider ||
 				null === (this._innerContainer as target).noUiSlider) {
-				this._render();
+				this._renderPromise()
+					.then(() => {
+						this._wasRendered = true;
+						window.setTimeout(() => {
+							this._applySignalReceivedBeforeRender();
+						}, 0);
+					});
 			}
 			// attach event listeners
 			this.attachEventListeners();
@@ -1148,7 +1155,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 * Clear the content of component in order to avoid duplication of elements
 	 */
 	private clearComponentContent() {
-		// this.dir = "ltr";
 		const containers = this.getElementsByTagName("div");
 		Array.from(containers).forEach((container) => {
 			container.remove();
@@ -1460,7 +1466,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	private createSlider() {
 		// if (!this._wasRendered) {
 		this._renderPromise().then(() => {
-			this._wasRendered = true;
+			// this._wasRendered = true;
 			window.setTimeout(() => {
 				this._applySignalReceivedBeforeRender();
 			}, 0);
@@ -1491,7 +1497,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				if (!_.isNil((this._innerContainer as target).noUiSlider)) {
 					(this._innerContainer as target)?.noUiSlider?.destroy();
 				}
-				// console.log("CREATE");
 				const slider = create(this._innerContainer, options);
 				// Slide related events
 				(this._innerContainer as target)?.noUiSlider?.on('slide', this._onSliderChange);
@@ -2097,9 +2102,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				}
 			}
 		}
-		// // in our case is bottom to top so we need to change it to 'rtl'
-		// const verticalDirection = (this.dir === 'rtl') ? 'ltr' : 'rtl';
-		// let direction = (this.orientation === 'vertical') ? verticalDirection : this.dir;
+		// in our case is bottom to top so we need to change it to 'rtl'
 		let direction = "ltr";
 		if (this.orientation === 'vertical') {
 			if (this.dir === "rtl") {
@@ -2110,13 +2113,12 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		} else {
 			direction = this.dir;
 		}
-		// console.log("New direction is ", direction, verticalDirection);
-		// console.log("##", this.getCrId(), direction, this.dir, this.orientation);
+
 		if (Ch5Common.isNil(direction)) {
 			// This is defensive code for CCIDE purpose only and should not be removed.
 			direction = "ltr";
 		}
-		// console.log("**", this.getCrId(), direction, this.dir, this.orientation);
+		
 		// The connect option can be used to control the bar between the handles or the edges of the slider.
 		const connect = this._connectDisplayFormatter();
 
@@ -2649,7 +2651,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this._cleanValueHigh = valHigh;
 		}
 		// this is a edge case when signals are received before component is created
-		if (this._wasRendered) {
+		if (!this._wasRendered) {
 			start = this._getStartValueWhileInRamp();
 		}
 
