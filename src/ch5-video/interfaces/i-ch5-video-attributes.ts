@@ -397,7 +397,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	 * [
 	 * "`sendEventErrorCode` attribute",
 	 * "***",
-	 * "current state video error code numeric enumeration, applicable only when state of video is error 0 - no error transient issues (retry is appropriate) > 0 1 - miscellaneous transient issue (error not known or none of the below) 2 - connection timeout (network issues, camera offline, etc) 3 - No input sync (HDMI not plugged in, DM not streaming) setup and system issues (retry is not appropriate) < 0 -1 - miscellaneous error (error not known or none of below) -2 - host name could not be resolved -3 - unsupported source type for this platform -4 - connection timeout -5 - invalid credentials -6 - unsupported streaming protocol -7 - unsupported codec."
+	 * "current state video error code numeric enumeration, applicable only when state of video is 0-success, 1-HDMI no sync, 2 - DM no stream, -1 -connection refused / camera offline, -2 -no network, -1001 -credentials required or invalid, -1002 -hostname invalid, -1003 -unsupported codec, -9001 - unsupported sourceType, -9002 - invalid url, -9003 - request for greater than maximum simultaneous sessions per source type, -9004 - request for greater than maximum simultaneous sessions per device, -9007 - Unknown Error Message"
 	 * ]
 	 * @name sendeventerrorcode
 	 * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
