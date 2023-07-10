@@ -551,6 +551,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   public set userId(value: string) {
     this._ch5Properties.set<string>("userId", value.trim(), () => {
+      if(value.trim().includes('@') || value.trim().includes(':')){
+        console.warn("Please avoid using '@' and ':' characters for userid and password");  
+      }
       this.videoIntersectionObserver();
     });
   }
@@ -560,6 +563,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   public set password(value: string) {
     this._ch5Properties.set<string>("password", value.trim(), () => {
+      if(value.trim().includes('@') || value.trim().includes(':')){
+        console.warn("Please avoid using '@' and ':' characters for userid and password");
+      }
       this.videoIntersectionObserver();
     });
   }
@@ -1160,7 +1166,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       id: uId
     };
     this.sendEvent(this.sendEventState, 3);
-    console.log("stop request ", JSON.stringify(retObj))
     return retObj;
   }
 
@@ -1230,7 +1235,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       endtime: new Date().getMilliseconds() + 2000, // 2000 msecs later
       timing: "linear" // only linear supported initially
     };
-    console.log("start request ", JSON.stringify(retObj))
 
     return retObj;
   }
@@ -1279,7 +1283,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     } else {
       this.responseObj = response;
     }
-    console.log("res ", JSON.stringify(this.responseObj))
 
     const isMyObjectEmpty = !Object.keys(response).length;
     if (this.responseObj.id !== this.ch5UId || isMyObjectEmpty) {
