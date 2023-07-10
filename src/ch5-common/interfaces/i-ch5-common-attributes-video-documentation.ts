@@ -20,7 +20,7 @@ import { ICh5CommonAttributesForShow } from "./common/i-ch5-common-attributes-sh
 /**
  * @ignore
  */
-export interface ICh5CommonAttributesVideo extends ICh5CommonAttributesForDir,
+export interface ICh5CommonAttributesVideoDocumentation extends ICh5CommonAttributesForDir,
 	ICh5CommonAttributesForShow,
 	ICh5CommonAttributesForAppendClassWhenInViewPort,
 	ICh5CommonAttributesForReceiveStateEnable,

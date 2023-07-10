@@ -877,7 +877,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   public constructor() {
     super();
-    this.ignoreAttributes = ['show', 'receiveStateShow'];
+    this.ignoreAttributes = ['show', 'receiveStateShow', 'receivestateshowpulse', 'receivestatehidepulse', 'sendeventonshow'];
     this.logger.start('constructor()', Ch5Video.ELEMENT_NAME);
     if (!this._wasInstatiated) {
       this.createInternalHtml();
@@ -888,6 +888,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.setErrorMessages();
     this.handleMultiVideo();
     subscribeState('o', 'Csig.video.response', this._videoResponse.bind(this), this._errorResponse.bind(this));
+    subscribeState('b', 'Csig.Backlight_Off_fb', this.standByOff.bind(this));
   }
 
   public static get observedAttributes(): string[] {
@@ -1014,6 +1015,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     });
   }
 
+  private standByOff(data: boolean) {
+    if (data === false && this.responseObj?.id && this.responseObj?.id === this.ch5UId && this.isFullScreen) {
+      this.orientationChanged = true;
+    }
+  }
+
   private handleIndexId() {
     if (this.multiVideoSignalName.url.includes(`{{${this.indexId}}}`)) { this.receiveStateURL = this.multiVideoSignalName.url.replace(`{{${this.indexId}}}`, this.selectedVideo.toString()) }
     if (this.multiVideoSignalName.userId.includes(`{{${this.indexId}}}`)) { this.receiveStateUserId = this.multiVideoSignalName.userId.replace(`{{${this.indexId}}}`, this.selectedVideo.toString()) }
@@ -1054,16 +1061,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.playValue = value;
     if (this.playValue === false) {
       this.snapshotImage.stopLoadingSnapshot();
-      /*  if (this.isFullScreen) {
-         this._elContainer.removeEventListener('touchmove', this.handleTouchEventOnFullScreen, false);
-         this._exitFullScreen();
-       } */
+      if (this.isFullScreen) {
+        this.orientationChanged = true;
+      }
       this.sendEvent(this.sendEventSnapshotStatus, 0);
       this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
     } else {
       // below 4 lines are used for ch5c-6947
       if (this.isFullScreen) {
-        this.publishVideo('fullscreen');
+        this.publishVideo('start');
       } else {
         this.videoIntersectionObserver()
       }
@@ -1082,12 +1088,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   private handleReceiveStateShow() {
     if (this.show === true) {
-      this.videoIntersectionObserver();
+      if (this.isFullScreen) {
+        this.publishVideo('start');
+      } else {
+        this.videoIntersectionObserver()
+      }
     } else {
-      /*  if (this.isFullScreen) {
-         this._elContainer.removeEventListener('touchmove', this.handleTouchEventOnFullScreen, false);
-         this._exitFullScreen();
-       } */
       this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
       this.refillBackground();
     }
@@ -1162,8 +1168,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   public videoStartObjJSON(actionType: string): ICh5VideoPublishEvent {
     let { left: xPosition, top: yPosition, width, height } = this._elContainer.getBoundingClientRect();
 
-    if (actionType === CH5VideoUtils.VIDEO_ACTION.FULLSCREEN) {
-      actionType = CH5VideoUtils.VIDEO_ACTION.RESIZE;
+    if (actionType === CH5VideoUtils.VIDEO_ACTION.FULLSCREEN || this.isFullScreen) {
+      if (actionType === CH5VideoUtils.VIDEO_ACTION.FULLSCREEN) {
+        actionType = CH5VideoUtils.VIDEO_ACTION.RESIZE;
+      }
       xPosition = 0;
       yPosition = 0;
       width = window.innerWidth;
@@ -1198,7 +1206,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       }
     }
 
-    this.clearBackgroundOfVideoWrapper(true); // always clears the background of the video tag to display video behind it
     // any negative values in location object will throw backend error sometimes decimal values are returned by position related functions. Math.ceil is used to avoid this.
     const retObj = {
       action: actionType,
@@ -1237,6 +1244,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.sendEvent(this.sendEventResolution, this._elContainer.getBoundingClientRect().width + "x" + this._elContainer.getBoundingClientRect().height + "@24fps");
     switch (actionType) {
       case 'start':
+        if (this.url === "" || this.validateVideoUrl(this.url) === false) {
+          return this.checkUrl();
+        }
         this.isVideoPublished = true;
         if (this.responseObj?.id && this.responseObj?.id !== this.ch5UId && this.responseObj?.status === 'started') {
           publishEvent('o', 'Csig.video.request', this.videoStopObjJSON('stop', this.responseObj?.id));
@@ -1371,7 +1381,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.ch5BackgroundAction('started');
         break;
       case 'stop':
-        this.clearBackgroundOfVideoWrapper(true);
+        this.clearBackgroundOfVideoWrapper(false);
         this._elContainer.style.removeProperty('border-bottom');
         this.ch5BackgroundAction('stop');
         break;
@@ -1530,13 +1540,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   // Function to manage video play/stop based on the position on touch end or cancel
   private touchEndHandler() {
-    if (this.isTouchInProgress) {
-      setTimeout(() => {
-        this.clearBackgroundOfVideoWrapper(true);
-        this.videoIntersectionObserver();
-      }, 100);
-    }
-    this.isTouchInProgress = false;
+    this.isTouchInProgress ? setTimeout(() => this.videoIntersectionObserver(), 100) : this.isTouchInProgress = false;
   }
 
   private validateAndAttachSnapshot() {
@@ -1613,23 +1617,25 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   private setErrorMessages() {
-    this.videoErrorMessages.set(1, "Miscellaneous transient issue");
-    this.videoErrorMessages.set(2, "Connection timeout");
-    this.videoErrorMessages.set(3, "No input sync");
-    this.videoErrorMessages.set(-1, "Miscellaneous error");
-    this.videoErrorMessages.set(-2, "Hostname could not be resolved");
-    this.videoErrorMessages.set(-3, "Unsupported source type for this platform");
-    this.videoErrorMessages.set(-4, "Connection timeout");
-    this.videoErrorMessages.set(-5, "Invalid credentials");
-    this.videoErrorMessages.set(-6, "Unsupported streaming protocol");
-    this.videoErrorMessages.set(-7, "Unsupported codec");
-    this.videoErrorMessages.set(-1001, "Credentials required");
+    this.videoErrorMessages.set(0, "success");
+    this.videoErrorMessages.set(1, "HDMI no sync");
+    this.videoErrorMessages.set(2, "DM no stream");
+    // this.videoErrorMessages.set(3, "No input sync");
+    this.videoErrorMessages.set(-1, "connection refused / camera offline");
+    this.videoErrorMessages.set(-2, "no network");
+    // this.videoErrorMessages.set(-3, "Unsupported source type for this platform");
+    // this.videoErrorMessages.set(-4, "Connection timeout");
+    // this.videoErrorMessages.set(-5, "Invalid credentials");
+    // this.videoErrorMessages.set(-6, "Unsupported streaming protocol");
+    // this.videoErrorMessages.set(-7, "Unsupported codec");
+    this.videoErrorMessages.set(-1001, "Credentials required or invalid");
     this.videoErrorMessages.set(-1002, "Hostname invalid");
     this.videoErrorMessages.set(-1003, "Unsupported codec");
     this.videoErrorMessages.set(-9001, "Unsupported source type");
     this.videoErrorMessages.set(-9002, "Invalid URL");
     this.videoErrorMessages.set(-9003, "Request for greater than maximum simultaneous sessions per source type");
     this.videoErrorMessages.set(-9004, "Request for greater than maximum simultaneous sessions per device");
+    this.videoErrorMessages.set(-9007, "Unknown Error Message");
   }
   // #endregion
 
