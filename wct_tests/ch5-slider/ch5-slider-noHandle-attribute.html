@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-slider-noHandle-attribute-fixture">
+    <template>
+      <ch5-slider value="20000" nohandle></ch5-slider>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('Check noHandle', () => {
+      let ch5Slider;
+      setup(async () => {
+        ch5Slider = fixture('ch5-slider-noHandle-attribute-fixture');
+        return Promise.all([
+          customElements.whenDefined('ch5-slider'),
+        ]).then(_ => {
+          // wait for element to be defined
+        });
+      });
+
+      const noHandle = [true, false];
+
+      noHandle.forEach((handle) => {
+        test(`should ${handle ? '' : 'not'} have class nohandle which ${handle ? 'hides' : 'shows'} the handle`, (done) => {
+          ch5Slider.setAttribute('nohandle', handle);
+          flush(() => {
+            setTimeout(() => {
+              const sliderElement = document.querySelector('.ch5-slider')
+              expect(sliderElement.classList.contains('nohandle')).to.be.equal(handle);
+              done();
+            }, 100);
+          });
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
