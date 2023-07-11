@@ -12,7 +12,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	//#region Variables
 
 	public static readonly KEY: TCh5SliderButtonKey[] = ['on', 'off'];
-	public static readonly inheritedObsAttrs = ["key", "label", "sgicontheme", "iconclass", "pressed", "selected", "shape", "hAlignLabel", "vAlignLabel", "type", "iconurl", "iconurlfilltype", "sendeventonclick", "receivestatelabel", "receivestateiconclass", "receivestateiconurl"];
+	public static readonly inheritedObsAttrs = ["key", "label", "sgicontheme", "iconclass", "pressed", "selected", "shape", "halignlabel", "valignlabel", "type", "iconurl", "iconurlfilltype", "sendeventonclick", "receivestatelabel", "receivestateiconclass", "receivestateiconurl"];
 	public static readonly COMPONENT_DATA: any = {
 		KEY: {
 			default: Ch5SliderButton.KEY[0],
@@ -87,7 +87,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 		this._ch5Properties = new Ch5Properties(this, Ch5SliderButton.COMPONENT_PROPERTIES);
 	}
 
-	public static get observedAttributes(): string[] {
+	public static get observedAttributes() {
 		const newObsAttrs: string[] = [];
 		for (let i: number = 0; i < Ch5SliderButton.COMPONENT_PROPERTIES.length; i++) {
 			if (Ch5SliderButton.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
@@ -103,7 +103,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
 		this.logger.start("attributeChangedCallback", this.primaryCssClass);
-		// console.log("attributeChangedCallback", attr, oldValue, newValue);
+		console.log("attributeChangedCallback", attr, oldValue, newValue);
 		if (Ch5SliderButton.inheritedObsAttrs.includes(attr.toLowerCase())) {
 			if (oldValue !== newValue) {
 				this.logger.log('ch5-slider-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
@@ -168,6 +168,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 			}
 		}
 		super.connectedCallback();
+		this.initAttributes();
 		this.updateCssClass();
 		this.handleLabel();
 		this.logger.stop();
@@ -190,6 +191,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	}
 
 	protected initAttributes() {
+		super.initAttributes();
 		const thisRef: any = this;
 		for (let i: number = 0; i < Ch5SliderButton.COMPONENT_PROPERTIES.length; i++) {
 			if (Ch5SliderButton.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
