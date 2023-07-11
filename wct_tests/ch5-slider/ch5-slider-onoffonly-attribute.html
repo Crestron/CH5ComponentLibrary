@@ -67,7 +67,10 @@
           ch5Slider.setAttribute('onoffonly', ele);
           flush(() => {
             setTimeout(() => {
+              const UITargetElementForSlider = document.querySelector('.ch5-slider .noUi-target');
+              const classNameToHideElement = 'ch5-hide-vis';
               expect(ch5Slider.onOffOnly).to.be.equal(expectedOutput[i]);
+              expect(UITargetElementForSlider.classList.contains(classNameToHideElement)).to.be.equal(expectedOutput[i]);
               done();
             }, 100);
           });
