@@ -103,7 +103,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
 		this.logger.start("attributeChangedCallback", this.primaryCssClass);
-		console.log("attributeChangedCallback", attr, oldValue, newValue);
+		// console.log("attributeChangedCallback", attr, oldValue, newValue);
 		if (Ch5SliderButton.inheritedObsAttrs.includes(attr.toLowerCase())) {
 			if (oldValue !== newValue) {
 				this.logger.log('ch5-slider-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
