@@ -551,8 +551,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   public set userId(value: string) {
     this._ch5Properties.set<string>("userId", value.trim(), () => {
-      if(value.trim().includes('@') || value.trim().includes(':')){
-        console.warn("Please avoid using '@' and ':' characters for userid and password");  
+      if (value.trim().includes('@') || value.trim().includes(':')) {
+        console.warn("Please avoid using '@' and ':' characters for userid and password");
       }
       this.videoIntersectionObserver();
     });
@@ -563,7 +563,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   public set password(value: string) {
     this._ch5Properties.set<string>("password", value.trim(), () => {
-      if(value.trim().includes('@') || value.trim().includes(':')){
+      if (value.trim().includes('@') || value.trim().includes(':')) {
         console.warn("Please avoid using '@' and ':' characters for userid and password");
       }
       this.videoIntersectionObserver();

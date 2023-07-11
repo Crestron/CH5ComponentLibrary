@@ -16,13 +16,16 @@ export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLa
 	private _parentCh5Slider: Ch5SliderButton;
 
 	private debounceCreateBtnLabel = this.debounce(() => {
-		if (this._parentCh5Slider.setValues) {
-			this._parentCh5Slider.setValues("label", this.getTargetElementForCssClassesAndStyle());
+		if (_.isNil(this._parentCh5Slider)) {
+			this._parentCh5Slider = this.getParentButton();
 		}
+		this._parentCh5Slider.setValues(); // this.getTargetElementForCssClassesAndStyle());
+		// if (this._parentCh5Slider.setValues) {
+		// 	this._parentCh5Slider.setValues("label", this.getTargetElementForCssClassesAndStyle());
+		// }
 	}, 50);
 
 	//#endregion
-
 
 	//#region Component Lifecycle
 
@@ -32,9 +35,6 @@ export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLa
 		this.logger.start('constructor()', Ch5SliderButtonLabel.ELEMENT_NAME);
 		if (!_.isNil(parent)) {
 			this._parentCh5Slider = parent;
-			this.createInternalHtml();
-			this.initAttributes();
-			this.updateCssClass();
 		} else {
 			this._parentCh5Slider = this.getParentButton();
 		}
@@ -76,6 +76,9 @@ export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLa
 		this.setAttribute('role', Ch5RoleAttributeMapping.ch5SliderButton);
 		this.setAttribute('data-ch5-id', this.getCrId());
 		super.connectedCallback();
+		this.createInternalHtml();
+		this.initAttributes();
+		this.updateCssClass();
 		this.logger.stop();
 	}
 
@@ -140,15 +143,15 @@ export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLa
 	}
 
 	protected handleLabel() {
-		if (!this._parentCh5Slider.receiveStateLabel) {
-			super.handleLabel();
-			if (this.receiveStateLabel) {
-				this._parentCh5Slider.label = this.labelRec;
-				if (this.labelRec === "") {
-					this.getTargetElementForCssClassesAndStyle().innerText = "";
-				}
-			}
-		}
+		// // if (!this._parentCh5Slider && !this._parentCh5Slider.receiveStateLabel) {
+		// // 	super.handleLabel();
+		// // 	if (this.receiveStateLabel) {
+		// // 		this._parentCh5Slider.label = this.labelRec;
+		// // 		if (this.labelRec === "") {
+		// // 			this.getTargetElementForCssClassesAndStyle().innerText = "";
+		// // 		}
+		// // 	}
+		// }
 
 	}
 

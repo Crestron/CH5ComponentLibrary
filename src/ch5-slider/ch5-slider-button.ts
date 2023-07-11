@@ -32,6 +32,14 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 			type: "enum",
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true
+		},
+		{
+			default: "",
+			name: "labelInnerHTML",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
 		}
 	];
 
@@ -39,7 +47,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	public primaryCssClass = 'ch5-button';
 
-	private debounceCreateBtn = this.debounce(() => {
+	private debounceCreateSliderButton = this.debounce(() => {
 		this.setButtonDisplay();
 		this.updateInternalHtml();
 	}, 50);
@@ -50,11 +58,22 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	public set key(value: TCh5SliderButtonKey) {
 		this._ch5Properties.set<TCh5SliderButtonKey>("key", value, () => {
-			this.debounceCreateBtn();
+			this.debounceCreateSliderButton();
 		});
 	}
 	public get key(): TCh5SliderButtonKey {
 		return this._ch5Properties.get<TCh5SliderButtonKey>("key");
+	}
+
+	public set labelInnerHTML(value: string) {
+		this._ch5Properties.set<string>("labelInnerHTML", value, () => {
+			this.createSliderButtonLabel();
+
+			this.debounceCreateSliderButton();
+		});
+	}
+	public get labelInnerHTML(): string {
+		return this._ch5Properties.get<string>("labelInnerHTML");
 	}
 
 	//#endregion
@@ -84,27 +103,46 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
 		this.logger.start("attributeChangedCallback", this.primaryCssClass);
-		if (!Ch5SliderButton.inheritedObsAttrs.includes(attr.toLowerCase())) {
-			return;
-		}
-		if (oldValue !== newValue) {
-			this.logger.log('ch5-slider-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
-			const attributeChangedProperty = Ch5SliderButton.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
-			if (attributeChangedProperty) {
-				const thisRef: any = this;
-				const key = attributeChangedProperty.name;
-				thisRef[key] = newValue;
-			} else {
-				super.attributeChangedCallback(attr, oldValue, newValue);
+		// console.log("attributeChangedCallback", attr, oldValue, newValue);
+		if (Ch5SliderButton.inheritedObsAttrs.includes(attr.toLowerCase())) {
+			if (oldValue !== newValue) {
+				this.logger.log('ch5-slider-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+				const attributeChangedProperty = Ch5SliderButton.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
+				if (attributeChangedProperty) {
+					const thisRef: any = this;
+					const key = attributeChangedProperty.name;
+					thisRef[key] = newValue;
+				} else {
+					super.attributeChangedCallback(attr, oldValue, newValue);
+				}
 			}
+			this.debounceCreateSliderButton();
 		}
-		this.debounceCreateBtn();
 		this.logger.stop();
 	}
 
-	private buttonIgonredAttributes() {
+	private createSliderButtonLabel() {
+		const buttonLabelList = this.getElementsByTagName("ch5-slider-button-label");
+		const findButtonLabel = Array.prototype.slice.call(buttonLabelList).filter((x: { parentNode: { nodeName: { toString: () => string; }; }; }) => x.parentNode.nodeName.toString().toLowerCase() === this.nodeName.toString().toLowerCase());
+		let childButtonLabel: any = null;
+		if (findButtonLabel && findButtonLabel.length > 0 && !_.isNil(findButtonLabel[0].children[0])) {
+			childButtonLabel = findButtonLabel[0];
+		} else {
+			childButtonLabel = document.createElement('ch5-slider-button-label');
+			this.appendChild(childButtonLabel);
+		}
+		let templateEl = childButtonLabel.querySelector('template');
+		if (templateEl !== null) {
+			childButtonLabel.removeChild(templateEl);
+		}
+		templateEl = document.createElement('template');
+		templateEl.innerHTML = this.decodeInnerHTMLForAttribute(this.labelInnerHTML);
+		childButtonLabel.appendChild(templateEl);
+	}
+
+	private buttonIgnoredAttributes() {
 		const buttonIgnoredAttr = [
-			"labelinnerhtml", 'iconposition', 'orientation', 'checkboxshow', 'checkboxposition', 'pressdelaytime', 'pressdelaydistance', 'size', 'stretch', 'formtype', 'mode', 'customclassselected', 'customclasspressed', 'customclassdisabled', 'receivestatemode', 'receivestateselected', 'receivestatescriptlabelhtml', 'receivestatetype', 'sendeventontouch', 'backgroundimageurl', 'backgroundimagefilltype', 'receivestatebackgroundimageurl', 'receivestatecustomclass', 'receivestatecustomstyle', 'disabled', 'show', 'customclass', 'customstyle'
+			'iconposition', 'orientation', 'checkboxshow', 'checkboxposition', 'pressdelaytime', 'pressdelaydistance', 'size', 'stretch', 'formtype', 'mode', 'customclassselected', 'customclasspressed', 'customclassdisabled', 'receivestatemode', 'receivestateselected', 'receivestatescriptlabelhtml', 'receivestatetype', 'sendeventontouch', 'backgroundimageurl', 'backgroundimagefilltype', 'receivestatebackgroundimageurl', 'receivestatecustomclass', 'receivestatecustomstyle', 'disabled', 'show', 'customclass', 'customstyle'
 		];
 		for (let i = 0; i < buttonIgnoredAttr.length; i++) {
 			if (this.hasAttribute(buttonIgnoredAttr[i].toLowerCase())) {
@@ -120,7 +158,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	public connectedCallback() {
 		this.logger.start('connectedCallback()', Ch5SliderButton.ELEMENT_NAME);
 		this.setAttribute('data-ch5-id', this.getCrId());
-		this.buttonIgonredAttributes();
+		this.buttonIgnoredAttributes();
 		if (!(this.parentElement?.classList.contains('slider-on-button') || this.parentElement?.classList.contains('slider-off-button'))) {
 			return;
 		}
@@ -167,7 +205,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 				thisRef[key] = this.getAttribute(key);
 			}
 		}
-		this.debounceCreateBtn();
+		this.debounceCreateSliderButton();
 	}
 
 	protected attachEventListeners() {
@@ -176,7 +214,6 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	protected removeEventListeners() {
 		super.removeEventListeners();
 	}
-
 
 	public unsubscribeFromSignals() {
 		super.unsubscribeFromSignals();
@@ -193,7 +230,6 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 		});
 	}
 
-
 	private labelHelper() {
 		const labelSlider = this.getElementsByTagName("ch5-slider-button-label");
 		Array.from(labelSlider).forEach((label, index) => {
@@ -207,22 +243,29 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 		})
 	}
 
-	public setValues(elem: string, val: HTMLElement) {
-		if (elem === "label" && !(this.receiveStateLabel !== null && this.receiveStateLabel.trim() !== "")) {
-			this.label = val.innerHTML;
+	public setValues() {
+		// if (elem === "label" && this.labelInnerHTML === "" && !(this.receiveStateLabel !== null && this.receiveStateLabel.trim() !== "")) {
+		// 	console.log("val.innerHTML", this.labelInnerHTML, val.innerHTML);
+		// 	// this.label = val.innerHTML;
+		// }
+		if (this.receiveStateLabel === "") {
+			// this.label = val.innerHTML;
+			this.debounceCreateSliderButton();
 		}
 	}
 
 	private handleLabel() {
 		if (this.receiveStateLabel !== null && this.receiveStateLabel.trim() !== "") {
 			// Do Nothing
+		} else if (this.hasAttribute("labelInnerHtml")) {
+			// this.labelHelper();
 		} else if (this.getElementsByTagName("ch5-slider-button-label").length >= 1) {
 			this.labelHelper();
 		}
 	}
 
 	public setButtonDisplay() {
-		super.setButtonDisplay();
+		this.setButtonDisplayDetails("ch5-slider-button");
 	}
 
 	protected updateCssClass() {
