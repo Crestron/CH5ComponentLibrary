@@ -1,4 +1,3 @@
-import { ICh5Common } from "../../_interfaces";
 import { ICh5SliderButtonAttributes } from "./i-ch5-slider-button-attributes";
 
 /**
