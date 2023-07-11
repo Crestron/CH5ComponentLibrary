@@ -1,4 +1,3 @@
-import { ICh5SliderButtonAttributes } from "./i-ch5-slider-button-attributes";
 
 /**
  * @name Ch5 slider button label
@@ -36,6 +35,6 @@ import { ICh5SliderButtonAttributes } from "./i-ch5-slider-button-attributes";
  *   }
  *  ]
  */
-export interface ICh5SliderButtonLabelDocumentation extends ICh5SliderButtonAttributes {
+export interface ICh5SliderButtonLabelDocumentation  {
 
 }
