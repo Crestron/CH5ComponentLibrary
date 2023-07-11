@@ -1,11 +1,10 @@
-import { ICh5SliderButtonLabelAttributes } from './interfaces/i-ch5-slider-button-label-attributes';
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Label } from "../ch5-label";
 import _ from "lodash";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SliderButton } from "./ch5-slider-button";
 
-export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLabelAttributes {
+export class Ch5SliderButtonLabel extends Ch5Label {
 
 	//#region Variables
 
