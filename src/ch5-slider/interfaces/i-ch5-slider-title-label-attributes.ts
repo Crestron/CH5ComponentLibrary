@@ -17,14 +17,14 @@ export interface ICh5SliderTitleLabelAttributes {
   /**
    * @documentation
    * [
-   * "`labelInnerHtml` attribute",
+   * "`labelInnerHTML` attribute",
    * "***",
    * "Used to set the label displayed for the title of the advanced slider. Takes the preference over the label attribute."
    * ]
    * @name labelinnerhtml
    * @attributeType "string"
    */
-  labelInnerHtml: string
+  labelInnerHTML: string
   /**
    * @documentation
    * [

@@ -30,14 +30,14 @@ export interface ICh5SliderButtonAttributes {
   /**
    * @documentation
    * [
-   * "`labelInnerHtml` attribute",
+   * "`labelInnerHTML` attribute",
    * "***",
    * "Used to set the label displayed for the on/off button. Takes the preference over the label attribute."
    * ]
    * @name labelinnerhtml
    * @attributeType "string"
    */
-  labelInnerHtml: string
+  labelInnerHTML: string
   /**
    * @documentation
    * [
