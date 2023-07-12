@@ -1583,8 +1583,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       this.publishVideo('fullscreen')
     } else {
       if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE && this.playValue && this.show) {
-        this.publishVideo('resize');
-        setTimeout(() => this.ch5BackgroundRequest('resize'), 30);
+        setTimeout(() => {
+          this.publishVideo('resize');
+          setTimeout(() => this.ch5BackgroundRequest('resize'), 30);
+        }, 70);
       }
     }
   }
