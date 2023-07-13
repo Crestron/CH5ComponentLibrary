@@ -886,7 +886,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.initCommonMutationObserver(this);
     this.sendEvent(this.sendEventState, 0);
     this.handleMultiVideo();
-    console.log(this.signalHolder);
     customElements.whenDefined('ch5-video').then(() => {
       this.componentLoadedEvent(Ch5Video.ELEMENT_NAME, this.getCrId());
     });
