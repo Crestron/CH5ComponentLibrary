@@ -55,7 +55,8 @@ import { ICh5SliderButtonAttributes } from "./i-ch5-slider-button-attributes";
  *       "\ttype=\"${12|default,primary,info,text,danger,warning,success,secondary|}\"",
  *       "\thalignlabel=\"${13|center,left,right|}\"",
  *       "\tvalignlabel=\"${14|middle,top,bottom|}\"",
- *       "\treceiveStateIconUrl=\"${13:}\">",
+ *       "\tlabelInnerHtml=\"${15:}\"",
+ *       "\treceiveStateIconUrl=\"${16:}\">",
  *       "</ch5-slider-button>$0"
  *       ]
  *    },
