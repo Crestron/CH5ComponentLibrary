@@ -47,6 +47,7 @@ export class Ch5VideoSnapshot {
 	}
 
 	public stopLoadingSnapshot() {
+		this.videoImage.removeAttribute('src');
 		window.clearInterval(this.snapshotTimer as number);
 		this.snapshotTimer = null;
 		this.videoImage.classList.add('hide');

@@ -1641,6 +1641,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       this.publishVideo('fullscreen')
     } else {
       if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE && this.playValue && this.show) {
+        // Below fix is for CH5C-6943 as a work-around. If firmware fixes it, the same can be removed.
         setTimeout(() => {
           this.publishVideo('resize');
           setTimeout(() => { this.ch5BackgroundRequest('resize'); }, 30);

@@ -40,7 +40,8 @@ import { ICh5SliderTitleLabelAttributes } from "./i-ch5-slider-title-label-attri
  *     "body": [
  *       "<ch5-slider-title-label id=\"ch5-slider-title-label_${1:id}\"",
  *       "\tlabel=\"${2:}\"",
- *       "\treceiveStateLabel=\"${3:}\">",
+ *       "\tlabelInnerHtml=\"${3:}\"",
+ *       "\treceiveStateLabel=\"${4:}\">",
  *       "</ch5-slider-title-label>$0"
  *       ]
  *    },
