@@ -8,6 +8,7 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { subscribeState } from "../ch5-core";
 import { Ch5SignalFactory } from "../ch5-core/index";
+import { Ch5Signal } from "../ch5-core/ch5-signal";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { TCh5VideoAspectRatio, TCh5VideoSourceType, TCh5VideoSize, } from './interfaces/t-ch5-video';
@@ -468,6 +469,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   private isVideoPublished: boolean = false;
   private isFullScreen: boolean = false;
   private isSwipeDebounce: any;
+  private stopDebounce: any;
   private controlTimer: any;
   private snapshotImage = new Ch5VideoSnapshot();
   private videoErrorMessages = new Map<number, string>();
@@ -487,25 +489,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     endY: 0
   }; // instantiating empty object to proceed
 
-  private multiVideoSignalName: TMultiVideoSignalName = {
-    url: '',
-    userId: '',
-    password: '',
-    sourceType: '',
-    snapshotURL: '',
-    snapshotUserId: '',
-    snapshotPassword: '',
-    snapshotRefreshRate: ''
-  }
+  private signalHolder: any = [];
 
   // #endregion
 
   // #region Getters and Setters
 
   public set indexId(value: string) {
-    this._ch5Properties.set<string>("indexId", value.trim(), () => {
-      this.handleIndexId();
-    });
+    this._ch5Properties.set<string>("indexId", value.trim());
   }
   public get indexId(): string {
     return this._ch5Properties.get<string>("indexId");
@@ -643,106 +634,62 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   public set receiveStateURL(value: string) {
-    value = this.checkIndexIdAndReplace(value);
-    this._ch5Properties.set("receiveStateURL", value, null, (newValue: string) => {
-      this._ch5Properties.setForSignalResponse<string>("url", newValue, () => {
-        this.sendEvent(this.sendEventSelectionURL, this.url);
-        this.checkUrl();
-      });
-    });
+    this._ch5Properties.set("receiveStateURL", value, null);
   }
   public get receiveStateURL(): string {
     return this._ch5Properties.get<string>('receiveStateURL');
   }
 
   public set receiveStateSourceType(value: string) {
-    value = this.checkIndexIdAndReplace(value);
-    this._ch5Properties.set("receiveStateSourceType", value, null, (newValue: string) => {
-      this._ch5Properties.setForSignalResponse<string>("sourceType", newValue, () => {
-        this.sendEvent(this.sendEventSelectionSourceType, this.sourceType);
-        this.videoIntersectionObserver();
-      });
-    });
+    this._ch5Properties.set("receiveStateSourceType", value, null);
   }
   public get receiveStateSourceType(): string {
     return this._ch5Properties.get<string>('receiveStateSourceType');
   }
 
   public set receiveStateUserId(value: string) {
-    value = this.checkIndexIdAndReplace(value);
-    this._ch5Properties.set("receiveStateUserId", value, null, (newValue: string) => {
-      this._ch5Properties.setForSignalResponse<string>("userId", newValue, () => {
-        this.videoIntersectionObserver();
-      });
-    });
+    this._ch5Properties.set("receiveStateUserId", value, null);
   }
   public get receiveStateUserId(): string {
     return this._ch5Properties.get<string>('receiveStateUserId');
   }
 
   public set receiveStatePassword(value: string) {
-    value = this.checkIndexIdAndReplace(value);
-    this._ch5Properties.set("receiveStatePassword", value, null, (newValue: string) => {
-      this._ch5Properties.setForSignalResponse<string>("password", newValue, () => {
-        this.videoIntersectionObserver();
-      });
-    });
+    this._ch5Properties.set("receiveStatePassword", value, null);
   }
   public get receiveStatePassword(): string {
     return this._ch5Properties.get<string>('receiveStatePassword');
   }
 
   public set receiveStateSnapshotURL(value: string) {
-    value = this.checkIndexIdAndReplace(value);
-    this._ch5Properties.set("receiveStateSnapshotURL", value, null, (newValue: string) => {
-      this._ch5Properties.setForSignalResponse<string>("snapshotURL", newValue, () => {
-        this.sendEvent(this.sendEventSnapshotURL, this.snapshotURL);
-        this.validateAndAttachSnapshot();
-      });
-    });
+    this._ch5Properties.set("receiveStateSnapshotURL", value, null);
   }
   public get receiveStateSnapshotURL(): string {
     return this._ch5Properties.get<string>('receiveStateSnapshotURL');
   }
 
   public set receiveStateSnapshotRefreshRate(value: string) {
-    value = this.checkIndexIdAndReplace(value);
-    this._ch5Properties.set("receiveStateSnapshotRefreshRate", value, null, (newValue: number) => {
-      this._ch5Properties.setForSignalResponse<number>("snapshotRefreshRate", newValue, () => {
-        this.validateAndAttachSnapshot();
-      });
-    });
+    this._ch5Properties.set("receiveStateSnapshotRefreshRate", value, null);
   }
   public get receiveStateSnapshotRefreshRate(): string {
     return this._ch5Properties.get<string>('receiveStateSnapshotRefreshRate');
   }
 
   public set receiveStateSnapshotUserId(value: string) {
-    value = this.checkIndexIdAndReplace(value);
-    this._ch5Properties.set("receiveStateSnapshotUserId", value, null, (newValue: string) => {
-      this._ch5Properties.setForSignalResponse<string>("snapshotUserId", newValue, () => {
-        this.validateAndAttachSnapshot();
-      });
-    });
+    this._ch5Properties.set("receiveStateSnapshotUserId", value, null);
   }
   public get receiveStateSnapshotUserId(): string {
     return this._ch5Properties.get<string>('receiveStateSnapshotUserId');
   }
 
   public set receiveStateSnapshotPassword(value: string) {
-    value = this.checkIndexIdAndReplace(value);
-    this._ch5Properties.set("receiveStateSnapshotPassword", value, null, (newValue: string) => {
-      this._ch5Properties.setForSignalResponse<string>("snapshotPassword", newValue, () => {
-        this.validateAndAttachSnapshot();
-      });
-    });
+    this._ch5Properties.set("receiveStateSnapshotPassword", value, null);
   }
   public get receiveStateSnapshotPassword(): string {
     return this._ch5Properties.get<string>('receiveStateSnapshotPassword');
   }
 
   public set receiveStateVideoCount(value: string) {
-    value = this.checkIndexIdAndReplace(value);
     this._ch5Properties.set("receiveStateVideoCount", value, null, (newValue: number) => {
       if (newValue >= 1 && newValue <= 32) {
         this.maxVideoCount = newValue;
@@ -892,7 +839,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this._ch5Properties = new Ch5Properties(this, Ch5Video.COMPONENT_PROPERTIES);
     this.updateCssClass();
     this.setErrorMessages();
-    this.handleMultiVideo();
     subscribeState('o', 'Csig.video.response', this._videoResponse.bind(this), this._errorResponse.bind(this));
     subscribeState('b', 'Csig.Backlight_Off_fb', this.standByOff.bind(this));
   }
@@ -939,6 +885,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.initAttributes();
     this.initCommonMutationObserver(this);
     this.sendEvent(this.sendEventState, 0);
+    this.handleMultiVideo();
     customElements.whenDefined('ch5-video').then(() => {
       this.componentLoadedEvent(Ch5Video.ELEMENT_NAME, this.getCrId());
     });
@@ -950,6 +897,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.logger.start('disconnectedCallback()');
     this.removeEventListeners();
     this.unsubscribeFromSignals();
+    this.clearMultiSignal();
     this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
     if (this.isVideoPublished === true) {
       this.refillBackground();
@@ -1027,16 +975,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
   }
 
-  private handleIndexId() {
-    if (this.multiVideoSignalName.url.includes(`{{${this.indexId}}}`)) { this.receiveStateURL = this.multiVideoSignalName.url.replace(`{{${this.indexId}}}`, this.selectedVideo.toString()) }
-    if (this.multiVideoSignalName.userId.includes(`{{${this.indexId}}}`)) { this.receiveStateUserId = this.multiVideoSignalName.userId.replace(`{{${this.indexId}}}`, this.selectedVideo.toString()) }
-    if (this.multiVideoSignalName.password.includes(`{{${this.indexId}}}`)) { this.receiveStatePassword = this.multiVideoSignalName.password.replace(`{{${this.indexId}}}`, this.selectedVideo.toString()) }
-    if (this.multiVideoSignalName.snapshotURL.includes(`{{${this.indexId}}}`)) { this.receiveStateSnapshotURL = this.multiVideoSignalName.snapshotURL.replace(`{{${this.indexId}}}`, this.selectedVideo.toString()) }
-    if (this.multiVideoSignalName.snapshotUserId.includes(`{{${this.indexId}}}`)) { this.receiveStateSnapshotUserId = this.multiVideoSignalName.snapshotUserId.replace(`{{${this.indexId}}}`, this.selectedVideo.toString()) }
-    if (this.multiVideoSignalName.snapshotPassword.includes(`{{${this.indexId}}}`)) { this.receiveStateSnapshotPassword = this.multiVideoSignalName.snapshotPassword.replace(`{{${this.indexId}}}`, this.selectedVideo.toString()) }
-    if (this.multiVideoSignalName.snapshotRefreshRate.includes(`{{${this.indexId}}}`)) { this.receiveStateSnapshotRefreshRate = this.multiVideoSignalName.snapshotRefreshRate.replace(`{{${this.indexId}}}`, this.selectedVideo.toString()) }
-  }
-
   private handleAspectRatio() {
     Array.from(Ch5Video.COMPONENT_DATA.ASPECT_RATIO.values).forEach((e: any) => {
       this._elContainer.classList.remove(this.primaryCssClass + Ch5Video.COMPONENT_DATA.ASPECT_RATIO.classListPrefix + e.replace(':', '-'));
@@ -1083,13 +1021,22 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   private handleReceiveStateSelect(select: number) {
-    if (this.multiVideoSignalName.url.includes(`{{${this.indexId}}}`)) { this.receiveStateURL = this.multiVideoSignalName.url.replace(`{{${this.indexId}}}`, select.toString()) }
-    if (this.multiVideoSignalName.userId.includes(`{{${this.indexId}}}`)) { this.receiveStateUserId = this.multiVideoSignalName.userId.replace(`{{${this.indexId}}}`, select.toString()) }
-    if (this.multiVideoSignalName.password.includes(`{{${this.indexId}}}`)) { this.receiveStatePassword = this.multiVideoSignalName.password.replace(`{{${this.indexId}}}`, select.toString()) }
-    if (this.multiVideoSignalName.snapshotURL.includes(`{{${this.indexId}}}`)) { this.receiveStateSnapshotURL = this.multiVideoSignalName.snapshotURL.replace(`{{${this.indexId}}}`, select.toString()) }
-    if (this.multiVideoSignalName.snapshotUserId.includes(`{{${this.indexId}}}`)) { this.receiveStateSnapshotUserId = this.multiVideoSignalName.snapshotUserId.replace(`{{${this.indexId}}}`, select.toString()) }
-    if (this.multiVideoSignalName.snapshotPassword.includes(`{{${this.indexId}}}`)) { this.receiveStateSnapshotPassword = this.multiVideoSignalName.snapshotPassword.replace(`{{${this.indexId}}}`, select.toString()) }
-    if (this.multiVideoSignalName.snapshotRefreshRate.includes(`{{${this.indexId}}}`)) { this.receiveStateSnapshotRefreshRate = this.multiVideoSignalName.snapshotRefreshRate.replace(`{{${this.indexId}}}`, select.toString()) }
+    const url = this.signalHolder[select].url.value;
+    if (url) { this.urlCB(url); }
+    const userId = this.signalHolder[select].userId.value;
+    if (userId) { this.userIdCB(userId); }
+    const password = this.signalHolder[select].password.value;
+    if (password) { this.passwordCB(password); }
+    const sourceType = this.signalHolder[select].sourceType.value;
+    if (sourceType) { this.sourceTypeCB(sourceType); }
+    const snapshotURL = this.signalHolder[select].snapshotURL.value;
+    if (snapshotURL) { this.snapshotURLCB(snapshotURL); }
+    const snapshotUserId = this.signalHolder[select].snapshotUserId.value;
+    if (snapshotUserId) { this.snapshotUserIdCB(snapshotUserId); }
+    const snapshotPassword = this.signalHolder[select].snapshotPassword.value;
+    if (snapshotPassword) { this.snapshotPasswordCB(snapshotPassword); }
+    const snapshotRefreshRate = this.signalHolder[select].snapshotRefreshRate.value;
+    if (snapshotRefreshRate) { this.snapshotRefreshRateCB(snapshotRefreshRate); }
   }
 
   private handleReceiveStateShow() {
@@ -1261,7 +1208,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         break;
       case 'stop':
         if (this.isVideoPublished === false) { return; }
-        publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(actionType, this.ch5UId)); // Stop the video immediately
+        window.clearTimeout(this.stopDebounce);
+        this.stopDebounce = window.setTimeout(() => publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(actionType, this.ch5UId)), 300);// Stop the video immediately
         break;
       case CH5VideoUtils.VIDEO_ACTION.RESIZE:
         if (this.isVideoPublished === false) { return; }
@@ -1485,14 +1433,123 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   private handleMultiVideo() {
-    this.multiVideoSignalName.url = this.getAttribute('receiveStateURL')?.trim() ? this.getAttribute('receiveStateURL')?.trim() + '' : '';
-    this.multiVideoSignalName.userId = this.getAttribute('receiveStateUserId')?.trim() ? this.getAttribute('receiveStateUserId')?.trim() + '' : '';
-    this.multiVideoSignalName.password = this.getAttribute('receiveStatePassword')?.trim() ? this.getAttribute('receiveStatePassword')?.trim() + '' : '';
-    this.multiVideoSignalName.sourceType = this.getAttribute('receiveStateSourceType')?.trim() ? this.getAttribute('receiveStateSourceType')?.trim() + '' : '';
-    this.multiVideoSignalName.snapshotURL = this.getAttribute('receiveStateSnapshotURL')?.trim() ? this.getAttribute('receiveStateSnapshotURL')?.trim() + '' : '';
-    this.multiVideoSignalName.snapshotUserId = this.getAttribute('receiveStateSnapshotUserId')?.trim() ? this.getAttribute('receiveStateSnapshotUserId')?.trim() + '' : '';
-    this.multiVideoSignalName.snapshotPassword = this.getAttribute('receiveStateSnapshotPassword')?.trim() ? this.getAttribute('receiveStateSnapshotPassword')?.trim() + '' : '';
-    this.multiVideoSignalName.snapshotRefreshRate = this.getAttribute('receiveStateSnapshotRefreshRate')?.trim() ? this.getAttribute('receiveStateSnapshotRefreshRate')?.trim() + '' : '';
+    const indexId = this.getAttribute('indexid')?.trim() + '' || this.indexId;
+    for (let i = 0; i < 32; i++) {
+      const url = this.receiveStateURL.replace(`{{${indexId}}}`, i.toString());
+      const userId = this.receiveStateUserId.replace(`{{${indexId}}}`, i.toString());
+      const password = this.receiveStatePassword.replace(`{{${indexId}}}`, i.toString());
+      const sourceType = this.receiveStateSourceType.replace(`{{${indexId}}}`, i.toString());
+      const snapshotURL = this.receiveStateSnapshotURL.replace(`{{${indexId}}}`, i.toString());
+      const snapshotUserId = this.receiveStateSnapshotUserId.replace(`{{${indexId}}}`, i.toString());
+      const snapshotPassword = this.receiveStateSnapshotPassword.replace(`{{${indexId}}}`, i.toString());
+      const snapshotRefreshRate = this.receiveStateSnapshotRefreshRate.replace(`{{${indexId}}}`, i.toString());
+      this.signalHolder.push({
+        url: { signalState: "", url, value: null },
+        userId: { signalState: "", userId, value: null },
+        password: { signalState: "", password, value: null },
+        sourceType: { signalState: "", sourceType, value: null },
+        snapshotURL: { signalState: "", snapshotURL, value: null },
+        snapshotUserId: { signalState: "", snapshotUserId, value: null },
+        snapshotPassword: { signalState: "", snapshotPassword, value: null },
+        snapshotRefreshRate: { signalState: "", snapshotRefreshRate, value: null }
+      });
+      const urlSignalResponse = this.setSignalByString(url);
+      if (!_.isNil(urlSignalResponse)) {
+        this.signalHolder[i].url.signalState = urlSignalResponse.subscribe((newValue: string) => {
+          this.signalHolder[i].url.value = newValue;
+          if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) {
+            this.urlCB(newValue);
+          }
+        });
+      }
+      const userIdSignalResponse = this.setSignalByString(userId);
+      if (!_.isNil(userIdSignalResponse)) {
+        this.signalHolder[i].userId.signalState = userIdSignalResponse.subscribe((newValue: string) => {
+          this.signalHolder[i].userId.value = newValue;
+          if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) {
+            this.userIdCB(newValue);
+          }
+        });
+      }
+      const passwordSignalResponse = this.setSignalByString(password);
+      if (!_.isNil(passwordSignalResponse)) {
+        this.signalHolder[i].password.signalState = passwordSignalResponse.subscribe((newValue: string) => {
+          this.signalHolder[i].password.value = newValue;
+          if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) {
+            this.passwordCB(newValue);
+          }
+        });
+      }
+      const sourceTypeSignalResponse = this.setSignalByString(sourceType);
+      if (!_.isNil(sourceTypeSignalResponse)) {
+        this.signalHolder[i].sourceType.signalState = sourceTypeSignalResponse.subscribe((newValue: string) => {
+          this.signalHolder[i].sourceType.value = newValue;
+          if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) {
+            this.sourceTypeCB(newValue);
+          }
+        });
+      }
+      const snapshotURLSignalResponse = this.setSignalByString(snapshotURL);
+      if (!_.isNil(snapshotURLSignalResponse)) {
+        this.signalHolder[i].snapshotURL.signalState = snapshotURLSignalResponse.subscribe((newValue: string) => {
+          this.signalHolder[i].snapshotURL.value = newValue;
+          if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) {
+            this.snapshotURLCB(newValue);
+          }
+        });
+      }
+      const snapshotUserIdSignalResponse = this.setSignalByString(snapshotUserId);
+      if (!_.isNil(snapshotUserIdSignalResponse)) {
+        this.signalHolder[i].snapshotUserId.signalState = snapshotUserIdSignalResponse.subscribe((newValue: string) => {
+          this.signalHolder[i].snapshotUserId.value = newValue;
+          if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) {
+            this.snapshotUserIdCB(newValue);
+          }
+        });
+      }
+      const snapshotPasswordSignalResponse = this.setSignalByString(snapshotPassword);
+      if (!_.isNil(snapshotPasswordSignalResponse)) {
+        this.signalHolder[i].snapshotPassword.signalState = snapshotPasswordSignalResponse.subscribe((newValue: string) => {
+          this.signalHolder[i].snapshotPassword.value = newValue;
+          if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) {
+            this.snapshotPasswordCB(newValue);
+          }
+        });
+      }
+      const snapshotRefreshRateSignalResponse = this.setSignalByNumber(snapshotRefreshRate);
+      if (!_.isNil(snapshotRefreshRateSignalResponse)) {
+        this.signalHolder[i].snapshotRefreshRate.signalState = snapshotRefreshRateSignalResponse.subscribe((newValue: number) => {
+          this.signalHolder[i].snapshotRefreshRate.value = newValue;
+          if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) {
+            this.snapshotRefreshRateCB(newValue);
+          }
+        });
+      }
+    }
+  }
+
+  public setSignalByNumber(value: string): Ch5Signal<number> | null {
+    // setup new subscription.
+    const receiveLabelSigName: string = Ch5Signal.getSubscriptionSignalName(value);
+    const receiveSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(receiveLabelSigName);
+
+    if (receiveSignal === null) {
+      return null;
+    }
+    return receiveSignal;
+  }
+
+
+  private setSignalByString(value: string): Ch5Signal<string> | null {
+    // setup new subscription.
+    const receiveLabelSigName: string = Ch5Signal.getSubscriptionSignalName(value);
+    const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(receiveLabelSigName);
+
+    if (receiveSignal === null) {
+      return null;
+    }
+    return receiveSignal;
+
   }
 
   private addTouchEvent() {
@@ -1586,8 +1643,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         // Below fix is for CH5C-6943 as a work-around. If firmware fixes it, the same can be removed.
         setTimeout(() => {
           this.publishVideo('resize');
-          setTimeout(() => this.ch5BackgroundRequest('resize'), 30);
-        }, 70);
+          setTimeout(() => { this.ch5BackgroundRequest('resize'); }, 30);
+        }, 70)
       }
     }
   }
@@ -1613,15 +1670,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
   }
 
-  private checkIndexIdAndReplace(value: string): string {
-    if (value && this.indexId === "" && this.getAttribute('indexid') !== null && this.getAttribute('indexid')?.trim().length !== 0) {
-      value = value.replace(`{{${this.getAttribute('indexid')?.trim() + ''}}}`, this.selectedVideo.toString());
-    } else if (value && this.indexId !== "") {
-      value = value.replace(`{{${this.indexId}}}`, this.selectedVideo.toString());
-    }
-    return value;
-  }
-
   private setErrorMessages() {
     this.videoErrorMessages.set(0, "success");
     this.videoErrorMessages.set(1, "HDMI no sync");
@@ -1642,6 +1690,89 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.videoErrorMessages.set(-9003, "Request for greater than maximum simultaneous sessions per source type");
     this.videoErrorMessages.set(-9004, "Request for greater than maximum simultaneous sessions per device");
     this.videoErrorMessages.set(-9007, "Unknown Error Message");
+  }
+
+  private urlCB(newValue: string) {
+    this._ch5Properties.setForSignalResponse<string>("url", newValue, () => {
+      this.sendEvent(this.sendEventSelectionURL, this.url);
+      this.checkUrl();
+    });
+  }
+
+  private userIdCB(newValue: string) {
+    this._ch5Properties.setForSignalResponse<string>("userId", newValue, () => {
+      this.videoIntersectionObserver();
+    });
+  }
+
+  private passwordCB(newValue: string) {
+    this._ch5Properties.setForSignalResponse<string>("password", newValue, () => {
+      this.videoIntersectionObserver();
+    });
+  }
+
+  private sourceTypeCB(newValue: string) {
+    this._ch5Properties.setForSignalResponse<string>("sourceType", newValue, () => {
+      this.sendEvent(this.sendEventSelectionSourceType, this.sourceType);
+      this.videoIntersectionObserver();
+    });
+  }
+
+  private snapshotURLCB(newValue: string) {
+    this._ch5Properties.setForSignalResponse<string>("snapshotURL", newValue, () => {
+      this.sendEvent(this.sendEventSnapshotURL, this.snapshotURL);
+      this.validateAndAttachSnapshot();
+    });
+  }
+
+  private snapshotUserIdCB(newValue: string) {
+    this._ch5Properties.setForSignalResponse<string>("snapshotUserId", newValue, () => {
+      this.validateAndAttachSnapshot();
+    });
+  }
+
+  private snapshotPasswordCB(newValue: string) {
+    this._ch5Properties.setForSignalResponse<string>("snapshotPassword", newValue, () => {
+      this.validateAndAttachSnapshot();
+    });
+  }
+
+  private snapshotRefreshRateCB(newValue: number) {
+    this._ch5Properties.setForSignalResponse<number>("snapshotRefreshRate", newValue, () => {
+      this.validateAndAttachSnapshot();
+    });
+  }
+
+  private clearOldSubscriptionNumber(signalValue: string, signalState: string) {
+    // clean up old subscription
+    const oldReceiveStateSigName: string = Ch5Signal.getSubscriptionSignalName(signalValue);
+    const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(oldReceiveStateSigName);
+
+    if (oldSignal !== null) {
+      oldSignal.unsubscribe(signalState as string);
+    }
+  }
+  private clearOldSubscriptionString(signalValue: string, signalState: string) {
+    // clean up old subscription
+    const oldReceiveStateSigName: string = Ch5Signal.getSubscriptionSignalName(signalValue);
+    const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(oldReceiveStateSigName);
+
+    if (oldSignal !== null) {
+      oldSignal.unsubscribe(signalState as string);
+    }
+  }
+
+  private clearMultiSignal() {
+    this.signalHolder.forEach((obj: any) => {
+      this.clearOldSubscriptionString(obj.url.signalValue, obj.url.signalState);
+      this.clearOldSubscriptionString(obj.userId.signalValue, obj.userId.signalState);
+      this.clearOldSubscriptionString(obj.password.signalValue, obj.password.signalState);
+      this.clearOldSubscriptionString(obj.sourceType.signalValue, obj.sourceType.signalState);
+      this.clearOldSubscriptionString(obj.snapshotURL.signalValue, obj.snapshotURL.signalState);
+      this.clearOldSubscriptionString(obj.snapshotUserId.signalValue, obj.snapshotUserId.signalState);
+      this.clearOldSubscriptionString(obj.snapshotPassword.signalValue, obj.snapshotPassword.signalState);
+      this.clearOldSubscriptionNumber(obj.snapshotRefreshRate.signalValue, obj.snapshotRefreshRate.signalState);
+    });
   }
   // #endregion
 
