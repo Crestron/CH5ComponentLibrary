@@ -542,7 +542,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   public set userId(value: string) {
     this._ch5Properties.set<string>("userId", value.trim(), () => {
-      if (value.trim().includes('@') || value.trim().includes(':')) {
+      if (this.userId.trim().includes('@') || this.userId.trim().includes(':')) {
         console.warn("Please avoid using '@' and ':' characters for userid and password");
       }
       this.videoIntersectionObserver();
@@ -554,7 +554,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   public set password(value: string) {
     this._ch5Properties.set<string>("password", value.trim(), () => {
-      if (value.trim().includes('@') || value.trim().includes(':')) {
+      if (this.password.trim().includes('@') || this.password.trim().includes(':')) {
         console.warn("Please avoid using '@' and ':' characters for userid and password");
       }
       this.videoIntersectionObserver();
@@ -1453,77 +1453,84 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         snapshotPassword: { signalState: "", snapshotPassword, value: null },
         snapshotRefreshRate: { signalState: "", snapshotRefreshRate, value: null }
       });
-      const urlSignalResponse = this.setSignalByString(url);
-      if (!_.isNil(urlSignalResponse)) {
-        this.signalHolder[i].url.signalState = urlSignalResponse.subscribe((newValue: string) => {
-          this.signalHolder[i].url.value = newValue;
-          if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) {
-            this.urlCB(newValue);
-          }
-        });
+      if (url) {
+        const urlSignalResponse = this.setSignalByString(url);
+        if (!_.isNil(urlSignalResponse)) {
+          this.signalHolder[i].url.signalState = urlSignalResponse.subscribe((newValue: string) => {
+            this.signalHolder[i].url.value = newValue;
+            if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) { this.urlCB(newValue); }
+          });
+        }
       }
-      const userIdSignalResponse = this.setSignalByString(userId);
-      if (!_.isNil(userIdSignalResponse)) {
-        this.signalHolder[i].userId.signalState = userIdSignalResponse.subscribe((newValue: string) => {
-          this.signalHolder[i].userId.value = newValue;
-          if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) {
-            this.userIdCB(newValue);
-          }
-        });
+
+      if (userId) {
+        const userIdSignalResponse = this.setSignalByString(userId);
+        if (!_.isNil(userIdSignalResponse)) {
+          this.signalHolder[i].userId.signalState = userIdSignalResponse.subscribe((newValue: string) => {
+            this.signalHolder[i].userId.value = newValue;
+            if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) { this.userIdCB(newValue); }
+          });
+        }
       }
-      const passwordSignalResponse = this.setSignalByString(password);
-      if (!_.isNil(passwordSignalResponse)) {
-        this.signalHolder[i].password.signalState = passwordSignalResponse.subscribe((newValue: string) => {
-          this.signalHolder[i].password.value = newValue;
-          if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) {
-            this.passwordCB(newValue);
-          }
-        });
+
+      if (password) {
+        const passwordSignalResponse = this.setSignalByString(password);
+        if (!_.isNil(passwordSignalResponse)) {
+          this.signalHolder[i].password.signalState = passwordSignalResponse.subscribe((newValue: string) => {
+            this.signalHolder[i].password.value = newValue;
+            if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) { this.passwordCB(newValue); }
+
+          });
+        }
       }
-      const sourceTypeSignalResponse = this.setSignalByString(sourceType);
-      if (!_.isNil(sourceTypeSignalResponse)) {
-        this.signalHolder[i].sourceType.signalState = sourceTypeSignalResponse.subscribe((newValue: string) => {
-          this.signalHolder[i].sourceType.value = newValue;
-          if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) {
-            this.sourceTypeCB(newValue);
-          }
-        });
+
+      if (sourceType) {
+        const sourceTypeSignalResponse = this.setSignalByString(sourceType);
+        if (!_.isNil(sourceTypeSignalResponse)) {
+          this.signalHolder[i].sourceType.signalState = sourceTypeSignalResponse.subscribe((newValue: string) => {
+            this.signalHolder[i].sourceType.value = newValue;
+            if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) { this.sourceTypeCB(newValue); }
+          });
+        }
       }
-      const snapshotURLSignalResponse = this.setSignalByString(snapshotURL);
-      if (!_.isNil(snapshotURLSignalResponse)) {
-        this.signalHolder[i].snapshotURL.signalState = snapshotURLSignalResponse.subscribe((newValue: string) => {
-          this.signalHolder[i].snapshotURL.value = newValue;
-          if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) {
-            this.snapshotURLCB(newValue);
-          }
-        });
+
+      if (snapshotURL) {
+        const snapshotURLSignalResponse = this.setSignalByString(snapshotURL);
+        if (!_.isNil(snapshotURLSignalResponse)) {
+          this.signalHolder[i].snapshotURL.signalState = snapshotURLSignalResponse.subscribe((newValue: string) => {
+            this.signalHolder[i].snapshotURL.value = newValue;
+            if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) { this.snapshotURLCB(newValue); }
+          });
+        }
       }
-      const snapshotUserIdSignalResponse = this.setSignalByString(snapshotUserId);
-      if (!_.isNil(snapshotUserIdSignalResponse)) {
-        this.signalHolder[i].snapshotUserId.signalState = snapshotUserIdSignalResponse.subscribe((newValue: string) => {
-          this.signalHolder[i].snapshotUserId.value = newValue;
-          if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) {
-            this.snapshotUserIdCB(newValue);
-          }
-        });
+      if (snapshotUserId) {
+        const snapshotUserIdSignalResponse = this.setSignalByString(snapshotUserId);
+        if (!_.isNil(snapshotUserIdSignalResponse)) {
+          this.signalHolder[i].snapshotUserId.signalState = snapshotUserIdSignalResponse.subscribe((newValue: string) => {
+            this.signalHolder[i].snapshotUserId.value = newValue;
+            if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) { this.snapshotUserIdCB(newValue); }
+          });
+        }
       }
-      const snapshotPasswordSignalResponse = this.setSignalByString(snapshotPassword);
-      if (!_.isNil(snapshotPasswordSignalResponse)) {
-        this.signalHolder[i].snapshotPassword.signalState = snapshotPasswordSignalResponse.subscribe((newValue: string) => {
-          this.signalHolder[i].snapshotPassword.value = newValue;
-          if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) {
-            this.snapshotPasswordCB(newValue);
-          }
-        });
+
+      if (snapshotPassword) {
+        const snapshotPasswordSignalResponse = this.setSignalByString(snapshotPassword);
+        if (!_.isNil(snapshotPasswordSignalResponse)) {
+          this.signalHolder[i].snapshotPassword.signalState = snapshotPasswordSignalResponse.subscribe((newValue: string) => {
+            this.signalHolder[i].snapshotPassword.value = newValue;
+            if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) { this.snapshotPasswordCB(newValue); }
+          });
+        }
       }
-      const snapshotRefreshRateSignalResponse = this.setSignalByNumber(snapshotRefreshRate);
-      if (!_.isNil(snapshotRefreshRateSignalResponse)) {
-        this.signalHolder[i].snapshotRefreshRate.signalState = snapshotRefreshRateSignalResponse.subscribe((newValue: number) => {
-          this.signalHolder[i].snapshotRefreshRate.value = newValue;
-          if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) {
-            this.snapshotRefreshRateCB(newValue);
-          }
-        });
+
+      if (snapshotRefreshRate) {
+        const snapshotRefreshRateSignalResponse = this.setSignalByNumber(snapshotRefreshRate);
+        if (!_.isNil(snapshotRefreshRateSignalResponse)) {
+          this.signalHolder[i].snapshotRefreshRate.signalState = snapshotRefreshRateSignalResponse.subscribe((newValue: number) => {
+            this.signalHolder[i].snapshotRefreshRate.value = newValue;
+            if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) { this.snapshotRefreshRateCB(newValue); }
+          });
+        }
       }
     }
   }
