@@ -215,7 +215,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	 * [
 	 * "`receiveStateSourceType` attribute",
 	 * "***",
-	 * "provides the video source type when the selection changes to INDEX value. Enumerated values are “Network”, “HDMI”, and “DM”."
+	 * "provides the video source type when the selection changes to INDEX value. Value is 'Network'."
 	 * ]
 	 * @name receivestatesourcetype
 	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
@@ -430,19 +430,6 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	 * @attributeType "Join"
 	 */
 	sendEventRetryCount: string;
-
-	/**
-	 * @documentation
-	 * [
-	 * "`sendEventResolution` attribute",
-	 * "***",
-	 * "current video resolution string."
-	 * ]
-	 * @name sendeventresolution
-	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
-	 * @attributeType "Join"
-	 */
-	sendEventResolution: string;
 
 	/**
 	 * @documentation

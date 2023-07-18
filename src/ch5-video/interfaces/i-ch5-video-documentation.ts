@@ -88,9 +88,8 @@ import { ICh5VideoAttributes } from "./i-ch5-video-attributes";
  *       "\tsendEventErrorCode=\"${31:}\"",
  *       "\tsendEventErrorMessage=\"${32:}\"",
  *       "\tsendEventRetryCount=\"${33:}\"",
- *       "\tsendEventResolution=\"${34:}\"",
- *       "\tsendEventSnapshotStatus=\"${35:}\"",
- *       "\tsendEventSnapshotLastUpdateTime=\"${36:}\">",
+ *       "\tsendEventSnapshotStatus=\"${34:}\"",
+ *       "\tsendEventSnapshotLastUpdateTime=\"${35:}\">",
  *       "</ch5-video>$0"
  *       ]
  *    },

@@ -34,7 +34,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   };
 
   public static readonly ASPECT_RATIO: TCh5VideoAspectRatio[] = ['16:9', '4:3'];
-  public static readonly SOURCE_TYPE: TCh5VideoSourceType[] = ['Network', 'HDMI', 'DM'];
+  public static readonly SOURCE_TYPE: TCh5VideoSourceType[] = ['Network'];
   public static readonly SIZE: TCh5VideoSize[] = ['regular', 'x-small', 'small', 'large', 'x-large', 'xx-large'];
   public static readonly COMPONENT_DATA: any = {
     ASPECT_RATIO: {
@@ -75,7 +75,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     sendeventerrorcode: { direction: "event", numericJoin: 1, contractName: true },
     sendeventerrormessage: { direction: "event", stringJoin: 1, contractName: true },
     sendeventretrycount: { direction: "event", numericJoin: 1, contractName: true },
-    sendeventresolution: { direction: "event", stringJoin: 1, contractName: true },
     sendeventsnapshotstatus: { direction: "event", numericJoin: 1, contractName: true },
     sendeventsnapshotlastupdatetime: { direction: "event", stringJoin: 1, contractName: true }
   };
@@ -410,16 +409,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       isSignal: true,
       name: "sendEventRetryCount",
       signalType: "number",
-      removeAttributeOnNull: true,
-      type: "string",
-      valueOnAttributeEmpty: "",
-      isObservableProperty: true
-    },
-    {
-      default: "",
-      isSignal: true,
-      name: "sendEventResolution",
-      signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -764,13 +753,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
   public get sendEventRetryCount(): string {
     return this._ch5Properties.get<string>('sendEventRetryCount');
-  }
-
-  public set sendEventResolution(value: string) {
-    this._ch5Properties.set("sendEventResolution", value);
-  }
-  public get sendEventResolution(): string {
-    return this._ch5Properties.get<string>('sendEventResolution');
   }
 
   public set sendEventSnapshotStatus(value: string) {
@@ -1192,7 +1174,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   // Send event to the backend based on the action Type
   private publishVideo(actionType: string) {
-    this.sendEvent(this.sendEventResolution, this._elContainer.getBoundingClientRect().width + "x" + this._elContainer.getBoundingClientRect().height + "@24fps");
     switch (actionType) {
       case 'start':
         if (this.url === "" || this.validateVideoUrl(this.url) === false) {
@@ -1267,8 +1248,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       case 'error':
         this.ch5BackgroundRequest('error');
         this.sendEvent(this.sendEventState, 7);
-        this.sendEvent(this.sendEventErrorCode, Number(this.responseObj.statuscode));
-        this.sendEvent(this.sendEventErrorMessage, this.videoErrorMessages.get(Number(this.responseObj.statuscode)) || 'Unknown Error Message')
         break;
       case 'connecting':
         this.sendEvent(this.sendEventState, 4);
@@ -1285,6 +1264,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.logger.log('video is in ' + this.responseObj.status.toLowerCase() + ' state')
         break;
     }
+    this.sendEvent(this.sendEventErrorCode, Number(this.responseObj.statuscode));
+    this.sendEvent(this.sendEventErrorMessage, this.videoErrorMessages.get(Number(this.responseObj.statuscode)) || 'Unknown Error Message');
   }
 
   // Call back function if the video response has an error
@@ -1679,8 +1660,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   private setErrorMessages() {
     this.videoErrorMessages.set(0, "success");
-    this.videoErrorMessages.set(1, "HDMI no sync");
-    this.videoErrorMessages.set(2, "DM no stream");
+    // this.videoErrorMessages.set(1, "HDMI no sync");
+    // this.videoErrorMessages.set(2, "DM no stream");
     // this.videoErrorMessages.set(3, "No input sync");
     this.videoErrorMessages.set(-1, "connection refused / camera offline");
     this.videoErrorMessages.set(-2, "no network");
