@@ -1407,7 +1407,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       this.videoIntersectionObserver();
     } else {
       this.publishVideo('resize');
-      setTimeout(() => { this.ch5BackgroundRequest('resize') }, 100);
+      setTimeout(() => { this.ch5BackgroundRequest('resize') }, 100); // workaround for CH5C-7463
     }
   }
 
