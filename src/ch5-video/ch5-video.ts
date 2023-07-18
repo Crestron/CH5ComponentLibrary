@@ -1236,6 +1236,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     // this.logger.log("Video Response : " + JSON.stringify(this.responseObj));
 
     this.lastResponseStatus = this.responseObj.status.toLowerCase();
+    if (!(this.lastResponseStatus === 'started' || (this.lastRequestStatus === 'resize' && this.lastResponseStatus === 'resized'))) {
+      this._fullScreenIcon.classList.add('hide')
+    }
     switch (this.responseObj.status.toLowerCase()) {
       case 'started':
         this.ch5BackgroundRequest('started');
@@ -1404,7 +1407,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       this.videoIntersectionObserver();
     } else {
       this.publishVideo('resize');
-      this.lastResponseStatus = "started";
+      setTimeout(() => { this.ch5BackgroundRequest('resize') }, 100); // workaround for CH5C-7463
     }
   }
 
