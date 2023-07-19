@@ -75,6 +75,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     sendeventerrorcode: { direction: "event", numericJoin: 1, contractName: true },
     sendeventerrormessage: { direction: "event", stringJoin: 1, contractName: true },
     sendeventretrycount: { direction: "event", numericJoin: 1, contractName: true },
+    sendeventresolution: { direction: "event", stringJoin: 1, contractName: true },
     sendeventsnapshotstatus: { direction: "event", numericJoin: 1, contractName: true },
     sendeventsnapshotlastupdatetime: { direction: "event", stringJoin: 1, contractName: true }
   };
@@ -409,6 +410,16 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       isSignal: true,
       name: "sendEventRetryCount",
       signalType: "number",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true
+    },
+    {
+      default: "",
+      isSignal: true,
+      name: "sendEventResolution",
+      signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -753,6 +764,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
   public get sendEventRetryCount(): string {
     return this._ch5Properties.get<string>('sendEventRetryCount');
+  }
+
+  public set sendEventResolution(value: string) {
+    this._ch5Properties.set("sendEventResolution", value);
+  }
+  public get sendEventResolution(): string {
+    return this._ch5Properties.get<string>('sendEventResolution');
   }
 
   public set sendEventSnapshotStatus(value: string) {
@@ -1164,7 +1182,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       endtime: new Date().getMilliseconds() + 2000, // 2000 msecs later
       timing: "linear" // only linear supported initially
     };
-
+    this.sendEvent(this.sendEventResolution, width + "x" + height);
     return retObj;
   }
 
