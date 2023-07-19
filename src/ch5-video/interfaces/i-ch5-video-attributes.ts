@@ -434,6 +434,19 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	/**
 	 * @documentation
 	 * [
+	 * "`sendEventResolution` attribute",
+	 * "***",
+	 * "current video resolution string."
+	 * ]
+	 * @name sendeventresolution
+	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+	 * @attributeType "Join"
+	 */
+	sendEventResolution: string;
+
+	/**
+	 * @documentation
+	 * [
 	 * "`sendEventSnapshotStatus` attribute",
 	 * "***",
 	 * "current state of the still image associated with the current source selection numeric - 0 not shown, 1 -currently shown, 2 - in error."
