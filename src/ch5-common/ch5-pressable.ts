@@ -466,10 +466,6 @@ export class Ch5Pressable {
 				return;
 			}
 			this._touchIos = true;
-			setTimeout(() => {
-				this._touchIos = false;
-				this._onRelease();
-			}, 300);
 		}
 
 		this.isTouch = true;
