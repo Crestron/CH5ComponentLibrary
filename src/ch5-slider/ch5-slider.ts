@@ -9,7 +9,7 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5CommonInput } from "../ch5-common-input";
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { target, Options, create, API } from "nouislider";
-import { Ch5Pressable } from "../ch5-common/ch5-pressable";
+import { Ch5PressableSlider } from "../ch5-common/ch5-pressable-slider";
 import HtmlCallback from "../ch5-common/utils/html-callback";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { TCh5SliderHandleShape, TCh5SliderOrientation, TCh5SliderSize, TCh5SliderHandleSize, TCh5SliderStretch, TCh5SliderToolTipShowType, TCh5SliderToolTipDisplayType, TCh5SliderHandle, } from './interfaces/t-ch5-slider';
@@ -476,7 +476,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 * @type {(Ch5Pressable | null)}
 	 * @memberof Ch5Image
 	 */
-	private _pressable: Ch5Pressable | null = null;
+	private _pressable: Ch5PressableSlider | null = null;
+
 
 	/**
 	 * This event is useful when you specifically want to listen to a handle being dragged, but want to ignore other updates to the slider value.
@@ -1031,8 +1032,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 		// set data-ch5-id
 		this.setAttribute('data-ch5-id', this.getCrId());
-		this._pressable = new Ch5Pressable(this, {
-			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
+		this._pressable = new Ch5PressableSlider(this._innerContainer, {
+			cssTargetElement: this._innerContainer,
 			cssPressedClass: this.primaryCssClass + '--pressed'
 		});
 
@@ -1089,8 +1090,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		this._stopRcbAnimation = this._stopRcbAnimation.bind(this);
 		this._onMouseLeave = this._onMouseLeave.bind(this);
 		this._onTouchMoveEnd = this._onTouchMoveEnd.bind(this);
-		this.handleSendEventHold = this.handleSendEventHold.bind(this);
-		this.handleSendEventRelease = this.handleSendEventRelease.bind(this);
 		this.sendEventOnHandleClickHandle = this.sendEventOnHandleClickHandle.bind(this);
 		this._onTouchHandler = this._onTouchHandler.bind(this);
 	}
@@ -1412,14 +1411,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 */
 	protected attachEventListeners() {
 		super.attachEventListeners();
-
-		// Focus | Blur events
-		if (null !== this._innerContainer.querySelector('.noUi-handle')) {
-			this._innerContainer.addEventListener('mouseleave', this._onMouseLeave);
-			this._innerContainer.addEventListener('touchmove', this._onMouseLeave);
-			this._innerContainer.addEventListener('mousedown', () => { this._holdState = true; });
-			this._innerContainer.addEventListener('touchstart', this._onTouchHandler);
-		}
 		// init pressable
 		if (null !== this._pressable) {
 			this._pressable.init();
@@ -1542,25 +1533,24 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		const REPEAT_DIGITAL_PERIOD = 400;
 		const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
 		if (this._isPressedSubscription === null && this._pressable !== null) {
-			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
-				if (value === false) {
+			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: any) => {
+				if (value.pressed === false) {
 					if (this._repeatDigitalInterval !== null) {
 						window.clearInterval(this._repeatDigitalInterval as number);
 					}
-					if (this._holdState) {
-						this.handleSendEventRelease();
-					}
-				} else if (this._holdState) {
-					this.handleSendEventHold();
+					this.handleSendEvent(value.range, false);
+				}
+				else {
+					this.handleSendEvent(value.range, true);
 					if (this._repeatDigitalInterval !== null) {
 						window.clearInterval(this._repeatDigitalInterval as number);
 					}
 					let numRepeatDigitals = 0;
 					this._repeatDigitalInterval = window.setInterval(() => {
-						this.handleSendEventHold();
+						this.handleSendEvent(value.range, true);
 						if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
 							window.clearInterval(this._repeatDigitalInterval as number);
-							this.handleSendEventRelease();
+							this.handleSendEvent(value.range, false);
 						}
 					}, REPEAT_DIGITAL_PERIOD);
 				}
@@ -2118,7 +2108,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			// This is defensive code for CCIDE purpose only and should not be removed.
 			direction = "ltr";
 		}
-		
+
 		// The connect option can be used to control the bar between the handles or the edges of the slider.
 		const connect = this._connectDisplayFormatter();
 
@@ -2706,34 +2696,15 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.HANDLE_SHAPE.classListPrefix + this.handleShape);
 	}
 
-	private handleSendEventHold(): void {
-		setTimeout(() => {
-			if (this.range || this.isAdvancedSlider === false || this.disabled) {
-				return;
-			}
-			this._holdState = true;
-			if (this.sendEventOnUpper && this._sendEventValue >= ((this.max - this.min) * 3 / 4)) {
-				Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnUpper)?.publish(true);
-			}
-			if (this.sendEventOnLower && this._sendEventValue <= ((this.max - this.min) / 4)) {
-				Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnLower)?.publish(true);
-			}
-		}, 30);
-	}
-
-	private handleSendEventRelease(): void {
-		setTimeout(() => {
-			this._holdState = false;
-			if (this.range || this.isAdvancedSlider === false || this.disabled) {
-				return;
-			}
-			if (this.sendEventOnUpper && this._sendEventValue >= ((this.max - this.min) * 3 / 4)) {
-				Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnUpper)?.publish(false);
-			}
-			if (this.sendEventOnLower && this._sendEventValue <= ((this.max - this.min) / 4)) {
-				Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnLower)?.publish(false);
-			}
-		}, 30);
+	private handleSendEvent(eventName: string, value: boolean): void {
+		if (this.range || this.isAdvancedSlider === false || this.disabled) {
+			return;
+		}
+		if (this.sendEventOnUpper !== '' && this.sendEventOnUpper !== null && this.sendEventOnUpper !== undefined && eventName === 'upper') {
+			Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnUpper)?.publish(value);
+		} else if (this.sendEventOnLower !== '' && this.sendEventOnLower !== null && this.sendEventOnLower !== undefined && eventName === 'lower') {
+			Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnLower)?.publish(value);
+		}
 	}
 
 	private sendEventOnHandleClickHandle(): void {
