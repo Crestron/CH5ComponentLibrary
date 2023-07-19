@@ -215,7 +215,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	 * [
 	 * "`receiveStateSourceType` attribute",
 	 * "***",
-	 * "provides the video source type when the selection changes to INDEX value. Enumerated values are “Network”, “HDMI”, and “DM”."
+	 * "provides the video source type when the selection changes to INDEX value. Value is 'Network'."
 	 * ]
 	 * @name receivestatesourcetype
 	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}

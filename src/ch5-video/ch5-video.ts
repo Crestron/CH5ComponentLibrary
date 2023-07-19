@@ -34,7 +34,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   };
 
   public static readonly ASPECT_RATIO: TCh5VideoAspectRatio[] = ['16:9', '4:3'];
-  public static readonly SOURCE_TYPE: TCh5VideoSourceType[] = ['Network', 'HDMI', 'DM'];
+  public static readonly SOURCE_TYPE: TCh5VideoSourceType[] = ['Network'];
   public static readonly SIZE: TCh5VideoSize[] = ['regular', 'x-small', 'small', 'large', 'x-large', 'xx-large'];
   public static readonly COMPONENT_DATA: any = {
     ASPECT_RATIO: {
@@ -1182,7 +1182,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       endtime: new Date().getMilliseconds() + 2000, // 2000 msecs later
       timing: "linear" // only linear supported initially
     };
-
+    this.sendEvent(this.sendEventResolution, width + "x" + height);
     return retObj;
   }
 
@@ -1192,7 +1192,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   // Send event to the backend based on the action Type
   private publishVideo(actionType: string) {
-    this.sendEvent(this.sendEventResolution, this._elContainer.getBoundingClientRect().width + "x" + this._elContainer.getBoundingClientRect().height + "@24fps");
     switch (actionType) {
       case 'start':
         if (this.url === "" || this.validateVideoUrl(this.url) === false) {
@@ -1255,6 +1254,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     // this.logger.log("Video Response : " + JSON.stringify(this.responseObj));
 
     this.lastResponseStatus = this.responseObj.status.toLowerCase();
+    if (!(this.lastResponseStatus === 'started' || (this.lastRequestStatus === 'resize' && this.lastResponseStatus === 'resized'))) {
+      this._fullScreenIcon.classList.add('hide')
+    }
     switch (this.responseObj.status.toLowerCase()) {
       case 'started':
         this.ch5BackgroundRequest('started');
@@ -1267,8 +1269,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       case 'error':
         this.ch5BackgroundRequest('error');
         this.sendEvent(this.sendEventState, 7);
-        this.sendEvent(this.sendEventErrorCode, Number(this.responseObj.statuscode));
-        this.sendEvent(this.sendEventErrorMessage, this.videoErrorMessages.get(Number(this.responseObj.statuscode)) || 'Unknown Error Message')
         break;
       case 'connecting':
         this.sendEvent(this.sendEventState, 4);
@@ -1285,6 +1285,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.logger.log('video is in ' + this.responseObj.status.toLowerCase() + ' state')
         break;
     }
+    this.sendEvent(this.sendEventErrorCode, Number(this.responseObj.statuscode));
+    this.sendEvent(this.sendEventErrorMessage, this.videoErrorMessages.get(Number(this.responseObj.statuscode)) || 'Unknown Error Message');
   }
 
   // Call back function if the video response has an error
@@ -1423,7 +1425,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       this.videoIntersectionObserver();
     } else {
       this.publishVideo('resize');
-      this.lastResponseStatus = "started";
+      setTimeout(() => { this.ch5BackgroundRequest('resize') }, 100); // workaround for CH5C-7463
     }
   }
 
@@ -1679,8 +1681,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   private setErrorMessages() {
     this.videoErrorMessages.set(0, "success");
-    this.videoErrorMessages.set(1, "HDMI no sync");
-    this.videoErrorMessages.set(2, "DM no stream");
+    // this.videoErrorMessages.set(1, "HDMI no sync");
+    // this.videoErrorMessages.set(2, "DM no stream");
     // this.videoErrorMessages.set(3, "No input sync");
     this.videoErrorMessages.set(-1, "connection refused / camera offline");
     this.videoErrorMessages.set(-2, "no network");
