@@ -12,7 +12,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	//#region Variables
 
 	public static readonly KEY: TCh5SliderButtonKey[] = ['on', 'off'];
-	public static readonly inheritedObsAttrs = ["key", "label", "sgicontheme", "iconclass", "pressed", "selected", "shape", "halignlabel", "valignlabel", "type", "iconurl", "iconurlfilltype", "sendeventonclick", "receivestatelabel", "receivestateiconclass", "receivestateiconurl"];
+	public static readonly inheritedObsAttrs = ["key", "labelinnerhtml", "label", "sgicontheme", "iconclass", "pressed", "selected", "shape", "halignlabel", "valignlabel", "type", "iconurl", "iconurlfilltype", "sendeventonclick", "receivestatelabel", "receivestateiconclass", "receivestateiconurl"];
 	public static readonly COMPONENT_DATA: any = {
 		KEY: {
 			default: Ch5SliderButton.KEY[0],
@@ -68,7 +68,6 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 	public set labelInnerHTML(value: string) {
 		this._ch5Properties.set<string>("labelInnerHTML", value, () => {
 			this.createSliderButtonLabel();
-
 			this.debounceCreateSliderButton();
 		});
 	}
