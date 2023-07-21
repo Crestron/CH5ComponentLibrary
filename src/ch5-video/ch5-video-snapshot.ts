@@ -53,8 +53,24 @@ export class Ch5VideoSnapshot {
 		this.videoImage.classList.add('hide');
 	}
 
+	private splitUrl(): boolean {
+		const credentials = this.url.split('@')[0].split('//')[1];
+		if (credentials.includes(':') === false) {
+			console.warn("Please use valid url format");
+			return false;
+		}
+		const protocol = this.url.split('@')[0].split('//')[0];
+		this.userId = credentials.split(':')[0];
+		this.password = credentials.split(':')[1];
+		this.url = protocol + '//' + this.url.split('@')[1];
+		return true;
+	}
+
 	private canProcessUri(): boolean {
 		if (_.isEmpty(this.password) || _.isEmpty(this.userId) || _.isEmpty(this.url)) {
+			if (this.url.includes('@')) {
+				return this.splitUrl();
+			}
 			return false;
 		}
 		return true;
