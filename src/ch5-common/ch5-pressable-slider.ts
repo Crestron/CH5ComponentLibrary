@@ -507,6 +507,10 @@ export class Ch5PressableSlider {
 	}
 
 	private _onTouchEnd(inEvent: Event): void {
+		if (this._pressed) {
+			this._onRelease();
+		}
+
 		if (this.isMouse) {
 			return;
 		}
