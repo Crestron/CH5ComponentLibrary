@@ -360,8 +360,9 @@ export class Ch5PressableSlider {
 		this.isTouch = false;
 		const mouseEvent: MouseEvent = inEvent as MouseEvent;
 		const clientX = inEvent.clientX;
-		const { left, width } = this._ch5Component.getBoundingClientRect();
-		const value = (clientX - left) / width;
+		const clientY = inEvent.clientY;
+		const { left, width, height, top } = this._ch5Component.getBoundingClientRect();
+		const value = width > height ? (clientX - left) / width : (1 - (clientY - top) / height);
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Idle) {
 			this._fingerState.mode = Ch5PressableFingerStateMode.Start;
 			this._fingerState.touchHoldTimer = window.setTimeout(this._onTouchHoldTimer, this.pressDelayTime);
@@ -402,6 +403,9 @@ export class Ch5PressableSlider {
 	}
 
 	private _onMouseUp(inEvent: Event): void {
+		if (this._pressed === true) {
+			this._onRelease();
+		}
 
 		if (this.isTouch) {
 			return;
@@ -453,8 +457,9 @@ export class Ch5PressableSlider {
 
 	private _onTouchStart(inEvent: TouchEvent): void {
 		const clientX = inEvent.touches[0].clientX;
-		const { left, width } = this._ch5Component.getBoundingClientRect();
-		const value = (clientX - left) / width;
+		const clientY = inEvent.touches[0].clientY;
+		const { left, width, height, top } = this._ch5Component.getBoundingClientRect();
+		const value = width > height ? (clientX - left) / width : (1 - (clientY - top) / height);
 		if (value <= 0.25) {
 			this.sliderValue = 'lower';
 		} else if (value >= 0.75) {
