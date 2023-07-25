@@ -403,6 +403,9 @@ export class Ch5PressableSlider {
 	}
 
 	private _onMouseUp(inEvent: Event): void {
+		if (this._pressed === true) {
+			this._onRelease();
+		}
 
 		if (this.isTouch) {
 			return;
