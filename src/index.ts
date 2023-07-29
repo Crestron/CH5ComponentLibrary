@@ -45,3 +45,4 @@ export * from './ch5-animation';
 export * from './utility-models/index'; // Use CrComLib.Ch5RoleAttributeMapping to access
 export * from './ch5-wifi-signal-level-gauge';
 export * from './ch5-label';
+export * from './ch5-datetime';
