@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-datetime-styleForDate-attributes">
+    <template>
+      <ch5-datetime></ch5-datetime>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-datetime-styleForDate-attributes-value', () => {
+      let ch5Datetime;
+
+      setup(async () => {
+        ch5Datetime = fixture('ch5-datetime-styleForDate-attributes');
+      });
+        
+        let testCases = ['a', '', ' ', 'number', 'MM-dd-yyyy', 'M-dd-yyyy', 'M-d-yyyy', 'MM-dd-yy', 'M-dd-yy', 'M-d-yy', 'dd_MM_yyyy', 'd_MM_yyyy', 'd_M_yyyy', 'dd_MM_yy', 'd_MM_yy', 'd_M_yy', 'd MMM yyyy', 'MMM d yyyy', 'd MMMM yyyy', 'MMMM d yyyy', 'yyyy-MM-dd', 'yyyy_MM_dd', 'MMM d, yyyy', 'yyyy MM, dd', 'yyyy MMMM, dd', 'MMMM d, yyyy'];
+        let expectedResult = ['MM-dd-yyyy', 'MM-dd-yyyy', 'MM-dd-yyyy', 'MM-dd-yyyy', 'MM-dd-yyyy', 'M-dd-yyyy', 'M-d-yyyy', 'MM-dd-yy', 'M-dd-yy', 'M-d-yy', 'dd_MM_yyyy', 'd_MM_yyyy', 'd_M_yyyy', 'dd_MM_yy', 'd_MM_yy', 'd_M_yy', 'd MMM yyyy', 'MMM d yyyy', 'd MMMM yyyy', 'MMMM d yyyy', 'yyyy-MM-dd', 'yyyy_MM_dd', 'MMM d, yyyy', 'yyyy MM, dd', 'yyyy MMMM, dd', 'MMMM d, yyyy'];
+        testCases.forEach((ele, i) => {
+              test('Check Value "styleForDate"', () => {
+                  ch5Datetime.setAttribute('styleForDate', ele);
+                  expect(ch5Datetime.getAttribute('styleForDate')).to.be.equal(expectedResult[i]);
+              });
+          });
+        
+    });
+  </script>
+</body>
+
+</html>

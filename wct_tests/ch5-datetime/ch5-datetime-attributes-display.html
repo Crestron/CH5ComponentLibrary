@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-datetime-display-attributes">
+    <template>
+      <ch5-datetime></ch5-datetime>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-datetime-display-attributes-value', () => {
+      let ch5Datetime;
+
+      setup(async () => {
+        ch5Datetime = fixture('ch5-datetime-display-attributes');
+      });
+        
+        let testCases = ['a', '', ' ', 'number', 'datetime', 'date', 'time'];
+        let expectedResult = ['datetime', 'datetime', 'datetime', 'datetime', 'datetime', 'date', 'time'];
+        testCases.forEach((ele, i) => {
+              test('Check Value "display"', () => {
+                  ch5Datetime.setAttribute('display', ele);
+                  expect(ch5Datetime.getAttribute('display')).to.be.equal(expectedResult[i]);
+              });
+          });
+        
+    });
+  </script>
+</body>
+
+</html>

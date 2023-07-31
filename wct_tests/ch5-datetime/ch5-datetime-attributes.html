@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-datetime-default-attributes">
+    <template>
+      <ch5-datetime></ch5-datetime>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-datetime-default-attributes-value', () => {
+      let ch5Datetime;
+
+      setup(async () => {
+        ch5Datetime = fixture('ch5-datetime-default-attributes');
+      });
+        
+        test('Check Default value for styleForDate', () => {
+          expect(ch5Datetime.getAttribute("styleForDate")).to.be.equal(null);
+          ch5Datetime.setAttribute('styleForDate', 'MM-dd-yyyy');
+          expect(ch5Datetime.getAttribute("styleForDate")).to.be.equal('MM-dd-yyyy');
+          ch5Datetime.removeAttribute("styleForDate");
+          expect(ch5Datetime.getAttribute("styleForDate")).to.be.equal('MM-dd-yyyy');
+        });
+        
+        test('Check Default value for horizontalAlignment', () => {
+          expect(ch5Datetime.getAttribute("horizontalAlignment")).to.be.equal(null);
+          ch5Datetime.setAttribute('horizontalAlignment', 'center');
+          expect(ch5Datetime.getAttribute("horizontalAlignment")).to.be.equal('center');
+          ch5Datetime.removeAttribute("horizontalAlignment");
+          expect(ch5Datetime.getAttribute("horizontalAlignment")).to.be.equal('center');
+        });
+        
+        test('Check Default value for display', () => {
+          expect(ch5Datetime.getAttribute("display")).to.be.equal(null);
+          ch5Datetime.setAttribute('display', 'datetime');
+          expect(ch5Datetime.getAttribute("display")).to.be.equal('datetime');
+          ch5Datetime.removeAttribute("display");
+          expect(ch5Datetime.getAttribute("display")).to.be.equal('datetime');
+        });
+        
+    });
+  </script>
+</body>
+
+</html>
