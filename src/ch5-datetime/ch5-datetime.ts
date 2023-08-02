@@ -215,7 +215,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
   public set receiveStateTimeOffsetHours(value: string) {
     this._ch5Properties.set("receiveStateTimeOffsetHours", value, null, (newValue: number) => {
-      this._ch5Properties.setForSignalResponse<number>("timeOffsetHours", newValue, () => {
+      this._ch5Properties.setForSignalResponse<number>("timeOffsetHours", (newValue / 100), () => {
         this.debounceRender();
       });
     });
