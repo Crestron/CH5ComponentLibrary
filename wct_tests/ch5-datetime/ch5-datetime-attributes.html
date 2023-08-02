@@ -40,12 +40,12 @@
           expect(ch5Datetime.getAttribute("horizontalAlignment")).to.be.equal('center');
         });
         
-        test('Check Default value for display', () => {
-          expect(ch5Datetime.getAttribute("display")).to.be.equal(null);
-          ch5Datetime.setAttribute('display', 'datetime');
-          expect(ch5Datetime.getAttribute("display")).to.be.equal('datetime');
-          ch5Datetime.removeAttribute("display");
-          expect(ch5Datetime.getAttribute("display")).to.be.equal('datetime');
+        test('Check Default value for displayType', () => {
+          expect(ch5Datetime.getAttribute("displayType")).to.be.equal(null);
+          ch5Datetime.setAttribute('displayType', 'datetime');
+          expect(ch5Datetime.getAttribute("displayType")).to.be.equal('datetime');
+          ch5Datetime.removeAttribute("displayType");
+          expect(ch5Datetime.getAttribute("displayType")).to.be.equal('datetime');
         });
         
     });

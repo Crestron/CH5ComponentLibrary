@@ -10,7 +10,7 @@
               "state": "trigger_event_listener",
               "type": "n",
               "logic": "increment",
-              "offset": 1
+              "offset": 100
             } 
           ]
         },
@@ -23,7 +23,7 @@
               "state": "trigger_event_listener",
               "type": "n",
               "logic": "decrement",
-              "offset": 1
+              "offset": 100
             } 
           ]
         }

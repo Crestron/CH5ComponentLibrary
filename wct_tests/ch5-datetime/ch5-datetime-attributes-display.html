@@ -11,25 +11,25 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-datetime-display-attributes">
+  <test-fixture id="ch5-datetime-displayType-attributes">
     <template>
       <ch5-datetime></ch5-datetime>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-datetime-display-attributes-value', () => {
+    suite('ch5-datetime-displayType-attributes-value', () => {
       let ch5Datetime;
 
       setup(async () => {
-        ch5Datetime = fixture('ch5-datetime-display-attributes');
+        ch5Datetime = fixture('ch5-datetime-displayType-attributes');
       });
         
         let testCases = ['a', '', ' ', 'number', 'datetime', 'date', 'time'];
         let expectedResult = ['datetime', 'datetime', 'datetime', 'datetime', 'datetime', 'date', 'time'];
         testCases.forEach((ele, i) => {
-              test('Check Value "display"', () => {
-                  ch5Datetime.setAttribute('display', ele);
-                  expect(ch5Datetime.getAttribute('display')).to.be.equal(expectedResult[i]);
+              test('Check Value "displayType"', () => {
+                  ch5Datetime.setAttribute('displayType', ele);
+                  expect(ch5Datetime.getAttribute('displayType')).to.be.equal(expectedResult[i]);
               });
           });
         

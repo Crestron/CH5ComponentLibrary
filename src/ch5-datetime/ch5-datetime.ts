@@ -94,7 +94,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
     {
       default: Ch5Datetime.DISPLAY_TYPE[0],
       enumeratedValues: Ch5Datetime.DISPLAY_TYPE,
-      name: "display",
+      name: "displayType",
       removeAttributeOnNull: true,
       type: "enum",
       valueOnAttributeEmpty: Ch5Datetime.DISPLAY_TYPE[0],
@@ -192,7 +192,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
   public set horizontalAlignment(value: TCh5DatetimeHorizontalAlignment) {
     this._ch5Properties.set<TCh5DatetimeHorizontalAlignment>("horizontalAlignment", value, () => {
-      // this.debounceRender();
+      this.debounceRender();
     });
   }
   public get horizontalAlignment(): TCh5DatetimeHorizontalAlignment {
