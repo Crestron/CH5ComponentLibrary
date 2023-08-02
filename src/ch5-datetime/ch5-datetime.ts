@@ -1,23 +1,25 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
-import { TCh5DatetimeStyleForDate, TCh5DatetimeHorizontalAlignment, TCh5DatetimeDisplay, } from './interfaces/t-ch5-datetime';
+import { TCh5DatetimeStyleForDate, TCh5DatetimeHorizontalAlignment, TCh5DatetimeDisplayType } from './interfaces/t-ch5-datetime';
 import { ICh5DatetimeAttributes } from './interfaces/i-ch5-datetime-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { offsetTimeHours, toFormat } from "./interfaces/date-time-util";
 
 export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
+
   //#region Variables
+
   public static readonly STYLE_FOR_DATE: TCh5DatetimeStyleForDate[] = ['MM-dd-yyyy', 'M-dd-yyyy', 'M-d-yyyy', 'MM-dd-yy', 'M-dd-yy', 'M-d-yy', 'dd_MM_yyyy', 'd_MM_yyyy', 'd_M_yyyy', 'dd_MM_yy', 'd_MM_yy', 'd_M_yy', 'd MMM yyyy', 'MMM d yyyy', 'd MMMM yyyy', 'MMMM d yyyy', 'yyyy-MM-dd', 'yyyy_MM_dd', 'MMM d, yyyy', 'yyyy MM, dd', 'yyyy MMMM, dd', 'MMMM d, yyyy'];
   public static readonly HORIZONTAL_ALIGNMENT: TCh5DatetimeHorizontalAlignment[] = ['center', 'left', 'right'];
-  public static readonly DISPLAY_TYPE: TCh5DatetimeDisplay[] = ['datetime', 'date', 'time'];
+  public static readonly DISPLAY_TYPE: TCh5DatetimeDisplayType[] = ['datetime', 'date', 'time'];
   public static readonly COMPONENT_DATA: any = {
     STYLE_FOR_DATE: {
       default: Ch5Datetime.STYLE_FOR_DATE[0],
       values: Ch5Datetime.STYLE_FOR_DATE,
       key: 'styleForDate',
-      attribute: 'styleForDate',
+      attribute: 'styleForDate'
     },
     HORIZONTAL_ALIGNMENT: {
       default: Ch5Datetime.HORIZONTAL_ALIGNMENT[0],
@@ -29,14 +31,14 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
     DISPLAY_TYPE: {
       default: Ch5Datetime.DISPLAY_TYPE[0],
       values: Ch5Datetime.DISPLAY_TYPE,
-      key: 'display',
-      attribute: 'display',
-    },
+      key: 'displayType',
+      attribute: 'displayType'
+    }
   };
 
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-    receivestatetimeoffsethours: { direction: "state", numericJoin: 1, contractName: true },
+    receivestatetimeoffsethours: { direction: "state", numericJoin: 1, contractName: true }
   };
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
     {
@@ -124,7 +126,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
       type: "string",
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
-    },
+    }
   ];
 
   public static readonly ELEMENT_NAME = 'ch5-datetime';
@@ -133,14 +135,16 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
-  private datetimerId: any;
+  private dateTimeId: any;
 
   private debounceRender = this.debounce(() => {
     this.render();
   }, 50);
+
   //#endregion
 
   //#region Getters and Setters
+
   public set display24HourFormat(value: boolean) {
     this._ch5Properties.set<boolean>("display24HourFormat", value, () => {
       this.debounceRender();
@@ -195,13 +199,13 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
     return this._ch5Properties.get<TCh5DatetimeHorizontalAlignment>("horizontalAlignment");
   }
 
-  public set display(value: TCh5DatetimeDisplay) {
-    this._ch5Properties.set<TCh5DatetimeDisplay>("display", value, () => {
+  public set displayType(value: TCh5DatetimeDisplayType) {
+    this._ch5Properties.set<TCh5DatetimeDisplayType>("displayType", value, () => {
       this.debounceRender();
     });
   }
-  public get display(): TCh5DatetimeDisplay {
-    return this._ch5Properties.get<TCh5DatetimeDisplay>("display");
+  public get displayType(): TCh5DatetimeDisplayType {
+    return this._ch5Properties.get<TCh5DatetimeDisplayType>("displayType");
   }
 
   public set timeOffsetHours(value: number) {
@@ -223,9 +227,11 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
   public get receiveStateTimeOffsetHours(): string {
     return this._ch5Properties.get<string>('receiveStateTimeOffsetHours');
   }
+
   //#endregion
 
   //#region Static Methods
+
   public static registerSignalAttributeTypes() {
     Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Datetime.ELEMENT_NAME, Ch5Datetime.SIGNAL_ATTRIBUTE_TYPES);
   }
@@ -241,6 +247,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
   //#endregion
 
   //#region Component Lifecycle
+
   public constructor() {
     super();
     this.logger.start('constructor()', Ch5Datetime.ELEMENT_NAME);
@@ -299,21 +306,22 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
     customElements.whenDefined('ch5-datetime').then(() => {
       this.componentLoadedEvent(Ch5Datetime.ELEMENT_NAME, this.id);
-      this.datetimerId = setInterval(() => this.debounceRender(), 1000);
+      this.dateTimeId = setInterval(() => this.debounceRender(), 1000);
     });
     this.logger.stop();
-
   }
 
   public disconnectedCallback() {
     this.logger.start('disconnectedCallback()');
     this.unsubscribeFromSignals();
-    clearInterval(this.datetimerId);
+    clearInterval(this.dateTimeId);
     this.logger.stop();
   }
+
   //#endregion
 
   //#region Protected / Private Methods
+
   protected createInternalHtml() {
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
@@ -371,29 +379,29 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
   private render() {
     /** @ts-ignore */
     const dateFormat = this.styleForDate.replaceAll('d', 'D').replaceAll('y', 'Y').replaceAll('_', '/');
-    let format = this.display !== 'time' ? dateFormat : '';
+    let format = this.displayType !== 'time' ? dateFormat : '';
     /* append the time formats only if it is time or datetime type display */
-    if ([Ch5Datetime.DISPLAY_TYPE[0], Ch5Datetime.DISPLAY_TYPE[2]].includes(this.display)) {
-      format = `${format} H:MI` // by default show time in single digits with minutes
+    if ([Ch5Datetime.DISPLAY_TYPE[0], Ch5Datetime.DISPLAY_TYPE[2]].includes(this.displayType)) {
+      format = `${format} H:MI`; // by default show time in single digits with minutes
       if (this.display24HourFormat) {
-        format = format.replace('H', 'HH24') // replace format to 24 hours
+        format = format.replace('H', 'HH24'); // replace format to 24 hours
       }
       if (this.displaySeconds) {
-        format = `${format}:SS` // append seconds to the format
+        format = `${format}:SS`; // append seconds to the format
       }
       if (this.displayAmPm && !this.display24HourFormat) {
-        format = `${format} PP` // append AM PM to the format
+        format = `${format} PP`; // append AM PM to the format
       }
       if (this.displayTwoDigitsHour) {
-        format = format.replace('H', 'HH') // replace format to show in two digits for 24 hour format
+        format = format.replace('H', 'HH'); // replace format to show in two digits for 24 hour format
       }
     }
     /* trim any spaces that could have been introduced to the above conditional appending of format */
     format = format.trim();
-    let content = toFormat(new Date(), format)
+    let content = toFormat(new Date(), format);
     if (this.timeOffsetHours) {
-      const timeoffset = offsetTimeHours(new Date(), this.timeOffsetHours * 60)
-      content = toFormat(timeoffset, format)
+      const timeOffset = offsetTimeHours(new Date(), this.timeOffsetHours * 60);
+      content = toFormat(timeOffset, format);
     }
     this._elContainer.textContent = String(content);
   }

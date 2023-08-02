@@ -54,12 +54,12 @@ const daysFull = [
   'Saturday'
 ];
 
-const appendZeroForSingleDigit = (str: number, stringLength: number) => {
-  let str1 = String(str);
-  while (str1.length < stringLength) {
-    str1 = '0' + str;
+const appendZeroForSingleDigit = (value: number, stringLength: number) => {
+  let output = String(value);
+  while (output.length < stringLength) {
+    output = '0' + value;
   }
-  return str1;
+  return output;
 }
 
 const getReplaceMap = (date: Date) => {

@@ -1,4 +1,4 @@
-// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+// Copyright (C) 2023 to the present, Crestron Electronics, Inc.
 // All rights reserved.
 // No part of this software may be reproduced in any form, machine
 // or natural, without the express written consent of Crestron Electronics.
@@ -15,9 +15,7 @@ import { ICh5CommonAttributesForReceiveStateCustomStyle } from "./common/i-ch5-c
 import { ICh5CommonAttributesForReceiveStateShow } from "./common/i-ch5-common-attributes-receivestateshow";
 import { ICh5CommonAttributesForShow } from "./common/i-ch5-common-attributes-show";
 
-
 /**
  * @ignore
  */
-
 export interface ICh5AttributesCh5Datetime extends ICh5CommonAttributesForDir, ICh5CommonAttributesForShow, ICh5CommonAttributesForReceiveStateShow, ICh5CommonAttributesForReceiveStateCustomStyle, ICh5CommonAttributesForReceiveStateCustomClass, ICh5CommonAttributesForNoShowType, ICh5CommonAttributesForCustomStyle, ICh5CommonAttributesForCustomClass, ICh5CommonAttributesForId { };
