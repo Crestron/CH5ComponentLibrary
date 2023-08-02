@@ -244,7 +244,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
   public constructor() {
     super();
     this.logger.start('constructor()', Ch5Datetime.ELEMENT_NAME);
-    this.ignoreAttributes = ["appendClassWhenInViewPort", "sendEventOnShow", "receiveStateEnable", "receiveStateHidePulse", "receiveStateShowPulse",];
+    this.ignoreAttributes = ["appendClassWhenInViewPort", "sendEventOnShow", "receiveStateEnable", "receiveStateHidePulse", "receiveStateShowPulse"];
     if (!this._wasInstatiated) {
       this.createInternalHtml();
     }
