@@ -60,7 +60,7 @@ export interface ICh5DatetimeAttributes extends ICh5AttributesCh5Datetime {
 		* [
 		* "`styleForDate` attribute",
 		* "***",
-		* "Style used for the date. M=numerical month 1-12, MM=numerical month with preceding 0 for months 1 to 9, MMM=short month string, MMMM=full month string, d=day of month, dd=day of month with preceding 0 for values 1 to 9, YY=last two digits of year, YYYY=4 digit year, "_"=forward slash character, "-"=dash character."
+		* "Style used for the date. M=numerical month 1-12, MM=numerical month with preceding 0 for months 1 to 9, MMM=short month string, MMMM=full month string, d=day of month, dd=day of month with preceding 0 for values 1 to 9, YY=last two digits of year, YYYY=4 digit year, '_'=forward slash character, '-'=dash character."
 		* ]
 		* @name stylefordate
 		* @default MM-dd-yyyy
