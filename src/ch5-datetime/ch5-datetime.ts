@@ -244,7 +244,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
   public constructor() {
     super();
     this.logger.start('constructor()', Ch5Datetime.ELEMENT_NAME);
-    this.ignoreAttributes = ["appendClassWhenInViewPort", "sendEventOnShow", "receiveStateEnable", "receiveStateHidePulse", "receiveStateShowPulse"];
+    this.ignoreAttributes = ["appendClassWhenInViewPort", "sendEventOnShow", "receiveStateEnable", "receiveStateHidePulse", "receiveStateShowPulse",];
     if (!this._wasInstatiated) {
       this.createInternalHtml();
     }
@@ -299,7 +299,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
     customElements.whenDefined('ch5-datetime').then(() => {
       this.componentLoadedEvent(Ch5Datetime.ELEMENT_NAME, this.id);
-      //this.datetimerId = setInterval(() => this.debounceRender(), this.displaySeconds ? 1000 : 60000);
+      this.datetimerId = setInterval(() => this.debounceRender(), 1000);
     });
     this.logger.stop();
 
@@ -308,7 +308,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
   public disconnectedCallback() {
     this.logger.start('disconnectedCallback()');
     this.unsubscribeFromSignals();
-    //clearInterval(this.datetimerId);
+    clearInterval(this.datetimerId);
     this.logger.stop();
   }
   //#endregion
@@ -374,7 +374,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
     let format = this.display !== 'time' ? dateFormat : '';
     /* append the time formats only if it is time or datetime type display */
     if ([Ch5Datetime.DISPLAY_TYPE[0], Ch5Datetime.DISPLAY_TYPE[2]].includes(this.display)) {
-      format = `${format} H:MM` // by default show time in single digits with minutes
+      format = `${format} H:MI` // by default show time in single digits with minutes
       if (this.display24HourFormat) {
         format = format.replace('H', 'HH24') // replace format to 24 hours
       }
@@ -395,7 +395,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
       const timeoffset = offsetTimeHours(new Date(), this.timeOffsetHours * 60)
       content = toFormat(timeoffset, format)
     }
-    this._elContainer.innerHTML = String(content);
+    this._elContainer.textContent = String(content);
   }
 
   //#endregion
