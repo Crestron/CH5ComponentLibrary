@@ -54,9 +54,9 @@ const daysFull = [
   'Saturday'
 ];
 
-const pad = (str: number, length: number) => {
+const appendZeroForSingleDigit = (str: number, stringLength: number) => {
   let str1 = String(str);
-  while (str1.length < length) {
+  while (str1.length < stringLength) {
     str1 = '0' + str;
   }
   return str1;
@@ -69,20 +69,20 @@ const getReplaceMap = (date: Date) => {
     'YY': String(date.getFullYear()).slice(-2),
     'MMMM': monthsFull[date.getMonth()],
     'MMM': monthsAbbr[date.getMonth()],
-    'MM': pad(date.getMonth() + 1, 2),
-    'MI': pad(date.getMinutes(), 2),
+    'MM': appendZeroForSingleDigit(date.getMonth() + 1, 2),
+    'MI': appendZeroForSingleDigit(date.getMinutes(), 2),
     'M': date.getMonth() + 1,
     'DDDD': daysFull[date.getDay()],
     'DDD': daysAbbr[date.getDay()],
-    'DD': pad(date.getDate(), 2),
+    'DD': appendZeroForSingleDigit(date.getDate(), 2),
     'D': date.getDate(),
-    'HH24': pad(date.getHours(), 2),
-    'HH': pad(hours, 2),
+    'HH24': appendZeroForSingleDigit(date.getHours(), 2),
+    'HH': appendZeroForSingleDigit(hours, 2),
     'H': hours,
-    'SS': pad(date.getSeconds(), 2),
+    'SS': appendZeroForSingleDigit(date.getSeconds(), 2),
     'PP': (date.getHours() >= 12) ? 'PM' : 'AM',
     'P': (date.getHours() >= 12) ? 'pm' : 'am',
-    'LL': pad(date.getMilliseconds(), 3)
+    'LL': appendZeroForSingleDigit(date.getMilliseconds(), 3)
   };
 };
 
@@ -98,27 +98,27 @@ const processFormat = (format: string, replaceMap: any) => {
   let formattedString: any[] = [format];
 
   const replace = (str: any, rep: any) => {
-    let i = 0;
-    const l = formattedString.length;
-    let j: any;
-    let ll: any;
-    let t: any;
-    const n: any = [];
+    let i: number = 0;
+    const stringLength = formattedString.length;
+    let j: number;
+    let splitByIdentifierString: string;
+    let splitByIdentifierStringInnerLoopLength: number;
+    const formattedOutput: any = [];
 
-    for (; i < l; i++) {
+    for (; i < stringLength; i++) {
       if (typeof formattedString[i] === 'string') {
-        t = formattedString[i].split(str);
-        for (j = 0, ll = t.length - 1; j < ll; j++) {
-          n.push(t[j]);
-          n.push([rep]); // replacement pushed as non-string
+        splitByIdentifierString = formattedString[i].split(str);
+        for (j = 0, splitByIdentifierStringInnerLoopLength = splitByIdentifierString.length - 1; j < splitByIdentifierStringInnerLoopLength; j++) {
+          formattedOutput.push(splitByIdentifierString[j]);
+          formattedOutput.push([rep]); // replacement pushed as non-string
         }
-        n.push(t[ll]);
+        formattedOutput.push(splitByIdentifierString[splitByIdentifierStringInnerLoopLength]);
       } else {
         // must be a replacement, don't process, just push
-        n.push(formattedString[i]);
+        formattedOutput.push(formattedString[i]);
       }
     }
-    formattedString = n;
+    formattedString = formattedOutput;
   };
 
   for (const i in replaceMap) {

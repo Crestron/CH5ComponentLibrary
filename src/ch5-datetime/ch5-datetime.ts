@@ -11,14 +11,13 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
   //#region Variables
   public static readonly STYLE_FOR_DATE: TCh5DatetimeStyleForDate[] = ['MM-dd-yyyy', 'M-dd-yyyy', 'M-d-yyyy', 'MM-dd-yy', 'M-dd-yy', 'M-d-yy', 'dd_MM_yyyy', 'd_MM_yyyy', 'd_M_yyyy', 'dd_MM_yy', 'd_MM_yy', 'd_M_yy', 'd MMM yyyy', 'MMM d yyyy', 'd MMMM yyyy', 'MMMM d yyyy', 'yyyy-MM-dd', 'yyyy_MM_dd', 'MMM d, yyyy', 'yyyy MM, dd', 'yyyy MMMM, dd', 'MMMM d, yyyy'];
   public static readonly HORIZONTAL_ALIGNMENT: TCh5DatetimeHorizontalAlignment[] = ['center', 'left', 'right'];
-  public static readonly DISPLAY: TCh5DatetimeDisplay[] = ['datetime', 'date', 'time'];
+  public static readonly DISPLAY_TYPE: TCh5DatetimeDisplay[] = ['datetime', 'date', 'time'];
   public static readonly COMPONENT_DATA: any = {
     STYLE_FOR_DATE: {
       default: Ch5Datetime.STYLE_FOR_DATE[0],
       values: Ch5Datetime.STYLE_FOR_DATE,
       key: 'styleForDate',
       attribute: 'styleForDate',
-      classListPrefix: '--style-for-date-'
     },
     HORIZONTAL_ALIGNMENT: {
       default: Ch5Datetime.HORIZONTAL_ALIGNMENT[0],
@@ -27,12 +26,11 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
       attribute: 'horizontalAlignment',
       classListPrefix: '--horizontal-alignment-'
     },
-    DISPLAY: {
-      default: Ch5Datetime.DISPLAY[0],
-      values: Ch5Datetime.DISPLAY,
+    DISPLAY_TYPE: {
+      default: Ch5Datetime.DISPLAY_TYPE[0],
+      values: Ch5Datetime.DISPLAY_TYPE,
       key: 'display',
       attribute: 'display',
-      classListPrefix: '--display-'
     },
   };
 
@@ -92,12 +90,12 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
       isObservableProperty: true,
     },
     {
-      default: Ch5Datetime.DISPLAY[0],
-      enumeratedValues: Ch5Datetime.DISPLAY,
+      default: Ch5Datetime.DISPLAY_TYPE[0],
+      enumeratedValues: Ch5Datetime.DISPLAY_TYPE,
       name: "display",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5Datetime.DISPLAY[0],
+      valueOnAttributeEmpty: Ch5Datetime.DISPLAY_TYPE[0],
       isObservableProperty: true,
     },
     {
@@ -136,12 +134,16 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
   private datetimerId: any;
+
+  private debounceRender = this.debounce(() => {
+    this.render();
+  }, 50);
   //#endregion
 
   //#region Getters and Setters
   public set display24HourFormat(value: boolean) {
     this._ch5Properties.set<boolean>("display24HourFormat", value, () => {
-      this.render();
+      this.debounceRender();
     });
   }
   public get display24HourFormat(): boolean {
@@ -150,7 +152,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
   public set displayAmPm(value: boolean) {
     this._ch5Properties.set<boolean>("displayAmPm", value, () => {
-      this.render();
+      this.debounceRender();
     });
   }
   public get displayAmPm(): boolean {
@@ -159,7 +161,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
   public set displayTwoDigitsHour(value: boolean) {
     this._ch5Properties.set<boolean>("displayTwoDigitsHour", value, () => {
-      this.render();
+      this.debounceRender();
     });
   }
   public get displayTwoDigitsHour(): boolean {
@@ -168,7 +170,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
   public set displaySeconds(value: boolean) {
     this._ch5Properties.set<boolean>("displaySeconds", value, () => {
-      this.render();
+      this.debounceRender();
     });
   }
   public get displaySeconds(): boolean {
@@ -177,7 +179,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
   public set styleForDate(value: TCh5DatetimeStyleForDate) {
     this._ch5Properties.set<TCh5DatetimeStyleForDate>("styleForDate", value, () => {
-      this.render();
+      this.debounceRender
     });
   }
   public get styleForDate(): TCh5DatetimeStyleForDate {
@@ -186,7 +188,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
   public set horizontalAlignment(value: TCh5DatetimeHorizontalAlignment) {
     this._ch5Properties.set<TCh5DatetimeHorizontalAlignment>("horizontalAlignment", value, () => {
-      this.render();
+      // this.debounceRender();
     });
   }
   public get horizontalAlignment(): TCh5DatetimeHorizontalAlignment {
@@ -195,7 +197,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
   public set display(value: TCh5DatetimeDisplay) {
     this._ch5Properties.set<TCh5DatetimeDisplay>("display", value, () => {
-      this.render();
+      this.debounceRender();
     });
   }
   public get display(): TCh5DatetimeDisplay {
@@ -204,7 +206,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
   public set timeOffsetHours(value: number) {
     this._ch5Properties.set<number>("timeOffsetHours", value, () => {
-      this.render();
+      this.debounceRender();
     });
   }
   public get timeOffsetHours(): number {
@@ -214,7 +216,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
   public set receiveStateTimeOffsetHours(value: string) {
     this._ch5Properties.set("receiveStateTimeOffsetHours", value, null, (newValue: number) => {
       this._ch5Properties.setForSignalResponse<number>("timeOffsetHours", newValue, () => {
-        this.render();
+        this.debounceRender();
       });
     });
   }
@@ -242,7 +244,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
   public constructor() {
     super();
     this.logger.start('constructor()', Ch5Datetime.ELEMENT_NAME);
-    this.ignoreAttributes = ["AppendClassWhenInViewPort", "SendEventOnShow", "ReceiveStateEnable", "ReceiveStateHidePulse", "ReceiveStateShowPulse",];
+    this.ignoreAttributes = ["appendClassWhenInViewPort", "sendEventOnShow", "receiveStateEnable", "receiveStateHidePulse", "receiveStateShowPulse",];
     if (!this._wasInstatiated) {
       this.createInternalHtml();
     }
@@ -297,17 +299,17 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
     customElements.whenDefined('ch5-datetime').then(() => {
       this.componentLoadedEvent(Ch5Datetime.ELEMENT_NAME, this.id);
+      //this.datetimerId = setInterval(() => this.debounceRender(), this.displaySeconds ? 1000 : 60000);
     });
     this.logger.stop();
 
-    this.datetimerId = setInterval(() => this.render(), this.displaySeconds ? 1000 : 60000)
   }
 
   public disconnectedCallback() {
     this.logger.start('disconnectedCallback()');
     this.unsubscribeFromSignals();
+    //clearInterval(this.datetimerId);
     this.logger.stop();
-    clearInterval(this.datetimerId)
   }
   //#endregion
 
@@ -353,11 +355,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
     this.logger.start('UpdateCssClass');
     super.updateCssClasses();
 
-    this._elContainer.classList.add(Ch5Datetime.COMPONENT_DATA.STYLE_FOR_DATE.classListPrefix + this.styleForDate);
-
-    this._elContainer.classList.add(Ch5Datetime.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + this.horizontalAlignment);
-
-    this._elContainer.classList.add(Ch5Datetime.COMPONENT_DATA.DISPLAY.classListPrefix + this.display);
+    this._elContainer.classList.add(Ch5Datetime.ELEMENT_NAME + Ch5Datetime.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + this.horizontalAlignment);
 
     this.logger.stop();
   }
@@ -375,7 +373,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
     const dateFormat = this.styleForDate.replaceAll('d', 'D').replaceAll('y', 'Y').replaceAll('_', '/');
     let format = this.display !== 'time' ? dateFormat : '';
     /* append the time formats only if it is time or datetime type display */
-    if ([Ch5Datetime.DISPLAY[0], Ch5Datetime.DISPLAY[2]].includes(this.display)) {
+    if ([Ch5Datetime.DISPLAY_TYPE[0], Ch5Datetime.DISPLAY_TYPE[2]].includes(this.display)) {
       format = `${format} H:MM` // by default show time in single digits with minutes
       if (this.display24HourFormat) {
         format = format.replace('H', 'HH24') // replace format to 24 hours
@@ -397,9 +395,6 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
       const timeoffset = offsetTimeHours(new Date(), this.timeOffsetHours * 60)
       content = toFormat(timeoffset, format)
     }
-    const horizontalClassName = `ch5-datetime--horizontal-alignment-${this.horizontalAlignment}`;
-
-    this._elContainer.classList.add(horizontalClassName);
     this._elContainer.innerHTML = String(content);
   }
 

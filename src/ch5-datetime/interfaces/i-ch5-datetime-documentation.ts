@@ -5,7 +5,7 @@ import { ICh5DatetimeAttributes } from "./i-ch5-datetime-attributes";
  * @name Ch5 Datetime
  * @isattribute false
  * @tagName ch5-datetime
- * @role 
+ * @role datetime
  * @description of the component.
  * @componentVersion 1.0.0
  * @childElements
