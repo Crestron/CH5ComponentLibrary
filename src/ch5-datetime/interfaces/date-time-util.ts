@@ -88,55 +88,7 @@ const getReplaceMap = (date: Date) => {
 
 // Main function toFormat
 export const toFormat = (date: Date, format: string) => {
-  const replaceMap = getReplaceMap(date);
-  const formattedString = processFormat(format, replaceMap);
-  return joinFormattedString(formattedString);
-};
-
-// Function to process the format string and apply replacements
-const processFormat = (format: string, replaceMap: any) => {
-  let formattedString: any[] = [format];
-
-  const replace = (str: any, rep: any) => {
-    let i: number = 0;
-    const stringLength = formattedString.length;
-    let j: number;
-    let splitByIdentifierString: string;
-    let splitByIdentifierStringInnerLoopLength: number;
-    const formattedOutput: any = [];
-
-    for (; i < stringLength; i++) {
-      if (typeof formattedString[i] === 'string') {
-        splitByIdentifierString = formattedString[i].split(str);
-        for (j = 0, splitByIdentifierStringInnerLoopLength = splitByIdentifierString.length - 1; j < splitByIdentifierStringInnerLoopLength; j++) {
-          formattedOutput.push(splitByIdentifierString[j]);
-          formattedOutput.push([rep]); // replacement pushed as non-string
-        }
-        formattedOutput.push(splitByIdentifierString[splitByIdentifierStringInnerLoopLength]);
-      } else {
-        // must be a replacement, don't process, just push
-        formattedOutput.push(formattedString[i]);
-      }
-    }
-    formattedString = formattedOutput;
-  };
-
-  for (const i in replaceMap) {
-    if (replaceMap.hasOwnProperty(i)) {
-      replace(i, replaceMap[i]);
-    }
-  }
-
+  const replaceMap: any = getReplaceMap(date);
+  const formattedString = format.replace(/YYYY|YY|MMMM|MMM|MM|MI|M|DDDD|DDD|DD|D|HH24|HH|H|SS|PP|P|LL/gi, (matched: string) => replaceMap[matched]);
   return formattedString;
-};
-
-// Function to join the formatted string parts into the final string
-const joinFormattedString = (formattedString: any[]) => {
-  let finalFormattedString = '';
-
-  for (let i = 0, l = formattedString.length; i < l; i++) {
-    finalFormattedString += typeof formattedString[i] === 'string' ? formattedString[i] : formattedString[i][0];
-  }
-
-  return finalFormattedString;
 };

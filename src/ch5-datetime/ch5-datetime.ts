@@ -183,7 +183,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
   public set styleForDate(value: TCh5DatetimeStyleForDate) {
     this._ch5Properties.set<TCh5DatetimeStyleForDate>("styleForDate", value, () => {
-      this.debounceRender
+      this.debounceRender();
     });
   }
   public get styleForDate(): TCh5DatetimeStyleForDate {
