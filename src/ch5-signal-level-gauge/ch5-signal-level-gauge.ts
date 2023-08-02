@@ -390,11 +390,10 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
     const currBar = Math.floor(((this.value - this.minValue) * this.numberOfBars) / (this.maxValue - this.minValue));
     Array.from(this._elContainer.children).forEach((ele, i) => {
       if (i < currBar && i < this.numberOfBars) {
-        ele.classList.add('ch5-signal-level-gauge--selected-bar-color');
-      }
-      if (ele.classList.contains(this.primaryCssClass + '--selected-bar-color') && ele.classList.contains(this.primaryCssClass + '--bar-color')) {
+        ele.classList.add(this.primaryCssClass + '--selected-bar-color');
         ele.classList.remove(this.primaryCssClass + '--bar-color');
-      } else if (ele.classList.length === 0) {
+      } else {
+        ele.classList.remove(this.primaryCssClass + '--selected-bar-color');
         ele.classList.add(this.primaryCssClass + '--bar-color');
       }
     });
