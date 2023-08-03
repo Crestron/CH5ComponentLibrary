@@ -77,6 +77,7 @@ const getReplaceMap = (date: Date) => {
     'DD': appendZeroForSingleDigit(date.getDate(), 2),
     'D': date.getDate(),
     'HH24': appendZeroForSingleDigit(date.getHours(), 2),
+    'H24': date.getHours(),
     'HH': appendZeroForSingleDigit(hours, 2),
     'H': hours,
     'SS': appendZeroForSingleDigit(date.getSeconds(), 2),
@@ -89,6 +90,6 @@ const getReplaceMap = (date: Date) => {
 // Main function toFormat
 export const toFormat = (date: Date, format: string) => {
   const replaceMap: any = getReplaceMap(date);
-  const formattedString = format.replace(/YYYY|YY|MMMM|MMM|MM|MI|M|DDDD|DDD|DD|D|HH24|HH|H|SS|PP|P|LL/gi, (matched: string) => replaceMap[matched]);
+  const formattedString = format.replace(/YYYY|YY|MMMM|MMM|MM|MI|M|DDDD|DDD|DD|D|HH24|H24|HH|H|SS|PP|P|LL/gi, (matched: string) => replaceMap[matched]);
   return formattedString;
 };

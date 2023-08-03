@@ -394,7 +394,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
         format = `${format} PP`; // append AM PM to the format
       }
       if (this.displayTwoDigitsHour) {
-        format = format.replace('H', 'HH'); // replace format to show in two digits for 24 hour format
+        format = format.replace('H', 'HH'); // replace format to show in two digits
       }
     }
     /* trim any spaces that could have been introduced to the above conditional appending of format */
