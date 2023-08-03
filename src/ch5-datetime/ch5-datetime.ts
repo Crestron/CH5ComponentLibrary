@@ -302,6 +302,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
       this.appendChild(this._elContainer);
     }
     this.initAttributes();
+    this.updateCssClass();
     this.render();
     this.initCommonMutationObserver(this);
 
