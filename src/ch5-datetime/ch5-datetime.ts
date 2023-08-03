@@ -46,7 +46,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
       name: "display24HourFormat",
       removeAttributeOnNull: true,
       type: "boolean",
-      valueOnAttributeEmpty: false,
+      valueOnAttributeEmpty: true,
       isObservableProperty: true,
     },
     {
@@ -62,7 +62,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
       name: "displayTwoDigitsHour",
       removeAttributeOnNull: true,
       type: "boolean",
-      valueOnAttributeEmpty: false,
+      valueOnAttributeEmpty: true,
       isObservableProperty: true,
     },
     {
@@ -70,7 +70,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
       name: "displaySeconds",
       removeAttributeOnNull: true,
       type: "boolean",
-      valueOnAttributeEmpty: false,
+      valueOnAttributeEmpty: true,
       isObservableProperty: true,
     },
     {
