@@ -54,42 +54,41 @@ const daysFull = [
   'Saturday'
 ];
 
-const appendZeroForSingleDigit = (value: number, stringLength: number) => {
-  let output = String(value);
-  while (output.length < stringLength) {
-    output = '0' + value;
+const appendZeroForSingleDigit = (value: number) => {
+  if (value < 10) {
+    return "0" + value;
+  } else {
+    return String(value);
   }
-  return output;
-}
+};
 
-const getReplaceMap = (date: Date) => {
-  const hours = (date.getHours() % 12) ? date.getHours() % 12 : 12;
-  return {
-    'YYYY': date.getFullYear(),
-    'YY': String(date.getFullYear()).slice(-2),
-    'MMMM': monthsFull[date.getMonth()],
-    'MMM': monthsAbbr[date.getMonth()],
-    'MM': appendZeroForSingleDigit(date.getMonth() + 1, 2),
-    'MI': appendZeroForSingleDigit(date.getMinutes(), 2),
-    'M': date.getMonth() + 1,
-    'DDDD': daysFull[date.getDay()],
-    'DDD': daysAbbr[date.getDay()],
-    'DD': appendZeroForSingleDigit(date.getDate(), 2),
-    'D': date.getDate(),
-    'HH24': appendZeroForSingleDigit(date.getHours(), 2),
-    'H24': date.getHours(),
-    'HH': appendZeroForSingleDigit(hours, 2),
-    'H': hours,
-    'SS': appendZeroForSingleDigit(date.getSeconds(), 2),
-    'PP': (date.getHours() >= 12) ? 'PM' : 'AM',
-    'P': (date.getHours() >= 12) ? 'pm' : 'am',
-    'LL': appendZeroForSingleDigit(date.getMilliseconds(), 3)
-  };
+const replaceDateContent = (dateString: string, format: string, value: number | string): string => {
+  if (dateString.indexOf(format) !== -1) {
+    return dateString.replace(format, String(value));
+  } else {
+    return dateString;
+  }
 };
 
 // Main function toFormat
 export const toFormat = (date: Date, format: string) => {
-  const replaceMap: any = getReplaceMap(date);
-  const formattedString = format.replace(/YYYY|YY|MMMM|MMM|MM|MI|M|DDDD|DDD|DD|D|HH24|H24|HH|H|SS|PP|P|LL/gi, (matched: string) => replaceMap[matched]);
-  return formattedString;
+  const hours = (date.getHours() % 12) ? date.getHours() % 12 : 12;
+  format = replaceDateContent(format, 'YYYY', date.getFullYear());
+  format = replaceDateContent(format, 'YY', String(date.getFullYear()).slice(-2));
+  format = replaceDateContent(format, 'MMMM', monthsFull[date.getMonth()]);
+  format = replaceDateContent(format, 'MMM', monthsAbbr[date.getMonth()]);
+  format = replaceDateContent(format, 'MM', appendZeroForSingleDigit(date.getMonth() + 1));
+  format = replaceDateContent(format, 'MI', appendZeroForSingleDigit(date.getMinutes()));
+  format = replaceDateContent(format, 'M', date.getMonth() + 1);
+  format = replaceDateContent(format, 'DDDD', daysFull[date.getDay()]);
+  format = replaceDateContent(format, 'DDD', daysAbbr[date.getDay()]);
+  format = replaceDateContent(format, 'DD', appendZeroForSingleDigit(date.getDate()));
+  format = replaceDateContent(format, 'D', date.getDate());
+  format = replaceDateContent(format, 'HH24', appendZeroForSingleDigit(date.getHours()));
+  format = replaceDateContent(format, 'H24', date.getHours());
+  format = replaceDateContent(format, 'HH', appendZeroForSingleDigit(hours));
+  format = replaceDateContent(format, 'H', hours);
+  format = replaceDateContent(format, 'SS', appendZeroForSingleDigit(date.getSeconds()));
+  format = replaceDateContent(format, 'PP', (date.getHours() >= 12) ? 'PM' : 'AM');
+  return format;
 };

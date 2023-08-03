@@ -136,7 +136,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
   private dateTimeId: number | null = null;
-  private formatOfDateTime: string = "";
+  private componentFormat: string = "";
 
   private debounceRender = this.debounce(() => {
     this.render();
@@ -308,7 +308,6 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
     customElements.whenDefined('ch5-datetime').then(() => {
       this.componentLoadedEvent(Ch5Datetime.ELEMENT_NAME, this.id);
-      this.logger.log("When Defined", this.dateTimeId);
       this.changeTime();
     });
     this.logger.stop();
@@ -317,12 +316,10 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
   public disconnectedCallback() {
     this.logger.start('disconnectedCallback()');
     this.unsubscribeFromSignals();
-    this.logger.log("Before", this.dateTimeId);
     if (this.dateTimeId !== null) {
       window.clearTimeout(this.dateTimeId as number);
     }
-    this.formatOfDateTime = "";
-    this.logger.log("After", this.dateTimeId);
+    this.componentFormat = "";
     this.logger.stop();
   }
 
@@ -334,29 +331,19 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
     if (this.dateTimeId !== null) {
       window.clearTimeout(this.dateTimeId as number);
     }
-    if (this.formatOfDateTime !== "") {
+    if (this.componentFormat !== "") {
       const newDate = new Date();
-      let content = "";
+      let dateInNumberFormat: Date;
       if (this.timeOffsetHours) {
-        const timeOffset = offsetTimeHours(newDate, this.timeOffsetHours * 60);
-        content = toFormat(timeOffset, this.formatOfDateTime);
+        dateInNumberFormat = (offsetTimeHours(newDate, this.timeOffsetHours * 60));
       } else {
-        content = toFormat(newDate, this.formatOfDateTime);
+        dateInNumberFormat = newDate;
       }
-      this._elContainer.textContent = String(content);
-      // this._elContainer.textContent = String(newDate);
+      this._elContainer.textContent = toFormat(dateInNumberFormat, this.componentFormat);
       this.dateTimeId = window.setTimeout(() => {
         this.changeTime();
       }, 1000);
     }
-    // // this.render();
-    // if (this.dateTimeId !== null) {
-    //   window.clearTimeout(this.dateTimeId as number);
-    // }
-    // this.dateTimeId = window.setTimeout(() => {
-    //   this.logger.log("B", this.id);
-    //   this.changeTime();
-    // }, 1000);
   }
 
   protected createInternalHtml() {
@@ -418,26 +405,34 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
   private render() {
     /** @ts-ignore */
     const dateFormat = this.styleForDate.replaceAll('d', 'D').replaceAll('y', 'Y').replaceAll('_', '/');
-    let format = this.displayType !== 'time' ? dateFormat : '';
+    let timeFormat = '';
     /* append the time formats only if it is time or datetime type display */
     if ([Ch5Datetime.DISPLAY_TYPE[0], Ch5Datetime.DISPLAY_TYPE[2]].includes(this.displayType)) {
-      format = `${format} H:MI`; // by default show time in single digits with minutes
+      timeFormat = `H:MI`; // by default show time in single digits with minutes
       if (this.display24HourFormat) {
-        format = format.replace('H', 'H24'); // replace format to 24 hours
+        timeFormat = timeFormat.replace('H', 'H24'); // replace format to 24 hours
       }
       if (this.displaySeconds) {
-        format = `${format}:SS`; // append seconds to the format
+        timeFormat = `${timeFormat}:SS`; // append seconds to the format
       }
       if (this.displayAmPm && !this.display24HourFormat) {
-        format = `${format} PP`; // append AM PM to the format
+        timeFormat = `${timeFormat} PP`; // append AM PM to the format
       }
       if (this.displayTwoDigitsHour) {
-        format = format.replace('H', 'HH'); // replace format to show in two digits
+        timeFormat = timeFormat.replace('H', 'HH'); // replace format to show in two digits
       }
     }
-    /* trim any spaces that could have been introduced to the above conditional appending of format */
-    format = format.trim();
-    this.formatOfDateTime = format;
+
+    let format = '';
+    if (this.displayType === 'datetime') {
+      format = dateFormat + " " + timeFormat;
+    } else if (this.displayType === 'date') {
+      format = dateFormat;
+    } else if (this.displayType === 'time') {
+      format = timeFormat;
+    }
+
+    this.componentFormat = format.trim();
     this.changeTime();
   }
 
