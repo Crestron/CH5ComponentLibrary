@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5Common } from "../../_interfaces";
+import { ICh5CommonDateTime } from "../../ch5-common/interfaces/i-ch5-common-datetime";
 import { ICh5DatetimeAttributes } from "./i-ch5-datetime-attributes";
 
 /**
@@ -23,7 +23,7 @@ import { ICh5DatetimeAttributes } from "./i-ch5-datetime-attributes";
  * [
  *   "`ch5-datetime` element",
  *   "***",
- *   "An date object is designed to provide options to show date with display, timeOffsetHours, display24HourFormat, displayAmPm, displayTwoDigitsHour, displaySeconds, styleForDate, horizontalAlignment and receiveStateTimeOffsetHours"
+ *   "An date object is designed to provide options to show date with displayType, timeOffsetHours, display24HourFormat, displayAmPm, displayTwoDigitsHour, displaySeconds, styleForDate, horizontalAlignment and receiveStateTimeOffsetHours"
  * ]
  * @snippets
  * [
@@ -46,7 +46,7 @@ import { ICh5DatetimeAttributes } from "./i-ch5-datetime-attributes";
  *       "\tdisplaySeconds=\"${5:false}\"",
  *       "\tstyleForDate=\"${6:MM-dd-yyyy}\"",
  *       "\thorizontalAlignment=\"${7:center}\"",
- *       "\tdisplay=\"${8:datetime}\"",
+ *       "\tdisplayType=\"${8:datetime}\"",
  *       "\ttimeOffsetHours=\"${9:0}\"",
  *       "\treceiveStateTimeOffsetHours=\"${10:}\">",
  *       "</ch5-datetime>$0"
@@ -63,13 +63,13 @@ import { ICh5DatetimeAttributes } from "./i-ch5-datetime-attributes";
  *       "\tdisplaySeconds=\"${5:false}\"",
  *       "\tstyleForDate=\"${6:MM-dd-yyyy}\"",
  *       "\thorizontalAlignment=\"${7:center}\"",
- *       "\tdisplay=\"${8:datetime}\"",
+ *       "\tdisplayType=\"${8:datetime}\"",
  *       "\ttimeOffsetHours=\"${9:0}\">",
  *       "</ch5-datetime>$0"
  *       ]
  *    }
  *  ]
  */
-export interface ICh5DatetimeDocumentation extends ICh5Common, ICh5DatetimeAttributes {
+export interface ICh5DatetimeDocumentation extends ICh5CommonDateTime, ICh5DatetimeAttributes {
 
 }
