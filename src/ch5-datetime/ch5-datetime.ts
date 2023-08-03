@@ -385,7 +385,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
     if ([Ch5Datetime.DISPLAY_TYPE[0], Ch5Datetime.DISPLAY_TYPE[2]].includes(this.displayType)) {
       format = `${format} H:MI`; // by default show time in single digits with minutes
       if (this.display24HourFormat) {
-        format = format.replace('H', 'HH24'); // replace format to 24 hours
+        format = format.replace('H', 'H24'); // replace format to 24 hours
       }
       if (this.displaySeconds) {
         format = `${format}:SS`; // append seconds to the format
