@@ -40,7 +40,6 @@ import _ from "lodash";
 import { Ch5ButtonMode } from "./ch5-button-mode";
 import { Ch5ButtonModeState } from "./ch5-button-mode-state";
 import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
-import { setTimeout } from "timers";
 import { resizeObserver } from "../ch5-core/resize-observer";
 
 /**
