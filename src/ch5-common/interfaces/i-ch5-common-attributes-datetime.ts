@@ -18,4 +18,4 @@ import { ICh5CommonAttributesForShow } from "./common/i-ch5-common-attributes-sh
 /**
  * @ignore
  */
-export interface ICh5AttributesDatetime extends ICh5CommonAttributesForDir, ICh5CommonAttributesForShow, ICh5CommonAttributesForReceiveStateShow, ICh5CommonAttributesForReceiveStateCustomStyle, ICh5CommonAttributesForReceiveStateCustomClass, ICh5CommonAttributesForNoShowType, ICh5CommonAttributesForCustomStyle, ICh5CommonAttributesForCustomClass, ICh5CommonAttributesForId { };
+export interface ICh5AttributesDateTime extends ICh5CommonAttributesForDir, ICh5CommonAttributesForShow, ICh5CommonAttributesForReceiveStateShow, ICh5CommonAttributesForReceiveStateCustomStyle, ICh5CommonAttributesForReceiveStateCustomClass, ICh5CommonAttributesForNoShowType, ICh5CommonAttributesForCustomStyle, ICh5CommonAttributesForCustomClass, ICh5CommonAttributesForId { };

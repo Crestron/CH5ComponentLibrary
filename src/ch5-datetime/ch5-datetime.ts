@@ -1,36 +1,36 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
-import { TCh5DatetimeStyleForDate, TCh5DatetimeHorizontalAlignment, TCh5DatetimeDisplayType } from './interfaces/t-ch5-datetime';
-import { ICh5DatetimeAttributes } from './interfaces/i-ch5-datetime-attributes';
+import { TCh5DateTimeStyleForDate, TCh5DateTimeHorizontalAlignment, TCh5DateTimeDisplayType } from './interfaces/t-ch5-datetime';
+import { ICh5DateTimeAttributes } from './interfaces/i-ch5-datetime-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { toFormat } from "./interfaces/date-time-util";
 
-export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
+export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
 
   //#region Variables
 
-  public static readonly STYLE_FOR_DATE: TCh5DatetimeStyleForDate[] = ['MM-dd-yyyy', 'M-dd-yyyy', 'M-d-yyyy', 'MM-dd-yy', 'M-dd-yy', 'M-d-yy', 'dd_MM_yyyy', 'd_MM_yyyy', 'd_M_yyyy', 'dd_MM_yy', 'd_MM_yy', 'd_M_yy', 'd MMM yyyy', 'MMM d yyyy', 'd MMMM yyyy', 'MMMM d yyyy', 'yyyy-MM-dd', 'yyyy_MM_dd', 'MMM d, yyyy', 'yyyy MM, dd', 'yyyy MMMM, dd', 'MMMM d, yyyy'];
-  public static readonly HORIZONTAL_ALIGNMENT: TCh5DatetimeHorizontalAlignment[] = ['center', 'left', 'right'];
-  public static readonly DISPLAY_TYPE: TCh5DatetimeDisplayType[] = ['datetime', 'date', 'time'];
+  public static readonly STYLE_FOR_DATE: TCh5DateTimeStyleForDate[] = ['MM-dd-yyyy', 'M-dd-yyyy', 'M-d-yyyy', 'MM-dd-yy', 'M-dd-yy', 'M-d-yy', 'dd_MM_yyyy', 'd_MM_yyyy', 'd_M_yyyy', 'dd_MM_yy', 'd_MM_yy', 'd_M_yy', 'd MMM yyyy', 'MMM d yyyy', 'd MMMM yyyy', 'MMMM d yyyy', 'yyyy-MM-dd', 'yyyy_MM_dd', 'MMM d, yyyy', 'yyyy MM, dd', 'yyyy MMMM, dd', 'MMMM d, yyyy'];
+  public static readonly HORIZONTAL_ALIGNMENT: TCh5DateTimeHorizontalAlignment[] = ['center', 'left', 'right'];
+  public static readonly DISPLAY_TYPE: TCh5DateTimeDisplayType[] = ['datetime', 'date', 'time'];
   public static readonly COMPONENT_DATA: any = {
     STYLE_FOR_DATE: {
-      default: Ch5Datetime.STYLE_FOR_DATE[0],
-      values: Ch5Datetime.STYLE_FOR_DATE,
+      default: Ch5DateTime.STYLE_FOR_DATE[0],
+      values: Ch5DateTime.STYLE_FOR_DATE,
       key: 'styleForDate',
       attribute: 'styleForDate'
     },
     HORIZONTAL_ALIGNMENT: {
-      default: Ch5Datetime.HORIZONTAL_ALIGNMENT[0],
-      values: Ch5Datetime.HORIZONTAL_ALIGNMENT,
+      default: Ch5DateTime.HORIZONTAL_ALIGNMENT[0],
+      values: Ch5DateTime.HORIZONTAL_ALIGNMENT,
       key: 'horizontalAlignment',
       attribute: 'horizontalAlignment',
       classListPrefix: '--horizontal-alignment-'
     },
     DISPLAY_TYPE: {
-      default: Ch5Datetime.DISPLAY_TYPE[0],
-      values: Ch5Datetime.DISPLAY_TYPE,
+      default: Ch5DateTime.DISPLAY_TYPE[0],
+      values: Ch5DateTime.DISPLAY_TYPE,
       key: 'displayType',
       attribute: 'displayType'
     }
@@ -74,30 +74,30 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
       isObservableProperty: true,
     },
     {
-      default: Ch5Datetime.STYLE_FOR_DATE[0],
-      enumeratedValues: Ch5Datetime.STYLE_FOR_DATE,
+      default: Ch5DateTime.STYLE_FOR_DATE[0],
+      enumeratedValues: Ch5DateTime.STYLE_FOR_DATE,
       name: "styleForDate",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5Datetime.STYLE_FOR_DATE[0],
+      valueOnAttributeEmpty: Ch5DateTime.STYLE_FOR_DATE[0],
       isObservableProperty: true,
     },
     {
-      default: Ch5Datetime.HORIZONTAL_ALIGNMENT[0],
-      enumeratedValues: Ch5Datetime.HORIZONTAL_ALIGNMENT,
+      default: Ch5DateTime.HORIZONTAL_ALIGNMENT[0],
+      enumeratedValues: Ch5DateTime.HORIZONTAL_ALIGNMENT,
       name: "horizontalAlignment",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5Datetime.HORIZONTAL_ALIGNMENT[0],
+      valueOnAttributeEmpty: Ch5DateTime.HORIZONTAL_ALIGNMENT[0],
       isObservableProperty: true,
     },
     {
-      default: Ch5Datetime.DISPLAY_TYPE[0],
-      enumeratedValues: Ch5Datetime.DISPLAY_TYPE,
+      default: Ch5DateTime.DISPLAY_TYPE[0],
+      enumeratedValues: Ch5DateTime.DISPLAY_TYPE,
       name: "displayType",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5Datetime.DISPLAY_TYPE[0],
+      valueOnAttributeEmpty: Ch5DateTime.DISPLAY_TYPE[0],
       isObservableProperty: true,
     },
     {
@@ -182,31 +182,31 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
     return this._ch5Properties.get<boolean>("displaySeconds");
   }
 
-  public set styleForDate(value: TCh5DatetimeStyleForDate) {
-    this._ch5Properties.set<TCh5DatetimeStyleForDate>("styleForDate", value, () => {
+  public set styleForDate(value: TCh5DateTimeStyleForDate) {
+    this._ch5Properties.set<TCh5DateTimeStyleForDate>("styleForDate", value, () => {
       this.debounceRender();
     });
   }
-  public get styleForDate(): TCh5DatetimeStyleForDate {
-    return this._ch5Properties.get<TCh5DatetimeStyleForDate>("styleForDate");
+  public get styleForDate(): TCh5DateTimeStyleForDate {
+    return this._ch5Properties.get<TCh5DateTimeStyleForDate>("styleForDate");
   }
 
-  public set horizontalAlignment(value: TCh5DatetimeHorizontalAlignment) {
-    this._ch5Properties.set<TCh5DatetimeHorizontalAlignment>("horizontalAlignment", value, () => {
+  public set horizontalAlignment(value: TCh5DateTimeHorizontalAlignment) {
+    this._ch5Properties.set<TCh5DateTimeHorizontalAlignment>("horizontalAlignment", value, () => {
       this.updateCssClass();
     });
   }
-  public get horizontalAlignment(): TCh5DatetimeHorizontalAlignment {
-    return this._ch5Properties.get<TCh5DatetimeHorizontalAlignment>("horizontalAlignment");
+  public get horizontalAlignment(): TCh5DateTimeHorizontalAlignment {
+    return this._ch5Properties.get<TCh5DateTimeHorizontalAlignment>("horizontalAlignment");
   }
 
-  public set displayType(value: TCh5DatetimeDisplayType) {
-    this._ch5Properties.set<TCh5DatetimeDisplayType>("displayType", value, () => {
+  public set displayType(value: TCh5DateTimeDisplayType) {
+    this._ch5Properties.set<TCh5DateTimeDisplayType>("displayType", value, () => {
       this.debounceRender();
     });
   }
-  public get displayType(): TCh5DatetimeDisplayType {
-    return this._ch5Properties.get<TCh5DatetimeDisplayType>("displayType");
+  public get displayType(): TCh5DateTimeDisplayType {
+    return this._ch5Properties.get<TCh5DateTimeDisplayType>("displayType");
   }
 
   public set timeOffsetHours(value: number) {
@@ -237,15 +237,15 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
   //#region Static Methods
 
   public static registerSignalAttributeTypes() {
-    Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Datetime.ELEMENT_NAME, Ch5Datetime.SIGNAL_ATTRIBUTE_TYPES);
+    Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5DateTime.ELEMENT_NAME, Ch5DateTime.SIGNAL_ATTRIBUTE_TYPES);
   }
 
   public static registerCustomElement() {
     if (typeof window === "object"
       && typeof window.customElements === "object"
       && typeof window.customElements.define === "function"
-      && window.customElements.get(Ch5Datetime.ELEMENT_NAME) === undefined) {
-      window.customElements.define(Ch5Datetime.ELEMENT_NAME, Ch5Datetime);
+      && window.customElements.get(Ch5DateTime.ELEMENT_NAME) === undefined) {
+      window.customElements.define(Ch5DateTime.ELEMENT_NAME, Ch5DateTime);
     }
   }
 
@@ -255,21 +255,21 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
   public constructor() {
     super();
-    this.logger.start('constructor()', Ch5Datetime.ELEMENT_NAME);
+    this.logger.start('constructor()', Ch5DateTime.ELEMENT_NAME);
     this.ignoreAttributes = ["disabled", "appendClassWhenInViewPort", "sendEventOnShow", "receiveStateEnable", "receiveStateHidePulse", "receiveStateShowPulse",];
     if (!this._wasInstatiated) {
       this.createInternalHtml();
     }
     this._wasInstatiated = true;
-    this._ch5Properties = new Ch5Properties(this, Ch5Datetime.COMPONENT_PROPERTIES);
+    this._ch5Properties = new Ch5Properties(this, Ch5DateTime.COMPONENT_PROPERTIES);
   }
 
   public static get observedAttributes(): string[] {
     const inheritedObsAttrs = Ch5Common.observedAttributes;
     const newObsAttrs: string[] = [];
-    for (let i: number = 0; i < Ch5Datetime.COMPONENT_PROPERTIES.length; i++) {
-      if (Ch5Datetime.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-        newObsAttrs.push(Ch5Datetime.COMPONENT_PROPERTIES[i].name.toLowerCase());
+    for (let i: number = 0; i < Ch5DateTime.COMPONENT_PROPERTIES.length; i++) {
+      if (Ch5DateTime.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+        newObsAttrs.push(Ch5DateTime.COMPONENT_PROPERTIES[i].name.toLowerCase());
       }
     }
     return inheritedObsAttrs.concat(newObsAttrs);
@@ -279,7 +279,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
     this.logger.start("attributeChangedCallback", this.primaryCssClass);
     if (oldValue !== newValue) {
       this.logger.log('ch5-datetime attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
-      const attributeChangedProperty = Ch5Datetime.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
+      const attributeChangedProperty = Ch5DateTime.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
       if (attributeChangedProperty) {
         const thisRef: any = this;
         const key = attributeChangedProperty.name;
@@ -292,13 +292,13 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
   }
 
   /**
-   * Called when the Ch5Datetime component is first connected to the DOM
+   * Called when the Ch5DateTime component is first connected to the DOM
    */
   public connectedCallback() {
-    this.logger.start('connectedCallback()', Ch5Datetime.ELEMENT_NAME);
+    this.logger.start('connectedCallback()', Ch5DateTime.ELEMENT_NAME);
     // WAI-ARIA Attributes
     if (!this.hasAttribute('role')) {
-      this.setAttribute('role', Ch5RoleAttributeMapping.ch5Datetime);
+      this.setAttribute('role', Ch5RoleAttributeMapping.ch5DateTime);
     }
     if (this._elContainer.parentElement !== this) {
       this._elContainer.classList.add('ch5-datetime');
@@ -310,7 +310,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
     this.initCommonMutationObserver(this);
 
     customElements.whenDefined('ch5-datetime').then(() => {
-      this.componentLoadedEvent(Ch5Datetime.ELEMENT_NAME, this.id);
+      this.componentLoadedEvent(Ch5DateTime.ELEMENT_NAME, this.id);
       this.changeTime();
     });
     this.logger.stop();
@@ -361,10 +361,10 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
     super.initAttributes();
 
     const thisRef: any = this;
-    for (let i: number = 0; i < Ch5Datetime.COMPONENT_PROPERTIES.length; i++) {
-      if (Ch5Datetime.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-        if (this.hasAttribute(Ch5Datetime.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
-          const key = Ch5Datetime.COMPONENT_PROPERTIES[i].name;
+    for (let i: number = 0; i < Ch5DateTime.COMPONENT_PROPERTIES.length; i++) {
+      if (Ch5DateTime.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+        if (this.hasAttribute(Ch5DateTime.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
+          const key = Ch5DateTime.COMPONENT_PROPERTIES[i].name;
           thisRef[key] = this.getAttribute(key);
         }
       }
@@ -389,10 +389,10 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
   private updateCssClass() {
     this.logger.start('UpdateCssClass');
     super.updateCssClasses();
-    Array.from(Ch5Datetime.HORIZONTAL_ALIGNMENT).forEach((alignment: string) => {
-      this._elContainer.classList.remove(Ch5Datetime.ELEMENT_NAME + Ch5Datetime.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + alignment);
+    Array.from(Ch5DateTime.HORIZONTAL_ALIGNMENT).forEach((alignment: string) => {
+      this._elContainer.classList.remove(Ch5DateTime.ELEMENT_NAME + Ch5DateTime.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + alignment);
     });
-    this._elContainer.classList.add(Ch5Datetime.ELEMENT_NAME + Ch5Datetime.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + this.horizontalAlignment);
+    this._elContainer.classList.add(Ch5DateTime.ELEMENT_NAME + Ch5DateTime.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + this.horizontalAlignment);
 
     this.logger.stop();
   }
@@ -406,7 +406,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
     const dateFormat = this.styleForDate.replaceAll('d', 'D').replaceAll('y', 'Y').replaceAll('_', '/');
     let timeFormat = '';
     /* append the time formats only if it is time or datetime type display */
-    if ([Ch5Datetime.DISPLAY_TYPE[0], Ch5Datetime.DISPLAY_TYPE[2]].includes(this.displayType)) {
+    if ([Ch5DateTime.DISPLAY_TYPE[0], Ch5DateTime.DISPLAY_TYPE[2]].includes(this.displayType)) {
       timeFormat = `H:MI`; // by default show time in single digits with minutes
       if (this.display24HourFormat) {
         timeFormat = timeFormat.replace('H', 'H24'); // replace format to 24 hours
@@ -450,5 +450,5 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
 }
 
-Ch5Datetime.registerCustomElement();
-Ch5Datetime.registerSignalAttributeTypes();
+Ch5DateTime.registerCustomElement();
+Ch5DateTime.registerSignalAttributeTypes();

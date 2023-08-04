@@ -18,18 +18,18 @@
   </test-fixture>
   <script>
     suite('ch5-datetime-timeOffsetHours-attributes-value', () => {
-      let ch5Datetime;
+      let ch5DateTime;
 
       setup(async () => {
-        ch5Datetime = fixture('ch5-datetime-timeOffsetHours-attributes');
+        ch5DateTime = fixture('ch5-datetime-timeOffsetHours-attributes');
       });
         
         let testCases = ['a', '', ' ', 'number', '-37769', '-37768', '-37767', '37766', '37767', '37768'];
         let expectedResult = ['0', '0', '0', '0','-37768', '-37768', '-37767', '37766', '37767', '37767'];
         testCases.forEach((ele, i) => {
               test('Check Value "timeOffsetHours"', () => {
-                  ch5Datetime.setAttribute('timeOffsetHours', ele);
-                  expect(ch5Datetime.getAttribute('timeOffsetHours')).to.be.equal(expectedResult[i]);
+                  ch5DateTime.setAttribute('timeOffsetHours', ele);
+                  expect(ch5DateTime.getAttribute('timeOffsetHours')).to.be.equal(expectedResult[i]);
               });
           });
         

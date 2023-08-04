@@ -18,18 +18,18 @@
   </test-fixture>
   <script>
     suite('ch5-datetime-displaySeconds-attributes-value', () => {
-      let ch5Datetime;
+      let ch5DateTime;
 
       setup(async () => {
-        ch5Datetime = fixture('ch5-datetime-displaySeconds-attributes');
+        ch5DateTime = fixture('ch5-datetime-displaySeconds-attributes');
       });
         
         let testCases = ['a', '', ' ', 'number', true,false];
         let expectedResult = ['false', 'false', 'false', 'false', 'true','false'];
         testCases.forEach((ele, i) => {
               test('Check Value "displaySeconds"', () => {
-                  ch5Datetime.setAttribute('displaySeconds', ele);
-                  expect(ch5Datetime.getAttribute('displaySeconds')).to.be.equal(expectedResult[i]);
+                  ch5DateTime.setAttribute('displaySeconds', ele);
+                  expect(ch5DateTime.getAttribute('displaySeconds')).to.be.equal(expectedResult[i]);
               });
           });
         

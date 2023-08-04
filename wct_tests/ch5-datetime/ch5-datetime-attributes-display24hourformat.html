@@ -18,18 +18,18 @@
   </test-fixture>
   <script>
     suite('ch5-datetime-display24HourFormat-attributes-value', () => {
-      let ch5Datetime;
+      let ch5DateTime;
 
       setup(async () => {
-        ch5Datetime = fixture('ch5-datetime-display24HourFormat-attributes');
+        ch5DateTime = fixture('ch5-datetime-display24HourFormat-attributes');
       });
         
         let testCases = ['a', '', ' ', 'number', true,false];
         let expectedResult = ['false', 'false', 'false', 'false', 'true','false'];
         testCases.forEach((ele, i) => {
               test('Check Value "display24HourFormat"', () => {
-                  ch5Datetime.setAttribute('display24HourFormat', ele);
-                  expect(ch5Datetime.getAttribute('display24HourFormat')).to.be.equal(expectedResult[i]);
+                  ch5DateTime.setAttribute('display24HourFormat', ele);
+                  expect(ch5DateTime.getAttribute('display24HourFormat')).to.be.equal(expectedResult[i]);
               });
           });
         

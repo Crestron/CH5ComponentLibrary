@@ -18,18 +18,18 @@
   </test-fixture>
   <script>
     suite('ch5-datetime-displayAmPm-attributes-value', () => {
-      let ch5Datetime;
+      let ch5DateTime;
 
       setup(async () => {
-        ch5Datetime = fixture('ch5-datetime-displayAmPm-attributes');
+        ch5DateTime = fixture('ch5-datetime-displayAmPm-attributes');
       });
         
         let testCases = ['a', '', ' ', 'number', true,false];
         let expectedResult = ['true', 'true', 'true', 'true', 'true','false'];
         testCases.forEach((ele, i) => {
               test('Check Value "displayAmPm"', () => {
-                  ch5Datetime.setAttribute('displayAmPm', ele);
-                  expect(ch5Datetime.getAttribute('displayAmPm')).to.be.equal(expectedResult[i]);
+                  ch5DateTime.setAttribute('displayAmPm', ele);
+                  expect(ch5DateTime.getAttribute('displayAmPm')).to.be.equal(expectedResult[i]);
               });
           });
         

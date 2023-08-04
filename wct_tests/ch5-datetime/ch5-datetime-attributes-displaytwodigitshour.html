@@ -18,18 +18,18 @@
   </test-fixture>
   <script>
     suite('ch5-datetime-displayTwoDigitsHour-attributes-value', () => {
-      let ch5Datetime;
+      let ch5DateTime;
 
       setup(async () => {
-        ch5Datetime = fixture('ch5-datetime-displayTwoDigitsHour-attributes');
+        ch5DateTime = fixture('ch5-datetime-displayTwoDigitsHour-attributes');
       });
         
         let testCases = ['a', '', ' ', 'number', true,false];
         let expectedResult = ['false', 'false', 'false', 'false', 'true','false'];
         testCases.forEach((ele, i) => {
               test('Check Value "displayTwoDigitsHour"', () => {
-                  ch5Datetime.setAttribute('displayTwoDigitsHour', ele);
-                  expect(ch5Datetime.getAttribute('displayTwoDigitsHour')).to.be.equal(expectedResult[i]);
+                  ch5DateTime.setAttribute('displayTwoDigitsHour', ele);
+                  expect(ch5DateTime.getAttribute('displayTwoDigitsHour')).to.be.equal(expectedResult[i]);
               });
           });
         

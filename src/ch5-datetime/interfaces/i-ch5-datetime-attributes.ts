@@ -1,10 +1,10 @@
-import { ICh5AttributesDatetime } from "../../ch5-common/interfaces/i-ch5-common-attributes-datetime";
-import { TCh5DatetimeStyleForDate, TCh5DatetimeHorizontalAlignment, TCh5DatetimeDisplayType } from "./t-ch5-datetime";
+import { ICh5AttributesDateTime } from "../../ch5-common/interfaces/i-ch5-common-attributes-datetime";
+import { TCh5DateTimeStyleForDate, TCh5DateTimeHorizontalAlignment, TCh5DateTimeDisplayType } from "./t-ch5-datetime";
 
 /**
  * @ignore
  */
-export interface ICh5DatetimeAttributes extends ICh5AttributesDatetime {
+export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	/**
 	 * @documentation
 	 * [
@@ -64,7 +64,7 @@ export interface ICh5DatetimeAttributes extends ICh5AttributesDatetime {
 	 * @default MM-dd-yyyy
 	 * @attributeType "EnumeratedValue"
 	 */
-	styleForDate: TCh5DatetimeStyleForDate;
+	styleForDate: TCh5DateTimeStyleForDate;
 	/**
 	 * @documentation
 	 * [
@@ -76,7 +76,7 @@ export interface ICh5DatetimeAttributes extends ICh5AttributesDatetime {
 	 * @default MM-dd-yyyy
 	 * @attributeType "EnumeratedValue"
 	 */
-	horizontalAlignment: TCh5DatetimeHorizontalAlignment;
+	horizontalAlignment: TCh5DateTimeHorizontalAlignment;
 	/**
 	 * @documentation
 	 * [
@@ -88,7 +88,7 @@ export interface ICh5DatetimeAttributes extends ICh5AttributesDatetime {
 	 * @default MM-dd-yyyy
 	 * @attributeType "EnumeratedValue"
 	 */
-	displayType: TCh5DatetimeDisplayType;
+	displayType: TCh5DateTimeDisplayType;
 
 	/**
 	 * @documentation
