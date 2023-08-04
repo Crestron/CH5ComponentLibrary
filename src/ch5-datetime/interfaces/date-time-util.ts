@@ -1,9 +1,3 @@
-export const offsetTimeHours = (date: Date, minutes: number) => {
-  const resultDate = new Date(date);
-  resultDate.setMinutes(resultDate.getMinutes() + minutes);
-  return resultDate;
-}
-
 const monthsAbbr = [
   'Jan',
   'Feb',

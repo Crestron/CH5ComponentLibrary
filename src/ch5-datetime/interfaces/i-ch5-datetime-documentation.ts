@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5CommonDateTime } from "../../ch5-common/interfaces/i-ch5-common-datetime";
-import { ICh5DatetimeAttributes } from "./i-ch5-datetime-attributes";
+import { ICh5DateTimeAttributes } from "./i-ch5-datetime-attributes";
 
 /**
  * @name Ch5 Datetime
@@ -70,6 +70,6 @@ import { ICh5DatetimeAttributes } from "./i-ch5-datetime-attributes";
  *    }
  *  ]
  */
-export interface ICh5DatetimeDocumentation extends ICh5CommonDateTime, ICh5DatetimeAttributes {
+export interface ICh5DateTimeDocumentation extends ICh5CommonDateTime, ICh5DateTimeAttributes {
 
 }

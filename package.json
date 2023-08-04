@@ -55,11 +55,7 @@
         "prebuild": "npm-run-all clean:*", 
         "test:mocha": "npm-run-all clean:compiled && tsc -p tsconfig.umd.json --target ES6 && mocha", 
         "test:wct": "ws -o", 
-        "wct:xml-report": "./node_modules/.bin/wct ./wct_tests/run-all.html",
-        
-"start": "npm run build:dev && npm run build:showcase && npm run start:showcase",
-"build:showcase": "copyfiles -u 1 build_bundles/**/* ../CH5ShowcaseApp/node_modules/@crestron/ch5-crcomlib/build_bundles/",
-"start:showcase": "cd .. && cd CH5ThemeEditor && npm run bundle-theme-all && webpack --config webpack.run.js --outputpath='../CH5ShowcaseApp/node_modules/@crestron/ch5-theme/output/themes/' && npm run cleanjs && cd .. && cd CH5ShowcaseApp && npm run start "
+        "wct:xml-report": "./node_modules/.bin/wct ./wct_tests/run-all.html"
     }, 
     "author": "Crestron", 
     "license": "SEE LICENSE IN LICENSE.txt", 

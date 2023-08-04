@@ -18,13 +18,13 @@
   </test-fixture>
   <script>
     suite('ch5-datetime-receiveStateTimeOffsetHours-attributes-value', () => {
-      let ch5Datetime;
+      let ch5DateTime;
 
       setup(async () => {
         const emulatorJson = await fetch('./emulator/receivestatetimeoffsethours.json').then((response) => response.json());
         const emulator = CrComLib.Ch5Emulator.getInstance();
         emulator.loadScenario(emulatorJson);
-        ch5Datetime = fixture('ch5-datetime-receiveStateTimeOffsetHours-attributes');
+        ch5DateTime = fixture('ch5-datetime-receiveStateTimeOffsetHours-attributes');
       });
 
       test('receiveStateTimeOffsetHours', (done) => {
