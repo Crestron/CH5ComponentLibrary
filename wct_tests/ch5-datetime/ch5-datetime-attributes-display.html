@@ -8,6 +8,7 @@
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="./js/helper.js"></script>
 </head>
 
 <body>
@@ -23,16 +24,40 @@
       setup(async () => {
         ch5Datetime = fixture('ch5-datetime-displayType-attributes');
       });
-        
-        let testCases = ['a', '', ' ', 'number', 'datetime', 'date', 'time'];
-        let expectedResult = ['datetime', 'datetime', 'datetime', 'datetime', 'datetime', 'date', 'time'];
-        testCases.forEach((ele, i) => {
-              test('Check Value "displayType"', () => {
-                  ch5Datetime.setAttribute('displayType', ele);
-                  expect(ch5Datetime.getAttribute('displayType')).to.be.equal(expectedResult[i]);
-              });
-          });
-        
+
+      let testCases = ['a', '', ' ', 'number', 'datetime', 'date', 'time'];
+      let expectedResult = ['datetime', 'datetime', 'datetime', 'datetime', 'datetime', 'date', 'time'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "displayType"', () => {
+          ch5Datetime.setAttribute('displayType', ele);
+          expect(ch5Datetime.getAttribute('displayType')).to.be.equal(expectedResult[i]);
+        });
+      });
+    });
+
+    suite('ch5-datetime-displayType-attributes-formatted-output', () => {
+      let ch5Datetime;
+      let clock;
+
+      suiteSetup(() => {
+        clock = sinon.useFakeTimers(new Date(2023, 00, 01).getTime());
+        ch5Datetime = fixture('ch5-datetime-displayType-attributes');
+      });
+
+      suiteTeardown(() => {
+        clock.restore();
+      });
+
+      let testCases = ['datetime', 'date', 'time'];
+      let expectedTextContent = ['01-01-2023 12:00 AM', '01-01-2023', '12:00 AM'];
+      testCases.forEach((ele, i) => {
+        test('Check formatted output', async () => {
+          ch5Datetime.setAttribute('displayType', ele);
+          await runSinonTimer(1000, clock);
+          const textContent = ch5Datetime.children[0].textContent;
+          expect(textContent).to.be.equal(expectedTextContent[i]);
+        });
+      });
     });
   </script>
 </body>

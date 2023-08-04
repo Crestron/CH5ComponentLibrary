@@ -8,6 +8,7 @@
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="./js/helper.js"></script>
 </head>
 
 <body>
@@ -23,17 +24,69 @@
       setup(async () => {
         ch5Datetime = fixture('ch5-datetime-displaySeconds-attributes');
       });
-        
-        let testCases = ['a', '', ' ', 'number', true,false];
-        let expectedResult = ['false', 'false', 'false', 'false', 'true','false'];
-        testCases.forEach((ele, i) => {
-              test('Check Value "displaySeconds"', () => {
-                  ch5Datetime.setAttribute('displaySeconds', ele);
-                  expect(ch5Datetime.getAttribute('displaySeconds')).to.be.equal(expectedResult[i]);
-              });
-          });
-        
+
+      let testCases = ['a', '', ' ', 'number', true, false];
+      let expectedResult = ['false', 'true', 'false', 'false', 'true', 'false'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "displaySeconds"', () => {
+          ch5Datetime.setAttribute('displaySeconds', ele);
+          expect(ch5Datetime.getAttribute('displaySeconds')).to.be.equal(expectedResult[i]);
+        });
+      });
+
     });
+
+    suite('ch5-datetime-displaySeconds-attributes-formatted-output', () => {
+      let ch5Datetime;
+      let clock;
+
+      suiteSetup(() => {
+        clock = sinon.useFakeTimers(new Date(2023, 00, 01).getTime());
+        ch5Datetime = fixture('ch5-datetime-displaySeconds-attributes');
+      });
+
+      suiteTeardown(() => {
+        clock.restore();
+      });
+
+      let testDisplaySeconds = ['false', 'true'];
+      let expectedDatetimeTextContent = ['01-01-2023 12:00 AM', '01-01-2023 12:00:01 AM'];
+      testDisplaySeconds.forEach((ele1, i) => {
+        test('Check formatted output for datetime', async () => {
+          ch5Datetime.setAttribute('displayType', 'datetime');
+          ch5Datetime.setAttribute('displaySeconds', ele1);
+
+          await runSinonTimer(1000, clock);
+          const textContent = ch5Datetime.children[0].textContent;
+          expect(textContent).to.be.equal(expectedDatetimeTextContent[i]);
+        });
+      })
+
+      let expectedTimeTextContent = ['12:00 AM', '12:00:03 AM'];
+      testDisplaySeconds.forEach((ele1, i) => {
+        test('Check formatted output for time', async () => {
+          ch5Datetime.setAttribute('displayType', 'time');
+          ch5Datetime.setAttribute('displaySeconds', ele1);
+
+          await runSinonTimer(1000, clock);
+          const textContent = ch5Datetime.children[0].textContent;
+          expect(textContent).to.be.equal(expectedTimeTextContent[i]);
+        });
+      });
+
+      let expectedDateTextContent = ['01-01-2023', '01-01-2023'];
+      testDisplaySeconds.forEach((ele1, i) => {
+        test('Check formatted output for date', async () => {
+          ch5Datetime.setAttribute('displayType', 'date');
+          ch5Datetime.setAttribute('displaySeconds', ele1);
+
+          await runSinonTimer(1000, clock);
+          const textContent = ch5Datetime.children[0].textContent;
+          expect(textContent).to.be.equal(expectedDateTextContent[i]);
+        });
+      });
+    });
+
   </script>
 </body>
 

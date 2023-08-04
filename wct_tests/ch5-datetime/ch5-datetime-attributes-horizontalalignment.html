@@ -23,16 +23,38 @@
       setup(async () => {
         ch5Datetime = fixture('ch5-datetime-horizontalAlignment-attributes');
       });
-        
-        let testCases = ['a', '', ' ', 'number', 'center', 'left', 'right'];
-        let expectedResult = ['center', 'center', 'center', 'center', 'center', 'left', 'right'];
-        testCases.forEach((ele, i) => {
-              test('Check Value "horizontalAlignment"', () => {
-                  ch5Datetime.setAttribute('horizontalAlignment', ele);
-                  expect(ch5Datetime.getAttribute('horizontalAlignment')).to.be.equal(expectedResult[i]);
-              });
-          });
-        
+
+      let testCases = ['a', '', ' ', 'number', 'center', 'left', 'right'];
+      let expectedResult = ['center', 'center', 'center', 'center', 'center', 'left', 'right'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "horizontalAlignment"', () => {
+          ch5Datetime.setAttribute('horizontalAlignment', ele);
+          expect(ch5Datetime.getAttribute('horizontalAlignment')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+    });
+
+    suite('ch5-datetime-horizontalAlignment-attributes-formatted-output', () => {
+      let ch5Datetime;
+      let clock;
+
+      suiteSetup(() => {
+        clock = sinon.useFakeTimers(new Date(2023, 00, 01).getTime());
+        ch5Datetime = fixture('ch5-datetime-horizontalAlignment-attributes');
+      });
+
+      suiteTeardown(() => {
+        clock.restore();
+      });
+
+      let testHorizontalAlignment = ['center', 'left', 'right'];
+      testHorizontalAlignment.forEach((ele1, i) => {
+        test('Check for class', async () => {
+          ch5Datetime.setAttribute('horizontalAlignment', ele1);
+          expect(ch5Datetime.children[0].classList.contains(`ch5-datetime--horizontal-alignment-${ele1}`)).to.be.equal(true);
+        });
+      });
     });
   </script>
 </body>
