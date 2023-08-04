@@ -5,7 +5,7 @@ import { TCh5DatetimeStyleForDate, TCh5DatetimeHorizontalAlignment, TCh5Datetime
 import { ICh5DatetimeAttributes } from './interfaces/i-ch5-datetime-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
-import { offsetTimeHours, toFormat } from "./interfaces/date-time-util";
+import { toFormat } from "./interfaces/date-time-util";
 
 export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
@@ -211,7 +211,8 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
   public set timeOffsetHours(value: number) {
     this._ch5Properties.set<number>("timeOffsetHours", value, () => {
-      this.debounceRender();
+      this.changeTime();
+      // this.calculateTimeOffsetHours(value);
     });
   }
   public get timeOffsetHours(): number {
@@ -220,8 +221,10 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
   public set receiveStateTimeOffsetHours(value: string) {
     this._ch5Properties.set("receiveStateTimeOffsetHours", value, null, (newValue: number) => {
-      this._ch5Properties.setForSignalResponse<number>("timeOffsetHours", (newValue / 100), () => {
-        this.debounceRender();
+      this._ch5Properties.setForSignalResponse<number>("timeOffsetHours", (newValue), () => {
+        //  this.offsetTimeHours(newValue);
+        this.changeTime();
+
       });
     });
   }
@@ -253,7 +256,7 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
   public constructor() {
     super();
     this.logger.start('constructor()', Ch5Datetime.ELEMENT_NAME);
-    this.ignoreAttributes = ["appendClassWhenInViewPort", "sendEventOnShow", "receiveStateEnable", "receiveStateHidePulse", "receiveStateShowPulse",];
+    this.ignoreAttributes = ["disabled", "appendClassWhenInViewPort", "sendEventOnShow", "receiveStateEnable", "receiveStateHidePulse", "receiveStateShowPulse",];
     if (!this._wasInstatiated) {
       this.createInternalHtml();
     }
@@ -333,12 +336,12 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
     }
     if (this.componentFormat !== "") {
       const newDate = new Date();
-      let dateInNumberFormat: Date;
-      if (this.timeOffsetHours) {
-        dateInNumberFormat = (offsetTimeHours(newDate, this.timeOffsetHours * 60));
-      } else {
-        dateInNumberFormat = newDate;
-      }
+      let dateInNumberFormat: Date
+      // if (this.timeOffsetHours) {
+      dateInNumberFormat = this.calculateTimeOffsetHours(newDate);
+      // } else {
+      //   dateInNumberFormat = newDate;
+      // }
       this._elContainer.textContent = toFormat(dateInNumberFormat, this.componentFormat);
       this.dateTimeId = window.setTimeout(() => {
         this.changeTime();
@@ -398,10 +401,6 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
     return this._elContainer;
   }
 
-  public getCssClassDisabled() {
-    return this.primaryCssClass + '--disabled';
-  }
-
   private render() {
     /** @ts-ignore */
     const dateFormat = this.styleForDate.replaceAll('d', 'D').replaceAll('y', 'Y').replaceAll('_', '/');
@@ -434,6 +433,17 @@ export class Ch5Datetime extends Ch5Common implements ICh5DatetimeAttributes {
 
     this.componentFormat = format.trim();
     this.changeTime();
+  }
+
+  private calculateTimeOffsetHours(dateValue: Date): Date {
+    const timeSetHours = this.timeOffsetHours;
+    if (timeSetHours && timeSetHours !== 0 && timeSetHours > -32768 && timeSetHours < 32767) {
+      const resultDate = dateValue;
+      resultDate.setMinutes(resultDate.getMinutes() + Math.round((timeSetHours * 60) / 100));
+      return resultDate;
+    } else {
+      return dateValue;
+    }
   }
 
   //#endregion
