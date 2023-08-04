@@ -29,19 +29,19 @@
       let expectedResult = ['datetime', 'datetime', 'datetime', 'datetime', 'datetime', 'date', 'time'];
       testCases.forEach((ele, i) => {
         test('Check Value "displayType"', () => {
-          ch5Datetime.setAttribute('displayType', ele);
-          expect(ch5Datetime.getAttribute('displayType')).to.be.equal(expectedResult[i]);
+          ch5DateTime.setAttribute('displayType', ele);
+          expect(ch5DateTime.getAttribute('displayType')).to.be.equal(expectedResult[i]);
         });
       });
     });
 
     suite('ch5-datetime-displayType-attributes-formatted-output', () => {
-      let ch5Datetime;
+      let ch5DateTime;
       let clock;
 
       suiteSetup(() => {
         clock = sinon.useFakeTimers(new Date(2023, 00, 01).getTime());
-        ch5Datetime = fixture('ch5-datetime-displayType-attributes');
+        ch5DateTime = fixture('ch5-datetime-displayType-attributes');
       });
 
       suiteTeardown(() => {
@@ -52,9 +52,9 @@
       let expectedTextContent = ['01-01-2023 12:00 AM', '01-01-2023', '12:00 AM'];
       testCases.forEach((ele, i) => {
         test('Check formatted output', async () => {
-          ch5Datetime.setAttribute('displayType', ele);
+          ch5DateTime.setAttribute('displayType', ele);
           await runSinonTimer(1000, clock);
-          const textContent = ch5Datetime.children[0].textContent;
+          const textContent = ch5DateTime.children[0].textContent;
           expect(textContent).to.be.equal(expectedTextContent[i]);
         });
       });

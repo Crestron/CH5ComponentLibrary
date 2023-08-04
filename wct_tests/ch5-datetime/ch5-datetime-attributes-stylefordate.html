@@ -29,19 +29,19 @@
       let expectedResult = ['MM-dd-yyyy', 'MM-dd-yyyy', 'MM-dd-yyyy', 'MM-dd-yyyy', 'MM-dd-yyyy', 'M-dd-yyyy', 'M-d-yyyy', 'MM-dd-yy', 'M-dd-yy', 'M-d-yy', 'dd_MM_yyyy', 'd_MM_yyyy', 'd_M_yyyy', 'dd_MM_yy', 'd_MM_yy', 'd_M_yy', 'd MMM yyyy', 'MMM d yyyy', 'd MMMM yyyy', 'MMMM d yyyy', 'yyyy-MM-dd', 'yyyy_MM_dd', 'MMM d, yyyy', 'yyyy MM, dd', 'yyyy MMMM, dd', 'MMMM d, yyyy'];
       testCases.forEach((ele, i) => {
         test('Check Value "styleForDate"', () => {
-          ch5Datetime.setAttribute('styleForDate', ele);
-          expect(ch5Datetime.getAttribute('styleForDate')).to.be.equal(expectedResult[i]);
+          ch5DateTime.setAttribute('styleForDate', ele);
+          expect(ch5DateTime.getAttribute('styleForDate')).to.be.equal(expectedResult[i]);
         });
       });
     });
 
     suite('ch5-datetime-styleForDate-attributes-formatted-output', () => {
-      let ch5Datetime;
+      let ch5DateTime;
       let clock;
 
       suiteSetup(() => {
         clock = sinon.useFakeTimers(new Date(2023, 00, 01).getTime());
-        ch5Datetime = fixture('ch5-datetime-styleForDate-attributes');
+        ch5DateTime = fixture('ch5-datetime-styleForDate-attributes');
       });
 
       suiteTeardown(() => {
@@ -52,10 +52,10 @@
       const expectedStyleForDate = ['01-01-2023 12:00 AM', '1-01-2023 12:00 AM', '1-1-2023 12:00 AM', '01-01-23 12:00 AM', '1-01-23 12:00 AM', '1-1-23 12:00 AM', '01/01/2023 12:00 AM', '1/01/2023 12:00 AM', '1/1/2023 12:00 AM', '01/01/23 12:00 AM', '1/01/23 12:00 AM', '1/1/23 12:00 AM', '1 Jan 2023 12:00 AM', 'Jan 1 2023 12:00 AM', '1 January 2023 12:00 AM', 'January 1 2023 12:00 AM', '2023-01-01 12:00 AM', '2023/01/01 12:00 AM', 'Jan 1, 2023 12:00 AM', '2023 01, 01 12:00 AM', '2023 January, 01 12:00 AM', 'January 1, 2023 12:00 AM'];
       testStyleForDate.forEach((ele, i) => {
         test('Check formatted output', async () => {
-          ch5Datetime.setAttribute('styleForDate', ele);
+          ch5DateTime.setAttribute('styleForDate', ele);
 
           await runSinonTimer(1000, clock);
-          const textContent = ch5Datetime.children[0].textContent;
+          const textContent = ch5DateTime.children[0].textContent;
           expect(textContent).to.be.equal(expectedStyleForDate[i]);
         });
       });
