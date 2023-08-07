@@ -25,6 +25,7 @@ export * from "./../ch5-button-list/interfaces/i-ch5-button-list-label-documenta
 export * from "./../ch5-button-list/interfaces/i-ch5-button-list-individual-button-documentation";
 export * from './../ch5-color-chip/interfaces/i-ch5-color-chip-documentation';
 export * from './../ch5-color-picker/interfaces/i-ch5-color-picker-documentation';
+export * from './../ch5-datetime/interfaces/i-ch5-datetime-documentation';
 export * from './../ch5-dpad/interfaces/i-ch5-dpad-documentation';
 export * from "./../ch5-form/interfaces/i-ch5-form-documentation";
 export * from "./../ch5-import-htmlsnippet/interfaces/i-ch5-htmlsnippet-documentation";
