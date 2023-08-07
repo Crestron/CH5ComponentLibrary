@@ -8,6 +8,7 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { subscribeState } from "../ch5-core";
 import { Ch5SignalFactory } from "../ch5-core/index";
+import { Ch5Signal } from "../ch5-core/ch5-signal";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { TCh5VideoAspectRatio, TCh5VideoSourceType, TCh5VideoSize, } from './interfaces/t-ch5-video';
@@ -33,7 +34,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   };
 
   public static readonly ASPECT_RATIO: TCh5VideoAspectRatio[] = ['16:9', '4:3'];
-  public static readonly SOURCE_TYPE: TCh5VideoSourceType[] = ['Network', 'HDMI', 'DM'];
+  public static readonly SOURCE_TYPE: TCh5VideoSourceType[] = ['Network'];
   public static readonly SIZE: TCh5VideoSize[] = ['regular', 'x-small', 'small', 'large', 'x-large', 'xx-large'];
   public static readonly COMPONENT_DATA: any = {
     ASPECT_RATIO: {
@@ -455,25 +456,20 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   private _fullScreenIcon: HTMLElement = {} as HTMLElement;
 
   private responseObj: TVideoResponse = {} as TVideoResponse;
-  private sizeObj: TDimension = { width: 0, height: 0 };
   private shellCh5Background: Ch5Background | null = document.getElementById('template-content-background') as Ch5Background;
   private parentCh5Background: Ch5Background | null = null;
 
   private readonly INTERSECTION_RATIO_VALUE: number = 0.98;
 
   private playValue: boolean = true;
-  private lastRequestStatus: string = '';
-  private isVideoReady: boolean = false;
   private lastResponseStatus: string = '';
-  private oldResponseStatus: string = '';
-  private oldResponseId: number = 0;
+  private lastRequestStatus: string = '';
 
   private orientationChanged: boolean = false;
+  private isVideoPublished: boolean = false;
   private isFullScreen: boolean = false;
-  private isAlphaBlend: boolean = true;
   private isSwipeDebounce: any;
-  private _wasAppBackGrounded: boolean = false;
-  private isVideoPublished = false;
+  private stopDebounce: any;
   private controlTimer: any;
   private snapshotImage = new Ch5VideoSnapshot();
   private videoErrorMessages = new Map<number, string>();
@@ -485,7 +481,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   // touch specific [params]
   private videoTouchHandler: Ch5VideoTouchManager = {} as Ch5VideoTouchManager;
   private isTouchInProgress: boolean = false;
-  private readonly swipeDeltaCheckNum: number = 20;
+  private readonly swipeDeltaCheckNum: number = 1;
   private touchCoordinates: ITouchOrdinates = {
     startX: 0,
     startY: 0,
@@ -493,28 +489,17 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     endY: 0
   }; // instantiating empty object to proceed
 
-  private multiVideoSignalName: TMultiVideoSignalName = {
-    url: '',
-    userId: '',
-    password: '',
-    sourceType: '',
-    snapshotURL: '',
-    snapshotUserId: '',
-    snapshotPassword: '',
-    snapshotRefreshRate: ''
-  }
+  private signalHolder: any = [];
 
   // #endregion
 
   // #region Getters and Setters
 
   public set indexId(value: string) {
-    this._ch5Properties.set<string>("indexId", value, () => {
-      this.handleIndexId();
-    });
+    this._ch5Properties.set<string>("indexId", value.trim());
   }
   public get indexId(): string {
-    return this._ch5Properties.get<string>("indexId").trim();
+    return this._ch5Properties.get<string>("indexId");
   }
 
   public set aspectRatio(value: TCh5VideoAspectRatio) {
@@ -536,19 +521,19 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   public set url(value: string) {
-    this._ch5Properties.set<string>("url", value, () => {
+    this._ch5Properties.set<string>("url", value.trim(), () => {
       this.sendEvent(this.sendEventSelectionURL, this.url);
-      this.handleReceiveStateURL();
+      this.checkUrl();
     });
   }
   public get url(): string {
-    return this._ch5Properties.get<string>("url").trim();
+    return this._ch5Properties.get<string>("url");
   }
 
   public set sourceType(value: TCh5VideoSourceType) {
     this._ch5Properties.set<TCh5VideoSourceType>("sourceType", value, () => {
       this.sendEvent(this.sendEventSelectionSourceType, this.sourceType);
-      this.handleReceiveStateURL();
+      this.videoIntersectionObserver();
     });
   }
   public get sourceType(): TCh5VideoSourceType {
@@ -556,31 +541,37 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   public set userId(value: string) {
-    this._ch5Properties.set<string>("userId", value, () => {
-      this.handleReceiveStateURL();
+    this._ch5Properties.set<string>("userId", value.trim(), () => {
+      if (this.userId.trim().includes('@') || this.userId.trim().includes(':')) {
+        console.warn("Please avoid using '@' and ':' characters for userid and password");
+      }
+      this.videoIntersectionObserver();
     });
   }
   public get userId(): string {
-    return this._ch5Properties.get<string>("userId").trim();
+    return this._ch5Properties.get<string>("userId");
   }
 
   public set password(value: string) {
-    this._ch5Properties.set<string>("password", value, () => {
-      this.handleReceiveStateURL();
+    this._ch5Properties.set<string>("password", value.trim(), () => {
+      if (this.password.trim().includes('@') || this.password.trim().includes(':')) {
+        console.warn("Please avoid using '@' and ':' characters for userid and password");
+      }
+      this.videoIntersectionObserver();
     });
   }
   public get password(): string {
-    return this._ch5Properties.get<string>("password").trim();
+    return this._ch5Properties.get<string>("password");
   }
 
   public set snapshotURL(value: string) {
-    this._ch5Properties.set<string>("snapshotURL", value, () => {
+    this._ch5Properties.set<string>("snapshotURL", value.trim(), () => {
       this.sendEvent(this.sendEventSnapshotURL, this.snapshotURL);
       this.validateAndAttachSnapshot();
     });
   }
   public get snapshotURL(): string {
-    return this._ch5Properties.get<string>("snapshotURL").trim();
+    return this._ch5Properties.get<string>("snapshotURL");
   }
 
   public set snapshotRefreshRate(value: number) {
@@ -643,123 +634,56 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   public set receiveStateURL(value: string) {
-    this._ch5Properties.set("receiveStateURL", value, null, (newValue: string) => {
-      if (this.receiveStateURL.includes(`{{${this.indexId}}}`)) {
-        this.receiveStateURL = this.receiveStateURL.replace(`{{${this.indexId}}}`, this.selectedVideo.toString());
-      } else {
-        this._ch5Properties.setForSignalResponse<string>("url", newValue, () => {
-          this.sendEvent(this.sendEventSelectionURL, this.url);
-          this.handleReceiveStateURL();
-        });
-      }
-    });
+    this._ch5Properties.set("receiveStateURL", value, null);
   }
   public get receiveStateURL(): string {
     return this._ch5Properties.get<string>('receiveStateURL');
   }
 
   public set receiveStateSourceType(value: string) {
-    this._ch5Properties.set("receiveStateSourceType", value, null, (newValue: string) => {
-      if (this.receiveStateSourceType.includes(`{{${this.indexId}}}`)) {
-        this.receiveStateSourceType = this.receiveStateSourceType.replace(`{{${this.indexId}}}`, this.selectedVideo.toString())
-      } else {
-        this._ch5Properties.setForSignalResponse<string>("sourceType", newValue, () => {
-          this.sendEvent(this.sendEventSelectionSourceType, this.sourceType);
-          this.handleReceiveStateURL();
-        });
-      }
-    });
+    this._ch5Properties.set("receiveStateSourceType", value, null);
   }
   public get receiveStateSourceType(): string {
     return this._ch5Properties.get<string>('receiveStateSourceType');
   }
 
   public set receiveStateUserId(value: string) {
-    this._ch5Properties.set("receiveStateUserId", value, null, (newValue: string) => {
-      if (this.receiveStateUserId.includes(`{{${this.indexId}}}`)) {
-        this.receiveStateUserId = this.receiveStateUserId.replace(`{{${this.indexId}}}`, this.selectedVideo.toString())
-      } else {
-        this._ch5Properties.setForSignalResponse<string>("userId", newValue, () => {
-          this.handleReceiveStateURL();
-        });
-      }
-    });
+    this._ch5Properties.set("receiveStateUserId", value, null);
   }
   public get receiveStateUserId(): string {
     return this._ch5Properties.get<string>('receiveStateUserId');
   }
 
   public set receiveStatePassword(value: string) {
-    this._ch5Properties.set("receiveStatePassword", value, null, (newValue: string) => {
-      if (this.receiveStatePassword.includes(`{{${this.indexId}}}`)) {
-        this.receiveStatePassword = this.receiveStatePassword.replace(`{{${this.indexId}}}`, this.selectedVideo.toString())
-      } else {
-        this._ch5Properties.setForSignalResponse<string>("password", newValue, () => {
-          this.handleReceiveStateURL();
-        });
-      }
-    });
+    this._ch5Properties.set("receiveStatePassword", value, null);
   }
   public get receiveStatePassword(): string {
     return this._ch5Properties.get<string>('receiveStatePassword');
   }
 
   public set receiveStateSnapshotURL(value: string) {
-    this._ch5Properties.set("receiveStateSnapshotURL", value, null, (newValue: string) => {
-      if (this.receiveStateSnapshotURL.includes(`{{${this.indexId}}}`)) {
-        this.receiveStateSnapshotURL = this.receiveStateSnapshotURL.replace(`{{${this.indexId}}}`, this.selectedVideo.toString())
-      } else {
-        this._ch5Properties.setForSignalResponse<string>("snapshotURL", newValue, () => {
-          this.sendEvent(this.sendEventSnapshotURL, this.snapshotURL);
-          this.validateAndAttachSnapshot();
-        });
-      }
-    });
+    this._ch5Properties.set("receiveStateSnapshotURL", value, null);
   }
   public get receiveStateSnapshotURL(): string {
     return this._ch5Properties.get<string>('receiveStateSnapshotURL');
   }
 
   public set receiveStateSnapshotRefreshRate(value: string) {
-    this._ch5Properties.set("receiveStateSnapshotRefreshRate", value, null, (newValue: number) => {
-      if (this.receiveStateSnapshotRefreshRate.includes(`{{${this.indexId}}}`)) {
-        this.receiveStateSnapshotRefreshRate = this.receiveStateSnapshotRefreshRate.replace(`{{${this.indexId}}}`, this.selectedVideo.toString());
-      } else {
-        this._ch5Properties.setForSignalResponse<number>("snapshotRefreshRate", newValue, () => {
-          this.validateAndAttachSnapshot();
-        });
-      }
-    });
+    this._ch5Properties.set("receiveStateSnapshotRefreshRate", value, null);
   }
   public get receiveStateSnapshotRefreshRate(): string {
     return this._ch5Properties.get<string>('receiveStateSnapshotRefreshRate');
   }
 
   public set receiveStateSnapshotUserId(value: string) {
-    this._ch5Properties.set("receiveStateSnapshotUserId", value, null, (newValue: string) => {
-      if (this.receiveStateSnapshotUserId.includes(`{{${this.indexId}}}`)) {
-        this.receiveStateSnapshotUserId = this.receiveStateSnapshotUserId.replace(`{{${this.indexId}}}`, this.selectedVideo.toString())
-      } else {
-        this._ch5Properties.setForSignalResponse<string>("snapshotUserId", newValue, () => {
-          this.validateAndAttachSnapshot();
-        });
-      }
-    });
+    this._ch5Properties.set("receiveStateSnapshotUserId", value, null);
   }
   public get receiveStateSnapshotUserId(): string {
     return this._ch5Properties.get<string>('receiveStateSnapshotUserId');
   }
 
   public set receiveStateSnapshotPassword(value: string) {
-    this._ch5Properties.set("receiveStateSnapshotPassword", value, null, (newValue: string) => {
-      if (this.receiveStateSnapshotPassword.includes(`{{${this.indexId}}}`)) {
-        this.receiveStateSnapshotPassword = this.receiveStateSnapshotPassword.replace(`{{${this.indexId}}}`, this.selectedVideo.toString())
-      } else {
-        this._ch5Properties.setForSignalResponse<string>("snapshotPassword", newValue, () => {
-          this.validateAndAttachSnapshot();
-        });
-      }
-    });
+    this._ch5Properties.set("receiveStateSnapshotPassword", value, null);
   }
   public get receiveStateSnapshotPassword(): string {
     return this._ch5Properties.get<string>('receiveStateSnapshotPassword');
@@ -906,7 +830,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   public constructor() {
     super();
-    this.ignoreAttributes = ['show', 'receiveStateShow'];
+    this.ignoreAttributes = ['show', 'receiveStateShow', 'receivestateshowpulse', 'receivestatehidepulse', 'sendeventonshow'];
     this.logger.start('constructor()', Ch5Video.ELEMENT_NAME);
     if (!this._wasInstatiated) {
       this.createInternalHtml();
@@ -915,8 +839,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this._ch5Properties = new Ch5Properties(this, Ch5Video.COMPONENT_PROPERTIES);
     this.updateCssClass();
     this.setErrorMessages();
-    this.handleMultiVideo();
     subscribeState('o', 'Csig.video.response', this._videoResponse.bind(this), this._errorResponse.bind(this));
+    subscribeState('b', 'Csig.Backlight_Off_fb', this.standByOff.bind(this));
   }
 
   public static get observedAttributes(): string[] {
@@ -960,10 +884,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
+    this.sendEvent(this.sendEventState, 0);
+    this.handleMultiVideo();
     customElements.whenDefined('ch5-video').then(() => {
       this.componentLoadedEvent(Ch5Video.ELEMENT_NAME, this.getCrId());
-      this.lastRequestStatus = CH5VideoUtils.VIDEO_ACTION.EMPTY;
-      this.isVideoReady = false;
     });
     Ch5CoreIntersectionObserver.getInstance().observe(this, this.videoIntersectionObserver.bind(this));
     this.logger.stop();
@@ -973,8 +897,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.logger.start('disconnectedCallback()');
     this.removeEventListeners();
     this.unsubscribeFromSignals();
-    this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
-    this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL);
+    this.clearMultiSignal();
+    this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
+    if (this.isVideoPublished === true) {
+      this.refillBackground();
+    }
     this.selectedVideo = 0;
     this.maxVideoCount = 1;
     this.logger.stop();
@@ -1042,14 +969,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     });
   }
 
-  private handleIndexId() {
-    if (this.multiVideoSignalName.url.includes(`{{${this.indexId}}}`)) { this.receiveStateURL = this.multiVideoSignalName.url.replace(`{{${this.indexId}}}`, this.selectedVideo.toString()) }
-    if (this.multiVideoSignalName.userId.includes(`{{${this.indexId}}}`)) { this.receiveStateUserId = this.multiVideoSignalName.userId.replace(`{{${this.indexId}}}`, this.selectedVideo.toString()) }
-    if (this.multiVideoSignalName.password.includes(`{{${this.indexId}}}`)) { this.receiveStatePassword = this.multiVideoSignalName.password.replace(`{{${this.indexId}}}`, this.selectedVideo.toString()) }
-    if (this.multiVideoSignalName.snapshotURL.includes(`{{${this.indexId}}}`)) { this.receiveStateSnapshotURL = this.multiVideoSignalName.snapshotURL.replace(`{{${this.indexId}}}`, this.selectedVideo.toString()) }
-    if (this.multiVideoSignalName.snapshotUserId.includes(`{{${this.indexId}}}`)) { this.receiveStateSnapshotUserId = this.multiVideoSignalName.snapshotUserId.replace(`{{${this.indexId}}}`, this.selectedVideo.toString()) }
-    if (this.multiVideoSignalName.snapshotPassword.includes(`{{${this.indexId}}}`)) { this.receiveStateSnapshotPassword = this.multiVideoSignalName.snapshotPassword.replace(`{{${this.indexId}}}`, this.selectedVideo.toString()) }
-    if (this.multiVideoSignalName.snapshotRefreshRate.includes(`{{${this.indexId}}}`)) { this.receiveStateSnapshotRefreshRate = this.multiVideoSignalName.snapshotRefreshRate.replace(`{{${this.indexId}}}`, this.selectedVideo.toString()) }
+  private standByOff(data: boolean) {
+    if (data === false && this.responseObj?.id && this.responseObj?.id === this.ch5UId && this.isFullScreen) {
+      this.orientationChanged = true;
+    }
   }
 
   private handleAspectRatio() {
@@ -1082,43 +1005,50 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.playValue = value;
     if (this.playValue === false) {
       this.snapshotImage.stopLoadingSnapshot();
+      if (this.isFullScreen) {
+        this.orientationChanged = true;
+      }
       this.sendEvent(this.sendEventSnapshotStatus, 0);
-      return this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
-    }
-    this.videoIntersectionObserver();
-  }
-
-  private handleReceiveStateSelect(select: number) {
-    if (this.multiVideoSignalName.url.includes(`{{${this.indexId}}}`)) { this.receiveStateURL = this.multiVideoSignalName.url.replace(`{{${this.indexId}}}`, select.toString()) }
-    if (this.multiVideoSignalName.userId.includes(`{{${this.indexId}}}`)) { this.receiveStateUserId = this.multiVideoSignalName.userId.replace(`{{${this.indexId}}}`, select.toString()) }
-    if (this.multiVideoSignalName.password.includes(`{{${this.indexId}}}`)) { this.receiveStatePassword = this.multiVideoSignalName.password.replace(`{{${this.indexId}}}`, select.toString()) }
-    if (this.multiVideoSignalName.snapshotURL.includes(`{{${this.indexId}}}`)) { this.receiveStateSnapshotURL = this.multiVideoSignalName.snapshotURL.replace(`{{${this.indexId}}}`, select.toString()) }
-    if (this.multiVideoSignalName.snapshotUserId.includes(`{{${this.indexId}}}`)) { this.receiveStateSnapshotUserId = this.multiVideoSignalName.snapshotUserId.replace(`{{${this.indexId}}}`, select.toString()) }
-    if (this.multiVideoSignalName.snapshotPassword.includes(`{{${this.indexId}}}`)) { this.receiveStateSnapshotPassword = this.multiVideoSignalName.snapshotPassword.replace(`{{${this.indexId}}}`, select.toString()) }
-    if (this.multiVideoSignalName.snapshotRefreshRate.includes(`{{${this.indexId}}}`)) { this.receiveStateSnapshotRefreshRate = this.multiVideoSignalName.snapshotRefreshRate.replace(`{{${this.indexId}}}`, select.toString()) }
-  }
-
-  private handleReceiveStateURL() {
-    if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE) {
-      this.lastResponseStatus = CH5VideoUtils.VIDEO_ACTION.EMPTY;
-      this.lastRequestStatus = CH5VideoUtils.VIDEO_ACTION.EMPTY;
-      this.isVideoReady = false;
-      if (this.url === '') {
-        this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
-        this.snapshotImage.stopLoadingSnapshot();
-        this.sendEvent(this.sendEventSnapshotStatus, 0);
+      this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
+    } else {
+      // below 4 lines are used for ch5c-6947
+      if (this.isFullScreen) {
+        this.publishVideo('start');
       } else {
-        this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.START);
+        this.videoIntersectionObserver()
       }
     }
   }
 
+  private handleReceiveStateSelect(select: number) {
+    const url = this.signalHolder[select].url.value;
+    if (url) { this.urlCB(url); }
+    const userId = this.signalHolder[select].userId.value;
+    if (userId) { this.userIdCB(userId); }
+    const password = this.signalHolder[select].password.value;
+    if (password) { this.passwordCB(password); }
+    const sourceType = this.signalHolder[select].sourceType.value;
+    if (sourceType) { this.sourceTypeCB(sourceType); }
+    const snapshotURL = this.signalHolder[select].snapshotURL.value;
+    if (snapshotURL) { this.snapshotURLCB(snapshotURL); }
+    const snapshotUserId = this.signalHolder[select].snapshotUserId.value;
+    if (snapshotUserId) { this.snapshotUserIdCB(snapshotUserId); }
+    const snapshotPassword = this.signalHolder[select].snapshotPassword.value;
+    if (snapshotPassword) { this.snapshotPasswordCB(snapshotPassword); }
+    const snapshotRefreshRate = this.signalHolder[select].snapshotRefreshRate.value;
+    if (snapshotRefreshRate) { this.snapshotRefreshRateCB(snapshotRefreshRate); }
+  }
+
   private handleReceiveStateShow() {
     if (this.show === true) {
-      this.videoIntersectionObserver();
+      if (this.isFullScreen) {
+        this.publishVideo('start');
+      } else {
+        this.videoIntersectionObserver()
+      }
     } else {
-      this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
-      this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.STOP);
+      this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
+      this.refillBackground();
     }
   }
 
@@ -1140,7 +1070,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   private stopAndRefill() {
     this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL);
-    publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(CH5VideoUtils.VIDEO_ACTION.STOP, this.ch5UId));
+    this.publishVideo('stop');
   }
 
   /**
@@ -1148,7 +1078,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
    * when the visibility is less than 100% the video should stop playing.
    */
   public videoIntersectionObserver() {
-    this.logger.log("videoIntersectionObserver#intersectionRatio -> " + this.elementIntersectionEntry.intersectionRatio);
     if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE && this.playValue && this.show) {
       this.validateAndAttachSnapshot();
       this.videoInViewPort();
@@ -1168,59 +1097,67 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.snapshotImage.startLoadingSnapshot();
     clearTimeout(this.isSwipeDebounce);
     this.isSwipeDebounce = setTimeout(() => {
-      this.calculation();
-      this.lastResponseStatus = CH5VideoUtils.VIDEO_ACTION.EMPTY;
-      this.lastRequestStatus = CH5VideoUtils.VIDEO_ACTION.EMPTY;
-      this.isVideoReady = false;
-      this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.START);
+      this.publishVideo(CH5VideoUtils.VIDEO_ACTION.START);
     }, 300); // reducing this will create a cut at wrong place
   }
 
   private videoNotInViewport() {
     if (this.isFullScreen) { return; }
-    this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
+    this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
     this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL);
   }
 
-  // Calculate the size and position of the canvas
-  private calculation(): void {
-    if (!this.isFullScreen) {
-      this.sizeObj = {
-        width: this._elContainer.getBoundingClientRect().width,
-        height: this._elContainer.getBoundingClientRect().height
-      };
-    }
-  }
-
   private videoStopObjJSON(actionType: string, uId: number): ICh5VideoPublishEvent {
-    this.lastRequestStatus = actionType;
     const retObj: any = {
-      "action": actionType,
-      "id": uId
+      action: actionType,
+      id: uId
     };
-    console.log("stop request", retObj);
     this.sendEvent(this.sendEventState, 3);
-    // this.logger.log(JSON.stringify(retObj));
     return retObj;
   }
 
   // Create the Video JSON object to start the video
   public videoStartObjJSON(actionType: string): ICh5VideoPublishEvent {
-    let xPosition: number = this._elContainer.getBoundingClientRect().left;
-    let yPosition: number = this._elContainer.getBoundingClientRect().top;
-    let width: number = this.sizeObj.width;
-    let height: number = this.sizeObj.height;
+    let { left: xPosition, top: yPosition, width, height } = this._elContainer.getBoundingClientRect();
 
-    if (actionType === CH5VideoUtils.VIDEO_ACTION.FULLSCREEN) {
-      actionType = CH5VideoUtils.VIDEO_ACTION.RESIZE;
+    if (actionType === CH5VideoUtils.VIDEO_ACTION.FULLSCREEN || this.isFullScreen) {
+      if (actionType === CH5VideoUtils.VIDEO_ACTION.FULLSCREEN) {
+        actionType = CH5VideoUtils.VIDEO_ACTION.RESIZE;
+      }
       xPosition = 0;
       yPosition = 0;
       width = window.innerWidth;
       height = window.innerHeight;
+      // handling the aspect ratio in full screen video
+      if (window.innerWidth < window.innerHeight) {
+        if (this.aspectRatio === '4:3') {
+          width = window.innerWidth;
+          height = (window.innerWidth / 4) * 3;
+          yPosition = (window.innerHeight - height) / 2;
+        } else {
+          width = window.innerWidth;
+          height = (window.innerWidth / 16) * 9;
+          yPosition = (window.innerHeight - height) / 2;
+        }
+      } else {
+        if (this.aspectRatio === '4:3') {
+          height = window.innerHeight;
+          width = (window.innerHeight / 3) * 4;
+          if (width > window.innerWidth) {
+            width = window.innerWidth;
+          }
+          xPosition = (window.innerWidth - width) / 2;
+        } else {
+          height = window.innerHeight;
+          width = (window.innerHeight / 9) * 16;
+          if (width > window.innerWidth) {
+            width = window.innerWidth;
+          }
+          xPosition = (window.innerWidth - width) / 2;
+        }
+      }
     }
 
-    this.lastRequestStatus = actionType;
-    this.clearBackgroundOfVideoWrapper(true); // always clears the background of the video tag to display video behind it
     // any negative values in location object will throw backend error sometimes decimal values are returned by position related functions. Math.ceil is used to avoid this.
     const retObj = {
       action: actionType,
@@ -1240,13 +1177,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         height: Math.ceil(height),
         z: 0
       },
-      alphablend: this.isAlphaBlend, // optional, default true, false indicates video displayed above the HTML
+      alphablend: !this.isFullScreen, // optional, default true, false indicates video displayed above the HTML
       starttime: new Date().getMilliseconds(), // milliseconds since 1-1-1970 UTC
       endtime: new Date().getMilliseconds() + 2000, // 2000 msecs later
       timing: "linear" // only linear supported initially
     };
-
-    console.log("start request", retObj);
+    this.sendEvent(this.sendEventResolution, width + "x" + height);
     return retObj;
   }
 
@@ -1254,83 +1190,38 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     return (videoUrl.startsWith('rtsp://') || videoUrl.startsWith('http://') || videoUrl.startsWith('https://'))
   }
 
-  // Publish the video start request
-  private _videoStartRequest(actionType: string) {
-    if (this.url === '') {
-      this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.NOURL);
-      return;
-    }
-    // Invalid URL scenario, validation error                
-    if (!this.validateVideoUrl(this.url)) {
-      this.sendEvent(this.sendEventErrorMessage, 'Invalid URL');
-      this.sendEvent(this.sendEventErrorCode, -9002);
-      this.lastResponseStatus = CH5VideoUtils.VIDEO_ACTION.ERROR;
-      this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.ERROR);
-      return;
-    }
-    this.isVideoReady = true;
-    if (this.responseObj?.id && this.responseObj?.id !== this.ch5UId && this.responseObj?.status === 'started') {
-      publishEvent('o', 'Csig.video.request', this.videoStopObjJSON('stop', this.responseObj?.id));
-      setTimeout(() => {
-        publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType));
-      }, 300);
-    } else {
-      publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType));
-    }
-  }
-
-  private _videoStopRequest(actionType: string) { // Publish the video stop request
-    publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(actionType, this.ch5UId)); // Stop the video immediately
-    this.isVideoReady = false;
-  }
-
   // Send event to the backend based on the action Type
-  private _publishVideoEvent(actionType: string) {
-    // this.responseObj = {} as TVideoResponse; // TODO
-    this.isAlphaBlend = !this.isFullScreen;
-    this.calculation();
-    this.sendEvent(this.sendEventResolution, this.sizeObj.width + "x" + this.sizeObj.height + "@24fps");
-    this._clearOldResponseData(); // reset old response, required to check whether the second response is same.
+  private publishVideo(actionType: string) {
     switch (actionType) {
-      case CH5VideoUtils.VIDEO_ACTION.START:
+      case 'start':
+        if (this.url === "" || this.validateVideoUrl(this.url) === false) {
+          return this.checkUrl();
+        }
         this.isVideoPublished = true;
-        if (!this.isVideoReady && this.lastRequestStatus !== CH5VideoUtils.VIDEO_ACTION.START && this.url &&
-          (this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.STOPPED || this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.EMPTY ||
-            this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.ERROR || this._wasAppBackGrounded)) {
-          this._videoStartRequest(actionType);
+        if (this.responseObj?.id && this.responseObj?.id !== this.ch5UId && this.responseObj?.status === 'started') {
+          publishEvent('o', 'Csig.video.request', this.videoStopObjJSON('stop', this.responseObj?.id));
+          setTimeout(() => { publishEvent('o', 'Csig.video.request', this.videoStartObjJSON('start')); }, 300);
         } else {
-          this.sendEvent(this.sendEventState, 0);
+          publishEvent('o', 'Csig.video.request', this.videoStartObjJSON('start'));
         }
         break;
-      case CH5VideoUtils.VIDEO_ACTION.STOP:
-        if (!this.isVideoPublished) { // this flag avoids stop command since no video has started
-          return;
-        }
-        if (this.lastRequestStatus !== CH5VideoUtils.VIDEO_ACTION.STOP && (this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.EMPTY ||
-          this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.STARTED || !this.elementIsInViewPort ||
-          ((this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.RESIZED || this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.ERROR)))) {
-          this._videoStopRequest(actionType);
-        }
+      case 'stop':
+        if (this.isVideoPublished === false) { return; }
+        window.clearTimeout(this.stopDebounce);
+        this.stopDebounce = window.setTimeout(() => publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(actionType, this.ch5UId)), 300);// Stop the video immediately
         break;
       case CH5VideoUtils.VIDEO_ACTION.RESIZE:
-        // If the video has already stopped then there is no need to resize.
-        if (this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.STOPPED || this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.EMPTY ||
-          this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.STOP) {
-          return;
-        }
-        this.calculation();
+        if (this.isVideoPublished === false) { return; }
         publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType));
-        this.isVideoReady = false;
         break;
       case CH5VideoUtils.VIDEO_ACTION.FULLSCREEN:
-        if (this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.STARTED || this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.RESIZED) {
-          publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType));
-          this.isVideoReady = false;
-        }
+        if (this.isVideoPublished === false) { return; }
+        publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType));
         break;
       default:
         break;
     }
+    this.lastRequestStatus = actionType;
   }
 
   private _videoResponse(response: TVideoResponse) { // Process the backend response
@@ -1345,11 +1236,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       return;
     }
     if (isMyObjectEmpty) {
-      this.isVideoReady = false;
-      return;
-    }
-    // Return if the previous id and status of the response matches with current id and status of the response
-    if (this.oldResponseStatus === this.responseObj.status && this.oldResponseId === this.responseObj.id) {
       return;
     }
     // Return if response object id is negative or empty
@@ -1368,6 +1254,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     // this.logger.log("Video Response : " + JSON.stringify(this.responseObj));
 
     this.lastResponseStatus = this.responseObj.status.toLowerCase();
+    if (!(this.lastResponseStatus === 'started' || (this.lastRequestStatus === 'resize' && this.lastResponseStatus === 'resized'))) {
+      this._fullScreenIcon.classList.add('hide')
+    }
     switch (this.responseObj.status.toLowerCase()) {
       case 'started':
         this.ch5BackgroundRequest('started');
@@ -1380,8 +1269,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       case 'error':
         this.ch5BackgroundRequest('error');
         this.sendEvent(this.sendEventState, 7);
-        this.sendEvent(this.sendEventErrorCode, Number(this.responseObj.statusCode));
-        this.sendEvent(this.sendEventErrorMessage, this.videoErrorMessages.get(Number(this.responseObj.statusCode)) || 'Unknown Error Message')
         break;
       case 'connecting':
         this.sendEvent(this.sendEventState, 4);
@@ -1398,6 +1285,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.logger.log('video is in ' + this.responseObj.status.toLowerCase() + ' state')
         break;
     }
+    this.sendEvent(this.sendEventErrorCode, Number(this.responseObj.statuscode));
+    this.sendEvent(this.sendEventErrorMessage, this.videoErrorMessages.get(Number(this.responseObj.statuscode)) || 'Unknown Error Message');
   }
 
   // Call back function if the video response has an error
@@ -1422,37 +1311,36 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   private ch5BackgroundRequest(actionType: string) {
-    const nodeList: NodeList = this._elContainer.childNodes;
 
     switch (actionType) {
-      case CH5VideoUtils.VIDEO_ACTION.NOURL:
+      case 'nourl':
         this.clearBackgroundOfVideoWrapper(false);
-        if (nodeList.length > 1) {
-          this._elContainer.childNodes[1].remove();
-        }
-        this._elContainer.style.borderBottom = '1rem solid #828282'; // Gray color
-        break;
-      case CH5VideoUtils.VIDEO_ACTION.REFILL:
-        this.ch5BackgroundAction(CH5VideoUtils.VIDEO_ACTION.REFILL);
-        break;
-      case CH5VideoUtils.VIDEO_ACTION.RESIZE:
-        this.ch5BackgroundAction(CH5VideoUtils.VIDEO_ACTION.RESIZE);
-        break;
-      case CH5VideoUtils.VIDEO_ACTION.STARTED:
-        this.resetVideoElement();
         this.snapshotImage.stopLoadingSnapshot();
         this.sendEvent(this.sendEventSnapshotStatus, 0);
-        this.ch5BackgroundAction(CH5VideoUtils.VIDEO_ACTION.STARTED);
+        this._elContainer.style.borderBottom = '1rem solid #828282'; // Gray color
         break;
-      case CH5VideoUtils.VIDEO_ACTION.STOP:
-        this.resetVideoElement();
-        this.ch5BackgroundAction(CH5VideoUtils.VIDEO_ACTION.STOP);
+      case 'refill':
+        if (this.isVideoPublished === false) { return; }
+        this.ch5BackgroundAction('refill');
         break;
-      case CH5VideoUtils.VIDEO_ACTION.ERROR:
-        this._elContainer.style.background = '#000';
-        if (nodeList.length > 1) { this._elContainer.childNodes[1].remove(); }
+      case 'resize':
+        this.ch5BackgroundAction('resize');
+        break;
+      case 'started':
+        this.clearBackgroundOfVideoWrapper(true);
+        this._elContainer.style.removeProperty('border-bottom');
+        this.snapshotImage.stopLoadingSnapshot();
+        this.sendEvent(this.sendEventSnapshotStatus, 0);
+        this.ch5BackgroundAction('started');
+        break;
+      case 'stop':
+        this.clearBackgroundOfVideoWrapper(false);
+        this._elContainer.style.removeProperty('border-bottom');
+        this.ch5BackgroundAction('stop');
+        break;
+      case 'error':
+        this.clearBackgroundOfVideoWrapper(false);
         this._elContainer.style.borderBottom = '1rem solid #CF142B'; // Red color
-        this.sendEvent(this.sendEventErrorCode, Number(this.responseObj.statusCode));
         break;
       default:
         // Nothing here as of now
@@ -1468,9 +1356,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       id: this.getCrId(),
       top: this._elContainer.getBoundingClientRect().top,
       left: this._elContainer.getBoundingClientRect().left,
-      width: this.sizeObj.width,
-      height: this.sizeObj.height,
-      image: {} as HTMLImageElement
+      width: this._elContainer.getBoundingClientRect().width,
+      height: this._elContainer.getBoundingClientRect().height,
     };
 
     // avoid calls before proper initialization
@@ -1489,26 +1376,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
   }
 
-  // Clear the previous response data, This prevents execution of blocks if the response is same
-  private _clearOldResponseData() {
-    this.oldResponseStatus = '';
-    this.oldResponseId = 0;
-  }
-
   // Function to add background color to bg if false and clears it if true, @param isShowVideoBehind if true, clears background
   private clearBackgroundOfVideoWrapper(isShowVideoBehind: boolean) {
     this._elContainer.style.background = isShowVideoBehind ? 'transparent' : 'black';
-  }
-
-
-  // Delete any elements other than control panel element
-  private resetVideoElement() {
-    const nodeList: NodeList = this._elContainer.childNodes;
-    this.clearBackgroundOfVideoWrapper(true);
-    this._elContainer.style.removeProperty('border-bottom');
-    if (nodeList.length > 1) {
-      this._elContainer.childNodes[1].remove();
-    }
   }
 
   private _manageControls() {
@@ -1521,7 +1391,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     // Check whether the full screen option can be shown
-    this.lastResponseStatus === 'started' ? this._fullScreenIcon.classList.remove('hide') : this._fullScreenIcon.classList.add('hide');
+    if (this.lastResponseStatus === 'started' || (this.lastRequestStatus === 'resize' && this.lastResponseStatus === 'resized')) {
+      this._fullScreenIcon.classList.remove('hide')
+    }
 
     // remove the full screen icon from the ch5-video after 10 seconds
     clearTimeout(this.controlTimer);
@@ -1538,25 +1410,22 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.classList.add('full-screen');
     this._fullScreenIcon.classList.add('hide');
     document.body.classList.add('ch5-video-fullscreen');
-    this.isVideoReady = true;
-    this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.FULLSCREEN);
+    this.publishVideo(CH5VideoUtils.VIDEO_ACTION.FULLSCREEN);
     event.stopPropagation(); // to prevent the ch5-video from triggering click event 
   }
 
   private _exitFullScreen() {
-    this.isVideoReady = true;
     this.isFullScreen = false;
     this.classList.remove('full-screen');
-    this.calculation();
     document.body.classList.remove('ch5-video-fullscreen');
 
     if (this.orientationChanged) {
-      this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL);
-      publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(CH5VideoUtils.VIDEO_ACTION.STOP, this.ch5UId));
+      this.ch5BackgroundRequest('refill');
+      this.publishVideo('stop');
       this.videoIntersectionObserver();
     } else {
-      this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.RESIZE);
-      this.lastResponseStatus = "started";
+      this.publishVideo('resize');
+      setTimeout(() => { this.ch5BackgroundRequest('resize') }, 100); // workaround for CH5C-7463
     }
   }
 
@@ -1566,14 +1435,130 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   private handleMultiVideo() {
-    this.multiVideoSignalName.url = this.getAttribute('receiveStateURL')?.trim() ? this.getAttribute('receiveStateURL')?.trim() + '' : '';
-    this.multiVideoSignalName.userId = this.getAttribute('receiveStateUserId')?.trim() ? this.getAttribute('receiveStateUserId')?.trim() + '' : '';
-    this.multiVideoSignalName.password = this.getAttribute('receiveStatePassword')?.trim() ? this.getAttribute('receiveStatePassword')?.trim() + '' : '';
-    this.multiVideoSignalName.sourceType = this.getAttribute('receiveStateSourceType')?.trim() ? this.getAttribute('receiveStateSourceType')?.trim() + '' : '';
-    this.multiVideoSignalName.snapshotURL = this.getAttribute('receiveStateSnapshotURL')?.trim() ? this.getAttribute('receiveStateSnapshotURL')?.trim() + '' : '';
-    this.multiVideoSignalName.snapshotUserId = this.getAttribute('receiveStateSnapshotUserId')?.trim() ? this.getAttribute('receiveStateSnapshotUserId')?.trim() + '' : '';
-    this.multiVideoSignalName.snapshotPassword = this.getAttribute('receiveStateSnapshotPassword')?.trim() ? this.getAttribute('receiveStateSnapshotPassword')?.trim() + '' : '';
-    this.multiVideoSignalName.snapshotRefreshRate = this.getAttribute('receiveStateSnapshotRefreshRate')?.trim() ? this.getAttribute('receiveStateSnapshotRefreshRate')?.trim() + '' : '';
+    const indexId = this.getAttribute('indexid')?.trim() + '' || this.indexId;
+    for (let i = 0; i < 32; i++) {
+      const url = this.receiveStateURL.replace(`{{${indexId}}}`, i.toString());
+      const userId = this.receiveStateUserId.replace(`{{${indexId}}}`, i.toString());
+      const password = this.receiveStatePassword.replace(`{{${indexId}}}`, i.toString());
+      const sourceType = this.receiveStateSourceType.replace(`{{${indexId}}}`, i.toString());
+      const snapshotURL = this.receiveStateSnapshotURL.replace(`{{${indexId}}}`, i.toString());
+      const snapshotUserId = this.receiveStateSnapshotUserId.replace(`{{${indexId}}}`, i.toString());
+      const snapshotPassword = this.receiveStateSnapshotPassword.replace(`{{${indexId}}}`, i.toString());
+      const snapshotRefreshRate = this.receiveStateSnapshotRefreshRate.replace(`{{${indexId}}}`, i.toString());
+      this.signalHolder.push({
+        url: { signalState: "", url, value: null },
+        userId: { signalState: "", userId, value: null },
+        password: { signalState: "", password, value: null },
+        sourceType: { signalState: "", sourceType, value: null },
+        snapshotURL: { signalState: "", snapshotURL, value: null },
+        snapshotUserId: { signalState: "", snapshotUserId, value: null },
+        snapshotPassword: { signalState: "", snapshotPassword, value: null },
+        snapshotRefreshRate: { signalState: "", snapshotRefreshRate, value: null }
+      });
+      if (url) {
+        const urlSignalResponse = this.setSignalByString(url);
+        if (!_.isNil(urlSignalResponse)) {
+          this.signalHolder[i].url.signalState = urlSignalResponse.subscribe((newValue: string) => {
+            this.signalHolder[i].url.value = newValue;
+            if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) { this.urlCB(newValue); }
+          });
+        }
+      }
+
+      if (userId) {
+        const userIdSignalResponse = this.setSignalByString(userId);
+        if (!_.isNil(userIdSignalResponse)) {
+          this.signalHolder[i].userId.signalState = userIdSignalResponse.subscribe((newValue: string) => {
+            this.signalHolder[i].userId.value = newValue;
+            if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) { this.userIdCB(newValue); }
+          });
+        }
+      }
+
+      if (password) {
+        const passwordSignalResponse = this.setSignalByString(password);
+        if (!_.isNil(passwordSignalResponse)) {
+          this.signalHolder[i].password.signalState = passwordSignalResponse.subscribe((newValue: string) => {
+            this.signalHolder[i].password.value = newValue;
+            if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) { this.passwordCB(newValue); }
+
+          });
+        }
+      }
+
+      if (sourceType) {
+        const sourceTypeSignalResponse = this.setSignalByString(sourceType);
+        if (!_.isNil(sourceTypeSignalResponse)) {
+          this.signalHolder[i].sourceType.signalState = sourceTypeSignalResponse.subscribe((newValue: string) => {
+            this.signalHolder[i].sourceType.value = newValue;
+            if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) { this.sourceTypeCB(newValue); }
+          });
+        }
+      }
+
+      if (snapshotURL) {
+        const snapshotURLSignalResponse = this.setSignalByString(snapshotURL);
+        if (!_.isNil(snapshotURLSignalResponse)) {
+          this.signalHolder[i].snapshotURL.signalState = snapshotURLSignalResponse.subscribe((newValue: string) => {
+            this.signalHolder[i].snapshotURL.value = newValue;
+            if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) { this.snapshotURLCB(newValue); }
+          });
+        }
+      }
+      if (snapshotUserId) {
+        const snapshotUserIdSignalResponse = this.setSignalByString(snapshotUserId);
+        if (!_.isNil(snapshotUserIdSignalResponse)) {
+          this.signalHolder[i].snapshotUserId.signalState = snapshotUserIdSignalResponse.subscribe((newValue: string) => {
+            this.signalHolder[i].snapshotUserId.value = newValue;
+            if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) { this.snapshotUserIdCB(newValue); }
+          });
+        }
+      }
+
+      if (snapshotPassword) {
+        const snapshotPasswordSignalResponse = this.setSignalByString(snapshotPassword);
+        if (!_.isNil(snapshotPasswordSignalResponse)) {
+          this.signalHolder[i].snapshotPassword.signalState = snapshotPasswordSignalResponse.subscribe((newValue: string) => {
+            this.signalHolder[i].snapshotPassword.value = newValue;
+            if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) { this.snapshotPasswordCB(newValue); }
+          });
+        }
+      }
+
+      if (snapshotRefreshRate) {
+        const snapshotRefreshRateSignalResponse = this.setSignalByNumber(snapshotRefreshRate);
+        if (!_.isNil(snapshotRefreshRateSignalResponse)) {
+          this.signalHolder[i].snapshotRefreshRate.signalState = snapshotRefreshRateSignalResponse.subscribe((newValue: number) => {
+            this.signalHolder[i].snapshotRefreshRate.value = newValue;
+            if (this.selectedVideo === i && this.maxVideoCount > this.selectedVideo) { this.snapshotRefreshRateCB(newValue); }
+          });
+        }
+      }
+    }
+  }
+
+  public setSignalByNumber(value: string): Ch5Signal<number> | null {
+    // setup new subscription.
+    const receiveLabelSigName: string = Ch5Signal.getSubscriptionSignalName(value);
+    const receiveSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(receiveLabelSigName);
+
+    if (receiveSignal === null) {
+      return null;
+    }
+    return receiveSignal;
+  }
+
+
+  private setSignalByString(value: string): Ch5Signal<string> | null {
+    // setup new subscription.
+    const receiveLabelSigName: string = Ch5Signal.getSubscriptionSignalName(value);
+    const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(receiveLabelSigName);
+
+    if (receiveSignal === null) {
+      return null;
+    }
+    return receiveSignal;
+
   }
 
   private addTouchEvent() {
@@ -1599,7 +1584,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   // Function to handle touch start event
   private touchBeginHandler() {
-    const boundedRect = this.getBoundingClientRect();
+    const boundedRect = this._elContainer.getBoundingClientRect();
     this.touchCoordinates.startX = boundedRect.left;
     this.touchCoordinates.startY = boundedRect.top;
     this.isTouchInProgress = false;
@@ -1608,7 +1593,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   // Function to check if the touch swipe has stopped and video finally is a static position
   private touchMoveHandler() {
     if (!this.isTouchInProgress) {
-      const boundedRect = this.getBoundingClientRect();
+      const boundedRect = this._elContainer.getBoundingClientRect();
       this.touchCoordinates.endX = boundedRect.left;
       this.touchCoordinates.endY = boundedRect.top;
       if (Math.abs(this.touchCoordinates.startX - this.touchCoordinates.endX) > this.swipeDeltaCheckNum ||
@@ -1617,40 +1602,34 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         // Adding stop over here
         this.clearBackgroundOfVideoWrapper(false);
         this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.STOP);
-        this._publishVideoEvent(CH5VideoUtils.VIDEO_ACTION.STOP);
+        this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
       }
     }
   }
 
   // Function to manage video play/stop based on the position on touch end or cancel
   private touchEndHandler() {
-    if (this.isTouchInProgress) {
-      setTimeout(() => {
-        this.clearBackgroundOfVideoWrapper(true);
-        this.videoIntersectionObserver();
-      }, 100);
-    }
-    this.isTouchInProgress = false;
+    this.isTouchInProgress ? setTimeout(() => this.videoIntersectionObserver(), 100) : this.isTouchInProgress = false;
   }
 
   private validateAndAttachSnapshot() {
-    if (this.snapshotURL.trim() !== '' && this.url !== '') {
+    if (this.snapshotURL.trim() === '') {
+      this.sendEvent(this.sendEventSnapshotStatus, 0)
+    } else if (this.snapshotURL.trim() !== '' && this.url !== '') {
       this.snapshotImage.url = this.snapshotURL;
       this.snapshotImage.userId = this.snapshotUserId;
       this.snapshotImage.password = this.snapshotPassword;
       this.snapshotImage.refreshRate = this.snapshotRefreshRate;
       this.snapshotImage.sendEventSnapshotStatus = this.sendEventSnapshotStatus;
       this.snapshotImage.sendEventSnapshotLastUpdateTime = this.sendEventSnapshotLastUpdateTime;
-      if (this.lastResponseStatus !== CH5VideoUtils.VIDEO_ACTION.STARTED) {
+      if (this.lastResponseStatus !== 'started') {
+        if (this.playValue === true) {
+          this.snapshotImage.startLoadingSnapshot();
+        }
         if (this.snapshotImage.getImage().isConnected === false) {
           this._elContainer.appendChild(this.snapshotImage.getImage());
         }
       }
-    } else if (this.snapshotURL.trim() === '') {
-      this.sendEvent(this.sendEventSnapshotStatus, 0)
-    }
-    if (this.url === '') {
-      this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.NOURL);
     }
   }
 
@@ -1665,35 +1644,144 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   private handleOrientation = () => {
-    if (this.isFullScreen === true) {
+    if (this.isFullScreen) {
       this.orientationChanged = true;
-      publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(CH5VideoUtils.VIDEO_ACTION.FULLSCREEN));
+      this.publishVideo('fullscreen')
+    } else {
+      if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE && this.playValue && this.show) {
+        // Below fix is for CH5C-6943 as a work-around. If firmware fixes it, the same can be removed.
+        setTimeout(() => {
+          this.publishVideo('resize');
+          setTimeout(() => { this.ch5BackgroundRequest('resize'); }, 30);
+        }, 70)
+      }
     }
-    else {
-      this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.REFILL);
-      publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(CH5VideoUtils.VIDEO_ACTION.STOP, this.ch5UId));
+  }
+
+  private checkUrl() {
+    if (this.url === '') {
+      this.ch5BackgroundRequest('nourl');
+      this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
+    } else if (this.validateVideoUrl(this.url) === false) {
+      this.sendEvent(this.sendEventErrorMessage, 'Invalid URL');
+      this.sendEvent(this.sendEventErrorCode, -9002);
+      this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.ERROR);
+      this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
+    } else {
       this.videoIntersectionObserver();
     }
   }
 
+  private refillBackground() {
+    this.shellCh5Background?.refillBackground();
+    if (this.shellCh5Background !== this.parentCh5Background) {
+      this.parentCh5Background?.refillBackground();
+    }
+  }
+
   private setErrorMessages() {
-    this.videoErrorMessages.set(1, "Miscellaneous transient issue");
-    this.videoErrorMessages.set(2, "Connection timeout");
-    this.videoErrorMessages.set(3, "No input sync");
-    this.videoErrorMessages.set(-1, "Miscellaneous error");
-    this.videoErrorMessages.set(-2, "Hostname could not be resolved");
-    this.videoErrorMessages.set(-3, "Unsupported source type for this platform");
-    this.videoErrorMessages.set(-4, "Connection timeout");
-    this.videoErrorMessages.set(-5, "Invalid credentials");
-    this.videoErrorMessages.set(-6, "Unsupported streaming protocol");
-    this.videoErrorMessages.set(-7, "Unsupported codec");
-    this.videoErrorMessages.set(-1001, "Credentials required");
+    this.videoErrorMessages.set(0, "success");
+    // this.videoErrorMessages.set(1, "HDMI no sync");
+    // this.videoErrorMessages.set(2, "DM no stream");
+    // this.videoErrorMessages.set(3, "No input sync");
+    this.videoErrorMessages.set(-1, "connection refused / camera offline");
+    this.videoErrorMessages.set(-2, "no network");
+    // this.videoErrorMessages.set(-3, "Unsupported source type for this platform");
+    // this.videoErrorMessages.set(-4, "Connection timeout");
+    // this.videoErrorMessages.set(-5, "Invalid credentials");
+    // this.videoErrorMessages.set(-6, "Unsupported streaming protocol");
+    // this.videoErrorMessages.set(-7, "Unsupported codec");
+    this.videoErrorMessages.set(-1001, "Credentials required or invalid");
     this.videoErrorMessages.set(-1002, "Hostname invalid");
     this.videoErrorMessages.set(-1003, "Unsupported codec");
     this.videoErrorMessages.set(-9001, "Unsupported source type");
     this.videoErrorMessages.set(-9002, "Invalid URL");
     this.videoErrorMessages.set(-9003, "Request for greater than maximum simultaneous sessions per source type");
     this.videoErrorMessages.set(-9004, "Request for greater than maximum simultaneous sessions per device");
+    this.videoErrorMessages.set(-9007, "Unknown Error Message");
+  }
+
+  private urlCB(newValue: string) {
+    this._ch5Properties.setForSignalResponse<string>("url", newValue, () => {
+      this.sendEvent(this.sendEventSelectionURL, this.url);
+      this.checkUrl();
+    });
+  }
+
+  private userIdCB(newValue: string) {
+    this._ch5Properties.setForSignalResponse<string>("userId", newValue, () => {
+      this.videoIntersectionObserver();
+    });
+  }
+
+  private passwordCB(newValue: string) {
+    this._ch5Properties.setForSignalResponse<string>("password", newValue, () => {
+      this.videoIntersectionObserver();
+    });
+  }
+
+  private sourceTypeCB(newValue: string) {
+    this._ch5Properties.setForSignalResponse<string>("sourceType", newValue, () => {
+      this.sendEvent(this.sendEventSelectionSourceType, this.sourceType);
+      this.videoIntersectionObserver();
+    });
+  }
+
+  private snapshotURLCB(newValue: string) {
+    this._ch5Properties.setForSignalResponse<string>("snapshotURL", newValue, () => {
+      this.sendEvent(this.sendEventSnapshotURL, this.snapshotURL);
+      this.validateAndAttachSnapshot();
+    });
+  }
+
+  private snapshotUserIdCB(newValue: string) {
+    this._ch5Properties.setForSignalResponse<string>("snapshotUserId", newValue, () => {
+      this.validateAndAttachSnapshot();
+    });
+  }
+
+  private snapshotPasswordCB(newValue: string) {
+    this._ch5Properties.setForSignalResponse<string>("snapshotPassword", newValue, () => {
+      this.validateAndAttachSnapshot();
+    });
+  }
+
+  private snapshotRefreshRateCB(newValue: number) {
+    this._ch5Properties.setForSignalResponse<number>("snapshotRefreshRate", newValue, () => {
+      this.validateAndAttachSnapshot();
+    });
+  }
+
+  private clearOldSubscriptionNumber(signalValue: string, signalState: string) {
+    // clean up old subscription
+    const oldReceiveStateSigName: string = Ch5Signal.getSubscriptionSignalName(signalValue);
+    const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(oldReceiveStateSigName);
+
+    if (oldSignal !== null) {
+      oldSignal.unsubscribe(signalState as string);
+    }
+  }
+  private clearOldSubscriptionString(signalValue: string, signalState: string) {
+    // clean up old subscription
+    const oldReceiveStateSigName: string = Ch5Signal.getSubscriptionSignalName(signalValue);
+    const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(oldReceiveStateSigName);
+
+    if (oldSignal !== null) {
+      oldSignal.unsubscribe(signalState as string);
+    }
+  }
+
+  private clearMultiSignal() {
+    this.signalHolder.forEach((obj: any) => {
+      this.clearOldSubscriptionString(obj.url.signalValue, obj.url.signalState);
+      this.clearOldSubscriptionString(obj.userId.signalValue, obj.userId.signalState);
+      this.clearOldSubscriptionString(obj.password.signalValue, obj.password.signalState);
+      this.clearOldSubscriptionString(obj.sourceType.signalValue, obj.sourceType.signalState);
+      this.clearOldSubscriptionString(obj.snapshotURL.signalValue, obj.snapshotURL.signalState);
+      this.clearOldSubscriptionString(obj.snapshotUserId.signalValue, obj.snapshotUserId.signalState);
+      this.clearOldSubscriptionString(obj.snapshotPassword.signalValue, obj.snapshotPassword.signalState);
+      this.clearOldSubscriptionNumber(obj.snapshotRefreshRate.signalValue, obj.snapshotRefreshRate.signalState);
+    });
   }
   // #endregion
 

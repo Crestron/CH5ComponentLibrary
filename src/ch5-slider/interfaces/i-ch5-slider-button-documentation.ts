@@ -1,4 +1,3 @@
-import { ICh5Common } from "../../_interfaces";
 import { ICh5SliderButtonAttributes } from "./i-ch5-slider-button-attributes";
 
 /**
@@ -50,7 +49,14 @@ import { ICh5SliderButtonAttributes } from "./i-ch5-slider-button-attributes";
  *       "\tsendEventOnClick=\"${6:}\"",
  *       "\treceiveStateLabel=\"${7:}\"",
  *       "\treceiveStateIconClass=\"${8:}\"",
- *       "\treceiveStateIconUrl=\"${9:}\">",
+ *       "\tselected=\"${9:}\"",
+ *       "\tpressed=\"${10:}\"",
+ *       "\tshape=\"${11|rounded-rectangle,rectangle,tab,circle,oval|}\"",
+ *       "\ttype=\"${12|default,primary,info,text,danger,warning,success,secondary|}\"",
+ *       "\thalignlabel=\"${13|center,left,right|}\"",
+ *       "\tvalignlabel=\"${14|middle,top,bottom|}\"",
+ *       "\tlabelInnerHtml=\"${15:}\"",
+ *       "\treceiveStateIconUrl=\"${16:}\">",
  *       "</ch5-slider-button>$0"
  *       ]
  *    },

@@ -6,13 +6,12 @@
 // under which you licensed this source code.
 
 export interface ICh5VideoBackground {
-  action: string;
-  id: string;
-  top: number;
-  left: number;
-  width: number;
-  height: number;
-  image?: HTMLImageElement;
+    action: string;
+    id: string;
+    top: number;
+    left: number;
+    width: number;
+    height: number;
 }
 
 export interface ICh5VideoPublishEvent {
@@ -61,7 +60,7 @@ export type TVideoResponse = {
     currenttime: number;
     id: number;
     status: string;
-    statusCode: number;
+    statuscode: number;
     location: TVideoLocationResponse;
 }
 

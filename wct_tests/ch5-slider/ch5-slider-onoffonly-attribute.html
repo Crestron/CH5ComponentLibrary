@@ -53,7 +53,7 @@
       test("Check if Slider has adv-slider class", (done) => {
         flush(() => {
           setTimeout(() => {
-            expect(ch5Slider.lastChild.classList.contains('adv-slider')).to.be.equal(true);
+            expect(ch5Slider.lastChild.classList.contains('ch5-advanced-slider-container')).to.be.equal(true);
             done();
           }, 100);
         });
@@ -67,7 +67,10 @@
           ch5Slider.setAttribute('onoffonly', ele);
           flush(() => {
             setTimeout(() => {
+              const UITargetElementForSlider = document.querySelector('.ch5-slider .noUi-target');
+              const classNameToHideElement = 'ch5-hide-vis';
               expect(ch5Slider.onOffOnly).to.be.equal(expectedOutput[i]);
+              expect(UITargetElementForSlider.classList.contains(classNameToHideElement)).to.be.equal(expectedOutput[i]);
               done();
             }, 100);
           });

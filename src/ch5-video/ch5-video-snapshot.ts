@@ -47,13 +47,30 @@ export class Ch5VideoSnapshot {
 	}
 
 	public stopLoadingSnapshot() {
+		this.videoImage.removeAttribute('src');
 		window.clearInterval(this.snapshotTimer as number);
 		this.snapshotTimer = null;
 		this.videoImage.classList.add('hide');
 	}
 
+	private splitUrl(): boolean {
+		const credentials = this.url.split('@')[0].split('//')[1];
+		if (credentials.includes(':') === false) {
+			console.warn("Please use valid url format");
+			return false;
+		}
+		const protocol = this.url.split('@')[0].split('//')[0];
+		this.userId = credentials.split(':')[0];
+		this.password = credentials.split(':')[1];
+		this.url = protocol + '//' + this.url.split('@')[1];
+		return true;
+	}
+
 	private canProcessUri(): boolean {
 		if (_.isEmpty(this.password) || _.isEmpty(this.userId) || _.isEmpty(this.url)) {
+			if (this.url.includes('@')) {
+				return this.splitUrl();
+			}
 			return false;
 		}
 		return true;
@@ -91,7 +108,7 @@ export class Ch5VideoSnapshot {
 				Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventSnapshotStatus)?.publish(1);
 			}
 		};
-		this.videoImage.src = this.url + '#' + (new Date().getTime() / 1000.0); // epoch time
+		this.videoImage.src = this.url + '#' + (new Date().toISOString()); // epoch time
 		if (this.sendEventSnapshotLastUpdateTime !== null && this.sendEventSnapshotLastUpdateTime !== undefined && this.sendEventSnapshotLastUpdateTime !== "") {
 			Ch5SignalFactory.getInstance().getStringSignal(this.sendEventSnapshotLastUpdateTime)?.publish(this.videoImage.src);
 		}

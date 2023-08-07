@@ -1,7 +1,10 @@
 import { Ch5Button } from "../ch5-button/ch5-button";
 import { Ch5ButtonLabel } from "../ch5-button/ch5-button-label";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
-import { TCh5TabButtonButtonType, TCh5TabButtonButtonHAlignLabel, TCh5TabButtonButtonVAlignLabel, TCh5TabButtonButtonShape, TCh5TabButtonButtonIconPosition, TCh5TabButtonAttributesOrientation } from "./interfaces/t-ch5-tab-button";
+import {
+  TCh5TabButtonButtonType, TCh5TabButtonButtonHAlignLabel, TCh5TabButtonButtonVAlignLabel, TCh5TabButtonButtonShape,
+  TCh5TabButtonButtonIconPosition, TCh5TabButtonAttributesOrientation, TCh5TabButtonButtonIconUrlFillType
+} from "./interfaces/t-ch5-tab-button";
 import { ICh5ButtonListContractObj } from "./interfaces/t-for-ch5-button-list-contract"
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
@@ -22,6 +25,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
   public static readonly BUTTON_SHAPES: TCh5TabButtonButtonShape[] = ['rectangle', 'rounded-rectangle', 'tab'];
   public static readonly BUTTON_ICON_POSITIONS: TCh5TabButtonButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
   public static readonly ORIENTATION: TCh5TabButtonAttributesOrientation[] = ['horizontal', 'vertical'];
+  public static readonly BUTTON_ICON_URL_FILL_TYPE: TCh5TabButtonButtonIconUrlFillType[] = ['stretch', 'stretch-aspect', 'center', 'tile', 'initial'];
 
   public static COMPONENT_DATA: any = {
     ORIENTATION: {
@@ -65,7 +69,14 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
       key: 'buttonShape',
       attribute: 'buttonShape',
       classListPrefix: '--button-shape-'
-    }
+    },
+    BUTTON_ICON_URL_FILL_TYPE: {
+      default: Ch5TabButton.BUTTON_ICON_URL_FILL_TYPE[0],
+      values: Ch5TabButton.BUTTON_ICON_URL_FILL_TYPE,
+      key: 'buttonIconUrlFillType',
+      attribute: 'buttonIconUrlFillType',
+      classListPrefix: '--button-icon-url-fill-type-'
+    },
   };
 
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
@@ -105,6 +116,16 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
       type: "enum",
       valueOnAttributeEmpty: Ch5TabButton.ORIENTATION[0],
       isObservableProperty: true,
+    },
+    {
+      default: null,
+      enumeratedValues: Ch5TabButton.BUTTON_ICON_URL_FILL_TYPE,
+      name: "buttonIconUrlFillType",
+      removeAttributeOnNull: true,
+      type: "enum",
+      valueOnAttributeEmpty: null,
+      isObservableProperty: true,
+      isNullable: true
     },
     {
       default: Ch5TabButton.BUTTON_TYPES[0],
@@ -324,6 +345,15 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
   }
   public get buttonType(): TCh5TabButtonButtonType {
     return this._ch5Properties.get<TCh5TabButtonButtonType>("buttonType");
+  }
+
+  public set buttonIconUrlFillType(value: TCh5TabButtonButtonIconUrlFillType | null) {
+    this._ch5Properties.set<TCh5TabButtonButtonIconUrlFillType | null>("buttonIconUrlFillType", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get buttonIconUrlFillType(): TCh5TabButtonButtonIconUrlFillType | null {
+    return this._ch5Properties.get<TCh5TabButtonButtonIconUrlFillType | null>("buttonIconUrlFillType");
   }
 
   public set buttonHAlignLabel(value: TCh5TabButtonButtonHAlignLabel) {

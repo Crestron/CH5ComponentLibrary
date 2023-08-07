@@ -85,8 +85,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	private _isVisible: boolean = false;
 	private _videoDimensions: ICh5VideoBackground[] = [];
 	private _isRefilled: boolean = true;
-	private lastRefillTime: number = 100;
-	private videoSnapShot: HTMLImageElement = {} as HTMLImageElement;
 	private isInitialized: boolean = false;
 
 	private readonly VIDEO_ACTION = {
@@ -557,14 +555,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	}
 
 	/**
-	 * To avoid the multiple refills within 100 milliseconds
-	 * @param lastRefillTime
-	 */
-	private isTimeToRefill(lastRefillTime: number) {
-		return performance.now() - lastRefillTime > 500 ? true : false;
-	}
-
-	/**
 	 * Identifies whether the passed element is in viewport or not
 	 * @param elId
 	 * @returns {boolean} return true or false
@@ -597,7 +587,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 
 		if (request && Object.keys(request).length) {
 			const tempObj: ICh5VideoBackground = Object.assign({}, request);
-			delete tempObj.image;
 
 			this.setAttribute('videocrop', JSON.stringify(tempObj));
 
@@ -619,20 +608,13 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 			*/
 
 			if (request.action === this.VIDEO_ACTION.REFILL && !this._isRefilled) {
-				if (this.isTimeToRefill(this.lastRefillTime)) {
-					if (!this.isInViewport(request.id)) {
-						this.refillBackground();
-					}
+				if (!this.isInViewport(request.id)) {
+					this.refillBackground();
 				}
 			} else if (request.action === this.VIDEO_ACTION.STOP) {
 				this.manageVideoInfo(request);
 			} else if (request.action === this.VIDEO_ACTION.STARTED) {
 				this.manageVideoInfo(request);
-				if (request.action === this.VIDEO_ACTION.SNAPSHOT) {
-					if (request.image) {
-						this.videoSnapShot = request.image;
-					}
-				}
 				this.videoBGAction();
 			} else if (request.action === this.VIDEO_ACTION.RESIZE) {
 				this.manageVideoInfo(request);
@@ -1273,7 +1255,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	/**
 	 * Re-filling background
 	 */
-	private refillBackground() {
+	public refillBackground() {
 		if (this.isCanvasListValid()) {
 			this._canvasList.forEach((canvas: HTMLCanvasElement, idx: number) => {
 				const ctx: any = canvas.getContext('2d');
@@ -1288,7 +1270,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 				}
 				this._isRefilled = true;
 			});
-			this.lastRefillTime = performance.now();
 		}
 	}
 
@@ -1342,11 +1323,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 									}
 									ctx.stroke();
 									this._isRefilled = false;
-								} else if (video.action === this.VIDEO_ACTION.SNAPSHOT) { // draw snapshot
-									if (this.videoSnapShot) {
-										ctx.drawImage(this.videoSnapShot, video.left, video.top, video.width, video.height);
-										this._isRefilled = false;
-									}
 								}
 							});
 						}

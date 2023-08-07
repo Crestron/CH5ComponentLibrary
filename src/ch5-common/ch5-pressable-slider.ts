@@ -5,12 +5,10 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { Ch5Common } from '../ch5-common/ch5-common';
 import { Subscription } from 'rxjs';
 import 'hammerjs';
 import { Subject } from 'rxjs';
 import _ from 'lodash';
-import { isIosDevice } from '../ch5-core';
 
 export interface ICh5PressableOptions {
 	cssTargetElement: HTMLElement;
@@ -26,7 +24,7 @@ enum Ch5PressableFingerStateMode {
 	FingerDown
 }
 
-export class Ch5Pressable {
+export class Ch5PressableSlider {
 
 	/**
 	 * This class provides variables to be accessed between 
@@ -73,9 +71,9 @@ export class Ch5Pressable {
 		}
 	}
 
-	private _fingerState = new Ch5Pressable.FingerState();
+	private _fingerState = new Ch5PressableSlider.FingerState();
 
-	private _ch5Component: Ch5Common;
+	private _ch5Component: HTMLElement;
 
 	private _options: ICh5PressableOptions | null;
 
@@ -98,11 +96,6 @@ export class Ch5Pressable {
 	 * Reflects the touchend state of the component.
 	 */
 	private _touchEnd: boolean = false;
-
-	/**
-	 * Reflects the touch of IOS.
-	 */
-	private _touchIos: boolean = false;
 
 	/**
 	 * Reflects the pressed state of the component
@@ -135,7 +128,7 @@ export class Ch5Pressable {
 	 * An RxJs observable for the gestureable property.
 	 * Other classes can subscribe to this and be notified when the gestureable property changes.
 	 */
-	public observablePressed: Subject<boolean>;
+	public observablePressed: Subject<any>;
 
 	private readonly TOUCH_TIMEOUT: number = 250; // Repeat Digital is triggered after 250 ms of press and hold.
 	private readonly PRESS_MOVE_THRESHOLD: number = 10;
@@ -143,13 +136,14 @@ export class Ch5Pressable {
 
 	private isTouch: boolean = false;
 	private isMouse: boolean = false;
+	private sliderValue: string = '';
 
 	/**
 	 * Creates an instance of Ch5Pressable.
 	 * @param {Ch5Common} component
 	 * @memberof Ch5Pressable
 	 */
-	constructor(component: Ch5Common, options?: ICh5PressableOptions) {
+	constructor(component: HTMLElement, options?: ICh5PressableOptions) {
 		this._ch5Component = component;
 		this._options = options || null;
 		this.observablePressed = new Subject<boolean>();
@@ -181,7 +175,7 @@ export class Ch5Pressable {
 		this._onMouseMove = this._onMouseMove.bind(this);
 	}
 
-	public get ch5Component(): Ch5Common {
+	public get ch5Component(): HTMLElement {
 		return this._ch5Component;
 	}
 
@@ -301,16 +295,7 @@ export class Ch5Pressable {
 	 * @memberof Ch5Pressable
 	 */
 	private _subscribeToGestureableProp() {
-		if (this._gestureableSubscription === null) {
-			this._gestureableSubscription =
-				this._ch5Component.observableGestureableProperty.subscribe((value: boolean) => {
-					if (value) {
-						this._attachEventsFromHammer();
-					} else {
-						this._removeEventsFromHammer();
-					}
-				});
-		}
+		this._attachEventsFromHammer();
 	}
 
 	/**
@@ -366,7 +351,7 @@ export class Ch5Pressable {
 		this._touchEnd = false;
 	}
 
-	private _onMouseDown(inEvent: Event): void {
+	private _onMouseDown(inEvent: MouseEvent): void {
 		// ignore mousedown if touchstart
 		if (this._touchStart) { return }
 		if (this.isTouch) { return }
@@ -374,11 +359,23 @@ export class Ch5Pressable {
 		this.isMouse = true;
 		this.isTouch = false;
 		const mouseEvent: MouseEvent = inEvent as MouseEvent;
+		const clientX = inEvent.clientX;
+		const clientY = inEvent.clientY;
+		const { left, width, height, top } = this._ch5Component.getBoundingClientRect();
+		const value = width > height ? (clientX - left) / width : (1 - (clientY - top) / height);
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Idle) {
 			this._fingerState.mode = Ch5PressableFingerStateMode.Start;
 			this._fingerState.touchHoldTimer = window.setTimeout(this._onTouchHoldTimer, this.pressDelayTime);
 			this._fingerState.touchStartLocationX = mouseEvent.clientX;
 			this._fingerState.touchStartLocationY = mouseEvent.clientY;
+		}
+		// handling the upper and lower click on advanced slider
+		if (value <= 0.25) {
+			this.sliderValue = 'lower';
+		} else if (value >= 0.75) {
+			this.sliderValue = 'upper';
+		} else {
+			this.sliderValue = '';
 		}
 	}
 
@@ -395,9 +392,9 @@ export class Ch5Pressable {
 				const xMoveDistance = mouseEvent.clientX - this._fingerState.touchStartLocationX;
 				const yMoveDistance = mouseEvent.clientY - this._fingerState.touchStartLocationY;
 				const distanceMoved = Math.sqrt(xMoveDistance ** 2 + yMoveDistance ** 2);
-				this._ch5Component.info(`DELETE ME Ch5Pressable.onMouseMove() , ${mouseEvent.clientX}, ${mouseEvent.clientY}, ${distanceMoved}`);
+				// this._ch5Component.info(`DELETE ME Ch5Pressable.onMouseMove() , ${mouseEvent.clientX}, ${mouseEvent.clientY}, ${distanceMoved}`);
 				if (distanceMoved > this.clickDelayMoveDistance) {
-					this._ch5Component.info(`Ch5Pressable.onMouseMove() cancelling press, ${mouseEvent.clientX}, ${mouseEvent.clientY}, ${distanceMoved}`);
+					// this._ch5Component.info(`Ch5Pressable.onMouseMove() cancelling press, ${mouseEvent.clientX}, ${mouseEvent.clientY}, ${distanceMoved}`);
 					this._touchStart = false;
 					this._fingerState.reset();
 				}
@@ -406,6 +403,10 @@ export class Ch5Pressable {
 	}
 
 	private _onMouseUp(inEvent: Event): void {
+		if (this._pressed === true) {
+			this._onRelease();
+		}
+
 		if (this.isTouch) {
 			return;
 		}
@@ -422,9 +423,7 @@ export class Ch5Pressable {
 			}
 
 			if (this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
-				if (!this._ch5Component.gestureable) {
-					this._onRelease();
-				}
+				this._onRelease();
 			}
 			this._fingerState.reset();
 		}
@@ -432,6 +431,7 @@ export class Ch5Pressable {
 	}
 
 	private _onMouseLeave(inEvent: Event): void {
+
 		if (this.isTouch) {
 			return;
 		}
@@ -448,39 +448,24 @@ export class Ch5Pressable {
 			}
 
 			if (this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
-				if (!this._ch5Component.gestureable) {
-					this._onRelease();
-				}
+				this._onRelease();
 			}
 			this._fingerState.reset();
 		}
+
 	}
 
-	private _onTouchStart(inEvent: Event): void {
-		if (this.isMouse) {
-			return;
-		}
-
-		if (isIosDevice()) {
-			if (this._touchIos === true) {
-				return;
-			}
-			this._touchIos = true;
-		}
-
-		this.isTouch = true;
-		this.isMouse = false;
-
-		this._touchStart = true;
-		const touchEvent: TouchEvent = inEvent as TouchEvent;
-		const touch: Touch = touchEvent.changedTouches[0];
-		// this._ch5Component.info(`Ch5Pressable._onTouchStart(), ${touch.clientX}, ${touch.clientY}, ${touch.identifier}`);
-		if (this._fingerState.mode === Ch5PressableFingerStateMode.Idle) {
-			this._fingerState.mode = Ch5PressableFingerStateMode.Start;
-			this._fingerState.touchHoldTimer = window.setTimeout(this._onTouchHoldTimer, this.pressDelayTime);
-			this._fingerState.touchStartLocationX = touch.clientX;
-			this._fingerState.touchStartLocationY = touch.clientY;
-			this._fingerState.touchPointId = touch.identifier;
+	private _onTouchStart(inEvent: TouchEvent): void {
+		const clientX = inEvent.touches[0].clientX;
+		const clientY = inEvent.touches[0].clientY;
+		const { left, width, height, top } = this._ch5Component.getBoundingClientRect();
+		const value = width > height ? (clientX - left) / width : (1 - (clientY - top) / height);
+		if (value <= 0.25) {
+			this.sliderValue = 'lower';
+		} else if (value >= 0.75) {
+			this.sliderValue = 'upper';
+		} else {
+			this.sliderValue = '';
 		}
 	}
 
@@ -499,13 +484,11 @@ export class Ch5Pressable {
 				const xMoveDistance = touch.clientX - this._fingerState.touchStartLocationX;
 				const yMoveDistance = touch.clientY - this._fingerState.touchStartLocationY;
 				const distanceMoved = Math.sqrt(xMoveDistance ** 2 + yMoveDistance ** 2);
-				this._ch5Component.info(`DELETE ME Ch5Pressable._onTouchMove() , ${touch.clientX}, ${touch.clientY}, ${touch.identifier}, ${distanceMoved}`);
+				// this._ch5Component.info(`DELETE ME Ch5Pressable._onTouchMove() , ${touch.clientX}, ${touch.clientY}, ${touch.identifier}, ${distanceMoved}`);
 				if (distanceMoved > this.pressDelayMoveDistance) {
-					if (isIosDevice()) {
-						if (this._touchIos === true) {
-							this._onTouchEnd(inEvent);
-						}
-					}
+					// this._ch5Component.info(`Ch5Pressable._onTouchMove() cancelling press, ${touch.clientX}, ${touch.clientY}, ${touch.identifier}, ${distanceMoved}`);
+					this._touchStart = false;
+					this._fingerState.reset();
 				}
 			}
 		}
@@ -519,9 +502,9 @@ export class Ch5Pressable {
 
 	private _fingerIsDownActions() {
 		this._fingerState.mode = Ch5PressableFingerStateMode.FingerDown;
-		if (!this._ch5Component.gestureable) {
-			this._onHold();
-		}
+		// if (!this._ch5Component.gestureable) {
+		this._onHold();
+		// }
 		if (this._fingerState.touchHoldTimer !== null) {
 			window.clearTimeout(this._fingerState.touchHoldTimer);
 			this._fingerState.touchHoldTimer = null;
@@ -529,10 +512,13 @@ export class Ch5Pressable {
 	}
 
 	private _onTouchEnd(inEvent: Event): void {
+		if (this._pressed) {
+			this._onRelease();
+		}
+
 		if (this.isMouse) {
 			return;
 		}
-
 		const touchEvent: TouchEvent = inEvent as TouchEvent;
 		const touch: Touch | null = this._fingerState.getTouchFromTouchList(touchEvent);
 		if (touch !== null) {
@@ -546,16 +532,13 @@ export class Ch5Pressable {
 			}
 
 			if (this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
-				if (!this._ch5Component.gestureable) {
-					this._onRelease();
-				}
+				this._onRelease();
 			}
 			this._fingerState.reset();
 		}
 	}
 
 	private _onTouchCancel(inEvent: Event): void {
-		this._ch5Component.info('Ch5Pressable._onCancel()');
 		this._onTouchEnd(inEvent);
 	}
 
@@ -568,14 +551,16 @@ export class Ch5Pressable {
 	 * @memberof Ch5Pressable
 	 */
 	private _onHold() {
-		this._ch5Component.info(`Ch5Pressable._onHold() alreadyPressed:${this._pressed}`);
+		// this._ch5Component.info(`Ch5Pressable._onHold() alreadyPressed:${this._pressed}`);
 		if (!this._pressed) {
 			// add the visual feedback
 			this._addCssPressClass();
 
 			this._pressed = true;
 			this._released = false;
-			this.observablePressed.next(this._pressed);
+			if (this.sliderValue !== '') {
+				this.observablePressed.next({ pressed: this._pressed, range: this.sliderValue });
+			}
 			// update state of the button and tell the button the state
 			this._ch5Component.setAttribute("pressed", "true");
 
@@ -607,24 +592,19 @@ export class Ch5Pressable {
 	 * @memberof Ch5Pressable
 	 */
 	private _onRelease() {
-		this._ch5Component.info(`Ch5Pressable._onRelease() alreadyReleased:${this._released}`);
+		// this._ch5Component.info(`Ch5Pressable._onRelease() alreadyReleased:${this._released}`);
 		if (!this._released) {
 			// remove the visual feedback
-			// console.log("On release value of delay time", this.pressDelayTime);
 			setTimeout(() => {
 				this._removeCssPressClass();
-				if (isIosDevice()) {
-					setTimeout(() => {
-						this._touchIos = false;
-					}, 300);
-				}
-
 			}, this.pressDelayTime);
 
 			// update state of the button and tell the button the state
 			this._pressed = false;
 			this._released = true;
-			this.observablePressed.next(this._pressed);
+			if (this.sliderValue !== '') {
+				this.observablePressed.next({ pressed: this._pressed, range: this.sliderValue });
+			}
 			this._ch5Component.removeAttribute("pressed");
 
 			// dispatch event for addEventListener consumers
@@ -652,7 +632,7 @@ export class Ch5Pressable {
 	 * @memberof Ch5Pressable
 	 */
 	private _onPanEnd() {
-		this._ch5Component.info('Ch5Pressable._onPanEnd()');
+		// this._ch5Component.info('Ch5Pressable._onPanEnd()');
 		this._onRelease();
 	}
 
@@ -679,5 +659,4 @@ export class Ch5Pressable {
 			});
 		}
 	}
-
 }

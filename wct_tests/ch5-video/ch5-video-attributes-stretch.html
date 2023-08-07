@@ -11,25 +11,25 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-sample-stretch-attributes">
+  <test-fixture id="ch5-video-stretch-attributes">
     <template>
-      <ch5-sample></ch5-sample>
+      <ch5-video></ch5-video>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-sample-stretch-attributes-value', () => {
-      let ch5Sample;
+    suite('ch5-video-stretch-attributes-value', () => {
+      let ch5Video;
 
       setup(async () => {
-        ch5Sample = fixture('ch5-sample-stretch-attributes');
+        ch5Video = fixture('ch5-video-stretch-attributes');
       });
         
         let testCases = ['a', '', ' ', 'number', true,false];
         let expectedResult = ['false', 'false', 'false', 'false', 'true','false'];
         testCases.forEach((ele, i) => {
               test('Check Value "stretch"', () => {
-                  ch5Sample.setAttribute('stretch', ele);
-                  expect(ch5Sample.getAttribute('stretch')).to.be.equal(expectedResult[i]);
+                  ch5Video.setAttribute('stretch', ele);
+                  expect(ch5Video.getAttribute('stretch')).to.be.equal(expectedResult[i]);
               });
           });
         

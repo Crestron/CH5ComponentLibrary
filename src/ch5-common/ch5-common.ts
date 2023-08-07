@@ -11,7 +11,6 @@ import { Ch5Config } from './ch5-config';
 import { Ch5MutationObserver } from './ch5-mutation-observer';
 import { Ch5ImageUriModel } from "../ch5-image/ch5-image-uri-model";
 import isEmpty from 'lodash/isEmpty';
-import isNil from 'lodash/isNil';
 import { Ch5CommonLog } from './ch5-common-log';
 import { ICh5CommonAttributes, TCh5ShowType, TCh5ProcessUriParams } from './interfaces';
 import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
@@ -973,7 +972,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 			return;
 		}
 
-		if (!isNil(template.content) && template.content.childElementCount === 0 && template.children.length > 0) {
+		if (!Ch5Common.isNil(template.content) && template.content.childElementCount === 0 && template.children.length > 0) {
 			Array.from(template.children).forEach((child) => {
 				template.content.appendChild(child);
 			});
@@ -1525,7 +1524,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	 * Helper method. For internal use.
 	 */
 	protected _checkAndSetStringValue(value: any, defaultValue: string = ''): string {
-		if (isNil(value)) {
+		if (Ch5Common.isNil(value)) {
 			value = defaultValue;
 		}
 		return value;
@@ -1750,7 +1749,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	}
 
 	public disconnectCommonMutationObserver() {
-		if (!isNil(this._commonMutationObserver) && !isEmpty(this._commonMutationObserver)) {
+		if (!Ch5Common.isNil(this._commonMutationObserver) && !isEmpty(this._commonMutationObserver)) {
 			this._commonMutationObserver.disconnectObserver();
 		}
 	}

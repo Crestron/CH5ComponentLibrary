@@ -11,31 +11,31 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-sample-receiveStateSnapShotUserId-attributes">
+  <test-fixture id="ch5-video-receiveStateSnapshotUserId-attributes">
     <template>
-      <ch5-sample receiveStateSnapShotUserId="trigger_event_listener"></ch5-sample>
+      <ch5-video receiveStateSnapshotUserId="trigger_event_listener"></ch5-video>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-sample-receiveStateSnapShotUserId-attributes-value', () => {
-      let ch5Sample;
+    suite('ch5-video-receiveStateSnapshotUserId-attributes-value', () => {
+      let ch5Video;
 
       setup(async () => {
         const emulatorJson = await fetch('./emulator/receivestatesnapshotuserid.json').then((response) => response.json());
         const emulator = CrComLib.Ch5Emulator.getInstance();
         emulator.loadScenario(emulatorJson);
-        ch5Sample = fixture('ch5-sample-receiveStateSnapShotUserId-attributes');
+        ch5Video = fixture('ch5-video-receiveStateSnapshotUserId-attributes');
       });
-        
-        test('receiveStateSnapShotUserId', (done) => {
-          CrComLib.publishEvent('b', 'trigger_event',true );
-          flush(() => {
-              setTimeout(() => {
-                  expect(ch5Sample.getAttribute('snapShotUserId')).to.be.equal('String Signal');
-                  done();
-              }, 100);
-          });
-        }); 
+
+      test('receiveStateSnapshotUserId', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Video.getAttribute('snapshotUserId')).to.be.equal('String Signal');
+            done();
+          }, 100);
+        });
+      });
     });
   </script>
 </body>

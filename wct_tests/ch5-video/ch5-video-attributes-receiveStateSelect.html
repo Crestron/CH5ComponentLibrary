@@ -11,36 +11,36 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-sample-sendEventErrorCode-attributes">
+  <test-fixture id="ch5-video-receiveStateSelect-attributes">
     <template>
-      <ch5-sample sendEventErrorCode="trigger_event_listener"></ch5-sample>
+      <ch5-video receiveStateSelect="trigger_event_listener"></ch5-video>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-sample-sendEventErrorCode-attributes-value', () => {
-      let ch5Sample;
+    suite('ch5-video-receiveStateSelect-attributes-value', () => {
+      let ch5Video;
 
       setup(async () => {
-        const emulatorJson = await fetch('./emulator/sendeventerrorcode.json').then((response) => response.json());
+        const emulatorJson = await fetch('./emulator/receivestateselect.json').then((response) => response.json());
         const emulator = CrComLib.Ch5Emulator.getInstance();
         emulator.loadScenario(emulatorJson);
-        ch5Sample = fixture('ch5-sample-sendEventErrorCode-attributes');
+        ch5Video = fixture('ch5-video-receiveStateSelect-attributes');
       });
         
-        test('sendEventErrorCode', (done) => {
+        test('receiveStateSelect', (done) => {
           CrComLib.publishEvent('b', 'trigger_event_1',true );
           flush(() => {
               setTimeout(() => {
-                  // expect(ch5Sample.getAttribute('sendEventErrorCode')).to.be.equal('1');
+                  // expect(ch5Video.getAttribute('receiveStateSelect')).to.be.equal('1');
                   done();
               }, 100);
           });
         });
-        test('sendEventErrorCode', (done) => {
+        test('receiveStateSelect', (done) => {
           CrComLib.publishEvent('b', 'trigger_event_2',true );
           flush(() => {
               setTimeout(() => {
-                // expect(ch5Sample.getAttribute('sendEventErrorCode')).to.be.equal('0');
+                // expect(ch5Video.getAttribute('receiveStateSelect')).to.be.equal('0');
                   done();
               }, 100);
           });

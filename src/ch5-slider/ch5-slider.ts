@@ -9,19 +9,18 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5CommonInput } from "../ch5-common-input";
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { target, Options, create, API } from "nouislider";
-import { Ch5Pressable } from "../ch5-common/ch5-pressable";
+import { Ch5PressableSlider } from "../ch5-common/ch5-pressable-slider";
 import HtmlCallback from "../ch5-common/utils/html-callback";
-import isNil from "lodash/isNil";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { TCh5SliderHandleShape, TCh5SliderOrientation, TCh5SliderSize, TCh5SliderHandleSize, TCh5SliderStretch, TCh5SliderToolTipShowType, TCh5SliderToolTipDisplayType, TCh5SliderHandle, } from './interfaces/t-ch5-slider';
 import _ from "lodash";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
-import { Ch5SliderButton } from "./ch5-slider-button";
 import { Ch5SliderTitleLabel } from "./ch5-slider-title-label";
 import { ICh5SliderAttributes } from "./interfaces";
 import { Subscription } from "rxjs";
+import { resizeObserver } from "../ch5-core/resize-observer";
 
 export interface IRcbSignal {
 	rcb: {
@@ -129,7 +128,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	};
 
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
-
 		{
 			default: 0,
 			name: "min",
@@ -407,10 +405,15 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		}
 	];
 
-
 	public static readonly OFFSET_THRESHOLD: number = 30;
 
+	private _render = this.debounce(() => {
+		this.createSlider();
+	}, 25);
+
 	private _ch5Properties: Ch5Properties;
+	private isAdvancedSlider: boolean = false;
+
 	/**
 	 * Component internal HTML elements
 	 */
@@ -426,12 +429,10 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	private _titlePresent: number = -1;
 	private _userLowValue: number = -1;
 	private _userHighValue: number = -1;
-	private _sendEventOnClick: string = "";
-	private _sendEventOffClick: string = "";
 
-	/**
-	 * CSS classes
-	 */
+	private isResizeInProgress: boolean = false;
+	private readonly RESIZE_DEBOUNCE: number = 500;
+
 	public primaryCssClass = 'ch5-slider';
 
 	/**
@@ -441,48 +442,18 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	private _wasRendered: boolean = false;
 
 	private isSliderStarted: boolean = false;
-
 	private sliderTouch: any = null;
-
 	private _isPressedSubscription: Subscription | null = null;
-
 	private _repeatDigitalInterval: number | null = null;
-
 	private _holdState: boolean = false;
 
-	/**
-	 * COMPONENT RECEIVE SIGNALS
-	 *
-	 * - receiveStateValue
-	 * - receiveStateValueHigh
-	 */
-
-	/**
-	 * The name of a string signal that will be applied to the value
-	 *
-	 * HTML attribute name: receiveStateValue or receivestatevalue
-	 */
 	private _receiveStateValueSignal: string = '';
-
-	/**
-	 * The subscription id for the receiveStateValue signal
-	 */
 	private _subReceiveValueId: string = '';
 	private _subReceiveAnalogValueId: string = '';
 
-	/**
-	 * The name of a string signal that will be applied to the value
-	 *
-	 * HTML attribute name: receiveStateValueHigh or receiveStateValueHigh
-	 */
 	private _receiveStateValueSignalHigh: string = '';
-
-	/**
-	 * The subscription id for the receiveStateValueHigh signal
-	 */
 	private _subReceiveValueHighId: string = '';
 	private _subReceiveAnalogValueHighId: string = '';
-
 
 	/**
 	 * COMPONENT EVENTS
@@ -505,7 +476,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 * @type {(Ch5Pressable | null)}
 	 * @memberof Ch5Image
 	 */
-	private _pressable: Ch5Pressable | null = null;
+	private _pressable: Ch5PressableSlider | null = null;
+
 
 	/**
 	 * This event is useful when you specifically want to listen to a handle being dragged, but want to ignore other updates to the slider value.
@@ -610,7 +582,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 	public set range(value: boolean) {
 		this._ch5Properties.set<boolean>("range", value, () => {
-			if (this._wasRendered) { this._render(); }
+			this._render();
 		});
 	}
 	public get range(): boolean {
@@ -619,7 +591,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 	public set showTickValues(value: boolean) {
 		this._ch5Properties.set<boolean>("showTickValues", value, () => {
-			if (this._wasRendered) { this._render(); }
+			this._render();
 		});
 	}
 	public get showTickValues(): boolean {
@@ -628,7 +600,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 	public set tapSettable(value: boolean) {
 		this._ch5Properties.set<boolean>("tapSettable", value, () => {
-			if (this._wasRendered) { this._render(); }
+			this._render();
 		});
 	}
 	public get tapSettable(): boolean {
@@ -720,7 +692,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			if (this.ticks) {
 				this.step = 1;
 			}
-			if (this._wasRendered) { this._render(); }
 			this.handleMax();
 		});
 	}
@@ -744,8 +715,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			} else {
 				this._elContainer.classList.remove("ch5-slider-ticks");
 			}
-			this._parsedSliderOptions();
-			if (this._wasRendered) { this._render(); }
+			this._render();
 		});
 	}
 	public get ticks(): string {
@@ -755,7 +725,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	public set toolTipShowType(value: TCh5SliderToolTipShowType) {
 		this._ch5Properties.set<TCh5SliderToolTipShowType>("toolTipShowType", value, () => {
 			this.handleToolTipShowType();
-			if (this._wasRendered) { this._render(); }
 			// subscribe to analog value if tooltip is on
 			if (this.toolTipShowType === Ch5Slider.TOOL_TIP_SHOW_TYPE[1]) {
 				this.subscribeToAnalogSignal();
@@ -772,7 +741,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	public set toolTipDisplayType(value: TCh5SliderToolTipDisplayType) {
 		this._ch5Properties.set<TCh5SliderToolTipDisplayType>("toolTipDisplayType", value, () => {
 			this.handleToolTipDisplayType();
-			if (this._wasRendered) { this._render(); }
 		});
 	}
 	public get toolTipDisplayType(): TCh5SliderToolTipDisplayType {
@@ -805,20 +773,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	public get sendEventOnHandleClick(): string {
 		return this._ch5Properties.get<string>('sendEventOnHandleClick');
 	}
-	/**
-	 * Getter receiveStateValue
-	 * @type {string}
-	 */
-	get receiveStateValue(): string {
+
+	public get receiveStateValue(): string {
 		// The internal property is changed if/when the element is removed from DOM
 		// Returning the attribute instead of the internal property preserves functionality
 		return this._attributeValueAsString('receivestatevalue');
 	}
-
-	/**
-	 * Setter receiveStateValue
-	 */
-	set receiveStateValue(value: string) {
+	public set receiveStateValue(value: string) {
 		if ('' === value
 			|| this._receiveStateValueSignal === value
 			|| null === value
@@ -839,16 +800,11 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			}
 		}
 
-		if (this.ticks) {
-			this._parsedSliderOptions();
-		}
-
 		// setup new subscription.
 		this._receiveStateValueSignal = value;
 
 		const recSignalName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateValueSignal);
 		const receiveSignal: Ch5Signal<object> | null = Ch5SignalFactory.getInstance().getObjectSignal(recSignalName);
-
 
 		if (receiveSignal === null) {
 			return;
@@ -879,8 +835,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			};
 
 			this.setCleanValue(newValue);
-			this._tooltipValueFromSignal = newValue;
-			this._adjustTooltipValue(TCh5SliderHandle.VALUE);
 			this._wasRendered = false;
 			this._ch5Properties.setForSignalResponse<number>("value", newValue, () => {
 				// to handleValue 
@@ -890,6 +844,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			if (this._dirtyTimerHandle === null) {
 				if (this._wasRendered && animationDuration === 0) {
 					this._render();
+					this._tooltipValueFromSignal = newValue;
+					this._adjustTooltipValue(TCh5SliderHandle.VALUE);
 				} else {
 					this._setSliderValue(newValue, TCh5SliderHandle.VALUE, animationDuration);
 
@@ -903,25 +859,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		});
 	}
 
-
-	/**
-	 * Getter receiveStateValueHigh
-	 * @type {string}
-	 */
-	get receiveStateValueHigh(): string {
+	public get receiveStateValueHigh(): string {
 		// The internal property is changed if/when the element is removed from DOM
 		// Returning the attribute instead of the internal property preserves functionality
 		return this._attributeValueAsString('receivestatevaluehigh');
 	}
-
-	/**
-	 * Setter receiveStateValueHigh
-	 */
-	set receiveStateValueHigh(value: string) {
-		if ('' === value
-			|| this._receiveStateValueSignalHigh === value
-			|| null === value
-			|| undefined === value) {
+	public set receiveStateValueHigh(value: string) {
+		if (Ch5Common.isNil(value) || this._receiveStateValueSignalHigh === value) {
 			return;
 		}
 
@@ -936,9 +880,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			if (oldSignal !== null) {
 				oldSignal.unsubscribe(this._subReceiveValueHighId);
 			}
-		}
-		if (this.ticks) {
-			this._parsedSliderOptions();
 		}
 		// setup new subscription.
 		this._receiveStateValueSignalHigh = value;
@@ -974,8 +915,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			};
 
 			this._cleanValueHigh = newValue;
-			this._tooltipHighValueFromSignal = newValue;
-			this._adjustTooltipValue(TCh5SliderHandle.HIGHVALUE);
 			this._wasRendered = false;
 			this._ch5Properties.setForSignalResponse<number>("valueHigh", newValue, () => {
 				// handle highValue
@@ -984,6 +923,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			if (this._dirtyTimerHandleHigh === null) {
 				if (this._wasRendered && animationDuration === 0) {
 					this._render();
+					this._tooltipHighValueFromSignal = newValue;
+					this._adjustTooltipValue(TCh5SliderHandle.HIGHVALUE);
 				} else {
 					this._setSliderValue(newValue, TCh5SliderHandle.HIGHVALUE, animationDuration);
 				}
@@ -1006,7 +947,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	}
 
 	public set receiveStateShowOnOffOnly(value: string) {
-
 		this._ch5Properties.set("receiveStateShowOnOffOnly", value, null, (newValue: boolean) => {
 			this._ch5Properties.setForSignalResponse<boolean>("onOffOnly", newValue, () => {
 				this.handleOnOffOnly();
@@ -1057,7 +997,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 	/**
 	 * Respond to attribute changes.
-	 * @readonly
 	 */
 	public static get observedAttributes(): string[] {
 		const inheritedObsAttrs = Ch5Common.observedAttributes;
@@ -1074,7 +1013,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		];
 		return inheritedObsAttrs.concat(newObsAttrs.concat(ch5SliderAttributes));
 	}
-
 
 	public static registerSignalAttributeTypes() {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Slider.ELEMENT_NAME, Ch5Slider.SIGNAL_ATTRIBUTE_TYPES);
@@ -1094,11 +1032,10 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 		// set data-ch5-id
 		this.setAttribute('data-ch5-id', this.getCrId());
-		this._pressable = new Ch5Pressable(this, {
-			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
+		this._pressable = new Ch5PressableSlider(this._innerContainer, {
+			cssTargetElement: this._innerContainer,
 			cssPressedClass: this.primaryCssClass + '--pressed'
 		});
-		this.dir = "ltr";
 
 		Promise.all([customElements.whenDefined('ch5-slider')]).then(() => {
 			this.cacheComponentChildrens();
@@ -1118,7 +1055,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			if (!this._wasRendered ||
 				'undefined' === typeof (this._innerContainer as target).noUiSlider ||
 				null === (this._innerContainer as target).noUiSlider) {
-				this._render()
+				this._renderPromise()
 					.then(() => {
 						this._wasRendered = true;
 						window.setTimeout(() => {
@@ -1153,11 +1090,10 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		this._stopRcbAnimation = this._stopRcbAnimation.bind(this);
 		this._onMouseLeave = this._onMouseLeave.bind(this);
 		this._onTouchMoveEnd = this._onTouchMoveEnd.bind(this);
-		this.handleSendEventHold = this.handleSendEventHold.bind(this);
-		this.handleSendEventRelease = this.handleSendEventRelease.bind(this);
 		this.sendEventOnHandleClickHandle = this.sendEventOnHandleClickHandle.bind(this);
 		this._onTouchHandler = this._onTouchHandler.bind(this);
 	}
+
 	private setCleanValue(value: string | number) {
 		this._cleanValue = value;
 	}
@@ -1218,7 +1154,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 * Clear the content of component in order to avoid duplication of elements
 	 */
 	private clearComponentContent() {
-		this.dir = "ltr";
 		const containers = this.getElementsByTagName("div");
 		Array.from(containers).forEach((container) => {
 			container.remove();
@@ -1232,7 +1167,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	/**
 	 * Returns css class when disabled
 	 *
-	 * @return {string }
+	 * @return {string}
 	 */
 	public getCssClassDisabled(): string {
 		return this.primaryCssClass + '--disabled';
@@ -1270,7 +1205,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		this.logger.stop();
 	}
 
-
 	/**
 	 * Reset value | valueHigh property and set component as clean
 	 */
@@ -1283,14 +1217,11 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				TCh5SliderHandle.VALUE
 			);
 			this.value = Number(this._cleanValue);
-			this._setCleanLow()
+			this._setCleanLow();
 		}
 
 		if (this._dirtyHigh) {
-			this._setSliderValue(
-				Number(this._cleanValueHigh),
-				TCh5SliderHandle.HIGHVALUE
-			);
+			this._setSliderValue(Number(this._cleanValueHigh), TCh5SliderHandle.HIGHVALUE);
 			this.valueHigh = Number(this._cleanValueHigh);
 			this._setCleanHigh();
 		}
@@ -1379,23 +1310,15 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				this._setDirtyHigh();
 				this._dirtyValueHigh = Number(value[handle]);
 				break;
-
 			default:
 				break;
 		}
 	}
 
-	// empty function since in this component is not needed
-	protected setInputValue() {
-		return;
-	}
-
-
 	// required for disable slider also
 	protected updateForChangeInDisabledStatus() {
 		super.updateForChangeInDisabledStatus();
-
-		if (true === this.disabled) {
+		if (this.disabled === true) {
 			this._innerContainer.setAttribute('disabled', 'true');
 		} else {
 			this._innerContainer.removeAttribute('disabled');
@@ -1488,22 +1411,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 */
 	protected attachEventListeners() {
 		super.attachEventListeners();
-
-		// Focus | Blur events
-		if (null !== this._innerContainer.querySelector('.noUi-handle')) {
-			this._innerContainer.addEventListener('mouseleave', this._onMouseLeave);
-			this._innerContainer.addEventListener('touchmove', this._onMouseLeave);
-			this._innerContainer.addEventListener('mousedown', () => { this._holdState = true; });
-			this._innerContainer.addEventListener('touchstart', this._onTouchHandler);
-			// this._elOffContainer.addEventListener('mousedown', () => { this._holdOffState = true; });
-			// this._elOffContainer.addEventListener('touchstart', () => { this._holdOffState = true; });
-			// this._elOnContainer.addEventListener('mousedown', () => { this._holdOnState = true; });
-			// this._elOnContainer.addEventListener('touchstart', () => { this._holdOnState = true; });
-		}
 		// init pressable
 		if (null !== this._pressable) {
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
+		}
+		if (this.stretch) {
+			resizeObserver(this.parentElement as HTMLElement, this.onWindowResizeHandler.bind(this));
 		}
 	}
 
@@ -1527,7 +1441,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this._innerContainer.removeEventListener('touchstart', this._onTouchHandler);
 			noUiHandle.removeEventListener('pointermove', (event) => { event.stopPropagation() });
 		}
-		if (!isNil(this._pressable)) {
+		if (!_.isNil(this._pressable)) {
 			this._unsubscribeFromPressableIsPressed();
 		}
 	}
@@ -1540,6 +1454,17 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		return this._elContainer;
 	}
 
+	private createSlider() {
+		// if (!this._wasRendered) {
+		this._renderPromise().then(() => {
+			// this._wasRendered = true;
+			window.setTimeout(() => {
+				this._applySignalReceivedBeforeRender();
+			}, 0);
+		});
+		// }
+	}
+
 	/**
 	 * Render the slide
 	 *
@@ -1547,20 +1472,12 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 * @returns {Promise<void>}
 	 * @memberof Ch5Slider
 	 */
-	private _render(): Promise<API> {
+	private _renderPromise(): Promise<API> {
 		// TODO: find a way to not render the slider again when an attribute is changing and just update slider options
 		return new Promise((resolve, reject) => {
 			if (this._innerContainer === null || this._innerContainer === undefined) {
 				return reject(false);
 			}
-
-			// if (this.orientation === 'vertical') {
-			// 	this._innerContainer.style.width = '';
-			// 	this._innerContainer.style.height = 'inherit';
-			// } else { // horizontal
-			// 	this._innerContainer.style.width = 'inherit';
-			// 	this._innerContainer.style.height = '';
-			// }
 
 			// noUiSlider.Options
 			const options = this._parsedSliderOptions();
@@ -1568,7 +1485,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			// create noUiSlider
 			try {
 				// @ts-ignore
-				if (!isNil((this._innerContainer as target).noUiSlider)) {
+				if (!_.isNil((this._innerContainer as target).noUiSlider)) {
 					(this._innerContainer as target)?.noUiSlider?.destroy();
 				}
 				const slider = create(this._innerContainer, options);
@@ -1598,29 +1515,42 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		});
 	}
 
+	private onWindowResizeHandler() {
+		// since stretch has no default value, should fire stretchHandler only if required
+		if (!this.isResizeInProgress) {
+			this.isResizeInProgress = true;
+			setTimeout(() => {
+				if (this.stretch) {
+					this.stretchHandler();
+					this._render();
+				}
+				this.isResizeInProgress = false; // reset debounce once completed
+			}, this.RESIZE_DEBOUNCE);
+		}
+	}
+
 	private _subscribeToPressableIsPressed() {
 		const REPEAT_DIGITAL_PERIOD = 400;
 		const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
 		if (this._isPressedSubscription === null && this._pressable !== null) {
-			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
-				if (value === false) {
+			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: any) => {
+				if (value.pressed === false) {
 					if (this._repeatDigitalInterval !== null) {
 						window.clearInterval(this._repeatDigitalInterval as number);
 					}
-					if (this._holdState) {
-						this.handleSendEventRelease();
-					}
-				} else if (this._holdState) {
-					this.handleSendEventHold();
+					this.handleSendEvent(value.range, false);
+				}
+				else {
+					this.handleSendEvent(value.range, true);
 					if (this._repeatDigitalInterval !== null) {
 						window.clearInterval(this._repeatDigitalInterval as number);
 					}
 					let numRepeatDigitals = 0;
 					this._repeatDigitalInterval = window.setInterval(() => {
-						this.handleSendEventHold();
+						this.handleSendEvent(value.range, true);
 						if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
 							window.clearInterval(this._repeatDigitalInterval as number);
-							this.handleSendEventRelease();
+							this.handleSendEvent(value.range, false);
 						}
 					}, REPEAT_DIGITAL_PERIOD);
 				}
@@ -1637,43 +1567,35 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this._isPressedSubscription = null;
 		}
 	}
-	/**
-	 * Set slider value
-	 *
-	 * @private
-	 * @param {number} value
-	 * @param {TCh5SliderHandle} [handle]
-	 */
+
 	private _setSliderValue(value: number, handle: TCh5SliderHandle, time?: number): void {
-		if (this._innerContainer === undefined || (this._innerContainer as target).noUiSlider === undefined) {
-			return;
-		}
-		const animationLength: number = time !== undefined ? Math.round(time) : 0;
-		if (value < this.min)
-			value = this.min;
-		else if (value > this.max)
-			value = this.max;
-		let slideValue: number | (null | number)[] = [value, null];
-		if (handle === TCh5SliderHandle.HIGHVALUE) {
-			if (value < this.value)
-				value = this.value + 1;
+		if (!_.isNil(this._innerContainer) && !_.isNil((this._innerContainer as target).noUiSlider)) {
+			const animationLength: number = time !== undefined ? Math.round(time) : 0;
+			if (value < this.min)
+				value = this.min;
 			else if (value > this.max)
 				value = this.max;
-			slideValue = [null, value];
-		}
+			let slideValue: number | (null | number)[] = [value, null];
+			if (handle === TCh5SliderHandle.HIGHVALUE) {
+				if (value < this.value)
+					value = this.value + 1;
+				else if (value > this.max)
+					value = this.max;
+				slideValue = [null, value];
+			}
 
+			if (isNaN(animationLength) || animationLength <= 0 || animationLength > 120000) {
+				// set value, no animation.
+				this._stopRcbAnimation(handle);
+				(this._innerContainer as target)?.noUiSlider?.set(slideValue as (number | string)[]);
+			} else {
+				(this._innerContainer as target)?.noUiSlider?.set(slideValue as (number | string)[]);
+				// this is needed because when slider value is set also tooltip value is set
+				// so we need to keep tooltip value from analog singal in order for animation to be consistent
+				this._adjustTooltipValue(handle)
 
-		if (isNaN(animationLength) || animationLength <= 0 || animationLength > 120000) {
-			// set value, no animation.
-			this._stopRcbAnimation(handle);
-			(this._innerContainer as target)?.noUiSlider?.set(slideValue as (number | string)[]);
-		} else {
-			(this._innerContainer as target)?.noUiSlider?.set(slideValue as (number | string)[]);
-			// this is needed because when slider value is set also tooltip value is set
-			// so we need to keep tooltip value from analog singal in order for animation to be consistent
-			this._adjustTooltipValue(handle)
-
-			this._startRcbAnimation(animationLength, handle);
+				this._startRcbAnimation(animationLength, handle);
+			}
 		}
 	}
 
@@ -1888,7 +1810,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	}
 
 	private _onMouseLeave(inEvent: any): void {
-		// setTimeout(() => {
 		if (this.isSliderStarted === true) {
 			const noUiHandle = this._innerContainer.querySelector('.noUi-handle') as HTMLElement;
 
@@ -2029,13 +1950,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 */
 	private _sendValueForChangeSignal(value: number): void {
 		let sigChange: Ch5Signal<number> | null = null;
-
-		if ('' !== this.sendEventOnChange
-			&& undefined !== this.sendEventOnChange
-			&& null !== this.sendEventOnChange) {
-
+		if (Ch5Common.isNotNil(this.sendEventOnChange)) {
 			sigChange = Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventOnChange);
-
 			if (sigChange !== null && sigChange.value !== value) {
 				sigChange.publish(value);
 			}
@@ -2048,15 +1964,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 */
 	private _sendHighValueForChangeSignal(value: number): void {
 		let sigChange: Ch5Signal<number> | null = null;
-
-		if (this.range
-			&& '' !== this.sendEventOnChangeHigh
-			&& undefined !== this.sendEventOnChangeHigh
-			&& null !== this.sendEventOnChangeHigh
-
-		) {
+		if (this.range && Ch5Common.isNotNil(this.sendEventOnChangeHigh)) {
 			sigChange = Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventOnChangeHigh);
-
 			if (sigChange !== null) {
 				sigChange.publish(value);
 			}
@@ -2164,7 +2073,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this._setCleanHigh();
 		}
 
-		// finaly check if component can be set as clean
+		// finally check if component can be set as clean
 		this.setClean();
 	}
 
@@ -2176,7 +2085,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	private _parsedSliderOptions() {
 		let behaviour = this.tapSettable ? 'tap' : 'none';
 		if (this.tapSettable === false) {
-			if ((this.sendEventOnUpper || this.sendEventOnLower) && this._elContainer.classList.contains("ch5-advanced-slider-container")) {
+			if ((this.sendEventOnUpper || this.sendEventOnLower) && this.isAdvancedSlider === true) {
 				behaviour = 'hover';
 				if (this.toolTipDisplayType === "%") {
 					this.toolTipShowType = "off";
@@ -2184,11 +2093,18 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			}
 		}
 		// in our case is bottom to top so we need to change it to 'rtl'
-		const verticalDirection = (this.dir === 'rtl') ? 'ltr' : 'rtl';
-		let direction = (this.orientation === 'vertical') ? verticalDirection : this.dir;
+		let direction = "ltr";
+		if (this.orientation === 'vertical') {
+			if (this.dir === "rtl") {
+				direction = "ltr";
+			} else {
+				direction = "rtl";
+			}
+		} else {
+			direction = this.dir;
+		}
 
-		// console.log("New direction is ", direction, verticalDirection);
-		if (_.isNil(direction) || direction === "") {
+		if (Ch5Common.isNil(direction)) {
 			// This is defensive code for CCIDE purpose only and should not be removed.
 			direction = "ltr";
 		}
@@ -2252,7 +2168,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			range,
 			orientation: this.orientation,
 			pips: Object.getOwnPropertyNames(pips).length !== 0 ? pipsOptions : undefined,
-			tooltips,
+			tooltips
 		} as Options
 	}
 
@@ -2317,13 +2233,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 * @returns {(boolean| object)}
 	 */
 	private _parsedTicks(): boolean | { [key: number]: string } {
-		if ('' !== this.ticks
-			&& null !== this.ticks
-			&& undefined !== this.ticks
-		) {
+		if (Ch5Common.isNotNil(this.ticks)) {
 			try {
 				const ticksObj = JSON.parse(this.ticks);
-
 				if (ticksObj && typeof ticksObj === "object") {
 					return ticksObj;
 				}
@@ -2331,7 +2243,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				return false;
 			}
 		}
-
 		return false;
 	}
 
@@ -2385,7 +2296,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		if (this.toolTipDisplayType === '%') {
 			return this._tooltipValueToPercent(value);
 		}
-
 		return Math.round(value).toString();
 	}
 
@@ -2404,7 +2314,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		return percent.toString() + '%';
 	}
 
-
 	/**
 	 * Format 'connect' noUiSlider option
 	 *
@@ -2415,8 +2324,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		if (this.range === true) {
 			return [false, true, false];
 		}
-
-		// default
 		return [true, false]
 	}
 
@@ -2440,7 +2347,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 		// on timer, unset the style properties.
 		if (this._animationTimer !== undefined) {
-			clearTimeout(this._animationTimer);
+			window.clearTimeout(this._animationTimer);
 			this._animationTimer = undefined;
 		}
 
@@ -2463,7 +2370,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 		this._animatingHandle[handle] = false;
 
-		clearTimeout(this._animationTimer);
+		window.clearTimeout(this._animationTimer);
 		this._animationTimer = undefined;
 
 		const styleParams: { [key: string]: string } = {
@@ -2474,7 +2381,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 		this._setStyleParameters(styleParams);
 	}
-
 
 	private _setStyleParameters(styleParams: { [key: string]: string }) {
 		for (const elList of this._tgtEls) {
@@ -2488,7 +2394,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			}
 		}
 	}
-
 
 	/**
 	 * Subscribe to analog signal. This is used for tooltip animation
@@ -2590,7 +2495,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		}
 	}
 
-
 	private _applyTooltipValue(tooltip: Element, value: number) {
 		if (undefined !== tooltip
 			&& null !== tooltip
@@ -2598,11 +2502,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			if (this.min < 0 && value > 0x7FFF) {
 				value -= 0x10000;
 			}
-			if (value > this.max)
+			if (value > this.max) {
 				value = this.max;
-			else
-				if (value < this.min)
+			} else {
+				if (value < this.min) {
 					value = this.min
+				}
+			}
 			tooltip.textContent = this._toolTipDisplayTypeFormatter(value);
 		}
 	}
@@ -2665,14 +2571,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		return scalarValue;
 	}
 
-
-	public setSendEvent(send: string, key: string) {
-		if (key === "off") {
-			this._sendEventOffClick = send;
-		} else if (key === "on") {
-			this._sendEventOnClick = send;
-		}
-	}
 	/**
 	 * Apply last value received from signal
 	 * This is used if in connectedCallback in case that value signal is received before rendering the slider
@@ -2707,7 +2605,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			);
 		}
 	}
-
 
 	private _adjustTooltipValue(handle: TCh5SliderHandle) {
 		// this is needed because when slider value is set also tooltip value is set
@@ -2799,34 +2696,15 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.HANDLE_SHAPE.classListPrefix + this.handleShape);
 	}
 
-	private handleSendEventHold(): void {
-		setTimeout(() => {
-			if (this.range || !this._elContainer.classList.contains("ch5-advanced-slider-container") || this.disabled) {
-				return;
-			}
-			this._holdState = true;
-			if (this.sendEventOnUpper && this._sendEventValue >= ((this.max - this.min) * 3 / 4)) {
-				Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnUpper)?.publish(true);
-			}
-			if (this.sendEventOnLower && this._sendEventValue <= ((this.max - this.min) / 4)) {
-				Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnLower)?.publish(true);
-			}
-		}, 30);
-	}
-
-	private handleSendEventRelease(): void {
-		setTimeout(() => {
-			this._holdState = false;
-			if (this.range || !this._elContainer.classList.contains("ch5-advanced-slider-container") || this.disabled) {
-				return;
-			}
-			if (this.sendEventOnUpper && this._sendEventValue >= ((this.max - this.min) * 3 / 4)) {
-				Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnUpper)?.publish(false);
-			}
-			if (this.sendEventOnLower && this._sendEventValue <= ((this.max - this.min) / 4)) {
-				Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnLower)?.publish(false);
-			}
-		}, 30);
+	private handleSendEvent(eventName: string, value: boolean): void {
+		if (this.range || this.isAdvancedSlider === false || this.disabled) {
+			return;
+		}
+		if (this.sendEventOnUpper !== '' && this.sendEventOnUpper !== null && this.sendEventOnUpper !== undefined && eventName === 'upper') {
+			Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnUpper)?.publish(value);
+		} else if (this.sendEventOnLower !== '' && this.sendEventOnLower !== null && this.sendEventOnLower !== undefined && eventName === 'lower') {
+			Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnLower)?.publish(value);
+		}
 	}
 
 	private sendEventOnHandleClickHandle(): void {
@@ -2854,7 +2732,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		if (this._wasRendered) {
 			(this._innerContainer as target)?.noUiSlider?.set(this.value);
 		}
-
 	}
 
 	private handleValueHigh() {
@@ -2867,7 +2744,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		} else if (this.valueHigh < this.min) {
 			this.valueHigh = this.min;
 		}
-
 
 		if (this.valueHigh <= this.value) {
 			this.valueHigh = this.value + 1;
@@ -2898,7 +2774,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		if (modulus !== 0) {
 			this.max = this.min + (Math.floor(numberOfSteps) * this.step);
 		}
-		if (this._wasRendered) { this._render(); }
+		this._render();
 	}
 
 	private handleMin() {
@@ -2908,7 +2784,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		if (this.value < this.min) {
 			this.value = this.min;
 		}
-		if (this._wasRendered) { this._render(); }
+		this._render();
 	}
 
 	private handleOrientation() {
@@ -2916,7 +2792,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this._elContainer.classList.remove(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.ORIENTATION.classListPrefix + e);
 		});
 		this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
-		if (this._wasRendered) { this._render(); }
+		this._render();
 	}
 
 	private sizeHandler() {
@@ -2924,7 +2800,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this._elContainer.classList.remove(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + e);
 		});
 		this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
-		if (this._wasRendered) { this._render(); }
+		this._render();
 	}
 
 	private handleHandleSize() {
@@ -2932,7 +2808,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this._elContainer.classList.remove(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.HANDLE_SIZE.classListPrefix + e);
 		});
 		this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.HANDLE_SIZE.classListPrefix + this.handleSize);
-		if (this._wasRendered) { this._render(); }
+		this._render();
 	}
 
 	private handleStretch() {
@@ -2941,7 +2817,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		});
 		this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.STRETCH.classListPrefix + this.stretch);
 		this.stretchHandler();
-		if (this._wasRendered) { this._render(); }
+		this._render();
 	}
 
 	private stretchHandler() {
@@ -2963,27 +2839,26 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 					titleHeight = sliderHeight;
 				}
 				if (this.stretch === 'height') {
-					if (this._elContainer.classList.contains("ch5-advanced-slider-container")) {
+					if (this.isAdvancedSlider === true) {
 						this._elSliderContainer.style.height = titleHeight + 'px';
 						this._elContainer.style.height = sliderHeight + 'px';
 						this._elSliderContainer.style.removeProperty("width");
-					} else { this._elContainer.style.height = sliderHeight + 'px'; }
+					} else {
+						this._elContainer.style.height = sliderHeight + 'px';
+					}
 					this._elContainer.style.removeProperty("width");
-				}
-				else if (this.stretch === 'width') {
-					if (this._elContainer.classList.contains("ch5-advanced-slider-container")) {
+				} else if (this.stretch === 'width') {
+					if (this.isAdvancedSlider === true) {
 						this._elSliderContainer.style.width = sliderWidth + 'px';
 						this._elContainer.style.width = sliderWidth + 'px';
 						this._elSliderContainer.style.removeProperty("height");
-					}
-					else {
+					} else {
 						this._elContainer.style.width = sliderWidth + 'px';
 					}
-
 					this._elContainer.style.removeProperty("height");
 				}
 				else if (this.stretch === "both") {
-					if (this._elContainer.classList.contains("ch5-advanced-slider-container")) {
+					if (this.isAdvancedSlider === true) {
 						this._elSliderContainer.style.width = sliderWidth + 'px';
 						this._elSliderContainer.style.height = titleHeight + 'px';
 						this._elContainer.style.width = sliderWidth + 'px';
@@ -2999,12 +2874,10 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	}
 
 	private handleOnOffOnly() {
-		if ((this.range || !this._elContainer.classList.contains("ch5-advanced-slider-container"))) {
+		if (this.range || this.isAdvancedSlider === false) {
 			Array.from(Ch5Slider.COMPONENT_DATA.ON_OFF_ONLY.values).forEach((e: any) => {
 				this._elContainer.classList.remove(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.ON_OFF_ONLY.classListPrefix + String(e));
 			});
-			// this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
-			// 	return;
 		} else {
 			Array.from(Ch5Slider.COMPONENT_DATA.ON_OFF_ONLY.values).forEach((e: any) => {
 				this._elContainer.classList.remove(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.ON_OFF_ONLY.classListPrefix + String(e));
@@ -3012,11 +2885,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			if (this.onOffOnly === true) {
 				this._innerContainer.classList.add("ch5-hide-vis");
 				this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.ON_OFF_ONLY.classListPrefix + String(this.onOffOnly));
-				// this._elContainer.classList.remove(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
 			} else {
 				this._innerContainer.classList.remove("ch5-hide-vis");
 				this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.ON_OFF_ONLY.classListPrefix + String(this.onOffOnly));
-				// this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.SIZE.classListPrefix + this.size);
 			}
 		}
 	}
@@ -3034,70 +2905,85 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this._elContainer.classList.remove(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.TOOL_TIP_SHOW_TYPE.classListPrefix + e);
 		});
 		this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.TOOL_TIP_SHOW_TYPE.classListPrefix + this.toolTipShowType);
+		this._render();
 	}
 
 	private onOffButtonHelper() {
-		const buttonSlider = this.getElementsByTagName("ch5-slider-button");
 		let onBtn: any = null;
 		let offBtn: any = null;
-		if (buttonSlider.length === 0 || this.range === true) {
-			this._elOffContainer.classList.add("ch5-advanced-slider-button");
-			this._elOnContainer.classList.add("ch5-advanced-slider-button");
-			const titleSlider = this.getElementsByTagName("ch5-slider-title-label");
-			if (titleSlider.length !== 0) {
-				this._elContainer.classList.add('ch5-advanced-slider-container');
-			} else {
-				this._elContainer.classList.remove('ch5-advanced-slider-container');
-			}
-		} else {
+		if (this.range === true) {
 			this._elOffContainer.classList.remove("ch5-advanced-slider-button");
 			this._elOnContainer.classList.remove("ch5-advanced-slider-button");
-			this._elContainer.classList.add('ch5-advanced-slider-container');
-			Array.from(buttonSlider).forEach(btn => {
-				if (btn.getAttribute("key") === 'off') {
-					offBtn = btn;
-					if (this.stretch && this.orientation === "horizontal") {
-						btn.classList.add("ch5-slider-horizontal-stretch");
-					} else if (this.orientation === "vertical" && (this.stretch === "both" || this.stretch === "width")) {
-						btn.classList.add("ch5-slider-vertical-stretch");
-					}
-				} else
-					if (btn.getAttribute("key") === 'on') {
-						onBtn = btn;
+			this.isAdvancedSlider = false;
+			this._elContainer.classList.remove('ch5-advanced-slider-container');
+		} else {
+			const buttonSlider = this.getElementsByTagName("ch5-slider-button");
+			if (buttonSlider.length === 0) {
+				this._elOffContainer.classList.add("ch5-advanced-slider-button");
+				this._elOnContainer.classList.add("ch5-advanced-slider-button");
+				const titleSlider = this.getElementsByTagName("ch5-slider-title-label");
+				if (titleSlider.length !== 0) {
+					this.isAdvancedSlider = true;
+					this._elContainer.classList.add('ch5-advanced-slider-container');
+				} else {
+					this.isAdvancedSlider = false;
+					this._elContainer.classList.remove('ch5-advanced-slider-container');
+				}
+			} else {
+				this._elOffContainer.classList.remove("ch5-advanced-slider-button");
+				this._elOnContainer.classList.remove("ch5-advanced-slider-button");
+				this.isAdvancedSlider = true;
+				this._elContainer.classList.add('ch5-advanced-slider-container');
+				Array.from(buttonSlider).forEach(btn => {
+					if (btn.getAttribute("key") === 'off') {
+						offBtn = btn;
 						if (this.stretch && this.orientation === "horizontal") {
 							btn.classList.add("ch5-slider-horizontal-stretch");
 						} else if (this.orientation === "vertical" && (this.stretch === "both" || this.stretch === "width")) {
 							btn.classList.add("ch5-slider-vertical-stretch");
 						}
-					}
-			});
-			if (onBtn) {
-				this._elOnContainer.appendChild(onBtn);
-			}
-			if (offBtn) {
-				this._elOffContainer.appendChild(offBtn);
+						this._elContainer.classList.add('ch5-slider-off-button');
+					} else
+						if (btn.getAttribute("key") === 'on') {
+							onBtn = btn;
+							if (this.stretch && this.orientation === "horizontal") {
+								btn.classList.add("ch5-slider-horizontal-stretch");
+							} else if (this.orientation === "vertical" && (this.stretch === "both" || this.stretch === "width")) {
+								btn.classList.add("ch5-slider-vertical-stretch");
+							}
+							this._elContainer.classList.add('ch5-slider-on-button');
+						}
+				});
+				if (onBtn) {
+					this._elOnContainer.appendChild(onBtn);
+				}
+				if (offBtn) {
+					this._elOffContainer.appendChild(offBtn);
+				}
 			}
 		}
 	}
 
 	private titleHelper() {
-		if (this.range === true)
-			return;
-		const titleSlider = this.getElementsByTagName("ch5-slider-title-label");
-
-		Array.from(titleSlider).forEach((title, index) => {
-			if (index >= 1) {
-				return;
-			}
-			if (title.parentElement instanceof Ch5Slider) {
-				const sliderTtl = new Ch5SliderTitleLabel(this);
-				Ch5SliderTitleLabel.observedAttributes.forEach((attr) => {
-					if (title.hasAttribute(attr)) {
-						sliderTtl.setAttribute(attr, title.getAttribute(attr) + '');
-					}
-				});
-			}
-		})
+		if (this.range === false) {
+			const titleSlider = this.getElementsByTagName("ch5-slider-title-label");
+			Array.from(titleSlider).forEach((title, index) => {
+				if (index >= 1) {
+					return;
+				}
+				if (title.parentElement instanceof Ch5Slider) {
+					const sliderTtl = new Ch5SliderTitleLabel(this);
+					Ch5SliderTitleLabel.observedAttributes.forEach((attr) => {
+						if (title.hasAttribute(attr)) {
+							sliderTtl.setAttribute(attr, title.getAttribute(attr) + '');
+						}
+					});
+				}
+				this._elContainer.classList.add('ch5-slider-title');
+			});
+		} else {
+			this._elContainer.classList.remove('ch5-slider-title');
+		}
 	}
 
 	protected helper(elem: HTMLElement, val: HTMLElement) {
@@ -3106,25 +2992,20 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	}
 
 	public setValues(elem: string, val: HTMLElement) {
-		if (this.range === true)
-			return;
-		if (elem === "title") {
-			if (val.innerHTML !== "") {
-				this._titlePresent = 1;
-			} else {
-				this._titlePresent = -1;
+		if (this.range === false) {
+			if (elem === "title") {
+				if (val.innerHTML !== "") {
+					this._titlePresent = 1;
+				} else {
+					this._titlePresent = -1;
+				}
+				this.helper(this._elTitleContainer, val);
+			} else if (elem === "on") {
+				this.helper(this._elOnContainer, val);
+			} else if (elem === "off") {
+				this.helper(this._elOffContainer, val);
 			}
-			this.helper(this._elTitleContainer, val);
-		} else if (elem === "on") {
-			this.helper(this._elOnContainer, val);
-		} else if (elem === "off") {
-			this.helper(this._elOffContainer, val);
 		}
-	}
-
-	public titlePresent() {
-		if (this._titlePresent === 1) return true;
-		else return false;
 	}
 
 	private handleToolTipDisplayType() {
@@ -3132,6 +3013,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this._elContainer.classList.remove(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.TOOL_TIP_DISPLAY_TYPE.classListPrefix + e);
 		});
 		this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.TOOL_TIP_DISPLAY_TYPE.classListPrefix + this.toolTipDisplayType);
+		this._render();
 	}
 
 	//#endregion

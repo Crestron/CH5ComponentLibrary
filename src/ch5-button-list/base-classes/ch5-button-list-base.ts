@@ -8,7 +8,7 @@ import {
   TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel,
   TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape,
   TCh5ButtonListAttributesOrientation, TCh5ButtonListAttributesStretch, TCh5ButtonListContractItemLabelType,
-  TCh5ButtonListContractItemIconType, TCh5ButtonListSgIconTheme, TCh5ButtonListAttributesLoadItems
+  TCh5ButtonListContractItemIconType, TCh5ButtonListSgIconTheme, TCh5ButtonListAttributesLoadItems, TCh5ButtonListButtonIconUrlFillType
 } from './../interfaces/t-ch5-button-list';
 import { ICh5ButtonListContractObj } from '../interfaces/t-for-ch5-button-list-contract';
 import { ICh5ButtonListAttributes } from './../interfaces/i-ch5-button-list-attributes';
@@ -49,6 +49,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   public static readonly BUTTON_CHECKBOX_POSITIONS: TCh5ButtonListButtonCheckboxPosition[] = ['left', 'right'];
   public static readonly BUTTON_ICON_POSITIONS: TCh5ButtonListButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
   public static readonly BUTTON_SHAPES: TCh5ButtonListButtonShape[] = ['rectangle', 'rounded-rectangle'];
+  public static readonly BUTTON_ICON_URL_FILL_TYPE: TCh5ButtonListButtonIconUrlFillType[] = ['stretch', 'stretch-aspect', 'center', 'tile', 'initial'];
   public static readonly SG_ICON_THEME: TCh5ButtonListSgIconTheme[] = ['icons-lg', 'icons-sm', 'media-transports-accents', 'media-transports-light', 'media-transports-dark'];
 
   public static COMPONENT_DATA: any = {
@@ -114,6 +115,13 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       key: 'buttonShape',
       attribute: 'buttonShape',
       classListPrefix: '--button-shape-'
+    },
+    BUTTON_ICON_URL_FILL_TYPE: {
+      default: Ch5ButtonListBase.BUTTON_ICON_URL_FILL_TYPE[0],
+      values: Ch5ButtonListBase.BUTTON_ICON_URL_FILL_TYPE,
+      key: 'buttonIconUrlFillType',
+      attribute: 'buttonIconUrlFillType',
+      classListPrefix: '--button-icon-url-fill-type-'
     },
     CONTRACT_ITEM_LABEL_TYPE: {
       default: Ch5ButtonListBase.CONTRACT_ITEM_LABEL_TYPE[0],
@@ -421,6 +429,16 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       isObservableProperty: true
     },
     {
+      default: null,
+      enumeratedValues: Ch5ButtonListBase.BUTTON_ICON_URL_FILL_TYPE,
+      name: "buttonIconUrlFillType",
+      removeAttributeOnNull: true,
+      type: "enum",
+      valueOnAttributeEmpty: null,
+      isObservableProperty: true,
+      isNullable: true
+    },
+    {
       default: Ch5ButtonListBase.SG_ICON_THEME[0],
       enumeratedValues: Ch5ButtonListBase.SG_ICON_THEME,
       name: "buttonSgIconTheme",
@@ -695,6 +713,15 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   }
   public get stretch(): TCh5ButtonListAttributesStretch | null {
     return this._ch5Properties.get<TCh5ButtonListAttributesStretch | null>("stretch");
+  }
+
+  public set buttonIconUrlFillType(value: TCh5ButtonListButtonIconUrlFillType | null) {
+    this._ch5Properties.set<TCh5ButtonListButtonIconUrlFillType | null>("buttonIconUrlFillType", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get buttonIconUrlFillType(): TCh5ButtonListButtonIconUrlFillType | null {
+    return this._ch5Properties.get<TCh5ButtonListButtonIconUrlFillType | null>("buttonIconUrlFillType");
   }
 
   public set endless(value: boolean) {
@@ -2302,7 +2329,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     btn.setAttribute('sgIconTheme', this.buttonSgIconTheme);
 
     const remainingAttributes = ['buttonCheckboxPosition', 'buttonCheckboxShow', 'buttonVAlignLabel', 'buttonHAlignLabel', 'buttonIconClass',
-      'buttonIconPosition', 'buttonIconUrl', 'buttonShape', 'buttonType', 'buttonPressed', 'buttonLabelInnerHtml'];
+      'buttonIconPosition', 'buttonIconUrl', 'buttonShape', 'buttonType', 'buttonPressed', 'buttonLabelInnerHtml', 'buttonIconUrlFillType'];
     const individualButtons = this.getElementsByTagName(this.nodeName.toLowerCase() + '-individual-button');
     const individualButtonsLength = individualButtons.length;
     remainingAttributes.forEach((attr: string) => {

@@ -5,19 +5,19 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5CommonAttributes } from "../../ch5-common/interfaces/i-ch5-common-attributes";
+import { ICh5CommonAttributesVideo } from "../../ch5-common/interfaces/i-ch5-common-attributes-video";
 import { TCh5VideoAspectRatio, TCh5VideoSourceType, TCh5VideoSize, } from './t-ch5-video';
 
 /**
  * @ignore
  */
-export interface ICh5VideoAttributes extends ICh5CommonAttributes {
+export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	/**
 	 * @documentation
 	 * [
 	 * "`indexId` attribute",
 	 * "***",
-	 * "Provides the name of the offset identifier to be substituted with 0 based index of the item in list within the signal names provided in other attributes surrounded by {{ }} delimiters.   See examples. Note: 0-based.  Other components, e.g. List, Spinner, Select, are currently 1-based, but will be changed to 0-based in the future.  This component will start as 0-based. "
+	 * "Provides the name of the offset identifier to be substituted with 0 based index of the item in list within the signal names provided in other attributes surrounded by {{ }} delimiters. See examples. Note: 0-based.  Other components, e.g. List, Spinner, Select, are currently 1-based, but will be changed to 0-based in the future.  This component will start as 0-based. "
 	 * ]
 	 * @name indexid
 	 * @default 
@@ -58,7 +58,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`url` attribute",
 	 * "***",
-	 * "Default empty. Defines the video URL as an attribute, superseded by receiveStateURL"
+	 * "Default empty. Defines the video URL as an attribute, superseded by receiveStateURL."
 	 * ]
 	 * @name url
 	 * @default 
@@ -84,7 +84,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`userId` attribute",
 	 * "***",
-	 * "Default empty. Defines the userid passed to camera as credentials for video URL. Superseded by receiveStateUserId,"
+	 * "Default empty. Defines the userid passed to camera as credentials for video URL. Superseded by receiveStateUserId."
 	 * ]
 	 * @name userid
 	 * @default 
@@ -97,7 +97,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`password` attribute",
 	 * "***",
-	 * "Default empty. Defines the password passed to the camera as credentials for the video URL. Superseded by receiveStatePassword,"
+	 * "Default empty. Defines the password passed to the camera as credentials for the video URL. Superseded by receiveStatePassword."
 	 * ]
 	 * @name password
 	 * @default 
@@ -110,7 +110,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`snapshotURL` attribute",
 	 * "***",
-	 * "Default empty. Defines the still image URL as an attribute, superseded by receiveStateSnapshotURL"
+	 * "Default empty. Defines the still image URL as an attribute, superseded by receiveStateSnapshotURL."
 	 * ]
 	 * @name snapshoturl
 	 * @default 
@@ -123,7 +123,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`snapshotRefreshRate` attribute",
 	 * "***",
-	 * "Default 5. Defines the refresh period for a snapshot URL in units of seconds. 0 indicates no refresh, max is 60. Superseded by receiveStateSnapshotRefreshrate"
+	 * "Default 5. Defines the refresh period for a snapshot URL in units of seconds. 0 indicates no refresh, max is 60. Superseded by receiveStateSnapshotRefreshRate."
 	 * ]
 	 * @name snapshotrefreshrate
 	 * @default 5
@@ -137,7 +137,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`snapshotUserId` attribute",
 	 * "***",
-	 * "Default empty. Defines the userid passed to the camera as credentials for the image URL. Superseded by receiveStateSnapshotUserId,"
+	 * "Default empty. Defines the userid passed to the camera as credentials for the image URL. Superseded by receiveStateSnapshotUserId."
 	 * ]
 	 * @name snapshotuserid
 	 * @default 
@@ -189,7 +189,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`receiveStateSelect` attribute",
 	 * "***",
-	 * "when defined, will play 0-based index of the video source list. Value of < 0 or > 31 will select no video to play Value of 0 to 31 will play the selected video source provided the video source type (see receiveStateSourceType) is valid. when not defined, the first video source defined (equivalent of index 0) in the list will be played"
+	 * "when defined, will play 0-based index of the video source list. Value of < 0 or > 31 will select no video to play Value of 0 to 31 will play the selected video source provided the video source type (see receiveStateSourceType) is valid. when not defined, the first video source defined (equivalent of index 0) in the list will be played."
 	 * ]
 	 * @name receivestateselect
 	 * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
@@ -215,7 +215,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`receiveStateSourceType` attribute",
 	 * "***",
-	 * "provides the video source type when the selection changes to INDEX value. See description of INDEX in receiveStateURL. enumerated values are “Network”, “HDMI”, and “DM”"
+	 * "provides the video source type when the selection changes to INDEX value. Value is 'Network'."
 	 * ]
 	 * @name receivestatesourcetype
 	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
@@ -228,7 +228,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`receiveStateUserId` attribute",
 	 * "***",
-	 * "provides the userid for credentials supplied to camera for video URL. See description of INDEX in receiveStateURL"
+	 * "provides the userid for credentials supplied to camera for video URL."
 	 * ]
 	 * @name receivestateuserid
 	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
@@ -241,7 +241,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`receiveStatePassword` attribute",
 	 * "***",
-	 * "provides the password for credentials supplied to camera for video URL. See description of INDEX in receiveStateURL"
+	 * "provides the password for credentials supplied to camera for video URL."
 	 * ]
 	 * @name receivestatepassword
 	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
@@ -254,7 +254,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`receiveStateSnapshotURL` attribute",
 	 * "***",
-	 * "provides the still image URL to use when selection changes to INDEX value. See the description of INDEX in receiveStateURL."
+	 * "provides the still image URL to use when selection changes to INDEX value."
 	 * ]
 	 * @name receivestatesnapshoturl
 	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
@@ -267,7 +267,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`receiveStateSnapshotRefreshRate` attribute",
 	 * "***",
-	 * "Defines the refresh period for a still image url when the selection changes to INDEX value. 0 indicates no refresh. See the description of INDEX in receiveStateURL."
+	 * "Defines the refresh period for a still image url when the selection changes to INDEX value. 0 indicates no refresh."
 	 * ]
 	 * @name receivestatesnapshotrefreshrate
 	 * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
@@ -280,7 +280,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`receiveStateSnapshotUserId` attribute",
 	 * "***",
-	 * "provides the userid for credentials supplied to camera for image URL. See description of INDEX in receiveStateURL"
+	 * "provides the userId for credentials supplied to camera for image URL."
 	 * ]
 	 * @name receivestatesnapshotuserid
 	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
@@ -293,7 +293,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`receiveStateSnapshotPassword` attribute",
 	 * "***",
-	 * "provides the password for credentials supplied to camera for image URL. See description of INDEX in receiveStateURL"
+	 * "provides the password for credentials supplied to camera for image URL."
 	 * ]
 	 * @name receivestatesnapshotpassword
 	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
@@ -319,7 +319,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`sendEventOnClick` attribute",
 	 * "***",
-	 * "send a signal on click or tap event (mouse or finger up and down in a small period of time)"
+	 * "send a signal on click or tap event (mouse or finger up and down in a small period of time)."
 	 * ]
 	 * @name sendeventonclick
 	 * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
@@ -332,7 +332,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`sendEventSelectionChange` attribute",
 	 * "***",
-	 * "send signal on source selection change"
+	 * "send signal on source selection change."
 	 * ]
 	 * @name sendeventselectionchange
 	 * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
@@ -345,7 +345,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`sendEventSelectionSourceType` attribute",
 	 * "***",
-	 * "current selected source type"
+	 * "current selected source type."
 	 * ]
 	 * @name sendeventselectionsourcetype
 	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
@@ -358,7 +358,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`sendEventSelectionURL` attribute",
 	 * "***",
-	 * "current selected video URL"
+	 * "current selected video URL."
 	 * ]
 	 * @name sendeventselectionurl
 	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
@@ -371,7 +371,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`sendEventSnapshotURL` attribute",
 	 * "***",
-	 * "current selected snapshot URL"
+	 * "current selected snapshot URL."
 	 * ]
 	 * @name sendeventsnapshoturl
 	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
@@ -384,7 +384,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`sendEventState` attribute",
 	 * "***",
-	 * "current state of the video stream numeric enumeration 0 - no selected source or uninitialized 1 - stopped 2 - playing 3 - stop requested 4 - play requested, connecting 5 - play requested, buffering 6 - play requested, retrying 7 - play requested, error"
+	 * "current state of the video stream numeric enumeration 0 - no selected source or uninitialized 1 - stopped 2 - playing 3 - stop requested 4 - play requested, connecting 5 - play requested, buffering 6 - play requested, retrying 7 - play requested, error."
 	 * ]
 	 * @name sendeventstate
 	 * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
@@ -397,7 +397,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`sendEventErrorCode` attribute",
 	 * "***",
-	 * "current state video error code numeric enumeration, applicable only when state of video is error 0 - no error transient issues (retry is appropriate) > 0 1 - miscellaneous transient issue (error not known or none of the below) 2 - connection timeout (network issues, camera offline, etc) 3 - No input sync (HDMI not plugged in, DM not streaming) setup and system issues (retry is not appropriate) < 0 -1 - miscellaneous error (error not known or none of below) -2 - host name could not be resolved -3 - unsupported source type for this platform -4 - connection timeout -5 - invalid credentials -6 - unsupported streaming protocol -7 - unsupported codec"
+	 * "current state video error code numeric enumeration, applicable only when state of video is 0-success, 1-HDMI no sync, 2 - DM no stream, -1 -connection refused / camera offline, -2 -no network, -1001 -credentials required or invalid, -1002 -hostname invalid, -1003 -unsupported codec, -9001 - unsupported sourceType, -9002 - invalid url, -9003 - request for greater than maximum simultaneous sessions per source type, -9004 - request for greater than maximum simultaneous sessions per device, -9007 - Unknown Error Message"
 	 * ]
 	 * @name sendeventerrorcode
 	 * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
@@ -410,7 +410,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`sendEventErrorMessage` attribute",
 	 * "***",
-	 * "current state video error message string - diagnostic information on error as propagated from the video rendering engine. Not intended for end user to see"
+	 * "current state video error message string - diagnostic information on error as propagated from the video rendering engine."
 	 * ]
 	 * @name sendeventerrormessage
 	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
@@ -423,7 +423,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`sendEventRetryCount` attribute",
 	 * "***",
-	 * "current state video  retry count numeric - the count of times the video engine has retried to stream the current video source"
+	 * "current state video  retry count numeric - the count of times the video engine has retried to stream the current video source."
 	 * ]
 	 * @name sendeventretrycount
 	 * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
@@ -449,7 +449,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`sendEventSnapshotStatus` attribute",
 	 * "***",
-	 * "current state of the still image associated with the current source selection numeric - 0 not shown, 1 -currently shown, 2 - in error"
+	 * "current state of the still image associated with the current source selection numeric - 0 not shown, 1 -currently shown, 2 - in error."
 	 * ]
 	 * @name sendeventsnapshotstatus
 	 * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
@@ -462,7 +462,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
 	 * [
 	 * "`sendEventSnapshotLastUpdateTime` attribute",
 	 * "***",
-	 * "the timestamp of  the last update time of the still image associated with the current source selection string - serial in RFC 3339 format"
+	 * "The timestamp of  the last update time of the still image associated with the current source selection string - serial in RFC 3339 format."
 	 * ]
 	 * @name sendeventsnapshotlastupdatetime
 	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}

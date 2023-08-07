@@ -11,25 +11,25 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-sample-size-attributes">
+  <test-fixture id="ch5-video-size-attributes">
     <template>
-      <ch5-sample></ch5-sample>
+      <ch5-video></ch5-video>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-sample-size-attributes-value', () => {
-      let ch5Sample;
+    suite('ch5-video-size-attributes-value', () => {
+      let ch5Video;
 
       setup(async () => {
-        ch5Sample = fixture('ch5-sample-size-attributes');
+        ch5Video = fixture('ch5-video-size-attributes');
       });
         
         let testCases = ['a', '', ' ', 'number', 'regular', 'x-small', 'small', 'large', 'x-large', 'xx-large'];
         let expectedResult = ['regular', 'regular', 'regular', 'regular', 'regular', 'x-small', 'small', 'large', 'x-large', 'xx-large'];
         testCases.forEach((ele, i) => {
               test('Check Value "size"', () => {
-                  ch5Sample.setAttribute('size', ele);
-                  expect(ch5Sample.getAttribute('size')).to.be.equal(expectedResult[i]);
+                  ch5Video.setAttribute('size', ele);
+                  expect(ch5Video.getAttribute('size')).to.be.equal(expectedResult[i]);
               });
           });
         
