@@ -73,7 +73,7 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * "Possible values are center(default), left, right. Sets the horizontal alignment of the text."
 	 * ]
 	 * @name horizontalalignment
-	 * @default MM-dd-yyyy
+	 * @default center
 	 * @attributeType "EnumeratedValue"
 	 */
 	horizontalAlignment: TCh5DateTimeHorizontalAlignment;
@@ -85,7 +85,7 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * "Possible values are datetime (default): Date and Time are displayed | date: Date is displayed | time: Time is displayed"
 	 * ]
 	 * @name displaytype
-	 * @default MM-dd-yyyy
+	 * @default datetime
 	 * @attributeType "EnumeratedValue"
 	 */
 	displayType: TCh5DateTimeDisplayType;
