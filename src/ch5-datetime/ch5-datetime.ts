@@ -212,7 +212,6 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
   public set timeOffsetHours(value: number) {
     this._ch5Properties.set<number>("timeOffsetHours", value, () => {
       this.changeTime();
-      // this.calculateTimeOffsetHours(value);
     });
   }
   public get timeOffsetHours(): number {
@@ -222,9 +221,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
   public set receiveStateTimeOffsetHours(value: string) {
     this._ch5Properties.set("receiveStateTimeOffsetHours", value, null, (newValue: number) => {
       this._ch5Properties.setForSignalResponse<number>("timeOffsetHours", (newValue), () => {
-        //  this.offsetTimeHours(newValue);
         this.changeTime();
-
       });
     });
   }
@@ -256,7 +253,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
   public constructor() {
     super();
     this.logger.start('constructor()', Ch5DateTime.ELEMENT_NAME);
-    this.ignoreAttributes = ["disabled", "appendClassWhenInViewPort", "sendEventOnShow", "receiveStateEnable", "receiveStateHidePulse", "receiveStateShowPulse",];
+    this.ignoreAttributes = ["disabled", "appendClassWhenInViewPort", "sendEventOnShow", "receiveStateEnable", "receiveStateHidePulse", "receiveStateShowPulse"];
     if (!this._wasInstatiated) {
       this.createInternalHtml();
     }
@@ -337,11 +334,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
     if (this.componentFormat !== "") {
       const newDate = new Date();
       let dateInNumberFormat: Date
-      // if (this.timeOffsetHours) {
       dateInNumberFormat = this.calculateTimeOffsetHours(newDate);
-      // } else {
-      //   dateInNumberFormat = newDate;
-      // }
       this._elContainer.textContent = toFormat(dateInNumberFormat, this.componentFormat);
       this.dateTimeId = window.setTimeout(() => {
         this.changeTime();
@@ -353,13 +346,11 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
     this._elContainer = document.createElement('div');
-
     this.logger.stop();
   }
 
   protected initAttributes() {
     super.initAttributes();
-
     const thisRef: any = this;
     for (let i: number = 0; i < Ch5DateTime.COMPONENT_PROPERTIES.length; i++) {
       if (Ch5DateTime.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
@@ -393,7 +384,6 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
       this._elContainer.classList.remove(Ch5DateTime.ELEMENT_NAME + Ch5DateTime.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + alignment);
     });
     this._elContainer.classList.add(Ch5DateTime.ELEMENT_NAME + Ch5DateTime.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + this.horizontalAlignment);
-
     this.logger.stop();
   }
 
