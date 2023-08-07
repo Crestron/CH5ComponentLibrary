@@ -1010,7 +1010,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
       }
     });
 
-    if (this.receiveStateSelectedButton.trim() !== "") {
+    if ((this.receiveStateSelectedButton.trim() !== "" && this.contractName === "") || (this.contractName !== "" && this.useContractForEachButtonSelection === true && this.receiveStateSelectedButton === this.contractName + '.TabSelected')) {
       btn.removeAttribute('receiveStateSelected');
       btn.removeAttribute('selected');
       if (this.selectedButton === index) {
