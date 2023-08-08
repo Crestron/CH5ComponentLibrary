@@ -340,4 +340,28 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @attributeType "EnumeratedValue"
    */
   buttonIconUrlFillType: TCh5TabButtonButtonIconUrlFillType | null;
+  /**
+   * @documentation
+   * [
+   * "`receiveStateSelectedButton` attribute",
+   * "***",
+   * "ReceiveStateSelectedButton attribute helps the user to select an item on tab button by using an analog join."
+   * ]
+   * @name receivestateselectedbutton
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+   * @attributeType "Join"
+   */
+  receiveStateSelectedButton: string;
+  /**
+   * @documentation
+   * [
+   * "`useContractForEachButtonSelection` attribute",
+   * "***",
+   * "The default value is false. If the value is true then the selected state of the buttons is taken from the contractName.TabSelected else from contractName.Tab[X]_Selected."
+   * ]
+   * @name usecontractforeachbuttonselection
+   * @default false
+   * @attributeType "Boolean"
+   */
+  useContractForEachButtonSelection: boolean;
 }

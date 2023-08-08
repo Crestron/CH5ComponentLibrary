@@ -148,12 +148,14 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *       "\tcontractItemIconType=\"${40:none}\"",
  *       "\tuseContractForCustomStyle=\"${41:false}\"",
  *       "\tuseContractForCustomClass=\"${42:false}\"",
- *       "\tuseContractForNumItems=\"${43:false}\"",
- *       "\tbuttonReceiveStateSGIconNumeric=\"${44:}\"",
- *       "\tbuttonReceiveStateSGIconString=\"${45:}\"",
- *       "\tbuttonSgIconTheme=\"${46:icons-lg}\"",
- *       "\tloadItems=\"${47:visible-only}\"",
- *       "\tclickHoldTime=\"${48:1500}\">",
+ *       "\tuseContractForEachButtonSelection=\"${43:false}\"",
+ *       "\tuseContractForNumItems=\"${44:false}\"",
+ *       "\tbuttonReceiveStateSGIconNumeric=\"${45:}\"",
+ *       "\tbuttonReceiveStateSGIconString=\"${46:}\"",
+ *       "\treceiveStateSelectedButton=\"${47:}\"",
+ *       "\tbuttonSgIconTheme=\"${48:icons-lg}\"",
+ *       "\tloadItems=\"${49:visible-only}\"",
+ *       "\tclickHoldTime=\"${50:1500}\">",
  *       "</ch5-button-list>$0"
  *       ]
  *    },
@@ -180,8 +182,9 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *        "\tcontractItemIconType=\"${8:none}\"",
  *        "\tuseContractForCustomStyle=\"${9:false}\"",
  *        "\tuseContractForCustomClass=\"${10:false}\"",
- *        "\tuseContractForNumItems=\"${11:false}\"",
- *        "\tclickHoldTime=\"${12:1500}\">",
+ *        "\tuseContractForEachButtonSelection=\"${11:false}\"",
+ *        "\tuseContractForNumItems=\"${12:false}\"",
+ *        "\tclickHoldTime=\"${13:1500}\">",
  *        "</ch5-button-list>$0"
  *        ]
  *    }
