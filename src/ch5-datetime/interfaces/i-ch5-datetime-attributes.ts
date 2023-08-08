@@ -27,6 +27,7 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * @name displayampm
 	 * @default true
 	 * @attributeType "Boolean"
+	 * @showWhen [{"display24HourFormat":"false"}]
 	 */
 	displayAmPm: boolean;
 	/**
@@ -51,6 +52,7 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * @name displayseconds
 	 * @default false
 	 * @attributeType "Boolean"
+	 * @showWhen [{"displayType":['datetime', 'time']}]
 	 */
 	displaySeconds: boolean;
 	/**
