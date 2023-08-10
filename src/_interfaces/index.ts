@@ -54,3 +54,4 @@ export * from "./../ch5-triggerview/interfaces/i-ch5-triggerview-documentation";
 export * from "./../ch5-triggerview/interfaces/i-ch5-triggerview-child-documentation";
 export * from './../ch5-video/interfaces/i-ch5-video-documentation';
 export * from './../ch5-wifi-signal-level-gauge/interfaces/i-ch5-wifi-signal-level-gauge-documentation';
+export * from './../ch5-text/interfaces/i-ch5-text-documentation';
