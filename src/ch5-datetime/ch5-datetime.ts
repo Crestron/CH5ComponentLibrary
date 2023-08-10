@@ -108,12 +108,12 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
       type: "number",
       valueOnAttributeEmpty: null,
       numberProperties: {
-        min: -37768,
-        max: 37767,
-        conditionalMin: -37768,
-        conditionalMax: 37767,
-        conditionalMinValue: -37768,
-        conditionalMaxValue: 37767
+        min: -32768,
+        max: 32767,
+        conditionalMin: -32768,
+        conditionalMax: 32767,
+        conditionalMinValue: -32768,
+        conditionalMaxValue: 32767
       },
       isObservableProperty: true
     },
@@ -427,7 +427,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
 
   private calculateTimeOffsetHours(dateValue: Date): Date {
     const timeSetHours = this.timeOffsetHours;
-    if (timeSetHours && timeSetHours !== 0 && timeSetHours > -32768 && timeSetHours < 32767) {
+    if (timeSetHours && timeSetHours !== 0 && timeSetHours >= -32768 && timeSetHours <= 32767) {
       const resultDate = dateValue;
       resultDate.setMinutes(resultDate.getMinutes() + Math.round((timeSetHours * 60)));
       return resultDate;
