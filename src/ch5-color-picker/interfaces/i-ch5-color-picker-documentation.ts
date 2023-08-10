@@ -16,7 +16,7 @@ import { ICh5ColorPickerAttributes } from "./i-ch5-color-picker-attributes";
  * [
  *   "`ch5-color-picker` element",
  *   "***",
- *   "Component to render the color picker"
+ *   "The color picker is a widget that allows users to see and select full 24 bit range of colors in manner similar to popular image editing software such as Adobe Photoshop, GNU Gimp and Microsoft Paint."
  * ]
  * @snippets
  * [

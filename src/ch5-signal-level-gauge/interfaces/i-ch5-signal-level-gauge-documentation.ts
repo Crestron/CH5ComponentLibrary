@@ -16,7 +16,7 @@ import { ICh5SignalLevelGaugeAttributes } from "./i-ch5-signal-level-gauge-attri
  * [
  *   "`ch5-signal-level-gauge` element",
  *   "***",
- *   "The Signal Level Gauge displays feedback from an Analog Join."
+ *   "The Signal Level Gauge control is used to display the level of a signal using feedback from an Analog Join represented by bars using a predefined scale.  Additionally, the control can be used to scale an analog value on the touch panel instead of programming on the control system."
  * ]
  * @snippets
  * [ 

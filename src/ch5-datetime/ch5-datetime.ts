@@ -5,7 +5,7 @@ import { TCh5DateTimeStyleForDate, TCh5DateTimeHorizontalAlignment, TCh5DateTime
 import { ICh5DateTimeAttributes } from './interfaces/i-ch5-datetime-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
-import { toFormat } from "./interfaces/date-time-util";
+import { toFormat } from "./date-time-util";
 
 export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
 
@@ -429,7 +429,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
     const timeSetHours = this.timeOffsetHours;
     if (timeSetHours && timeSetHours !== 0 && timeSetHours > -32768 && timeSetHours < 32767) {
       const resultDate = dateValue;
-      resultDate.setMinutes(resultDate.getMinutes() + Math.round((timeSetHours * 60) / 100));
+      resultDate.setMinutes(resultDate.getMinutes() + Math.round((timeSetHours * 60)));
       return resultDate;
     } else {
       return dateValue;

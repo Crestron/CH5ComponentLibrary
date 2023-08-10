@@ -13,7 +13,11 @@ import { ICh5JoinToTextBooleanAttributes } from "./i-ch5-jointotext-boolean-attr
  * [
  * "`ch5-jointotext-boolean` element",
  * "***",
- * ""
+ * "This component provides attributes like - ",
+ * "value (this attribute is not expected to be used outside of diagnostic purposes.  This attribute should not be used or honored when receiveStateValue attribute is provided),  ",
+ * "receiveStateValue (expected value is boolean/digital join number or contract state signal name. When not provided, the tag will evaluate to empty string), ",
+ * "textWhenTrue (expected value is the text to be displayed when the boolean join evaluates to true. If not provided and the boolean join evaluates to true, the component 'textContent' will evaluate to empty string), ",
+ * "textWhenFalse (expected value is the text to be displayed when the boolean value evaluates to false. If not provided and the boolean join evaluates to false, the component 'textContent' will evaluate to empty string)."
  * ]
  * @snippets
  * [
