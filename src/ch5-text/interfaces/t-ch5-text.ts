@@ -5,5 +5,5 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-export type TCh5TextHorizontalAlignment = 'center' |'left' |'right';
-      
+export type TCh5TextHorizontalAlignment = 'center' | 'left' | 'right';
+export type TCh5TextVerticalAlignment = 'middle' | 'top' | 'bottom';

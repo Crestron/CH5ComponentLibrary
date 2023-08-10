@@ -1,8 +1,7 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5SignalFactory } from "../ch5-core/index";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
-import { TCh5TextHorizontalAlignment, } from './interfaces/t-ch5-text';
+import { TCh5TextHorizontalAlignment, TCh5TextVerticalAlignment, } from './interfaces/t-ch5-text';
 import { ICh5TextAttributes } from './interfaces/i-ch5-text-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
@@ -12,6 +11,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   //#region Variables
 
   public static readonly HORIZONTAL_ALIGNMENT: TCh5TextHorizontalAlignment[] = ['center', 'left', 'right'];
+  public static readonly VERTICAL_ALIGNMENT: TCh5TextVerticalAlignment[] = ['middle', 'top', 'bottom'];
   public static readonly COMPONENT_DATA: any = {
     HORIZONTAL_ALIGNMENT: {
       default: Ch5Text.HORIZONTAL_ALIGNMENT[0],
@@ -19,6 +19,14 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
       key: 'horizontalAlignment',
       attribute: 'horizontalAlignment',
       classListPrefix: '--horizontal-alignment-'
+    },
+
+    VERTICAL_ALIGNMENT: {
+      default: Ch5Text.VERTICAL_ALIGNMENT[0],
+      values: Ch5Text.VERTICAL_ALIGNMENT,
+      key: 'verticalAlignment',
+      attribute: 'verticalAlignment',
+      classListPrefix: '--vertical-alignment-'
     },
   };
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
@@ -40,11 +48,21 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
     },
     {
+      default: Ch5Text.VERTICAL_ALIGNMENT[0],
+      enumeratedValues: Ch5Text.VERTICAL_ALIGNMENT,
+      name: "verticalAlignment",
+      removeAttributeOnNull: true,
+      type: "enum",
+      valueOnAttributeEmpty: Ch5Text.VERTICAL_ALIGNMENT[0],
+      isObservableProperty: true,
+
+    },
+    {
       default: false,
       name: "multilineSupport",
       removeAttributeOnNull: true,
       type: "boolean",
-      valueOnAttributeEmpty: false,
+      valueOnAttributeEmpty: true,
       isObservableProperty: true,
 
     },
@@ -53,7 +71,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
       name: "truncateText",
       removeAttributeOnNull: true,
       type: "boolean",
-      valueOnAttributeEmpty: false,
+      valueOnAttributeEmpty: true,
       isObservableProperty: true,
 
     },
@@ -88,16 +106,6 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
       isObservableProperty: true,
 
     },
-    {
-      default: "",
-      name: "textStyle",
-
-      removeAttributeOnNull: true,
-      type: "string",
-      valueOnAttributeEmpty: "",
-      isObservableProperty: true,
-
-    },
   ];
 
   public static readonly ELEMENT_NAME = 'ch5-text';
@@ -122,6 +130,15 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   }
   public get horizontalAlignment(): TCh5TextHorizontalAlignment {
     return this._ch5Properties.get<TCh5TextHorizontalAlignment>("horizontalAlignment");
+  }
+
+  public set verticalAlignment(value: TCh5TextVerticalAlignment) {
+    this._ch5Properties.set<TCh5TextVerticalAlignment>("verticalAlignment", value, () => {
+      this.handleVerticalAlignment();
+    });
+  }
+  public get verticalAlignment(): TCh5TextVerticalAlignment {
+    return this._ch5Properties.get<TCh5TextVerticalAlignment>("verticalAlignment");
   }
 
   public set multilineSupport(value: boolean) {
@@ -171,15 +188,6 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     return this._ch5Properties.get<string>("labelInnerHtml");
   }
 
-  public set textStyle(value: string) {
-    this._ch5Properties.set<string>("textStyle", value, () => {
-      this.handleTextStyle();
-    });
-  }
-  public get textStyle(): string {
-    return this._ch5Properties.get<string>("textStyle");
-  }
-
 
   //#endregion
 
@@ -205,7 +213,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   public constructor() {
     super();
     this.logger.start('constructor()', Ch5Text.ELEMENT_NAME);
-    this.ignoreAttributes = ["appendClassWhenInViewPort", "receiveStateShowPulse", "receiveStateHidePulse", "sendeventOnshow"];
+    this.ignoreAttributes = ["appendclasswheninviewport", "receivestateshowpulse", "receivestatehidepulse", "sendeventonshow",];
     if (!this._wasInstatiated) {
       this.createInternalHtml();
     }
@@ -332,6 +340,13 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     this._elSpan.classList.add(this.spanCssClass + Ch5Text.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + this.horizontalAlignment);
   }
 
+  private handleVerticalAlignment() {
+    Array.from(Ch5Text.COMPONENT_DATA.VERTICAL_ALIGNMENT.values).forEach((e: any) => {
+      this._elContainer.classList.remove(this.primaryCssClass + Ch5Text.COMPONENT_DATA.VERTICAL_ALIGNMENT.classListPrefix + e);
+    });
+    this._elContainer.classList.add(this.primaryCssClass + Ch5Text.COMPONENT_DATA.VERTICAL_ALIGNMENT.classListPrefix + this.verticalAlignment);
+  }
+
   private handleMultilineSupport() {
     ['true', 'false'].forEach((e: any) => {
       this._elSpan.classList.remove(this.spanCssClass + '--multiline-support-' + e);
@@ -369,11 +384,6 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     }
   }
 
-
-  private handleTextStyle() {
-    // Enter your Code here
-  }
-
   private decodeInnerHTMLForAttribute(innerHTML: string) {
     return innerHTML.replace('&amp;', "&")
       .replace('&lt;', "<")
@@ -386,6 +396,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     this.logger.start('UpdateCssClass');
     super.updateCssClasses();
     this._elSpan.classList.add(this.spanCssClass + Ch5Text.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + this.horizontalAlignment);
+    this._elContainer.classList.add(this.primaryCssClass + Ch5Text.COMPONENT_DATA.VERTICAL_ALIGNMENT.classListPrefix + this.verticalAlignment);
     this._elSpan.classList.add(this.spanCssClass + '--multiline-support-' + this.multilineSupport.toString());
     this._elSpan.classList.add(this.spanCssClass + '--truncate-text-' + this.truncateText.toString());
     this.logger.stop();
@@ -404,11 +415,9 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     console.log("lineheight is: " + lineheight);
     const containerHeight = this.getContainerHeight(this._elContainer); // eslint-disable-next-line @typescript-eslint/no-non-null-assertio non-null assertion
     console.log("containerHeight is: " + containerHeight);
-    if(this.truncateText){
-      const numberOfLines = Math.floor(containerHeight / lineheight);
-      //this._elSpan.setAttribute("style", "height: " + containerHeight + "px");
-      this._elSpan.setAttribute("style", "-webkit-line-clamp:"+ numberOfLines + "height: " + containerHeight + "px");
-    }
+    const numberOfLines = Math.floor(containerHeight / lineheight);
+    this._elSpan.setAttribute("style", "height: " + containerHeight + "px");
+    this._elSpan.setAttribute("style", "-webkit-line-clamp:" + numberOfLines + "px");
   }
 
   public getLineHeight(el: HTMLElement) {

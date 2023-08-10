@@ -33,6 +33,15 @@
           expect(ch5Text.getAttribute("horizontalAlignment")).to.be.equal('center');
         });
         
+        test('Check Default value for verticalAlignment', () => {
+          expect(ch5Text.getAttribute("verticalAlignment")).to.be.equal(null);
+          ch5Text.setAttribute('verticalAlignment', 'middle');
+          expect(ch5Text.children[0].classList.contains('ch5-text--verticalAlignment-middle')).to.be.equal(true);
+          expect(ch5Text.getAttribute("verticalAlignment")).to.be.equal('middle');
+          ch5Text.removeAttribute("verticalAlignment");
+          expect(ch5Text.getAttribute("verticalAlignment")).to.be.equal('middle');
+        });
+        
     });
   </script>
 </body>

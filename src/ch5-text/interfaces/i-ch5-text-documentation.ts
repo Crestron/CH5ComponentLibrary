@@ -1,4 +1,4 @@
-import { ICh5Common } from "../../_interfaces";
+import { ICh5CommonText } from "../../ch5-common/interfaces/i-ch5-common-documentation-text";
 import { ICh5TextAttributes } from "./i-ch5-text-attributes";
 
 /**
@@ -6,7 +6,7 @@ import { ICh5TextAttributes } from "./i-ch5-text-attributes";
  * @isattribute false
  * @tagName ch5-text
  * @role label
- * @description The Formatted Text control is used to display advanced text on a touch panel.  It supports HTML text via an Indirect Text Serial Join as well as static text defined at design time. Additionally, it can be used as multiline and/or truncated text, and supports all of the CIP tags documented in the CIP HTML tag document..
+ * @description The Formatted Text control is used to display advanced text on a touch panel..
  * @componentVersion 2.5.0
  * @childElements
  * [
@@ -16,8 +16,7 @@ import { ICh5TextAttributes } from "./i-ch5-text-attributes";
  * [
  *   "`ch5-text` element",
  *   "***",
- *   "Component description"
-      // TODO: DEV:CHANGES
+ *   "The Formatted Text control is used to display advanced text on a touch panel.  It supports HTML text via an Indirect Text Serial Join as well as static text defined at design time. Additionally, it can be used as multiline and/or truncated text, and supports all of the CIP tags documented in the CIP HTML tag document.""
  * ]
  * @snippets
  * [
@@ -35,12 +34,11 @@ import { ICh5TextAttributes } from "./i-ch5-text-attributes";
  *     "body": [
  *       "<ch5-text id=\"ch5-text_${1:id}\"",
  *       "\thorizontalAlignment=\"${2:center}\"",
-        *       "\tmultilineSupport=\"${3:false}\"",
-        *       "\ttruncateText=\"${4:false}\"",
-        *       "\tlabel=\"${5:}\"",
-        *       "\treceiveStateLabel=\"${6:}\"",
-        *       "\tlabelInnerHtml=\"${7:}\"",
-        *       "\ttextStyle=\"${8:}\">",
+          *       "\tverticalAlignment=\"${3:middle}\"",
+          *       "\tmultilineSupport=\"${4:false}\"",
+          *       "\ttruncateText=\"${5:false}\"",
+          *       "\tlabel=\"${6:}\"",
+          *       "\treceiveStateLabel=\"${7:}\">",
  *       "</ch5-text>$0"
  *       ]
  *    },
@@ -50,16 +48,15 @@ import { ICh5TextAttributes } from "./i-ch5-text-attributes";
  *     "body": [
  *       "<ch5-text id=\"ch5-text_${1:id}\"",
  *       "\thorizontalAlignment=\"${2:center}\"",
-          *       "\tmultilineSupport=\"${3:false}\"",
-          *       "\ttruncateText=\"${4:false}\"",
-          *       "\tlabel=\"${5:}\"",
-          *       "\tlabelInnerHtml=\"${7:}\"",
-          *       "\ttextStyle=\"${8:}\">",
+            *       "\tverticalAlignment=\"${3:middle}\"",
+            *       "\tmultilineSupport=\"${4:false}\"",
+            *       "\ttruncateText=\"${5:false}\"",
+            *       "\tlabel=\"${6:}\">",
  *       "</ch5-text>$0"
  *       ]
  *    }
  *  ]
  */
-export interface ICh5TextDocumentation extends ICh5Common, ICh5TextAttributes {
+export interface ICh5TextDocumentation extends ICh5CommonText, ICh5TextAttributes {
 
 }
