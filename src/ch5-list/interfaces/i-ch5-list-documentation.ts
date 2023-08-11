@@ -27,7 +27,7 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  * [
  * "`ch5-list` element",
  * "***",
- * " Used to display a list of items."
+ * " This component is used to display a list of items."
  * ]
  * @snippets
  * [

@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5TabButtonAttributes } from "./i-ch5-tab-button-attributes";
-import {ICh5TabButtonCommonDocumentation} from "../../ch5-common/interfaces/i-ch5-tab-button-documentation"
+import { ICh5TabButtonCommonDocumentation } from "../../ch5-common/interfaces/i-ch5-tab-button-documentation"
 
 /**
  * @name Ch5 Tab Button
@@ -86,11 +86,13 @@ import {ICh5TabButtonCommonDocumentation} from "../../ch5-common/interfaces/i-ch
  *       "\tbuttonSendEventOnClick=\"${19:}\"",
  *       "\tbuttonReceiveStateShow=\"${20:}\"",
  *       "\tbuttonReceiveStateEnable=\"${21:}\"",
- *       "\tcontractName=\"${22:}\"",
- *       "\tuseContractForEnable=\"${23:false}\"",
- *       "\tuseContractForShow=\"${24:false}\"",
- *       "\tuseContractForCustomClass=\"${25:false}\"",
- *       "\tuseContractForCustomStyle=\"${26:false}\">",
+ *       "\treceiveStateSelectedButton=\"${22:}\"",
+ *       "\tcontractName=\"${23:}\"",
+ *       "\tuseContractForEnable=\"${24:false}\"",
+ *       "\tuseContractForShow=\"${25:false}\"",
+ *       "\tuseContractForCustomClass=\"${26:false}\"",
+ *       "\tuseContractForEachButtonSelection=\"${27:false}\"",
+ *       "\tuseContractForCustomStyle=\"${28:false}\">",
  *       "</ch5-tab-button>$0"
  *       ]
  *    },
@@ -112,7 +114,8 @@ import {ICh5TabButtonCommonDocumentation} from "../../ch5-common/interfaces/i-ch
  *        "\tuseContractForEnable=\"${3:false}\"",
  *        "\tuseContractForShow=\"${4:false}\"",
  *        "\tuseContractForCustomClass=\"${5:false}\"",
- *        "\tuseContractForCustomStyle=\"${6:false}\">",
+ *        "\tuseContractForEachButtonSelection=\"${6:false}\"",
+ *        "\tuseContractForCustomStyle=\"${7:false}\">",
  *        "</ch5-tab-button>$0"
  *        ]
  *    }

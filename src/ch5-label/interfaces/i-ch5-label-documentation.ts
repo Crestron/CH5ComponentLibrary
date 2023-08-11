@@ -6,7 +6,7 @@ import { ICh5LabelAttributes } from "./i-ch5-label-attributes";
  * @isattribute false
  * @tagName ch5-label
  * @role 
- * @description of the component.
+ * @description This label component is used as a child component to extend the label values.
  * @componentVersion 1.0.0
  * @childElements
  * [
@@ -16,8 +16,7 @@ import { ICh5LabelAttributes } from "./i-ch5-label-attributes";
  * [
  *   "`ch5-label` element",
  *   "***",
- *   "Component description"
-      // TODO: DEV:CHANGES
+ *   "This component consists of labelm labelInnerHtml, and receiveStateLabel."
  * ]
  * @snippets
  * [

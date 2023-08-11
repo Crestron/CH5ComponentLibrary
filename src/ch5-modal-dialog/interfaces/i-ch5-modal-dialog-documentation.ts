@@ -13,14 +13,12 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  * @isattribute false
  * @tagName ch5-modal-dialog
  * @role dialog
- * @description Ch5 Modal
+ * @description The Modal Dialog component is a special-case instance of an overlay panel used primarily to display dialog windows and user prompts.
  * @componentVersion 1.0.0
  * @documentation
  * [
  * "`ch5-modal-dialog` element",
  * "***",
- * "The Modal Dialog component is a special-case instance of an overlay panel used primarily ",
- * "to display dialog windows and user prompts. ",
  * "The modal dialog should generally contains an optional header bar with a title, ",
  * "an optional message with an optional icon, an optional button 'ok', and 'cancel' buttons."
  * ]
