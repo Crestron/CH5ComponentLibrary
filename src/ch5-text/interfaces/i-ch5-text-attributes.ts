@@ -10,7 +10,7 @@ export interface ICh5TextAttributes extends ICh5CommonAttributesText {
   * [
   * "`horizontalAlignment` attribute",
   * "***",
-  * "Sets the horizontal alignment of the text."
+  * "Sets the text horizontally aligned to the container."
   * ]
   * @name horizontalalignment
   * @default center
@@ -22,7 +22,7 @@ export interface ICh5TextAttributes extends ICh5CommonAttributesText {
   * [
   * "`verticalAlignment` attribute",
   * "***",
-  * "The vertical alignment of the text."
+  * "Sets the text vertically aligned to the container."
   * ]
   * @name verticalalignment
   * @default middle
@@ -46,7 +46,7 @@ export interface ICh5TextAttributes extends ICh5CommonAttributesText {
    * [
    * "`truncateText` attribute",
    * "***",
-   * "Enables or disables text truncation depending on the length of text input and the size of the control. Will show an ellipsis when the text extends beyond the vertically allocated space."
+   * "Enables or disables text truncation depending on the length of text input and the size of the control. Will show an ellipsis when the text extends beyond the horizontally and vertically allocated space."
    * ]
    * @name truncatetext
    * @default false
@@ -58,7 +58,7 @@ export interface ICh5TextAttributes extends ICh5CommonAttributesText {
    * [
    * "`label` attribute",
    * "***",
-   * "Label"
+   * "Sets the text displayed on the label."
    * ]
    * @name label
    * @default 

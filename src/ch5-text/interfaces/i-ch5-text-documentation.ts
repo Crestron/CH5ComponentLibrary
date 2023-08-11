@@ -16,7 +16,7 @@ import { ICh5TextAttributes } from "./i-ch5-text-attributes";
  * [
  *   "`ch5-text` element",
  *   "***",
- *   "The Formatted Text control is used to display advanced text on a touch panel.  It supports HTML text via an Indirect Text Serial Join as well as static text defined at design time. Additionally, it can be used as multiline and/or truncated text, and supports all of the CIP tags documented in the CIP HTML tag document.""
+ *   "The Formatted Text control is used to display advanced text on a touch panel. It supports HTML text via an Indirect Text Serial Join as well as static text defined at design time. Additionally, it can be used as multiline and/or truncated text, and supports all of the CIP tags documented in the CIP HTML tag document."
  * ]
  * @snippets
  * [
