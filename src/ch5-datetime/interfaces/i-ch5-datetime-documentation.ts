@@ -9,12 +9,12 @@ import { ICh5CommonDateTime } from "../../ch5-common/interfaces/i-ch5-common-dat
 import { ICh5DateTimeAttributes } from "./i-ch5-datetime-attributes";
 
 /**
- * @name Ch5 Datetime
+ * @name Ch5 Date Time
  * @isattribute false
  * @tagName ch5-datetime
  * @role datetime
- * @description of the component.
- * @componentVersion 1.0.0
+ * @description The Date Time component is a widget that displays date information using the current system date and time.
+ * @componentVersion 2.5.0
  * @childElements
  * [
  *    
@@ -23,7 +23,7 @@ import { ICh5DateTimeAttributes } from "./i-ch5-datetime-attributes";
  * [
  *   "`ch5-datetime` element",
  *   "***",
- *   "An date object is designed to provide options to show date with displayType, timeOffsetHours, display24HourFormat, displayAmPm, displayTwoDigitsHour, displaySeconds, styleForDate, horizontalAlignment and receiveStateTimeOffsetHours"
+ *   "An date and time display designed to provide options to show date with displayType, timeOffsetHours, display24HourFormat, displayAmPm, displayTwoDigitsHour, displaySeconds, styleForDate, horizontalAlignment and receiveStateTimeOffsetHours"
  * ]
  * @snippets
  * [

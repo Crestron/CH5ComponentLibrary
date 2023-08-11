@@ -7,8 +7,8 @@ import { ICh5JoinToTextBooleanAttributes } from "./i-ch5-jointotext-boolean-attr
  * @isattribute false
  * @tagName ch5-jointotext-boolean
  * @role presentation
- * @description Ch5 JoinToText Boolean
- * @componentVersion 1.0.0
+ * @description The component provides a response of a digital join. This component can be used to show different values for true and false digital signal responses.
+ * @componentVersion 2.0.0
  * @documentation
  * [
  * "`ch5-jointotext-boolean` element",

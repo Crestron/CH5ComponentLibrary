@@ -6,7 +6,7 @@ import { ICh5ColorPickerAttributes } from "./i-ch5-color-picker-attributes";
  * @isattribute false
  * @tagName ch5-color-picker
  * @role color-picker
- * @description component to render the color picker.
+ * @description The Color Picker control will comprise of a rectangular image of various colors and a vertical slider of various luminance values.
  * @componentVersion 2.1.0
  * @childElements
  * [

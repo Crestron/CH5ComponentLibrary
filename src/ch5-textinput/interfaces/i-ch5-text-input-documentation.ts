@@ -9,7 +9,7 @@ import { ICh5TextInputAttributes } from ".";
 import { ICh5Common } from "../../ch5-common/interfaces";
 
 /**
- * @name Ch5 Textinput
+ * @name Ch5 Text Input
  * @isattribute false
  * @tagName ch5-textinput
  * @role input

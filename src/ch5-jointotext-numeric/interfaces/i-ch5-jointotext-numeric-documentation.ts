@@ -6,13 +6,13 @@ import { ICh5JoinToTextNumericAttributes } from "./i-ch5-jointotext-numeric-attr
  * @isattribute false
  * @tagName ch5-jointotext-numeric
  * @role presentation
- * @description Ch5 JoinToText Numeric
- * @componentVersion 1.0.0
+ * @description The component provides a response of an analog join.
+ * @componentVersion 2.0.0
  * @documentation
  * [
  * "`ch5-jointotext-numeric` element",
  * "***",
- * ""
+ * "This component can be used to convert analog responses to various formats like 'signed', 'float', 'percentage', 'hex', 'raw', 'unsigned', and 'time'."
  * ]
  * @snippets
  * [

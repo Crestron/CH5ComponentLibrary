@@ -6,7 +6,7 @@ import { ICh5ColorChipAttributes } from "./i-ch5-color-chip-attributes";
  * @isattribute false
  * @tagName ch5-color-chip
  * @role color-chip
- * @description Component to render an Color Chip.
+ * @description Color Chip is used as a display source of Red, Blue, and Green values.
  * @componentVersion 2.1.0
  * @childElements
  * [
