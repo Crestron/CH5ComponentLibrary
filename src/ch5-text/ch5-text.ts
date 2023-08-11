@@ -412,12 +412,13 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
   public fitEllipsisForMultiline() {
     const lineheight = this.getLineHeightSuper(this._elSpan);
-    console.log("lineheight is: " + lineheight);
-    const containerHeight = this.getContainerHeight(this._elContainer); // eslint-disable-next-line @typescript-eslint/no-non-null-assertio non-null assertion
-    console.log("containerHeight is: " + containerHeight);
+    const containerHeight = this.getContainerHeight(this._elContainer);
     const numberOfLines = Math.floor(containerHeight / lineheight);
-    this._elSpan.setAttribute("style", "height: " + containerHeight + "px");
-    this._elSpan.setAttribute("style", "-webkit-line-clamp:" + numberOfLines + "px");
+    if (this.truncateText) {
+      this._elSpan.setAttribute("style", "-webkit-line-clamp:" + numberOfLines + "px");
+    } else {
+      this._elSpan.setAttribute("style", "max-height: " + (containerHeight - 10) + "px" + ";word-wrap: break-word;display: flex;");
+    }
   }
 
   public getLineHeight(el: HTMLElement) {
