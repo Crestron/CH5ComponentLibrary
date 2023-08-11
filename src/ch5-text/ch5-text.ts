@@ -417,7 +417,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     if (this.truncateText) {
       this._elSpan.setAttribute("style", "-webkit-line-clamp:" + numberOfLines + "px");
     } else {
-      this._elSpan.setAttribute("style", "max-height: " + (containerHeight - 10) + "px" + ";word-wrap: break-word;display: flex;");
+      this._elSpan.setAttribute("style", "max-height: " + (numberOfLines * lineheight) + "px" + ";word-wrap: break-word;display: flex;");
     }
   }
 
