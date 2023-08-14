@@ -107,19 +107,19 @@
                         "type": "class",
                         "name": "ch5-background",
                         "description": "Added automatically on the ch5-background element\n",
-                        "value": "position: absolute;\n    left: 0;\n    top: 0;\n    width: 100%;\n    height: 100%;\n    z-index: $ch5-background-z-index;\n    &--parent {\n        position: relative;\n        z-index: $ch5-background-parent-z-index;\n    }\n    &--canvas {\n        position: absolute;\n        left: 0;\n        top: 0;\n        opacity: 0;\n        transition-property: opacity;\n        transition-duration: 1s;\n        transition-timing-function: ease;\n\n        &.ch5bg-fadein {\n            opacity: 1;\n        }\n    }"
+                        "value": "position: absolute;\n    left: 0;\n    top: 0;\n    width: 100%;\n    height: 100%;\n    z-index: $ch5-background-z-index;\n\n    /// @require .ch5-background\n    /// Added automatically on the first parent of the ch5-background element\n    &--parent {\n        position: relative;\n        z-index: $ch5-background-parent-z-index;\n    }\n\n    /// @require .ch5-background\n    /// Added automatically on the all canvas child of ch5-background element\n    &--canvas {\n        position: absolute;\n        left: 0;\n        top: 0;\n        opacity: 0;\n        transition-property: opacity;\n        transition-duration: 1s;\n        transition-timing-function: ease;\n\n        &.ch5bg-fadein {\n            opacity: 1;\n        }\n    }"
                     },
                     {
                         "type": "class",
                         "name": "ch5-background--parent",
-                        "description": "Added automatically on the first parent of the ch5-background element\n",
-                        "value": "// Placeholder"
+                        "description": "Added automatically on the first parent of the ch5-background element",
+                        "value": "position: relative;\n        z-index: $ch5-background-parent-z-index;"
                     },
                     {
                         "type": "class",
                         "name": "ch5-background--canvas",
-                        "description": "Added automatically on the all canvas child of ch5-background element\n",
-                        "value": "// Placeholder"
+                        "description": "Added automatically on the all canvas child of ch5-background element",
+                        "value": "position: absolute;\n        left: 0;\n        top: 0;\n        opacity: 0;\n        transition-property: opacity;\n        transition-duration: 1s;\n        transition-timing-function: ease;\n\n        &.ch5bg-fadein {\n            opacity: 1;\n        }"
                     }
                 ]
             }
@@ -135,7 +135,7 @@
                         "type": "class",
                         "name": "ch5-button",
                         "description": "Main Class\n",
-                        "value": "// display: flex; // ***\n\t\tdisplay: block; // ***\n\t\tmax-width: 100%;\n\t\tcursor: pointer;\n\t\tpointer-events: all;\n\n\t\tbutton {\n\t\t\tcursor: pointer;\n\t\t}\n\n\t\tbutton,\n\t\t.ch5-button--label {\n\t\t\tbackground-color: transparent;\n\t\t\tborder: none;\n\t\t\tcolor: inherit;\n\n\t\t\t&:focus {\n\t\t\t\toutline: none;\n\t\t\t}\n\t\t}\n\n\t\t/// Applied on label\n\t\t.ch5-button--label {\n\t\t\tdisplay: block;\n\t\t\t@include text-truncate;\n\t\t}\n\n\t\t.cb-btn {\n\t\t\tdisplay: inline-flex;\n\t\t\talign-items: center;\n\t\t\tjustify-content: space-between;\n\t\t\tline-height: $ch5-button-content-line-height;\n\t\t\tpadding: $ch5-button-padding;\n\t\t\tvertical-align: middle; //adding this property to prevent button taking extra height for iconUrlFilltype=\"initial\" and vAlignLabel=\"bottom\"\n\t\t}\n\n\t\t.cb-btn {\n\t\t\tpadding-top: calc($ch5-button-padding / 2);\n\t\t\tpadding-bottom: calc($ch5-button-padding / 2);\n\t\t}\n\n\t\t.ch5-button--label {\n\t\t\tpadding-left: calc($ch5-button-padding / 2);\n\t\t\tpadding-right: calc($ch5-button-padding / 2);\n\t\t}\n\n\t\t/// Applied when button orientation='vertical'\n\t\t&.ch5-button--vertical {\n\t\t\tposition: relative;\n\n\t\t\t.cb-btn {\n\t\t\t\ttransform: rotate(270deg) translateX(-100%); // ****\n\t\t\t\ttransform-origin: top left;\n\t\t\t}\n\t\t}"
+                        "value": "display: block; \n\t\tmax-width: 100%;\n\t\tcursor: pointer;\n\t\tpointer-events: all;\n\n\t\tbutton {\n\t\t\tcursor: pointer;\n\t\t}\n\n\t\tbutton,\n\t\t.ch5-button--label {\n\t\t\tbackground-color: transparent;\n\t\t\tborder: none;\n\t\t\tcolor: inherit;\n\n\t\t\t&:focus {\n\t\t\t\toutline: none;\n\t\t\t}\n\t\t}\n\n\t\t/// Applied on label\n\t\t.ch5-button--label {\n\t\t\tdisplay: block;\n\t\t\t@include text-truncate;\n\t\t}\n\n\t\t.cb-btn {\n\t\t\tdisplay: inline-flex;\n\t\t\talign-items: center;\n\t\t\tjustify-content: space-between;\n\t\t\tline-height: $ch5-button-content-line-height;\n\t\t\tpadding: $ch5-button-padding;\n\t\t\tvertical-align: middle; //adding this property to prevent button taking extra height for iconUrlFilltype=\"initial\" and vAlignLabel=\"bottom\"\n\t\t}\n\n\t\t.cb-btn {\n\t\t\tpadding-top: calc($ch5-button-padding / 2);\n\t\t\tpadding-bottom: calc($ch5-button-padding / 2);\n\t\t}\n\n\t\t.ch5-button--label {\n\t\t\tpadding-left: calc($ch5-button-padding / 2);\n\t\t\tpadding-right: calc($ch5-button-padding / 2);\n\t\t}\n\n\t\t/// Applied when button orientation='vertical'\n\t\t&.ch5-button--vertical {\n\t\t\tposition: relative;\n\n\t\t\t.cb-btn {\n\t\t\t\ttransform: rotate(270deg) translateX(-100%);\n\t\t\t\ttransform-origin: top left;\n\t\t\t}\n\t\t}"
                     },
                     {
                         "type": "class",
@@ -147,7 +147,7 @@
                         "type": "class",
                         "name": "ch5-button--vertical",
                         "description": "Applied when button orientation='vertical'\n",
-                        "value": "position: relative;\n\n\t\t\t.cb-btn {\n\t\t\t\ttransform: rotate(270deg) translateX(-100%); // ****\n\t\t\t\ttransform-origin: top left;\n\t\t\t}"
+                        "value": "position: relative;\n\n\t\t\t.cb-btn {\n\t\t\t\ttransform: rotate(270deg) translateX(-100%);\n\t\t\t\ttransform-origin: top left;\n\t\t\t}"
                     },
                     {
                         "type": "class",
@@ -213,7 +213,7 @@
                         "type": "class",
                         "name": "ch5-button--horizontal",
                         "description": "Applied when button orientation='horizontal'\n",
-                        "value": "/// Applied to make the width as much as its parent allows.\n\t\t&.ch5-button--stretch-width {\n\t\t\twidth: 100%;\n\n\t\t\t.cb-btn {\n\t\t\t\twidth: 100% !important;\n\t\t\t}\n\t\t}"
+                        "value": "/// Applied to make the width as much as its parent allows.\n\t\t&.ch5-button--stretch-width {\n\t\t\twidth: 100%;\n\n\t\t\t.cb-btn {\n\t\t\t\twidth: 100% !important;\n\t\t\t}\n\t\t}\n\t\n\t\t/// Applied to make the height as much as its parent allows.\n\t\t&.ch5-button--stretch-height {\n\t\t\theight: 100%;\n\n\t\t\t.cb-btn {\n\t\t\t\theight: 100% !important;\n\t\t\t\tmin-height: $ch5-button-size; // Added as a fix for the issue of button height varying when moved from width to height in stretch\n\t\t\t}\n\t\t}\n\n\t\t/// Applied to make both width and height as much as its parent allows.\n\t\t&.ch5-button--stretch-both {\n\t\t\twidth: 100%;\n\t\t\theight: 100%;\n\n\t\t\t.cb-btn {\n\t\t\t\twidth: 100% !important;\n\t\t\t\theight: 100% !important;\n\t\t\t\tmin-height: $ch5-button-size; // Added as a fix for the issue of button height varying when moved from width to height in stretch\n\t\t\t\toverflow: hidden;\n\t\t\t\ttext-overflow: ellipsis;\n\t\t\t\twhite-space: nowrap;\n\t\t\t}\n\t\t}"
                     },
                     {
                         "type": "class",
@@ -1698,20 +1698,20 @@
                     {
                         "type": "class",
                         "name": "ch5-datetime--horizontal-alignment-center",
-                        "description": "Set horizontalAlignment as center\n",
-                        "value": "// Placeholder"
+                        "description": "Set horizontalAlignment as center",
+                        "value": "justify-content: center;"
                     },
                     {
                         "type": "class",
                         "name": "ch5-datetime--horizontal-alignment-left",
-                        "description": "Set horizontalAlignment as left\n",
-                        "value": "// Placeholder"
+                        "description": "Set horizontalAlignment as left",
+                        "value": "justify-content: flex-start;"
                     },
                     {
                         "type": "class",
                         "name": "ch5-datetime--horizontal-alignment-right",
-                        "description": "Set horizontalAlignment as right\n",
-                        "value": "// Placeholder"
+                        "description": "Set horizontalAlignment as right",
+                        "value": "justify-content: flex-end;"
                     }
                 ]
             }
