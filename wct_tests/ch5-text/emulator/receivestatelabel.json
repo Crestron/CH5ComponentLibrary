@@ -1,19 +1,17 @@
 {
   "cues": [
-    
+    {
+      "type": "boolean",
+      "event": "trigger_event",
+      "trigger": true,
+      "actions": [
         {
-          "type": "boolean",
-          "event": "trigger_event",
-          "trigger": true,
-          "actions": [
-            {
-              "type": "string",
-              "state": "trigger_event_listener",
-              "logic": "set",
-              "value": "String Signal"
-            }
-          ]
+          "type": "string",
+          "state": "trigger_event_listener",
+          "logic": "set",
+          "value": "String Signal"
         }
-        
+      ]
+    }
   ]
 }

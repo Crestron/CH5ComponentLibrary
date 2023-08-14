@@ -26,16 +26,16 @@
         emulator.loadScenario(emulatorJson);
         ch5Text = fixture('ch5-text-receiveStateLabel-attributes');
       });
-        
-        test('receiveStateLabel', (done) => {
-          CrComLib.publishEvent('b', 'trigger_event',true );
-          flush(() => {
-              setTimeout(() => {
-                  expect(ch5Text.getAttribute('label')).to.be.equal('String Signal');
-                  done();
-              }, 100);
-          });
-        }); 
+
+      test('receiveStateLabel', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Text.getAttribute('label')).to.be.equal('String Signal');
+            done();
+          }, 100);
+        });
+      });
     });
   </script>
 </body>

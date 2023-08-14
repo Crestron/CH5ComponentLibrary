@@ -23,16 +23,16 @@
       setup(async () => {
         ch5Text = fixture('ch5-text-verticalAlignment-attributes');
       });
-        
-        let testCases = ['a', '', ' ', 'number', 'middle', 'top', 'bottom'];
-        let expectedResult = ['middle', 'middle', 'middle', 'middle', 'middle', 'top', 'bottom'];
-        testCases.forEach((ele, i) => {
-              test('Check Value "verticalAlignment"', () => {
-                  ch5Text.setAttribute('verticalAlignment', ele);
-                  expect(ch5Text.getAttribute('verticalAlignment')).to.be.equal(expectedResult[i]);
-              });
-          });
-        
+
+      let testCases = ['a', '', ' ', 'number', 'middle', 'top', 'bottom'];
+      let expectedResult = ['middle', 'middle', 'middle', 'middle', 'middle', 'top', 'bottom'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "verticalAlignment"', () => {
+          ch5Text.setAttribute('verticalAlignment', ele);
+          expect(ch5Text.getAttribute('verticalAlignment')).to.be.equal(expectedResult[i]);
+        });
+      });
+
     });
   </script>
 </body>

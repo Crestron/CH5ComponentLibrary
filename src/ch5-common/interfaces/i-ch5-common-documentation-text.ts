@@ -15,6 +15,4 @@ import { ICh5CommonAttributesText } from "./i-ch5-common-attributes-text";
 /**
  * @ignore
  */
-export interface ICh5CommonText extends ICh5CommonForDisabled, ICh5CommonForDebug, ICh5CommonForRole, ICh5CommonForStyle, ICh5CommonForClass, ICh5CommonAttributesText {
-
-}
+export interface ICh5CommonText extends ICh5CommonForDisabled, ICh5CommonForDebug, ICh5CommonForRole, ICh5CommonForStyle, ICh5CommonForClass, ICh5CommonAttributesText {}

@@ -135,19 +135,13 @@
                         "type": "class",
                         "name": "ch5-button",
                         "description": "Main Class\n",
-                        "value": "// display: flex; // ***\n\t\tdisplay: block; // ***\n\t\tmax-width: 100%;\n\t\tcursor: pointer;\n\t\tpointer-events: all;\n\n\t\tbutton {\n\t\t\tcursor: pointer;\n\t\t}\n\n\t\tbutton,\n\t\t.ch5-button--label {\n\t\t\tbackground-color: transparent;\n\t\t\tborder: none;\n\t\t\tcolor: inherit;\n\n\t\t\t&:focus {\n\t\t\t\toutline: none;\n\t\t\t}\n\t\t}\n\n\t\t/// Applied on label\n\t\t.ch5-button--label {\n\t\t\tdisplay: block;\n\t\t\t@include text-truncate;\n\t\t}\n\n\t\t.cb-btn {\n\t\t\tdisplay: inline-flex;\n\t\t\talign-items: center;\n\t\t\tjustify-content: space-between;\n\t\t\tline-height: $ch5-button-content-line-height;\n\t\t\tpadding: $ch5-button-padding;\n\t\t\tvertical-align: middle; //adding this property to prevent button taking extra height for iconUrlFilltype=\"initial\" and vAlignLabel=\"bottom\"\n\t\t}\n\n\t\t.cb-btn {\n\t\t\tpadding-top: calc($ch5-button-padding / 2);\n\t\t\tpadding-bottom: calc($ch5-button-padding / 2);\n\t\t}\n\n\t\t.ch5-button--label {\n\t\t\tpadding-left: calc($ch5-button-padding / 2);\n\t\t\tpadding-right: calc($ch5-button-padding / 2);\n\t\t}\n\n\t\t/// Applied when button orientation='vertical'\n\t\t&.ch5-button--vertical {\n\t\t\tposition: relative;\n\n\t\t\t.cb-btn {\n\t\t\t\ttransform: rotate(270deg) translateX(-100%); // ****\n\t\t\t\ttransform-origin: top left;\n\t\t\t}\n\t\t}"
+                        "value": "// display: flex; // ***\n\t\tdisplay: block; // ***\n\t\tmax-width: 100%;\n\t\tcursor: pointer;\n\t\tpointer-events: all;\n\n\t\tbutton {\n\t\t\tcursor: pointer;\n\t\t}\n\n\t\tbutton,\n\t\t.ch5-button--label {\n\t\t\tbackground-color: transparent;\n\t\t\tborder: none;\n\t\t\tcolor: inherit;\n\n\t\t\t&:focus {\n\t\t\t\toutline: none;\n\t\t\t}\n\t\t}\n\n\t\t/// Applied on label\n\t\t.ch5-button--label {\n\t\t\tdisplay: block;\n\t\t\t@include text-truncate;\n\t\t}\n\n\t\t.cb-btn {\n\t\t\tdisplay: inline-flex;\n\t\t\talign-items: center;\n\t\t\tjustify-content: space-between;\n\t\t\tline-height: $ch5-button-content-line-height;\n\t\t\tpadding: $ch5-button-padding;\n\t\t\tvertical-align: middle; //adding this property to prevent button taking extra height for iconUrlFilltype=\"initial\" and vAlignLabel=\"bottom\"\n\t\t}\n\n\t\t.cb-btn {\n\t\t\tpadding-top: calc($ch5-button-padding / 2);\n\t\t\tpadding-bottom: calc($ch5-button-padding / 2);\n\t\t}\n\n\t\t.ch5-button--label {\n\t\t\tpadding-left: calc($ch5-button-padding / 2);\n\t\t\tpadding-right: calc($ch5-button-padding / 2);\n\t\t}\n\n\t\t&.ch5-button--vertical {\n\t\t\tposition: relative;\n\n\t\t\t.cb-btn {\n\t\t\t\ttransform: rotate(270deg) translateX(-100%); // ****\n\t\t\t\ttransform-origin: top left;\n\t\t\t}\n\t\t}"
                     },
                     {
                         "type": "class",
                         "name": "ch5-button--label",
                         "description": "Applied on label\n",
                         "value": "display: block;\n\t\t\t@include text-truncate;"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--vertical",
-                        "description": "Applied when button orientation='vertical'\n",
-                        "value": "position: relative;\n\n\t\t\t.cb-btn {\n\t\t\t\ttransform: rotate(270deg) translateX(-100%); // ****\n\t\t\t\ttransform-origin: top left;\n\t\t\t}"
                     },
                     {
                         "type": "class",
@@ -211,12 +205,6 @@
                     },
                     {
                         "type": "class",
-                        "name": "ch5-button--horizontal",
-                        "description": "Applied when button orientation='horizontal'\n",
-                        "value": "/// Applied to make the width as much as its parent allows.\n\t\t&.ch5-button--stretch-width {\n\t\t\twidth: 100%;\n\n\t\t\t.cb-btn {\n\t\t\t\twidth: 100% !important;\n\t\t\t}\n\t\t}"
-                    },
-                    {
-                        "type": "class",
                         "name": "ch5-button--stretch-width",
                         "description": "Applied to make the width as much as its parent allows.\n",
                         "value": "width: 100%;\n\n\t\t\t.cb-btn {\n\t\t\t\twidth: 100% !important;\n\t\t\t}"
@@ -232,36 +220,6 @@
                         "name": "ch5-button--stretch-both",
                         "description": "Applied to make both width and height as much as its parent allows.\n",
                         "value": "width: 100%;\n\t\t\theight: 100%;\n\n\t\t\t.cb-btn {\n\t\t\t\twidth: 100% !important;\n\t\t\t\theight: 100% !important;\n\t\t\t\tmin-height: $ch5-button-size; // Added as a fix for the issue of button height varying when moved from width to height in stretch\n\t\t\t\toverflow: hidden;\n\t\t\t\ttext-overflow: ellipsis;\n\t\t\t\twhite-space: nowrap;\n\t\t\t}"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--size-regular",
-                        "description": "Applied when size=\"regular\"\n",
-                        "value": "@include ch5-button-size-set($ch5-button-size,\n\t\t$ch5-button-font-size,\n\t\t$ch5-button-font-style,\n\t\t$ch5-button-font-weight,\n\t\t$ch5-button-icon-color,\n\t\t$ch5-button-icon-font-size );"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--size-x-small",
-                        "description": "Applied when size=\"x-small\"\n",
-                        "value": "@include ch5-button-size-set($ch5-button-x-small-size,\n\t\t$ch5-button-x-small-font-size,\n\t\t$ch5-button-x-small-font-style,\n\t\t$ch5-button-x-small-font-weight,\n\t\t$ch5-button-icon-color,\n\t\t$ch5-button-icon-font-size );"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--size-small",
-                        "description": "Applied when size=\"small\"\n",
-                        "value": "@include ch5-button-size-set($ch5-button-small-size,\n\t\t$ch5-button-small-font-size,\n\t\t$ch5-button-small-font-style,\n\t\t$ch5-button-small-font-weight,\n\t\t$ch5-button-icon-color,\n\t\t$ch5-button-icon-font-size );"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--size-large",
-                        "description": "Applied when size=\"large\"\n",
-                        "value": "@include ch5-button-size-set($ch5-button-large-size,\n\t\t$ch5-button-large-font-size,\n\t\t$ch5-button-large-font-style,\n\t\t$ch5-button-large-font-weight,\n\t\t$ch5-button-icon-color,\n\t\t$ch5-button-icon-font-size );"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--size-x-large",
-                        "description": "Applied when size=\"x-large\"\n",
-                        "value": "@include ch5-button-size-set($ch5-button-x-large-size,\n\t\t$ch5-button-x-large-font-size,\n\t\t$ch5-button-x-large-font-style,\n\t\t$ch5-button-x-large-font-weight,\n\t\t$ch5-button-icon-color,\n\t\t$ch5-button-icon-font-size );"
                     },
                     {
                         "type": "class",
@@ -6066,6 +6024,104 @@
         ]
     },
     {
+        "group": "ch5-text",
+        "schemadata": [
+            {
+                "type": "class",
+                "metadata": [
+                    {
+                        "type": "class",
+                        "name": "ch5-text",
+                        "description": "Main Class\n",
+                        "value": "// placeholder"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text--disabled",
+                        "description": "Applied when disabled='true'\n",
+                        "value": "// placeholder"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text-span--truncate-text-true",
+                        "description": "Applied when truncateText='true'\n",
+                        "value": "// placeholder"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text-span--truncate-text-false",
+                        "description": "Applied when truncateText='false'\n",
+                        "value": "// placeholder"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text-span--multiline-support-true",
+                        "description": "Applied when multiline-support='true'\n",
+                        "value": "// placeholder"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text-span--multiline-support-false",
+                        "description": "Applied when multiline-support='false'\n",
+                        "value": "// placeholder"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text-span--horizontal-alignment-center",
+                        "description": "Applied when horizontal-alignment='center'\n",
+                        "value": "// placeholder"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text-span--horizontal-alignment-left",
+                        "description": "Applied when horizontal-alignment='left'\n",
+                        "value": "// placeholder"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text-span--horizontal-alignment-right",
+                        "description": "Applied when horizontal-alignment='right'\n",
+                        "value": "// placeholder"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text--vertical-alignment-top",
+                        "description": "Applied when vertical-alignment='top'\n",
+                        "value": "// placeholder"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text--vertical-alignment-middle",
+                        "description": "Applied when vertical-alignment='middle'\n",
+                        "value": "// placeholder"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text--vertical-alignment-bottom",
+                        "description": "Applied when vertical-alignment='bottom'\n",
+                        "value": "// placeholder"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "group": "ch5-text-variables",
+        "schemadata": [
+            {
+                "type": "variable",
+                "metadata": [
+                    {
+                        "type": "variable",
+                        "name": "ch5-text-disabled-opacity",
+                        "description": "Variables below\n",
+                        "value": "0.5"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "group": "ch5-textinput",
         "schemadata": [
             {
@@ -6677,7 +6733,7 @@
                         "type": "class",
                         "name": "ch5-toggle",
                         "description": "the class added on the div that is the only direct child of the ch5-toggle element and wraps all its contents\n",
-                        "value": "position: relative;\n    display: inline-block;\n    box-sizing: border-box;\n\n    font-size: $ch5-toggle-font-size;\n    font-style: $ch5-toggle-font-style;\n    font-weight: $ch5-toggle-font-weight;\n    z-index: $ch5-toggle-z-index;\n\n    &[hidden] {\n        display: none;\n    }\n\n    div {\n        display: flex;\n        justify-content: center;\n        align-items: center;\n    }\n\n    /* ch5-toggle - label */\n    /// Applied on label\n    .ch5-toggle__label {\n        display: inline-flex;\n        vertical-align: middle;\n        font-style: $ch5-toggle-label-font-style;\n        font-size: $ch5-toggle-label-font-size;\n        font-weight: $ch5-toggle-label-font-weight;\n        color: $ch5-toggle-label-font-color;\n        margin: $ch5-toggle-label-margin;\n\n        &[hidden] {\n            display: none;\n        }\n    }\n\n    .ch5-toggle__on-label,\n    .ch5-toggle__off-label {\n        word-wrap: normal;\n        color: $ch5-toggle-text-font-color;\n        font-style: $ch5-toggle-text-font-style;\n        font-size: $ch5-toggle-text-font-size;\n        font-weight: $ch5-toggle-text-font-weight;\n    }\n    /// Applied for on label\n    .ch5-toggle__on-label,\n    /// Applied for off label\n    .ch5-toggle__off-label,\n    /// Applied for icon-on\n    .ch5-toggle__on-icon,\n    /// Applied for icon-off\n    .ch5-toggle__off-icon {\n        margin: 0 2px 0 2px;\n        color: $ch5-toggle-icon-font-color;\n        font-style: $ch5-toggle-icon-font-style;\n        font-size: $ch5-toggle-icon-font-size;\n        font-weight: $ch5-toggle-icon-font-weight;\n    }\n\n    /* ch5-toggle - handle default */\n    /// Applied on the handle\n    .ch5-toggle__handle {\n        position: relative;\n        overflow: hidden;\n        display: inline-flex;\n        align-items: center;\n        justify-content: center;\n        min-width: 100px;\n        height: 100%;\n        min-height: 2em;\n        padding: 0;\n        transition: all 0.4s ease-out;\n\n        /* ch5-toggle - on/off container */\n        div {\n            position: relative;\n            z-index: $ch5-toggle-container-z-index;\n            line-height: 2em;\n            text-align: center;\n            user-select: none;\n            opacity: 0;\n            height: 100%;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n\n            &:first-of-type {\n                opacity: 1;\n            }\n        }\n\n        /* ch5-toggle - knob */\n        a {\n            position: absolute;\n            right: 50%;\n            top: 0;\n            z-index: $ch5-toggle-knob-z-index;\n            display: block;\n            width: 50%;\n            height: 100%;\n            padding: 0;\n            transition: all 0.2s ease-out;\n        }\n    }\n\n    /* ch5-toggle - circle shape */\n    &.ch5-toggle--circle {\n        .ch5-toggle__handle {\n            border-radius: 1.75em;\n            background-color: $ch5-toggle-handle-circle-background;\n            margin: $ch5-toggle-handle-circle-margin;\n            div {\n                width: 100%;\n                transition: all 0.2s ease-out;\n\n                &:first-of-type {\n                    color: $ch5-toggle-circle-label-off-color;\n                    text-align: center;\n                    padding-left: 1.75em;\n                }\n\n                &:last-of-type {\n                    display: none;\n                    color: $ch5-toggle-circle-label-on-color;\n                    text-align: center;\n                    padding-right: 1.75em;\n                }\n            }\n\n            a {\n                left: 0;\n                top: 0;\n                width: 2em;\n                height: 2em;\n                border-radius: 100%;\n                background-color: $ch5-toggle-circle-knob-color;\n                border: 0.25em solid $ch5-toggle-handle-circle-background;\n            }\n        }\n    }\n\n    /* ch5-toggle - rectangle shape */\n    &.ch5-toggle--rectangle {\n        .ch5-toggle__handle {\n            background: $ch5-toggle-handle-rectangle-background;\n            border-radius: 1px;\n            box-shadow: inset rgba(0, 0, 0, 0.1) 0 1px 0;\n            margin: $ch5-toggle-handle-rectangle-margin;\n            div {\n                display: inline-flex;\n                padding: 0 15px;\n                transition: all 0.1s;\n\n                &:first-of-type {\n                    color: $ch5-toggle-rectangle-label-off-color;\n                }\n\n                &:last-of-type {\n                    color: $ch5-toggle-rectangle-label-on-color;\n                }\n            }\n\n            a {\n                border-radius: 1px;\n                background-color: $ch5-toggle-rectangle-knob-color;\n            }\n        }\n    }\n\n    /* ch5-toggle - checked/on */\n    /// Applied when value is true\n    &.ch5-toggle--on {\n        .ch5-toggle__handle {\n            a {\n                right: 0%;\n            }\n\n            div:first-of-type {\n                opacity: 0;\n            }\n            div:last-of-type {\n                opacity: 1;\n            }\n        }\n\n        /* ch5-toggle - circle shape checked/on */\n        /// Class to apply when shape='circle'\n        &.ch5-toggle--circle {\n            .ch5-toggle__handle {\n                box-shadow: inset 0 0 0 30px $ch5-toggle-handle-checked-color;\n\n                div:first-of-type {\n                    display: none;\n                }\n                div:last-of-type {\n                    display: flex;\n                }\n\n                a {\n                    left: 100%;\n                    margin-left: -2em;\n                    background-color: $ch5-toggle-circle-knob-color;\n                    border-color: $ch5-toggle-handle-checked-color;\n                }\n            }\n        }\n\n        /* ch5-toggle - rectangle shape checked/on */\n        /// Class to apply when shape='rectangle'\n        &.ch5-toggle--rectangle {\n            .ch5-toggle__handle {\n                div {\n                    right: 0;\n                }\n\n                a {\n                    background-color: $ch5-toggle-handle-checked-color;\n                }\n            }\n        }\n    }\n\n    /// Class to apply when orientation='horizontal'\n    &.ch5-toggle--horizontal {\n        // Placeholder\n    }\n    /// Class to apply when orientation='vertical'\n    &.ch5-toggle--vertical {\n        > div {\n            padding: 50% 0;\n            height: 0;\n            -webkit-transform: rotate(90deg);\n            transform: rotate(90deg);\n        }\n    }\n\n    // 'rtl' support\n    &.ch5-toggle--dir--rtl {\n        .ch5-toggle__handle a {\n            left: 50%;\n            right: auto;\n        }\n        &.ch5-toggle--circle .ch5-toggle__handle div:first-of-type {\n            padding-left: 0;\n            padding-right: 1.75em;\n        }\n        &.ch5-toggle--circle .ch5-toggle__handle div:last-of-type {\n            padding-right: 0;\n            padding-left: 1.75em;\n        }\n        &.ch5-toggle--circle .ch5-toggle__handle a {\n            right: auto;\n            left: 100%;\n            margin-left: -2em;\n        }\n        &.ch5-toggle--on {\n            .ch5-toggle__handle a {\n                left: 0;\n                right: auto;\n            }\n        }\n        &.ch5-toggle--on.ch5-toggle--circle {\n            .ch5-toggle__handle a {\n                left: 2em;\n            }\n        }\n    }"
+                        "value": "position: relative;\n    display: inline-block;\n    box-sizing: border-box;\n\n    font-size: $ch5-toggle-font-size;\n    font-style: $ch5-toggle-font-style;\n    font-weight: $ch5-toggle-font-weight;\n    z-index: $ch5-toggle-z-index;\n\n    &[hidden] {\n        display: none;\n    }\n\n    div {\n        display: flex;\n        justify-content: center;\n        align-items: center;\n    }\n\n    /* ch5-toggle - label */\n    /// Applied on label\n    .ch5-toggle__label {\n        display: inline-flex;\n        vertical-align: middle;\n        font-style: $ch5-toggle-label-font-style;\n        font-size: $ch5-toggle-label-font-size;\n        font-weight: $ch5-toggle-label-font-weight;\n        color: $ch5-toggle-label-font-color;\n        margin: $ch5-toggle-label-margin;\n\n        &[hidden] {\n            display: none;\n        }\n    }\n\n    .ch5-toggle__on-label,\n    .ch5-toggle__off-label {\n        word-wrap: normal;\n        color: $ch5-toggle-text-font-color;\n        font-style: $ch5-toggle-text-font-style;\n        font-size: $ch5-toggle-text-font-size;\n        font-weight: $ch5-toggle-text-font-weight;\n    }\n    /// Applied for on label\n    .ch5-toggle__on-label,\n    /// Applied for off label\n    .ch5-toggle__off-label,\n    /// Applied for icon-on\n    .ch5-toggle__on-icon,\n    /// Applied for icon-off\n    .ch5-toggle__off-icon {\n        margin: 0 2px 0 2px;\n        color: $ch5-toggle-icon-font-color;\n        font-style: $ch5-toggle-icon-font-style;\n        font-size: $ch5-toggle-icon-font-size;\n        font-weight: $ch5-toggle-icon-font-weight;\n    }\n\n    /* ch5-toggle - handle default */\n    /// Applied on the handle\n    .ch5-toggle__handle {\n        position: relative;\n        overflow: hidden;\n        display: inline-flex;\n        align-items: center;\n        justify-content: center;\n        min-width: 100px;\n        height: 100%;\n        min-height: 2em;\n        padding: 0;\n        transition: all 0.4s ease-out;\n\n        /* ch5-toggle - on/off container */\n        div {\n            position: relative;\n            z-index: $ch5-toggle-container-z-index;\n            line-height: 2em;\n            text-align: center;\n            user-select: none;\n            opacity: 0;\n            height: 100%;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n\n            &:first-of-type {\n                opacity: 1;\n            }\n        }\n\n        /* ch5-toggle - knob */\n        a {\n            position: absolute;\n            right: 50%;\n            top: 0;\n            z-index: $ch5-toggle-knob-z-index;\n            display: block;\n            width: 50%;\n            height: 100%;\n            padding: 0;\n            transition: all 0.2s ease-out;\n        }\n    }\n\n    /* ch5-toggle - circle shape */\n    &.ch5-toggle--circle {\n        .ch5-toggle__handle {\n            border-radius: 1.75em;\n            background-color: $ch5-toggle-handle-circle-background;\n            margin: $ch5-toggle-handle-circle-margin;\n            div {\n                width: 100%;\n                transition: all 0.2s ease-out;\n\n                &:first-of-type {\n                    color: $ch5-toggle-circle-label-off-color;\n                    text-align: center;\n                    padding-left: 1.75em;\n                }\n\n                &:last-of-type {\n                    display: none;\n                    color: $ch5-toggle-circle-label-on-color;\n                    text-align: center;\n                    padding-right: 1.75em;\n                }\n            }\n\n            a {\n                left: 0;\n                top: 0;\n                width: 2em;\n                height: 2em;\n                border-radius: 100%;\n                background-color: $ch5-toggle-circle-knob-color;\n                border: 0.25em solid $ch5-toggle-handle-circle-background;\n            }\n        }\n    }\n\n    /* ch5-toggle - rectangle shape */\n    &.ch5-toggle--rectangle {\n        .ch5-toggle__handle {\n            background: $ch5-toggle-handle-rectangle-background;\n            border-radius: 1px;\n            box-shadow: inset rgba(0, 0, 0, 0.1) 0 1px 0;\n            margin: $ch5-toggle-handle-rectangle-margin;\n            div {\n                display: inline-flex;\n                padding: 0 15px;\n                transition: all 0.1s;\n\n                &:first-of-type {\n                    color: $ch5-toggle-rectangle-label-off-color;\n                }\n\n                &:last-of-type {\n                    color: $ch5-toggle-rectangle-label-on-color;\n                }\n            }\n\n            a {\n                border-radius: 1px;\n                background-color: $ch5-toggle-rectangle-knob-color;\n            }\n        }\n    }\n\n    /* ch5-toggle - checked/on */\n    /// Applied when value is true\n    &.ch5-toggle--on {\n        .ch5-toggle__handle {\n            a {\n                right: 0%;\n            }\n\n            div:first-of-type {\n                opacity: 0;\n            }\n            div:last-of-type {\n                opacity: 1;\n            }\n        }\n\n        /* ch5-toggle - circle shape checked/on */\n        /// Class to apply when shape='circle'\n        &.ch5-toggle--circle {\n            .ch5-toggle__handle {\n                box-shadow: inset 0 0 0 30px $ch5-toggle-handle-checked-color;\n\n                div:first-of-type {\n                    display: none;\n                }\n                div:last-of-type {\n                    display: flex;\n                }\n\n                a {\n                    left: 100%;\n                    margin-left: -2em;\n                    background-color: $ch5-toggle-circle-knob-color;\n                    border-color: $ch5-toggle-handle-checked-color;\n                }\n            }\n        }\n\n        /* ch5-toggle - rectangle shape checked/on */\n        /// Class to apply when shape='rectangle'\n        &.ch5-toggle--rectangle {\n            .ch5-toggle__handle {\n                div {\n                    right: 0;\n                }\n\n                a {\n                    background-color: $ch5-toggle-handle-checked-color;\n                }\n            }\n        }\n    }\n\n    /* ch5-toggle - vertical orientation */\n    /// Class to apply when orientation='vertical'\n    &.ch5-toggle--vertical {\n        > div {\n            padding: 50% 0;\n            height: 0;\n            -webkit-transform: rotate(90deg);\n            transform: rotate(90deg);\n        }\n    }\n\n    // 'rtl' support\n    &.ch5-toggle--dir--rtl {\n        .ch5-toggle__handle a {\n            left: 50%;\n            right: auto;\n        }\n        &.ch5-toggle--circle .ch5-toggle__handle div:first-of-type {\n            padding-left: 0;\n            padding-right: 1.75em;\n        }\n        &.ch5-toggle--circle .ch5-toggle__handle div:last-of-type {\n            padding-right: 0;\n            padding-left: 1.75em;\n        }\n        &.ch5-toggle--circle .ch5-toggle__handle a {\n            right: auto;\n            left: 100%;\n            margin-left: -2em;\n        }\n        &.ch5-toggle--on {\n            .ch5-toggle__handle a {\n                left: 0;\n                right: auto;\n            }\n        }\n        &.ch5-toggle--on.ch5-toggle--circle {\n            .ch5-toggle__handle a {\n                left: 2em;\n            }\n        }\n    }"
                     },
                     {
                         "type": "class",
@@ -6735,21 +6791,9 @@
                     },
                     {
                         "type": "class",
-                        "name": "ch5-toggle--horizontal",
-                        "description": "Class to apply when orientation='horizontal'\n",
-                        "value": "// Placeholder"
-                    },
-                    {
-                        "type": "class",
                         "name": "ch5-toggle--vertical",
                         "description": "Class to apply when orientation='vertical'\n",
                         "value": "> div {\n            padding: 50% 0;\n            height: 0;\n            -webkit-transform: rotate(90deg);\n            transform: rotate(90deg);\n        }"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-toggle--disabled",
-                        "description": "class apply when toggle is disabled\n",
-                        "value": "pointer-events: none;\n    opacity: $ch5-disabled-opacity;"
                     }
                 ]
             }
@@ -6934,28 +6978,6 @@
                         "name": "ch5-toggle-rectangle-knob-color",
                         "description": "the background color of the knob when shape=\"rectangle\"\n",
                         "value": "#888"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "group": "ch5-triggerview",
-        "schemadata": [
-            {
-                "type": "class",
-                "metadata": [
-                    {
-                        "type": "class",
-                        "name": "ch5-triggerview",
-                        "description": "The class added on the component\n",
-                        "value": "--ch5-triggerview-gap: #{$ch5-triggerview-gap};\n    --ch5-triggerview-background-color: #{$ch5-triggerview-background-color};\n    --ch5-triggerview-slide-min-height: #{$ch5-triggerview-slide-min-height};\n    --ch5-triggerview-slide-max-height: #{$ch5-triggerview-slide-max-height};\n    --ch5-triggerview-transition-duration: #{$ch5-triggerview-transition-duration};\n    --ch5-triggerview-transition-timing-function: #{$ch5-triggerview-transition-timing-function};\n    --ch5-triggerview-fallback-message-color-background: #{$ch5-triggerview-fallback-message-color-background};\n\n    font-size: $ch5-triggerview-font-size;\n    font-style: $ch5-triggerview-font-style;\n    font-weight: $ch5-triggerview-font-weight;\n\n    .swiper-container, .swiper {\n        width: 100%;\n        height: 100%;\n    }\n    .swiper-wrapper {\n        position: relative;\n        z-index: 1;\n        display: inline-flex;\n        -webkit-transition-property: -webkit-transform;\n        transition-property: -webkit-transform;\n        -o-transition-property: transform;\n        transition-property: transform;\n        transition-property: transform, -webkit-transform;\n        -webkit-box-sizing: content-box;\n        box-sizing: content-box;\n        transition-timing-function: $ch5-triggerview-transition-timing-function;\n    }\n    .slider-full-width-page {\n        width: 100%;\n    }"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-viewchild",
-                        "description": "The class added on the triggeview child component\n",
-                        "value": "box-sizing: border-box;"
                     }
                 ]
             }
@@ -7148,72 +7170,6 @@
                         "name": "ch5-wifi-signal-level-gauge--disabled",
                         "description": "Disabled Class\n",
                         "value": "pointer-events: none;\n  opacity: $ch5-disabled-opacity;"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-wifi-signal-level-gauge--gauge-style-light",
-                        "description": "Applied when gaugeStyle='light'\n",
-                        "value": "// Placeholder"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-wifi-signal-level-gauge--gauge-style-accents",
-                        "description": "Applied when gaugeStyle='accents'\n",
-                        "value": "// Placeholder"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-wifi-signal-level-gauge--gauge-style-dark",
-                        "description": "Applied when gaugeStyle='dark'\n",
-                        "value": "// Placeholder"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-wifi-signal-level-gauge--alignment-up",
-                        "description": "Applied when alignment='up'\n",
-                        "value": "// Placeholder"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-wifi-signal-level-gauge--alignment-down",
-                        "description": "Applied when alignment='down'\n",
-                        "value": "// Placeholder"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-wifi-signal-level-gauge--alignment-left",
-                        "description": "Applied when alignment='left'\n",
-                        "value": "// Placeholder"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-wifi-signal-level-gauge--alignment-right",
-                        "description": "Applied when alignment='right'\n",
-                        "value": "// Placeholder"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-wifi-signal-level-gauge--size-regular",
-                        "description": "Applied when size='regular'\n",
-                        "value": "// Placeholder"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-wifi-signal-level-gauge--size-small",
-                        "description": "Applied when size='small'\n",
-                        "value": "// Placeholder"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-wifi-signal-level-gauge--size-large",
-                        "description": "Applied when size='large'\n",
-                        "value": "// Placeholder"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-wifi-signal-level-gauge--size-x-large",
-                        "description": "Applied when size='x-large'\n",
-                        "value": "// Placeholder"
                     }
                 ]
             }

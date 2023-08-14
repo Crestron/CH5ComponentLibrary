@@ -34,11 +34,11 @@ import { ICh5TextAttributes } from "./i-ch5-text-attributes";
  *     "body": [
  *       "<ch5-text id=\"ch5-text_${1:id}\"",
  *       "\thorizontalAlignment=\"${2:center}\"",
-          *       "\tverticalAlignment=\"${3:middle}\"",
-          *       "\tmultilineSupport=\"${4:false}\"",
-          *       "\ttruncateText=\"${5:false}\"",
-          *       "\tlabel=\"${6:}\"",
-          *       "\treceiveStateLabel=\"${7:}\">",
+ *       "\tverticalAlignment=\"${3:middle}\"",
+ *       "\tmultilineSupport=\"${4:false}\"",
+ *       "\ttruncateText=\"${5:false}\"",
+ *       "\tlabel=\"${6:}\"",
+ *       "\treceiveStateLabel=\"${7:}\">",
  *       "</ch5-text>$0"
  *       ]
  *    },
@@ -48,15 +48,13 @@ import { ICh5TextAttributes } from "./i-ch5-text-attributes";
  *     "body": [
  *       "<ch5-text id=\"ch5-text_${1:id}\"",
  *       "\thorizontalAlignment=\"${2:center}\"",
-            *       "\tverticalAlignment=\"${3:middle}\"",
-            *       "\tmultilineSupport=\"${4:false}\"",
-            *       "\ttruncateText=\"${5:false}\"",
-            *       "\tlabel=\"${6:}\">",
+ *       "\tverticalAlignment=\"${3:middle}\"",
+ *       "\tmultilineSupport=\"${4:false}\"",
+ *       "\ttruncateText=\"${5:false}\"",
+ *       "\tlabel=\"${6:}\">",
  *       "</ch5-text>$0"
  *       ]
  *    }
  *  ]
  */
-export interface ICh5TextDocumentation extends ICh5CommonText, ICh5TextAttributes {
-
-}
+export interface ICh5TextDocumentation extends ICh5CommonText, ICh5TextAttributes {}

@@ -20,7 +20,6 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
       attribute: 'horizontalAlignment',
       classListPrefix: '--horizontal-alignment-'
     },
-
     VERTICAL_ALIGNMENT: {
       default: Ch5Text.VERTICAL_ALIGNMENT[0],
       values: Ch5Text.VERTICAL_ALIGNMENT,
@@ -36,7 +35,6 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   };
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
-
     {
       default: Ch5Text.HORIZONTAL_ALIGNMENT[0],
       enumeratedValues: Ch5Text.HORIZONTAL_ALIGNMENT,
@@ -45,7 +43,6 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
       type: "enum",
       valueOnAttributeEmpty: Ch5Text.HORIZONTAL_ALIGNMENT[0],
       isObservableProperty: true,
-
     },
     {
       default: Ch5Text.VERTICAL_ALIGNMENT[0],
@@ -55,7 +52,6 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
       type: "enum",
       valueOnAttributeEmpty: Ch5Text.VERTICAL_ALIGNMENT[0],
       isObservableProperty: true,
-
     },
     {
       default: false,
@@ -64,7 +60,6 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
       type: "boolean",
       valueOnAttributeEmpty: true,
       isObservableProperty: true,
-
     },
     {
       default: false,
@@ -73,7 +68,6 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
       type: "boolean",
       valueOnAttributeEmpty: true,
       isObservableProperty: true,
-
     },
     {
       default: "",
@@ -83,7 +77,6 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
       type: "string",
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
-
     },
     {
       default: "",
@@ -92,19 +85,16 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
-
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
     {
       default: "",
       name: "labelInnerHtml",
-
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
-
     },
   ];
 
@@ -427,12 +417,9 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
   public getLineHeightSuper(element: HTMLElement) {
     const oldHtml = element.innerHTML;
-
     element.innerHTML = "A";
     const lineHeight = element.offsetHeight;
-
     element.innerHTML = oldHtml;
-
     return lineHeight;
   }
 
