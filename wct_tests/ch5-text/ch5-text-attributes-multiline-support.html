@@ -23,16 +23,16 @@
       setup(async () => {
         ch5Text = fixture('ch5-text-multilineSupport-attributes');
       });
-        
-        let testCases = ['a', '', ' ', 'number', true,false];
-        let expectedResult = ['false', 'true', 'false', 'false', 'true','false'];
-        testCases.forEach((ele, i) => {
-              test('Check Value "multilineSupport"', () => {
-                  ch5Text.setAttribute('multilineSupport', ele);
-                  expect(ch5Text.getAttribute('multilineSupport')).to.be.equal(expectedResult[i]);
-              });
-          });
-        
+
+      let testCases = ['a', '', ' ', 'number', true, false];
+      let expectedResult = ['false', 'true', 'false', 'false', 'true', 'false'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "multilineSupport"', () => {
+          ch5Text.setAttribute('multilineSupport', ele);
+          expect(ch5Text.getAttribute('multilineSupport')).to.be.equal(expectedResult[i]);
+        });
+      });
+
     });
   </script>
 </body>

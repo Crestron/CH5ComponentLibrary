@@ -23,16 +23,16 @@
       setup(async () => {
         ch5Text = fixture('ch5-text-truncateText-attributes');
       });
-        
-        let testCases = ['a', '', ' ', 'number', true,false];
-        let expectedResult = ['false', 'true', 'false', 'false', 'true','false'];
-        testCases.forEach((ele, i) => {
-              test('Check Value "truncateText"', () => {
-                  ch5Text.setAttribute('truncateText', ele);
-                  expect(ch5Text.getAttribute('truncateText')).to.be.equal(expectedResult[i]);
-              });
-          });
-        
+
+      let testCases = ['a', '', ' ', 'number', true, false];
+      let expectedResult = ['false', 'true', 'false', 'false', 'true', 'false'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "truncateText"', () => {
+          ch5Text.setAttribute('truncateText', ele);
+          expect(ch5Text.getAttribute('truncateText')).to.be.equal(expectedResult[i]);
+        });
+      });
+
     });
   </script>
 </body>
