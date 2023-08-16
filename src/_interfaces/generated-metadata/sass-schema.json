@@ -6066,6 +6066,104 @@
         ]
     },
     {
+        "group": "ch5-text",
+        "schemadata": [
+            {
+                "type": "class",
+                "metadata": [
+                    {
+                        "type": "class",
+                        "name": "ch5-text",
+                        "description": "Main Class\n",
+                        "value": "position: relative;\n  min-width: 64px;\n  min-height: 44px;\n  width: 150px;\n  height: 48px;\n  overflow: hidden;\n  padding: 10px;\n\n  span {\n    display: inline-block;\n    width: 100%;\n\n    /// Applied when truncateText='true'\n    &.ch5-text--truncate-text-true {\n      text-overflow: ellipsis; // enables ellipsis\n      white-space: nowrap; // keeps the text in a single line\n      overflow: hidden; // keeps the element from overflowing its parent */\n    }\n\n    /// Applied when truncateText='false'\n    &.ch5-text--truncate-text-false {\n      white-space: nowrap; // keeps the text in a single line\n      overflow: hidden; // keeps the element from overflowing its parent\n    }\n\n    /// Applied when multiline-support='true'\n    &.ch5-text--multiline-support-true {\n      overflow: hidden;\n      display: -webkit-box;\n      -webkit-box-orient: vertical;\n      -webkit-line-clamp: 3; // start showing ellipsis when 3rd line is reached\n      white-space: pre-wrap !important; // let the text wrap preserving spaces \n    }\n\n    /// Applied when multiline-support='false'\n    &.ch5-text--multiline-support-false {\n      white-space: nowrap; // keeps the text in a single line\n      overflow: hidden; // keeps the element from overflowing its parent\n    }\n  }"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text--truncate-text-true",
+                        "description": "Applied when truncateText='true'\n",
+                        "value": "text-overflow: ellipsis; // enables ellipsis\n      white-space: nowrap; // keeps the text in a single line\n      overflow: hidden; // keeps the element from overflowing its parent */"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text--truncate-text-false",
+                        "description": "Applied when truncateText='false'\n",
+                        "value": "white-space: nowrap; // keeps the text in a single line\n      overflow: hidden; // keeps the element from overflowing its parent"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text--multiline-support-true",
+                        "description": "Applied when multiline-support='true'\n",
+                        "value": "overflow: hidden;\n      display: -webkit-box;\n      -webkit-box-orient: vertical;\n      -webkit-line-clamp: 3; // start showing ellipsis when 3rd line is reached\n      white-space: pre-wrap !important; // let the text wrap preserving spaces"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text--multiline-support-false",
+                        "description": "Applied when multiline-support='false'\n",
+                        "value": "white-space: nowrap; // keeps the text in a single line\n      overflow: hidden; // keeps the element from overflowing its parent"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text--disabled",
+                        "description": "Applied when disabled='true'\n",
+                        "value": "pointer-events: none;\n  opacity: $ch5-text-disabled-opacity;"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text--horizontal-alignment-center",
+                        "description": "Set horizontalAlignment as center",
+                        "value": "text-align: center;\n\t\t\tpadding: 0px 10px;"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text--horizontal-alignment-left",
+                        "description": "Set horizontalAlignment as left",
+                        "value": "text-align: left;\n\t\t\tpadding-right: 10px;"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text--horizontal-alignment-right",
+                        "description": "Set horizontalAlignment as right",
+                        "value": "text-align: right;\n\t\t\tpadding-left: 10px;"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text--vertical-alignment-top",
+                        "description": "Set verticalAlignment as top",
+                        "value": "display: flex;\n            align-items: flex-start;"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text--vertical-alignment-middle",
+                        "description": "Set verticalAlignment as middle",
+                        "value": "display: flex;\n            align-items: center;"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-text--vertical-alignment-bottom",
+                        "description": "Set verticalAlignment as bottom",
+                        "value": "display: flex;\n            align-items: flex-end;"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "group": "ch5-text-variables",
+        "schemadata": [
+            {
+                "type": "variable",
+                "metadata": [
+                    {
+                        "type": "variable",
+                        "name": "ch5-text-disabled-opacity",
+                        "description": "Variables below\n",
+                        "value": "0.5"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "group": "ch5-textinput",
         "schemadata": [
             {
