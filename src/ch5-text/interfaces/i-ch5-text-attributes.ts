@@ -34,7 +34,7 @@ export interface ICh5TextAttributes extends ICh5CommonAttributesText {
   * [
   * "`multilineSupport` attribute",
   * "***",
-  * "Enables or disables support for multi-line input text. Text will be truncated when the text area does not allow for a second line. This shall not resize the text area to fit the text. The designer is responsible for defining the appropriate text area required."
+  * "Enables or disables support for multi-line text. Text will be truncated when the text content area does not allow for a second line. This shall not resize the text area to fit the text."
   * ]
   * @name multilinesupport
   * @default false
@@ -46,7 +46,7 @@ export interface ICh5TextAttributes extends ICh5CommonAttributesText {
    * [
    * "`truncateText` attribute",
    * "***",
-   * "Enables or disables text truncation depending on the length of text input and the size of the control. Will show an ellipsis when the text extends beyond the horizontally and vertically allocated space."
+   * "Enables or disables text truncation depending on the length of text and the size of the control. This attribute when set to true will show an ellipsis when the text extends beyond the horizontally and vertically allocated space."
    * ]
    * @name truncatetext
    * @default false
@@ -70,7 +70,7 @@ export interface ICh5TextAttributes extends ICh5CommonAttributesText {
    * [
    * "`receiveStateLabel` attribute",
    * "***",
-   * "Select a serial join to receive feedback from the control system. The value of this join gets assigned to the label as text. NOTE: Due to a clearing of all joins at design time, if a join is set, the design time label will not display any text. To remedy this issue see CIPS documentation."
+   * "Select a serial join to receive feedback from the control system. The value of this join gets assigned to the label as text. NOTE: Due to a clearing of all joins at design time, if a join is set, the design time label will not display any text."
    * ]
    * @name receivestatelabel
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
@@ -82,7 +82,7 @@ export interface ICh5TextAttributes extends ICh5CommonAttributesText {
    * [
    * "`labelInnerHtml` attribute",
    * "***",
-   * "Used to set the label displayed for the text. Takes the preference over the label attribute."
+   * "Used to set the label displayed for the text. This attribute takes the preference over the label attribute."
    * ]
    * @name labelinnerhtml
    * @default 

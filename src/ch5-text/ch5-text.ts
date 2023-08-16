@@ -277,7 +277,6 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     this._elContainer = document.createElement('div');
     this._elSpan = document.createElement('span');
     this._elContainer.appendChild(this._elSpan);
-    this._elSpan.classList.add('ch5-text-span');
     this.logger.stop();
   }
 
@@ -323,9 +322,9 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
   private handleHorizontalAlignment() {
     Array.from(Ch5Text.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.values).forEach((e: any) => {
-      this._elSpan.classList.remove(this.primaryCssClass + '-span' + Ch5Text.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + e);
+      this._elSpan.classList.remove(this.primaryCssClass + Ch5Text.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + e);
     });
-    this._elSpan.classList.add(this.primaryCssClass + '-span' + Ch5Text.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + this.horizontalAlignment);
+    this._elSpan.classList.add(this.primaryCssClass + Ch5Text.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + this.horizontalAlignment);
   }
 
   private handleVerticalAlignment() {
@@ -337,9 +336,9 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
   private handleMultilineSupport() {
     ['true', 'false'].forEach((e: any) => {
-      this._elSpan.classList.remove(this.primaryCssClass + '-span--multiline-support-' + e);
+      this._elSpan.classList.remove(this.primaryCssClass + '--multiline-support-' + e);
     });
-    this._elSpan.classList.add(this.primaryCssClass + '-span--multiline-support-' + this.multilineSupport.toString());
+    this._elSpan.classList.add(this.primaryCssClass + '--multiline-support-' + this.multilineSupport.toString());
     if (this.multilineSupport) {
       this.fitEllipsisForMultiline();
     }
@@ -347,9 +346,9 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
   private handleTruncateText() {
     ['true', 'false'].forEach((e: any) => {
-      this._elSpan.classList.remove(this.primaryCssClass + '-span--truncate-text-' + e);
+      this._elSpan.classList.remove(this.primaryCssClass + '--truncate-text-' + e);
     });
-    this._elSpan.classList.add(this.primaryCssClass + '-span--truncate-text-' + this.truncateText.toString());
+    this._elSpan.classList.add(this.primaryCssClass + '--truncate-text-' + this.truncateText.toString());
   }
 
   private handleLabel() {
@@ -383,10 +382,10 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   private updateCssClass() {
     this.logger.start('UpdateCssClass');
     super.updateCssClasses();
-    this._elSpan.classList.add(this.primaryCssClass + '-span' + Ch5Text.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + this.horizontalAlignment);
+    this._elSpan.classList.add(this.primaryCssClass + Ch5Text.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + this.horizontalAlignment);
     this._elContainer.classList.add(this.primaryCssClass + Ch5Text.COMPONENT_DATA.VERTICAL_ALIGNMENT.classListPrefix + this.verticalAlignment);
-    this._elSpan.classList.add(this.primaryCssClass + '-span--multiline-support-' + this.multilineSupport.toString());
-    this._elSpan.classList.add(this.primaryCssClass + '-span--truncate-text-' + this.truncateText.toString());
+    this._elSpan.classList.add(this.primaryCssClass + '--multiline-support-' + this.multilineSupport.toString());
+    this._elSpan.classList.add(this.primaryCssClass + '--truncate-text-' + this.truncateText.toString());
     this.logger.stop();
   }
 
@@ -403,7 +402,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     const containerHeight = this.getContainerHeight(this._elContainer);
     const numberOfLines = Math.floor(containerHeight / lineheight);
     if (this.truncateText) {
-      this._elSpan.setAttribute("style", "max-height: " + (numberOfLines * lineheight) + "px"+ ";-webkit-line-clamp:" + numberOfLines + "px");
+      this._elSpan.setAttribute("style", "-webkit-line-clamp:" + numberOfLines);
     } else {
       this._elSpan.setAttribute("style", "max-height: " + (numberOfLines * lineheight) + "px" + ";word-wrap: break-word;display: flex;");
     }

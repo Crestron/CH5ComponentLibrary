@@ -38,7 +38,7 @@ export * from './ch5-spinner/index';
 export * from './ch5-subpage-reference-list/index';
 export * from './ch5-tab-button/index';
 export * from './ch5-template/index';
-export * from './ch5-text';
+export * from './ch5-text/index';
 export * from './ch5-textinput/index';
 export * from './ch5-toggle/index';
 export * from './ch5-touch/index';
