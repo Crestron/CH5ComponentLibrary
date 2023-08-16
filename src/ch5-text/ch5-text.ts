@@ -403,7 +403,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     const containerHeight = this.getContainerHeight(this._elContainer);
     const numberOfLines = Math.floor(containerHeight / lineheight);
     if (this.truncateText) {
-      this._elSpan.setAttribute("style", "-webkit-line-clamp:" + numberOfLines + "px");
+      this._elSpan.setAttribute("style", "max-height: " + (numberOfLines * lineheight) + "px"+ ";-webkit-line-clamp:" + numberOfLines + "px");
     } else {
       this._elSpan.setAttribute("style", "max-height: " + (numberOfLines * lineheight) + "px" + ";word-wrap: break-word;display: flex;");
     }
