@@ -38,6 +38,7 @@ export * from './ch5-spinner/index';
 export * from './ch5-subpage-reference-list/index';
 export * from './ch5-tab-button/index';
 export * from './ch5-template/index';
+export * from './ch5-text';
 export * from './ch5-textinput/index';
 export * from './ch5-toggle/index';
 export * from './ch5-touch/index';
@@ -46,5 +47,3 @@ export * from './ch5-logger/index';
 export * from './ch5-video/index';
 export * from './ch5-wifi-signal-level-gauge';
 export * from './utility-models/index'; // Use CrComLib.Ch5RoleAttributeMapping to access
-
-export * from './ch5-text';

@@ -32,11 +32,9 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
     receivestatelabel: { direction: "state", stringJoin: 1, contractName: true },
-
   };
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
-
     {
       default: Ch5Text.HORIZONTAL_ALIGNMENT[0],
       enumeratedValues: Ch5Text.HORIZONTAL_ALIGNMENT,
@@ -111,7 +109,6 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   public static readonly ELEMENT_NAME = 'ch5-text';
 
   public primaryCssClass = 'ch5-text';
-  public spanCssClass = 'ch5-text-span'
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
@@ -335,9 +332,9 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
   private handleHorizontalAlignment() {
     Array.from(Ch5Text.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.values).forEach((e: any) => {
-      this._elSpan.classList.remove(this.spanCssClass + Ch5Text.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + e);
+      this._elSpan.classList.remove(this.primaryCssClass + '-span' + Ch5Text.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + e);
     });
-    this._elSpan.classList.add(this.spanCssClass + Ch5Text.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + this.horizontalAlignment);
+    this._elSpan.classList.add(this.primaryCssClass + '-span' + Ch5Text.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + this.horizontalAlignment);
   }
 
   private handleVerticalAlignment() {
@@ -349,9 +346,9 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
   private handleMultilineSupport() {
     ['true', 'false'].forEach((e: any) => {
-      this._elSpan.classList.remove(this.spanCssClass + '--multiline-support-' + e);
+      this._elSpan.classList.remove(this.primaryCssClass + '-span--multiline-support-' + e);
     });
-    this._elSpan.classList.add(this.spanCssClass + '--multiline-support-' + this.multilineSupport.toString());
+    this._elSpan.classList.add(this.primaryCssClass + '-span--multiline-support-' + this.multilineSupport.toString());
     if (this.multilineSupport) {
       this.fitEllipsisForMultiline();
     }
@@ -359,9 +356,9 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
   private handleTruncateText() {
     ['true', 'false'].forEach((e: any) => {
-      this._elSpan.classList.remove(this.spanCssClass + '--truncate-text-' + e);
+      this._elSpan.classList.remove(this.primaryCssClass + '-span--truncate-text-' + e);
     });
-    this._elSpan.classList.add(this.spanCssClass + '--truncate-text-' + this.truncateText.toString());
+    this._elSpan.classList.add(this.primaryCssClass + '-span--truncate-text-' + this.truncateText.toString());
   }
 
   private handleLabel() {
@@ -395,10 +392,10 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   private updateCssClass() {
     this.logger.start('UpdateCssClass');
     super.updateCssClasses();
-    this._elSpan.classList.add(this.spanCssClass + Ch5Text.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + this.horizontalAlignment);
+    this._elSpan.classList.add(this.primaryCssClass + '-span' + Ch5Text.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.classListPrefix + this.horizontalAlignment);
     this._elContainer.classList.add(this.primaryCssClass + Ch5Text.COMPONENT_DATA.VERTICAL_ALIGNMENT.classListPrefix + this.verticalAlignment);
-    this._elSpan.classList.add(this.spanCssClass + '--multiline-support-' + this.multilineSupport.toString());
-    this._elSpan.classList.add(this.spanCssClass + '--truncate-text-' + this.truncateText.toString());
+    this._elSpan.classList.add(this.primaryCssClass + '-span--multiline-support-' + this.multilineSupport.toString());
+    this._elSpan.classList.add(this.primaryCssClass + '-span--truncate-text-' + this.truncateText.toString());
     this.logger.stop();
   }
 
@@ -428,7 +425,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   public getLineHeightSuper(element: HTMLElement) {
     const oldHtml = element.innerHTML;
 
-    element.innerHTML = "A";
+    element.innerHTML = "";
     const lineHeight = element.offsetHeight;
 
     element.innerHTML = oldHtml;
