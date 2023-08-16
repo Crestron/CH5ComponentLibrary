@@ -415,7 +415,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
   public getLineHeightSuper(element: HTMLElement) {
     const oldHtml = element.innerHTML;
-    element.innerHTML = "Dummy text to calculate line height";
+    element.innerHTML = "&nbsp;";
     const lineHeight = element.offsetHeight;
     element.innerHTML = oldHtml;
     return lineHeight;
