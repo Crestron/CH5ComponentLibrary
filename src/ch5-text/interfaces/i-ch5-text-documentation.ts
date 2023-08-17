@@ -6,7 +6,7 @@ import { ICh5TextAttributes } from "./i-ch5-text-attributes";
  * @isattribute false
  * @tagName ch5-text
  * @role label
- * @description The Formatted Text control is used to display advanced text on a touch panel.
+ * @description The Text control is used to display advanced text on a touch panel.
  * @componentVersion 2.5.0
  * @childElements
  * [
@@ -16,7 +16,7 @@ import { ICh5TextAttributes } from "./i-ch5-text-attributes";
  * [
  *   "`ch5-text` element",
  *   "***",
- *   "The Formatted Text control is used to display advanced text on a touch panel. It supports HTML text via Serial Join as well as static text. Additionally, it can be used as multiline and/or truncated text."
+ *   "The Text control is used to display advanced text on a touch panel. It supports HTML text via Serial Join as well as static text. Additionally, it can be used as multiline and/or truncated text."
  * ]
  * @snippets
  * [
