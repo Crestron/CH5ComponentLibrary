@@ -1763,6 +1763,26 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		return (!!str && str.length > 0 && str !== 'false' && str !== '0' && str !== null);
 	}
 
+	protected convertAnalogValueBasedOnSignalResponse(input: number) {
+		const MAX_ANALOG = 65535;
+		const HALF_MAX_ANALOG = 32767;
+		const MIN_ANALOG = -65535;
+		const HALF_MIN_ANALOG = -32768;
+
+		let outputValue: number = input;
+
+		if (outputValue > HALF_MAX_ANALOG) {
+			outputValue = outputValue > MAX_ANALOG ? MAX_ANALOG : outputValue;
+			outputValue -= MAX_ANALOG + 1;
+		} else if (outputValue < HALF_MIN_ANALOG) {
+			// Assumption is that Control system cannot send a negative value
+			// So even if we receive negative value, just consider it negative
+			outputValue = outputValue > MIN_ANALOG ? outputValue : MIN_ANALOG;
+			outputValue += MAX_ANALOG + 1;
+		}
+		return outputValue;
+	}
+
 	protected setAttributeAndProperty(property: ICh5AttributeAndPropertySettings, value: any, setFromSignal: boolean = false) {
 		this.logger.log('setAttributeAndProperty: ' + property.attributeName + ' - "' + value + '"');
 		const attribute = property.attributeName.toLowerCase();

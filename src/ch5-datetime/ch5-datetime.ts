@@ -220,7 +220,8 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
 
   public set receiveStateTimeOffsetHours(value: string) {
     this._ch5Properties.set("receiveStateTimeOffsetHours", value, null, (newValue: number) => {
-      this._ch5Properties.setForSignalResponse<number>("timeOffsetHours", (newValue), () => {
+      const convertedNewValue: number = this.convertAnalogValueBasedOnSignalResponse(newValue);
+      this._ch5Properties.setForSignalResponse<number>("timeOffsetHours", (convertedNewValue), () => {
         this.changeTime();
       });
     });
