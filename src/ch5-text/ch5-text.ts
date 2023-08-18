@@ -399,7 +399,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
   public fitEllipsisForMultiline() {
     const lineheight = this.getLineHeightSuper(this._elSpan);
-    const containerHeight = this.getContainerHeight(this._elContainer);
+    const containerHeight = this.getContainerHeight(this._elContainer) - 20;
     const numberOfLines = Math.floor(containerHeight / lineheight);
     if (this.truncateText) {
       this._elSpan.setAttribute("style", "-webkit-line-clamp:" + numberOfLines);
