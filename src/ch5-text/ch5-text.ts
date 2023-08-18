@@ -131,7 +131,9 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
   public set multilineSupport(value: boolean) {
     this._ch5Properties.set<boolean>("multilineSupport", value, () => {
-      this.handleMultilineSupport();
+      setTimeout(() => {
+        this.handleMultilineSupport(); // Line height is not accurately calculatated
+      }, 50);
     });
   }
   public get multilineSupport(): boolean {
@@ -399,7 +401,8 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
   public fitEllipsisForMultiline() {
     const lineheight = this.getLineHeightSuper(this._elSpan);
-    const containerHeight = this.getContainerHeight(this._elContainer);
+    const topAndBottomPadding = 20;
+    const containerHeight = this.getContainerHeight(this._elContainer) - topAndBottomPadding;
     const numberOfLines = Math.floor(containerHeight / lineheight);
     if (this.truncateText) {
       this._elSpan.setAttribute("style", "-webkit-line-clamp:" + numberOfLines);
