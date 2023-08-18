@@ -131,7 +131,9 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
   public set multilineSupport(value: boolean) {
     this._ch5Properties.set<boolean>("multilineSupport", value, () => {
-      this.handleMultilineSupport();
+      setTimeout(() => {
+        this.handleMultilineSupport();
+      }, 50);
     });
   }
   public get multilineSupport(): boolean {
