@@ -5,6 +5,8 @@ import { TCh5TextHorizontalAlignment, TCh5TextVerticalAlignment, } from './inter
 import { ICh5TextAttributes } from './interfaces/i-ch5-text-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
+import { resizeObserver } from "../ch5-core/resize-observer";
+import { subscribeInViewPortChange } from "../ch5-core";
 
 export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
@@ -132,7 +134,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   public set multilineSupport(value: boolean) {
     this._ch5Properties.set<boolean>("multilineSupport", value, () => {
       setTimeout(() => {
-        this.handleMultilineSupport(); // Line height is not accurately calculatated
+        this.handleMultilineSupport(); // Line height is not accurately calculated
       }, 50);
     });
   }
@@ -177,7 +179,6 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   public get labelInnerHtml(): string {
     return this._ch5Properties.get<string>("labelInnerHtml");
   }
-
 
   //#endregion
 
@@ -244,6 +245,11 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()', Ch5Text.ELEMENT_NAME);
+    subscribeInViewPortChange(this, () => {
+			if (this.elementIsInViewPort) {
+				this.handleMultilineSupport();
+			}
+		});
     // WAI-ARIA Attributes
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5Text);
@@ -298,7 +304,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
   protected attachEventListeners() {
     super.attachEventListeners();
-
+		resizeObserver(this._elContainer, this.onWindowResizeHandler.bind(this));
   }
 
   protected removeEventListeners() {
@@ -426,6 +432,17 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   public getContainerHeight(element: HTMLElement) {
     return element.clientHeight;
   }
+
+  private onWindowResizeHandler() {
+		// since stretch has no default value, should fire stretchHandler only if required
+		// if (!this.isResizeInProgress) {
+		// 	this.isResizeInProgress = true;
+		// 	setTimeout(() => {
+				this.handleMultilineSupport();
+		// 		this.isResizeInProgress = false; // reset debounce once completed
+		// 	}, 100);
+		// }
+	}
 
   //#endregion
 
