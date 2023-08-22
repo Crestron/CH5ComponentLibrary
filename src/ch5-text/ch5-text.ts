@@ -357,6 +357,13 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
       this._elSpan.classList.remove(this.primaryCssClass + '--truncate-text-' + e);
     });
     this._elSpan.classList.add(this.primaryCssClass + '--truncate-text-' + this.truncateText.toString());
+    if (this.multilineSupport) {
+      this.fitEllipsisForMultiline();
+    }else{
+      this._elSpan.style.removeProperty('word-wrap');
+      this._elSpan.style.removeProperty('display');
+      this._elSpan.style.removeProperty('max-height');
+    }
   }
 
   private handleLabel() {
