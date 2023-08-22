@@ -5,6 +5,7 @@ import { TCh5DateTimeStyleForDate, TCh5DateTimeHorizontalAlignment, TCh5DateTime
  * @ignore
  */
 export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
+
 	/**
 	 * @documentation
 	 * [
@@ -17,6 +18,7 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * @attributeType "Boolean"
 	 */
 	display24HourFormat: boolean;
+
 	/**
 	 * @documentation
 	 * [
@@ -30,6 +32,7 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * @showWhen [{"display24HourFormat":"false"}]
 	 */
 	displayAmPm: boolean;
+
 	/**
 	 * @documentation
 	 * [
@@ -42,6 +45,7 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * @attributeType "Boolean"
 	 */
 	displayTwoDigitsHour: boolean;
+
 	/**
 	 * @documentation
 	 * [
@@ -55,6 +59,7 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * @showWhen [{"displayType":['datetime', 'time']}]
 	 */
 	displaySeconds: boolean;
+
 	/**
 	 * @documentation
 	 * [
@@ -67,6 +72,7 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * @attributeType "EnumeratedValue"
 	 */
 	styleForDate: TCh5DateTimeStyleForDate;
+
 	/**
 	 * @documentation
 	 * [
@@ -79,6 +85,7 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * @attributeType "EnumeratedValue"
 	 */
 	horizontalAlignment: TCh5DateTimeHorizontalAlignment;
+
 	/**
 	 * @documentation
 	 * [
@@ -111,7 +118,7 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * [
 	 * "`receiveStateTimeOffsetHours` attribute",
 	 * "***",
-	 * "You may optionally select an analog join to programmatically change the time offset in hours property during run time. Values are in units of hundredths of an hour. As an example to direct an offset of 1 hour 30 minutes, provide an analog value of 150."
+	 * "You may optionally select an analog join to programmatically change the time offset in hours property during runtime. Values are in units of hundredths of an hour. As an example, to direct an offset of 1 hour 30 minutes, provide an analog value of 150."
 	 * ]
 	 * @name receivestatetimeoffsethours
 	 * @join {"direction": "state", "isContractName": true, "numericJoin": 1}

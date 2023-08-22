@@ -246,10 +246,10 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   public connectedCallback() {
     this.logger.start('connectedCallback()', Ch5Text.ELEMENT_NAME);
     subscribeInViewPortChange(this, () => {
-			if (this.elementIsInViewPort) {
-				this.handleMultilineSupport();
-			}
-		});
+      if (this.elementIsInViewPort) {
+        this.handleMultilineSupport();
+      }
+    });
     // WAI-ARIA Attributes
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5Text);
@@ -304,7 +304,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
   protected attachEventListeners() {
     super.attachEventListeners();
-		resizeObserver(this._elContainer, this.onWindowResizeHandler.bind(this));
+    resizeObserver(this._elContainer, this.onWindowResizeHandler.bind(this));
   }
 
   protected removeEventListeners() {
@@ -406,14 +406,14 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   }
 
   public fitEllipsisForMultiline() {
-    const lineheight = this.getLineHeightSuper(this._elSpan);
+    const lineHeight = this.getLineHeightSuper(this._elSpan);
     const topAndBottomPadding = 20;
     const containerHeight = this.getContainerHeight(this._elContainer) - topAndBottomPadding;
-    const numberOfLines = Math.floor(containerHeight / lineheight);
+    const numberOfLines = Math.floor(containerHeight / lineHeight);
     if (this.truncateText) {
       this._elSpan.setAttribute("style", "-webkit-line-clamp:" + numberOfLines);
     } else {
-      this._elSpan.setAttribute("style", "max-height: " + (numberOfLines * lineheight) + "px" + ";word-wrap: break-word;display: flex;");
+      this._elSpan.setAttribute("style", "max-height: " + (numberOfLines * lineHeight) + "px" + ";word-wrap: break-word;display: flex;");
     }
   }
 
@@ -434,15 +434,8 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   }
 
   private onWindowResizeHandler() {
-		// since stretch has no default value, should fire stretchHandler only if required
-		// if (!this.isResizeInProgress) {
-		// 	this.isResizeInProgress = true;
-		// 	setTimeout(() => {
-				this.handleMultilineSupport();
-		// 		this.isResizeInProgress = false; // reset debounce once completed
-		// 	}, 100);
-		// }
-	}
+    this.handleMultilineSupport();
+  }
 
   //#endregion
 

@@ -430,7 +430,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
     const timeSetHours = this.timeOffsetHours;
     if (timeSetHours && timeSetHours !== 0 && timeSetHours >= -32768 && timeSetHours <= 32767) {
       const resultDate = dateValue;
-      resultDate.setMinutes(resultDate.getMinutes() + Math.round((timeSetHours * 60)));
+      resultDate.setMinutes(resultDate.getMinutes() + Math.round((timeSetHours * 60)/100));
       return resultDate;
     } else {
       return dateValue;
