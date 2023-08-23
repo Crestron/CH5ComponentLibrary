@@ -38,7 +38,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
 
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-    receivestatetimeoffsethours: { direction: "state", numericJoin: 1, contractName: true }
+    receiveStateOffsetTime: { direction: "state", numericJoin: 1, contractName: true }
   };
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
     {
@@ -104,7 +104,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
       default: 0,
       name: "timeOffsetHours",
       removeAttributeOnNull: true,
-      nameForSignal: "receiveStateTimeOffsetHours",
+      nameForSignal: "receiveStateOffsetTime",
       type: "number",
       valueOnAttributeEmpty: null,
       numberProperties: {
@@ -120,7 +120,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
     {
       default: "",
       isSignal: true,
-      name: "receiveStateTimeOffsetHours",
+      name: "receiveStateOffsetTime",
       signalType: "number",
       removeAttributeOnNull: true,
       type: "string",
@@ -218,16 +218,16 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
     return this._ch5Properties.get<number>("timeOffsetHours");
   }
 
-  public set receiveStateTimeOffsetHours(value: string) {
-    this._ch5Properties.set("receiveStateTimeOffsetHours", value, null, (newValue: number) => {
-      const convertedNewValue: number = this.convertAnalogValueBasedOnSignalResponse(newValue);
+  public set receiveStateOffsetTime(value: string) {
+    this._ch5Properties.set("receiveStateOffsetTime", value, null, (newValue: number) => {
+      const convertedNewValue: number = this.convertAnalogValueBasedOnSignalResponse(newValue) / 100;
       this._ch5Properties.setForSignalResponse<number>("timeOffsetHours", (convertedNewValue), () => {
         this.changeTime();
       });
     });
   }
-  public get receiveStateTimeOffsetHours(): string {
-    return this._ch5Properties.get<string>('receiveStateTimeOffsetHours');
+  public get receiveStateOffsetTime(): string {
+    return this._ch5Properties.get<string>('receiveStateOffsetTime');
   }
 
   //#endregion
@@ -334,8 +334,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
     }
     if (this.componentFormat !== "") {
       const newDate = new Date();
-      let dateInNumberFormat: Date
-      dateInNumberFormat = this.calculateTimeOffsetHours(newDate);
+      const dateInNumberFormat: Date = this.calculateTimeOffset(newDate);
       this._elContainer.textContent = toFormat(dateInNumberFormat, this.componentFormat);
       this.dateTimeId = window.setTimeout(() => {
         this.changeTime();
@@ -426,11 +425,11 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
     this.changeTime();
   }
 
-  private calculateTimeOffsetHours(dateValue: Date): Date {
+  private calculateTimeOffset(dateValue: Date): Date {
     const timeSetHours = this.timeOffsetHours;
     if (timeSetHours && timeSetHours !== 0 && timeSetHours >= -32768 && timeSetHours <= 32767) {
       const resultDate = dateValue;
-      resultDate.setMinutes(resultDate.getMinutes() + Math.round((timeSetHours * 60)/100));
+      resultDate.setMinutes(resultDate.getMinutes() + Math.round((timeSetHours * 60)));
       return resultDate;
     } else {
       return dateValue;

@@ -11,23 +11,23 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-datetime-receiveStateTimeOffsetHours-attributes">
+  <test-fixture id="ch5-datetime-receiveStateOffsetTime-attributes">
     <template>
-      <ch5-datetime receiveStateTimeOffsetHours="trigger_event_listener"></ch5-datetime>
+      <ch5-datetime receiveStateOffsetTime="trigger_event_listener"></ch5-datetime>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-datetime-receiveStateTimeOffsetHours-attributes-value', () => {
+    suite('ch5-datetime-receiveStateOffsetTime-attributes-value', () => {
       let ch5DateTime;
 
       setup(async () => {
-        const emulatorJson = await fetch('./emulator/receivestatetimeoffsethours.json').then((response) => response.json());
+        const emulatorJson = await fetch('./emulator/receiveStateOffsetTime.json').then((response) => response.json());
         const emulator = CrComLib.Ch5Emulator.getInstance();
         emulator.loadScenario(emulatorJson);
-        ch5DateTime = fixture('ch5-datetime-receiveStateTimeOffsetHours-attributes');
+        ch5DateTime = fixture('ch5-datetime-receiveStateOffsetTime-attributes');
       });
 
-      test('receiveStateTimeOffsetHours', (done) => {
+      test('receiveStateOffsetTime', (done) => {
         CrComLib.publishEvent('b', 'trigger_event_1', true);
         flush(() => {
           setTimeout(() => {
@@ -36,7 +36,7 @@
           }, 100);
         });
       });
-      test('receiveStateTimeOffsetHours', (done) => {
+      test('receiveStateOffsetTime', (done) => {
         CrComLib.publishEvent('b', 'trigger_event_2', true);
         flush(() => {
           setTimeout(() => {

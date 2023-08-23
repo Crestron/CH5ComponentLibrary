@@ -23,7 +23,7 @@ import { ICh5DateTimeAttributes } from "./i-ch5-datetime-attributes";
  * [
  *   "`ch5-datetime` element",
  *   "***",
- *   "An date and time display designed to provide options to show date with displayType, timeOffsetHours, display24HourFormat, displayAmPm, displayTwoDigitsHour, displaySeconds, styleForDate, horizontalAlignment and receiveStateTimeOffsetHours"
+ *   "An date and time display designed to provide options to show date with displayType, timeOffsetHours, display24HourFormat, displayAmPm, displayTwoDigitsHour, displaySeconds, styleForDate, horizontalAlignment and receiveStateOffsetTime"
  * ]
  * @snippets
  * [
@@ -48,7 +48,7 @@ import { ICh5DateTimeAttributes } from "./i-ch5-datetime-attributes";
  *       "\thorizontalAlignment=\"${7:center}\"",
  *       "\tdisplayType=\"${8:datetime}\"",
  *       "\ttimeOffsetHours=\"${9:0}\"",
- *       "\treceiveStateTimeOffsetHours=\"${10:}\">",
+ *       "\treceiveStateOffsetTime=\"${10:}\">",
  *       "</ch5-datetime>$0"
  *       ]
  *    },

@@ -104,7 +104,7 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * [
 	 * "`timeOffsetHours` attribute",
 	 * "***",
-	 * "Default value: 0 | Min value: -37768 | Max value: 37767 | Offset the date/time in hours."
+	 * "Default value: 0 | Min value: -37768 | Max value: 37767 | Offset the date/time in hours. As an example, to direct an offset of 1 hour 30 minutes, provide an analog value of 1.5"
 	 * ]
 	 * @name timeoffsethours
 	 * @default 0
@@ -116,13 +116,13 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	/**
 	 * @documentation
 	 * [
-	 * "`receiveStateTimeOffsetHours` attribute",
+	 * "`receiveStateOffsetTime` attribute",
 	 * "***",
-	 * "You may optionally select an analog join to programmatically change the time offset in hours property during runtime. Values are in units of hundredths of an hour. As an example, to direct an offset of 1 hour 30 minutes, provide an analog value of 150."
+	 * "You may optionally select an analog join to programmatically change the time offset property during runtime. Values are in units of hundredths of an hour. As an example, to direct an offset of 1 hour 30 minutes, provide an analog value of 150."
 	 * ]
-	 * @name receivestatetimeoffsethours
+	 * @name receiveStateOffsetTime
 	 * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
 	 * @attributeType "Join"
 	 */
-	receiveStateTimeOffsetHours: string;
+	receiveStateOffsetTime: string;
 }
