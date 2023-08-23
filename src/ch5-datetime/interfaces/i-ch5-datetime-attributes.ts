@@ -120,7 +120,7 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * "***",
 	 * "You may optionally select an analog join to programmatically change the time offset property during runtime. Values are in units of hundredths of an hour. As an example, to direct an offset of 1 hour 30 minutes, provide an analog value of 150."
 	 * ]
-	 * @name receiveStateOffsetTime
+	 * @name receivestateoffsettime
 	 * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
 	 * @attributeType "Join"
 	 */
