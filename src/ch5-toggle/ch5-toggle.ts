@@ -24,17 +24,19 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 	}
 	public set label(value: string) {
 		this.logger.log("set label: ", value);
-		if (this._label !== value) {
-			let _value = value;
+		let _value = value;
+		if (_.isNil(value)) {
+			_value = '';
+		} else {
 			_value = this._getTranslatedValue('label', value);
+		}
 
-			this._elLabel.innerHTML = value;
-			this._elLabel.hidden = false;
-			this._label = _value;
+		this._elLabel.innerHTML = _value;
+		this._elLabel.hidden = false;
+		this._label = _value;
 
-			if (_value !== value) {
-				this.setAttribute('label', _value);
-			}
+		if (_value !== value) {
+			this.setAttribute('label', _value);
 		}
 	}
 
