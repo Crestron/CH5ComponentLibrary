@@ -32,7 +32,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 			_value = this._getTranslatedValue('label', value);
 		}
 
-		if (_value !== value) {
+		if (_value !== this._label) {
 			this._elLabel.innerHTML = _value;
 			this._elLabel.hidden = false;
 			this._label = _value;
@@ -53,7 +53,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 			_value = this._getTranslatedValue('labelOn', value);
 		}
 
-		if (_value !== value) {
+		if (_value !== this._labelOn) {
 			this._elLabelOn.innerText = _value;
 			this._labelOn = _value;
 			this.setAttribute('labelon', _value);
@@ -73,7 +73,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 			_value = this._getTranslatedValue('labelOff', value);
 		}
 
-		if (_value !== value) {
+		if (_value !== this._labelOff) {
 			this._elLabelOff.innerText = _value;
 			this._labelOff = _value;
 			this.setAttribute('labeloff', _value);
