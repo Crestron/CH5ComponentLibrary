@@ -38,7 +38,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
 
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-    receiveStateOffsetTime: { direction: "state", numericJoin: 1, contractName: true }
+    receivestateoffsettime: { direction: "state", numericJoin: 1, contractName: true }
   };
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
     {
