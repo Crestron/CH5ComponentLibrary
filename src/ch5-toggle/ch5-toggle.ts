@@ -25,17 +25,17 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 	public set label(value: string) {
 		this.logger.log("set label: ", value);
 		let _value = value;
+		// translate label before checking for previous and current value
 		if (_.isNil(value)) {
 			_value = '';
 		} else {
 			_value = this._getTranslatedValue('label', value);
 		}
 
-		this._elLabel.innerHTML = _value;
-		this._elLabel.hidden = false;
-		this._label = _value;
-
 		if (_value !== value) {
+			this._elLabel.innerHTML = _value;
+			this._elLabel.hidden = false;
+			this._label = _value;
 			this.setAttribute('label', _value);
 		}
 	}
@@ -44,17 +44,18 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 		return this._labelOn;
 	}
 	public set labelOn(value: string) {
+		this.logger.log("set labelOn: ", value);
 		let _value = value;
+		// translate labelOn before checking for previous and current value
 		if (value === undefined || value === null) {
 			_value = '';
 		} else {
 			_value = this._getTranslatedValue('labelOn', value);
 		}
 
-		this._elLabelOn.innerText = _value;
-		this._labelOn = _value;
-
 		if (_value !== value) {
+			this._elLabelOn.innerText = _value;
+			this._labelOn = _value;
 			this.setAttribute('labelon', _value);
 		}
 	}
@@ -63,17 +64,18 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 		return this._labelOff;
 	}
 	public set labelOff(value: string) {
+		this.logger.log("set labelOff: ", value);
 		let _value = value;
+		// translate labelOn before checking for previous and current value
 		if (_.isNil(value)) {
 			_value = '';
 		} else {
 			_value = this._getTranslatedValue('labelOff', value);
 		}
 
-		this._elLabelOff.innerText = _value;
-		this._labelOff = _value;
-
 		if (_value !== value) {
+			this._elLabelOff.innerText = _value;
+			this._labelOff = _value;
 			this.setAttribute('labeloff', _value);
 		}
 	}
