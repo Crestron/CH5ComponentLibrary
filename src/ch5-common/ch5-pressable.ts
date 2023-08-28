@@ -501,6 +501,9 @@ export class Ch5Pressable {
 				const distanceMoved = Math.sqrt(xMoveDistance ** 2 + yMoveDistance ** 2);
 				this._ch5Component.info(`DELETE ME Ch5Pressable._onTouchMove() , ${touch.clientX}, ${touch.clientY}, ${touch.identifier}, ${distanceMoved}`);
 				if (distanceMoved > this.pressDelayMoveDistance) {
+					this._ch5Component.info(`Ch5Pressable._onTouchMove() cancelling press, ${touch.clientX}, ${touch.clientY}, ${touch.identifier}, ${distanceMoved}`);
+					this._touchStart = false;
+					this._fingerState.reset();
 					if (isIosDevice()) {
 						if (this._touchIos === true) {
 							this._onTouchEnd(inEvent);
