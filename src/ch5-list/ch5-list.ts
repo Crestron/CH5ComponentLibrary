@@ -130,9 +130,9 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 	public _bufferedItems: ICh5ListBufferedItems = {
 		bufferActive: false,
 		bufferingComplete: false,
-		bufferForwardStartIndex: NaN,
+		bufferForwardStartIndex: 0,
 		forwardBufferedItems: [],
-		bufferBackwardsStartIndex: NaN,
+		bufferBackwardsStartIndex: 0,
 		backwardsBufferedItems: []
 	};
 
