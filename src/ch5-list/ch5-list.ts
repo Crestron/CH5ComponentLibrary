@@ -504,7 +504,9 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 			if (this.elementIsInViewPort && (this._isListVisible || this.receiveStateScrollToChanged)) {
 				this.info("Updating View");
 				if (this.hasAttribute('scrollbar') && String(this.getAttribute('scrollbar')) === 'true') {
-					this.templateHelper.customScrollbar(this.divList);
+					if (!this.endless) {
+						this.templateHelper.customScrollbar(this.divList);
+					}
 					setTimeout(() => {
 						this.templateHelper.resizeList(this.divList, this.templateVars);
 					}, 0.5);
@@ -513,7 +515,9 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 				}
 
 				this.templateHelper.checkAndSetSizes();
-				this.templateHelper.customScrollbar(this.divList);
+				if (!this.endless) {
+					this.templateHelper.customScrollbar(this.divList);
+				}
 				this._isListVisible = false;
 				this.receiveStateScrollToChanged = false;
 				if (this.hasAttribute('receiveStateScrollTo') && String(this.getAttribute('receiveStateScrollTo')) !== '') {
@@ -530,7 +534,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 
 			// TODO: andrei - what happens if the endless attribute is set at a given time
 			// not at initialization
-			if (this.hasAttribute('endless')) {
+			if (this.hasAttribute('endless') && this.getAttribute('endless') !== 'false' && this.getAttribute('endless') !== null) {
 				this.templateHelper.endless = true;
 			}
 
@@ -1296,6 +1300,9 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 		this._endless = value;
 		if (value === true) {
 			this.setAttribute('endless', value.toString());
+			setTimeout(() => {
+				this.templateHelper.removeScrollbar();
+			}, 50);
 		} else {
 			this.removeAttribute('endless')
 		}
@@ -1304,7 +1311,11 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 		this._ch5Properties.set<boolean>("scrollbar", value, () => {
 			this.templateHelper.removeScrollbar();
 			if (this.hasAttribute('scrollbar')) {
-				this.templateHelper.customScrollbar(this.divList);
+				if (!this.endless) {
+					setTimeout(() => {
+						this.templateHelper.customScrollbar(this.divList);
+					}, 50)
+				}
 			}
 		});
 	}
