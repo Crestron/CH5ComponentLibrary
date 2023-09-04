@@ -1308,7 +1308,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   public handleEndless() {
-    this._scrollbarContainer.style.display = this.endless ? 'none' : 'block';
     if (this.endless) { this.endless = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
     if (this.endless && this.scrollbar === true) { this.scrollbar = false; }
     // This behavior is handled in scroll event
@@ -1351,7 +1350,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   public handleScrollbar() {
-    this._scrollbarContainer.style.display = this.endless ? 'none' : 'block';
     if (this.endless === true && this.scrollbar === true) { this.scrollbar = false; }
     [true, false].forEach((bool: boolean) => {
       this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.SCROLLBAR_CLASSLIST_PREFIX + bool.toString());
