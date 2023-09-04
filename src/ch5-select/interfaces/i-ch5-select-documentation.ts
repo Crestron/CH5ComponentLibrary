@@ -13,7 +13,7 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  * @isattribute false
  * @tagName ch5-select
  * @role listbox
- * @description Ch5 Select inherits the default html select, but provides a lot of extra features
+ * @description Ch5 Select inherits the default html select, but provides a lot of extra features.
  * @componentVersion 1.0.0
  * @childElements
  * [

@@ -6,7 +6,7 @@ import { ICh5ColorChipAttributes } from "./i-ch5-color-chip-attributes";
  * @isattribute false
  * @tagName ch5-color-chip
  * @role color-chip
- * @description Component to render an Color Chip.
+ * @description Color Chip is used as a display source of Red, Blue, and Green values.
  * @componentVersion 2.1.0
  * @childElements
  * [
@@ -16,7 +16,7 @@ import { ICh5ColorChipAttributes } from "./i-ch5-color-chip-attributes";
  * [
  *   "`ch5-color-chip` element",
  *   "***",
- *   "Component description"
+ *   "The Color Chip widget provides two functions: It provides additional feedback of an RGB color combination, potentially from the Color Picker, but could be any source of Red, Green and Blue values. It also acts as a simple flat color image that can be pressed by user and provides a digital join to control system to indicate it has been pressed."
  * ]
  * @snippets
  * [

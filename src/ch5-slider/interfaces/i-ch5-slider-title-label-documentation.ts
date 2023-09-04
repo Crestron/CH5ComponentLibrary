@@ -19,7 +19,7 @@ import { ICh5SliderTitleLabelAttributes } from "./i-ch5-slider-title-label-attri
  * [
  *   "`ch5-slider-title-label` element",
  *   "***",
- *   "Ch5 Slider title Label tag provide the ability to set label of the title of the advance slider."
+ *   ""
  * ]
  * @snippets
  * [

@@ -6,7 +6,7 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  * @isattribute false
  * @tagName ch5-subpage-reference-list
  * @role subpage-reference-list
- * @description The Subpage Reference List allows multiple instances of a given subpage to be displayed and managed in a list.
+ * @description The Subpage Reference List allows multiple instances of a given widget to be displayed and managed in a list.
  * @componentVersion 2.3.0
  * @childElements
  * [
@@ -16,7 +16,7 @@ import { ICh5SubpageReferenceListAttributes } from "./i-ch5-subpage-reference-li
  * [
  *   "`ch5-subpage-reference-list` element",
  *   "***",
- *   "The Subpage Reference List allows multiple instances of a given subpage to be displayed and managed in a list."
+ *   "The Subpage Reference List is a component that has a collection of widgets that can be used in a CH5 project."
  * ]
  * @snippets
  * [

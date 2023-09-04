@@ -1,6 +1,6 @@
 {
-  "version": "2.3.0",
-  "componentsVersion": "2.3.1",
+  "version": "2.4.1",
+  "componentsVersion": "2.4.1",
   "htmlElements": {
     "common": {
       "attributes": [
@@ -4048,6 +4048,80 @@
           },
           {
             "documentation": [
+              "`loadItems:` attribute",
+              "***",
+              "The default value is visible-only. The possible values are visible-only, load-new, all. This attribute allows for buttons to be created and loaded on demand. Will determine if buttons are removed or not after they are no longer in visibility."
+            ],
+            "value": [
+              "visible-only",
+              "load-new",
+              "all"
+            ],
+            "name": "loaditems",
+            "default": "visible-only",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`buttonIconUrlFillType` attribute",
+              "***",
+              "Sets the icon url fill type for all the buttons in the list. Default value is 'null'. Applicable values are 'null', 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'. Uses the css property background-size for the implementation."
+            ],
+            "value": [
+              "stretch",
+              "stretch-aspect",
+              "center",
+              "tile",
+              "initial"
+            ],
+            "name": "buttoniconurlfilltype",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`receiveStateSelectedButton` attribute",
+              "***",
+              "ReceiveStateSelectedButton attribute helps the user to select an item on button list by using an analog join."
+            ],
+            "value": [],
+            "name": "receivestateselectedbutton",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "numericJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`useContractForEachButtonSelection` attribute",
+              "***",
+              "The default value is false. If the value is true then the selected state of the buttons is taken from the contractName.ItemSelected else from contractName.Button[x]ItemSelected."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "usecontractforeachbuttonselection",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -4153,7 +4227,8 @@
               "\trows=\"${7:1}\"",
               "\tcolumns=\"${8:1}\"",
               "\tindexId=\"${9:}\"",
-              "\tscrollToPosition=\"${10:0}\">",
+              "\tloadItems=\"${10:visible-only}\"",
+              "\tscrollToPosition=\"${11:0}\">",
               "</ch5-button-list>$0"
             ]
           },
@@ -4203,11 +4278,14 @@
               "\tcontractItemIconType=\"${40:none}\"",
               "\tuseContractForCustomStyle=\"${41:false}\"",
               "\tuseContractForCustomClass=\"${42:false}\"",
-              "\tuseContractForNumItems=\"${43:false}\"",
-              "\tbuttonReceiveStateSGIconNumeric=\"${44:}\"",
-              "\tbuttonReceiveStateSGIconString=\"${45:}\"",
-              "\tbuttonSgIconTheme=\"${46:icons-lg}\"",
-              "\tclickHoldTime=\"${44:1500}\">",
+              "\tuseContractForEachButtonSelection=\"${43:false}\"",
+              "\tuseContractForNumItems=\"${44:false}\"",
+              "\tbuttonReceiveStateSGIconNumeric=\"${45:}\"",
+              "\tbuttonReceiveStateSGIconString=\"${46:}\"",
+              "\treceiveStateSelectedButton=\"${47:}\"",
+              "\tbuttonSgIconTheme=\"${48:icons-lg}\"",
+              "\tloadItems=\"${49:visible-only}\"",
+              "\tclickHoldTime=\"${50:1500}\">",
               "</ch5-button-list>$0"
             ]
           },
@@ -4234,8 +4312,9 @@
               "\tcontractItemIconType=\"${8:none}\"",
               "\tuseContractForCustomStyle=\"${9:false}\"",
               "\tuseContractForCustomClass=\"${10:false}\"",
-              "\tuseContractForNumItems=\"${11:false}\"",
-              "\tclickHoldTime=\"${12:1500}\">",
+              "\tuseContractForEachButtonSelection=\"${11:false}\"",
+              "\tuseContractForNumItems=\"${12:false}\"",
+              "\tclickHoldTime=\"${13:1500}\">",
               "</ch5-button-list>$0"
             ]
           }
@@ -4940,7 +5019,7 @@
           }
         ],
         "childElements": [],
-        "description": "Ch5 Button List Individual Button tag to provide ability to enter individual button labels and individual icons for each button in the list",
+        "description": "A child element designed to handle individual buttons for Ch5 Button list component",
         "name": "Ch5 Button List Individual Button",
         "tagName": "ch5-button-list-individual-button",
         "role": "template",
@@ -5340,7 +5419,7 @@
         "documentation": [
           "`ch5-color-chip` element",
           "***",
-          "Component description"
+          "The Color Chip widget provides two functions: It provides additional feedback of an RGB color combination, potentially from the Color Picker, but could be any source of Red, Green and Blue values. It also acts as a simple flat color image that can be pressed by user and provides a digital join to control system to indicate it has been pressed."
         ],
         "snippets": [
           {
@@ -5380,7 +5459,7 @@
           }
         ],
         "childElements": [],
-        "description": "Component to render an Color Chip.",
+        "description": "Color Chip is used as a display source of Red, Blue, and Green values.",
         "name": "Ch5 Color Chip",
         "tagName": "ch5-color-chip",
         "role": "color-chip",
@@ -5761,7 +5840,7 @@
         "documentation": [
           "`ch5-color-picker` element",
           "***",
-          "Component to render the color picker"
+          "The color picker is a widget that allows users to see and select full 24 bit range of colors in manner similar to popular image editing software such as Adobe Photoshop, GNU Gimp and Microsoft Paint."
         ],
         "snippets": [
           {
@@ -5798,11 +5877,475 @@
           }
         ],
         "childElements": [],
-        "description": "component to render the color picker.",
+        "description": "The Color Picker control will comprise of a rectangular image of various colors and a vertical slider of various luminance values.",
         "name": "Ch5 Color Picker",
         "tagName": "ch5-color-picker",
         "role": "color-picker",
         "componentVersion": "2.1.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "value": [],
+            "name": "id",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of space delimited CSS classes that are applied on the component"
+            ],
+            "value": [],
+            "name": "customclass",
+            "default": "null",
+            "hideWhen": [
+              {
+                "receiveStateCustomClass": [
+                  "true"
+                ]
+              }
+            ],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of semicolon delimited style classes applied on the component."
+            ],
+            "value": [],
+            "name": "customstyle",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "value": [],
+            "name": "receivestateshow",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`display24HourFormat` attribute",
+              "***",
+              "The default value is false. Time will be displayed in 24 hour format (applicable for displayType as 'datetime' or 'time')."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "display24hourformat",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`displayAmPm` attribute",
+              "***",
+              "The default value is true. Time will display AM/PM (applicable for displayType as 'datetime' or 'time')."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "displayampm",
+            "default": "true",
+            "hideWhen": [],
+            "showWhen": [
+              {
+                "display24HourFormat": "false"
+              }
+            ],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`displayTwoDigitsHour` attribute",
+              "***",
+              "The default value is false. If set to true, the hours will always display two digits (applicable for displayType as 'datetime' or 'time')."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "displaytwodigitshour",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`displaySeconds` attribute",
+              "***",
+              "The default value is false. Seconds will be displayed (applicable for displayType as 'datetime' or 'time')."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "displayseconds",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`styleForDate` attribute",
+              "***",
+              "Possible values are MM-dd-yyyy (default) | M-dd-yyyy | M-d-yyyy | MM-dd-yy | M-dd-yy | M-d-yy | dd_MM_yyyy | d_MM_yyyy | d_M_yyyy | dd_MM_yy | d_MM_yy | d_M_yy | d MMM yyyy | MMM d yyyy | d MMMM yyyy | MMMM d yyyy | yyyy-MM-dd | yyyy_MM_dd | MMM d, yyyy | yyyy MM, dd | yyyy MMMM, dd | MMMM d, yyyy,  Style used for the date. M=numerical month 1-12 | MM=numerical month with preceding 0 for months 1 to 9 | MMM=short month string | MMMM=full month string | d=day of month | dd=day of month with preceding 0 for values 1 to 9 | YY=last two digits of year | YYYY=4 digit year | '_'=forward slash character | '-'=dash character."
+            ],
+            "value": [
+              "MM-dd-yyyy",
+              "M-dd-yyyy",
+              "M-d-yyyy",
+              "MM-dd-yy",
+              "M-dd-yy",
+              "M-d-yy",
+              "dd_MM_yyyy",
+              "d_MM_yyyy",
+              "d_M_yyyy",
+              "dd_MM_yy",
+              "d_MM_yy",
+              "d_M_yy",
+              "d MMM yyyy",
+              "MMM d yyyy",
+              "d MMMM yyyy",
+              "MMMM d yyyy",
+              "yyyy-MM-dd",
+              "yyyy_MM_dd",
+              "MMM d, yyyy",
+              "yyyy MM, dd",
+              "yyyy MMMM, dd",
+              "MMMM d, yyyy"
+            ],
+            "name": "stylefordate",
+            "default": "MM-dd-yyyy",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`horizontalAlignment` attribute",
+              "***",
+              "Possible values are center(default), left, right. Sets the horizontal alignment of the text."
+            ],
+            "value": [
+              "center",
+              "left",
+              "right"
+            ],
+            "name": "horizontalalignment",
+            "default": "center",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`displayType` attribute",
+              "***",
+              "Possible values are datetime (default): Date and Time are displayed | date: Date is displayed | time: Time is displayed"
+            ],
+            "value": [
+              "datetime",
+              "date",
+              "time"
+            ],
+            "name": "displaytype",
+            "default": "datetime",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`timeOffsetHours` attribute",
+              "***",
+              "Default value: 0 | Min value: -37768 | Max value: 37767 | Offset the date/time in hours. As an example, to direct an offset of 1 hour 30 minutes, provide an analog value of 1.5"
+            ],
+            "value": [],
+            "name": "timeoffsethours",
+            "default": "0",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [
+              {
+                "min": -37768,
+                "max": 37767
+              }
+            ],
+            "attributeType": "Integer"
+          },
+          {
+            "documentation": [
+              "`receiveStateOffsetTime` attribute",
+              "***",
+              "You may optionally select an analog join to programmatically change the time offset property during runtime. Values are in units of hundredths of an hour. As an example, to direct an offset of 1 hour 30 minutes, provide an analog value of 150."
+            ],
+            "value": [],
+            "name": "receivestateoffsettime",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "numericJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`class` attribute",
+              "***",
+              "This is a standard class HTML attribute."
+            ],
+            "value": [],
+            "name": "class",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`style` attribute",
+              "***",
+              "This is a standard style HTML attribute."
+            ],
+            "value": [],
+            "name": "style",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`role` attribute",
+              "***",
+              "This is an accessibility attribute implemented by all ch5-components and added automatically if not set by the user. ",
+              "Where possible, it represents the closest supported type for a ch5-component. In the case of a ch5-button, the value of the role attribute is 'button', for a ch5-modal-dialog the value is 'dialog', and so on. ",
+              "The default value for this ch5-component can be overridden via this attribute."
+            ],
+            "value": [],
+            "name": "role",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`debug` attribute",
+              "***",
+              "The default value is false. Used to get useful developer-related information about component behavior."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "debug",
+            "default": "true",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          }
+        ],
+        "documentation": [
+          "`ch5-datetime` element",
+          "***",
+          "An date and time display designed to provide options to show date with displayType, timeOffsetHours, display24HourFormat, displayAmPm, displayTwoDigitsHour, displaySeconds, styleForDate, horizontalAlignment and receiveStateOffsetTime"
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-datetime:blank",
+            "description": "Crestron datetime",
+            "body": [
+              "<ch5-datetime>",
+              "</ch5-datetime>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-datetime:all-attributes",
+            "description": "Crestron datetime (All Attributes)",
+            "body": [
+              "<ch5-datetime id=\"ch5-datetime_${1:id}\"",
+              "\tdisplay24HourFormat=\"${2:false}\"",
+              "\tdisplayAmPm=\"${3:true}\"",
+              "\tdisplayTwoDigitsHour=\"${4:false}\"",
+              "\tdisplaySeconds=\"${5:false}\"",
+              "\tstyleForDate=\"${6:MM-dd-yyyy}\"",
+              "\thorizontalAlignment=\"${7:center}\"",
+              "\tdisplayType=\"${8:datetime}\"",
+              "\ttimeOffsetHours=\"${9:0}\"",
+              "\treceiveStateOffsetTime=\"${10:}\">",
+              "</ch5-datetime>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-datetime:default",
+            "description": "Crestron datetime (default)",
+            "body": [
+              "<ch5-datetime id=\"ch5-datetime_${1:id}\"",
+              "\tdisplay24HourFormat=\"${2:false}\"",
+              "\tdisplayAmPm=\"${3:true}\"",
+              "\tdisplayTwoDigitsHour=\"${4:false}\"",
+              "\tdisplaySeconds=\"${5:false}\"",
+              "\tstyleForDate=\"${6:MM-dd-yyyy}\"",
+              "\thorizontalAlignment=\"${7:center}\"",
+              "\tdisplayType=\"${8:datetime}\"",
+              "\ttimeOffsetHours=\"${9:0}\">",
+              "</ch5-datetime>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "The Date Time component is a widget that displays date information using the current system date and time.",
+        "name": "Ch5 Date Time",
+        "tagName": "ch5-datetime",
+        "role": "datetime",
+        "componentVersion": "2.5.0"
       },
       {
         "attributes": [
@@ -6006,7 +6549,7 @@
         "documentation": [
           "`ch5-dpad-button` element",
           "***",
-          "DPad <ch5-dpad-button key=`value`> component can be added under a <ch5-dpad> tag ",
+          "DPad Button <ch5-dpad-button key=`value`> component can be added under a <ch5-dpad> tag ",
           "for customization related to icon as a url or an icon class. ",
           "Note: This tag can never be independently used and always needs the container <ch5-dpad> to render."
         ],
@@ -6049,7 +6592,7 @@
           }
         ],
         "childElements": [],
-        "description": "Ch5 Dpad Button",
+        "description": "This is a child component of ch5-dpad",
         "name": "Ch5 Dpad Button",
         "tagName": "ch5-dpad-button",
         "role": "container",
@@ -6658,7 +7201,7 @@
             "childElements": []
           }
         ],
-        "description": "Ch5 Dpad offers a control set of 5 buttons",
+        "description": "Ch5 Dpad offers a control set of 5 buttons.",
         "name": "Ch5 Dpad",
         "tagName": "ch5-dpad",
         "role": "container",
@@ -8705,7 +9248,11 @@
         "documentation": [
           "`ch5-jointotext-boolean` element",
           "***",
-          ""
+          "This component provides attributes like - ",
+          "value (this attribute is not expected to be used outside of diagnostic purposes.  This attribute should not be used or honored when receiveStateValue attribute is provided),  ",
+          "receiveStateValue (expected value is boolean/digital join number or contract state signal name. When not provided, the tag will evaluate to empty string), ",
+          "textWhenTrue (expected value is the text to be displayed when the boolean join evaluates to true. If not provided and the boolean join evaluates to true, the component 'textContent' will evaluate to empty string), ",
+          "textWhenFalse (expected value is the text to be displayed when the boolean value evaluates to false. If not provided and the boolean join evaluates to false, the component 'textContent' will evaluate to empty string)."
         ],
         "snippets": [
           {
@@ -8738,11 +9285,11 @@
           }
         ],
         "childElements": [],
-        "description": "Ch5 JoinToText Boolean",
+        "description": "The component provides a response of a digital join. This component can be used to show different values for true and false digital signal responses.",
         "name": "Ch5 JoinToTextBoolean",
         "tagName": "ch5-jointotext-boolean",
         "role": "presentation",
-        "componentVersion": "1.0.0"
+        "componentVersion": "2.0.0"
       },
       {
         "attributes": [
@@ -9131,7 +9678,7 @@
         "documentation": [
           "`ch5-jointotext-string` element",
           "***",
-          ""
+          "When the response string join value is not empty, the tag component will provide the value of the string join. When the provided string join value is empty, then the component will provide the value of the textWhenEmpty attribute."
         ],
         "snippets": [
           {
@@ -9162,11 +9709,11 @@
           }
         ],
         "childElements": [],
-        "description": "Ch5 JoinToText",
+        "description": "The component provides a response of a serial join.",
         "name": "Ch5 JoinToTextString",
         "tagName": "ch5-jointotext-string",
         "role": "presentation",
-        "componentVersion": "1.0.0"
+        "componentVersion": "2.0.0"
       },
       {
         "attributes": [
@@ -9619,7 +10166,7 @@
         "documentation": [
           "`ch5-jointotext-numeric` element",
           "***",
-          ""
+          "This component can be used to convert analog responses to various formats like 'signed', 'float', 'percentage', 'hex', 'raw', 'unsigned', and 'time'."
         ],
         "snippets": [
           {
@@ -9650,11 +10197,11 @@
           }
         ],
         "childElements": [],
-        "description": "Ch5 JoinToText Numeric",
+        "description": "The component provides a response of an analog join.",
         "name": "Ch5 JoinToTextNumeric",
         "tagName": "ch5-jointotext-numeric",
         "role": "presentation",
-        "componentVersion": "1.0.0"
+        "componentVersion": "2.0.0"
       },
       {
         "attributes": [
@@ -11380,7 +11927,7 @@
         "documentation": [
           "`ch5-list` element",
           "***",
-          " Used to display a list of items."
+          " This component is used to display a list of items."
         ],
         "snippets": [
           {
@@ -11825,7 +12372,7 @@
             ],
             "value": [],
             "name": "okbuttonlabel",
-            "default": "null",
+            "default": "\"Ok\"",
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
@@ -11868,7 +12415,7 @@
             ],
             "value": [],
             "name": "cancelbuttonlabel",
-            "default": "null",
+            "default": "\"Cancel\"",
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
@@ -12214,8 +12761,6 @@
         "documentation": [
           "`ch5-modal-dialog` element",
           "***",
-          "The Modal Dialog component is a special-case instance of an overlay panel used primarily ",
-          "to display dialog windows and user prompts. ",
           "The modal dialog should generally contains an optional header bar with a title, ",
           "an optional message with an optional icon, an optional button 'ok', and 'cancel' buttons."
         ],
@@ -12261,7 +12806,7 @@
           }
         ],
         "childElements": [],
-        "description": "Ch5 Modal",
+        "description": "The Modal Dialog component is a special-case instance of an overlay panel used primarily to display dialog windows and user prompts.",
         "name": "Ch5 Modal Dialog",
         "tagName": "ch5-modal-dialog",
         "role": "dialog",
@@ -12898,7 +13443,7 @@
           }
         ],
         "childElements": [],
-        "description": "Ch5 Overlay Panel",
+        "description": "This component is used to overlay the content container.",
         "name": "Ch5 Overlay Panel",
         "tagName": "ch5-overlay-panel",
         "role": "dialog",
@@ -13396,7 +13941,7 @@
         "documentation": [
           "`ch5-segmented-gauge` element",
           "***",
-          "The Segmented Gauge is used to display feedback from an analog join by scaling the analog value on the touch panel instead of via programming on the control system."
+          ""
         ],
         "snippets": [
           {
@@ -14374,7 +14919,7 @@
             ]
           }
         ],
-        "description": "Ch5 Select inherits the default html select, but provides a lot of extra features",
+        "description": "Ch5 Select inherits the default html select, but provides a lot of extra features.",
         "name": "Ch5 Select",
         "tagName": "ch5-select",
         "role": "listbox",
@@ -14861,7 +15406,7 @@
         ],
         "snippets": [],
         "childElements": [],
-        "description": "",
+        "description": "This is a child element for ch5-select component.",
         "name": "Ch5 Select option",
         "tagName": "ch5-select-option",
         "role": "option",
@@ -15259,7 +15804,7 @@
         "documentation": [
           "`ch5-signal-level-gauge` element",
           "***",
-          "The Signal Level Gauge displays feedback from an Analog Join."
+          "The Signal Level Gauge control is used to display the level of a signal using feedback from an Analog Join represented by bars using a predefined scale.  Additionally, the control can be used to scale an analog value on the touch panel instead of programming on the control system."
         ],
         "snippets": [
           {
@@ -15953,6 +16498,24 @@
           },
           {
             "documentation": [
+              "`loadItems:` attribute",
+              "***",
+              "The default value is visible-only. The possible values are visible-only, load-new, all. This attribute allows for subpages to be created and loaded on demand. Will determine if subpages are removed or not after they are no longer in visibility."
+            ],
+            "value": [
+              "visible-only",
+              "load-new",
+              "all"
+            ],
+            "name": "loaditems",
+            "default": "visible-only",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -16034,7 +16597,7 @@
         "documentation": [
           "`ch5-subpage-reference-list` element",
           "***",
-          "The Subpage Reference List allows multiple instances of a given subpage to be displayed and managed in a list."
+          "The Subpage Reference List is a component that has a collection of widgets that can be used in a CH5 project."
         ],
         "snippets": [
           {
@@ -16059,7 +16622,8 @@
               "\trows=\"${8:1}\"",
               "\tcolumns=\"${9:1}\"",
               "\tindexId=\"${10:}\"",
-              "\tscrollToPosition=\"${11:0}\">",
+              "\tloadItems=\"${11:visible-only}\"",
+              "\tscrollToPosition=\"${12:0}\">",
               "</ch5-subpage-reference-list>$0"
             ]
           },
@@ -16092,7 +16656,8 @@
               "\tuseContractForCustomStyle=\"${23:false}\"",
               "\tuseContractForCustomClass=\"${24:false}\"",
               "\tuseContractForNumItems=\"${25:false}\"",
-              "\tindexId=\"${26:}\">",
+              "\tloadItems=\"${26:visible-only}\"",
+              "\tindexId=\"${27:}\">",
               "</ch5-subpage-reference-list>$0"
             ]
           },
@@ -16123,7 +16688,7 @@
           }
         ],
         "childElements": [],
-        "description": "The Subpage Reference List allows multiple instances of a given subpage to be displayed and managed in a list.",
+        "description": "The Subpage Reference List allows multiple instances of a given widget to be displayed and managed in a list.",
         "name": "Ch5 Subpage Reference List",
         "tagName": "ch5-subpage-reference-list",
         "role": "subpage-reference-list",
@@ -16135,15 +16700,14 @@
             "documentation": [
               "`key` attribute",
               "***",
-              "Used to set the type of button i.e on ,off.",
-              "The default value of key is on."
+              "Used to set the type of button i.e on ,off."
             ],
             "value": [
               "on",
               "off"
             ],
             "name": "key",
-            "default": "on",
+            "default": "null",
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
@@ -16157,6 +16721,20 @@
             ],
             "value": [],
             "name": "label",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
+              "`labelInnerHTML` attribute",
+              "***",
+              "Used to set the label displayed for the on/off button. Takes the preference over the label attribute."
+            ],
+            "value": [],
+            "name": "labelinnerhtml",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -16286,12 +16864,139 @@
             "showWhen": [],
             "limits": [],
             "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`type` attribute",
+              "***",
+              "Valid values: 'default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'.",
+              "Overrides the appearance of the slider button with alternative CSS ",
+              "If no 'type' is provided, the type of ",
+              "'default' is used."
+            ],
+            "value": [
+              "default",
+              "primary",
+              "info",
+              "text",
+              "danger",
+              "warning",
+              "success",
+              "secondary"
+            ],
+            "name": "type",
+            "default": "default",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`halignlabel` attribute",
+              "***",
+              "Valid values: 'left', 'right', 'center'.",
+              "When the hAlignLabel property is set, the label and the icon of the button are horizontally aligned. ",
+              "The center property sets the horizontal alignment of the label to the center of the button. ",
+              "The left property sets the horizontal alignment of the label to the left of the button. ",
+              "The right property sets the horizontal alignment of the label to the right of the button. "
+            ],
+            "value": [
+              "left",
+              "right",
+              "center"
+            ],
+            "name": "halignlabel",
+            "default": "center",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`valignlabel` attribute",
+              "***",
+              "Valid values: 'top', 'bottom', 'middle'.",
+              "When the vAlignLabel property is set, the label and the icon of the button are vertically aligned. ",
+              "The middle property sets the vertical alignment of the label to the middle of the button. ",
+              "The top property sets the vertical alignment of the label to the top of the button. ",
+              "The bottom property sets the vertical alignment of the label to the bottom of the button. "
+            ],
+            "value": [
+              "middle",
+              "top",
+              "bottom"
+            ],
+            "name": "valignlabel",
+            "default": "middle",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`selected` attribute",
+              "***",
+              "The default value is false.",
+              "This property reflects the selected state of the component."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "selected",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`pressed` attribute",
+              "***",
+              "The default value is false.",
+              "This property reflects the pressed state of the component."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "pressed",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`shape` attribute",
+              "***",
+              "The default value is 'rounded-rectangle'. Valid values: 'rounded-rectangle', ",
+              "'rectangle', 'tab', 'circle', 'oval'. The shape of the button."
+            ],
+            "value": [
+              "rounded-rectangle",
+              "rectangle",
+              "tab",
+              "circle",
+              "oval"
+            ],
+            "name": "shape",
+            "default": "rounded-rectangle",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
           }
         ],
         "documentation": [
           "`ch5-slider-button` element",
           "***",
-          "Ch5 Slider Button tag provide the ability to set on/off buttons of the advance slider."
+          ""
         ],
         "snippets": [
           {
@@ -16307,14 +17012,21 @@
             "description": "Crestron Slider Button (All Attributes)",
             "body": [
               "<ch5-slider-button id=\"ch5-slider-button_${1:id}\"",
-              "\tkey=\"${2:on}\"",
+              "\tkey=\"${2:}\"",
               "\tlabel=\"${3:}\"",
               "\ticonClass=\"${4:}\"",
               "\ticonUrl=\"${5:}\"",
               "\tsendEventOnClick=\"${6:}\"",
               "\treceiveStateLabel=\"${7:}\"",
               "\treceiveStateIconClass=\"${8:}\"",
-              "\treceiveStateIconUrl=\"${9:}\">",
+              "\tselected=\"${9:}\"",
+              "\tpressed=\"${10:}\"",
+              "\tshape=\"${11|rounded-rectangle,rectangle,tab,circle,oval|}\"",
+              "\ttype=\"${12|default,primary,info,text,danger,warning,success,secondary|}\"",
+              "\thalignlabel=\"${13|center,left,right|}\"",
+              "\tvalignlabel=\"${14|middle,top,bottom|}\"",
+              "\tlabelInnerHtml=\"${15:}\"",
+              "\treceiveStateIconUrl=\"${16:}\">",
               "</ch5-slider-button>$0"
             ]
           },
@@ -16366,6 +17078,20 @@
           },
           {
             "documentation": [
+              "`labelInnerHTML` attribute",
+              "***",
+              "Used to set the label displayed for the title of the advanced slider. Takes the preference over the label attribute."
+            ],
+            "value": [],
+            "name": "labelinnerhtml",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
               "`receiveStateLabel` attribute",
               "***",
               "When received, applies the value to set the label displayed for the title of the advance slider."
@@ -16387,7 +17113,7 @@
         "documentation": [
           "`ch5-slider-title-label` element",
           "***",
-          "Ch5 Slider title Label tag provide the ability to set label of the title of the advance slider."
+          ""
         ],
         "snippets": [
           {
@@ -16407,7 +17133,8 @@
             "body": [
               "<ch5-slider-title-label id=\"ch5-slider-title-label_${1:id}\"",
               "\tlabel=\"${2:}\"",
-              "\treceiveStateLabel=\"${3:}\">",
+              "\tlabelInnerHtml=\"${3:}\"",
+              "\treceiveStateLabel=\"${4:}\">",
               "</ch5-slider-title-label>$0"
             ]
           },
@@ -16434,45 +17161,11 @@
         "componentVersion": "2.4.0"
       },
       {
-        "attributes": [
-          {
-            "documentation": [
-              "`label` attribute",
-              "***",
-              "It adds the label to the slider button."
-            ],
-            "value": [],
-            "name": "label",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "String"
-          },
-          {
-            "documentation": [
-              "`receiveStateLabel` attribute",
-              "***",
-              "When received, applies the value to set the label displayed for the on/off button of the advance slider."
-            ],
-            "value": [],
-            "name": "receivestatelabel",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          }
-        ],
+        "attributes": [],
         "documentation": [
           "`ch5-slider-button-label` element",
           "***",
-          "Ch5 Slider Button Label tag provide the ability to set label of the on/off buttons of the advance slider."
+          ""
         ],
         "snippets": [
           {
@@ -16483,24 +17176,6 @@
               "\t<template>",
               "\t$1",
               "\t</template>",
-              "</ch5-slider-button-label>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-slider-button-label:all-attributes",
-            "description": "Crestron slider button label (All Attributes)",
-            "body": [
-              "<ch5-slider-button-label id=\"ch5-slider-button-label_${1:id}\"",
-              "\tlabel=\"${2:}\"",
-              "\treceiveStateLabel=\"${3:}\">",
-              "</ch5-slider-button-label>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-slider-button-label:default",
-            "description": "Crestron slider button label (Default)",
-            "body": [
-              "<ch5-slider-button-label label=\"${1:}\">",
               "</ch5-slider-button-label>$0"
             ]
           }
@@ -17219,7 +17894,7 @@
             "hideWhen": [],
             "showWhen": [],
             "join": {
-              "direction": "state",
+              "direction": "event",
               "isContractName": true,
               "numericJoin": 1
             },
@@ -17238,7 +17913,7 @@
             "hideWhen": [],
             "showWhen": [],
             "join": {
-              "direction": "state",
+              "direction": "event",
               "isContractName": true,
               "numericJoin": 1
             },
@@ -17293,7 +17968,7 @@
             "hideWhen": [],
             "showWhen": [],
             "join": {
-              "direction": "state",
+              "direction": "event",
               "isContractName": true,
               "booleanJoin": 1
             },
@@ -17312,7 +17987,26 @@
             "hideWhen": [],
             "showWhen": [],
             "join": {
-              "direction": "state",
+              "direction": "event",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`sendEventOnHandleClick` attribute",
+              "***",
+              "Sends a high signal when user places the finger on the handle and low signal when finger is released."
+            ],
+            "value": [],
+            "name": "sendeventonhandleclick",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "event",
               "isContractName": true,
               "booleanJoin": 1
             },
@@ -17499,7 +18193,8 @@
               "\treceivestateshowonoffonly=\"${23:}\"",
               "\tsendeventonupper=\"${24:}\"",
               "\tsendeventonlower=\"${25:}\"",
-              "\tstretch=\"${26:both}\">",
+              "\tsendeventonhandleclick=\"${26:}\"",
+              "\tstretch=\"${27:both}\">",
               "</ch5-slider>$0"
             ]
           }
@@ -18999,6 +19694,62 @@
           },
           {
             "documentation": [
+              "`buttonIconUrlFillType` attribute",
+              "***",
+              "Sets the icon url fill type for all the buttons. Default value is 'null'. Applicable values are 'null', 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'. Uses the css property background-size for the implementation."
+            ],
+            "value": [
+              "stretch",
+              "stretch-aspect",
+              "center",
+              "tile",
+              "initial"
+            ],
+            "name": "buttoniconurlfilltype",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`receiveStateSelectedButton` attribute",
+              "***",
+              "ReceiveStateSelectedButton attribute helps the user to select an item on tab button by using an analog join."
+            ],
+            "value": [],
+            "name": "receivestateselectedbutton",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "numericJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`useContractForEachButtonSelection` attribute",
+              "***",
+              "The default value is false. If the value is true then the selected state of the buttons is taken from the contractName.TabSelected else from contractName.Tab[X]_Selected."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "usecontractforeachbuttonselection",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -19127,11 +19878,13 @@
               "\tbuttonSendEventOnClick=\"${19:}\"",
               "\tbuttonReceiveStateShow=\"${20:}\"",
               "\tbuttonReceiveStateEnable=\"${21:}\"",
-              "\tcontractName=\"${22:}\"",
-              "\tuseContractForEnable=\"${23:false}\"",
-              "\tuseContractForShow=\"${24:false}\"",
-              "\tuseContractForCustomClass=\"${25:false}\"",
-              "\tuseContractForCustomStyle=\"${26:false}\">",
+              "\treceiveStateSelectedButton=\"${22:}\"",
+              "\tcontractName=\"${23:}\"",
+              "\tuseContractForEnable=\"${24:false}\"",
+              "\tuseContractForShow=\"${25:false}\"",
+              "\tuseContractForCustomClass=\"${26:false}\"",
+              "\tuseContractForEachButtonSelection=\"${27:false}\"",
+              "\tuseContractForCustomStyle=\"${28:false}\">",
               "</ch5-tab-button>$0"
             ]
           },
@@ -19153,7 +19906,8 @@
               "\tuseContractForEnable=\"${3:false}\"",
               "\tuseContractForShow=\"${4:false}\"",
               "\tuseContractForCustomClass=\"${5:false}\"",
-              "\tuseContractForCustomStyle=\"${6:false}\">",
+              "\tuseContractForEachButtonSelection=\"${6:false}\"",
+              "\tuseContractForCustomStyle=\"${7:false}\">",
               "</ch5-tab-button>$0"
             ]
           }
@@ -19277,7 +20031,7 @@
         "documentation": [
           "`ch5-tab-button-individual-button` element",
           "***",
-          "Ch5 tab button Individual Button tag to provide ability to enter individual button labels and individual icons for each button in the tab button."
+          ""
         ],
         "snippets": [
           {
@@ -19733,6 +20487,438 @@
         "tagName": "ch5-template",
         "role": "template",
         "componentVersion": "1.0.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "value": [],
+            "name": "id",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of space delimited CSS classes that are applied on the component"
+            ],
+            "value": [],
+            "name": "customclass",
+            "default": "null",
+            "hideWhen": [
+              {
+                "receiveStateCustomClass": [
+                  "true"
+                ]
+              }
+            ],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of semicolon delimited style classes applied on the component."
+            ],
+            "value": [],
+            "name": "customstyle",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "value": [],
+            "name": "receivestateshow",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "value": [],
+            "name": "receivestateenable",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`horizontalAlignment` attribute",
+              "***",
+              "Sets the text horizontally aligned to the container."
+            ],
+            "value": [
+              "center",
+              "left",
+              "right"
+            ],
+            "name": "horizontalalignment",
+            "default": "center",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`verticalAlignment` attribute",
+              "***",
+              "Sets the text vertically aligned to the container."
+            ],
+            "value": [
+              "middle",
+              "top",
+              "bottom"
+            ],
+            "name": "verticalalignment",
+            "default": "middle",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`multilineSupport` attribute",
+              "***",
+              "Enables or disables support for multi-line text. Text will be truncated when the text content area does not allow for a second line. This shall not resize the text area to fit the text."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "multilinesupport",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`truncateText` attribute",
+              "***",
+              "Enables or disables text truncation depending on the length of text and the size of the control. This attribute when set to true will show an ellipsis when the text extends beyond the horizontally and vertically allocated space."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "truncatetext",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`label` attribute",
+              "***",
+              "Sets the text displayed on the label."
+            ],
+            "value": [],
+            "name": "label",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`receiveStateLabel` attribute",
+              "***",
+              "Select a serial join to receive feedback from the control system. The value of this join gets assigned to the label as text. NOTE: Due to a clearing of all joins at design time, if a join is set, the design time label will not display any text."
+            ],
+            "value": [],
+            "name": "receivestatelabel",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`labelInnerHtml` attribute",
+              "***",
+              "Used to set the label displayed for the text. This attribute takes the preference over the label attribute."
+            ],
+            "value": [],
+            "name": "labelinnerhtml",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EncodedHTML",
+            "hidden": true
+          },
+          {
+            "documentation": [
+              "`class` attribute",
+              "***",
+              "This is a standard class HTML attribute."
+            ],
+            "value": [],
+            "name": "class",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`style` attribute",
+              "***",
+              "This is a standard style HTML attribute."
+            ],
+            "value": [],
+            "name": "style",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`role` attribute",
+              "***",
+              "This is an accessibility attribute implemented by all ch5-components and added automatically if not set by the user. ",
+              "Where possible, it represents the closest supported type for a ch5-component. In the case of a ch5-button, the value of the role attribute is 'button', for a ch5-modal-dialog the value is 'dialog', and so on. ",
+              "The default value for this ch5-component can be overridden via this attribute."
+            ],
+            "value": [],
+            "name": "role",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`debug` attribute",
+              "***",
+              "The default value is false. Used to get useful developer-related information about component behavior."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "debug",
+            "default": "true",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`disabled` attribute",
+              "***",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
+              "to reflect a disabled state when true."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "disabled",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          }
+        ],
+        "documentation": [
+          "`ch5-text` element",
+          "***",
+          "The Text control is used to display advanced text on a touch panel. It supports HTML text via Serial Join as well as static text. Additionally, it can be used as multiline and/or truncated text."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-text:blank",
+            "description": "Crestron text",
+            "body": [
+              "<ch5-text>",
+              "</ch5-text>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-text:all-attributes",
+            "description": "Crestron text (All Attributes)",
+            "body": [
+              "<ch5-text id=\"ch5-text_${1:id}\"",
+              "\thorizontalAlignment=\"${2:center}\"",
+              "\tverticalAlignment=\"${3:middle}\"",
+              "\tmultilineSupport=\"${4:false}\"",
+              "\ttruncateText=\"${5:false}\"",
+              "\tlabel=\"${6:}\"",
+              "\treceiveStateLabel=\"${7:}\">",
+              "</ch5-text>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-text:default",
+            "description": "Crestron text (default)",
+            "body": [
+              "<ch5-text id=\"ch5-text_${1:id}\"",
+              "\thorizontalAlignment=\"${2:center}\"",
+              "\tverticalAlignment=\"${3:middle}\"",
+              "\tmultilineSupport=\"${4:false}\"",
+              "\ttruncateText=\"${5:false}\"",
+              "\tlabel=\"${6:}\">",
+              "</ch5-text>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "The Text control is used to display advanced text on a touch panel.",
+        "name": "Ch5 Text",
+        "tagName": "ch5-text",
+        "role": "label",
+        "componentVersion": "2.5.0"
       },
       {
         "attributes": [
@@ -20529,7 +21715,7 @@
         "documentation": [
           "`ch5-textinput` attribute",
           "***",
-          "The TextEntry component allows the user to enter textual input. Extending on a default",
+          "The TextEntry component allows the user to enter textual input. Extending on a default ",
           "input HTML element, it allows additional customization like icons, label among others."
         ],
         "snippets": [
@@ -22228,44 +23414,6 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
-              "***",
-              "on transition from false to true, this signal directs the component to become visible."
-            ],
-            "value": [],
-            "name": "receivestateshowpulse",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`receivestatehidepulse` attribute",
-              "***",
-              "on transition from false to true, this signal will direct if the component is no longer visible."
-            ],
-            "value": [],
-            "name": "receivestatehidepulse",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
               "`receivestateenable` attribute",
               "***",
               "When true, the boolean value of the signal determines if the component is enabled.",
@@ -22279,26 +23427,6 @@
             "showWhen": [],
             "join": {
               "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`sendeventonshow` attribute",
-              "***",
-              "Has a boolean value of true when the component is visible and false when not visible.",
-              "Note that even if component is completely covered by other visible elements, it is still considered visible."
-            ],
-            "value": [],
-            "name": "sendeventonshow",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
               "isContractName": true,
               "booleanJoin": 1
             },
@@ -22359,7 +23487,7 @@
             "documentation": [
               "`indexId` attribute",
               "***",
-              "Provides the name of the offset identifier to be substituted with a 0-based index of the list items within the signal names provided in other attributes surrounded by {{ }} delimiters."
+              "Provides the name of the offset identifier to be substituted with 0 based index of the item in list within the signal names provided in other attributes surrounded by {{ }} delimiters. See examples. Note: 0-based.  Other components, e.g. List, Spinner, Select, are currently 1-based, but will be changed to 0-based in the future.  This component will start as 0-based. "
             ],
             "value": [],
             "name": "indexid",
@@ -22371,89 +23499,18 @@
           },
           {
             "documentation": [
-              "`userId` attribute",
-              "***",
-              "The user ID to access the video along with a password."
-            ],
-            "value": [],
-            "name": "userid",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "String"
-          },
-          {
-            "documentation": [
-              "`snapShotUserId` attribute",
-              "***",
-              "The user ID to access the snapshot along with a password."
-            ],
-            "value": [],
-            "name": "snapshotuserid",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "String"
-          },
-          {
-            "documentation": [
-              "`password` attribute",
-              "***",
-              "The password to access the video along with a user ID."
-            ],
-            "value": [],
-            "name": "password",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "String"
-          },
-          {
-            "documentation": [
-              "`snapShotPassword` attribute",
-              "***",
-              "The password to access the snapshot along with user ID."
-            ],
-            "value": [],
-            "name": "snapshotpassword",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "String"
-          },
-          {
-            "documentation": [
-              "`snapShotRefreshRate` attribute",
-              "***",
-              "The refresh rate of the snapshot."
-            ],
-            "value": [],
-            "name": "snapshotrefreshrate",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "String"
-          },
-          {
-            "documentation": [
               "`aspectRatio` attribute",
               "***",
-              "Sets the width-to-height ration of the video. ",
-              "The width and height of the component to be controlled by CSS style classes. ",
-              "Values are 16:9 (default), 4:3, and custom.  When the size of the container does not match the aspect ratio, ",
-              "the full height or width should be used and the dimension that is empty should be centered."
+              "Sets the ratio of width to height of the video. Width and height of the component to be controlled by css style classes.",
+              "Values are '16:9' (default), '4:3'. When size of container is not match the aspect ratio, the full height or the full width should be used and the dimension that is not full should be centered.",
+              "In other words, use letterbox or pillarbox logic to place the video component view. Note: this attribute only defines the size of the component within the project, it does not define the size of video displayed within the component."
             ],
             "value": [
               "16:9",
               "4:3"
             ],
             "name": "aspectratio",
-            "default": "null",
+            "default": "16:9",
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
@@ -22463,28 +23520,24 @@
             "documentation": [
               "`stretch` attribute",
               "***",
-              "The default value is false. When true, video will occupy the size of the parent container. The user ",
-              "needs to specify the width and height of the parent container for the video to appear correctly. ",
-              "The video will be displayed as a letter or pillar box based on the aspect ratio and size of the ",
-              "parent container. The parent container should not contain any tags other than ch5-background ",
-              "and CH5-Video."
+              "Default false. When true, video will be displayed in the whole component. When false, video will be displayed as letter or pillar box based upon the aspect ratio of the video feed and the size of the component. Note: this attribute is independent of aspectRatio."
             ],
             "value": [
-              "true",
-              "false"
+              "false",
+              "true"
             ],
             "name": "stretch",
-            "default": "null",
+            "default": "false",
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "EnumeratedValue"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
               "`url` attribute",
               "***",
-              "The source path of the video."
+              "Default empty. Defines the video URL as an attribute, superseded by receiveStateURL."
             ],
             "value": [],
             "name": "url",
@@ -22498,15 +23551,13 @@
             "documentation": [
               "`sourceType` attribute",
               "***",
-              "The video Source type, which can be 'Network', 'HDMI' or 'DM'."
+              "Default 'Network'. Defines the type of Video stream, superseded by receiveStateSourceType. See enumeration values in receiveStateSourceType."
             ],
             "value": [
-              "Network",
-              "HDMI",
-              "DM"
+              "Network"
             ],
             "name": "sourcetype",
-            "default": "null",
+            "default": "Network",
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
@@ -22514,9 +23565,37 @@
           },
           {
             "documentation": [
-              "`snapShotUrl` attribute",
+              "`userId` attribute",
               "***",
-              "A snapshot of the video, if any."
+              "Default empty. Defines the userid passed to camera as credentials for video URL. Superseded by receiveStateUserId."
+            ],
+            "value": [],
+            "name": "userid",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`password` attribute",
+              "***",
+              "Default empty. Defines the password passed to the camera as credentials for the video URL. Superseded by receiveStatePassword."
+            ],
+            "value": [],
+            "name": "password",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`snapshotURL` attribute",
+              "***",
+              "Default empty. Defines the still image URL as an attribute, superseded by receiveStateSnapshotURL."
             ],
             "value": [],
             "name": "snapshoturl",
@@ -22524,20 +23603,63 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "ImageURL"
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`snapshotRefreshRate` attribute",
+              "***",
+              "Default 5. Defines the refresh period for a snapshot URL in units of seconds. 0 indicates no refresh, max is 60. Superseded by receiveStateSnapshotRefreshRate."
+            ],
+            "value": [],
+            "name": "snapshotrefreshrate",
+            "default": "5",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [
+              {
+                "min": 0,
+                "max": 60
+              }
+            ],
+            "attributeType": "Integer"
+          },
+          {
+            "documentation": [
+              "`snapshotUserId` attribute",
+              "***",
+              "Default empty. Defines the userid passed to the camera as credentials for the image URL. Superseded by receiveStateSnapshotUserId."
+            ],
+            "value": [],
+            "name": "snapshotuserid",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`snapshotPassword` attribute",
+              "***",
+              "Default empty. Defines the password passed to the camera as credentials for the image URL. Superseded by receiveStateSnapshotPassword."
+            ],
+            "value": [],
+            "name": "snapshotpassword",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
           },
           {
             "documentation": [
               "`size` attribute",
               "***",
-              "The default value is large. ",
-              "The display size for the video. The default size is 'large' if not entered. ",
-              "The size options for the aspect ratio 16:9 and 4:3 are 'x-small' (width: 25vw, height: 25vh), ",
-              "'small' (width: 40vw, height: 40vh), 'large' (width: 55vw, ",
-              "height: 55vh), 'x-large' (width: 70vw, height: 70vh) and 'xx-large' (width: 85vw, height: 80vh). ",
-              "The user needs to select the appropriate size to fit the container."
+              "Default regular. Defines the size of the video. The options available are 'x-small' | 'small' | 'regular' | 'large' | 'xlarge' | 'xx-large'."
             ],
             "value": [
+              "regular",
               "x-small",
               "small",
               "large",
@@ -22545,7 +23667,7 @@
               "xx-large"
             ],
             "name": "size",
-            "default": "large",
+            "default": "regular",
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
@@ -22553,63 +23675,17 @@
           },
           {
             "documentation": [
-              "`zIndex` attribute",
+              "`receiveStatePlay` attribute",
               "***",
-              "The video display moves back and forth with regards to the z-axis."
+              "when defined, will play video only when the value is true, will stop video when value is false.  If not defined, the video will play whenever the component is visible.  If defined and value of false, display background of ch5-video--nosource css class."
             ],
             "value": [],
-            "name": "zindex",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "String"
-          },
-          {
-            "documentation": [
-              "`onpress` attribute",
-              "***",
-              "Runs when a press event is initiated."
-            ],
-            "value": [
-              "object"
-            ],
-            "name": "onpress",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "String"
-          },
-          {
-            "documentation": [
-              "`onrelease` attribute",
-              "***",
-              "Runs when a release event is initiated."
-            ],
-            "value": [
-              "object"
-            ],
-            "name": "onrelease",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "String"
-          },
-          {
-            "documentation": [
-              "`sendEventOnClick` attribute",
-              "***",
-              "Sends a signal on a click or tap event (mouse or swipe up and down quickly)."
-            ],
-            "value": [],
-            "name": "sendeventonclick",
+            "name": "receivestateplay",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
             "join": {
-              "direction": "event",
+              "direction": "state",
               "isContractName": true,
               "booleanJoin": 1
             },
@@ -22618,220 +23694,28 @@
           },
           {
             "documentation": [
-              "`sendEventSelectionChange` attribute",
+              "`receiveStateSelect` attribute",
               "***",
-              "Sends a signal on a source selection change when the source selection ",
-              "is updated using the 'receivestateselect' attribute."
+              "when defined, will play 0-based index of the video source list. Value of < 0 or > 31 will select no video to play Value of 0 to 31 will play the selected video source provided the video source type (see receiveStateSourceType) is valid. when not defined, the first video source defined (equivalent of index 0) in the list will be played."
             ],
             "value": [],
-            "name": "sendeventselectionchange",
+            "name": "receivestateselect",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
             "join": {
-              "direction": "event",
+              "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "numericJoin": 1
             },
             "limits": [],
             "attributeType": "Join"
           },
           {
             "documentation": [
-              "`sendEventSelectionSourceType` attribute",
+              "`receiveStateURL` attribute",
               "***",
-              "The current selected source type."
-            ],
-            "value": [],
-            "name": "sendeventselectionsourcetype",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`sendEventSelectionURL` attribute",
-              "***",
-              "Sends a signal on an url change when the source url ",
-              "is updated using the 'receiveStateUrl' attribute."
-            ],
-            "value": [],
-            "name": "sendeventselectionurl",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`sendEventSnapShotURL` attribute",
-              "***",
-              "The current selected snapshot URL."
-            ],
-            "value": [],
-            "name": "sendeventsnapshoturl",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`sendEventErrorCode` attribute",
-              "***",
-              "The current video error code state."
-            ],
-            "value": [],
-            "name": "sendeventerrorcode",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`sendEventErrorMessage` attribute",
-              "***",
-              "The current video error message state."
-            ],
-            "value": [],
-            "name": "sendeventerrormessage",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`sendEventRetryCount` attribute",
-              "***",
-              "The current video retry count state."
-            ],
-            "value": [],
-            "name": "sendeventretrycount",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`sendEventResolution` attribute",
-              "***",
-              "The current video resolution."
-            ],
-            "value": [],
-            "name": "sendeventresolution",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`sendEventState` attribute",
-              "***",
-              "The current state of the video associated with the current source selection."
-            ],
-            "value": [],
-            "name": "sendeventstate",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`sendEventSnapShotStatus` attribute",
-              "***",
-              "The current state of the snapshot associated with the current source selection."
-            ],
-            "value": [],
-            "name": "sendeventsnapshotstatus",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`sendEventSnapShotLastUpdateTime` attribute",
-              "***",
-              "The timestamp of the last update time of the still image associated with the current source selection."
-            ],
-            "value": [],
-            "name": "sendeventsnapshotlastupdatetime",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`receiveStateUrl` attribute",
-              "***",
-              "The default value is empty. Defines the video URL as an attribute."
+              "provides the video URL to use when the selection changes to the INDEX value. INDEX is the value passed in the 'indexId' attribute that can be used as prefix or suffix of a signal template name. INDEX is 0-based offset into the list of up to maximum number of sources. As an example, if the value provided as indexId is 'INDEX' and the value provided for receiveStateURL is 'panel2.videourl[{{INDEX}}]', this video control will use 'panel2.videourl[0]', 'panel2.videourl[1]', ..., 'panel2.video_url[31]' as string state names to be associated with select value 0, 1, ..., 31."
             ],
             "value": [],
             "name": "receivestateurl",
@@ -22848,71 +23732,9 @@
           },
           {
             "documentation": [
-              "`receiveStateSnapShotURL` attribute",
-              "***",
-              "Provides the still image URL to use when selection changes to an INDEX value."
-            ],
-            "value": [],
-            "name": "receivestatesnapshoturl",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`receiveStatePlay` attribute",
-              "***",
-              "When defined, this will play video only when the value is true and will stop video when the value is false. ",
-              "If not defined, the video will play whenever the component is visible. If defined with a value of false, ",
-              "the background of ch5-video--nosource css class is displayed."
-            ],
-            "value": [],
-            "name": "receivestateplay",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`receiveStateSelect` attribute",
-              "***",
-              "When defined, this will play 0-based index of the video source list. ",
-              "A value of <0 or >31 will select no video to play. A Value of 0 to 31 will play the selected video source ",
-              "provided the video source type (see receiveStateVideoSourceType) is valid. When not defined, ",
-              "the first video source defined (equivalent of index 0) in the list will be played."
-            ],
-            "value": [],
-            "name": "receivestateselect",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
               "`receiveStateSourceType` attribute",
               "***",
-              "Provides the video source type when the selection changes to an INDEX value."
+              "provides the video source type when the selection changes to INDEX value. Value is 'Network'."
             ],
             "value": [],
             "name": "receivestatesourcetype",
@@ -22929,28 +23751,9 @@
           },
           {
             "documentation": [
-              "`receiveStateSnapShotRefreshRate` attribute",
-              "***",
-              "Defines the refresh rate for a still image url. 0 indicates no refresh."
-            ],
-            "value": [],
-            "name": "receivestatesnapshotrefreshrate",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "numericJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
               "`receiveStateUserId` attribute",
               "***",
-              "Provides the user ID for credentials supplied to a camera for a video URL."
+              "provides the userid for credentials supplied to camera for video URL."
             ],
             "value": [],
             "name": "receivestateuserid",
@@ -22967,28 +23770,9 @@
           },
           {
             "documentation": [
-              "`receiveStateSnapShotUserId` attribute",
-              "***",
-              "Provides the user ID for credentials supplied to a camera for an image URL."
-            ],
-            "value": [],
-            "name": "receivestatesnapshotuserid",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
               "`receiveStatePassword` attribute",
               "***",
-              "Provides the password for credentials supplied to a camera for a video URL."
+              "provides the password for credentials supplied to camera for video URL."
             ],
             "value": [],
             "name": "receivestatepassword",
@@ -23005,9 +23789,66 @@
           },
           {
             "documentation": [
-              "`receiveStateSnapShotPassword` attribute",
+              "`receiveStateSnapshotURL` attribute",
               "***",
-              "Provides the password for credentials supplied to a camera for an image URL."
+              "provides the still image URL to use when selection changes to INDEX value."
+            ],
+            "value": [],
+            "name": "receivestatesnapshoturl",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receiveStateSnapshotRefreshRate` attribute",
+              "***",
+              "Defines the refresh period for a still image url when the selection changes to INDEX value. 0 indicates no refresh."
+            ],
+            "value": [],
+            "name": "receivestatesnapshotrefreshrate",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "numericJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receiveStateSnapshotUserId` attribute",
+              "***",
+              "provides the userId for credentials supplied to camera for image URL."
+            ],
+            "value": [],
+            "name": "receivestatesnapshotuserid",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receiveStateSnapshotPassword` attribute",
+              "***",
+              "provides the password for credentials supplied to camera for image URL."
             ],
             "value": [],
             "name": "receivestatesnapshotpassword",
@@ -23026,7 +23867,7 @@
             "documentation": [
               "`receiveStateVideoCount` attribute",
               "***",
-              "Provides the count of the videos."
+              "provides the count of videos."
             ],
             "value": [],
             "name": "receivestatevideocount",
@@ -23043,82 +23884,231 @@
           },
           {
             "documentation": [
-              "`class` attribute",
+              "`sendEventOnClick` attribute",
               "***",
-              "This is a standard class HTML attribute."
+              "send a signal on click or tap event (mouse or finger up and down in a small period of time)."
             ],
             "value": [],
-            "name": "class",
+            "name": "sendeventonclick",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "Join"
           },
           {
             "documentation": [
-              "`style` attribute",
+              "`sendEventSelectionChange` attribute",
               "***",
-              "This is a standard style HTML attribute."
+              "send signal on source selection change."
             ],
             "value": [],
-            "name": "style",
+            "name": "sendeventselectionchange",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "numericJoin": 1
+            },
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "Join"
           },
           {
             "documentation": [
-              "`role` attribute",
+              "`sendEventSelectionSourceType` attribute",
               "***",
-              "This is an accessibility attribute implemented by all ch5-components and added automatically if not set by the user. ",
-              "Where possible, it represents the closest supported type for a ch5-component. In the case of a ch5-button, the value of the role attribute is 'button', for a ch5-modal-dialog the value is 'dialog', and so on. ",
-              "The default value for this ch5-component can be overridden via this attribute."
+              "current selected source type."
             ],
             "value": [],
-            "name": "role",
+            "name": "sendeventselectionsourcetype",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "stringJoin": 1
+            },
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "Join"
           },
           {
             "documentation": [
-              "`debug` attribute",
+              "`sendEventSelectionURL` attribute",
               "***",
-              "The default value is false. Used to get useful developer-related information about component behavior."
+              "current selected video URL."
             ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "debug",
-            "default": "true",
+            "value": [],
+            "name": "sendeventselectionurl",
+            "default": "null",
             "hideWhen": [],
             "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "stringJoin": 1
+            },
             "limits": [],
-            "attributeType": "Boolean"
+            "attributeType": "Join"
           },
           {
             "documentation": [
-              "`disabled` attribute",
+              "`sendEventSnapshotURL` attribute",
               "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners ",
-              "to reflect a disabled state when true."
+              "current selected snapshot URL."
             ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "disabled",
-            "default": "false",
+            "value": [],
+            "name": "sendeventsnapshoturl",
+            "default": "null",
             "hideWhen": [],
             "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "stringJoin": 1
+            },
             "limits": [],
-            "attributeType": "Boolean"
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`sendEventState` attribute",
+              "***",
+              "current state of the video stream numeric enumeration 0 - no selected source or uninitialized 1 - stopped 2 - playing 3 - stop requested 4 - play requested, connecting 5 - play requested, buffering 6 - play requested, retrying 7 - play requested, error."
+            ],
+            "value": [],
+            "name": "sendeventstate",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "numericJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`sendEventErrorCode` attribute",
+              "***",
+              "current state video error code numeric enumeration, applicable only when state of video is 0-success, 1-HDMI no sync, 2 - DM no stream, -1 -connection refused / camera offline, -2 -no network, -1001 -credentials required or invalid, -1002 -hostname invalid, -1003 -unsupported codec, -9001 - unsupported sourceType, -9002 - invalid url, -9003 - request for greater than maximum simultaneous sessions per source type, -9004 - request for greater than maximum simultaneous sessions per device, -9007 - Unknown Error Message"
+            ],
+            "value": [],
+            "name": "sendeventerrorcode",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "numericJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`sendEventErrorMessage` attribute",
+              "***",
+              "current state video error message string - diagnostic information on error as propagated from the video rendering engine."
+            ],
+            "value": [],
+            "name": "sendeventerrormessage",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`sendEventRetryCount` attribute",
+              "***",
+              "current state video  retry count numeric - the count of times the video engine has retried to stream the current video source."
+            ],
+            "value": [],
+            "name": "sendeventretrycount",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "numericJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`sendEventResolution` attribute",
+              "***",
+              "current video resolution string."
+            ],
+            "value": [],
+            "name": "sendeventresolution",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`sendEventSnapshotStatus` attribute",
+              "***",
+              "current state of the still image associated with the current source selection numeric - 0 not shown, 1 -currently shown, 2 - in error."
+            ],
+            "value": [],
+            "name": "sendeventsnapshotstatus",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "numericJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`sendEventSnapshotLastUpdateTime` attribute",
+              "***",
+              "The timestamp of  the last update time of the still image associated with the current source selection string - serial in RFC 3339 format."
+            ],
+            "value": [],
+            "name": "sendeventsnapshotlastupdatetime",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
           }
         ],
         "documentation": [
@@ -23142,18 +24132,73 @@
         ],
         "snippets": [
           {
-            "prefix": "ch5-video:default",
-            "description": "Provides a view onto a streaming video window. Components that are to reside above the video that need to be visible and active, examples include buttons to control playback, text describing the video, and annotation controls, need to be defined as children elements to this component.",
+            "prefix": "ch5-video:blank",
+            "description": "Crestron video",
             "body": [
-              "<ch5-video aspectratio=\"${1:16:9}\" size=\"${2:large}\" sourcetype=\"${3:Network}\" userid=\"${4}\" snapshotuserid=\"${5}\" password=\"${6}\" snapshotpassword=\"${7}\" snapshoturl=\"${8}\" url=\"${9}\" stretch=\"${10:false}\" zindex=\"${11:0}\" snapshotrefreshrate=\"${12:60}\">",
+              "<ch5-video>",
               "</ch5-video>$0"
             ]
           },
           {
             "prefix": "ch5-video:all-attributes",
-            "description": "Provides a view onto a streaming video window. Components that are to reside above the video that need to be visible and active, examples include buttons to control playback, text describing the video, and annotation controls, need to be defined as children elements to this component.",
+            "description": "Crestron video (All Attributes)",
             "body": [
-              "<ch5-video indexid=\"${1}\" aspectratio=\"${2:16:9}\" size=\"${3:large}\" sourcetype=\"${4:Network}\" userid=\"${5}\" snapshotuserid=\"${6}\" password=\"${7}\" snapshotpassword=\"${8}\" snapshoturl=\"${9}\" url=\"${10}\" stretch=\"${11:false}\" zindex=\"${12:0}\" snapshotrefreshrate=\"${13:60}\" receivestatesourcetype=\"${14}\" receivestateuserid=\"${15}\" receivestatepassword=\"${16}\" receivestatesnapshoturl=\"${17}\" receivestatesnapshotrefreshrate=\"${18}\" receivestatesnapshotuserid=\"${19}\" receivestatesnapshotpassword=\"${20}\" receivestateplay=\"${21}\" receivestateselect=\"${22}\" receivestateurl=\"${23}\" receivestatevideocount=\"${24}\" sendeventonclick=\"${25}\" sendeventstate=\"${26}\" sendeventselectionurl=\"${27}\" sendeventerrorcode=\"${28}\" sendeventerrormessage=\"${29}\" sendeventsnapshoturl=\"${30}\" sendeventselectionsourcetype=\"${31}\" sendeventselectionchange=\"${32}\" sendeventretrycount=\"${33}\" sendeventsnapshotlastupdatetime=\"${34}\" sendeventresolution=\"${35}\" sendeventsnapshotstatus=\"${36}\">",
+              "<ch5-video id=\"ch5-video_${1:id}\"",
+              "\tindexId=\"${2:}\"",
+              "\taspectRatio=\"${3:16:9}\"",
+              "\tstretch=\"${4:false}\"",
+              "\turl=\"${5:}\"",
+              "\tsourceType=\"${6:Network}\"",
+              "\tuserId=\"${7:}\"",
+              "\tpassword=\"${8:}\"",
+              "\tsnapshotURL=\"${9:}\"",
+              "\tsnapshotRefreshRate=\"${10:5}\"",
+              "\tsnapshotUserId=\"${11:}\"",
+              "\tsnapshotPassword=\"${12:}\"",
+              "\tsize=\"${13:regular}\"",
+              "\treceiveStatePlay=\"${14:}\"",
+              "\treceiveStateSelect=\"${15:}\"",
+              "\treceiveStateURL=\"${16:}\"",
+              "\treceiveStateSourceType=\"${17:}\"",
+              "\treceiveStateUserId=\"${18:}\"",
+              "\treceiveStatePassword=\"${19:}\"",
+              "\treceiveStateSnapshotURL=\"${20:}\"",
+              "\treceiveStateSnapshotRefreshRate=\"${21:}\"",
+              "\treceiveStateSnapshotUserId=\"${22:}\"",
+              "\treceiveStateSnapshotPassword=\"${23:}\"",
+              "\treceiveStateVideoCount=\"${24:}\"",
+              "\tsendEventOnClick=\"${25:}\"",
+              "\tsendEventSelectionChange=\"${26:}\"",
+              "\tsendEventSelectionSourceType=\"${27:}\"",
+              "\tsendEventSelectionURL=\"${28:}\"",
+              "\tsendEventSnapshotURL=\"${29:}\"",
+              "\tsendEventState=\"${30:}\"",
+              "\tsendEventErrorCode=\"${31:}\"",
+              "\tsendEventErrorMessage=\"${32:}\"",
+              "\tsendEventRetryCount=\"${33:}\"",
+              "\tsendEventResolution=\"${34:}\"",
+              "\tsendEventSnapshotStatus=\"${35:}\"",
+              "\tsendEventSnapshotLastUpdateTime=\"${36:}\">",
+              "</ch5-video>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-video:default",
+            "description": "Crestron video (Default)",
+            "body": [
+              "<ch5-video id=\"ch5-video_${1:id}\"",
+              "\tindexId=\"${2:}\"",
+              "\taspectRatio=\"${3:16:9}\"",
+              "\tstretch=\"${4:false}\"",
+              "\turl=\"${5:}\"",
+              "\tsourceType=\"${6:Network}\"",
+              "\tuserId=\"${7:}\"",
+              "\tpassword=\"${8:}\"",
+              "\tsnapshotURL=\"${9:}\"",
+              "\tsnapshotRefreshRate=\"${10:5}\"",
+              "\tsnapshotUserId=\"${11:}\"",
+              "\tsnapshotPassword=\"${12:}\"",
+              "\tsize=\"${13:regular}\">",
               "</ch5-video>$0"
             ]
           }
@@ -23539,7 +24584,7 @@
         "documentation": [
           "`ch5-wifi-signal-level-gauge` element",
           "***",
-          "The Wifi Signal Level Gauge control is used to display a signal strength from an analog join."
+          ""
         ],
         "snippets": [
           {

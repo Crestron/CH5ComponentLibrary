@@ -6,13 +6,13 @@ import { ICh5JoinToTextStringAttributes } from "./i-ch5-jointotext-string-attrib
  * @isattribute false
  * @tagName ch5-jointotext-string
  * @role presentation
- * @description Ch5 JoinToText
- * @componentVersion 1.0.0
+ * @description The component provides a response of a serial join.
+ * @componentVersion 2.0.0
  * @documentation
  * [
  * "`ch5-jointotext-string` element",
  * "***",
- * ""
+ * "When the response string join value is not empty, the tag component will provide the value of the string join. When the provided string join value is empty, then the component will provide the value of the textWhenEmpty attribute."
  * ]
  * @snippets
  * [

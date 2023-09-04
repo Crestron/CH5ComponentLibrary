@@ -18,7 +18,7 @@
  * [
  *   "`ch5-slider-button-label` element",
  *   "***",
- *   "Ch5 Slider Button Label tag provide the ability to set label of the on/off buttons of the advance slider."
+ *   ""
  * ]
  * @snippets
  * [

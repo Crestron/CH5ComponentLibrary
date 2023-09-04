@@ -20,6 +20,7 @@ export class Ch5RoleAttributeMapping {
     public static readonly ch5ColorChip = 'color-chip';
     public static readonly ch5ColorPicker = 'color-picker';
     public static readonly ch5Dpad = 'dpad';
+    public static readonly ch5DateTime = 'datetime';
     public static readonly ch5DpadChild = 'dpad-child';
     public static readonly ch5Keypad = 'keypad';
     public static readonly ch5KeypadChild = 'keypad-child';
@@ -40,6 +41,7 @@ export class Ch5RoleAttributeMapping {
     public static readonly ch5SubpageReferenceList = 'subpage-reference-list';
     public static readonly ch5TabButton = 'tab-button';
     public static readonly ch5TabButtonIndividualButton = 'template';
+    public static readonly ch5Text = "label";
     public static readonly ch5TextInput = 'textbox';
     public static readonly ch5Toggle = 'switch';
     public static readonly ch5TriggerView = 'listbox';

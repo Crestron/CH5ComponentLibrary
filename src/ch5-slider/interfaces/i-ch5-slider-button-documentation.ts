@@ -25,7 +25,7 @@ import { ICh5SliderButtonAttributes } from "./i-ch5-slider-button-attributes";
  * [
  *   "`ch5-slider-button` element",
  *   "***",
- *   "Ch5 Slider Button tag provide the ability to set on/off buttons of the advance slider."
+ *   ""
  * ]
  * @snippets
  * [
