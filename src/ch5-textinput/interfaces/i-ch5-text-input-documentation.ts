@@ -19,7 +19,7 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  * [
  * "`ch5-textinput` attribute",
  * "***",
- * "The TextEntry component allows the user to enter textual input. Extending on a default",
+ * "The TextEntry component allows the user to enter textual input. Extending on a default ",
  * "input HTML element, it allows additional customization like icons, label among others."
  * ]
  * @snippets

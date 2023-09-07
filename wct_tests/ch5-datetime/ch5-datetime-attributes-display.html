@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="./js/helper.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-datetime-displayType-attributes">
+    <template>
+      <ch5-datetime></ch5-datetime>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-datetime-displayType-attributes-value', () => {
+      let ch5DateTime;
+
+      setup(async () => {
+        ch5DateTime = fixture('ch5-datetime-displayType-attributes');
+      });
+
+      let testCases = ['a', '', ' ', 'number', 'datetime', 'date', 'time'];
+      let expectedResult = ['datetime', 'datetime', 'datetime', 'datetime', 'datetime', 'date', 'time'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "displayType"', () => {
+          ch5DateTime.setAttribute('displayType', ele);
+          expect(ch5DateTime.getAttribute('displayType')).to.be.equal(expectedResult[i]);
+        });
+      });
+    });
+
+    suite('ch5-datetime-displayType-attributes-formatted-output', () => {
+      let ch5DateTime;
+      let clock;
+
+      suiteSetup(() => {
+        clock = sinon.useFakeTimers(new Date(2023, 00, 01).getTime());
+        ch5DateTime = fixture('ch5-datetime-displayType-attributes');
+      });
+
+      suiteTeardown(() => {
+        clock.restore();
+      });
+
+      let testCases = ['datetime', 'date', 'time'];
+      let expectedTextContent = ['01-01-2023 12:00 AM', '01-01-2023', '12:00 AM'];
+      testCases.forEach((ele, i) => {
+        test('Check formatted output', async () => {
+          ch5DateTime.setAttribute('displayType', ele);
+          await runSinonTimer(1000, clock);
+          const textContent = ch5DateTime.children[0].textContent;
+          expect(textContent).to.be.equal(expectedTextContent[i]);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

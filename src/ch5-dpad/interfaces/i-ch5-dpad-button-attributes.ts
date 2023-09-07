@@ -12,13 +12,13 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  * @isattribute false
  * @tagName ch5-dpad-button
  * @role container
- * @description Ch5 Dpad Button
+ * @description This is a child component of ch5-dpad
  * @componentVersion 1.0.0
  * @documentation
  * [
  * "`ch5-dpad-button` element",
  * "***",
- * "DPad <ch5-dpad-button key=`value`> component can be added under a <ch5-dpad> tag ",
+ * "DPad Button <ch5-dpad-button key=`value`> component can be added under a <ch5-dpad> tag ",
  * "for customization related to icon as a url or an icon class. ",
  * "Note: This tag can never be independently used and always needs the container <ch5-dpad> to render."
  * ]

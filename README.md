@@ -2,21 +2,7 @@
   <img src="https://kenticoprod.azureedge.net/kenticoblob/crestron/media/crestron/generalsiteimages/crestron-logo.png">
 </p>
  
-# CH5 -  Crestron Components library (CrComLib) - Getting Started
-
-#### Continuous Integration and Deployment Status
-
-| DEV NIGHTLY - latest-dev | Status |
-| ------ | ----------- |
-| Build Pipeline |![Build status](https://dev.azure.com/crestron-mobile-devops/MobileApps/_apis/build/status/Blackbird/CoreBuild/CH5ComponentLibrary?branchName=dev)
-| Release Pipeline | ![Deployment status](https://vsrm.dev.azure.com/crestron-mobile-devops/_apis/public/Release/badge/0403b700-ab40-43cd-9990-961924c561bc/38/108) |
-| NPM | ![npm (tag)](https://img.shields.io/npm/v/@crestron/ch5-crcomlib/latest-dev) |
-
-| MASTER-QE - latest-qe | Status |
-| ------ | ----------- |
-| Build Pipeline |![Build status](https://dev.azure.com/crestron-mobile-devops/MobileApps/_apis/build/status/Blackbird/CoreBuild/CH5ComponentLibrary?branchName=master)
-| Release Pipeline | ![Deployment status](https://vsrm.dev.azure.com/crestron-mobile-devops/_apis/public/Release/badge/0403b700-ab40-43cd-9990-961924c561bc/38/94) |
-| NPM | ![npm (tag)](https://img.shields.io/npm/v/@crestron/ch5-crcomlib/latest-qe) |
+# CH5 - Crestron Components library (CrComLib) - Getting Started
 
 ## See Crestron developer website for documentation 
 https://www.crestron.com/developer
@@ -36,14 +22,14 @@ Where _module_type_ is:
 - *esm* - ES Modules, ES6.
 - *amd* - Asynchronous Module Definition
 
-## Activating extra informmation in the browser console
+## Activating extra information in the browser console
 
 ### For ch5 components 
 
 Ch5 components will display additional info in the browser console if they have a debug attribute defined. For example:
 ```<ch5-button debug label="Btn1"></ch5-button>```
 
-### For ch5 custom attributes (dta-ch5-...)
+### For ch5 custom attributes (data-ch5-...)
 
 Additional information will be displayed in the browser console if the element has a debug attribute. For example:
 ```<div debug data-ch5-show="a_signal">Hello</div>```
@@ -71,7 +57,7 @@ from ch5 components, and custom attributes will not be affected)
 
   npm run start
 
-### LocalHost 3000 with parameters IP ID and Host
+### localhost 3000 with parameters IP ID and Host
 
 http://localhost:3000/?ipId=0x99&host=10.0.0.203
 

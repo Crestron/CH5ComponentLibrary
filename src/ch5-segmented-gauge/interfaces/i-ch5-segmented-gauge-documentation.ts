@@ -16,7 +16,7 @@ import { ICh5SegmentedGaugeAttributes } from "./i-ch5-segmented-gauge-attributes
  * [
  *   "`ch5-segmented-gauge` element",
  *   "***",
- *   "The Segmented Gauge is used to display feedback from an analog join by scaling the analog value on the touch panel instead of via programming on the control system."
+ *   ""
  * ]
  * @snippets
  * [

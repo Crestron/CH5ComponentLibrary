@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-text-default-attributes">
+    <template>
+      <ch5-text></ch5-text>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-text-default-attributes-value', () => {
+      let ch5Text;
+
+      setup(async () => {
+        ch5Text = fixture('ch5-text-default-attributes');
+      });
+
+      test('Check Default value for horizontalAlignment', () => {
+        expect(ch5Text.getAttribute("horizontalAlignment")).to.be.equal(null);
+        ch5Text.setAttribute('horizontalAlignment', 'center');
+        expect(ch5Text.children[0].children[0].classList.contains('ch5-text--horizontal-alignment-center')).to.be.equal(true);
+        expect(ch5Text.getAttribute("horizontalAlignment")).to.be.equal('center');
+        ch5Text.removeAttribute("horizontalAlignment");
+        expect(ch5Text.getAttribute("horizontalAlignment")).to.be.equal('center');
+      });
+
+      test('Check Default value for verticalAlignment', () => {
+        expect(ch5Text.getAttribute("verticalAlignment")).to.be.equal(null);
+        ch5Text.setAttribute('verticalAlignment', 'middle');
+        expect(ch5Text.children[0].classList.contains('ch5-text--vertical-alignment-middle')).to.be.equal(true);
+        expect(ch5Text.getAttribute("verticalAlignment")).to.be.equal('middle');
+        ch5Text.removeAttribute("verticalAlignment");
+        expect(ch5Text.getAttribute("verticalAlignment")).to.be.equal('middle');
+      });
+
+    });
+  </script>
+</body>
+
+</html>

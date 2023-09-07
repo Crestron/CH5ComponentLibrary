@@ -144,6 +144,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
     receiveStateNumberOfItems: { direction: "state", numericJoin: 1, contractName: true },
     receiveStateScrollToPosition: { direction: "state", numericJoin: 1, contractName: true },
+    receivestateselectedbutton: { direction: "state", numericJoin: 1, contractName: true },
   };
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
     {
@@ -294,6 +295,16 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     },
     {
       default: "",
+      isSignal: true,
+      name: "receiveStateSelectedButton",
+      signalType: "number",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+    {
+      default: "",
       name: "contractName",
       removeAttributeOnNull: true,
       type: "string",
@@ -343,6 +354,14 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     {
       default: false,
       name: "useContractForCustomClass",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForEachButtonSelection",
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: true,
@@ -640,12 +659,14 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     receiveStateEnable: "",
     receiveStateShow: "",
     receiveStateScrollToPosition: "",
-    receiveStateNumberOfItems: ""
+    receiveStateNumberOfItems: "",
+    receiveStateSelectedButton: ""
   }
 
   // Default Row and Column value
   private rowClassValue: number = 1;
   private columnClassValue: number = 1;
+  private selectedButton: number = 0;
 
   private showSignalHolder: any = [];
   private loadButtonForShow: boolean = false;
@@ -806,6 +827,20 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     return this._ch5Properties.get<string>('receiveStateScrollToPosition');
   }
 
+  public set receiveStateSelectedButton(value: string) {
+    this._ch5Properties.set("receiveStateSelectedButton", value, null, (newValue: number) => {
+      const fromJoin = this.contractName === "";
+      const fromContract = this.contractName !== "" && this.useContractForEachButtonSelection === true && this.receiveStateSelectedButton === this.contractName + '.ItemSelected';
+      if (fromJoin || fromContract) {
+        this.selectedButton = newValue;
+        this.handleReceiveStateSelectedButton();
+      }
+    });
+  }
+  public get receiveStateSelectedButton(): string {
+    return this._ch5Properties.get<string>('receiveStateSelectedButton');
+  }
+
   public set contractName(value: string) {
     this._ch5Properties.set<string>("contractName", value, () => {
       this.handleContractName();
@@ -867,6 +902,15 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   }
   public get useContractForCustomClass(): boolean {
     return this._ch5Properties.get<boolean>("useContractForCustomClass");
+  }
+
+  public set useContractForEachButtonSelection(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForEachButtonSelection", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get useContractForEachButtonSelection(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForEachButtonSelection");
   }
 
   public set contractItemLabelType(value: TCh5ButtonListContractItemLabelType) {
@@ -2180,7 +2224,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
             if (attrValue) {
               btn.setAttribute('iconclass', attrValue);
             }
-          } else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+          } else if (attr.name.toLowerCase().startsWith('button') && this.hasAttribute(attr.name)) {
             const attrValue = this.getAttribute(attr.name)?.trim().replace(`{{${this.indexId}}}`, index + '');
             if (attrValue) {
               btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
@@ -2192,14 +2236,14 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
             if (attrValue) {
               btn.setAttribute('iconurl', attrValue);
             }
-          } else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+          } else if (attr.name.toLowerCase().startsWith('button') && this.hasAttribute(attr.name)) {
             const attrValue = this.getAttribute(attr.name)?.trim().replace(`{{${this.indexId}}}`, index + '');
             if (attrValue) {
               btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
             }
           }
         } else {
-          if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+          if (attr.name.toLowerCase().startsWith('button') && this.hasAttribute(attr.name)) {
             if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
               const attrValue = this.getAttribute(attr.name)?.trim();
               if (attrValue) {
@@ -2217,7 +2261,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
           }
         }
       } else {
-        if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+        if (attr.name.toLowerCase().startsWith('button') && this.hasAttribute(attr.name)) {
           if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
             const attrValue = this.getAttribute(attr.name)?.trim();
             if (attrValue) {
@@ -2235,6 +2279,14 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
         }
       }
     });
+
+    if (this.receiveStateSelectedButton.trim() !== "") {
+      btn.removeAttribute('receiveStateSelected');
+      btn.removeAttribute('selected');
+      if (this.selectedButton === index) {
+        btn.setAttribute('selected', 'true');
+      }
+    }
 
     const individualButtonAttributes = ['onRelease', 'labelInnerHTML'];
     individualButtonAttributes.forEach((attr: string) => {
@@ -2276,6 +2328,10 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
 
       if (this.useContractForNumItems === true) {
         this.receiveStateNumberOfItems = this.contractName + `.ListNumberOfItems`;
+      }
+
+      if (this.useContractForEachButtonSelection === true) {
+        this.receiveStateSelectedButton = this.contractName + `.ItemSelected`;
       }
       this.receiveStateScrollToPosition = this.contractName + `.ListScrollToItem`;
     }
@@ -2325,7 +2381,8 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     }
 
     btn.setAttribute('receiveStateMode', this.contractName + `.Button${index + 1}Mode`);
-    btn.setAttribute('receiveStateSelected', this.contractName + `.Button${index + 1}ItemSelected`);
+    if (this.useContractForEachButtonSelection === false) { btn.setAttribute('receiveStateSelected', this.contractName + `.Button${index + 1}ItemSelected`); }
+    if (index === this.selectedButton && this.useContractForEachButtonSelection === true) { btn.setAttribute('selected', 'true'); }
     btn.setAttribute('sgIconTheme', this.buttonSgIconTheme);
 
     const remainingAttributes = ['buttonCheckboxPosition', 'buttonCheckboxShow', 'buttonVAlignLabel', 'buttonHAlignLabel', 'buttonIconClass',
@@ -2340,7 +2397,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
             if (attrValue) {
               btn.setAttribute('iconclass', attrValue);
             }
-          } else if (attr.toLowerCase().includes('button') && this.hasAttribute(attr)) {
+          } else if (attr.toLowerCase().startsWith('button') && this.hasAttribute(attr)) {
             const attrValue = this.getAttribute(attr)?.trim().replace(`{{${this.indexId}}}`, index + '');
             if (attrValue) {
               btn.setAttribute(attr.toLowerCase().replace('button', ''), attrValue.trim());
@@ -2352,7 +2409,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
             if (attrValue) {
               btn.setAttribute('iconurl', attrValue);
             }
-          } else if (attr.toLowerCase().includes('button') && this.hasAttribute(attr)) {
+          } else if (attr.toLowerCase().startsWith('button') && this.hasAttribute(attr)) {
             const attrValue = this.getAttribute(attr)?.trim().replace(`{{${this.indexId}}}`, index + '');
             if (attrValue) {
               btn.setAttribute(attr.toLowerCase().replace('button', ''), attrValue.trim());
@@ -2365,7 +2422,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
           else if (attr.toLowerCase() === 'buttonreceivestateenable' && this.hasAttribute('receivestateenable')) {
             btn.setAttribute('receivestateenable', this.getAttribute('receivestateenable') + '');
           }
-          else if (attr.toLowerCase().includes('button') && this.hasAttribute(attr)) {
+          else if (attr.toLowerCase().startsWith('button') && this.hasAttribute(attr)) {
             if (this.getAttribute(attr)?.trim().includes(`{{${this.indexId}}}`) === false) {
               const attrValue = this.getAttribute(attr)?.trim();
               if (attrValue) {
@@ -2389,7 +2446,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
         else if (attr.toLowerCase() === 'buttonreceivestateenable' && this.hasAttribute('receivestateenable')) {
           btn.setAttribute('receivestateenable', this.getAttribute('receivestateenable') + '');
         }
-        else if (attr.toLowerCase().includes('button') && this.hasAttribute(attr)) {
+        else if (attr.toLowerCase().startsWith('button') && this.hasAttribute(attr)) {
           if (this.getAttribute(attr)?.trim().includes(`{{${this.indexId}}}`) === false) {
             const attrValue = this.getAttribute(attr)?.trim();
             if (attrValue) {
@@ -2510,6 +2567,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       this.receiveStateCustomStyle = this.signalNameOnContract.receiveStateCustomStyle;
       this.receiveStateCustomClass = this.signalNameOnContract.receiveStateCustomClass;
       this.receiveStateNumberOfItems = this.signalNameOnContract.receiveStateNumberOfItems;
+      this.receiveStateSelectedButton = this.signalNameOnContract.receiveStateSelectedButton;
       this.receiveStateScrollToPosition = this.signalNameOnContract.receiveStateScrollToPosition;
     } else if (this.signalNameOnContract.contractName === "") {
       this.signalNameOnContract.contractName = this.contractName;
@@ -2518,6 +2576,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       this.signalNameOnContract.receiveStateCustomStyle = this.receiveStateCustomStyle;
       this.signalNameOnContract.receiveStateCustomClass = this.receiveStateCustomClass;
       this.signalNameOnContract.receiveStateNumberOfItems = this.receiveStateNumberOfItems;
+      this.signalNameOnContract.receiveStateSelectedButton = this.receiveStateSelectedButton;
       this.signalNameOnContract.receiveStateScrollToPosition = this.receiveStateScrollToPosition;
     }
     this.debounceButtonDisplay();
@@ -2638,6 +2697,17 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       if (this.showSignalHolder[this.getLastChild() + 1].value === true) { k = k + 1; }
       this.createButton(this.getLastChild() + 1);
     }
+  }
+
+
+  private handleReceiveStateSelectedButton() {
+    Array.from(this._elContainer.children).forEach((btnContainer) => {
+      const btn = btnContainer.children[0] as HTMLElement;
+      btn.removeAttribute('selected');
+      if (Number(btnContainer.getAttribute('id')?.replace(this.getCrId() + '-', '')) === this.selectedButton) {
+        btn.setAttribute('selected', 'true');
+      }
+    });
   }
 
   private resizeHandler = () => {

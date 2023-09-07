@@ -6,7 +6,7 @@ import { ICh5ColorPickerAttributes } from "./i-ch5-color-picker-attributes";
  * @isattribute false
  * @tagName ch5-color-picker
  * @role color-picker
- * @description component to render the color picker.
+ * @description The Color Picker control will comprise of a rectangular image of various colors and a vertical slider of various luminance values.
  * @componentVersion 2.1.0
  * @childElements
  * [
@@ -16,7 +16,7 @@ import { ICh5ColorPickerAttributes } from "./i-ch5-color-picker-attributes";
  * [
  *   "`ch5-color-picker` element",
  *   "***",
- *   "Component to render the color picker"
+ *   "The color picker is a widget that allows users to see and select full 24 bit range of colors in manner similar to popular image editing software such as Adobe Photoshop, GNU Gimp and Microsoft Paint."
  * ]
  * @snippets
  * [

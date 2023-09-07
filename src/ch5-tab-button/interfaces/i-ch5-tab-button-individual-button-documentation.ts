@@ -15,7 +15,7 @@ import { ICh5TabButtonIndividualButtonAttributes } from "./i-ch5-tab-button-indi
  * [
  *   "`ch5-tab-button-individual-button` element",
  *   "***",
- *   "Ch5 tab button Individual Button tag to provide ability to enter individual button labels and individual icons for each button in the tab button."
+ *   ""
  * ]
  * @snippets
  * [
