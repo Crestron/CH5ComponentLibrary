@@ -115,6 +115,14 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 			valueOnAttributeEmpty: true,
 			isObservableProperty: true,
 		},
+		{
+			default: false,
+			name: "endless",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true,
+		},
 	];
 	/**
 	 * Default css class name
@@ -221,7 +229,6 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 	private _minHeight: string | null = null;
 	private _maxHeight: string | null = null;
 	private _pagedSwipe: boolean = false;
-	private _endless: boolean = false;
 	private _scrollToTime: number = 500;
 	private _indexId: string | null = null;
 	private _direction: string = Ch5Common.DIRECTION[0];
@@ -503,10 +510,9 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 
 			if (this.elementIsInViewPort && (this._isListVisible || this.receiveStateScrollToChanged)) {
 				this.info("Updating View");
-				if (this.hasAttribute('scrollbar') && String(this.getAttribute('scrollbar')) === 'true') {
-					if (!this.endless) {
-						this.templateHelper.customScrollbar(this.divList);
-					}
+				const appendScrollbarIfNoEndless = this.hasAttribute('endless') ? String(this.getAttribute('endless')) !== 'true' : true;
+				if (this.hasAttribute('scrollbar') && String(this.getAttribute('scrollbar')) === 'true' && appendScrollbarIfNoEndless) {
+					this.templateHelper.customScrollbar(this.divList);
 					setTimeout(() => {
 						this.templateHelper.resizeList(this.divList, this.templateVars);
 					}, 0.5);
@@ -515,7 +521,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 				}
 
 				this.templateHelper.checkAndSetSizes();
-				if (!this.endless) {
+				if (appendScrollbarIfNoEndless) {
 					this.templateHelper.customScrollbar(this.divList);
 				}
 				this._isListVisible = false;
@@ -756,16 +762,6 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 					if (this.hasAttribute('pagedswipe')) {
 						this.pagedSwipe = newValue === 'true' ? true : false;
 					}
-					break;
-				case 'endless':
-					if (this.hasAttribute('endless') && newValue !== 'false') {
-						this.endless = true;
-					} else {
-						this.endless = false;
-					}
-
-					this._updateInfiniteLoop();
-					this._computeItemsPerViewLayout();
 					break;
 				case 'scrolltotime':
 					if (this.hasAttribute('scrolltotime')) {
@@ -1286,35 +1282,27 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 		}
 	}
 
-	public get endless() {
-		return this._endless;
+	public set endless(value: boolean) {
+		this._ch5Properties.set<boolean>("endless", value, () => {
+			if (this.endless) {
+				setTimeout(() => {
+					this.templateHelper.removeScrollbar();
+				}, 50);
+			}
+			this._updateInfiniteLoop();
+			this._computeItemsPerViewLayout();
+		});
+	}
+	public get endless(): boolean {
+		return this._ch5Properties.get<boolean>("endless");
 	}
 
-	public set endless(value: boolean) {
-		if (value == null) {
-			value = false;
-		}
-		if (value === this._endless) {
-			return;
-		}
-		this._endless = value;
-		if (value === true) {
-			this.setAttribute('endless', value.toString());
-			setTimeout(() => {
-				this.templateHelper.removeScrollbar();
-			}, 50);
-		} else {
-			this.removeAttribute('endless')
-		}
-	}
 	public set scrollbar(value: boolean) {
 		this._ch5Properties.set<boolean>("scrollbar", value, () => {
 			this.templateHelper.removeScrollbar();
 			if (this.hasAttribute('scrollbar')) {
 				if (!this.endless) {
-					setTimeout(() => {
-						this.templateHelper.customScrollbar(this.divList);
-					}, 50)
+					this.templateHelper.customScrollbar(this.divList);
 				}
 			}
 		});
