@@ -18,7 +18,7 @@ import { ICh5CommonAttributesForShow } from "./common/i-ch5-common-attributes-sh
 /**
  * @ignore
  */
-export interface ICh5CommonAttributesWoReceiveStateEnable extends ICh5CommonAttributesForDir,
+export interface ICh5CommonAttributesTemplate extends ICh5CommonAttributesForDir,
 	ICh5CommonAttributesForShow,
 	ICh5CommonAttributesForAppendClassWhenInViewPort,
 	ICh5CommonAttributesForSendEventOnShow,
