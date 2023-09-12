@@ -1379,7 +1379,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
 
     if (this.dir === 'rtl' && this.orientation === 'horizontal') {
-      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      const containerWidth = this._elContainer.getBoundingClientRect().width || this.containerWidth;
       const loadableSubpages = Math.ceil(containerWidth / this.subpageWidth) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
       // Right Edge case
       if (value >= this.numberOfItems - (loadableSubpages - Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER)) {
@@ -1400,7 +1400,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         if (this.allSubpageVisible === false && this.loadSubpageForShow === true) { this.scrollToLeftEdgeRange(); }
       }
     } else if (this.orientation === 'horizontal') {
-      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      const containerWidth = this._elContainer.getBoundingClientRect().width || this.containerWidth;
       const loadableSubPageList = Math.ceil(containerWidth / this.subpageWidth) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
       // Right Edge case
       if (value >= this.numberOfItems - (loadableSubPageList - Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER)) {
@@ -1418,7 +1418,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         this.scrollAfterSomeTime("left", this.subpageWidth * value);
       }
     } else {
-      const containerHeight = this._elContainer.getBoundingClientRect().height;
+      const containerHeight = this._elContainer.getBoundingClientRect().height || this.containerHeight;
       const loadableSubpages = Math.ceil(containerHeight / this.subpageHeight) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
       // If container height is not set then display all the subpage
       if (containerHeight === 0) {
@@ -1475,7 +1475,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
 
     if (this.dir === 'rtl' && this.orientation === 'horizontal') {
-      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      const containerWidth = this._elContainer.getBoundingClientRect().width || this.containerWidth;
       const loadableButtons = Math.ceil(containerWidth / this.subpageWidth) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
       if (this._elContainer.children.length === 0) {
         for (let index = 0; index < this.numberOfItems && index < value + loadableButtons - 1; index++) { this.createSubpage(index); }
@@ -1484,7 +1484,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       }
       this._elContainer.scrollLeft = value !== 0 ? (value * this.subpageWidth) * -1 : 0;
     } else if (this.orientation === 'horizontal') {
-      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      const containerWidth = this._elContainer.getBoundingClientRect().width || this.containerWidth;
       const loadableButtons = Math.ceil(containerWidth / this.subpageWidth) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
       if (this._elContainer.children.length === 0) {
         for (let index = 0; index < this.numberOfItems && index < value + loadableButtons - 1; index++) { this.createSubpage(index); }
@@ -1493,7 +1493,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       }
       this._elContainer.scrollLeft = value !== 0 ? value * this.subpageWidth : 0;
     } else {
-      const containerHeight = this._elContainer.getBoundingClientRect().height;
+      const containerHeight = this._elContainer.getBoundingClientRect().height || this.containerHeight;
       const loadableButtons = Math.ceil(containerHeight / this.subpageHeight) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
       // If container height is not set then display all the subpage
       if (containerHeight <= 10 || containerHeight <= this.subpageHeight + 10) {
@@ -1583,10 +1583,11 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     let loadedSubpages = 0;
     if (this.orientation === 'horizontal') {
       // Find the number of initial subpages which can be loaded based on container width
-      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      const containerWidth = this._elContainer.getBoundingClientRect().width || this.containerWidth;
+      console.log("containerWidth", containerWidth)
       loadedSubpages = Math.floor(containerWidth / this.subpageWidth) * this.rows + this.rows * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
     } else {
-      const containerHeight = this._elContainer.getBoundingClientRect().height;
+      const containerHeight = this._elContainer.getBoundingClientRect().height || this.containerHeight;
       // Check whether the container is set with custom height
       if (containerHeight > this.subpageHeight) {
         loadedSubpages = Math.floor(containerHeight / this.subpageHeight) * this.columns + this.columns * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;;
@@ -1627,10 +1628,10 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     let loadedButtons = 0;
     if (this.orientation === 'horizontal') {
       // Find the number of initial subpages which can be loaded based on container width
-      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      const containerWidth = this._elContainer.getBoundingClientRect().width || this.containerWidth;
       loadedButtons = Math.floor(containerWidth / this.subpageWidth) * this.rows + this.rows * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
     } else {
-      const containerHeight = this._elContainer.getBoundingClientRect().height;
+      const containerHeight = this._elContainer.getBoundingClientRect().height || this.containerHeight;
       // Check whether the container is set with custom height
       if (containerHeight > this.subpageHeight + 10) {
         loadedButtons = Math.floor(containerHeight / this.subpageHeight) * this.columns + this.columns * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
@@ -1893,6 +1894,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       this.containerHeight = height;
       this.debounceSubpageDisplay();
     }
+    console.log("resize ", width, height, this.containerWidth, this.containerHeight);
     this.debounceInitScrollBar();
   }
 
