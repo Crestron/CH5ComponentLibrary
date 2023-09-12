@@ -1584,7 +1584,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     if (this.orientation === 'horizontal') {
       // Find the number of initial subpages which can be loaded based on container width
       const containerWidth = this._elContainer.getBoundingClientRect().width || this.containerWidth;
-      console.log("containerWidth", containerWidth)
       loadedSubpages = Math.floor(containerWidth / this.subpageWidth) * this.rows + this.rows * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
     } else {
       const containerHeight = this._elContainer.getBoundingClientRect().height || this.containerHeight;
@@ -1894,7 +1893,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       this.containerHeight = height;
       this.debounceSubpageDisplay();
     }
-    console.log("resize ", width, height, this.containerWidth, this.containerHeight);
     this.debounceInitScrollBar();
   }
 
