@@ -13,7 +13,7 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  * @isattribute false
  * @tagName ch5-overlay-panel
  * @role dialog
- * @description Ch5 Overlay Panel
+ * @description This component is used to overlay the content container.
  * @componentVersion 1.0.0
  * @documentation
  * [

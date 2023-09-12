@@ -13,7 +13,7 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  * @isattribute false
  * @tagName ch5-select-option
  * @role option
- * @description
+ * @description This is a child element for ch5-select component.
  * @componentVersion 1.0.0
  * @documentation
  * [

@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-list-size-fixture">
+        <template>
+            <ch5-list size="5" indexId="idx">
+                <template>
+                    <div class="horizontal-list-item">
+                        <span>item_{{idx}}</span>
+                    </div>
+                </template>
+            </ch5-list>
+        </template>
+    </test-fixture>
+
+
+    <script>
+        suite('ch5-list size', function () {
+
+            let ch5List;
+
+            /* coverity[implicit_this_used] */
+            setup(() => {
+                ch5List = fixture('ch5-list-size-fixture');
+            });
+
+            test('hide scrollbar for endless', function (done) {
+                ch5List.setAttribute('endless', true);
+                flush(function () {
+                    expect(ch5List.querySelectorAll('.scrollbar-container')).to.be.lengthOf(0);
+                    done();
+                });
+            });
+
+            test('hide scrollbar for endless with scrollbar attribute true', function (done) {
+                ch5List.setAttribute('endless', true);
+                ch5List.setAttribute('scrollbar', true);
+                flush(function () {
+                    expect(ch5List.querySelectorAll('.scrollbar-container')).to.be.lengthOf(0);
+                    done();
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

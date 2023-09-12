@@ -2169,7 +2169,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			orientation: this.orientation,
 			pips: Object.getOwnPropertyNames(pips).length !== 0 ? pipsOptions : undefined,
 			tooltips
-		} as Options
+		} as unknown  as Options
 	}
 
 	/**

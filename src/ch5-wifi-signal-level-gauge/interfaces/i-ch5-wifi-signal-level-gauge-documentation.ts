@@ -16,7 +16,7 @@ import { ICh5WifiSignalLevelGaugeAttributes } from "./i-ch5-wifi-signal-level-ga
  * [
  *   "`ch5-wifi-signal-level-gauge` element",
  *   "***",
- *   "The Wifi Signal Level Gauge control is used to display a signal strength from an analog join."
+ *   ""
  * ]
  * @snippets
  * [

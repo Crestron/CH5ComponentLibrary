@@ -623,4 +623,28 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * @attributeType "EnumeratedValue"
    */
   buttonIconUrlFillType: TCh5ButtonListButtonIconUrlFillType | null;
+  /**
+   * @documentation
+   * [
+   * "`receiveStateSelectedButton` attribute",
+   * "***",
+   * "ReceiveStateSelectedButton attribute helps the user to select an item on button list by using an analog join."
+   * ]
+   * @name receivestateselectedbutton
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+   * @attributeType "Join"
+   */
+  receiveStateSelectedButton: string;
+  /**
+   * @documentation
+   * [
+   * "`useContractForEachButtonSelection` attribute",
+   * "***",
+   * "The default value is false. If the value is true then the selected state of the buttons is taken from the contractName.ItemSelected else from contractName.Button[x]ItemSelected."
+   * ]
+   * @name usecontractforeachbuttonselection
+   * @default false
+   * @attributeType "Boolean"
+   */
+  useContractForEachButtonSelection: boolean;
 }
