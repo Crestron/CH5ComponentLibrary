@@ -529,6 +529,12 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 				if (this.hasAttribute('receiveStateScrollTo') && String(this.getAttribute('receiveStateScrollTo')) !== '') {
 					this.setScrollToContent();
 				}
+
+				if (this.endless) {
+					setTimeout(() => {
+						this.templateHelper.removeScrollbar();
+					}, 1);
+				}
 			}
 		});
 
@@ -1287,7 +1293,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 			if (this.endless) {
 				setTimeout(() => {
 					this.templateHelper.removeScrollbar();
-				}, 100);
+				}, 1);
 			}
 			this._updateInfiniteLoop();
 			this._computeItemsPerViewLayout();
@@ -2466,11 +2472,23 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 	}
 
 	/**
+	 * Handle the resize event for keypad to be redrawn if required
+	 */
+	private onWindowResizeHandler() {
+		if (this.endless) {
+			setTimeout(() => {
+				this.templateHelper.removeScrollbar();
+			}, 1);
+		}
+	}
+
+	/**
 	 * Called to bind proper listeners
 	 */
 	private initializeEvents() {
 		super.attachEventListeners();
 		this.eventManager.initializeEvents(this.divList);
+		window.addEventListener('resize', this.onWindowResizeHandler.bind(this));
 
 		this.info("Ch5 list - events");
 	}
@@ -2481,6 +2499,8 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 	private removeEvents() {
 		super.removeEventListeners();
 		this.eventManager.removeEvents(this.divList);
+
+		window.removeEventListener('resize', this.onWindowResizeHandler.bind(this));
 	}
 }
 
