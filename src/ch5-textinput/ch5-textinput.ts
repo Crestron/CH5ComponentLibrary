@@ -719,28 +719,26 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 		// Enter your Code here
 		this.info('set <ch5-textinput sendEventOnEnterKey="' + value + '"');
 
-		if (this.sendEventOnEnterKey !== value) {
-			if (value === undefined || value === null) {
-				value = '';
-			}
-
-			this.setAttribute('sendEventOnEnterKey', value);
+		if ('' === value
+			|| this.sendEventOnEnterKey === value
+			|| null === value
+			|| undefined === value) {
+			return;
 		}
 
-		this._sendEventOnEnterKey = value;
+		this.setAttribute('sendEventOnEnterKey', value);
 	}
 	private handleSendEventOnEscKey(value: string) {
 		this.info('set <ch5-textinput sendEventOnEscKey="' + value + '"');
 
-		if (this.sendEventOnEscKey !== value) {
-			if (value === undefined || value === null) {
-				value = '';
-			}
-
-			this.setAttribute('sendEventOnEscKey', value);
+		if ('' === value
+			|| this.sendEventOnEscKey === value
+			|| null === value
+			|| undefined === value) {
+			return;
 		}
 
-		this._sendEventOnEscKey = value;
+		this.setAttribute('sendEventOnEscKey', value);
 	}
 
 	/**
@@ -1542,24 +1540,6 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * @type {string}
 	 */
 	private _sendEventOnBlur: string = '' as string;
-
-	/**
-	 * send signal on enter event key
-	 *
-	 * @private
-	 * @memberof Ch5TextInput
-	 * @type {string}
-	 */
-	private _sendEventOnEnterKey: string = '' as string;
-
-	/**
-	 * send signal on esc event
-	 *
-	 * @private
-	 * @memberof Ch5TextInput
-	 * @type {string}
-	 */
-	private _sendEventOnEscKey: string = '' as string;
 
 	/**
 	 * When focussed, true, when unfocuses, send
@@ -2523,6 +2503,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 			this._elInput.removeEventListener('focus', this._onFocusListener);
 			this._elInput.removeEventListener('blur', this._onBlurListener);
 			this._elInput.removeEventListener('input', this._onKeyPressListener);
+			this._elInput.removeEventListener('keydown', this._onKeyDownListener);
 		}
 	}
 
