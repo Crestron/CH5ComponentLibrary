@@ -926,8 +926,6 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
    * this property is ignored.
    * If direction attribute is 'ltr', as will be typical in locales with left
    * to right language direction, 'first' is equivalent to icon being
-   * Crestron Electronics, Inc. – Copyright ©2018 Page 56
-   * Name Type Comments
    * on the left and text on the right. Conversely, if the direction
    * attribute is 'rtl', the 'first' would have the icon on the right and
    * the label to its left. Value of 'last' is the opposite of 'first'.
@@ -1360,7 +1358,6 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
    * @return {void}
    */
   public addAriaAttributes() {
-
     if (
       this.templateHelper.constructor === Ch5SpinnerTemplate &&
       this.templateHelper.wrapperElement.constructor === HTMLDivElement
@@ -1377,7 +1374,7 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
   public registerReceiveSignalValue(): void {
     this.info("<ch5-spinner />.registerReceiveSignalValue()");
 
-    // remove old subcription, if exist
+    // remove old subscription, if exist
     this.clearStringSignalSubscription(this.receiveStateValue, this._receiveStateValueSub);
 
     // add new subscription
@@ -1406,7 +1403,7 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
   public registerReceiveSignalLabel(): void {
     this.info("<ch5-spinner />.registerReceiveSignalLabel()");
 
-    // remove old subcription, if exist
+    // remove old subscription, if exist
     this.clearStringSignalSubscription(this.receiveStateLabel, this._receiveStateLabelSub);
 
     // add new subscription
@@ -1433,7 +1430,7 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
   public registerReceiveSignalSize(): void {
     this.info("<ch5-spinner />.registerReceiveSignalSize()");
 
-    // remove old subcription, if exist
+    // remove old subscription, if exist
     this.clearStringSignalSubscription(this.receiveStateSize, this._receiveStateSizeSub);
 
     // add new subscription
@@ -1583,9 +1580,7 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
   }
 
   public getItemHeightValue(): number {
-
     const value = parseFloat(this.itemHeight);
-
     if (isNaN(value) !== true) {
       return value;
     } else {
@@ -1594,7 +1589,6 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
   }
 
   public getItemHeightMeasurementUnit(): string {
-
     if (this.itemHeight.indexOf('px') > -1) {
       return 'px';
     } else if (this.itemHeight.indexOf('vh') > -1) {
@@ -1606,7 +1600,7 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
 
   /**
    * Get the highlight offset
-   * This will be everytime in the middle of the panel
+   * This will be every time in the middle of the panel
    *
    * @return {number}
    */
@@ -1618,12 +1612,11 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
   }
 
   /**
-   * Get the highlight offset value with measurment unit
+   * Get the highlight offset value with measurement unit
    *
    * @return {string}
    */
   public getHighlightOffset(): string {
-
     return this.getHighlightOffsetValue() + this.getItemHeightMeasurementUnit();
   }
 
