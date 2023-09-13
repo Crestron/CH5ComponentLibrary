@@ -1287,7 +1287,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 			if (this.endless) {
 				setTimeout(() => {
 					this.templateHelper.removeScrollbar();
-				}, 50);
+				}, 100);
 			}
 			this._updateInfiniteLoop();
 			this._computeItemsPerViewLayout();
