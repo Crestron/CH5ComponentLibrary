@@ -510,8 +510,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 
 			if (this.elementIsInViewPort && (this._isListVisible || this.receiveStateScrollToChanged)) {
 				this.info("Updating View");
-				const appendScrollbarIfNoEndless = this.hasAttribute('endless') ? String(this.getAttribute('endless')) !== 'true' : true;
-				if (this.hasAttribute('scrollbar') && String(this.getAttribute('scrollbar')) === 'true' && appendScrollbarIfNoEndless) {
+				if (this.hasAttribute('scrollbar') && String(this.getAttribute('scrollbar')) === 'true') {
 					this.templateHelper.customScrollbar(this.divList);
 					setTimeout(() => {
 						this.templateHelper.resizeList(this.divList, this.templateVars);
@@ -521,19 +520,11 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 				}
 
 				this.templateHelper.checkAndSetSizes();
-				if (appendScrollbarIfNoEndless) {
-					this.templateHelper.customScrollbar(this.divList);
-				}
+				this.templateHelper.customScrollbar(this.divList);
 				this._isListVisible = false;
 				this.receiveStateScrollToChanged = false;
 				if (this.hasAttribute('receiveStateScrollTo') && String(this.getAttribute('receiveStateScrollTo')) !== '') {
 					this.setScrollToContent();
-				}
-
-				if (this.endless) {
-					setTimeout(() => {
-						this.templateHelper.removeScrollbar();
-					}, 1);
 				}
 			}
 		});
@@ -1290,13 +1281,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 
 	public set endless(value: boolean) {
 		this._ch5Properties.set<boolean>("endless", value, () => {
-			if (this.endless) {
-				setTimeout(() => {
-					this.templateHelper.removeScrollbar();
-				}, 1);
-			}
-			this._updateInfiniteLoop();
-			this._computeItemsPerViewLayout();
+			this.handleScrollbar()
 		});
 	}
 	public get endless(): boolean {
@@ -1307,10 +1292,9 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 		this._ch5Properties.set<boolean>("scrollbar", value, () => {
 			this.templateHelper.removeScrollbar();
 			if (this.hasAttribute('scrollbar')) {
-				if (!this.endless) {
-					this.templateHelper.customScrollbar(this.divList);
-				}
+				this.templateHelper.customScrollbar(this.divList);
 			}
+			this.handleScrollbar()
 		});
 	}
 	public get scrollbar(): boolean {
@@ -1503,6 +1487,10 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 		this._receiveStateScrollTo = value;
 		this.setAttribute('receivestatescrollto', value);
 		// this.setScrollToContent();
+	}
+
+	public handleScrollbar() {
+		if (this.endless && this.scrollbar === true) { this.scrollbar = false; }
 	}
 
 	private setScrollToContent() {
@@ -2472,23 +2460,11 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 	}
 
 	/**
-	 * Handle the resize event for keypad to be redrawn if required
-	 */
-	private onWindowResizeHandler() {
-		if (this.endless) {
-			setTimeout(() => {
-				this.templateHelper.removeScrollbar();
-			}, 1);
-		}
-	}
-
-	/**
 	 * Called to bind proper listeners
 	 */
 	private initializeEvents() {
 		super.attachEventListeners();
 		this.eventManager.initializeEvents(this.divList);
-		window.addEventListener('resize', this.onWindowResizeHandler.bind(this));
 
 		this.info("Ch5 list - events");
 	}
@@ -2499,8 +2475,6 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 	private removeEvents() {
 		super.removeEventListeners();
 		this.eventManager.removeEvents(this.divList);
-
-		window.removeEventListener('resize', this.onWindowResizeHandler.bind(this));
 	}
 }
 
