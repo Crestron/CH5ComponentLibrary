@@ -503,12 +503,13 @@ export class Ch5Pressable {
 				if (distanceMoved > this.pressDelayMoveDistance) {
 					this._ch5Component.info(`Ch5Pressable._onTouchMove() cancelling press, ${touch.clientX}, ${touch.clientY}, ${touch.identifier}, ${distanceMoved}`);
 					this._touchStart = false;
+					this._fingerState.reset();
 					if (isIosDevice()) {
 						if (this._touchIos === true) {
+							this._touchIos = false;
 							this._onTouchEnd(inEvent);
 						}
 					}
-					this._fingerState.reset();
 				}
 			}
 		}
