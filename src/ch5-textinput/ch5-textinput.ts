@@ -681,8 +681,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * @param {string} value
 	 */
 	public set sendEventOnEnterKey(value: string) {
-		this._ch5Properties.set("sendEventOnEnterKey", value, null, (newValue: boolean) => {
-			this.handleSendEventOnEnterKey(value);
+		this._ch5Properties.set("sendEventOnEnterKey", value, null, () => {
 		});
 	}
 
@@ -701,8 +700,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * @param {string} value
 	 */
 	public set sendEventOnEscKey(value: string) {
-		this._ch5Properties.set("sendEventOnEscKey", value, null, (newValue: boolean) => {
-			this.handleSendEventOnEscKey(value);
+		this._ch5Properties.set("sendEventOnEscKey", value, null, () => {
 		});
 	}
 
@@ -713,32 +711,6 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 */
 	public get sendEventOnEscKey(): string {
 		return this._ch5Properties.get<string>('sendEventOnEscKey');
-	}
-
-	private handleSendEventOnEnterKey(value: string) {
-		// Enter your Code here
-		this.info('set <ch5-textinput sendEventOnEnterKey="' + value + '"');
-
-		if ('' === value
-			|| this.sendEventOnEnterKey === value
-			|| null === value
-			|| undefined === value) {
-			return;
-		}
-
-		this.setAttribute('sendEventOnEnterKey', value);
-	}
-	private handleSendEventOnEscKey(value: string) {
-		this.info('set <ch5-textinput sendEventOnEscKey="' + value + '"');
-
-		if ('' === value
-			|| this.sendEventOnEscKey === value
-			|| null === value
-			|| undefined === value) {
-			return;
-		}
-
-		this.setAttribute('sendEventOnEscKey', value);
 	}
 
 	/**
@@ -1840,17 +1812,20 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 				case 'sendeventonblur':
 					this.sendEventOnBlur = this.attributeChangeHandler('sendeventonblur', oldValue, newValue);
 					break;
-				case 'sendeventonenterkey':
-					this.sendEventOnEnterKey = this.attributeChangeHandler('sendeventonenterkey', oldValue, newValue);
-					break;
-				case 'sendeventonesckey':
-					this.sendEventOnEscKey = this.attributeChangeHandler('sendeventonesckey', oldValue, newValue);
-					break;
 				default:
 					break;
 			}
 
 			this._addAriaAttributes();
+		}
+
+		const attributeChangedProperty = Ch5TextInput.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
+		if (attributeChangedProperty) {
+			const thisRef: any = this;
+			const key = attributeChangedProperty.name;
+			thisRef[key] = newValue;
+		} else {
+			super.attributeChangedCallback(attr, oldValue, newValue);
 		}
 	}
 
