@@ -24,7 +24,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name size
    * @default 1
-   * @limits [{"min": 0, "max": 30}]
+   * @limits [{"min": 1, "max": 30}]
    * @attributeType "Integer"
    */
   size: number;
