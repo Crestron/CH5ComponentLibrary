@@ -1124,7 +1124,6 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
-
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true,
 		},
@@ -1135,7 +1134,6 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
-
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true,
 		},
