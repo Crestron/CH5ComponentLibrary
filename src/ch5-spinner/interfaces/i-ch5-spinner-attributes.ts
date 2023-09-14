@@ -20,7 +20,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "`size` attribute",
    * "***",
    * "The default value is 1. ",
-   * "The number of of items that can be in a spinner element. Its Min value is 1 and Max value is 30."
+   * "The number of items that can be in a spinner element. The minimum value is 1 and the maximum value is 30."
    * ]
    * @name size
    * @default 1
