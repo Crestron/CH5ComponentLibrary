@@ -1,51 +1,52 @@
+import { capitalize } from "lodash";
 const monthsAbbr = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec'
+  'jan',
+  'feb',
+  'mar',
+  'apr',
+  'may',
+  'jun',
+  'jul',
+  'aug',
+  'sep',
+  'oct',
+  'nov',
+  'dec'
 ];
 
 const monthsFull = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December'
+  'january',
+  'february',
+  'march',
+  'april',
+  'may',
+  'june',
+  'july',
+  'august',
+  'september',
+  'october',
+  'november',
+  'december'
 ];
 
 const daysAbbr = [
-  'Sun',
-  'Mon',
-  'Tue',
-  'Wed',
-  'Thu',
-  'Fri',
-  'Sat'
+  'sun',
+  'mon',
+  'tue',
+  'wed',
+  'thu',
+  'fri',
+  'sat'
 ];
 
 const daysFull = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday'
+  'sunday',
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday'
 ];
 
 const appendZeroForSingleDigit = (value: number) => {
@@ -83,6 +84,11 @@ export const toFormat = (date: Date, format: string) => {
   format = replaceDateContent(format, 'HH', appendZeroForSingleDigit(hours));
   format = replaceDateContent(format, 'H', hours);
   format = replaceDateContent(format, 'SS', appendZeroForSingleDigit(date.getSeconds()));
-  format = replaceDateContent(format, 'PP', (date.getHours() >= 12) ? 'PM' : 'AM');
+  /* convert the first letters of above returned data to capital. For Ex: january 02, 2023 will be January 02, 2023 */
+  format = format.split(' ')
+    .map(capitalize)
+    .join(' ');
+  /* since the first letters are capitals, use Pp format to add meridians. */
+  format = replaceDateContent(format, 'Pp', (date.getHours() >= 12) ? 'PM' : 'AM');
   return format;
 };
