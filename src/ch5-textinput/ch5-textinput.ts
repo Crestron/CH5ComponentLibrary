@@ -681,8 +681,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * @param {string} value
 	 */
 	public set sendEventOnEnterKey(value: string) {
-		this._ch5Properties.set("sendEventOnEnterKey", value, null, () => {
-		});
+		this._ch5Properties.set("sendEventOnEnterKey", value);
 	}
 
 	/**
@@ -700,8 +699,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * @param {string} value
 	 */
 	public set sendEventOnEscKey(value: string) {
-		this._ch5Properties.set("sendEventOnEscKey", value, null, () => {
-		});
+		this._ch5Properties.set("sendEventOnEscKey", value);
 	}
 
 	/**
@@ -1139,9 +1137,6 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 		},
 	];
 
-	private _ch5Properties: Ch5Properties;
-
-
 	/**
 	 * Contains the values of type attribute
 	 *
@@ -1228,6 +1223,8 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * @type {string}
 	 */
 	public static COMPONENT_CONTENT_POSTFIX: string = '__assets';
+
+	private _ch5Properties: Ch5Properties;
 
 	/**
 	 * Primary css class
