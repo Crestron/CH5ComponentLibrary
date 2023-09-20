@@ -67,7 +67,7 @@ module.exports = function () {
                         logLevel: 'info'
                     }
                 },
-                {
+                /* {
                     test: /\.ts$/,
                     enforce: 'pre',
                     loader: 'tslint-loader',
@@ -75,7 +75,7 @@ module.exports = function () {
                         configFile: path.resolve(basePath, 'tslint.json'),
                         tsConfigFile: path.resolve(basePath, tsConfigFileName)
                     }
-                }
+                } */
             ]
         },
         plugins: [
