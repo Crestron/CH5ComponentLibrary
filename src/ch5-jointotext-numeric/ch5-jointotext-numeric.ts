@@ -249,7 +249,7 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 	public static get observedAttributes(): string[] {
 		const inheritedObsAttrs = Ch5Common.observedAttributes;
 		const newObsAttrs = [
-			'receiveStateValue',
+			'receivestatevalue',
 			'value',
 			'type',
 			'length',
