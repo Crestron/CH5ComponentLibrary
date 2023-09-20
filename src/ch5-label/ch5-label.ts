@@ -9,15 +9,12 @@ export class Ch5Label extends Ch5Common implements ICh5LabelAttributes {
 
 	//#region Variables
 
-
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestatelabel: { direction: "state", stringJoin: 1, contractName: true },
-
+		receivestatelabel: { direction: "state", stringJoin: 1, contractName: true }
 	};
 
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
-
 		{
 			default: "",
 			name: "label",
@@ -25,8 +22,7 @@ export class Ch5Label extends Ch5Common implements ICh5LabelAttributes {
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
-
+			isObservableProperty: true
 		},
 		{
 			default: "",
@@ -35,10 +31,17 @@ export class Ch5Label extends Ch5Common implements ICh5LabelAttributes {
 			signalType: "string",
 			removeAttributeOnNull: true,
 			type: "string",
-
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true,
 		},
+		{
+			default: "",
+			name: "labelInnerHTML",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		}
 	];
 
 	public static readonly ELEMENT_NAME = 'ch5-label';
@@ -55,19 +58,27 @@ export class Ch5Label extends Ch5Common implements ICh5LabelAttributes {
 
 	//#region Getters and Setters
 
-
 	public set label(value: string) {
 		this._ch5Properties.set<string>("label", value, () => {
 			this.handleLabel();
 		});
-		if (this.label) {
-			this.classList.add("ch5-slider-title");
-		} else {
-			this.classList.remove("ch5-slider-title");
-		}
+		// if (this.label) {
+		// 	this.classList.add("ch5-slider-title");
+		// } else {
+		// 	this.classList.remove("ch5-slider-title");
+		// }
 	}
 	public get label(): string {
 		return this._ch5Properties.get<string>("label");
+	}
+
+	public set labelInnerHTML(value: string) {
+		this._ch5Properties.set<string>("labelInnerHTML", value, () => {
+			this.handleLabel();
+		});
+	}
+	public get labelInnerHTML(): string {
+		return this._ch5Properties.get<string>("labelInnerHTML");
 	}
 
 	public set receiveStateLabel(value: string) {
@@ -81,7 +92,6 @@ export class Ch5Label extends Ch5Common implements ICh5LabelAttributes {
 	public get receiveStateLabel(): string {
 		return this._ch5Properties.get<string>('receiveStateLabel');
 	}
-
 
 	//#endregion
 
@@ -203,12 +213,10 @@ export class Ch5Label extends Ch5Common implements ICh5LabelAttributes {
 
 	protected attachEventListeners() {
 		super.attachEventListeners();
-
 	}
 
 	protected removeEventListeners() {
 		super.removeEventListeners();
-
 	}
 
 	protected unsubscribeFromSignals() {
@@ -226,15 +234,17 @@ export class Ch5Label extends Ch5Common implements ICh5LabelAttributes {
 		});
 	}
 
-
 	protected handleLabel() {
 		if (!(this.templateElement instanceof HTMLTemplateElement)) {
 			this.templateElement = this.getElementsByTagName('template')[0] as HTMLTemplateElement;
 		}
 		Array.from(this._elContainer.children).forEach(container => container.remove());
+
 		this._elContainer.innerText = '';
 		if (this.receiveStateLabel !== null && this.receiveStateLabel.trim() !== "") {
 			this._elContainer.innerText = this.label;
+		} else if (Ch5Common.isNotNil(this.labelInnerHTML)) {
+			this._elContainer.innerHTML = this.decodeInnerHTMLForAttribute(this.labelInnerHTML);
 		} else if (this.templateElement instanceof HTMLTemplateElement) {
 			const documentContainer: HTMLTemplateElement = document.createElement('template');
 			documentContainer.innerHTML = this.templateElement.innerHTML;
@@ -242,6 +252,14 @@ export class Ch5Label extends Ch5Common implements ICh5LabelAttributes {
 		} else {
 			this._elContainer.innerText = this.label;
 		}
+	}
+
+	private decodeInnerHTMLForAttribute(innerHTML: string) {
+		return innerHTML.replace('&amp;', "&")
+			.replace('&lt;', "<")
+			.replace('&gt;', ">")
+			.replace('&quot;', '/"')
+			.replace("&apos;", "/'");
 	}
 
 	protected updateCssClass() {

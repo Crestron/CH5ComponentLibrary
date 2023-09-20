@@ -1,4 +1,3 @@
-import { ICh5SliderButtonLabelAttributes } from "./i-ch5-slider-button-label-attributes";
 
 /**
  * @name Ch5 slider button label
@@ -19,7 +18,7 @@ import { ICh5SliderButtonLabelAttributes } from "./i-ch5-slider-button-label-att
  * [
  *   "`ch5-slider-button-label` element",
  *   "***",
- *   "Ch5 Slider Button Label tag provide the ability to set label of the on/off buttons of the advance slider."
+ *   ""
  * ]
  * @snippets
  * [
@@ -33,27 +32,9 @@ import { ICh5SliderButtonLabelAttributes } from "./i-ch5-slider-button-label-att
  *       "\t</template>",
  *       "</ch5-slider-button-label>$0"
  *     ]
- *   },
- *   {
- *     "prefix": "ch5-slider-button-label:all-attributes",
- *     "description": "Crestron slider button label (All Attributes)",
- *     "body": [
- *       "<ch5-slider-button-label id=\"ch5-slider-button-label_${1:id}\"",
- *       "\tlabel=\"${2:}\"",
- *       "\treceiveStateLabel=\"${3:}\">",
- *       "</ch5-slider-button-label>$0"
- *       ]
- *    },
- *    {
- *      "prefix": "ch5-slider-button-label:default",
- *      "description": "Crestron slider button label (Default)",
- *      "body": [
- *        "<ch5-slider-button-label label=\"${1:}\">",
- *        "</ch5-slider-button-label>$0"
- *      ]
- *    }
+ *   }
  *  ]
  */
-export interface ICh5SliderButtonLabelDocumentation extends ICh5SliderButtonLabelAttributes {
+export interface ICh5SliderButtonLabelDocumentation  {
 
 }

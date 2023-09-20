@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import 'hammerjs';
 import { Subject } from 'rxjs';
 import _ from 'lodash';
+import { isIosDevice } from '../ch5-core';
 
 export interface ICh5PressableOptions {
 	cssTargetElement: HTMLElement;
@@ -97,6 +98,11 @@ export class Ch5Pressable {
 	 * Reflects the touchend state of the component.
 	 */
 	private _touchEnd: boolean = false;
+
+	/**
+	 * Reflects the touch of IOS.
+	 */
+	private _touchIos: boolean = false;
 
 	/**
 	 * Reflects the pressed state of the component
@@ -448,12 +454,18 @@ export class Ch5Pressable {
 			}
 			this._fingerState.reset();
 		}
-
 	}
 
 	private _onTouchStart(inEvent: Event): void {
 		if (this.isMouse) {
 			return;
+		}
+
+		if (isIosDevice()) {
+			if (this._touchIos === true) {
+				return;
+			}
+			this._touchIos = true;
 		}
 
 		this.isTouch = true;
@@ -492,6 +504,12 @@ export class Ch5Pressable {
 					this._ch5Component.info(`Ch5Pressable._onTouchMove() cancelling press, ${touch.clientX}, ${touch.clientY}, ${touch.identifier}, ${distanceMoved}`);
 					this._touchStart = false;
 					this._fingerState.reset();
+					if (isIosDevice()) {
+						if (this._touchIos === true) {
+							this._touchIos = false;
+							this._onTouchEnd(inEvent);
+						}
+					}
 				}
 			}
 		}
@@ -555,7 +573,6 @@ export class Ch5Pressable {
 	 */
 	private _onHold() {
 		this._ch5Component.info(`Ch5Pressable._onHold() alreadyPressed:${this._pressed}`);
-
 		if (!this._pressed) {
 			// add the visual feedback
 			this._addCssPressClass();
@@ -600,6 +617,12 @@ export class Ch5Pressable {
 			// console.log("On release value of delay time", this.pressDelayTime);
 			setTimeout(() => {
 				this._removeCssPressClass();
+				if (isIosDevice()) {
+					setTimeout(() => {
+						this._touchIos = false;
+					}, 300);
+				}
+
 			}, this.pressDelayTime);
 
 			// update state of the button and tell the button the state

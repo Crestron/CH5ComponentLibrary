@@ -41,7 +41,7 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *           "<ch5-spinner",
  *           "    label=\"${1:item {{idx}}}\"",
  *           "    indexid=\"${2:idx}\"",
- *           "    size=\"${3:40}\"",
+ *           "    size=\"${3:1}\"",
  *           "    itemheight=\"${4:40}\"",
  *           "    visibleitemscroll=\"${5:3}\"",
  *           "    sendeventonchange=\"${6:changed_signal}\">",

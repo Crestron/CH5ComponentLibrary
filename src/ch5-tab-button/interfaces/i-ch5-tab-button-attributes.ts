@@ -1,5 +1,8 @@
 import { TCh5TabButtonAttributesOrientation } from '../interfaces/t-ch5-tab-button';
-import { TCh5TabButtonButtonType, TCh5TabButtonButtonHAlignLabel, TCh5TabButtonButtonVAlignLabel, TCh5TabButtonButtonIconPosition, TCh5TabButtonButtonShape } from '../../ch5-tab-button/interfaces/t-ch5-tab-button';
+import {
+  TCh5TabButtonButtonType, TCh5TabButtonButtonHAlignLabel, TCh5TabButtonButtonVAlignLabel, TCh5TabButtonButtonIconPosition,
+  TCh5TabButtonButtonShape, TCh5TabButtonButtonIconUrlFillType
+} from '../../ch5-tab-button/interfaces/t-ch5-tab-button';
 import { ICh5TabButtonCommonAttributes } from '../../ch5-common/interfaces/i-ch5-tab-button-attributes';
 /**
  * @ignore
@@ -325,4 +328,40 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * @attributeType "Boolean"
    */
   useContractForCustomClass: boolean;
+  /**
+   * @documentation
+   * [
+   * "`buttonIconUrlFillType` attribute",
+   * "***",
+   * "Sets the icon url fill type for all the buttons. Default value is 'null'. Applicable values are 'null', 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'. Uses the css property background-size for the implementation."
+   * ]
+   * @name buttoniconurlfilltype
+   * @default null
+   * @attributeType "EnumeratedValue"
+   */
+  buttonIconUrlFillType: TCh5TabButtonButtonIconUrlFillType | null;
+  /**
+   * @documentation
+   * [
+   * "`receiveStateSelectedButton` attribute",
+   * "***",
+   * "ReceiveStateSelectedButton attribute helps the user to select an item on tab button by using an analog join."
+   * ]
+   * @name receivestateselectedbutton
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+   * @attributeType "Join"
+   */
+  receiveStateSelectedButton: string;
+  /**
+   * @documentation
+   * [
+   * "`useContractForEachButtonSelection` attribute",
+   * "***",
+   * "The default value is false. If the value is true then the selected state of the buttons is taken from the contractName.TabSelected else from contractName.Tab[X]_Selected."
+   * ]
+   * @name usecontractforeachbuttonselection
+   * @default false
+   * @attributeType "Boolean"
+   */
+  useContractForEachButtonSelection: boolean;
 }

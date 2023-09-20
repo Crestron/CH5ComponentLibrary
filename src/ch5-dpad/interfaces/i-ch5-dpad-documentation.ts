@@ -13,7 +13,7 @@ import { ICh5DpadAttributes } from "./index";
  * @isattribute false
  * @tagName ch5-dpad
  * @role container
- * @description Ch5 Dpad offers a control set of 5 buttons
+ * @description Ch5 Dpad offers a control set of 5 buttons.
  * @componentVersion 1.0.0
  * @childElements
  * [

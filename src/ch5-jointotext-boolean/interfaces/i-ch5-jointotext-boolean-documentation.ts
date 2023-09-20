@@ -7,13 +7,17 @@ import { ICh5JoinToTextBooleanAttributes } from "./i-ch5-jointotext-boolean-attr
  * @isattribute false
  * @tagName ch5-jointotext-boolean
  * @role presentation
- * @description Ch5 JoinToText Boolean
- * @componentVersion 1.0.0
+ * @description The component provides a response of a digital join. This component can be used to show different values for true and false digital signal responses.
+ * @componentVersion 2.0.0
  * @documentation
  * [
  * "`ch5-jointotext-boolean` element",
  * "***",
- * ""
+ * "This component provides attributes like - ",
+ * "value (this attribute is not expected to be used outside of diagnostic purposes.  This attribute should not be used or honored when receiveStateValue attribute is provided),  ",
+ * "receiveStateValue (expected value is boolean/digital join number or contract state signal name. When not provided, the tag will evaluate to empty string), ",
+ * "textWhenTrue (expected value is the text to be displayed when the boolean join evaluates to true. If not provided and the boolean join evaluates to true, the component 'textContent' will evaluate to empty string), ",
+ * "textWhenFalse (expected value is the text to be displayed when the boolean value evaluates to false. If not provided and the boolean join evaluates to false, the component 'textContent' will evaluate to empty string)."
  * ]
  * @snippets
  * [

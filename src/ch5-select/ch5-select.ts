@@ -40,7 +40,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 
 		sendeventonfocus: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
-		contractname: {contractName: true},
+		contractname: { contractName: true },
 		booleanjoinoffset: { booleanJoin: 1 },
 		numericjoinoffset: { numericJoin: 1 },
 		stringjoinoffset: { stringJoin: 1 }
@@ -719,7 +719,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 		if (this.multiselect) {
 			this.selectedValues = this.selectedValues;
 		}
-		
+
 		if (this.hasAttribute('size')) {
 			this.size = this.getAttribute('size') as string;
 		}
@@ -848,7 +848,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 	}
 
 	// Handle size based on template vars, see showcase example
-	public get size() {
+	public get size(): number {
 		if (this.hasTemplateVars() && this.templateVarsData.length > this._size) {
 			return this._size;
 		} else if (this.hasTemplateVars()) {
@@ -1277,9 +1277,9 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 		}
 
 		// update templateContent attributes to increment join numbers and prefix contract name
-		Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(this, this.getAttribute("contractname") || '', 
-			parseInt(this.getAttribute("booleanjoinoffset") || '0', 10) || 0, 
-			parseInt(this.getAttribute("numericJoinOffset") || '0', 10) || 0, 
+		Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(this, this.getAttribute("contractname") || '',
+			parseInt(this.getAttribute("booleanjoinoffset") || '0', 10) || 0,
+			parseInt(this.getAttribute("numericJoinOffset") || '0', 10) || 0,
 			parseInt(this.getAttribute("stringJoinOffset") || '0', 10) || 0);
 	}
 

@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-text-receiveStateLabel-attributes">
+    <template>
+      <ch5-text receiveStateLabel="trigger_event_listener"></ch5-text>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-text-receiveStateLabel-attributes-value', () => {
+      let ch5Text;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatelabel.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Text = fixture('ch5-text-receiveStateLabel-attributes');
+      });
+
+      test('receiveStateLabel', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Text.getAttribute('label')).to.be.equal('String Signal');
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

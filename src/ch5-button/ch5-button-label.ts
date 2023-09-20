@@ -24,7 +24,7 @@ export class Ch5ButtonLabel extends Ch5Log implements ICh5ButtonLabelAttributes 
 
 	public static registerSignalAttributeTypes() {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5ButtonLabel.ELEMENT_NAME, {
-			contractname: {contractName: true},
+			contractname: { contractName: true },
 			booleanjoinoffset: { booleanJoin: 1 },
 			numericjoinoffset: { numericJoin: 1 },
 			stringjoinoffset: { stringJoin: 1 },

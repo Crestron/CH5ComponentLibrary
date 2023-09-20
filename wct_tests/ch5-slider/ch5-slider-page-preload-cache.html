@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<script src="/webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="/bower_components/web-component-tester/browser.js"></script>
+	<link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+	<script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+	<test-fixture id="ch5-slider-preload-cache-page0">
+		<template>
+			<div data-ch5-noshow-type="remove" data-ch5-show="trigger_event_listener_0">
+				<ch5-slider id="slider-obj-0" handleSize="x-large"></ch5-slider>
+			</div>
+		</template>
+	</test-fixture>
+
+	<test-fixture id="ch5-slider-preload-cache-page1">
+		<template>
+			<div data-ch5-noshow-type="visibility" data-ch5-show="trigger_event_listener_1">
+				<ch5-slider id="slider-obj-1" handleSize="x-large"></ch5-slider>
+			</div>
+		</template>
+	</test-fixture>
+
+	<test-fixture id="ch5-slider-preload-cache-page2">
+		<template>
+			<div data-ch5-noshow-type="display" data-ch5-show="trigger_event_listener_2">
+				<ch5-slider id="slider-obj-2" handleSize="x-large"></ch5-slider>
+			</div>
+		</template>
+	</test-fixture>
+	<script>
+
+		const changeBooleanValues = [true, false];
+
+		suite('ch5-slider-preload-cache-page-noshowtype-remove', () => {
+			let ch5Slider;
+
+			setup(async () => {
+				const emulatorJson = await fetch('./emulator/preloadcachepage.json').then((response) => response.json());
+				const emulator = CrComLib.Ch5Emulator.getInstance();
+				emulator.loadScenario(emulatorJson);
+				ch5Slider = fixture('ch5-slider-preload-cache-page0');
+				return Promise.all([
+					customElements.whenDefined('ch5-slider'),
+				]).then(_ => {
+					// wait for element to be defined
+				});
+			});
+
+			for (let i = 0; i < 4; i++) {
+				changeBooleanValues.forEach((boolValue, index) => {
+					test(`Check preload cache value "${boolValue}" for iteration ${i}`, (done) => {
+						CrComLib.publishEvent('b', 'trigger_event_0', boolValue);
+						if (boolValue === true) {
+							flush(() => {
+								setTimeout(() => {
+									let ch5SliderComponent = document.getElementById('slider-obj-0');
+									expect(ch5SliderComponent.getAttribute('handleSize')).to.be.equal('x-large');
+									done();
+								}, 100);
+							});
+						} else {
+							flush(() => {
+								setTimeout(() => {
+									let ch5SliderComponent = document.getElementById('slider-obj-0');
+									expect(ch5SliderComponent).to.be.null;
+									done();
+								}, 100);
+							});
+						}
+					});
+				});
+			}
+		});
+
+		suite('ch5-slider-preload-cache-page-noshowtype-visibility', () => {
+			let ch5Slider;
+
+			setup(async () => {
+				const emulatorJson = await fetch('./emulator/preloadcachepage.json').then((response) => response.json());
+				const emulator = CrComLib.Ch5Emulator.getInstance();
+				emulator.loadScenario(emulatorJson);
+				ch5Slider = fixture('ch5-slider-preload-cache-page1');
+				return Promise.all([
+					customElements.whenDefined('ch5-slider'),
+				]).then(_ => {
+					// wait for element to be defined
+				});
+			});
+
+			for (let i = 0; i < 4; i++) {
+				changeBooleanValues.forEach((boolValue, index) => {
+					test(`Check preload cache value "${boolValue}" for iteration ${i}`, (done) => {
+						CrComLib.publishEvent('b', 'trigger_event_1', boolValue);
+						flush(() => {
+							setTimeout(() => {
+								let ch5SliderComponent = document.getElementById('slider-obj-1');
+								expect(ch5SliderComponent.getAttribute('handleSize')).to.be.equal('x-large');
+								done();
+							}, 100);
+						});
+					});
+				});
+			}
+
+		});
+
+		suite('ch5-slider-preload-cache-page-noshowtype-display', () => {
+			let ch5Slider;
+
+			setup(async () => {
+				ch5Slider = fixture('ch5-slider-preload-cache-page2');
+				return Promise.all([
+					customElements.whenDefined('ch5-slider'),
+				]).then(_ => {
+					// wait for element to be defined
+				});
+				const emulatorJson = await fetch('./emulator/preloadcachepage.json').then((response) => response.json());
+				const emulator = CrComLib.Ch5Emulator.getInstance();
+				emulator.loadScenario(emulatorJson);
+			});
+
+			for (let i = 0; i < 4; i++) {
+				changeBooleanValues.forEach((boolValue, index) => {
+					test(`Check preload cache value "${boolValue}" for iteration ${i}`, (done) => {
+						CrComLib.publishEvent('b', 'trigger_event_2', boolValue);
+						flush(() => {
+							setTimeout(() => {
+								let ch5SliderComponent = document.getElementById('slider-obj-2');
+								expect(ch5SliderComponent.getAttribute('handleSize')).to.be.equal('x-large');
+								done();
+							}, 100);
+						});
+					});
+				});
+			}
+
+		});
+	</script>
+</body>
+
+</html>

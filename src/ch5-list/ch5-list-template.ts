@@ -827,6 +827,10 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
 	 */
 	private createScrollbar(): void {
 
+		if (!this._list.scrollbar) {
+			return;
+		}
+
 		if (this._scrollbarElement instanceof HTMLElement) {
 			this.removeScrollbar();
 		}

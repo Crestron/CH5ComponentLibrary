@@ -92,6 +92,23 @@
         expect(ch5ButtonList.getAttribute("buttonShape")).to.be.equal('rectangle');
       });
 
+      test('Check hide scrollbar for endless', () => {
+        expect(ch5ButtonList.getAttribute("endless")).to.be.equal(null);
+        ch5ButtonList.setAttribute('endless', 'true');
+        expect(ch5ButtonList.getAttribute("endless")).to.be.equal('true');
+        expect(ch5ButtonList.children[1].classList.contains('scrollbar-container')).to.be.equal(true);
+      });
+
+      test('Check hide scrollbar for endless with scrollbar attribute true', () => {
+        expect(ch5ButtonList.getAttribute("endless")).to.be.equal(null);
+        expect(ch5ButtonList.getAttribute("scrollbar")).to.be.equal(null);
+        ch5ButtonList.setAttribute('endless', 'true');
+        ch5ButtonList.setAttribute('scrollbar', 'true');
+        expect(ch5ButtonList.getAttribute("endless")).to.be.equal('true');
+        expect(ch5ButtonList.getAttribute("scrollbar")).to.be.equal('false');
+        expect(ch5ButtonList.children[1].classList.contains('scrollbar-container')).to.be.equal(true);
+      });
+
       test('Check signal types', () => {
         for (signal in signalTypes) {
           if (signal.includes("sendevent")) {

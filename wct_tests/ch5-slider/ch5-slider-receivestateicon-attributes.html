@@ -49,7 +49,7 @@
         CrComLib.publishEvent('b', 'trigger_event_1', true);
         flush(()=>{
           setTimeout(()=>{
-            const sliderButton = ch5Slider.getElementsByTagName('ch5-slider-button')[0];
+            const sliderButton = ch5Slider.getElementsByTagName('ch5-slider-button')[1];
             expect(sliderButton.iconClass).to.be.equal('fas fa-user');
             done();
           }, 100);
@@ -75,7 +75,7 @@
         CrComLib.publishEvent('b', 'trigger_event_2', true);
         flush(()=>{
           setTimeout(()=>{
-            const sliderButton = ch5Slider.getElementsByTagName('ch5-slider-button')[0];
+            const sliderButton = ch5Slider.getElementsByTagName('ch5-slider-button')[1];
             expect(sliderButton.iconUrl).to.be.equal('https://img.icons8.com/material/24/000000/search.png');
             done();
           }, 100);

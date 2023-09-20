@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-adv-slider-stretch-attribute-fixture">
+    <template>
+      <ch5-slider>
+        <ch5-slider-button id="on" key="off" hAlignLabel="center" vAlignLabel="middle" label="on"></ch5-slider-button>
+        <ch5-slider-button id="off" key="on" hAlignLabel="left" vAlignLabel="middle" label="off"></ch5-slider-button>
+      </ch5-slider>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('Check Stretch and Orientation', () => {
+      let ch5Slider;
+      setup(async () => {
+        ch5Slider = fixture('ch5-adv-slider-stretch-attribute-fixture');
+        return Promise.all([
+          customElements.whenDefined('ch5-slider'),
+        ]).then(_ => {
+          // wait for element to be defined
+        });
+      });
+
+      const stretch = ['both', 'width', 'height'];
+      const orientation = ['horizontal', 'vertical'];
+
+      stretch.forEach((stretchVal, i) => {
+        orientation.forEach((orientationVal, i) => {
+          suite(`stretch - ${stretchVal} and orientation - ${orientationVal}`, () => {
+            test(`should have class ch5-slider--stretch--${stretchVal} and ch5-slider--orientation--${orientationVal} respectively`, (done) => {
+              ch5Slider.setAttribute('stretch', stretchVal);
+              ch5Slider.setAttribute('orientation', orientationVal);
+              flush(() => {
+                setTimeout(() => {
+                  const element = document.querySelector('.ch5-slider')
+                  expect(element.classList.contains(`ch5-slider--stretch--${stretchVal}`)).to.be.equal(true);
+                  expect(element.classList.contains(`ch5-slider--orientation--${orientationVal}`)).to.be.equal(true);
+                  done();
+                }, 100);
+              });
+            });
+          });
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

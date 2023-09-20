@@ -36,7 +36,7 @@ export class Ch5SliderTitleLabel extends Ch5Label implements ICh5SliderTitleLabe
 	}
 
 	public static get observedAttributes(): string[] {
-		const inheritedObsAttrs = super.observedAttributes;
+		const inheritedObsAttrs = Ch5Label.observedAttributes;
 		const newObsAttrs: string[] = [];
 		for (let i: number = 0; i < Ch5SliderTitleLabel.COMPONENT_PROPERTIES.length; i++) {
 			if (Ch5SliderTitleLabel.COMPONENT_PROPERTIES[i].isObservableProperty === true) {

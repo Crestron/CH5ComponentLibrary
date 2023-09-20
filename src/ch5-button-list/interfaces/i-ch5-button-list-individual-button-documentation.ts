@@ -5,7 +5,7 @@ import { ICh5ButtonListIndividualButtonAttributes } from "./i-ch5-button-list-in
  * @isattribute false
  * @tagName ch5-button-list-individual-button
  * @role template
- * @description Ch5 Button List Individual Button tag to provide ability to enter individual button labels and individual icons for each button in the list 
+ * @description A child element designed to handle individual buttons for Ch5 Button list component
  * @componentVersion 2.3.0
  * @childElements
  * [

@@ -1,11 +1,10 @@
-import { ICh5SliderButtonLabelAttributes } from './interfaces/i-ch5-slider-button-label-attributes';
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Label } from "../ch5-label";
 import _ from "lodash";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SliderButton } from "./ch5-slider-button";
 
-export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLabelAttributes {
+export class Ch5SliderButtonLabel extends Ch5Label {
 
 	//#region Variables
 
@@ -16,32 +15,32 @@ export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLa
 	private _parentCh5Slider: Ch5SliderButton;
 
 	private debounceCreateBtnLabel = this.debounce(() => {
-		if (this._parentCh5Slider.setValues) {
-			this._parentCh5Slider.setValues("label", this.getTargetElementForCssClassesAndStyle());
+		if (_.isNil(this._parentCh5Slider)) {
+			this._parentCh5Slider = this.getParentButton();
 		}
+		this._parentCh5Slider.setValues(); // this.getTargetElementForCssClassesAndStyle());
+		// if (this._parentCh5Slider.setValues) {
+		// 	this._parentCh5Slider.setValues("label", this.getTargetElementForCssClassesAndStyle());
+		// }
 	}, 50);
 
 	//#endregion
-
 
 	//#region Component Lifecycle
 
 	public constructor(public parent?: Ch5SliderButton) {
 		super("Ch5-slider-button");
-		this.ignoreAttributes = ["disabled", "debug", "show", "customclass", "customstyle", "noshowtype", "receivestatecustomclass", "receivestatecustomstyle", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "receivestateenable", "sendeventonshow", "gestureable", "dir", "appendclasswheninviewport"];
+		this.ignoreAttributes = ["disabled", "debug", "show", "customclass", "customstyle", "noshowtype", "receivestatecustomclass", "receivestatecustomstyle", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "receivestateenable", "sendeventonshow", "gestureable", "dir", "appendclasswheninviewport", 'label', 'receivestatelabel'];
 		this.logger.start('constructor()', Ch5SliderButtonLabel.ELEMENT_NAME);
 		if (!_.isNil(parent)) {
 			this._parentCh5Slider = parent;
-			this.createInternalHtml();
-			this.initAttributes();
-			this.updateCssClass();
 		} else {
 			this._parentCh5Slider = this.getParentButton();
 		}
 	}
 
 	public static get observedAttributes(): string[] {
-		const inheritedObsAttrs = super.observedAttributes;
+		const inheritedObsAttrs = Ch5Label.observedAttributes;
 		const newObsAttrs: string[] = [];
 		for (let i: number = 0; i < Ch5SliderButtonLabel.COMPONENT_PROPERTIES.length; i++) {
 			if (Ch5SliderButtonLabel.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
@@ -76,6 +75,9 @@ export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLa
 		this.setAttribute('role', Ch5RoleAttributeMapping.ch5SliderButton);
 		this.setAttribute('data-ch5-id', this.getCrId());
 		super.connectedCallback();
+		this.createInternalHtml();
+		this.initAttributes();
+		this.updateCssClass();
 		this.logger.stop();
 	}
 
@@ -140,15 +142,15 @@ export class Ch5SliderButtonLabel extends Ch5Label implements ICh5SliderButtonLa
 	}
 
 	protected handleLabel() {
-		if (!this._parentCh5Slider.receiveStateLabel) {
-			super.handleLabel();
-			if (this.receiveStateLabel) {
-				this._parentCh5Slider.label = this.labelRec;
-				if (this.labelRec === "") {
-					this.getTargetElementForCssClassesAndStyle().innerText = "";
-				}
-			}
-		}
+		// // if (!this._parentCh5Slider && !this._parentCh5Slider.receiveStateLabel) {
+		// // 	super.handleLabel();
+		// // 	if (this.receiveStateLabel) {
+		// // 		this._parentCh5Slider.label = this.labelRec;
+		// // 		if (this.labelRec === "") {
+		// // 			this.getTargetElementForCssClassesAndStyle().innerText = "";
+		// // 		}
+		// // 	}
+		// }
 
 	}
 

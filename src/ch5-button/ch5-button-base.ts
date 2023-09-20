@@ -40,7 +40,6 @@ import _ from "lodash";
 import { Ch5ButtonMode } from "./ch5-button-mode";
 import { Ch5ButtonModeState } from "./ch5-button-mode-state";
 import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
-import { setTimeout } from "timers";
 import { resizeObserver } from "../ch5-core/resize-observer";
 
 /**
@@ -2357,7 +2356,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 	}
 
-	private encodeInnerHTMLForAttribute(innerHTML: string) {
+	protected encodeInnerHTMLForAttribute(innerHTML: string) {
 		return innerHTML.replace(/&/g, '&amp;')
 			.replace(/</g, '&lt;')
 			.replace(/>/g, '&gt;')
@@ -2365,7 +2364,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			.replace(/'/g, '&apos;');
 	}
 
-	private decodeInnerHTMLForAttribute(innerHTML: string) {
+	protected decodeInnerHTMLForAttribute(innerHTML: string) {
 		return innerHTML.replace('&amp;', "&")
 			.replace('&lt;', "<")
 			.replace('&gt;', ">")
@@ -2373,7 +2372,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			.replace("&apos;", "/'");
 	}
 
-	private setButtonDisplayDetails(): void {
+	protected setButtonDisplayDetails(parentComponent:string = "ch5-button"): void {
 		this.logger.start("setButtonDisplayDetails");
 		this.DEBOUNCE_BUTTON_DISPLAY = 0;
 		// Applicable on Mode change and Selected change
@@ -2572,9 +2571,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			extendedProperties.iconUrlFillType = this.getAttribute("iconurlfilltype") as TCh5ButtonIconUrlFillType | null;
 		}
 		if (isNil(extendedProperties.labelHtml) && isNil(extendedProperties.label)) {
-			const templateData = this.getElementsByTagName("ch5-button-label");
+			const templateData = this.getElementsByTagName(parentComponent + "-label");
 			if (templateData && templateData.length > 0) {
-				const checkDirectSelectedButtonModeLabelButton = Array.prototype.slice.call(templateData).filter((x: { parentNode: { nodeName: { toString: () => string; }; }; }) => x.parentNode.nodeName.toString().toLowerCase() === "ch5-button");
+				const checkDirectSelectedButtonModeLabelButton = Array.prototype.slice.call(templateData).filter((x: { parentNode: { nodeName: { toString: () => string; }; }; }) => x.parentNode.nodeName.toString().toLowerCase() === parentComponent);
 				if (checkDirectSelectedButtonModeLabelButton && checkDirectSelectedButtonModeLabelButton.length > 0 && !isNil(checkDirectSelectedButtonModeLabelButton[0].children[0])) {
 					if (checkDirectSelectedButtonModeLabelButton && checkDirectSelectedButtonModeLabelButton.length > 0 && checkDirectSelectedButtonModeLabelButton[0].children) {
 						extendedProperties.labelHtml = checkDirectSelectedButtonModeLabelButton[0].children[0].innerHTML as string;
