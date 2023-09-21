@@ -26,7 +26,6 @@ export interface ICh5JoinToTextBooleanAttributes extends ICh5CommonAttributes {
    * "Defines an text that will be displayed on value=true for the ch5-jointotext-boolean."
    * ]
    * @name textwhentrue
-   * @default ""
    * @attributeType "String"
    */
   textWhenTrue: string;
@@ -39,7 +38,6 @@ export interface ICh5JoinToTextBooleanAttributes extends ICh5CommonAttributes {
    * "Defines an text that will be displayed on value=false for the ch5-jointotext-boolean."
    * ]
    * @name textwhenfalse
-   * @default ""
    * @attributeType "String"
    */
   textWhenFalse: string;
@@ -52,7 +50,6 @@ export interface ICh5JoinToTextBooleanAttributes extends ICh5CommonAttributes {
    * "Defines the receivestatevalue state name."
    * ]
    * @name receivestatevalue
-   * @default ""
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    * @attributeType "Join"
    */
