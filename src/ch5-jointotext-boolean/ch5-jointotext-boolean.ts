@@ -1,8 +1,8 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { isNil } from 'lodash';
-import { Ch5Signal, Ch5SignalFactory } from "..";
 import { ICh5JoinToTextBooleanAttributes } from "./interfaces";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { Ch5Properties } from "../ch5-core/ch5-properties";
+import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 
 export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBooleanAttributes {
 
@@ -13,100 +13,87 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
 		receivestatevalue: { direction: "state", booleanJoin: 1, contractName: true }
 	};
 
+	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
+		{
+			default: false,
+			name: "value",
+			nameForSignal: "receiveStateValue",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			name: "textWhenTrue",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			name: "textWhenFalse",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "receiveStateValue",
+			signalType: "boolean",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+	];
+
 	public static readonly ELEMENT_NAME = 'ch5-jointotext-boolean';
 
-	private _value: boolean = false;
-	private _textWhenTrue: string = '';
-	private _textWhenFalse: string = '';
-	private _receiveStateValue: string = '';
-	private _subReceiveStateValue: string = '';
+	private _ch5Properties: Ch5Properties;
 
 	//#endregion
 
 	//#region Setters and Getters
 
 	public set value(value: boolean) {
-		if (value !== this.value) {
-			if (isNil(value)) {
-				value = false;
-			}
-			this._value = value;
-			this.setAttribute('value', value + '');
+		this._ch5Properties.set<boolean>("value", value, () => {
 			this.toggleText();
-		}
+		});
 	}
-
 	public get value(): boolean {
-		return this._value;
+		return this._ch5Properties.get<boolean>("value");
 	}
-
 	public set textWhenTrue(value: string) {
-		if (value !== this._textWhenTrue) {
-			if (isNil(value)) {
-				value = '';
-			}
-			this._textWhenTrue = value;
-			this.setAttribute('textWhenTrue', value);
+		this._ch5Properties.set<string>("textWhenTrue", value, () => {
 			this.toggleText();
-		}
+		});
 	}
-
 	public get textWhenTrue(): string {
-		return this._textWhenTrue;
+		return this._ch5Properties.get<string>("textWhenTrue");
 	}
 
 	public set textWhenFalse(value: string) {
-		if (value !== this._textWhenFalse) {
-			if (isNil(value)) {
-				value = '';
-			}
-			this._textWhenFalse = value;
-			this.setAttribute('textWhenFalse', value);
+		this._ch5Properties.set<string>("textWhenFalse", value, () => {
 			this.toggleText();
-		}
+		});
 	}
-
 	public get textWhenFalse(): string {
-		return this._textWhenFalse;
+		return this._ch5Properties.get<string>("textWhenFalse");
 	}
 
 	public set receiveStateValue(value: string) {
-		if (isNil(value)) {
-			return;
-		}
-
-		if (this.receiveStateValue !== ''
-			&& this.receiveStateValue !== undefined
-			&& this.receiveStateValue !== null
-		) {
-			const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
-			const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(oldSigName);
-
-			if (oldSignal !== null) {
-				oldSignal.unsubscribe(this._subReceiveStateValue);
-			}
-		}
-
-		this._receiveStateValue = value;
-		this.setAttribute('receivestatevalue', value);
-
-		// setup new subscription.
-		const sigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
-		const receiveSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(sigName);
-
-		if (receiveSignal === null) {
-			return;
-		}
-
-		this._subReceiveStateValue = receiveSignal.subscribe((newValue: boolean) => {
-			if (newValue !== this.value) {
-				this.setAttribute('value', newValue + '');
-			}
+		this._ch5Properties.set("receiveStateValue", value, null, (newValue: boolean) => {
+			this._ch5Properties.setForSignalResponse<boolean>("value", newValue, () => {
+				this.toggleText();
+			});
 		});
 	}
-
 	public get receiveStateValue(): string {
-		return this._receiveStateValue;
+		return this._ch5Properties.get<string>('receiveStateValue');
 	}
 
 	//#endregion
@@ -132,80 +119,60 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
 
 	public constructor() {
 		super();
+		this._ch5Properties = new Ch5Properties(this, Ch5JoinToTextBoolean.COMPONENT_PROPERTIES);
 	}
 
 	public static get observedAttributes(): string[] {
 		const inheritedObsAttrs = Ch5Common.observedAttributes;
-		const newObsAttrs = [
-			'value',
-			'textwhentrue',
-			'textwhenfalse',
-			'receivestatevalue',
-		];
+		const newObsAttrs: string[] = [];
+		for (let i: number = 0; i < Ch5JoinToTextBoolean.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5JoinToTextBoolean.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				newObsAttrs.push(Ch5JoinToTextBoolean.COMPONENT_PROPERTIES[i].name.toLowerCase());
+			}
+		}
 		return inheritedObsAttrs.concat(newObsAttrs);
 	}
 
 	public connectedCallback() {
 		this.initAttributes();
-
 		customElements.whenDefined(Ch5JoinToTextBoolean.ELEMENT_NAME).then(() => {
 			this.toggleText(); // This is to handle specific case where the formatValue isn't called as component attributes are set to "default" values.
 		});
 	}
-	
+
 	protected initAttributes() {
 		super.initAttributes();
-		if (this.hasAttribute('textwhentrue')) {
-			this.textWhenTrue = this.getAttribute('textwhentrue') as string;
-		}
 
-		if (this.hasAttribute('textwhenfalse')) {
-			this.textWhenFalse = this.getAttribute('textwhenfalse') as string;
-		}
-
-		if (this.hasAttribute('receivestatevalue')) {
-			this.receiveStateValue = this.getAttribute('receivestatevalue') as string;
-		}
-
-		if (this.hasAttribute('value')) {
-			this.value = this.convertValueToBoolean(this.getAttribute('value') as string);
-		} else {
-			this.value = false;
+		const thisRef: any = this;
+		for (let i: number = 0; i < Ch5JoinToTextBoolean.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5JoinToTextBoolean.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				if (this.hasAttribute(Ch5JoinToTextBoolean.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
+					const key = Ch5JoinToTextBoolean.COMPONENT_PROPERTIES[i].name;
+					thisRef[key] = this.getAttribute(key);
+				}
+			}
 		}
 	}
 
 	public disconnectedCallback() {
-		const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
-		const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(oldSigName);
-
-		if (oldSignal !== null) {
-			oldSignal.unsubscribe(this._subReceiveStateValue);
-			this._receiveStateValue = "";
-		}
+		super.unsubscribeFromSignals();
+		this._ch5Properties.unsubscribe();
 	}
 
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
-		if (oldValue === newValue) {
-			return;
-		}
-
-		switch (attr) {
-			case 'value':
-				this.value = this.convertValueToBoolean(newValue);
-				break;
-			case 'textwhentrue':
-				this.textWhenTrue = newValue;
-				break;
-			case 'textwhenfalse':
-				this.textWhenFalse = newValue;
-				break;
-			case 'receivestatevalue':
-				this.receiveStateValue = newValue;
-				break;
-			default:
+		this.logger.start("attributeChangedCallback", this.primaryCssClass);
+		if (oldValue !== newValue) {
+			this.logger.log('ch5-jointotext-boolean attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+			const attributeChangedProperty = Ch5JoinToTextBoolean.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
+			if (attributeChangedProperty) {
+				const thisRef: any = this;
+				const key = attributeChangedProperty.name;
+				thisRef[key] = newValue;
+			} else {
 				super.attributeChangedCallback(attr, oldValue, newValue);
-				break;
+			}
 		}
+		this.logger.stop();
 	}
 
 	//#endregion
@@ -223,9 +190,6 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
 		this.textContent = '';
 	}
 
-	private convertValueToBoolean(value: string) {
-		return value === "true";
-	}
 
 	//#endregion
 }
