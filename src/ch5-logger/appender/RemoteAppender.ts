@@ -123,6 +123,7 @@ export class RemoteAppender extends AbstractAppender {
       }
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     this.webSocket.onerror = (error) => {
       helper.subscribeDockerStatus.next("DOCKER_ERROR");
     };

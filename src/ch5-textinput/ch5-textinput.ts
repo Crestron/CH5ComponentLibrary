@@ -1976,7 +1976,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 			this.handleModifierClass('error', 'remove')
 		}
 	}
-	
+
 	/**
 	 * Add modifier classes to the component and input elements
 	 * 
@@ -1986,23 +1986,23 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * @memberof Ch5CommonInput
 	 * @return {void}
 	 */
-		protected handleModifierClass(className: string, action: string = 'add'): void {
-			const modifierClassName = this.primaryCssClass + '--' + className;
-			if (action === 'add') {
-				this.classList.add(modifierClassName);
-				this._elInput.classList.add(modifierClassName);
-			} else if (action === 'remove') {
-				this.classList.remove(modifierClassName);
-				this._elInput.classList.remove(modifierClassName);
-			}
+	protected handleModifierClass(className: string, action: string = 'add'): void {
+		const modifierClassName = this.primaryCssClass + '--' + className;
+		if (action === 'add') {
+			this.classList.add(modifierClassName);
+			this._elInput.classList.add(modifierClassName);
+		} else if (action === 'remove') {
+			this.classList.remove(modifierClassName);
+			this._elInput.classList.remove(modifierClassName);
 		}
-		
+	}
+
 	/**
 	 *
 	 * @param {Event} inEvent
 	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	public _onFocus(inEvent: Event) {
-
 		this.info("<ch5-textinput />._onFocus()");
 
 		if (this.lastValidState === undefined || this.lastValidState === null) {
@@ -2034,6 +2034,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 *
 	 * @param {Event} inEvent
 	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	public _onBlur(inEvent: Event) {
 		this.info("<ch5-textinput />._onBlur()");
 

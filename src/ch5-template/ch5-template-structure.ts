@@ -249,7 +249,6 @@ export class Ch5TemplateStructure {
             // angular fix for duplicate content
             if (!isNil(this.element.children) && this.element.children.length > 0) {
                 this.element.info("Ch5TemplateStructure --- Removing children of: ", this.element);
-                // @ts-ignore
                 Array.from(this.element.children).forEach((element: HTMLElement) => element.remove())
             }
             if (!isNil(this.element)) {

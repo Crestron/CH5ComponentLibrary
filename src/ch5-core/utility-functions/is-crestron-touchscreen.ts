@@ -7,8 +7,11 @@
 
 import { ISigComSendToNative, ISigComSubscribe, ISigComUnsubscribe, ISigComSendWebkit, ISWebXPanel } from './../interfaces-sig-com';
 
+// eslint-disable-next-line no-var
 declare var JSInterface: ISigComUnsubscribe & ISigComSubscribe & ISigComSendToNative;
+// eslint-disable-next-line no-var
 declare var webkit: ISigComSendWebkit;
+// eslint-disable-next-line no-var
 declare var CommunicationInterface: ISWebXPanel;
 
 /**

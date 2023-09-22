@@ -748,27 +748,21 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	}
 
 	public set sendEventOnChange(value: string) {
-		this._ch5Properties.set("sendEventOnChange", value, null, (newValue: number) => {
-			// Enter your Code here
-		});
+		this._ch5Properties.set("sendEventOnChange", value);
 	}
 	public get sendEventOnChange(): string {
 		return this._ch5Properties.get<string>('sendEventOnChange');
 	}
 
 	public set sendEventOnChangeHigh(value: string) {
-		this._ch5Properties.set("sendEventOnChangeHigh", value, null, (newValue: number) => {
-			// Enter your Code here
-		});
+		this._ch5Properties.set("sendEventOnChangeHigh", value);
 	}
 	public get sendEventOnChangeHigh(): string {
 		return this._ch5Properties.get<string>('sendEventOnChangeHigh');
 	}
 
 	public set sendEventOnHandleClick(value: string) {
-		this._ch5Properties.set("sendEventOnHandleClick", value, null, (newValue: number) => {
-			// Enter your Code here
-		});
+		this._ch5Properties.set("sendEventOnHandleClick", value);
 	}
 	public get sendEventOnHandleClick(): string {
 		return this._ch5Properties.get<string>('sendEventOnHandleClick');
@@ -958,6 +952,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	}
 
 	public set sendEventOnUpper(value: string) {
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		this._ch5Properties.set("sendEventOnUpper", value, null, (newValue: boolean) => {
 			if (this.toolTipDisplayType === "%") {
 				this.toolTipShowType = "off";
@@ -969,6 +964,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	}
 
 	public set sendEventOnLower(value: string) {
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		this._ch5Properties.set("sendEventOnLower", value, null, (newValue: boolean) => {
 			if (this.toolTipDisplayType === "%") {
 				this.toolTipShowType = "off";
@@ -1484,7 +1480,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 			// create noUiSlider
 			try {
-				// @ts-ignore
 				if (!_.isNil((this._innerContainer as target).noUiSlider)) {
 					(this._innerContainer as target)?.noUiSlider?.destroy();
 				}
@@ -2002,6 +1997,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 					() => this._onDirtyTimerFinished(handle),
 					this._signalValueSyncTimeout
 				);
+				break;
 			default:
 				break;
 		}
@@ -2169,7 +2165,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			orientation: this.orientation,
 			pips: Object.getOwnPropertyNames(pips).length !== 0 ? pipsOptions : undefined,
 			tooltips
-		} as unknown  as Options
+		} as unknown as Options
 	}
 
 	/**
@@ -2754,7 +2750,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this._dirtyTimerHandleHigh = null;
 		}
 
-		// @ts-ignore
 		if (this._wasRendered) {
 			(this._innerContainer as target)?.noUiSlider?.set([this.value, this.valueHigh]);
 		}

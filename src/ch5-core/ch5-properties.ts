@@ -18,7 +18,7 @@ export class Ch5Properties {
 
 	public unsubscribe() {
 		const csf = Ch5SignalFactory.getInstance();
-		// TODO - understand how signalname is fetched becos this instance is common across app
+		// TODO - understand how signalName is fetched becos this instance is common across app
 		for (const eachSignal of this._properties) {
 			if (eachSignal.signalState !== '' && eachSignal.signalValue !== '') {
 				const receiveValueSigName: string = Ch5Signal.getSubscriptionSignalName(eachSignal.signalValue);

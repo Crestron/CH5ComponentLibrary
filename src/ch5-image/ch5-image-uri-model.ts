@@ -77,6 +77,7 @@ export class Ch5ImageUriModel {
             return;
         }
 
+        // eslint-disable-next-line no-useless-escape
         const protocolRegex = new RegExp('http(s?)[://]+(www\.)*');
         const matchedProtocol = location.match(protocolRegex);
 

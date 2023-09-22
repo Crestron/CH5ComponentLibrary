@@ -881,7 +881,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 				processedValue = processedValue.toLowerCase();
 				break;
 			default:
-				processedValue = processedValue;
 				break;
 		}
 
@@ -1185,6 +1184,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 				this.logger.isDebugEnabled = this._isDebugEnabled;
 				break;
 			case 'trace':
+				// eslint-disable-next-line no-case-declarations
 				let _isTraceEnabled: boolean = false;
 				if (this.hasAttribute('trace')) {
 					// TODO - set similar to disabled
@@ -1275,7 +1275,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	/**
 	 * Placeholder. Should be extended in child classes
 	 */
-	protected updateCssClasses(el?: HTMLElement) {
+	protected updateCssClasses() {
 		this.logger.log("from common - updateCssClasses()");
 		// placeholder;
 	}
@@ -1701,6 +1701,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	 * @param {string} section
 	 * @return {void}
 	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	protected translateCallback(section: string): void {
 		// if custom actions has to be done on translation
 	}

@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 import { Ch5Common } from './../ch5-common/ch5-common';
 import { ICh5BackgroundAttributes } from './interfaces/i-ch5-background-attributes';
-import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState, publishEvent } from '../ch5-core';
+import { Ch5Signal, Ch5SignalFactory, unsubscribeState, publishEvent } from '../ch5-core';
 import { TCh5BackgroundScale, TCh5BackgroundRepeat, TCh5BackgroundTransitionEffect } from './interfaces';
 import { ICh5VideoBackground } from './../ch5-video/interfaces';
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
@@ -366,6 +366,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 		if (countCharacter > 1) {
 			this.setAttribute('transitionduration', '1s');
 		}
+		// eslint-disable-next-line no-useless-escape
 		const specialChars = new RegExp(/[`!@#$%^&*()_+\-=\[\]{};':"\\|,<>\/?~]/);
 		if (specialChars.test(this._transitionDuration) === true) {
 			this._transitionDuration = '1s';
@@ -1300,7 +1301,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 					this.info("\nvideoBGAction() -> Video Tag Id " + video.id + " is in Viewport: " + this.isInViewport(video.id));
 					if (this.isInViewport(video.id)) {
 						if (this.isCanvasListValid()) {
-							this._canvasList.forEach((canvas: HTMLCanvasElement, cIdx: number) => {
+							this._canvasList.forEach((canvas: HTMLCanvasElement) => {
 								const ctx: any = canvas.getContext('2d');
 								if (video.action === this.VIDEO_ACTION.STARTED || video.action === this.VIDEO_ACTION.RESIZE) { // while playing video
 									ctx.clearRect(video.left, video.top, video.width, video.height);
