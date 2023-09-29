@@ -12,3 +12,5 @@ docs
 coverage
 bower_components
 test-report.xml
+mochawesome-report
+.nyc_output
