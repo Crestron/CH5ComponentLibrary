@@ -118,7 +118,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * @default text
    * @attributeType "EnumeratedValue"
    */
-  inputType: TCh5TextInputType;
+  type: TCh5TextInputType;
 
   /**
    * @documentation
