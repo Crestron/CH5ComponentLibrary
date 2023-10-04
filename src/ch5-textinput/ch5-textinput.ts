@@ -736,6 +736,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
     this._elInput.classList.add(this.primaryCssClass + '--input');
 
     this._labelElement = document.createElement('label');
+    this._labelElement.classList.add(this.primaryCssClass + '--label');
 
     this._elContainer.appendChild(this._elInput);
 
@@ -1033,6 +1034,11 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
       this._clean = false;
       this.dirtyValue = currentElement.value
     }
+  }
+
+  public setValue(value: string) {
+    this.value = value;
+    this._elInput.value = value;
   }
 
   public submit(): void {
