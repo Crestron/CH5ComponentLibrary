@@ -866,6 +866,10 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
       this._elContainer.classList.remove(this.primaryCssClass + Ch5TextInput.COMPONENT_DATA.SIZE.classListPrefix + e);
     });
     this._elContainer.classList.add(this.primaryCssClass + Ch5TextInput.COMPONENT_DATA.SIZE.classListPrefix + this.size);
+    Array.from(Ch5TextInput.COMPONENT_DATA.SIZE.values).forEach((e: any) => {
+      this._labelElement.classList.remove(this.primaryCssClass + '--label-' + e);
+    });
+    this._labelElement.classList.add(this.primaryCssClass + '--label-' + this.size);
     this._scalingUtility?.updateDefaultFontSize();
     this._maskingUtility?._makeMaskElementLookAsInputPlaceholder();
   }
@@ -895,6 +899,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
     super.updateCssClasses();
     this._elContainer.classList.add(this.primaryCssClass + Ch5TextInput.COMPONENT_DATA.INPUT_TYPE.classListPrefix + this.type);
     this._elContainer.classList.add(this.primaryCssClass + Ch5TextInput.COMPONENT_DATA.SIZE.classListPrefix + this.size);
+    this._labelElement.classList.add(this.primaryCssClass + '--label-' + this.size);
     this._elIcon.classList.add(this.primaryCssClass + Ch5TextInput.COMPONENT_DATA.ICON_POSITION.classListPrefix + this.iconPosition);
     this._elInput.classList.add(this.primaryCssClass + Ch5TextInput.COMPONENT_DATA.TEXT_TRANSFORM.classListPrefix + this.textTransform)
     this.logger.stop();

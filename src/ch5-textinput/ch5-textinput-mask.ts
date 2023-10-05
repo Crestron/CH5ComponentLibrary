@@ -98,9 +98,9 @@ export class Ch5TextInputMask {
   }
 
 
-  public prefix: string = '_ch5-textinput-mask' as string;
-  public readonly BLOCK_SEPARATOR: string = '__';
-  
+  public prefix: string = 'ch5-textinput-mask' as string;
+  public readonly BLOCK_SEPARATOR: string = '--';
+
   private _inputListener: EventListenerOrEventListenerObject;
   private _inputKeyUpListener: EventListenerOrEventListenerObject;
   private _inputKeyDownListener: EventListenerOrEventListenerObject;
@@ -123,9 +123,6 @@ export class Ch5TextInputMask {
     this._inputBlurListener = this._onInputBlur.bind(this) as unknown as EventListener;
   }
 
-  /**
-   * Initialize the mask
-   */
   public init() {
 
     if (!this.wasWrapped && !this.didMounted) {
@@ -145,13 +142,6 @@ export class Ch5TextInputMask {
     this._detachEventListeners();
   }
 
-  /**
-   * Dispatch maskError event
-   *
-   * @see {@link _createInputMaskErrorEvent}
-   * @param {string} errorType (invalidCharacter | invalidLength)
-   * @return {void}
-   */
   public dispatchMaskErrorEvent(errorType: string = 'invalidCharacter'): void {
 
     if (errorType !== 'invalidCharacter') {
@@ -165,12 +155,6 @@ export class Ch5TextInputMask {
     this.input.setCustomValidity(errorType);
   }
 
-  /**
-   * Dispatch mask update event
-   *
-   * @see {@link _createMaskUpdateEvent}
-   * @return {void}
-   */
   public dispatchMaskUpdateEvent(): void {
 
     const maskUpdateEvent = this._createMaskUpdateEvent(this.input.value);
@@ -178,12 +162,6 @@ export class Ch5TextInputMask {
     this.input.dispatchEvent(maskUpdateEvent);
   }
 
-  /**
-   * Dispatch the complete event
-   *
-   * @see {@link _createInputMaskCompleteEvent}
-   * @return {void}
-   */
   public dispatchMaskCompleteEvent(): void {
 
     const maskCompleteEvent = this._createInputMaskCompleteEvent();
@@ -194,34 +172,10 @@ export class Ch5TextInputMask {
     this.input.setCustomValidity('');
   }
 
-  /**
-   * Adding styles to the input and maskElement for making maskElement feel & look
-   * like an input
-   *
-   * @return {void}
-   */
   public _makeMaskElementLookAsInputPlaceholder(): void {
-
-    const inputStyles = window.getComputedStyle(this.input);
-
-    // styling the maskElement
-    this.maskElement.style.position = 'absolute';
-    this.maskElement.style.top = '0px';
-    this.maskElement.style.left = '0px';
-    this.maskElement.style.paddingLeft = inputStyles.paddingLeft;
-    this.maskElement.style.paddingRight = inputStyles.paddingRight;
-    this.maskElement.style.fontSize = inputStyles.fontSize; // This code is not required during cleanup of ch5-textinput
-    this.maskElement.style.fontWeight = inputStyles.fontWeight; // This code is not required during cleanup of ch5-textinput
-    this.maskElement.style.pointerEvents = 'none';
-    this.maskElement.style.lineHeight = inputStyles.lineHeight;
+    this.maskElement.style.lineHeight = window.getComputedStyle(this.input).lineHeight;
   }
 
-  /**
-   * Adding static characters from the mask to input value
-   * example("-","_","#")
-   *
-   * @return {void}
-   */
   public addStaticCharactersToInputValue(letterIndex: number): void {
 
     const nextLetter = this.maskValue.substr(letterIndex, 1) !== '' ?
@@ -242,13 +196,6 @@ export class Ch5TextInputMask {
     }
   }
 
-  /**
-   * Update the characters in the mask element
-   * That's because the mask element should look like an placeholder
-   * and some letters doesn't have the same dimensions
-   *
-   * @return {void}
-   */
   public _updateCharactersInMask() {
 
     const inputValueLength = this.lastValueLength - 1;
@@ -274,11 +221,6 @@ export class Ch5TextInputMask {
     }
   }
 
-  /**
-   * If alwaysShow=false toggle placeholder on blur/focus events
-   *
-   * @return {void}
-   */
   public togglePlaceholder(): void {
 
     if (this.alwaysShow === false) {
@@ -289,7 +231,6 @@ export class Ch5TextInputMask {
       }
     }
   }
-
 
   public _attachEventListeners(): void {
     this.input.addEventListener('keydown', this._inputKeyDownListener);
@@ -308,14 +249,6 @@ export class Ch5TextInputMask {
     this.input.removeEventListener('blur', this._inputBlurListener);
   }
 
-  /**
-   * Create the mask element
-   *
-   * @private
-   * @memberof Ch5tTextInputMask
-   * @param {HTMLElement} wrapper
-   * @return {void}
-   */
   private _mount(wrapper: HTMLElement): void {
 
     // creating the mask element
@@ -325,13 +258,6 @@ export class Ch5TextInputMask {
     this.didMounted = true;
   }
 
-  /**
-   * Moving the input and mask element inside the wrapper
-   *
-   * @private
-   * @memberof Ch5tTextInputMask
-   * @return {void}
-   */
   private _wrap(): void {
 
     // append the wrapper element in component
@@ -345,49 +271,24 @@ export class Ch5TextInputMask {
     this.wasWrapped = true;
   }
 
-  /**
-   * Create the wrapper element, the place where the mask element and input
-   * will be moved
-   *
-   * @private
-   * @memberof Ch5tTextInputMask
-   * @return {HTMLElement}
-   */
   private _createTheWrapper(): HTMLElement {
 
     const wrapper = document.createElement('span');
-    wrapper.id = '_ch5-textinput' + this.BLOCK_SEPARATOR + this.wrapperId;
-    // wrapper.style.position = 'relative';
-    // wrapper.style.display = 'flex';
-
+    wrapper.id = 'ch5-textinput' + this.BLOCK_SEPARATOR + this.wrapperId;
     return wrapper;
   }
 
-  /**
-   * Create the mask element
-   *
-   * @private
-   * @memberof Ch5tTextInputMask
-   * @return {void}
-   */
   private _createTheMaskElement(): void {
 
     const htmlMaskValue = this._wrapEachCharacter();
 
     this.maskElement = document.createElement('span');
     this.maskElement.setAttribute('data-mask', this.maskValue);
+    this.maskElement.classList.add(this.prefix);
 
     this.maskElement.innerHTML = htmlMaskValue;
   }
 
-  /**
-   * Clean the placeholder and pattern attributes
-   * Using mask element the placeholder and pattern attributes are not needed
-   *
-   * @private
-   * @memberof Ch5tTextInputMask
-   * @return {void}
-   */
   private _cleanTheInput(): void {
 
     if (this.alwaysShow === true && this.input.hasAttribute('placeholder')) {
@@ -399,13 +300,6 @@ export class Ch5TextInputMask {
     }
   }
 
-  /**
-   * Single wrapping of each character from the maskElement
-   *
-   * @private
-   * @memberof Ch5tTextInputMask
-   * @return {string}
-   */
   private _wrapEachCharacter(): string {
 
     const letters = this.maskValue.split('');
@@ -417,14 +311,6 @@ export class Ch5TextInputMask {
     return letters.join('');
   }
 
-  /**
-   * Create keydown event
-   *
-   * @param {string} message
-   * @private
-   * @memberof Ch5tTextInputMask
-   * @return {CustomEvent}
-   */
   private _createMaskUpdateEvent(message: string): CustomEvent {
 
     const keydownEvent = new CustomEvent('update', {
@@ -440,15 +326,6 @@ export class Ch5TextInputMask {
     return keydownEvent;
   }
 
-  /**
-   * This event will be dispatched when the input value doesn't respect
-   * the mask
-   *
-   * @private
-   * @memberof Ch5tTextInputMask
-   * @param {string} errorType
-   * @return {CustomEvent}
-   */
   private _createInputMaskErrorEvent(errorType: string): CustomEvent {
 
     const errorCustomEvent = new CustomEvent('maskerror', {
@@ -463,13 +340,6 @@ export class Ch5TextInputMask {
     return errorCustomEvent;
   }
 
-  /**
-   * Create complete event, this event is fired when the input value completely match the mask pattern
-   *
-   * @private
-   * @memberof Ch5tTextInputMask
-   * @return {CustomEvent}
-   */
   private _createInputMaskCompleteEvent(): CustomEvent {
 
     const completeEvent = new CustomEvent('maskcomplete', {
@@ -484,14 +354,6 @@ export class Ch5TextInputMask {
     return completeEvent;
   }
 
-  /**
-   * Mask the pattern character
-   *
-   * @private
-   * @memberof Ch5tTextInputMask
-   * @param {number} letterIndex
-   * @return {void}
-   */
   private _maskCharacterOnTyping(letterIndex: number): void {
 
     if (letterIndex > this.maskValue.length) {
@@ -508,14 +370,6 @@ export class Ch5TextInputMask {
     }
   }
 
-  /**
-   * Unmask the pattern character
-   *
-   * @private
-   * @memberof Ch5tTextInputMask
-   * @param {number} letterIndex
-   * @return {void}
-   */
   private _unmaskCharacterOnTyping(letterIndex: number): void {
 
     if (letterIndex > this.maskValue.length) {
@@ -534,12 +388,6 @@ export class Ch5TextInputMask {
     }
   }
 
-  /**
-   * Check if user is typing
-   * Returning false means that user is erasing the input
-   *
-   * @return {boolean}
-   */
   private _isUserTyping(): boolean {
 
     if (this.input.value.length < this.lastValueLength) {
@@ -549,15 +397,6 @@ export class Ch5TextInputMask {
     return true;
   }
 
-  /**
-   * - more characters than mask has should not be allowed
-   * - following the character type
-   *
-   * @private
-   * @memberof Ch5tTextInputMask
-   * @param {string} key
-   * @return {void}
-   */
   private _isKeyAllowed(key: string): boolean {
 
     if (this.maskValue.substr(this.input.value.length - 1, 1) !== '') {
@@ -587,11 +426,6 @@ export class Ch5TextInputMask {
     return true;
   }
 
-  /**
-   * @private
-   * @memberof Ch5tTextInputMask
-   * @return {boolean}
-   */
   private _isValueLengthValid(): boolean {
 
     if (this.lastValueLength < this.maskValue.length) {
@@ -608,14 +442,6 @@ export class Ch5TextInputMask {
     return false;
   }
 
-  /**
-   * Getting the data type from a character
-   *
-   * @private
-   * @memberof Ch5tTextInputMask
-   * @param {string} character
-   * @return {string}
-   */
   private _getDataType(character: string): string {
 
     let dataType: string;
@@ -636,10 +462,6 @@ export class Ch5TextInputMask {
     return dataType;
   }
 
-  /**
-   *
-   * @param {string} character
-   */
   private _getCapsType(character: string) {
 
     if (character !== null && character !== '*') {
@@ -653,11 +475,6 @@ export class Ch5TextInputMask {
     return 'normal';
   }
 
-  /**
-   * Change caps following the mask patter
-   *
-   * @param {number} letterIndex
-   */
   private _transformLetterCapsType(letterIndex: number) {
 
     if (letterIndex > this.maskValue.length - 1) {
@@ -692,10 +509,6 @@ export class Ch5TextInputMask {
     }
   }
 
-  /**
-   *
-   * @param {KeyboardEvent} inEvent
-   */
   private _onInputKeyDown(inEvent: KeyboardEvent): void {
     if (this._isUserTyping()) {
       this.addStaticCharactersToInputValue(this.input.value.length);
@@ -708,10 +521,6 @@ export class Ch5TextInputMask {
     }
   }
 
-  /**
-   *
-   * @param inEvent
-   */
   private _onInput(inputEvent: ICustomInputEvent) {
     let key = inputEvent.data;
 
@@ -720,10 +529,7 @@ export class Ch5TextInputMask {
       key = keys[keys.length - 1];
     }
 
-    if (
-      this._isUserTyping() &&
-      (!this._isKeyAllowed(key) || !this._isValueLengthValid())
-    ) {
+    if (this._isUserTyping() && (!this._isKeyAllowed(key) || !this._isValueLengthValid())) {
       this.input.value = this.input.value.substr(0, this.lastValueLength);
     } else {
       this.dispatchMaskUpdateEvent();
@@ -735,34 +541,20 @@ export class Ch5TextInputMask {
     }
   }
 
-  /**
-   *
-   * @param {KeyboardEvent} inEvent
-   */
   private _onInputKeyUp(inEvent: KeyboardEvent): void {
-
     this._isKeyAllowed(inEvent.key);
     this._isValueLengthValid();
     this._transformLetterCapsType(this.input.value.length);
   }
 
-  /**
-   *
-   * @param {MouseEvent} inEvent
-   */
-  private _onInputFocus(inEvent: MouseEvent): void {
-
+  private _onInputFocus(): void {
     if (this.alwaysShow === false) {
       this.show = true;
       this.togglePlaceholder();
     }
   }
 
-  /**
-   *
-   * @param {MouseEvent} inEvent
-   */
-  private _onInputBlur(inEvent: MouseEvent): void {
+  private _onInputBlur(): void {
     if (this.alwaysShow === false) {
       this.show = false;
       this.togglePlaceholder();
@@ -776,17 +568,7 @@ export class Ch5TextInputMask {
     this._isValueLengthValid();
   }
 
-  /**
-   * Fire custom keydown event
-   *
-   * @param {CustomEvent} inEvent
-   */
-  private _onMaskUpdate(inEvent: any): void {
-
-    if (this._isUserTyping()) {
-      this._maskCharacterOnTyping(this.lastValueLength);
-    } else {
-      this._unmaskCharacterOnTyping(this.lastValueLength);
-    }
+  private _onMaskUpdate(): void {
+    this._isUserTyping() ? this._maskCharacterOnTyping(this.lastValueLength) : this._unmaskCharacterOnTyping(this.lastValueLength);
   }
 }
