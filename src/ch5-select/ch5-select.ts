@@ -1183,7 +1183,6 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 			return;
 		}
 
-		_parent.style.position = 'relative';
 		if (this.resize) {
 			_parent.style.position = 'relative';
 			this.style.position = 'static';
