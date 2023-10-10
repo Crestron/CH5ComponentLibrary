@@ -1185,6 +1185,8 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 
 		_parent.style.position = 'relative';
 		if (this.resize) {
+			_parent.style.position = 'relative';
+			this.style.position = 'static';
 
 			const _parentSize: ClientRect = _parent.getBoundingClientRect();
 			this.selectPanel.style.width = 'auto';
@@ -1196,9 +1198,11 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 
 		} else {
 			// reset position and width style
-			this.selectPanel.style.removeProperty('width');
-			this.selectPanel.style.removeProperty('maxWidth');
-			this.selectPanel.style.removeProperty('left');
+			_parent.style.position = 'inherit';
+			this.style.position = '';
+			this.selectPanel.style.width = '';
+			this.selectPanel.style.maxWidth = '';
+			this.selectPanel.style.left = '';
 		}
 	}
 
