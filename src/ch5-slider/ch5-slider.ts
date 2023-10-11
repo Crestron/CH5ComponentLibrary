@@ -1574,7 +1574,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			let slideValue: number | (null | number)[] = [value, null];
 			if (handle === TCh5SliderHandle.HIGHVALUE) {
 				if (value < this.value)
-					value = this.value ;
+					value = this.value + 1;
 				else if (value > this.max)
 					value = this.max;
 				slideValue = [null, value];
@@ -2737,7 +2737,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 	private handleMax() {
 		if (this.max <= this.min) {
-			this.max = this.min ;
+			this.max = this.min + 1;
 		}
 		if (this.value > this.max) {
 			this.value = this.max;
