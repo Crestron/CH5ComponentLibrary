@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-keypad-pressed-fixture">
+    <template>
+      <ch5-keypad>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+      </ch5-keypad>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-keypad-button-pressed attribute', () => {
+
+      let ch5Keypad;
+
+      const testData = ['', 'junk', 'null', 'undefined', '0', '1', null, 0, 1, Infinity, ' ', undefined];
+
+      setup(async () => {
+        ch5Keypad = fixture('ch5-keypad-pressed-fixture');
+      });
+
+      const buttons = ['&nbsp;', 'ABC', 'DEF', 'GHI', 'JKL', 'MNO', 'PQRS', 'TUV', 'WXYZ', '', '+', ''];
+      const typeClassName = "keypad-btn-pressed";
+      const expectedData = [true, false, 'null', 'undefined', '0', '1', 'null', '0', '1', 'Infinity', false, 'undefined'];
+
+
+      test(`Check attribute pressed`, () => {
+        const ch5KeypadButton = ch5Keypad.querySelectorAll('ch5-keypad-button')[0];
+        ch5KeypadButton.setAttribute('pressed', 'true');
+        expect(ch5KeypadButton.pressed).to.be.equal(true);
+        expect(ch5KeypadButton.classList.contains(`${typeClassName}`)).to.be.equal(true);
+      });
+
+      test(`Check attribute not pressed`, () => {
+        const ch5KeypadButton = ch5Keypad.querySelectorAll('ch5-keypad-button')[0];
+        ch5KeypadButton.setAttribute('pressed', 'false');
+        expect(ch5KeypadButton.pressed).to.be.equal(false);
+        expect(ch5KeypadButton.classList.contains(`${typeClassName}`)).to.be.equal(false);
+      });
+    });
+
+  </script>
+</body>
+
+</html>
