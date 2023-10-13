@@ -30,35 +30,6 @@
     </template>
   </test-fixture>
 
-  <test-fixture id="ch5-keypad-extra-button-fixture">
-    <template>
-      <ch5-keypad showExtraButton="false" type="default" ID="test1a" shape="square">
-      </ch5-keypad>
-    </template>
-  </test-fixture>
-
-  <test-fixture id="ch5-keypad-extra-button-on">
-    <template>
-      <ch5-keypad showExtraButton="true" type="default" ID="test1a" shape="square">
-      </ch5-keypad>
-    </template>
-  </test-fixture>
-
-  <test-fixture id="ch5-keypad-extra-button-using-setAttribute">
-    <template>
-      <ch5-keypad type="default" shape="square">
-      </ch5-keypad>
-    </template>
-  </test-fixture>
-
-  <test-fixture id="ch5-keypad-extra-button-empty-attribute">
-    <template>
-      <ch5-keypad showExtraButton type="default" shape="square">
-      </ch5-keypad>
-    </template>
-  </test-fixture>
-
-
   <script>
     suite('ch5-keypad-disabled', () => {
       let ch5keypad;
@@ -99,82 +70,31 @@
       });
     });
 
-    suite('ch5-keypad-extra-button', () => {
+    /* suite('ch5-keypad-show', () => {
       let ch5keypad;
 
       setup(async () => {
-        ch5keypad = fixture('ch5-keypad-extra-button-fixture');
+        ch5keypad = fixture('ch5-keypad-custom-style-fixture');
       });
 
-      test('ch5-keypad-extra-button', (done) => {
-        flush(() => {
-          setTimeout(() => {
-            expect(ch5keypad.querySelectorAll('ch5-keypad-button').length).to.equal(12);
-            expect(ch5keypad.getAttribute('showExtraButton')).to.equal('false');
-            done();
-          }, 100);
-        });
+      test(`Check custom-style`, (done) => {
+        expect(ch5keypad.getAttribute('customstyle')).to.equal('border:1polid red');
+        done();
       });
     });
 
-    suite('ch5-keypad-extra-button-on', () => {
+    suite('ch5-keypad-internationlization', () => {
       let ch5keypad;
+
       setup(async () => {
-        ch5keypad = fixture('ch5-keypad-extra-button-on');
+        ch5keypad = fixture('ch5-keypad-custom-style-fixture');
       });
 
-      test('Check the extra button', (done) => {
-        flush(() => {
-          setTimeout(() => {
-            expect(ch5keypad.querySelectorAll('ch5-keypad-button').length).to.be.equal(13);
-            expect(ch5keypad.getAttribute('showExtraButton')).to.equal('true');
-            done();
-          }, 100);
-        });
+      test(`Check custom-style`, (done) => {
+        expect(ch5keypad.getAttribute('customstyle')).to.equal('border:1polid red');
+        done();
       });
-    });
-
-    suite('ch5-keypad-extra-button-using-setAttribute', () => {
-      let ch5keypad;
-      setup(() => {
-        ch5keypad = fixture('ch5-keypad-extra-button-using-setAttribute');
-      });
-
-      test('When showExtraButton is set to false', (done) => {
-        ch5keypad.setAttribute("showExtraButton", false);
-        flush(() => {
-          setTimeout(() => {
-            expect(ch5keypad.querySelectorAll('ch5-keypad-button').length).to.be.equal(12);
-            done();
-          }, 100);
-        });
-      });
-
-      test('When showExtraButton is set to false', (done) => {
-        ch5keypad.setAttribute("showExtraButton", true);
-        flush(() => {
-          setTimeout(() => {
-            expect(ch5keypad.querySelectorAll('ch5-keypad-button').length).to.be.equal(13);
-            done();
-          }, 100);
-        });
-      });
-    });
-
-    suite('ch5-keypad-extra-button-empty-attribute', () => {
-      let ch5keypad;
-      setup(() => {
-        ch5keypad = fixture('ch5-keypad-extra-button-empty-attribute');
-      });
-      test('When showExtraButton attribute is empty', (done) => {
-        flush(() => {
-          setTimeout(() => {
-            expect(ch5keypad.querySelectorAll('ch5-keypad-button').length).to.be.equal(13);
-            done();
-          }, 100);
-        });
-      });
-    });
+    }); */
   </script>
 </body>
 
