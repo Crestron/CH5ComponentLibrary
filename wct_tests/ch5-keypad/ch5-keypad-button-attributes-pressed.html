@@ -59,6 +59,15 @@
         expect(ch5KeypadButton.pressed).to.be.equal(false);
         expect(ch5KeypadButton.classList.contains(`${typeClassName}`)).to.be.equal(false);
       });
+
+      let testCases = ['a', '', ' ', 'number', true, false];
+      let expectedResult = [false, true, false, false, true, false];
+      testCases.forEach((ele, i) => {
+        test('Check Value "pressed"', () => {
+          const ch5KeypadButton = ch5Keypad.querySelectorAll('ch5-keypad-button')[0];
+          ch5KeypadButton.setAttribute('buttonPressed', ele);
+        });
+      });
     });
 
   </script>

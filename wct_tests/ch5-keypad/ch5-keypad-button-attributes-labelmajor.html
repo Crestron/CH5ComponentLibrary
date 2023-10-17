@@ -35,7 +35,7 @@
 
       let ch5Keypad;
 
-      const testData = ['', 'junk', 'null', 'undefined', '0', '1', null, 0, 1, Infinity, ' ', undefined];
+      const testData = ['', 'junk', 'null', 'undefined', '0', '1', null, 0, 1, Infinity, ' ', '٣', undefined];
 
       setup(async () => {
         ch5Keypad = fixture('ch5-keypad-labelMajor-fixture');
@@ -46,7 +46,7 @@
       buttons.forEach((item, buttonIndex) => {
         suite(`${buttonIndex + 1} button should have passed value or ${item} by default`, () => {
           testData.forEach((typeName, i) => {
-            const expectedData = [item, 'junk', 'null', 'undefined', '0', '1', 'null', '0', '1', 'Infinity', item, 'undefined'];
+            const expectedData = [item, 'junk', 'null', 'undefined', '0', '1', 'null', '0', '1', 'Infinity', item, '٣', 'undefined'];
             test(`Check attribute labelmajor: "${typeName}"`, () => {
               const ch5KeypadButton = ch5Keypad.querySelectorAll('ch5-keypad-button')[buttonIndex];
               ch5KeypadButton.setAttribute('labelMajor', typeName);
