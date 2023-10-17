@@ -30,7 +30,7 @@
       });
 
       const valid_shapes = CrComLib.Ch5Dpad.SHAPES;
-      const invalid_shapes = ['', null, 'Square', 'Rectangle'];
+      const invalid_shapes = ['', null, 'Square', 'Rectangle','junk', 'null', 'undefined', '0', '1', 0, 1, Infinity, ' ', undefined];
       const default_shape = CrComLib.Ch5Dpad.SHAPES[0];
 
       test(`Check attribute shape ${default_shape} by not adding the type attribute in HTML or through javascript to the button`, () => {
