@@ -142,6 +142,25 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true,
 		},
+		{
+			default: false,
+			name: "disableCenterButton",
+			nameForSignal: "receiveStateDisableCenterButton",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "receiveStateDisableCenterButton",
+			signalType: "boolean",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
 	];
 
 	/**
@@ -186,6 +205,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		numericjoinoffset: { numericJoin: 1 },
 		stringjoinoffset: { stringJoin: 1 },
 		receivestatehidecenterbutton: { direction: "state", booleanJoin: 1, contractName: true },
+		receivestatedisablecenterbutton: { direction: "state", booleanJoin: 1, contractName: true },
 	};
 
 	public readonly primaryCssClass = 'ch5-dpad';
@@ -355,6 +375,26 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	}
 	public get receiveStateHideCenterButton(): string {
 		return this._ch5Properties.get<string>('receiveStateHideCenterButton');
+	}
+
+	public set disableCenterButton(value: boolean) {
+		this._ch5Properties.set<boolean>("disableCenterButton", value, () => {
+			this.handleDisableCenterButton();
+		});
+	}
+	public get disableCenterButton(): boolean {
+		return this._ch5Properties.get<boolean>("disableCenterButton");
+	}
+
+	public set receiveStateDisableCenterButton(value: string) {
+		this._ch5Properties.set("receiveStateDisableCenterButton", value, null, (newValue: boolean) => {
+			this._ch5Properties.setForSignalResponse<boolean>("disableCenterButton", newValue, () => {
+				this.handleDisableCenterButton();
+			});
+		});
+	}
+	public get receiveStateDisableCenterButton(): string {
+		return this._ch5Properties.get<string>('receiveStateDisableCenterButton');
 	}
 
 	//#endregion
@@ -618,6 +658,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 		this.container.appendChild(downBtn);
 		this.handleHideCenterButton();
+		this.handleDisableCenterButton();
 	}
 
 	/**
@@ -901,6 +942,14 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		centerBtn?.classList.remove('ch5-hide-vis');
 		if (this.hideCenterButton) {
 			centerBtn?.classList.add('ch5-hide-vis');
+		}
+	}
+
+	private handleDisableCenterButton() {
+		const centerBtn = this.querySelector('.ch5-dpad-button-center');
+		centerBtn?.classList.remove('ch5-disabled');
+		if (this.disableCenterButton) {
+			centerBtn?.classList.add('ch5-disabled');
 		}
 	}
 

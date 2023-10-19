@@ -11,26 +11,26 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-dpad-hideCenterButton-attributes">
+  <test-fixture id="ch5-dpad-disableCenterButton-attributes">
     <template>
       <ch5-dpad></ch5-dpad>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-dpad-hideCenterButton-attributes-value', () => {
+    suite('ch5-dpad-disableCenterButton-attributes-value', () => {
       let ch5Dpad;
 
       setup(async () => {
-        ch5Dpad = fixture('ch5-dpad-hideCenterButton-attributes');
+        ch5Dpad = fixture('ch5-dpad-disableCenterButton-attributes');
       });
 
       let testCases = ['a', '', ' ', 'number', true, false];
       let expectedResult = [false, true, false, false, true, false];
       testCases.forEach((ele, i) => {
-        test('Check class "ch5-hide-vis" exists', () => {
-          ch5Dpad.setAttribute('hideCenterButton', ele);
+        test('Check class "ch5-disabled" exists', () => {
+          ch5Dpad.setAttribute('disableCenterButton', ele);
           const centerBtn = document.querySelector('.ch5-dpad-button-center');
-          expect(centerBtn.classList.contains('ch5-hide-vis')).to.be.equal(expectedResult[i]);
+          expect(centerBtn.classList.contains('ch5-disabled')).to.be.equal(expectedResult[i]);
         });
       });
 

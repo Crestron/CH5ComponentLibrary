@@ -76,6 +76,8 @@ import { ICh5DpadAttributes } from "./index";
  *       "\tsendeventonclickstart=\"${8:}\"",
  *       "\thideCenterButton=\"${9:false}\"",
  *       "\treceiveStateHideCenterButton=\"$10:}\">",
+ *       "\tdisableCenterButton=\"${11:false}\"",
+ *       "\treceiveStateDisableCenterButton=\"$12:}\">",
  *       "</ch5-dpad>$0"
  *     ]
  *   }
