@@ -259,7 +259,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * [
      * "`receiveStateHideAsteriskButton` attribute",
      * "***",
-     * "Boolean signal to hide the asterisk button of the Keypad. This will override any design time settings."
+     * "Boolean signal to hide the asterisk button of the Keypad. This will override hideAsteriskButton."
      * ]
      * @name receivestatehideasteriskbutton
      * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
@@ -272,7 +272,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * [
      * "`receiveStateHidePoundButton` attribute",
      * "***",
-     * "Boolean signal to hide the pound button of the Keypad. This will override the design time settings."
+     * "Boolean signal to hide the pound button of the Keypad. This will override hidePoundButton."
      * ]
      * @name receivestatehidepoundbutton
      * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
