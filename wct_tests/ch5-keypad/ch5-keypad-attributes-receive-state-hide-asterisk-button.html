@@ -11,27 +11,27 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-dpad-receiveStateHideAsteriskButton-attributes">
+  <test-fixture id="ch5-keypad-receiveStateHideAsteriskButton-attributes">
     <template>
-      <ch5-dpad receiveStateHideAsteriskButton="trigger_event_listener"></ch5-dpad>
+      <ch5-keypad receiveStateHideAsteriskButton="trigger_event_listener"></ch5-keypad>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-dpad-receiveStateHideAsteriskButton-attributes-value', () => {
-      let ch5Dpad;
+    suite('ch5-keypad-receiveStateHideAsteriskButton-attributes-value', () => {
+      let ch5Keypad;
 
       setup(async () => {
-        const emulatorJson = await fetch('./emulator/receivestateextrabuttonshow.json').then((response) => response.json());
+        const emulatorJson = await fetch('./emulator/receivestatehideasteriskbutton.json').then((response) => response.json());
         const emulator = CrComLib.Ch5Emulator.getInstance();
         emulator.loadScenario(emulatorJson);
-        ch5Dpad = fixture('ch5-dpad-receiveStateHideAsteriskButton-attributes');
+        ch5Keypad = fixture('ch5-keypad-receiveStateHideAsteriskButton-attributes');
       });
 
       test('receiveStateHideAsteriskButton', (done) => {
         CrComLib.publishEvent('b', 'trigger_event', true);
         flush(() => {
           setTimeout(() => {
-            expect(ch5Dpad.getAttribute('hideAsteriskButton')).to.be.equal('true');
+            expect(ch5Keypad.getAttribute('hideAsteriskButton')).to.be.equal('true');
             done();
           }, 100);
         });
