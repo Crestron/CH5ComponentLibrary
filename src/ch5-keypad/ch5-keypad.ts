@@ -226,7 +226,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			nameForSignal: "receiveStateHidePoundButton",
 			removeAttributeOnNull: true,
 			type: "boolean",
-			valueOnAttributeEmpty: false,
+			valueOnAttributeEmpty: true,
 			isObservableProperty: true,
 		},
 		{
@@ -235,7 +235,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			nameForSignal: "receiveStateHideAsteriskButton",
 			removeAttributeOnNull: true,
 			type: "boolean",
-			valueOnAttributeEmpty: false,
+			valueOnAttributeEmpty: true,
 			isObservableProperty: true,
 		},
 		{
@@ -475,7 +475,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	public set receiveStateHideAsteriskButton(value: string) {
 		this._ch5Properties.set("receiveStateHideAsteriskButton", value, null, (newValue: boolean) => {
 			this._ch5Properties.setForSignalResponse<boolean>("hideAsteriskButton", newValue, () => {
-				this.handleReceiveStateHideAsteriskButton();
+				this.handleHideAsteriskButton();
 			});
 		});
 	}
@@ -486,7 +486,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	public set receiveStateHidePoundButton(value: string) {
 		this._ch5Properties.set("receiveStateHidePoundButton", value, null, (newValue: boolean) => {
 			this._ch5Properties.setForSignalResponse<boolean>("hidePoundButton", newValue, () => {
-				this.handleReceiveStateHidePoundButton();
+				this.handleHidePoundButton();
 			});
 		});
 	}
@@ -1128,13 +1128,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			centerBtn?.classList.add('ch5-hide-vis');
 		}
 	}
-	private handleReceiveStateHideAsteriskButton() {
-		this.handleHideAsteriskButton();
-	}
-	private handleReceiveStateHidePoundButton() {
-		this.handleHidePoundButton();
-	}
-
 	//#endregion
 
 }
