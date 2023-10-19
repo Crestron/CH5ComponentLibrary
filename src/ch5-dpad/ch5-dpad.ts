@@ -122,7 +122,26 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			isNullable: true,
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true
-		}
+		},
+		{
+			default: false,
+			name: "hideCenterButton",
+			nameForSignal: "receiveStateHideCenterButton",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: false,
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "receiveStateHideCenterButton",
+			signalType: "boolean",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
 	];
 
 	/**
@@ -165,7 +184,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		contractname: { contractName: true },
 		booleanjoinoffset: { booleanJoin: 1 },
 		numericjoinoffset: { numericJoin: 1 },
-		stringjoinoffset: { stringJoin: 1 }
+		stringjoinoffset: { stringJoin: 1 },
+		receivestatehidecenterbutton: { direction: "state", booleanJoin: 1, contractName: true },
 	};
 
 	public readonly primaryCssClass = 'ch5-dpad';
@@ -315,6 +335,26 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	}
 	public get useContractForCustomClass(): boolean {
 		return this._ch5Properties.get<boolean>("useContractForCustomClass");
+	}
+
+	public set hideCenterButton(value: boolean) {
+		this._ch5Properties.set<boolean>("hideCenterButton", value, () => {
+			this.handleHideCenterButton();
+		});
+	}
+	public get hideCenterButton(): boolean {
+		return this._ch5Properties.get<boolean>("hideCenterButton");
+	}
+
+	public set receiveStateHideCenterButton(value: string) {
+		this._ch5Properties.set("receiveStateHideCenterButton", value, null, (newValue: boolean) => {
+			this._ch5Properties.setForSignalResponse<boolean>("hideCenterButton", newValue, () => {
+				this.handleReceiveStateHideCenterButton();
+			});
+		});
+	}
+	public get receiveStateHideCenterButton(): string {
+		return this._ch5Properties.get<string>('receiveStateHideCenterButton');
 	}
 
 	//#endregion
@@ -577,6 +617,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		}
 
 		this.container.appendChild(downBtn);
+		this.handleHideCenterButton();
 	}
 
 	/**
@@ -853,6 +894,17 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			}
 		}
 		this.logger.stop();
+	}
+
+	private handleHideCenterButton() {
+		const centerBtn = document.querySelector('.ch5-dpad-button-center');
+		centerBtn?.classList.remove('ch5-hide-vis');
+		if (this.hideCenterButton) {
+			centerBtn?.classList.add('ch5-hide-vis');
+		}
+	}
+	private handleReceiveStateHideCenterButton() {
+		this.handleHideCenterButton();
 	}
 
 	/**
