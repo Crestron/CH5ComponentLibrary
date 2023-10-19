@@ -33,6 +33,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
 		receivestateextrabuttonshow: { direction: "state", stringJoin: 1, contractName: true },
+		receivestatehideasteriskbutton: { direction: "state", booleanJoin: 1, contractName: true },
+		receivestatehidepoundbutton: { direction: "state", booleanJoin: 1, contractName: true },
 		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventonclickstart: { direction: "event", booleanJoin: 1, contractName: true }
@@ -217,6 +219,44 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			type: "string",
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true
+		},
+		{
+			default: false,
+			name: "hidePoundButton",
+			nameForSignal: "receiveStateHidePoundButton",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: false,
+			isObservableProperty: true,
+		},
+		{
+			default: false,
+			name: "hideAsteriskButton",
+			nameForSignal: "receiveStateHideAsteriskButton",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: false,
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "receiveStateHideAsteriskButton",
+			signalType: "string",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "receiveStateHidePoundButton",
+			signalType: "string",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
 		}
 	];
 
@@ -412,6 +452,46 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 	public get receiveStateExtraButtonShow(): string {
 		return this._ch5Properties.get<string>("receiveStateExtraButtonShow");
+	}
+
+	public set hidePoundButton(value: boolean) {
+		this._ch5Properties.set<boolean>("hidePoundButton", value, () => {
+			this.handleHidePoundButton();
+		});
+	}
+	public get hidePoundButton(): boolean {
+		return this._ch5Properties.get<boolean>("hidePoundButton");
+	}
+
+	public set hideAsteriskButton(value: boolean) {
+		this._ch5Properties.set<boolean>("hideAsteriskButton", value, () => {
+			this.handleHideAsteriskButton();
+		});
+	}
+	public get hideAsteriskButton(): boolean {
+		return this._ch5Properties.get<boolean>("hideAsteriskButton");
+	}
+
+	public set receiveStateHideAsteriskButton(value: string) {
+		this._ch5Properties.set("receiveStateHideAsteriskButton", value, null, (newValue: boolean) => {
+			this._ch5Properties.setForSignalResponse<boolean>("hideAsteriskButton", newValue, () => {
+				this.handleReceiveStateHideAsteriskButton();
+			});
+		});
+	}
+	public get receiveStateHideAsteriskButton(): string {
+		return this._ch5Properties.get<string>('receiveStateHideAsteriskButton');
+	}
+
+	public set receiveStateHidePoundButton(value: string) {
+		this._ch5Properties.set("receiveStateHidePoundButton", value, null, (newValue: boolean) => {
+			this._ch5Properties.setForSignalResponse<boolean>("hidePoundButton", newValue, () => {
+				this.handleReceiveStateHidePoundButton();
+			});
+		});
+	}
+	public get receiveStateHidePoundButton(): string {
+		return this._ch5Properties.get<string>('receiveStateHidePoundButton');
 	}
 
 	//#endregion
@@ -610,6 +690,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			this.showExtraButtonHandler();
 		}
 		this.contractDefaultHandler();
+		this.handleHideAsteriskButton();
+		this.handleHidePoundButton();
 	}
 
 	/**
@@ -1030,6 +1112,27 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			ret.push(Ch5Keypad.EXTRA_BUTTON_CSS_CLASS);
 		}
 		return ret.join(' ');
+	}
+
+	private handleHidePoundButton() {
+		const centerBtn = this.querySelector('.keypad-btn.misc-btn-one');
+		centerBtn?.classList.remove('ch5-hide-vis');
+		if (this.hidePoundButton) {
+			centerBtn?.classList.add('ch5-hide-vis');
+		}
+	}
+	private handleHideAsteriskButton() {
+		const centerBtn = this.querySelector('.keypad-btn.misc-btn-two');
+		centerBtn?.classList.remove('ch5-hide-vis');
+		if (this.hideAsteriskButton) {
+			centerBtn?.classList.add('ch5-hide-vis');
+		}
+	}
+	private handleReceiveStateHideAsteriskButton() {
+		this.handleHideAsteriskButton();
+	}
+	private handleReceiveStateHidePoundButton() {
+		this.handleHidePoundButton();
 	}
 
 	//#endregion

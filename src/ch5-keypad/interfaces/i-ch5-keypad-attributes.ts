@@ -39,7 +39,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * @default default
      * @attributeType "EnumeratedValue"
      */
-     type: TCh5KeypadType;
+    type: TCh5KeypadType;
 
     /**
      * @documentation
@@ -227,4 +227,56 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * @attributeType "Join"
      */
     sendEventOnClickStart: string;
+
+    /**
+     * @documentation
+     * [
+     * "`hidePoundButton` attribute",
+     * "***",
+     * "Attribute to hide the pound button of the Keypad. Default value is false."
+     * ]
+     * @name hidepoundbutton
+     * @default false
+     * @attributeType "Boolean"
+     */
+    hidePoundButton: boolean;
+
+    /**
+     * @documentation
+     * [
+     * "`hideAsteriskButton` attribute",
+     * "***",
+     * "Attribute to hide the asterisk button of the Keypad. Default value is false."
+     * ]
+     * @name hideasteriskbutton
+     * @default false
+     * @attributeType "Boolean"
+     */
+    hideAsteriskButton: boolean;
+
+    /**
+     * @documentation
+     * [
+     * "`receiveStateHideAsteriskButton` attribute",
+     * "***",
+     * "Boolean signal to hide the asterisk button of the Keypad. This will override any design time settings."
+     * ]
+     * @name receivestatehideasteriskbutton
+     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+     * @attributeType "Join"
+     */
+    receiveStateHideAsteriskButton: string;
+
+    /**
+     * @documentation
+     * [
+     * "`receiveStateHidePoundButton` attribute",
+     * "***",
+     * "Boolean signal to hide the pound button of the Keypad. This will override the design time settings."
+     * ]
+     * @name receivestatehidepoundbutton
+     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+     * @attributeType "Join"
+     */
+    receiveStateHidePoundButton: string;
 }
