@@ -897,7 +897,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	}
 
 	private handleHideCenterButton() {
-		const centerBtn = document.querySelector('.ch5-dpad-button-center');
+		const centerBtn = this.querySelector('.ch5-dpad-button-center');
 		centerBtn?.classList.remove('ch5-hide-vis');
 		if (this.hideCenterButton) {
 			centerBtn?.classList.add('ch5-hide-vis');
