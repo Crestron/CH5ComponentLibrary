@@ -129,7 +129,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			nameForSignal: "receiveStateHideCenterButton",
 			removeAttributeOnNull: true,
 			type: "boolean",
-			valueOnAttributeEmpty: false,
+			valueOnAttributeEmpty: true,
 			isObservableProperty: true,
 		},
 		{
@@ -349,7 +349,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	public set receiveStateHideCenterButton(value: string) {
 		this._ch5Properties.set("receiveStateHideCenterButton", value, null, (newValue: boolean) => {
 			this._ch5Properties.setForSignalResponse<boolean>("hideCenterButton", newValue, () => {
-				this.handleReceiveStateHideCenterButton();
+				this.handleHideCenterButton();
 			});
 		});
 	}
@@ -902,9 +902,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		if (this.hideCenterButton) {
 			centerBtn?.classList.add('ch5-hide-vis');
 		}
-	}
-	private handleReceiveStateHideCenterButton() {
-		this.handleHideCenterButton();
 	}
 
 	/**

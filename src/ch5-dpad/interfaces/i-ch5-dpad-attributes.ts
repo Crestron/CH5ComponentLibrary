@@ -185,7 +185,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
      * [
      * "`receiveStateHideCenterButton` attribute",
      * "***",
-     * "Boolean signal to hide the center button of the DPad. This will override any design time settings."
+     * "Boolean signal to hide the center button of the DPad. This will override hideCenterButton."
      * ]
      * @name receivestatehidecenterbutton
      * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
