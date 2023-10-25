@@ -161,6 +161,22 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true,
 		},
+		{
+			default: false,
+			name: "useContractForDisableCenterButton",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: false,
+			isObservableProperty: true
+		},
+		{
+			default: false,
+			name: "useContractForHideCenterButton",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: false,
+			isObservableProperty: true
+		},
 	];
 
 	/**
@@ -395,6 +411,34 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	}
 	public get receiveStateDisableCenterButton(): string {
 		return this._ch5Properties.get<string>('receiveStateDisableCenterButton');
+	}
+
+	public set useContractForDisableCenterButton(value: boolean) {
+		this._ch5Properties.set<string>("useContractForDisableCenterButton", value, () => {
+			const contractName = this.contractName;
+			if (contractName.length > 0) {
+				if (this.useContractForDisableCenterButton === true) {
+					this.receiveStateDisableCenterButton = contractName + '.DisableCenterButton';
+				}
+			}
+		});
+	}
+	public get useContractForDisableCenterButton(): boolean {
+		return this._ch5Properties.get<boolean>("useContractForDisableCenterButton");
+	}
+
+	public set useContractForHideCenterButton(value: boolean) {
+		this._ch5Properties.set<string>("useContractForHideCenterButton", value, () => {
+			const contractName = this.contractName;
+			if (contractName.length > 0) {
+				if (this.useContractForHideCenterButton === true) {
+					this.receiveStateHideCenterButton = contractName + '.HideCenterButton';
+				}
+			}
+		});
+	}
+	public get useContractForHideCenterButton(): boolean {
+		return this._ch5Properties.get<boolean>("useContractForHideCenterButton");
 	}
 
 	//#endregion
@@ -884,6 +928,14 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 			if (this.useContractForShow === true) {
 				this.receiveStateShow = contractName + '.Show';
+			}
+
+			if (this.useContractForDisableCenterButton === true) {
+				this.receiveStateDisableCenterButton = contractName + '.DisabeCenterButton';
+			}
+
+			if (this.useContractForHideCenterButton === true) {
+				this.receiveStateHideCenterButton = contractName + '.HideCenterButton';
 			}
 
 			if (!_.isNil(centerBtn)) {
