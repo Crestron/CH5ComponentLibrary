@@ -257,7 +257,23 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			type: "string",
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true,
-		}
+		},
+		{
+			default: false,
+			name: "useContractForHideAsteriskButton",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true
+		},
+		{
+			default: false,
+			name: "useContractForHidePoundButton",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true
+		},
 	];
 
 	public readonly primaryCssClass = 'ch5-keypad';
@@ -492,6 +508,34 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 	public get receiveStateHidePoundButton(): string {
 		return this._ch5Properties.get<string>('receiveStateHidePoundButton');
+	}
+
+	public set useContractForHidePoundButton(value: boolean) {
+		this._ch5Properties.set<string>("useContractForHidePoundButton", value, () => {
+			const contractName = this.contractName;
+			if (contractName.length > 0) {
+				if (this.useContractForHidePoundButton === true) {
+					this.receiveStateHidePoundButton = contractName + '.HidePoundButton';
+				}
+			}
+		});
+	}
+	public get useContractForHidePoundButton(): boolean {
+		return this._ch5Properties.get<boolean>("useContractForHidePoundButton");
+	}
+
+	public set useContractForHideAsteriskButton(value: boolean) {
+		this._ch5Properties.set<string>("useContractForHideAsteriskButton", value, () => {
+			const contractName = this.contractName;
+			if (contractName.length > 0) {
+				if (this.useContractForHideAsteriskButton === true) {
+					this.receiveStateHideAsteriskButton = contractName + '.HideAsteriskButton';
+				}
+			}
+		});
+	}
+	public get useContractForHideAsteriskButton(): boolean {
+		return this._ch5Properties.get<boolean>("useContractForHideAsteriskButton");
 	}
 
 	//#endregion
@@ -898,6 +942,14 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 			if (this.useContractForShow === true) {
 				this.receiveStateShow = this.contractName + '.Show';
+			}
+
+			if (this.useContractForHideAsteriskButton === true) {
+				this.receiveStateHideAsteriskButton = this.contractName + '.HideAsteriskButton';
+			}
+
+			if (this.useContractForHidePoundButton === true) {
+				this.receiveStateHidePoundButton = this.contractName + '.HidePoundButton';
 			}
 
 			if (this.useContractForExtraButtonShow === true) {
