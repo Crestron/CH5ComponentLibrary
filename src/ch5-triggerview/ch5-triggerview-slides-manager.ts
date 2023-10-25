@@ -511,7 +511,7 @@ export class Ch5TriggerViewSlidesManager {
   private _updateActiveSlideAttributes() {
     if (this.swiperIsActive()) {
       const activeSlideIndex = this._swiper!.activeIndex;
-      Array.from(this._swiper!.slides).forEach((slide: HTMLElement, index) => {
+      Array.from(this._swiper!.slides).forEach((slide: any, index) => {
         if (index !== activeSlideIndex) {
           slide.setAttribute('tabindex', '-1');
           slide.setAttribute('aria-hidden', 'true');
