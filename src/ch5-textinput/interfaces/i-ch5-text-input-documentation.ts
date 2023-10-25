@@ -69,6 +69,8 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *            "    sendeventonchange=\"${8:input_changed}\"",
  *            "    sendeventonfocus=\"${9:input_focus}\"",
  *            "    sendeventonblur=\"${10:input_blur}\">",
+ *            "    sendeventonenterkey=\"${11:input_enter_key_event}\">",
+ *            "    sendeventonesckey=\"${12:input_esc_key_event}\"",
  *            "</ch5-textinput>"
  *        ]
  *    }

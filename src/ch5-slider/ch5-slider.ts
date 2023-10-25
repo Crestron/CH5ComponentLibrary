@@ -425,7 +425,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	private _innerContainer: HTMLElement = {} as HTMLElement;
 	private _tgtEls: NodeListOf<HTMLElement>[] = [];
 	private _tooltip: NodeListOf<HTMLElement> = {} as NodeListOf<HTMLElement>;
-	private _sendEventValue: number = -1;
 	private _titlePresent: number = -1;
 	private _userLowValue: number = -1;
 	private _userHighValue: number = -1;
@@ -445,7 +444,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	private sliderTouch: any = null;
 	private _isPressedSubscription: Subscription | null = null;
 	private _repeatDigitalInterval: number | null = null;
-	private _holdState: boolean = false;
 
 	private _receiveStateValueSignal: string = '';
 	private _subReceiveValueId: string = '';
@@ -1087,7 +1085,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		this._onMouseLeave = this._onMouseLeave.bind(this);
 		this._onTouchMoveEnd = this._onTouchMoveEnd.bind(this);
 		this.sendEventOnHandleClickHandle = this.sendEventOnHandleClickHandle.bind(this);
-		this._onTouchHandler = this._onTouchHandler.bind(this);
 	}
 
 	private setCleanValue(value: string | number) {
@@ -1407,6 +1404,10 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 */
 	protected attachEventListeners() {
 		super.attachEventListeners();
+		if (this._innerContainer.querySelector('.noUi-handle') !== null) {
+			this._innerContainer.addEventListener('mouseleave', this._onMouseLeave);
+			this._innerContainer.addEventListener('touchmove', this._onMouseLeave);
+		}
 		// init pressable
 		if (null !== this._pressable) {
 			this._pressable.init();
@@ -1433,8 +1434,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			noUiHandle.removeEventListener('click', this.sendEventOnHandleClickHandle);
 			this._innerContainer.removeEventListener('mouseleave', this._onMouseLeave);
 			this._innerContainer.removeEventListener('touchmove', this._onMouseLeave);
-			this._innerContainer.removeEventListener('mousedown', () => { this._holdState = true; });
-			this._innerContainer.removeEventListener('touchstart', this._onTouchHandler);
 			noUiHandle.removeEventListener('pointermove', (event) => { event.stopPropagation() });
 		}
 		if (!_.isNil(this._pressable)) {
@@ -1488,9 +1487,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				(this._innerContainer as target)?.noUiSlider?.on('slide', this._onSliderChange);
 				(this._innerContainer as target)?.noUiSlider?.on('start', this._onSliderStart);
 				(this._innerContainer as target)?.noUiSlider?.on('end', this._onSliderStop);
-				(this._innerContainer as target)?.noUiSlider?.on('hover', (value: (number | string)[]) => {
-					this._sendEventValue = Number(value);
-				});
 				const noUiHandle = this._innerContainer.querySelector('.noUi-handle') as HTMLElement;
 				noUiHandle.addEventListener('focus', this._onFocus);
 				noUiHandle.addEventListener('blur', this._onBlur);
@@ -1781,27 +1777,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			inEvent.preventDefault();
 		}
 		inEvent.stopPropagation();
-	}
-
-	private _onTouchHandler(event: any): void {
-		this._holdState = true;
-		this._sendEventValue = (this.max - this.min) / 2;
-		const sizeSlider = (event.target as HTMLElement).getBoundingClientRect();
-		const offsetX = (event.touches[0].clientX - window.pageXOffset - sizeSlider.left);
-		const offsetY = (event.touches[0].clientY - window.pageYOffset - sizeSlider.top);
-		if (this.orientation === "horizontal") {
-			if (offsetX >= sizeSlider.width * 3 / 4) {
-				this._sendEventValue = this.max;
-			} else if (offsetX <= sizeSlider.width / 4) {
-				this._sendEventValue = this.min;
-			}
-		} else {
-			if (offsetY <= sizeSlider.height / 4) {
-				this._sendEventValue = this.max;
-			} else if (offsetY >= sizeSlider.height * 3 / 4) {
-				this._sendEventValue = this.min;
-			}
-		}
 	}
 
 	private _onMouseLeave(inEvent: any): void {

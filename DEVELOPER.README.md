@@ -3,10 +3,10 @@
 ## Build Requirements
 
 - Node and npm versions:
-- node v16.13.0
-- npm v8.10.0 
+- node v20.4.0
+- npm v9.7.2 
 - Global packages:
--- typescript 4.8.3
+-- typescript 5.1.6
 
 ### Available Scripts
 
