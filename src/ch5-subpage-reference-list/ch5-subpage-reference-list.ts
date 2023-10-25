@@ -1379,7 +1379,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
 
     if (this.dir === 'rtl' && this.orientation === 'horizontal') {
-      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      const containerWidth = this._elContainer.getBoundingClientRect().width || this.containerWidth;
       const loadableSubpages = Math.ceil(containerWidth / this.subpageWidth) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
       // Right Edge case
       if (value >= this.numberOfItems - (loadableSubpages - Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER)) {
@@ -1400,7 +1400,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         if (this.allSubpageVisible === false && this.loadSubpageForShow === true) { this.scrollToLeftEdgeRange(); }
       }
     } else if (this.orientation === 'horizontal') {
-      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      const containerWidth = this._elContainer.getBoundingClientRect().width || this.containerWidth;
       const loadableSubPageList = Math.ceil(containerWidth / this.subpageWidth) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
       // Right Edge case
       if (value >= this.numberOfItems - (loadableSubPageList - Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER)) {
@@ -1418,7 +1418,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         this.scrollAfterSomeTime("left", this.subpageWidth * value);
       }
     } else {
-      const containerHeight = this._elContainer.getBoundingClientRect().height;
+      const containerHeight = this._elContainer.getBoundingClientRect().height || this.containerHeight;
       const loadableSubpages = Math.ceil(containerHeight / this.subpageHeight) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
       // If container height is not set then display all the subpage
       if (containerHeight === 0) {
@@ -1475,7 +1475,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
 
     if (this.dir === 'rtl' && this.orientation === 'horizontal') {
-      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      const containerWidth = this._elContainer.getBoundingClientRect().width || this.containerWidth;
       const loadableButtons = Math.ceil(containerWidth / this.subpageWidth) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
       if (this._elContainer.children.length === 0) {
         for (let index = 0; index < this.numberOfItems && index < value + loadableButtons - 1; index++) { this.createSubpage(index); }
@@ -1484,7 +1484,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       }
       this._elContainer.scrollLeft = value !== 0 ? (value * this.subpageWidth) * -1 : 0;
     } else if (this.orientation === 'horizontal') {
-      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      const containerWidth = this._elContainer.getBoundingClientRect().width || this.containerWidth;
       const loadableButtons = Math.ceil(containerWidth / this.subpageWidth) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
       if (this._elContainer.children.length === 0) {
         for (let index = 0; index < this.numberOfItems && index < value + loadableButtons - 1; index++) { this.createSubpage(index); }
@@ -1493,7 +1493,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
       }
       this._elContainer.scrollLeft = value !== 0 ? value * this.subpageWidth : 0;
     } else {
-      const containerHeight = this._elContainer.getBoundingClientRect().height;
+      const containerHeight = this._elContainer.getBoundingClientRect().height || this.containerHeight;
       const loadableButtons = Math.ceil(containerHeight / this.subpageHeight) + Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
       // If container height is not set then display all the subpage
       if (containerHeight <= 10 || containerHeight <= this.subpageHeight + 10) {
@@ -1583,10 +1583,10 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     let loadedSubpages = 0;
     if (this.orientation === 'horizontal') {
       // Find the number of initial subpages which can be loaded based on container width
-      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      const containerWidth = this._elContainer.getBoundingClientRect().width || this.containerWidth;
       loadedSubpages = Math.floor(containerWidth / this.subpageWidth) * this.rows + this.rows * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
     } else {
-      const containerHeight = this._elContainer.getBoundingClientRect().height;
+      const containerHeight = this._elContainer.getBoundingClientRect().height || this.containerHeight;
       // Check whether the container is set with custom height
       if (containerHeight > this.subpageHeight) {
         loadedSubpages = Math.floor(containerHeight / this.subpageHeight) * this.columns + this.columns * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;;
@@ -1603,7 +1603,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
     this.initScrollbar();
     if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
-    if (this.centerItems === true && this.scrollbarDimension < 100) { this.centerItems = false; }
+    this.checkCenterItems();
     this.signalHolder();
     if (this.scrollToPosition !== 0) { this.handleScrollToPosition(this.scrollToPosition); }
   }
@@ -1627,10 +1627,10 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     let loadedButtons = 0;
     if (this.orientation === 'horizontal') {
       // Find the number of initial subpages which can be loaded based on container width
-      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      const containerWidth = this._elContainer.getBoundingClientRect().width || this.containerWidth;
       loadedButtons = Math.floor(containerWidth / this.subpageWidth) * this.rows + this.rows * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
     } else {
-      const containerHeight = this._elContainer.getBoundingClientRect().height;
+      const containerHeight = this._elContainer.getBoundingClientRect().height || this.containerHeight;
       // Check whether the container is set with custom height
       if (containerHeight > this.subpageHeight + 10) {
         loadedButtons = Math.floor(containerHeight / this.subpageHeight) * this.columns + this.columns * Ch5SubpageReferenceList.SUBPAGE_CONTAINER_BUFFER;
@@ -1647,7 +1647,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
     this.initScrollbar();
     if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
-    if (this.centerItems === true && this.scrollbarDimension < 100) { this.centerItems = false; }
+    this.checkCenterItems();
     this.signalHolder();
     if (this.scrollToPosition !== 0) { this.handleScrollToPositionForNew(this.scrollToPosition); }
   }
@@ -1663,7 +1663,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     if (this.endless) { this.orientation === 'horizontal' ? this._elContainer.scrollLeft = 5 : this._elContainer.scrollTop = 5; }
     this.initScrollbar();
     if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
-    if (this.centerItems === true && this.scrollbarDimension < 100) { this.centerItems = false; }
+    this.checkCenterItems();
     if (isReceiveStateScrollTo === true && this.scrollToPosition === 0) {
       this.orientation === "horizontal" ? this._elContainer.scrollLeft = 0 : this._elContainer.scrollTop = 0;
     }
@@ -1862,7 +1862,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.SCROLLBAR_CLASSLIST_PREFIX + 'true');
         this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.SCROLLBAR_CLASSLIST_PREFIX + 'false');
       } else {
-        if (this.centerItems === true) this.centerItems = false;
+        this.checkCenterItems();
         this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.SCROLLBAR_CLASSLIST_PREFIX + 'false');
         this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.SCROLLBAR_CLASSLIST_PREFIX + 'true');
       }
@@ -1963,6 +1963,11 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
     // check if any subpage needs to be added to make the container scrollable
     this.scrollToMiddleRange();
+    if (this.centerItems === true) {
+      const { scrollWidth, offsetWidth, scrollHeight, offsetHeight } = this._elContainer;
+      this.scrollbarDimension = this.orientation === "horizontal" ? Math.floor(offsetWidth / scrollWidth * 100) : Math.floor(offsetHeight / scrollHeight * 100);
+      this.checkCenterItems();
+    }
   }
 
   private getFirstChild() {
@@ -2011,6 +2016,18 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     while (counter !== 0 && k < counter && this.getLastChild() !== this.numberOfItems - 1) {
       if (this.showSignalHolder[this.getLastChild() + 1].value === true) { k = k + 1; }
       this.createSubpage(this.getLastChild() + 1);
+    }
+  }
+
+  private checkCenterItems() {
+    if (this.centerItems === true) {
+      if (this.scrollbarDimension < 100) {
+        this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.CENTER_ITEMS_CLASSLIST_PREFIX + "true");
+        this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.CENTER_ITEMS_CLASSLIST_PREFIX + "false");
+      } else {
+        this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.CENTER_ITEMS_CLASSLIST_PREFIX + "false");
+        this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.CENTER_ITEMS_CLASSLIST_PREFIX + "true");
+      }
     }
   }
 

@@ -5,12 +5,12 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5CommonAttributesWoReceiveStateEnable } from "../../ch5-common/interfaces/i-ch5-common-attributes-wo-receivestateenable";
+import { ICh5CommonAttributesTemplate } from "../../ch5-common/interfaces/i-ch5-common-attributes-template";
 
 /**
  * @ignore
  */
-export interface ICh5TemplateAttributes extends ICh5CommonAttributesWoReceiveStateEnable {
+export interface ICh5TemplateAttributes extends ICh5CommonAttributesTemplate {
     /**
      * @isattribute true
      * @documentation

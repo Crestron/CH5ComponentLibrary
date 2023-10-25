@@ -288,6 +288,32 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
   /**
    * @documentation
    * [
+   * "`sendeventonenterkey` attribute",
+   * "***",
+   * "Sends an event on press of enter key."
+   * ]
+   * @name sendeventonenterkey
+   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+   * @attributeType "Join"
+   */
+  sendEventOnEnterKey: string;
+
+  /**
+   * @documentation
+   * [
+   * "`sendeventonesckey` attribute",
+   * "***",
+   * "Sends an event on press of escape key."
+   * ]
+   * @name sendeventonesckey
+   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+   * @attributeType "Join"
+   */
+  sendEventOnEscKey: string;
+
+  /**
+   * @documentation
+   * [
    * "`sendeventonfocus` attribute",
    * "***",
    * "Sends an event on focus."
