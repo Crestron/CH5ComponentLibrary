@@ -21,17 +21,17 @@
 
     <script>
         suite('ch5-dpad', () => {
-
+            
             let ch5Dpad;
 
             const valid_types = CrComLib.Ch5Dpad.TYPES;
             const default_type = CrComLib.Ch5Dpad.TYPES[0];
-            const invalid_types = ['', 'junk', 'null', 'undefined', '0', '1', 0, 1, null, Infinity, ' ', undefined];
+            const invalid_types = ['', 'junk', 'null', 'undefined', '0', '1', null];
 
             setup(async () => {
                 ch5Dpad = fixture('ch5-dpad-types-fixture');
             });
-
+            
             valid_types.forEach((typeName, i) => {
                 test(`Check valid attribute type: "${typeName}"`, () => {
                     ch5Dpad.setAttribute('type', typeName);

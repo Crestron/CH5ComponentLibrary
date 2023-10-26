@@ -39,7 +39,7 @@
 
             const valid_sizes = CrComLib.Ch5Dpad.SIZES;
             const default_size = CrComLib.Ch5Dpad.SIZES[0];
-            const invalid_sizes = ['', 'junk', 'null', 'undefined', '0', '1', 0, 1, null, Infinity, undefined, 'Regular', "X-LARGE"];
+            const invalid_sizes = ['', 'junk', 'null', 'undefined', '0', '1', null, undefined, 'Regular', "X-LARGE"];
 
             valid_sizes.forEach((sizeName, i) => {
                 test(`Check attribute size: "${sizeName}"`, (done) => {

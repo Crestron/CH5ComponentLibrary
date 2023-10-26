@@ -70,26 +70,25 @@ module.exports = function () {
             ]
         },
         plugins: [
-            new CopyPlugin({
-                patterns: [
-                    {
-                        from: path.resolve(basePath, "src/_interfaces/generated-metadata/schema.json"),
-                        to: path.resolve(pathForSchemaJson, "generate-metadata")
-                    },
-                    {
-                        from: path.resolve(basePath, "src/_interfaces/generated-metadata/sass-output.json"),
-                        to: path.resolve(pathForSchemaJson, "generate-metadata")
-                    },
-                    {
-                        from: path.resolve(basePath, "src/_interfaces/generated-metadata/sass-schema.json"),
-                        to: path.resolve(pathForSchemaJson, "generate-metadata")
-                    },
-                    {
-                        from: path.resolve(basePath, "src/_interfaces/generated-metadata/icon-library.json"),
-                        to: path.resolve(pathForSchemaJson, "generate-metadata")
-                    }
-                ]
-            }),
+            new CopyPlugin([
+                {
+                    from: path.resolve(basePath, "src/_interfaces/generated-metadata/schema.json"),
+                    to: path.resolve(pathForSchemaJson, "generate-metadata")
+                },
+                {
+                    from: path.resolve(basePath, "src/_interfaces/generated-metadata/sass-output.json"),
+                    to: path.resolve(pathForSchemaJson, "generate-metadata")
+                },
+                {
+                    from: path.resolve(basePath, "src/_interfaces/generated-metadata/sass-schema.json"),
+                    to: path.resolve(pathForSchemaJson, "generate-metadata")
+                },
+                {
+                    from: path.resolve(basePath, "src/_interfaces/generated-metadata/icon-library.json"),
+                    to: path.resolve(pathForSchemaJson, "generate-metadata")
+                }
+            ],
+            ),
             new webpack.BannerPlugin({
                 banner:
                     "Copyright (C) " + ((new Date()).getFullYear()) + " to the present, Crestron Electronics, Inc.\n" +

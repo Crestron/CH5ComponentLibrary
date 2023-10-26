@@ -773,6 +773,21 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Image.ELEMENT_NAME, Ch5Image.SIGNAL_ATTRIBUTE_TYPES);
 	}
 
+	public getModeNodes() {
+		this.info('getModeNodes got called');
+		return this.querySelectorAll('ch5-image-mode');
+	}
+
+	public getModeNode(index: number): Element {
+		this.info('getting mode with index ' + index);
+		const modeNodes = this.getModeNodes();
+
+		if (!modeNodes[index]) {
+			throw new Error('Mode is not defined');
+		}
+
+		return modeNodes[index];
+	}
 
 	/**
 	 * 	Called every time the element is inserted into the DOM.
