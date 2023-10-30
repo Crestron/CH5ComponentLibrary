@@ -126,7 +126,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	// this is last tap time used to determine if should send click pulse in focus event
 	protected _lastTapTime: number = 0;
 	protected _pressable: Ch5Pressable | null = null;
-	protected _hammerManager: HammerManager = {} as HammerManager;
 	protected _pressTimeout: number = 0;
 	protected _pressed: boolean = false;
 	protected _buttonPressedInPressable: boolean = false;
@@ -253,8 +252,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			this._subscribeToPressableIsPressed();
 		}
 
-		this._hammerManager = new Hammer(this);
-
 		this.createElementsAndInitialize();
 
 		customElements.whenDefined('ch5-dpad-button').then(() => {
@@ -347,9 +344,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	}
 
 	public removeEventListeners() {
-		if (!!this._hammerManager && !!this._hammerManager.off) {
-			this._hammerManager.off('tap', this._onTapAction);
-		}
 		this.removeEventListener('mousedown', this._onPressClick);
 		this.removeEventListener('mouseup', this._onMouseUp);
 		this.removeEventListener('touchstart', this._onPress);
@@ -453,10 +447,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	 */
 	protected attachEventListeners() {
 		super.attachEventListeners();
-
-		if (this._pressable !== null && this._pressable.ch5Component.gestureable === false) {
-			this._hammerManager.on('tap', this._onTapAction);
-		}
 
 		this.addEventListener('mousedown', this._onPressClick);
 		this.addEventListener('mouseup', this._onMouseUp);

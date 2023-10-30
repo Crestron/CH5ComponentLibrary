@@ -869,6 +869,88 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		}
 	}
 
+	/* render  */
+	private render() {
+		this.classList.add(this.primaryCssClass);
+		const childItemsContainer = this.children as HTMLCollection;
+
+		if (childItemsContainer.length === 0 || childItemsContainer[0].children.length === 0) {
+			if (!_.cloneDeep(childItemsContainer[0]?.children)) {
+				this.createAndAppendAllButtonsUnderDpad();
+			} else {
+				this.updateAllButtonsUnderDpad(childItemsContainer);
+			}
+		} else {
+			const isValidStructureInChildDiv = this.checkIfOrderOfTagsAreInTheRightOrder(childItemsContainer[0].children);
+			if (!isValidStructureInChildDiv) {
+				this.updateAllButtonsUnderDpad(childItemsContainer[0].children);
+			}
+		}
+
+		this.logger.stop();
+	}
+
+	private updateAllButtonsUnderDpad(buttonsList: HTMLCollection) {
+		if (!buttonsList.length) {
+			return;
+		}
+		let centerBtn: any = null;
+		let upBtn: any = null;
+		let rightBtn: any = null;
+		let downBtn: any = null;
+		let leftBtn: any = null;
+		Array.from(buttonsList).forEach(item => {
+			switch (item.getAttribute('key')) {
+				case 'center':
+					centerBtn = item;
+					break;
+				case 'up':
+					upBtn = item;
+					break;
+				case 'right':
+					rightBtn = item;
+					break;
+				case 'down':
+					downBtn = item;
+					break;
+				case 'left':
+					leftBtn = item;
+					break;
+				default: throw new Error("Seems to be an invalid dpad Button value ");
+			}
+		});
+
+		// if user forget one or more buttons the default ones will be added
+		if (!centerBtn) {
+			centerBtn = new Ch5DpadButton();
+			centerBtn.setAttribute('key', 'center');
+			this.container.appendChild(centerBtn);
+		}
+		if (!upBtn) {
+			upBtn = new Ch5DpadButton();
+			upBtn.setAttribute('key', 'up');
+			this.container.appendChild(upBtn);
+		}
+		if (!rightBtn) {
+			rightBtn = new Ch5DpadButton();
+			rightBtn.setAttribute('key', 'right');
+			this.container.appendChild(rightBtn);
+		}
+		if (!leftBtn) {
+			leftBtn = new Ch5DpadButton();
+			leftBtn.setAttribute('key', 'left');
+			this.container.appendChild(leftBtn);
+		}
+		
+		if (!downBtn) {
+			downBtn = new Ch5DpadButton();
+			downBtn.setAttribute('key', 'down');
+			this.container.appendChild(downBtn);
+		}
+
+		// this.appendButtonsInRightOrder(centerBtn, upBtn, leftBtn, rightBtn, downBtn);
+	}
+
 	//#endregion
 
 }
