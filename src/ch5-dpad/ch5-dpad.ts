@@ -850,18 +850,14 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	/* render  */
 	private render() {
 		this.classList.add(this.primaryCssClass);
-		const childItemsContainer = this.children as HTMLCollection;
+		const buttonsList = this.children as HTMLCollection;
 
-		if (childItemsContainer.length === 0 || childItemsContainer[0].children.length === 0) {
-			if (!_.cloneDeep(childItemsContainer[0]?.children)) {
-				this.createAndAppendAllButtonsUnderDpad();
-			} else {
-				this.updateAllButtonsUnderDpad(childItemsContainer);
-			}
+		if (buttonsList.length === 0 || buttonsList[0].children.length === 0) {
+			this.createAndAppendAllButtonsUnderDpad();
 		} else {
-			const isValidStructureInChildDiv = this.checkIfOrderOfTagsAreInTheRightOrder(childItemsContainer[0].children);
+			const isValidStructureInChildDiv = this.checkIfOrderOfTagsAreInTheRightOrder(buttonsList[0].children);
 			if (!isValidStructureInChildDiv) {
-				this.updateAllButtonsUnderDpad(childItemsContainer[0].children);
+				this.updateAllButtonsUnderDpad(buttonsList[0].children);
 			}
 		}
 
