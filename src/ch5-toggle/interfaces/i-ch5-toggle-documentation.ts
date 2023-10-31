@@ -41,9 +41,10 @@ import { ICh5ToggleAttributes } from "./i-ch5-toggle-attributes";
           *       "\ticonOff=\"${7:}\"",
           *       "\torientation=\"${8:horizontal}\"",
           *       "\tvalue=\"${9:false}\"",
-          *       "\treceiveStateValue=\"${10:}\"",
-          *       "\treceiveStateScriptLabelHTML=\"${11:}\"",
-          *       "\tsendEventOnClick=\"${12:}\">",
+          *       "\size=\"${10:regular}\"",
+          *       "\treceiveStateValue=\"${11:}\"",
+          *       "\treceiveStateScriptLabelHTML=\"${12:}\"",
+          *       "\tsendEventOnClick=\"${13:}\">",
  *       "</ch5-toggle>$0"
  *       ]
  *    },
@@ -59,7 +60,8 @@ import { ICh5ToggleAttributes } from "./i-ch5-toggle-attributes";
             *       "\ticonOn=\"${6:}\"",
             *       "\ticonOff=\"${7:}\"",
             *       "\torientation=\"${8:horizontal}\"",
-            *       "\tvalue=\"${9:false}\"",
+            *       "\size=\"${9:regular}\"",
+            *       "\tvalue=\"${10:false}\"",
             
  *       "</ch5-toggle>$0"
  *       ]

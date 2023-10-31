@@ -1,5 +1,6 @@
 import { ICh5CommonAttributesToggle } from "../../ch5-common/interfaces/i-ch5-common-attributes-toggle";
-import { TCh5ToggleHandleShape, TCh5ToggleOrientation, } from './t-ch5-toggle';
+import { TCh5ToggleHandleShape, TCh5ToggleOrientation, TCh5ToggleSize } from './t-ch5-toggle';
+import { TCh5CommonInputFeedbackModes } from "../../ch5-common-input/interfaces/t-ch5-common-input";
 
 /**
  * @ignore
@@ -10,7 +11,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonAttributesToggle {
   * [
   * "`handleShape` attribute",
   * "***",
-  * "The default value is 'circle'. Sets the shape that will also determine the shape of the component (rectangle or circle)."
+  * "The default value is 'circle'. Possible values are circle, rectangle. Sets the shape that will determine the shape of the component."
   * ]
   * @name handleshape
   * @default circle
@@ -34,7 +35,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonAttributesToggle {
    * [
    * "`labelOn` attribute",
    * "***",
-   * "Custom text to display on the toggle when the toggle is ON."
+   * "Allows string values to be defined for the labelOn."
    * ]
    * @name labelon
    * @default 
@@ -46,7 +47,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonAttributesToggle {
    * [
    * "`labelOff` attribute",
    * "***",
-   * "Custom text to display on the toggle when the toggle is OFF."
+   * "Allows string values to be defined for the labelOff."
    * ]
    * @name labeloff
    * @default 
@@ -58,7 +59,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonAttributesToggle {
    * [
    * "`iconOn` attribute",
    * "***",
-   * "Specifies a custom icon class when the toggle is ON."
+   * "Allows icons to be defined for the on state of the ch5-toggle. You can declare CSS class in the iconOn attribute."
    * ]
    * @name iconon
    * @default 
@@ -70,7 +71,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonAttributesToggle {
    * [
    * "`iconOff` attribute",
    * "***",
-   * "Specifies a custom icon class when the toggle is OFF."
+   * "Allows icons to be defined for the off state of the ch5-toggle. You can declare CSS class in the iconOff attribute."
    * ]
    * @name iconoff
    * @default 
@@ -82,7 +83,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonAttributesToggle {
    * [
    * "`orientation` attribute",
    * "***",
-   * "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'. Sets the control elements in a horizontal or vertical orientation. ", For vertical alignment, it will apply a CSS class that will rotate the ", component -90 degrees (270 degrees clockwise, 90 degrees counter clockwise)"
+   * "The default value is horizontal. Possible values are 'horizontal' or 'vertical'. Sets the control elements in a horizontal or vertical orientation. ", For vertical alignment, it will apply a CSS class that will rotate the ", component 90 degrees (-90 degrees counter clockwise)"
    * ]
    * @name orientation
    * @default horizontal
@@ -90,23 +91,35 @@ export interface ICh5ToggleAttributes extends ICh5CommonAttributesToggle {
    */
   orientation: TCh5ToggleOrientation;
   /**
-  * @documentation
-  * [
-  * "`value` attribute",
-  * "***",
-  * "The default value is false. The initial value of the component. When feedbackMode=submit, this property will change to the last, value submitted. When reset, the value property will be changed to, the initial value or last value on submit."
-  * ]
-  * @name value
-  * @default false
-  * @attributeType "Boolean"
-  */
+   * @documentation
+   * [
+   * "`size` attribute",
+   * "***",
+   * "The default value is regular. Possible values are regular, x-small, small, large, x-large."
+   * ]
+   * @name size
+   * @default regular
+   * @attributeType "EnumeratedValue"
+   */
+  size: TCh5ToggleSize;
+  /**
+   * @documentation
+   * [
+   * "`value` attribute",
+   * "***",
+   * "The default value is false. Possible values are true, false. When feedbackMode=submit, this property will change to the last, value submitted. When reset, the value property will be changed to, the initial value or last value on submit."
+   * ]
+   * @name value
+   * @default false
+   * @attributeType "Boolean"
+   */
   value: boolean;
   /**
    * @documentation
    * [
    * "`receiveStateValue` attribute",
    * "***",
-   * "The receiving value from the signal."
+   * "The toggle value gets updated with the newly received value from signal."
    * ]
    * @name receivestatevalue
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
@@ -137,5 +150,17 @@ export interface ICh5ToggleAttributes extends ICh5CommonAttributesToggle {
    * @attributeType "Join"
    */
   sendEventOnClick: string;
-
+  /**
+   * @documentation
+   * [
+   * "`feedbackmode` attribute",
+   * "***",
+   * "The default value is 'direct'. If direct, value send and receive will be ",
+   * "instant. On submit, it will send and listen for the first event received."
+   * ]
+   * @name feedbackmode
+   * @default direct
+   * @attributeType "EnumeratedValue"
+   */
+  feedbackMode: TCh5CommonInputFeedbackModes;
 }
