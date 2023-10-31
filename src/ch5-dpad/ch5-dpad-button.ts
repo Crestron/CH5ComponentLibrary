@@ -7,11 +7,11 @@
 
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
-import { Ch5DpadChildBase } from "./ch5-dpad-child-base";
-import { ICh5DpadChildBaseAttributes } from "./interfaces/i-ch5-dpad-child-base-attributes";
+import { Ch5DpadButtonBase } from "./ch5-dpad-button-base";
+import { ICh5DpadButtonBaseAttributes } from "./interfaces/i-ch5-dpad-button-base-attributes";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 
-export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBaseAttributes {
+export class Ch5DpadButton extends Ch5DpadButtonBase implements ICh5DpadButtonBaseAttributes {
 
 	//#region 1. Variables
 
@@ -48,9 +48,9 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 	static get observedAttributes() {
 		const inheritedObsAttrs = Ch5Common.observedAttributes;
 		const newObsAttrs: string[] = [];
-		for (let i: number = 0; i < Ch5DpadChildBase.COMPONENT_PROPERTIES.length; i++) {
-			if (Ch5DpadChildBase.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-				newObsAttrs.push(Ch5DpadChildBase.COMPONENT_PROPERTIES[i].name.toLowerCase());
+		for (let i: number = 0; i < Ch5DpadButtonBase.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5DpadButtonBase.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				newObsAttrs.push(Ch5DpadButtonBase.COMPONENT_PROPERTIES[i].name.toLowerCase());
 			}
 		}
 		return inheritedObsAttrs.concat(newObsAttrs);
@@ -60,7 +60,7 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 		this.logger.start("attributeChangedCallback", this.primaryCssClass);
 		if (oldValue !== newValue) {
 			this.logger.log('ch5-dpad-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
-			const attributeChangedProperty = Ch5DpadChildBase.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
+			const attributeChangedProperty = Ch5DpadButtonBase.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
 			if (attributeChangedProperty) {
 				const thisRef: any = this;
 				const key = attributeChangedProperty.name;

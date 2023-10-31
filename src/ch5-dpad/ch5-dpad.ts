@@ -426,20 +426,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		this.logger.start('createHtmlElements', Ch5Dpad.ELEMENT_NAME);
 
 		this.classList.add(this.primaryCssClass);
-		const childItemsContainer = this.children as HTMLCollection;
 
-		if (childItemsContainer.length === 0 || childItemsContainer[0].children.length === 0) {
-			if (!_.cloneDeep(childItemsContainer[0]?.children)) {
-				this.createAndAppendAllButtonsUnderDpad();
-			} else {
-				this.createAndAppendAllExistingButtonsUnderDpad(childItemsContainer);
-			}
-		} else {
-			const isValidStructureInChildDiv = this.checkIfOrderOfTagsAreInTheRightOrder(childItemsContainer[0].children);
-			if (!isValidStructureInChildDiv) {
-				this.createAndAppendAllExistingButtonsUnderDpad(childItemsContainer[0].children);
-			}
-		}
+		this.render();
 
 		this.logger.stop();
 	}
@@ -447,19 +435,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	protected updateHtmlElements(): void {
 		this.logger.start('updateHtmlElements', Ch5Dpad.ELEMENT_NAME);
 
-		const childItemsContainer = this.children as HTMLCollection;
-		if (childItemsContainer.length === 0 || childItemsContainer[0].children.length === 0) {
-			if (!_.cloneDeep(childItemsContainer[0]?.children)) {
-				this.createAndAppendAllButtonsUnderDpad();
-			} else {
-				this.createAndAppendAllExistingButtonsUnderDpad(childItemsContainer[0].children);
-			}
-		} else {
-			const isValidStructureInChildDiv = this.checkIfOrderOfTagsAreInTheRightOrder(childItemsContainer[0].children);
-			if (!isValidStructureInChildDiv) {
-				this.createAndAppendAllExistingButtonsUnderDpad(childItemsContainer[0].children);
-			}
-		}
+		this.render();
 
 		this.logger.stop();
 	}
@@ -468,7 +444,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	 * Create the container div which holds all the 5 buttons within dpad
 	 */
 	private createEmptyContainerDiv() {
-		if (_.isNil(this.container) || _.isNil(this.container.classList) || this.container.classList.length === 0) {
+		const containerClass = _.isNil(this.container) || _.isNil(this.container.classList) || this.container.classList.length === 0;
+		console.log('containerClass', containerClass)
+		if (containerClass) {
 			this.container = document.createElement('div');
 			this.container.classList.add(this.containerClass);
 		}
@@ -941,7 +919,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			leftBtn.setAttribute('key', 'left');
 			this.container.appendChild(leftBtn);
 		}
-		
+
 		if (!downBtn) {
 			downBtn = new Ch5DpadButton();
 			downBtn.setAttribute('key', 'down');
