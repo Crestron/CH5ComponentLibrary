@@ -2,13 +2,12 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5SignalFactory } from "../ch5-core/index";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
-import { TCh5ToggleHandleShape, TCh5ToggleOrientation, TCh5ToggleSize } from './interfaces/t-ch5-toggle';
+import { TCh5ToggleHandleShape, TCh5ToggleOrientation, TCh5ToggleSize, TCh5ToggleFeedbackMode } from './interfaces/t-ch5-toggle';
 import { ICh5ToggleAttributes } from './interfaces/i-ch5-toggle-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5CommonInput } from "../ch5-common-input/ch5-common-input";
 import HtmlCallback from "../ch5-common/utils/html-callback";
-import { TCh5ToggleFeedbackMode } from "../ch5-toggle-backup/interfaces";
 
 export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 
@@ -116,7 +115,6 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
     {
       default: false,
       name: "value",
-      nameForSignal: "receiveStateValue",
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: false,
@@ -173,9 +171,6 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
   protected _dirtyTimerHandle: number | null = null;
   protected _dirty: boolean = false;
   protected _clean: boolean = true;
-  protected _cleanValue: boolean | string = '';
-  protected _dirtyValue: boolean | string = '';
-
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
@@ -259,35 +254,12 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
   }
 
   public set value(value: boolean) {
-    console.log("inside setter 1 ", value)
+    console.log("set value", value);
     this._ch5Properties.set<boolean>("value", value, () => {
-      console.log("inside setter 2 ", this.value);
-      this.checked = this.value;
-
-      if (this._dirtyTimerHandle !== null) {
-        clearTimeout(this._dirtyTimerHandle);
-      }
-
-      this.handleValue(this.value);
+      console.log("inside set value", this.value);
+      this.handleValue();
     });
   }
-
-  public get checked() {
-    return this.hasAttribute('checked');
-  }
-
-  public set checked(value: boolean) {
-    const isChecked = this.toBoolean(value);
-    console.log("set checked", isChecked, value);
-    if (isChecked) {
-      this.setAttribute('checked', '');
-      this._elContainer.classList.add(this.primaryCssClass + '--on')
-    } else {
-      this.removeAttribute('checked');
-      this._elContainer.classList.remove(this.primaryCssClass + '--on')
-    }
-  }
-
   public get value(): boolean {
     return this._ch5Properties.get<boolean>("value");
   }
@@ -303,11 +275,11 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 
   public set receiveStateValue(value: string) {
     this._ch5Properties.set("receiveStateValue", value, null, (newValue: boolean) => {
-      this._ch5Properties.setForSignalResponse<boolean>("value", newValue, () => {
-        this.checked = newValue;
-        this._cleanValue = newValue;
-        this.handleValue(newValue);
-      });
+      this.value = newValue;
+      this.cleanValue = newValue;
+      this._dirty = false;
+      this._clean = true;
+      if (this._dirtyTimerHandle !== null) { clearTimeout(this._dirtyTimerHandle); }
     });
   }
   public get receiveStateValue(): string {
@@ -391,8 +363,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
         super.attributeChangedCallback(attr, oldValue, newValue);
       }
     }
-    this.addAriaAttributes();
-    this.handleTabIndex();
+    this.addAriaAttributes(attr);
     this.logger.stop();
   }
 
@@ -412,12 +383,16 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
-
     customElements.whenDefined('ch5-toggle').then(() => {
       this.componentLoadedEvent(Ch5Toggle.ELEMENT_NAME, this.id);
     });
-    if (this.hasAttribute('value')) {
-      this._cleanValue = this.value;
+    
+    if (this.hasAttribute('value') && this.getAttribute('value')) {
+      // if (this.getAttribute('value') === '' && this.getAttribute('value')?.toLowerCase() === 'true') {
+      //   this.cleanValue = true;
+      // } else {
+        this.cleanValue = true;
+      // }
     }
     this.logger.stop();
   }
@@ -474,6 +449,8 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
     this._elHandle.appendChild(this._elOnContainer);
     this._elHandle.appendChild(this._elKnob);
 
+    this.setAttribute('tabindex', '0');
+
     this.logger.stop();
   }
 
@@ -515,18 +492,19 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
     });
   }
 
-
   private handleHandleShape() {
     Array.from(Ch5Toggle.COMPONENT_DATA.HANDLE_SHAPE.values).forEach((e: any) => {
       this._elContainer.classList.remove(this.primaryCssClass + "--" + e);
     });
     this._elContainer.classList.add(this.primaryCssClass + "--" + this.handleShape);
   }
+
   private handleLabel() {
     const transalatedLabel = this._getTranslatedValue('label', this.label);
     this._elLabel.innerHTML = transalatedLabel;
     this._elLabel.hidden = false;
   }
+
   private handleIconOn() {
     this.iconOn.split(' ').forEach((className: string) => {
       if (className.trim() !== "") {
@@ -539,6 +517,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
       }
     });
   }
+
   private handleIconOff() {
     this.iconOff.split(' ').forEach((className: string) => {
       if (className.trim() !== "") {
@@ -551,6 +530,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
       }
     });
   }
+
   private handleOrientation() {
     Array.from(Ch5Toggle.COMPONENT_DATA.ORIENTATION.values).forEach((e: any) => {
       this._elContainer.classList.remove(this.primaryCssClass + "--" + e);
@@ -564,19 +544,11 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
     });
     this._elHandle.classList.add(this.primaryCssClass + '__handle' + Ch5Toggle.COMPONENT_DATA.SIZE.classListPrefix + this.size);
   }
+
   private handleSendEventOnClick() {
     if (this.sendEventOnClick) {
       Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(true);
       Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(false);
-    }
-  }
-
-  private handleTabIndex() {
-    if (this.disabled) {
-      this.removeAttribute('tabindex');
-      this.blur();
-    } else {
-      this.setAttribute('tabindex', '0');
     }
   }
 
@@ -594,70 +566,26 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
   }
 
   private handleClick() {
-
-    // this.info("Ch5Toggle._onClick()");
     if (this.disabled) {
       return;
     }
-    // console.log("BEFORE ", this.value)
-    // this.value = this.value === true ? false : true;
-    // this._dirty = true;
-    // this._clean = false;
-    // if (this._feedbackMode === 'direct') {
-    //   this.handleSendEventOnClick();
-    //   console.log("inside ")
-    //   this._setDirtyHandler();
-    // }
-    // if (this.feedbackMode === 'direct') {
-    //   // sedn evebt, dirty handler initialize
-
-    // }
-    // this.handleValue();
     this.toggleChecked();
   }
-  public handleValue(value: boolean, signalResult: boolean = false) {
-    if (signalResult === true) {
-      console.log('signal result 1', this.value)
-      this.value = value;
-      console.log('signal result 2', this.value);
+  public handleValue() {
+    this.dirtyValue = this.value;
+    this._dirty = true;
+    this._clean = false;
 
-      // console.log('signal result clean 1', this._cleanValue);
-      // this._cleanValue = value;
-      // console.log('signal result clean 2', this._cleanValue);
-
-      this._dirty = false;
-      this._clean = true;
-    }
-    // if (value) {
-    //   this.setAttribute('checked', '');
-    //   this._elContainer.classList.add(this.primaryCssClass + '--on');
-    // } else {
-    //   this.removeAttribute('checked');
-    //   this._elContainer.classList.remove(this.primaryCssClass + '--on');
-    // }
-  }
-
-  private _setDirtyHandler() {
-    if (this._dirtyTimerHandle !== null) { clearTimeout(this._dirtyTimerHandle); }
-
-    this._dirtyTimerHandle = window.setTimeout(() => { this._onDirtyTimerFinished() }, this._signalValueSyncTimeout);
-  }
-
-  private _onDirtyTimerFinished() {
-    this._dirtyTimerHandle = null;
-
-    if (this._dirtyValue !== this._cleanValue) {
-      this.checked = this._cleanValue as boolean;
-      this.setClean();
+    if (this.value) {
+      this.setAttribute('checked', '');
+      this._elContainer.classList.add(this.primaryCssClass + '--on');
+    } else {
+      this.removeAttribute('checked');
+      this._elContainer.classList.remove(this.primaryCssClass + '--on');
     }
   }
 
   private _dispatchEvents(detail: any): void {
-    /**
-     * Fired when the component's `checked` value changes due to user interaction.
-     *
-     * @event change
-     */
     this.dispatchEvent(
       this.changeEvent = new CustomEvent('change', {
         detail,
@@ -666,7 +594,13 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
     );
   }
 
-  private addAriaAttributes() {
+  private addAriaAttributes(attr: string) {
+    if (this.disabled) {
+      this.removeAttribute('tabindex');
+      this.blur();
+    } else {
+      this.setAttribute('tabindex', '0');
+    }
     this.setAttribute('aria-checked', this.value + '');
     this.setAttribute('aria-disabled', this.disabled + '');
   }
@@ -680,28 +614,45 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
   }
 
   public submit(): void {
-    if (this.feedbackMode === 'submit' && this._dirty === true) {
+    if (this.feedbackMode === 'submit' && this._dirty === true && this.dirtyValue !== this.cleanValue) {
       this._submitted = true;
-      this._setDirtyHandler();
+      this.setDirtyHandler();
       this.handleSendEventOnClick();
     }
   };
 
   public reset(): void {
     this.setClean();
-    this.value = this._cleanValue as boolean;
-    this.checked = this._cleanValue as boolean;
+    this.value = this.cleanValue as boolean;
+  }
+
+  private setDirtyHandler() {
+    if (this._dirtyTimerHandle !== null) { clearTimeout(this._dirtyTimerHandle); }
+
+    this._dirtyTimerHandle = window.setTimeout(() => this.valueSync(), this._signalValueSyncTimeout);
+  }
+
+  private valueSync() {
+    if (this._dirtyTimerHandle !== null) { clearTimeout(this._dirtyTimerHandle); }
+
+    if (this.dirtyValue !== this.cleanValue) {
+      this.value = this.cleanValue as boolean;
+      this.setClean();
+    }
   }
 
   public toggleChecked() {
     // Change the value of checked.
-    this.checked = !this.checked;
+    console.log("before value", this.value);
+
+    this.value = !this.value;
+    console.log("after value", this.value);
     // The detail of the event.
-    const detail = { value: this.checked };
+    const detail = { value: this.value };
     // set dirty state and dirty value
     if (!this._dirty) {
       // set dirty value
-      this._dirtyValue = this.checked;
+      this._dirtyValue = this.value;
       // set dirty state
       this.setDirty();
     } else {
@@ -711,7 +662,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 
     // set dirty handler immediately if feedbackMode is not submit and send click signal
     if (this._feedbackMode !== 'submit') {
-      this._setDirtyHandler();
+      this.setDirtyHandler();
       this.handleSendEventOnClick();
     }
     // dispatch 'change' event
@@ -731,7 +682,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 
     // fire dirty event
     if (this.feedbackMode === 'submit') {
-      const detail = { value: this.checked };
+      const detail = { value: this.value };
       /**
        * Fired when the component's value changes due to user interaction.
        *
@@ -759,13 +710,11 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 
     this._dirty = false;
     this._clean = true;
-    // this.value = this.cleanValue as boolean;
     this._submitted = false;
 
     // fire clean event
     if (this.feedbackMode === 'submit') {
-      console.log("this.feedbackMode === 'submit'")
-      const detail = { value: this.checked };
+      const detail = { value: this.value };
       /**
        * Fired when the component's becomes clean.
        *
