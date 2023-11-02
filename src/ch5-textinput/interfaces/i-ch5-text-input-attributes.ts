@@ -111,8 +111,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`type` attribute",
    * "***",
-   * "The default value is text. ",
-   * "The type of the input."
+   * "The default value is text. Valid values are text, number, email, and password. The type attribute describes type of the input element.",
    * ]
    * @name type
    * @default text
