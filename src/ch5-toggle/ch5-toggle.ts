@@ -254,9 +254,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
   }
 
   public set value(value: boolean) {
-    console.log("set value", value);
     this._ch5Properties.set<boolean>("value", value, () => {
-      console.log("inside set value", this.value);
       this.handleValue();
     });
   }
@@ -383,17 +381,12 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
+    this._cleanValue = this.value;
+
     customElements.whenDefined('ch5-toggle').then(() => {
       this.componentLoadedEvent(Ch5Toggle.ELEMENT_NAME, this.id);
     });
-    
-    if (this.hasAttribute('value') && this.getAttribute('value')) {
-      // if (this.getAttribute('value') === '' && this.getAttribute('value')?.toLowerCase() === 'true') {
-      //   this.cleanValue = true;
-      // } else {
-        this.cleanValue = true;
-      // }
-    }
+
     this.logger.stop();
   }
 
@@ -643,10 +636,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 
   public toggleChecked() {
     // Change the value of checked.
-    console.log("before value", this.value);
-
     this.value = !this.value;
-    console.log("after value", this.value);
     // The detail of the event.
     const detail = { value: this.value };
     // set dirty state and dirty value
