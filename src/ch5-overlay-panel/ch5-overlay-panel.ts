@@ -647,6 +647,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		}
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	protected _clickedOnClose(inEvent: Event) {
 		this.info('_clickedOnClose()');
 		this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true);
@@ -895,7 +896,8 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 	}
 
 	//#region "Events"
-	
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	protected _onShow(inEvent: Event): void {
 		this.info('_onShow()');
 	}
@@ -905,21 +907,25 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		this._onAfterHide(inEvent);
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	protected _onBeforeShow(inEvent: Event): void {
 		this.info('_onBeforeShow()');
 		// this._sendPulse(this.sendEventOnBeforeShow);
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	protected _onAfterShow(inEvent: Event): void {
 		this.info('_onAfterShow()');
 		// this._sendPulse(this.sendEventOnAfterShow);
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	protected _onBeforeHide(inEvent: Event): void {
 		this.info('_onBeforeHide()');
 		// this._sendPulse(this.sendEventOnBeforeHide);
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	protected _onAfterHide(inEvent: Event): void {
 		this.info('_onAfterHide()');
 		// this._sendPulse(this.sendEventOnAfterHide);

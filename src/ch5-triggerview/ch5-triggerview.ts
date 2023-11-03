@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { intSetter, intGetter, booleanGetter, booleanSetter } from './utils';
+import { intSetter, intGetter } from './utils';
 
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Signal, Ch5SignalFactory, subscribeInViewPortChange } from "../ch5-core";
@@ -888,8 +888,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 	protected updateCssClasses(): void {
 		// apply css classes for attrs inherited from common (e.g. customClass, customStyle )
 		super.updateCssClasses();
-
-		// @ts-ignore
 		const setOfCssClassesToBeApplied = new Set<string>();
 
 		// primary

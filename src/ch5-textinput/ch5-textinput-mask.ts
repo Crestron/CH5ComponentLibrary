@@ -555,6 +555,7 @@ export class Ch5TextInputMask {
   }
 
   private _onInputBlur(): void {
+
     if (this.alwaysShow === false) {
       this.show = false;
       this.togglePlaceholder();

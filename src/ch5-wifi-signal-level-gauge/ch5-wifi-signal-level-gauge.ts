@@ -6,7 +6,6 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { subscribeInViewPortChange } from "../ch5-core/utility-functions/subscribe-in-view-port-change";
-import _ from "lodash";
 import { resizeObserver } from "../ch5-core/resize-observer";
 
 export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignalLevelGaugeAttributes {

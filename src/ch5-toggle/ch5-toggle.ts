@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5Signal, Ch5SignalFactory, Ch5Uid } from "../ch5-core";
+import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { Ch5CommonInput } from "../ch5-common-input/ch5-common-input";
 
 import HtmlCallback from "../ch5-common/utils/html-callback";
@@ -1230,6 +1230,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 	 * @private
 	 * @memberof Ch5Toggle
 	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	private _onClick(inEvent: Event): void {
 		this.info("Ch5Toggle._onClick()");
 		// Don't do anything if disabled.

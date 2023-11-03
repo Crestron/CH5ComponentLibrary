@@ -1127,7 +1127,6 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
     this._elInput.setAttribute('aria-labeledby', this.label);
   }
   //#endregion
-
 }
 
 Ch5TextInput.registerCustomElement();

@@ -471,9 +471,7 @@ export class Ch5SpinnerTemplate {
 
       if (endless === true) {
         const childrenObject = this.childrenObject as HTMLElement[];
-        let clonedItemsLength;
-        let marginTopNegativeOffset;
-
+        
 
         for (let i = childrenObject.length - 1; i >= childrenObject.length - Math.ceil(visibleItemScroll / 2); i--) {
           this.pushElementToClonedItemsList('prepended', i, true);
@@ -483,11 +481,12 @@ export class Ch5SpinnerTemplate {
           this.pushElementToClonedItemsList('appended', i);
         }
 
-        clonedItemsLength = this._clonedItems.prepended.length;
-        marginTopNegativeOffset = -(clonedItemsLength * itemHeightValue) + itemHeightMeasurementUnit;
+        const clonedItemsLength = this._clonedItems.prepended.length;
+        const marginTopNegativeOffset = -(clonedItemsLength * itemHeightValue) + itemHeightMeasurementUnit;
 
         this._clonedItems.prepended[0].style.marginTop = marginTopNegativeOffset;
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         this._clonedItems.prepended.forEach((element, index) => {
           this.scrollableArea.appendChild(element);
         });
@@ -667,7 +666,6 @@ export class Ch5SpinnerTemplate {
     }
 
     const documentContainer: HTMLTemplateElement = document.createElement('template');
-    // @ts-ignore
     Array.from(elements).forEach((e: Element) => documentContainer.content.appendChild(e));
     if (this.element.indexId !== '') {
       // replace the placeholder for id'sd
@@ -806,8 +804,6 @@ export class Ch5SpinnerTemplate {
     const label = document.createElement('label');
     const wrapper = document.createElement('div');
     const fragment = document.createDocumentFragment();
-
-    const indexId = this.element.indexId;
 
     icon.classList.add(Ch5Spinner.primaryCssClass + '__icon');
 

@@ -81,7 +81,7 @@ export class Ch5Signal<T extends TSignal> {
                     && resyncRequest.value.range !== undefined 
                     && resyncRequest.value.excludePrefixes !== undefined
                 ) {
-                    ch5Resync.onReceiveStartOfUpdateRange(resyncRequest.state, resyncRequest.value.range, resyncRequest.value.excludePrefixes);
+                    ch5Resync.onReceiveStartOfUpdateRange(resyncRequest.state, resyncRequest.value.range);
                 } else {
                     throw new Error('Invalid resyncRequest object');
                 }

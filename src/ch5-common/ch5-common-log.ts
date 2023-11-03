@@ -47,7 +47,8 @@ export class Ch5CommonLog {
             if (callerName) { callerName = callerName.replace(/^\s+at HTMLElement./, ''); }
             if (callerName) { callerName = callerName.replace(/^\s+at /, ''); }
             if (callerName) { callerName = callerName.replace(/ \(.+\)$/, ''); }
-            if (callerName) { callerName = callerName.replace(/\@.+/, ''); }
+          // eslint-disable-next-line no-useless-escape
+          if (callerName) { callerName = callerName.replace(/\@.+/, ''); }
             if (callerName && callerName !== "") {
               callerName = "Method is " + callerName + ":";
             }
@@ -75,6 +76,7 @@ export class Ch5CommonLog {
           if (callerName) { callerName = callerName.replace(/^\s+at HTMLElement./, ''); }
           if (callerName) { callerName = callerName.replace(/^\s+at /, ''); }
           if (callerName) { callerName = callerName.replace(/ \(.+\)$/, ''); }
+          // eslint-disable-next-line no-useless-escape
           if (callerName) { callerName = callerName.replace(/\@.+/, ''); }
           if (callerName && callerName !== "") {
             callerName = "Method is " + callerName + ":";
@@ -102,6 +104,7 @@ export class Ch5CommonLog {
           if (callerName) { callerName = callerName.replace(/^\s+at HTMLElement./, ''); }
           if (callerName) { callerName = callerName.replace(/^\s+at /, ''); }
           if (callerName) { callerName = callerName.replace(/ \(.+\)$/, ''); }
+          // eslint-disable-next-line no-useless-escape
           if (callerName) { callerName = callerName.replace(/\@.+/, ''); }
           if (callerName && callerName !== "") {
             callerName = "Method is " + callerName + ":";

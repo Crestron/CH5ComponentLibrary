@@ -18,6 +18,7 @@ export class Ch5TriggerViewSwiper {
     this._activeView = input;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   constructor(id: string) {
     //
   }

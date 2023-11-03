@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5Common } from "../../ch5-common/interfaces";
-import { ICh5KeypadAttributes, ICh5KeypadButtonAttributes } from "./index";
+import { ICh5KeypadAttributes } from "./index";
 
 /**
  * @name Ch5 Keypad

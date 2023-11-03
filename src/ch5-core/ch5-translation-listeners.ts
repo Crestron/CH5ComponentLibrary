@@ -52,6 +52,7 @@ export class Ch5TranslationListeners {
    * @memberof Ch5TranslationListeners
    * @return {void}
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected onLoaded(loaded: boolean): void {
     // console.log('The resource was loaded');
     this.translate();
@@ -63,6 +64,7 @@ export class Ch5TranslationListeners {
    * @memberof Ch5TranslationListeners
    * @return {void}
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected onAdded(lng: string, ns: string): void {
     // console.log('New resource was added');
     this.translate();
