@@ -1215,7 +1215,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		 * @param (w)       Element width number
 		 * @param (h)       Element height number
 		 */
-		function _isVisible(el: HTMLElement, t?: number, r?: number, b?: number, l?: number, w?: number, h?: number): boolean {
+		function _isVisible(el: HTMLElement): boolean {
 			const p = el.parentNode as HTMLElement;
 
 			if (!_elementInDocument(el)) {
@@ -1256,7 +1256,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		}
 
 		function _elementInDocument(element: any) {
-			/* tslint:disable:no-conditional-assignment */
+			// eslint-disable-next-line no-cond-assign
 			while (element = element.parentNode) {
 				if (element === document) {
 					return true;
@@ -1370,7 +1370,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	/**
 	 *  EVENTS HANDLERS
 	 */
-
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	protected _onTouchStart(inEvent: Event): void {
 		this.info("Ch5Image._onTouchStart()");
 		// inEvent.preventDefault();
@@ -1383,21 +1383,25 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	protected _onTouchEnd(inEvent: Event): void {
 		this.info("Ch5Image._onTouchEnd()");
 
 		this._stopSendSignalOnTouch();
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	private _onTouchMove(inEvent: Event): void {
 		// inEvent.preventDefault();
 		this._stopSendSignalOnTouch();
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	protected _onTouchCancel(inEvent: Event): void {
 		this._stopSendSignalOnTouch();
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	private _onClick(inEvent: Event): void {
 		this.info("Ch5Image._onClick()");
 		// inEvent.preventDefault();
@@ -1405,6 +1409,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		// this._sendValueForClickSignal();
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	private _onError(inEvent: Event): void {
 		this.logger.log("onError called");
 		this.dispatchEvent(this.errorEvent);

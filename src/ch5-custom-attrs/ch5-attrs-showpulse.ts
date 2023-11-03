@@ -188,7 +188,9 @@ export class Ch5AttrsShowPulse extends CustomAttribute<Ch5AttrShowTypes> impleme
                 el.setAttribute(Ch5AttrsShowPulse.KEEP_SIG_SUBS_ATTR, '');
 
                 // TODO: maybe we can use Object.defineProperty to define cachedP and sib?
+                // eslint-disable-next-line no-case-declarations
                 const parent: Node | null = el.parentElement;
+                // eslint-disable-next-line no-case-declarations
                 const sib: Node | null = el.nextSibling;
 
                 if (parent) {

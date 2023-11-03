@@ -6,7 +6,6 @@ import { TCh5SegmentedGaugeOrientation, TCh5SegmentedGaugeGaugeLedStyle, TCh5Seg
 import { ICh5SegmentedGaugeAttributes } from './interfaces/i-ch5-segmented-gauge-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
-import _ from "lodash";
 
 export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAttributes {
 
@@ -594,6 +593,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private handleDragEndEvent(idx: number, e: any) {
     this.mouseDragEnd = true;
     this.handleDebounceSignal(idx);
@@ -640,6 +640,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private handleTouchSettable(e: MouseEvent) {
     if (this.touchSettable === true) {
       this.handleSendEventOnClick();

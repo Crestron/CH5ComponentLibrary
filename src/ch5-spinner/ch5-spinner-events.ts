@@ -5,13 +5,10 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import isEmpty from 'lodash/isEmpty';
-import isNil from 'lodash/isNil';
 import isNull from 'lodash/isNull';
 import { Ch5SignalFactory } from '../ch5-core';
 import { Ch5Spinner } from './ch5-spinner';
 import HtmlCallback from '../ch5-common/utils/html-callback';
-import _ from 'lodash';
 import { Ch5Common } from '../ch5-common/ch5-common';
 
 export class Ch5SpinnerEvents {

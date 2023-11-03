@@ -602,6 +602,7 @@ export class Ch5tTextInputMask {
     if (
       this._isUserTyping() &&
       nextLetter !== null &&
+      // eslint-disable-next-line no-useless-escape
       nextLetter.match(/[-_#().,\\\/=@$&\s+]/g) !== null
     ) {
 
@@ -1144,6 +1145,7 @@ export class Ch5tTextInputMask {
    *
    * @param {MouseEvent} inEvent
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private _onInputFocus(inEvent: MouseEvent): void {
 
     if (this.alwaysShow === false) {
@@ -1156,7 +1158,8 @@ export class Ch5tTextInputMask {
    *
    * @param {MouseEvent} inEvent
    */
-  private _onInputBlur(inEvent: MouseEvent): void {
+   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   private _onInputBlur(inEvent: MouseEvent): void {
     if (this.alwaysShow === false) {
       this.show = false;
       this.togglePlaceholder();
@@ -1175,8 +1178,8 @@ export class Ch5tTextInputMask {
    *
    * @param {CustomEvent} inEvent
    */
-  private _onMaskUpdate(inEvent: any): void {
-
+   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   private _onMaskUpdate(inEvent: any): void {
     if (this._isUserTyping()) {
       this._maskCharacterOnTyping(this.lastValueLength);
     } else {

@@ -570,12 +570,14 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		this._clickedOnMask = this._clickedOnMask.bind(this);
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	protected _onOkClick(inEvent: Event) {
 		this.info('_onOkClick()');
 		this.dispatchEvent(this._okEvent);
 		this.setShowBasedOnAttributes();
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	protected _onCancelClick(inEvent: Event) {
 		this.info('_onCancelClick()');
 		this.dispatchEvent(this._cancelEvent);

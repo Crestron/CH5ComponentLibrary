@@ -17,6 +17,7 @@ function _passiveEvtListenersSupported(): boolean {
   if (typeof passiveEvtSupport === 'undefined') {
     passiveEvtSupport = false;
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const opts = Object.defineProperty({}, 'passive', {
         get: () => {
           passiveEvtSupport = true;

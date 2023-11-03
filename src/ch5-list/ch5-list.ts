@@ -1159,7 +1159,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 	}
 
 	/**
-	 * Using parent element, this method can retrive list max height from percentage value
+	 * Using parent element, this method can retrieve list max height from percentage value
 	 * @param value
 	 */
 	private getMaxHeightInPxFromPercentage(): string {
@@ -1999,24 +1999,24 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 		// Getting the value of _lastViewIndex before calling internalUpdate(),
 		// as _internalUpdate() will update its value.
 		// This is done to avoid a locking situation, e.g. when the ch5-list is
-		// initialised, selected wouldn't be assigned because of _lastViewIndex
+		// initialized, selected wouldn't be assigned because of _lastViewIndex
 		// still being -1. When we parse the items from the list, we can compute
 		// _lastViewIndex, and then we can force an update on selected.
-		const shouldForceSelectedUpdate = this._items.length === 0 && this._lastViewIndex === -1;
+		// const shouldForceSelectedUpdate = this._items.length === 0 && this._lastViewIndex === -1;
 
 		// Calling internalUpdate instead of update, to avoid race conditions
 		// (update is debounced). This is because the number of items is
 		// essential for computing the remaining internal values.
 		this._internalUpdate();
 
-		// See a few lines above.
-		if (shouldForceSelectedUpdate) {
-			this.selected = this.selected;
-		}
+		// // See a few lines above.
+		// if (shouldForceSelectedUpdate) {
+		// 	this.selected = this.selected;
+		// }
 	}
 
 	/**
-	 * Extracts the item's data index (i.e. between 0 and this._items.lenght -1)
+	 * Extracts the item's data index (i.e. between 0 and this._items.length -1)
 	 * from its layoutIndex.
 	 * @param {number} layoutIndex The item's layoutIndex
 	 * @return {number} The item's data index.

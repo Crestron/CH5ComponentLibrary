@@ -345,6 +345,7 @@ export class Ch5PressableSlider {
 	 *  EVENTS HANDLERS
 	 */
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	private _onClick(inEvent: Event): void {
 		// reset touchstart/touchend flags
 		this._touchStart = false;
@@ -494,6 +495,7 @@ export class Ch5PressableSlider {
 		}
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	private _onTouchHoldTimer(event: Event): void {
 		// this._ch5Component.info(`Ch5Pressable._onTouchHoldTimer(), ${this._fingerState.touchPointId}`);
 		this._fingerState.touchHoldTimer = null;
@@ -577,7 +579,9 @@ export class Ch5PressableSlider {
 					eval(onPressAttrib);
 				}
 				// tslint:disable-next-line: no-empty
-				catch (e) { };
+				catch (e) { 
+					// Ignore
+				};
 			}
 		}
 
@@ -620,7 +624,9 @@ export class Ch5PressableSlider {
 					eval(onReleaseAttrib);
 				}
 				// tslint:disable-next-line: no-empty
-				catch (e) { };
+				catch (e) { 
+					// Ignore
+				};
 			}
 		}
 	}

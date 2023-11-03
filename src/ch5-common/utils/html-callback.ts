@@ -30,6 +30,7 @@ export default class HtmlCallback {
 
       if (!_.isNil(methodReference)) {
         if (this.isNativeMethod(methodReference)) {
+          // eslint-disable-next-line prefer-spread
           methodReference.apply(null, callback.arguments as []);
         } else {
           let args = callback.arguments;
@@ -129,7 +130,7 @@ export default class HtmlCallback {
     }
       
     const nestedObject = _nestedObject.split('.');
-    let methodReference = null;
+    let methodReference: any | null | undefined = null;
 
     if (!_.isUndefined(ref)) {
       methodReference = ref[nestedObject[0]];

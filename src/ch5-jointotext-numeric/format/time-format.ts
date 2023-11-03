@@ -4,6 +4,7 @@ export type TimeFormatOptions = {}
 
 export class TimeFormat extends NumericFormat {
     
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public format(value: number, options: TimeFormatOptions) {
         if (isNaN(value) || value < 0){
             return "00:00";

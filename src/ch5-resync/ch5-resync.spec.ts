@@ -18,27 +18,26 @@ describe('Ch5Resync', () => {
 
     const boolA = 'fb1'
     let boolAVal: boolean = true;
-    let boolASub: string; 
-    
+    let boolASub: string;
+
     const boolB = 'fb2'
     let boolBVal: boolean = true;
-    let boolBSub: string; 
+    let boolBSub: string;
 
     const boolG = 'MyContract.BoolG';
     let boolGVal: boolean = true;
-    let boolGSub: string; 
+    let boolGSub: string;
 
     const boolH = 'MyContract.BoolH';
     let boolHVal: boolean = true;
-    let boolHSub: string; 
-    
+    let boolHSub: string;
+
     const numberC = 'fb1';
     let numberCVal: number = 100;
     let numberCSub: string;
 
     const numberD = 'fb2';
     let numberDVal: number = 100;
-    let numberDSub: string;
 
     const numberJ = 'MyContract.NumJ';
     let numberJVal: number = 100;
@@ -47,7 +46,7 @@ describe('Ch5Resync', () => {
     const numberK = 'MyContract.NumK';
     let numberKVal: number = 100;
     let numberKSub: string;
-   
+
     const stringE = 'fb1';
     const stringF = 'fb2';
     const stringM = 'MyContract.StringM';
@@ -58,13 +57,13 @@ describe('Ch5Resync', () => {
     let stringFVal = NOT_EMPTY;
     let stringMVal = NOT_EMPTY;
     let stringNVal = NOT_EMPTY;
-    let stringESub:string;
-    let stringFSub:string;
-    let stringMSub:string;
-    let stringNSub:string;    
+    let stringESub: string;
+    let stringFSub: string;
+    let stringMSub: string;
+    let stringNSub: string;
 
 
-    
+
     // tslint:disable-next-line: no-empty
     before(() => {
         // Ch5Debug.setConfigKeyValue('Ch5Resync', true);
@@ -76,19 +75,18 @@ describe('Ch5Resync', () => {
     });
 
     beforeEach(() => {
-        boolASub = subscribeState('b', boolA, (value: boolean) => { boolAVal = value;});
-        boolBSub = subscribeState('b', boolB, (value: boolean) => { boolBVal = value;});
-        boolGSub = subscribeState('b', boolG, (value: boolean) => { boolGVal = value;});
-        boolHSub = subscribeState('b', boolH, (value: boolean) => { boolHVal = value;});
-        numberCSub = subscribeState('n', numberC, (value: number) => { numberCVal = value;});
-        numberDSub = subscribeState('n', numberD, (value: number) => { numberDVal = value;});
-        numberJSub = subscribeState('n', numberJ, (value: number) => { numberJVal = value;});
-        numberKSub = subscribeState('n', numberK, (value: number) => { numberKVal = value;});
+        boolASub = subscribeState('b', boolA, (value: boolean) => { boolAVal = value; });
+        boolBSub = subscribeState('b', boolB, (value: boolean) => { boolBVal = value; });
+        boolGSub = subscribeState('b', boolG, (value: boolean) => { boolGVal = value; });
+        boolHSub = subscribeState('b', boolH, (value: boolean) => { boolHVal = value; });
+        numberCSub = subscribeState('n', numberC, (value: number) => { numberCVal = value; });
+        numberJSub = subscribeState('n', numberJ, (value: number) => { numberJVal = value; });
+        numberKSub = subscribeState('n', numberK, (value: number) => { numberKVal = value; });
 
-        stringESub = subscribeState('s', stringE, (value: string) => { stringEVal = value;});
-        stringFSub = subscribeState('s', stringF, (value: string) => { stringFVal = value;});
-        stringMSub = subscribeState('s', stringM, (value: string) => { stringMVal = value;});
-        stringNSub = subscribeState('s', stringN, (value: string) => { stringNVal = value;});
+        stringESub = subscribeState('s', stringE, (value: string) => { stringEVal = value; });
+        stringFSub = subscribeState('s', stringF, (value: string) => { stringFVal = value; });
+        stringMSub = subscribeState('s', stringM, (value: string) => { stringMVal = value; });
+        stringNSub = subscribeState('s', stringN, (value: string) => { stringNVal = value; });
 
     });
 
@@ -183,10 +181,10 @@ describe('Ch5Resync', () => {
 
     it('SOU / EOU', () => {
         commonPreSOUSetJoins();
-        bridgeReceiveObjectFromNative('Csig.State_Synchronization', {"id":"wss://192.168.1.244:49200/:0x48:","state":"StartOfUpdate","value":{"excludePrefixes":["Csig"]}});
+        bridgeReceiveObjectFromNative('Csig.State_Synchronization', { "id": "wss://192.168.1.244:49200/:0x48:", "state": "StartOfUpdate", "value": { "excludePrefixes": ["Csig"] } });
         commonBetweenSOUandEOUSetNumericJoins();
         commonBetweenSOUandEOUSetSymbolJoins();
-        bridgeReceiveObjectFromNative('Csig.State_Synchronization', {"id":"wss://192.168.1.244:49200/:0x48:","state":"EndOfUpdate"});
+        bridgeReceiveObjectFromNative('Csig.State_Synchronization', { "id": "wss://192.168.1.244:49200/:0x48:", "state": "EndOfUpdate" });
         commonVerifyNumericJoins();
         commonVerifySymbolicJoins();
 
@@ -196,50 +194,50 @@ describe('Ch5Resync', () => {
     it('SOU Range / EOU', () => {
         commonPreSOUSetJoins();
         bridgeReceiveObjectFromNative('Csig.State_Synchronization', {
-            id : "localhost-03", 
-            state : "StartOfUpdateRange" ,
-            value : {
-                excludePrefixes : ["Csig"], 
+            id: "localhost-03",
+            state: "StartOfUpdateRange",
+            value: {
+                excludePrefixes: ["Csig"],
                 range: {
-                    "boolean" : {"stateNames": [], "joinLow": 1, "joinHigh": 2}, 
-                    "numeric" : {"stateNames": [], "joinLow": 1, "joinHigh": 2}, 
-                    "string" : {"stateNames": [], "joinLow": 1, "joinHigh": 2} 
+                    "boolean": { "stateNames": [], "joinLow": 1, "joinHigh": 2 },
+                    "numeric": { "stateNames": [], "joinLow": 1, "joinHigh": 2 },
+                    "string": { "stateNames": [], "joinLow": 1, "joinHigh": 2 }
                 }
             }
         });
         commonBetweenSOUandEOUSetNumericJoins();
-        bridgeReceiveObjectFromNative('Csig.State_Synchronization', {"id":"localhost-03","state":"EndOfUpdate"});
+        bridgeReceiveObjectFromNative('Csig.State_Synchronization', { "id": "localhost-03", "state": "EndOfUpdate" });
         commonVerifyNumericJoins();
-    });    
+    });
 
     it('SOU Range / SOU Range SO / EOU', () => {
         commonPreSOUSetJoins();
         bridgeReceiveObjectFromNative('Csig.State_Synchronization', {
-            id : "localhost-03", 
-            state : "StartOfUpdateRange" ,
-            value : {
-                excludePrefixes : ["Csig"], 
+            id: "localhost-03",
+            state: "StartOfUpdateRange",
+            value: {
+                excludePrefixes: ["Csig"],
                 range: {
-                    "boolean" : {"stateNames": [], "joinLow": 0, "joinHigh": 0}, 
-                    "numeric" : {"stateNames": [], "joinLow": 0, "joinHigh": 0}, 
-                    "string" : {"stateNames": [], "joinLow": 0, "joinHigh": 0} 
+                    "boolean": { "stateNames": [], "joinLow": 0, "joinHigh": 0 },
+                    "numeric": { "stateNames": [], "joinLow": 0, "joinHigh": 0 },
+                    "string": { "stateNames": [], "joinLow": 0, "joinHigh": 0 }
                 }
             }
         });
         bridgeReceiveObjectFromNative('Csig.State_Synchronization', {
-            id : "localhost-03", 
-            state : "StartOfUpdateRangeSO" ,
-            value : {
-                excludePrefixes : ["Csig"], 
+            id: "localhost-03",
+            state: "StartOfUpdateRangeSO",
+            value: {
+                excludePrefixes: ["Csig"],
                 range: {
-                    "boolean" : {"stateNames": [boolG, boolH], "joinLow": 0, "joinHigh": 0}, 
-                    "numeric" : {"stateNames": [numberJ, numberK], "joinLow": 0, "joinHigh": 0}, 
-                    "string" : {"stateNames": [stringM, stringN], "joinLow": 0, "joinHigh": 0} 
+                    "boolean": { "stateNames": [boolG, boolH], "joinLow": 0, "joinHigh": 0 },
+                    "numeric": { "stateNames": [numberJ, numberK], "joinLow": 0, "joinHigh": 0 },
+                    "string": { "stateNames": [stringM, stringN], "joinLow": 0, "joinHigh": 0 }
                 }
             }
         });
         commonBetweenSOUandEOUSetSymbolJoins();
-        bridgeReceiveObjectFromNative('Csig.State_Synchronization', {"id":"localhost-03","state":"EndOfUpdate"});
+        bridgeReceiveObjectFromNative('Csig.State_Synchronization', { "id": "localhost-03", "state": "EndOfUpdate" });
         // commonVerifyNumericJoins();
         assert.equal(boolAVal, true, "boolAVal changed by Range Reset with low=0, high=0");
         assert.equal(boolBVal, false, "boolBVal changed by Range Reset with low=0, high=0");
@@ -251,73 +249,73 @@ describe('Ch5Resync', () => {
         assert.equal(stringEVal, NOT_EMPTY, `string:${stringE} not "${NOT_EMPTY}" changed by Range Reset with low=0, high=0`);
 
         commonVerifySymbolicJoins();
-    });    
+    });
 
     it('SOU Range / SOU Range SO / SOU Range / EOU / EOU ', () => {
         commonPreSOUSetJoins();
         bridgeReceiveObjectFromNative('Csig.State_Synchronization', {
-            id : "localhost-03", 
-            state : "StartOfUpdateRange" ,
-            value : {
-                excludePrefixes : ["Csig"], 
+            id: "localhost-03",
+            state: "StartOfUpdateRange",
+            value: {
+                excludePrefixes: ["Csig"],
                 range: {
-                    "boolean" : {"stateNames": [], "joinLow": 0, "joinHigh": 0}, 
-                    "numeric" : {"stateNames": [], "joinLow": 0, "joinHigh": 0}, 
-                    "string" : {"stateNames": [], "joinLow": 0, "joinHigh": 0} 
+                    "boolean": { "stateNames": [], "joinLow": 0, "joinHigh": 0 },
+                    "numeric": { "stateNames": [], "joinLow": 0, "joinHigh": 0 },
+                    "string": { "stateNames": [], "joinLow": 0, "joinHigh": 0 }
                 }
             }
         });
         bridgeReceiveObjectFromNative('Csig.State_Synchronization', {
-            id : "localhost-03", 
-            state : "StartOfUpdateRangeSO" ,
-            value : {
-                excludePrefixes : ["Csig"], 
+            id: "localhost-03",
+            state: "StartOfUpdateRangeSO",
+            value: {
+                excludePrefixes: ["Csig"],
                 range: {
-                    "boolean" : {"stateNames": [boolG, boolH], "joinLow": 0, "joinHigh": 0}, 
-                    "numeric" : {"stateNames": [numberJ, numberK], "joinLow": 0, "joinHigh": 0}, 
-                    "string" : {"stateNames": [stringM, stringN], "joinLow": 0, "joinHigh": 0} 
+                    "boolean": { "stateNames": [boolG, boolH], "joinLow": 0, "joinHigh": 0 },
+                    "numeric": { "stateNames": [numberJ, numberK], "joinLow": 0, "joinHigh": 0 },
+                    "string": { "stateNames": [stringM, stringN], "joinLow": 0, "joinHigh": 0 }
                 }
             }
         });
         commonBetweenSOUandEOUSetSymbolJoins();
         bridgeReceiveObjectFromNative('Csig.State_Synchronization', {
-            id : "localhost-03", 
-            state : "StartOfUpdateRange" ,
-            value : {
-                excludePrefixes : ["Csig"], 
+            id: "localhost-03",
+            state: "StartOfUpdateRange",
+            value: {
+                excludePrefixes: ["Csig"],
                 range: {
-                    "boolean" : {"stateNames": [], "joinLow": 1, "joinHigh": 2}, 
-                    "numeric" : {"stateNames": [], "joinLow": 1, "joinHigh": 2}, 
-                    "string" : {"stateNames": [], "joinLow": 1, "joinHigh": 2} 
+                    "boolean": { "stateNames": [], "joinLow": 1, "joinHigh": 2 },
+                    "numeric": { "stateNames": [], "joinLow": 1, "joinHigh": 2 },
+                    "string": { "stateNames": [], "joinLow": 1, "joinHigh": 2 }
                 }
             }
         });
         commonBetweenSOUandEOUSetNumericJoins();
-        
-        
-        bridgeReceiveObjectFromNative('Csig.State_Synchronization', {"id":"localhost-03","state":"EndOfUpdate"});
-        bridgeReceiveObjectFromNative('Csig.State_Synchronization', {"id":"localhost-03","state":"EndOfUpdate"});
+
+
+        bridgeReceiveObjectFromNative('Csig.State_Synchronization', { "id": "localhost-03", "state": "EndOfUpdate" });
+        bridgeReceiveObjectFromNative('Csig.State_Synchronization', { "id": "localhost-03", "state": "EndOfUpdate" });
 
         commonVerifyNumericJoins();
         commonVerifySymbolicJoins();
-    });  
-    
+    });
+
     it('SOU -> Clear joins within range -> EOU', () => {
         commonPreSOUSetJoins();
         bridgeReceiveObjectFromNative('Csig.State_Synchronization', {
-            id : "localhost-03", 
-            state : "StartOfUpdateRange" ,
-            value : {
-                excludePrefixes : ["Csig"], 
+            id: "localhost-03",
+            state: "StartOfUpdateRange",
+            value: {
+                excludePrefixes: ["Csig"],
                 range: {
-                    "boolean" : {"stateNames": [], "joinLow": 1, "joinHigh": 2}, 
-                    "numeric" : {"stateNames": [], "joinLow": 1, "joinHigh": 2}, 
-                    "string" : {"stateNames": [], "joinLow": 1, "joinHigh": 2} 
+                    "boolean": { "stateNames": [], "joinLow": 1, "joinHigh": 2 },
+                    "numeric": { "stateNames": [], "joinLow": 1, "joinHigh": 2 },
+                    "string": { "stateNames": [], "joinLow": 1, "joinHigh": 2 }
                 }
             }
         });
 
-        bridgeReceiveObjectFromNative('Csig.State_Synchronization', {"id":"localhost-03","state":"EndOfUpdate"});
+        bridgeReceiveObjectFromNative('Csig.State_Synchronization', { "id": "localhost-03", "state": "EndOfUpdate" });
 
         assert.equal(boolAVal, false, `${boolA} is not cleared`);
         assert.equal(boolBVal, false, `${boolB} is not cleared`);
@@ -343,14 +341,14 @@ describe('Ch5Resync', () => {
         stringNVal = NOT_EMPTY;
 
         bridgeReceiveObjectFromNative('Csig.State_Synchronization', {
-            id : "localhost-03", 
-            state : "StartOfUpdateRange" ,
-            value : {
-                excludePrefixes : ["Csig"], 
+            id: "localhost-03",
+            state: "StartOfUpdateRange",
+            value: {
+                excludePrefixes: ["Csig"],
                 range: {
-                    "boolean" : {"stateNames": [], "joinLow": 1, "joinHigh": 2}, 
-                    "numeric" : {"stateNames": [], "joinLow": 1, "joinHigh": 2}, 
-                    "string" : {"stateNames": [], "joinLow": 1, "joinHigh": 2} 
+                    "boolean": { "stateNames": [], "joinLow": 1, "joinHigh": 2 },
+                    "numeric": { "stateNames": [], "joinLow": 1, "joinHigh": 2 },
+                    "string": { "stateNames": [], "joinLow": 1, "joinHigh": 2 }
                 }
             }
         });
@@ -366,14 +364,14 @@ describe('Ch5Resync', () => {
     it(`Should clear ${boolA} bool, ${numberC} number and ${stringE} string in case joinLow and joinHigh are the same`, () => {
 
         bridgeReceiveObjectFromNative('Csig.State_Synchronization', {
-            id : "localhost-03", 
-            state : "StartOfUpdateRange" ,
-            value : {
-                excludePrefixes : ["Csig"], 
+            id: "localhost-03",
+            state: "StartOfUpdateRange",
+            value: {
+                excludePrefixes: ["Csig"],
                 range: {
-                    "boolean" : {"stateNames": [], "joinLow": 1, "joinHigh": 1}, 
-                    "numeric" : {"stateNames": [], "joinLow": 1, "joinHigh": 1}, 
-                    "string" : {"stateNames": [], "joinLow": 1, "joinHigh": 1} 
+                    "boolean": { "stateNames": [], "joinLow": 1, "joinHigh": 1 },
+                    "numeric": { "stateNames": [], "joinLow": 1, "joinHigh": 1 },
+                    "string": { "stateNames": [], "joinLow": 1, "joinHigh": 1 }
                 }
             }
         });
@@ -385,32 +383,32 @@ describe('Ch5Resync', () => {
 
     it(`Should clear ${boolA} bool, ${numberC} number, ${stringE} string in case of multiple SOU with overlapping joins range`, () => {
         bridgeReceiveObjectFromNative('Csig.State_Synchronization', {
-            id : "localhost-03", 
-            state : "StartOfUpdateRange" ,
-            value : {
-                excludePrefixes : ["Csig"], 
+            id: "localhost-03",
+            state: "StartOfUpdateRange",
+            value: {
+                excludePrefixes: ["Csig"],
                 range: {
-                    "boolean" : {"stateNames": [], "joinLow": 1, "joinHigh": 1}, 
-                    "numeric" : {"stateNames": [], "joinLow": 1, "joinHigh": 1}, 
-                    "string" : {"stateNames": [], "joinLow": 1, "joinHigh": 1} 
+                    "boolean": { "stateNames": [], "joinLow": 1, "joinHigh": 1 },
+                    "numeric": { "stateNames": [], "joinLow": 1, "joinHigh": 1 },
+                    "string": { "stateNames": [], "joinLow": 1, "joinHigh": 1 }
                 }
             }
         });
         bridgeReceiveObjectFromNative('Csig.State_Synchronization', {
-            id : "localhost-03", 
-            state : "StartOfUpdateRange" ,
-            value : {
-                excludePrefixes : ["Csig"], 
+            id: "localhost-03",
+            state: "StartOfUpdateRange",
+            value: {
+                excludePrefixes: ["Csig"],
                 range: {
-                    "boolean" : {"stateNames": [], "joinLow": 1, "joinHigh": 2}, 
-                    "numeric" : {"stateNames": [], "joinLow": 1, "joinHigh": 2}, 
-                    "string" : {"stateNames": [], "joinLow": 1, "joinHigh": 2} 
+                    "boolean": { "stateNames": [], "joinLow": 1, "joinHigh": 2 },
+                    "numeric": { "stateNames": [], "joinLow": 1, "joinHigh": 2 },
+                    "string": { "stateNames": [], "joinLow": 1, "joinHigh": 2 }
                 }
             }
         });
 
-        bridgeReceiveObjectFromNative('Csig.State_Synchronization', {"id":"localhost-03","state":"EndOfUpdate"});
-        bridgeReceiveObjectFromNative('Csig.State_Synchronization', {"id":"localhost-03","state":"EndOfUpdate"});
+        bridgeReceiveObjectFromNative('Csig.State_Synchronization', { "id": "localhost-03", "state": "EndOfUpdate" });
+        bridgeReceiveObjectFromNative('Csig.State_Synchronization', { "id": "localhost-03", "state": "EndOfUpdate" });
 
         assert.equal(boolAVal, false, `${boolA} is cleared`);
         assert.equal(numberCVal, 0, `${numberC} is cleared`);
@@ -419,32 +417,32 @@ describe('Ch5Resync', () => {
 
     it(`Should not clear ${boolA} bool, ${numberC} number, ${stringE} string in case of multiple SOU with only 1 EOU event received`, () => {
         bridgeReceiveObjectFromNative('Csig.State_Synchronization', {
-            id : "localhost-03", 
-            state : "StartOfUpdateRange" ,
-            value : {
-                excludePrefixes : ["Csig"], 
+            id: "localhost-03",
+            state: "StartOfUpdateRange",
+            value: {
+                excludePrefixes: ["Csig"],
                 range: {
-                    "boolean" : {"stateNames": [], "joinLow": 1, "joinHigh": 1}, 
-                    "numeric" : {"stateNames": [], "joinLow": 1, "joinHigh": 1}, 
-                    "string" : {"stateNames": [], "joinLow": 1, "joinHigh": 1} 
+                    "boolean": { "stateNames": [], "joinLow": 1, "joinHigh": 1 },
+                    "numeric": { "stateNames": [], "joinLow": 1, "joinHigh": 1 },
+                    "string": { "stateNames": [], "joinLow": 1, "joinHigh": 1 }
                 }
             }
         });
         bridgeReceiveObjectFromNative('Csig.State_Synchronization', {
-            id : "localhost-03", 
-            state : "StartOfUpdateRange" ,
-            value : {
-                excludePrefixes : ["Csig"], 
+            id: "localhost-03",
+            state: "StartOfUpdateRange",
+            value: {
+                excludePrefixes: ["Csig"],
                 range: {
-                    "boolean" : {"stateNames": [], "joinLow": 1, "joinHigh": 2}, 
-                    "numeric" : {"stateNames": [], "joinLow": 1, "joinHigh": 2}, 
-                    "string" : {"stateNames": [], "joinLow": 1, "joinHigh": 2} 
+                    "boolean": { "stateNames": [], "joinLow": 1, "joinHigh": 2 },
+                    "numeric": { "stateNames": [], "joinLow": 1, "joinHigh": 2 },
+                    "string": { "stateNames": [], "joinLow": 1, "joinHigh": 2 }
                 }
             }
         });
 
-        bridgeReceiveObjectFromNative('Csig.State_Synchronization', {"id":"localhost-03","state":"EndOfUpdate"});
-        
+        bridgeReceiveObjectFromNative('Csig.State_Synchronization', { "id": "localhost-03", "state": "EndOfUpdate" });
+
         assert.equal(boolAVal, false, `${boolA} bool is not cleared`);
         assert.equal(numberCVal, 0, `${numberC} bool is not cleared`);
         assert.equal(stringEVal, '', `${stringE} bool is not cleared`);
@@ -452,24 +450,24 @@ describe('Ch5Resync', () => {
 
     it(`Should set the value of ${boolA} bool received between SOU and EOU even though is contained in the joins range`, () => {
         bridgeReceiveObjectFromNative('Csig.State_Synchronization', {
-            id : "localhost-03", 
-            state : "StartOfUpdateRange" ,
-            value : {
-                excludePrefixes : ["Csig"], 
+            id: "localhost-03",
+            state: "StartOfUpdateRange",
+            value: {
+                excludePrefixes: ["Csig"],
                 range: {
-                    "boolean" : {"stateNames": [], "joinLow": 1, "joinHigh": 1}, 
-                    "numeric" : {"stateNames": [], "joinLow": 1, "joinHigh": 1}, 
-                    "string" : {"stateNames": [], "joinLow": 1, "joinHigh": 1} 
+                    "boolean": { "stateNames": [], "joinLow": 1, "joinHigh": 1 },
+                    "numeric": { "stateNames": [], "joinLow": 1, "joinHigh": 1 },
+                    "string": { "stateNames": [], "joinLow": 1, "joinHigh": 1 }
                 }
             }
         });
-        
+
         bridgeReceiveBooleanFromNative('fb1', true);
         bridgeReceiveStringFromNative('fb1', NOT_EMPTY);
         bridgeReceiveIntegerFromNative('fb1', 101);
 
-        bridgeReceiveObjectFromNative('Csig.State_Synchronization', {"id":"localhost-03","state":"EndOfUpdate"});
-        
+        bridgeReceiveObjectFromNative('Csig.State_Synchronization', { "id": "localhost-03", "state": "EndOfUpdate" });
+
         assert.equal(boolAVal, true, `${boolA} bool received between SOU and EOU is cleared`);
         assert.equal(stringEVal, NOT_EMPTY, `${boolA} string received between SOU and EOU is cleared`);
         assert.equal(numberCVal, 101, `${boolA} number received between SOU and EOU is cleared`);

@@ -2135,8 +2135,8 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 *
 	 * @param {Event} inEvent
 	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	public _onFocus(inEvent: Event) {
-
 		this.info("<ch5-textinput />._onFocus()");
 
 		if (this.lastValidState === undefined || this.lastValidState === null) {
@@ -2168,6 +2168,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 *
 	 * @param {Event} inEvent
 	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	public _onBlur(inEvent: Event) {
 		this.info("<ch5-textinput />._onBlur()");
 
