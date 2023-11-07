@@ -434,9 +434,12 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	protected updateHtmlElements(): void {
 		this.logger.start('updateHtmlElements', Ch5Dpad.ELEMENT_NAME);
-		const buttonList = this.generateDPadButtons(this.container.children[0].children);
-		this.createEmptyContainerDiv();
-		this.appendButtonsInRightOrder(buttonList);
+		const children = this.getElementsByTagName('ch-dpad-button') as HTMLCollection;
+		if (children?.length) {
+			const buttonList = this.generateDPadButtons(children);
+			this.createEmptyContainerDiv();
+			this.appendButtonsInRightOrder(buttonList);
+		}
 		this.logger.stop();
 	}
 
@@ -460,8 +463,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	/**
 	 * Add all 5 buttons in the expected order if not added in the DOM
 	 */
-	private createAndAppendAllButtonsUnderDpad() {
-		const buttonList = this.generateDPadButtons();
+	private createAndAppendAllButtonsUnderDpad(childrenButtonList?: HTMLCollection) {
+		const buttonList = this.generateDPadButtons(childrenButtonList);
 		this.createEmptyContainerDiv();
 
 		this.appendButtonsInRightOrder(buttonList);
@@ -472,7 +475,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			return;
 		}
 
-		this.createAndAppendAllButtonsUnderDpad();
+		this.createAndAppendAllButtonsUnderDpad(buttonsList);
 	}
 
 	private generateDPadButtons(buttonList?: HTMLCollection) {
@@ -842,10 +845,20 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		}
 	}
 
+	private getButtonListFromChildren() {
+		const buttonList = [] as any;
+		Array.from(this.children).forEach(item => {
+			if (item.nodeName === 'CH5-DPAD-BUTTON') {
+				buttonList.push(item);
+			}
+		});
+		return buttonList;
+	}
+
 	/* render  */
 	private render() {
 		this.classList.add(this.primaryCssClass);
-		const buttonsList = this.children as HTMLCollection;
+		const buttonsList = this.getButtonListFromChildren();
 
 		if (buttonsList.length === 0) {
 			this.createAndAppendAllButtonsUnderDpad();
