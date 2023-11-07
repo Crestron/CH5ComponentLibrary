@@ -83,7 +83,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonAttributesToggle {
    * [
    * "`orientation` attribute",
    * "***",
-   * "The default value is horizontal. Possible values are 'horizontal' or 'vertical'. Sets the control elements in a horizontal or vertical orientation. ", For vertical alignment, it will apply a CSS class that will rotate the ", component 90 degrees (-90 degrees counter clockwise)"
+   * "The default value is horizontal. Possible values are 'horizontal' or 'vertical'. Sets the control elements in a horizontal or vertical orientation, For vertical alignment, it will apply a CSS class that will rotate the, component 90 degrees (-90 degrees counter clockwise)"
    * ]
    * @name orientation
    * @default horizontal
@@ -131,7 +131,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonAttributesToggle {
    * [
    * "`receiveStateScriptLabelHTML` attribute",
    * "***",
-   * "The value of the receiveStateScriptLabelHTML attribute is the name of a string signal. The signal should contain valid HTML. This HTML code will be placed in the label part of the ch5-toggle"
+   * "The value of the receiveStateScriptLabelHTML attribute is the name of a string signal. The signal should contain valid HTML. This HTML code will be placed in the label part of the ch5-toggle."
    * ]
    * @name receivestatescriptlabelhtml
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
@@ -155,8 +155,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonAttributesToggle {
    * [
    * "`feedbackmode` attribute",
    * "***",
-   * "The default value is 'direct'. If direct, value send and receive will be ",
-   * "instant. On submit, it will send and listen for the first event received."
+   * "feedbackMode sends the input text changes based on the attribute value. The default value for feedbackMode attribute is 'direct'      Valid values: 'direct' and 'submit'."
    * ]
    * @name feedbackmode
    * @default direct
