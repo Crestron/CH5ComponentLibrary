@@ -17,7 +17,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
   //#region Variables
 
   public static readonly ICON_POSITION: TCh5TextInputIconPosition[] = ['first', 'last'];
-  public static readonly INPUT_TYPE: TCh5TextInputType[] = ['text', 'number', 'email'];
+  public static readonly INPUT_TYPE: TCh5TextInputType[] = ['text', 'number', 'email', 'password'];
   public static readonly SIZE: TCh5TextInputSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
   public static readonly STRETCH: TCh5TextInputStretch[] = ['fixed', 'width', 'content'];
   public static readonly TEXT_TRANSFORM: TCh5TextInputTextTransform[] = ['none', 'capitalize', 'uppercase', 'lowercase'];
@@ -651,7 +651,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
   }
 
   public static get observedAttributes(): string[] {
-    const inheritedObsAttrs = Ch5Common.observedAttributes;
+    const inheritedObsAttrs = Ch5Common.observedAttributes.concat(Ch5CommonInput.observedAttributes);
     const newObsAttrs: string[] = [];
     for (let i: number = 0; i < Ch5TextInput.COMPONENT_PROPERTIES.length; i++) {
       if (Ch5TextInput.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
