@@ -184,7 +184,7 @@ export class Ch5TextInputMask {
     if (
       this._isUserTyping() &&
       nextLetter !== null &&
-      nextLetter.match(/[-_#().,\\\/=@$&\s+]/g) !== null
+      nextLetter.match(/[-_#().,\\/=@$&\s+]/g) !== null
     ) {
 
       this.dispatchMaskUpdateEvent();
