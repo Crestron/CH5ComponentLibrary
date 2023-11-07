@@ -7,7 +7,7 @@ import { ICh5TextInputAttributes } from './interfaces/i-ch5-text-input-attribute
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5CommonInput } from "../ch5-common-input/ch5-common-input";
-import { Ch5TextInputMask } from "./ch5-textInput-mask";
+import { Ch5TextInputMask } from "./ch5-textinput-mask";
 import { Ch5TextInputScaling } from "./ch5-textinput-scaling";
 import HtmlCallback from "../ch5-common/utils/html-callback";
 
@@ -897,7 +897,6 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
   private updateCssClass() {
     this.logger.start('UpdateCssClass');
     super.updateCssClasses();
-    this._elContainer.classList.add(this.primaryCssClass + Ch5TextInput.COMPONENT_DATA.INPUT_TYPE.classListPrefix + this.type);
     this._elContainer.classList.add(this.primaryCssClass + Ch5TextInput.COMPONENT_DATA.SIZE.classListPrefix + this.size);
     this._labelElement.classList.add(this.primaryCssClass + '--label-' + this.size);
     this._elIcon.classList.add(this.primaryCssClass + Ch5TextInput.COMPONENT_DATA.ICON_POSITION.classListPrefix + this.iconPosition);
