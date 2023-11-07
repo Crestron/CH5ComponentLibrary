@@ -34,17 +34,17 @@ import { ICh5ToggleAttributes } from "./i-ch5-toggle-attributes";
  *     "body": [
  *       "<ch5-toggle id=\"ch5-toggle_${1:id}\"",
  *       "\thandleShape=\"${2:circle}\"",
-          *       "\tlabel=\"${3:}\"",
-          *       "\tlabelOn=\"${4:}\"",
-          *       "\tlabelOff=\"${5:}\"",
-          *       "\ticonOn=\"${6:}\"",
-          *       "\ticonOff=\"${7:}\"",
-          *       "\torientation=\"${8:horizontal}\"",
-          *       "\tvalue=\"${9:false}\"",
-          *       "\size=\"${10:regular}\"",
-          *       "\treceiveStateValue=\"${11:}\"",
-          *       "\treceiveStateScriptLabelHTML=\"${12:}\"",
-          *       "\tsendEventOnClick=\"${13:}\">",
+ *       "\tlabel=\"${3:}\"",
+ *       "\tlabelOn=\"${4:}\"",
+ *       "\tlabelOff=\"${5:}\"",
+ *       "\ticonOn=\"${6:}\"",
+ *       "\ticonOff=\"${7:}\"",
+ *       "\torientation=\"${8:horizontal}\"",
+ *       "\tvalue=\"${9:false}\"",
+ *       "\tsize=\"${10:regular}\"",
+ *       "\treceiveStateValue=\"${11:}\"",
+ *       "\treceiveStateScriptLabelHTML=\"${12:}\"",
+ *       "\tsendEventOnClick=\"${13:}\">",
  *       "</ch5-toggle>$0"
  *       ]
  *    },
@@ -54,15 +54,14 @@ import { ICh5ToggleAttributes } from "./i-ch5-toggle-attributes";
  *     "body": [
  *       "<ch5-toggle id=\"ch5-toggle_${1:id}\"",
  *       "\thandleShape=\"${2:circle}\"",
-            *       "\tlabel=\"${3:}\"",
-            *       "\tlabelOn=\"${4:}\"",
-            *       "\tlabelOff=\"${5:}\"",
-            *       "\ticonOn=\"${6:}\"",
-            *       "\ticonOff=\"${7:}\"",
-            *       "\torientation=\"${8:horizontal}\"",
-            *       "\size=\"${9:regular}\"",
-            *       "\tvalue=\"${10:false}\"",
-            
+ *       "\tlabel=\"${3:}\"",
+ *       "\tlabelOn=\"${4:}\"",
+ *       "\tlabelOff=\"${5:}\"",
+ *       "\ticonOn=\"${6:}\"",
+ *       "\ticonOff=\"${7:}\"",
+ *       "\torientation=\"${8:horizontal}\"",
+ *       "\tsize=\"${9:regular}\"",
+ *       "\tvalue=\"${10:false}\"",
  *       "</ch5-toggle>$0"
  *       ]
  *    }
