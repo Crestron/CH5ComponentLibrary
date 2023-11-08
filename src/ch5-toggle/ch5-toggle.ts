@@ -208,8 +208,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 
   public set labelOn(value: string) {
     this._ch5Properties.set<string>("labelOn", value, () => {
-      const transalatedLabel = this._getTranslatedValue('labelOn', this.labelOn);
-      this._elLabelOn.innerText = transalatedLabel;
+      this._elLabelOn.innerText = this._getTranslatedValue('labelOn', this.labelOn);
     });
   }
   public get labelOn(): string {
@@ -218,8 +217,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 
   public set labelOff(value: string) {
     this._ch5Properties.set<string>("labelOff", value, () => {
-      const transalatedLabel = this._getTranslatedValue('labelOff', this.labelOff);
-      this._elLabelOff.innerText = transalatedLabel;
+      this._elLabelOff.innerText = this._getTranslatedValue('labelOff', this.labelOff);
     });
   }
   public get labelOff(): string {
@@ -361,7 +359,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
         super.attributeChangedCallback(attr, oldValue, newValue);
       }
     }
-    this.addAriaAttributes(attr);
+    this.addAriaAttributes();
     this.logger.stop();
   }
 
@@ -441,7 +439,6 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
     this._elHandle.appendChild(this._elOffContainer);
     this._elHandle.appendChild(this._elOnContainer);
     this._elHandle.appendChild(this._elKnob);
-
     this.setAttribute('tabindex', '0');
 
     this.logger.stop();
@@ -493,8 +490,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
   }
 
   private handleLabel() {
-    const transalatedLabel = this._getTranslatedValue('label', this.label);
-    this._elLabel.innerHTML = transalatedLabel;
+    this._elLabel.innerHTML = this._getTranslatedValue('label', this.label);
     this._elLabel.hidden = false;
   }
 
@@ -564,19 +560,6 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
     }
     this.toggleChecked();
   }
-  public handleValue() {
-    this.dirtyValue = this.value;
-    this._dirty = true;
-    this._clean = false;
-
-    if (this.value) {
-      this.setAttribute('checked', '');
-      this._elContainer.classList.add(this.primaryCssClass + '--on');
-    } else {
-      this.removeAttribute('checked');
-      this._elContainer.classList.remove(this.primaryCssClass + '--on');
-    }
-  }
 
   private _dispatchEvents(detail: any): void {
     this.dispatchEvent(
@@ -587,7 +570,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
     );
   }
 
-  private addAriaAttributes(attr: string) {
+  private addAriaAttributes() {
     if (this.disabled) {
       this.removeAttribute('tabindex');
       this.blur();
@@ -596,6 +579,34 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
     }
     this.setAttribute('aria-checked', this.value + '');
     this.setAttribute('aria-disabled', this.disabled + '');
+  }
+
+  private handleValue() {
+    this.dirtyValue = this.value;
+    this._dirty = true;
+    this._clean = false;
+    if (this.value) {
+      this.setAttribute('checked', '');
+      this._elContainer.classList.add(this.primaryCssClass + '--on');
+    } else {
+      this.removeAttribute('checked');
+      this._elContainer.classList.remove(this.primaryCssClass + '--on');
+    }
+  }
+
+  private setDirtyHandler() {
+    if (this._dirtyTimerHandle !== null) { clearTimeout(this._dirtyTimerHandle); }
+
+    this._dirtyTimerHandle = window.setTimeout(() => this.valueSync(), this._signalValueSyncTimeout);
+  }
+
+  private valueSync() {
+    if (this._dirtyTimerHandle !== null) { clearTimeout(this._dirtyTimerHandle); }
+
+    if (this.dirtyValue !== this.cleanValue) {
+      this.value = this.cleanValue as boolean;
+      this.setClean();
+    }
   }
 
   protected getTargetElementForCssClassesAndStyle(): HTMLElement {
@@ -617,21 +628,6 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
   public reset(): void {
     this.setClean();
     this.value = this.cleanValue as boolean;
-  }
-
-  private setDirtyHandler() {
-    if (this._dirtyTimerHandle !== null) { clearTimeout(this._dirtyTimerHandle); }
-
-    this._dirtyTimerHandle = window.setTimeout(() => this.valueSync(), this._signalValueSyncTimeout);
-  }
-
-  private valueSync() {
-    if (this._dirtyTimerHandle !== null) { clearTimeout(this._dirtyTimerHandle); }
-
-    if (this.dirtyValue !== this.cleanValue) {
-      this.value = this.cleanValue as boolean;
-      this.setClean();
-    }
   }
 
   public toggleChecked() {
