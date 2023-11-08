@@ -253,6 +253,11 @@ export class Ch5TextInputMask {
 
     // creating the mask element
     this._createTheMaskElement();
+    Array.from(wrapper.children).forEach((child: any) => {
+      if (child.classList.contains(this.prefix)) {
+        child.remove();
+      }
+    })
     wrapper.appendChild(this.maskElement);
 
     this.didMounted = true;
@@ -261,10 +266,15 @@ export class Ch5TextInputMask {
   private _wrap(): void {
 
     // append the wrapper element in component
-    const wrapper = ((this._input as HTMLInputElement).parentNode as HTMLElement)
-      .appendChild(this._createTheWrapper());
-
-    wrapper.appendChild(this.input);
+    let wrapper;
+    if (this.input.parentElement?.classList.contains('ch5-textinput--mask-wrapper-element')) {
+      wrapper = this.input.parentElement;
+      wrapper.id = 'ch5-textinput' + this.BLOCK_SEPARATOR + this.wrapperId;
+    } else {
+      wrapper = ((this._input as HTMLInputElement).parentNode as HTMLElement)
+        .appendChild(this._createTheWrapper());
+      wrapper.appendChild(this.input);
+    }
     this._mount(wrapper);
     this._makeMaskElementLookAsInputPlaceholder();
 
@@ -274,6 +284,7 @@ export class Ch5TextInputMask {
   private _createTheWrapper(): HTMLElement {
 
     const wrapper = document.createElement('span');
+    wrapper.classList.add('ch5-textinput--mask-wrapper-element');
     wrapper.id = 'ch5-textinput' + this.BLOCK_SEPARATOR + this.wrapperId;
     return wrapper;
   }
