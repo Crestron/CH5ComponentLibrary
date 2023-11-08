@@ -366,4 +366,15 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * @attributeType "Integer"
    */
   tabIndex: number;
+  /**
+   * @documentation
+   * [
+   * "`value` attribute",
+   * "***",
+   * "The value attribute specifies the value of an input element."
+   * ]
+   * @name value
+   * @attributeType "String"
+   */
+  value: string;
 }
