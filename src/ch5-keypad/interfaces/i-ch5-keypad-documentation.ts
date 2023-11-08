@@ -70,7 +70,10 @@ import { ICh5KeypadAttributes } from "./index";
  *       "\tusecontractforcustomclass=\"${9:false}\"",
  *       "\tusecontractforcustomstyle=\"${10:false}\"",
  *       "\tsendeventonclickstart=\"${11:}\"",
- *        ">",
+ *       "\thidePoundButton=\"${12:false}\"",
+ *       "\thideAsteriskButton=\"${13:false}\"",
+ *       "\treceiveStateHideAsteriskButton=\"${14:}\"",
+ *       "\treceiveStateHidePoundButton=\"${15:}\">",
  *       "</ch5-keypad>"
  *     ]
  *   }
