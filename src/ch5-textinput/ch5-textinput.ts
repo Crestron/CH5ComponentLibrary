@@ -674,9 +674,9 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
         super.attributeChangedCallback(attr, oldValue, newValue);
       }
       this._addAriaAttributes();
-      if (attr === 'disabled') {
-        this.disabled === true ? this._elInput.setAttribute('disabled', '') : this._elInput.removeAttribute('disabled');
-      }
+    }
+    if (attr === 'disabled') {
+      this.disabled === true ? this._elInput.setAttribute('disabled', '') : this._elInput.removeAttribute('disabled');
     }
     this.logger.stop();
   }
