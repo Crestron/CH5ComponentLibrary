@@ -686,7 +686,6 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()', Ch5TextInput.ELEMENT_NAME);
-    this.createInternalHtml();
     // WAI-ARIA Attributes
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5TextInput);
@@ -790,7 +789,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
    * Clear the content of component in order to avoid duplication of elements
    */
   private clearComponentContent() {
-    const containers = this.children;
+    const containers = this.getElementsByTagName("div");
     Array.from(containers).forEach((container) => {
       container.remove();
     });
