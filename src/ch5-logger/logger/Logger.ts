@@ -100,6 +100,9 @@ export class Logger {
     }
 
     public error(message: string, line?: number) {
+        if (line) {
+            message = message + String(line);
+        }
         const formattedMessage = this.formatMessage(3, message);
         this.queueMessage(formattedMessage);
     }

@@ -40,6 +40,7 @@ export class Ch5SpinnerMutationObserver {
    * @param {MutationRecord[]} mutations
    * @return {void}
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private mutationsCallback(mutations: MutationRecord[]): void {
     // console.log('Mutations TBD');
   }

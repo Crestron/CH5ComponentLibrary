@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { Ch5Log } from "../../ch5-common/ch5-log";
 import { Ch5Properties } from "../../ch5-core/ch5-properties";
 import { Ch5RoleAttributeMapping } from "../../utility-models/ch5-role-attribute-mapping";

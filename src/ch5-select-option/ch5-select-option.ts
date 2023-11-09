@@ -7,7 +7,7 @@
 
 import "hammerjs";
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5Signal, Ch5SignalFactory, Ch5Uid } from "../ch5-core";
+import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { Ch5Select } from "../ch5-select/ch5-select";
 import { Ch5Toggle } from "../ch5-toggle/ch5-toggle";
 import { Ch5RoleAttributeMapping } from "../utility-models";

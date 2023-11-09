@@ -6,11 +6,14 @@
 // under which you licensed this source code.
 
 import { ISigComSendToNative, ISigComSubscribe, ISigComUnsubscribe, ISigComSendWebkit, ISWebXPanel } from './interfaces-sig-com';
+// eslint-disable-next-line no-var
 declare var JSInterface: ISigComUnsubscribe & ISigComSubscribe & ISigComSendToNative;
+// eslint-disable-next-line no-var
 declare var webkit: ISigComSendWebkit;
+// eslint-disable-next-line no-var
 declare var CommunicationInterface: ISWebXPanel;
 
-import { isObject, isUndefined, isFunction } from 'lodash';
+import { isFunction } from 'lodash';
 
 import { TSignalsSubscriptionsByType, TSignalStandardTypeName, TRepeatDigitalSignalValue } from './types/core';
 import { Ch5Debug } from "./ch5-debug";
@@ -112,7 +115,7 @@ export class Ch5SignalBridge {
                     webkit.messageHandlers.bridgeSubscribeObjectSignalFromNative.postMessage(this.createPMParam(signalName));
                     break;
             }
-        } 
+        }
         // it is not an error to not have these functions defined.
         // Ch5Debug.info(dbgKey,' end ');
     }
@@ -235,7 +238,7 @@ export class Ch5SignalBridge {
      */
     private sendIntegerToNative(signalName: string, value: number): void {
         const dbgKey = 'Ch5SignalBridge.sendIntegerToNative';
-        Ch5Debug.info(dbgKey,'"' + signalName + '":' + value);
+        Ch5Debug.info(dbgKey, '"' + signalName + '":' + value);
 
         if (this._isWebView) {
             JSInterface.bridgeSendIntegerToNative(signalName, value);
@@ -257,7 +260,7 @@ export class Ch5SignalBridge {
      */
     private sendStringToNative(signalName: string, value: string): void {
         const dbgKey = 'Ch5SignalBridge.sendStringToNative';
-        Ch5Debug.info(dbgKey,'"' + signalName + '":"' + value + '"');
+        Ch5Debug.info(dbgKey, '"' + signalName + '":"' + value + '"');
 
         if (this._isWebView) {
             JSInterface.bridgeSendStringToNative(signalName, value);
@@ -280,7 +283,7 @@ export class Ch5SignalBridge {
     private sendObjectToNative(signalName: string, value: object): void {
         const dbgKey = 'Ch5SignalBridge.sendObjectToNative';
         if (Ch5Debug.shouldDisplay(dbgKey)) {
-          Ch5Debug.info(dbgKey, `"${signalName}": ${JSON.stringify(value)}`);
+            Ch5Debug.info(dbgKey, `"${signalName}": ${JSON.stringify(value)}`);
         }
 
         if (this._isWebView) {
@@ -295,14 +298,6 @@ export class Ch5SignalBridge {
         }
 
         // Ch5Debug.info(dbgKey,' end ');
-    }
-
-    /**
-     *
-     * Sends an array of signals to native
-     */
-    private sendArrayToNative(signalArray: any[]): void {
-        // TODO
     }
 
     private _isWebXPanel(): boolean {
@@ -320,7 +315,7 @@ export class Ch5SignalBridge {
         }
 
         return isWebXPanel;
-        
+
     }
     /**
      * Current iOS container app needs object to be sent as json format string instead of object

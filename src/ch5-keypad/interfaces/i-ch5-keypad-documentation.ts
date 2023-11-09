@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5Common } from "../../ch5-common/interfaces";
-import { ICh5KeypadAttributes, ICh5KeypadButtonAttributes } from "./index";
+import { ICh5KeypadAttributes } from "./index";
 
 /**
  * @name Ch5 Keypad
@@ -70,7 +70,10 @@ import { ICh5KeypadAttributes, ICh5KeypadButtonAttributes } from "./index";
  *       "\tusecontractforcustomclass=\"${9:false}\"",
  *       "\tusecontractforcustomstyle=\"${10:false}\"",
  *       "\tsendeventonclickstart=\"${11:}\"",
- *        ">",
+ *       "\thidePoundButton=\"${12:false}\"",
+ *       "\thideAsteriskButton=\"${13:false}\"",
+ *       "\treceiveStateHideAsteriskButton=\"${14:}\"",
+ *       "\treceiveStateHidePoundButton=\"${15:}\">",
  *       "</ch5-keypad>"
  *     ]
  *   }

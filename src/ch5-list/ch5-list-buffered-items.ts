@@ -51,6 +51,7 @@ export class Ch5ListBufferedItems extends Ch5ListAbstractHelper {
 			this._list.bufferedItems.bufferBackwardsStartIndex === 0;
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	public _appendForwardBufferedItemsToList(currentScrollPos: number, verticalDir: boolean, itemSizeOffset: number): void {
 		if (this._list.bufferedItems.forwardBufferedItems.length > 0) {
 			const bufferListFragment = document.createDocumentFragment();

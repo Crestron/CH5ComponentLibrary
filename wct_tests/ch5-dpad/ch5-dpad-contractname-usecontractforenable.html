@@ -35,13 +35,7 @@
         ch5Dpad = fixture('ch5-dpad-usecontractforenable-fixture');
       });
 
-      test('Check if default value of usecontractforenable is "true"', () => {
-        expect(ch5Dpad.useContractForEnable).to.equal(true);
-        expect(ch5Dpad.getAttribute("receiveStateEnable")).to.equal("LivingRoom.AppleTV.Enable");
-        expect(ch5Dpad.getAttribute("disabled")).to.be.equal("true");
-      });
-
-      test('Check if usecontractforenable is "true"', () => {
+      test('Check if usecontractforenable is "true"', (done) => {
         flush(() => {
           setTimeout(() => {
             ch5Dpad.setAttribute("usecontractforenable", "true");

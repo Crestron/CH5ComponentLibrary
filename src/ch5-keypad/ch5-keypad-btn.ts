@@ -220,6 +220,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5KeypadChild); // WAI-ARIA Attributes
 		const defaultMajors: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '#', ''];
 		const defaultMinors: string[] = ['+', '&nbsp;', 'ABC', 'DEF', 'GHI', 'JKL', 'MNO', 'PQRS', 'TUV', 'WXYZ', '', '', ''];
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { major, minor, contractName, joinCountToAdd, iconClass, key, pressed, name, indexRef, contractKey, className, ...remainingParams } = this.params;
 		this.labelMajor = major ? major : defaultMajors[indexRef];
 		this.labelMinor = minor ? minor : defaultMinors[indexRef];
@@ -511,6 +512,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 			this.pressed = true;
 		}
 
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const pressPromise = new Promise<boolean>((resolve, reject) => {
 			this._pressTimeout = window.setTimeout(() => {
 				pressHandler();

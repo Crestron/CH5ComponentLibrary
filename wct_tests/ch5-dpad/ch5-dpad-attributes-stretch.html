@@ -25,7 +25,7 @@
     let ch5Dpad;
 
     const valid_stretch = CrComLib.Ch5Dpad.STRETCHES;
-    const invalid_stretch = ['', null, 'Vertical', 'Horizontal', 23];
+    const invalid_stretch = ['', null, 'Vertical', 'Horizontal', 23, 'junk', 'null', 'undefined', '0', '1', null, 0, 1, Infinity, ' ', undefined];
 
     setup(async () => {
       ch5Dpad = fixture('ch5-dpad-stretch-fixture');

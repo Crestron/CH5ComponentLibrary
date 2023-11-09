@@ -81,15 +81,13 @@ export function subscribeStateScript(signalScript: string,
         // augment signal name in case of join numbers
         sigName = Ch5Signal.getSubscriptionSignalName(sigName);
 
-        let subId: string;
-
         const subCallback = () => {
             const processedTempl = _callbackForSignalScriptOnSignalUpdate(signalTokens, signalScript, defaultValue as string);
             if (typeof callback === 'function') {
                 callback.bind(null, processedTempl)();
             }
         };
-        subId = subscribeState(sigType as TSignalNonStandardTypeName, sigName, subCallback);
+        const subId: string = subscribeState(sigType as TSignalNonStandardTypeName, sigName, subCallback);
         const sigNameTypeSub: TSigNameTypeSub = {
             'sigName': sigName,
             'sigType': sigType as 'b' | 'n' | 's',

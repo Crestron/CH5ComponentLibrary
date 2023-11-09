@@ -61,12 +61,12 @@
         ch5Keypad = fixture('ch5-keypad-button-empty-iconClass-attribute')
       });
 
-      test('Check is labelMajor is set to default', (done) => {
+      test('Check for "has-icon" class', (done) => {
         flush(() => {
           setTimeout(() => {
-            expect(ch5Keypad.querySelector('ch5-keypad-button').children[0].children[0].innerHTML).to.be.equal('1');
+            expect(ch5Keypad.querySelector('ch5-keypad-button').children[0].children[0].classList.contains('has-icon')).to.be.equal(false);
             done();
-          }, 100);
+          }, 100)
         });
       });
     });

@@ -77,7 +77,7 @@ export class Ch5Resync {
      * @param statesToReset
      * @param excludePrefixes
      */
-    public onReceiveStartOfUpdateRange(startOfUpdateMsg: string, statesToReset: ICh5ClearRangeDataModel, excludePrefixes: string[]): void {
+    public onReceiveStartOfUpdateRange(startOfUpdateMsg: string, statesToReset: ICh5ClearRangeDataModel): void {
         if (Ch5Debug.shouldDisplay(this.LOG_KEY)) {
             Ch5Debug.info(this.LOG_KEY, `Start of Update Range called with ${JSON.stringify(statesToReset)}`);
         }
@@ -93,9 +93,9 @@ export class Ch5Resync {
         this.addDefaultJoinsOnClearRange(statesToReset.string.joinLow, statesToReset.string.joinHigh, 'string');
 
         // Add events to _statesAtDefaultValue
-        this.addDefaultStatesOnClearRange(statesToReset.boolean.stateNames, 'boolean', excludePrefixes);
-        this.addDefaultStatesOnClearRange(statesToReset.numeric.stateNames, 'number', excludePrefixes);
-        this.addDefaultStatesOnClearRange(statesToReset.string.stateNames, 'string', excludePrefixes);
+        this.addDefaultStatesOnClearRange(statesToReset.boolean.stateNames, 'boolean');
+        this.addDefaultStatesOnClearRange(statesToReset.numeric.stateNames, 'number');
+        this.addDefaultStatesOnClearRange(statesToReset.string.stateNames, 'string');
 
         if (Ch5Debug.shouldDisplay(this.LOG_KEY)) {
             Ch5Debug.info(this.LOG_KEY, `Start Of Update Range:${JSON.stringify(this._statesAtDefaultValue)}`);
@@ -172,7 +172,7 @@ export class Ch5Resync {
      * @param states
      * @param eventType
      */
-    public addDefaultStatesOnClearRange(states: string[], eventType: string, excludePrefixes: string[]): void {
+    public addDefaultStatesOnClearRange(states: string[], eventType: string): void {
         if (states === undefined || states.length === 0) {
             return;
         }

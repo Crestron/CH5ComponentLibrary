@@ -293,7 +293,6 @@ export class Ch5TriggerViewSlidesManager {
     Ch5CustomAttributes.preventUnsubscribe = true;
 
     const trvHasListRole: boolean = this.triggerViewEl.getAttribute('role') === 'list';
-    // @ts-ignore
     Array.from(slides).forEach((slide: HTMLElement, index: number) => {
       const isActive: boolean = slide.hasAttribute('selected') || (index === this.triggerViewEl.activeView);
 
@@ -353,13 +352,12 @@ export class Ch5TriggerViewSlidesManager {
   }
 
   public getChildElSwipeIndex(childView: Ch5TriggerViewChild) {
-    let slideIndex = null;
+    let slideIndex: number | null = null;
     if (this.swiperIsActive()) {
-      let slide = null;
-      let index = null;
+      let slide: null | Element = null;
+      let index: number | null = null;
       if (!isNil(this._swiper) && !isNil(this._swiper.slides)) {
-        // @ts-ignore
-        Array.from(this._swiper!.slides).forEach((s: Ch5TriggerViewChild, i) => {
+        Array.from(this._swiper!.slides).forEach((s, i) => {
           if (!s.classList.contains('swiper-slide-duplicate') && childView === s) {
             slide = s;
             index = i;
@@ -376,8 +374,8 @@ export class Ch5TriggerViewSlidesManager {
       }
     } else if (this.ch5SwiperIsActive()) {
       if (!isNil(this._ch5Swiper)) {
-        let slide = null;
-        let index = null;
+        let slide: null | Element = null;
+        let index: number | null = null;
         Array.from(this._ch5Swiper.slides).forEach((s, i) => {
           if (childView === s) {
             slide = s;
@@ -513,8 +511,7 @@ export class Ch5TriggerViewSlidesManager {
   private _updateActiveSlideAttributes() {
     if (this.swiperIsActive()) {
       const activeSlideIndex = this._swiper!.activeIndex;
-      // @ts-ignore
-      Array.from(this._swiper!.slides).forEach((slide: HTMLElement, index) => {
+      Array.from(this._swiper!.slides).forEach((slide: any, index) => {
         if (index !== activeSlideIndex) {
           slide.setAttribute('tabindex', '-1');
           slide.setAttribute('aria-hidden', 'true');

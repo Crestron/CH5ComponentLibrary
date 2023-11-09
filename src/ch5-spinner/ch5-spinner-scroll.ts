@@ -504,8 +504,8 @@ export class Ch5SpinnerScroll {
 
     const maxOffsetLeft = offsetX;
     const maxOffsetRight = offsetX + this.element.clientWidth;
-    const maxOffestTop = offsetY;
-    const maxOffestBottom = offsetY + this.element.clientHeight;
+    const maxOffsetTop = offsetY;
+    const maxOffsetBottom = offsetY + this.element.clientHeight;
 
     if (event.type === 'touchmove') {
       const touch = event.touches[0] || event.changedTouches[0];
@@ -518,8 +518,8 @@ export class Ch5SpinnerScroll {
 
     if (eventOffsetX < maxOffsetLeft ||
       eventOffsetX > maxOffsetRight ||
-      eventOffsetY < maxOffestTop ||
-      eventOffsetY > maxOffestBottom
+      eventOffsetY < maxOffsetTop ||
+      eventOffsetY > maxOffsetBottom
     ) {
       if (this.mouseDown === true && event.type === 'touchmove') {
         this.mouseDown = false;
@@ -664,6 +664,7 @@ export class Ch5SpinnerScroll {
    * @param {MouseEvent} event
    * @return {void}
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private _onMouseLeave(event: MouseEvent): void {
     if (this.mouseDown === true) {
       this.mouseDown = false;

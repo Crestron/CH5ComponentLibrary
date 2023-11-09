@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import * as core from '../ch5-core/index';
-import {Ch5Signal, Ch5SignalBridge, Ch5SignalFactory} from "../ch5-core";
+import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core";
 import { TActionLogic, TSignalNonStandardTypeName, TSignalValue, TRepeatDigitalSignalValue } from "../ch5-core";
 import { Ch5SignalUpdateCallback } from '../ch5-core/types/callbacks';
 import { TCh5Signal } from '../ch5-core/types/signal.type';
@@ -56,7 +56,7 @@ export class Ch5Emulator {
      * The Singleton's constructor should always be private to prevent direct
      * construction calls with the `new` operator.
      */
-    private constructor() {}
+    private constructor() { }
 
     public static getInstance(): Ch5Emulator {
         if (isUndefined(Ch5Emulator._instance)) {
@@ -70,7 +70,7 @@ export class Ch5Emulator {
         Ch5Emulator._scenario = {} as IEmulatorScenario;
     }
 
-    public loadScenario(scenario:IEmulatorScenario) {
+    public loadScenario(scenario: IEmulatorScenario) {
         if (Ch5Emulator._instance) {
             Ch5Emulator._scenario = scenario;
             if (isUndefined(scenario.cues)) {
@@ -83,14 +83,14 @@ export class Ch5Emulator {
         }
     }
 
-    public getScenario():IEmulatorScenario {
+    public getScenario(): IEmulatorScenario {
         return Ch5Emulator._scenario;
     }
 
-    private processCue(cue:IEmulatorCue, index:number) {
-        let cueSignal:Ch5Signal<boolean>|Ch5Signal<number>|Ch5Signal<string>|Ch5Signal<object>|null;
-        let cueSigSubUpdate:Ch5SignalUpdateCallback<boolean>|Ch5SignalUpdateCallback<number>|Ch5SignalUpdateCallback<string>|Ch5SignalUpdateCallback<object>;
-        let cueSignalName: string;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    private processCue(cue: IEmulatorCue, index: number) {
+        let cueSignal: Ch5Signal<boolean> | Ch5Signal<number> | Ch5Signal<string> | Ch5Signal<object> | null;
+        let cueSigSubUpdate: Ch5SignalUpdateCallback<boolean> | Ch5SignalUpdateCallback<number> | Ch5SignalUpdateCallback<string> | Ch5SignalUpdateCallback<object>;
 
         if (isUndefined(cue.event)) {
             throw new Error('Property "signal" is not set in cue.');
@@ -99,7 +99,7 @@ export class Ch5Emulator {
         if (isUndefined(cue.actions) || typeof cue.actions.forEach !== "function") {
             throw new Error('Property "actions" is not set in cue.');
         }
-        cueSignalName = cue.event;
+        const cueSignalName = cue.event;
 
         // TODO try and find a better way of writing this ( maybe using a generic method )
         switch (cue.type) {
@@ -107,11 +107,11 @@ export class Ch5Emulator {
             case 'boolean':
                 cueSignal = Ch5SignalFactory.getInstance().getBooleanSignal(cueSignalName);
                 if (!isNull(cueSignal)) {
-                    cueSigSubUpdate =  (newCueSignalValue:boolean) => {
+                    cueSigSubUpdate = (newCueSignalValue: boolean) => {
                         const em = Ch5Emulator.getInstance();
 
                         if (!isNull(em) && em.isTriggered(cue.trigger, newCueSignalValue, cueSignal)) {
-                            cue.actions.forEach((actionItem:IEmulatorAction, actionIndex:number, actionArray:IEmulatorAction[]) => {
+                            cue.actions.forEach((actionItem: IEmulatorAction, actionIndex: number, actionArray: IEmulatorAction[]) => {
                                 em.processAction(actionItem, actionIndex, actionArray, newCueSignalValue);
                             });
                         }
@@ -125,10 +125,10 @@ export class Ch5Emulator {
             case 'string':
                 cueSignal = Ch5SignalFactory.getInstance().getStringSignal(cueSignalName);
                 if (!isNull(cueSignal)) {
-                    cueSigSubUpdate = (newCueSignalValue:string) => {
+                    cueSigSubUpdate = (newCueSignalValue: string) => {
                         const em = Ch5Emulator.getInstance();
-                        if ( !isNull(em) && em.isTriggered(cue.trigger, newCueSignalValue, cueSignal)) {
-                            cue.actions.forEach((actionItem:IEmulatorAction, actionIndex:number, actionArray:IEmulatorAction[]) => {
+                        if (!isNull(em) && em.isTriggered(cue.trigger, newCueSignalValue, cueSignal)) {
+                            cue.actions.forEach((actionItem: IEmulatorAction, actionIndex: number, actionArray: IEmulatorAction[]) => {
                                 em.processAction(actionItem, actionIndex, actionArray, newCueSignalValue);
                             });
                         }
@@ -143,10 +143,10 @@ export class Ch5Emulator {
             case 'number':
                 cueSignal = Ch5SignalFactory.getInstance().getNumberSignal(cueSignalName);
                 if (!isNull(cueSignal)) {
-                    cueSigSubUpdate = (newCueSignalValue:number) => {
+                    cueSigSubUpdate = (newCueSignalValue: number) => {
                         const em = Ch5Emulator.getInstance();
                         if (!isNull(em) && em.isTriggered(cue.trigger, newCueSignalValue, cueSignal)) {
-                            cue.actions.forEach((actionItem:IEmulatorAction, actionIndex:number, actionArray:IEmulatorAction[]) => {
+                            cue.actions.forEach((actionItem: IEmulatorAction, actionIndex: number, actionArray: IEmulatorAction[]) => {
                                 em.processAction(actionItem, actionIndex, actionArray, newCueSignalValue);
                             });
                         }
@@ -160,10 +160,10 @@ export class Ch5Emulator {
             case 'object':
                 cueSignal = Ch5SignalFactory.getInstance().getObjectSignal(cueSignalName);
                 if (!isNull(cueSignal)) {
-                    cueSigSubUpdate = (newCueSignalValue:object) => {
+                    cueSigSubUpdate = (newCueSignalValue: object) => {
                         const em = Ch5Emulator.getInstance();
-                        if ( !isNull(em) && em.isTriggered(cue.trigger, newCueSignalValue, cueSignal)) {
-                            cue.actions.forEach((actionItem:IEmulatorAction, actionIndex:number, actionArray:IEmulatorAction[]) => {
+                        if (!isNull(em) && em.isTriggered(cue.trigger, newCueSignalValue, cueSignal)) {
+                            cue.actions.forEach((actionItem: IEmulatorAction, actionIndex: number, actionArray: IEmulatorAction[]) => {
                                 em.processAction(actionItem, actionIndex, actionArray, newCueSignalValue);
                             });
                         }
@@ -180,9 +180,9 @@ export class Ch5Emulator {
 
     }
 
-    public isTriggered(trigger:boolean|number|string|object,
-                       nextSignalValue:boolean|number|string|object|TRepeatDigitalSignalValue,
-                       signal:Ch5Signal<boolean>|Ch5Signal<number>|Ch5Signal<string>|Ch5Signal<object>|null) {
+    public isTriggered(trigger: boolean | number | string | object,
+        nextSignalValue: boolean | number | string | object | TRepeatDigitalSignalValue,
+        signal: Ch5Signal<boolean> | Ch5Signal<number> | Ch5Signal<string> | Ch5Signal<object> | null) {
 
         let _nextSignalValue = nextSignalValue;
         const repeatDigitalValue = (_nextSignalValue as TRepeatDigitalSignalValue)[Ch5SignalBridge.REPEAT_DIGITAL_KEY];
@@ -198,33 +198,33 @@ export class Ch5Emulator {
                 isTriggered = (trigger === _nextSignalValue);
                 break;
             case 'string':
-                if (trigger === '&change'){
+                if (trigger === '&change') {
                     if (isObject(_nextSignalValue)) {
                         isTriggered = !isNull(signal) &&
                             (JSON.stringify(signal.prevValue) !== JSON.stringify(_nextSignalValue));
-                    } else{
+                    } else {
                         isTriggered = !isNull(signal) && (signal.prevValue !== _nextSignalValue);
                     }
                 } else {
-                    isTriggered = ( trigger === _nextSignalValue );
+                    isTriggered = (trigger === _nextSignalValue);
                 }
                 break;
             case 'number':
-                isTriggered = ( trigger === _nextSignalValue );
+                isTriggered = (trigger === _nextSignalValue);
                 break;
             case 'object':
-                isTriggered = ( JSON.stringify(trigger) === JSON.stringify(_nextSignalValue) );
+                isTriggered = (JSON.stringify(trigger) === JSON.stringify(_nextSignalValue));
                 break;
         }
 
         return isTriggered;
     }
 
-    public processAction(action:IEmulatorAction, actionIndex:number, actionArray:IEmulatorAction[], cueSignalValue:boolean|number|string|object){
+    public processAction(action: IEmulatorAction, actionIndex: number, actionArray: IEmulatorAction[], cueSignalValue: boolean | number | string | object) {
         setTimeout(() => this.processActionAsync(action, actionIndex, actionArray, cueSignalValue), 30);
     }
 
-    private processActionAsync(action:IEmulatorAction, actionIndex:number, actionArray:IEmulatorAction[], cueSignalValue:boolean|number|string|object){
+    private processActionAsync(action: IEmulatorAction, actionIndex: number, actionArray: IEmulatorAction[], cueSignalValue: boolean | number | string | object) {
         if (isUndefined(action.state)) {
             throw new Error('Property "state" is not set in action.');
         }
@@ -253,8 +253,8 @@ export class Ch5Emulator {
         }
     }
 
-    private castToBoolean(val:any):boolean {
-        let processedValue:boolean = false;
+    private castToBoolean(val: any): boolean {
+        let processedValue: boolean = false;
 
         if (typeof val === 'string') {
             switch (val.toLowerCase().trim()) {
@@ -279,16 +279,16 @@ export class Ch5Emulator {
         return processedValue;
     }
 
-    private processBooleanAction(action:IEmulatorAction, cueSignalValue:boolean|number|string|object):void {
+    private processBooleanAction(action: IEmulatorAction, cueSignalValue: boolean | number | string | object): void {
         // Check for join number signal state name. This is only for the emulator to work as expected even if
         // bridgeReceiveXXXFromNative core methods are checking for join number state names
         // (but that is required too for Control System to communicate with ch5 components)
         const signalName: string = Ch5Signal.getSubscriptionSignalName(action.state);
-        const actionSignal:Ch5Signal<boolean>|Ch5Signal<number>|Ch5Signal<string>|Ch5Signal<object>|null
+        const actionSignal: Ch5Signal<boolean> | Ch5Signal<number> | Ch5Signal<string> | Ch5Signal<object> | null
             = Ch5SignalFactory.getInstance().getBooleanSignal(signalName);
 
         if (!isNull(actionSignal)) {
-            switch (action.logic){
+            switch (action.logic) {
                 case "set":
                     if (!isUndefined(action.value)) {
                         // actionSignal.fromSignalBridge(action.value as boolean);
@@ -319,16 +319,16 @@ export class Ch5Emulator {
         }
     }
 
-    private processNumberAction(action:IEmulatorAction, cueSignalValue: boolean|number|string|object):void {
+    private processNumberAction(action: IEmulatorAction, cueSignalValue: boolean | number | string | object): void {
         // Check for join number signal state name. This is only for the emulator to work as expected even if
         // bridgeReceiveXXXFromNative core methods are checking for join number state names
         // (but that is required too for Control System to communicate with ch5 components)
         const signalName: string = Ch5Signal.getSubscriptionSignalName(action.state);
-        const actionSignal:Ch5Signal<boolean>|Ch5Signal<number>|Ch5Signal<string>|Ch5Signal<object>|null
+        const actionSignal: Ch5Signal<boolean> | Ch5Signal<number> | Ch5Signal<string> | Ch5Signal<object> | null
             = Ch5SignalFactory.getInstance().getNumberSignal(signalName);
 
         if (!isNull(actionSignal)) {
-            switch (action.logic){
+            switch (action.logic) {
                 case "set":
                     if (isNumber(action.value)) {
                         // actionSignal.fromSignalBridge(action.value);
@@ -337,8 +337,8 @@ export class Ch5Emulator {
                     }
                     break;
                 case "link":
-                    let parsedVal = parseInt('' + cueSignalValue,10);
-                    if (isNaN(parsedVal)){
+                    let parsedVal = parseInt('' + cueSignalValue, 10);
+                    if (isNaN(parsedVal)) {
                         parsedVal = 0;
                     }
                     // actionSignal.fromSignalBridge(parsedVal as number);
@@ -368,12 +368,12 @@ export class Ch5Emulator {
                 // TODO remove this since rcb logic can be accomplished by sending an rcb object signal
                 case "rcb":
                     if (!isUndefined(action.value) && !isUndefined(action.time)) {
-                        setTimeout((signal: Ch5Signal<number>|null, val: number) => {
-                                if (!isNull(signal)) {
-                                    // sig.fromSignalBridge(val);
-                                    core.bridgeReceiveIntegerFromNative(signalName, val);
-                                }
-                            }, action.time, actionSignal, action.value);
+                        setTimeout((signal: Ch5Signal<number> | null, val: number) => {
+                            if (!isNull(signal)) {
+                                // sig.fromSignalBridge(val);
+                                core.bridgeReceiveIntegerFromNative(signalName, val);
+                            }
+                        }, action.time, actionSignal, action.value);
                     }
                     break;
             }
@@ -432,16 +432,16 @@ export class Ch5Emulator {
         }
     }
 
-    public run():void {
+    public run(): void {
         if (isUndefined(Ch5Emulator._scenario) || isUndefined(Ch5Emulator._scenario.cues)) {
             throw new Error('You must load a scenario before trying to run one.');
         }
         if (isUndefined(Ch5Emulator._scenario.onStart) || isUndefined(Ch5Emulator._scenario.onStart.forEach)) {
             // throw new Error('There are no rules defined for "onStart"');
-            return ;
+            return;
         }
 
-        Ch5Emulator._scenario.onStart.forEach((item, index) => {
+        Ch5Emulator._scenario.onStart.forEach((item) => {
             // Check for join number signal state name for onStart queue too.
             // This is only for the emulator to work as expected even if
             // bridgeReceiveXXXFromNative core methods are checking for join number state names
