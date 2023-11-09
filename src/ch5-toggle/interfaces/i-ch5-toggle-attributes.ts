@@ -107,7 +107,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonAttributesToggle {
    * [
    * "`value` attribute",
    * "***",
-   * "The default value is false. Possible values are true, false. When feedbackMode=submit, this property will change to the last, value submitted. When reset, the value property will be changed to, the initial value or last value on submit."
+   * "The value attribute specifies the value of an toggle element."
    * ]
    * @name value
    * @default false
@@ -143,7 +143,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonAttributesToggle {
    * [
    * "`sendEventOnClick` attribute",
    * "***",
-   * "Sends a signal on a click or tap event (mouse or swipe up and down quickly)."
+   * "Sends a boolean signal on a click or tap event"
    * ]
    * @name sendeventonclick
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
@@ -155,7 +155,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonAttributesToggle {
    * [
    * "`feedbackmode` attribute",
    * "***",
-   * "feedbackMode sends the input text changes based on the attribute value. The default value for feedbackMode attribute is 'direct'      Valid values: 'direct' and 'submit'."
+   * "feedbackMode sends the input text changes based on the attribute value. The default value for feedbackMode attribute is 'direct' Valid values: 'direct' and 'submit'."
    * ]
    * @name feedbackmode
    * @default direct

@@ -618,7 +618,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
   }
 
   public submit(): void {
-    if (this.feedbackMode === 'submit' && this._dirty === true && this.dirtyValue !== this.cleanValue) {
+    if (this.feedbackMode === 'submit' && this.dirtyValue !== this.cleanValue) {
       this._submitted = true;
       this.setDirtyHandler();
       this.handleSendEventOnClick();
@@ -647,7 +647,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
     }
 
     // set dirty handler immediately if feedbackMode is not submit and send click signal
-    if (this._feedbackMode !== 'submit') {
+    if (this.feedbackMode !== 'submit') {
       this.setDirtyHandler();
       this.handleSendEventOnClick();
     }

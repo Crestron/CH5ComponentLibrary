@@ -61,7 +61,7 @@ import { ICh5ToggleAttributes } from "./i-ch5-toggle-attributes";
  *       "\ticonOff=\"${7:}\"",
  *       "\torientation=\"${8:horizontal}\"",
  *       "\tsize=\"${9:regular}\"",
- *       "\tvalue=\"${10:false}\"",
+ *       "\tvalue=\"${10:false}\">",
  *       "</ch5-toggle>$0"
  *       ]
  *    }
