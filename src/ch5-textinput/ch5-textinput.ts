@@ -435,7 +435,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 
   public set iconPosition(value: TCh5TextInputIconPosition) {
     this._ch5Properties.set<TCh5TextInputIconPosition>("iconPosition", value, () => {
-      this.handleIconPosition();
+      this.iconClass === "" ? this.handleIcon() : this.handleIconClass();
     });
   }
   public get iconPosition(): TCh5TextInputIconPosition {
@@ -664,6 +664,9 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
   public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
     this.logger.start("attributeChangedCallback", this.primaryCssClass);
     if (oldValue !== newValue) {
+      if (attr.toLowerCase() === 'text-transform') {
+        this.textTransform = newValue as TCh5TextInputTextTransform;
+      }
       this.logger.log('ch5-textinput attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
       const attributeChangedProperty = Ch5TextInput.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
       if (attributeChangedProperty) {
@@ -750,7 +753,9 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 
   protected initAttributes() {
     super.initAttributes();
-
+    if (this.hasAttribute('text-transform')) {
+      this.textTransform = this.getAttribute('text-transform') as TCh5TextInputTextTransform;
+    }
     const thisRef: any = this;
     for (let i: number = 0; i < Ch5TextInput.COMPONENT_PROPERTIES.length; i++) {
       if (Ch5TextInput.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
@@ -819,7 +824,9 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
     this._elIcon.className = '';
     this._elIcon.classList.add(this.primaryCssClass + '--icon')
     this._elIcon.classList.add(this.primaryCssClass + '--icon-position-' + this.iconPosition)
-    this.iconClass.split(' ').forEach((clsName: string) => this._elIcon.classList.add(clsName));
+    if (this.iconClass.trim() !== "") {
+      this.iconClass.split(' ').forEach((clsName: string) => this._elIcon.classList.add(clsName));
+    }
     this.iconClass === '' ? this._elIcon.remove() : this.iconPosition === 'first' ? this._elInput.parentElement?.prepend(this._elIcon) : this._elInput.parentElement?.appendChild(this._elIcon);
   }
 
@@ -827,7 +834,9 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
     this._elIcon.className = '';
     this._elIcon.classList.add(this.primaryCssClass + '--icon');
     this._elIcon.classList.add(this.primaryCssClass + '--icon-position-' + this.iconPosition)
-    this.icon.split(' ').forEach((clsName: string) => this._elIcon.classList.add(clsName));
+    if (this.icon.trim() !== "") {
+      this.icon.split(' ').forEach((clsName: string) => this._elIcon.classList.add(clsName));
+    }
     this.iconClass === '' ? this._elIcon.remove() : this.iconPosition === 'first' ? this._elInput.parentElement?.prepend(this._elIcon) : this._elInput.parentElement?.appendChild(this._elIcon);
   }
 
@@ -845,11 +854,6 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
     }
   }
 
-  private handleIconPosition() {
-    this._elIcon.classList.remove(this.primaryCssClass + '--icon-position-' + 'left');
-    this._elIcon.classList.remove(this.primaryCssClass + '--icon-position-' + 'right');
-    this._elIcon.classList.add(this.primaryCssClass + '--icon-position-' + this.iconPosition);
-  }
   private handleType() {
     this._elInput.setAttribute('type', this.type);
   }

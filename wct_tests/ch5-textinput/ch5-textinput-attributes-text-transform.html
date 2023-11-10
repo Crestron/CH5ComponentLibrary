@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-textinput-text-transform-attributes">
+    <template>
+      <ch5-textinput></ch5-textinput>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-textinput-text-transform-attributes-value', () => {
+      let ch5Textinput;
+
+      setup(async () => {
+        ch5Textinput = fixture('ch5-textinput-text-transform-attributes');
+      });
+
+      let testCases = ['a', '', ' ', 'number', 'none', 'capitalize', 'uppercase', 'lowercase'];
+      let expectedResult = ['none', 'none', 'none', 'none', 'none', 'capitalize', 'uppercase', 'lowercase'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "text-transform"', () => {
+          ch5Textinput.setAttribute('text-transform', ele);
+          expect(ch5Textinput.getAttribute('text-transform')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+    });
+  </script>
+</body>
+
+</html>
