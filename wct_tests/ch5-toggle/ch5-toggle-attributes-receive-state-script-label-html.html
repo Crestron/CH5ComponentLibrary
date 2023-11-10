@@ -26,16 +26,16 @@
         emulator.loadScenario(emulatorJson);
         ch5Toggle = fixture('ch5-toggle-receiveStateScriptLabelHTML-attributes');
       });
-        
-        test('receiveStateScriptLabelHTML', (done) => {
-          CrComLib.publishEvent('b', 'trigger_event',true );
-          flush(() => {
-              setTimeout(() => {
-                  expect(ch5Toggle.getAttribute('label')).to.be.equal('String Signal');
-                  done();
-              }, 100);
-          });
-        }); 
+
+      test('receiveStateScriptLabelHTML', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Toggle.getAttribute('label')).to.be.equal('String Signal');
+            done();
+          }, 100);
+        });
+      });
     });
   </script>
 </body>

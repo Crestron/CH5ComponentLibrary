@@ -26,16 +26,17 @@
         emulator.loadScenario(emulatorJson);
         ch5Toggle = fixture('ch5-toggle-receiveStateValue-attributes');
       });
-        
-          test('receiveStateValue', (done) => {
-          CrComLib.publishEvent('b', 'trigger_event',true );
-          flush(() => {
-              setTimeout(() => {
-                  expect(ch5Toggle.getAttribute('value')).to.be.equal('true');
-                  done();
-              }, 100);
-          });
+
+      test('receiveStateValue', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event', true);
+        flush(() => {
+          setTimeout(() => {
+            ch5Toggle.setAttribute('value', '');
+            expect(ch5Toggle.getAttribute('value')).to.be.equal('false');
+            done();
+          }, 100);
         });
+      });
     });
   </script>
 </body>

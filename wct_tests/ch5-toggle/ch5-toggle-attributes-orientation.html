@@ -23,16 +23,16 @@
       setup(async () => {
         ch5Toggle = fixture('ch5-toggle-orientation-attributes');
       });
-        
-        let testCases = ['a', '', ' ', 'number', 'horizontal', 'vertical'];
-        let expectedResult = ['horizontal', 'horizontal', 'horizontal', 'horizontal', 'horizontal', 'vertical'];
-        testCases.forEach((ele, i) => {
-              test('Check Value "orientation"', () => {
-                  ch5Toggle.setAttribute('orientation', ele);
-                  expect(ch5Toggle.getAttribute('orientation')).to.be.equal(expectedResult[i]);
-              });
-          });
-        
+
+      let testCases = ['a', '', ' ', 'number', 'horizontal', 'vertical'];
+      let expectedResult = ['horizontal', 'horizontal', 'horizontal', 'horizontal', 'horizontal', 'vertical'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "orientation"', () => {
+          ch5Toggle.setAttribute('orientation', ele);
+          expect(ch5Toggle.getAttribute('orientation')).to.be.equal(expectedResult[i]);
+        });
+      });
+
     });
   </script>
 </body>

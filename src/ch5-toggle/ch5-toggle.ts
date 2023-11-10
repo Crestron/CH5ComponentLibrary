@@ -174,6 +174,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
+  private _elBody: HTMLElement = {} as HTMLElement;
   private _elLabel: HTMLElement = {} as HTMLElement;
   private _elHandle: HTMLElement = {} as HTMLElement;
   private _elIconOn: HTMLElement = {} as HTMLElement;
@@ -403,6 +404,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
     this._elContainer = document.createElement('div');
+    this._elBody = document.createElement('div');
 
     this._elLabel = document.createElement('span');
     this._elLabel.hidden = true;
@@ -434,11 +436,12 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
     this._elKnob = document.createElement('a');
 
     // append childrens
-    this._elContainer.appendChild(this._elLabel);
-    this._elContainer.appendChild(this._elHandle);
+    this._elBody.appendChild(this._elLabel);
+    this._elBody.appendChild(this._elHandle);
     this._elHandle.appendChild(this._elOffContainer);
     this._elHandle.appendChild(this._elOnContainer);
     this._elHandle.appendChild(this._elKnob);
+    this._elContainer.appendChild(this._elBody);
     this.setAttribute('tabindex', '0');
 
     this.logger.stop();

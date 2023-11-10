@@ -26,16 +26,16 @@
         emulator.loadScenario(emulatorJson);
         ch5Toggle = fixture('ch5-toggle-sendEventOnClick-attributes');
       });
-        
-          test('sendEventOnClick', (done) => {
-          CrComLib.publishEvent('b', 'trigger_event',true );
-          flush(() => {
-              setTimeout(() => {
-                  expect(ch5Toggle.getAttribute('sendEventOnClick')).to.be.equal('true');
-                  done();
-              }, 100);
-          });
+
+      test('sendEventOnClick', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Toggle.getAttribute('sendEventOnClick')).to.be.equal('true');
+            done();
+          }, 100);
         });
+      });
     });
   </script>
 </body>

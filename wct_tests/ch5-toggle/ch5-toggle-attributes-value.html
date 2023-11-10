@@ -23,16 +23,16 @@
       setup(async () => {
         ch5Toggle = fixture('ch5-toggle-value-attributes');
       });
-        
-        let testCases = ['a', '', ' ', 'number', true,false];
-        let expectedResult = ['false', 'false', 'false', 'false', 'true','false'];
-        testCases.forEach((ele, i) => {
-              test('Check Value "value"', () => {
-                  ch5Toggle.setAttribute('value', ele);
-                  expect(ch5Toggle.getAttribute('value')).to.be.equal(expectedResult[i]);
-              });
-          });
-        
+
+      let testCases = ['a', '', ' ', 'number', true, false];
+      let expectedResult = ['false', 'false', 'false', 'false', 'true', 'false'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "value"', () => {
+          ch5Toggle.setAttribute('value', ele);
+          expect(ch5Toggle.getAttribute('value')).to.be.equal(expectedResult[i]);
+        });
+      });
+
     });
   </script>
 </body>

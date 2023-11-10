@@ -23,25 +23,25 @@
       setup(async () => {
         ch5Toggle = fixture('ch5-toggle-default-attributes');
       });
-        
-        test('Check Default value for handleShape', () => {
-          expect(ch5Toggle.getAttribute("handleShape")).to.be.equal(null);
-          ch5Toggle.setAttribute('handleShape', 'circle');
-          expect(ch5Toggle.children[0].classList.contains('ch5-toggle--handleShape-circle')).to.be.equal(true);
-          expect(ch5Toggle.getAttribute("handleShape")).to.be.equal('circle');
-          ch5Toggle.removeAttribute("handleShape");
-          expect(ch5Toggle.getAttribute("handleShape")).to.be.equal('circle');
-        });
-        
-        test('Check Default value for orientation', () => {
-          expect(ch5Toggle.getAttribute("orientation")).to.be.equal(null);
-          ch5Toggle.setAttribute('orientation', 'horizontal');
-          expect(ch5Toggle.children[0].classList.contains('ch5-toggle--orientation-horizontal')).to.be.equal(true);
-          expect(ch5Toggle.getAttribute("orientation")).to.be.equal('horizontal');
-          ch5Toggle.removeAttribute("orientation");
-          expect(ch5Toggle.getAttribute("orientation")).to.be.equal('horizontal');
-        });
-        
+
+      test('Check Default value for handleShape', () => {
+        expect(ch5Toggle.getAttribute("handleShape")).to.be.equal(null);
+        ch5Toggle.setAttribute('handleShape', 'circle');
+        expect(ch5Toggle.children[0].classList.contains('ch5-toggle--circle')).to.be.equal(true);
+        expect(ch5Toggle.getAttribute("handleShape")).to.be.equal('circle');
+        ch5Toggle.removeAttribute("handleShape");
+        expect(ch5Toggle.getAttribute("handleShape")).to.be.equal('circle');
+      });
+
+      test('Check Default value for orientation', () => {
+        expect(ch5Toggle.getAttribute("orientation")).to.be.equal(null);
+        ch5Toggle.setAttribute('orientation', 'horizontal');
+        expect(ch5Toggle.children[0].classList.contains('ch5-toggle--horizontal')).to.be.equal(true);
+        expect(ch5Toggle.getAttribute("orientation")).to.be.equal('horizontal');
+        ch5Toggle.removeAttribute("orientation");
+        expect(ch5Toggle.getAttribute("orientation")).to.be.equal('horizontal');
+      });
+
       test('Check signal types', () => {
         for (signal in signalTypes) {
           if (signal.includes("sendevent")) {

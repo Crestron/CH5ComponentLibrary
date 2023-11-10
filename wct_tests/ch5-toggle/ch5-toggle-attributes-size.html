@@ -11,25 +11,25 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-toggle-handleShape-attributes">
+  <test-fixture id="ch5-toggle-size-attributes">
     <template>
       <ch5-toggle></ch5-toggle>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-toggle-handleShape-attributes-value', () => {
+    suite('ch5-toggle-size-attributes-value', () => {
       let ch5Toggle;
 
       setup(async () => {
-        ch5Toggle = fixture('ch5-toggle-handleShape-attributes');
+        ch5Toggle = fixture('ch5-toggle-size-attributes');
       });
 
-      let testCases = ['a', '', ' ', 'number', 'circle', 'rectangle'];
-      let expectedResult = ['circle', 'circle', 'circle', 'circle', 'circle', 'rectangle'];
+      let testCases = ['a', '', ' ', 'number', 'regular', 'x-small', 'small', 'large', 'x-large', '567'];
+      let expectedResult = ['regular', 'regular', 'regular', 'regular', 'regular', 'x-small', 'small', 'large', 'x-large', 'regular'];
       testCases.forEach((ele, i) => {
-        test('Check Value "handleShape"', () => {
-          ch5Toggle.setAttribute('handleShape', ele);
-          expect(ch5Toggle.getAttribute('handleShape')).to.be.equal(expectedResult[i]);
+        test('Check Value "Size"', () => {
+          ch5Toggle.setAttribute('size', ele);
+          expect(ch5Toggle.getAttribute('size')).to.be.equal(expectedResult[i]);
         });
       });
 
