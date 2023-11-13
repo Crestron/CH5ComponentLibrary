@@ -2692,7 +2692,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this.value = this.min;
 		}
 
-		if (this.range && this.value >= this.valueHigh) {
+		if (this.range && this.value > this.valueHigh) {
 			this.value = this.valueHigh - 1;
 		}
 
@@ -2710,6 +2710,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		if (this.range === false) {
 			return;
 		}
+
 		if (this.valueHigh > this.max) {
 			this.valueHigh = this.max;
 		} else if (this.valueHigh < this.min) {
