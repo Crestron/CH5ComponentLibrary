@@ -11,7 +11,7 @@ import { TCh5DpadChildButtonType } from "./t-ch5-dpad";
 /**
  * @ignore
  */
-export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributesDpadChild {
+export interface ICh5DpadButtonBaseAttributes extends ICh5CommonAttributesDpadChild {
 
     /**
      * @documentation

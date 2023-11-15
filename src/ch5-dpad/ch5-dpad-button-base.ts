@@ -16,14 +16,14 @@ import { Ch5RoleAttributeMapping } from "../utility-models";
 import { Ch5Dpad } from "./ch5-dpad";
 import { ComponentHelper } from "../ch5-common/utils/component-helper";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
-import { ICh5DpadChildBaseAttributes } from "./interfaces/i-ch5-dpad-child-base-attributes";
+import { ICh5DpadButtonBaseAttributes } from "./interfaces/i-ch5-dpad-button-base-attributes";
 import { TCh5DpadButtonClassListType, TCh5DpadChildButtonType, TCh5DpadConstructorParam } from "./interfaces/t-ch5-dpad";
 import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { Ch5DpadButton } from "./ch5-dpad-button";
 
-export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttributes {
+export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAttributes {
 
 	//#region 1. Variables
 
@@ -126,7 +126,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	// this is last tap time used to determine if should send click pulse in focus event
 	protected _lastTapTime: number = 0;
 	protected _pressable: Ch5Pressable | null = null;
-	protected _hammerManager: HammerManager = {} as HammerManager;
 	protected _pressTimeout: number = 0;
 	protected _pressed: boolean = false;
 	protected _buttonPressedInPressable: boolean = false;
@@ -203,7 +202,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		super();
 		this.logger.start('constructor()', this.COMPONENT_NAME);
 		this.ignoreAttributes = ["show", "disabled", "receivestateenable", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "receivestatecustomclass", "receivestatecustomstyle", "sendeventonshow"];
-		this._ch5Properties = new Ch5Properties(this, Ch5DpadChildBase.COMPONENT_PROPERTIES);
+		this._ch5Properties = new Ch5Properties(this, Ch5DpadButtonBase.COMPONENT_PROPERTIES);
 
 		ComponentHelper.clearComponentContent(this);
 
@@ -252,8 +251,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
 		}
-
-		this._hammerManager = new Hammer(this);
 
 		this.createElementsAndInitialize();
 
@@ -347,9 +344,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	}
 
 	public removeEventListeners() {
-		if (!!this._hammerManager && !!this._hammerManager.off) {
-			this._hammerManager.off('tap', this._onTapAction);
-		}
 		this.removeEventListener('mousedown', this._onPressClick);
 		this.removeEventListener('mouseup', this._onMouseUp);
 		this.removeEventListener('touchstart', this._onPress);
@@ -374,9 +368,9 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	static get observedAttributes() {
 		const inheritedObsAttrs = Ch5Common.observedAttributes;
 		const newObsAttrs: string[] = [];
-		for (let i: number = 0; i < Ch5DpadChildBase.COMPONENT_PROPERTIES.length; i++) {
-			if (Ch5DpadChildBase.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-				newObsAttrs.push(Ch5DpadChildBase.COMPONENT_PROPERTIES[i].name.toLowerCase());
+		for (let i: number = 0; i < Ch5DpadButtonBase.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5DpadButtonBase.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				newObsAttrs.push(Ch5DpadButtonBase.COMPONENT_PROPERTIES[i].name.toLowerCase());
 			}
 		}
 		return inheritedObsAttrs.concat(newObsAttrs);
@@ -392,7 +386,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		this.info('ch5-dpad-button' + this.buttonType + ' attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
 		if (oldValue !== newValue) {
 			this.logger.log('ch5-dpad-child-base attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
-			const attributeChangedProperty = Ch5DpadChildBase.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
+			const attributeChangedProperty = Ch5DpadButtonBase.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
 			if (attributeChangedProperty) {
 				const thisRef: any = this;
 				const key = attributeChangedProperty.name;
@@ -416,10 +410,10 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
 		// below actions, set default value to the control's attribute if they dont exist, and assign them as a return value
 		const thisRef: any = this;
-		for (let i: number = 0; i < Ch5DpadChildBase.COMPONENT_PROPERTIES.length; i++) {
-			if (Ch5DpadChildBase.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-				if (this.hasAttribute(Ch5DpadChildBase.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
-					const key = Ch5DpadChildBase.COMPONENT_PROPERTIES[i].name;
+		for (let i: number = 0; i < Ch5DpadButtonBase.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5DpadButtonBase.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				if (this.hasAttribute(Ch5DpadButtonBase.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
+					const key = Ch5DpadButtonBase.COMPONENT_PROPERTIES[i].name;
 					thisRef[key] = this.getAttribute(key);
 				}
 			}
@@ -453,10 +447,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	 */
 	protected attachEventListeners() {
 		super.attachEventListeners();
-
-		if (this._pressable !== null && this._pressable.ch5Component.gestureable === false) {
-			this._hammerManager.on('tap', this._onTapAction);
-		}
 
 		this.addEventListener('mousedown', this._onPressClick);
 		this.addEventListener('mouseup', this._onMouseUp);
