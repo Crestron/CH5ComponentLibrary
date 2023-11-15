@@ -1167,14 +1167,14 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	private handleHidePoundButton() {
-		const centerBtn = this.querySelector('.keypad-btn.misc-btn-one');
+		const centerBtn = this.querySelector('.keypad-btn.misc-btn-two');
 		centerBtn?.classList.remove('ch5-hide-vis');
 		if (this.hidePoundButton) {
 			centerBtn?.classList.add('ch5-hide-vis');
 		}
 	}
 	private handleHideAsteriskButton() {
-		const centerBtn = this.querySelector('.keypad-btn.misc-btn-two');
+		const centerBtn = this.querySelector('.keypad-btn.misc-btn-one');
 		centerBtn?.classList.remove('ch5-hide-vis');
 		if (this.hideAsteriskButton) {
 			centerBtn?.classList.add('ch5-hide-vis');
