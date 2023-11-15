@@ -2603,8 +2603,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			val = this.max
 		if (this.valueHigh > this.max)
 			valHigh = this.max;
-		if (this.valueHigh < this.value)
-			valHigh = this.value + 1;
+		if (this.valueHigh <= this.value)
+			valHigh = this.value;
 
 		let start = (this.range === false) ? val : [val, valHigh];
 		this._cleanValue = val;
@@ -2650,8 +2650,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			value = this.max
 		if (this.valueHigh > this.max)
 			valueHigh = this.max;
-		if (this.valueHigh < this.value)
-			valueHigh = this.value + 1;
+		if (this.valueHigh <= this.value)
+			valueHigh = this.value;
 
 		this._cleanValue = value;
 		if (this.range === true) {
@@ -2692,7 +2692,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this.value = this.min;
 		}
 
-		if (this.range && this.value >= this.valueHigh) {
+		if (this.range && this.value > this.valueHigh) {
 			this.value = this.valueHigh - 1;
 		}
 
@@ -2710,6 +2710,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		if (this.range === false) {
 			return;
 		}
+
 		if (this.valueHigh > this.max) {
 			this.valueHigh = this.max;
 		} else if (this.valueHigh < this.min) {
@@ -2717,7 +2718,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		}
 
 		if (this.valueHigh <= this.value) {
-			this.valueHigh = this.value + 1;
+			this.valueHigh = this.value;
 		}
 
 		if (this._dirtyTimerHandleHigh !== null) {

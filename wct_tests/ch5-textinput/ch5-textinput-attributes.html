@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-textinput-default-attributes">
+    <template>
+      <ch5-textinput></ch5-textinput>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-textinput-default-attributes-value', () => {
+      let ch5Textinput;
+      const signalTypes = CrComLib.Ch5TextInput.SIGNAL_ATTRIBUTE_TYPES;
+      setup(async () => {
+        ch5Textinput = fixture('ch5-textinput-default-attributes');
+      });
+
+      test('Check Default value for iconPosition', () => {
+        expect(ch5Textinput.getAttribute("iconPosition")).to.be.equal(null);
+        ch5Textinput.setAttribute('iconPosition', 'first');
+        expect(ch5Textinput.getAttribute("iconPosition")).to.be.equal('first');
+        ch5Textinput.removeAttribute("iconPosition");
+        expect(ch5Textinput.getAttribute("iconPosition")).to.be.equal('first');
+      });
+
+      test('Check Default value for type', () => {
+        expect(ch5Textinput.getAttribute("type")).to.be.equal(null);
+        ch5Textinput.setAttribute('type', 'text');
+        expect(ch5Textinput.getAttribute("type")).to.be.equal('text');
+        ch5Textinput.removeAttribute("type");
+        expect(ch5Textinput.getAttribute("type")).to.be.equal('text');
+      });
+
+      test('Check Default value for size', () => {
+        expect(ch5Textinput.getAttribute("size")).to.be.equal(null);
+        ch5Textinput.setAttribute('size', 'regular');
+        expect(ch5Textinput.children[0].classList.contains('ch5-textinput-container--size-regular')).to.be.equal(true);
+        expect(ch5Textinput.getAttribute("size")).to.be.equal('regular');
+        ch5Textinput.removeAttribute("size");
+        expect(ch5Textinput.getAttribute("size")).to.be.equal('regular');
+      });
+
+      test('Check Default value for text-transform', () => {
+        expect(ch5Textinput.getAttribute("text-transform")).to.be.equal(null);
+        ch5Textinput.setAttribute('text-transform', 'none');
+        expect(ch5Textinput.children[0].children[0].classList.contains('ch5-textinput--text-transform-none')).to.be.equal(true);
+        expect(ch5Textinput.getAttribute("text-transform")).to.be.equal('none');
+        ch5Textinput.removeAttribute("text-transform");
+        expect(ch5Textinput.getAttribute("text-transform")).to.be.equal('none');
+      });
+
+      test('Check signal types', () => {
+        for (signal in signalTypes) {
+          if (signal.includes("sendevent")) {
+            expect(signalTypes[signal].direction).to.be.equal("event");
+          } else if (signal.includes("receivestate")) {
+            expect(signalTypes[signal].direction).to.be.equal("state");
+          }
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

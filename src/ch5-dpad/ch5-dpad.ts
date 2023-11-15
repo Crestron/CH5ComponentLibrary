@@ -122,7 +122,61 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			isNullable: true,
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true
-		}
+		},
+		{
+			default: false,
+			name: "hideCenterButton",
+			nameForSignal: "receiveStateHideCenterButton",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "receiveStateHideCenterButton",
+			signalType: "boolean",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: false,
+			name: "disableCenterButton",
+			nameForSignal: "receiveStateDisableCenterButton",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "receiveStateDisableCenterButton",
+			signalType: "boolean",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: false,
+			name: "useContractForDisableCenterButton",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: false,
+			isObservableProperty: true
+		},
+		{
+			default: false,
+			name: "useContractForHideCenterButton",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: false,
+			isObservableProperty: true
+		},
 	];
 
 	/**
@@ -165,7 +219,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		contractname: { contractName: true },
 		booleanjoinoffset: { booleanJoin: 1 },
 		numericjoinoffset: { numericJoin: 1 },
-		stringjoinoffset: { stringJoin: 1 }
+		stringjoinoffset: { stringJoin: 1 },
+		receivestatehidecenterbutton: { direction: "state", booleanJoin: 1, contractName: true },
+		receivestatedisablecenterbutton: { direction: "state", booleanJoin: 1, contractName: true },
 	};
 
 	public readonly primaryCssClass = 'ch5-dpad';
@@ -315,6 +371,74 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	}
 	public get useContractForCustomClass(): boolean {
 		return this._ch5Properties.get<boolean>("useContractForCustomClass");
+	}
+
+	public set hideCenterButton(value: boolean) {
+		this._ch5Properties.set<boolean>("hideCenterButton", value, () => {
+			this.handleHideCenterButton();
+		});
+	}
+	public get hideCenterButton(): boolean {
+		return this._ch5Properties.get<boolean>("hideCenterButton");
+	}
+
+	public set receiveStateHideCenterButton(value: string) {
+		this._ch5Properties.set("receiveStateHideCenterButton", value, null, (newValue: boolean) => {
+			this._ch5Properties.setForSignalResponse<boolean>("hideCenterButton", newValue, () => {
+				this.handleHideCenterButton();
+			});
+		});
+	}
+	public get receiveStateHideCenterButton(): string {
+		return this._ch5Properties.get<string>('receiveStateHideCenterButton');
+	}
+
+	public set disableCenterButton(value: boolean) {
+		this._ch5Properties.set<boolean>("disableCenterButton", value, () => {
+			this.handleDisableCenterButton();
+		});
+	}
+	public get disableCenterButton(): boolean {
+		return this._ch5Properties.get<boolean>("disableCenterButton");
+	}
+
+	public set receiveStateDisableCenterButton(value: string) {
+		this._ch5Properties.set("receiveStateDisableCenterButton", value, null, (newValue: boolean) => {
+			this._ch5Properties.setForSignalResponse<boolean>("disableCenterButton", newValue, () => {
+				this.handleDisableCenterButton();
+			});
+		});
+	}
+	public get receiveStateDisableCenterButton(): string {
+		return this._ch5Properties.get<string>('receiveStateDisableCenterButton');
+	}
+
+	public set useContractForDisableCenterButton(value: boolean) {
+		this._ch5Properties.set<string>("useContractForDisableCenterButton", value, () => {
+			const contractName = this.contractName;
+			if (contractName.length > 0) {
+				if (this.useContractForDisableCenterButton === true) {
+					this.receiveStateDisableCenterButton = contractName + '.DisableCenterButton';
+				}
+			}
+		});
+	}
+	public get useContractForDisableCenterButton(): boolean {
+		return this._ch5Properties.get<boolean>("useContractForDisableCenterButton");
+	}
+
+	public set useContractForHideCenterButton(value: boolean) {
+		this._ch5Properties.set<string>("useContractForHideCenterButton", value, () => {
+			const contractName = this.contractName;
+			if (contractName.length > 0) {
+				if (this.useContractForHideCenterButton === true) {
+					this.receiveStateHideCenterButton = contractName + '.HideCenterButton';
+				}
+			}
+		});
+	}
+	public get useContractForHideCenterButton(): boolean {
+		return this._ch5Properties.get<boolean>("useContractForHideCenterButton");
 	}
 
 	//#endregion
@@ -551,8 +675,10 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		}
 
 		buttonList.push(downBtn)
-
 		this.container.replaceChildren(...buttonList);
+		this.handleHideCenterButton();
+		this.handleDisableCenterButton();
+
 	}
 
 	/**
@@ -780,6 +906,14 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				this.receiveStateShow = contractName + '.Show';
 			}
 
+			if (this.useContractForDisableCenterButton === true) {
+				this.receiveStateDisableCenterButton = contractName + '.DisabeCenterButton';
+			}
+
+			if (this.useContractForHideCenterButton === true) {
+				this.receiveStateHideCenterButton = contractName + '.HideCenterButton';
+			}
+
 			if (!_.isNil(centerBtn)) {
 				const contractVal = contractName + "." + CH5DpadUtils.contractSuffix.center;
 				centerBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
@@ -829,6 +963,22 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			}
 		}
 		this.logger.stop();
+	}
+
+	private handleHideCenterButton() {
+		const centerBtn = this.querySelector('.ch5-dpad-button-center');
+		centerBtn?.classList.remove('ch5-hide-vis');
+		if (this.hideCenterButton) {
+			centerBtn?.classList.add('ch5-hide-vis');
+		}
+	}
+
+	private handleDisableCenterButton() {
+		const centerBtn = this.querySelector('.ch5-dpad-button-center');
+		centerBtn?.classList.remove('ch5-disabled');
+		if (this.disableCenterButton) {
+			centerBtn?.classList.add('ch5-disabled');
+		}
 	}
 
 	/**

@@ -476,7 +476,7 @@ export class Ch5SelectOption extends Ch5Common implements ICh5SelectOptionAttrib
         if (this._ch5Toggle !== null) {
             this._ch5Toggle.setClean();
             this._ch5Toggle.value = val;
-            this._ch5Toggle.checked = val;
+            // this._ch5Toggle.checked = val;
         }
     }
 
