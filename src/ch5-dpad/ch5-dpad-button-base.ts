@@ -111,6 +111,7 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 		defaultArrowClass: ''
 	};
 	private _ch5Properties: Ch5Properties;
+	protected _hammerManager: HammerManager = {} as HammerManager;
 
 	// elements specific vars
 	protected _icon: HTMLElement = {} as HTMLElement;
@@ -251,7 +252,7 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
 		}
-
+		this._hammerManager = new Hammer(this);
 		this.createElementsAndInitialize();
 
 		customElements.whenDefined('ch5-dpad-button').then(() => {
@@ -344,6 +345,10 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 	}
 
 	public removeEventListeners() {
+
+		if (!!this._hammerManager && !!this._hammerManager.off) {
+			this._hammerManager.off('tap', this._onTapAction);
+		}
 		this.removeEventListener('mousedown', this._onPressClick);
 		this.removeEventListener('mouseup', this._onMouseUp);
 		this.removeEventListener('touchstart', this._onPress);
@@ -447,6 +452,9 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 	 */
 	protected attachEventListeners() {
 		super.attachEventListeners();
+		if (this._pressable !== null && this._pressable.ch5Component.gestureable === false) {
+			this._hammerManager.on('tap', this._onTapAction);
+		}
 
 		this.addEventListener('mousedown', this._onPressClick);
 		this.addEventListener('mouseup', this._onMouseUp);
