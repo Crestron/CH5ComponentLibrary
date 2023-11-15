@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { Ch5Log } from "../../ch5-common/ch5-log";
 import { Ch5Properties } from "../../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../../ch5-core/ch5-property";

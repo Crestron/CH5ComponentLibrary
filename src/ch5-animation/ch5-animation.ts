@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";

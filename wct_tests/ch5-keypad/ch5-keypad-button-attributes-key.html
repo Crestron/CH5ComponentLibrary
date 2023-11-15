@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-keypad-key-fixture">
+    <template>
+      <ch5-keypad>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+        <ch5-keypad-button></ch5-keypad-button>
+      </ch5-keypad>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-keypad-button-key attribute', () => {
+
+      let ch5Keypad;
+
+      const testData = ['', 'junk', 'null', 'undefined', '0', '1', null, 0, 1, Infinity, ' ', undefined];
+
+      setup(async () => {
+        ch5Keypad = fixture('ch5-keypad-key-fixture');
+      });
+
+      const buttons = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#'];
+
+      buttons.forEach((item, buttonIndex) => {
+        suite(`${buttonIndex + 1} button should have passed value or ${item} by default`, () => {
+          testData.forEach((typeName, i) => {
+            const expectedData = ['', 'junk', 'null', 'undefined', '0', '1', 'null', '0', '1', 'Infinity', '', 'undefined'];
+            test(`Check attribute key: "${typeName}"`, () => {
+              const ch5KeypadButton = ch5Keypad.querySelectorAll('ch5-keypad-button')[buttonIndex];
+              ch5KeypadButton.setAttribute('key', typeName);
+              expect(ch5KeypadButton.key).to.be.equal(expectedData[i]);
+            });
+          });
+        });
+      });
+
+    });
+
+  </script>
+</body>
+
+</html>

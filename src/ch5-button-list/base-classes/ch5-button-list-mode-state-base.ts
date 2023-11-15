@@ -1,7 +1,6 @@
 import _ from "lodash";
 import { Ch5Log } from "../../ch5-common/ch5-log";
 import { Ch5Properties } from "../../ch5-core/ch5-properties";
-import { Ch5ButtonListModeBase } from "./ch5-button-list-mode-base";
 import { ICh5PropertySettings } from "../../ch5-core/ch5-property";
 import { Ch5RoleAttributeMapping } from "../../utility-models/ch5-role-attribute-mapping";
 import { ICh5ButtonListModeStateAttributes } from './../interfaces/i-ch5-button-list-mode-state-attributes';

@@ -392,6 +392,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
   }
 
   private render() {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     /** @ts-ignore */
     const dateFormat = this.styleForDate.replaceAll('d', 'D').replaceAll('y', 'Y').replaceAll('_', '/');
     let timeFormat = '';

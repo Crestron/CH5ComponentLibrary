@@ -5,7 +5,6 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import _ from "lodash";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
 import { Ch5DpadChildBase } from "./ch5-dpad-child-base";

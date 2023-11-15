@@ -7,7 +7,6 @@
 
 import { TDataLog } from '../types/index';
 import { LogLevelEnum } from '../enums/index';
-import isNil from 'lodash/isNil';
 import { LogMessagesFilter } from './LogMessagesFilter';
 
 export class LogMessage {
@@ -17,6 +16,7 @@ export class LogMessage {
     public readonly message: string = '';
     public readonly source: string = '';
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     constructor(data: TDataLog, logFilter: LogMessagesFilter) {
 
         const currentDate = new Date();

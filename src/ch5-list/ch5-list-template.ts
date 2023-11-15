@@ -289,10 +289,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
 
 		const elements = this._list.items.map((itemInfo) => itemInfo.element);
 
-		const viewport = {
-			width: this._list.viewportClientWidth,
-			height: this._list.viewportClientHeight,
-		}
+		
 
 		this._list.sizeResolver = new Ch5ListSizeResolver(
 			elements,
@@ -758,7 +755,6 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
 	 */
 	private getRelativeScrollbarPosition(position: number, listSize: number, viewPortsize: number): number {
 		let percentageScrollPosition = (position / listSize * 100) % 100;
-		let pxScrollPosition;
 		let direction = 1;
 
 		// horizontal rtl needs special handling; all other cases are the same
@@ -770,7 +766,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
 		if (this._list.isHorizontal && this._list.direction === Ch5Common.DIRECTION[1] && position < 0) {
 			percentageScrollPosition = 100 + percentageScrollPosition;
 		}
-		pxScrollPosition = Math.round(percentageScrollPosition / 100 * viewPortsize) * direction;
+		const pxScrollPosition = Math.round(percentageScrollPosition / 100 * viewPortsize) * direction;
 
 		return pxScrollPosition;
 	}

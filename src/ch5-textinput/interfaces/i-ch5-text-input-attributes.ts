@@ -111,14 +111,13 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`type` attribute",
    * "***",
-   * "The default value is text. ",
-   * "The type of the input."
+   * "The default value is text. Valid values are text, number, email, and password. The type attribute describes type of the input element."
    * ]
    * @name type
    * @default text
    * @attributeType "EnumeratedValue"
    */
-  inputType: TCh5TextInputType;
+  type: TCh5TextInputType;
 
   /**
    * @documentation
@@ -367,4 +366,15 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * @attributeType "Integer"
    */
   tabIndex: number;
+  /**
+   * @documentation
+   * [
+   * "`value` attribute",
+   * "***",
+   * "The value attribute specifies the value of an input element."
+   * ]
+   * @name value
+   * @attributeType "String"
+   */
+  value: string;
 }

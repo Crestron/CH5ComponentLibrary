@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { Ch5Signal } from "../ch5-core";
-import { Ch5SignalAttributeRegistry, CH5SignalElementDefaultAttributeEntries, CH5SignalElementDefaultAttributeEntry } from "../ch5-common/ch5-signal-attribute-registry"
+import { Ch5SignalAttributeRegistry, CH5SignalElementDefaultAttributeEntry } from "../ch5-common/ch5-signal-attribute-registry"
 
 type IterateAttributesInTemplateFn = (element: Element, attributeName: string, attributeVal: string) => void;
 type IterateElementsInTemplateFn = (element: Element) => void;
@@ -131,6 +131,7 @@ export class Ch5AugmentVarSignalsNames {
 
 
   private static incrementOrPrependAttrValue(element: Element, attrName: string, value: string, increment: number, contractNamePrefix: string): void {
+    // eslint-disable-next-line no-useless-escape
     const doubleMoustcheRe = /({{[\w\-]+}})/g;
 
     const valWithoutDoubleMoustaches = value.replace(doubleMoustcheRe, '');

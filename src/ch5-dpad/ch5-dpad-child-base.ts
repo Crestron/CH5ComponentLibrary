@@ -606,6 +606,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			this._pressed = true;
 		}
 
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const pressPromise = new Promise<boolean>((resolve, reject) => {
 			this._pressTimeout = window.setTimeout(() => {
 				pressHandler();
