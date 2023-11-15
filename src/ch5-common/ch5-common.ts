@@ -1357,11 +1357,11 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 						// This is done for modal since the content is not inside template. The structure of modal and overlay must change for better code: CH5C-4002
 						if (null !== this.parentElement && undefined !== this.parentElement) {
 							this._cachedParentEl = this.parentElement;
-							this.logger.log(' removes element from DOM due to change in show signal, cached parent element')
+							this.logger.log(' removes element from DOM due to change in show signal, cached parent element');
 							if (null !== this.nextElementSibling && undefined !== this.nextElementSibling) {
 								this._nextSiblingIndexInParentChildNodes = (Array.from(this.parentElement.childNodes)).findIndex(item => item === this.nextElementSibling)
 								this._cachedNextSibling = this.nextElementSibling;
-								this.logger.log(' cached sibling element')
+								this.logger.log(' cached sibling element');
 							}
 							this._keepListeningOnSignalsAfterRemoval = true;
 							this._isDetachedFromDom = true;
@@ -1371,11 +1371,11 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 				} else {
 					if (null !== this.parentElement && undefined !== this.parentElement) {
 						this._cachedParentEl = this.parentElement;
-						this.logger.log(' removes element from DOM due to change in show signal, cached parent element')
+						this.logger.log(' removes element from DOM due to change in show signal, cached parent element');
 						if (null !== this.nextElementSibling && undefined !== this.nextElementSibling) {
 							this._nextSiblingIndexInParentChildNodes = (Array.from(this.parentElement.childNodes)).findIndex(item => item === this.nextElementSibling)
 							this._cachedNextSibling = this.nextElementSibling;
-							this.logger.log(' cached sibling element')
+							this.logger.log(' cached sibling element');
 						}
 						this._keepListeningOnSignalsAfterRemoval = true;
 						this._isDetachedFromDom = true;
