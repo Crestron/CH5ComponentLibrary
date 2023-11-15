@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-dpad-hideCenterButton-attributes">
+    <template>
+      <ch5-dpad></ch5-dpad>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-dpad-hideCenterButton-attributes-value', () => {
+      let ch5Dpad;
+
+      setup(async () => {
+        ch5Dpad = fixture('ch5-dpad-hideCenterButton-attributes');
+      });
+
+      let testCases = ['a', '', ' ', 'number', true, false];
+      let expectedResult = [false, true, false, false, true, false];
+      testCases.forEach((ele, i) => {
+        test('Check class "ch5-hide-vis" exists', () => {
+          ch5Dpad.setAttribute('hideCenterButton', ele);
+          const centerBtn = document.querySelector('.ch5-dpad-button-center');
+          expect(centerBtn.classList.contains('ch5-hide-vis')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+    });
+  </script>
+</body>
+
+</html>
