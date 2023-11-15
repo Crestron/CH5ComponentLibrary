@@ -20,9 +20,9 @@ export class RemoteAppender extends AbstractAppender {
   private _requestService: RequestService = {} as RequestService;
   private _address: string = '';
 
-  public static getInstance(sendLogTimeOffsetInMiliseconds: number, appenderConfig: TAppenderConfig): RemoteAppender {
+  public static getInstance(sendLogTimeOffsetInMilliseconds: number, appenderConfig: TAppenderConfig): RemoteAppender {
     if (RemoteAppender._instance === undefined) {
-      RemoteAppender._instance = new RemoteAppender(sendLogTimeOffsetInMiliseconds, appenderConfig);
+      RemoteAppender._instance = new RemoteAppender(sendLogTimeOffsetInMilliseconds, appenderConfig);
     }
     return RemoteAppender._instance;
   }
@@ -36,8 +36,8 @@ export class RemoteAppender extends AbstractAppender {
     }
   }
 
-  private constructor(sendLogTimeOffsetInMiliseconds: number, appenderConfig: TAppenderConfig) {
-    super(sendLogTimeOffsetInMiliseconds);
+  private constructor(sendLogTimeOffsetInMilliseconds: number, appenderConfig: TAppenderConfig) {
+    super(sendLogTimeOffsetInMilliseconds);
     if (appenderConfig.hostname && appenderConfig.port) {
       this.setIP(appenderConfig);
     }
@@ -58,7 +58,7 @@ export class RemoteAppender extends AbstractAppender {
   /**
    * Reset the remote server hostname/ip and port
    * 
-   * @param hostname Hostname/IP of the remotelogger
+   * @param hostname Hostname/IP of the remote logger
    * @param port  Port number
    * @param secure by default false, true for secure connection 
    */
@@ -82,7 +82,7 @@ export class RemoteAppender extends AbstractAppender {
     const protocol = appenderConfig.secure ? 'https' : 'http';
     const uri = `${protocol}://${appenderConfig.hostname}:${appenderConfig.port}`;
     this._address = `${appenderConfig.hostname}:${appenderConfig.port}`;
-    this.initialiseRequest(uri);
+    this.initializeRequest(uri);
   }
 
   public configObserver(helper: Logger, hasFilterConfig: boolean) {
@@ -135,7 +135,7 @@ export class RemoteAppender extends AbstractAppender {
    * 
    * @param {string} uri 
    */
-  protected initialiseRequest(uri: string) {
+  protected initializeRequest(uri: string) {
     this._requestService = new RequestService(uri);
   }
 }
