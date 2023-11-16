@@ -11,7 +11,6 @@ import { Ch5ButtonPressInfo } from "../ch5-button/ch5-button-pressinfo";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core";
-import { normalizeEvent } from "../ch5-triggerview/utils";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { Ch5Dpad } from "./ch5-dpad";
 import { ComponentHelper } from "../ch5-common/utils/component-helper";
@@ -209,8 +208,6 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 
 		this._pressInfo = new Ch5ButtonPressInfo();
 
-		// events binding
-		this.bindEventListenersToThis();
 		this.logger.stop();
 	}
 
@@ -346,17 +343,6 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 
 	public removeEventListeners() {
 
-		if (!!this._hammerManager && !!this._hammerManager.off) {
-			this._hammerManager.off('tap', this._onTapAction);
-		}
-		this.removeEventListener('mousedown', this._onPressClick);
-		this.removeEventListener('mouseup', this._onMouseUp);
-		this.removeEventListener('touchstart', this._onPress);
-		this.removeEventListener('mouseleave', this._onLeave);
-		this.removeEventListener('touchend', this._onPressUp);
-		this.removeEventListener('touchmove', this._onTouchMove);
-		this.removeEventListener('touchend', this._onTouchEnd);
-
 		if (!_.isNil(this._pressable)) {
 			this._unsubscribeFromPressableIsPressed();
 		}
@@ -452,17 +438,6 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 	 */
 	protected attachEventListeners() {
 		super.attachEventListeners();
-		if (this._pressable !== null && this._pressable.ch5Component.gestureable === false) {
-			this._hammerManager.on('tap', this._onTapAction);
-		}
-
-		this.addEventListener('mousedown', this._onPressClick);
-		this.addEventListener('mouseup', this._onMouseUp);
-		this.addEventListener('touchstart', this._onPress, { passive: true });
-		this.addEventListener('mouseleave', this._onLeave);
-		this.addEventListener('touchend', this._onPressUp);
-		this.addEventListener('touchmove', this._onTouchMove);
-		this.addEventListener('touchend', this._onTouchEnd);
 
 		if (!_.isNil(this._pressable)) {
 			this._pressable?.init();
@@ -489,53 +464,7 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 			cssPressedClass: pressedClass
 		});
 	}
-	protected bindEventListenersToThis(): void {
-		this._onTapAction = this._onTapAction.bind(this);
-	}
 
-	protected sendValueForRepeatDigital(value: boolean): void {
-		if (!this.sendEventOnClick) { return; }
-
-		const clickSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance().getObjectAsBooleanSignal(this.sendEventOnClick);
-
-		if (clickSignal && clickSignal.name) {
-			clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
-		}
-	}
-
-	/**
-	 * Sends the signal passed via sendEventOnClick
-	 */
-	protected _sendOnClickSignal(preventTrue: boolean = false, preventFalse: boolean = false): void {
-		let sigClick: Ch5Signal<boolean> | null = null;
-		if (this.sendEventOnClick) {
-			sigClick = Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick);
-
-			if (sigClick !== null) {
-				if (!preventTrue) {
-					this.sendValueForRepeatDigital(true);
-				}
-				if (!preventFalse) {
-					this.sendValueForRepeatDigital(false);
-				}
-			}
-		}
-	}
-
-	protected stopRepeatDigital() {
-		this.logger.log("stopRepeatDigital", this._intervalIdForRepeatDigital);
-		if (this._intervalIdForRepeatDigital) {
-			window.clearInterval(this._intervalIdForRepeatDigital);
-			this.sendValueForRepeatDigital(false);
-			this._intervalIdForRepeatDigital = null;
-			return;
-		}
-		this.sendValueForRepeatDigital(true);
-
-		this._intervalIdForRepeatDigital = window.setInterval(() => {
-			this.sendValueForRepeatDigital(true);
-		}, this.TOUCH_TIMEOUT);
-	}
 
 	private handleLabel() {
 		if (this._icon.innerHTML !== undefined) {
@@ -593,73 +522,47 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 		}
 	}
 
-	/**
-	 * Press Handler
-	 *
-	 * @return {Promise}
-	 */
-	protected pressHandler(): Promise<boolean> {
-		const pressHandler = () => {
-			this.logger.log("CH5DpadButton._onPress()");
-			this._pressed = true;
-		}
-
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const pressPromise = new Promise<boolean>((resolve, reject) => {
-			this._pressTimeout = window.setTimeout(() => {
-				pressHandler();
-				resolve(this._pressed);
-			}, this.TOUCH_TIMEOUT);
-		});
-
-		return pressPromise;
-	}
-
-	protected cancelPress() {
-		window.clearTimeout(this._pressTimeout);
-		this._pressed = false;
-	}
-
-	protected reactivatePress(): void {
-		clearTimeout(this.allowPressTimeout);
-		this.allowPressTimeout = setTimeout(() => {
-			this.allowPress = true;
-		}, this.DEBOUNCE_PRESS_TIME) as never as number;
-	}
-
-	protected isExceedingPressMoveThreshold(x1: number, y1: number, x2: number, y2: number) {
-		const startingPoint: number = x2 - x1;
-		const endingPoint: number = y2 - y1;
-		const distance: number = Math.sqrt(startingPoint ** 2 + endingPoint ** 2);
-		return distance > this.PRESS_MOVE_THRESHOLD;
-	}
-
 	private _subscribeToPressableIsPressed() {
 		const REPEAT_DIGITAL_PERIOD = 200;
 		const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
 		if (this._isPressedSubscription === null && this._pressable !== null) {
 			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
 				this.info(`Ch5DpadButton.pressableSubscriptionCb(${value})`);
-				if (value !== this._buttonPressedInPressable) {
-
-					this._buttonPressedInPressable = value;
-					if (value === false) {
-						if (this._repeatDigitalInterval !== null) {
-							window.clearInterval(this._repeatDigitalInterval as number);
-						}
-					} else {
-						if (this._repeatDigitalInterval !== null) {
-							window.clearInterval(this._repeatDigitalInterval as number);
-						}
-						let numRepeatDigitals = 0;
-						this._repeatDigitalInterval = window.setInterval(() => {
-							if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
-								window.clearInterval(this._repeatDigitalInterval as number);
-							}
-						}, REPEAT_DIGITAL_PERIOD);
+				if (value === false) {
+					if (this._repeatDigitalInterval !== null) {
+						window.clearInterval(this._repeatDigitalInterval as number);
 					}
+					this.sendValueForRepeatDigitalWorking(false);
+				} else {
+					this.sendValueForRepeatDigitalWorking(true);
+					if (this._repeatDigitalInterval !== null) {
+						window.clearInterval(this._repeatDigitalInterval as number);
+					}
+					let numRepeatDigitals = 0;
+					this._repeatDigitalInterval = window.setInterval(() => {
+						this.sendValueForRepeatDigitalWorking(true);
+						if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
+							console.warn("Ch5Button MAXIMUM Repeat digitals sent");
+							window.clearInterval(this._repeatDigitalInterval as number);
+							this.sendValueForRepeatDigitalWorking(false);
+						}
+					}, REPEAT_DIGITAL_PERIOD);
 				}
 			});
+		}
+	}
+
+	private sendValueForRepeatDigitalWorking(value: boolean): void {
+		this.info(`Ch5Button.sendValueForRepeatDigital(${value})`);
+		if (!this.sendEventOnClick) { return; }
+
+		const clickSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
+			.getObjectAsBooleanSignal(this.sendEventOnClick);
+
+		if (clickSignal && clickSignal.name) {
+			// send signal only once if it has the same value
+			clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
+			return;
 		}
 	}
 
@@ -675,143 +578,7 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 
 	//#endregion
 
-	//#region 5. Events - event binding
-
-	protected _onTapAction() {
-		this.logger.start(this.COMPONENT_NAME, "- _onTapAction");
-		if (null !== this._intervalIdForRepeatDigital) {
-			window.clearInterval(this._intervalIdForRepeatDigital);
-			this.sendValueForRepeatDigital(false);
-			this._intervalIdForRepeatDigital = null;
-		} else {
-			this._sendOnClickSignal(false, false);
-		}
-		this.logger.stop();
-	}
-
-	protected async _onPressClick(event: MouseEvent) {
-		this.logger.start(this.COMPONENT_NAME, "- _onPressClick");
-		if (this.isTouch) {
-			return;
-		}
-
-		clearTimeout(this.allowPressTimeout);
-		await this.pressHandler();
-
-		this._pressHorizontalStartingPoint = event.clientX;
-		this._pressVerticalStartingPoint = event.clientY;
-
-		this._lastTapTime = new Date().valueOf();
-
-		if (!this.allowPress) {
-			return;
-		}
-
-		this.allowPress = false;
-		this.stopRepeatDigital();
-		this.logger.stop();
-	}
-
-	protected _onMouseUp() {
-		if (this.isTouch) {
-			((btnObj) => {
-				setTimeout(() => {
-					if (btnObj._intervalIdForRepeatDigital != null) {
-						clearTimeout(btnObj._intervalIdForRepeatDigital);
-						btnObj._intervalIdForRepeatDigital = null;
-					}
-					btnObj.sendValueForRepeatDigital(false);
-				}, 200);
-			})(this);
-			return;
-		}
-
-		this.cancelPress();
-		this.reactivatePress();
-
-		if (this._intervalIdForRepeatDigital) {
-			this.stopRepeatDigital();
-		} else if (this._pressed) {
-			// this._onTapAction();
-		}
-
-		const timeSinceLastPress = new Date().valueOf() - this._lastTapTime;
-		if (this._lastTapTime && timeSinceLastPress < this.DEBOUNCE_PRESS_TIME) {
-			// sometimes a both click and press can happen on iOS/iPadOS, don't publish both
-			this.logger.log('Ch5Button debouncing duplicate press/hold and click ' + timeSinceLastPress);
-		}
-	}
-
-	protected async _onPress(event: TouchEvent) {
-		const normalizedEvent = normalizeEvent(event);
-		this.isTouch = true;
-		clearTimeout(this.allowPressTimeout);
-		this._pressInfo.saveStart(
-			normalizedEvent.x,
-			normalizedEvent.y
-		);
-		await this.pressHandler();
-		if (!this.allowPress) {
-			return;
-		}
-		this.allowPress = false;
-		this.stopRepeatDigital();
-	}
-
-	protected _onLeave() {
-		if (this._intervalIdForRepeatDigital) {
-			this.stopRepeatDigital();
-		}
-	}
-
-	protected _onPressUp(): void {
-		window.clearTimeout(this._pressTimeout);
-		this.reactivatePress();
-		if (this._pressed) {
-			this.logger.log("Ch5Button._onPressUp()");
-
-			this._pressed = false;
-
-			if (this._intervalIdForRepeatDigital) {
-				window.clearInterval(this._intervalIdForRepeatDigital);
-				this.sendValueForRepeatDigital(false);
-				this._intervalIdForRepeatDigital = null;
-			}
-		}
-	}
-
-	protected _onTouchMove(event: TouchEvent) {
-		// The event must be cancelable
-		if (event.cancelable) {
-			event.preventDefault();
-		}
-		const normalizedEvent = normalizeEvent(event);
-
-		this._pressInfo.saveEnd(
-			normalizedEvent.x,
-			normalizedEvent.y
-		);
-
-		const validPress = this._pressInfo.valid();
-
-		if (!validPress) {
-			window.clearTimeout(this._pressTimeout);
-			if (this._intervalIdForRepeatDigital !== null) {
-				this.stopRepeatDigital();
-			}
-			return;
-		}
-	}
-
-	protected _onTouchEnd(): void {
-		if (this._intervalIdForRepeatDigital) {
-			this.stopRepeatDigital();
-		}
-	}
-
-	//#endregion
-
-	//#region 6. Private Methods 
+	//#region 5. Private Methods 
 
 	/**
 	 * Function to return an 'i' tag to be placed as icon for dpad child btn
