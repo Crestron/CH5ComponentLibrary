@@ -26,6 +26,8 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 
 	//#region 1. Variables
 
+	private _isDisabled: boolean = false;
+
 	//#region 1.1 readonly variables
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
 		{
@@ -110,7 +112,7 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 		defaultArrowClass: ''
 	};
 	private _ch5Properties: Ch5Properties;
-	protected _hammerManager: HammerManager = {} as HammerManager;
+	// protected _hammerManager: HammerManager = {} as HammerManager;
 
 	// elements specific vars
 	protected _icon: HTMLElement = {} as HTMLElement;
@@ -198,8 +200,9 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 
 	//#region 3. Lifecycle Hooks
 
-	public constructor() {
+	public constructor(isDisabled: boolean = false) {
 		super();
+		this._isDisabled = isDisabled;
 		this.logger.start('constructor()', this.COMPONENT_NAME);
 		this.ignoreAttributes = ["show", "disabled", "receivestateenable", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "receivestatecustomclass", "receivestatecustomstyle", "sendeventonshow"];
 		this._ch5Properties = new Ch5Properties(this, Ch5DpadButtonBase.COMPONENT_PROPERTIES);
@@ -220,13 +223,31 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 			this.CSS_CLASS_LIST.defaultArrowClass = params.defaultArrowClass;
 		}
 		this.primaryCssClass = this.componentPrefix + params.btnType;
-		this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
+		if (this._isDisabled === false) {
+			this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
+		}
+	}
+
+	public setDisabled() {
+		this.logger.log("A1");
+		this._isDisabled = true;
+		if (null !== this._pressable) {
+			this.logger.log("A2");
+			this._pressable.destroy();
+		}
+		if (this._isPressedSubscription !== null) {
+			this.logger.log("A3");
+			this._isPressedSubscription.unsubscribe();
+			this._isPressedSubscription = null;
+		}
+		this._pressable = null;
+		this.logger.log("A4", this._pressable, this._isPressedSubscription);
 	}
 
 	/**
-	 * 	Called every time the element is inserted into the DOM.
-	 *  Useful for running setup code, such as fetching resources or rendering.
-	 */
+   * 	Called every time the element is inserted into the DOM.
+   *  Useful for running setup code, such as fetching resources or rendering.
+   */
 	public connectedCallback() {
 		this.logger.start('connectedCallback() - start', this.COMPONENT_NAME);
 
@@ -245,11 +266,11 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 		this.setAttribute('data-ch5-id', this.getCrId());
 
 		// init pressable before initAttributes because pressable subscribe to gestureable attribute
-		if (!_.isNil(this._pressable)) {
+		if (!_.isNil(this._pressable) && this._isDisabled === false) {
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
 		}
-		this._hammerManager = new Hammer(this);
+		// this._hammerManager = new Hammer(this);
 		this.createElementsAndInitialize();
 
 		customElements.whenDefined('ch5-dpad-button').then(() => {
@@ -343,7 +364,7 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 
 	public removeEventListeners() {
 
-		if (!_.isNil(this._pressable)) {
+		if (!_.isNil(this._pressable) && this._isDisabled === false) {
 			this._unsubscribeFromPressableIsPressed();
 		}
 	}
@@ -439,7 +460,7 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 	protected attachEventListeners() {
 		super.attachEventListeners();
 
-		if (!_.isNil(this._pressable)) {
+		if (!_.isNil(this._pressable) && this._isDisabled === false) {
 			this._pressable?.init();
 			this._subscribeToPressableIsPressed();
 		}

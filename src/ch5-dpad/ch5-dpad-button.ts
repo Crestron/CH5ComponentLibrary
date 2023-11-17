@@ -37,8 +37,8 @@ export class Ch5DpadButton extends Ch5DpadButtonBase implements ICh5DpadButtonBa
 
 	//#region 2. Lifecycle Hooks
 
-	public constructor() {
-		super();
+	public constructor(isDisabled: boolean = false) {
+		super(isDisabled);
 	}
 
 	public static registerSignalAttributeTypes() {

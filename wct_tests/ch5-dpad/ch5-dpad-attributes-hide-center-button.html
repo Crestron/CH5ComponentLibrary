@@ -27,10 +27,10 @@
       let testCases = ['a', '', ' ', 'number', true, false];
       let expectedResult = [false, true, false, false, true, false];
       testCases.forEach((ele, i) => {
-        test('Check class "ch5-hide-vis" exists', () => {
+        test('Check class "ch5-hide-child-button" exists', () => {
           ch5Dpad.setAttribute('hideCenterButton', ele);
           const centerBtn = document.querySelector('.ch5-dpad-button-center');
-          expect(centerBtn.classList.contains('ch5-hide-vis')).to.be.equal(expectedResult[i]);
+          expect(centerBtn.classList.contains('ch5-hide-child-button')).to.be.equal(expectedResult[i]);
         });
       });
 

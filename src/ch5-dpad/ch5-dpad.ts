@@ -176,7 +176,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			type: "boolean",
 			valueOnAttributeEmpty: false,
 			isObservableProperty: true
-		},
+		}
 	];
 
 	/**
@@ -633,8 +633,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 		// if user forget one or more buttons the default ones will be added
 		if (!centerBtn) {
-			centerBtn = new Ch5DpadButton();
+			centerBtn = new Ch5DpadButton(this.disableCenterButton);
 			centerBtn.setAttribute('key', 'center');
+		}
+		if (this.disableCenterButton || this.hideCenterButton) {
+			centerBtn.setDisabled();
 		}
 		if (!upBtn) {
 			upBtn = new Ch5DpadButton();
@@ -677,8 +680,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		buttonList.push(downBtn)
 		this.container.replaceChildren(...buttonList);
 		this.handleHideCenterButton();
-		this.handleDisableCenterButton();
-
+		this.handleDisableCenterButton(centerBtn);
 	}
 
 	/**
@@ -967,17 +969,30 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	private handleHideCenterButton() {
 		const centerBtn = this.querySelector('.ch5-dpad-button-center');
-		centerBtn?.classList.remove('ch5-hide-vis');
-		if (this.hideCenterButton) {
-			centerBtn?.classList.add('ch5-hide-vis');
-		}
+		centerBtn?.classList.remove('ch5-hide-child-button');
+		// centerBtn?.children[0].classList.remove('ch5-hide-child-button');
+		// if (this.shape === Ch5Dpad.SHAPES[1]) { // circle
+		// 	if (this.hideCenterButton) {
+		// 		centerBtn?.classList.add('ch5-hide-child-button');
+		// 	}
+		// } else {
+		// 	if (this.hideCenterButton) {
+		// 		centerBtn?.children[0].classList.add('ch5-hide-child-button');
+		// 	}
+		// }
+			if (this.hideCenterButton) {
+				centerBtn?.classList.add('ch5-hide-child-button');
+			}
 	}
 
-	private handleDisableCenterButton() {
+	private handleDisableCenterButton(centerButton?: Ch5DpadButton) {
 		const centerBtn = this.querySelector('.ch5-dpad-button-center');
-		centerBtn?.classList.remove('ch5-disabled');
+		centerBtn?.classList.remove('ch5-disable-child-button');
 		if (this.disableCenterButton) {
-			centerBtn?.classList.add('ch5-disabled');
+			if (centerButton) {
+				centerButton.setDisabled();
+			}
+			centerBtn?.classList.add('ch5-disable-child-button');
 		}
 	}
 
