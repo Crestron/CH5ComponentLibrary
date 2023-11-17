@@ -481,7 +481,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			this.initAttributes();
 
 			// required post initial setup
-			this.stretchHandler();
+			this.stretchHandler();			
 		});
 
 		this.logger.stop();
@@ -550,19 +550,38 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		this.logger.start('createHtmlElements', Ch5Dpad.ELEMENT_NAME);
 
 		this.classList.add(this.primaryCssClass);
+		const childItemsContainer = this.children as HTMLCollection;
 
-		this.render();
+		if (childItemsContainer.length === 0 || childItemsContainer[0].children.length === 0) {
+			if (!_.cloneDeep(childItemsContainer[0]?.children)) {
+				this.createAndAppendAllButtonsUnderDpad();
+			} else {
+				this.createAndAppendAllExistingButtonsUnderDpad(childItemsContainer);
+			}
+		} else {
+			const isValidStructureInChildDiv = this.checkIfOrderOfTagsAreInTheRightOrder(childItemsContainer[0].children);
+			if (!isValidStructureInChildDiv) {
+				this.createAndAppendAllExistingButtonsUnderDpad(childItemsContainer[0].children);
+			}
+		}
 
 		this.logger.stop();
 	}
 
 	protected updateHtmlElements(): void {
 		this.logger.start('updateHtmlElements', Ch5Dpad.ELEMENT_NAME);
-		const children = this.getElementsByTagName('ch-dpad-button') as HTMLCollection;
-		if (children?.length) {
-			const buttonList = this.generateDPadButtons(children);
-			this.createEmptyContainerDiv();
-			this.appendButtonsInRightOrder(buttonList);
+		const childItemsContainer = this.children as HTMLCollection;
+		if (childItemsContainer.length === 0 || childItemsContainer[0].children.length === 0) {
+			if (!_.cloneDeep(childItemsContainer[0]?.children)) {
+				this.createAndAppendAllButtonsUnderDpad();
+			} else {
+				this.createAndAppendAllExistingButtonsUnderDpad(childItemsContainer[0].children);
+			}
+		} else {
+			const isValidStructureInChildDiv = this.checkIfOrderOfTagsAreInTheRightOrder(childItemsContainer[0].children);
+			if (!isValidStructureInChildDiv) {
+				this.createAndAppendAllExistingButtonsUnderDpad(childItemsContainer[0].children);
+			}
 		}
 		this.logger.stop();
 	}
@@ -571,8 +590,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	 * Create the container div which holds all the 5 buttons within dpad
 	 */
 	private createEmptyContainerDiv() {
-		const buttonListContainer = _.isNil(this.container) || _.isNil(this.container.classList) || this.container.classList.length === 0;
-		if (buttonListContainer) {
+		if (_.isNil(this.container) || _.isNil(this.container.classList) || this.container.classList.length === 0) {
 			this.container = document.createElement('div');
 			this.container.classList.add(this.containerClass);
 		}
@@ -587,49 +605,55 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	/**
 	 * Add all 5 buttons in the expected order if not added in the DOM
 	 */
-	private createAndAppendAllButtonsUnderDpad(childrenButtonList?: HTMLCollection) {
-		const buttonList = this.generateDPadButtons(childrenButtonList);
+	private createAndAppendAllButtonsUnderDpad() {
+		const centerBtn = new Ch5DpadButton(this.disableCenterButton);
+		centerBtn.setAttribute('key', 'center');
+		if (this.disableCenterButton || this.hideCenterButton) {
+			centerBtn.setDisabled();
+		}
+		const upBtn = new Ch5DpadButton();
+		upBtn.setAttribute('key', 'up');
+		const rightBtn = new Ch5DpadButton();
+		rightBtn.setAttribute('key', 'right');
+		const downBtn = new Ch5DpadButton();
+		downBtn.setAttribute('key', 'down');
+		const leftBtn = new Ch5DpadButton();
+		leftBtn.setAttribute('key', 'left');
+
 		this.createEmptyContainerDiv();
 
-		this.appendButtonsInRightOrder(buttonList);
+		this.appendButtonsInRightOrder(centerBtn, upBtn, leftBtn, rightBtn, downBtn);
 	}
 
 	private createAndAppendAllExistingButtonsUnderDpad(buttonsList: HTMLCollection) {
 		if (!buttonsList.length) {
 			return;
 		}
-
-		this.createAndAppendAllButtonsUnderDpad(buttonsList);
-	}
-
-	private generateDPadButtons(buttonList?: HTMLCollection) {
 		let centerBtn: any = null;
 		let upBtn: any = null;
 		let rightBtn: any = null;
 		let downBtn: any = null;
 		let leftBtn: any = null;
-		if (buttonList) {
-			Array.from(buttonList).forEach(item => {
-				switch (item.getAttribute('key')) {
-					case 'center':
-						centerBtn = item;
-						break;
-					case 'up':
-						upBtn = item;
-						break;
-					case 'right':
-						rightBtn = item;
-						break;
-					case 'down':
-						downBtn = item;
-						break;
-					case 'left':
-						leftBtn = item;
-						break;
-					default: throw new Error("Seems to be an invalid dpad Button value ");
-				}
-			});
-		}
+		Array.from(buttonsList).forEach(item => {
+			switch (item.getAttribute('key')) {
+				case 'center':
+					centerBtn = item;
+					break;
+				case 'up':
+					upBtn = item;
+					break;
+				case 'right':
+					rightBtn = item;
+					break;
+				case 'down':
+					downBtn = item;
+					break;
+				case 'left':
+					leftBtn = item;
+					break;
+				default: throw new Error("Seems to be an invalid dpad Button value ");
+			}
+		});
 
 		// if user forget one or more buttons the default ones will be added
 		if (!centerBtn) {
@@ -656,31 +680,31 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			leftBtn.setAttribute('key', 'left');
 		}
 
-		return { centerBtn, upBtn, rightBtn, leftBtn, downBtn };
+		this.createEmptyContainerDiv();
+
+		this.appendButtonsInRightOrder(centerBtn, upBtn, leftBtn, rightBtn, downBtn);
 	}
 
-	private appendButtonsInRightOrder({ centerBtn, upBtn, leftBtn, rightBtn, downBtn }: { centerBtn: Ch5DpadButton, upBtn: Ch5DpadButton, leftBtn: Ch5DpadButton, rightBtn: Ch5DpadButton, downBtn: Ch5DpadButton }) {
+	private appendButtonsInRightOrder(centerBtn: Ch5DpadButton, upBtn: Ch5DpadButton, leftBtn: Ch5DpadButton, rightBtn: Ch5DpadButton, downBtn: Ch5DpadButton) {
 		// order of appending is --- center, up, left/right, right/left, down
-		const buttonList = [centerBtn, upBtn];
+		this.container.appendChild(centerBtn);
+		this.container.appendChild(upBtn);
 
 		if (this.shape === Ch5Dpad.SHAPES[0]) {
 			// if the selected shape is 'plus'
-			buttonList.push(leftBtn);
-			buttonList.push(rightBtn);
+			this.container.appendChild(leftBtn);
+			this.container.appendChild(rightBtn);
 		}
 		else if (this.shape === Ch5Dpad.SHAPES[1]) {
 			// if the selected shape is 'circle'
-			buttonList.push(rightBtn);
-			buttonList.push(leftBtn);
+			this.container.appendChild(rightBtn);
+			this.container.appendChild(leftBtn);
 		} else {
 			// if the selected shape is an invalid value
 			throw new Error("Seems to be an invalid shape. Must be 'plus' or 'circle' as values.");
 		}
 
-		buttonList.push(downBtn)
-		this.container.replaceChildren(...buttonList);
-		this.handleHideCenterButton();
-		this.handleDisableCenterButton(centerBtn);
+		this.container.appendChild(downBtn);
 	}
 
 	/**
@@ -731,6 +755,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				}
 			}
 		}
+		this.handleHideCenterButton();
+		this.handleDisableCenterButton();
 		this.logger.stop();
 	}
 
@@ -863,6 +889,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			}
 		}
 	}
+
 	private updateContractNameBasedHandlers() {
 		const contractName = this.contractName;
 		const buttonList = this.getElementsByTagName("ch5-dpad-button");
@@ -970,19 +997,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	private handleHideCenterButton() {
 		const centerBtn = this.querySelector('.ch5-dpad-button-center');
 		centerBtn?.classList.remove('ch5-hide-child-button');
-		// centerBtn?.children[0].classList.remove('ch5-hide-child-button');
-		// if (this.shape === Ch5Dpad.SHAPES[1]) { // circle
-		// 	if (this.hideCenterButton) {
-		// 		centerBtn?.classList.add('ch5-hide-child-button');
-		// 	}
-		// } else {
-		// 	if (this.hideCenterButton) {
-		// 		centerBtn?.children[0].classList.add('ch5-hide-child-button');
-		// 	}
-		// }
-			if (this.hideCenterButton) {
-				centerBtn?.classList.add('ch5-hide-child-button');
-			}
+		if (this.hideCenterButton) {
+			centerBtn?.classList.add('ch5-hide-child-button');
+		}
 	}
 
 	private handleDisableCenterButton(centerButton?: Ch5DpadButton) {
@@ -1008,31 +1025,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				this.isResizeInProgress = false; // reset debounce once completed
 			}, this.RESIZE_DEBOUNCE);
 		}
-	}
-
-	private getButtonListFromChildren() {
-		const buttonList = [] as any;
-		Array.from(this.children).forEach(item => {
-			if (item.nodeName === 'CH5-DPAD-BUTTON') {
-				buttonList.push(item);
-			}
-		});
-		return buttonList;
-	}
-
-	/* render  */
-	private render() {
-		this.classList.add(this.primaryCssClass);
-		const buttonsList = this.getButtonListFromChildren();
-
-		if (buttonsList.length === 0) {
-			this.createAndAppendAllButtonsUnderDpad();
-		} else {
-			this.checkIfOrderOfTagsAreInTheRightOrder(buttonsList);
-			this.createAndAppendAllExistingButtonsUnderDpad(buttonsList);
-		}
-
-		this.logger.stop();
 	}
 
 	//#endregion
