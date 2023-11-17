@@ -11,7 +11,7 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import { Ch5SignalAttributeRegistry } from '../ch5-common/ch5-signal-attribute-registry';
 import { ComponentHelper } from "../ch5-common/utils/component-helper";
-import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
+import { Ch5SignalFactory } from "../ch5-core";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { ICh5KeypadButtonAttributes } from "./interfaces/i-ch5-keypad-btn-attributes";
 import { TCh5KeypadButtonCreateDTO } from "./interfaces/t-ch5-keypad";
@@ -222,8 +222,8 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		const defaultMinors: string[] = ['+', '&nbsp;', 'ABC', 'DEF', 'GHI', 'JKL', 'MNO', 'PQRS', 'TUV', 'WXYZ', '', '', ''];
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { major, minor, contractName, joinCountToAdd, iconClass, key, pressed, name, indexRef, contractKey, className, ...remainingParams } = this.params;
-		this.labelMajor = major ? major : defaultMajors[indexRef];
-		this.labelMinor = minor ? minor : defaultMinors[indexRef];
+		this.labelMajor = major.trim() ? major.trim() : defaultMajors[indexRef];
+		this.labelMinor = minor.trim() ? minor.trim() : defaultMinors[indexRef];
 		this.iconClass = iconClass.join(' ');
 		if (!this.iconClass && this.labelMajor === "*") {
 			this.labelMinor = "";
@@ -232,8 +232,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		this.key = key;
 		this.pressed = pressed;
 
-		const eventHandlerValue = (contractName.length > 0) ? contractName : joinCountToAdd;
-		this.sendEventOnClick = eventHandlerValue;
+		this.sendEventOnClick = (contractName.length > 0) ? contractName : joinCountToAdd;
 		const remainingParamsKeys = Object.keys(remainingParams);
 		const remainingParamsValues = Object.values(remainingParams);
 		if (remainingParamsKeys.length) {
@@ -323,8 +322,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 			this._pressable?.init();
 			this._subscribeToPressableIsPressed();
 		}
-		// events binding
-		this.bindEventListenersToThis();
 	}
 
 	/**
@@ -358,7 +355,9 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	}
 
 	public removeEventListeners() {
-		this.removeEventListener('click', this._onTapAction);
+		if (!_.isNil(this._pressable)) {
+			this._unsubscribeFromPressableIsPressed();
+		}
 	}
 
 	/**
@@ -451,9 +450,10 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	}
 
 	protected pressedHandler() {
-		if (this.pressed === true) {
-			this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
-			this.classList.add(this.primaryCssClass + this.pressedCssClassPostfix);
+		if (this._pressable) {
+			if (this._pressable._pressed !== this.pressed) {
+				this._pressable.setPressed(this.pressed);
+			}
 		}
 	}
 
@@ -467,67 +467,22 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 			cssPressedClass: pressedClass
 		});
 	}
-	protected bindEventListenersToThis(): void {
-		this.addEventListener('click', this._onTapAction);
-	}
-
-	protected sendValueForClickValue(value: boolean): void {
-		if (!this.sendEventOnClick) { return; }
-
-		const clickSignal: Ch5Signal<object | boolean> | null =
-			Ch5SignalFactory.getInstance().getObjectAsBooleanSignal(this.sendEventOnClick);
-
-		if (clickSignal && clickSignal.name) {
-			clickSignal.publish(value);
-		}
-	}
 
 	/**
 	 * Sends the signal passed via sendEventOnClick or sendEventOnTouch
 	 */
-	protected _sendOnClickSignal(preventTrue: boolean = false, preventFalse: boolean = false): void {
-		let sigClick: Ch5Signal<boolean> | null = null;
+	protected handleSendEventOnCLick() {
 		if (this.sendEventOnClick) {
-			sigClick = Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick);
-
-			if (sigClick !== null) {
-				if (!preventTrue) {
-					this.sendValueForClickValue(true);
-				}
-				if (!preventFalse) {
-					this.sendValueForClickValue(false);
-				}
-			}
+			Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(true);
+			Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(false);
 		}
-	}
-
-	/**
-	 * Press Handler
-	 *
-	 * @return {Promise}
-	 */
-	protected pressHandler(): Promise<boolean> {
-		const pressHandler = () => {
-			this.logger.log("Ch5Button._onPress()");
-			this.pressed = true;
-		}
-
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const pressPromise = new Promise<boolean>((resolve, reject) => {
-			this._pressTimeout = window.setTimeout(() => {
-				pressHandler();
-				resolve(this.pressed);
-			}, this.TOUCH_TIMEOUT);
-		});
-
-		return pressPromise;
 	}
 
 	protected _subscribeToPressableIsPressed() {
 		if (this._pressableIsPressedSubscription === null && this._pressable !== null) {
 			this._pressableIsPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
-				if (value !== this._buttonPressedInPressable) {
-					this._buttonPressedInPressable = value;
+				if (value === false) {
+					this.handleSendEventOnCLick();
 				}
 			});
 		}
@@ -548,20 +503,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	public setJoinBasedContractEventHandler(parentContract: string, joinIndex: number) {
 		const joinCountList: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'Star', 0, 'Hash', 'ExtraButton'];
 		this.sendEventOnClick = parentContract + ".Press" + joinCountList[joinIndex];
-	}
-
-	//#endregion
-
-	//#region 5. Events - event binding
-
-	protected _onTapAction() {
-		if (null !== this._intervalIdForRepeatDigital) {
-			window.clearInterval(this._intervalIdForRepeatDigital);
-			this.sendValueForClickValue(false);
-			this._intervalIdForRepeatDigital = null;
-		} else {
-			this._sendOnClickSignal(false, false);
-		}
 	}
 
 	//#endregion
