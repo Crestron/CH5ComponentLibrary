@@ -227,7 +227,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * @default false
 	 * @attributeType "Boolean"
 	 */
-	useContractForDisableCenterButton: string;
+	useContractForDisableCenterButton: boolean;
 	/**
 	 * @documentation
 	 * [
@@ -239,5 +239,5 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * @default false
 	 * @attributeType "Boolean"
 	 */
-	useContractForHideCenterButton: string;
+	useContractForHideCenterButton: boolean;
 }
