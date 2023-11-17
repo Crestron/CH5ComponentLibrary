@@ -130,7 +130,6 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 	protected _pressable: Ch5Pressable | null = null;
 	protected _pressTimeout: number = 0;
 	protected _pressed: boolean = false;
-	protected _buttonPressedInPressable: boolean = false;
 	private _isPressedSubscription: Subscription | null = null;
 	private _repeatDigitalInterval: number | null = null;
 
@@ -228,22 +227,35 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 		}
 	}
 
-	public setDisabled() {
-		this._isDisabled = true;
-		if (null !== this._pressable) {
-			this._pressable.destroy();
+	public setDisabled(disabledValue: boolean) {
+		this._isDisabled = disabledValue;
+		if (disabledValue === true) {
+			if (null !== this._pressable) {
+				this._pressable.destroy();
+			}
+			if (this._isPressedSubscription !== null) {
+				this._isPressedSubscription.unsubscribe();
+				this._isPressedSubscription = null;
+			}
+			this._pressable = null;
+		} else {
+			if (_.isNil(this._pressable)) {
+				this._pressable = new Ch5Pressable(this, {
+					cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
+					cssPressedClass: this.primaryCssClass + this.pressedCssClassPostfix
+				});
+				this._pressable?.init();
+			}
+			if (this._isPressedSubscription === null) {
+				this._subscribeToPressableIsPressed();
+			}
 		}
-		if (this._isPressedSubscription !== null) {
-			this._isPressedSubscription.unsubscribe();
-			this._isPressedSubscription = null;
-		}
-		this._pressable = null;
 	}
 
 	/**
-   * 	Called every time the element is inserted into the DOM.
-   *  Useful for running setup code, such as fetching resources or rendering.
-   */
+	 * 	Called every time the element is inserted into the DOM.
+	 *  Useful for running setup code, such as fetching resources or rendering.
+	 */
 	public connectedCallback() {
 		this.logger.start('connectedCallback() - start', this.COMPONENT_NAME);
 

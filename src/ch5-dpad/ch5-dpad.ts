@@ -481,7 +481,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			this.initAttributes();
 
 			// required post initial setup
-			this.stretchHandler();			
+			this.stretchHandler();
 		});
 
 		this.logger.stop();
@@ -581,6 +581,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			const isValidStructureInChildDiv = this.checkIfOrderOfTagsAreInTheRightOrder(childItemsContainer[0].children);
 			if (!isValidStructureInChildDiv) {
 				this.createAndAppendAllExistingButtonsUnderDpad(childItemsContainer[0].children);
+			} else {
+				this.updatePropertiesForHideAndDisableCenterButton(childItemsContainer[0].children);
 			}
 		}
 		this.logger.stop();
@@ -608,9 +610,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	private createAndAppendAllButtonsUnderDpad() {
 		const centerBtn = new Ch5DpadButton(this.disableCenterButton);
 		centerBtn.setAttribute('key', 'center');
-		if (this.disableCenterButton || this.hideCenterButton) {
-			centerBtn.setDisabled();
-		}
+		const disabledCenterButton = (this.disableCenterButton || this.hideCenterButton);
+		centerBtn.setDisabled(disabledCenterButton);
+
 		const upBtn = new Ch5DpadButton();
 		upBtn.setAttribute('key', 'up');
 		const rightBtn = new Ch5DpadButton();
@@ -623,6 +625,19 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		this.createEmptyContainerDiv();
 
 		this.appendButtonsInRightOrder(centerBtn, upBtn, leftBtn, rightBtn, downBtn);
+	}
+
+	private updatePropertiesForHideAndDisableCenterButton(buttonsList: HTMLCollection) {
+		let centerBtn: any = null;
+		Array.from(buttonsList).forEach(item => {
+			switch (item.getAttribute('key')) {
+				case 'center':
+					centerBtn = item;
+					break;
+			}
+		});
+		const disabledCenterButton = (this.disableCenterButton || this.hideCenterButton);
+		centerBtn.setDisabled(disabledCenterButton);
 	}
 
 	private createAndAppendAllExistingButtonsUnderDpad(buttonsList: HTMLCollection) {
@@ -660,9 +675,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			centerBtn = new Ch5DpadButton(this.disableCenterButton);
 			centerBtn.setAttribute('key', 'center');
 		}
-		if (this.disableCenterButton || this.hideCenterButton) {
-			centerBtn.setDisabled();
-		}
+		const disabledCenterButton = (this.disableCenterButton || this.hideCenterButton);
+		centerBtn.setDisabled(disabledCenterButton);
+
 		if (!upBtn) {
 			upBtn = new Ch5DpadButton();
 			upBtn.setAttribute('key', 'up');
@@ -1000,17 +1015,19 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		if (this.hideCenterButton) {
 			centerBtn?.classList.add('ch5-hide-child-button');
 		}
+		this.checkAndRestructureDomOfDpad();
 	}
 
 	private handleDisableCenterButton(centerButton?: Ch5DpadButton) {
 		const centerBtn = this.querySelector('.ch5-dpad-button-center');
 		centerBtn?.classList.remove('ch5-disable-child-button');
+		if (centerButton) {
+			centerButton.setDisabled(this.disableCenterButton);
+		}
 		if (this.disableCenterButton) {
-			if (centerButton) {
-				centerButton.setDisabled();
-			}
 			centerBtn?.classList.add('ch5-disable-child-button');
 		}
+		this.checkAndRestructureDomOfDpad();
 	}
 
 	/**

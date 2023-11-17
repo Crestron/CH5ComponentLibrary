@@ -251,6 +251,7 @@ export class Ch5Pressable {
 	 */
 	public destroy() {
 		this._unsubscribeFromGestureableProp();
+		this.observablePressed?.complete();
 		this._removeEvents();
 	}
 
@@ -618,7 +619,6 @@ export class Ch5Pressable {
 		this._ch5Component.info(`Ch5Pressable._onRelease() alreadyReleased:${this._released}`);
 		if (!this._released) {
 			// remove the visual feedback
-			// console.log("On release value of delay time", this.pressDelayTime);
 			setTimeout(() => {
 				this._removeCssPressClass();
 				if (isIosDevice()) {
