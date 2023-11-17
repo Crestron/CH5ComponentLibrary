@@ -951,7 +951,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			}
 
 			if (this.useContractForDisableCenterButton === true) {
-				this.receiveStateDisableCenterButton = contractName + '.DisabeCenterButton';
+				this.receiveStateDisableCenterButton = contractName + '.DisableCenterButton';
 			}
 
 			if (this.useContractForHideCenterButton === true) {
