@@ -1072,7 +1072,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 				major: '',
 				minor: '',
 				className: classNameList[i],
-				iconClass: ['fas', 'fa-phone-alt'],
+				iconClass: ['fas', 'fa-phone'],
 				contractName,
 				contractKey: contractList[i],
 				joinCountToAdd: joinCount.toString(),
@@ -1083,7 +1083,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			retArr.push(obj);
 		}
 		if (retArr[0].iconClass.length === 0) {
-			retArr[0].iconClass = ['fas', 'fa-phone-alt'];
+			retArr[0].iconClass = ['fas', 'fa-phone'];
 		}
 		return retArr;
 	}
