@@ -116,7 +116,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			default: "",
 			isSignal: true,
 			name: "sendEventOnClickStart",
-			signalType: "number",
+			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			isNullable: true,
@@ -309,8 +309,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	}
 
 	public set sendEventOnClickStart(value: string) {
-		this._ch5Properties.set<string>("sendEventOnClickStart", value, () => {
-			this.updateEventClickHandlers(parseInt(value, 10));
+		this._ch5Properties.set<string>("sendEventOnClickStart", value.trim(), () => {
+			this.updateEventClickHandlers(value.trim());
 		});
 	}
 	public get sendEventOnClickStart(): string {
@@ -503,14 +503,10 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	}
 
 	private removeEvents() {
-		// throw new Error("Method not implemented or element is not structured correctly.");
 		super.removeEventListeners();
 		window.removeEventListener('resize', this.onWindowResizeHandler);
 	}
 
-	/**
-	 * Unsubscribe signals
-	 */
 	public unsubscribeFromSignals() {
 		super.unsubscribeFromSignals();
 		this._ch5Properties.unsubscribe();
@@ -696,7 +692,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		}
 
 		this.createEmptyContainerDiv();
-
 		this.appendButtonsInRightOrder(centerBtn, upBtn, leftBtn, rightBtn, downBtn);
 	}
 
@@ -749,9 +744,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		return ret;
 	}
 
-	/**
-	 *  Called to initialize all attributes
-	 */
 	protected initAttributes(): void {
 		this.logger.start("initAttributes", Ch5Dpad.ELEMENT_NAME);
 		super.initAttributes();
@@ -844,7 +836,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	 * contractName.length === 0 and eventKeyStart is a valid number
 	 * @param eventKeyStart sendEventOnClickStart event's initial value
 	 */
-	private updateEventClickHandlers(eventKeyStart: number) {
+	private updateEventClickHandlers(valueInput: string) {
 		const contractName = this.contractName;
 		const buttonList = this.getElementsByTagName("ch5-dpad-button");
 		let centerBtn;
@@ -881,26 +873,27 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			}
 		}
 
-		if (contractName.length === 0 && !isNaN(eventKeyStart)) {
+		const eventKeyStart = parseInt(valueInput, 10);
+		if (contractName.length === 0 && !isNaN(eventKeyStart) && Ch5Common.isNotNil(valueInput) && valueInput.toString().trim() !== "") {
 			if (!_.isNil(centerBtn)) {
 				const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.center;
-				centerBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+				centerBtn.setAttribute('sendEventOnClick', contractVal.toString());
 			}
 			if (!_.isNil(upBtn)) {
 				const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.up;
-				upBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+				upBtn.setAttribute('sendEventOnClick', contractVal.toString());
 			}
 			if (!_.isNil(rightBtn)) {
 				const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.right;
-				rightBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+				rightBtn.setAttribute('sendEventOnClick', contractVal.toString());
 			}
 			if (!_.isNil(downBtn)) {
 				const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.down;
-				downBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+				downBtn.setAttribute('sendEventOnClick', contractVal.toString());
 			}
 			if (!_.isNil(leftBtn)) {
 				const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.left;
-				leftBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+				leftBtn.setAttribute('sendEventOnClick', contractVal.toString());
 			}
 		}
 	}
@@ -960,27 +953,27 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 			if (!_.isNil(centerBtn)) {
 				const contractVal = contractName + "." + CH5DpadUtils.contractSuffix.center;
-				centerBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+				centerBtn.setAttribute('sendEventOnClick', contractVal.toString());
 			}
 
 			if (!_.isNil(upBtn)) {
 				const contractVal = contractName + "." + CH5DpadUtils.contractSuffix.up;
-				upBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+				upBtn.setAttribute('sendEventOnClick', contractVal.toString());
 			}
 
 			if (!_.isNil(rightBtn)) {
 				const contractVal = contractName + "." + CH5DpadUtils.contractSuffix.right;
-				rightBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+				rightBtn.setAttribute('sendEventOnClick', contractVal.toString());
 			}
 
 			if (!_.isNil(downBtn)) {
 				const contractVal = contractName + "." + CH5DpadUtils.contractSuffix.down;
-				downBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+				downBtn.setAttribute('sendEventOnClick', contractVal.toString());
 			}
 
 			if (!_.isNil(leftBtn)) {
 				const contractVal = contractName + "." + CH5DpadUtils.contractSuffix.left;
-				leftBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+				leftBtn.setAttribute('sendEventOnClick', contractVal.toString());
 			}
 		}
 	}
