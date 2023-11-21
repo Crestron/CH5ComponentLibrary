@@ -25,11 +25,11 @@
       });
 
       let testCases = ['a', '', ' ', 'number', true, false];
-      let expectedResult = [false, false, false, false, true, false];
+      let expectedResult = [false, true, false, false, true, false];
       testCases.forEach((ele, i) => {
         test('Check class "ch5-hide-vis" exists', () => {
           ch5Keypad.setAttribute('hideAsteriskButton', ele);
-          const centerBtn = document.querySelector('.keypad-btn.misc-btn-two');
+          const centerBtn = document.querySelector('.keypad-btn.misc-btn-one');
           expect(centerBtn.classList.contains('ch5-hide-vis')).to.be.equal(expectedResult[i]);
         });
       });

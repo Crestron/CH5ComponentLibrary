@@ -86,18 +86,14 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 	//#region 1.2 private / protected variables
 
-	// protected setter getter specific vars
 	protected _ch5Properties: Ch5Properties;
 
-	// elements specific vars
 	private params: TCh5KeypadButtonCreateDTO = {} as TCh5KeypadButtonCreateDTO;
-	protected componentPrefix: string = 'ch5-keypad-button-';
 	protected emptyBtnCssClass: string = 'empty-btn';
 	protected labelMajorCssClass: string = 'label-major';
 	protected labelMinorCssClass: string = 'label-minor';
 	protected parentDivCssClass: string = 'keypad-row';
 
-	// elements specific vars
 	protected _elButton: HTMLElement = {} as HTMLElement;
 	protected _elMajorSpan: HTMLElement = {} as HTMLElement;
 	protected _elMinorSpan: HTMLElement = {} as HTMLElement;
@@ -105,26 +101,9 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 	// state specific vars
 	// The interval id ( from setInterval ) for reenforcing the  onTouch signal
-	// This id allow canceling the interval.
-	protected _intervalIdForRepeatDigital: number | null = null;
 	// this is last tap time used to determine if should send click pulse in focus event 
 	protected _pressable: Ch5Pressable | null = null;
-	// Time after that press will be triggered
-	protected _pressTimeout: number = 0;
-	// State of the button ( pressed or not )
-	protected _buttonPressed: boolean = false;
-	protected _buttonPressedInPressable: boolean = false;
 	protected _pressableIsPressedSubscription: Subscription | null = null;
-	// This variable ensures that the first time load on a project happens without debounce and buttons do not appear blank.
-	protected isButtonInitiated: boolean = false;
-
-	protected readonly TOUCH_TIMEOUT: number = 250;
-	protected readonly DEBOUNCE_PRESS_TIME: number = 200;
-	protected readonly PRESS_MOVE_THRESHOLD: number = 10;
-	protected readonly STATE_CHANGE_TIMEOUTS: number = 500;
-
-	protected readonly MAX_MODE_LENGTH: number = 99;
-	protected readonly DEBOUNCE_BUTTON_DISPLAY: number = 25;
 
 	//#endregion
 

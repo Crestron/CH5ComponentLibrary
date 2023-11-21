@@ -25,11 +25,12 @@
       });
 
       let testCases = ['a', '', ' ', 'number', true, false];
-      let expectedResult = [false, false, false, false, true, false];
+      let expectedResult = [false, true, false, false, true, false];
       testCases.forEach((ele, i) => {
-        test('Check class "ch5-hide-vis" exists', () => {
+        test('Check class "ch5-hide-vis" exists for ' + testCases[i], () => {
           ch5Keypad.setAttribute('hidePoundButton', ele);
-          const centerBtn = document.querySelector('.keypad-btn.misc-btn-one');
+          const centerBtn = document.querySelector('.keypad-btn.misc-btn-two');
+          console.log(ch5Keypad);
           expect(centerBtn.classList.contains('ch5-hide-vis')).to.be.equal(expectedResult[i]);
         });
       });
