@@ -586,7 +586,6 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 
   private handleValue() {
     this.dirtyValue = this.value;
-    this._dirty = true;
     this._clean = false;
     if (this.value) {
       this.setAttribute('checked', '');
