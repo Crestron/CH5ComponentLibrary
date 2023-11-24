@@ -10,13 +10,13 @@ import { Subscription } from "rxjs";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import { Ch5SignalAttributeRegistry } from '../ch5-common/ch5-signal-attribute-registry';
-import { ComponentHelper } from "../ch5-common/utils/component-helper";
 import { Ch5SignalFactory } from "../ch5-core";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { ICh5KeypadButtonAttributes } from "./interfaces/i-ch5-keypad-btn-attributes";
-import { TCh5KeypadButtonCreateDTO } from "./interfaces/t-ch5-keypad";
+import { TKeypadButtonDefault } from "./interfaces/t-ch5-keypad";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
+import { CH5KeypadUtils } from './ch5-keypad-utils';
 
 export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttributes {
 
@@ -61,9 +61,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		},
 		{
 			default: "",
-			isSignal: true,
 			name: "sendEventOnClick",
-			signalType: "boolean",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -86,24 +84,21 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 	//#region 1.2 private / protected variables
 
-	protected _ch5Properties: Ch5Properties;
+	private _ch5Properties: Ch5Properties;
 
-	private params: TCh5KeypadButtonCreateDTO = {} as TCh5KeypadButtonCreateDTO;
-	protected emptyBtnCssClass: string = 'empty-btn';
-	protected labelMajorCssClass: string = 'label-major';
-	protected labelMinorCssClass: string = 'label-minor';
-	protected parentDivCssClass: string = 'keypad-row';
 
-	protected _elButton: HTMLElement = {} as HTMLElement;
-	protected _elMajorSpan: HTMLElement = {} as HTMLElement;
-	protected _elMinorSpan: HTMLElement = {} as HTMLElement;
-	protected _elIcon: HTMLElement = {} as HTMLElement;
+	private labelMajorCssClass: string = 'label-major';
+	private labelMinorCssClass: string = 'label-minor';
 
-	// state specific vars
-	// The interval id ( from setInterval ) for reenforcing the  onTouch signal
-	// this is last tap time used to determine if should send click pulse in focus event 
-	protected _pressable: Ch5Pressable | null = null;
-	protected _pressableIsPressedSubscription: Subscription | null = null;
+	private _elButton: HTMLElement = {} as HTMLElement;
+	private _elMajorSpan: HTMLElement = {} as HTMLElement;
+	private _elMinorSpan: HTMLElement = {} as HTMLElement;
+	private _elIcon: HTMLElement = {} as HTMLElement;
+
+	private defaultValue: TKeypadButtonDefault | null = null;
+
+	private _pressable: Ch5Pressable | null = null;
+	private _pressableIsPressedSubscription: Subscription | null = null;
 
 	//#endregion
 
@@ -125,7 +120,10 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 	public set labelMajor(value: string) {
 		this._ch5Properties.set<string>("labelMajor", value, () => {
-			this.labelMajorHandler();
+			if (this.labelMajor.trim() === "") {
+				this.labelMajor === this.getDefaultValue('labelMajor');
+			}
+			this.handleIconLabelMajor();
 		});
 	}
 	public get labelMajor() {
@@ -134,7 +132,10 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 	public set labelMinor(value: string) {
 		this._ch5Properties.set<string>("labelMinor", value, () => {
-			this.labelMinorHandler();
+			if (this.labelMinor.trim() === "") {
+				this.labelMinor === this.getDefaultValue('labelMinor');
+			}
+			this.handleLabelMinor();
 		});
 	}
 	public get labelMinor(): string {
@@ -143,7 +144,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 	public set iconClass(value: string) {
 		this._ch5Properties.set<string>("iconClass", value, () => {
-			this.iconHandler();
+			this.handleIconLabelMajor();
 		});
 	}
 	public get iconClass(): string {
@@ -151,9 +152,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	}
 
 	public set sendEventOnClick(value: string) {
-		this._ch5Properties.set<string>("sendEventOnClick", value, () => {
-			this.setAttribute('sendEventOnClick'.toLowerCase(), value);
-		});
+		this._ch5Properties.set<string>("sendEventOnClick", value);
 	}
 	public get sendEventOnClick() {
 		return this._ch5Properties.get<string>("sendEventOnClick");
@@ -161,7 +160,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 	public set key(value: string) {
 		this._ch5Properties.set<string>("key", value, () => {
-			this.keyHandler();
+			this.handleKey();
 		});
 	}
 	public get key(): string {
@@ -170,7 +169,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 	public set pressed(value: boolean) {
 		this._ch5Properties.set<boolean>("pressed", value, () => {
-			this.pressedHandler();
+			this.handlePressed();
 		});
 	}
 	public get pressed(): boolean {
@@ -181,10 +180,15 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 	//#region 3. Lifecycle Hooks
 
-	public constructor(params: TCh5KeypadButtonCreateDTO) {
+	public constructor(defaultObj: TKeypadButtonDefault) {
 		super();
 		this.logger.start('constructor()', Ch5KeypadButton.ELEMENT_NAME);
-		this.params = params;
+		this.ignoreAttributes = ["show", "disabled", "receivestateenable", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "receivestatecustomclass", "receivestatecustomstyle", "sendeventonshow"];
+		if (!this._wasInstatiated) {
+			this.createInternalHtml();
+		}
+		this._wasInstatiated = true;
+		this.defaultValue = defaultObj;
 		this._ch5Properties = new Ch5Properties(this, Ch5KeypadButton.COMPONENT_PROPERTIES);
 		this.logger.stop();
 	}
@@ -195,29 +199,15 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	protected initAttributes(): void {
 		this.logger.start("initAttributes", Ch5KeypadButton.ELEMENT_NAME);
 		super.initAttributes();
-		this.setAttribute('data-ch5-id', this.getCrId());
-		ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5KeypadChild); // WAI-ARIA Attributes
-		const defaultMajors: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '#', ''];
-		const defaultMinors: string[] = ['+', '&nbsp;', 'ABC', 'DEF', 'GHI', 'JKL', 'MNO', 'PQRS', 'TUV', 'WXYZ', '', '', ''];
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const { major, minor, contractName, joinCountToAdd, iconClass, key, pressed, name, indexRef, contractKey, className, ...remainingParams } = this.params;
-		this.labelMajor = major.trim() ? major.trim() : defaultMajors[indexRef];
-		this.labelMinor = minor.trim() ? minor.trim() : defaultMinors[indexRef];
-		this.iconClass = iconClass.join(' ');
-		if (!this.iconClass && this.labelMajor === "*") {
-			this.labelMinor = "";
-			this._elMinorSpan.innerHTML = "";
-		}
-		this.key = key;
-		this.pressed = pressed;
-
-		this.sendEventOnClick = (contractName.length > 0) ? contractName : joinCountToAdd;
-		const remainingParamsKeys = Object.keys(remainingParams);
-		const remainingParamsValues = Object.values(remainingParams);
-		if (remainingParamsKeys.length) {
-			for (let index = 0; index < remainingParamsKeys.length; index++) {
-				if (!_.isNil(remainingParamsValues[index])) {
-					ComponentHelper.setAttributeToElement(this, remainingParamsKeys[index].toLowerCase(), remainingParamsValues[index]);
+		const thisRef: any = this;
+		for (let i: number = 0; i < Ch5KeypadButton.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5KeypadButton.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				if (this.hasAttribute(Ch5KeypadButton.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
+					const key = Ch5KeypadButton.COMPONENT_PROPERTIES[i].name;
+					thisRef[key] = this.getAttribute(key);
+				} else {
+					const key = Ch5KeypadButton.COMPONENT_PROPERTIES[i].name;
+					thisRef[key] = this.getDefaultValue(key);
 				}
 			}
 		}
@@ -230,69 +220,35 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	 */
 	public connectedCallback() {
 		this.logger.start('connectedCallback() - start', Ch5KeypadButton.ELEMENT_NAME);
-		if (this.parentElement && !this.parentElement.classList.contains(this.parentDivCssClass)) {
+		if (this.parentElement && this.parentElement.classList.contains('ch5-keypad') === false) {
 			this.logger.stop();
 			return;
 		}
 
-		ComponentHelper.clearComponentContent(this);
-		this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
+		if (this._elButton.parentElement !== this) {
+			this.classList.add('keypad-btn');
+			this.appendChild(this._elButton);
+		}
+
+		// WAI-ARIA Attributes
+		if (!this.hasAttribute('role')) {
+			this.setAttribute('role', Ch5RoleAttributeMapping.ch5KeypadChild);
+		}
 
 		this.setAttribute('data-ch5-id', this.getCrId());
 
-		// init pressable before initAttributes because pressable subscribe to gestureable attribute
-		if (!ComponentHelper.isNullOrUndefined(this._pressable) && !!this._pressable) {
+		this.initPressable(this.primaryCssClass + this.pressedCssClassPostfix);
+
+		if (this._pressable) {
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
 		}
 
-		// will have the flags ready for contract level content to be ready
-		this.createElementsAndInitialize();
+		this.initAttributes();
+		this.attachEventListeners();
+		this.setDefaultClasses();
 
 		this.initCommonMutationObserver(this);
-		this.logger.stop();
-	}
-
-	/**
-	 * Create HTML elements of the components including child elements
-	 */
-	protected createElementsAndInitialize() {
-		this.initAttributes();
-		if (!this._wasInstatiated) {
-			this.createHtmlElements();
-		}
-		this.attachEventListeners();
-
-		this._wasInstatiated = true;
-
-		this.updateCssClasses();
-	}
-
-	/**
-	 * Create all inner html elements required to complete keypad child-base button
-	 */
-	protected createHtmlElements(): void {
-		this.logger.start('createHtmlElements', Ch5KeypadButton.ELEMENT_NAME);
-		ComponentHelper.clearComponentContent(this);
-		this.classList.add(this.primaryCssClass);
-		this.classList.add(...(this.params.className.split(' ').filter(element => element))); // the filter removes empty spaces
-		this.setAttribute('key', this.params.name);
-		if (this.params.major.length > 0 ||
-			this.params.minor.length > 0 ||
-			this.params.iconClass.length > 0 || this.params.key.length > 0) {
-			this._elButton = document.createElement('button');
-			this._elMajorSpan = this.createLabelElementAndAppend(this.labelMajorCssClass, this.labelMajor);
-			this._elMinorSpan = this.createLabelElementAndAppend(this.labelMinorCssClass, this.labelMinor);
-			this._elButton.appendChild(this._elMajorSpan);
-			this._elButton.appendChild(this._elMinorSpan);
-			this.appendChild(this._elButton);
-		} else {
-			this.classList.add(this.emptyBtnCssClass);
-		}
-
-		if (this.params.pressed) {
-			this.classList.add(this.primaryCssClass + this.pressedCssClassPostfix);
-		}
 		this.logger.stop();
 	}
 
@@ -310,7 +266,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	public disconnectedCallback() {
 		this.logger.start('disconnectedCallback() - start', Ch5KeypadButton.ELEMENT_NAME);
 
-		if (this.parentElement && !this.parentElement.classList.contains(this.parentDivCssClass)) {
+		if (this.parentElement && this.parentElement.classList.contains('ch5-keypad') === false) {
 			this.logger.stop();
 			return;
 		}
@@ -378,69 +334,35 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 	//#region 4. Other Methods
 
-	protected createLabelElementAndAppend(className: string, value: string = '') {
-		const element = document.createElement('span');
-		element.classList.add(className);
-		if (this.iconClass.length > 0 && className === this.labelMajorCssClass) {
-			this._elIcon = document.createElement('span');
-			this._elIcon.classList.add(...this.iconClass.split(' ').filter(ele => ele));
-			element.appendChild(this._elIcon);
-			element.classList.add('has-icon');
-		} else {
-			element.innerHTML = value;
-		}
-		return element;
+	protected createInternalHtml() {
+		this.logger.start('createInternalHtml()');
+		this.clearComponentContent();
+		this._elButton = document.createElement('button');
+		this._elMajorSpan = document.createElement('span');
+		this._elMinorSpan = document.createElement('span');
+		this._elIcon = document.createElement('span');
+
+		this._elMajorSpan.classList.add(this.labelMajorCssClass);
+		this._elMinorSpan.classList.add(this.labelMinorCssClass);
+
+		this._elButton.appendChild(this._elMajorSpan);
+		this._elButton.appendChild(this._elMinorSpan);
+
+		this.logger.stop();
 	}
 
-	protected labelMajorHandler() {
-		if (this.labelMajor.length !== 0) {
-			this._elMajorSpan.innerText = this.labelMajor
-		} else {
-			this.labelMajor = this.params.major;
-		}
-	}
-
-	protected labelMinorHandler() {
-		if (this.labelMinor.length !== 0) {
-			this._elMinorSpan.innerHTML = this.labelMinor;
-		} else {
-			this.labelMinor = this.params.minor;
-		}
-	}
-
-	protected keyHandler() {
-		if (this.key.length === 0) {
-			this.key = this.params.key;
-		}
-	}
-
-	protected iconHandler() {
-		const iconButton = this.getElementsByClassName("label-major has-icon");
-		if (iconButton && iconButton[0]) {
-			const spanBtn = iconButton[0].children[0];
-			if (spanBtn) {
-				spanBtn.setAttribute("class", this.iconClass);
-			} else {
-				this._elIcon.setAttribute("class", this.iconClass);
-				this._elMajorSpan.innerHTML = '';
-				this._elMajorSpan.appendChild(this._elIcon);
-			}
-		}
-	}
-
-	protected pressedHandler() {
-		if (this._pressable) {
-			if (this._pressable._pressed !== this.pressed) {
-				this._pressable.setPressed(this.pressed);
-			}
-		}
+	private clearComponentContent() {
+		const containers = this.getElementsByTagName("div");
+		Array.from(containers).forEach((container) => {
+			container.remove();
+		});
 	}
 
 	/**
 	 * Called when pressed class will be available
 	 * @param pressedClass is class name. it will add after press the ch5 keypad button
 	 */
-	protected updatePressedClass(pressedClass: string) {
+	protected initPressable(pressedClass: string) {
 		this._pressable = new Ch5Pressable(this, {
 			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
 			cssPressedClass: pressedClass
@@ -473,15 +395,62 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 			this._pressableIsPressedSubscription = null;
 		}
 	}
-
-	public setJoinBasedEventHandler(startIndex: number, joinCountIndex: number) {
-		const joinCountList: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 11, 12];
-		this.sendEventOnClick = (startIndex + joinCountList[joinCountIndex]).toString();
+	private handleKey() {
+		// Enter your Code here
 	}
+	private handleIconLabelMajor() {
+		if (this.iconClass.trim()) {
+			this.iconClass.trim().split(' ').forEach((cls: string) => this._elIcon.classList.add(cls));
+			this._elMajorSpan.innerText = "";
+			this._elMajorSpan.appendChild(this._elIcon);
+		} else {
+			this._elIcon.remove();
+			this._elMajorSpan.innerText = this.labelMajor;
+		}
+	}
+	private handleLabelMinor() {
+		this._elMinorSpan.innerHTML = this.labelMinor;
+	}
+	private handlePressed() {
+		if (this._pressable) {
+			if (this._pressable._pressed !== this.pressed) {
+				this._pressable.setPressed(this.pressed);
+			}
+		}
+	}
+	private getDefaultValue(attr: string) {
 
-	public setJoinBasedContractEventHandler(parentContract: string, joinIndex: number) {
-		const joinCountList: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'Star', 0, 'Hash', 'ExtraButton'];
-		this.sendEventOnClick = parentContract + ".Press" + joinCountList[joinIndex];
+		if (this.defaultValue) {
+			const defaultVal: any = this.defaultValue;
+			if (defaultVal.hasOwnProperty(attr)) {
+				return defaultVal[attr];
+			}
+		}
+
+		const key = this.getAttribute('key') || "";
+		const index = CH5KeypadUtils.KEYPAD_BUTTON_KEY.findIndex((ele) => ele === key);
+
+		if (index === -1) {
+			return "";
+		}
+
+		const defaultValue: any = CH5KeypadUtils.KEYPAD_DEFAULT_VALUES[index];
+		if (defaultValue.hasOwnProperty(attr)) {
+			return defaultValue[attr];
+		}
+	}
+	private setDefaultClasses() {
+		const key = this.getAttribute('key') || "";
+		const index = CH5KeypadUtils.KEYPAD_BUTTON_KEY.findIndex((ele) => ele === key);
+
+		if (index === -1) {
+			return;
+		}
+
+		const defaultValue: any = CH5KeypadUtils.KEYPAD_DEFAULT_VALUES[index];
+		if (defaultValue.hasOwnProperty('defaultClasses')) {
+			defaultValue.defaultClasses.forEach((cls: string) => this.classList.add(cls));
+		}
 	}
 
 	//#endregion
