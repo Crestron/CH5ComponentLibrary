@@ -79,6 +79,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 	public readonly primaryCssClass = 'keypad-btn';
 	public readonly pressedCssClassPostfix = '-pressed';
+	private readonly labelHasIconCssClass = 'has-icon';
 
 	//#endregion
 
@@ -121,7 +122,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	public set labelMajor(value: string) {
 		this._ch5Properties.set<string>("labelMajor", value, () => {
 			if (this.labelMajor.trim() === "") {
-				this.labelMajor === this.getDefaultValue('labelMajor');
+				this.setAttribute('labelMajor', this.getDefaultValue('labelMajor'))
 			}
 			this.handleIconLabelMajor();
 		});
@@ -133,7 +134,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	public set labelMinor(value: string) {
 		this._ch5Properties.set<string>("labelMinor", value, () => {
 			if (this.labelMinor.trim() === "") {
-				this.labelMinor === this.getDefaultValue('labelMinor');
+				this.setAttribute('labelMinor', this.getDefaultValue('labelMinor'))
 			}
 			this.handleLabelMinor();
 		});
@@ -403,9 +404,11 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 			this.iconClass.trim().split(' ').forEach((cls: string) => this._elIcon.classList.add(cls));
 			this._elMajorSpan.innerText = "";
 			this._elMajorSpan.appendChild(this._elIcon);
+			this._elMajorSpan.classList.add(this.labelHasIconCssClass);
 		} else {
 			this._elIcon.remove();
 			this._elMajorSpan.innerText = this.labelMajor;
+			this._elMajorSpan.classList.remove(this.labelHasIconCssClass);
 		}
 	}
 	private handleLabelMinor() {

@@ -29,7 +29,7 @@ export class CH5KeypadUtils {
     'PressStar',
     'Press0',
     'PressHash',
-    'PressExtraButtton'
+    'PressExtraButton'
   ];
 
   public static readonly KEYPAD_DEFAULT_VALUES = [

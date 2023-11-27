@@ -27,7 +27,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestateextrabuttonshow: { direction: "state", stringJoin: 1, contractName: true },
+		receivestateextrabuttonshow: { direction: "state", booleanJoin: 1, contractName: true },
 		receivestatehideasteriskbutton: { direction: "state", booleanJoin: 1, contractName: true },
 		receivestatehidepoundbutton: { direction: "state", booleanJoin: 1, contractName: true },
 		sendeventonclickstart: { direction: "event", booleanJoin: 1, contractName: true }
@@ -649,6 +649,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 					// check valid key and no duplicate
 					if (index !== -1 && this.keypadButtons[index] === null) {
 						this.keypadButtons[index] = ele;
+					} else {
+						ele.remove();
 					}
 				}
 			}
@@ -673,7 +675,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		Array.from(Ch5Keypad.COMPONENT_DATA.STRETCH.values).forEach((e: any) => {
 			this._elContainer.classList.remove(this.primaryCssClass + Ch5Keypad.COMPONENT_DATA.STRETCH.classListPrefix + e);
 		});
-		if (this.stretch) {
+		if (this.stretch === 'both' || this.stretch === 'height' || this.stretch === 'width') {
 			this._elContainer.classList.add(this.primaryCssClass + Ch5Keypad.COMPONENT_DATA.STRETCH.classListPrefix + this.stretch);
 		}
 		this.handleStretchResize();
@@ -797,7 +799,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	private handleStretchResize() {
-		if (this.stretch === null) {
+		if (this.stretch === null || (this.stretch !== 'both' && this.stretch !== 'height' && this.stretch !== 'width')) {
 			this._elContainer.style.removeProperty('width');
 			this._elContainer.style.removeProperty('height');
 			this.style.removeProperty('display');
@@ -846,10 +848,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		this._elContainer.classList.add(this.primaryCssClass + Ch5Keypad.COMPONENT_DATA.TYPE.classListPrefix + this.type);
 
 		this._elContainer.classList.add(this.primaryCssClass + Ch5Keypad.COMPONENT_DATA.SHAPE.classListPrefix + this.shape);
-
-		if (this.stretch) {
-			this._elContainer.classList.add(this.primaryCssClass + Ch5Keypad.COMPONENT_DATA.STRETCH.classListPrefix + this.stretch);
-		}
 
 		this._elContainer.classList.add(this.primaryCssClass + Ch5Keypad.COMPONENT_DATA.TEXT_ORIENTATION.classListPrefix + this.textOrientation);
 
