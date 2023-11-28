@@ -160,9 +160,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	}
 
 	public set key(value: string) {
-		this._ch5Properties.set<string>("key", value, () => {
-			this.handleKey();
-		});
+		this._ch5Properties.set<string>("key", value);
 	}
 	public get key(): string {
 		return this._ch5Properties.get<string>('key');
@@ -396,9 +394,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 			this._pressableIsPressedSubscription = null;
 		}
 	}
-	private handleKey() {
-		// Enter your Code here
-	}
+
 	private handleIconLabelMajor() {
 		if (this.iconClass.trim()) {
 			this.iconClass.trim().split(' ').forEach((cls: string) => this._elIcon.classList.add(cls));
