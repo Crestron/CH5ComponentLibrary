@@ -52,7 +52,7 @@
       test('ch5-keypad-extra-button', (done) => {
         flush(() => {
           setTimeout(() => {
-            expect(ch5keypad.querySelectorAll('ch5-keypad-button').length).to.equal(12);
+            expect(ch5keypad.querySelectorAll('ch5-keypad-button').length).to.equal(13);
             expect(ch5keypad.getAttribute('showExtraButton')).to.equal('false');
             done();
           }, 100);
@@ -87,7 +87,7 @@
         ch5keypad.setAttribute("showExtraButton", false);
         flush(() => {
           setTimeout(() => {
-            expect(ch5keypad.querySelectorAll('ch5-keypad-button').length).to.be.equal(12);
+            expect(ch5keypad.querySelectorAll('ch5-keypad-button').length).to.be.equal(13);
             done();
           }, 100);
         });
