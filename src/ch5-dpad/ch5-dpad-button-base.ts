@@ -7,7 +7,6 @@
 
 import _ from "lodash";
 import { Subscription } from "rxjs";
-// import { Ch5ButtonPressInfo } from "../ch5-button/ch5-button-pressinfo";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core";
@@ -211,7 +210,8 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 
 	public setDisabled(disabledValue: boolean) {
 		this._isDisabled = disabledValue;
-		if (disabledValue === true) {
+		this.logger.log("this._isDisabled", this._isDisabled);
+		if (this._isDisabled === true) {
 			if (null !== this._pressable) {
 				this._pressable.destroy();
 			}
@@ -246,20 +246,22 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 		}
 
 		if (this.parentElement && this.parentElement.parentElement && !(this.parentElement.parentElement instanceof Ch5Dpad)) {
-			throw new Error(`Invalid parent element for ch5-dpad-button-${this.buttonType}. 
+			throw new Error(`Invalid parent element for ch5-dpad-button. 
             Please ensure the parent tag is ch5-dpad, and other mandatory sibling 
             elements are available too.`);
 		}
 
 		this.setAttribute('data-ch5-id', this.getCrId());
 
+		// this._hammerManager = new Hammer(this);
+		this.createElementsAndInitialize();
+
 		// init pressable before initAttributes because pressable subscribe to gestureable attribute
+		// this.logger.log("$$$$$$$", !_.isNil(this._pressable), this._isDisabled === false);
 		if (!_.isNil(this._pressable) && this._isDisabled === false) {
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
 		}
-		// this._hammerManager = new Hammer(this);
-		this.createElementsAndInitialize();
 
 		customElements.whenDefined('ch5-dpad-button').then(() => {
 			this.initCommonMutationObserver(this);
@@ -345,10 +347,6 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 		this.logger.start('disconnectedCallback() - start', this.COMPONENT_NAME);
 		this.removeEventListeners();
 
-		// destroy pressable
-		if (null !== this._pressable) {
-			this._pressable.destroy();
-		}
 		this.unsubscribeFromSignals();
 
 		// disconnect common mutation observer
@@ -357,9 +355,15 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 	}
 
 	public removeEventListeners() {
-		if (!_.isNil(this._pressable) && this._isDisabled === false) {
-			this._unsubscribeFromPressableIsPressed();
+		this.logger.start('removeEventListeners() - start', this.COMPONENT_NAME);
+		super.removeEventListeners();
+		this._unsubscribeFromPressableIsPressed();
+
+		// destroy pressable
+		if (null !== this._pressable) {
+			this._pressable.destroy();
 		}
+		this.logger.stop();
 	}
 
 	/**
@@ -383,7 +387,7 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
 		this.logger.start("attributeChangedCallback", this.COMPONENT_NAME);
-		this.logger.log('ch5-dpad-button' + this.buttonType + ' attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+		this.logger.log('ch5-dpad-button key=' + this.key + ' attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
 		if (oldValue !== newValue) {
 			attr = attr.toLowerCase();
 			const attributeChangedProperty = Ch5DpadButtonBase.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
@@ -418,6 +422,7 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 			}
 		}
 		const btnType = this.buttonType as TCh5DpadChildButtonType;
+		this.logger.log("btnType", btnType);
 		if (this.parentElement &&
 			this.parentElement.parentElement) {
 			const ele = this.parentElement.parentElement;
@@ -527,11 +532,12 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 	}
 
 	private _subscribeToPressableIsPressed() {
-		const REPEAT_DIGITAL_PERIOD = 200;
-		const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
+		this.logger.log("_subscribeToPressableIsPressed", this._isPressedSubscription === null, this._pressable !== null);
 		if (this._isPressedSubscription === null && this._pressable !== null) {
+			const REPEAT_DIGITAL_PERIOD = 200;
+			const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
 			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
-				this.info(`Ch5DpadButton.pressableSubscriptionCb(${value})`);
+				this.logger.log(`Ch5DpadButton.pressableSubscriptionCb(${value})`);
 				if (value === false) {
 					if (this._repeatDigitalInterval !== null) {
 						window.clearInterval(this._repeatDigitalInterval as number);
@@ -557,10 +563,9 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 	}
 
 	private sendValueForRepeatDigitalWorking(value: boolean): void {
-		this.info(`Ch5Button.sendValueForRepeatDigital(${value})`);
+		this.logger.log(`Ch5Button.sendValueForRepeatDigital(${value})`);
 		if (Ch5Common.isNotNil(this.sendEventOnClick)) {
-			const clickSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
-				.getObjectAsBooleanSignal(this.sendEventOnClick);
+			const clickSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance().getObjectAsBooleanSignal(this.sendEventOnClick);
 
 			if (clickSignal && clickSignal.name) {
 				// send signal only once if it has the same value

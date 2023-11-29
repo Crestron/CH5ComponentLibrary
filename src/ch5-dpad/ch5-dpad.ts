@@ -310,11 +310,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	public set sendEventOnClickStart(value: string) {
 		this._ch5Properties.set<string>("sendEventOnClickStart", value.trim(), () => {
-			this.updateEventClickHandlers(value.trim());
+			this.updateEventClickHandlers();
 		});
 	}
 	public get sendEventOnClickStart(): string {
-		return this._ch5Properties.get<string>("sendEventOnClickStart");
+		return this._ch5Properties.get<string>("sendEventOnClickStart")?.trim();
 	}
 
 	public set useContractForEnable(value: boolean) {
@@ -570,15 +570,20 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		if (childItemsContainer.length === 0 || childItemsContainer[0].children.length === 0) {
 			if (!_.cloneDeep(childItemsContainer[0]?.children)) {
 				this.createAndAppendAllButtonsUnderDpad();
+				// this.updateEventClickHandlers();
 			} else {
 				this.createAndAppendAllExistingButtonsUnderDpad(childItemsContainer[0].children);
+				// this.updateEventClickHandlers();
 			}
 		} else {
 			const isValidStructureInChildDiv = this.checkIfOrderOfTagsAreInTheRightOrder(childItemsContainer[0].children);
 			if (!isValidStructureInChildDiv) {
 				this.createAndAppendAllExistingButtonsUnderDpad(childItemsContainer[0].children);
+				// this.updateEventClickHandlers();
 			} else {
 				this.updatePropertiesForHideAndDisableCenterButton(childItemsContainer[0].children);
+				// this.updateEventClickHandlers();
+
 			}
 		}
 		this.logger.stop();
@@ -629,11 +634,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			switch (item.getAttribute('key')) {
 				case 'center':
 					centerBtn = item;
+					const disabledCenterButton = (this.disableCenterButton || this.hideCenterButton);
+					centerBtn.setDisabled(disabledCenterButton);
 					break;
 			}
 		});
-		const disabledCenterButton = (this.disableCenterButton || this.hideCenterButton);
-		centerBtn.setDisabled(disabledCenterButton);
 	}
 
 	private createAndAppendAllExistingButtonsUnderDpad(buttonsList: HTMLCollection) {
@@ -836,7 +841,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	 * contractName.length === 0 and eventKeyStart is a valid number
 	 * @param eventKeyStart sendEventOnClickStart event's initial value
 	 */
-	private updateEventClickHandlers(valueInput: string) {
+	private updateEventClickHandlers() {
+		const valueInput = this.sendEventOnClickStart;
 		const contractName = this.contractName;
 		const buttonList = this.getElementsByTagName("ch5-dpad-button");
 		let centerBtn;
@@ -874,23 +880,29 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		}
 
 		const eventKeyStart = parseInt(valueInput, 10);
+		this.logger.log("######", contractName.length === 0, contractName, !isNaN(eventKeyStart), Ch5Common.isNotNil(valueInput), valueInput.toString().trim() !== "", valueInput);
 		if (contractName.length === 0 && !isNaN(eventKeyStart) && Ch5Common.isNotNil(valueInput) && valueInput.toString().trim() !== "") {
+			this.logger.log("@@@@@ - center", !_.isNil(centerBtn), eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.center);
 			if (!_.isNil(centerBtn)) {
 				const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.center;
 				centerBtn.setAttribute('sendEventOnClick', contractVal.toString());
 			}
+			this.logger.log("@@@@@ - upBtn", !_.isNil(upBtn), eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.up);
 			if (!_.isNil(upBtn)) {
 				const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.up;
 				upBtn.setAttribute('sendEventOnClick', contractVal.toString());
 			}
+			this.logger.log("@@@@@ - rightBtn", !_.isNil(rightBtn), eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.right);
 			if (!_.isNil(rightBtn)) {
 				const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.right;
 				rightBtn.setAttribute('sendEventOnClick', contractVal.toString());
 			}
+			this.logger.log("@@@@@ - downBtn", !_.isNil(downBtn), eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.down);
 			if (!_.isNil(downBtn)) {
 				const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.down;
 				downBtn.setAttribute('sendEventOnClick', contractVal.toString());
 			}
+			this.logger.log("@@@@@ - leftBtn", !_.isNil(leftBtn), eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.left);
 			if (!_.isNil(leftBtn)) {
 				const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.left;
 				leftBtn.setAttribute('sendEventOnClick', contractVal.toString());
