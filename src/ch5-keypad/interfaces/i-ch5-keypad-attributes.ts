@@ -169,10 +169,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * [
      * "`useContractForExtraButtonShow` attribute",
      * "***",
-     * "If the contract name exists, by default this becomes true. ",
-     * "If the contract name does not exist, by default this becomes false. ",
-     * "If this value is set to true then the value received from the contract will be considered ",
-     * "for the custom style."
+     * "If this value is set to true then the value received from the contract will be considered else from receiveStateExtraButtonShow or showExtraButton."
      * ]
      * @name usecontractforextrabuttonshow
      * @default false

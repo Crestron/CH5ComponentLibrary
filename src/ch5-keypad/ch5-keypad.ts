@@ -183,7 +183,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			isObservableProperty: true
 		},
 		{
-			default: true,
+			default: false,
 			name: "useContractForExtraButtonShow",
 			removeAttributeOnNull: true,
 			type: "boolean",
