@@ -35,7 +35,7 @@
                 expect(ch5Keypad.size).to.be.equal(default_type);
                 flush(() => {
                     setTimeout(() => {
-                        expect(ch5Keypad.classList.contains(`${typeClassName}${default_type}`)).to.be.equal(true);
+                        expect(ch5Keypad.children[0].classList.contains(`${typeClassName}${default_type}`)).to.be.equal(true);
                         done();
                     }, 100);
                 });
@@ -48,7 +48,7 @@
                         flush(() => {
                             setTimeout(() => {
                                 expect(ch5Keypad.size).to.be.equal(typeName);
-                                expect(ch5Keypad.classList.contains(`${typeClassName}${typeName}`)).to.be.equal(true);
+                                expect(ch5Keypad.children[0].classList.contains(`${typeClassName}${typeName}`)).to.be.equal(true);
                                 done();
                             }, 100);
                         });
@@ -63,7 +63,7 @@
                         flush(() => {
                             setTimeout(() => {
                                 expect(ch5Keypad.size).to.be.equal(default_type);
-                                expect(ch5Keypad.classList.contains(`${typeClassName}${default_type}`)).to.be.equal(true);
+                                expect(ch5Keypad.children[0].classList.contains(`${typeClassName}${default_type}`)).to.be.equal(true);
                                 done();
                             }, 100);
                         });
