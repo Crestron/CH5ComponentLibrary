@@ -1500,7 +1500,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this.vAlignLabel = this.getAttribute('valignlabel') as TCh5ButtonVerticalAlignLabel;
 		}
 		if (this.hasAttribute('pressed')) {
-			this.logger.log("### P: ", this.getAttribute('pressed') as unknown as boolean);
 			this.pressed = this.getAttribute('pressed') as unknown as boolean;
 		}
 		if (this.hasAttribute('labelInnerHTML')) {

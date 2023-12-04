@@ -16,25 +16,150 @@
       <ch5-dpad></ch5-dpad>
     </template>
   </test-fixture>
+
+  <test-fixture id="ch5-dpad-disableCenterButton-attributes-2">
+    <template>
+      <ch5-dpad disableCenterButton="true"></ch5-dpad>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-dpad-disableCenterButton-attributes-3">
+    <template>
+      <ch5-dpad disableCenterButton="false"></ch5-dpad>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-dpad-disableCenterButton-attributes-4">
+    <template>
+      <ch5-dpad sendeventonclickstart="2" type="success" shape="circle">
+        <ch5-dpad-button pressed="true" key="center"></ch5-dpad-button>
+        <ch5-dpad-button pressed="true" key="up"></ch5-dpad-button>
+        <ch5-dpad-button pressed="true" key="right"></ch5-dpad-button>
+        <ch5-dpad-button pressed="true" key="left"></ch5-dpad-button>
+        <ch5-dpad-button pressed="true" key="down"></ch5-dpad-button>
+      </ch5-dpad>
+
+      <!-- <ch5-dpad sendEventOnClickStart="4" disableCenterButton="false"></ch5-dpad> -->
+    </template>
+  </test-fixture>
+
+
+  <test-fixture id="ch5-button">
+    <template>
+      <ch5-button sendeventonclick="4" pressed="true"></ch5-button>
+    </template>
+  </test-fixture>
+
   <script>
+    function subScribeState(type, name) {
+      return new Promise((resolve, reject) => {
+        CrComLib.subscribeState(type, name, (response) => {
+          console.log('response', response);
+          resolve(String(response));
+        });
+      });
+    }
+
+    const sleep = (milliseconds) => {
+      return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
+
     suite('ch5-dpad-disableCenterButton-attributes-value', () => {
       let ch5Dpad;
+      let ch5Dpad2;
+      let ch5Dpad3;
+      let ch5Dpad4;
+
+      let ch5Button;
 
       setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatenumericjoins.json').then((response) => response.json());
+        console.log("emulatorJson", JSON.stringify(emulatorJson));
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+
         ch5Dpad = fixture('ch5-dpad-disableCenterButton-attributes');
+        ch5Dpad2 = fixture('ch5-dpad-disableCenterButton-attributes-2');
+        ch5Dpad3 = fixture('ch5-dpad-disableCenterButton-attributes-3');
+        ch5Dpad4 = fixture('ch5-dpad-disableCenterButton-attributes-4');
+        ch5Button = fixture('ch5-button');
       });
 
       let testCases = ['a', '', ' ', 'number', true, false];
       let expectedResult = [false, true, false, false, true, false];
-      testCases.forEach((ele, i) => {
+      testCases.forEach((value, i) => {
         test('Check class "ch5-disable-child-button" exists', () => {
-          ch5Dpad.setAttribute('disableCenterButton', ele);
-          const centerBtn = document.querySelector('.ch5-dpad-button-center');
+          ch5Dpad.setAttribute('disableCenterButton', value);
+          const centerBtn = ch5Dpad.querySelector('.ch5-dpad-button-center');
           expect(centerBtn.classList.contains('ch5-disable-child-button')).to.be.equal(expectedResult[i]);
         });
       });
 
+      [true, false].forEach((value, i) => {
+        test('Check if pressed attribute class is added when pressed=true and disableCenterButton=' + String(value), () => {
+          ch5Dpad.setAttribute('disableCenterButton', String(value));
+          const centerBtn = ch5Dpad.querySelector('.ch5-dpad-button-center');
+          centerBtn.setAttribute('pressed', "true");
+          expect(centerBtn.classList.contains('ch5-dpad-button-center--pressed')).to.be.equal(!value);
+        });
+      });
+
+      test('Change from disableCenterButton=true set in component to disableCenterButton=false set in DOM', () => {
+        ch5Dpad2.setAttribute('disableCenterButton', "false");
+        const centerBtn = ch5Dpad2.querySelector('.ch5-dpad-button-center');
+        expect(centerBtn.classList.contains('ch5-disable-child-button')).to.be.equal(false);
+      });
+
+      test('Change from disableCenterButton=false set in component to disableCenterButton=true set in DOM', () => {
+        ch5Dpad3.setAttribute('disableCenterButton', "true");
+        const centerBtn = ch5Dpad3.querySelector('.ch5-dpad-button-center');
+        expect(centerBtn.classList.contains('ch5-disable-child-button')).to.be.equal(true);
+      });
+
+      // test('Chbutton', async () => {
+      //   //      Array.from(document.getElementsByTagName("ch5-dpad-button")).find(data => data.getAttribute("data-ch5-id") === "cr-id-51")
+      //   // flush(async() => {
+      //   // CrComLib.publishEvent('s', 'abc', "rags");
+      //   //  setTimeout(() => {
+      //     // ch5Button.setAttribute('pressed', "true");
+      //     // ch5Button.setAttribute('pressed', "false");
+
+      //   await sleep(2000);
+      //   const z = await subScribeState('b', '4');
+      //   console.log(z);
+      //   expect(z).to.be.equal("rags");
+      //   // }, 1000);
+      //   // });
+      // });
+
+
+
+      // test('Ch dpad', async () => {
+      //   // const centerBtn = ch5Dpad4.querySelector('.ch5-dpad-button-center');
+      //   // centerBtn.setAttribute('pressed', "true");
+
+      //   //      Array.from(document.getElementsByTagName("ch5-dpad-button")).find(data => data.getAttribute("data-ch5-id") === "cr-id-51")
+      //   // flush(async() => {
+      //   // CrComLib.publishEvent('s', 'abc', "rags");
+      //   //  setTimeout(() => {
+      //     CrComLib.publishEvent('b', 'AA6', true);
+      //   await sleep(2000);
+      //   const z = await subScribeState('b', 'AA6');
+      //   const z1 = await subScribeState('b', '2');
+      //   const z2 = await subScribeState('b', '3');
+      //   const z3 = await subScribeState('b', '4');
+      //   const z4 = await subScribeState('b', '5');
+      //   console.log(z, z1, z2, z3, z4);
+      //   expect(z).to.be.equal("rags");
+      //   // }, 1000);
+      //   // });
+      // });
     });
+
+//    CrComLib.subscribeState('b', 'fb6', (response) => {
+  //    console.log('response value is ', response);
+   // });
+    // CrComLib.publishEvent('b', '6', true);
   </script>
 </body>
 

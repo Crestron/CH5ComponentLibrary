@@ -73,7 +73,7 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 			name: "pressed",
 			removeAttributeOnNull: true,
 			type: "boolean",
-			valueOnAttributeEmpty: false,
+			valueOnAttributeEmpty: true,
 			isObservableProperty: true
 		},
 		{
@@ -212,6 +212,7 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 		this._isDisabled = disabledValue;
 		this.logger.log("this._isDisabled", this._isDisabled);
 		if (this._isDisabled === true) {
+			this.pressed = false;
 			if (null !== this._pressable) {
 				this._pressable.destroy();
 			}
@@ -262,6 +263,9 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
 		}
+
+		// TODO - calling this again for pressed true on load - must be cleaned
+		this.initAttributes();
 
 		customElements.whenDefined('ch5-dpad-button').then(() => {
 			this.initCommonMutationObserver(this);
@@ -524,11 +528,16 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 	}
 
 	private handlePressed() {
-		if (this._pressable) {
-			if (this._pressable._pressed !== this.pressed) {
-				this._pressable.setPressed(this.pressed);
+		this.setDisabled(this._isDisabled);
+		// TODO - New press
+		if (this._isDisabled === false) {
+			if (this._pressable?._pressed !== this.pressed) {
+				this._pressable?.setPressed(this.pressed);
 			}
 		}
+		// else {
+		// 	this.pressed = false;
+		// }
 	}
 
 	private _subscribeToPressableIsPressed() {
@@ -554,7 +563,8 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 						if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
 							console.warn("Ch5DpadButton MAXIMUM Repeat digitals sent");
 							window.clearInterval(this._repeatDigitalInterval as number);
-							this.sendValueForRepeatDigitalWorking(false);
+							// this.sendValueForRepeatDigitalWorking(false);
+							this.pressed = false;
 						}
 					}, REPEAT_DIGITAL_PERIOD);
 				}
