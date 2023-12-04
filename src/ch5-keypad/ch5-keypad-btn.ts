@@ -17,6 +17,7 @@ import { TKeypadButtonDefault } from "./interfaces/t-ch5-keypad";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { CH5KeypadUtils } from './ch5-keypad-utils';
+import { Ch5Keypad } from './ch5-keypad';
 
 export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttributes {
 
@@ -449,6 +450,18 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		const defaultValue: any = CH5KeypadUtils.KEYPAD_DEFAULT_VALUES[index];
 		if (defaultValue.hasOwnProperty('defaultClasses')) {
 			defaultValue.defaultClasses.forEach((cls: string) => this.classList.add(cls));
+		}
+
+		const parent = this.parentElement?.parentElement as Ch5Keypad;
+		if (!parent) {
+			return;
+		}
+		if (parent.hideAsteriskButton && index === 9) {
+			this.classList.add('ch5-hide-vis');
+		}
+
+		if (parent.hidePoundButton && index === 11) {
+			this.classList.add('ch5-hide-vis');
 		}
 	}
 
