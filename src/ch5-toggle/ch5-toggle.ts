@@ -462,12 +462,12 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 
   protected attachEventListeners() {
     super.attachEventListeners();
-    this.addEventListener('click', this.handleClick.bind(this));
+    this.addEventListener('click', this.handleClick);
   }
 
   protected removeEventListeners() {
     super.removeEventListeners();
-    this.removeEventListener('click', this.handleClick.bind(this));
+    this.removeEventListener('click', this.handleClick);
   }
 
   protected unsubscribeFromSignals() {
@@ -557,7 +557,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
     this.logger.stop();
   }
 
-  private handleClick() {
+  private handleClick = () => {
     if (this.disabled) {
       return;
     }
