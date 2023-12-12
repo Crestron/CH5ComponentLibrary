@@ -70,11 +70,13 @@ import { ICh5KeypadAttributes } from "./index";
  *       "\tuseContractForCustomClass=\"${9:false}\"",
  *       "\tuseContractForCustomStyle=\"${10:false}\"",
  *       "\tuseContractForExtraButtonShow=\"${11:false}\"",
- *       "\tsendEventOnclickStart=\"${12:}\"",
- *       "\thidePoundButton=\"${13:false}\"",
- *       "\thideAsteriskButton=\"${14:false}\"",
- *       "\treceiveStateHideAsteriskButton=\"${15:}\"",
- *       "\treceiveStateHidePoundButton=\"${16:}\">",
+ *       "\tuseContractForHideAsteriskButton=\"${12:false}\"",
+ *       "\tuseContractForHidePoundButton=\"${13:false}\"",
+ *       "\tsendEventOnclickStart=\"${14:}\"",
+ *       "\thidePoundButton=\"${15:false}\"",
+ *       "\thideAsteriskButton=\"${16:false}\"",
+ *       "\treceiveStateHideAsteriskButton=\"${17:}\"",
+ *       "\treceiveStateHidePoundButton=\"${18:}\">",
  *       "</ch5-keypad>"
  *     ]
  *   }

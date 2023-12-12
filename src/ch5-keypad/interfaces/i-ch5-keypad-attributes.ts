@@ -266,6 +266,19 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
+     * "`useContractForHideAsteriskButton` attribute",
+     * "***",
+     * "Possible values true, false. If this value is set to true then the value received from the contract will be considered to hide ch5-keypad asterisk button. Default is 'false'."
+     * ]
+     * @name usecontractforhideasteriskbutton 
+     * @default false
+     * @attributeType "Boolean"
+     */
+    useContractForHideAsteriskButton: boolean;
+
+    /**
+     * @documentation
+     * [
      * "`receiveStateHidePoundButton` attribute",
      * "***",
      * "Boolean signal to hide the pound button of the Keypad. This will override hidePoundButton."
@@ -275,4 +288,17 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * @attributeType "Join"
      */
     receiveStateHidePoundButton: string;
+
+    /**
+     * @documentation
+     * [
+     * "`useContractForHidePoundButton` attribute",
+     * "***",
+     * "Possible values true, false. If this value is set to true then the value received from the contract will be considered to hide ch5-keypad pound button. Default is 'false'."
+     * ]
+     * @name usecontractforhidepoundbutton
+     * @default false
+     * @attributeType "Boolean"
+     */
+    useContractForHidePoundButton: boolean;
 }
