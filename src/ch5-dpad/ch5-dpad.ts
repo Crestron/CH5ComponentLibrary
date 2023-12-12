@@ -567,20 +567,15 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		if (childItemsContainer.length === 0 || childItemsContainer[0].children.length === 0) {
 			if (!_.cloneDeep(childItemsContainer[0]?.children)) {
 				this.createAndAppendAllButtonsUnderDpad();
-				// this.updateEventClickHandlers();
 			} else {
 				this.createAndAppendAllExistingButtonsUnderDpad(childItemsContainer[0].children);
-				// this.updateEventClickHandlers();
 			}
 		} else {
 			const isValidStructureInChildDiv = this.checkIfOrderOfTagsAreInTheRightOrder(childItemsContainer[0].children);
 			if (!isValidStructureInChildDiv) {
 				this.createAndAppendAllExistingButtonsUnderDpad(childItemsContainer[0].children);
-				// this.updateEventClickHandlers();
 			} else {
 				this.updatePropertiesForHideAndDisableCenterButton(childItemsContainer[0].children);
-				// this.updateEventClickHandlers();
-
 			}
 		}
 		this.logger.stop();
@@ -839,87 +834,87 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	 * @param eventKeyStart sendEventOnClickStart event's initial value
 	 */
 	private updateEventClickHandlers() {
-        const valueInput = this.sendEventOnClickStart;
-        const contractName = this.contractName;
-        const buttonList = this.getElementsByTagName("ch5-dpad-button");
-        let centerBtn;
-        let upBtn;
-        let rightBtn;
-        let downBtn;
-        let leftBtn;
-        if (buttonList.length > 0) {
-            // tslint:disable-next-line:prefer-for-of
-            for (let index = 0; index < buttonList.length; index++) {
-                const elementKey = buttonList[index].getAttribute('key');
-                if (elementKey) {
-                    switch (elementKey) {
-                        case 'center':
-                            centerBtn = buttonList[index];
-                            break;
-                        case 'up':
-                            upBtn = buttonList[index];
-                            break;
-                        case 'left':
-                            leftBtn = buttonList[index];
-                            break;
-                        case 'right':
-                            rightBtn = buttonList[index];
-                            break;
-                        case 'down':
-                            downBtn = buttonList[index];
-                            break;
-                        default:
-                            centerBtn = buttonList[index];
-                            break;
-                    }
-                }
-            }
-        }
+		const valueInput = this.sendEventOnClickStart;
+		const contractName = this.contractName;
+		const buttonList = this.getElementsByTagName("ch5-dpad-button");
+		let centerBtn;
+		let upBtn;
+		let rightBtn;
+		let downBtn;
+		let leftBtn;
+		if (buttonList.length > 0) {
+			// tslint:disable-next-line:prefer-for-of
+			for (let index = 0; index < buttonList.length; index++) {
+				const elementKey = buttonList[index].getAttribute('key');
+				if (elementKey) {
+					switch (elementKey) {
+						case 'center':
+							centerBtn = buttonList[index];
+							break;
+						case 'up':
+							upBtn = buttonList[index];
+							break;
+						case 'left':
+							leftBtn = buttonList[index];
+							break;
+						case 'right':
+							rightBtn = buttonList[index];
+							break;
+						case 'down':
+							downBtn = buttonList[index];
+							break;
+						default:
+							centerBtn = buttonList[index];
+							break;
+					}
+				}
+			}
+		}
 
-        if (Ch5Common.isNotNil(valueInput) && valueInput?.trim() !== "") {
-            const eventKeyStart = parseInt(valueInput?.trim(), 10);
-            if (contractName.length === 0 && !isNaN(eventKeyStart)) {
-                if (!_.isNil(centerBtn)) {
-                    const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.center;
-                    centerBtn.setAttribute('sendEventOnClick', contractVal.toString());
-                }
-                if (!_.isNil(upBtn)) {
-                    const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.up;
-                    upBtn.setAttribute('sendEventOnClick', contractVal.toString());
-                }
-                if (!_.isNil(rightBtn)) {
-                    const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.right;
-                    rightBtn.setAttribute('sendEventOnClick', contractVal.toString());
-                }
-                if (!_.isNil(downBtn)) {
-                    const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.down;
-                    downBtn.setAttribute('sendEventOnClick', contractVal.toString());
-                }
-                if (!_.isNil(leftBtn)) {
-                    const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.left;
-                    leftBtn.setAttribute('sendEventOnClick', contractVal.toString());
-                }
-            }
-        } else {
-            if (contractName.length === 0) {
-                if (!_.isNil(centerBtn)) {
-                    centerBtn.removeAttribute('sendEventOnClick');
-                }
-                if (!_.isNil(upBtn)) {
-                    upBtn.removeAttribute('sendEventOnClick');
-                }
-                if (!_.isNil(rightBtn)) {
-                    rightBtn.removeAttribute('sendEventOnClick');
-                }
-                if (!_.isNil(downBtn)) {
-                    downBtn.removeAttribute('sendEventOnClick');
-                }
-                if (!_.isNil(leftBtn)) {
-                    leftBtn.removeAttribute('sendEventOnClick');
-                }
-            }
-        }
-    }
+		if (Ch5Common.isNotNil(valueInput) && valueInput?.trim() !== "") {
+			const eventKeyStart = parseInt(valueInput?.trim(), 10);
+			if (contractName.length === 0 && !isNaN(eventKeyStart)) {
+				if (!_.isNil(centerBtn)) {
+					const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.center;
+					centerBtn.setAttribute('sendEventOnClick', contractVal.toString());
+				}
+				if (!_.isNil(upBtn)) {
+					const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.up;
+					upBtn.setAttribute('sendEventOnClick', contractVal.toString());
+				}
+				if (!_.isNil(rightBtn)) {
+					const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.right;
+					rightBtn.setAttribute('sendEventOnClick', contractVal.toString());
+				}
+				if (!_.isNil(downBtn)) {
+					const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.down;
+					downBtn.setAttribute('sendEventOnClick', contractVal.toString());
+				}
+				if (!_.isNil(leftBtn)) {
+					const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.left;
+					leftBtn.setAttribute('sendEventOnClick', contractVal.toString());
+				}
+			}
+		} else {
+			if (contractName.length === 0) {
+				if (!_.isNil(centerBtn)) {
+					centerBtn.removeAttribute('sendEventOnClick');
+				}
+				if (!_.isNil(upBtn)) {
+					upBtn.removeAttribute('sendEventOnClick');
+				}
+				if (!_.isNil(rightBtn)) {
+					rightBtn.removeAttribute('sendEventOnClick');
+				}
+				if (!_.isNil(downBtn)) {
+					downBtn.removeAttribute('sendEventOnClick');
+				}
+				if (!_.isNil(leftBtn)) {
+					leftBtn.removeAttribute('sendEventOnClick');
+				}
+			}
+		}
+	}
 
 	private updateContractNameBasedHandlers() {
 		const contractName = this.contractName;
@@ -998,6 +993,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				const contractVal = contractName + "." + CH5DpadUtils.contractSuffix.left;
 				leftBtn.setAttribute('sendEventOnClick', contractVal.toString());
 			}
+		} else {
+			this.updateEventClickHandlers();
 		}
 	}
 

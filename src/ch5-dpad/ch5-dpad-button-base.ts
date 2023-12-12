@@ -194,7 +194,7 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 		this.logger.stop();
 	}
 
-	protected initializeParams(primaryTagClass: string, defaultIconClass: string, defaultArrowClass: string, btnType: TCh5DpadChildButtonType) {
+	protected initializeParams(defaultIconClass: string, defaultArrowClass: string, btnType: TCh5DpadChildButtonType) {
 		this.buttonType = btnType;
 		this.COMPONENT_NAME = this.componentPrefix + btnType;
 		this.CSS_CLASS_LIST.primaryTagClass = btnType;
@@ -210,7 +210,6 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 
 	public setDisabled(disabledValue: boolean) {
 		this._isDisabled = disabledValue;
-		this.logger.log("this._isDisabled", this._isDisabled);
 		if (this._isDisabled === true) {
 			this.pressed = false;
 			if (null !== this._pressable) {
@@ -254,11 +253,9 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 
 		this.setAttribute('data-ch5-id', this.getCrId());
 
-		// this._hammerManager = new Hammer(this);
 		this.createElementsAndInitialize();
 
 		// init pressable before initAttributes because pressable subscribe to gestureable attribute
-		// this.logger.log("$$$$$$$", !_.isNil(this._pressable), this._isDisabled === false);
 		if (!_.isNil(this._pressable) && this._isDisabled === false) {
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
@@ -491,8 +488,7 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 
 	private handleKey() {
 		this.createIconTag();
-		this.initializeParams(this.key as TCh5DpadChildButtonType,
-			Ch5DpadButtonBase.DEFAULT_ICONS[this.key as TCh5DpadChildButtonType],
+		this.initializeParams(Ch5DpadButtonBase.DEFAULT_ICONS[this.key as TCh5DpadChildButtonType],
 			this.key === 'center' ? '' : 'direction-btn',
 			this.key as TCh5DpadChildButtonType);
 	}
@@ -541,7 +537,6 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 	}
 
 	private _subscribeToPressableIsPressed() {
-		this.logger.log("_subscribeToPressableIsPressed", this._isPressedSubscription === null, this._pressable !== null);
 		if (this._isPressedSubscription === null && this._pressable !== null) {
 			const REPEAT_DIGITAL_PERIOD = 200;
 			const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
