@@ -43,7 +43,7 @@
       test('Check Default value for size', () => {
         expect(ch5Textinput.getAttribute("size")).to.be.equal(null);
         ch5Textinput.setAttribute('size', 'regular');
-        expect(ch5Textinput.children[0].classList.contains('ch5-textinput-container--size-regular')).to.be.equal(true);
+        expect(ch5Textinput.classList.contains('ch5-textinput--size-regular')).to.be.equal(true);
         expect(ch5Textinput.getAttribute("size")).to.be.equal('regular');
         ch5Textinput.removeAttribute("size");
         expect(ch5Textinput.getAttribute("size")).to.be.equal('regular');
