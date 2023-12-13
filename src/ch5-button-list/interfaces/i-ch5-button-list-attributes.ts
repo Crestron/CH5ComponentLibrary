@@ -172,7 +172,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * [
    * "`useContractForEnable` attribute",
    * "***",
-   * "When true, contract 'Enable' state determines if the list is enabled. When false, the 'receiveStateEnable' join may be applied. Consistent with other components, if the 'receiveStateEnable' join is provide, the value of that join determines if the component is enabled. "
+   * "When true, the contract 'Enable' state determines if the list is enabled. When false, the 'receiveStateEnable' join may be applied. Consistent with other components, if the 'receiveStateEnable' join is provide, the value of that join determines if the component is enabled. "
    * ]
    * @name usecontractforenable
    * @default false
@@ -184,7 +184,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * [
    * "`useContractForShow` attribute",
    * "***",
-   * " When true, contract 'Show' state determines if the list is enabled. When false, the 'receiveStateShow' join may be applied. Consistent with other components, if the 'receiveStateShow' join is provide, the value of that join determines if the component is visible. "
+   * " When true, the contract 'Show' state determines if the list is enabled. When false, the 'receiveStateShow' join may be applied. Consistent with other components, if the 'receiveStateShow' join is provide, the value of that join determines if the component is visible. "
    * ]
    * @name usecontractforshow
    * @default false
@@ -196,7 +196,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * [
    * "`useContractForItemEnable` attribute",
    * "***",
-   * "When true, contract 'ItemEnable[x]' state determines if an individual button x is enabled. "
+   * "When true, the contract 'ItemEnable[x]' state determines if an individual button x is enabled. "
    * ]
    * @name usecontractforitemenable
    * @default false
@@ -208,7 +208,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * [
    * "`useContractForItemShow` attribute",
    * "***",
-   * "When true, contract 'ItemShow[x]' state determines if an individual button x is visible. "
+   * "When true, the contract 'ItemShow[x]' state determines if an individual button x is visible. "
    * ]
    * @name usecontractforitemshow
    * @default false
@@ -292,7 +292,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   * [
   * "`buttonHAlignLabel` attribute",
   * "***",
-  * "Default attribute is center.  Possible values are 'center', 'left', 'right'. When the buttonHAlignLabel property is set, the label and the icon of the button are horizontally aligned.The center property sets the horizontal alignment of the label to the center of the button. The left property sets the horizontal alignment of the label to the left of the button.  The right property sets the horizontal alignment of the label to the right of the button."
+  * "Default attribute is center.  Possible values are 'center', 'left', and 'right'. When the buttonHAlignLabel property is set, the label and the icon of the button are horizontally aligned.The center property sets the horizontal alignment of the label to the center of the button. The left property sets the horizontal alignment of the label to the left of the button.  The right property sets the horizontal alignment of the label to the right of the button."
   * ]
   * @name buttonhalignlabel
   * @default center
@@ -304,7 +304,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   * [
   * "`buttonVAlignLabel` attribute",
   * "***",
-  * "Default attribute is middle. Possible values are 'middle', 'top', 'bottom'. When the buttonVAlignLabel property is set, the label and the icon of the button are vertically aligned.  The middle property sets the vertical alignment of the label to the middle of the button.  The top property sets the vertical alignment of the label to the top of the button.   The bottom property sets the vertical alignment of the label to the bottom of the button."
+  * "Default attribute is middle. Possible values are 'middle', 'top', and 'bottom'. When the buttonVAlignLabel property is set, the label and the icon of the button are vertically aligned.  The middle property sets the vertical alignment of the label to the middle of the button.  The top property sets the vertical alignment of the label to the top of the button.   The bottom property sets the vertical alignment of the label to the bottom of the button."
   * ]
   * @name buttonvalignlabel
   * @default middle
@@ -316,7 +316,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   * [
   * "`buttonCheckboxPosition` attribute",
   * "***",
-  * "Default value is left. Valid values are 'left', 'right'. This property is used to set the position of a checkbox in a button. The value left would set the checkbox to the left of the button and the value right would set the checkbox to the right of the button."
+  * "Default value is left. Valid values are 'left', and 'right'. This property is used to set the position of a checkbox in a button. The value left would set the checkbox to the left of the button and the value right would set the checkbox to the right of the button."
   * ]
   * @name buttoncheckboxposition
   * @default left
@@ -501,9 +501,9 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   /**
    * @documentation
    * [
-   * "`receiveStateButtonIconUrl` attribute",
+   * "`buttonReceiveStateIconUrl` attribute",
    * "***",
-   * "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute of all the buttons in the list."
+   * "After receiving icon url value from the control system, this value is applied to the iconUrl attribute of all the buttons in the list."
    * ]
    * @name buttonreceivestateiconurl
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}   
@@ -529,7 +529,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   * [
   * "`buttonReceiveStateShow` attribute",
   * "***",
-  * ". When the signal is low, the component will not be displayed, and the area will not be pressable. If receiveStateShow attribute is given for ch5-button-list than it takes more preference over buttonReceiveStateShow attribute."
+  * ". When the signal is low, the component will not be displayed, and the area will not be pressable. If the receiveStateShow attribute is given for ch5-button-list, then it takes more preference over buttonReceiveStateShow attribute."
   * ]
   * @name buttonreceivestateshow
   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
@@ -542,7 +542,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * [
    * "`buttonReceiveStateEnable` attribute",
    * "***",
-   * "When the signal is low, the look of the component will change to represent a disabled state and the component will not be pressable. If receiveStateEnable attribute is given for ch5-button-list than it takes more preference over buttonReceiveStateEnable attribute."
+   * "When the signal is low, the look of the component will change to represent a disabled state and the component will not be pressable. If the receiveStateEnable attribute is given for ch5-button-list, then it takes more preference over buttonReceiveStateEnable attribute."
    * ]
    * @name buttonreceivestateenable
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   
@@ -590,7 +590,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   /**
    * @documentation
    * [
-   * "`buttonSgIconTheme:` attribute",
+   * "`buttonSgIconTheme` attribute",
    * "***",
    * "This will contain an enumeration of 5 values - icons-lg, icons-sm, media-transports-accents, media-transports-light, media-transports-dark. Default. value is icons-lg."
    * ]
@@ -602,7 +602,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   /**
    * @documentation
    * [
-   * "`loadItems:` attribute",
+   * "`loadItems` attribute",
    * "***",
    * "The default value is visible-only. The possible values are visible-only, load-new, all. This attribute allows for buttons to be created and loaded on demand. Will determine if buttons are removed or not after they are no longer in visibility."
    * ]
@@ -628,7 +628,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
    * [
    * "`receiveStateSelectedButton` attribute",
    * "***",
-   * "ReceiveStateSelectedButton attribute helps the user to select an item on button list by using an analog join."
+   * "ReceiveStateSelectedButton attribute helps the user to select an item on the button list by using an analog join."
    * ]
    * @name receivestateselectedbutton
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
