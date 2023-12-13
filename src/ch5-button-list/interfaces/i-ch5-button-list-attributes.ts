@@ -501,7 +501,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   /**
    * @documentation
    * [
-   * "`receiveStateButtonIconUrl` attribute",
+   * "`buttonreceivestateiconurl` attribute",
    * "***",
    * "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute of all the buttons in the list."
    * ]
@@ -590,7 +590,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   /**
    * @documentation
    * [
-   * "`buttonSgIconTheme:` attribute",
+   * "`buttonSgIconTheme` attribute",
    * "***",
    * "This will contain an enumeration of 5 values - icons-lg, icons-sm, media-transports-accents, media-transports-light, media-transports-dark. Default. value is icons-lg."
    * ]
@@ -602,7 +602,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   /**
    * @documentation
    * [
-   * "`loadItems:` attribute",
+   * "`loadItems` attribute",
    * "***",
    * "The default value is visible-only. The possible values are visible-only, load-new, all. This attribute allows for buttons to be created and loaded on demand. Will determine if buttons are removed or not after they are no longer in visibility."
    * ]

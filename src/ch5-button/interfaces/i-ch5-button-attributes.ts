@@ -526,7 +526,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
   /**
    * @documentation
    * [
-   * "`sgIconTheme:` attribute",
+   * "`sgIconTheme` attribute",
    * "***",
    * "This will contain an enumeration of 5 values - icons-sg, icons-lg, mediatransports-accents, media-transports-light, media-transports-dark. Default. value is icon-lg."
    * ]
