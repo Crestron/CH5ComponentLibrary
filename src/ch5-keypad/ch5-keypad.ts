@@ -706,13 +706,13 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	private handleContract() {
 		if (this.contractName.trim().length === 0) {
 			this.signalNameOnContract.contractName = "";
-			this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
-			this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;
-			this.receiveStateCustomStyle = this.signalNameOnContract.receiveStateCustomStyle;
-			this.receiveStateCustomClass = this.signalNameOnContract.receiveStateCustomClass;
-			this.receiveStateExtraButtonShow = this.signalNameOnContract.receiveStateExtraButtonShow;
-			this.receiveStateHideAsteriskButton = this.signalNameOnContract.receiveStateHideAsteriskButton;
-			this.receiveStateHidePoundButton = this.signalNameOnContract.receiveStateHidePoundButton;
+			this.receiveStateShow = this.signalNameOnContract.receiveStateShow || this.receiveStateShow;
+			this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable || this.receiveStateEnable;
+			this.receiveStateCustomStyle = this.signalNameOnContract.receiveStateCustomStyle || this.receiveStateCustomStyle;
+			this.receiveStateCustomClass = this.signalNameOnContract.receiveStateCustomClass || this.receiveStateCustomClass;
+			this.receiveStateExtraButtonShow = this.signalNameOnContract.receiveStateExtraButtonShow || this.receiveStateExtraButtonShow;
+			this.receiveStateHideAsteriskButton = this.signalNameOnContract.receiveStateHideAsteriskButton || this.receiveStateHideAsteriskButton;
+			this.receiveStateHidePoundButton = this.signalNameOnContract.receiveStateHidePoundButton || this.receiveStateHidePoundButton;
 		} else if (this.signalNameOnContract.contractName === "") {
 			this.signalNameOnContract.contractName = this.contractName;
 			this.signalNameOnContract.receiveStateShow = this.receiveStateShow;
