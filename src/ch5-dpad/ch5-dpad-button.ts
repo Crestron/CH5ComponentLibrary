@@ -6,6 +6,7 @@
 // under which you licensed this source code.
 
 import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
+import { Ch5Dpad } from "./ch5-dpad";
 import { Ch5DpadButtonBase } from "./ch5-dpad-button-base";
 import { ICh5DpadButtonBaseAttributes } from "./interfaces/i-ch5-dpad-button-base-attributes";
 
@@ -35,8 +36,8 @@ export class Ch5DpadButton extends Ch5DpadButtonBase implements ICh5DpadButtonBa
 
 	//#region 3. Lifecycle Hooks
 
-	public constructor(isDisabled: boolean = false) {
-		super(isDisabled);
+	public constructor(parentDpad: Ch5Dpad, isDisabled: boolean = false) {
+		super(parentDpad, isDisabled);
 	}
 
 	//#endregion

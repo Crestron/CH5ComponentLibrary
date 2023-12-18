@@ -38,17 +38,38 @@
         <ch5-dpad-button pressed="true" key="left"></ch5-dpad-button>
         <ch5-dpad-button pressed="true" key="down"></ch5-dpad-button>
       </ch5-dpad>
-
-      <!-- <ch5-dpad sendEventOnClickStart="4" disableCenterButton="false"></ch5-dpad> -->
     </template>
   </test-fixture>
 
+  <test-fixture id="ch5-dpad-disableCenterButton-attributes-5">
+    <template>
+      <ch5-dpad disableCenterButton="true" type="success">
+        <ch5-dpad-button pressed="true" key="center"></ch5-dpad-button>
+        <ch5-dpad-button key="up"></ch5-dpad-button>
+        <ch5-dpad-button key="right"></ch5-dpad-button>
+        <ch5-dpad-button key="left"></ch5-dpad-button>
+        <ch5-dpad-button key="down"></ch5-dpad-button>
+      </ch5-dpad>
+    </template>
+  </test-fixture>
 
-  <test-fixture id="ch5-button">
+  <test-fixture id="ch5-dpad-disableCenterButton-attributes-6">
+    <template>
+      <ch5-dpad sendeventonclickstart="3" disableCenterButton="true" type="success" shape="plus">
+        <ch5-dpad-button pressed="true" key="center"></ch5-dpad-button>
+        <ch5-dpad-button key="up"></ch5-dpad-button>
+        <ch5-dpad-button key="right"></ch5-dpad-button>
+        <ch5-dpad-button key="left"></ch5-dpad-button>
+        <ch5-dpad-button key="down"></ch5-dpad-button>
+      </ch5-dpad>
+    </template>
+  </test-fixture>
+
+  <!-- <test-fixture id="ch5-button">
     <template>
       <ch5-button sendeventonclick="4" pressed="true"></ch5-button>
     </template>
-  </test-fixture>
+  </test-fixture> -->
 
   <script>
     function subScribeState(type, name) {
@@ -61,7 +82,7 @@
     }
 
     const sleep = (milliseconds) => {
-      return new Promise(resolve => setTimeout(resolve, milliseconds))
+      return new Promise(resolve => setTimeout(resolve, milliseconds));
     }
 
     suite('ch5-dpad-disableCenterButton-attributes-value', () => {
@@ -69,12 +90,13 @@
       let ch5Dpad2;
       let ch5Dpad3;
       let ch5Dpad4;
+      let ch5Dpad5;
+      let ch5Dpad6;
 
-      let ch5Button;
+      // let ch5Button;
 
       setup(async () => {
         const emulatorJson = await fetch('./emulator/receivestatenumericjoins.json').then((response) => response.json());
-        console.log("emulatorJson", JSON.stringify(emulatorJson));
         const emulator = CrComLib.Ch5Emulator.getInstance();
         emulator.loadScenario(emulatorJson);
 
@@ -82,13 +104,15 @@
         ch5Dpad2 = fixture('ch5-dpad-disableCenterButton-attributes-2');
         ch5Dpad3 = fixture('ch5-dpad-disableCenterButton-attributes-3');
         ch5Dpad4 = fixture('ch5-dpad-disableCenterButton-attributes-4');
-        ch5Button = fixture('ch5-button');
+        ch5Dpad5 = fixture('ch5-dpad-disableCenterButton-attributes-5');
+        ch5Dpad6 = fixture('ch5-dpad-disableCenterButton-attributes-6');
+        // ch5Button = fixture('ch5-button');
       });
 
       let testCases = ['a', '', ' ', 'number', true, false];
       let expectedResult = [false, true, false, false, true, false];
       testCases.forEach((value, i) => {
-        test('Check class "ch5-disable-child-button" exists', () => {
+        test('Check class "ch5-disable-child-button" exists for ' + value, () => {
           ch5Dpad.setAttribute('disableCenterButton', value);
           const centerBtn = ch5Dpad.querySelector('.ch5-dpad-button-center');
           expect(centerBtn.classList.contains('ch5-disable-child-button')).to.be.equal(expectedResult[i]);
@@ -154,12 +178,66 @@
       //   // }, 1000);
       //   // });
       // });
+
+      //    CrComLib.subscribeState('b', 'fb6', (response) => {
+      //    console.log('response value is ', response);
+      // });
+      // CrComLib.publishEvent('b', '6', true);
+
+      ["circle", "plus"].forEach((value, i) => {
+        test('Pressed true is PRESET in DOM for shape=' + value, () => {
+          ch5Dpad5.setAttribute('shape', value);
+
+          const centerBtn = ch5Dpad5.querySelector('.ch5-dpad-button-center');
+          const leftBtn = ch5Dpad5.querySelector('.ch5-dpad-button-left');
+          const rightBtn = ch5Dpad5.querySelector('.ch5-dpad-button-right');
+          const topBtn = ch5Dpad5.querySelector('.ch5-dpad-button-up');
+          const bottomBtn = ch5Dpad5.querySelector('.ch5-dpad-button-down');
+          const buttonArray = [{
+            "button": centerBtn,
+            "name": "center"
+          }, {
+            "button": leftBtn,
+            "name": "left"
+          }, {
+            "button": rightBtn,
+            "name": "right"
+          }, {
+            "button": topBtn,
+            "name": "up"
+          }, {
+            "button": bottomBtn,
+            "name": "down"
+          }];
+          
+          expect(centerBtn.classList.contains('ch5-disable-child-button')).to.be.equal(true);
+          expect(centerBtn.classList.contains('ch5-dpad-button-center--pressed')).to.be.equal(false);
+          for (let i = 0; i < buttonArray.length; i++) {
+            buttonArray[i].button.setAttribute("pressed", "false");
+          }
+          expect(leftBtn.classList.contains('ch5-disable-child-button')).to.be.equal(false);
+          expect(rightBtn.classList.contains('ch5-disable-child-button')).to.be.equal(false);
+          expect(topBtn.classList.contains('ch5-disable-child-button')).to.be.equal(false);
+          expect(bottomBtn.classList.contains('ch5-disable-child-button')).to.be.equal(false);
+
+          ch5Dpad5.setAttribute("sendeventonclickstart", "3");
+
+          for (let i = 0; i < buttonArray.length; i++) {
+            for (let j = 0; j < buttonArray.length; j++) {
+              buttonArray[j].button.setAttribute("pressed", "false");
+            }
+            buttonArray[i].button.setAttribute("pressed", "true");
+            centerBtn.setAttribute("pressed", "true");
+            if (buttonArray[i].name === 'center') {
+              expect(buttonArray[i].button.classList.contains("ch5-dpad-button-" + buttonArray[i].name + "--pressed")).to.be.equal(false);
+            } else {
+              expect(buttonArray[i].button.classList.contains("ch5-dpad-button-" + buttonArray[i].name + "--pressed")).to.be.equal(true);
+            }
+          }
+        });
+      });
     });
 
-//    CrComLib.subscribeState('b', 'fb6', (response) => {
-  //    console.log('response value is ', response);
-   // });
-    // CrComLib.publishEvent('b', '6', true);
   </script>
 </body>
 

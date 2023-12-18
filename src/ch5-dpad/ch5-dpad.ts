@@ -601,18 +601,17 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	 * Add all 5 buttons in the expected order if not added in the DOM
 	 */
 	private createAndAppendAllButtonsUnderDpad() {
-		const centerBtn = new Ch5DpadButton(this.disableCenterButton);
-		centerBtn.setAttribute('key', 'center');
 		const disabledCenterButton = (this.disableCenterButton || this.hideCenterButton);
-		centerBtn.setDisabled(disabledCenterButton);
+		const centerBtn = new Ch5DpadButton(this, disabledCenterButton);
+		centerBtn.setAttribute('key', 'center');
 
-		const upBtn = new Ch5DpadButton();
+		const upBtn = new Ch5DpadButton(this);
 		upBtn.setAttribute('key', 'up');
-		const rightBtn = new Ch5DpadButton();
+		const rightBtn = new Ch5DpadButton(this);
 		rightBtn.setAttribute('key', 'right');
-		const downBtn = new Ch5DpadButton();
+		const downBtn = new Ch5DpadButton(this);
 		downBtn.setAttribute('key', 'down');
-		const leftBtn = new Ch5DpadButton();
+		const leftBtn = new Ch5DpadButton(this);
 		leftBtn.setAttribute('key', 'left');
 
 		this.createEmptyContainerDiv();
@@ -627,7 +626,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				case 'center':
 					centerBtn = item;
 					const disabledCenterButton = (this.disableCenterButton || this.hideCenterButton);
-					centerBtn.setDisabled(disabledCenterButton);
+					centerBtn.setDisabledOrHidden(disabledCenterButton);
 					break;
 			}
 		});
@@ -664,27 +663,28 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		});
 
 		// if user forget one or more buttons the default ones will be added
-		if (!centerBtn) {
-			centerBtn = new Ch5DpadButton(this.disableCenterButton);
-			centerBtn.setAttribute('key', 'center');
-		}
 		const disabledCenterButton = (this.disableCenterButton || this.hideCenterButton);
-		centerBtn.setDisabled(disabledCenterButton);
+		if (!centerBtn) {
+			centerBtn = new Ch5DpadButton(this, disabledCenterButton);
+			centerBtn.setAttribute('key', 'center');
+		} else {
+			centerBtn.setDisabledOrHidden(disabledCenterButton);
+		}
 
 		if (!upBtn) {
-			upBtn = new Ch5DpadButton();
+			upBtn = new Ch5DpadButton(this);
 			upBtn.setAttribute('key', 'up');
 		}
 		if (!rightBtn) {
-			rightBtn = new Ch5DpadButton();
+			rightBtn = new Ch5DpadButton(this);
 			rightBtn.setAttribute('key', 'right');
 		}
 		if (!downBtn) {
-			downBtn = new Ch5DpadButton();
+			downBtn = new Ch5DpadButton(this);
 			downBtn.setAttribute('key', 'down');
 		}
 		if (!leftBtn) {
-			leftBtn = new Ch5DpadButton();
+			leftBtn = new Ch5DpadButton(this);
 			leftBtn.setAttribute('key', 'left');
 		}
 
@@ -1023,20 +1023,25 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	}
 
 	private handleHideCenterButton() {
-		const centerBtn = this.querySelector('.ch5-dpad-button-center');
-		centerBtn?.classList.remove('ch5-hide-child-button');
+		const centerButton = this.querySelector('.ch5-dpad-button-center');
+		centerButton?.classList.remove('ch5-hide-child-button');
+
+		// const disabledCenterButton = (this.disableCenterButton || this.hideCenterButton);
+		// centerButton?.setDisabledOrHidden(disabledCenterButton);
+
 		if (this.hideCenterButton) {
-			centerBtn?.classList.add('ch5-hide-child-button');
+			centerButton?.classList.add('ch5-hide-child-button');
 		}
 		this.checkAndRestructureDomOfDpad();
 	}
 
-	private handleDisableCenterButton(centerButton?: Ch5DpadButton) {
+	private handleDisableCenterButton() {
 		const centerBtn = this.querySelector('.ch5-dpad-button-center');
 		centerBtn?.classList.remove('ch5-disable-child-button');
-		if (centerButton) {
-			centerButton.setDisabled(this.disableCenterButton);
-		}
+
+		// const disabledCenterButton = (this.disableCenterButton || this.hideCenterButton);
+		// centerBtn?.setDisabledOrHidden(disabledCenterButton);
+
 		if (this.disableCenterButton) {
 			centerBtn?.classList.add('ch5-disable-child-button');
 		}
