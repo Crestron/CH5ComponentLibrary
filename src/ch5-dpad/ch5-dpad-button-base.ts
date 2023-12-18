@@ -189,10 +189,10 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 		this.logger.start('constructor()', this.COMPONENT_NAME);
 		this._isDisabledOrHiddenButton = isDisabledOrHidden;
 		if (!_.isNil(parentDpad)) {
-      this._parentDpad = parentDpad;
-    } else {
+			this._parentDpad = parentDpad;
+		} else {
 			this._parentDpad = this.getParentDpad();
-    }
+		}
 		this.ignoreAttributes = ["show", "disabled", "receivestateenable", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "receivestatecustomclass", "receivestatecustomstyle", "sendeventonshow"];
 		this._ch5Properties = new Ch5Properties(this, Ch5DpadButtonBase.COMPONENT_PROPERTIES);
 
@@ -228,7 +228,7 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 	private getDisabledOrHiddenDpadCenterButton() {
 		if (this._isDisabledOrHiddenButton === false && this.key === "center") {
 			if (this._parentDpad.hideCenterButton === true || this._parentDpad.disableCenterButton === true) {
-				this._isDisabledOrHiddenButton = true;
+				this.setDisabledOrHidden(true);
 			}
 		}
 		return this._isDisabledOrHiddenButton;
@@ -240,10 +240,7 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 			if (null !== this._pressable) {
 				this._pressable.destroy();
 			}
-			if (this._isPressedSubscription !== null) {
-				this._isPressedSubscription.unsubscribe();
-				this._isPressedSubscription = null;
-			}
+			this._unsubscribeFromPressableIsPressed();
 			this._pressable = null;
 		} else {
 			if (_.isNil(this._pressable)) {
@@ -550,14 +547,15 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 
 	private handlePressed() {
 		const stateDisabledHidden = this.getDisabledOrHiddenDpadCenterButton();
-		this.setDisabledOrHidden(stateDisabledHidden);
 		if (stateDisabledHidden === false) {
+			this.setDisabledOrHidden(stateDisabledHidden);
 			if (this._pressable?._pressed !== this.pressed) {
 				this._pressable?.setPressed(this.pressed);
 			}
-		} else {
-			this.pressed = false;
-		}
+			} else {
+				this._pressable?.setPressed(false);
+				this.setDisabledOrHidden(stateDisabledHidden);
+			}
 	}
 
 	private _subscribeToPressableIsPressed() {
