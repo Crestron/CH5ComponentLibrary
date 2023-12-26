@@ -398,6 +398,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 	private handleIconLabelMajor() {
 		if (this.iconClass.trim()) {
+			this._elIcon.setAttribute('class', '');
 			this.iconClass.trim().split(' ').forEach((cls: string) => this._elIcon.classList.add(cls));
 			this._elMajorSpan.innerText = "";
 			this._elMajorSpan.appendChild(this._elIcon);
