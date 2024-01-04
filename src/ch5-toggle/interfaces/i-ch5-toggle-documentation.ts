@@ -44,7 +44,8 @@ import { ICh5ToggleAttributes } from "./i-ch5-toggle-attributes";
  *       "\tsize=\"${10:regular}\"",
  *       "\treceiveStateValue=\"${11:}\"",
  *       "\treceiveStateScriptLabelHTML=\"${12:}\"",
- *       "\tsendEventOnClick=\"${13:}\">",
+ *       "\tsendEventOnClick=\"${13:}\"",
+ *       "\tsendEventOnTouch=\"${14:}\">",
  *       "</ch5-toggle>$0"
  *       ]
  *    },
@@ -63,6 +64,32 @@ import { ICh5ToggleAttributes } from "./i-ch5-toggle-attributes";
  *       "\tsize=\"${9:regular}\"",
  *       "\tvalue=\"${10:false}\">",
  *       "</ch5-toggle>$0"
+ *       ]
+ *    },
+ *    {
+ *      "prefix": "ch5-toggle:label-on-off",
+ *      "description": "Crestron Toggle (Default)",
+ *       "body": [
+ *         "<ch5-toggle label=\"${1:Alarm}\"",
+ *        "\tvalue=\"${2:false}\"",
+ *         "\tlabelOn=\"${3:On}\"",
+ *         "\tlabelOff=\"${4:Off}\"",
+ *         "\tsendeventOnClick=\"${5:send_switch_value}\"",
+ *         "\treceiveStateValue=\"${5:receive_switch_value}\">",
+ *         "</ch5-toggle>$0"
+ *       ]
+ *    },
+ *    {
+ *       "prefix": "ch5-toggle:icon-on-off",
+ *       "description": "Crestron Toggle (Default)",
+ *       "body": [
+ *         "<ch5-toggle label=\"${1:Alarm}\"",
+ *         "\tvalue=\"${2:false}\"",
+ *         "\ticonOn=\"${3:fas fa-bell}\"",
+ *         "\ticonOff=\"${4:fas fa-bell-slash}\"",
+ *         "\tsendeventOnClick=\"${5:send_switch_value}\"",
+ *         "\treceiveStateValue=\"${5:receive_switch_value}\">",
+ *         "</ch5-toggle>$0"
  *       ]
  *    }
  *  ]
