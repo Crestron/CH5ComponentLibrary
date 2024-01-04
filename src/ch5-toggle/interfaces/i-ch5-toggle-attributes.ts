@@ -162,4 +162,53 @@ export interface ICh5ToggleAttributes extends ICh5CommonAttributesToggle {
    * @attributeType "EnumeratedValue"
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
+  /**
+   * @documentation
+   * [
+   * "`sendeventontouch` attribute",
+   * "Sends a signal on a touch event."
+   * ]
+   * @name sendeventontouch
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "Join"
+   */
+  sendEventOnTouch: string;
+  /**
+  * @documentation
+  * [
+  * "`signalvaluesynctimeout` attribute",
+  * "***",
+  * "The default value is 1500. Defines the time between when the user clicks the ",
+  * "toggle and the time the toggle will check if the value is equal ",
+  * "with the value from the signal. If the value is not equal, it will apply ",
+  * "the value from the signal automatically. Apply only for feedbackMode direct."
+  *
+  * ]
+  * @name signalvaluesynctimeout
+  * @default 1500
+  * @attributeType "Integer"
+  */
+  signalValueSyncTimeout: string | number;
+  /**
+   * @documentation
+   * [
+   * "`onclean` attribute",
+   * "***",
+   * "Runs when a clean event is initiated."
+   * ]
+   * @name onclean
+   * @attributeType "String"
+   */
+  onclean: {};
+  /**
+   * @documentation
+   * [
+   * "`ondirty` attribute",
+   * "***",
+   * "Runs when a dirty event is initiated."
+   * ]
+   * @name ondirty
+   * @attributeType "String"
+   */
+  ondirty: {};
 }

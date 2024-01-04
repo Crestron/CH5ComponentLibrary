@@ -151,14 +151,20 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
     },
     {
       default: "",
-      isSignal: true,
       name: "sendEventOnClick",
-      signalType: "boolean",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
+    {
+      default: "",
+      name: "sendEventOnTouch",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    }
   ];
 
   public static readonly ELEMENT_NAME = 'ch5-toggle';
@@ -299,6 +305,13 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
   }
   public get sendEventOnClick(): string {
     return this._ch5Properties.get<string>('sendEventOnClick');
+  }
+
+  public set sendEventOnTouch(value: string) {
+    this._ch5Properties.set("sendEventOnTouch", value);
+  }
+  public get sendEventOnTouch(): string {
+    return this._ch5Properties.get<string>('sendEventOnTouch');
   }
 
 
@@ -541,6 +554,9 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
     if (this.sendEventOnClick) {
       Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(true);
       Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(false);
+    } else if (this.sendEventOnTouch) {
+      Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnTouch)?.publish(true);
+      Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnTouch)?.publish(false);
     }
   }
 
