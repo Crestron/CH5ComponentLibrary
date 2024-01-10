@@ -1,0 +1,236 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-dpad-fixture">
+    <template>
+      <ch5-dpad></ch5-dpad>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-dpad-fixture-2">
+    <template>
+      <ch5-dpad disableCenterButton="true"></ch5-dpad>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-dpad-fixture-3">
+    <template>
+      <ch5-dpad hideCenterButton="false"></ch5-dpad>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-dpad-fixture-4">
+    <template>
+      <ch5-dpad sendeventonclickstart="2" type="success" shape="circle">
+        <ch5-dpad-button pressed="true" key="center"></ch5-dpad-button>
+        <ch5-dpad-button pressed="true" key="up"></ch5-dpad-button>
+        <ch5-dpad-button pressed="true" key="right"></ch5-dpad-button>
+        <ch5-dpad-button pressed="true" key="left"></ch5-dpad-button>
+        <ch5-dpad-button pressed="true" key="down"></ch5-dpad-button>
+      </ch5-dpad>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-dpad-fixture-5">
+    <template>
+      <ch5-dpad hideCenterButton="true" type="success">
+        <ch5-dpad-button pressed="true" key="center"></ch5-dpad-button>
+        <ch5-dpad-button key="up"></ch5-dpad-button>
+        <ch5-dpad-button key="right"></ch5-dpad-button>
+        <ch5-dpad-button key="left"></ch5-dpad-button>
+        <ch5-dpad-button key="down"></ch5-dpad-button>
+      </ch5-dpad>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-dpad-fixture-6">
+    <template>
+      <ch5-dpad hideCenterButton="true">
+        <ch5-dpad-button pressed="true" key="center"></ch5-dpad-button>
+      </ch5-dpad>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-dpad-fixture-7">
+    <template>
+      <ch5-dpad hideCenterButton="false" type="success">
+        <ch5-dpad-button pressed="true" key="center"></ch5-dpad-button>
+        <ch5-dpad-button key="up"></ch5-dpad-button>
+        <ch5-dpad-button key="right"></ch5-dpad-button>
+        <ch5-dpad-button key="left"></ch5-dpad-button>
+        <ch5-dpad-button key="down"></ch5-dpad-button>
+      </ch5-dpad>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-dpad-fixture-8">
+    <template>
+      <ch5-dpad hideCenterButton="false">
+        <ch5-dpad-button pressed="true" key="center"></ch5-dpad-button>
+      </ch5-dpad>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-dpad-fixture-value', () => {
+      let ch5Dpad;
+      let ch5Dpad2;
+      let ch5Dpad3;
+      let ch5Dpad4;
+      let ch5Dpad5;
+      let ch5Dpad6;
+      let ch5Dpad7;
+      let ch5Dpad8;
+
+      const attributeName = "hideCenterButton";
+      const attributeClass = "ch5-hide-child-button";
+
+      function runTestcaseCommon(fixtureObj) {
+        const centerBtn = fixtureObj.querySelector('.ch5-dpad-button-center');
+        const leftBtn = fixtureObj.querySelector('.ch5-dpad-button-left');
+        const rightBtn = fixtureObj.querySelector('.ch5-dpad-button-right');
+        const topBtn = fixtureObj.querySelector('.ch5-dpad-button-up');
+        const bottomBtn = fixtureObj.querySelector('.ch5-dpad-button-down');
+        const buttonArray = [{
+          "button": centerBtn,
+          "name": "center"
+        }, {
+          "button": leftBtn,
+          "name": "left"
+        }, {
+          "button": rightBtn,
+          "name": "right"
+        }, {
+          "button": topBtn,
+          "name": "up"
+        }, {
+          "button": bottomBtn,
+          "name": "down"
+        }];
+
+        expect(centerBtn.classList.contains(attributeClass)).to.be.equal(true);
+        expect(centerBtn.classList.contains('ch5-dpad-button-center--pressed')).to.be.equal(false);
+        for (let i = 0; i < buttonArray.length; i++) {
+          buttonArray[i].button.setAttribute("pressed", "false");
+        }
+        expect(leftBtn.classList.contains(attributeClass)).to.be.equal(false);
+        expect(rightBtn.classList.contains(attributeClass)).to.be.equal(false);
+        expect(topBtn.classList.contains(attributeClass)).to.be.equal(false);
+        expect(bottomBtn.classList.contains(attributeClass)).to.be.equal(false);
+
+        fixtureObj.setAttribute("sendeventonclickstart", "3");
+
+        for (let i = 0; i < buttonArray.length; i++) {
+          for (let j = 0; j < buttonArray.length; j++) {
+            buttonArray[j].button.setAttribute("pressed", "false");
+          }
+          buttonArray[i].button.setAttribute("pressed", "true");
+          centerBtn.setAttribute("pressed", "true");
+          if (buttonArray[i].name === 'center') {
+            expect(buttonArray[i].button.classList.contains("ch5-dpad-button-" + buttonArray[i].name + "--pressed")).to.be.equal(false);
+          } else {
+            expect(buttonArray[i].button.classList.contains("ch5-dpad-button-" + buttonArray[i].name + "--pressed")).to.be.equal(true);
+          }
+        }
+      }
+      
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatenumericjoins.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+
+        ch5Dpad = fixture('ch5-dpad-fixture');
+        ch5Dpad2 = fixture('ch5-dpad-fixture-2');
+        ch5Dpad3 = fixture('ch5-dpad-fixture-3');
+        ch5Dpad4 = fixture('ch5-dpad-fixture-4');
+        ch5Dpad5 = fixture('ch5-dpad-fixture-5');
+        ch5Dpad6 = fixture('ch5-dpad-fixture-6');
+        ch5Dpad7 = fixture('ch5-dpad-fixture-7');
+        ch5Dpad8 = fixture('ch5-dpad-fixture-8');
+      });
+
+      let testCases = ['a', '', ' ', 'number', true, false];
+      let expectedResult = [false, true, false, false, true, false];
+      testCases.forEach((value, i) => {
+        test('Check class "' + attributeClass + '" exists for ' + value, () => {
+          ch5Dpad.setAttribute(attributeName, value);
+          const centerBtn = ch5Dpad.querySelector('.ch5-dpad-button-center');
+          expect(centerBtn.classList.contains(attributeClass)).to.be.equal(expectedResult[i]);
+        });
+      });
+
+      [true, false].forEach((value, i) => {
+        test('Check if pressed attribute class is added when pressed=true and ' + attributeName + '=' + String(value), () => {
+          ch5Dpad.setAttribute(attributeName, String(value));
+          const centerBtn = ch5Dpad.querySelector('.ch5-dpad-button-center');
+          centerBtn.setAttribute('pressed', "true");
+          expect(centerBtn.classList.contains('ch5-dpad-button-center--pressed')).to.be.equal(!value);
+        });
+      });
+
+      test('Change from ' + attributeName + '=true set in component to ' + attributeName + '=false set in DOM', () => {
+        ch5Dpad2.setAttribute(attributeName, "false");
+        const centerBtn = ch5Dpad2.querySelector('.ch5-dpad-button-center');
+        expect(centerBtn.classList.contains(attributeClass)).to.be.equal(false);
+      });
+
+      test('Change from ' + attributeName + '=false set in component to ' + attributeName + '=true set in DOM', () => {
+        ch5Dpad3.setAttribute(attributeName, "true");
+        const centerBtn = ch5Dpad3.querySelector('.ch5-dpad-button-center');
+        expect(centerBtn.classList.contains(attributeClass)).to.be.equal(true);
+      });
+
+      ["circle", "plus"].forEach((value, i) => {
+        test('Pressed true is PRESET in DOM for shape=' + value, () => {
+          [ch5Dpad5, ch5Dpad6].forEach((fixtureObj, j) => {
+            fixtureObj.setAttribute('shape', value);
+
+            runTestcaseCommon(fixtureObj);
+          });
+        });
+      });
+
+      ["circle", "plus"].forEach((value, i) => {
+        test('Setting ' + attributeName + '=false and then to true; Pressed true is PRESET in DOM for shape=' + value, (done) => {
+            ch5Dpad7.setAttribute('shape', value);
+            ch5Dpad7.setAttribute(attributeName, true);
+
+            flush(() => {
+              setTimeout(() => {
+                runTestcaseCommon(ch5Dpad7);
+                done();
+              }, 500);
+            });
+        });
+      });
+
+      ["circle", "plus"].forEach((value, i) => {
+        test('Setting ' + attributeName + '=false and then to true; Pressed true is PRESET in DOM for shape=' + value, (done) => {
+            ch5Dpad8.setAttribute('shape', value);
+            ch5Dpad8.setAttribute(attributeName, true);
+
+            flush(() => {
+              setTimeout(() => {
+                runTestcaseCommon(ch5Dpad8);
+                done();
+              }, 500);
+            });
+        });
+      });
+
+    });
+
+  </script>
+</body>
+
+</html>

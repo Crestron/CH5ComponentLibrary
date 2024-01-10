@@ -38,6 +38,7 @@ export class Ch5CoreIntersectionObserver {
         return Ch5CoreIntersectionObserver._instance;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     private intersectionObserverCallback(entries: any[], observer: IntersectionObserver) {
         entries.forEach((entry) => {
             const ch5Component = entry.target as Ch5Common;

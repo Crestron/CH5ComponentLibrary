@@ -95,9 +95,9 @@ export class ScrollableArea {
     private timestamp: number = 0;
     private scrollX: number = 0;
     private scrollY: number = 0;
-    // tslint:disable-next-line:ban-types
+    // eslint-disable-next-line @typescript-eslint/ban-types
     private easing: Function | null  = null;
-    // tslint:disable-next-line:ban-types
+    // eslint-disable-next-line @typescript-eslint/ban-types
     private resolve: Function | null  = null;
 
     constructor(private scrollContainer: HTMLElement | Window) { }

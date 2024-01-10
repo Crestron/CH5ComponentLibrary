@@ -168,4 +168,76 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * @attributeType "Join"
 	 */
 	sendEventOnClickStart: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`hideCenterButton` attribute",
+	 * "***",
+	 * "Attribute to hide the center button of the DPad. Default value is false."
+	 * ]
+	 * @name hidecenterbutton
+	 * @default false
+	 * @attributeType "Boolean"
+	 */
+	hideCenterButton: boolean;
+	/**
+	 * @documentation
+	 * [
+	 * "`receiveStateHideCenterButton` attribute",
+	 * "***",
+	 * "Boolean signal to hide the center button of the DPad. This will override hideCenterButton."
+	 * ]
+	 * @name receivestatehidecenterbutton
+	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+	 * @attributeType "Join"
+	 */
+	receiveStateHideCenterButton: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`disableCenterButton` attribute",
+	 * "***",
+	 * "Attribute to disable the center button of the DPad. Default value is false."
+	 * ]
+	 * @name disablecenterbutton
+	 * @default false
+	 * @attributeType "Boolean"
+	 */
+	disableCenterButton: boolean;
+	/**
+	 * @documentation
+	 * [
+	 * "`receiveStateDisableCenterButton` attribute",
+	 * "***",
+	 * "Boolean signal to disable the center button of the DPad. This will override disableCenterButton."
+	 * ]
+	 * @name receivestatedisablecenterbutton
+	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+	 * @attributeType "Join"
+	 */
+	receiveStateDisableCenterButton: string;
+	/**
+	 * @documentation
+	 * [
+	 * "`useContractForDisableCenterButton` attribute",
+	 * "***",
+	 * "If the contract name exists, by default this becomes true. If the contract name does not exist, by default this becomes false. If this value is set to true then the value received from the contract will be considered to disable the center button."
+	 * ]
+	 * @name usecontractfordisablecenterbutton 
+	 * @default false
+	 * @attributeType "Boolean"
+	 */
+	useContractForDisableCenterButton: boolean;
+	/**
+	 * @documentation
+	 * [
+	 * "`useContractForHideCenterButton` attribute",
+	 * "***",
+	 * "If the contract name exists, by default this becomes true. If the contract name does not exist, by default this becomes false. If this value is set to true then the value received from the contract will be considered to hide the center button."
+	 * ]
+	 * @name usecontractforhidecenterbutton  
+	 * @default false
+	 * @attributeType "Boolean"
+	 */
+	useContractForHideCenterButton: boolean;
 }

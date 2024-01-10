@@ -1,5 +1,5 @@
 import { Ch5ButtonBase } from "../ch5-button";
-import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
 import { TCh5SliderButtonKey, } from './interfaces/t-ch5-slider-button';
 import { ICh5SliderButtonAttributes } from './interfaces/i-ch5-slider-button-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";

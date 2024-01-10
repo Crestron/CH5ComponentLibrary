@@ -251,6 +251,7 @@ export class Ch5Pressable {
 	 */
 	public destroy() {
 		this._unsubscribeFromGestureableProp();
+		this.observablePressed?.complete();
 		this._removeEvents();
 	}
 
@@ -360,6 +361,7 @@ export class Ch5Pressable {
 	 *  EVENTS HANDLERS
 	 */
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	private _onClick(inEvent: Event): void {
 		// reset touchstart/touchend flags
 		this._touchStart = false;
@@ -515,6 +517,7 @@ export class Ch5Pressable {
 		}
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	private _onTouchHoldTimer(event: Event): void {
 		// this._ch5Component.info(`Ch5Pressable._onTouchHoldTimer(), ${this._fingerState.touchPointId}`);
 		this._fingerState.touchHoldTimer = null;
@@ -596,7 +599,9 @@ export class Ch5Pressable {
 					eval(onPressAttrib);
 				}
 				// tslint:disable-next-line: no-empty
-				catch (e) { };
+				catch (e) {
+					// Ignore
+				};
 			}
 		}
 
@@ -614,7 +619,6 @@ export class Ch5Pressable {
 		this._ch5Component.info(`Ch5Pressable._onRelease() alreadyReleased:${this._released}`);
 		if (!this._released) {
 			// remove the visual feedback
-			// console.log("On release value of delay time", this.pressDelayTime);
 			setTimeout(() => {
 				this._removeCssPressClass();
 				if (isIosDevice()) {
@@ -644,7 +648,9 @@ export class Ch5Pressable {
 					eval(onReleaseAttrib);
 				}
 				// tslint:disable-next-line: no-empty
-				catch (e) { };
+				catch (e) { 
+					// Ignore
+				};
 			}
 		}
 	}

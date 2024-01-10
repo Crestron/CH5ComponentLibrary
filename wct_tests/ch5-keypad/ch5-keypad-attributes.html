@@ -30,34 +30,12 @@
     </template>
   </test-fixture>
 
-  <test-fixture id="ch5-keypad-extra-button-fixture">
+  <test-fixture id="ch5-keypad-show-fixture">
     <template>
-      <ch5-keypad showExtraButton="false" type="default" ID="test1a" shape="square">
+      <ch5-keypad type="default" ID="test1a" shape="square" customStyle="border:1px solid red">
       </ch5-keypad>
     </template>
   </test-fixture>
-
-  <test-fixture id="ch5-keypad-extra-button-on">
-    <template>
-      <ch5-keypad showExtraButton="true" type="default" ID="test1a" shape="square">
-      </ch5-keypad>
-    </template>
-  </test-fixture>
-
-  <test-fixture id="ch5-keypad-extra-button-using-setAttribute">
-    <template>
-      <ch5-keypad type="default" shape="square">
-      </ch5-keypad>
-    </template>
-  </test-fixture>
-
-  <test-fixture id="ch5-keypad-extra-button-empty-attribute">
-    <template>
-      <ch5-keypad showExtraButton type="default" shape="square">
-      </ch5-keypad>
-    </template>
-  </test-fixture>
-
 
   <script>
     suite('ch5-keypad-disabled', () => {
@@ -82,7 +60,7 @@
       });
 
       test(`Check custom-class`, () => {
-        expect(ch5keypad.classList.contains('blue-dashed-border')).to.be.equal(true);
+        expect(ch5keypad.children[0].classList.contains('blue-dashed-border')).to.be.equal(true);
       });
     });
 
@@ -99,79 +77,99 @@
       });
     });
 
-    suite('ch5-keypad-extra-button', () => {
+    suite('ch5-keypad-show', () => {
+
       let ch5keypad;
 
       setup(async () => {
-        ch5keypad = fixture('ch5-keypad-extra-button-fixture');
+        ch5keypad = fixture('ch5-keypad-show-fixture');
       });
 
-      test('ch5-keypad-extra-button', (done) => {
-        flush(() => {
-          setTimeout(() => {
-            expect(ch5keypad.querySelectorAll('ch5-keypad-button').length).to.equal(12);
-            expect(ch5keypad.getAttribute('showExtraButton')).to.equal('false');
-            done();
-          }, 100);
+      const showArray = [
+        {
+          key: true,
+          value: true
+        },
+        {
+          key: false,
+          value: false
+        },
+        {
+          key: "true",
+          value: true
+        },
+        {
+          key: "false",
+          value: false
+        },
+        {
+          key: "TRUE",
+          value: true
+        },
+        {
+          key: "FALSE",
+          value: true
+        },
+        {
+          key: "junk",
+          value: true
+        },
+        {
+          key: "",
+          value: true
+        },
+        {
+          key: "null",
+          value: true
+        },
+        {
+          key: "undefined",
+          value: true
+        },
+        {
+          key: null,
+          value: true
+        },
+        {
+          key: undefined,
+          value: true
+        }
+      ];
+
+      const valid_noShowTypes = [
+        { key: 'display', css: 'ch5-hide-dis' },
+        { key: 'remove', css: '' },
+        { key: 'visibility', css: 'ch5-hide-vis' }];
+      const invalid_noShowTypes = ['', null, 'Display', 'None', 'Visibility'];
+
+      showArray.forEach((showName, i) => {
+        test(`Check attribute show: "${showName.key}"`, (done) => {
+          ch5keypad.setAttribute('show', showName.key);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5keypad.show).to.be.equal(showName.value);
+              expect(ch5keypad.classList.contains(valid_noShowTypes.find(val => val.key === 'display').css)).to.be.equal(!showName.value);
+              done();
+            }, 100);
+          });
         });
-      });
-    });
 
-    suite('ch5-keypad-extra-button-on', () => {
-      let ch5keypad;
-      setup(async () => {
-        ch5keypad = fixture('ch5-keypad-extra-button-on');
-      });
-
-      test('Check the extra button', (done) => {
-        flush(() => {
-          setTimeout(() => {
-            expect(ch5keypad.querySelectorAll('ch5-keypad-button').length).to.be.equal(13);
-            expect(ch5keypad.getAttribute('showExtraButton')).to.equal('true');
-            done();
-          }, 100);
-        });
-      });
-    });
-
-    suite('ch5-keypad-extra-button-using-setAttribute', () => {
-      let ch5keypad;
-      setup(() => {
-        ch5keypad = fixture('ch5-keypad-extra-button-using-setAttribute');
-      });
-
-      test('When showExtraButton is set to false', (done) => {
-        ch5keypad.setAttribute("showExtraButton", false);
-        flush(() => {
-          setTimeout(() => {
-            expect(ch5keypad.querySelectorAll('ch5-keypad-button').length).to.be.equal(12);
-            done();
-          }, 100);
-        });
-      });
-
-      test('When showExtraButton is set to false', (done) => {
-        ch5keypad.setAttribute("showExtraButton", true);
-        flush(() => {
-          setTimeout(() => {
-            expect(ch5keypad.querySelectorAll('ch5-keypad-button').length).to.be.equal(13);
-            done();
-          }, 100);
-        });
-      });
-    });
-
-    suite('ch5-keypad-extra-button-empty-attribute', () => {
-      let ch5keypad;
-      setup(() => {
-        ch5keypad = fixture('ch5-keypad-extra-button-empty-attribute');
-      });
-      test('When showExtraButton attribute is empty', (done) => {
-        flush(() => {
-          setTimeout(() => {
-            expect(ch5keypad.querySelectorAll('ch5-keypad-button').length).to.be.equal(13);
-            done();
-          }, 100);
+        valid_noShowTypes.forEach((validNoShowType, j) => {
+          test(`Check attribute show: "${showName.key}" and noShowType: "${validNoShowType.key}"`, (done) => {
+            ch5keypad.setAttribute('show', showName.key);
+            ch5keypad.setAttribute('noShowType', validNoShowType.key);
+            flush(() => {
+              setTimeout(() => {
+                expect(ch5keypad.show).to.be.equal(showName.value);
+                if (validNoShowType.key === 'remove') {
+                  expect(!!(ch5keypad)).to.be.equal(true);
+                } else {
+                  expect(ch5keypad.classList.contains(valid_noShowTypes.find(val => val.key === validNoShowType.key).css)).to.be.equal(!showName.value);
+                }
+                done();
+              }, 100);
+            });
+          });
         });
       });
     });

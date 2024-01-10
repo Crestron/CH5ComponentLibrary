@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5Common } from "../../ch5-common/interfaces";
-import { ICh5KeypadAttributes, ICh5KeypadButtonAttributes } from "./index";
+import { ICh5KeypadAttributes } from "./index";
 
 /**
  * @name Ch5 Keypad
@@ -59,18 +59,24 @@ import { ICh5KeypadAttributes, ICh5KeypadButtonAttributes } from "./index";
  *     "description": "Crestron Keypad",
  *     "body": [
  *       "<ch5-keypad id=\"keypad_${0:id}\"",
- *       "\tcontractname=\"${1:}\"",
+ *       "\tcontractName=\"${1:}\"",
  *       "\tshape=\"${2:rounded-rectangle}\"",
  *       "\ttype=\"${3:default}\"",
- *       "\ttextorientation=\"${4:top}\"",
- *       "\tshowextrabutton=\"${5:true}\"",
- *       "\treceivestateextrabuttonshow=\"${6:}\"",
- *       "\tusecontractforenable=\"${7:false}\"",
- *       "\tusecontractforshow=\"${8:false}\"",
- *       "\tusecontractforcustomclass=\"${9:false}\"",
- *       "\tusecontractforcustomstyle=\"${10:false}\"",
- *       "\tsendeventonclickstart=\"${11:}\"",
- *        ">",
+ *       "\ttextOrientation=\"${4:top}\"",
+ *       "\tshowExtraButton=\"${5:true}\"",
+ *       "\treceiveStateExtraButtonShow=\"${6:}\"",
+ *       "\tuseContractForEnable=\"${7:false}\"",
+ *       "\tuseContractForShow=\"${8:false}\"",
+ *       "\tuseContractForCustomClass=\"${9:false}\"",
+ *       "\tuseContractForCustomStyle=\"${10:false}\"",
+ *       "\tuseContractForExtraButtonShow=\"${11:false}\"",
+ *       "\tuseContractForHideAsteriskButton=\"${12:false}\"",
+ *       "\tuseContractForHidePoundButton=\"${13:false}\"",
+ *       "\tsendEventOnclickStart=\"${14:}\"",
+ *       "\thidePoundButton=\"${15:false}\"",
+ *       "\thideAsteriskButton=\"${16:false}\"",
+ *       "\treceiveStateHideAsteriskButton=\"${17:}\"",
+ *       "\treceiveStateHidePoundButton=\"${18:}\">",
  *       "</ch5-keypad>"
  *     ]
  *   }

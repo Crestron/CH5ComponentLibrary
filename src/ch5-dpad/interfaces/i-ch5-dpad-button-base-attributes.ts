@@ -1,0 +1,85 @@
+// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
+// All rights reserved.
+// No part of this software may be reproduced in any form, machine
+// or natural, without the express written consent of Crestron Electronics.
+// Use of this source code is subject to the terms of the Crestron Software License Agreement
+// under which you licensed this source code.
+
+import { ICh5CommonAttributesDpadChild } from "../../ch5-common/interfaces/i-ch5-common-attributes-dpad-child";
+import { TCh5DpadChildButtonType } from "./t-ch5-dpad";
+
+/**
+ * @ignore
+ */
+export interface ICh5DpadButtonBaseAttributes extends ICh5CommonAttributesDpadChild {
+
+    /**
+     * @documentation
+     * [
+     * "`iconClass` attribute",
+     * "***",
+     * "The icon class gives the ability for the end developer to create custom icons."
+     * ]
+     * @name iconclass
+     * @attributeType "IconClass"
+     */
+    iconClass: string;
+
+    /**
+     * @documentation
+     * [
+     * "`iconUrl` attribute",
+     * "***",
+     * "A custom image that the user needs to pass the URL or the local file relative path, ",
+     * "the iconUrl takes precedence over iconClass."
+     * ]
+     * @name iconurl
+     * @attributeType "ImageURL"
+     */
+    iconUrl: string;
+
+    /**
+     * @documentation
+     * [
+     * "`label` attribute",
+     * "***",
+     * "The label attributes gives the ability for the end developer to specify a label for the CENTER button only"
+     * ]
+     * @name label
+     * @attributeType "String"
+     * @hideWhen [
+     *  { "key": ["up", "down", "left", "right"] }
+     * ]
+     * @showWhen [
+     *  { "key": ["center"] }
+     * ]
+     */
+    label: string;
+
+    /**
+     * @documentation
+     * [
+     * "`key` attribute",
+     * "***",
+     * "The key of the button to determine which button it is."
+     * ]
+     * @name key
+     * @attributeType "EnumeratedValue"
+     */
+    key: TCh5DpadChildButtonType;
+
+    /**
+     * @documentation
+     * [
+     * "`pressed` attribute",
+     * "***",
+     * "The default value is false.",
+     * "This property reflects the pressed state of the component. If set to true, ",
+     * "'keypad-btn-pressed' will be applied as the CSS class on the component."
+     * ]
+     * @name pressed
+     * @default false
+     * @attributeType "Boolean"
+     */
+    pressed: boolean;
+}

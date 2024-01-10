@@ -1,0 +1,21 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "6",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "fb6",
+          "type": "boolean",
+          "value": true
+        }
+      ]
+    }
+  ],
+  "onStart" : [{
+    "state": "fb6",
+    "type": "boolean",
+    "value": true
+  }]
+}

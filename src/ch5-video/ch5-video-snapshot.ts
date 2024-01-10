@@ -103,6 +103,7 @@ export class Ch5VideoSnapshot {
 				Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventSnapshotStatus)?.publish(2);
 			}
 		}
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		this.videoImage.onload = (ev: Event) => {
 			if (this.sendEventSnapshotStatus !== null && this.sendEventSnapshotStatus !== undefined && this.sendEventSnapshotStatus !== "") {
 				Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventSnapshotStatus)?.publish(1);

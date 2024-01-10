@@ -308,13 +308,11 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 			customElements.whenDefined('ch5-list'),
 			customElements.whenDefined('ch5-textinput'),
 			customElements.whenDefined('ch5-spinner')
-		])
-			.then(_ => {
-				this._linkInputElements();
-				this._linkFormButtons();
-
-				this._wasInstatiated = true;
-			});
+		]).then(() => {
+			this._linkInputElements();
+			this._linkFormButtons();
+			this._wasInstatiated = true;
+		});
 	}
 
 	/**

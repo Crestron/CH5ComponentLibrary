@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-keypad-contractName-fixture">
+    <template>
+      <ch5-keypad>
+      </ch5-keypad>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-keypad-without-contractName', (done) => {
+
+      let ch5KeypadEvent;
+
+      const useContracts = ['useContractForCustomStyle', 'useContractForCustomClass', 'useContractForEnable', 'useContractForShow', 'useContractForHideAsteriskButton', 'useContractForHidePoundButton', 'useContractForExtraButtonShow'];
+      const receiveStates = ['receiveStateCustomStyle', 'receiveStateCustomClass', 'receiveStateEnable', 'receiveStateShow', 'receiveStateHideAsteriskButton', 'receiveStateHidePoundButton', 'receiveStateExtraButtonShow'];
+      const contractValues = {
+        'receiveStateCustomStyle': '.CustomStyle',
+        'receiveStateCustomClass': '.CustomClass',
+        'receiveStateEnable': '.Enable',
+        'receiveStateShow': '.Show',
+        'receiveStateHideAsteriskButton': '.HideAsteriskButton',
+        'receiveStateHidePoundButton': '.HidePoundButton',
+        'receiveStateExtraButtonShow': '.ExtraButtonShow'
+      };
+
+      setup(async () => {
+        ch5KeypadEvent = fixture('ch5-keypad-contractName-fixture');
+      });
+      useContracts.forEach(contract => {
+        receiveStates.forEach(states => {
+          test(`Check ${contract} and ${states}`, (done) => {
+            flush(() => {
+              ch5KeypadEvent.setAttribute(contract, 'true');
+              ch5KeypadEvent.setAttribute(states, '1');
+              setTimeout(() => {
+                expect(ch5KeypadEvent.getAttribute(states)).to.be.equal("1");
+                expect(ch5KeypadEvent[states]).to.be.equal("1");
+                done();
+              }, 40);
+            });
+          });
+        })
+      });
+
+      useContracts.forEach(contract => {
+        receiveStates.forEach(states => {
+          test(`Check ${contract} and ${states}`, (done) => {
+            flush(() => {
+              ch5KeypadEvent.setAttribute(contract, 'false');
+              ch5KeypadEvent.setAttribute(states, '1');
+              setTimeout(() => {
+                expect(ch5KeypadEvent.getAttribute(states)).to.be.equal("1");
+                expect(ch5KeypadEvent[states]).to.be.equal("1");
+                done();
+              }, 40);
+            });
+          });
+        })
+      });
+
+      useContracts.forEach(contract => {
+        receiveStates.forEach(states => {
+          test(`Check ${contract} and ${states}`, (done) => {
+            flush(() => {
+              ch5KeypadEvent.setAttribute('contractName', 'LivingRoom')
+              ch5KeypadEvent.setAttribute(contract, 'false');
+              ch5KeypadEvent.setAttribute(states, '1');
+              setTimeout(() => {
+                expect(ch5KeypadEvent.getAttribute(states)).to.be.equal("1");
+                expect(ch5KeypadEvent[states]).to.be.equal("1");
+                done();
+              }, 40);
+            });
+          });
+        })
+      });
+
+      useContracts.forEach((contract, i) => {
+        receiveStates.forEach((states, j) => {
+          test(`Check ${contract} and ${states}`, (done) => {
+            flush(() => {
+              ch5KeypadEvent.setAttribute('contractName', 'LivingRoom')
+              ch5KeypadEvent.setAttribute(contract, 'true');
+              ch5KeypadEvent.setAttribute(states, '1');
+              setTimeout(() => {
+                if (i === j) {
+                  expect(ch5KeypadEvent.getAttribute(states)).to.be.equal('LivingRoom' + contractValues[states]);
+                  expect(ch5KeypadEvent[states]).to.be.equal('LivingRoom' + contractValues[states]);
+                } else {
+                  expect(ch5KeypadEvent.getAttribute(states)).to.be.equal("1");
+                  expect(ch5KeypadEvent[states]).to.be.equal('1');
+                }
+                done();
+              }, 40);
+            });
+          });
+        })
+      });
+    });
+  </script>
+</body>
+
+</html>

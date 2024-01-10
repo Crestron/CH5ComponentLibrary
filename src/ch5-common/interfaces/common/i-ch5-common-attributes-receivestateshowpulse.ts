@@ -13,7 +13,7 @@ export interface ICh5CommonAttributesForReceiveStateShowPulse {
 	/**
 	 * @documentation
 	 * [
-	 * "`'receivestateshowpulse` attribute",
+	 * "`receivestateshowpulse` attribute",
 	 * "***",
 	 * "on transition from false to true, this signal directs the component to become visible."
 	 * ]

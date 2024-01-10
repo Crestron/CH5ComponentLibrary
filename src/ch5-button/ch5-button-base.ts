@@ -1500,7 +1500,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this.vAlignLabel = this.getAttribute('valignlabel') as TCh5ButtonVerticalAlignLabel;
 		}
 		if (this.hasAttribute('pressed')) {
-			this.logger.log("### P: ", this.getAttribute('pressed') as unknown as boolean);
 			this.pressed = this.getAttribute('pressed') as unknown as boolean;
 		}
 		if (this.hasAttribute('labelInnerHTML')) {
@@ -1569,8 +1568,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	protected _onFocus(inEvent: Event): void {
 		this.logger.start("_onFocus");
-		let clonedEvent: Event;
-		clonedEvent = new Event(inEvent.type, inEvent);
+		const clonedEvent: Event = new Event(inEvent.type, inEvent);
 		this.dispatchEvent(clonedEvent);
 		inEvent.preventDefault();
 		inEvent.stopPropagation();
@@ -1579,9 +1577,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	protected _onBlur(inEvent: Event): void {
 		this.logger.start("_onBlur");
-		let clonedEvent: Event;
 		this.pressed = false;
-		clonedEvent = new Event(inEvent.type, inEvent);
+		const clonedEvent: Event = new Event(inEvent.type, inEvent);
 		this.dispatchEvent(clonedEvent);
 		inEvent.preventDefault();
 		inEvent.stopPropagation();
@@ -2783,7 +2780,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.stop();
 	}
 
-	private receiveSignalAsString<T>(thisButton: Ch5ButtonBase, attributeName: string, attributeValue: string) {
+	private receiveSignalAsString(thisButton: Ch5ButtonBase, attributeName: string, attributeValue: string) {
 		this.logger.log('set ' + attributeName + '("' + attributeValue + '")');
 		const attributeNameLowerCase: string = attributeName.toLowerCase();
 		if (!thisButton.hasAttribute(attributeNameLowerCase) || thisButton.getAttribute(attributeNameLowerCase) !== attributeValue) {
@@ -2793,7 +2790,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		if (!isNil(signalResponse)) {
 			thisButton._ch5ButtonSignal.getSignal(attributeName).signalState = signalResponse.subscribe((newValue: string) => {
 				thisButton._ch5ButtonSignal.getSignal(attributeName).currentValue = newValue;
-				thisButton._ch5ButtonSignal.setVariable<T>(attributeName, newValue);
+				thisButton._ch5ButtonSignal.setVariable(attributeName, newValue);
 				thisButton.setButtonDisplay();
 			});
 		}
@@ -2807,7 +2804,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		if (!(typeof this._elButton.insertBefore === "undefined"
 			|| typeof this._elIcon.classList === "undefined")) {
 
-			Ch5ButtonBase.ICON_POSITIONS.forEach((iconPositionObj, i) => {
+			Ch5ButtonBase.ICON_POSITIONS.forEach((iconPositionObj) => {
 				if (this.iconPosition === iconPositionObj) {
 					this._elContainer.classList.add(`${this.primaryCssClass}--iconposition-${iconPositionObj}`);
 					this._elIcon.classList.add(`cx-button-icon-pos-${iconPositionObj}`);

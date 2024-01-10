@@ -716,9 +716,9 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 		super.initAttributes();
 
 		this.info('initAttributes()');
-		if (this.multiselect) {
-			this.selectedValues = this.selectedValues;
-		}
+		// if (this.multiselect) {
+		// 	this.selectedValues = this.selectedValues;
+		// }
 
 		if (this.hasAttribute('size')) {
 			this.size = this.getAttribute('size') as string;
@@ -1183,10 +1183,8 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 			return;
 		}
 
+		_parent.style.position = 'relative';
 		if (this.resize) {
-			_parent.style.position = 'relative';
-			this.style.position = 'static';
-
 			const _parentSize: ClientRect = _parent.getBoundingClientRect();
 			this.selectPanel.style.width = 'auto';
 			this.selectPanel.style.maxWidth = `${_parentSize.width}px`;
@@ -1197,11 +1195,9 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 
 		} else {
 			// reset position and width style
-			_parent.style.position = 'inherit';
-			this.style.position = '';
-			this.selectPanel.style.width = '';
-			this.selectPanel.style.maxWidth = '';
-			this.selectPanel.style.left = '';
+			this.selectPanel.style.removeProperty('width');
+			this.selectPanel.style.removeProperty('maxWidth');
+			this.selectPanel.style.removeProperty('left');
 		}
 	}
 
@@ -2041,7 +2037,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 
 	private _updateMultiSelectionInMainPanel(): void {
 		if (this.selectedValues.length > 0) {
-			let labels: string[] = [];
+			const labels: string[] = [];
 			this.selectedValues.forEach((optIdx: number) => {
 				const ch5SelectOption: Ch5SelectOption | null = this._getOptionElByIdx(optIdx);
 				if (ch5SelectOption instanceof HTMLElement) {
@@ -2086,8 +2082,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 
 		this._sendFocusSignal(true);
 
-		let clonedEvent: Event;
-		clonedEvent = new Event(e.type, e);
+		const clonedEvent: Event = new Event(e.type, e);
 		this.dispatchEvent(clonedEvent);
 
 		e.preventDefault();
@@ -2103,8 +2098,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 		this.removeAttribute('focused');
 		this._sendFocusSignal(false);
 
-		let clonedEvent: Event;
-		clonedEvent = new Event(e.type, e);
+		const clonedEvent: Event = new Event(e.type, e);
 		this.dispatchEvent(clonedEvent);
 
 		e.preventDefault();

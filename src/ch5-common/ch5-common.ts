@@ -881,7 +881,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 				processedValue = processedValue.toLowerCase();
 				break;
 			default:
-				processedValue = processedValue;
 				break;
 		}
 
@@ -1185,6 +1184,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 				this.logger.isDebugEnabled = this._isDebugEnabled;
 				break;
 			case 'trace':
+				// eslint-disable-next-line no-case-declarations
 				let _isTraceEnabled: boolean = false;
 				if (this.hasAttribute('trace')) {
 					// TODO - set similar to disabled
@@ -1275,7 +1275,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	/**
 	 * Placeholder. Should be extended in child classes
 	 */
-	protected updateCssClasses(el?: HTMLElement) {
+	protected updateCssClasses() {
 		this.logger.log("from common - updateCssClasses()");
 		// placeholder;
 	}
@@ -1352,17 +1352,35 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 			case 'remove':
 				targetElement.classList.remove(this._cssClassHideDisplay);
 				targetElement.classList.remove(this._cssClassHideVisibility);
-				if (null !== this.parentElement && undefined !== this.parentElement) {
-					this._cachedParentEl = this.parentElement;
-					this.logger.log(' removes element from DOM due to change in show signal, cached parent element')
-					if (null !== this.nextElementSibling && undefined !== this.nextElementSibling) {
-						this._nextSiblingIndexInParentChildNodes = (Array.from(this.parentElement.childNodes)).findIndex(item => item === this.nextElementSibling)
-						this._cachedNextSibling = this.nextElementSibling;
-						this.logger.log(' cached sibling element')
+				if (this.parentElement?.tagName.toLowerCase() === "ch5-modal-dialog" || this.parentElement?.tagName.toLowerCase() === "ch5-overlay-panel") {
+					setTimeout(() => {
+						// This is done for modal since the content is not inside template. The structure of modal and overlay must change for better code: CH5C-4002
+						if (null !== this.parentElement && undefined !== this.parentElement) {
+							this._cachedParentEl = this.parentElement;
+							this.logger.log(' removes element from DOM due to change in show signal, cached parent element');
+							if (null !== this.nextElementSibling && undefined !== this.nextElementSibling) {
+								this._nextSiblingIndexInParentChildNodes = (Array.from(this.parentElement.childNodes)).findIndex(item => item === this.nextElementSibling)
+								this._cachedNextSibling = this.nextElementSibling;
+								this.logger.log(' cached sibling element');
+							}
+							this._keepListeningOnSignalsAfterRemoval = true;
+							this._isDetachedFromDom = true;
+							this.parentElement.removeChild(this);
+						}
+					});
+				} else {
+					if (null !== this.parentElement && undefined !== this.parentElement) {
+						this._cachedParentEl = this.parentElement;
+						this.logger.log(' removes element from DOM due to change in show signal, cached parent element');
+						if (null !== this.nextElementSibling && undefined !== this.nextElementSibling) {
+							this._nextSiblingIndexInParentChildNodes = (Array.from(this.parentElement.childNodes)).findIndex(item => item === this.nextElementSibling)
+							this._cachedNextSibling = this.nextElementSibling;
+							this.logger.log(' cached sibling element');
+						}
+						this._keepListeningOnSignalsAfterRemoval = true;
+						this._isDetachedFromDom = true;
+						this.parentElement.removeChild(this);
 					}
-					this._keepListeningOnSignalsAfterRemoval = true;
-					this._isDetachedFromDom = true;
-					this.parentElement.removeChild(this);
 				}
 				break;
 		}
@@ -1701,6 +1719,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	 * @param {string} section
 	 * @return {void}
 	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	protected translateCallback(section: string): void {
 		// if custom actions has to be done on translation
 	}

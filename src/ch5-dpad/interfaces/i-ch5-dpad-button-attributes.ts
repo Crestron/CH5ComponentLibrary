@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes";
+import { ICh5DpadButtonBaseAttributes } from "./i-ch5-dpad-button-base-attributes";
 
 /**
  * @name Ch5 Dpad Button
@@ -63,5 +63,5 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  * ]
  * 
  */
-export interface ICh5DpadButtonAttributes extends ICh5DpadChildBaseAttributes {
+export interface ICh5DpadButtonAttributes extends ICh5DpadButtonBaseAttributes {
 }

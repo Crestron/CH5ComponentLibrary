@@ -73,7 +73,13 @@ import { ICh5DpadAttributes } from "./index";
  *       "\tusecontractforshow=\"${5:false}\"",
  *       "\tusecontractforcustomclass=\"${6:false}\"",
  *       "\tusecontractforcustomstyle=\"${7:false}\"",
- *       "\tsendeventonclickstart=\"${8:}\">",
+ *       "\tsendeventonclickstart=\"${8:}\"",
+ *       "\thideCenterButton=\"${9:false}\"",
+ *       "\treceiveStateHideCenterButton=\"${10:}\"",
+ *       "\tdisableCenterButton=\"${11:false}\"",
+ *       "\treceiveStateDisableCenterButton=\"${12:}\"",
+ *       "\tuseContractForHideCenterButton =\"${13:false}\"",
+ *       "\tuseContractForDisableCenterButton =\"${14:false}\">",
  *       "</ch5-dpad>$0"
  *     ]
  *   }

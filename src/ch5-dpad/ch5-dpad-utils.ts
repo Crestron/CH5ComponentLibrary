@@ -25,9 +25,4 @@ export class CH5DpadUtils {
 		center: 'Center'
 	};
 
-	public static createIconTag(thisRef: any) {
-		if (thisRef._icon.classList === undefined || thisRef._icon.classList.length <= 0) {
-			thisRef._icon = document.createElement('span');
-		}
-	}
 }

@@ -65,7 +65,7 @@ export class Ch5CommonSignal {
 		return thisSignal;
 	}
 
-	public setVariable<T>(attributeName: string, attributeValue: string) {
+	public setVariable(attributeName: string, attributeValue: string) {
 		this.getSignal(attributeName).currentValue = attributeValue;
 	}
 

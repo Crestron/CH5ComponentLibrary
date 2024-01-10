@@ -39,7 +39,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * @default default
      * @attributeType "EnumeratedValue"
      */
-     type: TCh5KeypadType;
+    type: TCh5KeypadType;
 
     /**
      * @documentation
@@ -76,8 +76,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "Default value is 'top'. ",
      * "Allows to customize the orientation of the keypad buttons' major-minor. ",
      * "The value dictates the position of the labelMajor and labelMinor is complimented. ",
-     * "If value is top: then, major will be on top and minor will be below it. ",
-     * "join+2 applies to left, join+3 applies to right, join+4 to center ."
+     * "If value is top: then, major will be on top and minor will be below it. "
      * ]
      * @name textorientation
      * @default top
@@ -170,10 +169,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * [
      * "`useContractForExtraButtonShow` attribute",
      * "***",
-     * "If the contract name exists, by default this becomes true. ",
-     * "If the contract name does not exist, by default this becomes false. ",
-     * "If this value is set to true then the value received from the contract will be considered ",
-     * "for the custom style."
+     * "If this value is set to true then the value received from the contract will be considered else from receiveStateExtraButtonShow or showExtraButton."
      * ]
      * @name usecontractforextrabuttonshow
      * @default false
@@ -227,4 +223,82 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * @attributeType "Join"
      */
     sendEventOnClickStart: string;
+
+    /**
+     * @documentation
+     * [
+     * "`hidePoundButton` attribute",
+     * "***",
+     * "Attribute to hide the pound button of the Keypad. Default value is false."
+     * ]
+     * @name hidepoundbutton
+     * @default false
+     * @attributeType "Boolean"
+     */
+    hidePoundButton: boolean;
+
+    /**
+     * @documentation
+     * [
+     * "`hideAsteriskButton` attribute",
+     * "***",
+     * "Attribute to hide the asterisk button of the Keypad. Default value is false."
+     * ]
+     * @name hideasteriskbutton
+     * @default false
+     * @attributeType "Boolean"
+     */
+    hideAsteriskButton: boolean;
+
+    /**
+     * @documentation
+     * [
+     * "`receiveStateHideAsteriskButton` attribute",
+     * "***",
+     * "Boolean signal to hide the asterisk button of the Keypad. This will override hideAsteriskButton."
+     * ]
+     * @name receivestatehideasteriskbutton
+     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+     * @attributeType "Join"
+     */
+    receiveStateHideAsteriskButton: string;
+
+    /**
+     * @documentation
+     * [
+     * "`useContractForHideAsteriskButton` attribute",
+     * "***",
+     * "Possible values true, false. If this value is set to true then the value received from the contract will be considered to hide ch5-keypad asterisk button. Default is 'false'."
+     * ]
+     * @name usecontractforhideasteriskbutton 
+     * @default false
+     * @attributeType "Boolean"
+     */
+    useContractForHideAsteriskButton: boolean;
+
+    /**
+     * @documentation
+     * [
+     * "`receiveStateHidePoundButton` attribute",
+     * "***",
+     * "Boolean signal to hide the pound button of the Keypad. This will override hidePoundButton."
+     * ]
+     * @name receivestatehidepoundbutton
+     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+     * @attributeType "Join"
+     */
+    receiveStateHidePoundButton: string;
+
+    /**
+     * @documentation
+     * [
+     * "`useContractForHidePoundButton` attribute",
+     * "***",
+     * "Possible values true, false. If this value is set to true then the value received from the contract will be considered to hide ch5-keypad pound button. Default is 'false'."
+     * ]
+     * @name usecontractforhidepoundbutton
+     * @default false
+     * @attributeType "Boolean"
+     */
+    useContractForHidePoundButton: boolean;
 }

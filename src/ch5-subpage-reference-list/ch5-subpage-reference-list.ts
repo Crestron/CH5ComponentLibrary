@@ -1884,6 +1884,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private resizeHandler = (event: Event) => {
     const { width, height } = this._elContainer.getBoundingClientRect();
     if (this.containerWidth === 0 && width !== 0) {

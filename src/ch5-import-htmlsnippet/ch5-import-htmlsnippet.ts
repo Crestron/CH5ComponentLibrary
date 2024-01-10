@@ -334,6 +334,7 @@ export class Ch5ImportHtmlSnippet extends Ch5Common implements ICh5ImportHtmlSni
 	/**
 	 *  EVENTS HANDLERS 
 	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	private _onError(inEvent: Event): void {
 		this.dispatchEvent(this.errorEvent);
 		const message = `Error loading URL: ${this._url}`;

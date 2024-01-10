@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+    <test-fixture id="ch5-keypad-types-fixture">
+        <template>
+            <ch5-keypad></ch5-keypad>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-keypad-types attribute', () => {
+
+            let ch5Keypad;
+
+            const valid_types = CrComLib.Ch5Keypad.TYPES;
+            const default_type = CrComLib.Ch5Keypad.TYPES[0];
+            const invalid_types = ['', 'junk', 'null', 'undefined', '0', '1', null, 0, 1, Infinity, ' ', undefined];
+            const typeClassName = "ch5-keypad--type-";
+
+            setup(async () => {
+                ch5Keypad = fixture('ch5-keypad-types-fixture');
+            });
+
+            test(`Check attribute key ${default_type} for default`, (done) => {
+                expect(ch5Keypad.type).to.be.equal(default_type);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Keypad.children[0].classList.contains(`${typeClassName}${default_type}`)).to.be.equal(true);
+                        done();
+                    }, 100);
+                });
+            });
+
+            suite('valid types', () => {
+                valid_types.forEach((typeName, i) => {
+                    test(`Check attribute type: "${typeName}"`, (done) => {
+                        ch5Keypad.setAttribute('type', typeName);
+                        flush(() => {
+                            setTimeout(() => {
+                                expect(ch5Keypad.type).to.be.equal(typeName);
+                                expect(ch5Keypad.children[0].classList.contains(`${typeClassName}${typeName}`)).to.be.equal(true);
+                                done();
+                            }, 100);
+                        });
+                    });
+                });
+            });
+
+            suite('invalid valid types', () => {
+                invalid_types.forEach((typeName, i) => {
+                    test(`Check attribute type: "${typeName}"`, (done) => {
+                        ch5Keypad.setAttribute('type', typeName);
+                        flush(() => {
+                            setTimeout(() => {
+                                expect(ch5Keypad.type).to.be.equal(default_type);
+                                expect(ch5Keypad.children[0].classList.contains(`${typeClassName}${default_type}`)).to.be.equal(true);
+                                done();
+                            }, 100);
+                        });
+                    });
+                });
+            });
+        });
+
+    </script>
+</body>
+
+</html>

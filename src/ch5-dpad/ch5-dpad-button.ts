@@ -5,28 +5,20 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import _ from "lodash";
-import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
-import { Ch5DpadChildBase } from "./ch5-dpad-child-base";
-import { ICh5DpadChildBaseAttributes } from "./interfaces/i-ch5-dpad-child-base-attributes";
-import { ICh5PropertySettings } from "../ch5-core/ch5-property";
+import { Ch5Dpad } from "./ch5-dpad";
+import { Ch5DpadButtonBase } from "./ch5-dpad-button-base";
+import { ICh5DpadButtonBaseAttributes } from "./interfaces/i-ch5-dpad-button-base-attributes";
 
-export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBaseAttributes {
+export class Ch5DpadButton extends Ch5DpadButtonBase implements ICh5DpadButtonBaseAttributes {
 
 	//#region 1. Variables
 
 	public static readonly ELEMENT_NAME = 'ch5-dpad-button';
 
-	public static readonly DEFAULT_ICONS = {
-		up: 'fa-caret-up',
-		down: 'fa-caret-down',
-		left: 'fa-caret-left',
-		right: 'fa-caret-right',
-		center: 'fa-circle'
-	};
-
 	//#endregion
+
+	//#region 2. Static Methods
 
 	public static registerCustomElement() {
 		if (typeof window === "object"
@@ -36,41 +28,16 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 		}
 	}
 
-	//#region 2. Lifecycle Hooks
-
-	public constructor() {
-		super();
-	}
-
 	public static registerSignalAttributeTypes() {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5DpadButton.ELEMENT_NAME, Ch5DpadButton.SIGNAL_ATTRIBUTE_TYPES);
 	}
 
-	static get observedAttributes() {
-		const inheritedObsAttrs = Ch5Common.observedAttributes;
-		const newObsAttrs: string[] = [];
-		for (let i: number = 0; i < Ch5DpadChildBase.COMPONENT_PROPERTIES.length; i++) {
-			if (Ch5DpadChildBase.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-				newObsAttrs.push(Ch5DpadChildBase.COMPONENT_PROPERTIES[i].name.toLowerCase());
-			}
-		}
-		return inheritedObsAttrs.concat(newObsAttrs);
-	}
+	//#endregion
 
-	public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
-		this.logger.start("attributeChangedCallback", this.primaryCssClass);
-		if (oldValue !== newValue) {
-			this.logger.log('ch5-dpad-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
-			const attributeChangedProperty = Ch5DpadChildBase.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
-			if (attributeChangedProperty) {
-				const thisRef: any = this;
-				const key = attributeChangedProperty.name;
-				thisRef[key] = newValue;
-			} else {
-				super.attributeChangedCallback(attr, oldValue, newValue);
-			}
-		}
-		this.logger.stop();
+	//#region 3. Lifecycle Hooks
+
+	public constructor(parentDpad: Ch5Dpad, isDisabled: boolean = false) {
+		super(parentDpad, isDisabled);
 	}
 
 	//#endregion
