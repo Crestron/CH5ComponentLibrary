@@ -456,8 +456,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   private _fullScreenIcon: HTMLElement = {} as HTMLElement;
 
   private responseObj: TVideoResponse = {} as TVideoResponse;
-  private shellCh5Background: Ch5Background | null = document.getElementById('template-content-background') as Ch5Background;
-  private parentCh5Background: Ch5Background | null = null;
+  private parentCh5Background: Ch5Background[] = [] as Ch5Background[];
 
   private readonly INTERSECTION_RATIO_VALUE: number = 0.98;
 
@@ -1365,15 +1364,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       return;
     }
 
-    // If parentCh5Background is null find thr parent ch5-background
-    if (this.parentCh5Background === null) { this.parentCh5Background = this.getParentBackground(); }
+    if (this.parentCh5Background.length === 0) { this.getParentBackground(); }
 
-    this.shellCh5Background?.videoBGRequest(videoInfo);
-
-    // Send request only if shellTemplate background and parentBackground are not same
-    if (this.shellCh5Background !== this.parentCh5Background) {
-      this.parentCh5Background?.videoBGRequest(videoInfo);
-    }
+    Array.from(this.parentCh5Background).forEach((ch5Background: Ch5Background) => {
+      ch5Background?.videoBGRequest(videoInfo);
+    });
   }
 
   // Function to add background color to bg if false and clears it if true, @param isShowVideoBehind if true, clears background
@@ -1633,14 +1628,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
   }
 
-  public getParentBackground(): Ch5Background {
-    const getTheMatchingParent = (node: HTMLElement): Ch5Background => {
+  public getParentBackground() {
+    const getTheMatchingParent = (node: HTMLElement) => {
       if (node && node.classList.contains('ch5-background--parent')) {
-        return node.getElementsByTagName('ch5-background')[0] as Ch5Background;
+        const parentElement = node.getElementsByTagName('ch5-background')[0] as Ch5Background;
+        this.parentCh5Background.push(parentElement)
       }
-      return getTheMatchingParent(node.parentElement as HTMLElement);
+      node && getTheMatchingParent(node.parentElement as HTMLElement);
     }
-    return getTheMatchingParent(this.parentElement as HTMLElement);
+    getTheMatchingParent(this.parentElement as HTMLElement);
   }
 
   private handleOrientation = () => {
@@ -1673,10 +1669,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   private refillBackground() {
-    this.shellCh5Background?.refillBackground();
-    if (this.shellCh5Background !== this.parentCh5Background) {
-      this.parentCh5Background?.refillBackground();
-    }
+    if (this.parentCh5Background.length === 0) { this.getParentBackground(); }
+
+    Array.from(this.parentCh5Background).forEach((ch5Background: Ch5Background) => {
+      ch5Background?.refillBackground;
+    });
   }
 
   private setErrorMessages() {
