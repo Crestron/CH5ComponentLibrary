@@ -383,7 +383,6 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
   }
 
   private _resizeObserverCallBack() {
-    console.log('inside CallBack');
     this.handleNumberOfBars();
   }
 
