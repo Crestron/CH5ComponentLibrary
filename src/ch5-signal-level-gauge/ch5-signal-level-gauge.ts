@@ -151,6 +151,7 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
   public static readonly ELEMENT_NAME = 'ch5-signal-level-gauge';
 
   public primaryCssClass = 'ch5-signal-level-gauge';
+  private _resizeObserver: ResizeObserver | null = null;
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
@@ -272,6 +273,7 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
     if (!this._wasInstatiated) {
       this.createInternalHtml();
     }
+    this._resizeObserverCallBack = this._resizeObserverCallBack.bind(this);
     this._wasInstatiated = true;
     this._ch5Properties = new Ch5Properties(this, Ch5SignalLevelGauge.COMPONENT_PROPERTIES);
   }
@@ -366,15 +368,23 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
 
   protected attachEventListeners() {
     super.attachEventListeners();
+    this._resizeObserver = new ResizeObserver(this._resizeObserverCallBack);
+    this._resizeObserver.observe(this._elContainer)
   }
 
   protected removeEventListeners() {
     super.removeEventListeners();
+    this._resizeObserver?.unobserve(this._elContainer);
   }
 
   protected unsubscribeFromSignals() {
     super.unsubscribeFromSignals();
     this._ch5Properties.unsubscribe();
+  }
+
+  private _resizeObserverCallBack() {
+    console.log('inside CallBack');
+    this.handleNumberOfBars();
   }
 
   private handleOrientation() {
