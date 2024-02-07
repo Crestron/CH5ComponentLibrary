@@ -5,11 +5,6 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-interface ICustomInputEvent {
-  data: string
-  inputType: string
-}
-
 export class Ch5TextInputMask {
 
   private _didMounted = false;
