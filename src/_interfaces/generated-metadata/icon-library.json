@@ -889,6 +889,14 @@
             "value": "fas fa-brain"
         },
         {
+            "name": "Brave",
+            "value": "fab fa-brave"
+        },
+        {
+            "name": "Brave Reverse",
+            "value": "fab fa-brave-reverse"
+        },
+        {
             "name": "Brazilian Real Sign",
             "value": "fas fa-brazilian-real-sign"
         },
@@ -1249,7 +1257,7 @@
             "value": "fab fa-cc-amazon-pay"
         },
         {
-            "name": "American Express Credit Card",
+            "name": "Cc Amex",
             "value": "fab fa-cc-amex"
         },
         {
@@ -2099,6 +2107,10 @@
         {
             "name": "Database",
             "value": "fas fa-database"
+        },
+        {
+            "name": "Debian",
+            "value": "fab fa-debian"
         },
         {
             "name": "Deezer",
@@ -3481,6 +3493,10 @@
             "value": "fab fa-google-plus-g"
         },
         {
+            "name": "Google Scholar",
+            "value": "fab fa-google-scholar"
+        },
+        {
             "name": "Google Wallet",
             "value": "fab fa-google-wallet"
         },
@@ -4465,6 +4481,10 @@
             "value": "fas fa-less-than-equal"
         },
         {
+            "name": "Letterboxd",
+            "value": "fab fa-letterboxd"
+        },
+        {
             "name": "Life Ring",
             "value": "far fa-life-ring"
         },
@@ -4833,6 +4853,10 @@
             "value": "fas fa-minimize"
         },
         {
+            "name": "Mintbit",
+            "value": "fab fa-mintbit"
+        },
+        {
             "name": "Minus",
             "value": "fas fa-minus"
         },
@@ -4861,7 +4885,7 @@
             "value": "fas fa-mobile"
         },
         {
-            "name": "Mobile button",
+            "name": "Mobile Button",
             "value": "fas fa-mobile-button"
         },
         {
@@ -4869,7 +4893,7 @@
             "value": "fas fa-mobile-retro"
         },
         {
-            "name": "Mobile screen",
+            "name": "Mobile Screen",
             "value": "fas fa-mobile-screen"
         },
         {
@@ -5127,6 +5151,10 @@
         {
             "name": "OpenID",
             "value": "fab fa-openid"
+        },
+        {
+            "name": "Opensuse",
+            "value": "fab fa-opensuse"
         },
         {
             "name": "Opera",
@@ -5589,6 +5617,10 @@
             "value": "fab fa-pix"
         },
         {
+            "name": "Pixiv",
+            "value": "fab fa-pixiv"
+        },
+        {
             "name": "Pizza Slice",
             "value": "fas fa-pizza-slice"
         },
@@ -5861,11 +5893,11 @@
             "value": "fab fa-red-river"
         },
         {
-            "name": "reddit Logo",
+            "name": "Reddit",
             "value": "fab fa-reddit"
         },
         {
-            "name": "reddit Alien",
+            "name": "Reddit Alien",
             "value": "fab fa-reddit-alien"
         },
         {
@@ -6257,6 +6289,10 @@
             "value": "fas fa-shoe-prints"
         },
         {
+            "name": "Shoelace",
+            "value": "fab fa-shoelace"
+        },
+        {
             "name": "Shop",
             "value": "fas fa-shop"
         },
@@ -6299,6 +6335,10 @@
         {
             "name": "Signal",
             "value": "fas fa-signal"
+        },
+        {
+            "name": "Signal Messenger",
+            "value": "fab fa-signal-messenger"
         },
         {
             "name": "Signature",
@@ -6501,7 +6541,7 @@
             "value": "fas fa-square-arrow-up-right"
         },
         {
-            "name": "Behance Square",
+            "name": "Square Behance",
             "value": "fab fa-square-behance"
         },
         {
@@ -6545,7 +6585,7 @@
             "value": "fas fa-square-check"
         },
         {
-            "name": "Dribbble Square",
+            "name": "Square Dribbble",
             "value": "fab fa-square-dribbble"
         },
         {
@@ -6553,7 +6593,7 @@
             "value": "fas fa-square-envelope"
         },
         {
-            "name": "Facebook Square",
+            "name": "Square Facebook",
             "value": "fab fa-square-facebook"
         },
         {
@@ -6573,11 +6613,11 @@
             "value": "fas fa-square-full"
         },
         {
-            "name": "Git Square",
+            "name": "Square Git",
             "value": "fab fa-square-git"
         },
         {
-            "name": "GitHub Square",
+            "name": "Square Github",
             "value": "fab fa-square-github"
         },
         {
@@ -6585,7 +6625,7 @@
             "value": "fab fa-square-gitlab"
         },
         {
-            "name": "Google Plus Square",
+            "name": "Square Google Plus",
             "value": "fab fa-square-google-plus"
         },
         {
@@ -6593,20 +6633,24 @@
             "value": "fas fa-square-h"
         },
         {
-            "name": "Hacker News Square",
+            "name": "Square Hacker News",
             "value": "fab fa-square-hacker-news"
         },
         {
-            "name": "Instagram Square",
+            "name": "Square Instagram",
             "value": "fab fa-square-instagram"
         },
         {
-            "name": "JavaScript (JS) Square",
+            "name": "Square Js",
             "value": "fab fa-square-js"
         },
         {
-            "name": "last.fm Square",
+            "name": "Square Lastfm",
             "value": "fab fa-square-lastfm"
+        },
+        {
+            "name": "Square Letterboxd",
+            "value": "fab fa-square-letterboxd"
         },
         {
             "name": "Square Minus",
@@ -6621,7 +6665,7 @@
             "value": "fas fa-square-nfi"
         },
         {
-            "name": "Odnoklassniki Square",
+            "name": "Square Odnoklassniki",
             "value": "fab fa-square-odnoklassniki"
         },
         {
@@ -6649,7 +6693,7 @@
             "value": "fab fa-square-pied-piper"
         },
         {
-            "name": "Pinterest Square",
+            "name": "Square Pinterest",
             "value": "fab fa-square-pinterest"
         },
         {
@@ -6669,7 +6713,7 @@
             "value": "fas fa-square-poll-vertical"
         },
         {
-            "name": "reddit Square",
+            "name": "Square Reddit",
             "value": "fab fa-square-reddit"
         },
         {
@@ -6689,15 +6733,19 @@
             "value": "fab fa-square-snapchat"
         },
         {
-            "name": "Steam Square",
+            "name": "Square Steam",
             "value": "fab fa-square-steam"
         },
         {
-            "name": "Tumblr Square",
+            "name": "Square Threads",
+            "value": "fab fa-square-threads"
+        },
+        {
+            "name": "Square Tumblr",
             "value": "fab fa-square-tumblr"
         },
         {
-            "name": "Twitter Square",
+            "name": "Square Twitter",
             "value": "fab fa-square-twitter"
         },
         {
@@ -6705,11 +6753,11 @@
             "value": "fas fa-square-up-right"
         },
         {
-            "name": "Viadeo Square",
+            "name": "Square Viadeo",
             "value": "fab fa-square-viadeo"
         },
         {
-            "name": "Vimeo Square",
+            "name": "Square Vimeo",
             "value": "fab fa-square-vimeo"
         },
         {
@@ -6717,11 +6765,15 @@
             "value": "fas fa-square-virus"
         },
         {
-            "name": "What's App Square",
+            "name": "Square Whatsapp",
             "value": "fab fa-square-whatsapp"
         },
         {
-            "name": "Xing Square",
+            "name": "Square X Twitter",
+            "value": "fab fa-square-x-twitter"
+        },
+        {
+            "name": "Square Xing",
             "value": "fab fa-square-xing"
         },
         {
@@ -6729,7 +6781,7 @@
             "value": "fas fa-square-xmark"
         },
         {
-            "name": "YouTube Square",
+            "name": "Square Youtube",
             "value": "fab fa-square-youtube"
         },
         {
@@ -7021,7 +7073,7 @@
             "value": "fas fa-taxi"
         },
         {
-            "name": "TeamSpeak",
+            "name": "Teamspeak",
             "value": "fab fa-teamspeak"
         },
         {
@@ -7139,6 +7191,10 @@
         {
             "name": "Think Peaks",
             "value": "fab fa-think-peaks"
+        },
+        {
+            "name": "Threads",
+            "value": "fab fa-threads"
         },
         {
             "name": "Thumbs Down",
@@ -7497,6 +7553,10 @@
             "value": "fab fa-ups"
         },
         {
+            "name": "Upwork",
+            "value": "fab fa-upwork"
+        },
+        {
             "name": "USB",
             "value": "fab fa-usb"
         },
@@ -7845,6 +7905,10 @@
             "value": "fab fa-waze"
         },
         {
+            "name": "Webflow",
+            "value": "fab fa-webflow"
+        },
+        {
             "name": "Weebly",
             "value": "fab fa-weebly"
         },
@@ -8007,6 +8071,10 @@
         {
             "name": "X Ray",
             "value": "fas fa-x-ray"
+        },
+        {
+            "name": "X Twitter",
+            "value": "fab fa-x-twitter"
         },
         {
             "name": "Xbox",
@@ -21025,6 +21093,1426 @@
         {
             "name": "warehouse",
             "value": "material-icons-twotone md-warehouse"
+        },
+        {
+            "name": "browse_gallery",
+            "value": "material-icons md-browse_gallery"
+        },
+        {
+            "name": "browse_gallery",
+            "value": "material-icons-outline md-browse_gallery"
+        },
+        {
+            "name": "browse_gallery",
+            "value": "material-icons-round md-browse_gallery"
+        },
+        {
+            "name": "browse_gallery",
+            "value": "material-icons-twotone md-browse_gallery"
+        },
+        {
+            "name": "calendar_month",
+            "value": "material-icons md-calendar_month"
+        },
+        {
+            "name": "calendar_month",
+            "value": "material-icons-outline md-calendar_month"
+        },
+        {
+            "name": "calendar_month",
+            "value": "material-icons-round md-calendar_month"
+        },
+        {
+            "name": "calendar_month",
+            "value": "material-icons-twotone md-calendar_month"
+        },
+        {
+            "name": "currency_bitcoin",
+            "value": "material-icons md-currency_bitcoin"
+        },
+        {
+            "name": "currency_bitcoin",
+            "value": "material-icons-round md-currency_bitcoin"
+        },
+        {
+            "name": "discount",
+            "value": "material-icons md-discount"
+        },
+        {
+            "name": "discount",
+            "value": "material-icons-outline md-discount"
+        },
+        {
+            "name": "discount",
+            "value": "material-icons-sharp md-discount"
+        },
+        {
+            "name": "discount",
+            "value": "material-icons-twotone md-discount"
+        },
+        {
+            "name": "handshake",
+            "value": "material-icons md-handshake"
+        },
+        {
+            "name": "handshake",
+            "value": "material-icons-outline md-handshake"
+        },
+        {
+            "name": "handshake",
+            "value": "material-icons-sharp md-handshake"
+        },
+        {
+            "name": "handshake",
+            "value": "material-icons-twotone md-handshake"
+        },
+        {
+            "name": "network_ping",
+            "value": "material-icons md-network_ping"
+        },
+        {
+            "name": "network_ping",
+            "value": "material-icons-round md-network_ping"
+        },
+        {
+            "name": "output",
+            "value": "material-icons md-output"
+        },
+        {
+            "name": "output",
+            "value": "material-icons-round md-output"
+        },
+        {
+            "name": "output",
+            "value": "material-icons-sharp md-output"
+        },
+        {
+            "name": "scuba_diving",
+            "value": "material-icons md-scuba_diving"
+        },
+        {
+            "name": "scuba_diving",
+            "value": "material-icons-round md-scuba_diving"
+        },
+        {
+            "name": "sports_gymnastics",
+            "value": "material-icons md-sports_gymnastics"
+        },
+        {
+            "name": "sports_gymnastics",
+            "value": "material-icons-round md-sports_gymnastics"
+        },
+        {
+            "name": "vape_free",
+            "value": "material-icons md-vape_free"
+        },
+        {
+            "name": "vape_free",
+            "value": "material-icons-round md-vape_free"
+        },
+        {
+            "name": "vape_free",
+            "value": "material-icons-twotone md-vape_free"
+        },
+        {
+            "name": "vaping_rooms",
+            "value": "material-icons md-vaping_rooms"
+        },
+        {
+            "name": "vaping_rooms",
+            "value": "material-icons-round md-vaping_rooms"
+        },
+        {
+            "name": "vaping_rooms",
+            "value": "material-icons-twotone md-vaping_rooms"
+        },
+        {
+            "name": "battery_0_bar",
+            "value": "material-icons md-battery_0_bar"
+        },
+        {
+            "name": "battery_0_bar",
+            "value": "material-icons-round md-battery_0_bar"
+        },
+        {
+            "name": "battery_0_bar",
+            "value": "material-icons-sharp md-battery_0_bar"
+        },
+        {
+            "name": "battery_0_bar",
+            "value": "material-icons-twotone md-battery_0_bar"
+        },
+        {
+            "name": "battery_1_bar",
+            "value": "material-icons md-battery_1_bar"
+        },
+        {
+            "name": "battery_1_bar",
+            "value": "material-icons-round md-battery_1_bar"
+        },
+        {
+            "name": "battery_1_bar",
+            "value": "material-icons-sharp md-battery_1_bar"
+        },
+        {
+            "name": "battery_1_bar",
+            "value": "material-icons-twotone md-battery_1_bar"
+        },
+        {
+            "name": "battery_2_bar",
+            "value": "material-icons md-battery_2_bar"
+        },
+        {
+            "name": "battery_2_bar",
+            "value": "material-icons-round md-battery_2_bar"
+        },
+        {
+            "name": "battery_2_bar",
+            "value": "material-icons-sharp md-battery_2_bar"
+        },
+        {
+            "name": "battery_2_bar",
+            "value": "material-icons-twotone md-battery_2_bar"
+        },
+        {
+            "name": "battery_3_bar",
+            "value": "material-icons md-battery_3_bar"
+        },
+        {
+            "name": "battery_3_bar",
+            "value": "material-icons-round md-battery_3_bar"
+        },
+        {
+            "name": "battery_3_bar",
+            "value": "material-icons-sharp md-battery_3_bar"
+        },
+        {
+            "name": "battery_3_bar",
+            "value": "material-icons-twotone md-battery_3_bar"
+        },
+        {
+            "name": "battery_4_bar",
+            "value": "material-icons md-battery_4_bar"
+        },
+        {
+            "name": "battery_4_bar",
+            "value": "material-icons-round md-battery_4_bar"
+        },
+        {
+            "name": "battery_4_bar",
+            "value": "material-icons-sharp md-battery_4_bar"
+        },
+        {
+            "name": "battery_4_bar",
+            "value": "material-icons-twotone md-battery_4_bar"
+        },
+        {
+            "name": "battery_5_bar",
+            "value": "material-icons md-battery_5_bar"
+        },
+        {
+            "name": "battery_5_bar",
+            "value": "material-icons-round md-battery_5_bar"
+        },
+        {
+            "name": "battery_5_bar",
+            "value": "material-icons-sharp md-battery_5_bar"
+        },
+        {
+            "name": "battery_5_bar",
+            "value": "material-icons-twotone md-battery_5_bar"
+        },
+        {
+            "name": "battery_6_bar",
+            "value": "material-icons md-battery_6_bar"
+        },
+        {
+            "name": "battery_6_bar",
+            "value": "material-icons-round md-battery_6_bar"
+        },
+        {
+            "name": "battery_6_bar",
+            "value": "material-icons-sharp md-battery_6_bar"
+        },
+        {
+            "name": "battery_6_bar",
+            "value": "material-icons-twotone md-battery_6_bar"
+        },
+        {
+            "name": "crisis_alert",
+            "value": "material-icons md-crisis_alert"
+        },
+        {
+            "name": "crisis_alert",
+            "value": "material-icons-sharp md-crisis_alert"
+        },
+        {
+            "name": "cyclone",
+            "value": "material-icons md-cyclone"
+        },
+        {
+            "name": "cyclone",
+            "value": "material-icons-round md-cyclone"
+        },
+        {
+            "name": "cyclone",
+            "value": "material-icons-twotone md-cyclone"
+        },
+        {
+            "name": "devices_fold",
+            "value": "material-icons md-devices_fold"
+        },
+        {
+            "name": "devices_fold",
+            "value": "material-icons-outline md-devices_fold"
+        },
+        {
+            "name": "devices_fold",
+            "value": "material-icons-sharp md-devices_fold"
+        },
+        {
+            "name": "devices_fold",
+            "value": "material-icons-twotone md-devices_fold"
+        },
+        {
+            "name": "emergency_share",
+            "value": "material-icons md-emergency_share"
+        },
+        {
+            "name": "emergency_share",
+            "value": "material-icons-outline md-emergency_share"
+        },
+        {
+            "name": "emergency_share",
+            "value": "material-icons-round md-emergency_share"
+        },
+        {
+            "name": "emergency_share",
+            "value": "material-icons-twotone md-emergency_share"
+        },
+        {
+            "name": "flood",
+            "value": "material-icons md-flood"
+        },
+        {
+            "name": "flood",
+            "value": "material-icons-outline md-flood"
+        },
+        {
+            "name": "flood",
+            "value": "material-icons-round md-flood"
+        },
+        {
+            "name": "flood",
+            "value": "material-icons-twotone md-flood"
+        },
+        {
+            "name": "landslide",
+            "value": "material-icons md-landslide"
+        },
+        {
+            "name": "landslide",
+            "value": "material-icons-outline md-landslide"
+        },
+        {
+            "name": "landslide",
+            "value": "material-icons-round md-landslide"
+        },
+        {
+            "name": "landslide",
+            "value": "material-icons-twotone md-landslide"
+        },
+        {
+            "name": "lightbulb_circle",
+            "value": "material-icons md-lightbulb_circle"
+        },
+        {
+            "name": "lightbulb_circle",
+            "value": "material-icons-outline md-lightbulb_circle"
+        },
+        {
+            "name": "lightbulb_circle",
+            "value": "material-icons-round md-lightbulb_circle"
+        },
+        {
+            "name": "lightbulb_circle",
+            "value": "material-icons-twotone md-lightbulb_circle"
+        },
+        {
+            "name": "manage_history",
+            "value": "material-icons md-manage_history"
+        },
+        {
+            "name": "manage_history",
+            "value": "material-icons-round md-manage_history"
+        },
+        {
+            "name": "network_wifi_1_bar",
+            "value": "material-icons md-network_wifi_1_bar"
+        },
+        {
+            "name": "network_wifi_1_bar",
+            "value": "material-icons-twotone md-network_wifi_1_bar"
+        },
+        {
+            "name": "network_wifi_2_bar",
+            "value": "material-icons md-network_wifi_2_bar"
+        },
+        {
+            "name": "network_wifi_2_bar",
+            "value": "material-icons-round md-network_wifi_2_bar"
+        },
+        {
+            "name": "network_wifi_2_bar",
+            "value": "material-icons-twotone md-network_wifi_2_bar"
+        },
+        {
+            "name": "network_wifi_3_bar",
+            "value": "material-icons md-network_wifi_3_bar"
+        },
+        {
+            "name": "network_wifi_3_bar",
+            "value": "material-icons-round md-network_wifi_3_bar"
+        },
+        {
+            "name": "network_wifi_3_bar",
+            "value": "material-icons-twotone md-network_wifi_3_bar"
+        },
+        {
+            "name": "noise_aware",
+            "value": "material-icons md-noise_aware"
+        },
+        {
+            "name": "noise_aware",
+            "value": "material-icons-round md-noise_aware"
+        },
+        {
+            "name": "noise_control_off",
+            "value": "material-icons md-noise_control_off"
+        },
+        {
+            "name": "remove_road",
+            "value": "material-icons md-remove_road"
+        },
+        {
+            "name": "remove_road",
+            "value": "material-icons-round md-remove_road"
+        },
+        {
+            "name": "safety_check",
+            "value": "material-icons md-safety_check"
+        },
+        {
+            "name": "safety_check",
+            "value": "material-icons-outline md-safety_check"
+        },
+        {
+            "name": "safety_check",
+            "value": "material-icons-round md-safety_check"
+        },
+        {
+            "name": "safety_check",
+            "value": "material-icons-twotone md-safety_check"
+        },
+        {
+            "name": "screen_rotation_alt",
+            "value": "material-icons md-screen_rotation_alt"
+        },
+        {
+            "name": "screen_rotation_alt",
+            "value": "material-icons-round md-screen_rotation_alt"
+        },
+        {
+            "name": "screen_rotation_alt",
+            "value": "material-icons-sharp md-screen_rotation_alt"
+        },
+        {
+            "name": "severe_cold",
+            "value": "material-icons md-severe_cold"
+        },
+        {
+            "name": "severe_cold",
+            "value": "material-icons-round md-severe_cold"
+        },
+        {
+            "name": "signal_cellular_alt_1_bar",
+            "value": "material-icons md-signal_cellular_alt_1_bar"
+        },
+        {
+            "name": "signal_cellular_alt_1_bar",
+            "value": "material-icons-round md-signal_cellular_alt_1_bar"
+        },
+        {
+            "name": "signal_cellular_alt_2_bar",
+            "value": "material-icons md-signal_cellular_alt_2_bar"
+        },
+        {
+            "name": "signal_cellular_alt_2_bar",
+            "value": "material-icons-round md-signal_cellular_alt_2_bar"
+        },
+        {
+            "name": "sos",
+            "value": "material-icons md-sos"
+        },
+        {
+            "name": "sos",
+            "value": "material-icons-round md-sos"
+        },
+        {
+            "name": "sos",
+            "value": "material-icons-sharp md-sos"
+        },
+        {
+            "name": "spatial_audio",
+            "value": "material-icons md-spatial_audio"
+        },
+        {
+            "name": "spatial_audio",
+            "value": "material-icons-outline md-spatial_audio"
+        },
+        {
+            "name": "spatial_audio",
+            "value": "material-icons-round md-spatial_audio"
+        },
+        {
+            "name": "spatial_audio",
+            "value": "material-icons-twotone md-spatial_audio"
+        },
+        {
+            "name": "spatial_audio_off",
+            "value": "material-icons md-spatial_audio_off"
+        },
+        {
+            "name": "spatial_audio_off",
+            "value": "material-icons-outline md-spatial_audio_off"
+        },
+        {
+            "name": "spatial_audio_off",
+            "value": "material-icons-round md-spatial_audio_off"
+        },
+        {
+            "name": "spatial_audio_off",
+            "value": "material-icons-twotone md-spatial_audio_off"
+        },
+        {
+            "name": "spatial_tracking",
+            "value": "material-icons md-spatial_tracking"
+        },
+        {
+            "name": "spatial_tracking",
+            "value": "material-icons-outline md-spatial_tracking"
+        },
+        {
+            "name": "spatial_tracking",
+            "value": "material-icons-round md-spatial_tracking"
+        },
+        {
+            "name": "spatial_tracking",
+            "value": "material-icons-twotone md-spatial_tracking"
+        },
+        {
+            "name": "thunderstorm",
+            "value": "material-icons md-thunderstorm"
+        },
+        {
+            "name": "thunderstorm",
+            "value": "material-icons-outline md-thunderstorm"
+        },
+        {
+            "name": "thunderstorm",
+            "value": "material-icons-round md-thunderstorm"
+        },
+        {
+            "name": "thunderstorm",
+            "value": "material-icons-twotone md-thunderstorm"
+        },
+        {
+            "name": "tsunami",
+            "value": "material-icons md-tsunami"
+        },
+        {
+            "name": "tsunami",
+            "value": "material-icons-outline md-tsunami"
+        },
+        {
+            "name": "tsunami",
+            "value": "material-icons-round md-tsunami"
+        },
+        {
+            "name": "tsunami",
+            "value": "material-icons-twotone md-tsunami"
+        },
+        {
+            "name": "volcano",
+            "value": "material-icons md-volcano"
+        },
+        {
+            "name": "volcano",
+            "value": "material-icons-outline md-volcano"
+        },
+        {
+            "name": "volcano",
+            "value": "material-icons-round md-volcano"
+        },
+        {
+            "name": "volcano",
+            "value": "material-icons-twotone md-volcano"
+        },
+        {
+            "name": "wifi_1_bar",
+            "value": "material-icons md-wifi_1_bar"
+        },
+        {
+            "name": "wifi_1_bar",
+            "value": "material-icons-round md-wifi_1_bar"
+        },
+        {
+            "name": "wifi_2_bar",
+            "value": "material-icons md-wifi_2_bar"
+        },
+        {
+            "name": "wifi_2_bar",
+            "value": "material-icons-round md-wifi_2_bar"
+        },
+        {
+            "name": "auto_mode",
+            "value": "material-icons md-auto_mode"
+        },
+        {
+            "name": "auto_mode",
+            "value": "material-icons-round md-auto_mode"
+        },
+        {
+            "name": "blinds_closed",
+            "value": "material-icons md-blinds_closed"
+        },
+        {
+            "name": "blinds_closed",
+            "value": "material-icons-round md-blinds_closed"
+        },
+        {
+            "name": "blinds_closed",
+            "value": "material-icons-twotone md-blinds_closed"
+        },
+        {
+            "name": "curtains",
+            "value": "material-icons md-curtains"
+        },
+        {
+            "name": "curtains",
+            "value": "material-icons-outline md-curtains"
+        },
+        {
+            "name": "curtains",
+            "value": "material-icons-round md-curtains"
+        },
+        {
+            "name": "curtains",
+            "value": "material-icons-twotone md-curtains"
+        },
+        {
+            "name": "curtains_closed",
+            "value": "material-icons md-curtains_closed"
+        },
+        {
+            "name": "curtains_closed",
+            "value": "material-icons-outline md-curtains_closed"
+        },
+        {
+            "name": "curtains_closed",
+            "value": "material-icons-round md-curtains_closed"
+        },
+        {
+            "name": "curtains_closed",
+            "value": "material-icons-twotone md-curtains_closed"
+        },
+        {
+            "name": "electric_bolt",
+            "value": "material-icons md-electric_bolt"
+        },
+        {
+            "name": "electric_bolt",
+            "value": "material-icons-sharp md-electric_bolt"
+        },
+        {
+            "name": "electric_meter",
+            "value": "material-icons md-electric_meter"
+        },
+        {
+            "name": "electric_meter",
+            "value": "material-icons-outline md-electric_meter"
+        },
+        {
+            "name": "electric_meter",
+            "value": "material-icons-round md-electric_meter"
+        },
+        {
+            "name": "electric_meter",
+            "value": "material-icons-twotone md-electric_meter"
+        },
+        {
+            "name": "heat_pump",
+            "value": "material-icons md-heat_pump"
+        },
+        {
+            "name": "heat_pump",
+            "value": "material-icons-outline md-heat_pump"
+        },
+        {
+            "name": "heat_pump",
+            "value": "material-icons-sharp md-heat_pump"
+        },
+        {
+            "name": "heat_pump",
+            "value": "material-icons-twotone md-heat_pump"
+        },
+        {
+            "name": "lyrics",
+            "value": "material-icons md-lyrics"
+        },
+        {
+            "name": "lyrics",
+            "value": "material-icons-outline md-lyrics"
+        },
+        {
+            "name": "lyrics",
+            "value": "material-icons-twotone md-lyrics"
+        },
+        {
+            "name": "mode_fan_off",
+            "value": "material-icons md-mode_fan_off"
+        },
+        {
+            "name": "mode_fan_off",
+            "value": "material-icons-outline md-mode_fan_off"
+        },
+        {
+            "name": "mode_fan_off",
+            "value": "material-icons-round md-mode_fan_off"
+        },
+        {
+            "name": "mode_fan_off",
+            "value": "material-icons-twotone md-mode_fan_off"
+        },
+        {
+            "name": "nest_cam_wired_stand",
+            "value": "material-icons md-nest_cam_wired_stand"
+        },
+        {
+            "name": "nest_cam_wired_stand",
+            "value": "material-icons-outline md-nest_cam_wired_stand"
+        },
+        {
+            "name": "nest_cam_wired_stand",
+            "value": "material-icons-sharp md-nest_cam_wired_stand"
+        },
+        {
+            "name": "nest_cam_wired_stand",
+            "value": "material-icons-twotone md-nest_cam_wired_stand"
+        },
+        {
+            "name": "propane_tank",
+            "value": "material-icons md-propane_tank"
+        },
+        {
+            "name": "propane_tank",
+            "value": "material-icons-outline md-propane_tank"
+        },
+        {
+            "name": "propane_tank",
+            "value": "material-icons-sharp md-propane_tank"
+        },
+        {
+            "name": "propane_tank",
+            "value": "material-icons-twotone md-propane_tank"
+        },
+        {
+            "name": "roller_shades",
+            "value": "material-icons md-roller_shades"
+        },
+        {
+            "name": "roller_shades",
+            "value": "material-icons-outline md-roller_shades"
+        },
+        {
+            "name": "roller_shades",
+            "value": "material-icons-round md-roller_shades"
+        },
+        {
+            "name": "roller_shades",
+            "value": "material-icons-twotone md-roller_shades"
+        },
+        {
+            "name": "roller_shades_closed",
+            "value": "material-icons md-roller_shades_closed"
+        },
+        {
+            "name": "roller_shades_closed",
+            "value": "material-icons-outline md-roller_shades_closed"
+        },
+        {
+            "name": "roller_shades_closed",
+            "value": "material-icons-round md-roller_shades_closed"
+        },
+        {
+            "name": "roller_shades_closed",
+            "value": "material-icons-twotone md-roller_shades_closed"
+        },
+        {
+            "name": "screenshot_monitor",
+            "value": "material-icons md-screenshot_monitor"
+        },
+        {
+            "name": "screenshot_monitor",
+            "value": "material-icons-round md-screenshot_monitor"
+        },
+        {
+            "name": "screenshot_monitor",
+            "value": "material-icons-sharp md-screenshot_monitor"
+        },
+        {
+            "name": "screenshot_monitor",
+            "value": "material-icons-twotone md-screenshot_monitor"
+        },
+        {
+            "name": "sensor_occupied",
+            "value": "material-icons md-sensor_occupied"
+        },
+        {
+            "name": "sensor_occupied",
+            "value": "material-icons-outline md-sensor_occupied"
+        },
+        {
+            "name": "sensor_occupied",
+            "value": "material-icons-round md-sensor_occupied"
+        },
+        {
+            "name": "sensor_occupied",
+            "value": "material-icons-twotone md-sensor_occupied"
+        },
+        {
+            "name": "solar_power",
+            "value": "material-icons md-solar_power"
+        },
+        {
+            "name": "solar_power",
+            "value": "material-icons-outline md-solar_power"
+        },
+        {
+            "name": "solar_power",
+            "value": "material-icons-round md-solar_power"
+        },
+        {
+            "name": "solar_power",
+            "value": "material-icons-twotone md-solar_power"
+        },
+        {
+            "name": "tornado",
+            "value": "material-icons md-tornado"
+        },
+        {
+            "name": "tornado",
+            "value": "material-icons-outline md-tornado"
+        },
+        {
+            "name": "tornado",
+            "value": "material-icons-round md-tornado"
+        },
+        {
+            "name": "tornado",
+            "value": "material-icons-twotone md-tornado"
+        },
+        {
+            "name": "vertical_shades",
+            "value": "material-icons md-vertical_shades"
+        },
+        {
+            "name": "vertical_shades",
+            "value": "material-icons-outline md-vertical_shades"
+        },
+        {
+            "name": "vertical_shades",
+            "value": "material-icons-round md-vertical_shades"
+        },
+        {
+            "name": "vertical_shades",
+            "value": "material-icons-twotone md-vertical_shades"
+        },
+        {
+            "name": "vertical_shades_closed",
+            "value": "material-icons md-vertical_shades_closed"
+        },
+        {
+            "name": "vertical_shades_closed",
+            "value": "material-icons-round md-vertical_shades_closed"
+        },
+        {
+            "name": "vertical_shades_closed",
+            "value": "material-icons-twotone md-vertical_shades_closed"
+        },
+        {
+            "name": "work_history",
+            "value": "material-icons md-work_history"
+        },
+        {
+            "name": "work_history",
+            "value": "material-icons-outline md-work_history"
+        },
+        {
+            "name": "work_history",
+            "value": "material-icons-sharp md-work_history"
+        },
+        {
+            "name": "work_history",
+            "value": "material-icons-twotone md-work_history"
+        },
+        {
+            "name": "blinds",
+            "value": "material-icons md-blinds"
+        },
+        {
+            "name": "blinds",
+            "value": "material-icons-round md-blinds"
+        },
+        {
+            "name": "blinds",
+            "value": "material-icons-twotone md-blinds"
+        },
+        {
+            "name": "broadcast_on_home",
+            "value": "material-icons md-broadcast_on_home"
+        },
+        {
+            "name": "broadcast_on_home",
+            "value": "material-icons-round md-broadcast_on_home"
+        },
+        {
+            "name": "broadcast_on_home",
+            "value": "material-icons-sharp md-broadcast_on_home"
+        },
+        {
+            "name": "broadcast_on_home",
+            "value": "material-icons-twotone md-broadcast_on_home"
+        },
+        {
+            "name": "broadcast_on_personal",
+            "value": "material-icons md-broadcast_on_personal"
+        },
+        {
+            "name": "broadcast_on_personal",
+            "value": "material-icons-outline md-broadcast_on_personal"
+        },
+        {
+            "name": "broadcast_on_personal",
+            "value": "material-icons-twotone md-broadcast_on_personal"
+        },
+        {
+            "name": "desk",
+            "value": "material-icons md-desk"
+        },
+        {
+            "name": "desk",
+            "value": "material-icons-round md-desk"
+        },
+        {
+            "name": "desk",
+            "value": "material-icons-twotone md-desk"
+        },
+        {
+            "name": "lock_person",
+            "value": "material-icons md-lock_person"
+        },
+        {
+            "name": "lock_person",
+            "value": "material-icons-outline md-lock_person"
+        },
+        {
+            "name": "lock_person",
+            "value": "material-icons-sharp md-lock_person"
+        },
+        {
+            "name": "lock_person",
+            "value": "material-icons-twotone md-lock_person"
+        },
+        {
+            "name": "no_adult_content",
+            "value": "material-icons md-no_adult_content"
+        },
+        {
+            "name": "wallet",
+            "value": "material-icons md-wallet"
+        },
+        {
+            "name": "wallet",
+            "value": "material-icons-sharp md-wallet"
+        },
+        {
+            "name": "wallet",
+            "value": "material-icons-twotone md-wallet"
+        },
+        {
+            "name": "width_full",
+            "value": "material-icons md-width_full"
+        },
+        {
+            "name": "width_full",
+            "value": "material-icons-outline md-width_full"
+        },
+        {
+            "name": "width_full",
+            "value": "material-icons-sharp md-width_full"
+        },
+        {
+            "name": "width_full",
+            "value": "material-icons-twotone md-width_full"
+        },
+        {
+            "name": "width_normal",
+            "value": "material-icons md-width_normal"
+        },
+        {
+            "name": "width_normal",
+            "value": "material-icons-outline md-width_normal"
+        },
+        {
+            "name": "width_normal",
+            "value": "material-icons-sharp md-width_normal"
+        },
+        {
+            "name": "width_normal",
+            "value": "material-icons-twotone md-width_normal"
+        },
+        {
+            "name": "width_wide",
+            "value": "material-icons md-width_wide"
+        },
+        {
+            "name": "width_wide",
+            "value": "material-icons-outline md-width_wide"
+        },
+        {
+            "name": "width_wide",
+            "value": "material-icons-sharp md-width_wide"
+        },
+        {
+            "name": "width_wide",
+            "value": "material-icons-twotone md-width_wide"
+        },
+        {
+            "name": "add_home",
+            "value": "material-icons md-add_home"
+        },
+        {
+            "name": "add_home",
+            "value": "material-icons-outline md-add_home"
+        },
+        {
+            "name": "add_home",
+            "value": "material-icons-round md-add_home"
+        },
+        {
+            "name": "add_home",
+            "value": "material-icons-twotone md-add_home"
+        },
+        {
+            "name": "add_home_work",
+            "value": "material-icons md-add_home_work"
+        },
+        {
+            "name": "add_home_work",
+            "value": "material-icons-outline md-add_home_work"
+        },
+        {
+            "name": "add_home_work",
+            "value": "material-icons-round md-add_home_work"
+        },
+        {
+            "name": "add_home_work",
+            "value": "material-icons-twotone md-add_home_work"
+        },
+        {
+            "name": "arrow_outward",
+            "value": "material-icons md-arrow_outward"
+        },
+        {
+            "name": "arrow_outward",
+            "value": "material-icons-round md-arrow_outward"
+        },
+        {
+            "name": "assist_walker",
+            "value": "material-icons md-assist_walker"
+        },
+        {
+            "name": "assist_walker",
+            "value": "material-icons-round md-assist_walker"
+        },
+        {
+            "name": "assist_walker",
+            "value": "material-icons-sharp md-assist_walker"
+        },
+        {
+            "name": "blind",
+            "value": "material-icons md-blind"
+        },
+        {
+            "name": "blind",
+            "value": "material-icons-round md-blind"
+        },
+        {
+            "name": "dataset",
+            "value": "material-icons md-dataset"
+        },
+        {
+            "name": "dataset",
+            "value": "material-icons-outline md-dataset"
+        },
+        {
+            "name": "dataset",
+            "value": "material-icons-sharp md-dataset"
+        },
+        {
+            "name": "dataset",
+            "value": "material-icons-twotone md-dataset"
+        },
+        {
+            "name": "diversity_1",
+            "value": "material-icons md-diversity_1"
+        },
+        {
+            "name": "diversity_1",
+            "value": "material-icons-outline md-diversity_1"
+        },
+        {
+            "name": "diversity_1",
+            "value": "material-icons-round md-diversity_1"
+        },
+        {
+            "name": "diversity_1",
+            "value": "material-icons-twotone md-diversity_1"
+        },
+        {
+            "name": "diversity_2",
+            "value": "material-icons md-diversity_2"
+        },
+        {
+            "name": "diversity_2",
+            "value": "material-icons-round md-diversity_2"
+        },
+        {
+            "name": "diversity_2",
+            "value": "material-icons-twotone md-diversity_2"
+        },
+        {
+            "name": "diversity_3",
+            "value": "material-icons md-diversity_3"
+        },
+        {
+            "name": "diversity_3",
+            "value": "material-icons-round md-diversity_3"
+        },
+        {
+            "name": "face_2",
+            "value": "material-icons md-face_2"
+        },
+        {
+            "name": "face_2",
+            "value": "material-icons-outline md-face_2"
+        },
+        {
+            "name": "face_2",
+            "value": "material-icons-twotone md-face_2"
+        },
+        {
+            "name": "face_3",
+            "value": "material-icons md-face_3"
+        },
+        {
+            "name": "face_3",
+            "value": "material-icons-outline md-face_3"
+        },
+        {
+            "name": "face_3",
+            "value": "material-icons-sharp md-face_3"
+        },
+        {
+            "name": "face_3",
+            "value": "material-icons-twotone md-face_3"
+        },
+        {
+            "name": "face_4",
+            "value": "material-icons md-face_4"
+        },
+        {
+            "name": "face_4",
+            "value": "material-icons-outline md-face_4"
+        },
+        {
+            "name": "face_4",
+            "value": "material-icons-twotone md-face_4"
+        },
+        {
+            "name": "face_5",
+            "value": "material-icons md-face_5"
+        },
+        {
+            "name": "face_6",
+            "value": "material-icons md-face_6"
+        },
+        {
+            "name": "face_6",
+            "value": "material-icons-outline md-face_6"
+        },
+        {
+            "name": "face_6",
+            "value": "material-icons-sharp md-face_6"
+        },
+        {
+            "name": "face_6",
+            "value": "material-icons-twotone md-face_6"
+        },
+        {
+            "name": "groups_2",
+            "value": "material-icons md-groups_2"
+        },
+        {
+            "name": "groups_2",
+            "value": "material-icons-outline md-groups_2"
+        },
+        {
+            "name": "groups_2",
+            "value": "material-icons-round md-groups_2"
+        },
+        {
+            "name": "groups_2",
+            "value": "material-icons-twotone md-groups_2"
+        },
+        {
+            "name": "groups_3",
+            "value": "material-icons md-groups_3"
+        },
+        {
+            "name": "groups_3",
+            "value": "material-icons-outline md-groups_3"
+        },
+        {
+            "name": "groups_3",
+            "value": "material-icons-round md-groups_3"
+        },
+        {
+            "name": "groups_3",
+            "value": "material-icons-twotone md-groups_3"
+        },
+        {
+            "name": "macro_off",
+            "value": "material-icons md-macro_off"
+        },
+        {
+            "name": "macro_off",
+            "value": "material-icons-outline md-macro_off"
+        },
+        {
+            "name": "macro_off",
+            "value": "material-icons-round md-macro_off"
+        },
+        {
+            "name": "macro_off",
+            "value": "material-icons-twotone md-macro_off"
+        },
+        {
+            "name": "man_2",
+            "value": "material-icons md-man_2"
+        },
+        {
+            "name": "man_2",
+            "value": "material-icons-round md-man_2"
+        },
+        {
+            "name": "man_2",
+            "value": "material-icons-sharp md-man_2"
+        },
+        {
+            "name": "man_3",
+            "value": "material-icons md-man_3"
+        },
+        {
+            "name": "man_3",
+            "value": "material-icons-round md-man_3"
+        },
+        {
+            "name": "man_3",
+            "value": "material-icons-sharp md-man_3"
+        },
+        {
+            "name": "man_4",
+            "value": "material-icons md-man_4"
+        },
+        {
+            "name": "man_4",
+            "value": "material-icons-round md-man_4"
+        },
+        {
+            "name": "man_4",
+            "value": "material-icons-sharp md-man_4"
+        },
+        {
+            "name": "person_2",
+            "value": "material-icons md-person_2"
+        },
+        {
+            "name": "person_2",
+            "value": "material-icons-outline md-person_2"
+        },
+        {
+            "name": "person_2",
+            "value": "material-icons-round md-person_2"
+        },
+        {
+            "name": "person_2",
+            "value": "material-icons-twotone md-person_2"
+        },
+        {
+            "name": "person_3",
+            "value": "material-icons md-person_3"
+        },
+        {
+            "name": "person_3",
+            "value": "material-icons-outline md-person_3"
+        },
+        {
+            "name": "person_3",
+            "value": "material-icons-round md-person_3"
+        },
+        {
+            "name": "person_3",
+            "value": "material-icons-twotone md-person_3"
+        },
+        {
+            "name": "person_4",
+            "value": "material-icons md-person_4"
+        },
+        {
+            "name": "person_4",
+            "value": "material-icons-outline md-person_4"
+        },
+        {
+            "name": "person_4",
+            "value": "material-icons-round md-person_4"
+        },
+        {
+            "name": "person_4",
+            "value": "material-icons-twotone md-person_4"
+        },
+        {
+            "name": "repartition",
+            "value": "material-icons md-repartition"
+        },
+        {
+            "name": "repartition",
+            "value": "material-icons-round md-repartition"
+        },
+        {
+            "name": "repartition",
+            "value": "material-icons-twotone md-repartition"
+        },
+        {
+            "name": "shape_line",
+            "value": "material-icons md-shape_line"
+        },
+        {
+            "name": "shape_line",
+            "value": "material-icons-outline md-shape_line"
+        },
+        {
+            "name": "shape_line",
+            "value": "material-icons-sharp md-shape_line"
+        },
+        {
+            "name": "shape_line",
+            "value": "material-icons-twotone md-shape_line"
+        },
+        {
+            "name": "transcribe",
+            "value": "material-icons md-transcribe"
+        },
+        {
+            "name": "transcribe",
+            "value": "material-icons-outline md-transcribe"
+        },
+        {
+            "name": "transcribe",
+            "value": "material-icons-round md-transcribe"
+        },
+        {
+            "name": "transcribe",
+            "value": "material-icons-twotone md-transcribe"
+        },
+        {
+            "name": "troubleshoot",
+            "value": "material-icons md-troubleshoot"
+        },
+        {
+            "name": "troubleshoot",
+            "value": "material-icons-round md-troubleshoot"
+        },
+        {
+            "name": "unfold_less_double",
+            "value": "material-icons md-unfold_less_double"
+        },
+        {
+            "name": "unfold_less_double",
+            "value": "material-icons-round md-unfold_less_double"
+        },
+        {
+            "name": "unfold_more_double",
+            "value": "material-icons md-unfold_more_double"
+        },
+        {
+            "name": "unfold_more_double",
+            "value": "material-icons-round md-unfold_more_double"
+        },
+        {
+            "name": "web_stories",
+            "value": "material-icons md-web_stories"
+        },
+        {
+            "name": "web_stories",
+            "value": "material-icons-outline md-web_stories"
+        },
+        {
+            "name": "web_stories",
+            "value": "material-icons-sharp md-web_stories"
+        },
+        {
+            "name": "web_stories",
+            "value": "material-icons-twotone md-web_stories"
+        },
+        {
+            "name": "woman_2",
+            "value": "material-icons md-woman_2"
+        },
+        {
+            "name": "woman_2",
+            "value": "material-icons-round md-woman_2"
+        },
+        {
+            "name": "woman_2",
+            "value": "material-icons-sharp md-woman_2"
+        },
+        {
+            "name": "fluorescent",
+            "value": "material-icons md-fluorescent"
+        },
+        {
+            "name": "fluorescent",
+            "value": "material-icons-outline md-fluorescent"
+        },
+        {
+            "name": "fluorescent",
+            "value": "material-icons-round md-fluorescent"
+        },
+        {
+            "name": "fluorescent",
+            "value": "material-icons-twotone md-fluorescent"
         }
     ],
     "sgIcons": [
