@@ -1672,7 +1672,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     if (this.parentCh5Background.length === 0) { this.getParentBackground(); }
 
     Array.from(this.parentCh5Background).forEach((ch5Background: Ch5Background) => {
-      ch5Background?.refillBackground;
+      ch5Background?.refillBackground();
     });
   }
 
