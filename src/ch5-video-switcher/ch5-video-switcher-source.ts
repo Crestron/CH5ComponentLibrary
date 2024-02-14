@@ -1,0 +1,174 @@
+import { Ch5Log } from "../ch5-common/ch5-log";
+import { Ch5Properties } from "../ch5-core/ch5-properties";
+import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
+import { ICh5PropertySettings } from "../ch5-core/ch5-property";
+import { TCh5VideoSwitcherSourceAlignLabel } from "./interfaces/t-ch5-video-switcher";
+
+export class Ch5VideoSwitcherSource extends Ch5Log {
+
+  //#region Variables
+
+  public static ELEMENT_NAME = 'ch5-video-switcher-source';
+
+  public static readonly ALIGN_LABEL: TCh5VideoSwitcherSourceAlignLabel[] = ['center', 'left', 'right'];
+
+  public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
+    {
+      default: Ch5VideoSwitcherSource.ALIGN_LABEL[0],
+      enumeratedValues: Ch5VideoSwitcherSource.ALIGN_LABEL,
+      name: "alignLabel ",
+      removeAttributeOnNull: true,
+      type: "enum",
+      valueOnAttributeEmpty: Ch5VideoSwitcherSource.ALIGN_LABEL[0],
+      isObservableProperty: true,
+    },
+    {
+      default: "",
+      name: "iconClass",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+    {
+      default: "",
+      name: "labelInnerHTML",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+  ];
+
+  private _ch5Properties: Ch5Properties;
+  private parentCh5VideoSwitcher: Ch5VideoSwitcherSource | null = null;
+
+  //#endregion
+
+  //#region Getters and Setters
+
+
+
+  public set alignLabel(value: TCh5VideoSwitcherSourceAlignLabel) {
+    this._ch5Properties.set<TCh5VideoSwitcherSourceAlignLabel>("alignLabel", value, () => {
+      if (this.parentCh5VideoSwitcher) {
+        //this.parentCh5VideoSwitcher.debounceButtonDisplay();
+      }
+    });
+  }
+  public get alignLabel(): TCh5VideoSwitcherSourceAlignLabel {
+    return this._ch5Properties.get<TCh5VideoSwitcherSourceAlignLabel>("alignLabel");
+  }
+
+  public set iconClass(value: string) {
+    this._ch5Properties.set<string>("iconClass", value, () => {
+      if (this.parentCh5VideoSwitcher) {
+        // this.parentComponent.debounceButtonDisplay();
+      }
+    });
+  }
+  public get iconClass(): string {
+    return this._ch5Properties.get<string>("iconClass");
+  }
+
+  public set labelInnerHTML(value: string) {
+    this._ch5Properties.set<string>("labelInnerHTML", value, () => {
+      if (this.parentCh5VideoSwitcher) {
+        //this.parentComponent.debounceButtonDisplay();
+      }
+    });
+  }
+  public get labelInnerHTML(): string {
+    return this._ch5Properties.get<string>("labelInnerHTML");
+  }
+
+  //#endregion
+
+  //#region Static Methods
+
+  public static registerCustomElement() {
+    if (typeof window === "object"
+      && typeof window.customElements === "object"
+      && typeof window.customElements.define === "function"
+      && window.customElements.get(Ch5VideoSwitcherSource.ELEMENT_NAME) === undefined) {
+      window.customElements.define(Ch5VideoSwitcherSource.ELEMENT_NAME, Ch5VideoSwitcherSource);
+    }
+  }
+
+  //#endregion
+
+  //#region Component Lifecycle
+
+  public constructor() {
+    super();
+    this.logger.start('constructor()');
+    this._ch5Properties = new Ch5Properties(this, Ch5VideoSwitcherSource.COMPONENT_PROPERTIES);
+  }
+
+  public static get observedAttributes(): string[] {
+    const commonAttributes = Ch5Log.observedAttributes;
+    for (let i: number = 0; i < Ch5VideoSwitcherSource.COMPONENT_PROPERTIES.length; i++) {
+      if (Ch5VideoSwitcherSource.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+        commonAttributes.push(Ch5VideoSwitcherSource.COMPONENT_PROPERTIES[i].name.toLowerCase());
+      }
+    }
+    return commonAttributes;
+  }
+
+  public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
+    if (oldValue !== newValue) {
+      this.logger.log(this.nodeName + ' attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+      const attributeChangedProperty = Ch5VideoSwitcherSource.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
+      if (attributeChangedProperty) {
+        const thisRef: any = this;
+        const key = attributeChangedProperty.name;
+        thisRef[key] = newValue;
+      } else {
+        super.attributeChangedCallback(attr, oldValue, newValue);
+      }
+    }
+    this.logger.stop();
+  }
+
+  /**
+   * Called when the Ch5ButtonListModeBase component is first connected to the DOM
+   */
+  public connectedCallback() {
+    this.logger.start('connectedCallback()');
+    if (this.parentElement?.nodeName !== 'ch5-video-switcher') {
+      return;
+    }
+    this.setAttribute('role', Ch5RoleAttributeMapping.ch5VideoSwitcherSource);
+    this.setAttribute('data-ch5-id', this.getCrId());
+    this.initAttributes();
+    this.logger.stop();
+  }
+
+  public disconnectedCallback() {
+    this.logger.start('disconnectedCallback()');
+    this.logger.stop();
+  }
+
+  //#endregion
+
+  //#region Protected / Private Methods
+
+  protected initAttributes() {
+    super.initAttributes();
+
+    const thisRef: any = this;
+    for (let i: number = 0; i < Ch5VideoSwitcherSource.COMPONENT_PROPERTIES.length; i++) {
+      if (Ch5VideoSwitcherSource.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+        if (this.hasAttribute(Ch5VideoSwitcherSource.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
+          const key = Ch5VideoSwitcherSource.COMPONENT_PROPERTIES[i].name;
+          thisRef[key] = this.getAttribute(key);
+        }
+      }
+    }
+  }
+
+  //#endregion
+
+}
+
+Ch5VideoSwitcherSource.registerCustomElement();
