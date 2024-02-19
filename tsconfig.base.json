@@ -67,7 +67,8 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
   },
   "include": [
-    "src/typings/mycolorpicker.d.ts"
+    "src/typings/mycolorpicker.d.ts",
+    "src/typings/dragdroptouch.d.ts"
   ],
   "exclude": [
     "node_modules",
