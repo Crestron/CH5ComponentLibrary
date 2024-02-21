@@ -1,10 +1,6 @@
 {
     "name": "@crestron/ch5-crcomlib", 
-<<<<<<< HEAD
-    "version": "2.7.0", 
-=======
     "version": "2.8.0", 
->>>>>>> 3014ec57ea68b8d97cf7f903c6bd91a2e9ee5978
     "description": "Crestron HTML5 (CH5) Components Library", 
     "repository": {
         "type": "git", 
