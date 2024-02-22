@@ -7,13 +7,14 @@ import { TCh5VideoSwitcherSourceListPosition, TCh5VideoSwitcherScreenAspectRatio
 import { ICh5VideoSwitcherAttributes } from './interfaces/i-ch5-video-switcher-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
+import { Ch5SignalFactory } from "../ch5-core";
 
 export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttributes {
 
   //#region Variables
 
   public static readonly SOURCE_LIST_POSITION: TCh5VideoSwitcherSourceListPosition[] = ['top', 'left', 'right', 'bottom'];
-  public static readonly SCREEN_ASPECT_RATIO: TCh5VideoSwitcherScreenAspectRatio[] = ['stretch', '16:9', '4:3'];
+  public static readonly SCREEN_ASPECT_RATIO: TCh5VideoSwitcherScreenAspectRatio[] = ['stretch', '16-9', '4-3'];
   public static readonly CONTRACT_SOURCE_LABEL_TYPE: TCh5VideoSwitcherContractSourceLabelType[] = ['none', 'textContent', 'innerHTML'];
   public static readonly CONTRACT_SCREEN_LABEL_TYPE: TCh5VideoSwitcherContractScreenLabelType[] = ['none', 'textContent', 'innerHTML'];
   public static readonly COMPONENT_DATA: any = {
@@ -300,13 +301,32 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   public primaryCssClass = 'ch5-video-switcher';
   public sourceListCssClass = '--source-list';
   public screenListCssClass = '--screen-list';
+  public static readonly SCROLLBAR_CLASSLIST_PREFIX: string = '--source-list-scrollbar-';
+
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
-  private _sourceListContainer: HTMLElement = {} as HTMLElement;
-  private _screenListContainer: HTMLElement = {} as HTMLElement;
+  public _sourceListContainer: HTMLElement = {} as HTMLElement;
+  public _screenListContainer: HTMLElement = {} as HTMLElement;
+  private _scrollbarContainer: HTMLElement = {} as HTMLElement;
+  private _scrollbar: HTMLElement = {} as HTMLElement;
+
+
   private eventHandler: any = { "dragstart": [], "dragend": [] };
   private eventHandlerForsourceOnScreen: any = { "dragstart": [], "dragend": [] };
   private eventHandlerForScreen: any = { "dragover": [], "drop": [], 'dragleave': [] };
+
+  private isDown = false;
+  private startX: number = 0;
+  private startY: number = 0;
+  private scrollListLeft: number = 0;
+  private scrollListTop: number = 0;
+  private scrollbarDimension: number = 0;
+  private sourceWidth: number = 0;
+  private sourceHeight: number = 0;
+
+/*   public debounceCreateSource = this.debounce(() => {
+    this.createSource();
+  }, 0) */;
 
   //#endregion
 
@@ -367,9 +387,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   public set indexId(value: string) {
-    this._ch5Properties.set<string>("indexId", value, () => {
-      this.handleIndexId();
-    });
+    this._ch5Properties.set<string>("indexId", value);
   }
   public get indexId(): string {
     return this._ch5Properties.get<string>("indexId");
@@ -412,20 +430,14 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   public set sendEventOnDrop(value: string) {
-    this._ch5Properties.set("sendEventOnDrop", value, null, (newValue: number) => {
-      console.log(newValue);
-      this.handleSendEventOnDrop();
-    });
+    this._ch5Properties.set("sendEventOnDrop", value);
   }
   public get sendEventOnDrop(): string {
     return this._ch5Properties.get<string>('sendEventOnDrop');
   }
 
   public set sendEventOnChange(value: string) {
-    this._ch5Properties.set("sendEventOnChange", value, null, (newValue: boolean) => {
-      console.log(newValue);
-      this.handleSendEventOnChange();
-    });
+    this._ch5Properties.set("sendEventOnChange", value);
   }
   public get sendEventOnChange(): string {
     return this._ch5Properties.get<string>('sendEventOnChange');
@@ -433,8 +445,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   public set receiveStateSourceChanged(value: string) {
     this._ch5Properties.set("receiveStateSourceChanged", value, null, (newValue: number) => {
-      console.log(newValue);
-      this.handleReceiveStateSourceChanged();
+      this.handleReceiveStateSourceChanged(newValue);
     });
   }
   public get receiveStateSourceChanged(): string {
@@ -607,11 +618,12 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5VideoSwitcher);
     }
-    if (this._elContainer.parentElement !== this) {
-      this._elContainer.classList.add('ch5-video-switcher');
-      this.appendChild(this._elContainer);
-    }
+    this.checkInternalHTML();
     this.attachEventListeners();
+    const sourceChild = this.getElementsByTagName(this.nodeName.toLowerCase() + "-source");
+    Array.from(sourceChild).forEach((element, index) => {
+      element.setAttribute('id', this.getCrId() + '-' + index);
+    });
     this.initAttributes();
     this.initCommonMutationObserver(this);
     this.handleNumberOfSources();
@@ -639,6 +651,10 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this._elContainer = document.createElement('div');
     this._sourceListContainer = document.createElement('div');
     this._screenListContainer = document.createElement('div');
+
+    this._scrollbarContainer = document.createElement('div');
+    this._scrollbar = document.createElement('div');
+
     this._screenListContainer.classList.add(this.primaryCssClass + this.screenListCssClass);
     this._sourceListContainer.classList.add(this.primaryCssClass + this.sourceListCssClass);
     this._elContainer.appendChild(this._sourceListContainer);
@@ -663,6 +679,37 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   protected attachEventListeners() {
     super.attachEventListeners();
+    this._sourceListContainer.addEventListener('mousedown', this.handleMouseDown);
+    this._sourceListContainer.addEventListener('mouseleave', this.handleMouseUpAndLeave);
+    this._sourceListContainer.addEventListener('mouseup', this.handleMouseUpAndLeave);
+    this._sourceListContainer.addEventListener('mousemove', this.handleMouseMove);
+    this._sourceListContainer.addEventListener('scroll', this.handleScrollEvent);
+
+  }
+
+  private handleMouseDown = (e: MouseEvent) => {
+    this.isDown = true;
+    this._sourceListContainer.classList.add('active');
+    this.startX = e.pageX - this._sourceListContainer.offsetLeft;
+    this.startY = e.pageY - this._sourceListContainer.offsetTop;
+    this.scrollListLeft = this._sourceListContainer.scrollLeft;
+    this.scrollListTop = this._sourceListContainer.scrollTop;
+  }
+
+  private handleMouseUpAndLeave = () => {
+    this.isDown = false;
+    this._sourceListContainer.classList.remove('active');
+  }
+
+  private handleMouseMove = (e: MouseEvent) => {
+    if (!this.isDown) return;
+    e.preventDefault();
+    const x = e.pageX - this._sourceListContainer.offsetLeft;
+    const y = e.pageY - this._sourceListContainer.offsetTop;
+    const walkX = (x - this.startX) * 3;
+    const walkY = (y - this.startY) * 3;
+    this._sourceListContainer.scrollLeft = this.scrollListLeft - walkX;
+    this._sourceListContainer.scrollTop = this.scrollListTop - walkY;
   }
 
   protected removeEventListeners() {
@@ -684,6 +731,12 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         // source.removeEventListener("dragend", this.eventHandlerForsourceOnScreen.dragend[i]);
       })
     });
+
+    this._sourceListContainer.removeEventListener('mouseleave', this.handleMouseUpAndLeave);
+    this._sourceListContainer.removeEventListener('mouseup', this.handleMouseUpAndLeave);
+    this._sourceListContainer.removeEventListener('mousedown', this.handleMouseDown);
+    this._sourceListContainer.removeEventListener('mousemove', this.handleMouseMove);
+    this._sourceListContainer.removeEventListener('scroll', this.handleScrollEvent);
   }
 
   protected unsubscribeFromSignals() {
@@ -701,6 +754,21 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     });
   }
 
+  private checkInternalHTML() {
+    if (this._elContainer.parentElement !== this) {
+      this._elContainer.classList.add('ch5-video-switcher');
+      this.appendChild(this._elContainer);
+    }
+    if (this._scrollbar.parentElement !== this._scrollbarContainer) {
+      this._scrollbar.classList.add('scrollbar');
+      this._scrollbarContainer.appendChild(this._scrollbar);
+    }
+    if (this._scrollbarContainer.parentElement !== this._elContainer) {
+      this._scrollbarContainer.classList.add('scrollbar-container');
+      this._elContainer.appendChild(this._scrollbarContainer);
+    }
+  }
+
   private handleSourceListPosition() {
     Array.from(Ch5VideoSwitcher.COMPONENT_DATA.SOURCE_LIST_POSITION.values).forEach((e: any) => {
       this._elContainer.classList.remove(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.SOURCE_LIST_POSITION.classListPrefix + e);
@@ -708,21 +776,24 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.SOURCE_LIST_POSITION.classListPrefix + this.sourceListPosition);
   }
   private handleEndless() {
-    // Enter your Code here
+    if (this.endless) { this.endless = this.numberOfSourceListDivisions === 1; }
+    if (this.endless && this.scrollbar === true) { this.scrollbar = false; }
   }
   private handleNumberOfSourceListDivisions() {
     this.createSource();
   }
   private handleScrollbar() {
-    // Enter your Code here
+    if (this.endless === true && this.scrollbar === true) { this.scrollbar = false; }
+    [true, false].forEach((bool: boolean) => {
+      this._elContainer.classList.remove(this.primaryCssClass + Ch5VideoSwitcher.SCROLLBAR_CLASSLIST_PREFIX + bool.toString());
+    });
+    this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
+    this.initScrollbar();
   }
   private handleNumberOfSources() {
     this.createSource();
   }
   private handleNumberOfScreenColumns() {
-    // Enter your Code here
-  }
-  private handleIndexId() {
     // Enter your Code here
   }
   private handleDisplayScreenLabel() {
@@ -740,14 +811,19 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   private handleSourceIconClass() {
     this.createSource();
   }
-  private handleSendEventOnDrop() {
-    // Enter your Code here
+  private handleSendEventOnDrop(signalName: string, signalValue: number) {
+    //console.log('signalName', signalName, 'signalValue', signalValue)
+    const sigName = this.replaceAll(this.sendEventOnDrop.trim(), `{{${this.indexId}}}`, signalName);
+    Ch5SignalFactory.getInstance().getNumberSignal(sigName)?.publish(signalValue as number);
+    this.handleSendEventOnChange(signalName);
   }
-  private handleSendEventOnChange() {
-    // Enter your Code here
+  private handleSendEventOnChange(signalName: string) {
+    const sigName = this.replaceAll(this.sendEventOnChange.trim(), `{{${this.indexId}}}`, signalName);
+    Ch5SignalFactory.getInstance().getBooleanSignal(sigName)?.publish(true);
+    Ch5SignalFactory.getInstance().getBooleanSignal(sigName)?.publish(false);
   }
-  private handleReceiveStateSourceChanged() {
-    // Enter your Code here
+  private handleReceiveStateSourceChanged(newValue: number) {
+    console.log('handleReceiveStateSourceChanged', newValue);
   }
   private handleReceiveStateSourceLabel() {
     // Enter your Code here
@@ -770,6 +846,148 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   private handleUseContractForShow() {
     // Enter your Code here
   }
+
+  private handleScrollEvent = () => {
+    this.initScrollbar();
+    if (this.endless) {
+      this.sourceWidth = this._elContainer.children[0].getBoundingClientRect().width;
+      this.sourceHeight = this._elContainer.children[0].getBoundingClientRect().height;
+    //  / return this.endlessHelper();
+    }
+  }
+
+  /* private endlessHelper() {
+    const { offsetHeight, offsetWidth, scrollLeft, scrollTop, scrollWidth, scrollHeight } = this._sourceListContainer;
+    const endlessScrollable = (this.sourceListPosition === 'top' || this.sourceListPosition === "bottom") ? offsetWidth + this.sourceWidth < scrollWidth : offsetHeight + this.sourceHeight < scrollHeight;
+    if (endlessScrollable === false) { return; }
+    if ((this.sourceListPosition === 'top' || this.sourceListPosition === 'bottom') && this.dir === 'rtl') {
+      if (Math.abs(scrollLeft) + offsetWidth > scrollWidth - this.sourceWidth / 4) {
+        const lastElement = this.getLastChild();loadButtonForShow
+        const index = (this.numberOfSources + lastElement + 1) % this.numberOfSources;
+        this.createButton(index);
+        if (this.loadButtonForShow === true && this.allButtonsVisible === false) {
+          let showValue = index;
+          while (showValue < this.numberOfSources && this.showSignalHolder[showValue]?.value === false) {
+            this.createButton(++showValue);
+          }
+        }
+        this._elContainer.firstElementChild?.remove();
+        this._elContainer.scrollLeft += this.sourceWidth / 2;
+      } else if (Math.abs(scrollLeft) < this.sourceWidth / 4) {
+        const firstElement = this.getFirstChild();
+        const index = (this.numberOfSources + firstElement - 1) % this.numberOfSources;
+        this.createButton(index, false);
+        if (this.loadButtonForShow === true && this.allButtonsVisible === false) {
+          let showValue = index;
+          while (showValue > 0 && this.showSignalHolder[showValue]?.value === false) {
+            this.createButton(--showValue, false);
+          }
+        }
+        this._elContainer.lastElementChild?.remove();
+        this._elContainer.scrollLeft -= this.sourceWidth / 2;
+      }
+    } else if (this.sourceListPosition === 'top'|| this.sourceListPosition === 'bottom') {
+      if (scrollLeft < this.sourceWidth / 4) {
+        const firstElement = this.getFirstChild();
+        const index = (this.numberOfSources + firstElement - 1) % this.numberOfSources;
+        this.createButton(index, false);
+        if (this.loadButtonForShow === true && this.allButtonsVisible === false) {
+          let showValue = index;
+          while (showValue > 0 && this.showSignalHolder[showValue]?.value === false) {
+            this.createButton(--showValue, false);
+          }
+        }
+        this._elContainer.lastElementChild?.remove();
+        this._elContainer.scrollLeft += this.sourceWidth / 2;
+      } else if (scrollLeft + offsetWidth > scrollWidth - this.sourceWidth / 4) {
+        const lastElement = this.getLastChild();
+        const index = (this.numberOfSources + lastElement + 1) % this.numberOfSources;
+        this.createButton(index);
+        if (this.loadButtonForShow === true && this.allButtonsVisible === false) {
+          let showValue = index;
+          while (showValue < this.numberOfSources && this.showSignalHolder[showValue]?.value === false) {
+            this.createButton(++showValue);
+          }
+        }
+        this._elContainer.firstElementChild?.remove();
+        this._elContainer.scrollLeft -= this.sourceWidth / 2;
+      }
+    } else {
+      if (scrollTop < this.sourceHeight / 4) {
+        const firstElement = this.getFirstChild();
+        const index = (this.numberOfSources + firstElement - 1) % this.numberOfSources;
+        this.createButton(index, false);
+        if (this.loadButtonForShow === true && this.allButtonsVisible === false) {
+          let showValue = index;
+          while (showValue > 0 && this.showSignalHolder[showValue]?.value === false) {
+            this.createButton(--showValue, false);
+          }
+        }
+        this._elContainer.lastElementChild?.remove();
+        this._elContainer.scrollTop += this.sourceHeight / 2;
+      } else if (scrollTop + offsetHeight > scrollHeight - this.sourceHeight / 4) {
+        const lastElement = this.getLastChild();
+        const index = (this.numberOfSources + lastElement + 1) % this.numberOfSources;
+        this.createButton(index);
+        if (this.loadButtonForShow === true && this.allButtonsVisible === false) {
+          let showValue = index;
+          while (showValue < this.numberOfSources && this.showSignalHolder[showValue]?.value === false) {
+            this.createButton(++showValue);
+          }
+        }
+        this._elContainer.firstElementChild?.remove();
+        this._elContainer.scrollTop -= this.sourceHeight / 2;
+        if (this.scrollToPosition === this.numberOfSources - 1 && index === 0) { this._elContainer.scrollTop += this.sourceHeight; }
+      }
+    }
+  } */
+
+  private getLastChild() {
+    return Number(this._sourceListContainer.lastElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
+  }
+
+  private getFirstChild() {
+    return Number(this._sourceListContainer.firstElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
+  }
+
+
+  private initScrollbar() {
+    if (this.sourceListPosition === "top" && this.dir === 'rtl') {
+      const { scrollWidth, offsetWidth, scrollLeft } = this._sourceListContainer;
+      this.scrollbarDimension = Math.floor(offsetWidth / scrollWidth * 100);
+      const scrollbarLeft = Math.ceil(Math.abs(scrollLeft) / scrollWidth * 100);
+      this._scrollbar.style.removeProperty('height');
+      this._scrollbar.style.removeProperty('top');
+      this._scrollbar.style.width = this.scrollbarDimension + '%';
+      this._scrollbar.style.left = (100 - this.scrollbarDimension) - scrollbarLeft + '%';
+    } else if (this.sourceListPosition === "top") {
+      const { scrollWidth: scrollWidth, offsetWidth: offsetWidth, scrollLeft: scrollLeft } = this._sourceListContainer;
+      this.scrollbarDimension = Math.floor(offsetWidth / scrollWidth * 100);
+      const scrollbarLeft = Math.ceil(scrollLeft / scrollWidth * 100);
+      this._scrollbar.style.removeProperty('height');
+      this._scrollbar.style.removeProperty('top');
+      this._scrollbar.style.width = this.scrollbarDimension + '%';
+      this._scrollbar.style.left = scrollbarLeft + '%';
+    } else {
+      const { scrollHeight: scrollHeight, offsetHeight: offsetHeight, scrollTop: scrollTop } = this._sourceListContainer;
+      this.scrollbarDimension = Math.floor(offsetHeight / scrollHeight * 100);
+      const scrollbarTop = Math.ceil(scrollTop / scrollHeight * 100);
+      this._scrollbar.style.removeProperty('width');
+      this._scrollbar.style.removeProperty('left');
+      this._scrollbar.style.height = this.scrollbarDimension + '%';
+      this._scrollbar.style.top = scrollbarTop + '%';
+    }
+
+    if (this.scrollbar) {
+      if (this.scrollbarDimension === 100) {
+        this._elContainer.classList.remove(this.primaryCssClass + Ch5VideoSwitcher.SCROLLBAR_CLASSLIST_PREFIX + 'true');
+        this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.SCROLLBAR_CLASSLIST_PREFIX + 'false');
+      } else {
+        this._elContainer.classList.remove(this.primaryCssClass + Ch5VideoSwitcher.SCROLLBAR_CLASSLIST_PREFIX + 'false');
+        this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.SCROLLBAR_CLASSLIST_PREFIX + 'true');
+      }
+    }
+  }
   private handleContractSourceLabelType() {
     Array.from(Ch5VideoSwitcher.COMPONENT_DATA.CONTRACT_SOURCE_LABEL_TYPE.values).forEach((e: any) => {
       this._elContainer.classList.remove(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.CONTRACT_SOURCE_LABEL_TYPE.classListPrefix + e);
@@ -789,6 +1007,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this._elContainer.classList.add(this.primaryCssClass);
     this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.SOURCE_LIST_POSITION.classListPrefix + this.sourceListPosition);
     this._screenListContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.SCREEN_ASPECT_RATIO.classListPrefix + this.screenAspectRatio);
+    this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
     /*   this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.CONTRACT_SOURCE_LABEL_TYPE.classListPrefix + this.contractSourceLabelType);
      this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.CONTRACT_SCREEN_LABEL_TYPE.classListPrefix + this.contractScreenLabelType); */
     this.logger.stop();
@@ -806,6 +1025,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     Array.from(this._sourceListContainer.querySelectorAll(".source-container")).forEach((childEle) => childEle.remove());
     for (let i = 0; i < this.numberOfSources; i++) {
       const source = document.createElement("div");
+      source.setAttribute('sourceId', (i + 1) + '');
       const sourceIcon = document.createElement('i');
       const label = document.createElement('label');
 
@@ -841,18 +1061,92 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
       source.addEventListener('dragstart', this.eventHandler.dragstart[i]);
       source.addEventListener('dragend', this.eventHandler.dragend[i])
+      // this.sourceChildHelper(i, sourceIcon);
     }
+    this.initScrollbar();
+  }
+
+  private sourceChildHelper(index: number, sourceIcon: HTMLElement) {
+    console.log(sourceIcon);
+    const sourceChild = this.getElementsByTagName(this.nodeName.toLowerCase() + "-source");
+    console.log(sourceChild, index);
+    /*  Array.from(sourceChild).forEach((element, index) => {
+       element.setAttribute('id', index+"");
+     }); */
+
+    /*  Ch5VideoSwitcher.COMPONENT_PROPERTIES.forEach((attr: ICh5PropertySettings) => {
+       if (index < sourceChild.length) {
+         if (attr.name.toLowerCase() === 'sourceiconclass') {
+           if (sourceChild[index] && sourceChild[index].hasAttribute('iconClass')) {
+             const attrValue = sourceChild[index].getAttribute('iconClass')?.trim();
+             if (attrValue) {
+               //this.setAttribute('sourceIconClass', attrValue);
+               this.sourceIconClass.split(' ').forEach((className: string) => {
+                 className = className.trim();
+                 if (className !== '') {
+                   sourceIcon.classList.add(className);
+                 }
+               });
+             }
+           }
+         }
+       } else {
+         if (this.sourceIconClass) {
+           this.sourceIconClass.split(' ').forEach((className: string) => {
+             className = className.trim();
+             if (className !== '') {
+               sourceIcon.classList.add(className);
+             }
+           });
+         } else {
+           sourceIcon.classList.add('fa-solid');
+           sourceIcon.classList.add('fa-video');
+         }
+       }
+     }) */
+
   }
 
   private createScreen() {
     Array.from(this._screenListContainer.querySelectorAll(".screen-container")).forEach((childEle) => childEle.remove());
+    /* const screenListArea = this._screenListContainer.getBoundingClientRect();
+    const possibleCol = screenListArea.width / 100;
+    const possibleRow = (screenListArea.height - 20) / 80;
+    let finalCol;
+  
+    if (possibleCol > this.numberOfScreenColumns) {
+      finalCol = this.numberOfScreenColumns;
+      this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(' + this.numberOfScreenColumns + ',minmax(80px, 1fr))');
+    } else {
+      finalCol = Math.floor(possibleCol);
+      this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(' + Math.floor(possibleCol) + ', minmax(80px, 1fr))');
+    }
+  
+    const requiredRows = this.numberOfScreens / Math.floor(finalCol);
+  
+    if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
+      this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(60px, 1fr) )');
+    } else {
+      this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.ceil(requiredRows) + ', minmax(60px, 1fr) )');
+    }
+  
+    const screen_Final = this.numberOfScreens < finalCol * Math.floor(possibleRow) ? this.numberOfScreens : finalCol * Math.floor(possibleRow); */
+
+
     for (let i = 0; i < this.numberOfScreens; i++) {
       const screen = document.createElement("div");
       const label = document.createElement('label');
       label.innerText = 'Screen' + i;
       screen.appendChild(label);
+      screen.setAttribute('screenId', (i + 1) + '');
       screen.classList.add('screen-container');
       screen.classList.add('screen-number-' + i);
+
+      /* if (this.screenAspectRatio === 'stretch') {
+        screen.style.minHeight = '100%';
+        screen.style.minWidth = '100%';
+      } */
+
       this._screenListContainer.appendChild(screen);
 
       this.eventHandlerForScreen.dragover.push(this.handleDragoverScreen.bind(this, i));
@@ -920,6 +1214,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private addSourceToScreen(ele: any, screen: any, scrNumber: number) {
+    const indexId = ele.getAttribute('sourceId');
     const se = document.createElement('div');
     se.innerHTML = ele.innerHTML;
     se.classList.add('draggable');
@@ -933,6 +1228,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     se.addEventListener('dragend', this.eventHandlerForsourceOnScreen.dragend[scrNumber]);
 
     screen.appendChild(se);
+    this.handleSendEventOnDrop(screen.getAttribute('screenId'), indexId);
   }
 
   private addbackuptoScreen(ele: any, screen: any) {
@@ -963,11 +1259,18 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   // Remove children using  parent element
-  removeChildren(parentElement: any) {
+  private removeChildren(parentElement: any) {
     // parentElement.removeChild(parentElement?.children?.length === 2 ? parentElement?.children[1] : '');
     parentElement.removeChild(parentElement.children[0]);
   }
 
+  private replaceAll(str: string, find: string, replace: string) {
+    if (str && String(str).trim() !== "") {
+      return String(str).split(find).join(replace);
+    } else {
+      return str;
+    }
+  }
   //#endregion
 
 }

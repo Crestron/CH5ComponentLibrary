@@ -3,6 +3,7 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { TCh5VideoSwitcherSourceAlignLabel } from "./interfaces/t-ch5-video-switcher";
+import { Ch5VideoSwitcher } from "./ch5-video-switcher";
 
 export class Ch5VideoSwitcherSource extends Ch5Log {
 
@@ -41,7 +42,7 @@ export class Ch5VideoSwitcherSource extends Ch5Log {
   ];
 
   private _ch5Properties: Ch5Properties;
-  private parentCh5VideoSwitcher: Ch5VideoSwitcherSource | null = null;
+  private parentComponent: Ch5VideoSwitcher | null = null;
 
   //#endregion
 
@@ -51,7 +52,7 @@ export class Ch5VideoSwitcherSource extends Ch5Log {
 
   public set alignLabel(value: TCh5VideoSwitcherSourceAlignLabel) {
     this._ch5Properties.set<TCh5VideoSwitcherSourceAlignLabel>("alignLabel", value, () => {
-      if (this.parentCh5VideoSwitcher) {
+      if (this.parentComponent) {
         //this.parentCh5VideoSwitcher.debounceButtonDisplay();
       }
     });
@@ -62,8 +63,18 @@ export class Ch5VideoSwitcherSource extends Ch5Log {
 
   public set iconClass(value: string) {
     this._ch5Properties.set<string>("iconClass", value, () => {
-      if (this.parentCh5VideoSwitcher) {
-        // this.parentComponent.debounceButtonDisplay();
+      const sourecEleId = this.getAttribute('id');
+      const indexOfSource = sourecEleId?.split('-') ? sourecEleId?.split('-') : [];
+      if (this.parentComponent) {
+        const ele = this.parentComponent._sourceListContainer.children[+indexOfSource[3]].getElementsByTagName('i');
+        ele[0].setAttribute('class', '');
+        ele[0].classList.add('source-icon');
+        this.iconClass.split(' ').forEach((className: string) => {
+          className = className.trim();
+          if (className !== '') {
+            ele[0].classList.add(className);
+          }
+        });
       }
     });
   }
@@ -73,7 +84,7 @@ export class Ch5VideoSwitcherSource extends Ch5Log {
 
   public set labelInnerHTML(value: string) {
     this._ch5Properties.set<string>("labelInnerHTML", value, () => {
-      if (this.parentCh5VideoSwitcher) {
+      if (this.parentComponent) {
         //this.parentComponent.debounceButtonDisplay();
       }
     });
@@ -135,11 +146,15 @@ export class Ch5VideoSwitcherSource extends Ch5Log {
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()');
-    if (this.parentElement?.nodeName !== 'ch5-video-switcher') {
-      return;
+    console.log(this.parentNode);
+    if (this.parentElement?.nodeName.toLowerCase() !== 'ch5-video-switcher') {
+      throw new Error(`Invalid parent element for ch5-video-switcher-source.`);
     }
+    this.parentComponent = this.parentElement as Ch5VideoSwitcher;
     this.setAttribute('role', Ch5RoleAttributeMapping.ch5VideoSwitcherSource);
-    this.setAttribute('data-ch5-id', this.getCrId());
+    //this.setAttribute('data-ch5-id', this.getCrId());
+    console.log(this.getAttribute('id'));
+
     this.initAttributes();
     this.logger.stop();
   }
