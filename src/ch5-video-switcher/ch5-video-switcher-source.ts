@@ -48,8 +48,6 @@ export class Ch5VideoSwitcherSource extends Ch5Log {
 
   //#region Getters and Setters
 
-
-
   public set alignLabel(value: TCh5VideoSwitcherSourceAlignLabel) {
     this._ch5Properties.set<TCh5VideoSwitcherSourceAlignLabel>("alignLabel", value, () => {
       if (this.parentComponent) {
@@ -91,8 +89,11 @@ export class Ch5VideoSwitcherSource extends Ch5Log {
 
   public set labelInnerHTML(value: string) {
     this._ch5Properties.set<string>("labelInnerHTML", value, () => {
+      const sourecEleId = this.getAttribute('id');
+      const indexOfSource = sourecEleId?.split('-') ? sourecEleId?.split('-') : [];
       if (this.parentComponent) {
-        //this.parentComponent.debounceButtonDisplay();
+        const ele = this.parentComponent._sourceListContainer.children[+indexOfSource[3]].getElementsByTagName('label');
+        ele[0].innerHTML = this.labelInnerHTML;
       }
     });
   }

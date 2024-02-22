@@ -59,9 +59,13 @@ export class Ch5VideoSwitcherScreen extends Ch5Log {
   }
 
   public set labelInnerHTML(value: string) {
+
     this._ch5Properties.set<string>("labelInnerHTML", value, () => {
+      const screenEleId = this.getAttribute('id');
+      const indexOfScreen = screenEleId?.split('-') ? screenEleId?.split('-') : [];
       if (this.parentComponent) {
-        //this.parentComponent.debounceButtonDisplay();
+        const ele = this.parentComponent._screenListContainer.children[+indexOfScreen[3]].getElementsByTagName('label');
+        ele[0].innerHTML = this.labelInnerHTML;
       }
     });
   }
