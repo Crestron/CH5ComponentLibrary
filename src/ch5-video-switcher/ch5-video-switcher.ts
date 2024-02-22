@@ -7,7 +7,8 @@ import { TCh5VideoSwitcherSourceListPosition, TCh5VideoSwitcherScreenAspectRatio
 import { ICh5VideoSwitcherAttributes } from './interfaces/i-ch5-video-switcher-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
-import { Ch5SignalFactory } from "../ch5-core";
+import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
+import _ from "lodash";
 
 export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttributes {
 
@@ -302,6 +303,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   public sourceListCssClass = '--source-list';
   public screenListCssClass = '--screen-list';
   public static readonly SCROLLBAR_CLASSLIST_PREFIX: string = '--source-list-scrollbar-';
+  public static readonly DISPLAY_SCREEN_LABEL: string = '--screen-list-display-screen-label-';
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
@@ -323,6 +325,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   private scrollbarDimension: number = 0;
   private sourceWidth: number = 0;
   private sourceHeight: number = 0;
+  private signalHolder: any = [];
 
 /*   public debounceCreateSource = this.debounce(() => {
     this.createSource();
@@ -444,8 +447,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   public set receiveStateSourceChanged(value: string) {
-    this._ch5Properties.set("receiveStateSourceChanged", value, null, (newValue: number) => {
-      this.handleReceiveStateSourceChanged(newValue);
+    this._ch5Properties.set("receiveStateSourceChanged", value, () => {
+      this.handleReceiveStateSourceChanged();
     });
   }
   public get receiveStateSourceChanged(): string {
@@ -624,6 +627,10 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     Array.from(sourceChild).forEach((element, index) => {
       element.setAttribute('id', this.getCrId() + '-' + index);
     });
+    const screenChild = this.getElementsByTagName(this.nodeName.toLowerCase() + "-screen");
+    Array.from(screenChild).forEach((element, index) => {
+      element.setAttribute('id', this.getCrId() + '-' + index);
+    });
     this.initAttributes();
     this.initCommonMutationObserver(this);
     this.handleNumberOfSources();
@@ -797,7 +804,10 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     // Enter your Code here
   }
   private handleDisplayScreenLabel() {
-    // Enter your Code here
+    [true, false].forEach((bool: boolean) => {
+      this._elContainer.classList.remove(this.primaryCssClass + Ch5VideoSwitcher.DISPLAY_SCREEN_LABEL + bool.toString());
+    });
+    this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.DISPLAY_SCREEN_LABEL + this.displayScreenLabel);
   }
   private handleScreenAspectRatio() {
     Array.from(Ch5VideoSwitcher.COMPONENT_DATA.SCREEN_ASPECT_RATIO.values).forEach((e: any) => {
@@ -813,18 +823,64 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
   private handleSendEventOnDrop(signalName: string, signalValue: number) {
     //console.log('signalName', signalName, 'signalValue', signalValue)
-    const sigName = this.replaceAll(this.sendEventOnDrop.trim(), `{{${this.indexId}}}`, signalName);
-    Ch5SignalFactory.getInstance().getNumberSignal(sigName)?.publish(signalValue as number);
-    this.handleSendEventOnChange(signalName);
+    if(this.sendEventOnDrop){
+      const sigName = this.replaceAll(this.sendEventOnDrop.trim(), `{{${this.indexId}}}`, signalName);
+      Ch5SignalFactory.getInstance().getNumberSignal(sigName)?.publish(signalValue as number);
+    }
+    if(this.sendEventOnChange){
+      this.handleSendEventOnChange(signalName);
+    }
   }
   private handleSendEventOnChange(signalName: string) {
     const sigName = this.replaceAll(this.sendEventOnChange.trim(), `{{${this.indexId}}}`, signalName);
     Ch5SignalFactory.getInstance().getBooleanSignal(sigName)?.publish(true);
     Ch5SignalFactory.getInstance().getBooleanSignal(sigName)?.publish(false);
   }
-  private handleReceiveStateSourceChanged(newValue: number) {
-    console.log('handleReceiveStateSourceChanged', newValue);
+
+  private handleReceiveStateSourceChanged() {
+    this.signalHolder.forEach((obj: any) => {
+      this.clearOldSubscriptionNumber(obj.signalValue, obj.signalState);
+    });
+    console.log('handleReceiveStateSourceChanged');
+    const indexId = this.getAttribute('indexid')?.trim() + '' || this.indexId;
+    for (let i = 0; i < 36; i++) {
+      const screen = this.receiveStateSourceChanged.replace(`{{${indexId}}}`, (i + 1).toString());
+      this.signalHolder.push(
+        { signalState: "", signalValue: screen, value: null },
+      );
+      if (screen) {
+        const screenSignalResponse = this.setSignalByNumber(screen);
+        if (!_.isNil(screenSignalResponse)) {
+          this.signalHolder[i].signalState = screenSignalResponse.subscribe((newValue: number) => {
+            this.signalHolder[i].value = newValue;
+            console.log('source-', newValue, 'screen-', i);
+          });
+        }
+      }
+    }
   }
+
+  private clearOldSubscriptionNumber(signalValue: string, signalState: string) {
+    // clean up old subscription
+    const oldReceiveStateSigName: string = Ch5Signal.getSubscriptionSignalName(signalValue);
+    const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(oldReceiveStateSigName);
+
+    if (oldSignal !== null) {
+      oldSignal.unsubscribe(signalState as string);
+    }
+  }
+
+  public setSignalByNumber(value: string): Ch5Signal<number> | null {
+    // setup new subscription.
+    const receiveLabelSigName: string = Ch5Signal.getSubscriptionSignalName(value);
+    const receiveSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(receiveLabelSigName);
+
+    if (receiveSignal === null) {
+      return null;
+    }
+    return receiveSignal;
+  }
+
   private handleReceiveStateSourceLabel() {
     // Enter your Code here
   }
@@ -852,104 +908,33 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     if (this.endless) {
       this.sourceWidth = this._elContainer.children[0].getBoundingClientRect().width;
       this.sourceHeight = this._elContainer.children[0].getBoundingClientRect().height;
-    //  / return this.endlessHelper();
+      return this.endlessHelper();
     }
   }
 
-  /* private endlessHelper() {
+  private endlessHelper() {
     const { offsetHeight, offsetWidth, scrollLeft, scrollTop, scrollWidth, scrollHeight } = this._sourceListContainer;
     const endlessScrollable = (this.sourceListPosition === 'top' || this.sourceListPosition === "bottom") ? offsetWidth + this.sourceWidth < scrollWidth : offsetHeight + this.sourceHeight < scrollHeight;
     if (endlessScrollable === false) { return; }
-    if ((this.sourceListPosition === 'top' || this.sourceListPosition === 'bottom') && this.dir === 'rtl') {
-      if (Math.abs(scrollLeft) + offsetWidth > scrollWidth - this.sourceWidth / 4) {
-        const lastElement = this.getLastChild();loadButtonForShow
-        const index = (this.numberOfSources + lastElement + 1) % this.numberOfSources;
-        this.createButton(index);
-        if (this.loadButtonForShow === true && this.allButtonsVisible === false) {
-          let showValue = index;
-          while (showValue < this.numberOfSources && this.showSignalHolder[showValue]?.value === false) {
-            this.createButton(++showValue);
-          }
-        }
-        this._elContainer.firstElementChild?.remove();
-        this._elContainer.scrollLeft += this.sourceWidth / 2;
-      } else if (Math.abs(scrollLeft) < this.sourceWidth / 4) {
-        const firstElement = this.getFirstChild();
-        const index = (this.numberOfSources + firstElement - 1) % this.numberOfSources;
-        this.createButton(index, false);
-        if (this.loadButtonForShow === true && this.allButtonsVisible === false) {
-          let showValue = index;
-          while (showValue > 0 && this.showSignalHolder[showValue]?.value === false) {
-            this.createButton(--showValue, false);
-          }
-        }
-        this._elContainer.lastElementChild?.remove();
-        this._elContainer.scrollLeft -= this.sourceWidth / 2;
+    if (this.sourceListPosition === 'top' || this.sourceListPosition === 'bottom') {
+      if (scrollLeft < this.sourceWidth / 2) {
+        this._sourceListContainer.appendChild(this._sourceListContainer.firstElementChild as Element)
+        this._sourceListContainer.scrollLeft += this.sourceWidth;
+      } else if (scrollLeft + offsetWidth > scrollWidth - this.sourceWidth / 2) {
+        this._sourceListContainer.prepend(this._sourceListContainer.lastElementChild as Element)
+        this._sourceListContainer.scrollLeft -= this.sourceWidth;
       }
-    } else if (this.sourceListPosition === 'top'|| this.sourceListPosition === 'bottom') {
-      if (scrollLeft < this.sourceWidth / 4) {
-        const firstElement = this.getFirstChild();
-        const index = (this.numberOfSources + firstElement - 1) % this.numberOfSources;
-        this.createButton(index, false);
-        if (this.loadButtonForShow === true && this.allButtonsVisible === false) {
-          let showValue = index;
-          while (showValue > 0 && this.showSignalHolder[showValue]?.value === false) {
-            this.createButton(--showValue, false);
-          }
-        }
-        this._elContainer.lastElementChild?.remove();
-        this._elContainer.scrollLeft += this.sourceWidth / 2;
-      } else if (scrollLeft + offsetWidth > scrollWidth - this.sourceWidth / 4) {
-        const lastElement = this.getLastChild();
-        const index = (this.numberOfSources + lastElement + 1) % this.numberOfSources;
-        this.createButton(index);
-        if (this.loadButtonForShow === true && this.allButtonsVisible === false) {
-          let showValue = index;
-          while (showValue < this.numberOfSources && this.showSignalHolder[showValue]?.value === false) {
-            this.createButton(++showValue);
-          }
-        }
-        this._elContainer.firstElementChild?.remove();
-        this._elContainer.scrollLeft -= this.sourceWidth / 2;
-      }
+      console.log(scrollTop);
     } else {
-      if (scrollTop < this.sourceHeight / 4) {
-        const firstElement = this.getFirstChild();
-        const index = (this.numberOfSources + firstElement - 1) % this.numberOfSources;
-        this.createButton(index, false);
-        if (this.loadButtonForShow === true && this.allButtonsVisible === false) {
-          let showValue = index;
-          while (showValue > 0 && this.showSignalHolder[showValue]?.value === false) {
-            this.createButton(--showValue, false);
-          }
-        }
-        this._elContainer.lastElementChild?.remove();
-        this._elContainer.scrollTop += this.sourceHeight / 2;
-      } else if (scrollTop + offsetHeight > scrollHeight - this.sourceHeight / 4) {
-        const lastElement = this.getLastChild();
-        const index = (this.numberOfSources + lastElement + 1) % this.numberOfSources;
-        this.createButton(index);
-        if (this.loadButtonForShow === true && this.allButtonsVisible === false) {
-          let showValue = index;
-          while (showValue < this.numberOfSources && this.showSignalHolder[showValue]?.value === false) {
-            this.createButton(++showValue);
-          }
-        }
-        this._elContainer.firstElementChild?.remove();
-        this._elContainer.scrollTop -= this.sourceHeight / 2;
-        if (this.scrollToPosition === this.numberOfSources - 1 && index === 0) { this._elContainer.scrollTop += this.sourceHeight; }
+      if (scrollTop < this.sourceHeight / 2) {
+        this._sourceListContainer.prepend(this._sourceListContainer.lastElementChild as Element)
+        this._sourceListContainer.scrollTop -= this.sourceHeight;
+      } else if (scrollTop + offsetHeight > scrollHeight - this.sourceHeight / 2) {
+        this._sourceListContainer.appendChild(this._sourceListContainer.firstElementChild as Element)
+        this._sourceListContainer.scrollTop += this.sourceHeight;
       }
     }
-  } */
-
-  private getLastChild() {
-    return Number(this._sourceListContainer.lastElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
   }
-
-  private getFirstChild() {
-    return Number(this._sourceListContainer.firstElementChild?.getAttribute('id')?.replace(this.getCrId() + '-', ''));
-  }
-
 
   private initScrollbar() {
     if (this.sourceListPosition === "top" && this.dir === 'rtl') {
@@ -1008,6 +993,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.SOURCE_LIST_POSITION.classListPrefix + this.sourceListPosition);
     this._screenListContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.SCREEN_ASPECT_RATIO.classListPrefix + this.screenAspectRatio);
     this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
+    this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.DISPLAY_SCREEN_LABEL + this.displayScreenLabel);
     /*   this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.CONTRACT_SOURCE_LABEL_TYPE.classListPrefix + this.contractSourceLabelType);
      this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.CONTRACT_SCREEN_LABEL_TYPE.classListPrefix + this.contractScreenLabelType); */
     this.logger.stop();
@@ -1032,6 +1018,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       source.setAttribute('draggable', 'true');
       source.classList.add('source-container');
       source.classList.add('draggable');
+      source.classList.add(this.primaryCssClass + this.sourceListCssClass + '-label-center');
 
       sourceIcon.classList.add('source-icon');
       if (this.sourceIconClass) {
@@ -1046,6 +1033,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         sourceIcon.classList.add('fa-video');
       }
       label.innerText = 'Source' + i;
+      label.classList.add(this.primaryCssClass + this.sourceListCssClass + '-label');
       if (this.sourceListPosition === 'top' || this.sourceListPosition === 'bottom') {
         source.style.setProperty('height', 'calc(calc(100% /' + this.numberOfSourceListDivisions + ') - 20px)');
       } else {
@@ -1136,11 +1124,14 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     for (let i = 0; i < this.numberOfScreens; i++) {
       const screen = document.createElement("div");
       const label = document.createElement('label');
+      screen.setAttribute('screenId', (i + 1) + '');
       label.innerText = 'Screen' + i;
       screen.appendChild(label);
       screen.setAttribute('screenId', (i + 1) + '');
       screen.classList.add('screen-container');
       screen.classList.add('screen-number-' + i);
+      label.classList.add(this.primaryCssClass + this.screenListCssClass + '-label');
+      screen.classList.add(this.primaryCssClass + this.screenListCssClass + '-label-center');
 
       /* if (this.screenAspectRatio === 'stretch') {
         screen.style.minHeight = '100%';

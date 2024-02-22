@@ -17,7 +17,7 @@ export class Ch5VideoSwitcherSource extends Ch5Log {
     {
       default: Ch5VideoSwitcherSource.ALIGN_LABEL[0],
       enumeratedValues: Ch5VideoSwitcherSource.ALIGN_LABEL,
-      name: "alignLabel ",
+      name: "alignLabel",
       removeAttributeOnNull: true,
       type: "enum",
       valueOnAttributeEmpty: Ch5VideoSwitcherSource.ALIGN_LABEL[0],
@@ -53,7 +53,14 @@ export class Ch5VideoSwitcherSource extends Ch5Log {
   public set alignLabel(value: TCh5VideoSwitcherSourceAlignLabel) {
     this._ch5Properties.set<TCh5VideoSwitcherSourceAlignLabel>("alignLabel", value, () => {
       if (this.parentComponent) {
-        //this.parentCh5VideoSwitcher.debounceButtonDisplay();
+        const sourecEleId = this.getAttribute('id');
+        const indexOfSource = sourecEleId?.split('-') ? sourecEleId?.split('-') : [];
+        if (this.parentComponent) {
+          Array.from(Ch5VideoSwitcherSource.ALIGN_LABEL).forEach((e: any) => {
+            this.parentComponent?._sourceListContainer.children[+indexOfSource[3]].classList.remove('ch5-video-switcher--source-list-label-' + e);
+          });
+          this.parentComponent._sourceListContainer.children[+indexOfSource[3]].classList.add('ch5-video-switcher--source-list-label-' + this.alignLabel);
+        }
       }
     });
   }
@@ -146,14 +153,13 @@ export class Ch5VideoSwitcherSource extends Ch5Log {
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()');
-    console.log(this.parentNode);
+    // console.log(this.parentNode);
     if (this.parentElement?.nodeName.toLowerCase() !== 'ch5-video-switcher') {
       throw new Error(`Invalid parent element for ch5-video-switcher-source.`);
     }
     this.parentComponent = this.parentElement as Ch5VideoSwitcher;
     this.setAttribute('role', Ch5RoleAttributeMapping.ch5VideoSwitcherSource);
-    //this.setAttribute('data-ch5-id', this.getCrId());
-    console.log(this.getAttribute('id'));
+    // console.log(this.getAttribute('id'));
 
     this.initAttributes();
     this.logger.stop();

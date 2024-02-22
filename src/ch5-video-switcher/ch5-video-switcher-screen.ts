@@ -3,6 +3,7 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { TCh5VideoSwitcherScreenAlignLabel } from "./interfaces/t-ch5-video-switcher";
+import { Ch5VideoSwitcher } from "./ch5-video-switcher";
 
 export class Ch5VideoSwitcherScreen extends Ch5Log {
 
@@ -16,7 +17,7 @@ export class Ch5VideoSwitcherScreen extends Ch5Log {
     {
       default: Ch5VideoSwitcherScreen.ALIGN_LABEL[0],
       enumeratedValues: Ch5VideoSwitcherScreen.ALIGN_LABEL,
-      name: "alignLabel ",
+      name: "alignLabel",
       removeAttributeOnNull: true,
       type: "enum",
       valueOnAttributeEmpty: Ch5VideoSwitcherScreen.ALIGN_LABEL[0],
@@ -33,7 +34,7 @@ export class Ch5VideoSwitcherScreen extends Ch5Log {
   ];
 
   private _ch5Properties: Ch5Properties;
-  private parentCh5VideoSwitcher: Ch5VideoSwitcherScreen | null = null;
+  private parentComponent: Ch5VideoSwitcher | null = null;
 
   //#endregion
 
@@ -43,8 +44,13 @@ export class Ch5VideoSwitcherScreen extends Ch5Log {
 
   public set alignLabel(value: TCh5VideoSwitcherScreenAlignLabel) {
     this._ch5Properties.set<TCh5VideoSwitcherScreenAlignLabel>("alignLabel", value, () => {
-      if (this.parentCh5VideoSwitcher) {
-        //this.parentCh5VideoSwitcher.debounceButtonDisplay();
+      const screenEleId = this.getAttribute('id');
+      const indexOfScreen = screenEleId?.split('-') ? screenEleId?.split('-') : [];
+      if (this.parentComponent) {
+        Array.from(Ch5VideoSwitcherScreen.ALIGN_LABEL).forEach((e: any) => {
+          this.parentComponent?._screenListContainer.children[+indexOfScreen[3]].classList.remove('ch5-video-switcher--screen-list-label-' + e);
+        });
+        this.parentComponent._screenListContainer.children[+indexOfScreen[3]].classList.add('ch5-video-switcher--screen-list-label-' + this.alignLabel);
       }
     });
   }
@@ -54,7 +60,7 @@ export class Ch5VideoSwitcherScreen extends Ch5Log {
 
   public set labelInnerHTML(value: string) {
     this._ch5Properties.set<string>("labelInnerHTML", value, () => {
-      if (this.parentCh5VideoSwitcher) {
+      if (this.parentComponent) {
         //this.parentComponent.debounceButtonDisplay();
       }
     });
@@ -116,11 +122,13 @@ export class Ch5VideoSwitcherScreen extends Ch5Log {
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()');
-    if (this.parentElement?.nodeName !== 'ch5-video-switcher') {
-      return;
+    //console.log(this.parentNode);
+    if (this.parentElement?.nodeName.toLowerCase() !== 'ch5-video-switcher') {
+      throw new Error(`Invalid parent element for ch5-video-switcher-screen.`);
     }
+    this.parentComponent = this.parentElement as Ch5VideoSwitcher;
     this.setAttribute('role', Ch5RoleAttributeMapping.ch5VideoSwitcherScreen);
-    this.setAttribute('data-ch5-id', this.getCrId());
+    //console.log(this.getAttribute('id'));
     this.initAttributes();
     this.logger.stop();
   }
