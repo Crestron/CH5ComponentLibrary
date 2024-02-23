@@ -36,6 +36,9 @@ export class Ch5VideoSwitcherSourceLabel extends Ch5Log {
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()');
+    if (this.parentElement?.nodeName.toLowerCase() !== 'ch5-video-switcher-source') {
+      throw new Error(`Invalid parent element for ch5-video-switcher-source-label.`);
+    }
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5VideoSwitcherSourceLabel);
     }

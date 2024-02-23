@@ -32,6 +32,9 @@ export class Ch5VideoSwitcherScreenLabel extends Ch5Log {
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()');
+    if (this.parentElement?.nodeName.toLowerCase() !== 'ch5-video-switcher-screen') {
+      throw new Error(`Invalid parent element for ch5-video-switcher-screen-label.`);
+    }
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5VideoSwitcherScreenLabel);
     }

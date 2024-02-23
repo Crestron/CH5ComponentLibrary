@@ -9,6 +9,7 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import _ from "lodash";
+import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
 
 export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttributes {
 
@@ -823,11 +824,11 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
   private handleSendEventOnDrop(signalName: string, signalValue: number) {
     //console.log('signalName', signalName, 'signalValue', signalValue)
-    if(this.sendEventOnDrop){
+    if (this.sendEventOnDrop) {
       const sigName = this.replaceAll(this.sendEventOnDrop.trim(), `{{${this.indexId}}}`, signalName);
       Ch5SignalFactory.getInstance().getNumberSignal(sigName)?.publish(signalValue as number);
     }
-    if(this.sendEventOnChange){
+    if (this.sendEventOnChange) {
       this.handleSendEventOnChange(signalName);
     }
   }
@@ -1049,50 +1050,31 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
       source.addEventListener('dragstart', this.eventHandler.dragstart[i]);
       source.addEventListener('dragend', this.eventHandler.dragend[i])
-      // this.sourceChildHelper(i, sourceIcon);
+      // this.sourceLabelHelper(i, label);
     }
     this.initScrollbar();
   }
 
-  private sourceChildHelper(index: number, sourceIcon: HTMLElement) {
-    console.log(sourceIcon);
-    const sourceChild = this.getElementsByTagName(this.nodeName.toLowerCase() + "-source");
-    console.log(sourceChild, index);
+  private sourceLabelHelper(index: number, label: HTMLElement) {
     /*  Array.from(sourceChild).forEach((element, index) => {
-       element.setAttribute('id', index+"");
-     }); */
-
-    /*  Ch5VideoSwitcher.COMPONENT_PROPERTIES.forEach((attr: ICh5PropertySettings) => {
-       if (index < sourceChild.length) {
-         if (attr.name.toLowerCase() === 'sourceiconclass') {
-           if (sourceChild[index] && sourceChild[index].hasAttribute('iconClass')) {
-             const attrValue = sourceChild[index].getAttribute('iconClass')?.trim();
-             if (attrValue) {
-               //this.setAttribute('sourceIconClass', attrValue);
-               this.sourceIconClass.split(' ').forEach((className: string) => {
-                 className = className.trim();
-                 if (className !== '') {
-                   sourceIcon.classList.add(className);
-                 }
-               });
-             }
-           }
-         }
-       } else {
-         if (this.sourceIconClass) {
-           this.sourceIconClass.split(' ').forEach((className: string) => {
-             className = className.trim();
-             if (className !== '') {
-               sourceIcon.classList.add(className);
-             }
-           });
-         } else {
-           sourceIcon.classList.add('fa-solid');
-           sourceIcon.classList.add('fa-video');
-         }
-       }
-     }) */
-
+      element.setAttribute('id', index+"");
+    }); */
+    const sourceTags = this.getElementsByTagName(this.nodeName.toLowerCase() + "-source");
+    if (sourceTags && sourceTags.length === 0) {
+      return;
+    }
+    const sourceLabelTags = sourceTags[index].getElementsByTagName(this.nodeName.toLowerCase() + "-source-label");
+    if (sourceLabelTags && sourceLabelTags.length === 0) {
+      return;
+    }
+    const sourceLabelTemplate = sourceLabelTags[0].getElementsByTagName("template");
+    if (sourceLabelTemplate && sourceLabelTemplate.length > 0) {
+      const template = document.createElement('template');
+      template.innerHTML = sourceLabelTemplate[0].innerHTML;
+      Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(template, index, this.indexId);
+      Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsContent(template, index, this.indexId);
+      label.innerHTML = template.innerHTML;
+    }
   }
 
   private createScreen() {

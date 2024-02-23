@@ -59,7 +59,6 @@ export class Ch5VideoSwitcherScreen extends Ch5Log {
   }
 
   public set labelInnerHTML(value: string) {
-
     this._ch5Properties.set<string>("labelInnerHTML", value, () => {
       const screenEleId = this.getAttribute('id');
       const indexOfScreen = screenEleId?.split('-') ? screenEleId?.split('-') : [];
