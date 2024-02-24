@@ -1150,7 +1150,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     if (Array.from(draggedElement?.classList).includes('source-onscreen')) {
       console.log('source on screen');
       const targetEl = event?.target as HTMLElement;
-      if (targetEl.children.length || targetEl.parentElement?.classList.contains('source-onscreen')) {
+      if (targetEl.children.length === 2  || targetEl.parentElement?.classList.contains('source-onscreen')) {
         if (targetEl.parentElement?.classList.contains('source-onscreen')) {
           console.log('element exist');
           backup = targetEl.parentElement.outerHTML;
@@ -1194,7 +1194,10 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     se.classList.add('source-onscreen');
     se.setAttribute('draggable', 'true');
 
-    Array.from(screen?.children)?.forEach((item: any) => item?.remove());
+   // Array.from(screen?.children)?.forEach((item: any) => item?.remove());
+    if(screen?.children.length === 2){
+      screen?.removeChild(screen?.children[1]);
+    }
     this.eventHandlerForsourceOnScreen.dragstart.push(this.handleDragStartForSourceOnScreen.bind(this, scrNumber));
     this.eventHandlerForsourceOnScreen.dragend.push(this.handleDragEndForSourceOnScreen.bind(this, scrNumber));
     se.addEventListener('dragstart', this.eventHandlerForsourceOnScreen.dragstart[scrNumber]);
@@ -1205,8 +1208,11 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private addbackuptoScreen(ele: any, screen: any) {
-    Array.from(screen?.children)?.forEach((item: any) => item?.remove());
-    screen.innerHTML = ele;
+    //Array.from(screen?.children)?.forEach((item: any) => item?.remove());
+    if(screen?.children.length === 2){
+      screen?.removeChild(screen?.children[1]);
+    }
+    screen.innerHTML += ele;
     // to find the parent screen index
     const classIndex = (Array.from(screen.classList)).findIndex((className: any) => {
       return className.startsWith('screen-number-');
@@ -1220,11 +1226,11 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private handleDragStartForSourceOnScreen(index: number) {
-    this._screenListContainer.children[index].children[0].classList.add('dragging');
+    this._screenListContainer.children[index].children[1].classList.add('dragging');
   }
 
   private handleDragEndForSourceOnScreen(index: number, event: any) {
-    this._screenListContainer.children[index].children[0].classList.remove('dragging');
+    this._screenListContainer.children[index].children[1].classList.remove('dragging');
     // remove element on drop outside screen
     if (event.dataTransfer.dropEffect !== 'copy') {
       event.target.remove();
@@ -1234,7 +1240,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   // Remove children using  parent element
   private removeChildren(parentElement: any) {
     // parentElement.removeChild(parentElement?.children?.length === 2 ? parentElement?.children[1] : '');
-    parentElement.removeChild(parentElement.children[0]);
+    parentElement.removeChild(parentElement.children[1]);
   }
 
   private replaceAll(str: string, find: string, replace: string) {
