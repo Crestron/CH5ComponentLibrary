@@ -1020,8 +1020,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       source.classList.add('source-container');
       source.classList.add('draggable');
       source.classList.add(this.primaryCssClass + this.sourceListCssClass + '-label-center');
-
       sourceIcon.classList.add('source-icon');
+
       if (this.sourceIconClass) {
         this.sourceIconClass.split(' ').forEach((className: string) => {
           className = className.trim();
@@ -1033,6 +1033,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         sourceIcon.classList.add('fa-solid');
         sourceIcon.classList.add('fa-video');
       }
+
       label.innerText = 'Source' + (i + 1);
       label.classList.add(this.primaryCssClass + this.sourceListCssClass + '-label');
       source.appendChild(sourceIcon);
@@ -1041,10 +1042,9 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       this._sourceListContainer.appendChild(source);
       this.eventHandler.dragstart.push(this.handleDragStartSource.bind(this, i + 1));
       this.eventHandler.dragend.push(this.handleDragEndSource.bind(this, i + 1));
-
       source.addEventListener('dragstart', this.eventHandler.dragstart[i]);
       source.addEventListener('dragend', this.eventHandler.dragend[i])
-      // this.sourceLabelHelper(i, label);
+
     }
     this.initScrollbar();
   }
@@ -1201,7 +1201,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       }
       if (draggedElement && draggedElement.getAttribute('sourceId') && this.sendEventOnDrop) {
         this.handleSendEventOnDrop(scrNumber + 1 + '', draggedElement.getAttribute('sourceId'));
-      } else {
+      }
+      if (!this.receiveStateSourceChanged) {
         this.addSourceToScreen(draggedElement, this._screenListContainer.children[scrNumber], scrNumber, false);
       }
     }
@@ -1291,6 +1292,12 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this._screenListContainer.children[index]?.children[1]?.classList?.remove('dragging');
     // remove element on drop outside screen
     if (event.dataTransfer.dropEffect !== 'copy') {
+      if (this.sendEventOnDrop) {
+        this.handleSendEventOnDrop(index - 1 + '', 0);
+      }
+      if (this.sendEventOnChange) {
+        this.handleSendEventOnChange(index - 1 + '');
+      }
       event.target.remove();
     }
   }
