@@ -6,7 +6,7 @@ import { ICh5VideoSwitcherAttributes } from "./i-ch5-video-switcher-attributes";
  * @isattribute false
  * @tagName ch5-video-switcher
  * @role video-switcher
- * @description The Video Switcher widget combines a scrolling list with a drag and drop functionality geared towards controlling video sources in a switcher matrix..
+ * @description The Video Switcher widget combines a scrolling list with a drag and drop functionality geared towards controlling video sources in a switcher matrix.
  * @componentVersion 2.9.0
  * @childElements
  * [
@@ -34,29 +34,29 @@ import { ICh5VideoSwitcherAttributes } from "./i-ch5-video-switcher-attributes";
  *     "body": [
  *       "<ch5-video-switcher id=\"ch5-video-switcher_${1:id}\"",
  *       "\tsourceListPosition=\"${2:top}\"",
-          *       "\tendless=\"${3:false}\"",
-          *       "\tnumberOfSourceListDivisions=\"${4:1}\"",
-          *       "\tscrollbar=\"${5:false}\"",
-          *       "\tnumberOfSources=\"${6:5}\"",
-          *       "\tnumberOfScreenColumns=\"${7:0}\"",
-          *       "\tindexId=\"${8:}\"",
-          *       "\tdisplayScreenLabel=\"${9:true}\"",
-          *       "\tscreenAspectRatio=\"${10:stretch}\"",
-          *       "\tnumberOfScreens=\"${11:2}\"",
-          *       "\tsourceIconClass=\"${12:fa-solid fa-video}\"",
-          *       "\tsendEventOnDrop=\"${13:}\"",
-          *       "\tsendEventOnChange=\"${14:}\"",
-          *       "\treceiveStateSourceChanged=\"${15:}\"",
-          *       "\treceiveStateSourceLabel=\"${16:}\"",
-          *       "\treceiveStateScriptSourceLabelHtml=\"${17:}\"",
-          *       "\treceiveStateScreenLabel=\"${18:}\"",
-          *       "\treceiveStateScriptScreenLabelHtml=\"${19:}\"",
-          *       "\treceiveStateNumberOfScreens=\"${20:}\"",
-          *       "\tcontractName=\"${21:}\"",
-          *       "\tuseContractForEnable=\"${22:false}\"",
-          *       "\tuseContractForShow=\"${23:false}\"",
-          *       "\tcontractSourceLabelType=\"${24:none}\"",
-          *       "\tcontractScreenLabelType=\"${25:none}\">",
+ *       "\tendless=\"${3:false}\"",
+ *       "\tnumberOfSourceListDivisions=\"${4:1}\"",
+ *       "\tscrollbar=\"${5:false}\"",
+ *       "\tnumberOfSources=\"${6:5}\"",
+ *       "\tnumberOfScreenColumns=\"${7:0}\"",
+ *       "\tindexId=\"${8:}\"",
+ *       "\tdisplayScreenLabel=\"${9:true}\"",
+ *       "\tscreenAspectRatio=\"${10:stretch}\"",
+ *       "\tnumberOfScreens=\"${11:2}\"",
+ *       "\tsourceIconClass=\"${12:fa-solid fa-video}\"",
+ *       "\tsendEventOnDrop=\"${13:}\"",
+ *       "\tsendEventOnChange=\"${14:}\"",
+ *       "\treceiveStateSourceChanged=\"${15:}\"",
+ *       "\treceiveStateSourceLabel=\"${16:}\"",
+ *       "\treceiveStateScriptSourceLabelHtml=\"${17:}\"",
+ *       "\treceiveStateScreenLabel=\"${18:}\"",
+ *       "\treceiveStateScriptScreenLabelHtml=\"${19:}\"",
+ *       "\treceiveStateNumberOfScreens=\"${20:}\"",
+ *       "\tcontractName=\"${21:}\"",
+ *       "\tuseContractForEnable=\"${22:false}\"",
+ *       "\tuseContractForShow=\"${23:false}\"",
+ *       "\tcontractSourceLabelType=\"${24:none}\"",
+ *       "\tcontractScreenLabelType=\"${25:none}\">",
  *       "</ch5-video-switcher>$0"
  *       ]
  *    },
@@ -66,23 +66,41 @@ import { ICh5VideoSwitcherAttributes } from "./i-ch5-video-switcher-attributes";
  *     "body": [
  *       "<ch5-video-switcher id=\"ch5-video-switcher_${1:id}\"",
  *       "\tsourceListPosition=\"${2:top}\"",
-            *       "\tendless=\"${3:false}\"",
-            *       "\tnumberOfSourceListDivisions=\"${4:1}\"",
-            *       "\tscrollbar=\"${5:false}\"",
-            *       "\tnumberOfSources=\"${6:5}\"",
-            *       "\tnumberOfScreenColumns=\"${7:0}\"",
-            *       "\tindexId=\"${8:}\"",
-            *       "\tdisplayScreenLabel=\"${9:true}\"",
-            *       "\tscreenAspectRatio=\"${10:stretch}\"",
-            *       "\tnumberOfScreens=\"${11:2}\"",
-            *       "\tsourceIconClass=\"${12:fa-solid fa-video}\"",
-            *       "\tcontractName=\"${21:}\"",
-            *       "\tuseContractForEnable=\"${22:false}\"",
-            *       "\tuseContractForShow=\"${23:false}\"",
-            *       "\tcontractSourceLabelType=\"${24:none}\"",
-            *       "\tcontractScreenLabelType=\"${25:none}\">",
+ *       "\tendless=\"${3:false}\"",
+ *       "\tnumberOfSourceListDivisions=\"${4:1}\"",
+ *       "\tscrollbar=\"${5:false}\"",
+ *       "\tnumberOfSources=\"${6:5}\"",
+ *       "\tnumberOfScreenColumns=\"${7:0}\"",
+ *       "\tindexId=\"${8:}\"",
+ *       "\tdisplayScreenLabel=\"${9:true}\"",
+ *       "\tscreenAspectRatio=\"${10:stretch}\"",
+ *       "\tnumberOfScreens=\"${11:2}\"",
+ *       "\tsourceIconClass=\"${12:fa-solid fa-video}\">",
+ *       "\tcontractName=\"${21:}\">",
  *       "</ch5-video-switcher>$0"
  *       ]
+ *    },
+ *    {
+ *      "prefix": "ch5-video-switcher:contractbased",
+ *      "description": "Crestron video switcher(contractbased)",
+ *      "body": [
+ *        "<ch5-video-switcher id=\"ch5-video-switcher_${1:id}\"",
+ *        "\tcontractName=\"${2:}\">",
+ *        "</ch5-video-switcher>$0"
+ *        ]
+ *    },
+ *    {
+ *      "prefix": "ch5-video-switcher:contractbased-attributes",
+ *      "description": "Crestron video switcher(contractbased-attributes)",
+ *      "body": [
+ *        "<ch5-video-switcher id=\"ch5-video-switcher_${1:id}\"",
+ *        "\tcontractName=\"${2:}\"",
+ *        "\tuseContractForEnable=\"${3:false}\"",
+ *        "\tuseContractForShow=\"${4:false}\"",
+ *        "\tcontractSourceLabelType=\"${5:none}\"",
+ *        "\tcontractScreenLabelType=\"${6:none}\">",
+ *        "</ch5-video-switcher>$0"
+ *        ]
  *    }
  *  ]
  */
