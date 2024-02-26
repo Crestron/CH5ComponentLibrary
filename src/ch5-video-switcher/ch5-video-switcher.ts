@@ -1153,7 +1153,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private handleDropScreen(scrNumber: number, event: Event) {
-    let draggedElement = this.querySelector(".dragging") as HTMLElement;
+    const draggedElement = this.querySelector(".dragging") as HTMLElement;
     //console.log(event);
     let backup: any;
     if (Array.from(draggedElement?.classList).includes('source-onscreen')) {
