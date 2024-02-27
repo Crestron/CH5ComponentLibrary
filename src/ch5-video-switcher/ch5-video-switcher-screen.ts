@@ -63,7 +63,7 @@ export class Ch5VideoSwitcherScreen extends Ch5Log {
       const screenEleId = this.getAttribute('id');
       const indexOfScreen = screenEleId?.split('-') ? screenEleId?.split('-') : [];
       if (this.parentComponent) {
-        const ele = this.parentComponent._screenListContainer.children[+indexOfScreen[3]].getElementsByTagName('label');
+        const ele = this.parentComponent._screenListContainer.children[+indexOfScreen[3]].getElementsByTagName('span');
         ele[0].innerHTML = this.labelInnerHTML;
       }
     });

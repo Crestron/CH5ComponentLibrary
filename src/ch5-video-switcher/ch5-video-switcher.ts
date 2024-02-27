@@ -326,6 +326,22 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   private scrollbarDimension: number = 0;
 
   private signalHolder: any = [];
+  private signalHolderForSourceLabel: any = {
+    contractSourceLabelType: [],
+    receiveStateScriptSourceLabelHtml: [],
+    receiveStateSourceLabel: [],
+    content: [],
+    labelInnerHtml: []
+  };
+
+  private signalHolderForScreenLabel: any = {
+    contractScreenLabelType: [],
+    receiveStateScriptScreenLabelHtml: [],
+    receiveStateScreenLabel: [],
+    content: [],
+    labelInnerHtml: []
+  }
+
 
 /*   public debounceCreateSource = this.debounce(() => {
     this.createSource();
@@ -456,9 +472,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   public set receiveStateSourceLabel(value: string) {
-    this._ch5Properties.set("receiveStateSourceLabel", value, null, (newValue: string) => {
-      console.log(newValue);
-      this.handleReceiveStateSourceLabel();
+    this._ch5Properties.set("receiveStateSourceLabel", value, () => {
+      this.handleSourceLabel();
     });
   }
   public get receiveStateSourceLabel(): string {
@@ -466,9 +481,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   public set receiveStateScriptSourceLabelHtml(value: string) {
-    this._ch5Properties.set("receiveStateScriptSourceLabelHtml", value, null, (newValue: string) => {
-      console.log(newValue);
-      this.handleReceiveStateScriptSourceLabelHtml();
+    this._ch5Properties.set("receiveStateScriptSourceLabelHtml", value, () => {
+      this.handleSourceLabel();
     });
   }
   public get receiveStateScriptSourceLabelHtml(): string {
@@ -476,9 +490,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   public set receiveStateScreenLabel(value: string) {
-    this._ch5Properties.set("receiveStateScreenLabel", value, null, (newValue: string) => {
-      console.log(newValue);
-      this.handleReceiveStateScreenLabel();
+    this._ch5Properties.set("receiveStateScreenLabel", value, () => {
+      this.handleScreenLabel();
     });
   }
   public get receiveStateScreenLabel(): string {
@@ -486,9 +499,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   public set receiveStateScriptScreenLabelHtml(value: string) {
-    this._ch5Properties.set("receiveStateScriptScreenLabelHtml", value, null, (newValue: string) => {
-      console.log(newValue);
-      this.handleReceiveStateScriptScreenLabelHtml();
+    this._ch5Properties.set("receiveStateScriptScreenLabelHtml", value, () => {
+      this.handleScreenLabel();
     });
   }
   public get receiveStateScriptScreenLabelHtml(): string {
@@ -812,9 +824,9 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
   private handleScreenAspectRatio() {
     Array.from(Ch5VideoSwitcher.COMPONENT_DATA.SCREEN_ASPECT_RATIO.values).forEach((e: any) => {
-      this._screenListContainer.classList.remove(this.primaryCssClass + this.screenListCssClass + Ch5VideoSwitcher.COMPONENT_DATA.SCREEN_ASPECT_RATIO.classListPrefix + e);
+      this._screenListContainer.classList.remove(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.SCREEN_ASPECT_RATIO.classListPrefix + e);
     });
-    this._screenListContainer.classList.add(this.primaryCssClass + this.screenListCssClass + Ch5VideoSwitcher.COMPONENT_DATA.SCREEN_ASPECT_RATIO.classListPrefix + this.screenAspectRatio);
+    this._screenListContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.SCREEN_ASPECT_RATIO.classListPrefix + this.screenAspectRatio);
   }
   private handleNumberOfScreens() {
     this.createScreen();
@@ -861,7 +873,18 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     }
   }
 
+
   private clearOldSubscriptionNumber(signalValue: string, signalState: string) {
+    // clean up old subscription
+    const oldReceiveStateSigName: string = Ch5Signal.getSubscriptionSignalName(signalValue);
+    const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(oldReceiveStateSigName);
+
+    if (oldSignal !== null) {
+      oldSignal.unsubscribe(signalState as string);
+    }
+  }
+
+  private clearOldSubscriptionString(signalValue: string, signalState: string) {
     // clean up old subscription
     const oldReceiveStateSigName: string = Ch5Signal.getSubscriptionSignalName(signalValue);
     const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(oldReceiveStateSigName);
@@ -882,18 +905,127 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     return receiveSignal;
   }
 
-  private handleReceiveStateSourceLabel() {
-    // Enter your Code here
+  private setSignalByString(value: string): Ch5Signal<string> | null {
+    // setup new subscription.
+    const receiveLabelSigName: string = Ch5Signal.getSubscriptionSignalName(value);
+    const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(receiveLabelSigName);
+
+    if (receiveSignal === null) {
+      return null;
+    }
+    return receiveSignal;
+
   }
-  private handleReceiveStateScriptSourceLabelHtml() {
-    // Enter your Code here
+
+  private handleSourceLabel() {
+    Object.keys(this.signalHolderForSourceLabel).forEach((key: any) => {
+      this.signalHolderForSourceLabel[key].forEach((item: any) => {
+        this.clearOldSubscriptionString(item.signalValue, item.signalState);
+      });
+      this.signalHolderForSourceLabel[key] = [];
+    });
+    const indexId = this.getAttribute('indexid')?.trim() + '' || this.indexId;
+    let label;
+    for (let i = 0; i < this.numberOfSources; i++) {
+      if (this.hasAttribute('receiveStateScriptSourceLabelHtml') && this.receiveStateScriptSourceLabelHtml) {
+        label = this.receiveStateScriptSourceLabelHtml.replace(`{{${indexId}}}`, (i + 1).toString());
+        if (label) {
+          this.signalHolderForSourceLabel.receiveStateScriptSourceLabelHtml.push({ signalState: "", signalValue: label, value: null });
+          const labelSignalResponse = this.setSignalByString(label);
+          if (!_.isNil(labelSignalResponse)) {
+            this.signalHolderForSourceLabel.receiveStateScriptSourceLabelHtml[i].signalState = labelSignalResponse.subscribe((newValue: string) => {
+              this.signalHolderForSourceLabel.receiveStateScriptSourceLabelHtml[i].value = newValue;
+              console.log('subscribe State for receiveStateScriptSourceLabelHtml-- > value-', newValue, 'index-', i + 1);
+              this.sourcelabelHelper(newValue, i + 1, true)
+            });
+          }
+        }
+      } else if (this.hasAttribute('receiveStateSourceLabel') && this.receiveStateSourceLabel) {
+        label = this.receiveStateSourceLabel.replace(`{{${indexId}}}`, (i + 1).toString());
+        if (label) {
+          this.signalHolderForSourceLabel.receiveStateSourceLabel.push({ signalState: "", signalValue: label, value: null });
+          const labelSignalResponse = this.setSignalByString(label);
+          if (!_.isNil(labelSignalResponse)) {
+            this.signalHolderForSourceLabel.receiveStateSourceLabel[i].signalState = labelSignalResponse.subscribe((newValue: string) => {
+              this.signalHolderForSourceLabel.receiveStateSourceLabel[i].value = newValue;
+              console.log('subscribe State for receiveStateSourceLabel-- > value-', newValue, 'index-', i + 1);
+              this.sourcelabelHelper(newValue, i + 1, false)
+            });
+          }
+        }
+      }
+    }
   }
-  private handleReceiveStateScreenLabel() {
-    // Enter your Code here
+
+  private handleScreenLabel() {
+    Object.keys(this.signalHolderForScreenLabel).forEach((key: any) => {
+      this.signalHolderForScreenLabel[key].forEach((item: any) => {
+        this.clearOldSubscriptionString(item.signalValue, item.signalState);
+      });
+      this.signalHolderForScreenLabel[key] = [];
+    });
+
+    const indexId = this.getAttribute('indexid')?.trim() + '' || this.indexId;
+    let label;
+    for (let i = 0; i < this.numberOfScreens; i++) {
+      if (this.hasAttribute('receiveStateScriptScreenLabelHtml') && this.receiveStateScriptScreenLabelHtml) {
+        label = this.receiveStateScriptScreenLabelHtml.replace(`{{${indexId}}}`, (i + 1).toString());
+        if (label) {
+          this.signalHolderForScreenLabel.receiveStateScriptScreenLabelHtml.push({ signalState: "", signalValue: label, value: null });
+          const labelSignalResponse = this.setSignalByString(label);
+          if (!_.isNil(labelSignalResponse)) {
+            this.signalHolderForScreenLabel.receiveStateScriptScreenLabelHtml[i].signalState = labelSignalResponse.subscribe((newValue: string) => {
+              this.signalHolderForScreenLabel.receiveStateScriptScreenLabelHtml[i].value = newValue;
+              console.log('subscribe State for receiveStateScriptScreenLabelHtml-- > value-', newValue, 'index-', i + 1);
+              this.screenlabelHelper(newValue, i + 1, true)
+            });
+          }
+        }
+      } else if (this.hasAttribute('receiveStateScreenLabel') && this.receiveStateScreenLabel) {
+        label = this.receiveStateScreenLabel.replace(`{{${indexId}}}`, (i + 1).toString());
+        if (label) {
+          this.signalHolderForScreenLabel.receiveStateScreenLabel.push({ signalState: "", signalValue: label, value: null });
+          const labelSignalResponse = this.setSignalByString(label);
+          if (!_.isNil(labelSignalResponse)) {
+            this.signalHolderForScreenLabel.receiveStateScreenLabel[i].signalState = labelSignalResponse.subscribe((newValue: string) => {
+              this.signalHolderForScreenLabel.receiveStateScreenLabel[i].value = newValue;
+              console.log('subscribe State for receiveStateScreenLabel-- > value-', newValue, 'index-', i + 1);
+              this.screenlabelHelper(newValue, i + 1, false)
+            });
+          }
+        }
+      }
+    }
   }
-  private handleReceiveStateScriptScreenLabelHtml() {
-    // Enter your Code here
+
+  private sourcelabelHelper(newValue: string, index: number, innerHTML: boolean) {
+    Array.from(this._sourceListContainer.children).forEach((item) => {
+      console.log(item.getAttribute('sourceid'));
+      if (item.getAttribute('sourceid') === index + '') {
+        const label = item.getElementsByTagName('span');
+        if (innerHTML) {
+          label[0].innerHTML = newValue;
+        } else {
+          label[0].innerText = newValue;
+        }
+      }
+    });
   }
+
+  private screenlabelHelper(newValue: string, index: number, innerHTML: boolean) {
+    Array.from(this._screenListContainer.children).forEach((item) => {
+      console.log(item.getAttribute('screenid'));
+      if (item.getAttribute('screenid') === index + '') {
+        const label = item.getElementsByTagName('span');
+        if (innerHTML) {
+          label[0].innerHTML = newValue;
+        } else {
+          label[0].innerText = newValue;
+        }
+      }
+    });
+  }
+
   private handleContractName() {
     // Enter your Code here
   }
@@ -974,12 +1106,14 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       }
     }
   }
+
   private handleContractSourceLabelType() {
     Array.from(Ch5VideoSwitcher.COMPONENT_DATA.CONTRACT_SOURCE_LABEL_TYPE.values).forEach((e: any) => {
       this._elContainer.classList.remove(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.CONTRACT_SOURCE_LABEL_TYPE.classListPrefix + e);
     });
     this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.CONTRACT_SOURCE_LABEL_TYPE.classListPrefix + this.contractSourceLabelType);
   }
+
   private handleContractScreenLabelType() {
     Array.from(Ch5VideoSwitcher.COMPONENT_DATA.CONTRACT_SCREEN_LABEL_TYPE.values).forEach((e: any) => {
       this._elContainer.classList.remove(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.CONTRACT_SCREEN_LABEL_TYPE.classListPrefix + e);
@@ -1033,13 +1167,15 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         sourceIcon.classList.add('fa-solid');
         sourceIcon.classList.add('fa-video');
       }
-
-      label.innerText = 'Source' + (i + 1);
+      if (!(this.hasAttribute('receivestatesourcelabel') || this.hasAttribute('receiveStateScriptSourceLabelHtml'))) {
+        label.innerText = 'Source' + (i + 1);
+      }
       label.classList.add(this.primaryCssClass + this.sourceListCssClass + '-label');
       source.appendChild(sourceIcon);
       source.appendChild(label);
 
       this._sourceListContainer.appendChild(source);
+      this.sourceLabelHelperCreate(i);
       this.eventHandler.dragstart.push(this.handleDragStartSource.bind(this, i + 1));
       this.eventHandler.dragend.push(this.handleDragEndSource.bind(this, i + 1));
       source.addEventListener('dragstart', this.eventHandler.dragstart[i]);
@@ -1073,49 +1209,60 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   private createScreen() {
     Array.from(this._screenListContainer.querySelectorAll(".screen-container")).forEach((childEle) => childEle.remove());
-    /* const screenListArea = this._screenListContainer.getBoundingClientRect();
-    const possibleCol = screenListArea.width / 100;
-    const possibleRow = (screenListArea.height - 20) / 80;
-    let finalCol;
-  
-    if (possibleCol > this.numberOfScreenColumns) {
-      finalCol = this.numberOfScreenColumns;
-      this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(' + this.numberOfScreenColumns + ',minmax(80px, 1fr))');
+
+    const possibleCol = (this._screenListContainer.offsetWidth) / 80;
+    const possibleRow = (this._screenListContainer.offsetHeight) / 60;
+    let finalScreenCol;
+    if (Math.floor(possibleCol) > this.numberOfScreenColumns) {
+      finalScreenCol = this.numberOfScreenColumns;
     } else {
-      finalCol = Math.floor(possibleCol);
-      this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(' + Math.floor(possibleCol) + ', minmax(80px, 1fr))');
+      finalScreenCol = Math.floor(possibleCol);
     }
-  
-    const requiredRows = this.numberOfScreens / Math.floor(finalCol);
-  
+    this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(' + finalScreenCol + ', minmax(80px, 1fr))');
+
+    const requiredRows = this.numberOfScreens / finalScreenCol;
+
     if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
       this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(60px, 1fr) )');
     } else {
       this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.ceil(requiredRows) + ', minmax(60px, 1fr) )');
     }
-  
-    const screen_Final = this.numberOfScreens < finalCol * Math.floor(possibleRow) ? this.numberOfScreens : finalCol * Math.floor(possibleRow); */
-
+    //const aspect = this.screenAspectRatio;
+    let setHeight = false;
+    if (this.screenAspectRatio === '16-9') {
+      setHeight = false;
+    } else if (this.screenAspectRatio === '4-3') {
+      setHeight = true;
+    }
 
     for (let i = 0; i < this.numberOfScreens; i++) {
       const screen = document.createElement("div");
       const label = document.createElement('span');
       screen.setAttribute('screenId', (i + 1) + '');
-      label.innerText = 'Screen' + (i + 1);
       screen.appendChild(label);
+
       screen.setAttribute('screenId', (i + 1) + '');
       screen.classList.add('screen-container');
       screen.classList.add('screen-number-' + i);
       label.classList.add(this.primaryCssClass + this.screenListCssClass + '-label');
       screen.classList.add(this.primaryCssClass + this.screenListCssClass + '-label-center');
 
-      /* if (this.screenAspectRatio === 'stretch') {
-        screen.style.minHeight = '100%';
-        screen.style.minWidth = '100%';
-      } */
 
+      if (setHeight) {
+        if (this.numberOfScreens <= finalScreenCol) {
+          screen.style.maxWidth = (Math.floor(this._screenListContainer.offsetWidth) / finalScreenCol) - 5 + 'px';
+        } else {
+          screen.style.height = 60 + 'px';
+        }
+      } else {
+        if (this.numberOfScreens <= +finalScreenCol) {
+          screen.style.maxHeight = (Math.floor(this._screenListContainer.offsetHeight) / finalScreenCol) - 5 + 'px';
+        } else {
+          screen.style.width = 80 + 'px';
+        }
+      }
       this._screenListContainer.appendChild(screen);
-
+      this.screenLabelHelperCreate(i);
       this.eventHandlerForScreen.dragover.push(this.handleDragoverScreen.bind(this, i));
       this.eventHandlerForScreen.drop.push(this.handleDropScreen.bind(this, i));
       this.eventHandlerForScreen.dragleave.push(this.handleDragleaveScreen.bind(this, i));
@@ -1123,6 +1270,26 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       screen.addEventListener('dragover', this.eventHandlerForScreen.dragover[i]);
       screen.addEventListener('drop', this.eventHandlerForScreen.drop[i])
       screen.addEventListener('dragleave', this.eventHandlerForScreen.dragleave[i]);
+    }
+  }
+
+  private screenLabelHelperCreate(index: number) {
+    if (this.hasAttribute('receiveStateScriptscreenlabelhtml') && this.receiveStateScriptScreenLabelHtml) {
+      this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = this.signalHolderForScreenLabel.receiveStateScriptScreenLabelHtml[index]?.value;
+    } else if (this.hasAttribute('receiveStateScreenLabel') && this.receiveStateScreenLabel) {
+      this._screenListContainer.children[index].getElementsByTagName('span')[0].innerText = this.signalHolderForScreenLabel.receiveStateScreenLabel[index]?.value;
+    } else {
+      this._screenListContainer.children[index].getElementsByTagName('span')[0].innerText = 'Screen' + (index + 1);
+    }
+  }
+
+  private sourceLabelHelperCreate(index: number) {
+    if (this.hasAttribute('receiveStateScriptSourceLabelHtml') && this.receiveStateScriptSourceLabelHtml  ) {
+      this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerHTML = this.signalHolderForSourceLabel.receiveStateScriptSourceLabelHtml[index]?.value;
+    } else if (this.hasAttribute('receiveStateSourceLabel') && this.receiveStateSourceLabel) {
+      this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerText = this.signalHolderForSourceLabel.receiveStateSourceLabel[index]?.value;
+    } else {
+      this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerText = 'Screen' + (index + 1);
     }
   }
 
