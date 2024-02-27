@@ -1273,21 +1273,25 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     }
   }
 
-  private screenLabelHelperCreate(index: number) {
+  public screenLabelHelperCreate(index: number, labelInnerHTML: string = '') {
     if (this.hasAttribute('receiveStateScriptscreenlabelhtml') && this.receiveStateScriptScreenLabelHtml) {
       this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = this.signalHolderForScreenLabel.receiveStateScriptScreenLabelHtml[index]?.value;
     } else if (this.hasAttribute('receiveStateScreenLabel') && this.receiveStateScreenLabel) {
       this._screenListContainer.children[index].getElementsByTagName('span')[0].innerText = this.signalHolderForScreenLabel.receiveStateScreenLabel[index]?.value;
+    } else if (labelInnerHTML) {
+      this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = labelInnerHTML;
     } else {
       this._screenListContainer.children[index].getElementsByTagName('span')[0].innerText = 'Screen' + (index + 1);
     }
   }
 
-  private sourceLabelHelperCreate(index: number) {
-    if (this.hasAttribute('receiveStateScriptSourceLabelHtml') && this.receiveStateScriptSourceLabelHtml  ) {
+  public sourceLabelHelperCreate(index: number, labelInnerHTML: string = '') {
+    if (this.hasAttribute('receiveStateScriptSourceLabelHtml') && this.receiveStateScriptSourceLabelHtml) {
       this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerHTML = this.signalHolderForSourceLabel.receiveStateScriptSourceLabelHtml[index]?.value;
     } else if (this.hasAttribute('receiveStateSourceLabel') && this.receiveStateSourceLabel) {
       this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerText = this.signalHolderForSourceLabel.receiveStateSourceLabel[index]?.value;
+    } else if (labelInnerHTML) {
+      this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerHTML = labelInnerHTML;
     } else {
       this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerText = 'Screen' + (index + 1);
     }
