@@ -342,6 +342,12 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     labelInnerHtml: []
   }
 
+  private signalNameOnContract = {
+    contractName: "",
+    receiveStateEnable: "",
+    receiveStateShow: "",
+  }
+
 
 /*   public debounceCreateSource = this.debounce(() => {
     this.createSource();
@@ -529,7 +535,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   public set useContractForEnable(value: boolean) {
     this._ch5Properties.set<boolean>("useContractForEnable", value, () => {
-      this.handleUseContractForEnable();
+      this.contractDefaultHelper();
     });
   }
   public get useContractForEnable(): boolean {
@@ -538,7 +544,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   public set useContractForShow(value: boolean) {
     this._ch5Properties.set<boolean>("useContractForShow", value, () => {
-      this.handleUseContractForShow();
+      this.contractDefaultHelper();
     });
   }
   public get useContractForShow(): boolean {
@@ -651,6 +657,19 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       this.componentLoadedEvent(Ch5VideoSwitcher.ELEMENT_NAME, this.id);
     });
     this.logger.stop();
+  }
+
+  private contractDefaultHelper() {
+    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+      // useContractForEnable and receiveStateEnable
+      if (this.useContractForEnable === true) {
+        this.receiveStateEnable = this.contractName + '.Enable';
+      }
+      // useContractForShow and receiveStateShow
+      if (this.useContractForShow === true) {
+        this.receiveStateShow = this.contractName + '.Visible';
+      }
+    }
   }
 
   public disconnectedCallback() {
@@ -1027,13 +1046,15 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private handleContractName() {
-    // Enter your Code here
-  }
-  private handleUseContractForEnable() {
-    // Enter your Code here
-  }
-  private handleUseContractForShow() {
-    // Enter your Code here
+    if (this.contractName.trim().length === 0) {
+      this.signalNameOnContract.contractName = "";
+      this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
+      this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;
+    } else if (this.signalNameOnContract.contractName === "") {
+      this.signalNameOnContract.receiveStateShow = this.receiveStateShow;
+      this.signalNameOnContract.receiveStateEnable = this.receiveStateEnable;
+    }
+    this.contractDefaultHelper();
   }
 
   private handleScrollEvent = () => {
