@@ -1185,28 +1185,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this.initScrollbar();
   }
 
-  private sourceLabelHelper(index: number, label: HTMLElement) {
-    /*  Array.from(sourceChild).forEach((element, index) => {
-      element.setAttribute('id', index+"");
-    }); */
-    const sourceTags = this.getElementsByTagName(this.nodeName.toLowerCase() + "-source");
-    if (sourceTags && sourceTags.length === 0) {
-      return;
-    }
-    const sourceLabelTags = sourceTags[index].getElementsByTagName(this.nodeName.toLowerCase() + "-source-label");
-    if (sourceLabelTags && sourceLabelTags.length === 0) {
-      return;
-    }
-    const sourceLabelTemplate = sourceLabelTags[0].getElementsByTagName("template");
-    if (sourceLabelTemplate && sourceLabelTemplate.length > 0) {
-      const template = document.createElement('template');
-      template.innerHTML = sourceLabelTemplate[0].innerHTML;
-      Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(template, index, this.indexId);
-      Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsContent(template, index, this.indexId);
-      label.innerHTML = template.innerHTML;
-    }
-  }
-
   private createScreen() {
     Array.from(this._screenListContainer.querySelectorAll(".screen-container")).forEach((childEle) => childEle.remove());
 
@@ -1273,11 +1251,15 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     }
   }
 
-  public screenLabelHelperCreate(index: number, labelInnerHTML: string = '') {
+  public screenLabelHelperCreate(index: number, labelInnerHTML: string = '', content: any = '') {
     if (this.hasAttribute('receiveStateScriptscreenlabelhtml') && this.receiveStateScriptScreenLabelHtml) {
       this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = this.signalHolderForScreenLabel.receiveStateScriptScreenLabelHtml[index]?.value;
     } else if (this.hasAttribute('receiveStateScreenLabel') && this.receiveStateScreenLabel) {
       this._screenListContainer.children[index].getElementsByTagName('span')[0].innerText = this.signalHolderForScreenLabel.receiveStateScreenLabel[index]?.value;
+    } else if (content) {
+      Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(content, index, this.indexId);
+      Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsContent(content, index, this.indexId);
+      this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = content.innerHTML;;
     } else if (labelInnerHTML) {
       this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = labelInnerHTML;
     } else {
@@ -1285,15 +1267,19 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     }
   }
 
-  public sourceLabelHelperCreate(index: number, labelInnerHTML: string = '') {
+  public sourceLabelHelperCreate(index: number, labelInnerHTML: string = '', content: any = '') {
     if (this.hasAttribute('receiveStateScriptSourceLabelHtml') && this.receiveStateScriptSourceLabelHtml) {
       this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerHTML = this.signalHolderForSourceLabel.receiveStateScriptSourceLabelHtml[index]?.value;
     } else if (this.hasAttribute('receiveStateSourceLabel') && this.receiveStateSourceLabel) {
       this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerText = this.signalHolderForSourceLabel.receiveStateSourceLabel[index]?.value;
+    } else if (content) {
+      Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(content, index, this.indexId);
+      Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsContent(content, index, this.indexId);
+      this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerHTML = content.innerHTML;
     } else if (labelInnerHTML) {
       this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerHTML = labelInnerHTML;
     } else {
-      this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerText = 'Screen' + (index + 1);
+      this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerText = 'Source' + (index + 1);
     }
   }
 

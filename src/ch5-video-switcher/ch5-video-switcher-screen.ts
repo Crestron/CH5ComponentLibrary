@@ -40,8 +40,6 @@ export class Ch5VideoSwitcherScreen extends Ch5Log {
 
   //#region Getters and Setters
 
-
-
   public set alignLabel(value: TCh5VideoSwitcherScreenAlignLabel) {
     this._ch5Properties.set<TCh5VideoSwitcherScreenAlignLabel>("alignLabel", value, () => {
       const screenEleId = this.getAttribute('id');
@@ -126,13 +124,12 @@ export class Ch5VideoSwitcherScreen extends Ch5Log {
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()');
-    //console.log(this.parentNode);
     if (this.parentElement?.nodeName.toLowerCase() !== 'ch5-video-switcher') {
       throw new Error(`Invalid parent element for ch5-video-switcher-screen.`);
     }
     this.parentComponent = this.parentElement as Ch5VideoSwitcher;
     this.setAttribute('role', Ch5RoleAttributeMapping.ch5VideoSwitcherScreen);
-    //console.log(this.getAttribute('id'));
+    this.screenLabelHelper();
     this.initAttributes();
     this.logger.stop();
   }
@@ -148,7 +145,6 @@ export class Ch5VideoSwitcherScreen extends Ch5Log {
 
   protected initAttributes() {
     super.initAttributes();
-
     const thisRef: any = this;
     for (let i: number = 0; i < Ch5VideoSwitcherScreen.COMPONENT_PROPERTIES.length; i++) {
       if (Ch5VideoSwitcherScreen.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
@@ -156,6 +152,20 @@ export class Ch5VideoSwitcherScreen extends Ch5Log {
           const key = Ch5VideoSwitcherScreen.COMPONENT_PROPERTIES[i].name;
           thisRef[key] = this.getAttribute(key);
         }
+      }
+    }
+  }
+
+  private screenLabelHelper() {
+    const screenLabel = this.getElementsByTagName(this.nodeName.toLowerCase() + "-label");
+    const screenLabelTemplate = screenLabel[0].getElementsByTagName("template");
+    const screenEleId = this.getAttribute('id');
+    const indexOfScreen = screenEleId?.split('-') ? screenEleId?.split('-') : [];
+    if (screenLabelTemplate && screenLabelTemplate.length > 0) {
+      const template = document.createElement('template');
+      template.innerHTML = screenLabelTemplate[0].innerHTML;
+      if (this.parentComponent) {
+        this.parentComponent.screenLabelHelperCreate(+indexOfScreen[3], '', template);
       }
     }
   }

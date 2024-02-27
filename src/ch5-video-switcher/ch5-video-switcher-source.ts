@@ -92,7 +92,6 @@ export class Ch5VideoSwitcherSource extends Ch5Log {
       const sourecEleId = this.getAttribute('id');
       const indexOfSource = sourecEleId?.split('-') ? sourecEleId?.split('-') : [];
       if (this.parentComponent) {
-        console.log(indexOfSource);
         this.parentComponent.sourceLabelHelperCreate(+indexOfSource[3], this.labelInnerHTML);
         // const ele = this.parentComponent._sourceListContainer.children[+indexOfSource[3]].getElementsByTagName('span');
         // ele[0].innerHTML = this.labelInnerHTML;
@@ -164,6 +163,8 @@ export class Ch5VideoSwitcherSource extends Ch5Log {
     this.setAttribute('role', Ch5RoleAttributeMapping.ch5VideoSwitcherSource);
     // console.log(this.getAttribute('id'));
 
+    this.sourceLabelHelper();
+
     this.initAttributes();
     this.logger.stop();
   }
@@ -187,6 +188,20 @@ export class Ch5VideoSwitcherSource extends Ch5Log {
           const key = Ch5VideoSwitcherSource.COMPONENT_PROPERTIES[i].name;
           thisRef[key] = this.getAttribute(key);
         }
+      }
+    }
+  }
+
+  private sourceLabelHelper() {
+    const sourceLabel = this.getElementsByTagName(this.nodeName.toLowerCase() + "-label");
+    const sourceLabelTemplate = sourceLabel[0].getElementsByTagName("template");
+    const sourecEleId = this.getAttribute('id');
+    const indexOfSource = sourecEleId?.split('-') ? sourecEleId?.split('-') : [];
+    if (sourceLabelTemplate && sourceLabelTemplate.length > 0) {
+      const template = document.createElement('template');
+      template.innerHTML = sourceLabelTemplate[0].innerHTML;
+      if (this.parentComponent) {
+        this.parentComponent.sourceLabelHelperCreate(+indexOfSource[3], '', template);
       }
     }
   }
