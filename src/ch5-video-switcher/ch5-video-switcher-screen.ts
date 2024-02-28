@@ -4,8 +4,9 @@ import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-ma
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { TCh5VideoSwitcherScreenAlignLabel } from "./interfaces/t-ch5-video-switcher";
 import { Ch5VideoSwitcher } from "./ch5-video-switcher";
+import { ICh5VideoSwitcherScreenAttributes } from "./interfaces";
 
-export class Ch5VideoSwitcherScreen extends Ch5Log {
+export class Ch5VideoSwitcherScreen extends Ch5Log implements ICh5VideoSwitcherScreenAttributes {
 
   //#region Variables
 

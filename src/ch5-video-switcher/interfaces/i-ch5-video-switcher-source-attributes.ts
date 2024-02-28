@@ -12,8 +12,8 @@ export interface ICh5VideoSwitcherSourceAttributes {
    * "Ability to provide a template that applies for the individual sources in the video switcher."
    * ]
    * @name labelinnerhtml
-   * @default 
    * @attributeType "String"
+   * @hidden true
    */
   labelInnerHTML: string;
   /**

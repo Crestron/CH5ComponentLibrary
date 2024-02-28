@@ -1,7 +1,8 @@
 import { Ch5Log } from "../ch5-common/ch5-log";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
+import { ICh5VideoSwitcherSourceLabelDocumentation } from "./interfaces";
 
-export class Ch5VideoSwitcherSourceLabel extends Ch5Log {
+export class Ch5VideoSwitcherSourceLabel extends Ch5Log implements ICh5VideoSwitcherSourceLabelDocumentation {
 
 
   //#region Variables

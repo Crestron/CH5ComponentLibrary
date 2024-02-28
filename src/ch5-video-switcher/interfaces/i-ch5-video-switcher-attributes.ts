@@ -6,28 +6,28 @@ import { TCh5VideoSwitcherSourceListPosition, TCh5VideoSwitcherScreenAspectRatio
  */
 export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSwitcher {
   /**
-  * @documentation
-  * [
-  * "`sourceListPosition` attribute",
-  * "***",
-  * "The position of the drag and drop list in relation to the area where the droppable screens are rendered. Possible values are top       (default), left, right, bottom"
-  * ]
-  * @name sourcelistposition
-  * @default top
-  * @attributeType "EnumeratedValue"
-  */
+   * @documentation
+   * [
+   * "`sourceListPosition` attribute",
+   * "***",
+   * "The position of the drag and drop list in relation to the area where the droppable screens are rendered. Possible values are top(default), left, right, bottom"
+   * ]
+   * @name sourcelistposition
+   * @default top
+   * @attributeType "EnumeratedValue"
+   */
   sourceListPosition: TCh5VideoSwitcherSourceListPosition;
   /**
-  * @documentation
-  * [
-  * "`endless` attribute",
-  * "***",
-  * "When endless scrolling is selected the items in the list will loop when the end is reached creating the illusion that there is an 'endless'. Only works when numberOfSourceListDivisions is 1. Default value is false."
-  * ]
-  * @name endless
-  * @default false
-  * @attributeType "Boolean"
-  */
+   * @documentation
+   * [
+   * "`endless` attribute",
+   * "***",
+   * "When endless scrolling is selected the items in the list will loop when the end is reached creating the illusion  that there is an 'endless'. Only works when numberOfSourceListDivisions is 1. Default value is false."
+   * ]
+   * @name endless
+   * @default false
+   * @attributeType "Boolean"
+   */
   endless: boolean;
   /**
    * @documentation
@@ -117,24 +117,24 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    */
   screenAspectRatio: TCh5VideoSwitcherScreenAspectRatio;
   /**
-  * @documentation
-  * [
-  * "`numberOfScreens` attribute",
-  * "***",
-  * "Sets the maximum number of screens on the control. Note: A minimum screen size of 80Wx60H will be enforced. Your total number of screens may be limited automatically if the size of the control is exceeded. Default value is 2, Minimum value is 1 and Maximum value is 36."
-  * ]
-  * @name numberofscreens
-  * @default 2
-  * @limits [{"min": 1, "max": 36}]
-  * @attributeType "Integer"
-  */
+   * @documentation
+   * [
+   * "`numberOfScreens` attribute",
+   * "***",
+   * "Sets the maximum number of screens on the control. Note: A minimum screen size of 80Wx60H will be enforced. Your total number of screens may be limited automatically if the size of the control is exceeded. Default value is 2, Minimum value is 1 and Maximum value is 36."
+   * ]
+   * @name numberofscreens
+   * @default 2
+   * @limits [{"min": 1, "max": 36}]
+   * @attributeType "Integer"
+   */
   numberOfScreens: number;
   /**
    * @documentation
    * [
    * "`sourceIconClass` attribute",
    * "***",
-   * "Sets the default icon for each source. The iconClass in the <ch5-video-switcher-source> tag will override this value."
+   * "Sets the default icon for each source. The iconClass in the ch5-video-switcher-source tag will override this value."
    * ]
    * @name sourceiconclass
    * @default fa-solid fa-video
@@ -158,7 +158,7 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    * [
    * "`sendEventOnChange` attribute",
    * "***",
-   * "Boolean signal sent to the control system for each icon dropped on the screen."
+   * "Boolean signal sent to the control system for each source dropped on the screen. No Repeat digital in this case."
    * ]
    * @name sendeventonchange
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
@@ -286,15 +286,15 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    */
   contractSourceLabelType: TCh5VideoSwitcherContractSourceLabelType;
   /**
-  * @documentation
-  * [
-  * "`contractScreenLabelType` attribute",
-  * "***",
-  * "Default value is 'none'. When 'none', contract ‘Screen_X_Label’, will not change the label of source x. When 'textContent', change in value of contract 'Screen_X_Label’, will change the label as if it were text, not HTML markup. When 'innerHTML', change in value of contract ‘Screen_X_Label’, will change the label as if it were HTML content "
-  * ]
-  * @name contractscreenlabeltype
-  * @default none
-  * @attributeType "EnumeratedValue"
-  */
+   * @documentation
+   * [
+   * "`contractScreenLabelType` attribute",
+   * "***",
+   * "Default value is 'none'. When 'none', contract ‘Screen_X_Label’, will not change the label of source x. When 'textContent', change in value of contract 'Screen_X_Label’, will change the label as if it were text, not HTML markup. When 'innerHTML', change in value of contract ‘Screen_X_Label’, will change the label as if it were HTML content "
+   * ]
+   * @name contractscreenlabeltype
+   * @default none
+   * @attributeType "EnumeratedValue"
+   */
   contractScreenLabelType: TCh5VideoSwitcherContractScreenLabelType;
 }

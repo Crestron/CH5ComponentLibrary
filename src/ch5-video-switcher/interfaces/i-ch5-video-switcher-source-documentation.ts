@@ -28,23 +28,12 @@ import { ICh5VideoSwitcherSourceAttributes } from "./i-ch5-video-switcher-source
  *     ]
  *   },
  *   {
- *     "prefix": "ch5-video-switcher-source:default",
+ *     "prefix": "ch5-video-switcher-source:default/all",
  *     "description": "Crestron video switcher source (default)",
  *     "body": [
- *       "<ch5-video-switcher-source id=\"ch5-video-switcher-source_${1:id}\"",
- *       "\talignLabel=\"${2:center}\"",
- *        "\ticonClass=\"${3:}\">",
- *       "</ch5-video-switcher-source>$0"
- *       ]
- *    },
- *   {
- *     "prefix": "ch5-video-switcher-source:all-attributes",
- *     "description": "Crestron video switcher source (All Attributes)",
- *     "body": [
- *       "<ch5-video-switcher-source id=\"ch5-video-switcher-source_${1:id}\"",
- *       "\tlabelInnerHTML=\"${2:}\"",
- *       "\talignLabel=\"${3:center}\"",
- *       "\ticonClass=\"${4:}\">",
+ *       "<ch5-video-switcher-source",
+ *       "\talignLabel=\"${1:center}\"",
+ *        "\ticonClass=\"${2:}\">",
  *       "</ch5-video-switcher-source>$0"
  *       ]
  *    }

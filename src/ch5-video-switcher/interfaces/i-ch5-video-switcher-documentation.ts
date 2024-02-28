@@ -10,7 +10,40 @@ import { ICh5VideoSwitcherAttributes } from "./i-ch5-video-switcher-attributes";
  * @componentVersion 2.9.0
  * @childElements
  * [
- *    
+ *    {
+ *      "tagName": "ch5-video-switcher-source",
+ *      "optional": true,
+ *      "childElements": [
+ *        {
+ *          "tagName": "ch5-video-switcher-source-label",
+ *          "optional": true,
+ *          "childElements": [
+ *            {
+ *              "tagName": "template",
+ *              "optional": false,
+ *              "childElements": []
+ *            }
+ *          ]
+ *        }
+ *      ]
+ *    },
+ *    {
+ *      "tagName": "ch5-video-switcher-screen",
+ *      "optional": true,
+ *      "childElements": [
+ *        {
+ *          "tagName": "ch5-video-switcher-screen-label",
+ *          "optional": true,
+ *          "childElements": [
+ *            {
+ *              "tagName": "template",
+ *              "optional": false,
+ *              "childElements": []
+ *            }
+ *          ]
+ *        }
+ *      ]
+ *    }
  * ]
  * @documentation
  * [
@@ -76,7 +109,6 @@ import { ICh5VideoSwitcherAttributes } from "./i-ch5-video-switcher-attributes";
  *       "\tscreenAspectRatio=\"${10:stretch}\"",
  *       "\tnumberOfScreens=\"${11:2}\"",
  *       "\tsourceIconClass=\"${12:fa-solid fa-video}\">",
- *       "\tcontractName=\"${21:}\">",
  *       "</ch5-video-switcher>$0"
  *       ]
  *    },

@@ -1,7 +1,8 @@
 import { Ch5Log } from "../ch5-common/ch5-log";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
+import { ICh5VideoSwitcherScreenLabelDocumentation } from "./interfaces";
 
-export class Ch5VideoSwitcherScreenLabel extends Ch5Log {
+export class Ch5VideoSwitcherScreenLabel extends Ch5Log implements ICh5VideoSwitcherScreenLabelDocumentation {
 
   //#region Component Lifecycle
 

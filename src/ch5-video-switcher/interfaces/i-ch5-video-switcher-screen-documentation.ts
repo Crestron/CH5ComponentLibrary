@@ -28,21 +28,11 @@ import { ICh5VideoSwitcherScreenAttributes } from "./i-ch5-video-switcher-screen
  *     ]
  *   },
  *   {
- *     "prefix": "ch5-video-switcher-screen:default",
+ *     "prefix": "ch5-video-switcher-screen:default/all",
  *     "description": "Crestron video switcher screen (default)",
  *     "body": [
- *       "<ch5-video-switcher-screen id=\"ch5-video-switcher-screen_${1:id}\"",
- *       "\talignLabel=\"${2:center}\">",
- *       "</ch5-video-switcher-screen>$0"
- *       ]
- *    },
- *   {
- *     "prefix": "ch5-video-switcher-screen:all-attributes",
- *     "description": "Crestron video switcher screen (All Attributes)",
- *     "body": [
- *       "<ch5-video-switcher-screen id=\"ch5-video-switcher-screen_${1:id}\"",
- *       "\tlabelInnerHTML=\"${2:}\"",
- *       "\talignLabel=\"${3:center}\">",
+ *       "<ch5-video-switcher-screen",
+ *       "\talignLabel=\"${1:center}\">",
  *       "</ch5-video-switcher-screen>$0"
  *       ]
  *    }

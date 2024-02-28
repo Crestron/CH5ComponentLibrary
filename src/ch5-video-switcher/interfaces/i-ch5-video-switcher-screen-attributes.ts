@@ -12,8 +12,8 @@ export interface ICh5VideoSwitcherScreenAttributes {
    * "Ability to provide a template that applies for the individual screen in the list."
    * ]
    * @name labelinnerhtml
-   * @default 
    * @attributeType "String"
+   * @hidden true
    */
   labelInnerHTML: string;
   /**
