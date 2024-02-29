@@ -975,7 +975,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private sourcelabelHelper(newValue: string, index: number, isInnerHTML: boolean) {
-    const spanEl = this._screenListContainer.querySelector(`[sourceid="${index}"] > span`);
+    const spanEl = this._sourceListContainer.querySelector(`[sourceid="${index}"] > span`);
     if (spanEl) {
       isInnerHTML ? spanEl.innerHTML = newValue : spanEl.textContent = newValue;
     }
