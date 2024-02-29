@@ -56,9 +56,9 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
         const indexOfSource = sourecEleId?.split('-') ? sourecEleId?.split('-') : [];
         if (this.parentComponent) {
           Array.from(Ch5VideoSwitcherSource.ALIGN_LABEL).forEach((e: any) => {
-            this.parentComponent?._sourceListContainer.children[+indexOfSource[3]].classList.remove('ch5-video-switcher--source-list-label-' + e);
+            this.parentComponent?._sourceListContainer.children[+indexOfSource[4]].classList.remove('ch5-video-switcher--source-list-label-' + e);
           });
-          this.parentComponent._sourceListContainer.children[+indexOfSource[3]].classList.add('ch5-video-switcher--source-list-label-' + this.alignLabel);
+          this.parentComponent._sourceListContainer.children[+indexOfSource[4]].classList.add('ch5-video-switcher--source-list-label-' + this.alignLabel);
         }
       }
     });
@@ -72,7 +72,7 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
       const sourecEleId = this.getAttribute('id');
       const indexOfSource = sourecEleId?.split('-') ? sourecEleId?.split('-') : [];
       if (this.parentComponent) {
-        const ele = this.parentComponent._sourceListContainer.children[+indexOfSource[3]].getElementsByTagName('i');
+        const ele = this.parentComponent._sourceListContainer.children[+indexOfSource[4]].getElementsByTagName('i');
         ele[0].setAttribute('class', '');
         ele[0].classList.add('source-icon');
         this.iconClass.split(' ').forEach((className: string) => {
@@ -93,9 +93,7 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
       const sourecEleId = this.getAttribute('id');
       const indexOfSource = sourecEleId?.split('-') ? sourecEleId?.split('-') : [];
       if (this.parentComponent) {
-        this.parentComponent.sourceLabelHelperCreate(+indexOfSource[3], this.labelInnerHTML);
-        // const ele = this.parentComponent._sourceListContainer.children[+indexOfSource[3]].getElementsByTagName('span');
-        // ele[0].innerHTML = this.labelInnerHTML;
+        this.parentComponent.sourceLabelHelperCreate(+indexOfSource[4], this.labelInnerHTML);
       }
     });
   }
@@ -194,16 +192,10 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
   }
 
   private sourceLabelHelper() {
-    const sourceLabel = this.getElementsByTagName(this.nodeName.toLowerCase() + "-label");
-    const sourceLabelTemplate = sourceLabel[0].getElementsByTagName("template");
     const sourecEleId = this.getAttribute('id');
     const indexOfSource = sourecEleId?.split('-') ? sourecEleId?.split('-') : [];
-    if (sourceLabelTemplate && sourceLabelTemplate.length > 0) {
-      const template = document.createElement('template');
-      template.innerHTML = sourceLabelTemplate[0].innerHTML;
-      if (this.parentComponent) {
-        this.parentComponent.sourceLabelHelperCreate(+indexOfSource[3], '', template);
-      }
+    if (this.parentComponent) {
+      this.parentComponent.sourceLabelHelperCreate(+indexOfSource[4]);
     }
   }
 

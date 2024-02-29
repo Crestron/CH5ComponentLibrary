@@ -47,9 +47,9 @@ export class Ch5VideoSwitcherScreen extends Ch5Log implements ICh5VideoSwitcherS
       const indexOfScreen = screenEleId?.split('-') ? screenEleId?.split('-') : [];
       if (this.parentComponent) {
         Array.from(Ch5VideoSwitcherScreen.ALIGN_LABEL).forEach((e: any) => {
-          this.parentComponent?._screenListContainer.children[+indexOfScreen[3]].classList.remove('ch5-video-switcher--screen-list-label-' + e);
+          this.parentComponent?._screenListContainer.children[+indexOfScreen[4]].classList.remove('ch5-video-switcher--screen-list-label-' + e);
         });
-        this.parentComponent._screenListContainer.children[+indexOfScreen[3]].classList.add('ch5-video-switcher--screen-list-label-' + this.alignLabel);
+        this.parentComponent._screenListContainer.children[+indexOfScreen[4]].classList.add('ch5-video-switcher--screen-list-label-' + this.alignLabel);
       }
     });
   }
@@ -62,9 +62,7 @@ export class Ch5VideoSwitcherScreen extends Ch5Log implements ICh5VideoSwitcherS
       const screenEleId = this.getAttribute('id');
       const indexOfScreen = screenEleId?.split('-') ? screenEleId?.split('-') : [];
       if (this.parentComponent) {
-        this.parentComponent.screenLabelHelperCreate(+indexOfScreen[3], this.labelInnerHTML);
-        /* const ele = this.parentComponent._screenListContainer.children[+indexOfScreen[3]].getElementsByTagName('span');
-        ele[0].innerHTML = this.labelInnerHTML; */
+        this.parentComponent.screenLabelHelperCreate(+indexOfScreen[4], this.labelInnerHTML);
       }
     });
   }
@@ -158,16 +156,10 @@ export class Ch5VideoSwitcherScreen extends Ch5Log implements ICh5VideoSwitcherS
   }
 
   private screenLabelHelper() {
-    const screenLabel = this.getElementsByTagName(this.nodeName.toLowerCase() + "-label");
-    const screenLabelTemplate = screenLabel[0].getElementsByTagName("template");
     const screenEleId = this.getAttribute('id');
     const indexOfScreen = screenEleId?.split('-') ? screenEleId?.split('-') : [];
-    if (screenLabelTemplate && screenLabelTemplate.length > 0) {
-      const template = document.createElement('template');
-      template.innerHTML = screenLabelTemplate[0].innerHTML;
-      if (this.parentComponent) {
-        this.parentComponent.screenLabelHelperCreate(+indexOfScreen[3], '', template);
-      }
+    if (this.parentComponent) {
+      this.parentComponent.screenLabelHelperCreate(+indexOfScreen[4]);
     }
   }
 

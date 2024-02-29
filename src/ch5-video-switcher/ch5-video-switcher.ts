@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-// import * as dragDropTouch from "drag-drop-touch";
+import * as dragDropTouch from "drag-drop-touch";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
@@ -10,7 +10,8 @@ import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import _ from "lodash";
 import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
-
+import { Ch5VideoSwitcherScreen } from "./ch5-video-switcher-screen";
+import { Ch5VideoSwitcherSource } from "./ch5-video-switcher-source";
 export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttributes {
 
   //#region Variables
@@ -58,11 +59,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     sendeventondrop: { direction: "event", numericJoin: 1, contractName: true },
     sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
     receivestatesourcechanged: { direction: "state", numericJoin: 1, contractName: true },
-    receivestatesourcelabel: { direction: "state", stringJoin: 1, contractName: true },
-    receivestatescriptsourcelabelhtml: { direction: "state", stringJoin: 1, contractName: true },
-    receivestatescreenlabel: { direction: "state", stringJoin: 1, contractName: true },
-    receivestatescriptscreenlabelhtml: { direction: "state", stringJoin: 1, contractName: true },
-    receivestatenumberofscreens: { direction: "state", numericJoin: 1, contractName: true },
+    receivestatenumberofscreens: { direction: "state", numericJoin: 1, contractName: true }
   };
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
@@ -313,7 +310,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   private _scrollbarContainer: HTMLElement = {} as HTMLElement;
   private _scrollbar: HTMLElement = {} as HTMLElement;
 
-
   private eventHandler: any = { "dragstart": [], "dragend": [] };
   private eventHandlerForsourceOnScreen: any = { "dragstart": [], "dragend": [] };
   private eventHandlerForScreen: any = { "dragover": [], "drop": [], 'dragleave': [] };
@@ -326,29 +322,26 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   private scrollbarDimension: number = 0;
 
   private signalHolder: any = [];
-  
+
   private signalHolderForSourceLabel: any = {
-    contractSourceLabelType: [],
     receiveStateScriptSourceLabelHtml: [],
     receiveStateSourceLabel: [],
-    content: [],
-    labelInnerHtml: []
   };
 
   private signalHolderForScreenLabel: any = {
-    contractScreenLabelType: [],
     receiveStateScriptScreenLabelHtml: [],
     receiveStateScreenLabel: [],
-    content: [],
-    labelInnerHtml: []
   }
 
   private signalNameOnContract = {
     contractName: "",
     receiveStateEnable: "",
     receiveStateShow: "",
+    receiveStateScriptScreenLabelHtml: "",
+    receiveStateScriptSourceLabelHtml: "",
+    receiveStateScreenLabel: "",
+    receiveStateSourceLabel: ""
   }
-
 
 /*   public debounceCreateSource = this.debounce(() => {
     this.createSource();
@@ -644,11 +637,19 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this.attachEventListeners();
     const sourceChild = this.getElementsByTagName(this.nodeName.toLowerCase() + "-source");
     Array.from(sourceChild).forEach((element, index) => {
-      element.setAttribute('id', this.getCrId() + '-' + index);
+      element.setAttribute('id', this.getCrId() + '-source-' + index);
+      const labelEle = element.getElementsByTagName(this.nodeName.toLowerCase() + "-source-label");
+      if (labelEle.length !== 0) {
+        labelEle[0].setAttribute('id', this.getCrId() + '-source-label-' + index);
+      }
     });
     const screenChild = this.getElementsByTagName(this.nodeName.toLowerCase() + "-screen");
     Array.from(screenChild).forEach((element, index) => {
-      element.setAttribute('id', this.getCrId() + '-' + index);
+      element.setAttribute('id', this.getCrId() + '-screen-' + index);
+      const labelEle = element.getElementsByTagName(this.nodeName.toLowerCase() + "-screen-label");
+      if (labelEle.length !== 0) {
+        labelEle[0].setAttribute('id', this.getCrId() + '-screen-label-' + index);
+      }
     });
     this.initAttributes();
     this.initCommonMutationObserver(this);
@@ -669,6 +670,22 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       // useContractForShow and receiveStateShow
       if (this.useContractForShow === true) {
         this.receiveStateShow = this.contractName + '.Visible';
+      }
+
+      if (this.contractScreenLabelType === 'innerHTML') {
+        this.receiveStateScriptScreenLabelHtml = this.contractName + `.Screen_{{${this.indexId}}}_Label`;
+        this.handleSourceLabel();
+      } else if (this.contractScreenLabelType === 'textContent') {
+        this.receiveStateScreenLabel = this.contractName + `.Screen_{{${this.indexId}}}_Label`;
+        this.handleSourceLabel();
+      }
+
+      if (this.contractSourceLabelType === 'innerHTML') {
+        this.receiveStateScriptSourceLabelHtml = this.contractName + `.Source_{{${this.indexId}}}_Label`;
+        this.handleScreenLabel();
+      } else if (this.contractSourceLabelType === 'textContent') {
+        this.receiveStateSourceLabel = this.contractName + `.Source_{{${this.indexId}}}_Label`;
+        this.handleScreenLabel();
       }
     }
   }
@@ -945,34 +962,15 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       this.signalHolderForSourceLabel[key] = [];
     });
     const indexId = this.getAttribute('indexid')?.trim() + '' || this.indexId;
-    let label;
-    for (let i = 0; i < this.numberOfSources; i++) {
-      if (this.hasAttribute('receiveStateScriptSourceLabelHtml') && this.receiveStateScriptSourceLabelHtml) {
-        label = this.receiveStateScriptSourceLabelHtml.replace(`{{${indexId}}}`, (i + 1).toString());
-        if (label) {
-          this.signalHolderForSourceLabel.receiveStateScriptSourceLabelHtml.push({ signalState: "", signalValue: label, value: null });
-          const labelSignalResponse = this.setSignalByString(label);
-          if (!_.isNil(labelSignalResponse)) {
-            this.signalHolderForSourceLabel.receiveStateScriptSourceLabelHtml[i].signalState = labelSignalResponse.subscribe((newValue: string) => {
-              this.signalHolderForSourceLabel.receiveStateScriptSourceLabelHtml[i].value = newValue;
-              console.log('subscribe State for receiveStateScriptSourceLabelHtml-- > value-', newValue, 'index-', i + 1);
-              this.sourcelabelHelper(newValue, i + 1, true)
-            });
-          }
-        }
-      } else if (this.hasAttribute('receiveStateSourceLabel') && this.receiveStateSourceLabel) {
-        label = this.receiveStateSourceLabel.replace(`{{${indexId}}}`, (i + 1).toString());
-        if (label) {
-          this.signalHolderForSourceLabel.receiveStateSourceLabel.push({ signalState: "", signalValue: label, value: null });
-          const labelSignalResponse = this.setSignalByString(label);
-          if (!_.isNil(labelSignalResponse)) {
-            this.signalHolderForSourceLabel.receiveStateSourceLabel[i].signalState = labelSignalResponse.subscribe((newValue: string) => {
-              this.signalHolderForSourceLabel.receiveStateSourceLabel[i].value = newValue;
-              console.log('subscribe State for receiveStateSourceLabel-- > value-', newValue, 'index-', i + 1);
-              this.sourcelabelHelper(newValue, i + 1, false)
-            });
-          }
-        }
+    if (this.receiveStateScriptSourceLabelHtml.trim()) {
+      for (let i = 0; i < this.numberOfScreens; i++) {
+        const sigValue = this.receiveStateScriptSourceLabelHtml.replace(`{{${indexId}}}`, (i + 1).toString());
+        this.getSubscription(this.signalHolderForSourceLabel['receiveStateScriptSourceLabelHtml'], this.sourcelabelHelper, i, sigValue, true);
+      }
+    } else if (this.receiveStateSourceLabel.trim()) {
+      for (let i = 0; i < this.numberOfScreens; i++) {
+        const sigValue = this.receiveStateSourceLabel.replace(`{{${indexId}}}`, (i + 1).toString());
+        this.getSubscription(this.signalHolderForSourceLabel['receiveStateSourceLabel'], this.sourcelabelHelper, i, sigValue);
       }
     }
   }
@@ -986,64 +984,41 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     });
 
     const indexId = this.getAttribute('indexid')?.trim() + '' || this.indexId;
-    let label;
-    for (let i = 0; i < this.numberOfScreens; i++) {
-      if (this.hasAttribute('receiveStateScriptScreenLabelHtml') && this.receiveStateScriptScreenLabelHtml) {
-        label = this.receiveStateScriptScreenLabelHtml.replace(`{{${indexId}}}`, (i + 1).toString());
-        if (label) {
-          this.signalHolderForScreenLabel.receiveStateScriptScreenLabelHtml.push({ signalState: "", signalValue: label, value: null });
-          const labelSignalResponse = this.setSignalByString(label);
-          if (!_.isNil(labelSignalResponse)) {
-            this.signalHolderForScreenLabel.receiveStateScriptScreenLabelHtml[i].signalState = labelSignalResponse.subscribe((newValue: string) => {
-              this.signalHolderForScreenLabel.receiveStateScriptScreenLabelHtml[i].value = newValue;
-              console.log('subscribe State for receiveStateScriptScreenLabelHtml-- > value-', newValue, 'index-', i + 1);
-              this.screenlabelHelper(newValue, i + 1, true)
-            });
-          }
-        }
-      } else if (this.hasAttribute('receiveStateScreenLabel') && this.receiveStateScreenLabel) {
-        label = this.receiveStateScreenLabel.replace(`{{${indexId}}}`, (i + 1).toString());
-        if (label) {
-          this.signalHolderForScreenLabel.receiveStateScreenLabel.push({ signalState: "", signalValue: label, value: null });
-          const labelSignalResponse = this.setSignalByString(label);
-          if (!_.isNil(labelSignalResponse)) {
-            this.signalHolderForScreenLabel.receiveStateScreenLabel[i].signalState = labelSignalResponse.subscribe((newValue: string) => {
-              this.signalHolderForScreenLabel.receiveStateScreenLabel[i].value = newValue;
-              console.log('subscribe State for receiveStateScreenLabel-- > value-', newValue, 'index-', i + 1);
-              this.screenlabelHelper(newValue, i + 1, false)
-            });
-          }
-        }
+    if (this.receiveStateScriptScreenLabelHtml.trim()) {
+      for (let i = 0; i < this.numberOfScreens; i++) {
+        const sigValue = this.receiveStateScriptScreenLabelHtml.replace(`{{${indexId}}}`, (i + 1).toString());
+        this.getSubscription(this.signalHolderForScreenLabel['receiveStateScriptScreenLabelHtml'], this.screenlabelHelper, i, sigValue, true);
+      }
+    } else if (this.receiveStateScreenLabel.trim()) {
+      for (let i = 0; i < this.numberOfScreens; i++) {
+        const sigValue = this.receiveStateScreenLabel.replace(`{{${indexId}}}`, (i + 1).toString());
+        this.getSubscription(this.signalHolderForScreenLabel['receiveStateScreenLabel'], this.screenlabelHelper, i, sigValue);
       }
     }
   }
-
-  private sourcelabelHelper(newValue: string, index: number, innerHTML: boolean) {
-    Array.from(this._sourceListContainer.children).forEach((item) => {
-      console.log(item.getAttribute('sourceid'));
-      if (item.getAttribute('sourceid') === index + '') {
-        const label = item.getElementsByTagName('span');
-        if (innerHTML) {
-          label[0].innerHTML = newValue;
-        } else {
-          label[0].innerText = newValue;
-        }
-      }
-    });
+  private getSubscription(input: any, cb: any, index: number, sigValue: string, innerHTML: boolean = false) {
+    input.push({ signalState: "", signalValue: sigValue, value: null });
+    const strSignalResponse = this.setSignalByString(sigValue);
+    if (!_.isNil(strSignalResponse)) {
+      input[index].signalState = strSignalResponse.subscribe((newValue: string) => {
+        input[index].value = newValue;
+        cb.call(this, newValue, index + 1, innerHTML);
+      });
+    }
   }
 
-  private screenlabelHelper(newValue: string, index: number, innerHTML: boolean) {
-    Array.from(this._screenListContainer.children).forEach((item) => {
-      console.log(item.getAttribute('screenid'));
-      if (item.getAttribute('screenid') === index + '') {
-        const label = item.getElementsByTagName('span');
-        if (innerHTML) {
-          label[0].innerHTML = newValue;
-        } else {
-          label[0].innerText = newValue;
-        }
-      }
-    });
+  private sourcelabelHelper(newValue: string, index: number, isInnerHTML: boolean) {
+    const spanEl = this._screenListContainer.querySelector(`[sourceid="${index}"] > span`);
+    if (spanEl) {
+      isInnerHTML ? spanEl.innerHTML = newValue : spanEl.textContent = newValue;
+    }
+  }
+
+  private screenlabelHelper(newValue: string, index: number, isInnerHTML: boolean) {
+    const spanEl = this._screenListContainer.querySelector(`[screenid="${index}"] > span`);
+    if (spanEl) {
+      isInnerHTML ? spanEl.innerHTML = newValue : spanEl.textContent = newValue;
+    }
   }
 
   private handleContractName() {
@@ -1051,9 +1026,18 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       this.signalNameOnContract.contractName = "";
       this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
       this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;
+      this.receiveStateScriptScreenLabelHtml = this.signalNameOnContract.receiveStateScriptScreenLabelHtml;
+      this.receiveStateScriptSourceLabelHtml = this.signalNameOnContract.receiveStateScriptSourceLabelHtml;
+      this.receiveStateScreenLabel = this.signalNameOnContract.receiveStateScreenLabel;
+      this.receiveStateSourceLabel = this.signalNameOnContract.receiveStateSourceLabel;
     } else if (this.signalNameOnContract.contractName === "") {
+      this.signalNameOnContract.contractName = this.contractName;
       this.signalNameOnContract.receiveStateShow = this.receiveStateShow;
       this.signalNameOnContract.receiveStateEnable = this.receiveStateEnable;
+      this.signalNameOnContract.receiveStateScreenLabel = this.receiveStateScreenLabel;
+      this.signalNameOnContract.receiveStateSourceLabel = this.receiveStateSourceLabel;
+      this.signalNameOnContract.receiveStateScriptScreenLabelHtml = this.receiveStateScriptScreenLabelHtml;
+      this.signalNameOnContract.receiveStateScriptSourceLabelHtml = this.receiveStateScriptSourceLabelHtml;
     }
     this.contractDefaultHelper();
   }
@@ -1189,9 +1173,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         sourceIcon.classList.add('fa-solid');
         sourceIcon.classList.add('fa-video');
       }
-      if (!(this.hasAttribute('receivestatesourcelabel') || this.hasAttribute('receiveStateScriptSourceLabelHtml'))) {
-        label.innerText = 'Source' + (i + 1);
-      }
+
       label.classList.add(this.primaryCssClass + this.sourceListCssClass + '-label');
       source.appendChild(sourceIcon);
       source.appendChild(label);
@@ -1246,7 +1228,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         this._screenListContainer.style.setProperty('grid-template-rows', '1fr');
       }
     }
-
     for (let i = 0; i < this.numberOfScreens; i++) {
       const screen = document.createElement("div");
       const label = document.createElement('span');
@@ -1290,35 +1271,50 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     }
   }
 
-  public screenLabelHelperCreate(index: number, labelInnerHTML: string = '', content: any = '') {
+  public screenLabelHelperCreate(index: number, labelInnerHTML: string = '') {
+    const labelEl = this.querySelector(`#${this.getCrId()}-screen-label-${index}`);
+    let content;
+    if (labelEl) {
+      content = labelEl.children[0] as HTMLTemplateElement;
+    }
+    const screen = this.querySelector(`#${this.getCrId()}-screen--${index}`) as Ch5VideoSwitcherScreen;
+    if (screen) {
+      labelInnerHTML = screen.labelInnerHTML;
+    }
+
     if (this.hasAttribute('receiveStateScriptscreenlabelhtml') && this.receiveStateScriptScreenLabelHtml) {
       this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = this.signalHolderForScreenLabel.receiveStateScriptScreenLabelHtml[index]?.value;
     } else if (this.hasAttribute('receiveStateScreenLabel') && this.receiveStateScreenLabel) {
-      this._screenListContainer.children[index].getElementsByTagName('span')[0].innerText = this.signalHolderForScreenLabel.receiveStateScreenLabel[index]?.value;
+      this._screenListContainer.children[index].getElementsByTagName('span')[0].textContent = this.signalHolderForScreenLabel.receiveStateScreenLabel[index]?.value;
     } else if (content) {
       Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(content, index, this.indexId);
       Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsContent(content, index, this.indexId);
       this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = content.innerHTML;;
     } else if (labelInnerHTML) {
       this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = labelInnerHTML;
-    } else {
-      this._screenListContainer.children[index].getElementsByTagName('span')[0].innerText = 'Screen' + (index + 1);
     }
   }
 
-  public sourceLabelHelperCreate(index: number, labelInnerHTML: string = '', content: any = '') {
+  public sourceLabelHelperCreate(index: number, labelInnerHTML: string = '',) {
+    const labelEl = this.querySelector(`#${this.getCrId()}-source-label-${index}`);
+    let content;
+    if (labelEl) {
+      content = labelEl.children[0] as HTMLTemplateElement
+    }
+    const screen = this.querySelector(`#${this.getCrId()}-source--${index}`) as Ch5VideoSwitcherSource;
+    if (screen) {
+      labelInnerHTML = screen.labelInnerHTML;
+    }
     if (this.hasAttribute('receiveStateScriptSourceLabelHtml') && this.receiveStateScriptSourceLabelHtml) {
       this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerHTML = this.signalHolderForSourceLabel.receiveStateScriptSourceLabelHtml[index]?.value;
     } else if (this.hasAttribute('receiveStateSourceLabel') && this.receiveStateSourceLabel) {
-      this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerText = this.signalHolderForSourceLabel.receiveStateSourceLabel[index]?.value;
+      this._sourceListContainer.children[index].getElementsByTagName('span')[0].textContent = this.signalHolderForSourceLabel.receiveStateSourceLabel[index]?.value;
     } else if (content) {
       Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(content, index, this.indexId);
       Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsContent(content, index, this.indexId);
       this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerHTML = content.innerHTML;
     } else if (labelInnerHTML) {
       this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerHTML = labelInnerHTML;
-    } else {
-      this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerText = 'Source' + (index + 1);
     }
   }
 
