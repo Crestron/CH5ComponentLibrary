@@ -36,22 +36,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       attribute: 'screenAspectRatio',
       classListPrefix: '--screen-aspect-ratio-'
     },
-
-    CONTRACT_SOURCE_LABEL_TYPE: {
-      default: Ch5VideoSwitcher.CONTRACT_SOURCE_LABEL_TYPE[0],
-      values: Ch5VideoSwitcher.CONTRACT_SOURCE_LABEL_TYPE,
-      key: 'contractSourceLabelType',
-      attribute: 'contractSourceLabelType',
-      classListPrefix: '--contract-source-label-type-'
-    },
-
-    CONTRACT_SCREEN_LABEL_TYPE: {
-      default: Ch5VideoSwitcher.CONTRACT_SCREEN_LABEL_TYPE[0],
-      values: Ch5VideoSwitcher.CONTRACT_SCREEN_LABEL_TYPE,
-      key: 'contractScreenLabelType',
-      attribute: 'contractScreenLabelType',
-      classListPrefix: '--contract-screen-label-type-'
-    },
   };
 
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
@@ -322,17 +306,14 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   private scrollbarDimension: number = 0;
 
   private signalHolder: any = [];
-
   private signalHolderForSourceLabel: any = {
     receiveStateScriptSourceLabelHtml: [],
     receiveStateSourceLabel: [],
   };
-
   private signalHolderForScreenLabel: any = {
     receiveStateScriptScreenLabelHtml: [],
     receiveStateScreenLabel: [],
   }
-
   private signalNameOnContract = {
     contractName: "",
     receiveStateEnable: "",
@@ -343,9 +324,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     receiveStateSourceLabel: ""
   }
 
-/*   public debounceCreateSource = this.debounce(() => {
-    this.createSource();
-  }, 0) */;
 
   //#endregion
 
@@ -389,7 +367,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   public set numberOfSources(value: number) {
     this._ch5Properties.set<number>("numberOfSources", value, () => {
-      this.handleNumberOfSources();
+      this.createSource();
     });
   }
   public get numberOfSources(): number {
@@ -398,7 +376,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   public set numberOfScreenColumns(value: number) {
     this._ch5Properties.set<number>("numberOfScreenColumns", value, () => {
-      this.handleNumberOfScreenColumns();
+      this.createScreen();
     });
   }
   public get numberOfScreenColumns(): number {
@@ -432,7 +410,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   public set numberOfScreens(value: number) {
     this._ch5Properties.set<number>("numberOfScreens", value, () => {
-      this.handleNumberOfScreens();
+      this.createScreen();
     });
   }
   public get numberOfScreens(): number {
@@ -441,7 +419,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   public set sourceIconClass(value: string) {
     this._ch5Properties.set<string>("sourceIconClass", value, () => {
-      this.handleSourceIconClass();
+      this.createSource();
     });
   }
   public get sourceIconClass(): string {
@@ -510,7 +488,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   public set receiveStateNumberOfScreens(value: string) {
     this._ch5Properties.set("receiveStateNumberOfScreens", value, null, (newValue: number) => {
       this._ch5Properties.setForSignalResponse<number>("numberOfScreens", newValue, () => {
-        this.handleNumberOfScreens();
+        this.createScreen();
       });
     });
   }
@@ -547,7 +525,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   public set contractSourceLabelType(value: TCh5VideoSwitcherContractSourceLabelType) {
     this._ch5Properties.set<TCh5VideoSwitcherContractSourceLabelType>("contractSourceLabelType", value, () => {
-      this.handleContractSourceLabelType();
+      this.contractDefaultHelper();
     });
   }
   public get contractSourceLabelType(): TCh5VideoSwitcherContractSourceLabelType {
@@ -556,7 +534,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   public set contractScreenLabelType(value: TCh5VideoSwitcherContractScreenLabelType) {
     this._ch5Properties.set<TCh5VideoSwitcherContractScreenLabelType>("contractScreenLabelType", value, () => {
-      this.handleContractScreenLabelType();
+      this.contractDefaultHelper();
     });
   }
   public get contractScreenLabelType(): TCh5VideoSwitcherContractScreenLabelType {
@@ -586,7 +564,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   public constructor() {
     super();
-  /*   DragDropTouch.getInstance(); */
+    /*   DragDropTouch.getInstance(); */
     this.logger.start('constructor()', Ch5VideoSwitcher.ELEMENT_NAME);
     this.ignoreAttributes = ["receivestatecustomclass", "receivestatecustomstyle", "sendeventonshow",];
     if (!this._wasInstatiated) {
@@ -654,8 +632,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     });
     this.initAttributes();
     this.initCommonMutationObserver(this);
-    this.handleNumberOfSources();
-    this.handleNumberOfScreens();
+    this.createSource();
+    this.createScreen();
     customElements.whenDefined('ch5-video-switcher').then(() => {
       this.componentLoadedEvent(Ch5VideoSwitcher.ELEMENT_NAME, this.id);
     });
@@ -848,12 +826,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
     this.initScrollbar();
   }
-  private handleNumberOfSources() {
-    this.createSource();
-  }
-  private handleNumberOfScreenColumns() {
-    // Enter your Code here
-  }
   private handleDisplayScreenLabel() {
     [true, false].forEach((bool: boolean) => {
       this._elContainer.classList.remove(this.primaryCssClass + Ch5VideoSwitcher.DISPLAY_SCREEN_LABEL + bool.toString());
@@ -865,12 +837,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       this._screenListContainer.classList.remove(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.SCREEN_ASPECT_RATIO.classListPrefix + e.replace(':', '-'));
     });
     this._screenListContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.SCREEN_ASPECT_RATIO.classListPrefix + this.screenAspectRatio.replace(':', '-'));
-  }
-  private handleNumberOfScreens() {
-    this.createScreen();
-  }
-  private handleSourceIconClass() {
-    this.createSource();
   }
 
   private handleSendEventOnDrop(signalName: string, signalValue: number | any) {
@@ -964,12 +930,12 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     });
     const indexId = this.getAttribute('indexid')?.trim() + '' || this.indexId;
     if (this.receiveStateScriptSourceLabelHtml.trim()) {
-      for (let i = 0; i < this.numberOfScreens; i++) {
+      for (let i = 0; i < this.numberOfSources; i++) {
         const sigValue = this.receiveStateScriptSourceLabelHtml.replace(`{{${indexId}}}`, (i + 1).toString());
         this.getSubscription(this.signalHolderForSourceLabel['receiveStateScriptSourceLabelHtml'], this.sourcelabelHelper, i, sigValue, true);
       }
     } else if (this.receiveStateSourceLabel.trim()) {
-      for (let i = 0; i < this.numberOfScreens; i++) {
+      for (let i = 0; i < this.numberOfSources; i++) {
         const sigValue = this.receiveStateSourceLabel.replace(`{{${indexId}}}`, (i + 1).toString());
         this.getSubscription(this.signalHolderForSourceLabel['receiveStateSourceLabel'], this.sourcelabelHelper, i, sigValue);
       }
@@ -1114,19 +1080,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     }
   }
 
-  private handleContractSourceLabelType() {
-    Array.from(Ch5VideoSwitcher.COMPONENT_DATA.CONTRACT_SOURCE_LABEL_TYPE.values).forEach((e: any) => {
-      this._elContainer.classList.remove(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.CONTRACT_SOURCE_LABEL_TYPE.classListPrefix + e);
-    });
-    this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.CONTRACT_SOURCE_LABEL_TYPE.classListPrefix + this.contractSourceLabelType);
-  }
-
-  private handleContractScreenLabelType() {
-    Array.from(Ch5VideoSwitcher.COMPONENT_DATA.CONTRACT_SCREEN_LABEL_TYPE.values).forEach((e: any) => {
-      this._elContainer.classList.remove(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.CONTRACT_SCREEN_LABEL_TYPE.classListPrefix + e);
-    });
-    this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.CONTRACT_SCREEN_LABEL_TYPE.classListPrefix + this.contractScreenLabelType);
-  }
 
   private updateCssClass() {
     this.logger.start('UpdateCssClass');
@@ -1136,8 +1089,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this._screenListContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.SCREEN_ASPECT_RATIO.classListPrefix + this.screenAspectRatio.replace(':', '-'));
     this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
     this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.DISPLAY_SCREEN_LABEL + this.displayScreenLabel);
-    /*   this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.CONTRACT_SOURCE_LABEL_TYPE.classListPrefix + this.contractSourceLabelType);
-     this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.CONTRACT_SCREEN_LABEL_TYPE.classListPrefix + this.contractScreenLabelType); */
     this.logger.stop();
   }
 
