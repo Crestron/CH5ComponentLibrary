@@ -109,7 +109,7 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    * [
    * "`screenAspectRatio` attribute",
    * "***",
-   * "The aspect ratio of the drag and drop screen area. If this value is set the screens will always maintain the specified aspect ratio. Possible value are stretch(default), 16-9, 4-3."
+   * "The aspect ratio of the drag and drop screen area. If this value is set the screens will always maintain the specified aspect ratio. Possible value are stretch(default), 16:9, 4:3."
    * ]
    * @name screenaspectratio
    * @default stretch
