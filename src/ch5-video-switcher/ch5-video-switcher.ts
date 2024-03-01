@@ -1404,7 +1404,10 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     } else {
       screen.appendChild(se);
       setTimeout(() => {
-        Array.from(screen?.children)?.forEach((item: any) => item?.remove());
+        //Array.from(screen?.children)?.forEach((item: any) => item?.remove());
+        if (screen?.children.length === 2) {
+          screen?.removeChild(screen?.children[1]);
+        }
       }, 1500);
     }
   }
