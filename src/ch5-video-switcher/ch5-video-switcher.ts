@@ -804,7 +804,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     if (this.endless && this.scrollbar === true) { this.scrollbar = false; }
   }
   private handleNumberOfSourceListDivisions() {
-    this.createSource();
     this._sourceListContainer.style.setProperty('--internal-columns', this.numberOfSourceListDivisions + '');
   }
   private handleScrollbar() {
