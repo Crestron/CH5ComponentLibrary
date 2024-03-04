@@ -799,7 +799,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       this._elContainer.classList.remove(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.SOURCE_LIST_POSITION.classListPrefix + e);
     });
     this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.SOURCE_LIST_POSITION.classListPrefix + this.sourceListPosition);
-    this.initScrollbar()
+    this.initScrollbar();
   }
   private handleEndless() {
     if (this.endless) { this.endless = this.numberOfSourceListDivisions === 1; }
@@ -1168,6 +1168,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     let requiredRows;
     if (this.numberOfScreenColumns > 0) {
       // columns
+      this._screenListContainer.style.removeProperty('grid-template-columns');
+      this._screenListContainer.style.removeProperty('grid-template-rows');
       if (possibleCol > this.numberOfScreenColumns) {
         requiredRows = this.numberOfScreens / Math.floor(this.numberOfScreenColumns);
         this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(' + this.numberOfScreenColumns + ',minmax(80px, 1fr))');
@@ -1188,7 +1190,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       requiredRows = this.numberOfScreens / Math.floor(possibleCol);
       const eleHeight = Math.max(60, Math.floor((Math.floor(this._screenListContainer.offsetHeight) / Math.floor(possibleRow))));
       // columns
-      this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-fit, minmax(80px+20, 1fr) )');
+      this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-fit, minmax(80px, 1fr) )');
       // rows
       if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
         //this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - ((Math.floor(possibleRow)) * 2)) + 'px, 1fr) )');
@@ -1203,6 +1205,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     for (let i = 0; i < this.numberOfScreens; i++) {
       const screen = this._screenListContainer.querySelector(`[screenid="${i}"]`) as HTMLElement;
       const eleHeight = Math.max(60, Math.floor((Math.floor(this._screenListContainer.offsetHeight) / Math.floor(possibleRow))));
+      this._screenListContainer.style.removeProperty('width');
+      this._screenListContainer.style.removeProperty('height');
       if (this.numberOfScreenColumns > 0) {
         if (this.screenAspectRatio === '16:9') {
           if (this.numberOfScreens === 1) {
@@ -1224,6 +1228,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       } else {
         if (this.numberOfScreens === 1) {
           screen.style.height = this._screenListContainer.offsetHeight + 'px';
+        } else if (this.screenAspectRatio === "4:3" && this.sourceListPosition === 'left' || this.sourceListPosition === 'right') { // edge case when listposion is on left or right
+          screen.style.height = (eleHeight - 2) + 'px';
         }
       }
     }
