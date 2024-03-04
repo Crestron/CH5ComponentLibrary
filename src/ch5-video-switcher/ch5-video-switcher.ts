@@ -860,7 +860,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         if (!_.isNil(screenSignalResponse)) {
           this.signalHolder[i].signalState = screenSignalResponse.subscribe((newValue: number) => {
             if (this.signalHolder[i]) this.signalHolder[i].value = newValue;
-            console.log('subscribe State -- > screen-', i + 'source-', newValue);
+            console.log('subscribe State -- > screen-', i + ' source-', newValue);
             this.addSourceToScreenOnFB(i, newValue);
           });
         }
@@ -1340,7 +1340,9 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
           if (draggedElement?.parentElement) {
             this.addbackuptoScreen(parentScreenId + '', sourceIdForBackup);
           }
-          this.handleSendEventOnDrop(scrNumber + '', draggedElement.getAttribute('sourceId')); // for curret
+          this.handleSendEventOnDrop(scrNumber + '', draggedElement.getAttribute('sourceId'));
+          this.handleSendEventOnChange(parentScreenId + '');// for privious screen
+          this.handleSendEventOnChange(scrNumber + '');// for current screen // for curret
         }
         // this.addSourceToScreen(draggedElement, this._screenListContainer.children[scrNumber], scrNumber, false); // add source element from screen to target screen
         // this.addbackuptoScreen(backup, draggedElement.parentElement);
@@ -1351,7 +1353,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
           const parentEle = draggedElement ? draggedElement?.parentElement?.getAttribute('screenId') : '';
           if (parentEle) {
             this.handleSendEventOnChange(parentEle);// for privious screen
-            this.handleSendEventOnChange(scrNumber + 1 + '');// for current screen
+            this.handleSendEventOnChange(scrNumber + '');// for current screen
           }
         }
         if (draggedElement && draggedElement.getAttribute('sourceId') && this.sendEventOnDrop) {
@@ -1393,6 +1395,11 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   private addSourceToScreenOnFB(scrNumber: number, sourceId: number) {
     const sourceEle = this._sourceListContainer.querySelector(`[sourceid="${sourceId - 1}"]`);
     const screenEle = this._screenListContainer.querySelector(`[screenid="${scrNumber}"]`);
+    if (sourceId === 0) {// remove elements from the screen
+      if (screenEle?.children.length === 2) {
+        screenEle?.removeChild(screenEle?.children[1]);
+      }
+    }
     if (sourceEle && screenEle) {
       this.addSourceToScreen(sourceEle, screenEle, scrNumber, true);
     }
@@ -1489,7 +1496,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   // Remove children using  parent element
   private removeChildren(parentElement: any) {
-    parentElement.removeChild(parentElement.children[1]);
+    // remove children handled in subscribe stae
+    // parentElement.removeChild(parentElement.children[1]); //
     if (this.sendEventOnDrop) {
       this.handleSendEventOnDrop(parentElement.getAttribute('screenId'), -1);
     }
