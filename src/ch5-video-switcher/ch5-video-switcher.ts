@@ -1033,7 +1033,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
           const lastElement = this._sourceListContainer.children[length - 1];
           this._sourceListContainer.prepend(lastElement);
           this._sourceListContainer.scrollTop += sourceHeight / 2;
-        } else if (scrollTop + offsetWidth > scrollWidth - (sourceHeight / 4)) {
+        } else if (scrollTop + offsetHeight > scrollHeight - (sourceHeight / 4)) {
           const firstChild = this._sourceListContainer.children[0];
           this._sourceListContainer.appendChild(firstChild);
           this._sourceListContainer.scrollTop -= sourceHeight / 2;
@@ -1128,6 +1128,13 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       source.addEventListener('dragstart', this.eventHandler.dragstart[i]);
       source.addEventListener('dragend', this.eventHandler.dragend[i])
 
+    }
+    if (this.endless) {
+      if (this.sourceListPosition === 'top' || this.sourceListPosition === 'bottom') {
+        this._sourceListContainer.scrollLeft += 5;
+      } else {
+        this._sourceListContainer.scrollTop += 5;
+      }
     }
     this.initScrollbar();
   }
