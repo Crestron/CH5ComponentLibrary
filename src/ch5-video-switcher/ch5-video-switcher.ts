@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-/* import { DragDropTouch } from "./dragDropTouchPolyfill" */
+import { DragDropTouch } from "./drag-drop-touch"
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
@@ -565,7 +564,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   public constructor() {
     super();
-    /*   DragDropTouch.getInstance(); */
+    DragDropTouch.getInstance();
     this.logger.start('constructor()', Ch5VideoSwitcher.ELEMENT_NAME);
     this.ignoreAttributes = ["receivestatecustomclass", "receivestatecustomstyle", "sendeventonshow",];
     if (!this._wasInstatiated) {
