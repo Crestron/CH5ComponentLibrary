@@ -324,6 +324,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     receiveStateSourceLabel: ""
   }
 
+  private validDropo: boolean = false;
 
   //#endregion
 
@@ -1316,6 +1317,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private handleDropScreen(scrNumber: number, event: Event) {
+    this.validDropo = true;
     const draggedElement = this.querySelector(".dragging") as HTMLElement;
     // let backup: any;
     let sourceIdForBackup;
@@ -1461,13 +1463,14 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     } */
 
   private handleDragStartForSourceOnScreen(index: number) {
+    this.validDropo = false;
     this._screenListContainer.children[index].children[1].classList.add('dragging');
   }
 
   private handleDragEndForSourceOnScreen(index: number, event: any) {
     this._screenListContainer.children[index]?.children[1]?.classList?.remove('dragging');
     // remove element on drop outside screen
-    if (event.dataTransfer.dropEffect !== 'copy') {
+    if (event.dataTransfer.dropEffect !== 'copy' && !this.validDropo) {
       if (this.sendEventOnDrop) {
         this.handleSendEventOnDrop(index + '', -1);
       }

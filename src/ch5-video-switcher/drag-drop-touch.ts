@@ -1,83 +1,4 @@
-class DataTransferDragDrop {
-    private _dropEffect: any;
-    private _effectAllowed: any;
-    private _data: any;
-    constructor() {
-        this._dropEffect = 'move';
-        this._effectAllowed = 'all';
-        this._data = {};
-    }
 
-    set dropEffect(value: any) {
-        this._dropEffect = value;
-    }
-    get dropEffect() {
-        return this._dropEffect;
-    }
-
-
-    set effectAllowed(value: any) {
-        this._effectAllowed = value;
-    }
-    get effectAllowed() {
-        return this._effectAllowed;
-    }
-
-    get types() {
-        return Object.keys(this._data)
-    }
-
-    /**
-     * Removes the data associated with a given type.
-     *
-     * The type argument is optional. If the type is empty or not specified, the data
-     * associated with all types is removed. If data for the specified type does not exist,
-     * or the data transfer contains no data, this method will have no effect.
-     *
-     * @param type Type of data to remove.
-     */
-    clearData(type: any) {
-        if (type != null) {
-            delete this._data[type];
-        }
-        else {
-            this._data = null;
-        }
-    };
-    /**
-     * Retrieves the data for a given type, or an empty string if data for that type does
-     * not exist or the data transfer contains no data.
-     *
-     * @param type Type of data to retrieve.
-     */
-    getData(type: any) {
-        return this._data[type] || '';
-    };
-    /**
-     * Set the data for a given type.
-     *
-     * For a list of recommended drag types, please see
-     * https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Recommended_Drag_Types.
-     *
-     * @param type Type of data to add.
-     * @param value Data to add.
-     */
-    setData(type: any, value: any) {
-        this._data[type] = value;
-    };
-    /**
-     * Set the image to be used for dragging if a custom one is desired.
-     *
-     * @param img An image element to use as the drag feedback image.
-     * @param offsetX The horizontal offset within the image.
-     * @param offsetY The vertical offset within the image.
-     */
-    setDragImage(img: any, offsetX: any, offsetY: any) {
-        const ddt = DragDropTouch.getInstance();
-        ddt._imgCustom = img;
-        ddt._imgOffset = { x: offsetX, y: offsetY };
-    }
-}
 
 export class DragDropTouch {
     public _imgCustom: any;
@@ -105,7 +26,7 @@ export class DragDropTouch {
     private _ptDown: any;
     private _isDragEnabled: any;
     private _isDropZone: any;
-    private _dataTransfer = new DataTransferDragDrop();
+    private _dataTransfer = new DataTransfer();
     private _pressHoldInterval: any;
     private _img: any;
 
@@ -288,7 +209,7 @@ export class DragDropTouch {
         this._ptDown = null;
         this._isDragEnabled = false;
         this._isDropZone = false;
-        this._dataTransfer = new DataTransferDragDrop();
+        this._dataTransfer = new DataTransfer();
         clearInterval(this._pressHoldInterval);
     };
     // get point for a touch event
