@@ -1,21 +1,22 @@
 class DataTransferDragDrop {
     private _dropEffect: any;
     private _effectAllowed: any;
-    private _data: { [key: string]: string };
+    private _data: any;
     constructor() {
         this._dropEffect = 'move';
         this._effectAllowed = 'all';
         this._data = {};
     }
 
-    set dropEffect(value) {
+    set dropEffect(value: any) {
         this._dropEffect = value;
     }
     get dropEffect() {
         return this._dropEffect;
     }
 
-    set effectAllowed(value) {
+
+    set effectAllowed(value: any) {
         this._effectAllowed = value;
     }
     get effectAllowed() {
@@ -40,7 +41,7 @@ class DataTransferDragDrop {
             delete this._data[type];
         }
         else {
-            this._data = {};
+            this._data = null;
         }
     };
     /**
@@ -61,7 +62,7 @@ class DataTransferDragDrop {
      * @param type Type of data to add.
      * @param value Data to add.
      */
-    setData(type: string, value: string) {
+    setData(type: any, value: any) {
         this._data[type] = value;
     };
     /**
@@ -79,9 +80,10 @@ class DataTransferDragDrop {
 }
 
 export class DragDropTouch {
-
+    public _imgCustom: any;
+    public _imgOffset: any;
     private static instance: DragDropTouch;
-    private _lastClick;
+    private _lastClick: any;
     private static _THRESHOLD = 5; // pixels to move before drag starts
     private static _OPACITY = 0.5; // drag image opacity
     private static _DBLCLICK = 500; // max ms between clicks in a double click
@@ -101,13 +103,11 @@ export class DragDropTouch {
     private _lastTouch: any;
     private _lastTarget: any;
     private _ptDown: any;
-    private _isDragEnabled = false;
-    private _isDropZone = false;
+    private _isDragEnabled: any;
+    private _isDropZone: any;
     private _dataTransfer = new DataTransferDragDrop();
     private _pressHoldInterval: any;
     private _img: any;
-    public _imgCustom: any;
-    public _imgOffset: any;
 
     static getInstance() {
         if (this.instance) {
@@ -139,7 +139,7 @@ export class DragDropTouch {
         }
     }
     private _touchstart(e: TouchEvent) {
-        const _this: any = this;
+        const _this = this;
         if (this._shouldHandle(e)) {
             // raise double-click and prevent zooming
             if (Date.now() - this._lastClick < DragDropTouch._DBLCLICK) {
@@ -154,7 +154,7 @@ export class DragDropTouch {
             // clear all variables
             this._reset();
             // get nearest draggable element
-            const src = this._closestDraggable(e.target as HTMLElement);
+            const src = this._closestDraggable(e.target);
             if (src) {
                 // give caller a chance to handle the hover/move events
                 if (!this._dispatchEvent(e, 'mousemove', e.target) &&
@@ -391,7 +391,8 @@ export class DragDropTouch {
     };
     private _dispatchEvent(e: any, type: any, target: any) {
         if (e && target) {
-            const evt: any = document.createEvent('Event'), t = e.touches ? e.touches[0] : e;
+            const evt: any = document.createEvent('Event');
+            const t = e.touches ? e.touches[0] : e;
             evt.initEvent(type, true, true);
             evt.button = 0;
             evt.which = evt.buttons = 1;
@@ -404,7 +405,7 @@ export class DragDropTouch {
         return false;
     };
     // gets an element's closest draggable ancestor
-    private _closestDraggable(e: HTMLElement | null) {
+    private _closestDraggable(e: any) {
         for (; e; e = e.parentElement) {
             if (e.hasAttribute('draggable') && e.draggable) {
                 return e;
