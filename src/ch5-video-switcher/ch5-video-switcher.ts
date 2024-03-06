@@ -1502,7 +1502,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         this.handleSendEventOnDrop(scrNumber + '', draggedElement.getAttribute('sourceId'));
       }
       if (!this.receiveStateSourceChanged) {
-        this.addSourceToScreen(draggedElement, this._screenListContainer.children[scrNumber], scrNumber, false);
+        this.addSourceToScreen(draggedElement, this._screenListContainer.children[scrNumber] as HTMLElement, scrNumber, false);
       }
     }
   }
@@ -1526,7 +1526,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   private addSourceToScreenOnFB(scrNumber: number, sourceId: number) {
     const sourceEle = this._sourceListContainer.querySelector(`[sourceid="${sourceId - 1}"]`);
-    const screenEle = this._screenListContainer.querySelector(`[screenid="${scrNumber}"]`);
+    const screenEle = this._screenListContainer.querySelector(`[screenid="${scrNumber}"]`) as HTMLElement;
     if (sourceId === 0) {// remove elements from the screen
       if (screenEle?.children.length === 2) {
         screenEle?.removeChild(screenEle?.children[1]);
@@ -1537,7 +1537,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     }
   }
 
-  private addSourceToScreen(ele: Element, screen: Element, scrNumber: number, drop: boolean) {
+  private addSourceToScreen(ele: Element, screen: HTMLElement, scrNumber: number, drop: boolean) {
     const se = document.createElement('div');
     se.innerHTML = ele?.innerHTML;
     se.classList.add('draggable');
@@ -1546,7 +1546,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     if (ele && ele?.getAttribute('sourceid')) {
       se.setAttribute('sourceId', ele?.getAttribute('sourceid') + '');
     }
-
+    se.style.height = screen.offsetHeight * 0.4 + 'px';
+    se.style.width = screen.offsetHeight * 0.4 + 'px';
     // Array.from(screen?.children)?.forEach((item: any) => item?.remove());
     if (screen?.children.length === 2) {
       screen?.removeChild(screen?.children[1]);
