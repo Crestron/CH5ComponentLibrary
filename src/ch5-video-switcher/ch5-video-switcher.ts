@@ -167,7 +167,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       name: "sourceIconClass",
       removeAttributeOnNull: true,
       type: "string",
-      valueOnAttributeEmpty: "",
+      valueOnAttributeEmpty: "fa-solid fa-video",
       isObservableProperty: true,
     },
     {
@@ -848,7 +848,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this.signalHolder.forEach((obj: any) => {
       this.clearOldSubscriptionNumber(obj.signalValue, obj.signalState);
     });
-    console.log('handleReceiveStateSourceChanged');
     const indexId = this.getAttribute('indexid')?.trim() + '' || this.indexId;
     for (let i = 0; i < this.numberOfScreens; i++) {
       const screen = this.receiveStateSourceChanged.replace(`{{${indexId}}}`, (i).toString());
@@ -1172,7 +1171,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   private handleNumberOfScreenColumns() {
     const possibleCol = (this._screenListContainer.offsetWidth) / 82;
     const possibleRow = (this._screenListContainer.offsetHeight) / 62;
-    let requiredRows;
+    let requiredRows: number = 1;
     if (this.numberOfScreenColumns > 0) {
       // columns
       this._screenListContainer.style.removeProperty('grid-template-columns');
@@ -1245,7 +1244,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   public screenLabelHelperCreate(index: number, labelInnerHTML: string = '') {
     if (!this._screenListContainer.children[index]) { return; }
     const labelEl = this.querySelector(`#${this.getCrId()}-screen-label-${index}`);
-    let content;
+    let content: any = null;
     if (labelEl) {
       content = labelEl.children[0] as HTMLTemplateElement;
     }
@@ -1327,7 +1326,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this.validDropo = true;
     const draggedElement = this.querySelector(".dragging") as HTMLElement;
     // let backup: any;
-    let sourceIdForBackup;
+    let sourceIdForBackup: any = '';
     if (Array.from(draggedElement?.classList).includes('source-onscreen')) {
       console.log('source on screen');
       const targetEl = event?.target as HTMLElement;
