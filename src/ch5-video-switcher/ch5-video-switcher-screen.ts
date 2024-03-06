@@ -119,8 +119,6 @@ export class Ch5VideoSwitcherScreen extends Ch5Log implements ICh5VideoSwitcherS
     this.setAttribute('role', Ch5RoleAttributeMapping.ch5VideoSwitcherScreen);
     this.screenLabelHelper();
     this.initAttributes();
-    this.handleAlignLabel();
-    this.handleLabelInnerHTML();
     this.logger.stop();
   }
 

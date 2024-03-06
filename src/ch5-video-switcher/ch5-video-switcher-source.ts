@@ -141,9 +141,6 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
     this.sourceLabelHelper();
 
     this.initAttributes();
-    this.handleAlignLabel();
-    this.handleLabelInnerHTML();
-    this.handleIconClass();
     this.logger.stop();
   }
 
