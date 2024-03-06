@@ -61,18 +61,7 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
 
   public set iconClass(value: string) {
     this._ch5Properties.set<string>("iconClass", value, () => {
-      const index = Number(this.getAttribute('id')?.split('-').pop());
-      if (this.parentComponent && this.parentComponent._sourceListContainer.children[index]) {
-        const ele = this.parentComponent._sourceListContainer.children[index].getElementsByTagName('i');
-        ele[0].setAttribute('class', '');
-        ele[0].classList.add('source-icon');
-        this.iconClass.split(' ').forEach((className: string) => {
-          className = className.trim();
-          if (className !== '') {
-            ele[0].classList.add(className);
-          }
-        });
-      }
+      this.handleIconClass();
     });
   }
   public get iconClass(): string {
@@ -154,6 +143,7 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
     this.initAttributes();
     this.handleAlignLabel();
     this.handleLabelInnerHTML();
+    this.handleIconClass();
     this.logger.stop();
   }
 
@@ -204,6 +194,21 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
     const index = Number(this.getAttribute('id')?.split('-').pop());
     if (this.parentComponent) {
       this.parentComponent.sourceLabelHelperCreate(index, this.labelInnerHTML);
+    }
+  }
+
+  private handleIconClass() {
+    const index = Number(this.getAttribute('id')?.split('-').pop());
+    if (this.parentComponent && this.parentComponent._sourceListContainer.children[index]) {
+      const ele = this.parentComponent._sourceListContainer.children[index].getElementsByTagName('i');
+      ele[0].setAttribute('class', '');
+      ele[0].classList.add('source-icon');
+      this.iconClass.split(' ').forEach((className: string) => {
+        className = className.trim();
+        if (className !== '') {
+          ele[0].classList.add(className);
+        }
+      });
     }
   }
 
