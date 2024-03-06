@@ -1135,7 +1135,9 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         this._sourceListContainer.scrollTop += 5;
       }
     }
-    this.initScrollbar();
+    setTimeout(() => {
+      this.initScrollbar();// Initially when the component load scrollbar handle does not appear, fixing this issue by adding timeout
+    });
   }
 
   private createScreen() {
