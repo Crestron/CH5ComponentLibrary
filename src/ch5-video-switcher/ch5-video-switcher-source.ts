@@ -51,17 +51,10 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
 
   public set alignLabel(value: TCh5VideoSwitcherSourceAlignLabel) {
     this._ch5Properties.set<TCh5VideoSwitcherSourceAlignLabel>("alignLabel", value, () => {
-      if (this.parentComponent) {
-        const index = Number(this.getAttribute('id')?.split('-').pop());
-        if (this.parentComponent && this.parentComponent?._sourceListContainer.children[index]) {
-          Array.from(Ch5VideoSwitcherSource.ALIGN_LABEL).forEach((e: any) => {
-            this.parentComponent?._sourceListContainer.children[index].classList.remove('ch5-video-switcher--source-list-label-' + e);
-          });
-          this.parentComponent._sourceListContainer.children[index].classList.add('ch5-video-switcher--source-list-label-' + this.alignLabel);
-        }
-      }
+      this.handleAlignLabel();
     });
   }
+
   public get alignLabel(): TCh5VideoSwitcherSourceAlignLabel {
     return this._ch5Properties.get<TCh5VideoSwitcherSourceAlignLabel>("alignLabel");
   }
@@ -88,10 +81,7 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
 
   public set labelInnerHTML(value: string) {
     this._ch5Properties.set<string>("labelInnerHTML", value, () => {
-      const index = Number(this.getAttribute('id')?.split('-').pop());
-      if (this.parentComponent) {
-        this.parentComponent.sourceLabelHelperCreate(index, this.labelInnerHTML);
-      }
+      this.handleLabelInnerHTML();
     });
   }
   public get labelInnerHTML(): string {
@@ -162,6 +152,8 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
     this.sourceLabelHelper();
 
     this.initAttributes();
+    this.handleAlignLabel();
+    this.handleLabelInnerHTML();
     this.logger.stop();
   }
 
@@ -193,6 +185,25 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
     const indexOfSource = sourecEleId?.split('-') ? sourecEleId?.split('-') : [];
     if (this.parentComponent) {
       this.parentComponent.sourceLabelHelperCreate(+indexOfSource[4]);
+    }
+  }
+
+  private handleAlignLabel() {
+    if (this.parentComponent) {
+      const index = Number(this.getAttribute('id')?.split('-').pop());
+      if (this.parentComponent && this.parentComponent?._sourceListContainer.children[index]) {
+        Array.from(Ch5VideoSwitcherSource.ALIGN_LABEL).forEach((e: any) => {
+          this.parentComponent?._sourceListContainer.children[index].classList.remove('ch5-video-switcher--source-list-label-' + e);
+        });
+        this.parentComponent._sourceListContainer.children[index].classList.add('ch5-video-switcher--source-list-label-' + this.alignLabel);
+      }
+    }
+  }
+
+  private handleLabelInnerHTML() {
+    const index = Number(this.getAttribute('id')?.split('-').pop());
+    if (this.parentComponent) {
+      this.parentComponent.sourceLabelHelperCreate(index, this.labelInnerHTML);
     }
   }
 
