@@ -830,18 +830,34 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this.handleNumberOfScreenColumns();
   }
 
-  private handleSendEventOnDrop(signalName: string, signalValue: number | any) {
-    console.log('drop--Screen-->', signalName, 'Source-->', (+signalValue) + 1);
+  private handleSendEventOnDrop(signalName: string, value: number | any) {
+    console.log('drop--Screen-->', signalName, 'Source-->', (+value) + 1);
     if (this.sendEventOnDrop) {
-      const sigName = this.replaceAll(this.sendEventOnDrop.trim(), `{{${this.indexId}}}`, signalName);
-      Ch5SignalFactory.getInstance().getNumberSignal(sigName)?.publish((+signalValue + 1) as number);
+      const attrValue = this.replaceAll(this.sendEventOnDrop.trim(), `{{${this.indexId}}}`, '');
+      const isNumber = /^[0-9]+$/.test(attrValue);
+      if (isNumber) {
+        Ch5SignalFactory.getInstance().getNumberSignal(+attrValue + (+signalName) + '')?.publish((+value + 1) as number);
+      } else {
+        const sigName = this.replaceAll(this.sendEventOnDrop.trim(), `{{${this.indexId}}}`, signalName);
+        Ch5SignalFactory.getInstance().getNumberSignal(sigName)?.publish((+value + 1) as number);
+      }
     }
   }
 
   private handleSendEventOnChange(signalName: string) {
-    const sigName = this.replaceAll(this.sendEventOnChange.trim(), `{{${this.indexId}}}`, signalName);
-    Ch5SignalFactory.getInstance().getBooleanSignal(sigName)?.publish(true);
-    Ch5SignalFactory.getInstance().getBooleanSignal(sigName)?.publish(false);
+
+    const attrValue = this.replaceAll(this.sendEventOnChange.trim(), `{{${this.indexId}}}`, '');
+    const isNumber = /^[0-9]+$/.test(attrValue);
+    if (isNumber) {
+      Ch5SignalFactory.getInstance().getBooleanSignal(+attrValue + (+signalName) + ' ')?.publish(true);
+      Ch5SignalFactory.getInstance().getBooleanSignal(+attrValue + (+signalName) + ' ')?.publish(false);
+    } else {
+      const sigName = this.replaceAll(this.sendEventOnChange.trim(), `{{${this.indexId}}}`, signalName);
+      Ch5SignalFactory.getInstance().getBooleanSignal(sigName)?.publish(true);
+      Ch5SignalFactory.getInstance().getBooleanSignal(sigName)?.publish(false);
+    }
+
+
   }
 
   private handleReceiveStateSourceChanged() {
@@ -871,7 +887,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   private clearOldSubscriptionNumber(signalValue: string, signalState: string) {
     // clean up old subscription
     const oldReceiveStateSigName: string = Ch5Signal.getSubscriptionSignalName(signalValue);
-    const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(oldReceiveStateSigName);
+    const oldSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(oldReceiveStateSigName);
 
     if (oldSignal !== null) {
       oldSignal.unsubscribe(signalState as string);
@@ -881,7 +897,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   private clearOldSubscriptionString(signalValue: string, signalState: string) {
     // clean up old subscription
     const oldReceiveStateSigName: string = Ch5Signal.getSubscriptionSignalName(signalValue);
-    const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(oldReceiveStateSigName);
+    const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldReceiveStateSigName);
 
     if (oldSignal !== null) {
       oldSignal.unsubscribe(signalState as string);
@@ -927,11 +943,23 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         const sigValue = this.contractName + `Source_${i + 1}_Label`;
         this.getSubscription(this.signalHolderForSourceLabel['receiveStateSourceLabel'], this.sourcelabelHelper, i, sigValue);
       } else if (this.receiveStateScriptSourceLabelHtml.trim()) {
-        const sigValue = this.receiveStateScriptSourceLabelHtml.replace(`{{${indexId}}}`, (i).toString());
-        this.getSubscription(this.signalHolderForSourceLabel['receiveStateScriptSourceLabelHtml'], this.sourcelabelHelper, i, sigValue, true);
+        const attrValue = this.replaceAll(this.receiveStateScriptSourceLabelHtml.trim(), `{{${indexId}}}`, '');
+        const isNumber = /^[0-9]+$/.test(attrValue);
+        if (isNumber) {
+          this.getSubscription(this.signalHolderForSourceLabel['receiveStateScriptSourceLabelHtml'], this.sourcelabelHelper, i, (+attrValue) + i + '', true);
+        } else {
+          const sigValue = this.replaceAll(this.receiveStateScriptSourceLabelHtml.trim(), `{{${indexId}}}`, i + '');
+          this.getSubscription(this.signalHolderForSourceLabel['receiveStateScriptSourceLabelHtml'], this.sourcelabelHelper, i, sigValue, true);
+        }
       } else if (this.receiveStateSourceLabel.trim()) {
-        const sigValue = this.receiveStateSourceLabel.replace(`{{${indexId}}}`, (i).toString());
-        this.getSubscription(this.signalHolderForSourceLabel['receiveStateSourceLabel'], this.sourcelabelHelper, i, sigValue);
+        const attrValue = this.replaceAll(this.receiveStateSourceLabel.trim(), `{{${indexId}}}`, '');
+        const isNumber = /^[0-9]+$/.test(attrValue);
+        if (isNumber) {
+          this.getSubscription(this.signalHolderForSourceLabel['receiveStateSourceLabel'], this.sourcelabelHelper, i, (+attrValue) + i + '', true);
+        } else {
+          const sigValue = this.replaceAll(this.receiveStateSourceLabel.trim(), `{{${indexId}}}`, i + '');
+          this.getSubscription(this.signalHolderForSourceLabel['receiveStateSourceLabel'], this.sourcelabelHelper, i, sigValue, true);
+        }
       }
     }
   }
@@ -953,11 +981,23 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         const sigValue = this.contractName + `Screen${i + 1}_Label`;
         this.getSubscription(this.signalHolderForScreenLabel['receiveStateScreenLabel'], this.screenlabelHelper, i, sigValue);
       } else if (this.receiveStateScriptScreenLabelHtml.trim()) {
-        const sigValue = this.receiveStateScriptScreenLabelHtml.replace(`{{${indexId}}}`, (i).toString());
-        this.getSubscription(this.signalHolderForScreenLabel['receiveStateScriptScreenLabelHtml'], this.screenlabelHelper, i, sigValue, true);
+        const attrValue = this.replaceAll(this.receiveStateScriptScreenLabelHtml.trim(), `{{${indexId}}}`, '');
+        const isNumber = /^[0-9]+$/.test(attrValue);
+        if (isNumber) {
+          this.getSubscription(this.signalHolderForScreenLabel['receiveStateScriptScreenLabelHtml'], this.screenlabelHelper, i, (+attrValue) + i + '', true);
+        } else {
+          const sigValue = this.replaceAll(this.receiveStateScriptScreenLabelHtml.trim(), `{{${indexId}}}`, i + '');
+          this.getSubscription(this.signalHolderForScreenLabel['receiveStateScriptScreenLabelHtml'], this.screenlabelHelper, i, sigValue, true);
+        }
       } else if (this.receiveStateScreenLabel.trim()) {
-        const sigValue = this.receiveStateScreenLabel.replace(`{{${indexId}}}`, (i).toString());
-        this.getSubscription(this.signalHolderForScreenLabel['receiveStateScreenLabel'], this.screenlabelHelper, i, sigValue);
+        const attrValue = this.replaceAll(this.receiveStateScreenLabel.trim(), `{{${indexId}}}`, '');
+        const isNumber = /^[0-9]+$/.test(attrValue);
+        if (isNumber) {
+          this.getSubscription(this.signalHolderForScreenLabel['receiveStateScreenLabel'], this.screenlabelHelper, i, (+attrValue) + i + '', true);
+        } else {
+          const sigValue = this.replaceAll(this.receiveStateScreenLabel.trim(), `{{${indexId}}}`, i + '');
+          this.getSubscription(this.signalHolderForScreenLabel['receiveStateScreenLabel'], this.screenlabelHelper, i, sigValue, true);
+        }
       }
     }
   }
