@@ -318,10 +318,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     contractName: "",
     receiveStateEnable: "",
     receiveStateShow: "",
-    receiveStateScriptScreenLabelHtml: "",
-    receiveStateScriptSourceLabelHtml: "",
-    receiveStateScreenLabel: "",
-    receiveStateSourceLabel: ""
+    receiveStateNumberOfScreens: ""
   }
 
   private validDropo: boolean = false;
@@ -832,52 +829,84 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   private handleSendEventOnDrop(signalName: string, value: number | any) {
     console.log('drop--Screen-->', signalName, 'Source-->', (+value) + 1);
-    if (this.sendEventOnDrop) {
-      const attrValue = this.replaceAll(this.sendEventOnDrop.trim(), `{{${this.indexId}}}`, '');
-      const isNumber = /^[0-9]+$/.test(attrValue);
-      if (isNumber) {
-        Ch5SignalFactory.getInstance().getNumberSignal(+attrValue + (+signalName) + '')?.publish((+value + 1) as number);
-      } else {
-        const sigName = this.replaceAll(this.sendEventOnDrop.trim(), `{{${this.indexId}}}`, signalName);
-        Ch5SignalFactory.getInstance().getNumberSignal(sigName)?.publish((+value + 1) as number);
+    if (this.contractName.trim()) {
+      signalName = this.contractName + '.Source' + ((+signalName) + 1) + '_Selection';
+      Ch5SignalFactory.getInstance().getNumberSignal(signalName)?.publish((+value + 1) as number);
+    } else {
+      if (this.sendEventOnDrop) {
+        const attrValue = this.replaceAll(this.sendEventOnDrop.trim(), `{{${this.indexId}}}`, '');
+        const isNumber = /^[0-9]+$/.test(attrValue);
+        if (isNumber) {
+          Ch5SignalFactory.getInstance().getNumberSignal(+attrValue + (+signalName) + '')?.publish((+value + 1) as number);
+        } else {
+          const sigName = this.replaceAll(this.sendEventOnDrop.trim(), `{{${this.indexId}}}`, signalName);
+          Ch5SignalFactory.getInstance().getNumberSignal(sigName)?.publish((+value + 1) as number);
+        }
       }
     }
   }
 
   private handleSendEventOnChange(signalName: string) {
-
-    const attrValue = this.replaceAll(this.sendEventOnChange.trim(), `{{${this.indexId}}}`, '');
-    const isNumber = /^[0-9]+$/.test(attrValue);
-    if (isNumber) {
-      Ch5SignalFactory.getInstance().getBooleanSignal(+attrValue + (+signalName) + ' ')?.publish(true);
-      Ch5SignalFactory.getInstance().getBooleanSignal(+attrValue + (+signalName) + ' ')?.publish(false);
+    if (this.contractName.trim()) {
+      signalName = this.contractName + '.Screen_' + ((+signalName) + 1) + '_Changed';
+      Ch5SignalFactory.getInstance().getBooleanSignal(signalName)?.publish(true);
+      Ch5SignalFactory.getInstance().getBooleanSignal(signalName)?.publish(false);
     } else {
-      const sigName = this.replaceAll(this.sendEventOnChange.trim(), `{{${this.indexId}}}`, signalName);
-      Ch5SignalFactory.getInstance().getBooleanSignal(sigName)?.publish(true);
-      Ch5SignalFactory.getInstance().getBooleanSignal(sigName)?.publish(false);
+      const attrValue = this.replaceAll(this.sendEventOnChange.trim(), `{{${this.indexId}}}`, '');
+      const isNumber = /^[0-9]+$/.test(attrValue);
+      if (isNumber) {
+        Ch5SignalFactory.getInstance().getBooleanSignal(+attrValue + (+signalName) + ' ')?.publish(true);
+        Ch5SignalFactory.getInstance().getBooleanSignal(+attrValue + (+signalName) + ' ')?.publish(false);
+      } else {
+        const sigName = this.replaceAll(this.sendEventOnChange.trim(), `{{${this.indexId}}}`, signalName);
+        Ch5SignalFactory.getInstance().getBooleanSignal(sigName)?.publish(true);
+        Ch5SignalFactory.getInstance().getBooleanSignal(sigName)?.publish(false);
+      }
     }
-
-
   }
 
   private handleReceiveStateSourceChanged() {
     this.signalHolder.forEach((obj: any) => {
       this.clearOldSubscriptionNumber(obj.signalValue, obj.signalState);
     });
-    const indexId = this.getAttribute('indexid')?.trim() + '' || this.indexId;
-    for (let i = 0; i < this.numberOfScreens; i++) {
-      const screen = this.receiveStateSourceChanged.replace(`{{${indexId}}}`, (i).toString());
-      this.signalHolder.push(
-        { signalState: "", signalValue: screen, value: null },
-      );
-      if (screen) {
+
+    if (this.contractName.trim()) {
+      for (let i = 0; i < this.numberOfScreens; i++) {
+        const screen = this.contractName + `.Source${i + 1}_Feedback`;
+        this.signalHolder.push(
+          { signalState: "", signalValue: screen, value: null },
+        );
         const screenSignalResponse = this.setSignalByNumber(screen);
         if (!_.isNil(screenSignalResponse)) {
           this.signalHolder[i].signalState = screenSignalResponse.subscribe((newValue: number) => {
-            if (this.signalHolder[i]) this.signalHolder[i].value = newValue;
+            this.signalHolder[i].value = newValue;
             console.log('subscribe State -- > screen-', i + ' source-', newValue);
             this.addSourceToScreenOnFB(i, newValue);
           });
+        }
+      }
+    } else {
+      const indexId = this.getAttribute('indexid')?.trim() + '' || this.indexId;
+      for (let i = 0; i < this.numberOfScreens; i++) {
+        let screen = this.replaceAll(this.receiveStateSourceChanged.trim(), `{{${indexId}}}`, '');
+        const isNumber = /^[0-9]+$/.test(screen);
+        if (isNumber) {
+          screen = (+screen + i) + '';
+        } else {
+          screen = this.replaceAll(this.receiveStateSourceChanged.trim(), `{{${indexId}}}`, i + '');
+        }
+        this.signalHolder.push(
+          { signalState: "", signalValue: screen, value: null },
+        );
+        if (screen) {
+          const screenSignalResponse = this.setSignalByNumber(screen);
+          if (!_.isNil(screenSignalResponse)) {
+            this.signalHolder[i].signalState = screenSignalResponse.subscribe((newValue: number) => {
+              if (this.signalHolder[i]) this.signalHolder[i].value = newValue;
+              console.log('subscribe State -- > screen-', i + ' source-', newValue);
+              this.addSourceToScreenOnFB(i, newValue);
+            });
+          }
         }
       }
     }
@@ -1032,10 +1061,12 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       this.signalNameOnContract.contractName = "";
       this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
       this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;
+      this.receiveStateNumberOfScreens = this.signalNameOnContract.receiveStateNumberOfScreens;
     } else if (this.signalNameOnContract.contractName === "") {
       this.signalNameOnContract.contractName = this.contractName;
       this.signalNameOnContract.receiveStateShow = this.receiveStateShow;
       this.signalNameOnContract.receiveStateEnable = this.receiveStateEnable;
+      this.signalNameOnContract.receiveStateNumberOfScreens = this.receiveStateNumberOfScreens;
     }
     this.contractDefaultHelper();
   }
@@ -1208,6 +1239,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       screen.addEventListener('dragleave', this.eventHandlerForScreen.dragleave[i]);
     }
     this.handleNumberOfScreenColumns();
+    this.handleReceiveStateSourceChanged();
   }
 
   private handleNumberOfScreenColumns() {
