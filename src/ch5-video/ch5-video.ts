@@ -456,7 +456,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   private _fullScreenIcon: HTMLElement = {} as HTMLElement;
 
   private responseObj: TVideoResponse = {} as TVideoResponse;
-  private parentCh5Background: Ch5Background[] = [] as Ch5Background[];
+  private parentCh5Background: Ch5Background[] = [];
 
   private readonly INTERSECTION_RATIO_VALUE: number = 0.98;
 
@@ -1364,11 +1364,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       return;
     }
 
-    if (this.parentCh5Background.length === 0) { this.getParentBackground(); }
-
-    Array.from(this.parentCh5Background).forEach((ch5Background: Ch5Background) => {
-      ch5Background?.videoBGRequest(videoInfo);
-    });
+    this.parentCh5Background.length = 0;
+    this.getParentBackground(this);
+    Array.from(this.parentCh5Background).forEach(bg => bg.videoBGRequest(videoInfo))
   }
 
   // Function to add background color to bg if false and clears it if true, @param isShowVideoBehind if true, clears background
@@ -1628,15 +1626,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
   }
 
-  public getParentBackground() {
-    const getTheMatchingParent = (node: HTMLElement) => {
-      if (node && node.classList.contains('ch5-background--parent')) {
-        const parentElement = node.getElementsByTagName('ch5-background')[0] as Ch5Background;
-        this.parentCh5Background.push(parentElement)
-      }
-      node && getTheMatchingParent(node.parentElement as HTMLElement);
+  public getParentBackground(node: HTMLElement) {
+    if (node && node.parentElement) {
+      Array.from(node.parentElement?.children).forEach((children) => {
+        if (children.nodeName.toLowerCase() === 'ch5-background') {
+          this.parentCh5Background.push(children as Ch5Background);
+        }
+      })
+      this.getParentBackground(node.parentElement as HTMLElement);
     }
-    getTheMatchingParent(this.parentElement as HTMLElement);
   }
 
   private handleOrientation = () => {
@@ -1669,11 +1667,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   private refillBackground() {
-    if (this.parentCh5Background.length === 0) { this.getParentBackground(); }
-
-    Array.from(this.parentCh5Background).forEach((ch5Background: Ch5Background) => {
-      ch5Background?.refillBackground;
-    });
+    this.parentCh5Background.length = 0;
+    this.getParentBackground(this);
+    Array.from(this.parentCh5Background).forEach(bg => bg.refillBackground())
   }
 
   private setErrorMessages() {
