@@ -643,10 +643,14 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       // useContractForEnable and receiveStateEnable
       if (this.useContractForEnable === true) {
         this.receiveStateEnable = this.contractName + '.Enable';
+      } else {
+        this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;
       }
       // useContractForShow and receiveStateShow
       if (this.useContractForShow === true) {
         this.receiveStateShow = this.contractName + '.Visible';
+      } else {
+        this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
       }
       this.handleSourceLabel();
       this.handleScreenLabel();
@@ -1199,7 +1203,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     }
     setTimeout(() => {
       this.initScrollbar();// Initially when the component load scrollbar handle does not appear, fixing this issue by adding timeout
-    });
+    }, 50);
+    this.handleSourceLabel();
   }
 
   private createScreen() {
@@ -1230,6 +1235,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     }
     this.handleNumberOfScreenColumns();
     this.handleReceiveStateSourceChanged();
+    this.handleScreenLabel();
   }
 
   private handleNumberOfScreenColumns() {
