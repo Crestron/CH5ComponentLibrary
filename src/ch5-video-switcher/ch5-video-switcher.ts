@@ -1307,14 +1307,11 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   public screenLabelHelperCreate(index: number, labelInnerHTML: string = '') {
     if (!this._screenListContainer.children[index]) { return; }
     const labelEl = this.querySelector(`#${this.getCrId()}-screen-label-${index}`);
-    let content: any = null;
-    if (labelEl) {
-      content = labelEl.children[0] as HTMLTemplateElement;
-    }
+    const content = labelEl ? labelEl.children[0] as HTMLTemplateElement : null;
+
     const screen = this.querySelector(`#${this.getCrId()}-screen-${index}`) as Ch5VideoSwitcherScreen;
-    if (screen) {
-      labelInnerHTML = screen.labelInnerHTML;
-    }
+    labelInnerHTML = screen ? screen.labelInnerHTML : labelInnerHTML;
+
     if (this.contractName.trim() && this.contractScreenLabelType === 'innerHTML') {
       this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = this.signalHolderForScreenLabel.receiveStateScriptScreenLabelHtml[index]?.value;
     } else if (this.contractName.trim() && this.contractScreenLabelType === 'textContent') {
@@ -1335,14 +1332,10 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   public sourceLabelHelperCreate(index: number, labelInnerHTML: string = '',) {
     if (!this._sourceListContainer.children[index]) { return; }
     const labelEl = this.querySelector(`#${this.getCrId()}-source-label-${index}`);
-    let content;
-    if (labelEl) {
-      content = labelEl.children[0] as HTMLTemplateElement
-    }
+    const content = labelEl ? labelEl.children[0] as HTMLTemplateElement : null;
+
     const screen = this.querySelector(`#${this.getCrId()}-source-${index}`) as Ch5VideoSwitcherSource;
-    if (screen) {
-      labelInnerHTML = screen.labelInnerHTML;
-    }
+    labelInnerHTML = screen ? screen.labelInnerHTML : labelInnerHTML;
 
     if (this.contractName.trim() && this.contractSourceLabelType === 'innerHTML') {
       this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerHTML = this.signalHolderForSourceLabel.receiveStateScriptSourceLabelHtml[index]?.value;
@@ -1362,14 +1355,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private sourceIconHelperCreate(index: number, sourceIcon: HTMLElement) {
-    let iconClass = Ch5VideoSwitcher.DEFAULT_SOURCE_ICON
-    if (this.sourceIconClass) {
-      iconClass = this.sourceIconClass;
-    }
     const source = this.querySelector(`#${this.getCrId()}-source-${index}`) as Ch5VideoSwitcherSource;
-    if (source && source.iconClass) {
-      iconClass = source.iconClass;
-    }
+    const iconClass = source && source.iconClass ? source.iconClass : this.sourceIconClass ? this.sourceIconClass : Ch5VideoSwitcher.DEFAULT_SOURCE_ICON
     iconClass.split(' ').forEach((className: string) => {
       className = className.trim();
       if (className !== '') {
@@ -1407,19 +1394,13 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private handleDragStartSource(srcNumber: number) {
-    Array.from(this._sourceListContainer.children).forEach((item) => {
-      if (item.getAttribute('sourceid') === srcNumber + '') {
-        item.classList.add('dragging');
-      }
-    })
+    const source = this._sourceListContainer.querySelector(`[sourceid="${srcNumber}"]`)
+    source?.classList.add('dragging');
   }
 
   private handleDragEndSource(srcNumber: number) {
-    Array.from(this._sourceListContainer.children).forEach((item) => {
-      if (item.getAttribute('sourceid') === srcNumber + '') {
-        item.classList.remove('dragging');
-      }
-    })
+    const source = this._sourceListContainer.querySelector(`[sourceid="${srcNumber}"]`)
+    source?.classList.remove('dragging');
   }
 
   private handleDragoverScreen(scrNumber: number, event: any) {
