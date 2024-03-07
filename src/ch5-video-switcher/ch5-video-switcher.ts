@@ -656,9 +656,11 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       } else {
         this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
       }
-      this.handleSourceLabel();
-      this.handleScreenLabel();
+
+      this.receiveStateNumberOfScreens = this.contractName + '.NumberOfScreens';
     }
+    this.handleSourceLabel();
+    this.handleScreenLabel();
   }
 
   public disconnectedCallback() {
@@ -995,6 +997,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
           const sigValue = this.replaceAll(this.receiveStateSourceLabel.trim(), `{{${indexId}}}`, i + '');
           this.getSubscription(this.signalHolderForSourceLabel['receiveStateSourceLabel'], this.sourcelabelHelper, i, sigValue, true);
         }
+      } else {
+        this.sourceLabelHelperCreate(i);
       }
     }
   }
@@ -1033,6 +1037,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
           const sigValue = this.replaceAll(this.receiveStateScreenLabel.trim(), `{{${indexId}}}`, i + '');
           this.getSubscription(this.signalHolderForScreenLabel['receiveStateScreenLabel'], this.screenlabelHelper, i, sigValue, true);
         }
+      } else {
+        this.screenLabelHelperCreate(i);
       }
     }
   }
