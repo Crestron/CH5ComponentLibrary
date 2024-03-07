@@ -41,12 +41,17 @@ export class Ch5RoleAttributeMapping {
     public static readonly ch5SubpageReferenceList = 'subpage-reference-list';
     public static readonly ch5TabButton = 'tab-button';
     public static readonly ch5TabButtonIndividualButton = 'template';
+    public static readonly ch5Template = 'template';
     public static readonly ch5Text = "label";
     public static readonly ch5TextInput = 'textbox';
     public static readonly ch5Toggle = 'switch';
     public static readonly ch5TriggerView = 'listbox';
     public static readonly ch5TriggerViewChild = 'listbox';
-    public static readonly ch5Template = 'template';
     public static readonly ch5Video = 'video';
+    public static readonly ch5VideoSwitcher = 'video-switcher';
+    public static readonly ch5VideoSwitcherScreen = 'video-switcher-screen';
+    public static readonly ch5VideoSwitcherScreenLabel = 'video-switcher-screen-label';
+    public static readonly ch5VideoSwitcherSource = 'video-switcher-source';
+    public static readonly ch5VideoSwitcherSourceLabel = 'video-switcher-source-label';
     public static readonly ch5WifiSignalLevelGauge = 'wifi-signal-level-gauge';
 }
