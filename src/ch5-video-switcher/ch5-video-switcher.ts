@@ -44,7 +44,11 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     sendeventondrop: { direction: "event", numericJoin: 1, contractName: true },
     sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
     receivestatesourcechanged: { direction: "state", numericJoin: 1, contractName: true },
-    receivestatenumberofscreens: { direction: "state", numericJoin: 1, contractName: true }
+    receivestatesourcelabel: { direction: "state", stringJoin: 1, contractName: true },
+    receivestateScriptsourcelabelhtml: { direction: "state", stringJoin: 1, contractName: true },
+    receivestatescreenlabel: { direction: "state", stringJoin: 1, contractName: true },
+    receiveStatescriptscreenlabelhtml: { direction: "state", stringJoin: 1, contractName: true },
+    receivestatenumberofscreens: { direction: "state", numericJoin: 1, contractName: true },
   };
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
