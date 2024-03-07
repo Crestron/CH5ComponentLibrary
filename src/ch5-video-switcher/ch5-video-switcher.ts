@@ -1073,9 +1073,12 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private handleScrollEvent = () => {
-    this.initScrollbar();
-    if (this.endless) {
-      return this.endlessHelper();
+    const draggedElement = this.querySelector(".dragging") as HTMLElement;
+    if (!draggedElement) {// Scrollbar moves when drag happens
+      this.initScrollbar();
+      if (this.endless) {
+        return this.endlessHelper();
+      }
     }
   }
 
