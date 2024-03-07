@@ -321,7 +321,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     receiveStateShow: "",
     receiveStateNumberOfScreens: ""
   }
-
   private validDropo: boolean = false;
 
   //#endregion
@@ -673,21 +672,17 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this._elContainer = document.createElement('div');
     this._sourceListContainer = document.createElement('div');
     this._screenListContainer = document.createElement('div');
-
     this._scrollbarContainer = document.createElement('div');
     this._scrollbar = document.createElement('div');
-
     this._screenListContainer.classList.add(this.primaryCssClass + this.screenListCssClass);
     this._sourceListContainer.classList.add(this.primaryCssClass + this.sourceListCssClass);
     this._elContainer.appendChild(this._sourceListContainer);
     this._elContainer.appendChild(this._screenListContainer);
-
     this.logger.stop();
   }
 
   protected initAttributes() {
     super.initAttributes();
-
     const thisRef: any = this;
     for (let i: number = 0; i < Ch5VideoSwitcher.COMPONENT_PROPERTIES.length; i++) {
       if (Ch5VideoSwitcher.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
@@ -706,7 +701,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this._sourceListContainer.addEventListener('mouseup', this.handleMouseUpAndLeave);
     this._sourceListContainer.addEventListener('mousemove', this.handleMouseMove);
     this._sourceListContainer.addEventListener('scroll', this.handleScrollEvent);
-
   }
 
   private handleMouseDown = (e: MouseEvent) => {
@@ -798,13 +792,16 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.SOURCE_LIST_POSITION.classListPrefix + this.sourceListPosition);
     this.initScrollbar();
   }
+
   private handleEndless() {
     if (this.endless) { this.endless = this.numberOfSourceListDivisions === 1; }
     if (this.endless && this.scrollbar === true) { this.scrollbar = false; }
   }
+
   private handleNumberOfSourceListDivisions() {
     this._sourceListContainer.style.setProperty('--number-of-source-list-divisions', this.numberOfSourceListDivisions + '');
   }
+
   private handleScrollbar() {
     if (this.endless === true && this.scrollbar === true) { this.scrollbar = false; }
     [true, false].forEach((bool: boolean) => {
@@ -813,12 +810,14 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
     this.initScrollbar();
   }
+
   private handleDisplayScreenLabel() {
     [true, false].forEach((bool: boolean) => {
       this._elContainer.classList.remove(this.primaryCssClass + Ch5VideoSwitcher.DISPLAY_SCREEN_LABEL + bool.toString());
     });
     this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.DISPLAY_SCREEN_LABEL + this.displayScreenLabel);
   }
+
   private handleScreenAspectRatio() {
     Array.from(Ch5VideoSwitcher.COMPONENT_DATA.SCREEN_ASPECT_RATIO.values).forEach((e: any) => {
       this._screenListContainer.classList.remove(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.SCREEN_ASPECT_RATIO.classListPrefix + e.replace(':', '-'));
@@ -880,7 +879,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         if (!_.isNil(screenSignalResponse)) {
           this.signalHolder[i].signalState = screenSignalResponse.subscribe((newValue: number) => {
             this.signalHolder[i].value = newValue;
-            console.log('subscribe State -- > screen-', i + ' source-', newValue);
+            console.log('subscribe State for contract-- > screen-', i + ' source-', newValue);
             this.addSourceToScreenOnFB(i, newValue);
           });
         }
@@ -948,7 +947,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     // setup new subscription.
     const receiveLabelSigName: string = Ch5Signal.getSubscriptionSignalName(value);
     const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(receiveLabelSigName);
-
     if (receiveSignal === null) {
       return null;
     }
@@ -1030,12 +1028,12 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       }
     }
   }
+
   private getSubscription(input: any, cb: any, index: number, sigValue: string, innerHTML: boolean = false) {
     input.push({ signalState: "", signalValue: sigValue, value: null });
     const strSignalResponse = this.setSignalByString(sigValue);
     if (!_.isNil(strSignalResponse)) {
       input[index].signalState = strSignalResponse.subscribe((newValue: string) => {
-        console.log('--->', index, newValue);
         input[index].value = newValue;
         cb.call(this, newValue, index, innerHTML);
       });
@@ -1177,7 +1175,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       source.classList.add('draggable');
       sourceIcon.classList.add('source-icon');
 
-
       label.classList.add(this.primaryCssClass + this.sourceListCssClass + '-label');
       source.appendChild(sourceIcon);
       source.appendChild(label);
@@ -1258,7 +1255,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         const eleHeight = Math.max(60, Math.floor((Math.floor(this._screenListContainer.offsetHeight) / Math.ceil(requiredRows))));
         this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.ceil(requiredRows) + ', minmax(' + (eleHeight - 2) + 'px, 1fr) )');
       }
-
     } else {
       requiredRows = this.numberOfScreens / Math.floor(possibleCol);
       const eleHeight = Math.max(60, Math.floor((Math.floor(this._screenListContainer.offsetHeight) / Math.floor(possibleRow))));
@@ -1366,13 +1362,10 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private sourceIconHelperCreate(index: number, sourceIcon: HTMLElement) {
-
     let iconClass = Ch5VideoSwitcher.DEFAULT_SOURCE_ICON
-
     if (this.sourceIconClass) {
       iconClass = this.sourceIconClass;
     }
-
     const source = this.querySelector(`#${this.getCrId()}-source-${index}`) as Ch5VideoSwitcherSource;
     if (source && source.iconClass) {
       iconClass = source.iconClass;
@@ -1386,14 +1379,11 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private sourceAlignLabelHelperCreate(index: number, sourceEl: HTMLElement) {
-
     const alignLabelClassPrefix = this.primaryCssClass + '--source-list-label-'
-
     const sourceAlignLabel = ['center', 'left', 'right'];
     Array.from(sourceAlignLabel).forEach((alignLabel) => {
       sourceEl.classList.remove(alignLabelClassPrefix + alignLabel);
     })
-
     const source = this.querySelector(`#${this.getCrId()}-source-${index}`) as Ch5VideoSwitcherSource;
     if (source && source.alignLabel) {
       sourceEl.classList.add(alignLabelClassPrefix + source.alignLabel);
@@ -1403,14 +1393,11 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private screenAlignLabelHelperCreate(index: number, screenEl: HTMLElement) {
-
     const alignLabelClassPrefix = this.primaryCssClass + '--screen-list-label-'
-
     const screenAlignLabel = ['center', 'left', 'right'];
     Array.from(screenAlignLabel).forEach((alignLabel) => {
       screenEl.classList.remove(alignLabelClassPrefix + alignLabel);
     })
-
     const screen = this.querySelector(`#${this.getCrId()}-screen-${index}`) as Ch5VideoSwitcherScreen;
     if (screen && screen.alignLabel) {
       screenEl.classList.add(alignLabelClassPrefix + screen.alignLabel);
@@ -1421,22 +1408,18 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   private handleDragStartSource(srcNumber: number) {
     Array.from(this._sourceListContainer.children).forEach((item) => {
-      // console.log(item.getAttribute('sourceid'));
       if (item.getAttribute('sourceid') === srcNumber + '') {
         item.classList.add('dragging');
       }
     })
-    //  this._sourceListContainer.children[srcNumber].classList.add('dragging');
   }
 
   private handleDragEndSource(srcNumber: number) {
     Array.from(this._sourceListContainer.children).forEach((item) => {
-      //console.log(item.getAttribute('sourceid'));
       if (item.getAttribute('sourceid') === srcNumber + '') {
         item.classList.remove('dragging');
       }
     })
-    //this._sourceListContainer.children[srcNumber].classList.remove('dragging');
   }
 
   private handleDragoverScreen(scrNumber: number, event: any) {
@@ -1446,48 +1429,36 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   private handleDropScreen(scrNumber: number, event: Event) {
     this.validDropo = true;
     const draggedElement = this.querySelector(".dragging") as HTMLElement;
-    // let backup: any;
     let sourceIdForBackup: any = '';
-    if (Array.from(draggedElement?.classList).includes('source-onscreen')) {
-      console.log('source on screen');
+    if (Array.from(draggedElement?.classList).includes('source-onscreen')) { // source on screen
       const targetEl = event?.target as HTMLElement;
-      if (targetEl.children.length === 2 || targetEl.parentElement?.classList.contains('source-onscreen')) {
-        console.log('swap on screen');
-        if (targetEl.parentElement?.classList.contains('source-onscreen')) {
-          console.log('element exist');
-          //  backup = targetEl.parentElement.outerHTML;
+      if (targetEl.children.length === 2 || targetEl.parentElement?.classList.contains('source-onscreen')) {// swap on screen
+        if (targetEl.parentElement?.classList.contains('source-onscreen')) { // element exist;
           sourceIdForBackup = targetEl.parentElement.getAttribute('sourceId');
         }
-        else if (targetEl.classList.contains('screen-container')) {
-          console.log('valid drop');
-          //  backup = targetEl.innerHTML;
+        else if (targetEl.classList.contains('screen-container')) { // valid drop;
           const ele = targetEl.lastChild as HTMLElement;
-          console.log(ele.getAttribute('sourceid'));
+          // console.log(ele.getAttribute('sourceid'));
           sourceIdForBackup = ele.getAttribute('sourceid');
         } else {
-          //  backup = targetEl.parentElement?.innerHTML;
           sourceIdForBackup = targetEl.parentElement?.getAttribute('sourceId');
         }
-        // for current screen
-        if (this.sendEventOnDrop) {
+        if (this.sendEventOnDrop) { // for current screen
           const parentScreenId = draggedElement?.parentElement?.getAttribute('screenId')
           if (draggedElement?.parentElement) {
             this.addbackuptoScreen(parentScreenId + '', sourceIdForBackup);
           }
           this.handleSendEventOnDrop(scrNumber + '', draggedElement.getAttribute('sourceId'));
-          this.handleSendEventOnChange(parentScreenId + '');// for privious screen
-          this.handleSendEventOnChange(scrNumber + '');// for current screen // for curret
+          this.handleSendEventOnChange(parentScreenId + ''); // for privious screen
+          this.handleSendEventOnChange(scrNumber + ''); // for current screen // for curret
         }
-        // this.addSourceToScreen(draggedElement, this._screenListContainer.children[scrNumber], scrNumber, false); // add source element from screen to target screen
-        // this.addbackuptoScreen(backup, draggedElement.parentElement);
-      } else {
-        console.log('screen to screen');
-        this.removeChildren(draggedElement.parentElement); //  remove element from the previous screen
+      } else { // screen to screen
+        this.removeChildren(draggedElement.parentElement); // remove element from the previous screen
         if (this.sendEventOnChange) {
           const parentEle = draggedElement ? draggedElement?.parentElement?.getAttribute('screenId') : '';
           if (parentEle) {
-            this.handleSendEventOnChange(parentEle);// for privious screen
-            this.handleSendEventOnChange(scrNumber + '');// for current screen
+            this.handleSendEventOnChange(parentEle); // for privious screen
+            this.handleSendEventOnChange(scrNumber + ''); // for current screen
           }
         }
         if (draggedElement && draggedElement.getAttribute('sourceId') && this.sendEventOnDrop) {
@@ -1496,8 +1467,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       }
     }
     else {
-      console.log('source to screen');
-      if (this.sendEventOnChange) {
+      if (this.sendEventOnChange) { // source to screen
         this.handleSendEventOnChange(scrNumber + 1 + '');
       }
       if (draggedElement && draggedElement.getAttribute('sourceId') && this.sendEventOnDrop) {
@@ -1510,7 +1480,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private addbackuptoScreen(screenId: any, sourceId: any) {
-    //console.log(screenId, sourceId);
     this.handleSendEventOnDrop(screenId, sourceId);
   }
 
@@ -1529,7 +1498,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   private addSourceToScreenOnFB(scrNumber: number, sourceId: number) {
     const sourceEle = this._sourceListContainer.querySelector(`[sourceid="${sourceId - 1}"]`);
     const screenEle = this._screenListContainer.querySelector(`[screenid="${scrNumber}"]`) as HTMLElement;
-    if (sourceId === 0) {// remove elements from the screen
+    if (sourceId === 0) { // remove elements from the screen
       if (screenEle?.children.length === 2) {
         screenEle?.removeChild(screenEle?.children[1]);
       }
@@ -1550,7 +1519,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     }
     se.style.height = screen.offsetHeight * 0.4 + 'px';
     se.style.width = screen.offsetHeight * 0.4 + 'px';
-    // Array.from(screen?.children)?.forEach((item: any) => item?.remove());
     if (screen?.children.length === 2) {
       screen?.removeChild(screen?.children[1]);
     }
@@ -1564,31 +1532,12 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     } else {
       screen.appendChild(se);
       setTimeout(() => {
-        //Array.from(screen?.children)?.forEach((item: any) => item?.remove());
         if (screen?.children.length === 2) {
           screen?.removeChild(screen?.children[1]);
         }
       }, 1500);
     }
   }
-
-  /*   private addbackuptoScreen(ele: any, screen: any) {
-      //Array.from(screen?.children)?.forEach((item: any) => item?.remove());
-      if (screen?.children.length === 2) {
-        screen?.removeChild(screen?.children[1]);
-      }
-      screen.innerHTML += ele;
-      // to find the parent screen index
-      const classIndex = (Array.from(screen.classList)).findIndex((className: any) => {
-        return className.startsWith('screen-number-');
-      }, 'screen-number-');
-      const screenIndex = +screen.classList[classIndex].split('-')[2];
-  
-      this.eventHandlerForsourceOnScreen.dragstart.push(this.handleDragStartForSourceOnScreen.bind(this, screenIndex));
-      this.eventHandlerForsourceOnScreen.dragend.push(this.handleDragEndForSourceOnScreen.bind(this, screenIndex));
-      screen.addEventListener('dragstart', this.eventHandlerForsourceOnScreen.dragstart[screenIndex]);
-      screen.addEventListener('dragend', this.eventHandlerForsourceOnScreen.dragend[screenIndex]);
-    } */
 
   private handleDragStartForSourceOnScreen(index: number) {
     this.validDropo = false;
