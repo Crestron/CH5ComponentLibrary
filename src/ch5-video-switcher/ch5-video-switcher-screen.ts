@@ -43,7 +43,14 @@ export class Ch5VideoSwitcherScreen extends Ch5Log implements ICh5VideoSwitcherS
 
   public set alignLabel(value: TCh5VideoSwitcherScreenAlignLabel) {
     this._ch5Properties.set<TCh5VideoSwitcherScreenAlignLabel>("alignLabel", value, () => {
-      this.handleAlignLabel();
+      const index = this.getAttribute('id')?.split('-').pop();
+      const screenContainer = this.parentComponent?._screenListContainer.querySelector(`[screenid="${index}"]`);
+      if (this.parentComponent && screenContainer) {
+        Array.from(Ch5VideoSwitcherScreen.ALIGN_LABEL).forEach((label: string) => {
+          screenContainer.classList.remove('ch5-video-switcher--screen-list-label-' + label);
+        })
+        screenContainer.classList.add('ch5-video-switcher--screen-list-label-' + this.alignLabel);
+      }
     });
   }
   public get alignLabel(): TCh5VideoSwitcherScreenAlignLabel {
@@ -52,7 +59,11 @@ export class Ch5VideoSwitcherScreen extends Ch5Log implements ICh5VideoSwitcherS
 
   public set labelInnerHTML(value: string) {
     this._ch5Properties.set<string>("labelInnerHTML", value, () => {
-      this.handleLabelInnerHTML();
+      const screenEleId = this.getAttribute('id');
+      const indexOfScreen = screenEleId?.split('-') ? screenEleId?.split('-') : [];
+      if (this.parentComponent) {
+        this.parentComponent.screenLabelHelperCreate(+indexOfScreen[4], this.labelInnerHTML);
+      }
     });
   }
   public get labelInnerHTML(): string {
@@ -152,24 +163,6 @@ export class Ch5VideoSwitcherScreen extends Ch5Log implements ICh5VideoSwitcherS
     }
   }
 
-  private handleAlignLabel() {
-    const index = this.getAttribute('id')?.split('-').pop();
-    const screenContainer = this.parentComponent?._screenListContainer.querySelector(`[screenid="${index}"]`);
-    if (this.parentComponent && screenContainer) {
-      Array.from(Ch5VideoSwitcherScreen.ALIGN_LABEL).forEach((label: string) => {
-        screenContainer.classList.remove('ch5-video-switcher--screen-list-label-' + label);
-      })
-      screenContainer.classList.add('ch5-video-switcher--screen-list-label-' + this.alignLabel);
-    }
-  }
-
-  private handleLabelInnerHTML() {
-    const screenEleId = this.getAttribute('id');
-    const indexOfScreen = screenEleId?.split('-') ? screenEleId?.split('-') : [];
-    if (this.parentComponent) {
-      this.parentComponent.screenLabelHelperCreate(+indexOfScreen[4], this.labelInnerHTML);
-    }
-  }
   //#endregion
 
 }

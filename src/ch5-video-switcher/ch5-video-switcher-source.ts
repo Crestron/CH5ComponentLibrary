@@ -51,7 +51,15 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
 
   public set alignLabel(value: TCh5VideoSwitcherSourceAlignLabel) {
     this._ch5Properties.set<TCh5VideoSwitcherSourceAlignLabel>("alignLabel", value, () => {
-      this.handleAlignLabel();
+      if (this.parentComponent) {
+        const index = Number(this.getAttribute('id')?.split('-').pop());
+        if (this.parentComponent && this.parentComponent?._sourceListContainer.children[index]) {
+          Array.from(Ch5VideoSwitcherSource.ALIGN_LABEL).forEach((e: any) => {
+            this.parentComponent?._sourceListContainer.children[index].classList.remove('ch5-video-switcher--source-list-label-' + e);
+          });
+          this.parentComponent._sourceListContainer.children[index].classList.add('ch5-video-switcher--source-list-label-' + this.alignLabel);
+        }
+      }
     });
   }
 
@@ -61,7 +69,18 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
 
   public set iconClass(value: string) {
     this._ch5Properties.set<string>("iconClass", value, () => {
-      this.handleIconClass();
+      const index = Number(this.getAttribute('id')?.split('-').pop());
+      if (this.parentComponent && this.parentComponent._sourceListContainer.children[index]) {
+        const ele = this.parentComponent._sourceListContainer.children[index].getElementsByTagName('i');
+        ele[0].setAttribute('class', '');
+        ele[0].classList.add('source-icon');
+        this.iconClass.split(' ').forEach((className: string) => {
+          className = className.trim();
+          if (className !== '') {
+            ele[0].classList.add(className);
+          }
+        });
+      }
     });
   }
   public get iconClass(): string {
@@ -70,7 +89,10 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
 
   public set labelInnerHTML(value: string) {
     this._ch5Properties.set<string>("labelInnerHTML", value, () => {
-      this.handleLabelInnerHTML();
+      const index = Number(this.getAttribute('id')?.split('-').pop());
+      if (this.parentComponent) {
+        this.parentComponent.sourceLabelHelperCreate(index, this.labelInnerHTML);
+      }
     });
   }
   public get labelInnerHTML(): string {
@@ -130,16 +152,12 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()');
-    // console.log(this.parentNode);
     if (this.parentElement?.nodeName.toLowerCase() !== 'ch5-video-switcher') {
       throw new Error(`Invalid parent element for ch5-video-switcher-source.`);
     }
     this.parentComponent = this.parentElement as Ch5VideoSwitcher;
     this.setAttribute('role', Ch5RoleAttributeMapping.ch5VideoSwitcherSource);
-    // console.log(this.getAttribute('id'));
-
     this.sourceLabelHelper();
-
     this.initAttributes();
     this.logger.stop();
   }
@@ -172,40 +190,6 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
     const indexOfSource = sourecEleId?.split('-') ? sourecEleId?.split('-') : [];
     if (this.parentComponent) {
       this.parentComponent.sourceLabelHelperCreate(+indexOfSource[4]);
-    }
-  }
-
-  private handleAlignLabel() {
-    if (this.parentComponent) {
-      const index = Number(this.getAttribute('id')?.split('-').pop());
-      if (this.parentComponent && this.parentComponent?._sourceListContainer.children[index]) {
-        Array.from(Ch5VideoSwitcherSource.ALIGN_LABEL).forEach((e: any) => {
-          this.parentComponent?._sourceListContainer.children[index].classList.remove('ch5-video-switcher--source-list-label-' + e);
-        });
-        this.parentComponent._sourceListContainer.children[index].classList.add('ch5-video-switcher--source-list-label-' + this.alignLabel);
-      }
-    }
-  }
-
-  private handleLabelInnerHTML() {
-    const index = Number(this.getAttribute('id')?.split('-').pop());
-    if (this.parentComponent) {
-      this.parentComponent.sourceLabelHelperCreate(index, this.labelInnerHTML);
-    }
-  }
-
-  private handleIconClass() {
-    const index = Number(this.getAttribute('id')?.split('-').pop());
-    if (this.parentComponent && this.parentComponent._sourceListContainer.children[index]) {
-      const ele = this.parentComponent._sourceListContainer.children[index].getElementsByTagName('i');
-      ele[0].setAttribute('class', '');
-      ele[0].classList.add('source-icon');
-      this.iconClass.split(' ').forEach((className: string) => {
-        className = className.trim();
-        if (className !== '') {
-          ele[0].classList.add(className);
-        }
-      });
     }
   }
 
