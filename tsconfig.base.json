@@ -68,7 +68,6 @@
   },
   "include": [
     "src/typings/mycolorpicker.d.ts",
-    "src/typings/dragdroptouch.d.ts"
   ],
   "exclude": [
     "node_modules",

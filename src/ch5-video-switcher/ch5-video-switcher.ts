@@ -605,7 +605,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
    * Called when the Ch5VideoSwitcher component is first connected to the DOM
    */
   public connectedCallback() {
-    // console.log(dragDropTouch);
     this.logger.start('connectedCallback()', Ch5VideoSwitcher.ELEMENT_NAME);
     // WAI-ARIA Attributes
     if (!this.hasAttribute('role')) {
