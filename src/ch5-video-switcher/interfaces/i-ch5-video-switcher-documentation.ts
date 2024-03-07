@@ -6,7 +6,7 @@ import { ICh5VideoSwitcherAttributes } from "./i-ch5-video-switcher-attributes";
  * @isattribute false
  * @tagName ch5-video-switcher
  * @role video-switcher
- * @description The Video Switcher widget combines a scrolling list with a drag and drop functionality geared towards controlling video sources in a switcher matrix.
+ * @description Ch5 Video Switcher offers a wide range of functionality out-of-the-box.
  * @componentVersion 2.9.0
  * @childElements
  * [
