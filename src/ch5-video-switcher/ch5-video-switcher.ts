@@ -1420,9 +1420,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         this.handleSendEventOnChange(scrNumber + '');
         this.handleSendEventOnChange(draggedElement.parentElement?.getAttribute('screenid') + '');
       } else {// Move source from sourcelist  to screen
-        if (this.sendEventOnChange) {
-          this.handleSendEventOnChange(scrNumber + 1 + '');
-        }
+        this.handleSendEventOnChange(scrNumber + 1 + '');
         if (draggedElement && draggedElement.getAttribute('sourceId')) {
           this.handleSendEventOnDrop(scrNumber + '', draggedElement.getAttribute('sourceId'));
         }
@@ -1484,12 +1482,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this._screenListContainer.children[index]?.children[1]?.classList?.remove('dragging');
     // remove element on drop outside screen
     if (event.dataTransfer.dropEffect !== 'copy' && !this.validDrop) {
-      if (this.sendEventOnDrop) {
-        this.handleSendEventOnDrop(index + '', -1);
-      }
-      if (this.sendEventOnChange) {
-        this.handleSendEventOnChange(index + '');
-      }
+      this.handleSendEventOnDrop(index + '', -1);
+      this.handleSendEventOnChange(index + '');
       event.target.remove();
     }
   }
