@@ -1,4 +1,5 @@
 import { TCh5VideoSwitcherScreenAlignLabel } from "./t-ch5-video-switcher";
+
 /**
  * @ignore
  */

@@ -1219,6 +1219,13 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this.handleScreenLabel();
   }
 
+  private resizeObserverHandler = () => {
+    if (this._elContainer.getBoundingClientRect().width === 0) {
+      return;
+    }
+    this.handleNumberOfScreenColumns();
+  }
+
   private screenAlignLabelHelperCreate(index: number, screenEl: HTMLElement) {
     const alignLabelClassPrefix = this.primaryCssClass + '--screen-list-label-'
     const screenAlignLabel = ['center', 'left', 'right'];
@@ -1232,14 +1239,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       screenEl.classList.add(alignLabelClassPrefix + screenAlignLabel[0]);
     }
   }
-
-  private resizeObserverHandler = () => {
-    if (this._elContainer.getBoundingClientRect().width === 0) {
-      return;
-    }
-    this.handleNumberOfScreenColumns();
-  }
-
+  
   private handleNumberOfScreenColumns() {
     const possibleCol = (this._screenListContainer.offsetWidth) / 82;
     const possibleRow = (this._screenListContainer.offsetHeight) / 62;
