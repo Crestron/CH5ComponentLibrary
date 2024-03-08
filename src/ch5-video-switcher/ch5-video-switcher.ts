@@ -11,7 +11,6 @@ import _ from "lodash";
 import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
 import { Ch5VideoSwitcherScreen } from "./ch5-video-switcher-screen";
 import { Ch5VideoSwitcherSource } from "./ch5-video-switcher-source";
-import { resizeObserver } from "../ch5-core/resize-observer";
 export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttributes {
 
   //#region Variables
@@ -322,6 +321,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     receiveStateNumberOfScreens: ""
   }
   private validDropo: boolean = false;
+  private resizeObserver: ResizeObserver | null = null;
 
   //#endregion
 
@@ -634,7 +634,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     customElements.whenDefined('ch5-video-switcher').then(() => {
       this.componentLoadedEvent(Ch5VideoSwitcher.ELEMENT_NAME, this.id);
     });
-    resizeObserver(this._elContainer, this.handleNumberOfScreenColumns.bind(this));
     this.logger.stop();
   }
 
@@ -707,6 +706,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this._sourceListContainer.addEventListener('mouseup', this.handleMouseUpAndLeave);
     this._sourceListContainer.addEventListener('mousemove', this.handleMouseMove);
     this._sourceListContainer.addEventListener('scroll', this.handleScrollEvent);
+    this.resizeObserver = new ResizeObserver(this.resizeObereverHandler);
+    this.resizeObserver.observe(this._elContainer);
   }
 
   private handleMouseDown = (e: MouseEvent) => {
@@ -741,6 +742,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this._sourceListContainer.removeEventListener('mousedown', this.handleMouseDown);
     this._sourceListContainer.removeEventListener('mousemove', this.handleMouseMove);
     this._sourceListContainer.removeEventListener('scroll', this.handleScrollEvent);
+    this.resizeObserver?.unobserve(this._elContainer);
   }
 
   protected unsubscribeFromSignals() {
@@ -1219,6 +1221,13 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this.handleScreenLabel();
   }
 
+  private resizeObereverHandler = () => {
+    if (this._elContainer.getBoundingClientRect().width === 0) {
+      return;
+    }
+    this.handleNumberOfScreenColumns();
+  }
+
   private handleNumberOfScreenColumns() {
     const possibleCol = (this._screenListContainer.offsetWidth) / 82;
     const possibleRow = (this._screenListContainer.offsetHeight) / 62;
@@ -1258,6 +1267,9 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     }
     for (let i = 0; i < this.numberOfScreens; i++) {
       const screen = this._screenListContainer.querySelector(`[screenid="${i}"]`) as HTMLElement;
+      if (!screen) {
+        continue;
+      }
       const eleHeight = Math.max(60, Math.floor((Math.floor(this._screenListContainer.offsetHeight) / Math.floor(possibleRow))));
       this._screenListContainer.style.removeProperty('width');
       this._screenListContainer.style.removeProperty('height');
