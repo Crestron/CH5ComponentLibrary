@@ -955,10 +955,10 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     const indexId = this.getAttribute('indexid')?.trim() + '' || this.indexId;
     for (let i = 0; i < this.numberOfSources; i++) {
       if (this.contractName.trim() && this.contractSourceLabelType === 'innerHTML') {
-        const sigValue = this.contractName + `Source_${i + 1}_Label`;
+        const sigValue = this.contractName + `.Source_${i + 1}_Label`;
         this.getSubscription(this.signalHolderForSourceLabel['receiveStateScriptSourceLabelHtml'], this.sourcelabelHelper, i, sigValue, true);
       } else if (this.contractName.trim() && this.contractSourceLabelType === 'textContent') {
-        const sigValue = this.contractName + `Source_${i + 1}_Label`;
+        const sigValue = this.contractName + `.Source_${i + 1}_Label`;
         this.getSubscription(this.signalHolderForSourceLabel['receiveStateSourceLabel'], this.sourcelabelHelper, i, sigValue);
       } else if (this.receiveStateScriptSourceLabelHtml.trim()) {
         const attrValue = this.replaceAll(this.receiveStateScriptSourceLabelHtml.trim(), `{{${indexId}}}`, '');
@@ -995,10 +995,10 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     const indexId = this.getAttribute('indexid')?.trim() + '' || this.indexId;
     for (let i = 0; i < this.numberOfScreens; i++) {
       if (this.contractName.trim() && this.contractScreenLabelType === 'innerHTML') {
-        const sigValue = this.contractName + `Screen${i + 1}_Label`;
+        const sigValue = this.contractName + `.Screen${i + 1}_Label`;
         this.getSubscription(this.signalHolderForScreenLabel['receiveStateScriptScreenLabelHtml'], this.screenlabelHelper, i, sigValue, true);
       } else if (this.contractName.trim() && this.contractScreenLabelType === 'textContent') {
-        const sigValue = this.contractName + `Screen${i + 1}_Label`;
+        const sigValue = this.contractName + `.Screen${i + 1}_Label`;
         this.getSubscription(this.signalHolderForScreenLabel['receiveStateScreenLabel'], this.screenlabelHelper, i, sigValue);
       } else if (this.receiveStateScriptScreenLabelHtml.trim()) {
         const attrValue = this.replaceAll(this.receiveStateScriptScreenLabelHtml.trim(), `{{${indexId}}}`, '');
