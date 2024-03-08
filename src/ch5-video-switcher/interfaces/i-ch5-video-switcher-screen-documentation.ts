@@ -21,7 +21,7 @@ import { ICh5VideoSwitcherScreenAttributes } from "./i-ch5-video-switcher-screen
  * [
  *  {
  *    "prefix": "ch5-video-switcher-screen:blank",
- *    "description": "Crestron video switcher screen",
+ *     "description": "Crestron video switcher screen",
  *     "body": [
  *       "<ch5-video-switcher-screen>",
  *       "</ch5-video-switcher-screen>$0"
