@@ -56,6 +56,7 @@ export class Ch5VideoSwitcherScreen extends Ch5Log implements ICh5VideoSwitcherS
   public get alignLabel(): TCh5VideoSwitcherScreenAlignLabel {
     return this._ch5Properties.get<TCh5VideoSwitcherScreenAlignLabel>("alignLabel");
   }
+
   public set labelInnerHTML(value: string) {
     this._ch5Properties.set<string>("labelInnerHTML", value, () => {
       const screenEleId = this.getAttribute('id');
