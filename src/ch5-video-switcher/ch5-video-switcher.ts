@@ -788,6 +788,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   private handleNumberOfSourceListDivisions() {
     this._sourceListContainer.style.setProperty('--number-of-source-list-divisions', this.numberOfSourceListDivisions + '');
+    this.initScrollbar();
   }
 
   private handleScrollbar() {
