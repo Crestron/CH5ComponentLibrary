@@ -1237,7 +1237,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       // rows
       if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
         const eleHeight = Math.max(60, Math.floor((Math.floor(this._screenListContainer.offsetHeight) / Math.floor(possibleRow))));
-        this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - 2) + 'px, 1fr) )');
+        this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - 1) + 'px, 1fr) )');
       } else {
         const eleHeight = Math.max(60, Math.floor((Math.floor(this._screenListContainer.offsetHeight) / Math.ceil(requiredRows))));
         this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.ceil(requiredRows) + ', minmax(' + (eleHeight - 2) + 'px, 1fr) )');
@@ -1249,7 +1249,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-fit, minmax(80px, 1fr) )');
       // rows
       if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
-        this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - 2) + 'px, 1fr) )');
+        this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - 1) + 'px, 1fr) )');
       } else if (Math.floor(possibleRow) >= Math.ceil(requiredRows)) {
         this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.ceil(requiredRows) + ', minmax(' + (eleHeight) + 'px, 1fr) )');
       } else {
