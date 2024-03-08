@@ -1178,7 +1178,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
       source.addEventListener('dragstart', this.handleDragStartSource.bind(this, i));
       source.addEventListener('dragend', this.handleDragEndSource.bind(this, i))
-
     }
     if (this.endless) {
       if (this.sourceListPosition === 'top' || this.sourceListPosition === 'bottom') {
@@ -1188,7 +1187,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       }
     }
     setTimeout(() => {
-      this.initScrollbar();// Initially when the component load scrollbar handle does not appear, fixing this issue by adding timeout
+      this.initScrollbar(); // Initially when the component load scrollbar handle does not appear, fixing this issue by adding timeout
     }, 50);
     this.handleSourceLabel();
   }
@@ -1272,7 +1271,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
           }
         } else {
           if (this.numberOfScreens === 1) {
-            screen.style.width = Math.max(60, Math.floor((Math.floor(this._screenListContainer.offsetHeight) / this.numberOfScreenColumns))) + 'px';
+            screen.style.width = (Math.max(60, Math.floor((Math.floor(this._screenListContainer.offsetHeight) / this.numberOfScreenColumns))) - 2) + 'px';
           } else if (this.numberOfScreenColumns >= Math.floor(possibleCol)) {
             screen.style.width = '80px';
           } else {
@@ -1281,7 +1280,11 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         }
       } else {
         if (this.numberOfScreens === 1) {
-          screen.style.height = this._screenListContainer.offsetHeight + 'px';
+          if ((this.screenAspectRatio === "4:3" || this.screenAspectRatio === "16:9") && (this.sourceListPosition === 'left' || this.sourceListPosition === 'right')) {
+            screen.style.width = (this._screenListContainer.offsetWidth - 2) + 'px';
+          } else {
+            screen.style.height = (this._screenListContainer.offsetHeight - 2) + 'px';
+          }
         } else if (this.screenAspectRatio === "4:3" && this.sourceListPosition === 'left' || this.sourceListPosition === 'right') { // edge case when listposion is on left or right
           screen.style.height = (eleHeight - 2) + 'px';
         }
