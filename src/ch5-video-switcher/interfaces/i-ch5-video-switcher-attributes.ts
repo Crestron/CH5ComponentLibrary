@@ -134,7 +134,7 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    * [
    * "`sourceIconClass` attribute",
    * "***",
-   * "Sets the default icon for each source. The iconClass in the ch5-video-switcher-source tag will override this value."
+   * "Sets the default icon for each source. The iconClass in the ch5-video-switcher-source tag will override this value. Default value is fa-solid fa-video"
    * ]
    * @name sourceiconclass
    * @default fa-solid fa-video
