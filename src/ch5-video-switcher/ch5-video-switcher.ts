@@ -1226,20 +1226,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this.handleNumberOfScreenColumns();
   }
 
-  private screenAlignLabelHelperCreate(index: number, screenEl: HTMLElement) {
-    const alignLabelClassPrefix = this.primaryCssClass + '--screen-list-label-'
-    const screenAlignLabel = ['center', 'left', 'right'];
-    Array.from(screenAlignLabel).forEach((alignLabel) => {
-      screenEl.classList.remove(alignLabelClassPrefix + alignLabel);
-    })
-    const screen = this.querySelector(`#${this.getCrId()}-screen-${index}`) as Ch5VideoSwitcherScreen;
-    if (screen && screen.alignLabel) {
-      screenEl.classList.add(alignLabelClassPrefix + screen.alignLabel);
-    } else {
-      screenEl.classList.add(alignLabelClassPrefix + screenAlignLabel[0]);
-    }
-  }
-  
   private handleNumberOfScreenColumns() {
     const possibleCol = (this._screenListContainer.offsetWidth) / 82;
     const possibleRow = (this._screenListContainer.offsetHeight) / 62;
@@ -1377,6 +1363,20 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         sourceIcon.classList.add(className);
       }
     });
+  }
+
+  private screenAlignLabelHelperCreate(index: number, screenEl: HTMLElement) {
+    const alignLabelClassPrefix = this.primaryCssClass + '--screen-list-label-'
+    const screenAlignLabel = ['center', 'left', 'right'];
+    Array.from(screenAlignLabel).forEach((alignLabel) => {
+      screenEl.classList.remove(alignLabelClassPrefix + alignLabel);
+    })
+    const screen = this.querySelector(`#${this.getCrId()}-screen-${index}`) as Ch5VideoSwitcherScreen;
+    if (screen && screen.alignLabel) {
+      screenEl.classList.add(alignLabelClassPrefix + screen.alignLabel);
+    } else {
+      screenEl.classList.add(alignLabelClassPrefix + screenAlignLabel[0]);
+    }
   }
 
   private handleDragStartSource(srcNumber: number) {
