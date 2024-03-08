@@ -1214,7 +1214,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       }
       screen.addEventListener('dragover', this.handleDragoverScreen.bind(this, i));
       screen.addEventListener('drop', this.handleDropScreen.bind(this, i))
-      screen.addEventListener('dragleave', this.handleDragleaveScreen.bind(this, i));
     }
     this.handleNumberOfScreenColumns();
     this.handleReceiveStateSourceChanged();
@@ -1429,18 +1428,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         this.addSourceToScreen(draggedElement, this._screenListContainer.children[scrNumber] as HTMLElement, scrNumber, false);
       }
     }
-  }
-
-  private handleDragleaveScreen(scrNumber: number) {
-    console.log(scrNumber, 'leave')
-    /*     const source_elem = document.querySelectorAll(".source_onscreen");
-        source_elem.forEach(s_ele => {
-            s_ele.addEventListener("dragend", (e) => {
-                if (e.dataTransfer.dropEffect !== 'copy') {
-                    e.target.remove();
-                }
-            });
-        }); */
   }
 
   private addSourceToScreenOnFB(scrNumber: number, sourceId: number) {
