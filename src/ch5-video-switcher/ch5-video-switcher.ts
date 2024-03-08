@@ -706,7 +706,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this._sourceListContainer.addEventListener('mouseup', this.handleMouseUpAndLeave);
     this._sourceListContainer.addEventListener('mousemove', this.handleMouseMove);
     this._sourceListContainer.addEventListener('scroll', this.handleScrollEvent);
-    this.resizeObserver = new ResizeObserver(this.resizeObereverHandler);
+    this.resizeObserver = new ResizeObserver(this.resizeObserverHandler);
     this.resizeObserver.observe(this._elContainer);
   }
 
@@ -1220,7 +1220,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this.handleScreenLabel();
   }
 
-  private resizeObereverHandler = () => {
+  private resizeObserverHandler = () => {
     if (this._elContainer.getBoundingClientRect().width === 0) {
       return;
     }
@@ -1278,6 +1278,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
             screen.style.width = Math.max(80, Math.floor((Math.floor(this._screenListContainer.offsetHeight) / this.numberOfScreenColumns))) + 'px';
           } else if (this.numberOfScreenColumns > Math.floor(possibleCol)) {
             screen.style.width = '80px';
+            screen.style.fontSize = '80px';
           } else {
             screen.style.width = eleHeight + 'px';
           }
@@ -1316,7 +1317,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = this.signalHolderForScreenLabel.receiveStateScriptScreenLabelHtml[index]?.value;
     } else if (this.contractName.trim() && this.contractScreenLabelType === 'textContent') {
       this._screenListContainer.children[index].getElementsByTagName('span')[0].textContent = this.signalHolderForScreenLabel.receiveStateScreenLabel[index]?.value;
-    } else if (this.hasAttribute('receiveStateScriptscreenlabelhtml') && this.receiveStateScriptScreenLabelHtml) {
+    } else if (this.hasAttribute('receiveStateScriptScreenLabelHtml') && this.receiveStateScriptScreenLabelHtml) {
       this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = this.signalHolderForScreenLabel.receiveStateScriptScreenLabelHtml[index]?.value;
     } else if (this.hasAttribute('receiveStateScreenLabel') && this.receiveStateScreenLabel) {
       this._screenListContainer.children[index].getElementsByTagName('span')[0].textContent = this.signalHolderForScreenLabel.receiveStateScreenLabel[index]?.value;
@@ -1452,8 +1453,9 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     if (ele && ele?.getAttribute('sourceid')) {
       se.setAttribute('sourceId', ele?.getAttribute('sourceid') + '');
     }
-    se.style.height = screen.offsetHeight * 0.4 + 'px';
-    se.style.width = screen.offsetHeight * 0.4 + 'px';
+    // se.style.height = screen.offsetHeight * 0.4 + 'px';
+    // se.style.width = screen.offsetHeight * 0.4 + 'px';
+    se.style.fontSize= screen.offsetHeight * 0.27 + 'px';
     if (screen?.children.length === 2) {
       screen?.removeChild(screen?.children[1]);
     }
