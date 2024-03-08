@@ -320,7 +320,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     receiveStateShow: "",
     receiveStateNumberOfScreens: ""
   }
-  private validDropo: boolean = false;
+  private validDrop: boolean = false;
   private resizeObserver: ResizeObserver | null = null;
 
   //#endregion
@@ -1409,24 +1409,26 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private handleDropScreen(scrNumber: number) {
-    this.validDropo = true;
+    this.validDrop = true;
     const draggedElement = this.querySelector(".dragging") as HTMLElement;
-    if (draggedElement && draggedElement.classList.contains('source-onscreen')) { // Move source from screen to screen
-      const screenEl = this.querySelector(`[screenid="${scrNumber}"]`) as HTMLElement;
-      const existingSource = screenEl.children.length === 2 ? Number(screenEl.children[1].getAttribute('sourceId')) : -1;
-      this.handleSendEventOnDrop(draggedElement.parentElement?.getAttribute('screenid') + '', existingSource);
-      this.handleSendEventOnDrop(scrNumber + '', draggedElement.getAttribute('sourceId'));
-      this.handleSendEventOnChange(scrNumber + '');
-      this.handleSendEventOnChange(draggedElement.parentElement?.getAttribute('screenid') + '');
-    } else {// Move source from sourcelist  to screen
-      if (this.sendEventOnChange) {
-        this.handleSendEventOnChange(scrNumber + 1 + '');
-      }
-      if (draggedElement && draggedElement.getAttribute('sourceId') && this.sendEventOnDrop) {
+    if (scrNumber !== +(draggedElement.parentElement?.getAttribute('screenid') + '')) {
+      if (draggedElement && draggedElement.classList.contains('source-onscreen')) { // Move source from screen to screen
+        const screenEl = this.querySelector(`[screenid="${scrNumber}"]`) as HTMLElement;
+        const existingSource = screenEl.children.length === 2 ? Number(screenEl.children[1].getAttribute('sourceId')) : -1;
+        this.handleSendEventOnDrop(draggedElement.parentElement?.getAttribute('screenid') + '', existingSource);
         this.handleSendEventOnDrop(scrNumber + '', draggedElement.getAttribute('sourceId'));
-      }
-      if (!this.receiveStateSourceChanged) {
-        this.addSourceToScreen(draggedElement, this._screenListContainer.children[scrNumber] as HTMLElement, scrNumber, false);
+        this.handleSendEventOnChange(scrNumber + '');
+        this.handleSendEventOnChange(draggedElement.parentElement?.getAttribute('screenid') + '');
+      } else {// Move source from sourcelist  to screen
+        if (this.sendEventOnChange) {
+          this.handleSendEventOnChange(scrNumber + 1 + '');
+        }
+        if (draggedElement && draggedElement.getAttribute('sourceId')) {
+          this.handleSendEventOnDrop(scrNumber + '', draggedElement.getAttribute('sourceId'));
+        }
+        if (!this.receiveStateSourceChanged) {
+          this.addSourceToScreen(draggedElement, this._screenListContainer.children[scrNumber] as HTMLElement, scrNumber, false);
+        }
       }
     }
   }
@@ -1455,7 +1457,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     }
     // se.style.height = screen.offsetHeight * 0.4 + 'px';
     // se.style.width = screen.offsetHeight * 0.4 + 'px';
-    se.style.fontSize= screen.offsetHeight * 0.27 + 'px';
+    se.style.fontSize = screen.offsetHeight * 0.27 + 'px';
     if (screen?.children.length === 2) {
       screen?.removeChild(screen?.children[1]);
     }
@@ -1474,14 +1476,14 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private handleDragStartForSourceOnScreen(index: number) {
-    this.validDropo = false;
+    this.validDrop = false;
     this._screenListContainer.children[index].children[1].classList.add('dragging');
   }
 
   private handleDragEndForSourceOnScreen(index: number, event: any) {
     this._screenListContainer.children[index]?.children[1]?.classList?.remove('dragging');
     // remove element on drop outside screen
-    if (event.dataTransfer.dropEffect !== 'copy' && !this.validDropo) {
+    if (event.dataTransfer.dropEffect !== 'copy' && !this.validDrop) {
       if (this.sendEventOnDrop) {
         this.handleSendEventOnDrop(index + '', -1);
       }
