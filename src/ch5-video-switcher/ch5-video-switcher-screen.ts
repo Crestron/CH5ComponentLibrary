@@ -2,7 +2,6 @@ import { Ch5Log } from "../ch5-common/ch5-log";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
-import { TCh5VideoSwitcherScreenAlignLabel } from "./interfaces/t-ch5-video-switcher";
 import { Ch5VideoSwitcher } from "./ch5-video-switcher";
 import { ICh5VideoSwitcherScreenAttributes } from "./interfaces";
 
@@ -12,18 +11,7 @@ export class Ch5VideoSwitcherScreen extends Ch5Log implements ICh5VideoSwitcherS
 
   public static ELEMENT_NAME = 'ch5-video-switcher-screen';
 
-  public static readonly ALIGN_LABEL: TCh5VideoSwitcherScreenAlignLabel[] = ['center', 'left', 'right'];
-
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
-    {
-      default: Ch5VideoSwitcherScreen.ALIGN_LABEL[0],
-      enumeratedValues: Ch5VideoSwitcherScreen.ALIGN_LABEL,
-      name: "alignLabel",
-      removeAttributeOnNull: true,
-      type: "enum",
-      valueOnAttributeEmpty: Ch5VideoSwitcherScreen.ALIGN_LABEL[0],
-      isObservableProperty: true,
-    },
     {
       default: "",
       name: "labelInnerHTML",
@@ -40,22 +28,6 @@ export class Ch5VideoSwitcherScreen extends Ch5Log implements ICh5VideoSwitcherS
   //#endregion
 
   //#region Getters and Setters
-
-  public set alignLabel(value: TCh5VideoSwitcherScreenAlignLabel) {
-    this._ch5Properties.set<TCh5VideoSwitcherScreenAlignLabel>("alignLabel", value, () => {
-      const index = this.getAttribute('id')?.split('-').pop();
-      const screenContainer = this.parentComponent?._screenListContainer.querySelector(`[screenid="${index}"]`);
-      if (this.parentComponent && screenContainer) {
-        Array.from(Ch5VideoSwitcherScreen.ALIGN_LABEL).forEach((label: string) => {
-          screenContainer.classList.remove('ch5-video-switcher--screen-list-label-' + label);
-        })
-        screenContainer.classList.add('ch5-video-switcher--screen-list-label-' + this.alignLabel);
-      }
-    });
-  }
-  public get alignLabel(): TCh5VideoSwitcherScreenAlignLabel {
-    return this._ch5Properties.get<TCh5VideoSwitcherScreenAlignLabel>("alignLabel");
-  }
 
   public set labelInnerHTML(value: string) {
     this._ch5Properties.set<string>("labelInnerHTML", value, () => {
