@@ -1207,6 +1207,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
       this._screenListContainer.appendChild(screen);
       this.screenLabelHelperCreate(i);
+      this.screenAlignLabelHelperCreate(i, screen);
       if (this.signalHolder[i] && this.signalHolder[i].value && this.signalHolder[i].value > 0) {
         this.addSourceToScreenOnFB(i, this.signalHolder[i].value);// if value hold on CS
       }
@@ -1216,6 +1217,20 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this.handleNumberOfScreenColumns();
     this.handleReceiveStateSourceChanged();
     this.handleScreenLabel();
+  }
+
+  private screenAlignLabelHelperCreate(index: number, screenEl: HTMLElement) {
+    const alignLabelClassPrefix = this.primaryCssClass + '--screen-list-label-'
+    const screenAlignLabel = ['center', 'left', 'right'];
+    Array.from(screenAlignLabel).forEach((alignLabel) => {
+      screenEl.classList.remove(alignLabelClassPrefix + alignLabel);
+    })
+    const screen = this.querySelector(`#${this.getCrId()}-screen-${index}`) as Ch5VideoSwitcherScreen;
+    if (screen && screen.alignLabel) {
+      screenEl.classList.add(alignLabelClassPrefix + screen.alignLabel);
+    } else {
+      screenEl.classList.add(alignLabelClassPrefix + screenAlignLabel[0]);
+    }
   }
 
   private resizeObserverHandler = () => {
