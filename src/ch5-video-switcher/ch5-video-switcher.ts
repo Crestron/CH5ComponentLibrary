@@ -1323,9 +1323,9 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     } else if (content) {
       Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(content, index, this.indexId);
       Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsContent(content, index, this.indexId);
-      this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = content.innerHTML;
+      this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = content.innerHTML.trim();
     } else if (labelInnerHTML) {
-      this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = labelInnerHTML;
+      this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = labelInnerHTML.trim();
     }
   }
 
@@ -1348,9 +1348,9 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     } else if (content) {
       Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(content, index, this.indexId);
       Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsContent(content, index, this.indexId);
-      this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerHTML = content.innerHTML;
+      this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerHTML = content.innerHTML.trim();
     } else if (labelInnerHTML) {
-      this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerHTML = labelInnerHTML;
+      this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerHTML = labelInnerHTML.trim();
     }
   }
 
