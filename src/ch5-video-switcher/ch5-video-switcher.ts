@@ -1256,7 +1256,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-fit, minmax(80px, 1fr) )');
       // rows
       if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
-        this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - 1) + 'px, 1fr) )');
+        this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - 1.5) + 'px, 1fr) )');
       } else if (Math.floor(possibleRow) >= Math.ceil(requiredRows)) {
         this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.ceil(requiredRows) + ', minmax(' + (eleHeight) + 'px, 1fr) )');
       } else {
@@ -1297,8 +1297,15 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
           } else {
             screen.style.height = (this._screenListContainer.offsetHeight - 2) + 'px';
           }
-        } else if ((this.screenAspectRatio === "4:3" || this.screenAspectRatio === "16:9") && this.sourceListPosition === 'left' || this.sourceListPosition === 'right') { // edge case when listposion is on left or right
-          screen.style.height = (eleHeight - 2) + 'px';
+        } else if (this.sourceListPosition === 'left' || this.sourceListPosition === 'right') {
+          if (this.screenAspectRatio === "4:3") {
+            screen.style.height = (eleHeight - 2) + 'px';  // edge case when listposion is on left or right
+          }
+          else if (this.screenAspectRatio === "16:9") {
+            screen.style.height = (eleHeight - ((possibleCol - 1) * 2)) + 'px';
+          }
+        } else if (this.screenAspectRatio === "4:3" && (this.sourceListPosition === 'top' || this.sourceListPosition === 'bottom')) {
+          screen.style.height = (eleHeight - ((possibleRow - 1) * 2)) + 'px';
         }
       }
     }
