@@ -1297,7 +1297,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
           } else {
             screen.style.height = (this._screenListContainer.offsetHeight - 2) + 'px';
           }
-        } else if (this.screenAspectRatio === "4:3" && this.sourceListPosition === 'left' || this.sourceListPosition === 'right') { // edge case when listposion is on left or right
+        } else if ((this.screenAspectRatio === "4:3" || this.screenAspectRatio === "16:9") && this.sourceListPosition === 'left' || this.sourceListPosition === 'right') { // edge case when listposion is on left or right
           screen.style.height = (eleHeight - 2) + 'px';
         }
       }
