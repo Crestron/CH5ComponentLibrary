@@ -1405,7 +1405,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         this.handleSendEventOnChange(scrNumber + '');
         this.handleSendEventOnChange(draggedElement.parentElement?.getAttribute('screenid') + '');
       } else {// Move source from sourcelist  to screen
-        this.handleSendEventOnChange(scrNumber + 1 + '');
+        this.handleSendEventOnChange(scrNumber + '');
         if (draggedElement && draggedElement.getAttribute('sourceId')) {
           this.handleSendEventOnDrop(scrNumber + '', draggedElement.getAttribute('sourceId'));
         }
