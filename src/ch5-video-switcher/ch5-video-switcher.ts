@@ -1256,9 +1256,9 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-fit, minmax(80px, 1fr) )');
       // rows
       if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
-        if(this.sourceListPosition === 'bottom'){ // because height calculation of source list is different from top
+        if (this.sourceListPosition === 'bottom') { // because height calculation of source list is different from top
           this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - 1) + 'px, 1fr) )');
-        }else{
+        } else {
           this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - 1.5) + 'px, 1fr) )');
         }
       } else if (Math.floor(possibleRow) >= Math.ceil(requiredRows)) {
@@ -1279,37 +1279,52 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         if (this.screenAspectRatio === '16:9') {
           if (this.numberOfScreens === 1) {
             screen.style.width = Math.max(80, Math.floor((Math.floor(this._screenListContainer.offsetHeight) / this.numberOfScreenColumns))) + 'px';
+            // screen.style.height = (Math.max(80, Math.floor((Math.floor(this._screenListContainer.offsetHeight) / this.numberOfScreenColumns))) * (9 / 16)) + 'px';
           } else if (this.numberOfScreenColumns > Math.floor(possibleCol)) {
             screen.style.width = '80px';
+          //  screen.style.height = (80 * (9 / 16)) + 'px';
             screen.style.fontSize = '80px';
           } else {
             screen.style.width = eleHeight + 'px';
+          //  screen.style.height = (eleHeight * (9 / 16)) + 'px';
           }
         } else {
           if (this.numberOfScreens === 1) {
             screen.style.width = (Math.max(60, Math.floor((Math.floor(this._screenListContainer.offsetHeight) / this.numberOfScreenColumns))) - 2) + 'px';
           } else if (this.numberOfScreenColumns >= Math.floor(possibleCol)) {
             screen.style.width = '80px';
+            screen.style.height = (80 * (3 / 4)) + 'px';
           } else {
             screen.style.height = (eleHeight - 2) + 'px';
+            screen.style.width = ((eleHeight - 2) * (4 / 3)) + 'px';
           }
         }
       } else {
         if (this.numberOfScreens === 1) {
           if ((this.screenAspectRatio === "4:3" || this.screenAspectRatio === "16:9") && (this.sourceListPosition === 'left' || this.sourceListPosition === 'right')) {
             screen.style.width = (this._screenListContainer.offsetWidth - 2) + 'px';
+            if(this.screenAspectRatio === "4:3"){
+              screen.style.height = ((this._screenListContainer.offsetWidth - 2) * (3 / 4)) + 'px';
+            }
+           /*  if (this.screenAspectRatio === "16:9") {
+              screen.style.height = ((this._screenListContainer.offsetWidth - 2) * (9 / 16)) + 'px';
+            } */
           } else {
             screen.style.height = (this._screenListContainer.offsetHeight - 2) + 'px';
+            screen.style.width = ((this._screenListContainer.offsetHeight - 2) * (4 / 3)) + 'px';
           }
         } else if (this.sourceListPosition === 'left' || this.sourceListPosition === 'right') {
           if (this.screenAspectRatio === "4:3") {
             screen.style.height = (eleHeight - 2) + 'px';  // edge case when listposion is on left or right
+            screen.style.width = ((eleHeight - 2) * (4 / 3)) + 'px';  // edge case when listposion is on left or right
           }
           else if (this.screenAspectRatio === "16:9") {
             screen.style.height = (eleHeight - ((possibleCol - 1) * 2)) + 'px';
+          //  screen.style.width = ((eleHeight - ((possibleCol - 1) * 2))) * (16 / 9) + 'px';
           }
         } else if (this.screenAspectRatio === "4:3" && (this.sourceListPosition === 'top' || this.sourceListPosition === 'bottom')) {
           screen.style.height = (eleHeight - ((possibleRow - 1) * 2)) + 'px';
+          screen.style.width = ((eleHeight - ((possibleRow - 1) * 2)) * (4 / 3)) + 'px';
         }
       }
     }
