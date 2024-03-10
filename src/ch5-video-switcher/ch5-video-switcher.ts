@@ -1177,7 +1177,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       this._sourceListContainer.appendChild(source);
       this.sourceLabelHelperCreate(i);
       this.sourceIconHelperCreate(i, sourceIcon);
-      this.sourceAlignLabelHelperCreate(i, source);
 
       source.addEventListener('dragstart', this.handleDragStartSource.bind(this, i));
       source.addEventListener('dragend', this.handleDragEndSource.bind(this, i))
@@ -1257,7 +1256,11 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-fit, minmax(80px, 1fr) )');
       // rows
       if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
-        this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - 1) + 'px, 1fr) )');
+        if(this.sourceListPosition === 'bottom'){ // because height calculation of source list is different from top
+          this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - 1) + 'px, 1fr) )');
+        }else{
+          this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - 1.5) + 'px, 1fr) )');
+        }
       } else if (Math.floor(possibleRow) >= Math.ceil(requiredRows)) {
         this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.ceil(requiredRows) + ', minmax(' + (eleHeight) + 'px, 1fr) )');
       } else {
@@ -1298,8 +1301,15 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
           } else {
             screen.style.height = (this._screenListContainer.offsetHeight - 2) + 'px';
           }
-        } else if (this.screenAspectRatio === "4:3" && this.sourceListPosition === 'left' || this.sourceListPosition === 'right') { // edge case when listposion is on left or right
-          screen.style.height = (eleHeight - 2) + 'px';
+        } else if (this.sourceListPosition === 'left' || this.sourceListPosition === 'right') {
+          if (this.screenAspectRatio === "4:3") {
+            screen.style.height = (eleHeight - 2) + 'px';  // edge case when listposion is on left or right
+          }
+          else if (this.screenAspectRatio === "16:9") {
+            screen.style.height = (eleHeight - ((possibleCol - 1) * 2)) + 'px';
+          }
+        } else if (this.screenAspectRatio === "4:3" && (this.sourceListPosition === 'top' || this.sourceListPosition === 'bottom')) {
+          screen.style.height = (eleHeight - ((possibleRow - 1) * 2)) + 'px';
         }
       }
     }
@@ -1324,9 +1334,9 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     } else if (content) {
       Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(content, index, this.indexId);
       Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsContent(content, index, this.indexId);
-      this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = content.innerHTML;
+      this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = content.innerHTML.trim();
     } else if (labelInnerHTML) {
-      this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = labelInnerHTML;
+      this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = labelInnerHTML.trim();
     }
   }
 
@@ -1349,9 +1359,9 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     } else if (content) {
       Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(content, index, this.indexId);
       Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsContent(content, index, this.indexId);
-      this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerHTML = content.innerHTML;
+      this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerHTML = content.innerHTML.trim();
     } else if (labelInnerHTML) {
-      this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerHTML = labelInnerHTML;
+      this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerHTML = labelInnerHTML.trim();
     }
   }
 
@@ -1364,20 +1374,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         sourceIcon.classList.add(className);
       }
     });
-  }
-
-  private sourceAlignLabelHelperCreate(index: number, sourceEl: HTMLElement) {
-    const alignLabelClassPrefix = this.primaryCssClass + '--source-list-label-'
-    const sourceAlignLabel = ['center', 'left', 'right'];
-    Array.from(sourceAlignLabel).forEach((alignLabel) => {
-      sourceEl.classList.remove(alignLabelClassPrefix + alignLabel);
-    })
-    const source = this.querySelector(`#${this.getCrId()}-source-${index}`) as Ch5VideoSwitcherSource;
-    if (source && source.alignLabel) {
-      sourceEl.classList.add(alignLabelClassPrefix + source.alignLabel);
-    } else {
-      sourceEl.classList.add(alignLabelClassPrefix + sourceAlignLabel[0]);
-    }
   }
 
   private screenAlignLabelHelperCreate(index: number, screenEl: HTMLElement) {
@@ -1420,11 +1416,11 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         this.handleSendEventOnChange(scrNumber + '');
         this.handleSendEventOnChange(draggedElement.parentElement?.getAttribute('screenid') + '');
       } else {// Move source from sourcelist  to screen
-        this.handleSendEventOnChange(scrNumber + 1 + '');
+        this.handleSendEventOnChange(scrNumber + '');
         if (draggedElement && draggedElement.getAttribute('sourceId')) {
           this.handleSendEventOnDrop(scrNumber + '', draggedElement.getAttribute('sourceId'));
         }
-        if (!this.receiveStateSourceChanged) {
+        if (!this.receiveStateSourceChanged.trim() && !this.contractName.trim()) {
           this.addSourceToScreen(draggedElement, this._screenListContainer.children[scrNumber] as HTMLElement, scrNumber, false);
         }
       }

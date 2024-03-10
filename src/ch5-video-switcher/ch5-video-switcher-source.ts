@@ -2,7 +2,6 @@ import { Ch5Log } from "../ch5-common/ch5-log";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
-import { TCh5VideoSwitcherSourceAlignLabel } from "./interfaces/t-ch5-video-switcher";
 import { Ch5VideoSwitcher } from "./ch5-video-switcher";
 import { ICh5VideoSwitcherSourceAttributes } from "./interfaces";
 
@@ -12,18 +11,7 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
 
   public static ELEMENT_NAME = 'ch5-video-switcher-source';
 
-  public static readonly ALIGN_LABEL: TCh5VideoSwitcherSourceAlignLabel[] = ['center', 'left', 'right'];
-
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
-    {
-      default: Ch5VideoSwitcherSource.ALIGN_LABEL[0],
-      enumeratedValues: Ch5VideoSwitcherSource.ALIGN_LABEL,
-      name: "alignLabel",
-      removeAttributeOnNull: true,
-      type: "enum",
-      valueOnAttributeEmpty: Ch5VideoSwitcherSource.ALIGN_LABEL[0],
-      isObservableProperty: true,
-    },
     {
       default: "",
       name: "iconClass",
@@ -48,24 +36,6 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
   //#endregion
 
   //#region Getters and Setters
-
-  public set alignLabel(value: TCh5VideoSwitcherSourceAlignLabel) {
-    this._ch5Properties.set<TCh5VideoSwitcherSourceAlignLabel>("alignLabel", value, () => {
-      if (this.parentComponent) {
-        const index = Number(this.getAttribute('id')?.split('-').pop());
-        if (this.parentComponent && this.parentComponent?._sourceListContainer.children[index]) {
-          Array.from(Ch5VideoSwitcherSource.ALIGN_LABEL).forEach((e: any) => {
-            this.parentComponent?._sourceListContainer.children[index].classList.remove('ch5-video-switcher--source-list-label-' + e);
-          });
-          this.parentComponent._sourceListContainer.children[index].classList.add('ch5-video-switcher--source-list-label-' + this.alignLabel);
-        }
-      }
-    });
-  }
-
-  public get alignLabel(): TCh5VideoSwitcherSourceAlignLabel {
-    return this._ch5Properties.get<TCh5VideoSwitcherSourceAlignLabel>("alignLabel");
-  }
 
   public set iconClass(value: string) {
     this._ch5Properties.set<string>("iconClass", value, () => {

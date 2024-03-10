@@ -1,5 +1,3 @@
-import { TCh5VideoSwitcherSourceAlignLabel } from "./t-ch5-video-switcher";
-
 /**
  * @ignore
  */
@@ -16,18 +14,6 @@ export interface ICh5VideoSwitcherSourceAttributes {
    * @hidden true
    */
   labelInnerHTML: string;
-  /**
-   * @documentation
-   * [
-   * "`alignLabel` attribute",
-   * "***",
-   * "Set the label alignment on the source window as either left, center(default) and right."
-   * ]
-   * @name alignlabel
-   * @default center
-   * @attributeType "EnumeratedValue"
-   */
-  alignLabel: TCh5VideoSwitcherSourceAlignLabel;
   /**
    * @documentation
    * [
