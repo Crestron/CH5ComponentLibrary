@@ -4,6 +4,7 @@ import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-ma
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5VideoSwitcher } from "./ch5-video-switcher";
 import { ICh5VideoSwitcherSourceAttributes } from "./interfaces";
+import _ from "lodash";
 
 export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherSourceAttributes {
 
@@ -90,6 +91,7 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
     super();
     this.logger.start('constructor()');
     this._ch5Properties = new Ch5Properties(this, Ch5VideoSwitcherSource.COMPONENT_PROPERTIES);
+    this.parentComponent = this.getParentElement();
   }
 
   public static get observedAttributes(): string[] {
@@ -125,11 +127,20 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
     if (this.parentElement?.nodeName.toLowerCase() !== 'ch5-video-switcher') {
       throw new Error(`Invalid parent element for ch5-video-switcher-source.`);
     }
-    this.parentComponent = this.parentElement as Ch5VideoSwitcher;
     this.setAttribute('role', Ch5RoleAttributeMapping.ch5VideoSwitcherSource);
     this.sourceLabelHelper();
     this.initAttributes();
     this.logger.stop();
+  }
+
+  private getParentElement(): Ch5VideoSwitcher {
+    const getTheMatchingParent = (node: Node): Ch5VideoSwitcher => {
+      if (!_.isNil(node) && node.nodeName.toString().toUpperCase() !== "CH5-VIDEO-SWITCHER") {
+        return getTheMatchingParent(node.parentNode as Node);
+      }
+      return node as Ch5VideoSwitcher;
+    }
+    return getTheMatchingParent(this.parentElement as Node);
   }
 
   public disconnectedCallback() {
@@ -156,8 +167,8 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
   }
 
   private sourceLabelHelper() {
-    const sourecEleId = this.getAttribute('id');
-    const indexOfSource = sourecEleId?.split('-') ? sourecEleId?.split('-') : [];
+    const sourceEleId = this.getAttribute('id');
+    const indexOfSource = sourceEleId?.split('-') ? sourceEleId?.split('-') : [];
     if (this.parentComponent) {
       this.parentComponent.sourceLabelHelperCreate(+indexOfSource[4]);
     }
