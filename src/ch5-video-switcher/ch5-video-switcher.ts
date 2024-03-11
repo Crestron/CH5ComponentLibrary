@@ -636,6 +636,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this.createScreen();
     customElements.whenDefined('ch5-video-switcher').then(() => {
       this.componentLoadedEvent(Ch5VideoSwitcher.ELEMENT_NAME, this.id);
+      this.createSource();
+      this.createScreen();
     });
     this.logger.stop();
   }
@@ -1235,86 +1237,129 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   private handleNumberOfScreenColumns() {
     const containerHeight = this._screenListContainer.offsetHeight;
     const containerWidth = this._screenListContainer.offsetWidth;
-    const possibleCol = ((this._screenListContainer.offsetWidth)) / 82;
-    const possibleRow = (this._screenListContainer.offsetHeight) / 62;
-    const colsCalculation: number = 80;
+    const possibleCol = containerWidth / 82;
+    const possibleRow = containerHeight / 62;
+    const minColWidth: number = 80;
     const minRowHieght = 60;
-    let finalCol = 0;
-
+    let finalColNumber = 0;
+    let finalRowNumber = 0;
+    let setCol = true;
+    let setRow = true;
     let requiredRows: number = 1;
     let visible_screens: number = 0;
+
+
     this._screenListContainer.style.removeProperty('grid-template-columns');
     this._screenListContainer.style.removeProperty('grid-template-rows');
-    if (this.numberOfScreenColumns > 0) {
-      // columns
-      if (Math.floor(possibleCol) >= this.numberOfScreenColumns) {
-        requiredRows = this.numberOfScreens / Math.floor(this.numberOfScreenColumns);
-        finalCol = this.numberOfScreenColumns;
-        this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(' + this.numberOfScreenColumns + ',minmax(' + colsCalculation + 'px, 1fr))');
-      } else if (Math.floor(possibleCol) >= this.numberOfScreens) {
-        requiredRows = this.numberOfScreens / Math.floor(possibleCol);
-        finalCol = Math.floor(possibleCol);
-        this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(' + Math.floor(possibleCol) + ',minmax(' + colsCalculation + 'px, 1fr))');
-      } else {
-        finalCol = Math.floor(possibleCol);
-        requiredRows = this.numberOfScreens / Math.floor(possibleCol);
-        this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-Fit, minmax(' + colsCalculation + 'px, 1fr))');
-      }
-      // rows
-      if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
-        visible_screens = finalCol * Math.floor(possibleRow);
-        const eleHeight = Math.max(60, Math.floor((Math.floor(containerHeight) / Math.floor(possibleRow))));
-        if (this.screenAspectRatio === 'stretch') {
-          this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + minRowHieght + 'px, 1fr) )');
+    if (this.screenAspectRatio === 'stretch') {
+      if (this.numberOfScreenColumns > 0) {
+        // columns
+        if (Math.floor(possibleCol) >= this.numberOfScreenColumns) {
+          requiredRows = this.numberOfScreens / Math.floor(this.numberOfScreenColumns);
+          finalColNumber = this.numberOfScreenColumns;
+        } else if (Math.floor(possibleCol) >= this.numberOfScreens) {
+          requiredRows = this.numberOfScreens / Math.floor(possibleCol);
+          finalColNumber = Math.floor(possibleCol);
         } else {
-          this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - 1) + 'px, 1fr) )');
+          requiredRows = this.numberOfScreens / Math.floor(possibleCol);
+          finalColNumber = Math.floor(possibleCol);
+          setCol = false;
         }
-      } else {
-        visible_screens = finalCol * Math.ceil(requiredRows)
-        const eleHeight = Math.max(60, Math.floor((Math.floor(containerHeight) / Math.ceil(requiredRows))));
-        if (this.screenAspectRatio === 'stretch') {
-          this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.ceil(requiredRows) + ', minmax(' + minRowHieght + 'px, 1fr) )');
+
+        // rows
+        if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
+          visible_screens = finalColNumber * Math.floor(possibleRow);
+          finalRowNumber = Math.floor(possibleRow)
         } else {
-          this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.ceil(requiredRows) + ', minmax(' + (eleHeight - 2) + 'px, 1fr) )');
+          visible_screens = finalColNumber * Math.ceil(requiredRows);
+          finalRowNumber = Math.ceil(requiredRows);
         }
+
+        let col = setCol ? finalColNumber : 'auto-fit';
+        if (setCol && col > this.numberOfScreens + '') { // to center items is screens are les than number of col
+          col = 'repeat(' + this.numberOfScreens + ',' + (containerWidth / Math.floor(possibleCol) + 'px)');
+        } else {
+          col = 'repeat(' + col + ',minmax(' + minColWidth + 'px, 1fr))'
+        }
+        this._screenListContainer.style.setProperty('grid-template-columns', col);
+        this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + finalRowNumber + ', minmax(' + minRowHieght + 'px, 1fr) )');
+
+      } else {
+        requiredRows = this.numberOfScreens / Math.floor(possibleCol);
+
+        // rows
+        if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
+          visible_screens = Math.floor(possibleRow) * Math.floor(possibleCol);
+          finalRowNumber = Math.floor(possibleRow);
+        } else if (Math.floor(possibleRow) >= Math.ceil(requiredRows)) {
+          finalRowNumber = Math.ceil(requiredRows)
+          visible_screens = Math.ceil(requiredRows) * Math.floor(possibleCol);
+        } else {
+          setRow = false;
+        }
+
+        const row = setRow ? 'repeat(' + finalRowNumber + ', minmax(' + minRowHieght + 'px, 1fr) )' : 'minmax(' + minRowHieght + 'px, 1fr)';
+        this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-fit, minmax(' + minColWidth + 'px, 1fr) )');
+        this._screenListContainer.style.setProperty('grid-template-rows', row);
+
       }
     } else {
-      requiredRows = this.numberOfScreens / Math.floor(possibleCol);
-      const eleHeight = Math.max(60, Math.floor((Math.floor(containerHeight) / Math.floor(possibleRow))));
-      // columns
-      this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-fit, minmax(' + colsCalculation + 'px, 1fr) )');
-      // rows
-      if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
-        visible_screens = Math.floor(possibleRow) * Math.floor(possibleCol);
-        if (this.sourceListPosition === 'bottom') { // because height calculation of source list is different from top
-          if (this.screenAspectRatio === 'stretch') {
-            this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + minRowHieght + 'px, 1fr) )');
-          } else {
-            this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - 1) + 'px, 1fr) )');
-          }
+      if (this.numberOfScreenColumns > 0) {
+        // columns
+        if (Math.floor(possibleCol) >= this.numberOfScreenColumns) {
+          requiredRows = this.numberOfScreens / Math.floor(this.numberOfScreenColumns);
+          finalColNumber = this.numberOfScreenColumns;
+          this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(' + this.numberOfScreenColumns + ',minmax(' + minColWidth + 'px, 1fr))');
+        } else if (Math.floor(possibleCol) >= this.numberOfScreens) {
+          requiredRows = this.numberOfScreens / Math.floor(possibleCol);
+          finalColNumber = Math.floor(possibleCol);
+          this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(' + Math.floor(possibleCol) + ',minmax(' + minColWidth + 'px, 1fr))');
         } else {
-          if (this.screenAspectRatio === 'stretch') {
-            this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + minRowHieght + 'px, 1fr) )');
+          finalColNumber = Math.floor(possibleCol);
+          requiredRows = this.numberOfScreens / Math.floor(possibleCol);
+          this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-Fit, minmax(' + minColWidth + 'px, 1fr))');
+        }
+        // rows
+        if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
+          visible_screens = finalColNumber * Math.floor(possibleRow);
+          const eleHeight = Math.max(60, Math.floor((Math.floor(containerHeight) / Math.floor(possibleRow))));
+          /*  if (this.screenAspectRatio === 'stretch') {
+             this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + minRowHieght + 'px, 1fr) )');
+           } else { */
+          this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - 1) + 'px, 1fr) )');
+          /*   } */
+        } else {
+          visible_screens = finalColNumber * Math.ceil(requiredRows)
+          const eleHeight = Math.max(60, Math.floor((Math.floor(containerHeight) / Math.ceil(requiredRows))));
+          /*   if (this.screenAspectRatio === 'stretch') {
+              this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.ceil(requiredRows) + ', minmax(' + minRowHieght + 'px, 1fr) )');
+            } else { */
+          this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.ceil(requiredRows) + ', minmax(' + (eleHeight - 2) + 'px, 1fr) )');
+          // }
+        }
+      } else {
+        requiredRows = this.numberOfScreens / Math.floor(possibleCol);
+        const eleHeight = Math.max(60, Math.floor((Math.floor(containerHeight) / Math.floor(possibleRow))));
+        // columns
+        this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-fit, minmax(' + minColWidth + 'px, 1fr) )');
+        // rows
+        if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
+          visible_screens = Math.floor(possibleRow) * Math.floor(possibleCol);
+          if (this.sourceListPosition === 'bottom') { // because height calculation of source list is different from top
+            this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - 1) + 'px, 1fr) )');
           } else {
             this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - 1.5) + 'px, 1fr) )');
           }
-        }
-      } else if (Math.floor(possibleRow) >= Math.ceil(requiredRows)) {
-        if (this.screenAspectRatio === 'stretch') {
-          this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.ceil(requiredRows) + ', minmax(' + minRowHieght + 'px, 1fr) )');
-        } else {
+        } else if (Math.floor(possibleRow) >= Math.ceil(requiredRows)) {
           this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.ceil(requiredRows) + ', minmax(' + (eleHeight) + 'px, 1fr) )');
-        }
-        visible_screens = Math.ceil(requiredRows) * Math.floor(possibleCol);
-      } else {
-        if (this.screenAspectRatio === 'stretch') {
-          this._screenListContainer.style.setProperty('grid-template-rows', 'minmax(' + minRowHieght + 'px, 1fr)');
+          visible_screens = Math.ceil(requiredRows) * Math.floor(possibleCol);
         } else {
           this._screenListContainer.style.setProperty('grid-template-rows', '1fr');
         }
-      }
 
+      }
     }
+
     for (let i = 0; i < this.numberOfScreens; i++) {
       const screen = this._screenListContainer.querySelector(`[screenid="${i}"]`) as HTMLElement;
       if (!screen) {
