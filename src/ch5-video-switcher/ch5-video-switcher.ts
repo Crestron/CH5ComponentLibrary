@@ -1323,7 +1323,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       const eleHeight = Math.max(60, Math.floor((Math.floor(containerHeight) / Math.floor(possibleRow))));
       this._screenListContainer.style.removeProperty('width');
       this._screenListContainer.style.removeProperty('height');
-      console.log(visible_screens);
       if (i >= visible_screens) {
         screen.style.visibility = 'hidden';
       }
