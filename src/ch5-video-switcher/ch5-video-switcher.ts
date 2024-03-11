@@ -1235,10 +1235,11 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   private handleNumberOfScreenColumns() {
     const containerHeight = this._screenListContainer.offsetHeight;
     const containerWidth = this._screenListContainer.offsetWidth;
-    const possibleCol = ((this._screenListContainer.offsetWidth)) / 80;
-    const possibleRow = (this._screenListContainer.offsetHeight) / 60;
+    const possibleCol = ((this._screenListContainer.offsetWidth)) / 82;
+    const possibleRow = (this._screenListContainer.offsetHeight) / 62;
     const colsCalculation: number = 80;
     const minRowHieght = 60;
+    let finalCol = 0;
 
     let requiredRows: number = 1;
     let visible_screens: number = 0;
@@ -1246,19 +1247,22 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this._screenListContainer.style.removeProperty('grid-template-rows');
     if (this.numberOfScreenColumns > 0) {
       // columns
-      if (this.screenAspectRatio === 'stretch') {
+      if (Math.floor(possibleCol) >= this.numberOfScreenColumns) {
         requiredRows = this.numberOfScreens / Math.floor(this.numberOfScreenColumns);
+        finalCol = this.numberOfScreenColumns;
         this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(' + this.numberOfScreenColumns + ',minmax(' + colsCalculation + 'px, 1fr))');
-      } else if (Math.floor(possibleCol) > this.numberOfScreenColumns) {
-        requiredRows = this.numberOfScreens / Math.floor(this.numberOfScreenColumns);
-        this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(' + this.numberOfScreenColumns + ',minmax(' + colsCalculation + 'px, 1fr))');
+      } else if (Math.floor(possibleCol) >= this.numberOfScreens) {
+        requiredRows = this.numberOfScreens / Math.floor(possibleCol);
+        finalCol = Math.floor(possibleCol);
+        this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(' + Math.floor(possibleCol) + ',minmax(' + colsCalculation + 'px, 1fr))');
       } else {
+        finalCol = Math.floor(possibleCol);
         requiredRows = this.numberOfScreens / Math.floor(possibleCol);
         this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-Fit, minmax(' + colsCalculation + 'px, 1fr))');
       }
       // rows
       if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
-        visible_screens = this.numberOfScreenColumns * Math.floor(possibleRow);
+        visible_screens = finalCol * Math.floor(possibleRow);
         const eleHeight = Math.max(60, Math.floor((Math.floor(containerHeight) / Math.floor(possibleRow))));
         if (this.screenAspectRatio === 'stretch') {
           this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + minRowHieght + 'px, 1fr) )');
@@ -1266,7 +1270,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
           this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - 1) + 'px, 1fr) )');
         }
       } else {
-        visible_screens = this.numberOfScreenColumns * Math.ceil(requiredRows)
+        visible_screens = finalCol * Math.ceil(requiredRows)
         const eleHeight = Math.max(60, Math.floor((Math.floor(containerHeight) / Math.ceil(requiredRows))));
         if (this.screenAspectRatio === 'stretch') {
           this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.ceil(requiredRows) + ', minmax(' + minRowHieght + 'px, 1fr) )');
