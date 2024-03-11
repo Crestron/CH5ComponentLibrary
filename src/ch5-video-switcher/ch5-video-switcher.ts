@@ -11,6 +11,7 @@ import _ from "lodash";
 import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
 import { Ch5VideoSwitcherScreen } from "./ch5-video-switcher-screen";
 import { Ch5VideoSwitcherSource } from "./ch5-video-switcher-source";
+
 export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttributes {
 
   //#region Variables
@@ -288,12 +289,14 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   public primaryCssClass = 'ch5-video-switcher';
   public sourceListCssClass = '--source-list';
   public screenListCssClass = '--screen-list';
+  public screenListParentCssClass = '--screen-list-parent';
   public static readonly SCROLLBAR_CLASSLIST_PREFIX: string = '--source-list-scrollbar-';
   public static readonly DISPLAY_SCREEN_LABEL: string = '--screen-list-display-screen-label-';
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
   public _sourceListContainer: HTMLElement = {} as HTMLElement;
+  public _screenListParentContainer: HTMLElement = {} as HTMLElement;
   public _screenListContainer: HTMLElement = {} as HTMLElement;
   private _scrollbarContainer: HTMLElement = {} as HTMLElement;
   private _scrollbar: HTMLElement = {} as HTMLElement;
@@ -676,13 +679,16 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this.clearComponentContent();
     this._elContainer = document.createElement('div');
     this._sourceListContainer = document.createElement('div');
+    this._screenListParentContainer = document.createElement('div');
     this._screenListContainer = document.createElement('div');
     this._scrollbarContainer = document.createElement('div');
     this._scrollbar = document.createElement('div');
+    this._screenListParentContainer.classList.add(this.primaryCssClass + this.screenListParentCssClass);
     this._screenListContainer.classList.add(this.primaryCssClass + this.screenListCssClass);
     this._sourceListContainer.classList.add(this.primaryCssClass + this.sourceListCssClass);
+    this._screenListParentContainer.appendChild(this._screenListContainer);
     this._elContainer.appendChild(this._sourceListContainer);
-    this._elContainer.appendChild(this._screenListContainer);
+    this._elContainer.appendChild(this._screenListParentContainer);
     this.logger.stop();
   }
 
@@ -1229,6 +1235,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   private handleNumberOfScreenColumns() {
     const possibleCol = (this._screenListContainer.offsetWidth) / 82;
     const possibleRow = (this._screenListContainer.offsetHeight) / 62;
+    const colsCalculation: number = 80;
+
     let requiredRows: number = 1;
     if (this.numberOfScreenColumns > 0) {
       // columns
@@ -1236,10 +1244,10 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       this._screenListContainer.style.removeProperty('grid-template-rows');
       if (possibleCol > this.numberOfScreenColumns) {
         requiredRows = this.numberOfScreens / Math.floor(this.numberOfScreenColumns);
-        this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(' + this.numberOfScreenColumns + ',minmax(80px, 1fr))');
+        this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(' + this.numberOfScreenColumns + ',minmax(' + colsCalculation + 'px, 1fr))');
       } else {
         requiredRows = this.numberOfScreens / Math.floor(possibleCol);
-        this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-Fit, minmax(80px, 1fr))');
+        this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-Fit, minmax(' + colsCalculation + 'px, 1fr))');
       }
       // rows
       if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
@@ -1253,7 +1261,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       requiredRows = this.numberOfScreens / Math.floor(possibleCol);
       const eleHeight = Math.max(60, Math.floor((Math.floor(this._screenListContainer.offsetHeight) / Math.floor(possibleRow))));
       // columns
-      this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-fit, minmax(80px, 1fr) )');
+      this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-fit, minmax(' + colsCalculation + 'px, 1fr) )');
       // rows
       if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
         if (this.sourceListPosition === 'bottom') { // because height calculation of source list is different from top
@@ -1282,13 +1290,13 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
             // screen.style.height = (Math.max(80, Math.floor((Math.floor(this._screenListContainer.offsetHeight) / this.numberOfScreenColumns))) * (9 / 16)) + 'px';
           } else if (this.numberOfScreenColumns > Math.floor(possibleCol)) {
             screen.style.width = '80px';
-          //  screen.style.height = (80 * (9 / 16)) + 'px';
+            //  screen.style.height = (80 * (9 / 16)) + 'px';
             screen.style.fontSize = '80px';
           } else {
             screen.style.width = eleHeight + 'px';
-          //  screen.style.height = (eleHeight * (9 / 16)) + 'px';
+            //  screen.style.height = (eleHeight * (9 / 16)) + 'px';
           }
-        } else {
+        } else if(this.screenAspectRatio === '4:3'){
           if (this.numberOfScreens === 1) {
             screen.style.width = (Math.max(60, Math.floor((Math.floor(this._screenListContainer.offsetHeight) / this.numberOfScreenColumns))) - 2) + 'px';
           } else if (this.numberOfScreenColumns >= Math.floor(possibleCol)) {
@@ -1303,13 +1311,13 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         if (this.numberOfScreens === 1) {
           if ((this.screenAspectRatio === "4:3" || this.screenAspectRatio === "16:9") && (this.sourceListPosition === 'left' || this.sourceListPosition === 'right')) {
             screen.style.width = (this._screenListContainer.offsetWidth - 2) + 'px';
-            if(this.screenAspectRatio === "4:3"){
+            if (this.screenAspectRatio === "4:3") {
               screen.style.height = ((this._screenListContainer.offsetWidth - 2) * (3 / 4)) + 'px';
             }
-           /*  if (this.screenAspectRatio === "16:9") {
-              screen.style.height = ((this._screenListContainer.offsetWidth - 2) * (9 / 16)) + 'px';
-            } */
-          } else {
+            /*  if (this.screenAspectRatio === "16:9") {
+               screen.style.height = ((this._screenListContainer.offsetWidth - 2) * (9 / 16)) + 'px';
+             } */
+          } else if((this.screenAspectRatio === "4:3" || this.screenAspectRatio === "16:9")) {
             screen.style.height = (this._screenListContainer.offsetHeight - 2) + 'px';
             screen.style.width = ((this._screenListContainer.offsetHeight - 2) * (4 / 3)) + 'px';
           }
@@ -1320,7 +1328,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
           }
           else if (this.screenAspectRatio === "16:9") {
             screen.style.height = (eleHeight - ((possibleCol - 1) * 2)) + 'px';
-          //  screen.style.width = ((eleHeight - ((possibleCol - 1) * 2))) * (16 / 9) + 'px';
+            //  screen.style.width = ((eleHeight - ((possibleCol - 1) * 2))) * (16 / 9) + 'px';
           }
         } else if (this.screenAspectRatio === "4:3" && (this.sourceListPosition === 'top' || this.sourceListPosition === 'bottom')) {
           screen.style.height = (eleHeight - ((possibleRow - 1) * 2)) + 'px';
