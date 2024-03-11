@@ -1296,7 +1296,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
             screen.style.width = eleHeight + 'px';
             //  screen.style.height = (eleHeight * (9 / 16)) + 'px';
           }
-        } else {
+        } else if(this.screenAspectRatio === '4:3'){
           if (this.numberOfScreens === 1) {
             screen.style.width = (Math.max(60, Math.floor((Math.floor(this._screenListContainer.offsetHeight) / this.numberOfScreenColumns))) - 2) + 'px';
           } else if (this.numberOfScreenColumns >= Math.floor(possibleCol)) {
@@ -1317,7 +1317,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
             /*  if (this.screenAspectRatio === "16:9") {
                screen.style.height = ((this._screenListContainer.offsetWidth - 2) * (9 / 16)) + 'px';
              } */
-          } else {
+          } else if((this.screenAspectRatio === "4:3" || this.screenAspectRatio === "16:9")) {
             screen.style.height = (this._screenListContainer.offsetHeight - 2) + 'px';
             screen.style.width = ((this._screenListContainer.offsetHeight - 2) * (4 / 3)) + 'px';
           }
