@@ -254,7 +254,7 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    * [
    * "`useContractForEnable` attribute",
    * "***",
-   * "Default value is false. When true, contract 'Enable' state determines if the component is enabled. When false, the 'receiveStateEnable' join may be applied. Consistent with other components, if the 'receiveStateEnable' join is provide, the value of that join determines if the component is enabled "
+   * "Default value is false. When true, contract 'Enable' state determines if the component is enabled. When false, the 'receiveStateEnable' join may be applied. Consistent with other components, if the 'receiveStateEnable' join is provided, the value of that join determines if the component is enabled "
    * ]
    * @name usecontractforenable
    * @default false
