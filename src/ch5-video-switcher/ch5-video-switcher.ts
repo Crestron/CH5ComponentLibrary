@@ -1048,6 +1048,10 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     if (spanEl) {
       isInnerHTML ? spanEl.innerHTML = newValue : spanEl.textContent = newValue;
     }
+    const screenSpanEl = this._screenListContainer.querySelectorAll(`[sourceid="${index}"] > span`);
+    Array.from(screenSpanEl).forEach((spanEl) => {
+      isInnerHTML ? spanEl.innerHTML = newValue : spanEl.textContent = newValue;
+    })
   }
 
   private screenlabelHelper(newValue: string, index: number, isInnerHTML: boolean) {
