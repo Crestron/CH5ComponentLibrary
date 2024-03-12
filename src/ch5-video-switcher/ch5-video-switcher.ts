@@ -1244,11 +1244,11 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     const possibleCol = containerWidth / 82;
     const possibleRow = containerHeight / 62;
     const minColWidth: number = 80;
-    const minRowHieght = 60;
-    let finalColNumber = 0;
-    let finalRowNumber = 0;
-    let setCol = true;
-    let setRow = true;
+    const minRowHieght: number = 60;
+    let finalColNumber: number = 0;
+    let finalRowNumber:number = 0;
+    let setCol:boolean = true;
+    let setRow:boolean = true;
     let requiredRows: number = 1;
     let visible_screens: number = 0;
 
