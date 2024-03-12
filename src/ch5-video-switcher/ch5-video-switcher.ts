@@ -1246,9 +1246,9 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     const minColWidth: number = 80;
     const minRowHieght: number = 60;
     let finalColNumber: number = 0;
-    let finalRowNumber:number = 0;
-    let setCol:boolean = true;
-    let setRow:boolean = true;
+    let finalRowNumber: number = 0;
+    let setCol: boolean = true;
+    let setRow: boolean = true;
     let requiredRows: number = 1;
     let visible_screens: number = 0;
 
@@ -1281,7 +1281,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
         let col = setCol ? finalColNumber : 'auto-fit';
         if (setCol && col > this.numberOfScreens + '') { // to center items is screens are les than number of col
-          col = 'repeat(' + this.numberOfScreens + ',' + (containerWidth / Math.floor(possibleCol) + 'px)');
+          const colWidth = (Math.floor(possibleCol) > this.numberOfScreenColumns) ? (containerWidth / this.numberOfScreenColumns) : (containerWidth / Math.floor(possibleCol));
+          col = 'repeat(' + this.numberOfScreens + ',' + colWidth + 'px)';
         } else {
           col = 'repeat(' + col + ',minmax(' + minColWidth + 'px, 1fr))'
         }
