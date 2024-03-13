@@ -936,7 +936,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       });
       this.signalHolderForSourceLabel[key] = [];
     });
-    const indexId = this.getAttribute('indexid')?.trim() + '' || this.indexId;
     for (let i = 0; i < this.numberOfSources; i++) {
       if (this.contractName && this.contractSourceLabelType === 'innerHTML') {
         const sigValue = this.contractName + `.Source_${i + 1}_Label`;
@@ -949,7 +948,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         this.getSubscription(this.signalHolderForSourceLabel['receiveStateScriptSourceLabelHtml'], this.sourcelabelHelper, i, sigValue, true);
       } else if (this.receiveStateSourceLabel) {
         const sigValue = this.getSignalName(this.receiveStateSourceLabel, i);
-        this.getSubscription(this.signalHolderForSourceLabel['receiveStateSourceLabel'], this.sourcelabelHelper, i, sigValue, true);
+        this.getSubscription(this.signalHolderForSourceLabel['receiveStateSourceLabel'], this.sourcelabelHelper, i, sigValue);
       } else {
         this.sourceLabelHelperCreate(i);
       }
@@ -976,7 +975,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         this.getSubscription(this.signalHolderForScreenLabel['receiveStateScriptScreenLabelHtml'], this.screenlabelHelper, i, sigValue, true);
       } else if (this.receiveStateScreenLabel) {
         const sigValue = this.getSignalName(this.receiveStateScreenLabel, i);
-        this.getSubscription(this.signalHolderForScreenLabel['receiveStateScreenLabel'], this.screenlabelHelper, i, sigValue, true);
+        this.getSubscription(this.signalHolderForScreenLabel['receiveStateScreenLabel'], this.screenlabelHelper, i, sigValue);
       } else {
         this.screenLabelHelperCreate(i);
       }
