@@ -284,6 +284,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     this.clearComponentContent();
     this._elContainer = document.createElement('div');
     this._elSpan = document.createElement('span');
+    this._elSpan.classList.add(this.primaryCssClass + '--span');
     this._elContainer.appendChild(this._elSpan);
     this.logger.stop();
   }
@@ -359,7 +360,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     this._elSpan.classList.add(this.primaryCssClass + '--truncate-text-' + this.truncateText.toString());
     if (this.multilineSupport) {
       this.fitEllipsisForMultiline();
-    }else{
+    } else {
       this._elSpan.style.removeProperty('word-wrap');
       this._elSpan.style.removeProperty('display');
       this._elSpan.style.removeProperty('max-height');
