@@ -643,7 +643,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private contractDefaultHelper() {
-    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+    if (this.contractName !== "" && this.contractName !== null && this.contractName !== undefined) {
       // useContractForEnable and receiveStateEnable
       if (this.useContractForEnable === true) {
         this.receiveStateEnable = this.contractName + '.Enable';
@@ -827,39 +827,26 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   private handleSendEventOnDrop(signalName: string, value: number | any) {
     // console.log('drop--Screen-->', signalName, 'Source-->', (+value) + 1);
-    if (this.contractName.trim()) {
+    if (this.contractName) {
       signalName = this.contractName + '.Source' + ((+signalName) + 1) + '_Selection';
       Ch5SignalFactory.getInstance().getNumberSignal(signalName)?.publish((+value + 1) as number);
     } else {
       if (this.sendEventOnDrop) {
-        const attrValue = this.replaceAll(this.sendEventOnDrop.trim(), `{{${this.indexId}}}`, '');
-        const isNumber = /^[0-9]+$/.test(attrValue);
-        if (isNumber) {
-          Ch5SignalFactory.getInstance().getNumberSignal(+attrValue + (+signalName) + '')?.publish((+value + 1) as number);
-        } else {
-          const sigName = this.replaceAll(this.sendEventOnDrop.trim(), `{{${this.indexId}}}`, signalName);
-          Ch5SignalFactory.getInstance().getNumberSignal(sigName)?.publish((+value + 1) as number);
-        }
+        const sigName = this.getSignalName(this.sendEventOnDrop, +signalName)
+        Ch5SignalFactory.getInstance().getNumberSignal(sigName)?.publish((+value + 1) as number);
       }
     }
   }
 
   private handleSendEventOnChange(signalName: string) {
-    if (this.contractName.trim()) {
+    if (this.contractName) {
       signalName = this.contractName + '.Screen_' + ((+signalName) + 1) + '_Changed';
       Ch5SignalFactory.getInstance().getBooleanSignal(signalName)?.publish(true);
       Ch5SignalFactory.getInstance().getBooleanSignal(signalName)?.publish(false);
     } else if (this.sendEventOnChange) {
-      const attrValue = this.replaceAll(this.sendEventOnChange.trim(), `{{${this.indexId}}}`, '');
-      const isNumber = /^[0-9]+$/.test(attrValue);
-      if (isNumber) {
-        Ch5SignalFactory.getInstance().getBooleanSignal(+attrValue + (+signalName) + ' ')?.publish(true);
-        Ch5SignalFactory.getInstance().getBooleanSignal(+attrValue + (+signalName) + ' ')?.publish(false);
-      } else {
-        const sigName = this.replaceAll(this.sendEventOnChange.trim(), `{{${this.indexId}}}`, signalName);
-        Ch5SignalFactory.getInstance().getBooleanSignal(sigName)?.publish(true);
-        Ch5SignalFactory.getInstance().getBooleanSignal(sigName)?.publish(false);
-      }
+      const sigName = this.getSignalName(this.sendEventOnChange, +signalName);
+      Ch5SignalFactory.getInstance().getBooleanSignal(sigName)?.publish(true);
+      Ch5SignalFactory.getInstance().getBooleanSignal(sigName)?.publish(false);
     }
   }
 
@@ -868,44 +855,33 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       this.clearOldSubscriptionNumber(obj.signalValue, obj.signalState);
     });
 
-    if (this.contractName.trim()) {
-      for (let i = 0; i < this.numberOfScreens; i++) {
-        const screen = this.contractName + `.Source${i + 1}_Feedback`;
-        this.signalHolder.push(
-          { signalState: "", signalValue: screen, value: null },
-        );
+    for (let i = 0; i < this.numberOfScreens; i++) {
+      const screen = this.contractName ? this.contractName + `.Source${i + 1}_Feedback` : this.getSignalName(this.receiveStateSourceChanged, i);
+      this.signalHolder.push({ signalState: "", signalValue: screen, value: null });
+      if (screen) {
         const screenSignalResponse = this.setSignalByNumber(screen);
         if (!_.isNil(screenSignalResponse)) {
           this.signalHolder[i].signalState = screenSignalResponse.subscribe((newValue: number) => {
-            this.signalHolder[i].value = newValue;
-            // console.log('subscribe State for contract-- > screen-', i + ' source-', newValue);
+            if (this.signalHolder[i]) this.signalHolder[i].value = newValue;
+            // console.log('subscribe State -- > screen-', i + ' source-', newValue);
             this.addSourceToScreenOnFB(i, newValue);
           });
         }
       }
+    }
+  }
+
+  private getSignalName(attr: string, index: number) {
+    const indexId = this.getAttribute('indexid')?.trim() + '' || this.indexId;
+    if (attr.includes(`{{${indexId}}}`) === false) {
+      return attr;
     } else {
-      const indexId = this.getAttribute('indexid')?.trim() + '' || this.indexId;
-      for (let i = 0; i < this.numberOfScreens; i++) {
-        let screen = this.replaceAll(this.receiveStateSourceChanged.trim(), `{{${indexId}}}`, '');
-        const isNumber = /^[0-9]+$/.test(screen);
-        if (isNumber) {
-          screen = (+screen + i) + '';
-        } else {
-          screen = this.replaceAll(this.receiveStateSourceChanged.trim(), `{{${indexId}}}`, i + '');
-        }
-        this.signalHolder.push(
-          { signalState: "", signalValue: screen, value: null },
-        );
-        if (screen) {
-          const screenSignalResponse = this.setSignalByNumber(screen);
-          if (!_.isNil(screenSignalResponse)) {
-            this.signalHolder[i].signalState = screenSignalResponse.subscribe((newValue: number) => {
-              if (this.signalHolder[i]) this.signalHolder[i].value = newValue;
-              // console.log('subscribe State -- > screen-', i + ' source-', newValue);
-              this.addSourceToScreenOnFB(i, newValue);
-            });
-          }
-        }
+      const screen = this.replaceAll(attr, `{{${indexId}}}`, '');
+      const isNumber = /^[0-9]+$/.test(screen);
+      if (isNumber) {
+        return (+screen + index) + '';
+      } else {
+        return this.replaceAll(attr, `{{${indexId}}}`, index + '');
       }
     }
   }
@@ -960,32 +936,19 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       });
       this.signalHolderForSourceLabel[key] = [];
     });
-    const indexId = this.getAttribute('indexid')?.trim() + '' || this.indexId;
     for (let i = 0; i < this.numberOfSources; i++) {
-      if (this.contractName.trim() && this.contractSourceLabelType === 'innerHTML') {
+      if (this.contractName && this.contractSourceLabelType === 'innerHTML') {
         const sigValue = this.contractName + `.Source_${i + 1}_Label`;
         this.getSubscription(this.signalHolderForSourceLabel['receiveStateScriptSourceLabelHtml'], this.sourcelabelHelper, i, sigValue, true);
-      } else if (this.contractName.trim() && this.contractSourceLabelType === 'textContent') {
+      } else if (this.contractName && this.contractSourceLabelType === 'textContent') {
         const sigValue = this.contractName + `.Source_${i + 1}_Label`;
         this.getSubscription(this.signalHolderForSourceLabel['receiveStateSourceLabel'], this.sourcelabelHelper, i, sigValue);
-      } else if (this.receiveStateScriptSourceLabelHtml.trim()) {
-        const attrValue = this.replaceAll(this.receiveStateScriptSourceLabelHtml.trim(), `{{${indexId}}}`, '');
-        const isNumber = /^[0-9]+$/.test(attrValue);
-        if (isNumber) {
-          this.getSubscription(this.signalHolderForSourceLabel['receiveStateScriptSourceLabelHtml'], this.sourcelabelHelper, i, (+attrValue) + i + '', true);
-        } else {
-          const sigValue = this.replaceAll(this.receiveStateScriptSourceLabelHtml.trim(), `{{${indexId}}}`, i + '');
-          this.getSubscription(this.signalHolderForSourceLabel['receiveStateScriptSourceLabelHtml'], this.sourcelabelHelper, i, sigValue, true);
-        }
-      } else if (this.receiveStateSourceLabel.trim()) {
-        const attrValue = this.replaceAll(this.receiveStateSourceLabel.trim(), `{{${indexId}}}`, '');
-        const isNumber = /^[0-9]+$/.test(attrValue);
-        if (isNumber) {
-          this.getSubscription(this.signalHolderForSourceLabel['receiveStateSourceLabel'], this.sourcelabelHelper, i, (+attrValue) + i + '', true);
-        } else {
-          const sigValue = this.replaceAll(this.receiveStateSourceLabel.trim(), `{{${indexId}}}`, i + '');
-          this.getSubscription(this.signalHolderForSourceLabel['receiveStateSourceLabel'], this.sourcelabelHelper, i, sigValue, true);
-        }
+      } else if (this.receiveStateScriptSourceLabelHtml) {
+        const sigValue = this.getSignalName(this.receiveStateScriptSourceLabelHtml, i);
+        this.getSubscription(this.signalHolderForSourceLabel['receiveStateScriptSourceLabelHtml'], this.sourcelabelHelper, i, sigValue, true);
+      } else if (this.receiveStateSourceLabel) {
+        const sigValue = this.getSignalName(this.receiveStateSourceLabel, i);
+        this.getSubscription(this.signalHolderForSourceLabel['receiveStateSourceLabel'], this.sourcelabelHelper, i, sigValue);
       } else {
         this.sourceLabelHelperCreate(i);
       }
@@ -1000,32 +963,19 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       this.signalHolderForScreenLabel[key] = [];
     });
 
-    const indexId = this.getAttribute('indexid')?.trim() + '' || this.indexId;
     for (let i = 0; i < this.numberOfScreens; i++) {
-      if (this.contractName.trim() && this.contractScreenLabelType === 'innerHTML') {
+      if (this.contractName && this.contractScreenLabelType === 'innerHTML') {
         const sigValue = this.contractName + `.Screen${i + 1}_Label`;
         this.getSubscription(this.signalHolderForScreenLabel['receiveStateScriptScreenLabelHtml'], this.screenlabelHelper, i, sigValue, true);
-      } else if (this.contractName.trim() && this.contractScreenLabelType === 'textContent') {
+      } else if (this.contractName && this.contractScreenLabelType === 'textContent') {
         const sigValue = this.contractName + `.Screen${i + 1}_Label`;
         this.getSubscription(this.signalHolderForScreenLabel['receiveStateScreenLabel'], this.screenlabelHelper, i, sigValue);
-      } else if (this.receiveStateScriptScreenLabelHtml.trim()) {
-        const attrValue = this.replaceAll(this.receiveStateScriptScreenLabelHtml.trim(), `{{${indexId}}}`, '');
-        const isNumber = /^[0-9]+$/.test(attrValue);
-        if (isNumber) {
-          this.getSubscription(this.signalHolderForScreenLabel['receiveStateScriptScreenLabelHtml'], this.screenlabelHelper, i, (+attrValue) + i + '', true);
-        } else {
-          const sigValue = this.replaceAll(this.receiveStateScriptScreenLabelHtml.trim(), `{{${indexId}}}`, i + '');
-          this.getSubscription(this.signalHolderForScreenLabel['receiveStateScriptScreenLabelHtml'], this.screenlabelHelper, i, sigValue, true);
-        }
-      } else if (this.receiveStateScreenLabel.trim()) {
-        const attrValue = this.replaceAll(this.receiveStateScreenLabel.trim(), `{{${indexId}}}`, '');
-        const isNumber = /^[0-9]+$/.test(attrValue);
-        if (isNumber) {
-          this.getSubscription(this.signalHolderForScreenLabel['receiveStateScreenLabel'], this.screenlabelHelper, i, (+attrValue) + i + '', true);
-        } else {
-          const sigValue = this.replaceAll(this.receiveStateScreenLabel.trim(), `{{${indexId}}}`, i + '');
-          this.getSubscription(this.signalHolderForScreenLabel['receiveStateScreenLabel'], this.screenlabelHelper, i, sigValue, true);
-        }
+      } else if (this.receiveStateScriptScreenLabelHtml) {
+        const sigValue = this.getSignalName(this.receiveStateScriptScreenLabelHtml, i);
+        this.getSubscription(this.signalHolderForScreenLabel['receiveStateScriptScreenLabelHtml'], this.screenlabelHelper, i, sigValue, true);
+      } else if (this.receiveStateScreenLabel) {
+        const sigValue = this.getSignalName(this.receiveStateScreenLabel, i);
+        this.getSubscription(this.signalHolderForScreenLabel['receiveStateScreenLabel'], this.screenlabelHelper, i, sigValue);
       } else {
         this.screenLabelHelperCreate(i);
       }
@@ -1062,7 +1012,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private handleContractName() {
-    if (this.contractName.trim().length === 0) {
+    if (this.contractName.length === 0) {
       this.signalNameOnContract.contractName = "";
       this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
       this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;
@@ -1255,114 +1205,63 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
     this._screenListContainer.style.removeProperty('grid-template-columns');
     this._screenListContainer.style.removeProperty('grid-template-rows');
-    if (this.screenAspectRatio === 'stretch') {
-      if (this.numberOfScreenColumns > 0) {
-        // columns
-        if (Math.floor(possibleCol) >= this.numberOfScreenColumns) {
-          requiredRows = this.numberOfScreens / Math.floor(this.numberOfScreenColumns);
-          finalColNumber = this.numberOfScreenColumns;
-        } else if (Math.floor(possibleCol) >= this.numberOfScreens) {
-          requiredRows = this.numberOfScreens / Math.floor(possibleCol);
-          finalColNumber = Math.floor(possibleCol);
-        } else {
-          requiredRows = this.numberOfScreens / Math.floor(possibleCol);
-          finalColNumber = Math.floor(possibleCol);
-          setCol = false;
-        }
 
-        // rows
-        if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
-          visible_screens = finalColNumber * Math.floor(possibleRow);
-          finalRowNumber = Math.floor(possibleRow)
-        } else {
-          visible_screens = finalColNumber * Math.ceil(requiredRows);
-          finalRowNumber = Math.ceil(requiredRows);
-        }
-
-        let col = setCol ? finalColNumber : 'auto-fit';
-        if (setCol && col > this.numberOfScreens + '') { // to center items is screens are les than number of col
-          const colWidth = (Math.floor(possibleCol) > this.numberOfScreenColumns) ? (containerWidth / this.numberOfScreenColumns) : (containerWidth / Math.floor(possibleCol));
-          col = 'repeat(' + this.numberOfScreens + ',' + colWidth + 'px)';
-        } else {
-          col = 'repeat(' + col + ',minmax(' + minColWidth + 'px, 1fr))'
-        }
-        this._screenListContainer.style.setProperty('grid-template-columns', col);
-        this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + finalRowNumber + ', minmax(' + minRowHieght + 'px, 1fr) )');
-
+    if (this.numberOfScreenColumns > 0) {
+      // columns
+      if (Math.floor(possibleCol) >= this.numberOfScreenColumns) {
+        requiredRows = this.numberOfScreens / Math.floor(this.numberOfScreenColumns);
+        finalColNumber = this.numberOfScreenColumns;
+      } else if (Math.floor(possibleCol) >= this.numberOfScreens) {
+        requiredRows = this.numberOfScreens / Math.floor(possibleCol);
+        finalColNumber = (Math.floor(possibleCol) < 1) ? 1 : Math.floor(possibleCol);
       } else {
         requiredRows = this.numberOfScreens / Math.floor(possibleCol);
-
-        // rows
-        if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
-          visible_screens = Math.floor(possibleRow) * Math.floor(possibleCol);
-          finalRowNumber = Math.floor(possibleRow);
-        } else if (Math.floor(possibleRow) >= Math.ceil(requiredRows)) {
-          finalRowNumber = Math.ceil(requiredRows)
-          visible_screens = Math.ceil(requiredRows) * Math.floor(possibleCol);
-        } else {
-          setRow = false;
-        }
-
-        const row = setRow ? 'repeat(' + finalRowNumber + ', minmax(' + minRowHieght + 'px, 1fr) )' : 'minmax(' + minRowHieght + 'px, 1fr)';
-        this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-fit, minmax(' + minColWidth + 'px, 1fr) )');
-        this._screenListContainer.style.setProperty('grid-template-rows', row);
-
+        finalColNumber = (Math.floor(possibleCol) < 1) ? 1 : Math.floor(possibleCol);
+        setCol = false;
       }
+
+      // rows
+      if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
+        finalRowNumber = (Math.floor(possibleRow) < 1) ? 1 : Math.floor(possibleRow);
+      } else {
+        finalRowNumber = (Math.ceil(requiredRows) < 1) ? 1 : Math.ceil(requiredRows);
+      }
+
+      visible_screens = finalColNumber * finalRowNumber;
+
+      let col = setCol ? finalColNumber : 'auto-fit';
+      if (setCol && (col >= this.numberOfScreens + '')) { // to center items is screens are les than number of col
+        const colWidth = (Math.floor(possibleCol) > this.numberOfScreenColumns) ? (containerWidth / this.numberOfScreenColumns) : (containerWidth / Math.floor(possibleCol));
+        col = 'repeat(' + this.numberOfScreens + ',' + colWidth + 'px)';
+      } else {
+        col = 'repeat(' + col + ',minmax(' + minColWidth + 'px, 1fr))'
+      }
+      this._screenListContainer.style.setProperty('grid-template-columns', col);
+      this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + finalRowNumber + ', minmax(' + minRowHieght + 'px, 1fr) )');
+
     } else {
-      if (this.numberOfScreenColumns > 0) {
-        // columns
-        if (Math.floor(possibleCol) >= this.numberOfScreenColumns) {
-          requiredRows = this.numberOfScreens / Math.floor(this.numberOfScreenColumns);
-          finalColNumber = this.numberOfScreenColumns;
-          this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(' + this.numberOfScreenColumns + ',minmax(' + minColWidth + 'px, 1fr))');
-        } else if (Math.floor(possibleCol) >= this.numberOfScreens) {
-          requiredRows = this.numberOfScreens / Math.floor(possibleCol);
-          finalColNumber = Math.floor(possibleCol);
-          this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(' + Math.floor(possibleCol) + ',minmax(' + minColWidth + 'px, 1fr))');
+      requiredRows = this.numberOfScreens / Math.floor(possibleCol);
+      if (this.screenAspectRatio === '16:9' || this.screenAspectRatio === '4:3') {
+        if (Math.floor(possibleCol) >= this.numberOfScreens) {
+          finalColNumber = this.numberOfScreens;
         } else {
-          finalColNumber = Math.floor(possibleCol);
-          requiredRows = this.numberOfScreens / Math.floor(possibleCol);
-          this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-Fit, minmax(' + minColWidth + 'px, 1fr))');
+          finalColNumber = (Math.floor(possibleCol) < 1) ? 1 : Math.floor(possibleCol);
         }
-        // rows
-        if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
-          visible_screens = finalColNumber * Math.floor(possibleRow);
-          const eleHeight = Math.max(60, Math.floor((Math.floor(containerHeight) / Math.floor(possibleRow))));
-          /*  if (this.screenAspectRatio === 'stretch') {
-             this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + minRowHieght + 'px, 1fr) )');
-           } else { */
-          this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - 1) + 'px, 1fr) )');
-          /*   } */
-        } else {
-          visible_screens = finalColNumber * Math.ceil(requiredRows)
-          const eleHeight = Math.max(60, Math.floor((Math.floor(containerHeight) / Math.ceil(requiredRows))));
-          /*   if (this.screenAspectRatio === 'stretch') {
-              this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.ceil(requiredRows) + ', minmax(' + minRowHieght + 'px, 1fr) )');
-            } else { */
-          this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.ceil(requiredRows) + ', minmax(' + (eleHeight - 2) + 'px, 1fr) )');
-          // }
-        }
-      } else {
-        requiredRows = this.numberOfScreens / Math.floor(possibleCol);
-        const eleHeight = Math.max(60, Math.floor((Math.floor(containerHeight) / Math.floor(possibleRow))));
-        // columns
-        this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-fit, minmax(' + minColWidth + 'px, 1fr) )');
-        // rows
-        if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
-          visible_screens = Math.floor(possibleRow) * Math.floor(possibleCol);
-          if (this.sourceListPosition === 'bottom') { // because height calculation of source list is different from top
-            this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - 1) + 'px, 1fr) )');
-          } else {
-            this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.floor(possibleRow) + ', minmax(' + (eleHeight - 1.5) + 'px, 1fr) )');
-          }
-        } else if (Math.floor(possibleRow) >= Math.ceil(requiredRows)) {
-          this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + Math.ceil(requiredRows) + ', minmax(' + (eleHeight) + 'px, 1fr) )');
-          visible_screens = Math.ceil(requiredRows) * Math.floor(possibleCol);
-        } else {
-          this._screenListContainer.style.setProperty('grid-template-rows', '1fr');
-        }
-
       }
+
+      // rows
+      if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
+        finalRowNumber = (Math.floor(possibleRow) < 1) ? 1 : Math.floor(possibleRow);
+      } else if (Math.floor(possibleRow) >= Math.ceil(requiredRows)) {
+        finalRowNumber = (Math.ceil(requiredRows) < 1) ? 1 : Math.ceil(requiredRows);
+      } else {
+        setRow = false;
+      }
+      visible_screens = finalRowNumber * Math.floor(possibleCol);
+
+      const row = setRow ? 'repeat(' + finalRowNumber + ', minmax(' + minRowHieght + 'px, 1fr) )' : 'minmax(' + minRowHieght + 'px, 1fr)';
+      this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-fit, minmax(' + minColWidth + 'px, 1fr) )');
+      this._screenListContainer.style.setProperty('grid-template-rows', row);
     }
 
     for (let i = 0; i < this.numberOfScreens; i++) {
@@ -1370,63 +1269,26 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       if (!screen) {
         continue;
       }
-      const eleHeight = Math.max(60, Math.floor((Math.floor(containerHeight) / Math.floor(possibleRow))));
-      this._screenListContainer.style.removeProperty('width');
-      this._screenListContainer.style.removeProperty('height');
+
       if (i >= visible_screens) {
         screen.classList.add('hideScreen');
       }
-      this._screenListContainer.style
-      if (this.numberOfScreenColumns > 0) {
-        if (this.screenAspectRatio === '16:9') {
-          if (this.numberOfScreens === 1) {
-            screen.style.width = Math.max(80, Math.floor((Math.floor(containerHeight) / this.numberOfScreenColumns))) + 'px';
-            // screen.style.height = (Math.max(80, Math.floor((Math.floor(this._screenListContainer.offsetHeight) / this.numberOfScreenColumns))) * (9 / 16)) + 'px';
-          } else if (this.numberOfScreenColumns > Math.floor(possibleCol)) {
-            screen.style.width = '80px';
-            //  screen.style.height = (80 * (9 / 16)) + 'px';
-            screen.style.fontSize = '80px';
-          } else {
-            screen.style.width = eleHeight + 'px';
-            //  screen.style.height = (eleHeight * (9 / 16)) + 'px';
-          }
-        } else if (this.screenAspectRatio === '4:3') {
-          if (this.numberOfScreens === 1) {
-            screen.style.width = (Math.max(60, Math.floor((Math.floor(containerHeight) / this.numberOfScreenColumns))) - 2) + 'px';
-          } else if (this.numberOfScreenColumns >= Math.floor(possibleCol)) {
-            screen.style.width = '80px';
-            screen.style.height = (80 * (3 / 4)) + 'px';
-          } else {
-            screen.style.height = (eleHeight - 2) + 'px';
-            screen.style.width = ((eleHeight - 2) * (4 / 3)) + 'px';
-          }
+
+      if (this.screenAspectRatio === '16:9') {
+        const reqContainerWidth = ((containerHeight / finalRowNumber) / 9) * 16;
+        if (containerWidth > reqContainerWidth) {
+          screen.style.width = Math.max(80, ((reqContainerWidth / finalColNumber) - 2)) + 'px';
+        } else {
+          const reqContainerHeight = ((containerWidth / finalColNumber) / 16) * 9;
+          screen.style.height = Math.max(60, ((reqContainerHeight / finalRowNumber) - 2)) + 'px';
         }
-      } else {
-        if (this.numberOfScreens === 1) {
-          if ((this.screenAspectRatio === "4:3" || this.screenAspectRatio === "16:9") && (this.sourceListPosition === 'left' || this.sourceListPosition === 'right')) {
-            screen.style.width = (containerWidth - 2) + 'px';
-            if (this.screenAspectRatio === "4:3") {
-              screen.style.height = ((containerWidth - 2) * (3 / 4)) + 'px';
-            }
-            /*  if (this.screenAspectRatio === "16:9") {
-               screen.style.height = ((this._screenListContainer.offsetWidth - 2) * (9 / 16)) + 'px';
-             } */
-          } else if ((this.screenAspectRatio === "4:3" || this.screenAspectRatio === "16:9")) {
-            screen.style.height = (containerHeight - 2) + 'px';
-            screen.style.width = ((containerHeight - 2) * (4 / 3)) + 'px';
-          }
-        } else if (this.sourceListPosition === 'left' || this.sourceListPosition === 'right') {
-          if (this.screenAspectRatio === "4:3") {
-            screen.style.height = (eleHeight - 2) + 'px';  // edge case when listposion is on left or right
-            screen.style.width = ((eleHeight - 2) * (4 / 3)) + 'px';  // edge case when listposion is on left or right
-          }
-          else if (this.screenAspectRatio === "16:9") {
-            screen.style.height = (eleHeight - ((Math.floor(possibleCol) - 1) * 2)) + 'px';
-            //  screen.style.width = ((eleHeight - ((possibleCol - 1) * 2))) * (16 / 9) + 'px';
-          }
-        } else if (this.screenAspectRatio === "4:3" && (this.sourceListPosition === 'top' || this.sourceListPosition === 'bottom')) {
-          screen.style.height = (eleHeight - ((possibleRow - 1) * 2)) + 'px';
-          screen.style.width = ((eleHeight - ((possibleRow - 1) * 2)) * (4 / 3)) + 'px';
+      } else if (this.screenAspectRatio === '4:3') {
+        const reqContainerWidth = ((containerHeight / finalRowNumber) / 3) * 4;
+        if (containerWidth > reqContainerWidth) {
+          screen.style.width = Math.max(80, ((reqContainerWidth / finalColNumber) - 2)) + 'px';
+        } else {
+          const reqContainerHeight = ((containerWidth / finalColNumber) / 4) * 3;
+          screen.style.height = ((reqContainerHeight / finalRowNumber) - 2) + 'px';
         }
       }
     }
@@ -1440,9 +1302,9 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     const screen = this.querySelector(`#${this.getCrId()}-screen-${index}`) as Ch5VideoSwitcherScreen;
     labelInnerHTML = screen ? screen.labelInnerHTML : labelInnerHTML;
 
-    if (this.contractName.trim() && this.contractScreenLabelType === 'innerHTML') {
+    if (this.contractName && this.contractScreenLabelType === 'innerHTML') {
       this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = this.signalHolderForScreenLabel.receiveStateScriptScreenLabelHtml[index]?.value;
-    } else if (this.contractName.trim() && this.contractScreenLabelType === 'textContent') {
+    } else if (this.contractName && this.contractScreenLabelType === 'textContent') {
       this._screenListContainer.children[index].getElementsByTagName('span')[0].textContent = this.signalHolderForScreenLabel.receiveStateScreenLabel[index]?.value;
     } else if (this.hasAttribute('receiveStateScriptScreenLabelHtml') && this.receiveStateScriptScreenLabelHtml) {
       this._screenListContainer.children[index].getElementsByTagName('span')[0].innerHTML = this.signalHolderForScreenLabel.receiveStateScriptScreenLabelHtml[index]?.value;
@@ -1465,9 +1327,9 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     const screen = this.querySelector(`#${this.getCrId()}-source-${index}`) as Ch5VideoSwitcherSource;
     labelInnerHTML = screen ? screen.labelInnerHTML : labelInnerHTML;
 
-    if (this.contractName.trim() && this.contractSourceLabelType === 'innerHTML') {
+    if (this.contractName && this.contractSourceLabelType === 'innerHTML') {
       this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerHTML = this.signalHolderForSourceLabel.receiveStateScriptSourceLabelHtml[index]?.value;
-    } else if (this.contractName.trim() && this.contractSourceLabelType === 'textContent') {
+    } else if (this.contractName && this.contractSourceLabelType === 'textContent') {
       this._sourceListContainer.children[index].getElementsByTagName('span')[0].textContent = this.signalHolderForSourceLabel.receiveStateSourceLabel[index]?.value;
     } else if (this.hasAttribute('receiveStateScriptSourceLabelHtml') && this.receiveStateScriptSourceLabelHtml) {
       this._sourceListContainer.children[index].getElementsByTagName('span')[0].innerHTML = this.signalHolderForSourceLabel.receiveStateScriptSourceLabelHtml[index]?.value;
@@ -1537,7 +1399,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         if (draggedElement && draggedElement.getAttribute('sourceId')) {
           this.handleSendEventOnDrop(scrNumber + '', draggedElement.getAttribute('sourceId'));
         }
-        if (!this.receiveStateSourceChanged.trim() && !this.contractName.trim()) {
+        if (!this.receiveStateSourceChanged && !this.contractName) {
           this.addSourceToScreen(draggedElement, this._screenListContainer.children[scrNumber] as HTMLElement, scrNumber, false);
         }
       }
