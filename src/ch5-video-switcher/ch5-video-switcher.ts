@@ -1189,8 +1189,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private handleNumberOfScreenColumns() {
-    const containerHeight = this._screenListContainer.offsetHeight;
-    const containerWidth = this._screenListContainer.offsetWidth;
+    const containerHeight = (this._screenListParentContainer.offsetHeight - 10);
+    const containerWidth = (this._screenListParentContainer.offsetWidth - 10);
     const possibleCol = containerWidth / 82;
     const possibleRow = containerHeight / 62;
     const minColWidth: number = 80;
@@ -1213,24 +1213,24 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         finalColNumber = this.numberOfScreenColumns;
       } else if (Math.floor(possibleCol) >= this.numberOfScreens) {
         requiredRows = this.numberOfScreens / Math.floor(possibleCol);
-        finalColNumber = (Math.floor(possibleCol) < 1) ? 1 : Math.floor(possibleCol);
+        finalColNumber = Math.floor(possibleCol);
       } else {
         requiredRows = this.numberOfScreens / Math.floor(possibleCol);
-        finalColNumber = (Math.floor(possibleCol) < 1) ? 1 : Math.floor(possibleCol);
+        finalColNumber = Math.floor(possibleCol);
         setCol = false;
       }
 
       // rows
       if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
-        finalRowNumber = (Math.floor(possibleRow) < 1) ? 1 : Math.floor(possibleRow);
+        visible_screens = finalColNumber * Math.floor(possibleRow);
+        finalRowNumber = Math.floor(possibleRow)
       } else {
-        finalRowNumber = (Math.ceil(requiredRows) < 1) ? 1 : Math.ceil(requiredRows);
+        visible_screens = finalColNumber * Math.ceil(requiredRows);
+        finalRowNumber = Math.ceil(requiredRows);
       }
 
-      visible_screens = finalColNumber * finalRowNumber;
-
       let col = setCol ? finalColNumber : 'auto-fit';
-      if (setCol && (col >= this.numberOfScreens + '')) { // to center items is screens are les than number of col
+      if (setCol && (col > this.numberOfScreens + '')) { // to center items is screens are les than number of col
         const colWidth = (Math.floor(possibleCol) > this.numberOfScreenColumns) ? (containerWidth / this.numberOfScreenColumns) : (containerWidth / Math.floor(possibleCol));
         col = 'repeat(' + this.numberOfScreens + ',' + colWidth + 'px)';
       } else {
@@ -1245,19 +1245,20 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         if (Math.floor(possibleCol) >= this.numberOfScreens) {
           finalColNumber = this.numberOfScreens;
         } else {
-          finalColNumber = (Math.floor(possibleCol) < 1) ? 1 : Math.floor(possibleCol);
+          finalColNumber = Math.floor(possibleCol);
         }
       }
 
       // rows
       if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
-        finalRowNumber = (Math.floor(possibleRow) < 1) ? 1 : Math.floor(possibleRow);
+        visible_screens = Math.floor(possibleRow) * Math.floor(possibleCol);
+        finalRowNumber = Math.floor(possibleRow);
       } else if (Math.floor(possibleRow) >= Math.ceil(requiredRows)) {
-        finalRowNumber = (Math.ceil(requiredRows) < 1) ? 1 : Math.ceil(requiredRows);
+        finalRowNumber = Math.ceil(requiredRows)
+        visible_screens = Math.ceil(requiredRows) * Math.floor(possibleCol);
       } else {
         setRow = false;
       }
-      visible_screens = finalRowNumber * Math.floor(possibleCol);
 
       const row = setRow ? 'repeat(' + finalRowNumber + ', minmax(' + minRowHieght + 'px, 1fr) )' : 'minmax(' + minRowHieght + 'px, 1fr)';
       this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-fit, minmax(' + minColWidth + 'px, 1fr) )');
@@ -1269,26 +1270,29 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       if (!screen) {
         continue;
       }
-
+      // const eleHeight = Math.max(60, Math.floor((Math.floor(containerHeight) / Math.floor(possibleRow))));
+      this._screenListContainer.style.removeProperty('width');
+      this._screenListContainer.style.removeProperty('height');
       if (i >= visible_screens) {
         screen.classList.add('hideScreen');
       }
 
       if (this.screenAspectRatio === '16:9') {
-        const reqContainerWidth = ((containerHeight / finalRowNumber) / 9) * 16;
-        if (containerWidth > reqContainerWidth) {
-          screen.style.width = Math.max(80, ((reqContainerWidth / finalColNumber) - 2)) + 'px';
+        if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
+          screen.style.width = Math.max(80, ((containerHeight / finalRowNumber) - 2)) + 'px';
+          screen.style.height = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (9 / 16)) + 'px';
         } else {
-          const reqContainerHeight = ((containerWidth / finalColNumber) / 16) * 9;
-          screen.style.height = Math.max(60, ((reqContainerHeight / finalRowNumber) - 2)) + 'px';
+          screen.style.width = Math.max(80, ((containerWidth / finalColNumber) - 2)) + 'px';
+          screen.style.height = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (9 / 16)) + 'px';
+          //  screen.style.height = (((containerWidth / finalColNumber) / 4) * 3) - 2 + 'px';
         }
       } else if (this.screenAspectRatio === '4:3') {
-        const reqContainerWidth = ((containerHeight / finalRowNumber) / 3) * 4;
-        if (containerWidth > reqContainerWidth) {
-          screen.style.width = Math.max(80, ((reqContainerWidth / finalColNumber) - 2)) + 'px';
+        if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
+          screen.style.width = Math.max(80, ((containerHeight / finalRowNumber) - 2)) + 'px';
+          //screen.style.height = (((containerHeight / finalRowNumber) / 3) * 4) - 2 + 'px';
         } else {
-          const reqContainerHeight = ((containerWidth / finalColNumber) / 4) * 3;
-          screen.style.height = ((reqContainerHeight / finalRowNumber) - 2) + 'px';
+          screen.style.width = ((containerWidth / finalColNumber) - 2) + 'px';
+          // screen.style.height = (((containerWidth / finalColNumber) / 4) * 3) - 2 + 'px';
         }
       }
     }
