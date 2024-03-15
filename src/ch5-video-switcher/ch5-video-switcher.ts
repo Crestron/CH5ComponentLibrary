@@ -1290,9 +1290,11 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
           screen.style.width = Math.max(80, ((containerHeight / finalRowNumber) - 2)) + 'px';
           //screen.style.height = (((containerHeight / finalRowNumber) / 3) * 4) - 2 + 'px';
+          screen.style.height = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (3 / 4)) + 'px';
         } else {
-          screen.style.width = ((containerWidth / finalColNumber) - 2) + 'px';
+          screen.style.width = Math.max(80, ((containerWidth / finalColNumber) - 2)) + 'px';
           // screen.style.height = (((containerWidth / finalColNumber) / 4) * 3) - 2 + 'px';
+          screen.style.height = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (3 / 4)) + 'px';
         }
       }
     }
