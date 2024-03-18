@@ -887,7 +887,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     }
   }
 
-
   private clearOldSubscriptionNumber(signalValue: string, signalState: string) {
     // clean up old subscription
     const oldReceiveStateSigName: string = Ch5Signal.getSubscriptionSignalName(signalValue);
@@ -927,7 +926,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       return null;
     }
     return receiveSignal;
-
   }
 
   private handleSourceLabel() {
@@ -1203,7 +1201,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     let requiredRows: number = 1;
     let visible_screens: number = 0;
 
-
     this._screenListContainer.style.removeProperty('grid-template-columns');
     this._screenListContainer.style.removeProperty('grid-template-rows');
 
@@ -1239,7 +1236,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       }
       this._screenListContainer.style.setProperty('grid-template-columns', col);
       this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + finalRowNumber + ', minmax(' + minRowHieght + 'px, 1fr) )');
-
     } else {
       requiredRows = this.numberOfScreens / Math.floor(possibleCol);
       if (this.screenAspectRatio === '16:9' || this.screenAspectRatio === '4:3') {
