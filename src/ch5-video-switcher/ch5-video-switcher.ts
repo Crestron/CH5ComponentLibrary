@@ -789,6 +789,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     });
     this._elContainer.classList.add(this.primaryCssClass + Ch5VideoSwitcher.COMPONENT_DATA.SOURCE_LIST_POSITION.classListPrefix + this.sourceListPosition);
     this.initScrollbar();
+    this.handleNumberOfScreenColumns();
   }
 
   private handleEndless() {
@@ -1273,7 +1274,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       // const eleHeight = Math.max(60, Math.floor((Math.floor(containerHeight) / Math.floor(possibleRow))));
       this._screenListContainer.style.removeProperty('width');
       this._screenListContainer.style.removeProperty('height');
-      if (i >= visible_screens) {
+      screen.classList.remove('hideScreen');
+      if (i >= visible_screens && !screen.classList.contains('hideScreen')) {
         screen.classList.add('hideScreen');
       }
 
