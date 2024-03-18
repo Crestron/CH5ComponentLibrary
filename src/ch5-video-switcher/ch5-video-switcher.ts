@@ -1275,7 +1275,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       this._screenListContainer.style.removeProperty('width');
       this._screenListContainer.style.removeProperty('height');
       screen.classList.remove('hideScreen');
-      if (i >= visible_screens) {
+      if (i >= visible_screens && !screen.classList.contains('hideScreen')) {
         screen.classList.add('hideScreen');
       }
 
