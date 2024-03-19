@@ -1185,6 +1185,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       return;
     }
     this.handleNumberOfScreenColumns();
+    this.handleResizeComponent();
   }
 
   private handleNumberOfScreenColumns() {
@@ -1450,6 +1451,24 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         }
       }, 1500);
     }
+  }
+
+  private handleResizeComponent() {
+    for (let i = 0; i < this.numberOfScreens; i++) {
+      if (this._screenListContainer.children[i].children.length > 1) {
+        const screen = this._screenListContainer.children[i] as HTMLElement;
+        const sourceOnScreen = this._screenListContainer.children[i].children[1] as HTMLElement;
+        sourceOnScreen.style.fontSize = screen.offsetHeight * 0.27 + 'px';
+      }
+    }
+    if (this.endless) {
+      if (this.sourceListPosition === 'top' || this.sourceListPosition === 'bottom') {
+        this._sourceListContainer.scrollLeft += 5;
+      } else {
+        this._sourceListContainer.scrollTop += 5;
+      }
+    }
+    this.initScrollbar();
   }
 
   private handleDragStartForSourceOnScreen(index: number) {
