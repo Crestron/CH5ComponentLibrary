@@ -239,11 +239,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 		this.initPressable(this.primaryCssClass + this.pressedCssClassPostfix);
 
-		if (this._pressable) {
-			this._pressable.init();
-			this._subscribeToPressableIsPressed();
-		}
-
 		this.initAttributes();
 		this.attachEventListeners();
 		this.setDefaultClasses();
@@ -362,11 +357,15 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	 * Called when pressed class will be available
 	 * @param pressedClass is class name. it will add after press the ch5 keypad button
 	 */
-	protected initPressable(pressedClass: string) {
+	private initPressable(pressedClass: string) {
 		this._pressable = new Ch5Pressable(this, {
 			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
 			cssPressedClass: pressedClass
 		});
+		if (this._pressable) {
+			this._pressable.init();
+			this._subscribeToPressableIsPressed();
+		}
 	}
 
 	/**
@@ -413,6 +412,9 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		this._elMinorSpan.innerHTML = this.labelMinor;
 	}
 	private handlePressed() {
+		if (!this._pressable) {
+			this.initPressable(this.primaryCssClass + this.pressedCssClassPostfix);
+		}
 		if (this._pressable) {
 			if (this._pressable._pressed !== this.pressed) {
 				this._pressable.setPressed(this.pressed);
