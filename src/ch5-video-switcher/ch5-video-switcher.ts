@@ -887,7 +887,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     }
   }
 
-
   private clearOldSubscriptionNumber(signalValue: string, signalState: string) {
     // clean up old subscription
     const oldReceiveStateSigName: string = Ch5Signal.getSubscriptionSignalName(signalValue);
@@ -927,7 +926,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       return null;
     }
     return receiveSignal;
-
   }
 
   private handleSourceLabel() {
@@ -1187,6 +1185,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       return;
     }
     this.handleNumberOfScreenColumns();
+    this.handleResizeComponent();
   }
 
   private handleNumberOfScreenColumns() {
@@ -1202,7 +1201,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     let setRow: boolean = true;
     let requiredRows: number = 1;
     let visible_screens: number = 0;
-
 
     this._screenListContainer.style.removeProperty('grid-template-columns');
     this._screenListContainer.style.removeProperty('grid-template-rows');
@@ -1239,7 +1237,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       }
       this._screenListContainer.style.setProperty('grid-template-columns', col);
       this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + finalRowNumber + ', minmax(' + minRowHieght + 'px, 1fr) )');
-
     } else {
       requiredRows = this.numberOfScreens / Math.floor(possibleCol);
       if (this.screenAspectRatio === '16:9' || this.screenAspectRatio === '4:3') {
@@ -1454,6 +1451,24 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         }
       }, 1500);
     }
+  }
+
+  private handleResizeComponent() {
+    for (let i = 0; i < this.numberOfScreens; i++) {
+      if (this._screenListContainer.children[i].children.length > 1) {
+        const screen = this._screenListContainer.children[i] as HTMLElement;
+        const sourceOnScreen = this._screenListContainer.children[i].children[1] as HTMLElement;
+        sourceOnScreen.style.fontSize = screen.offsetHeight * 0.27 + 'px';
+      }
+    }
+    if (this.endless) {
+      if (this.sourceListPosition === 'top' || this.sourceListPosition === 'bottom') {
+        this._sourceListContainer.scrollLeft += 5;
+      } else {
+        this._sourceListContainer.scrollTop += 5;
+      }
+    }
+    this.initScrollbar();
   }
 
   private handleDragStartForSourceOnScreen(index: number) {
