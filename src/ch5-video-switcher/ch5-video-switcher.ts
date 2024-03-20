@@ -1233,7 +1233,18 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         const colWidth = (Math.floor(possibleCol) > this.numberOfScreenColumns) ? (containerWidth / this.numberOfScreenColumns) : (containerWidth / Math.floor(possibleCol));
         col = 'repeat(' + this.numberOfScreens + ',' + colWidth + 'px)';
       } else {
-        col = 'repeat(' + col + ',minmax(' + minColWidth + 'px, 1fr))'
+        // To center align items when screenaspect is 16:9 and 4:3
+        if (this.screenAspectRatio === "16:9" || this.screenAspectRatio === "4:3" && (+col < Math.floor(possibleCol))) {
+          let colWidth;
+          if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
+            colWidth = Math.max(80, ((containerHeight / finalRowNumber) - 2));
+          } else {
+            colWidth = Math.max(80, ((containerWidth / finalColNumber) - 2));
+          }
+          col = 'repeat(' + col + ',' + colWidth + 'px)';
+        } else {
+          col = 'repeat(' + col + ',minmax(' + minColWidth + 'px, 1fr))'
+        }
       }
       this._screenListContainer.style.setProperty('grid-template-columns', col);
       this._screenListContainer.style.setProperty('grid-template-rows', 'repeat(' + finalRowNumber + ', minmax(' + minRowHieght + 'px, 1fr) )');
@@ -1258,8 +1269,19 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         setRow = false;
       }
 
+      let col = 'repeat(auto-fit, minmax(' + minColWidth + 'px, 1fr) )';
+      if (this.screenAspectRatio === "16:9" || this.screenAspectRatio === "4:3") {
+        let colWidth;
+        if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
+          colWidth = Math.max(80, ((containerHeight / finalRowNumber) - 2));
+        } else {
+          colWidth = Math.max(80, ((containerWidth / finalColNumber) - 2));
+        }
+       col = 'repeat(auto-fit,' + colWidth + 'px)';
+      }
+
       const row = setRow ? 'repeat(' + finalRowNumber + ', minmax(' + minRowHieght + 'px, 1fr) )' : 'minmax(' + minRowHieght + 'px, 1fr)';
-      this._screenListContainer.style.setProperty('grid-template-columns', 'repeat(auto-fit, minmax(' + minColWidth + 'px, 1fr) )');
+      this._screenListContainer.style.setProperty('grid-template-columns', col);
       this._screenListContainer.style.setProperty('grid-template-rows', row);
     }
 
