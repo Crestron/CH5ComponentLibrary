@@ -1244,8 +1244,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         col = 'repeat(' + this.numberOfScreens + ',' + colWidth + 'px)';
       } else {
         // To center align items when screenaspect is 16:9 and 4:3
-        if (this.screenAspectRatio === "16:9" || this.screenAspectRatio === "4:3" && (+col < Math.floor(possibleCol))) {
-          let colWidth;
+        let colWidth;
+        if (((this.screenAspectRatio === "16:9") || (this.screenAspectRatio === "4:3")) && (+col < Math.floor(possibleCol))) {
           if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
             colWidth = Math.max(80, ((containerHeight / finalRowNumber) - 2));
             if (((this.sourceListPosition === 'left') || (this.sourceListPosition === 'right')) && (this.screenAspectRatio === '16:9')) {
@@ -1266,7 +1266,16 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
           }
           col = 'repeat(' + col + ',' + colWidth + 'px)';
         } else {
-          col = 'repeat(' + col + ',minmax(' + minColWidth + 'px, 1fr))';
+          if(+col === Math.floor(possibleCol) || col ==="auto-fit"){
+            if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
+              colWidth = Math.max(80, ((containerHeight / finalRowNumber) - 2));
+            } else {
+              colWidth = Math.max(80, ((containerWidth / finalColNumber) - 2));
+            }
+            col = 'repeat(' + col + ',' + colWidth + 'px)';
+          }else{
+            col = 'repeat(' + col + ',minmax(' + minColWidth + 'px, 1fr))';
+          }
         }
       }
       this._screenListContainer.style.setProperty('grid-template-columns', col);
@@ -1294,7 +1303,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
       let col = 'repeat(auto-fit, minmax(' + minColWidth + 'px, 1fr) )';
       let rowHeight: number = 0;
-      if (this.screenAspectRatio === "16:9" || this.screenAspectRatio === "4:3") {
+      if ((this.screenAspectRatio === "16:9") || (this.screenAspectRatio === "4:3")) {
         let colWidth: number = 0;
         if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
           colWidth = Math.max(80, ((containerHeight / finalRowNumber) - 2));
