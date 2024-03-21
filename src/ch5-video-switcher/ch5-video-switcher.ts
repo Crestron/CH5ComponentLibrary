@@ -1343,22 +1343,22 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     let rowHeightSize = 0;
     if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
       colWidthSize = Math.max(80, ((containerHeight / finalRowNumber) - 2));
-      if ((this.sourceListPosition === 'left') || (this.sourceListPosition === 'right')) {
+     // if ((this.sourceListPosition === 'left') || (this.sourceListPosition === 'right')) {
         if (this.screenAspectRatio === '16:9') {
           rowHeightSize = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (9 / 16));
         } else {
           rowHeightSize = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (3 / 4));
         }
-      }
+     // }
     } else {
       colWidthSize = Math.max(80, ((containerWidth / finalColNumber) - 2));
-      if (((this.sourceListPosition === 'left') || (this.sourceListPosition === 'right'))) {
+     // if (((this.sourceListPosition === 'left') || (this.sourceListPosition === 'right'))) {
         if (this.screenAspectRatio === '16:9') {
           rowHeightSize = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (9 / 16));
         } else {
           rowHeightSize = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (3 / 4));
         }
-      }
+     // }
     }
     return colWidth ? colWidthSize : rowHeightSize;
   }
