@@ -492,11 +492,11 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       this._ch5Properties.setForSignalResponse<number>("numberOfScreens", newValue, () => {
         if (this.numberOfScreenBackup > this.numberOfScreens) {
           for (let i = this.numberOfScreens; i < this.numberOfScreenBackup; i++) {
-            this.handleSendEventOnDrop(i + '', 0);
+            this.handleSendEventOnDrop(i + '', -1);
             this.handleSendEventOnChange(i + '');
           }
-          this.numberOfScreenBackup = this.numberOfScreens;
         }
+        this.numberOfScreenBackup = this.numberOfScreens;
         this.createScreen();
       });
     });
