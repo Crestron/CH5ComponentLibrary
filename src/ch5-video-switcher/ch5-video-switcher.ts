@@ -1238,42 +1238,29 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
       let col = setCol ? finalColNumber : 'auto-fit';
       let row = 'repeat(' + finalRowNumber + ', minmax(' + minRowHieght + 'px, 1fr) )'
-      let rowHeight: number = 0;
+      let rowHeight: any = 0;
       if (setCol && (col > this.numberOfScreens + '')) { // to center items is screens are les than number of col
         const colWidth = (Math.floor(possibleCol) > this.numberOfScreenColumns) ? (containerWidth / this.numberOfScreenColumns) : (containerWidth / Math.floor(possibleCol));
         col = 'repeat(' + this.numberOfScreens + ',' + colWidth + 'px)';
       } else {
         // To center align items when screenaspect is 16:9 and 4:3
-        let colWidth;
+        let colWidth: any = 0;
         if (((this.screenAspectRatio === "16:9") || (this.screenAspectRatio === "4:3")) && (+col < Math.floor(possibleCol))) {
-          if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
-            colWidth = Math.max(80, ((containerHeight / finalRowNumber) - 2));
-            if (((this.sourceListPosition === 'left') || (this.sourceListPosition === 'right')) && (this.screenAspectRatio === '16:9')) {
-              rowHeight = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (9 / 16));
-            } else {
-              rowHeight = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (3 / 4));
-            }
-          } else {
-            colWidth = Math.max(80, ((containerWidth / finalColNumber) - 2));
-            if (((this.sourceListPosition === 'left') || (this.sourceListPosition === 'right')) && (this.screenAspectRatio === '16:9')) {
-              rowHeight = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (9 / 16));
-            } else {
-              rowHeight = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (3 / 4));
-            }
-          }
+          colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber);
+          rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber);
           if (rowHeight > 0) {
             row = 'repeat(' + finalRowNumber + ',' + rowHeight + 'px)';
           }
           col = 'repeat(' + col + ',' + colWidth + 'px)';
         } else {
-          if(+col === Math.floor(possibleCol) || col ==="auto-fit"){
+          if (+col === Math.floor(possibleCol) || col === "auto-fit") {
             if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
               colWidth = Math.max(80, ((containerHeight / finalRowNumber) - 2));
             } else {
               colWidth = Math.max(80, ((containerWidth / finalColNumber) - 2));
             }
             col = 'repeat(' + col + ',' + colWidth + 'px)';
-          }else{
+          } else {
             col = 'repeat(' + col + ',minmax(' + minColWidth + 'px, 1fr))';
           }
         }
@@ -1302,24 +1289,10 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       }
 
       let col = 'repeat(auto-fit, minmax(' + minColWidth + 'px, 1fr) )';
-      let rowHeight: number = 0;
+      let rowHeight: any = 0;
       if ((this.screenAspectRatio === "16:9") || (this.screenAspectRatio === "4:3")) {
-        let colWidth: number = 0;
-        if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
-          colWidth = Math.max(80, ((containerHeight / finalRowNumber) - 2));
-          if (((this.sourceListPosition === 'left') || (this.sourceListPosition === 'right')) && (this.screenAspectRatio === '16:9')) {
-            rowHeight = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (9 / 16));
-          } else {
-            rowHeight = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (3 / 4));
-          }
-        } else {
-          colWidth = Math.max(80, ((containerWidth / finalColNumber) - 2));
-          if (((this.sourceListPosition === 'left') || (this.sourceListPosition === 'right')) && (this.screenAspectRatio === '16:9')) {
-            rowHeight = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (9 / 16));
-          } else {
-            rowHeight = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (3 / 4));
-          }
-        }
+        const colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber);
+        rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber);
         col = 'repeat(auto-fit,' + colWidth + 'px)';
       }
       let row = '';
@@ -1338,7 +1311,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       if (!screen) {
         continue;
       }
-      // const eleHeight = Math.max(60, Math.floor((Math.floor(containerHeight) / Math.floor(possibleRow))));
       this._screenListContainer.style.removeProperty('width');
       this._screenListContainer.style.removeProperty('height');
       screen.classList.remove('hideScreen');
@@ -1364,6 +1336,31 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         }
       }
     }
+  }
+
+  getRowHeightColWidth(colWidth: boolean = false, containerHeight: number, containerWidth: number, finalRowNumber: number, finalColNumber: number) {
+    let colWidthSize = 0
+    let rowHeightSize = 0;
+    if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
+      colWidthSize = Math.max(80, ((containerHeight / finalRowNumber) - 2));
+      if ((this.sourceListPosition === 'left') || (this.sourceListPosition === 'right')) {
+        if (this.screenAspectRatio === '16:9') {
+          rowHeightSize = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (9 / 16));
+        } else {
+          rowHeightSize = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (3 / 4));
+        }
+      }
+    } else {
+      colWidthSize = Math.max(80, ((containerWidth / finalColNumber) - 2));
+      if (((this.sourceListPosition === 'left') || (this.sourceListPosition === 'right'))) {
+        if (this.screenAspectRatio === '16:9') {
+          rowHeightSize = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (9 / 16));
+        } else {
+          rowHeightSize = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (3 / 4));
+        }
+      }
+    }
+    return colWidth ? colWidthSize : rowHeightSize;
   }
 
   public screenLabelHelperCreate(index: number, labelInnerHTML: string = '') {
