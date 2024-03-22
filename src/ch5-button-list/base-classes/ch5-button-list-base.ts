@@ -2084,7 +2084,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     const btn = new Ch5Button(buttonListContractObj);
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
-    if (this.contractName.trim() == "" && this.useContractForItemShow === true) {
+    if (this.contractName !== "" && this.useContractForItemShow === true) {
       btnContainer.setAttribute('data-ch5-noshow-type', 'display');
       btnContainer.setAttribute('data-ch5-show', this.contractName + `.Button${index + 1}Visible`);
     } else {
