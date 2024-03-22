@@ -23,16 +23,17 @@
       setup(async () => {
         ch5VideoSwitcher = fixture('ch5-video-switcher-numberOfScreens-attributes');
       });
-        
-        let testCases = ['a', '', ' ', 'number', '0', '1', '2', '35', '36', '37'];
-        let expectedResult = ['2', '2', '2', '2','1', '1', '2', '35', '36', '36'];
-        testCases.forEach((ele, i) => {
-              test('Check Value "numberOfScreens"', () => {
-                  ch5VideoSwitcher.setAttribute('numberOfScreens', ele);
-                  expect(ch5VideoSwitcher.getAttribute('numberOfScreens')).to.be.equal(expectedResult[i]);
-              });
-          });
-        
+
+      let testCases = ['a', '', ' ', 'number', '0', '1', '2', '35', '36', '37'];
+      let expectedResult = ['2', '2', '2', '2', '1', '1', '2', '35', '36', '36'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "numberOfScreens"', () => {
+          ch5VideoSwitcher.setAttribute('numberOfScreens', ele);
+          expect(ch5VideoSwitcher.getAttribute('numberOfScreens')).to.be.equal(expectedResult[i]);
+          expect(ch5VideoSwitcher.querySelector('.ch5-video-switcher--screen-list').children.length).to.be.equal(Number(expectedResult[i]));
+        });
+      });
+
     });
   </script>
 </body>

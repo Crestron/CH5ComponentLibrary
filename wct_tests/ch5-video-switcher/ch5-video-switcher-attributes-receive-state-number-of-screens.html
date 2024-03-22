@@ -26,26 +26,32 @@
         emulator.loadScenario(emulatorJson);
         ch5VideoSwitcher = fixture('ch5-video-switcher-receiveStateNumberOfScreens-attributes');
       });
-        
-        test('receiveStateNumberOfScreens', (done) => {
-          CrComLib.publishEvent('b', 'trigger_event_1',true );
-          flush(() => {
-              setTimeout(() => {
-                  expect(ch5VideoSwitcher.getAttribute('numberOfScreens')).to.be.equal('3');
-                  done();
-              }, 100);
-          });
+
+
+      test('receiveStateNumberOfScreens increment', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_1', true);
+        CrComLib.publishEvent('b', 'trigger_event_1', true);
+        CrComLib.publishEvent('b', 'trigger_event_1', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5VideoSwitcher.getAttribute('numberOfScreens')).to.be.equal('3');
+            expect(ch5VideoSwitcher.querySelector('.ch5-video-switcher--screen-list').children.length).to.be.equal(Number('3'));
+            done();
+          }, 30);
         });
-        test('receiveStateNumberOfScreens', (done) => {
-          CrComLib.publishEvent('b', 'trigger_event_2',true );
-          flush(() => {
-              setTimeout(() => {
-                expect(ch5VideoSwitcher.getAttribute('numberOfScreens')).to.be.equal('1');
-                  done();
-              }, 100);
-          });
+      });
+      test('receiveStateNumberOfScreens decrement', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_2', true);
+        CrComLib.publishEvent('b', 'trigger_event_2', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5VideoSwitcher.getAttribute('numberOfScreens')).to.be.equal('1');
+            expect(ch5VideoSwitcher.querySelector('.ch5-video-switcher--screen-list').children.length).to.be.equal(Number('1'));
+            done();
+          }, 30);
         });
-        
+      });
+
     });
   </script>
 </body>

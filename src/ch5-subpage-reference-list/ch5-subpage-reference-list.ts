@@ -1686,7 +1686,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     documentContainer.innerHTML = this._templateElement.innerHTML;
     const spgContainer = document.createElement("div");
     spgContainer.setAttribute('id', this.getCrId() + '-' + index);
-    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined && this.useContractForItemShow === true) {
+    if (this.contractName !== "" && this.useContractForItemShow === true) {
       spgContainer.setAttribute('data-ch5-noshow-type', 'display');
       spgContainer.setAttribute('data-ch5-show', this.contractName + `.List_Item${index + 1}_Visible`);
     } else {
@@ -1707,7 +1707,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         }
       }
     }
-    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined && this.useContractForItemEnable === true) {
+    if (this.contractName !== "" && this.useContractForItemEnable === true) {
       spgContainer.setAttribute('data-ch5-enable', this.contractName + `.List_Item${index + 1}_Enable`);
     } else {
       if (this.getAttribute('subpageReceiveStateEnable')?.trim().includes(`{{${this.indexId}}}`) === false) {
@@ -1735,7 +1735,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         .replaceIndexIdInTmplElemsContent(documentContainer, (index), this.indexId as string);
     }
     spgContainer.appendChild(((documentContainer as HTMLTemplateElement).content));
-    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+    if (this.contractName !== "") {
       // update templateContent attributes to prefix contract name
       Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(spgContainer, this.contractName + '.Items[' + index + '].', 0, 0, 0);
     } else {
@@ -1774,7 +1774,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   private contractDefaultHelper() {
-    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+    if (this.contractName !== "") {
 
       if (this.useContractForCustomStyle === true) {
         this.receiveStateCustomStyle = this.contractName + '.CustomStyle';
