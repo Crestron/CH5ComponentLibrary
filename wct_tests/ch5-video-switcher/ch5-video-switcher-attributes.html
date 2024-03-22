@@ -23,43 +23,41 @@
       setup(async () => {
         ch5VideoSwitcher = fixture('ch5-video-switcher-default-attributes');
       });
-        
-        test('Check Default value for sourceListPosition', () => {
-          expect(ch5VideoSwitcher.getAttribute("sourceListPosition")).to.be.equal(null);
-          ch5VideoSwitcher.setAttribute('sourceListPosition', 'top');
-          expect(ch5VideoSwitcher.children[0].classList.contains('ch5-video-switcher--sourceListPosition-top')).to.be.equal(true);
-          expect(ch5VideoSwitcher.getAttribute("sourceListPosition")).to.be.equal('top');
-          ch5VideoSwitcher.removeAttribute("sourceListPosition");
-          expect(ch5VideoSwitcher.getAttribute("sourceListPosition")).to.be.equal('top');
-        });
-        
-        test('Check Default value for screenAspectRatio', () => {
-          expect(ch5VideoSwitcher.getAttribute("screenAspectRatio")).to.be.equal(null);
-          ch5VideoSwitcher.setAttribute('screenAspectRatio', 'stretch');
-          expect(ch5VideoSwitcher.children[0].classList.contains('ch5-video-switcher--screenAspectRatio-stretch')).to.be.equal(true);
-          expect(ch5VideoSwitcher.getAttribute("screenAspectRatio")).to.be.equal('stretch');
-          ch5VideoSwitcher.removeAttribute("screenAspectRatio");
-          expect(ch5VideoSwitcher.getAttribute("screenAspectRatio")).to.be.equal('stretch');
-        });
-        
-        test('Check Default value for contractSourceLabelType', () => {
-          expect(ch5VideoSwitcher.getAttribute("contractSourceLabelType")).to.be.equal(null);
-          ch5VideoSwitcher.setAttribute('contractSourceLabelType', 'none');
-          expect(ch5VideoSwitcher.children[0].classList.contains('ch5-video-switcher--contractSourceLabelType-none')).to.be.equal(true);
-          expect(ch5VideoSwitcher.getAttribute("contractSourceLabelType")).to.be.equal('none');
-          ch5VideoSwitcher.removeAttribute("contractSourceLabelType");
-          expect(ch5VideoSwitcher.getAttribute("contractSourceLabelType")).to.be.equal('none');
-        });
-        
-        test('Check Default value for contractScreenLabelType', () => {
-          expect(ch5VideoSwitcher.getAttribute("contractScreenLabelType")).to.be.equal(null);
-          ch5VideoSwitcher.setAttribute('contractScreenLabelType', 'none');
-          expect(ch5VideoSwitcher.children[0].classList.contains('ch5-video-switcher--contractScreenLabelType-none')).to.be.equal(true);
-          expect(ch5VideoSwitcher.getAttribute("contractScreenLabelType")).to.be.equal('none');
-          ch5VideoSwitcher.removeAttribute("contractScreenLabelType");
-          expect(ch5VideoSwitcher.getAttribute("contractScreenLabelType")).to.be.equal('none');
-        });
-        
+
+      test('Check Default value for sourceListPosition', () => {
+        expect(ch5VideoSwitcher.getAttribute("sourceListPosition")).to.be.equal(null);
+        ch5VideoSwitcher.setAttribute('sourceListPosition', 'top');
+        expect(ch5VideoSwitcher.children[0].classList.contains('ch5-video-switcher--source-list-position-top')).to.be.equal(true);
+        expect(ch5VideoSwitcher.getAttribute("sourceListPosition")).to.be.equal('top');
+        ch5VideoSwitcher.removeAttribute("sourceListPosition");
+        expect(ch5VideoSwitcher.getAttribute("sourceListPosition")).to.be.equal('top');
+      });
+
+      test('Check Default value for screenAspectRatio', () => {
+        expect(ch5VideoSwitcher.getAttribute("screenAspectRatio")).to.be.equal(null);
+        ch5VideoSwitcher.setAttribute('screenAspectRatio', 'stretch');
+        expect(ch5VideoSwitcher.querySelector('.ch5-video-switcher--screen-list').classList.contains('ch5-video-switcher--screen-aspect-ratio-stretch')).to.be.equal(true);
+        expect(ch5VideoSwitcher.getAttribute("screenAspectRatio")).to.be.equal('stretch');
+        ch5VideoSwitcher.removeAttribute("screenAspectRatio");
+        expect(ch5VideoSwitcher.getAttribute("screenAspectRatio")).to.be.equal('stretch');
+      });
+
+      test('Check Default value for contractSourceLabelType', () => {
+        expect(ch5VideoSwitcher.getAttribute("contractSourceLabelType")).to.be.equal(null);
+        ch5VideoSwitcher.setAttribute('contractSourceLabelType', 'none');
+        expect(ch5VideoSwitcher.getAttribute("contractSourceLabelType")).to.be.equal('none');
+        ch5VideoSwitcher.removeAttribute("contractSourceLabelType");
+        expect(ch5VideoSwitcher.getAttribute("contractSourceLabelType")).to.be.equal('none');
+      });
+
+      test('Check Default value for contractScreenLabelType', () => {
+        expect(ch5VideoSwitcher.getAttribute("contractScreenLabelType")).to.be.equal(null);
+        ch5VideoSwitcher.setAttribute('contractScreenLabelType', 'none');
+        expect(ch5VideoSwitcher.getAttribute("contractScreenLabelType")).to.be.equal('none');
+        ch5VideoSwitcher.removeAttribute("contractScreenLabelType");
+        expect(ch5VideoSwitcher.getAttribute("contractScreenLabelType")).to.be.equal('none');
+      });
+
       test('Check signal types', () => {
         for (signal in signalTypes) {
           if (signal.includes("sendevent")) {

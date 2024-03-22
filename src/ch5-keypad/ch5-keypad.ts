@@ -704,7 +704,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	private handleContract() {
-		if (this.contractName.trim().length === 0) {
+		if (this.contractName.length === 0) {
 			this.signalNameOnContract.contractName = "";
 			this.receiveStateShow = this.signalNameOnContract.receiveStateShow || this.receiveStateShow;
 			this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable || this.receiveStateEnable;
@@ -728,7 +728,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	private contractDefaultHelper() {
-		if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+		if (this.contractName !== "" ) {
 			if (this.useContractForCustomStyle === true) {
 				this.receiveStateCustomStyle = this.contractName + '.CustomStyle';
 			}

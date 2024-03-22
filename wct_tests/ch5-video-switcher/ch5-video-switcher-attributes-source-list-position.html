@@ -23,16 +23,16 @@
       setup(async () => {
         ch5VideoSwitcher = fixture('ch5-video-switcher-sourceListPosition-attributes');
       });
-        
-        let testCases = ['a', '', ' ', 'number', 'top', 'left', 'right', 'bottom'];
-        let expectedResult = ['top', 'top', 'top', 'top', 'top', 'left', 'right', 'bottom'];
-        testCases.forEach((ele, i) => {
-              test('Check Value "sourceListPosition"', () => {
-                  ch5VideoSwitcher.setAttribute('sourceListPosition', ele);
-                  expect(ch5VideoSwitcher.getAttribute('sourceListPosition')).to.be.equal(expectedResult[i]);
-              });
-          });
-        
+
+      let testCases = ['a', '', ' ', 'number', 'top', 'left', 'right', 'bottom'];
+      let expectedResult = ['top', 'top', 'top', 'top', 'top', 'left', 'right', 'bottom'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "sourceListPosition"', () => {
+          ch5VideoSwitcher.setAttribute('sourceListPosition', ele);
+          expect(ch5VideoSwitcher.getAttribute('sourceListPosition')).to.be.equal(expectedResult[i]);
+        });
+      });
+
     });
   </script>
 </body>
