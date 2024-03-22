@@ -117,14 +117,15 @@
 
 			setup(async () => {
 				ch5Slider = fixture('ch5-slider-preload-cache-page2');
+				const emulatorJson = await fetch('./emulator/preloadcachepage.json').then((response) => response.json());
+				const emulator = CrComLib.Ch5Emulator.getInstance();
+				emulator.loadScenario(emulatorJson);
 				return Promise.all([
 					customElements.whenDefined('ch5-slider'),
 				]).then(_ => {
 					// wait for element to be defined
 				});
-				const emulatorJson = await fetch('./emulator/preloadcachepage.json').then((response) => response.json());
-				const emulator = CrComLib.Ch5Emulator.getInstance();
-				emulator.loadScenario(emulatorJson);
+
 			});
 
 			for (let i = 0; i < 4; i++) {

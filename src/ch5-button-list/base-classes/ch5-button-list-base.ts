@@ -2084,7 +2084,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     const btn = new Ch5Button(buttonListContractObj);
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
-    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined && this.useContractForItemShow === true) {
+    if (this.contractName !== "" && this.useContractForItemShow === true) {
       btnContainer.setAttribute('data-ch5-noshow-type', 'display');
       btnContainer.setAttribute('data-ch5-show', this.contractName + `.Button${index + 1}Visible`);
     } else {
@@ -2211,7 +2211,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     btn.setAttribute('stretch', 'both');
     btn.setAttribute('shape', 'rectangle');
     // Contract Helper
-    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+    if (this.contractName !== "") {
       return this.contractButtonHelper(btn, index);
     }
     const individualButtons = this.getElementsByTagName(this.nodeName.toLowerCase() + '-individual-button');
@@ -2308,7 +2308,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   }
 
   private contractDefaultHelper() {
-    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+    if (this.contractName !== "") {
 
       if (this.useContractForCustomStyle === true) {
         this.receiveStateCustomStyle = this.contractName + '.CustomStyle';

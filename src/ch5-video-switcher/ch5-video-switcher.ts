@@ -1248,9 +1248,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         if (((this.screenAspectRatio === "16:9") || (this.screenAspectRatio === "4:3")) && (+col < Math.floor(possibleCol))) {
           colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber);
           rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber);
-          if (rowHeight > 0) {
-            row = 'repeat(' + finalRowNumber + ',' + rowHeight + 'px)';
-          }
           col = 'repeat(' + col + ',' + colWidth + 'px)';
         } else {
           if (+col === Math.floor(possibleCol) || col === "auto-fit") {
@@ -1263,7 +1260,13 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
           } else {
             col = 'repeat(' + col + ',minmax(' + minColWidth + 'px, 1fr))';
           }
+          if((this.screenAspectRatio === "16:9") || (this.screenAspectRatio === "4:3")){
+            rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber);
+          }
         }
+      }
+      if (rowHeight > 0) {
+        row = 'repeat(' + finalRowNumber + ',' + rowHeight + 'px)';
       }
       this._screenListContainer.style.setProperty('grid-template-columns', col);
       this._screenListContainer.style.setProperty('grid-template-rows', row);
