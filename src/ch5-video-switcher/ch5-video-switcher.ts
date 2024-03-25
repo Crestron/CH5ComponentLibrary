@@ -309,7 +309,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   private scrollbarDimension: number = 0;
 
   private signalHolder: any = [];
-  private numberOfScreenBackup: number = 2;
+  private numberOfScreenBackup: number = 1;
   private signalHolderForSourceLabel: any = {
     receiveStateScriptSourceLabelHtml: [],
     receiveStateSourceLabel: [],
