@@ -327,6 +327,10 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   private validDrop: boolean = false;
   private resizeObserver: ResizeObserver | null = null;
 
+  public debounceNumberOfItems = this.debounce((newValue: number) => {
+    this.setNumberOfItems(newValue);
+  }, 150);
+
   //#endregion
 
   //#region Getters and Setters
@@ -489,16 +493,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   public set receiveStateNumberOfScreens(value: string) {
     this._ch5Properties.set("receiveStateNumberOfScreens", value, null, (newValue: number) => {
-      this._ch5Properties.setForSignalResponse<number>("numberOfScreens", newValue, () => {
-        if (this.numberOfScreenBackup > this.numberOfScreens) {
-          for (let i = this.numberOfScreens; i < this.numberOfScreenBackup; i++) {
-            this.handleSendEventOnDrop(i + '', -1);
-            this.handleSendEventOnChange(i + '');
-          }
-        }
-        this.numberOfScreenBackup = this.numberOfScreens;
-        this.createScreen();
-      });
+      // Debounce is used to resolve CH5C-21364
+      this.debounceNumberOfItems(newValue);
     });
   }
   public get receiveStateNumberOfScreens(): string {
@@ -1260,7 +1256,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
           } else {
             col = 'repeat(' + col + ',minmax(' + minColWidth + 'px, 1fr))';
           }
-          if((this.screenAspectRatio === "16:9") || (this.screenAspectRatio === "4:3")){
+          if ((this.screenAspectRatio === "16:9") || (this.screenAspectRatio === "4:3")) {
             rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber);
           }
         }
@@ -1346,22 +1342,22 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     let rowHeightSize = 0;
     if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
       colWidthSize = Math.max(80, ((containerHeight / finalRowNumber) - 2));
-     // if ((this.sourceListPosition === 'left') || (this.sourceListPosition === 'right')) {
-        if (this.screenAspectRatio === '16:9') {
-          rowHeightSize = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (9 / 16));
-        } else {
-          rowHeightSize = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (3 / 4));
-        }
-     // }
+      // if ((this.sourceListPosition === 'left') || (this.sourceListPosition === 'right')) {
+      if (this.screenAspectRatio === '16:9') {
+        rowHeightSize = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (9 / 16));
+      } else {
+        rowHeightSize = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (3 / 4));
+      }
+      // }
     } else {
       colWidthSize = Math.max(80, ((containerWidth / finalColNumber) - 2));
-     // if (((this.sourceListPosition === 'left') || (this.sourceListPosition === 'right'))) {
-        if (this.screenAspectRatio === '16:9') {
-          rowHeightSize = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (9 / 16));
-        } else {
-          rowHeightSize = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (3 / 4));
-        }
-     // }
+      // if (((this.sourceListPosition === 'left') || (this.sourceListPosition === 'right'))) {
+      if (this.screenAspectRatio === '16:9') {
+        rowHeightSize = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (9 / 16));
+      } else {
+        rowHeightSize = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (3 / 4));
+      }
+      // }
     }
     return colWidth ? colWidthSize : rowHeightSize;
   }
@@ -1571,6 +1567,19 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         this.clearOldSubscriptionString(item.signalValue, item.signalState);
       });
       this.signalHolderForScreenLabel[key] = [];
+    });
+  }
+
+  private setNumberOfItems(newValue: number) {
+    this._ch5Properties.setForSignalResponse<number>("numberOfScreens", newValue, () => {
+      if (this.numberOfScreenBackup > this.numberOfScreens) {
+        for (let i = this.numberOfScreens; i < this.numberOfScreenBackup; i++) {
+          this.handleSendEventOnDrop(i + '', -1);
+          this.handleSendEventOnChange(i + '');
+        }
+      }
+      this.numberOfScreenBackup = this.numberOfScreens;
+      this.createScreen();
     });
   }
 
