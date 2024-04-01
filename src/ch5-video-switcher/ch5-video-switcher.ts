@@ -595,6 +595,10 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this.logger.start("attributeChangedCallback", this.primaryCssClass);
     if (oldValue !== newValue) {
       this.logger.log('ch5-video-switcher attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+      // fix for https://crestroneng.atlassian.net/browse/CH5C-21734 DO NOT remove
+      if (attr.toLowerCase() === 'receivestatenumberofscreens' && this.contractName !== '' && newValue.startsWith(this.contractName) === false) {
+        return;
+      }
       const attributeChangedProperty = Ch5VideoSwitcher.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
       if (attributeChangedProperty) {
         const thisRef: any = this;
@@ -1161,7 +1165,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   private createScreen() {
     Array.from(this._screenListContainer.querySelectorAll(".screen-container")).forEach((childEle) => childEle.remove());
-
     for (let i = 0; i < this.numberOfScreens; i++) {
       const screen = document.createElement("div");
       const label = document.createElement('span');
