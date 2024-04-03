@@ -28,6 +28,7 @@ export * from './ch5-label';
 export * from './ch5-list/index';
 export * from './ch5-modal-dialog/index';
 export * from './ch5-overlay-panel/index';
+export * from './ch5-qrcode';
 export * from './ch5-resync/ch5-resync';
 export * from './ch5-segmented-gauge';
 export * from './ch5-select/index';
