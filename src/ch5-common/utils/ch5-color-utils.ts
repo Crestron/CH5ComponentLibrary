@@ -112,6 +112,19 @@ export default class Ch5ColorUtils {
     return this.rgbFormat(colorVal);
   }
 
+  public static col2hex(color: string) {
+    if (this.checkHex(color) === false) {
+      if (this.checkRgb(color) === true) {
+        return this.rgbToHex(this.rgbToObj(color)[0], this.rgbToObj(color)[1], this.rgbToObj(color)[2]);
+      } else {
+        const colorVal = this.convert(color);
+        return this.rgbToHex(parseInt(this.rgbFormat(colorVal)[0]), parseInt(this.rgbFormat(colorVal)[1]), parseInt(this.rgbFormat(colorVal)[2]));
+      }
+    } else {
+      return color;
+    }
+  }
+
   public static rgbToObj(rgb: string) {
     const colors = ["red", "green", "blue", "alpha"];
     const colorArr = rgb.slice(

@@ -4,6 +4,7 @@ import { ICh5QrCodeAttributes } from './interfaces/i-ch5-qrcode-attributes';
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Base } from "../ch5-common/ch5-base";
 import QRCode from "qrcode";
+import Ch5ColorUtils from "../ch5-common/utils/ch5-color-utils";
 
 export class Ch5QrCode extends Ch5Base implements ICh5QrCodeAttributes {
 
@@ -209,7 +210,19 @@ export class Ch5QrCode extends Ch5Base implements ICh5QrCodeAttributes {
 	}
 
 	private handleQrCode(data: string) {
-		QRCode.toCanvas(this._canvasContainer, data, function (error) {
+		const computedStyle = getComputedStyle(this);
+		const lightColor = Ch5ColorUtils.col2hex(computedStyle.getPropertyValue('--ch5-qrcode--background-color'));
+		const darkColor = Ch5ColorUtils.col2hex(computedStyle.getPropertyValue('--ch5-qrcode--color'));
+		const opts: any = {
+			errorCorrectionLevel: 'H',
+			type: 'image/svg',
+			width: this._elContainer.offsetWidth,
+			color: {
+				dark: darkColor,
+				light: lightColor
+			}
+		};
+		QRCode.toCanvas(this._canvasContainer, data, opts, function (error) {
 			if (error) { console.error(error); }
 		});
 	}
@@ -219,10 +232,6 @@ export class Ch5QrCode extends Ch5Base implements ICh5QrCodeAttributes {
 
 	protected getTargetElementForCssClassesAndStyle(): HTMLElement {
 		return this._elContainer;
-	}
-
-	public getCssClassDisabled() {
-		return this.primaryCssClass + '--disabled';
 	}
 
 	//#endregion
