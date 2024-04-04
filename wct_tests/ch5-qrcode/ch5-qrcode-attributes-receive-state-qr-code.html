@@ -18,20 +18,20 @@
   </test-fixture>
   <script>
     suite('ch5-qrcode-receiveStateQrCode-attributes-value', () => {
-      let ch5Qrcode;
+      let ch5QrCode;
 
       setup(async () => {
         const emulatorJson = await fetch('./emulator/receivestateqrcode.json').then((response) => response.json());
         const emulator = CrComLib.Ch5Emulator.getInstance();
         emulator.loadScenario(emulatorJson);
-        ch5Qrcode = fixture('ch5-qrcode-receiveStateQrCode-attributes');
+        ch5QrCode = fixture('ch5-qrcode-receiveStateQrCode-attributes');
       });
         
         test('receiveStateQrCode', (done) => {
           CrComLib.publishEvent('b', 'trigger_event',true );
           flush(() => {
               setTimeout(() => {
-                  expect(ch5Qrcode.getAttribute('receiveStateQrCode')).to.be.equal('String Signal');
+                  expect(ch5QrCode.getAttribute('receiveStateQrCode')).to.be.equal('String Signal');
                   done();
               }, 100);
           });

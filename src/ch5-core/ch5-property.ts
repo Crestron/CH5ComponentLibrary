@@ -3,6 +3,7 @@ import { Ch5Signal } from "./ch5-signal";
 import { Ch5SignalFactory } from "./ch5-signal-factory";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Log } from "../ch5-common/ch5-log";
+import { Ch5Base } from "../ch5-common/ch5-base";
 
 export type TPropertyTypes = boolean | number | string | object | any;
 
@@ -48,7 +49,7 @@ export class Ch5Property {
 	private _propertySignalType: string = "";
 	// private _hasChangedSinceInit: boolean = false;
 
-	constructor(public ch5Component: Ch5Common | Ch5Log, public property: ICh5PropertySettings) {
+	constructor(public ch5Component: Ch5Common | Ch5Base | Ch5Log, public property: ICh5PropertySettings) {
 		this._attributeName = property.name.toLowerCase();
 		this._propertyName = property.name;
 		this._propertyValue = property.default;
@@ -237,7 +238,7 @@ export class Ch5Property {
 									return true;
 								});
 							}
-						} else if (this.property.signalType === "string") {
+						} else if (this.property.signalType === "string") {			
 							const signalResponse = this.setSignalByString(value);
 							if (!_.isNil(signalResponse)) {
 								this.signalState = signalResponse.subscribe((newValue: string) => {

@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-export * from './ch5-animation';
+export * from './ch5-animation/index';
 export * from './ch5-button/index';
 export * from './ch5-background/index';
 export * from './ch5-button-list/index';
@@ -15,22 +15,22 @@ export * from './ch5-common/ch5-config';
 export * from './ch5-core/index';
 export * from './ch5-custom-attrs/index';
 export * from './ch5-dpad/index';
-export * from './ch5-datetime';
+export * from './ch5-datetime/index';
 export * from './ch5-emulator/index';
 export * from './ch5-form/index';
 export * from './ch5-image/index';
 export * from './ch5-import-htmlsnippet/index';
-export * from './ch5-jointotext-boolean';
-export * from './ch5-jointotext-numeric';
-export * from './ch5-jointotext-string';
+export * from './ch5-jointotext-boolean/index';
+export * from './ch5-jointotext-numeric/index';
+export * from './ch5-jointotext-string/index';
 export * from './ch5-keypad/index';
-export * from './ch5-label';
+export * from './ch5-label/index';
 export * from './ch5-list/index';
 export * from './ch5-modal-dialog/index';
 export * from './ch5-overlay-panel/index';
-export * from './ch5-qrcode';
+export * from './ch5-qrcode/index';
 export * from './ch5-resync/ch5-resync';
-export * from './ch5-segmented-gauge';
+export * from './ch5-segmented-gauge/index';
 export * from './ch5-select/index';
 export * from './ch5-select-option/index';
 export * from './ch5-signal-level-gauge/index';

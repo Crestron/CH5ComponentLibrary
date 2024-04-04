@@ -5,6 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
+import { Ch5Base } from "./ch5-base";
 import { Ch5Common } from "./ch5-common";
 import _ from "lodash";
 
@@ -24,7 +25,7 @@ export class Ch5MutationObserver {
     public isConnected = false;
     private _mutationsObserver: MutationObserver;
     private _mutationsObserverConfig: object;
-    private _element: Ch5Common = {} as Ch5Common;
+    private _element: Ch5Common | Ch5Base = {} as Ch5Common | Ch5Base;
 
     /**
      * Check the element validity to be observed by Mutation Observer
@@ -44,7 +45,7 @@ export class Ch5MutationObserver {
         );
     }
 
-    constructor(element: Ch5Common) {
+    constructor(element: Ch5Common | Ch5Base) {
         this._element = element;
 
         this._mutationsObserver = new MutationObserver((mutations) => {

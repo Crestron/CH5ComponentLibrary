@@ -5,6 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
+import { Ch5Base } from "./ch5-base";
 import { Ch5Common } from "./ch5-common";
 
 export type TCh5ConfigAttributes = {
@@ -113,7 +114,7 @@ export class Ch5Config {
         return {} as TCh5ConfigAttributes;
     }
 
-    public static getAttributesForElement(cr: Ch5Common): TCh5ConfigAttributes {
+    public static getAttributesForElement(cr: Ch5Common | Ch5Base): TCh5ConfigAttributes {
         let idAttrs: TCh5ConfigAttributes = {} as TCh5ConfigAttributes;
         const componentName = cr.tagName.toLowerCase();
         const componentAttrs = Ch5Config.getAttributesForComponent(componentName);

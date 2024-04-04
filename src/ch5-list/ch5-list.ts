@@ -7,7 +7,7 @@
 
 import isNil from 'lodash/isNil';
 import { Ch5Common } from '../ch5-common/ch5-common';
-import { noop } from '../ch5-common/utils/noop';
+import { noop } from '../ch5-common/utils/';
 import { TCh5ListElementOrientation } from "./interfaces";
 import { Ch5Config } from '..';
 import { clamp } from '../ch5-triggerview/utils';
