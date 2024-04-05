@@ -414,7 +414,7 @@ export abstract class Ch5Base extends HTMLElement implements ICh5CommonAttribute
 
 	public set id(value: string) {
 		this._ch5Properties.set<string>("id", value, () => {
-			this.updateForChangeInCustomCssClass();
+			
 		});
 	}
 	public get id(): string {
@@ -1080,5 +1080,15 @@ export abstract class Ch5Base extends HTMLElement implements ICh5CommonAttribute
 	}
 
 	//#endregion
+
+	public static registerComponent(elementName: string, entries: Ch5SignalElementAttributeRegistryEntries, constructor: CustomElementConstructor) {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(elementName, entries);
+		if (typeof window === "object"
+			&& typeof window.customElements === "object"
+			&& typeof window.customElements.define === "function"
+			&& window.customElements.get(elementName) === undefined) {
+			window.customElements.define(elementName, constructor);
+		}
+	}
 
 }

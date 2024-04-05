@@ -1,5 +1,5 @@
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
-import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { ICh5QrCodeAttributes } from './interfaces/i-ch5-qrcode-attributes';
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Base } from "../ch5-common/ch5-base";
@@ -36,7 +36,6 @@ export class Ch5QrCode extends Ch5Base implements ICh5QrCodeAttributes {
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true
 		},
-		Ch5Base.COMMON_PROPERTIES.appendClassWhenInViewport,
 		Ch5Base.COMMON_PROPERTIES.debug,
 		Ch5Base.COMMON_PROPERTIES.id,
 		Ch5Base.COMMON_PROPERTIES.noshowType,
@@ -77,25 +76,24 @@ export class Ch5QrCode extends Ch5Base implements ICh5QrCodeAttributes {
 		return this._ch5Properties.get<string>('receiveStateQrCode');
 	}
 
-
 	//#endregion
 
-	//#region Static Methods
+	// //#region Static Methods
 
-	public static registerSignalAttributeTypes() {
-		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5QrCode.ELEMENT_NAME, Ch5QrCode.SIGNAL_ATTRIBUTE_TYPES);
-	}
+	// public static registerSignalAttributeTypes() {
+	// 	Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5QrCode.ELEMENT_NAME, Ch5QrCode.SIGNAL_ATTRIBUTE_TYPES);
+	// }
 
-	public static registerCustomElement() {
-		if (typeof window === "object"
-			&& typeof window.customElements === "object"
-			&& typeof window.customElements.define === "function"
-			&& window.customElements.get(Ch5QrCode.ELEMENT_NAME) === undefined) {
-			window.customElements.define(Ch5QrCode.ELEMENT_NAME, Ch5QrCode);
-		}
-	}
+	// public static registerCustomElement() {
+	// 	if (typeof window === "object"
+	// 		&& typeof window.customElements === "object"
+	// 		&& typeof window.customElements.define === "function"
+	// 		&& window.customElements.get(Ch5QrCode.ELEMENT_NAME) === undefined) {
+	// 		window.customElements.define(Ch5QrCode.ELEMENT_NAME, Ch5QrCode);
+	// 	}
+	// }
 
-	//#endregion
+	// //#endregion
 
 	//#region Component Lifecycle
 
@@ -238,5 +236,4 @@ export class Ch5QrCode extends Ch5Base implements ICh5QrCodeAttributes {
 
 }
 
-Ch5QrCode.registerCustomElement();
-Ch5QrCode.registerSignalAttributeTypes();
+Ch5QrCode.registerComponent(Ch5QrCode.ELEMENT_NAME, Ch5QrCode.SIGNAL_ATTRIBUTE_TYPES, Ch5QrCode);
