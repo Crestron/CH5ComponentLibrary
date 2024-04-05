@@ -43,7 +43,7 @@ import { ICh5QrCodeAttributes } from "./i-ch5-qrcode-attributes";
  *     "description": "Crestron qrcode (default)",
  *     "body": [
  *       "<ch5-qrcode id=\"ch5-qrcode_${1:id}\"",
- *       "\tqrCode=\"${2:}\"",
+ *       "\tqrCode=\"${2:}\">",
  *       "</ch5-qrcode>$0"
  *       ]
  *    }
