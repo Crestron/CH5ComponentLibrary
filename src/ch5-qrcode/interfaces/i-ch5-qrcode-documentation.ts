@@ -1,4 +1,7 @@
-import { ICh5CommonQrCode } from "../../ch5-common/interfaces/i-ch5-common-documentation-qrcode";
+import { ICh5CommonForClass } from "../../ch5-common/interfaces/common/i-ch5-common-class";
+import { ICh5CommonForDebug } from "../../ch5-common/interfaces/common/i-ch5-common-debug";
+import { ICh5CommonForRole } from "../../ch5-common/interfaces/common/i-ch5-common-role";
+import { ICh5CommonForStyle } from "../../ch5-common/interfaces/common/i-ch5-common-style";
 import { ICh5QrCodeAttributes } from "./i-ch5-qrcode-attributes";
 
 /**
@@ -34,7 +37,10 @@ import { ICh5QrCodeAttributes } from "./i-ch5-qrcode-attributes";
  *     "body": [
  *       "<ch5-qrcode id=\"ch5-qrcode_${1:id}\"",
  *       "\tqrCode=\"${2:}\"",
- *       "\treceiveStateQrCode=\"${3:}\">",
+ *       "\tcolor=\"${3:#000000}\"",
+ *       "\tbackgroundColor=\"${4:#ffffff}\"",
+ *       "\tsize=\"${5:200}\"",
+ *       "\treceiveStateQrCode=\"${6:}\">",
  *       "</ch5-qrcode>$0"
  *       ]
  *    },
@@ -43,12 +49,15 @@ import { ICh5QrCodeAttributes } from "./i-ch5-qrcode-attributes";
  *     "description": "Crestron qrcode (default)",
  *     "body": [
  *       "<ch5-qrcode id=\"ch5-qrcode_${1:id}\"",
- *       "\tqrCode=\"${2:}\">",
+ *       "\tqrCode=\"${2:}\"",
+ *       "\tcolor=\"${3:#000000}\"",
+ *       "\tbackgroundColor=\"${4:#ffffff}\"",
+ *       "\tsize=\"${5:200}\">",
  *       "</ch5-qrcode>$0"
  *       ]
  *    }
  *  ]
  */
-export interface ICh5QrCodeDocumentation extends ICh5CommonQrCode, ICh5QrCodeAttributes {
+export interface ICh5QrCodeDocumentation extends ICh5CommonForDebug, ICh5CommonForRole, ICh5CommonForStyle, ICh5CommonForClass, ICh5QrCodeAttributes {
 
 }

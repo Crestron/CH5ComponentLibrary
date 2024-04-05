@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { Ch5Base } from "./ch5-base";
+import { Ch5Base } from "../ch5-base/ch5-base";
 import { Ch5Common } from "./ch5-common";
 
 export type TCh5ConfigAttributes = {

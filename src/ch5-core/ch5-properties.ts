@@ -4,7 +4,7 @@ import { Ch5SignalFactory } from "./ch5-signal-factory";
 import { Ch5Signal } from "./ch5-signal";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Log } from "../ch5-common/ch5-log";
-import { Ch5Base } from "../ch5-common/ch5-base";
+import { Ch5Base } from "../ch5-base/ch5-base";
 
 export class Ch5Properties {
 
