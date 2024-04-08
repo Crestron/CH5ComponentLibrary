@@ -177,6 +177,14 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     },
     {
       default: "",
+      name: "sourceIconUrl",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+    {
+      default: "",
       name: "sendEventOnDrop",
       removeAttributeOnNull: true,
       type: "string",
@@ -430,6 +438,15 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
   public get sourceIconClass(): string {
     return this._ch5Properties.get<string>("sourceIconClass");
+  }
+
+  public set sourceIconUrl(value: string) {
+    this._ch5Properties.set<string>("sourceIconUrl", value, () => {
+      this.createSource();
+    });
+  }
+  public get sourceIconUrl(): string {
+    return this._ch5Properties.get<string>("sourceIconUrl");
   }
 
   public set sendEventOnDrop(value: string) {
@@ -1417,13 +1434,19 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   private sourceIconHelperCreate(index: number, sourceIcon: HTMLElement) {
     const source = this.querySelector(`#${this.getCrId()}-source-${index}`) as Ch5VideoSwitcherSource;
-    const iconClass = source && source.iconClass ? source.iconClass : this.sourceIconClass ? this.sourceIconClass : Ch5VideoSwitcher.DEFAULT_SOURCE_ICON
-    iconClass.split(' ').forEach((className: string) => {
-      className = className.trim();
-      if (className !== '') {
-        sourceIcon.classList.add(className);
-      }
-    });
+    if (this.sourceIconUrl) {
+      sourceIcon.style.removeProperty('backgroundImage');
+      sourceIcon.classList.add('source-icon-url');
+      sourceIcon.style.backgroundImage = `url(${this.sourceIconUrl})`;
+    } else {
+      const iconClass = source && source.iconClass ? source.iconClass : this.sourceIconClass ? this.sourceIconClass : Ch5VideoSwitcher.DEFAULT_SOURCE_ICON
+      iconClass.split(' ').forEach((className: string) => {
+        className = className.trim();
+        if (className !== '') {
+          sourceIcon.classList.add(className);
+        }
+      });
+    }
   }
 
   private screenAlignLabelHelperCreate(index: number, screenEl: HTMLElement) {
@@ -1492,6 +1515,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   private addSourceToScreen(ele: Element, screen: HTMLElement, scrNumber: number, drop: boolean) {
     const se = document.createElement('div');
+    const iconTag = ele.children[0] as HTMLElement;
     se.innerHTML = ele?.innerHTML;
     se.classList.add('draggable');
     se.classList.add('source-onscreen');
@@ -1499,9 +1523,12 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     if (ele && ele?.getAttribute('sourceid')) {
       se.setAttribute('sourceId', ele?.getAttribute('sourceid') + '');
     }
-    // se.style.height = screen.offsetHeight * 0.4 + 'px';
-    // se.style.width = screen.offsetHeight * 0.4 + 'px';
-    se.style.fontSize = screen.offsetHeight * 0.27 + 'px';
+    if (this.sourceIconUrl) {
+      iconTag.style.height = screen.offsetHeight * 0.27 + 'px';
+      iconTag.style.width = screen.offsetWidth * 0.27 + 'px';
+    } else {
+      se.style.fontSize = screen.offsetHeight * 0.27 + 'px';
+    }
     if (screen?.children.length === 2) {
       screen?.removeChild(screen?.children[1]);
     }

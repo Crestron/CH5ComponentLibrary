@@ -144,6 +144,18 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
   /**
    * @documentation
    * [
+   * "`sourceIconUrl` attribute",
+   * "***",
+   * "The sourceIconUrl attribute with SVG icons and PNG Icons. We can pass only one url in the sourceIconUrl attribute. This attribute overrides the sourceIconClass attribute in ch5-video-switcher for the respective individual source based on index."
+   * ]
+   * @name sourceiconurl
+   * @default 
+   * @attributeType "String"
+   */
+  sourceIconUrl: string;
+  /**
+   * @documentation
+   * [
    * "`sendEventOnDrop` attribute",
    * "***",
    * "Index sent to the control system for each icon when it is dropped on a screen."

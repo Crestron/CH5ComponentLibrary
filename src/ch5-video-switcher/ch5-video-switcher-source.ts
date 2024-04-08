@@ -23,6 +23,14 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
     },
     {
       default: "",
+      name: "iconUrl",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+    {
+      default: "",
       name: "labelInnerHTML",
       removeAttributeOnNull: true,
       type: "string",
@@ -40,22 +48,20 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
 
   public set iconClass(value: string) {
     this._ch5Properties.set<string>("iconClass", value, () => {
-      const index = Number(this.getAttribute('id')?.split('-').pop());
-      if (this.parentComponent && this.parentComponent._sourceListContainer.children[index]) {
-        const ele = this.parentComponent._sourceListContainer.children[index].getElementsByTagName('i');
-        ele[0].setAttribute('class', '');
-        ele[0].classList.add('source-icon');
-        this.iconClass.split(' ').forEach((className: string) => {
-          className = className.trim();
-          if (className !== '') {
-            ele[0].classList.add(className);
-          }
-        });
-      }
+      this.handleIcon();
     });
   }
   public get iconClass(): string {
     return this._ch5Properties.get<string>("iconClass");
+  }
+
+  public set iconUrl(value: string) {
+    this._ch5Properties.set<string>("iconClass", value, () => {
+      this.handleIcon();
+    });
+  }
+  public get iconUrl(): string {
+    return this._ch5Properties.get<string>("iconUrl");
   }
 
   public set labelInnerHTML(value: string) {
@@ -174,6 +180,31 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
     }
   }
 
+  private handleIcon() {
+    if (this.iconUrl) {
+      const index = Number(this.getAttribute('id')?.split('-').pop());
+      if (this.parentComponent && this.parentComponent._sourceListContainer.children[index]) {
+        const ele = this.parentComponent._sourceListContainer.children[index].getElementsByTagName('i');
+        ele[0].setAttribute('class', '');
+        ele[0].classList.add('source-icon-url');
+        ele[0].style.backgroundImage = `url${this.iconUrl}`;
+      }
+    } else {
+      const index = Number(this.getAttribute('id')?.split('-').pop());
+      if (this.parentComponent && this.parentComponent._sourceListContainer.children[index]) {
+        const ele = this.parentComponent._sourceListContainer.children[index].getElementsByTagName('i');
+        ele[0].setAttribute('class', '');
+        ele[0].classList.add('source-icon');
+        this.iconClass.split(' ').forEach((className: string) => {
+          className = className.trim();
+          if (className !== '') {
+            ele[0].classList.add(className);
+          }
+        });
+      }
+    }
+  }
+  
   //#endregion
 
 }
