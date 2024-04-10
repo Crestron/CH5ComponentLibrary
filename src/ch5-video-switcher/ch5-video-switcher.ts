@@ -1244,9 +1244,41 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       } else {
         // To center align items when screenaspect is 16:9 and 4:3
         let colWidth: any = 0;
-        if (((this.screenAspectRatio === "16:9") || (this.screenAspectRatio === "4:3")) && (+col < Math.floor(possibleCol))) {
-          colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber);
-          rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber);
+        if (this.screenAspectRatio === "16:9") {
+          let colWidth;
+          if ((Math.floor(possibleCol) >= finalColNumber) && (Math.floor(possibleRow) >= finalRowNumber)) {
+            const SW = containerWidth / finalColNumber;
+            const SH = containerHeight / finalRowNumber;
+            const reHeight = SW * (9 / 16);
+            if (SH >= reHeight) {
+              colWidth = (containerWidth / finalColNumber) - 2;
+              rowHeight = reHeight;
+            } else {
+              rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber, '16:9');
+              colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber, '16:9');
+            }
+          } else {
+            rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber, '16:9');
+            colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber, '16:9');
+          }
+          col = 'repeat(' + col + ',' + colWidth + 'px)';
+        } else if (this.screenAspectRatio === "4:3") {
+          let colWidth;
+          if ((Math.floor(possibleCol) >= finalColNumber) && (Math.floor(possibleRow) >= finalRowNumber)) {
+            const SW = containerWidth / finalColNumber;
+            const SH = containerHeight / finalRowNumber;
+            const reHeight = SW * (3 / 4);
+            if (SH >= reHeight) {
+              colWidth = (containerWidth / finalColNumber) - 2;
+              rowHeight = reHeight;
+            } else {
+              rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber, '4:3');
+              colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber, '4:3');
+            }
+          } else {
+            rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber, '4:3');
+            colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber, '4:3');
+          }
           col = 'repeat(' + col + ',' + colWidth + 'px)';
         } else {
           if (+col === Math.floor(possibleCol) || col === "auto-fit") {
@@ -1258,9 +1290,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
             col = 'repeat(' + col + ',' + colWidth + 'px)';
           } else {
             col = 'repeat(' + col + ',minmax(' + minColWidth + 'px, 1fr))';
-          }
-          if ((this.screenAspectRatio === "16:9") || (this.screenAspectRatio === "4:3")) {
-            rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber);
           }
         }
       }
@@ -1292,9 +1321,41 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
       let col = 'repeat(auto-fit, minmax(' + minColWidth + 'px, 1fr) )';
       let rowHeight: any = 0;
-      if ((this.screenAspectRatio === "16:9") || (this.screenAspectRatio === "4:3")) {
-        const colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber);
-        rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber);
+      if ((this.screenAspectRatio === "16:9")) {
+        let colWidth;
+        if ((Math.floor(possibleCol) >= finalColNumber) && (Math.floor(possibleRow) >= finalRowNumber)) {
+          const SW = containerWidth / finalColNumber;
+          const SH = containerHeight / finalRowNumber;
+          const reHeight = SW * (9 / 16);
+          if (SH >= reHeight) {
+            colWidth = (containerWidth / finalColNumber) - 2;
+            rowHeight = reHeight;
+          } else {
+            rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber, '16:9');
+            colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber, '16:9');
+          }
+        } else {
+          rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber, '16:9');
+          colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber, '16:9');
+        }
+        col = 'repeat(auto-fit,' + colWidth + 'px)';
+      } else if (this.screenAspectRatio === "4:3") {
+        let colWidth;
+        if ((Math.floor(possibleCol) >= finalColNumber) && (Math.floor(possibleRow) >= finalRowNumber)) {
+          const SW = containerWidth / finalColNumber;
+          const SH = containerHeight / finalRowNumber;
+          const reHeight = SW * (3 / 4);
+          if (SH >= reHeight) {
+            colWidth = (containerWidth / finalColNumber) - 2;
+            rowHeight = reHeight;
+          } else {
+            rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber, '4:3');
+            colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber, '4:3');
+          }
+        } else {
+          rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber, '4:3');
+          colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber, '4:3');
+        }
         col = 'repeat(auto-fit,' + colWidth + 'px)';
       }
       let row = '';
@@ -1320,47 +1381,45 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         screen.classList.add('hideScreen');
       }
 
-      if (this.screenAspectRatio === '16:9') {
-        if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
-          screen.style.width = Math.max(80, ((containerHeight / finalRowNumber) - 2)) + 'px';
-          screen.style.height = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (9 / 16)) + 'px';
+      if (this.screenAspectRatio === '4:3' || this.screenAspectRatio === '16:9') {
+        if ((Math.floor(possibleCol) >= finalColNumber) && (Math.floor(possibleRow) >= finalRowNumber)) {
+          const SW = containerWidth / finalColNumber;
+          const SH = containerHeight / finalRowNumber;
+          let reHeight = 0;
+          if (this.screenAspectRatio === '4:3') {
+            reHeight = SW * (3 / 4);
+          } else if (this.screenAspectRatio === '16:9') {
+            reHeight = SW * (9 / 16);
+          }
+          if (SH >= reHeight) {
+            screen.style.width = (containerWidth / finalColNumber) - 2 + 'px';
+          } else {
+            if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
+              screen.style.height = (containerHeight / finalRowNumber) - 2 + 'px';
+            } else {
+              screen.style.height = (containerWidth / finalColNumber) - 2 + 'px';
+            }
+          }
         } else {
-          screen.style.width = Math.max(80, ((containerWidth / finalColNumber) - 2)) + 'px';
-          screen.style.height = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (9 / 16)) + 'px';
-        }
-      } else if (this.screenAspectRatio === '4:3') {
-        if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
-          screen.style.width = Math.max(80, ((containerHeight / finalRowNumber) - 2)) + 'px';
-          screen.style.height = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (3 / 4)) + 'px';
-        } else {
-          screen.style.width = Math.max(80, ((containerWidth / finalColNumber) - 2)) + 'px';
-          screen.style.height = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (3 / 4)) + 'px';
+          if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
+            screen.style.height = (containerHeight / finalRowNumber) - 2 + 'px';
+          } else {
+            screen.style.height = (containerWidth / finalColNumber) - 2 + 'px';
+          }
         }
       }
     }
   }
 
-  getRowHeightColWidth(colWidth: boolean = false, containerHeight: number, containerWidth: number, finalRowNumber: number, finalColNumber: number) {
+  getRowHeightColWidth(colWidth: boolean = false, containerHeight: number, containerWidth: number, finalRowNumber: number, finalColNumber: number, aspectRatio: string) {
     let colWidthSize = 0
     let rowHeightSize = 0;
     if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
-      colWidthSize = Math.max(80, ((containerHeight / finalRowNumber) - 2));
-      // if ((this.sourceListPosition === 'left') || (this.sourceListPosition === 'right')) {
-      if (this.screenAspectRatio === '16:9') {
-        rowHeightSize = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (9 / 16));
-      } else {
-        rowHeightSize = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (3 / 4));
-      }
-      // }
+      rowHeightSize = (containerHeight / finalRowNumber) - 2;
+      colWidthSize = aspectRatio === '4:3' ? (((containerHeight / finalRowNumber) - 2) * (4 / 3)) : (((containerHeight / finalRowNumber) - 2) * (16 / 9));
     } else {
-      colWidthSize = Math.max(80, ((containerWidth / finalColNumber) - 2));
-      // if (((this.sourceListPosition === 'left') || (this.sourceListPosition === 'right'))) {
-      if (this.screenAspectRatio === '16:9') {
-        rowHeightSize = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (9 / 16));
-      } else {
-        rowHeightSize = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (3 / 4));
-      }
-      // }
+      rowHeightSize = (containerWidth / finalColNumber) - 2;
+      colWidthSize = aspectRatio === '4:3' ? (((containerWidth / finalColNumber) - 2) * (4 / 3)) : (((containerWidth / finalColNumber) - 2) * (16 / 9));
     }
     return colWidth ? colWidthSize : rowHeightSize;
   }
