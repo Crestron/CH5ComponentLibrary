@@ -190,6 +190,7 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    * @name receivestatesourcelabel
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   receiveStateSourceLabel: string;
   /**
@@ -215,6 +216,7 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    * @name receivestatescreenlabel
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   receiveStateScreenLabel: string;
   /**
