@@ -151,6 +151,7 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    * @name sendeventondrop
    * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   sendEventOnDrop: string;
   /**
@@ -163,6 +164,7 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    * @name sendeventonchange
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   sendEventOnChange: string;
   /**
@@ -175,6 +177,7 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    * @name receivestatesourcechanged
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   receiveStateSourceChanged: string;
   /**
@@ -199,6 +202,7 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    * @name receivestatescriptsourcelabelhtml
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   receiveStateScriptSourceLabelHtml: string;
   /**
@@ -223,6 +227,7 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    * @name receivestatescriptscreenlabelhtml
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   receiveStateScriptScreenLabelHtml: string;
   /**
