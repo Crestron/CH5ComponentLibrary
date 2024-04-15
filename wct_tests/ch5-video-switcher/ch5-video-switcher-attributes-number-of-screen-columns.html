@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-video-switcher-numberOfScreenColumns-attributes">
+    <template>
+      <ch5-video-switcher></ch5-video-switcher>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-video-switcher-numberOfScreenColumns-attributes-value', () => {
+      let ch5VideoSwitcher;
+
+      setup(async () => {
+        ch5VideoSwitcher = fixture('ch5-video-switcher-numberOfScreenColumns-attributes');
+      });
+        
+        let testCases = ['a', '', ' ', 'number', '-1', '0', '1', '9', '10', '11'];
+        let expectedResult = ['0', '0', '0', '0','0', '0', '1', '9', '10', '10'];
+        testCases.forEach((ele, i) => {
+              test('Check Value "numberOfScreenColumns"', () => {
+                  ch5VideoSwitcher.setAttribute('numberOfScreenColumns', ele);
+                  expect(ch5VideoSwitcher.getAttribute('numberOfScreenColumns')).to.be.equal(expectedResult[i]);
+              });
+          });
+        
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-video-switcher-numberOfSources-attributes">
+    <template>
+      <ch5-video-switcher></ch5-video-switcher>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-video-switcher-numberOfSources-dynamic">
+    <template>
+      <ch5-video-switcher numberOfSources="3">
+        <ch5-video-switcher-source>
+          <ch5-video-switcher-source-label>
+            <template>
+              abc
+            </template>
+          </ch5-video-switcher-source-label>
+        </ch5-video-switcher-source>
+        <ch5-video-switcher-source>
+          <ch5-video-switcher-source-label>
+            <template>
+              def
+            </template>
+          </ch5-video-switcher-source-label>
+        </ch5-video-switcher-source>
+        <ch5-video-switcher-source>
+          <ch5-video-switcher-source-label>
+            <template>
+              ghi
+            </template>
+          </ch5-video-switcher-source-label>
+        </ch5-video-switcher-source>
+      </ch5-video-switcher>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-video-switcher-numberOfSources-attributes-value', () => {
+      let ch5VideoSwitcher;
+
+      setup(async () => {
+        ch5VideoSwitcher = fixture('ch5-video-switcher-numberOfSources-attributes');
+      });
+
+      let testCases = ['a', '', ' ', 'number', '0', '1', '2', '255', '256', '257'];
+      let expectedResult = ['5', '5', '5', '5', '1', '1', '2', '255', '256', '256'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "numberOfSources" ' + ele, () => {
+          ch5VideoSwitcher.setAttribute('numberOfSources', ele);
+          // console.log(JSON.stringify(ch5VideoSwitcher));
+          console.log(ch5VideoSwitcher)
+          expect(ch5VideoSwitcher.getAttribute('numberOfSources')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+    });
+    suite('ch5-video-switcher-numberOfSources-dynamic', () => {
+      let ch5VideoSwitcher1;
+
+      setup(async () => {
+        ch5VideoSwitcher1 = fixture('ch5-video-switcher-numberOfSources-dynamic');
+      });
+
+      const expectedLabel = ['abc', 'def', 'ghi'];
+
+      test('Check Value childrens Length ', () => {
+        expect(ch5VideoSwitcher1.getAttribute('numberOfSources')).to.be.equal('3');
+        expect(ch5VideoSwitcher1.querySelector('.ch5-video-switcher--source-list').children.length).to.be.equal(3);
+      });
+
+      expectedLabel.forEach((label, index) => {
+        test('Check label Value Children ' + index, () => {
+          const sourceList = ch5VideoSwitcher1.querySelector('.ch5-video-switcher--source-list');
+          expect(sourceList.children[index].children[1].textContent.trim()).to.be.equal(label);
+        });
+
+        test('Check icon Value Children ' + index, () => {
+          let icon = 'material-icons md-alarm_on';
+          ch5VideoSwitcher1.getElementsByTagName('ch5-video-switcher-source')[index].setAttribute('iconclass', icon)
+
+          const sourceList = ch5VideoSwitcher1.querySelector('.ch5-video-switcher--source-list');
+
+          console.log(sourceList.children[index].children[0]);
+          expect(sourceList.children[index].children[0].classList.contains('source-icon'))
+          icon.split(' ').forEach((icon) => {
+            expect(sourceList.children[index].children[0].classList.contains(icon))
+          })
+
+          icon = 'fas fa-anchor'
+          ch5VideoSwitcher1.getElementsByTagName('ch5-video-switcher-source')[index].setAttribute('iconclass', icon);
+          console.log(sourceList.children[index].children[0]);
+          expect(sourceList.children[index].children[0].classList.contains('source-icon'))
+          icon.split(' ').forEach((icon) => {
+            expect(sourceList.children[index].children[0].classList.contains(icon))
+          })
+        });
+
+      })
+    });
+  </script>
+</body>
+
+</html>

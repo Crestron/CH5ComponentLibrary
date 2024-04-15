@@ -785,7 +785,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
   }
 
   private contractDefaultHelper() {
-    if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+    if (this.contractName !== "") {
       // useContractForEnable and receiveStateEnable
       if (this.useContractForEnable === true) {
         this.receiveStateEnable = this.contractName + '.Enable';
@@ -894,7 +894,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
             }
           }
         } else if (attr.name.toLowerCase() === 'buttonreceivestateselected') {
-          if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+          if (this.contractName !== "") {
             if (this.useContractForEachButtonSelection === false) { btn.setAttribute('receiveStateSelected', this.contractName + `.Tab${index + 1}_Selected`); }
             if (index === this.selectedButton && this.useContractForEachButtonSelection === true) { btn.setAttribute('selected', 'true'); }
           } else if (attr.name.toLowerCase().startsWith('button') && this.hasAttribute(attr.name)) {
@@ -915,7 +915,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
           }
         }
         else if (attr.name.toLowerCase() === 'buttonsendeventonclick') {
-          if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+          if (this.contractName !== "") {
             // Ignore this attribute since it is handled in ch5-button when contract name is available
           } else if (attr.name.toLowerCase().startsWith('button') && this.hasAttribute(attr.name)) {
             if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
@@ -953,7 +953,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
         }
       } else {
         if (attr.name.toLowerCase() === 'buttonreceivestateselected') {
-          if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+          if (this.contractName !== "") {
             btn.setAttribute('receiveStateSelected', this.contractName + `.Tab${index + 1}_Selected`);
           } else if (attr.name.toLowerCase().startsWith('button') && this.hasAttribute(attr.name)) {
             if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
@@ -973,7 +973,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
           }
         }
         else if (attr.name.toLowerCase() === 'buttonsendeventonclick') {
-          if (this.contractName.trim() !== "" && this.contractName !== null && this.contractName !== undefined) {
+          if (this.contractName !== "") {
             // Ignore this attribute since it is handled in ch5-button when contract name is available
           } else if (attr.name.toLowerCase().startsWith('button') && this.hasAttribute(attr.name)) {
             if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
@@ -1038,7 +1038,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
   }
 
   private handleContractName() {
-    if (this.contractName.trim().length === 0) {
+    if (this.contractName.length === 0) {
       this.signalNameOnContract.contractName = "";
       this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
       this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;

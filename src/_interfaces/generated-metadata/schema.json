@@ -1,6 +1,6 @@
 {
-  "version": "2.4.1",
-  "componentsVersion": "2.4.1",
+  "version": "2.8.0",
+  "componentsVersion": "2.8.0",
   "htmlElements": {
     "common": {
       "attributes": [
@@ -309,7 +309,7 @@
           },
           {
             "documentation": [
-              "`animationStyle` attribute",
+              "`animationStyleqqq` attribute",
               "***",
               "The styled graphics that determine the look/feel of this object. Each state of the style chosen corresponds to a frame of the animation. Default value is ring"
             ],
@@ -637,7 +637,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -1903,7 +1903,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -2708,7 +2708,7 @@
           },
           {
             "documentation": [
-              "`sgIconTheme:` attribute",
+              "`sgIconTheme` attribute",
               "***",
               "This will contain an enumeration of 5 values - icons-sg, icons-lg, mediatransports-accents, media-transports-light, media-transports-dark. Default. value is icon-lg."
             ],
@@ -3407,7 +3407,7 @@
             "documentation": [
               "`useContractForEnable` attribute",
               "***",
-              "When true, contract 'Enable' state determines if the list is enabled. When false, the 'receiveStateEnable' join may be applied. Consistent with other components, if the 'receiveStateEnable' join is provide, the value of that join determines if the component is enabled. "
+              "When true, the contract 'Enable' state determines if the list is enabled. When false, the 'receiveStateEnable' join may be applied. Consistent with other components, if the 'receiveStateEnable' join is provide, the value of that join determines if the component is enabled. "
             ],
             "value": [
               "false",
@@ -3424,7 +3424,7 @@
             "documentation": [
               "`useContractForShow` attribute",
               "***",
-              " When true, contract 'Show' state determines if the list is enabled. When false, the 'receiveStateShow' join may be applied. Consistent with other components, if the 'receiveStateShow' join is provide, the value of that join determines if the component is visible. "
+              " When true, the contract 'Show' state determines if the list is enabled. When false, the 'receiveStateShow' join may be applied. Consistent with other components, if the 'receiveStateShow' join is provide, the value of that join determines if the component is visible. "
             ],
             "value": [
               "false",
@@ -3441,7 +3441,7 @@
             "documentation": [
               "`useContractForItemEnable` attribute",
               "***",
-              "When true, contract 'ItemEnable[x]' state determines if an individual button x is enabled. "
+              "When true, the contract 'ItemEnable[x]' state determines if an individual button x is enabled. "
             ],
             "value": [
               "false",
@@ -3458,7 +3458,7 @@
             "documentation": [
               "`useContractForItemShow` attribute",
               "***",
-              "When true, contract 'ItemShow[x]' state determines if an individual button x is visible. "
+              "When true, the contract 'ItemShow[x]' state determines if an individual button x is visible. "
             ],
             "value": [
               "false",
@@ -3587,7 +3587,7 @@
             "documentation": [
               "`buttonHAlignLabel` attribute",
               "***",
-              "Default attribute is center.  Possible values are 'center', 'left', 'right'. When the buttonHAlignLabel property is set, the label and the icon of the button are horizontally aligned.The center property sets the horizontal alignment of the label to the center of the button. The left property sets the horizontal alignment of the label to the left of the button.  The right property sets the horizontal alignment of the label to the right of the button."
+              "Default attribute is center.  Possible values are 'center', 'left', and 'right'. When the buttonHAlignLabel property is set, the label and the icon of the button are horizontally aligned.The center property sets the horizontal alignment of the label to the center of the button. The left property sets the horizontal alignment of the label to the left of the button.  The right property sets the horizontal alignment of the label to the right of the button."
             ],
             "value": [
               "center",
@@ -3605,7 +3605,7 @@
             "documentation": [
               "`buttonVAlignLabel` attribute",
               "***",
-              "Default attribute is middle. Possible values are 'middle', 'top', 'bottom'. When the buttonVAlignLabel property is set, the label and the icon of the button are vertically aligned.  The middle property sets the vertical alignment of the label to the middle of the button.  The top property sets the vertical alignment of the label to the top of the button.   The bottom property sets the vertical alignment of the label to the bottom of the button."
+              "Default attribute is middle. Possible values are 'middle', 'top', and 'bottom'. When the buttonVAlignLabel property is set, the label and the icon of the button are vertically aligned.  The middle property sets the vertical alignment of the label to the middle of the button.  The top property sets the vertical alignment of the label to the top of the button.   The bottom property sets the vertical alignment of the label to the bottom of the button."
             ],
             "value": [
               "middle",
@@ -3623,7 +3623,7 @@
             "documentation": [
               "`buttonCheckboxPosition` attribute",
               "***",
-              "Default value is left. Valid values are 'left', 'right'. This property is used to set the position of a checkbox in a button. The value left would set the checkbox to the left of the button and the value right would set the checkbox to the right of the button."
+              "Default value is left. Valid values are 'left', and 'right'. This property is used to set the position of a checkbox in a button. The value left would set the checkbox to the left of the button and the value right would set the checkbox to the right of the button."
             ],
             "value": [
               "left",
@@ -3891,9 +3891,9 @@
           },
           {
             "documentation": [
-              "`receiveStateButtonIconUrl` attribute",
+              "`buttonReceiveStateIconUrl` attribute",
               "***",
-              "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute of all the buttons in the list."
+              "After receiving icon url value from the control system, this value is applied to the iconUrl attribute of all the buttons in the list."
             ],
             "value": [],
             "name": "buttonreceivestateiconurl",
@@ -3933,7 +3933,7 @@
             "documentation": [
               "`buttonReceiveStateShow` attribute",
               "***",
-              ". When the signal is low, the component will not be displayed, and the area will not be pressable. If receiveStateShow attribute is given for ch5-button-list than it takes more preference over buttonReceiveStateShow attribute."
+              ". When the signal is low, the component will not be displayed, and the area will not be pressable. If the receiveStateShow attribute is given for ch5-button-list, then it takes more preference over buttonReceiveStateShow attribute."
             ],
             "value": [],
             "name": "buttonreceivestateshow",
@@ -3953,7 +3953,7 @@
             "documentation": [
               "`buttonReceiveStateEnable` attribute",
               "***",
-              "When the signal is low, the look of the component will change to represent a disabled state and the component will not be pressable. If receiveStateEnable attribute is given for ch5-button-list than it takes more preference over buttonReceiveStateEnable attribute."
+              "When the signal is low, the look of the component will change to represent a disabled state and the component will not be pressable. If the receiveStateEnable attribute is given for ch5-button-list, then it takes more preference over buttonReceiveStateEnable attribute."
             ],
             "value": [],
             "name": "buttonreceivestateenable",
@@ -4028,7 +4028,7 @@
           },
           {
             "documentation": [
-              "`buttonSgIconTheme:` attribute",
+              "`buttonSgIconTheme` attribute",
               "***",
               "This will contain an enumeration of 5 values - icons-lg, icons-sm, media-transports-accents, media-transports-light, media-transports-dark. Default. value is icons-lg."
             ],
@@ -4048,7 +4048,7 @@
           },
           {
             "documentation": [
-              "`loadItems:` attribute",
+              "`loadItems` attribute",
               "***",
               "The default value is visible-only. The possible values are visible-only, load-new, all. This attribute allows for buttons to be created and loaded on demand. Will determine if buttons are removed or not after they are no longer in visibility."
             ],
@@ -4088,7 +4088,7 @@
             "documentation": [
               "`receiveStateSelectedButton` attribute",
               "***",
-              "ReceiveStateSelectedButton attribute helps the user to select an item on button list by using an analog join."
+              "ReceiveStateSelectedButton attribute helps the user to select an item on the button list by using an analog join."
             ],
             "value": [],
             "name": "receivestateselectedbutton",
@@ -6728,7 +6728,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -7063,6 +7063,112 @@
           },
           {
             "documentation": [
+              "`hideCenterButton` attribute",
+              "***",
+              "Attribute to hide the center button of the DPad. Default value is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "hidecenterbutton",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`receiveStateHideCenterButton` attribute",
+              "***",
+              "Boolean signal to hide the center button of the DPad. This will override hideCenterButton."
+            ],
+            "value": [],
+            "name": "receivestatehidecenterbutton",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`disableCenterButton` attribute",
+              "***",
+              "Attribute to disable the center button of the DPad. Default value is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "disablecenterbutton",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`receiveStateDisableCenterButton` attribute",
+              "***",
+              "Boolean signal to disable the center button of the DPad. This will override disableCenterButton."
+            ],
+            "value": [],
+            "name": "receivestatedisablecenterbutton",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`useContractForDisableCenterButton` attribute",
+              "***",
+              "If the contract name exists, by default this becomes true. If the contract name does not exist, by default this becomes false. If this value is set to true then the value received from the contract will be considered to disable the center button."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "usecontractfordisablecenterbutton",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`useContractForHideCenterButton` attribute",
+              "***",
+              "If the contract name exists, by default this becomes true. If the contract name does not exist, by default this becomes false. If this value is set to true then the value received from the contract will be considered to hide the center button."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "usecontractforhidecenterbutton",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -7189,7 +7295,13 @@
               "\tusecontractforshow=\"${5:false}\"",
               "\tusecontractforcustomclass=\"${6:false}\"",
               "\tusecontractforcustomstyle=\"${7:false}\"",
-              "\tsendeventonclickstart=\"${8:}\">",
+              "\tsendeventonclickstart=\"${8:}\"",
+              "\thideCenterButton=\"${9:false}\"",
+              "\treceiveStateHideCenterButton=\"${10:}\"",
+              "\tdisableCenterButton=\"${11:false}\"",
+              "\treceiveStateDisableCenterButton=\"${12:}\"",
+              "\tuseContractForHideCenterButton =\"${13:false}\"",
+              "\tuseContractForDisableCenterButton =\"${14:false}\">",
               "</ch5-dpad>$0"
             ]
           }
@@ -7337,7 +7449,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -7979,7 +8091,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -8368,7 +8480,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -8974,7 +9086,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -9126,7 +9238,7 @@
             ],
             "value": [],
             "name": "textwhentrue",
-            "default": "\"\"",
+            "default": "null",
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
@@ -9140,7 +9252,7 @@
             ],
             "value": [],
             "name": "textwhenfalse",
-            "default": "\"\"",
+            "default": "null",
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
@@ -9154,7 +9266,7 @@
             ],
             "value": [],
             "name": "receivestatevalue",
-            "default": "\"\"",
+            "default": "null",
             "hideWhen": [],
             "showWhen": [],
             "join": {
@@ -9249,7 +9361,7 @@
           "`ch5-jointotext-boolean` element",
           "***",
           "This component provides attributes like - ",
-          "value (this attribute is not expected to be used outside of diagnostic purposes.  This attribute should not be used or honored when receiveStateValue attribute is provided),  ",
+          "value (this attribute is not expected to be used outside of diagnostic purposes. This attribute should not be used or honored when receiveStateValue attribute is provided),  ",
           "receiveStateValue (expected value is boolean/digital join number or contract state signal name. When not provided, the tag will evaluate to empty string), ",
           "textWhenTrue (expected value is the text to be displayed when the boolean join evaluates to true. If not provided and the boolean join evaluates to true, the component 'textContent' will evaluate to empty string), ",
           "textWhenFalse (expected value is the text to be displayed when the boolean value evaluates to false. If not provided and the boolean join evaluates to false, the component 'textContent' will evaluate to empty string)."
@@ -9421,7 +9533,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -9845,7 +9957,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -10333,7 +10445,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -10731,7 +10843,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -10942,8 +11054,7 @@
               "Default value is 'top'. ",
               "Allows to customize the orientation of the keypad buttons' major-minor. ",
               "The value dictates the position of the labelMajor and labelMinor is complimented. ",
-              "If value is top: then, major will be on top and minor will be below it. ",
-              "join+2 applies to left, join+3 applies to right, join+4 to center ."
+              "If value is top: then, major will be on top and minor will be below it. "
             ],
             "value": [
               "top",
@@ -11065,10 +11176,7 @@
             "documentation": [
               "`useContractForExtraButtonShow` attribute",
               "***",
-              "If the contract name exists, by default this becomes true. ",
-              "If the contract name does not exist, by default this becomes false. ",
-              "If this value is set to true then the value received from the contract will be considered ",
-              "for the custom style."
+              "If this value is set to true then the value received from the contract will be considered else from receiveStateExtraButtonShow or showExtraButton."
             ],
             "value": [
               "false",
@@ -11142,6 +11250,112 @@
             },
             "limits": [],
             "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`hidePoundButton` attribute",
+              "***",
+              "Attribute to hide the pound button of the Keypad. Default value is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "hidepoundbutton",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`hideAsteriskButton` attribute",
+              "***",
+              "Attribute to hide the asterisk button of the Keypad. Default value is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "hideasteriskbutton",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`receiveStateHideAsteriskButton` attribute",
+              "***",
+              "Boolean signal to hide the asterisk button of the Keypad. This will override hideAsteriskButton."
+            ],
+            "value": [],
+            "name": "receivestatehideasteriskbutton",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`useContractForHideAsteriskButton` attribute",
+              "***",
+              "Possible values true, false. If this value is set to true then the value received from the contract will be considered to hide ch5-keypad asterisk button. Default is 'false'."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "usecontractforhideasteriskbutton",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`receiveStateHidePoundButton` attribute",
+              "***",
+              "Boolean signal to hide the pound button of the Keypad. This will override hidePoundButton."
+            ],
+            "value": [],
+            "name": "receivestatehidepoundbutton",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`useContractForHidePoundButton` attribute",
+              "***",
+              "Possible values true, false. If this value is set to true then the value received from the contract will be considered to hide ch5-keypad pound button. Default is 'false'."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "usecontractforhidepoundbutton",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -11265,18 +11479,24 @@
             "description": "Crestron Keypad",
             "body": [
               "<ch5-keypad id=\"keypad_${0:id}\"",
-              "\tcontractname=\"${1:}\"",
+              "\tcontractName=\"${1:}\"",
               "\tshape=\"${2:rounded-rectangle}\"",
               "\ttype=\"${3:default}\"",
-              "\ttextorientation=\"${4:top}\"",
-              "\tshowextrabutton=\"${5:true}\"",
-              "\treceivestateextrabuttonshow=\"${6:}\"",
-              "\tusecontractforenable=\"${7:false}\"",
-              "\tusecontractforshow=\"${8:false}\"",
-              "\tusecontractforcustomclass=\"${9:false}\"",
-              "\tusecontractforcustomstyle=\"${10:false}\"",
-              "\tsendeventonclickstart=\"${11:}\"",
-              ">",
+              "\ttextOrientation=\"${4:top}\"",
+              "\tshowExtraButton=\"${5:true}\"",
+              "\treceiveStateExtraButtonShow=\"${6:}\"",
+              "\tuseContractForEnable=\"${7:false}\"",
+              "\tuseContractForShow=\"${8:false}\"",
+              "\tuseContractForCustomClass=\"${9:false}\"",
+              "\tuseContractForCustomStyle=\"${10:false}\"",
+              "\tuseContractForExtraButtonShow=\"${11:false}\"",
+              "\tuseContractForHideAsteriskButton=\"${12:false}\"",
+              "\tuseContractForHidePoundButton=\"${13:false}\"",
+              "\tsendEventOnclickStart=\"${14:}\"",
+              "\thidePoundButton=\"${15:false}\"",
+              "\thideAsteriskButton=\"${16:false}\"",
+              "\treceiveStateHideAsteriskButton=\"${17:}\"",
+              "\treceiveStateHidePoundButton=\"${18:}\">",
               "</ch5-keypad>"
             ]
           }
@@ -11418,7 +11638,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -12126,7 +12346,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -12942,7 +13162,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -14129,7 +14349,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -15055,7 +15275,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -17323,7 +17543,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -18336,7 +18556,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -18468,7 +18688,7 @@
               "`size` attribute",
               "***",
               "The default value is 1. ",
-              "The number of of items that can be in a spinner element."
+              "The number of items that can be in a spinner element. The minimum value is 1 and the maximum value is 30."
             ],
             "value": [],
             "name": "size",
@@ -18477,8 +18697,8 @@
             "showWhen": [],
             "limits": [
               {
-                "min": 0,
-                "max": 99
+                "min": 1,
+                "max": 30
               }
             ],
             "attributeType": "Integer"
@@ -18983,7 +19203,7 @@
               "<ch5-spinner",
               "    label=\"${1:item {{idx}}}\"",
               "    indexid=\"${2:idx}\"",
-              "    size=\"${3:40}\"",
+              "    size=\"${3:1}\"",
               "    itemheight=\"${4:40}\"",
               "    visibleitemscroll=\"${5:3}\"",
               "    sendeventonchange=\"${6:changed_signal}\">",
@@ -20091,40 +20311,6 @@
           },
           {
             "documentation": [
-              "`customclass` attribute",
-              "***",
-              "Contains a list of space delimited CSS classes that are applied on the component"
-            ],
-            "value": [],
-            "name": "customclass",
-            "default": "null",
-            "hideWhen": [
-              {
-                "receiveStateCustomClass": [
-                  "true"
-                ]
-              }
-            ],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "String"
-          },
-          {
-            "documentation": [
-              "`customstyle` attribute",
-              "***",
-              "Contains a list of semicolon delimited style classes applied on the component."
-            ],
-            "value": [],
-            "name": "customstyle",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "String"
-          },
-          {
-            "documentation": [
               "`noshowtype` attribute",
               "***",
               "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
@@ -20141,46 +20327,6 @@
             "showWhen": [],
             "limits": [],
             "attributeType": "String"
-          },
-          {
-            "documentation": [
-              "`receivestatecustomclass` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomclass",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`receivestatecustomstyle` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomstyle",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -20203,7 +20349,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -21050,7 +21196,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -21321,13 +21467,13 @@
             "documentation": [
               "`type` attribute",
               "***",
-              "The default value is text. ",
-              "The type of the input."
+              "The default value is text. Valid values are text, number, email, and password. The type attribute describes type of the input element."
             ],
             "value": [
               "text",
               "number",
-              "email"
+              "email",
+              "password"
             ],
             "name": "type",
             "default": "text",
@@ -21563,6 +21709,44 @@
           },
           {
             "documentation": [
+              "`sendeventonenterkey` attribute",
+              "***",
+              "Sends an event on press of enter key."
+            ],
+            "value": [],
+            "name": "sendeventonenterkey",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`sendeventonesckey` attribute",
+              "***",
+              "Sends an event on press of escape key."
+            ],
+            "value": [],
+            "name": "sendeventonesckey",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
               "`sendeventonfocus` attribute",
               "***",
               "Sends an event on focus."
@@ -21631,6 +21815,20 @@
             "showWhen": [],
             "limits": [],
             "attributeType": "Integer"
+          },
+          {
+            "documentation": [
+              "`value` attribute",
+              "***",
+              "The value attribute specifies the value of an input element."
+            ],
+            "value": [],
+            "name": "value",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -21728,15 +21926,6 @@
             ]
           },
           {
-            "prefix": "ch5-textinput:default",
-            "description": "Crestron Textinput (Default)",
-            "body": [
-              "<ch5-textinput",
-              "     type=\"${1|text,number,month,week,email|}\">",
-              "</ch5-textinput>$0"
-            ]
-          },
-          {
             "prefix": "ch5-textinput:phone",
             "description": "Crestron Textinput phone mask attribute",
             "body": [
@@ -21761,10 +21950,67 @@
               "    placeholder=\"${4:Phone Number}\"",
               "    mask=\"${5:(+99) 999 999 999}\"",
               "    id=\"${7:phoneNumber}\"",
-              "    sendeventonchange=\"${8:input_changed}\"",
-              "    sendeventonfocus=\"${9:input_focus}\"",
-              "    sendeventonblur=\"${10:input_blur}\">",
+              "    sendEventOnChange=\"${8:input_changed}\"",
+              "    sendEventOnFocus=\"${9:input_focus}\"",
+              "    sendEventOnBlur=\"${10:input_blur}\"",
+              "    sendEventOnEnterKey=\"${11:input_enter_key_event}\"",
+              "    sendEventOnEscKey=\"${12:input_esc_key_event}\">",
               "</ch5-textinput>"
+            ]
+          },
+          {
+            "prefix": "ch5-textinput:all-attributes",
+            "description": "Crestron textinput (All Attributes)",
+            "body": [
+              "<ch5-textinput id=\"ch5-textinput_${1:id}\"",
+              "\tmask=\"${2:}\"",
+              "\ticonClass=\"${3:}\"",
+              "\ticon=\"${4:}\"",
+              "\tlabel=\"${5:}\"",
+              "\tplaceholder=\"${6:}\"",
+              "\ticonPosition=\"${7:first}\"",
+              "\ttype=\"${8:text}\"",
+              "\tminLength=\"${9:0}\"",
+              "\tmaxLength=\"${10:0}\"",
+              "\tminValue=\"${11:0}\"",
+              "\tmaxValue=\"${12:0}\"",
+              "\tsize=\"${13:regular}\"",
+              "\ttext-transform=\"${15:none}\"",
+              "\tscaling=\"${16:false}\"",
+              "\tminimumFontSize=\"${17:12}\"",
+              "\ttabIndex=\"${18:0}\"",
+              "\treceiveStateFocus=\"${19:}\"",
+              "\treceiveStateValue=\"${20:}\"",
+              "\tsendEventOnChange=\"${21:}\"",
+              "\tsendEventOnFocus=\"${22:}\"",
+              "\tsendEventOnBlur=\"${23:}\"",
+              "\tvalue=\"${24:}\">",
+              "</ch5-textinput>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-textinput:default",
+            "description": "Crestron textinput (default)",
+            "body": [
+              "<ch5-textinput id=\"ch5-textinput_${1:id}\"",
+              "\tmask=\"${2:}\"",
+              "\ticonClass=\"${3:}\"",
+              "\ticon=\"${4:}\"",
+              "\tlabel=\"${5:}\"",
+              "\tplaceholder=\"${6:}\"",
+              "\ticonPosition=\"${7:first}\"",
+              "\ttype=\"${8:text}\"",
+              "\tminLength=\"${9:0}\"",
+              "\tmaxLength=\"${10:0}\"",
+              "\tminValue=\"${11:0}\"",
+              "\tmaxValue=\"${12:0}\"",
+              "\tsize=\"${13:regular}\"",
+              "\ttext-transform=\"${15:none}\"",
+              "\tscaling=\"${16:false}\"",
+              "\tminimumFontSize=\"${17:12}\"",
+              "\ttabIndex=\"${18:0}\"",
+              "\tvalue=\"${19:}\">",
+              "</ch5-textinput>$0"
             ]
           }
         ],
@@ -21905,7 +22151,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -22034,10 +22280,207 @@
           },
           {
             "documentation": [
+              "`handleShape` attribute",
+              "***",
+              "The default value is 'circle'. Possible values are circle, rectangle. Sets the shape that will determine the shape of the component."
+            ],
+            "value": [
+              "circle",
+              "rectangle"
+            ],
+            "name": "handleshape",
+            "default": "circle",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`label` attribute",
+              "***",
+              "The label attribute allows a string value to be defined that will be used as the label for the ch5-toggle."
+            ],
+            "value": [],
+            "name": "label",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`labelOn` attribute",
+              "***",
+              "Allows string values to be defined for the labelOn."
+            ],
+            "value": [],
+            "name": "labelon",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`labelOff` attribute",
+              "***",
+              "Allows string values to be defined for the labelOff."
+            ],
+            "value": [],
+            "name": "labeloff",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`iconOn` attribute",
+              "***",
+              "Allows icons to be defined for the on state of the ch5-toggle. You can declare CSS class in the iconOn attribute."
+            ],
+            "value": [],
+            "name": "iconon",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`iconOff` attribute",
+              "***",
+              "Allows icons to be defined for the off state of the ch5-toggle. You can declare CSS class in the iconOff attribute."
+            ],
+            "value": [],
+            "name": "iconoff",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`orientation` attribute",
+              "***",
+              "The default value is horizontal. Possible values are 'horizontal' or 'vertical'. Sets the control elements in a horizontal or vertical orientation, For vertical alignment, it will apply a CSS class that will rotate the, component 90 degrees (-90 degrees counter clockwise)"
+            ],
+            "value": [
+              "horizontal",
+              "vertical"
+            ],
+            "name": "orientation",
+            "default": "horizontal",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`size` attribute",
+              "***",
+              "The default value is regular. Possible values are regular, x-small, small, large, x-large."
+            ],
+            "value": [
+              "regular",
+              "x-small",
+              "small",
+              "large",
+              "x-large"
+            ],
+            "name": "size",
+            "default": "regular",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`value` attribute",
+              "***",
+              "The value attribute specifies the value of an toggle element."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "value",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`receiveStateValue` attribute",
+              "***",
+              "The toggle value gets updated with the newly received value from signal."
+            ],
+            "value": [],
+            "name": "receivestatevalue",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receiveStateScriptLabelHTML` attribute",
+              "***",
+              "The value of the receiveStateScriptLabelHTML attribute is the name of a string signal. The signal should contain valid HTML. This HTML code will be placed in the label part of the ch5-toggle."
+            ],
+            "value": [],
+            "name": "receivestatescriptlabelhtml",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`sendEventOnClick` attribute",
+              "***",
+              "Sends a boolean signal on a click or tap event"
+            ],
+            "value": [],
+            "name": "sendeventonclick",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
               "`feedbackmode` attribute",
               "***",
-              "The default value is 'direct'. If direct, value send and receive will be ",
-              "instant. On submit, it will send and listen for the first event received."
+              "feedbackMode sends the input text changes based on the attribute value. The default value for feedbackMode attribute is 'direct' Valid values: 'direct' and 'submit'."
             ],
             "value": [
               "direct",
@@ -22049,6 +22492,24 @@
             "showWhen": [],
             "limits": [],
             "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`sendeventontouch` attribute",
+              "Sends a signal on a touch event."
+            ],
+            "value": [],
+            "name": "sendeventontouch",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -22066,114 +22527,6 @@
             "showWhen": [],
             "limits": [],
             "attributeType": "Integer"
-          },
-          {
-            "documentation": [
-              "`label` attribute",
-              "***",
-              "The label of the toggle element."
-            ],
-            "value": [],
-            "name": "label",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "String"
-          },
-          {
-            "documentation": [
-              "`labelon` attribute",
-              "***",
-              "Custom text to display on the toggle when the toggle is ON."
-            ],
-            "value": [],
-            "name": "labelon",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "String"
-          },
-          {
-            "documentation": [
-              "`labeloff` attribute",
-              "***",
-              "Custom text to display on the toggle when the toggle is OFF."
-            ],
-            "value": [],
-            "name": "labeloff",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "String"
-          },
-          {
-            "documentation": [
-              "`iconon` attribute",
-              "***",
-              "Specifies a custom icon class when the toggle is ON."
-            ],
-            "value": [],
-            "name": "iconon",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "IconClass"
-          },
-          {
-            "documentation": [
-              "`iconoff` attribute",
-              "***",
-              "Specifies a custom icon class when the toggle is OFF."
-            ],
-            "value": [],
-            "name": "iconoff",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "IconClass"
-          },
-          {
-            "documentation": [
-              "`handleshape` attribute",
-              "***",
-              "The default value is 'circle'. Sets the shape that will also determine the shape ",
-              "of the component (rectangle or circle)."
-            ],
-            "value": [
-              "circle",
-              "rectangle"
-            ],
-            "name": "handleshape",
-            "default": "circle",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "EnumeratedValue"
-          },
-          {
-            "documentation": [
-              "`orientation` attribute",
-              "***",
-              "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'. Sets ",
-              "the control elements in a horizontal or vertical orientation. ",
-              "For vertical alignment, it will apply a CSS class that will rotate the ",
-              "component -90 degrees (270 degrees clockwise, 90 degrees counter clockwise)."
-            ],
-            "value": [
-              "horizontal",
-              "vertical"
-            ],
-            "name": "orientation",
-            "default": "horizontal",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -22206,100 +22559,6 @@
             "showWhen": [],
             "limits": [],
             "attributeType": "String"
-          },
-          {
-            "documentation": [
-              "`value` attribute",
-              "***",
-              "The default value is false. The initial value of the component. ",
-              "When feedbackMode=submit, this property will change to the last ",
-              "value submitted. When reset, the value property will be changed to ",
-              "the initial value or last value on submit."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "value",
-            "default": "false",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "Boolean"
-          },
-          {
-            "documentation": [
-              "`receivestatescriptlabelhtml` attribute",
-              "***",
-              "The value of the switch."
-            ],
-            "value": [],
-            "name": "receivestatescriptlabelhtml",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`receivestatevalue` attribute",
-              "***",
-              "The receiving value from the signal."
-            ],
-            "value": [],
-            "name": "receivestatevalue",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`sendeventonclick` attribute",
-              "Sends a signal on a click or tap event (mouse or swipe up and down quickly)."
-            ],
-            "value": [],
-            "name": "sendeventonclick",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`sendeventontouch` attribute",
-              "Sends a signal on a touch event."
-            ],
-            "value": [],
-            "name": "sendeventontouch",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -22384,20 +22643,65 @@
         "documentation": [
           "`ch5-toggle` element",
           "***",
-          "Appears as a two-state switch with easy transition between states. The component has the ",
-          "functionality of an HTML checkbox-type input element."
+          "Appears as a two-state switch with easy transition between states. The component has the,functionality of an HTML checkbox-type input element."
         ],
         "snippets": [
+          {
+            "prefix": "ch5-toggle:blank",
+            "description": "Crestron toggle",
+            "body": [
+              "<ch5-toggle>",
+              "</ch5-toggle>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-toggle:all-attributes",
+            "description": "Crestron toggle (All Attributes)",
+            "body": [
+              "<ch5-toggle id=\"ch5-toggle_${1:id}\"",
+              "\thandleShape=\"${2:circle}\"",
+              "\tlabel=\"${3:}\"",
+              "\tlabelOn=\"${4:}\"",
+              "\tlabelOff=\"${5:}\"",
+              "\ticonOn=\"${6:}\"",
+              "\ticonOff=\"${7:}\"",
+              "\torientation=\"${8:horizontal}\"",
+              "\tvalue=\"${9:false}\"",
+              "\tsize=\"${10:regular}\"",
+              "\treceiveStateValue=\"${11:}\"",
+              "\treceiveStateScriptLabelHTML=\"${12:}\"",
+              "\tsendEventOnClick=\"${13:}\"",
+              "\tsendEventOnTouch=\"${14:}\">",
+              "</ch5-toggle>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-toggle:default",
+            "description": "Crestron toggle (default)",
+            "body": [
+              "<ch5-toggle id=\"ch5-toggle_${1:id}\"",
+              "\thandleShape=\"${2:circle}\"",
+              "\tlabel=\"${3:}\"",
+              "\tlabelOn=\"${4:}\"",
+              "\tlabelOff=\"${5:}\"",
+              "\ticonOn=\"${6:}\"",
+              "\ticonOff=\"${7:}\"",
+              "\torientation=\"${8:horizontal}\"",
+              "\tsize=\"${9:regular}\"",
+              "\tvalue=\"${10:false}\">",
+              "</ch5-toggle>$0"
+            ]
+          },
           {
             "prefix": "ch5-toggle:label-on-off",
             "description": "Crestron Toggle (Default)",
             "body": [
               "<ch5-toggle label=\"${1:Alarm}\"",
               "\tvalue=\"${2:false}\"",
-              "\tlabelon=\"${3:On}\"",
-              "\tlabeloff=\"${4:Off}\"",
-              "\tsendeventonclick=\"${5:send_switch_value}\"",
-              "\treceivestatevalue=\"${5:receive_switch_value}\">",
+              "\tlabelOn=\"${3:On}\"",
+              "\tlabelOff=\"${4:Off}\"",
+              "\tsendeventOnClick=\"${5:send_switch_value}\"",
+              "\treceiveStateValue=\"${5:receive_switch_value}\">",
               "</ch5-toggle>$0"
             ]
           },
@@ -22407,20 +22711,20 @@
             "body": [
               "<ch5-toggle label=\"${1:Alarm}\"",
               "\tvalue=\"${2:false}\"",
-              "\ticonon=\"${3:fas fa-bell}\"",
-              "\ticonoff=\"${4:fas fa-bell-slash}\"",
-              "\tsendeventonclick=\"${5:send_switch_value}\"",
-              "\treceivestatevalue=\"${5:receive_switch_value}\">",
+              "\ticonOn=\"${3:fas fa-bell}\"",
+              "\ticonOff=\"${4:fas fa-bell-slash}\"",
+              "\tsendeventOnClick=\"${5:send_switch_value}\"",
+              "\treceiveStateValue=\"${5:receive_switch_value}\">",
               "</ch5-toggle>$0"
             ]
           }
         ],
         "childElements": [],
-        "description": "Ch5 Toggle represents an input with two states behaving like a switch",
+        "description": "Ch5 Toggle represents an input with two states behaving like a switch.",
         "name": "Ch5 Toggle",
         "tagName": "ch5-toggle",
         "role": "switch",
-        "componentVersion": "1.0.0"
+        "componentVersion": "2.7.0"
       },
       {
         "attributes": [
@@ -22552,7 +22856,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],
@@ -22870,7 +23174,7 @@
           },
           {
             "documentation": [
-              "`'receivestateshowpulse` attribute",
+              "`receivestateshowpulse` attribute",
               "***",
               "on transition from false to true, this signal directs the component to become visible."
             ],

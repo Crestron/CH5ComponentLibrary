@@ -797,7 +797,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		if (!!this.stretch && this.stretch.length > 0) { // checking for length since it does not have a default value
 			this.classList.add(Ch5Dpad.ELEMENT_NAME + Ch5Dpad.CSS_CLASS_PREFIX_STRETCH + this.stretch);
 			if (!!this.size && this.size.length > 0) {
-				this.classList.remove(Ch5Dpad.ELEMENT_NAME + Ch5Dpad.CSS_CLASS_PREFIX_SIZE + this.size);
+				// this.classList.remove(Ch5Dpad.ELEMENT_NAME + Ch5Dpad.CSS_CLASS_PREFIX_SIZE + this.size);
 			}
 		}
 	}
@@ -837,11 +837,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		const valueInput = this.sendEventOnClickStart;
 		const contractName = this.contractName;
 		const buttonList = this.getElementsByTagName("ch5-dpad-button");
-		let centerBtn;
-		let upBtn;
-		let rightBtn;
-		let downBtn;
-		let leftBtn;
+		let centerBtn: any = null;
+		let upBtn: any = null;
+		let rightBtn: any = null;
+		let downBtn: any = null;
+		let leftBtn: any = null;
 		if (buttonList.length > 0) {
 			// tslint:disable-next-line:prefer-for-of
 			for (let index = 0; index < buttonList.length; index++) {
@@ -919,11 +919,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	private updateContractNameBasedHandlers() {
 		const contractName = this.contractName;
 		const buttonList = this.getElementsByTagName("ch5-dpad-button");
-		let centerBtn;
-		let upBtn;
-		let rightBtn;
-		let downBtn;
-		let leftBtn;
+		let centerBtn: any = null;
+		let upBtn: any = null;
+		let rightBtn: any = null;
+		let downBtn: any = null;
+		let leftBtn: any = null;
 		if (buttonList.length > 0) {
 			// tslint:disable-next-line:prefer-for-of
 			for (let index = 0; index < buttonList.length; index++) {

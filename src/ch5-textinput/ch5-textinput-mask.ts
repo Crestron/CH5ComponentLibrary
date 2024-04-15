@@ -5,11 +5,6 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-interface ICustomInputEvent {
-  data: string
-  inputType: string
-}
-
 export class Ch5TextInputMask {
 
   private _didMounted = false;
@@ -101,12 +96,6 @@ export class Ch5TextInputMask {
   public prefix: string = 'ch5-textinput-mask' as string;
   public readonly BLOCK_SEPARATOR: string = '--';
 
-  private _inputListener: EventListenerOrEventListenerObject;
-  private _inputKeyUpListener: EventListenerOrEventListenerObject;
-  private _inputKeyDownListener: EventListenerOrEventListenerObject;
-  private _inputBlurListener: EventListenerOrEventListenerObject;
-  private _inputFocusListener: EventListenerOrEventListenerObject;
-
   constructor(input: HTMLInputElement, pattern: string, alwaysShow: boolean = false as boolean) {
 
     this.wrapperId = Math.random() * new Date().getTime();
@@ -116,11 +105,6 @@ export class Ch5TextInputMask {
 
     this._cleanTheInput();
 
-    this._inputListener = this._onInput.bind(this) as unknown as EventListener;
-    this._inputKeyUpListener = this._onInputKeyUp.bind(this) as unknown as EventListener;
-    this._inputKeyDownListener = this._onInputKeyDown.bind(this) as unknown as EventListener;
-    this._inputFocusListener = this._onInputFocus.bind(this) as unknown as EventListener;
-    this._inputBlurListener = this._onInputBlur.bind(this) as unknown as EventListener;
   }
 
   public init() {
@@ -233,20 +217,21 @@ export class Ch5TextInputMask {
   }
 
   public _attachEventListeners(): void {
-    this.input.addEventListener('keydown', this._inputKeyDownListener);
-    this.input.addEventListener('input', this._inputListener);
-    this.input.addEventListener('keyup', this._inputKeyUpListener);
-    this.input.addEventListener('focus', this._inputFocusListener);
-    this.input.addEventListener('blur', this._inputBlurListener);
-    this.maskElement.addEventListener('update', this._onMaskUpdate.bind(this));
+    this.input.addEventListener('keydown', this._onInputKeyDown);
+    this.input.addEventListener('input', this._onInput);
+    this.input.addEventListener('keyup', this._onInputKeyUp);
+    this.input.addEventListener('focus', this._onInputFocus);
+    this.input.addEventListener('blur', this._onInputBlur);
+    this.maskElement.addEventListener('update', this._onMaskUpdate);
   }
 
   public _detachEventListeners(): void {
-    this.input.removeEventListener('keydown', this._inputKeyDownListener);
-    this.input.removeEventListener('input', this._inputListener);
-    this.input.removeEventListener('keyup', this._inputKeyUpListener);
-    this.input.removeEventListener('focus', this._inputFocusListener);
-    this.input.removeEventListener('blur', this._inputBlurListener);
+    this.input.removeEventListener('keydown', this._onInputKeyDown);
+    this.input.removeEventListener('input', this._onInput);
+    this.input.removeEventListener('keyup', this._onInputKeyUp);
+    this.input.removeEventListener('focus', this._onInputFocus);
+    this.input.removeEventListener('blur', this._onInputBlur);
+    this.maskElement.removeEventListener('update', this._onMaskUpdate);
   }
 
   private _mount(wrapper: HTMLElement): void {
@@ -520,7 +505,7 @@ export class Ch5TextInputMask {
     }
   }
 
-  private _onInputKeyDown(inEvent: KeyboardEvent): void {
+  private _onInputKeyDown = (inEvent: KeyboardEvent) => {
     if (this._isUserTyping()) {
       this.addStaticCharactersToInputValue(this.input.value.length);
     }
@@ -532,7 +517,7 @@ export class Ch5TextInputMask {
     }
   }
 
-  private _onInput(inputEvent: ICustomInputEvent) {
+  private _onInput = (inputEvent: any) => {
     let key = inputEvent.data;
 
     if (key !== null && key.length > 1) {
@@ -552,20 +537,20 @@ export class Ch5TextInputMask {
     }
   }
 
-  private _onInputKeyUp(inEvent: KeyboardEvent): void {
+  private _onInputKeyUp = (inEvent: KeyboardEvent) => {
     this._isKeyAllowed(inEvent.key);
     this._isValueLengthValid();
     this._transformLetterCapsType(this.input.value.length);
   }
 
-  private _onInputFocus(): void {
+  private _onInputFocus = () => {
     if (this.alwaysShow === false) {
       this.show = true;
       this.togglePlaceholder();
     }
   }
 
-  private _onInputBlur(): void {
+  private _onInputBlur = () => {
 
     if (this.alwaysShow === false) {
       this.show = false;
@@ -580,7 +565,7 @@ export class Ch5TextInputMask {
     this._isValueLengthValid();
   }
 
-  private _onMaskUpdate(): void {
+  private _onMaskUpdate = () => {
     this._isUserTyping() ? this._maskCharacterOnTyping(this.lastValueLength) : this._unmaskCharacterOnTyping(this.lastValueLength);
   }
 }

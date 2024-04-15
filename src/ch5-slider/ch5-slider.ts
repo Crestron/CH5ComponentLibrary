@@ -1101,8 +1101,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		this.unsubscribeFromSignals();
 
 		// destroy slider
-		if ((this._innerContainer as target).noUiSlider !== undefined) {
-			(this._innerContainer as target)?.noUiSlider?.destroy();
+		const innerContainer: any = this._innerContainer as target;
+		if (!_.isNil(innerContainer) && !_.isNil(innerContainer.noUiSlider)) {
+			innerContainer.noUiSlider.destroy();
 		}
 
 		// remove press events from pressable
@@ -2855,11 +2856,10 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			});
 			if (this.onOffOnly === true) {
 				this._innerContainer.classList.add("ch5-hide-vis");
-				this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.ON_OFF_ONLY.classListPrefix + String(this.onOffOnly));
 			} else {
 				this._innerContainer.classList.remove("ch5-hide-vis");
-				this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.ON_OFF_ONLY.classListPrefix + String(this.onOffOnly));
 			}
+			this._elContainer.classList.add(Ch5Slider.ELEMENT_NAME + Ch5Slider.COMPONENT_DATA.ON_OFF_ONLY.classListPrefix + String(this.onOffOnly));
 		}
 	}
 

@@ -8,7 +8,6 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5CommonInput } from "../ch5-common-input/ch5-common-input";
 import { Ch5TextInputMask } from "./ch5-textinput-mask";
-import { Ch5TextInputScaling } from "./ch5-textinput-scaling";
 import HtmlCallback from "../ch5-common/utils/html-callback";
 
 
@@ -358,6 +357,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
   ];
 
   public static readonly ELEMENT_NAME = 'ch5-textinput';
+  private static readonly SCALING_INDEX = 0.25;
 
   public primaryCssClass = 'ch5-textinput';
 
@@ -369,7 +369,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
   private _labelElement: HTMLLabelElement = {} as HTMLLabelElement;
 
   private _maskingUtility: Ch5TextInputMask | null = null;
-  private _scalingUtility: Ch5TextInputScaling | null = null;
+  private previousLength: number = 0;
 
   private lastValidState: boolean = false as boolean;
   private dirtyCustomEvent: CustomEvent = {} as CustomEvent;
@@ -526,9 +526,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
   }
 
   public set minimumFontSize(value: number) {
-    this._ch5Properties.set<number>("minimumFontSize", value, () => {
-      if (this._scalingUtility !== null) { this._scalingUtility.minimumFontSize = this.minimumFontSize; }
-    });
+    this._ch5Properties.set<number>("minimumFontSize", value);
   }
   public get minimumFontSize(): number {
     return this._ch5Properties.get<number>("minimumFontSize");
@@ -707,6 +705,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
     this._addAriaAttributes();
     this.initCommonMutationObserver(this);
     this.lastValidState = this.getValid();
+    this.previousLength = this._elInput.value.length;
     customElements.whenDefined('ch5-textinput').then(() => {
       this.componentLoadedEvent(Ch5TextInput.ELEMENT_NAME, this.id);
     });
@@ -812,6 +811,19 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 
   private handleMask() {
     if (this.hasAttribute('pattern') && this.getAttribute('pattern') !== null && this.getAttribute('pattern') !== "") { return; }
+    if (this._maskingUtility !== null) {
+      this._maskingUtility.stop();
+      Array.from(this._elContainer.children).forEach(child => child.remove());
+      this._elContainer.appendChild(this._elIcon);
+      this._elContainer.appendChild(this._elInput);
+      this._maskingUtility = null;
+
+      // Escape condition
+      if (this.mask === "") {
+        return;
+      }
+    }
+
     this._elInput.setAttribute('mask', this.mask);
     this._maskingUtility = new Ch5TextInputMask(this._elInput, this.mask);
     this._maskingUtility.init();
@@ -870,7 +882,6 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
       this.classList.remove(this.primaryCssClass + Ch5TextInput.COMPONENT_DATA.SIZE.classListPrefix + e);
     });
     this.classList.add(this.primaryCssClass + Ch5TextInput.COMPONENT_DATA.SIZE.classListPrefix + this.size);
-    this._scalingUtility?.updateDefaultFontSize();
     this._maskingUtility?._makeMaskElementLookAsInputPlaceholder();
   }
 
@@ -891,7 +902,11 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
   }
 
   private handleScaling() {
-    this._scalingUtility = this.scaling === true ? new Ch5TextInputScaling(this._elInput) : null;
+    if (this.scaling) {
+      this._elInput.classList.add('ch5-textinput--input-scaling');
+    } else {
+      this._elInput.classList.remove('ch5-textinput--input-scaling');
+    }
   }
 
   private updateCssClass() {
@@ -901,6 +916,57 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
     this._elIcon.classList.add(this.primaryCssClass + Ch5TextInput.COMPONENT_DATA.ICON_POSITION.classListPrefix + this.iconPosition);
     this._elInput.classList.add(this.primaryCssClass + Ch5TextInput.COMPONENT_DATA.TEXT_TRANSFORM.classListPrefix + this.textTransform)
     this.logger.stop();
+  }
+
+  private handleCleanWithScale() {
+    const { clientWidth, scrollWidth } = this._elInput;
+    const overflow = clientWidth < scrollWidth;
+
+    if (overflow === false) {
+      this._elInput.style.removeProperty('font-size');
+      this.previousLength = this._elInput.value.length;
+      return;
+    }
+
+    while (overflow === true) {
+      const currentFontStyle = window.getComputedStyle(this._elInput).fontSize;
+      const currentFontSize = Number(currentFontStyle.replace('px', ''));
+
+      if (currentFontSize === this.minimumFontSize) {
+        break;
+      }
+
+      this._elInput.style.fontSize = (currentFontSize - Ch5TextInput.SCALING_INDEX) + 'px';
+
+      const { clientWidth, scrollWidth } = this._elInput;
+      if (clientWidth < scrollWidth === false) {
+        break;
+      }
+    }
+  }
+
+  private handleInputScaling() {
+
+    const { clientWidth, scrollWidth } = this._elInput;
+    const overflow = clientWidth < scrollWidth;
+
+    if (overflow === false) {
+      this._elInput.style.removeProperty('font-size');
+      this.previousLength = this._elInput.value.length;
+      return;
+    }
+
+    const currentFontStyle = window.getComputedStyle(this._elInput).fontSize;
+    const currentFontSize = Number(currentFontStyle.replace('px', ''));
+
+    if (this.previousLength > this._elInput.value.length) {
+      this._elInput.style.fontSize = (currentFontSize + Ch5TextInput.SCALING_INDEX) + 'px';
+    }
+    else if (currentFontSize > this.minimumFontSize) {
+      this._elInput.style.fontSize = (currentFontSize - Ch5TextInput.SCALING_INDEX) + 'px';
+    }
+
+    this.previousLength = this._elInput.value.length;
   }
 
   public onChangeHandler = (inEvent: Event) => {
@@ -960,6 +1026,8 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
       this._clean = true;
       this._dirty = false;
 
+      if (this.scaling) { this.handleCleanWithScale(); }
+
       if (this.mask !== '' && this._maskingUtility !== null) {
 
         const lastValueLength = this._maskingUtility.lastValueLength;
@@ -998,6 +1066,8 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
       Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnEscKey)?.publish(true);
       Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnEscKey)?.publish(false);
     }
+
+    if (this.scaling) { this.handleInputScaling(); }
   }
 
   private onFocusHandler = () => {
@@ -1079,6 +1149,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
     this.value = this._elInput.value = value;
     this.cleanValue = value;
     this._elInput.setAttribute('value', this.cleanValue + '');
+    if (this.scaling) { this.handleCleanWithScale(); }
   }
 
   public getValid(): boolean {
