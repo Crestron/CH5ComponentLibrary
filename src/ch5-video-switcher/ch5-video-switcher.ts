@@ -1262,16 +1262,16 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
             }
             col = 'repeat(' + col + ',' + colWidth + 'px)';
           } else {
-            if (+col === Math.floor(possibleCol) || col === "auto-fit") {
+            /* if (+col === Math.floor(possibleCol) || col === "auto-fit") {
               if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
                 colWidth = Math.max(80, ((containerHeight / finalRowNumber) - 2));
               } else {
                 colWidth = Math.max(80, ((containerWidth / finalColNumber) - 2));
               }
               col = 'repeat(' + col + ',' + colWidth + 'px)';
-            } else {
+            } else { */
               col = 'repeat(' + col + ',minmax(' + minColWidth + 'px, 1fr))';
-            }
+           /*  } */
           }
         }
         if (rowHeight > 0) {
