@@ -1196,114 +1196,55 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private handleNumberOfScreenColumns() {
-      const containerHeight = (this._screenListParentContainer.offsetHeight - 10);
-      const containerWidth = (this._screenListParentContainer.offsetWidth - 10);
-      const possibleCol = containerWidth / 82;
-      const possibleRow = containerHeight / 62;
-      const minColWidth: number = 80;
-      const minRowHieght: number = 60;
-      let finalColNumber: number = 0;
-      let finalRowNumber: number = 0;
-      let setCol: boolean = true;
-      let setRow: boolean = true;
-      let requiredRows: number = 1;
-      let visible_screens: number = 0;
-      let rowHeight: any = 0;
-      let colWidth: any = 0;
+    const containerHeight = (this._screenListParentContainer.offsetHeight - 10);
+    const containerWidth = (this._screenListParentContainer.offsetWidth - 10);
+    const possibleCol = containerWidth / 82;
+    const possibleRow = containerHeight / 62;
+    const minColWidth: number = 80;
+    const minRowHieght: number = 60;
+    let finalColNumber: number = 0;
+    let finalRowNumber: number = 0;
+    let setCol: boolean = true;
+    let setRow: boolean = true;
+    let requiredRows: number = 1;
+    let visible_screens: number = 0;
+    let rowHeight: any = 0;
+    let colWidth: any = 0;
 
-      this._screenListContainer.style.removeProperty('grid-template-columns');
-      this._screenListContainer.style.removeProperty('grid-template-rows');
+    this._screenListContainer.style.removeProperty('grid-template-columns');
+    this._screenListContainer.style.removeProperty('grid-template-rows');
 
-      if (this.numberOfScreenColumns > 0) {
-        // columns
-        if (Math.floor(possibleCol) >= this.numberOfScreenColumns) {
-          requiredRows = this.numberOfScreens / Math.floor(this.numberOfScreenColumns);
-          finalColNumber = this.numberOfScreenColumns;
-        } else if (Math.floor(possibleCol) >= this.numberOfScreens) {
-          requiredRows = this.numberOfScreens / Math.floor(possibleCol);
-          finalColNumber = Math.floor(possibleCol);
-        } else {
-          requiredRows = this.numberOfScreens / Math.floor(possibleCol);
-          finalColNumber = Math.floor(possibleCol);
-          setCol = false;
-        }
-
-        // rows
-        if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
-          visible_screens = finalColNumber * Math.floor(possibleRow);
-          finalRowNumber = Math.floor(possibleRow)
-        } else {
-          visible_screens = finalColNumber * Math.ceil(requiredRows);
-          finalRowNumber = Math.ceil(requiredRows);
-        }
-
-        let col = setCol ? finalColNumber : 'auto-fit';
-        let row = 'repeat(' + finalRowNumber + ', minmax(' + minRowHieght + 'px, 1fr) )'
-        if (setCol && (col > this.numberOfScreens + '')) { // to center items is screens are les than number of col
-          colWidth = (Math.floor(possibleCol) > this.numberOfScreenColumns) ? (containerWidth / this.numberOfScreenColumns) : (containerWidth / Math.floor(possibleCol));
-          col = 'repeat(' + this.numberOfScreens + ',' + colWidth + 'px)';
-        } else {
-          // To center align items when screenaspect is 16:9 and 4:3
-          if (this.screenAspectRatio === "16:9" || this.screenAspectRatio === "4:3") {
-            if ((Math.floor(possibleCol) >= finalColNumber) && (Math.floor(possibleRow) >= finalRowNumber)) {
-              const SW = containerWidth / finalColNumber;
-              const SH = containerHeight / finalRowNumber;
-              const reHeight = this.screenAspectRatio === '16:9' ? (SW * (9 / 16)) : (SW * (3 / 4));
-              if (SH >= reHeight) {
-                colWidth = (containerWidth / finalColNumber) - 2;
-                rowHeight = reHeight;
-              } else {
-                rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber, this.screenAspectRatio);
-                colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber, this.screenAspectRatio);
-              }
-            } else {
-              rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber, this.screenAspectRatio);
-              colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber, this.screenAspectRatio);
-            }
-            col = 'repeat(' + col + ',' + colWidth + 'px)';
-          } else {
-            /* if (+col === Math.floor(possibleCol) || col === "auto-fit") {
-              if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
-                colWidth = Math.max(80, ((containerHeight / finalRowNumber) - 2));
-              } else {
-                colWidth = Math.max(80, ((containerWidth / finalColNumber) - 2));
-              }
-              col = 'repeat(' + col + ',' + colWidth + 'px)';
-            } else { */
-              col = 'repeat(' + col + ',minmax(' + minColWidth + 'px, 1fr))';
-           /*  } */
-          }
-        }
-        if (rowHeight > 0) {
-          row = 'repeat(' + finalRowNumber + ',' + rowHeight + 'px)';
-        }
-        this._screenListContainer.style.setProperty('grid-template-columns', col);
-        this._screenListContainer.style.setProperty('grid-template-rows', row);
+    if (this.numberOfScreenColumns > 0) {
+      // columns
+      if (Math.floor(possibleCol) >= this.numberOfScreenColumns) {
+        requiredRows = this.numberOfScreens / Math.floor(this.numberOfScreenColumns);
+        finalColNumber = this.numberOfScreenColumns;
+      } else if (Math.floor(possibleCol) >= this.numberOfScreens) {
+        requiredRows = this.numberOfScreens / Math.floor(possibleCol);
+        finalColNumber = Math.floor(possibleCol);
       } else {
         requiredRows = this.numberOfScreens / Math.floor(possibleCol);
-        if (this.screenAspectRatio === '16:9' || this.screenAspectRatio === '4:3') {
-          if (Math.floor(possibleCol) >= this.numberOfScreens) {
-            finalColNumber = this.numberOfScreens;
-          } else {
-            finalColNumber = Math.floor(possibleCol);
-          }
-        }
+        finalColNumber = Math.floor(possibleCol);
+        setCol = false;
+      }
 
-        // rows
-        if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
-          visible_screens = Math.floor(possibleRow) * Math.floor(possibleCol);
-          finalRowNumber = Math.floor(possibleRow);
-        } else if (Math.floor(possibleRow) >= Math.ceil(requiredRows)) {
-          finalRowNumber = Math.ceil(requiredRows)
-          visible_screens = Math.ceil(requiredRows) * Math.floor(possibleCol);
-        } else {
-          setRow = false;
-        }
+      // rows
+      if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
+        visible_screens = finalColNumber * Math.floor(possibleRow);
+        finalRowNumber = Math.floor(possibleRow)
+      } else {
+        visible_screens = finalColNumber * Math.ceil(requiredRows);
+        finalRowNumber = Math.ceil(requiredRows);
+      }
 
-        let col = 'repeat(auto-fit, minmax(' + minColWidth + 'px, 1fr) )';
-        let rowHeight: any = 0;
+      let col = setCol ? finalColNumber : 'auto-fit';
+      let row = 'repeat(' + finalRowNumber + ', minmax(' + minRowHieght + 'px, 1fr) )'
+      if (setCol && (col > this.numberOfScreens + '')) { // to center items is screens are les than number of col
+        colWidth = (Math.floor(possibleCol) > this.numberOfScreenColumns) ? (containerWidth / this.numberOfScreenColumns) : (containerWidth / Math.floor(possibleCol));
+        col = 'repeat(' + this.numberOfScreens + ',' + colWidth + 'px)';
+      } else {
+        // To center align items when screenaspect is 16:9 and 4:3
         if (this.screenAspectRatio === "16:9" || this.screenAspectRatio === "4:3") {
-          let colWidth: any = 0;
           if ((Math.floor(possibleCol) >= finalColNumber) && (Math.floor(possibleRow) >= finalRowNumber)) {
             const SW = containerWidth / finalColNumber;
             const SH = containerHeight / finalRowNumber;
@@ -1319,47 +1260,87 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
             rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber, this.screenAspectRatio);
             colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber, this.screenAspectRatio);
           }
-          col = 'repeat(auto-fit,' + colWidth + 'px)';
-        }
-        let row = '';
-        if (rowHeight > 0) {
-          row = 'repeat(' + finalRowNumber + ',' + rowHeight + 'px)';
+          col = 'repeat(' + col + ',' + colWidth + 'px)';
         } else {
-          row = setRow ? 'repeat(' + finalRowNumber + ', minmax(' + minRowHieght + 'px, 1fr) )' : 'minmax(' + minRowHieght + 'px, 1fr)';
+          col = 'repeat(' + col + ',minmax(' + minColWidth + 'px, 1fr))';
         }
-
-        this._screenListContainer.style.setProperty('grid-template-columns', col);
-        this._screenListContainer.style.setProperty('grid-template-rows', row);
+      }
+      if (rowHeight > 0) {
+        row = 'repeat(' + finalRowNumber + ',' + rowHeight + 'px)';
+      }
+      this._screenListContainer.style.setProperty('grid-template-columns', col);
+      this._screenListContainer.style.setProperty('grid-template-rows', row);
+    } else {
+      requiredRows = this.numberOfScreens / Math.floor(possibleCol);
+      if (this.screenAspectRatio === '16:9' || this.screenAspectRatio === '4:3') {
+        if (Math.floor(possibleCol) >= this.numberOfScreens) {
+          finalColNumber = this.numberOfScreens;
+        } else {
+          finalColNumber = Math.floor(possibleCol);
+        }
       }
 
-/*       this._screenListContainer.style.removeProperty('width');
-      this._screenListContainer.style.removeProperty('height'); */
-      for (let i = 0; i < this.numberOfScreens; i++) {
-        const screen = this._screenListContainer.querySelector(`[screenid="${i}"]`) as HTMLElement;
-        if (!screen) {
-          continue;
-        }
-        screen.style.removeProperty('width');
-        screen.style.removeProperty('height'); 
-        screen.classList.remove('hideScreen');
-        if (i >= visible_screens && !screen.classList.contains('hideScreen')) {
-          screen.classList.add('hideScreen');
-        }
+      // rows
+      if (Math.floor(possibleRow) <= Math.ceil(requiredRows)) {
+        visible_screens = Math.floor(possibleRow) * Math.floor(possibleCol);
+        finalRowNumber = Math.floor(possibleRow);
+      } else if (Math.floor(possibleRow) >= Math.ceil(requiredRows)) {
+        finalRowNumber = Math.ceil(requiredRows)
+        visible_screens = Math.ceil(requiredRows) * Math.floor(possibleCol);
+      } else {
+        setRow = false;
+      }
 
-        if (this.screenAspectRatio === '4:3' || this.screenAspectRatio === '16:9') {
-          if ((Math.floor(possibleCol) >= finalColNumber) && (Math.floor(possibleRow) >= finalRowNumber)) {
-            const SW = containerWidth / finalColNumber;
-            const SH = containerHeight / finalRowNumber;
-            const reHeight = this.screenAspectRatio === '16:9' ? (SW * (9 / 16)) : (SW * (3 / 4));
-            if (SH >= reHeight) {
-              screen.style.width = (containerWidth / finalColNumber) - 2 + 'px';
-            } else {
-              if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
-                screen.style.height = (containerHeight / finalRowNumber) - 2 + 'px';
-              } else {
-                screen.style.height = (containerWidth / finalColNumber) - 2 + 'px';
-              }
-            }
+      let col = 'repeat(auto-fit, minmax(' + minColWidth + 'px, 1fr) )';
+      let rowHeight: any = 0;
+      if (this.screenAspectRatio === "16:9" || this.screenAspectRatio === "4:3") {
+        let colWidth: any = 0;
+        if ((Math.floor(possibleCol) >= finalColNumber) && (Math.floor(possibleRow) >= finalRowNumber)) {
+          const SW = containerWidth / finalColNumber;
+          const SH = containerHeight / finalRowNumber;
+          const reHeight = this.screenAspectRatio === '16:9' ? (SW * (9 / 16)) : (SW * (3 / 4));
+          if (SH >= reHeight) {
+            colWidth = (containerWidth / finalColNumber) - 2;
+            rowHeight = reHeight;
+          } else {
+            rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber, this.screenAspectRatio);
+            colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber, this.screenAspectRatio);
+          }
+        } else {
+          rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber, this.screenAspectRatio);
+          colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber, this.screenAspectRatio);
+        }
+        col = 'repeat(auto-fit,' + colWidth + 'px)';
+      }
+      let row = '';
+      if (rowHeight > 0) {
+        row = 'repeat(' + finalRowNumber + ',' + rowHeight + 'px)';
+      } else {
+        row = setRow ? 'repeat(' + finalRowNumber + ', minmax(' + minRowHieght + 'px, 1fr) )' : 'minmax(' + minRowHieght + 'px, 1fr)';
+      }
+
+      this._screenListContainer.style.setProperty('grid-template-columns', col);
+      this._screenListContainer.style.setProperty('grid-template-rows', row);
+    }
+    for (let i = 0; i < this.numberOfScreens; i++) {
+      const screen = this._screenListContainer.querySelector(`[screenid="${i}"]`) as HTMLElement;
+      if (!screen) {
+        continue;
+      }
+      screen.style.removeProperty('width');
+      screen.style.removeProperty('height');
+      screen.classList.remove('hideScreen');
+      if (i >= visible_screens && !screen.classList.contains('hideScreen')) {
+        screen.classList.add('hideScreen');
+      }
+
+      if (this.screenAspectRatio === '4:3' || this.screenAspectRatio === '16:9') {
+        if ((Math.floor(possibleCol) >= finalColNumber) && (Math.floor(possibleRow) >= finalRowNumber)) {
+          const SW = containerWidth / finalColNumber;
+          const SH = containerHeight / finalRowNumber;
+          const reHeight = this.screenAspectRatio === '16:9' ? (SW * (9 / 16)) : (SW * (3 / 4));
+          if (SH >= reHeight) {
+            screen.style.width = (containerWidth / finalColNumber) - 2 + 'px';
           } else {
             if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
               screen.style.height = (containerHeight / finalRowNumber) - 2 + 'px';
@@ -1367,8 +1348,15 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
               screen.style.height = (containerWidth / finalColNumber) - 2 + 'px';
             }
           }
+        } else {
+          if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
+            screen.style.height = (containerHeight / finalRowNumber) - 2 + 'px';
+          } else {
+            screen.style.height = (containerWidth / finalColNumber) - 2 + 'px';
+          }
         }
       }
+    }
   }
 
   getRowHeightColWidth(colWidth: boolean = false, containerHeight: number, containerWidth: number, finalRowNumber: number, finalColNumber: number, aspectRatio: string) {
