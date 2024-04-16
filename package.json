@@ -1,6 +1,6 @@
 {
     "name": "@crestron/ch5-crcomlib", 
-    "version": "2.8.0", 
+    "version": "2.9.0", 
     "description": "Crestron HTML5 (CH5) Components Library", 
     "repository": {
         "type": "git", 
@@ -62,7 +62,7 @@
     "license": "SEE LICENSE IN LICENSE.txt", 
     "dependencies": {
         "@raghavendradabbir/mycolorpicker": "^1.0.0", 
-        "axios": "^1.6.7",  
+        "axios": "^1.6.7", 
         "hammerjs": "^2.0.8", 
         "i18next": "^21.6.3", 
         "lodash": "^4.17.21", 
