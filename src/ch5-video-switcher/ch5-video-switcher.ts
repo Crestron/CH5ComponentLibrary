@@ -1434,12 +1434,16 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   private sourceIconHelperCreate(index: number, sourceIcon: HTMLElement) {
     const source = this.querySelector(`#${this.getCrId()}-source-${index}`) as Ch5VideoSwitcherSource;
-    if (this.sourceIconUrl) {
+    if (source && source.iconUrl) {
+      sourceIcon.style.removeProperty('backgroundImage');
+      sourceIcon.classList.add('source-icon-url');
+      sourceIcon.style.backgroundImage = `url(${source.iconUrl})`;
+    } else if (this.sourceIconUrl) {
       sourceIcon.style.removeProperty('backgroundImage');
       sourceIcon.classList.add('source-icon-url');
       sourceIcon.style.backgroundImage = `url(${this.sourceIconUrl})`;
     } else {
-      const iconClass = source && source.iconClass ? source.iconClass : this.sourceIconClass ? this.sourceIconClass : Ch5VideoSwitcher.DEFAULT_SOURCE_ICON
+      const iconClass = source && source.iconClass ? source.iconClass : this.sourceIconClass ? this.sourceIconClass : Ch5VideoSwitcher.DEFAULT_SOURCE_ICON;
       iconClass.split(' ').forEach((className: string) => {
         className = className.trim();
         if (className !== '') {
@@ -1515,7 +1519,6 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   private addSourceToScreen(ele: Element, screen: HTMLElement, scrNumber: number, drop: boolean) {
     const se = document.createElement('div');
-    const iconTag = ele.children[0] as HTMLElement;
     se.innerHTML = ele?.innerHTML;
     se.classList.add('draggable');
     se.classList.add('source-onscreen');
@@ -1523,9 +1526,10 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     if (ele && ele?.getAttribute('sourceid')) {
       se.setAttribute('sourceId', ele?.getAttribute('sourceid') + '');
     }
-    if (this.sourceIconUrl) {
-      iconTag.style.height = screen.offsetHeight * 0.27 + 'px';
-      iconTag.style.width = screen.offsetWidth * 0.27 + 'px';
+    const iconElement = se.children[0] as HTMLElement;
+    if (iconElement.classList.contains('source-icon-url')) {
+      iconElement.style.height = screen.offsetHeight * 0.27 + 'px';
+      iconElement.style.width = screen.offsetWidth * 0.27 + 'px';
     } else {
       se.style.fontSize = screen.offsetHeight * 0.27 + 'px';
     }

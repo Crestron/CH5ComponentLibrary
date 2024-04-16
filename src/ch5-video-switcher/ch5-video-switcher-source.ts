@@ -56,7 +56,7 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
   }
 
   public set iconUrl(value: string) {
-    this._ch5Properties.set<string>("iconClass", value, () => {
+    this._ch5Properties.set<string>("iconUrl", value, () => {
       this.handleIcon();
     });
   }
@@ -204,7 +204,7 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
       }
     }
   }
-  
+
   //#endregion
 
 }
