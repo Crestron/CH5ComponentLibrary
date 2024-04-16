@@ -146,7 +146,7 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    * [
    * "`sourceIconUrl` attribute",
    * "***",
-   * "The sourceIconUrl attribute with SVG icons and PNG Icons. We can pass only one url in the sourceIconUrl attribute. This attribute overrides the sourceIconClass attribute in ch5-video-switcher for the respective individual source based on index."
+   * "This attributes supports SVG icons and PNG icons, we can pass only one url in the sourceIconUrl attribute.The iconUrl in the ch5-video-switcher-source tag will override this value."
    * ]
    * @name sourceiconurl
    * @default 

@@ -1529,10 +1529,9 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     const iconElement = se.children[0] as HTMLElement;
     if (iconElement.classList.contains('source-icon-url')) {
       iconElement.style.height = screen.offsetHeight * 0.27 + 'px';
-      iconElement.style.width = screen.offsetWidth * 0.27 + 'px';
-    } else {
-      se.style.fontSize = screen.offsetHeight * 0.27 + 'px';
-    }
+      iconElement.style.width = '100%';
+    } 
+    se.style.fontSize = screen.offsetHeight * 0.27 + 'px';
     if (screen?.children.length === 2) {
       screen?.removeChild(screen?.children[1]);
     }

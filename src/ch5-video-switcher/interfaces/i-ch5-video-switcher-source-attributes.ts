@@ -31,7 +31,7 @@ export interface ICh5VideoSwitcherSourceAttributes {
    * [
    * "`iconUrl` attribute",
    * "***",
-   * "The iconUrl attribute with SVG icons and PNG Icons. We can pass only one url in the iconUrl attribute. This attribute overrides the iconClass attribute in ch5-video-switcher for the respective individual source based on index."
+   * "This attribute supports SVG icons and PNG Icons, we can pass only one url in the iconUrl attribute."
    * ]
    * @name iconurl
    * @default 
