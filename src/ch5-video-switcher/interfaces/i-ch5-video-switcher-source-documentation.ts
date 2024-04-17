@@ -32,7 +32,8 @@ import { ICh5VideoSwitcherSourceAttributes } from "./i-ch5-video-switcher-source
  *     "description": "Crestron video switcher source (default)",
  *     "body": [
  *       "<ch5-video-switcher-source",
- *        "\ticonClass=\"${1:}\">",
+ *        "\ticonClass=\"${1:}\"",
+ *        "\ticonUrl=\"${2:}\">",
  *       "</ch5-video-switcher-source>$0"
  *       ]
  *    }
