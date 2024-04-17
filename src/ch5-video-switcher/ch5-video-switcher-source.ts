@@ -186,8 +186,9 @@ export class Ch5VideoSwitcherSource extends Ch5Log implements ICh5VideoSwitcherS
       if (this.parentComponent && this.parentComponent._sourceListContainer.children[index]) {
         const ele = this.parentComponent._sourceListContainer.children[index].getElementsByTagName('i');
         ele[0].setAttribute('class', '');
+        ele[0].classList.add('source-icon');
         ele[0].classList.add('source-icon-url');
-        ele[0].style.backgroundImage = `url${this.iconUrl}`;
+        ele[0].style.backgroundImage = `url(${this.iconUrl})`;
       }
     } else {
       const index = Number(this.getAttribute('id')?.split('-').pop());
