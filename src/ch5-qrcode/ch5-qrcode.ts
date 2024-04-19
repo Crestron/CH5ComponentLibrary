@@ -2,7 +2,6 @@
 // import { ICh5QrCodeAttributes } from './interfaces/i-ch5-qrcode-attributes';
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import QRCode from "qrcode";
-// import { Ch5Base } from "../ch5-base/ch5-base";
 import { Ch5ComponentLibrary } from "../ch5-core/ch5-component";
 import Ch5ColorUtils from '../ch5-common/utils/ch5-color-utils';
 import { Ch5BaseClass } from "../ch5-base/ch5-base-class";
@@ -64,9 +63,6 @@ export class Ch5QrCode extends Ch5BaseClass { //} implements ICh5QrCodeAttribute
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true
 		},
-		Ch5BaseClass.COMMON_PROPERTIES.customClass,
-		Ch5BaseClass.COMMON_PROPERTIES.receiveStateCustomClass,
-		Ch5BaseClass.COMMON_PROPERTIES.customStyle,
 		Ch5BaseClass.COMMON_PROPERTIES.debug,
 		Ch5BaseClass.COMMON_PROPERTIES.id,
 		Ch5BaseClass.COMMON_PROPERTIES.noshowType,

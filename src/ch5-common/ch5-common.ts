@@ -282,11 +282,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	protected _keepListeningOnSignalsAfterRemoval = false;
 
 	/**
-	 * This will be the target element for adding css classes or css style ( except the classes related to show/hide )
-	 */
-	protected _targetElementForCssClassesAndStyle: HTMLElement | null = null;
-
-	/**
 	 * An RxJs observable for the gestureable property.
 	 * Other classes can subscribe to this and be notified when the gestureable property changes.
 	 */

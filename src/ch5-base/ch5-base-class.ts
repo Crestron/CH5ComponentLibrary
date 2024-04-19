@@ -5,11 +5,10 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { Ch5Signal, Ch5SignalFactory, Ch5TranslationUtility, Ch5Uid, languageChangedSignalName, publishEvent, subscribeInViewPortChange } from '../ch5-core';
+import { Ch5Signal, Ch5SignalFactory, Ch5Uid, publishEvent, subscribeInViewPortChange } from '../ch5-core';
 import { Ch5Config } from '../ch5-common/ch5-config';
 import { Ch5MutationObserver } from '../ch5-common/ch5-mutation-observer';
 import isEmpty from 'lodash/isEmpty';
-import _ from 'lodash';
 import { Ch5BaseLog } from './ch5-base-log';
 import { ICh5CommonAttributes, TCh5ShowType } from '../ch5-common/interfaces';
 import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
@@ -37,9 +36,6 @@ export interface ICh5CommonProperties {
 	trace: ICh5PropertySettings
 }
 
-/**
- * Gestureable has been removed from Ch5BaseClass (available in Ch5Common)
- */
 export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttributes {
 
 	//#region Variables
@@ -51,109 +47,21 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 	protected COMPONENT_NAME = "Ch5BaseClass";
 	public primaryCssClass: string = 'ch5-base-class';
 
-	// Current language for each component
-	public currentLanguage: string | null = '';
-
-	public translatableObjects: any = {} as any;
 	public childrenOfCurrentNode: [HTMLElement] | null = null;
-
 	protected _isInstantiated: boolean = false;
 
-	/**
-	 *  Standard HTML attribute, defaults to false
-	 */
-	protected _disabled: boolean = false;
-
-
-	/**
-	 * Contains the name of a boolean signal.
-	 * The value of this signal determines if the component is seen by the user. ( true = seen,visible )
-	 *
-	 * HTML attribute name: receiveStateShow or receivestateshow
-	 */
-	protected _receiveStateShow: string = '';
-
-	/**
-	 * The subscription key for the receiveStateShow signal
-	 */
-	protected _subKeySigReceiveShow: string = '';
-
-	/**
-	 *  Contains the name of a boolean signal.
-	 *  Component is seen when the signal transitions from false to true
-	 *
-	 *  HTML attribute name: receiveStateShowPulse or receivestateshowpulse
-	 */
-	protected _receiveStateShowPulse: string = '';
-
-	/**
-	 * The subscription key for the receiveStateShowPulse signal
-	 */
-	protected _subKeySigReceiveShowPulse: string = '';
-
-	/**
-	 * Contains the name of a boolean signal.
-	 * Component is hidden when the signal transitions from false to true
-	 *
-	 * HTML attribute name: receiveStateHidePulse or receivestatehidepulse
-	 */
-	protected _receiveStateHidePulse: string = '';
-
 	protected _nextSiblingIndexInParentChildNodes: number = 0;
-
-	/**
-	 * The subscription key for the receiveStateHidePulse signal
-	 */
-	protected _subKeySigReceiveHidePulse: string = '';
-
-	/**
-	 * Contains the name of a boolean signal.
-	 * When the value of this signal is true, the component is enabled. ( the disabled attribute is the opposite of this value )
-	 *
-	 * HTML attribute name: receiveStateEnable or receivestateenable
-	 */
-	protected _receiveStateEnable: string = '';
-
-	/**
-	 * The subscription key for the receiveStateEnable signal
-	 */
-	protected _subKeySigReceiveEnable: string = '';
-
-	/**
-	 * Contains the name of a boolean signal.
-	 * This signal will be sent to the native app with a true value when the component is visible and a false value when
-	 * the component is not visible.
-	 * The component is considered visible even if completely covered by other visible elements.
-	 *
-	 * HTML attribute name: sendEventOnShow or sendeventonshow
-	 */
-	protected _sigNameSendOnShow: string = '';
-
-	/**
-	 * The subscription key for the sendEventOnShow signal
-	 */
-	protected _sigSendOnShow: Ch5Signal<boolean> | null = null;
 
 	protected _onrelease: {} = {};
 
 	protected _onpress: {} = {};
 
-	/**
-	 * If this param is true then the component will display debug/info messages in the browser's console
-	 */
-	protected _isDebugEnabled: boolean = false;
-	protected _isTraceEnabled: boolean = false;
-
-	/**
-	 * Ch5 internal unique ID
-	 */
+	// Ch5 internal unique ID
 	protected _crId: string = '';
 
-	// CSS class name for noshowtype = visibility
-	private readonly CSS_CLASS_FOR_HIDE_VISIBILITY = 'ch5-hide-vis';
 
-	// CSS class name for noshowtype = none
-	private readonly CSS_CLASS_FOR_HIDE_DISPLAY = 'ch5-hide-dis';
+	private readonly CSS_CLASS_FOR_HIDE_VISIBILITY = 'ch5-hide-vis'; // CSS class name for noshowtype = visibility
+	private readonly CSS_CLASS_FOR_HIDE_DISPLAY = 'ch5-hide-dis'; // CSS class name for noshowtype = none
 	/**
 	 * Cached parent element. Used in the case when noshowType is set to remove and the component has to be reattached to the DOM
 	 */
@@ -168,29 +76,9 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 	protected _isDetachedFromDom: boolean = false;
 	/**
 	 * When noshowType is 'remove' and the element was removed from the DOM this gets set to true
-	 * If this is true then the component will not unsubscribe from signals on removal from DOM ( as a consequence of a show signal change)
+	 * If this is true then the component will not unsubscribe from signals on removal from DOM (as a consequence of a show signal change)
 	 */
 	protected _keepListeningOnSignalsAfterRemoval = false;
-
-	/**
-	 * This will be the target element for adding css classes or css style ( except the classes related to show/hide )
-	 */
-	protected _targetElementForCssClassesAndStyle: HTMLElement | null = null;
-
-	protected _wasInstatiated: boolean = false;
-
-	/**
-	 * This property is set to true when the component is instantiated in viewport.
-	 * For example the ch5-modal-dialog component at the render time may
-	 * be hidden and then the size of the ch5-modal-dialog cannot be computed.
-	 *
-	 * This property is used to check if the component
-	 * was instantiated in the viewport
-	 *
-	 * @protected
-	 * @type {boolean}
-	 */
-	protected wasInstantiatedInViewport: boolean = false;
 
 	/**
 	 * boolean value - element is present or not in viewport
@@ -211,6 +99,7 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 	public logger: Ch5BaseLog;
 
 	private _commonMutationObserver: Ch5MutationObserver = {} as Ch5MutationObserver;
+	private _subscribeAppendClassWhenInViewPort: boolean = false;
 
 	protected _ch5Properties: Ch5Properties;
 	public componentProperties: ICh5PropertySettings[] = [];
@@ -392,7 +281,6 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 		show: this.getCommonProperty("show"),
 		trace: this.getCommonProperty("trace")
 	};
-	private _subscribeAppendClassWhenInViewPort: boolean = false;
 
 	//#endregion
 
@@ -449,7 +337,7 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 
 	public set disabled(value: boolean) {
 		this._ch5Properties.set<boolean>("disabled", value, () => {
-			// this.setAttributeAndProperty(this.COMMON_PROPERTIES.DISABLED, value); // TODO - RAGS COMMENT
+			this.updateForChangeInDisabledStatus();
 		});
 	}
 	public get disabled(): boolean {
@@ -497,243 +385,132 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 
 	public set show(value: boolean) {
 		this._ch5Properties.set<boolean>("show", value, () => {
-			if (_.isNil(this.receiveStateShow) || this.receiveStateShow === "") {
-				// this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, value); // TODO - RAGS COMMENT
-			}
+			this.updateForChangeInShowStatus();
 		});
 	}
 	public get show(): boolean {
 		return this._ch5Properties.get<boolean>("show");
 	}
 
-
-
-
-
-
-
 	public set receiveStateEnable(value: string) {
-		this.logger.log('set receiveStateEnable(\'' + value + '\')');
-		if ('' === value || value === this._receiveStateEnable) {
-			return;
-		}
-
-		this.clearBooleanSignalSubscription(this._receiveStateEnable, this._subKeySigReceiveEnable);
-
-		this._receiveStateEnable = value;
-		this.setAttribute('receivestateenable', value);
-
-		const recSigEnableName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateEnable);
-		const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigEnableName);
-
-		if (null === recSig) {
-			return;
-		}
-		this._subKeySigReceiveEnable = recSig.subscribe((newValue: boolean) => {
-			this.logger.log(' subs callback for signalReceiveEnable: ', this._subKeySigReceiveEnable, ' Signal has value ', newValue);
-			if ((!this.disabled) !== newValue) {
-				// this.setAttributeAndProperty(this.COMMON_PROPERTIES.DISABLED, !newValue as unknown as boolean, true); // TODO - RAGS COMMENT
-			}
+		this._ch5Properties.set("receiveStateEnable", value, null, (newValue: boolean) => {
+			this._ch5Properties.setForSignalResponse<boolean>("disabled", newValue, () => {
+				this.updateForChangeInDisabledStatus();
+			});
 		});
 	}
 	public get receiveStateEnable(): string {
-		// The internal property is changed if/when the element is removed from dom
-		// Returning the attribute instead of the internal property preserves functionality
-		return this._attributeValueAsString('receivestateenable');
+		return this._ch5Properties.get<string>("receiveStateEnable");
 	}
 
 	public set receiveStateHidePulse(value: string) {
-		this.logger.log('set receiveStateHidePulse(\'' + value + '\')');
-		if ('' === value || value === this._receiveStateHidePulse) {
-			return;
-		}
-
-		this.clearBooleanSignalSubscription(this._receiveStateHidePulse, this._subKeySigReceiveHidePulse);
-
-		this._receiveStateHidePulse = value;
-		this.setAttribute('receivestatehidepulse', value);
-
-		const recSigHidePulseName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateHidePulse);
-		const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigHidePulseName);
-
-		if (null === recSig) {
-			return;
-		}
-
-		this._subKeySigReceiveHidePulse = recSig.subscribe((newVal: boolean) => {
-			this.logger.log(' subs callback for signalReceiveHidePulse: ', this._subKeySigReceiveHidePulse, ' Signal has value ', newVal);
-			if (null !== recSig) {
-				if (false === recSig.prevValue && true === newVal) {
-					this.setAttribute('show', 'false');
-				}
-			} else {
-				this.logger.log(' subs callback for signalReceiveHidePulse: ', this._subKeySigReceiveHidePulse, ' recSig is null');
-			}
+		this._ch5Properties.set("receiveStateHidePulse", value, null, (newValue: boolean) => {
+			this._ch5Properties.setForSignalResponse<boolean>("show", newValue, () => {
+				// this._subKeySigReceiveHidePulse = recSig.subscribe((newVal: boolean) => {
+				// 	this.logger.log(' subs callback for signalReceiveHidePulse: ', this._subKeySigReceiveHidePulse, ' Signal has value ', newVal);
+				// 	if (null !== recSig) {
+				// 		if (false === recSig.prevValue && true === newVal) {
+				// 			this.setAttribute('show', 'false');
+				// 		}
+				// 	} else {
+				// 		this.logger.log(' subs callback for signalReceiveHidePulse: ', this._subKeySigReceiveHidePulse, ' recSig is null');
+				// 	}
+				// });
+			});
 		});
 	}
 
 	public get receiveStateHidePulse(): string {
-		// The internal property is changed if/when the element is removed from dom
-		// Returning the attribute instead of the internal property preserves functionality
-		return this._attributeValueAsString('receivestatehidepulse');
+		return this._ch5Properties.get<string>("receiveStateHidePulse");
 	}
 
 	public set receiveStateShowPulse(value: string) {
-		this.logger.log('set receiveStateShowPulse(\'' + value + '\')');
-		if ('' === value || value === this._receiveStateShowPulse) {
-			return;
-		}
-
-		this.clearBooleanSignalSubscription(this._receiveStateShowPulse, this._subKeySigReceiveShowPulse);
-
-		this._receiveStateShowPulse = value;
-		this.setAttribute('receivestateshowpulse', value);
-
-		const recSigShowPulseName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateShowPulse);
-		const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigShowPulseName);
-
-		if (null === recSig) {
-			return;
-		}
-
-		this._subKeySigReceiveShowPulse = recSig.subscribe((newVal: boolean) => {
-			this.logger.log(' subs callback for signalReceiveShowPulse: ', this._subKeySigReceiveShowPulse, ' Signal has value ', newVal);
-			if (null !== recSig) {
-				const _newVal = (newVal as never as { repeatdigital: boolean }).repeatdigital !== undefined ? (newVal as never as { repeatdigital: boolean }).repeatdigital : newVal;
-				if ((recSig.prevValue as never as { repeatdigital: boolean }).repeatdigital !== undefined) {
-					if (false === (recSig.prevValue as never as { repeatdigital: boolean }).repeatdigital && true === _newVal) {
-						this.setAttribute('show', 'true');
-					}
-					return;
-				}
-				if (false === recSig.prevValue && true === _newVal) {
-					this.setAttribute('show', 'true');
-				}
-			}
+		this._ch5Properties.set("receiveStateShowPulse", value, null, (newValue: boolean) => {
+			this._ch5Properties.setForSignalResponse<boolean>("show", newValue, () => {
+				// const _newVal = (newVal as never as { repeatdigital: boolean }).repeatdigital !== undefined ? (newVal as never as { repeatdigital: boolean }).repeatdigital : newVal;
+				// if ((recSig.prevValue as never as { repeatdigital: boolean }).repeatdigital !== undefined) {
+				// 	if (false === (recSig.prevValue as never as { repeatdigital: boolean }).repeatdigital && true === _newVal) {
+				// 		this.setAttribute('show', 'true');
+				// 	}
+				// 	return;
+				// }
+				// if (false === recSig.prevValue && true === _newVal) {
+				// 	this.setAttribute('show', 'true');
+				// }
+			});
 		});
 	}
 	public get receiveStateShowPulse(): string {
-		// The internal property is changed if/when the element is removed from DOM
-		// Returning the attribute instead of the internal property preserves functionality
-		return this._attributeValueAsString('receivestateshowpulse');
+		return this._ch5Properties.get<string>("receiveStateShowPulse");
 	}
 
 	public set receiveStateShow(value: string) {
-		this.logger.log('set receiveStateShow(\'' + value + '\')');
-		if ('' === value || value === this._receiveStateShow) {
-			return;
-		}
+		this._ch5Properties.set("receiveStateShow", value, null, (newValue: boolean) => {
+			this._ch5Properties.setForSignalResponse<boolean>("show", newValue, () => {
 
-		this.clearBooleanSignalSubscription(this._receiveStateShow, this._subKeySigReceiveShow);
-
-		this._receiveStateShow = value;
-		this.setAttribute('receivestateshow', value);
-
-		const recSigShowName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateShow);
-		const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigShowName);
-
-		if (null === recSig) {
-			this.logger.log('recSig for signalReceiveShow is null');
-			return;
-		}
-
-		this._subKeySigReceiveShow = recSig.subscribe((newValue: boolean) => {
-			this.logger.log('subs callback for signalReceiveShow: ', this._subKeySigReceiveShow, ' Signal has value ', newValue, ' this.show', this.show);
-			if (newValue !== this.show) {
-				// this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, newValue as unknown as boolean, true); // TODO - RAGS COMMENT
-			}
+			});
 		});
 	}
 
 	public get receiveStateShow(): string {
-		// The internal property is changed if/when the element is removed from DOM
-		// Returning the attribute instead of the internal property preserves functionality
-		return this._attributeValueAsString('receivestateshow');
+		return this._ch5Properties.get<string>("receiveStateShow");
 	}
 
 	public set sendEventOnShow(value: string) {
-		this.sigNameSendOnShow = value;
+		this._ch5Properties.set("sendEventOnShow", value, () => {
+			// this.sendShowSignal(value);
+		});
 	}
-
 	public get sendEventOnShow(): string {
-		return this.sigNameSendOnShow;
-	}
-
-	public set sigNameSendOnShow(value: string) {
-		this.logger.log('set sigNameSendOnShow(\'' + value + '\')');
-		if ('' === value || value === this._sigNameSendOnShow) {
-			return;
+			return this._ch5Properties.get<string>("sendEventOnShow");
 		}
-
-		this._sigNameSendOnShow = value;
-		this.setAttribute('sendeventonshow', value);
-
-		this._sigSendOnShow = Ch5SignalFactory.getInstance().getBooleanSignal(this._sigNameSendOnShow);
-
-	}
-
-	public get sigNameSendOnShow(): string {
-		return this._sigNameSendOnShow;
-	}
 
 	// TODO - why do we need this
 	public set onrelease(callback: {}) {
-		this._onrelease = callback;
-	}
+			this._onrelease = callback;
+		}
 
 	public get onrelease(): {} {
-		return this._onrelease;
-	}
+			return this._onrelease;
+		}
 
 	public set onpress(callback: {}) {
-		this.logger.log("set onpress");
-		this._onpress = callback;
-	}
+			this.logger.log("set onpress");
+			this._onpress = callback;
+		}
 
 	public get onpress(): {} {
-		this.logger.log("get onpress");
-		return this._onpress;
-	}
+			this.logger.log("get onpress");
+			return this._onpress;
+		}
+
+	public set trace(value: boolean) {
+			this._ch5Properties.set<boolean>("trace", value, () => {
+				this.logger.isTraceEnabled = this.trace;
+			});
+		}
+	public get trace(): boolean {
+			return this._ch5Properties.get<boolean>("trace");
+		}
 
 	protected get util() {
-		return util;
-	}
+			return util;
+		}
 	//#endregion
 
 	//#region Lifecycle Hooks
 
 	public constructor(componentInputProperties: ICh5PropertySettings[]) {
-		super();
+			super();
 		this._crId = Ch5Uid.getUid();
-		this.logger = new Ch5BaseLog(this.COMPONENT_NAME, false, false, this._crId);
-		this.componentProperties = componentInputProperties;
-		// Ch5BaseClass.COMPONENT_PROPERTIES = componentInputProperties;
-		Ch5BaseClass.selectedComponentProperties = componentInputProperties;
-		this._ch5Properties = new Ch5Properties(this, this.componentProperties);
+			this.logger = new Ch5BaseLog(this.COMPONENT_NAME, false, false, this._crId);
+			this.componentProperties = componentInputProperties;
+			// Ch5BaseClass.COMPONENT_PROPERTIES = componentInputProperties;
+			Ch5BaseClass.selectedComponentProperties = componentInputProperties;
+			this._ch5Properties = new Ch5Properties(this, this.componentProperties);
 
 
-		const receiveSignal = Ch5SignalFactory.getInstance().getStringSignal(languageChangedSignalName);
-
-		if (this.util.isNotNil(receiveSignal)) {
-			receiveSignal?.subscribe((newValue: string) => {
-				if (newValue !== '' && newValue !== this.currentLanguage) {
-					this.currentLanguage = newValue;
-					Object.keys(this.translatableObjects).forEach((propertyToTranslate: string) => {
-						let propertyReference: { [key: string]: string } = this as {};
-
-						if (propertyReference[propertyToTranslate as string] === undefined && propertyReference['attrModel' as string] !== undefined) {
-							propertyReference = propertyReference['attrModel' as string] as {};
-						}
-
-						if (propertyReference[propertyToTranslate.toString()] !== undefined && this.translatableObjects[propertyToTranslate.toString()] !== undefined) {
-							propertyReference[propertyToTranslate.toString()] = this.translatableObjects[propertyToTranslate];
-							this.translateCallback(propertyToTranslate.toString());
-						}
-					})
-				}
-			});
 		}
-	}
 
 	//#endregion
 
@@ -744,28 +521,6 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 
 	//#region Other Methods
 
-	public _t(valueToTranslate: string) {
-		let translatedValue = valueToTranslate;
-		const translationUtility = Ch5TranslationUtility.getInstance();
-		const identifiedValues = translationUtility.valuesToTranslation(valueToTranslate);
-
-		if (identifiedValues && identifiedValues.length > 0) {
-			identifiedValues.forEach(identifier => {
-				const isTranslatable = translationUtility.isTranslationIdentifier(identifier);
-				if (isTranslatable) {
-					const characters = translationUtility.stripDownTranslationCharacters(identifier);
-					const existTranslation = translationUtility.getTranslator().exists(characters);
-
-					if (existTranslation) {
-						const identifierTranslated = translationUtility.getTranslator().t(characters);
-						translatedValue = translatedValue.replace(identifier, identifierTranslated);
-					}
-				}
-			});
-		}
-		return translatedValue;
-	}
-
 	/**
 	 * In Angular the content of the template element is not passed in
 	 * a document-fragment. This can break functionalities of ch5-spinner / ch5-list when
@@ -774,54 +529,15 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 	 * @return {void}
 	 */
 	public resolveTemplateChildren(template: HTMLTemplateElement): void {
-		if (!template) {
-			return;
-		}
+			if(!template) {
+				return;
+			}
 
-		if (this.util.isNotNil(template.content) && template.content.childElementCount === 0 && template.children.length > 0) {
+		if(this.util.isNotNil(template.content) && template.content.childElementCount === 0 && template.children.length > 0) {
 			Array.from(template.children).forEach((child) => {
 				template.content.appendChild(child);
 			});
 		}
-	}
-
-	public _getTranslatedValue(valueToSave: string, valueToTranslate: string) {
-		const translationUtility = Ch5TranslationUtility.getInstance();
-
-		let translationKey = valueToTranslate;;
-		let _value = valueToTranslate;
-		let savedValue = this.translatableObjects[valueToSave];
-
-		if (savedValue === valueToTranslate) {
-			translationKey = savedValue;
-		}
-
-		const isTranslatableValue = translationUtility.isTranslationIdentifier(translationKey);
-
-		if (!isTranslatableValue) {
-			return valueToTranslate;
-		}
-
-		if (typeof savedValue === 'undefined') {
-			savedValue = valueToTranslate;
-			_value = this._t(valueToTranslate);
-		} else {
-			const isTranslatableLabel = translationUtility.isTranslationIdentifier(savedValue);
-			if (!isTranslatableLabel) {
-				if (savedValue !== valueToTranslate) {
-					savedValue = valueToTranslate;
-				}
-				_value = this._t(valueToTranslate);
-			} else {
-				if (this._t(savedValue) !== valueToTranslate && translationUtility.hasMultipleIdentifiers(savedValue)) {
-					savedValue = valueToTranslate;
-				}
-				_value = this._t(savedValue);
-			}
-		}
-		this.translatableObjects[valueToSave] = savedValue;
-
-		return _value;
 	}
 
 	// DO NOT remove
@@ -905,39 +621,6 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 	// 				this._sigNameSendOnShow = '';
 	// 			}
 	// 			break;
-	// 		case 'disabled':
-	// 			if (!this.hasAttribute('customclassdisabled')) {
-	// 				this.disabled = newValue as unknown as boolean;
-	// 			}
-	// 			break;
-	// 		case 'debug':
-	// 			if (this.hasAttribute('debug')) {
-	// 				// TODO - set similar to disabled
-	// 				this._isDebugEnabled = true;
-	// 			} else {
-	// 				this._isDebugEnabled = false;
-	// 			}
-	// 			this.logger.isDebugEnabled = this._isDebugEnabled;
-	// 			break;
-	// 		case 'trace':
-	// 			// eslint-disable-next-line no-case-declarations
-	// 			let _isTraceEnabled: boolean = false;
-	// 			if (this.hasAttribute('trace')) {
-	// 				// TODO - set similar to disabled
-	// 				_isTraceEnabled = true;
-	// 			} else {
-	// 				_isTraceEnabled = false;
-	// 			}
-	// 			this.logger.isTraceEnabled = _isTraceEnabled;
-	// 			break;
-	// 		case 'dir':
-	// 			const newDir = this.getAttribute('dir') || '';
-	// 			if (newDir !== this.dir) {
-	// 				this.dir = newDir;
-	// 			}
-	// 			break;
-	// 		default:
-	// 			break;
 	// 	}
 	// }
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
@@ -1010,7 +693,7 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 		try {
 			const parentNode: HTMLElement = this.parentNode as HTMLElement;
 
-			this._wasInstatiated = false;
+			this._isInstantiated = false;
 
 			if (this.hasChildNodes() === true) {
 				for (let i = this.childNodes.length; i--;) {
@@ -1054,8 +737,7 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 	protected updateForChangeInCustomCssClass(_prevAddedCustomClasses: string[]) {
 		const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
 		this.logger.start("updateForChangeInCustomCssClass()");
-		console.log("AAAAAA");
-		this.logger.log("updateForChangeInCustomCssClass()", _prevAddedCustomClasses);
+		this.logger.log("updateForChangeInCustomCssClass(): _prevAddedCustomClasses - ", _prevAddedCustomClasses);
 		this.logger.log("from common - updateForChangeInCustomCssClass()", this.customClass);
 
 		_prevAddedCustomClasses.forEach((className: string) => {
@@ -1082,14 +764,14 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 	protected updateForChangeInShowStatus() {
 		const targetElement: HTMLElement = this;
 
-		this.logger.log("from common - updateForChangeInShowStatus()");
-		if (this.hasAttribute('noshowtype')) {
-			this.noshowType = this.getAttribute('noshowtype') as TCh5ShowType;
-		} else {
-			this.noshowType = 'display';
-		}
+		// this.logger.log("from common - updateForChangeInShowStatus()");
+		// if (this.hasAttribute('noshowtype')) {
+		// 	this.noshowType = this.getAttribute('noshowtype') as TCh5ShowType;
+		// } else {
+		// 	this.noshowType = 'display';
+		// }
 
-		if (false === this.show) {
+		if (this.show === false) {
 			this.handleHide(targetElement);
 		} else {
 			this.handleShow(targetElement);
@@ -1216,12 +898,11 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 	}
 
 	protected updateForChangeInDisabledStatus() {
+		this.logger.log("updateForChangeInDisabledStatus()");
 		const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
-		this.logger.log("from common - updateForChangeInDisabledStatus()");
-		if (this._disabled === true) {
+		targetElement.classList.remove(this.getCssClassDisabled());
+		if (this.disabled === true) {
 			targetElement.classList.add(this.getCssClassDisabled());
-		} else {
-			targetElement.classList.remove(this.getCssClassDisabled());
 		}
 	}
 
@@ -1229,46 +910,6 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 		return this as HTMLElement;
 	}
 
-	// protected initAttributes() {
-	// 	this.applyPreConfiguredAttributes();
-
-	// 	if (this.hasAttribute('disabled') && !this.hasAttribute('customclassdisabled') && this.ignoreAttributes.includes('disabled') === false) {
-	// 		this.disabled = this.getAttribute('disabled') as unknown as boolean;
-	// 	}
-	// 	if (this.hasAttribute('debug') && this.ignoreAttributes.includes('debug') === false) {
-	// 		this._isDebugEnabled = true;
-	// 	}
-	// 	if (this.hasAttribute('show') && this.ignoreAttributes.includes('show') === false) {
-	// 		this.show = this.getAttribute('show') as unknown as boolean;
-	// 	}
-
-	// 	if (this.hasAttribute('noshowtype') && this.ignoreAttributes.includes('noshowtype') === false) {
-	// 		this.noshowType = this.getAttribute('noshowtype') as TCh5ShowType;
-	// 	}
-	// 	if (this.hasAttribute('receivestatecustomclass') && this.ignoreAttributes.includes('receivestatecustomclass') === false) {
-	// 		this.receiveStateCustomClass = this.getAttribute('receivestatecustomclass') as string;
-	// 	}
-	// 	if (this.hasAttribute('receivestatecustomstyle') && this.ignoreAttributes.includes('receivestatecustomstyle') === false) {
-	// 		this.receiveStateCustomStyle = this.getAttribute('receivestatecustomstyle') as string;
-	// 	}
-	// 	if (this.hasAttribute('receivestateshow') && this.ignoreAttributes.includes('receivestateshow') === false) {
-	// 		this.receiveStateShow = this.getAttribute('receivestateshow') as string;
-	// 	}
-	// 	if (this.hasAttribute('receivestateshowpulse') && this.ignoreAttributes.includes('receivestateshowpulse') === false) {
-	// 		this.receiveStateShowPulse = this.getAttribute('receivestateshowpulse') as string;
-	// 	}
-	// 	if (this.hasAttribute('receivestatehidepulse') && this.ignoreAttributes.includes('receivestatehidepulse') === false) {
-	// 		this.receiveStateHidePulse = this.getAttribute('receivestatehidepulse') as string;
-	// 	}
-	// 	if (this.hasAttribute('receivestateenable') && this.ignoreAttributes.includes('receivestateenable') === false) {
-	// 		this.receiveStateEnable = this.getAttribute('receivestateenable') as string;
-	// 	}
-	// 	if (this.hasAttribute('sendeventonshow') && this.ignoreAttributes.includes('sendeventonshow') === false) {
-	// 		this.sigNameSendOnShow = this.getAttribute('sendeventonshow') as string;
-	// 	}
-	// 	this.dir = this.getAttribute('dir') || Ch5BaseClass.DIRECTION[0];
-	// 
-	// }
 	/**
 	 * Initializes the values of the common attributes, taking into account the attribute values declared in the HTML
 	 */
@@ -1316,9 +957,8 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 	}
 
 	protected sendShowSignal(value: boolean) {
-		this.logger.log('sendShowSignal ' + value + ' ' + this._sigNameSendOnShow);
-		if ('' !== this._sigNameSendOnShow) {
-			const sig = Ch5SignalFactory.getInstance().getBooleanSignal(this._sigNameSendOnShow);
+		if ('' !== this.sendEventOnShow) {
+			const sig = Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnShow);
 			if (null !== sig) {
 				sig.publish(value);
 			}
@@ -1380,30 +1020,19 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 
 	protected unsubscribeFromSignals() {
 		if (this._keepListeningOnSignalsAfterRemoval === false) {
-			this.clearBooleanSignalSubscription(this._receiveStateEnable, this._subKeySigReceiveEnable);
-			this._receiveStateEnable = '';
-			this.clearBooleanSignalSubscription(this._receiveStateShow, this._subKeySigReceiveShow);
-			this._receiveStateShow = '';
-			this.clearBooleanSignalSubscription(this._receiveStateShowPulse, this._subKeySigReceiveShowPulse);
-			this._receiveStateShowPulse = '';
-			this.clearBooleanSignalSubscription(this._receiveStateHidePulse, this._subKeySigReceiveHidePulse);
-			this._receiveStateHidePulse = '';
+			// this.clearBooleanSignalSubscription(this._receiveStateEnable, this._subKeySigReceiveEnable);
+			// this._receiveStateEnable = '';
+			// this.clearBooleanSignalSubscription(this._receiveStateShow, this._subKeySigReceiveShow);
+			// this._receiveStateShow = '';
+			// this.clearBooleanSignalSubscription(this._receiveStateShowPulse, this._subKeySigReceiveShowPulse);
+			// this._receiveStateShowPulse = '';
+			// this.clearBooleanSignalSubscription(this._receiveStateHidePulse, this._subKeySigReceiveHidePulse);
+			// this._receiveStateHidePulse = '';
 			// this.clearStringSignalSubscription(this._receiveStateCustomStyle, this._subKeySigReceiveCustomStyle);
 			// this._receiveStateCustomStyle = '';
 			// this.clearStringSignalSubscription(this._receiveStateCustomClass, this._subKeySigReceiveCustomClass);
 			// this._receiveStateCustomClass = '';
 		}
-	}
-
-	/**
-	 * Used after the language is changed when special actions has to be done
-	 * For example when translating you have to parse the component children or some other actions
-	 * @param {string} section
-	 * @return {void}
-	 */
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	protected translateCallback(section: string): void {
-		// if custom actions has to be done on translation
 	}
 
 	protected componentLoadedEvent(elementName: string, idValue: string) {
@@ -1503,8 +1132,11 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 
 	//#endregion
 
-	/**
+}
+
+/**
+ * Gestureable has been removed from Ch5BaseClass (available in Ch5Common)
+ * // Translation library is moved to Ch5-translation-class - translatecallback is used in spinner
  * Original name was updateForChangeInStyleCss (changed to updateForChangeInCustomStyle) and is used in ch5button, so this method has to be checked when upgrading ch5button
  * _listOfAllPossibleComponentCssClasses - really can be avoided
-	*/
-}
+ */
