@@ -7,8 +7,7 @@ export class ColorPicker {
   private joe: any = null;
 
   /**
-   * An RxJs observable for the gestureable property.
-   * Other classes can subscribe to this and be notified when the gestureable property changes.
+   * An RxJs observable for the colorChanged property.
    */
   public colorChanged: Subject<number[]>;
 

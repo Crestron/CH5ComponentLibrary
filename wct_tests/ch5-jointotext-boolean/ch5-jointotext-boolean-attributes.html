@@ -162,7 +162,7 @@
 
   <test-fixture id="ch5-jointotext-boolean-appendClass-view-port">
     <template>
-      <ch5-jointotext-boolean value="true" textWhenTrue="Play" appendClassWhenInViewport="appended-class">
+      <ch5-jointotext-boolean value="true" textWhenTrue="Play" appendClassWhenInViewPort="appended-class">
       </ch5-jointotext-boolean>
     </template>
   </test-fixture>
@@ -549,9 +549,9 @@
       });
 
       test(`Check appendClassViewport added`, () => {
-        expect(ch5JointextBoolean.getAttribute('appendClassWhenInViewport')).to.be.equal('appended-class');
-        ch5JointextBoolean.removeAttribute('appendClassWhenInViewport');
-        expect(ch5JointextBoolean.getAttribute('appendClassWhenInViewport')).to.be.equal(null);
+        expect(ch5JointextBoolean.getAttribute('appendClassWhenInViewPort')).to.be.equal('appended-class');
+        ch5JointextBoolean.removeAttribute('appendClassWhenInViewPort');
+        expect(ch5JointextBoolean.getAttribute('appendClassWhenInViewPort')).to.be.equal(null);
       });
     });
 

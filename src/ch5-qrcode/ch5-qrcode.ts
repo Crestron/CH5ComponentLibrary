@@ -1,13 +1,13 @@
 // import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
-import { ICh5QrCodeAttributes } from './interfaces/i-ch5-qrcode-attributes';
+// import { ICh5QrCodeAttributes } from './interfaces/i-ch5-qrcode-attributes';
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import QRCode from "qrcode";
-import { Ch5Base } from "../ch5-base/ch5-base";
+// import { Ch5Base } from "../ch5-base/ch5-base";
 import { Ch5ComponentLibrary } from "../ch5-core/ch5-component";
-import { Ch5RoleAttributeMapping } from '../utility-models/ch5-role-attribute-mapping';
 import Ch5ColorUtils from '../ch5-common/utils/ch5-color-utils';
+import { Ch5BaseClass } from "../ch5-base/ch5-base-class";
 
-export class Ch5QrCode extends Ch5Base implements ICh5QrCodeAttributes {
+export class Ch5QrCode extends Ch5BaseClass { //} implements ICh5QrCodeAttributes {
 
 	//#region Variables
 	protected COMPONENT_NAME = "Ch5QrCode";
@@ -64,12 +64,15 @@ export class Ch5QrCode extends Ch5Base implements ICh5QrCodeAttributes {
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true
 		},
-		Ch5Base.COMMON_PROPERTIES.debug,
-		Ch5Base.COMMON_PROPERTIES.id,
-		Ch5Base.COMMON_PROPERTIES.noshowType,
-		Ch5Base.COMMON_PROPERTIES.receiveStateShow,
-		Ch5Base.COMMON_PROPERTIES.show,
-		Ch5Base.COMMON_PROPERTIES.trace
+		Ch5BaseClass.COMMON_PROPERTIES.customClass,
+		Ch5BaseClass.COMMON_PROPERTIES.receiveStateCustomClass,
+		Ch5BaseClass.COMMON_PROPERTIES.customStyle,
+		Ch5BaseClass.COMMON_PROPERTIES.debug,
+		Ch5BaseClass.COMMON_PROPERTIES.id,
+		Ch5BaseClass.COMMON_PROPERTIES.noshowType,
+		Ch5BaseClass.COMMON_PROPERTIES.receiveStateShow,
+		Ch5BaseClass.COMMON_PROPERTIES.show,
+		Ch5BaseClass.COMMON_PROPERTIES.trace
 	];
 
 	public static readonly ELEMENT_NAME = 'ch5-qrcode';
@@ -136,7 +139,6 @@ export class Ch5QrCode extends Ch5Base implements ICh5QrCodeAttributes {
 
 	public constructor() {
 		super(Ch5QrCode.COMPONENT_PROPERTIES);
-		console.log("!this._isInstantiated", !this._isInstantiated);
 		if (!this._isInstantiated) {
 			this.createInternalHtml();
 		}
@@ -151,7 +153,7 @@ export class Ch5QrCode extends Ch5Base implements ICh5QrCodeAttributes {
 		this.logger.start('connectedCallback()');
 		// WAI-ARIA Attributes
 		if (!this.hasAttribute('role')) {
-			this.setAttribute('role', Ch5RoleAttributeMapping.ch5QrCode);
+			this.setAttribute('role', Ch5ComponentLibrary.ROLES.Ch5QrCode);
 		}
 		// if (this._elContainer.parentElement !== this) {
 		// 	this._elContainer.classList.add('ch5-qrcode');
@@ -177,7 +179,6 @@ export class Ch5QrCode extends Ch5Base implements ICh5QrCodeAttributes {
 	//#region Protected / Private Methods
 
 	protected createInternalHtml() {
-		console.log("createInternalHtml")
 		this.logger.start('createInternalHtml()');
 		this.clearComponentContent();
 		this._elContainer = document.createElement('div');
@@ -193,7 +194,7 @@ export class Ch5QrCode extends Ch5Base implements ICh5QrCodeAttributes {
 	// 	super.unsubscribeFromSignals();
 	// }
 
-	public debounceBuildQrCode = this.debounce(() => {
+	public debounceBuildQrCode = this.util.debounce(() => {
 		this.handleQrCode();
 	}, 50);
 
@@ -223,7 +224,6 @@ export class Ch5QrCode extends Ch5Base implements ICh5QrCodeAttributes {
 					dark: foregroundColor
 				}
 			};
-			console.log("ddd: ", this._canvasContainer, this._canvasContainer.id);
 			QRCode.toCanvas(this._canvasContainer, data, opts, function (error) {
 				if (error) { console.error(error); }
 			});

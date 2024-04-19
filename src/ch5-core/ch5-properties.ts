@@ -4,17 +4,23 @@ import { Ch5SignalFactory } from "./ch5-signal-factory";
 import { Ch5Signal } from "./ch5-signal";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Log } from "../ch5-common/ch5-log";
-import { Ch5Base } from "../ch5-base/ch5-base";
+// import { Ch5Base } from "../ch5-base/ch5-base";
+import { Ch5BaseClass } from "../ch5-base/ch5-base-class";
 
 export class Ch5Properties {
 
 	private _properties: Ch5Property[] = [];
 
-	public constructor(public ch5Component: Ch5Common | Ch5Base | Ch5Log, public propertiesObject: ICh5PropertySettings[]) {
-		for (let i: number = 0; i < propertiesObject.length; i++) {
-			const newProperty = new Ch5Property(ch5Component, propertiesObject[i]);
+	constructor(public ch5Component: Ch5Common | Ch5BaseClass | Ch5Log, public propertiesArray: ICh5PropertySettings[]) {
+		for (let i: number = 0; i < propertiesArray.length; i++) {
+			const newProperty = new Ch5Property(ch5Component, propertiesArray[i]);
 			this._properties.push(newProperty);
 		}
+	}
+
+	public addProperty(propertiesObject: ICh5PropertySettings) {
+		const newProperty = new Ch5Property(this.ch5Component, propertiesObject);
+		this._properties.push(newProperty);
 	}
 
 	public unsubscribe() {
@@ -53,6 +59,10 @@ export class Ch5Properties {
 	// public getSignalValue<T>(propertyName: string): T {
 	// 	return this.getPropertyByName(propertyName)?.getVariable<T>() as unknown as T;
 	// }
+
+	public getPrevious<T>(propertyName: string): T {
+		return this.getPropertyByName(propertyName)?.previousValue as unknown as T;
+	}
 
 	public get<T>(propertyName: string): T {
 		return this.getPropertyByName(propertyName)?.value as unknown as T;
