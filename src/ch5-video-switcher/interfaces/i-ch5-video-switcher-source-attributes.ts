@@ -26,4 +26,16 @@ export interface ICh5VideoSwitcherSourceAttributes {
    * @attributeType "String"
    */
   iconClass: string;
+  /**
+   * @documentation
+   * [
+   * "`iconUrl` attribute",
+   * "***",
+   * "This attribute supports SVG icons and PNG Icons, we can pass only one url in the iconUrl attribute."
+   * ]
+   * @name iconurl
+   * @default 
+   * @attributeType "String"
+   */
+  iconUrl: string;
 }
