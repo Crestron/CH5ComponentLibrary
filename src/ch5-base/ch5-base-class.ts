@@ -416,6 +416,8 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 				// 		this.logger.log(' subs callback for signalReceiveHidePulse: ', this._subKeySigReceiveHidePulse, ' recSig is null');
 				// 	}
 				// });
+				const targetElement: HTMLElement = this;
+				this.handleHide(targetElement);
 			});
 		});
 	}
@@ -437,6 +439,8 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 				// if (false === recSig.prevValue && true === _newVal) {
 				// 	this.setAttribute('show', 'true');
 				// }
+				const targetElement: HTMLElement = this;
+				this.handleShow(targetElement);
 			});
 		});
 	}
@@ -447,7 +451,7 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 	public set receiveStateShow(value: string) {
 		this._ch5Properties.set("receiveStateShow", value, null, (newValue: boolean) => {
 			this._ch5Properties.setForSignalResponse<boolean>("show", newValue, () => {
-
+				this.updateForChangeInShowStatus();
 			});
 		});
 	}
@@ -458,59 +462,59 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 
 	public set sendEventOnShow(value: string) {
 		this._ch5Properties.set("sendEventOnShow", value, () => {
-			// this.sendShowSignal(value);
+			this.sendShowSignal(Boolean(value));
 		});
 	}
 	public get sendEventOnShow(): string {
-			return this._ch5Properties.get<string>("sendEventOnShow");
-		}
+		return this._ch5Properties.get<string>("sendEventOnShow");
+	}
 
 	// TODO - why do we need this
 	public set onrelease(callback: {}) {
-			this._onrelease = callback;
-		}
+		this._onrelease = callback;
+	}
 
 	public get onrelease(): {} {
-			return this._onrelease;
-		}
+		return this._onrelease;
+	}
 
 	public set onpress(callback: {}) {
-			this.logger.log("set onpress");
-			this._onpress = callback;
-		}
+		this.logger.log("set onpress");
+		this._onpress = callback;
+	}
 
 	public get onpress(): {} {
-			this.logger.log("get onpress");
-			return this._onpress;
-		}
+		this.logger.log("get onpress");
+		return this._onpress;
+	}
 
 	public set trace(value: boolean) {
-			this._ch5Properties.set<boolean>("trace", value, () => {
-				this.logger.isTraceEnabled = this.trace;
-			});
-		}
+		this._ch5Properties.set<boolean>("trace", value, () => {
+			this.logger.isTraceEnabled = this.trace;
+		});
+	}
 	public get trace(): boolean {
-			return this._ch5Properties.get<boolean>("trace");
-		}
+		return this._ch5Properties.get<boolean>("trace");
+	}
 
 	protected get util() {
-			return util;
-		}
+		return util;
+	}
 	//#endregion
 
 	//#region Lifecycle Hooks
 
 	public constructor(componentInputProperties: ICh5PropertySettings[]) {
-			super();
+		super();
 		this._crId = Ch5Uid.getUid();
-			this.logger = new Ch5BaseLog(this.COMPONENT_NAME, false, false, this._crId);
-			this.componentProperties = componentInputProperties;
-			// Ch5BaseClass.COMPONENT_PROPERTIES = componentInputProperties;
-			Ch5BaseClass.selectedComponentProperties = componentInputProperties;
-			this._ch5Properties = new Ch5Properties(this, this.componentProperties);
+		this.logger = new Ch5BaseLog(this.COMPONENT_NAME, false, false, this._crId);
+		this.componentProperties = componentInputProperties;
+		// Ch5BaseClass.COMPONENT_PROPERTIES = componentInputProperties;
+		Ch5BaseClass.selectedComponentProperties = componentInputProperties;
+		this._ch5Properties = new Ch5Properties(this, this.componentProperties);
 
 
-		}
+	}
 
 	//#endregion
 
@@ -529,11 +533,11 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 	 * @return {void}
 	 */
 	public resolveTemplateChildren(template: HTMLTemplateElement): void {
-			if(!template) {
-				return;
-			}
+		if (!template) {
+			return;
+		}
 
-		if(this.util.isNotNil(template.content) && template.content.childElementCount === 0 && template.children.length > 0) {
+		if (this.util.isNotNil(template.content) && template.content.childElementCount === 0 && template.children.length > 0) {
 			Array.from(template.children).forEach((child) => {
 				template.content.appendChild(child);
 			});
