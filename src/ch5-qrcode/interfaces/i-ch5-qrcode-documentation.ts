@@ -19,7 +19,7 @@ import { ICh5QrCodeAttributes } from "./i-ch5-qrcode-attributes";
  * [
  *   "`ch5-qrcode` element",
  *   "***",
- *   "The QR Code Generator Widget is a programmable control used to display QR Code image desired by the designer."
+ *   "The QR Code component is designed to provide options to add backgroundColor, color, qrCode, size and receiveStateQrCode."
  * ]
  * @snippets
  * [
