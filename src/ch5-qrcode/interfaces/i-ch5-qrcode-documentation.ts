@@ -33,7 +33,7 @@ import { ICh5QrCodeAttributes } from "./i-ch5-qrcode-attributes";
  *   },
  *   {
  *     "prefix": "ch5-qrcode:all-attributes",
- *     "description": "Crestron qrcode (All Attributes)",
+ *     "description": "Crestron QR Code (All Attributes)",
  *     "body": [
  *       "<ch5-qrcode id=\"ch5-qrcode_${1:id}\"",
  *       "\tqrCode=\"${2:}\"",
@@ -46,7 +46,7 @@ import { ICh5QrCodeAttributes } from "./i-ch5-qrcode-attributes";
  *    },
  *    {
  *     "prefix": "ch5-qrcode:default",
- *     "description": "Crestron qrcode (default)",
+ *     "description": "Crestron QR Code (default)",
  *     "body": [
  *       "<ch5-qrcode id=\"ch5-qrcode_${1:id}\"",
  *       "\tqrCode=\"${2:}\"",

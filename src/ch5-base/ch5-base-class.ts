@@ -322,6 +322,7 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 	public set debug(value: boolean) {
 		this._ch5Properties.set<boolean>("debug", value, () => {
 			this.logger.isDebugEnabled = this.debug;
+			console.log("Base Class *** this.logger.isDebugEnabled: " + this.logger.isDebugEnabled, value, this.debug);
 		});
 	}
 	public get debug(): boolean {
@@ -512,8 +513,6 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 		// Ch5BaseClass.COMPONENT_PROPERTIES = componentInputProperties;
 		Ch5BaseClass.selectedComponentProperties = componentInputProperties;
 		this._ch5Properties = new Ch5Properties(this, this.componentProperties);
-
-
 	}
 
 	//#endregion
@@ -923,6 +922,7 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 		const thisRef: any = this;
 		for (let i: number = 0; i < this.componentProperties.length; i++) {
 			// this.dir = this.getAttribute('dir') || Ch5BaseClass.DIRECTION[0];
+			console.log("*** ", this.componentProperties[i]);
 			if (this.componentProperties[i].isObservableProperty === true) {
 				if (this.hasAttribute(this.componentProperties[i].name.toLowerCase())) {
 					const key = this.componentProperties[i].name;

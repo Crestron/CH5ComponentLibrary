@@ -12,6 +12,12 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 	protected COMPONENT_NAME = "Ch5QrCode";
 
 	public static COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
+		Ch5BaseClass.COMMON_PROPERTIES.debug,
+		Ch5BaseClass.COMMON_PROPERTIES.trace,
+		Ch5BaseClass.COMMON_PROPERTIES.id,
+		Ch5BaseClass.COMMON_PROPERTIES.noshowType,
+		Ch5BaseClass.COMMON_PROPERTIES.receiveStateShow,
+		Ch5BaseClass.COMMON_PROPERTIES.show,
 		{
 			default: "#000000",
 			name: "color",
@@ -62,13 +68,7 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 			type: "string",
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true
-		},
-		Ch5BaseClass.COMMON_PROPERTIES.debug,
-		Ch5BaseClass.COMMON_PROPERTIES.id,
-		Ch5BaseClass.COMMON_PROPERTIES.noshowType,
-		Ch5BaseClass.COMMON_PROPERTIES.receiveStateShow,
-		Ch5BaseClass.COMMON_PROPERTIES.show,
-		Ch5BaseClass.COMMON_PROPERTIES.trace
+		}
 	];
 
 	public static readonly ELEMENT_NAME = 'ch5-qrcode';
@@ -146,6 +146,7 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 	 */
 	public connectedCallback() {
 		super.connectedCallback();
+		console.log("QR Code *** this.logger.isDebugEnabled: " + this.logger.isDebugEnabled);
 		this.logger.start('connectedCallback()');
 		if (!this.hasAttribute('role')) {
 			this.setAttribute('role', Ch5ComponentLibrary.ROLES.Ch5QrCode);
@@ -216,6 +217,14 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 			QRCode.toCanvas(this._canvasContainer, data, opts, function (error) {
 				if (error) { console.error(error); }
 			});
+		} else {
+			const canvasForQRCode = this.querySelector<HTMLCanvasElement>('canvas');
+			if (canvasForQRCode) {
+				const context = canvasForQRCode.getContext('2d');
+				if (context) {
+					context.clearRect(0, 0, this.size, this.size);
+				}
+			}
 		}
 	}
 
