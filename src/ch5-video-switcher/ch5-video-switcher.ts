@@ -177,6 +177,14 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     },
     {
       default: "",
+      name: "sourceIconUrl",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+    {
+      default: "",
       name: "sendEventOnDrop",
       removeAttributeOnNull: true,
       type: "string",
@@ -430,6 +438,15 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
   public get sourceIconClass(): string {
     return this._ch5Properties.get<string>("sourceIconClass");
+  }
+
+  public set sourceIconUrl(value: string) {
+    this._ch5Properties.set<string>("sourceIconUrl", value, () => {
+      this.createSource();
+    });
+  }
+  public get sourceIconUrl(): string {
+    return this._ch5Properties.get<string>("sourceIconUrl");
   }
 
   public set sendEventOnDrop(value: string) {
@@ -1208,6 +1225,8 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     let setRow: boolean = true;
     let requiredRows: number = 1;
     let visible_screens: number = 0;
+    let rowHeight: any = 0;
+    let colWidth: any = 0;
 
     this._screenListContainer.style.removeProperty('grid-template-columns');
     this._screenListContainer.style.removeProperty('grid-template-rows');
@@ -1237,31 +1256,30 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
       let col = setCol ? finalColNumber : 'auto-fit';
       let row = 'repeat(' + finalRowNumber + ', minmax(' + minRowHieght + 'px, 1fr) )'
-      let rowHeight: any = 0;
       if (setCol && (col > this.numberOfScreens + '')) { // to center items is screens are les than number of col
-        const colWidth = (Math.floor(possibleCol) > this.numberOfScreenColumns) ? (containerWidth / this.numberOfScreenColumns) : (containerWidth / Math.floor(possibleCol));
+        colWidth = (Math.floor(possibleCol) > this.numberOfScreenColumns) ? (containerWidth / this.numberOfScreenColumns) : (containerWidth / Math.floor(possibleCol));
         col = 'repeat(' + this.numberOfScreens + ',' + colWidth + 'px)';
       } else {
         // To center align items when screenaspect is 16:9 and 4:3
-        let colWidth: any = 0;
-        if (((this.screenAspectRatio === "16:9") || (this.screenAspectRatio === "4:3")) && (+col < Math.floor(possibleCol))) {
-          colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber);
-          rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber);
+        if (this.screenAspectRatio === "16:9" || this.screenAspectRatio === "4:3") {
+          if ((Math.floor(possibleCol) >= finalColNumber) && (Math.floor(possibleRow) >= finalRowNumber)) {
+            const SW = containerWidth / finalColNumber;
+            const SH = containerHeight / finalRowNumber;
+            const reHeight = this.screenAspectRatio === '16:9' ? (SW * (9 / 16)) : (SW * (3 / 4));
+            if (SH >= reHeight) {
+              colWidth = (containerWidth / finalColNumber) - 2;
+              rowHeight = reHeight;
+            } else {
+              rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber, this.screenAspectRatio);
+              colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber, this.screenAspectRatio);
+            }
+          } else {
+            rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber, this.screenAspectRatio);
+            colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber, this.screenAspectRatio);
+          }
           col = 'repeat(' + col + ',' + colWidth + 'px)';
         } else {
-          if (+col === Math.floor(possibleCol) || col === "auto-fit") {
-            if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
-              colWidth = Math.max(80, ((containerHeight / finalRowNumber) - 2));
-            } else {
-              colWidth = Math.max(80, ((containerWidth / finalColNumber) - 2));
-            }
-            col = 'repeat(' + col + ',' + colWidth + 'px)';
-          } else {
-            col = 'repeat(' + col + ',minmax(' + minColWidth + 'px, 1fr))';
-          }
-          if ((this.screenAspectRatio === "16:9") || (this.screenAspectRatio === "4:3")) {
-            rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber);
-          }
+          col = 'repeat(' + col + ',minmax(' + minColWidth + 'px, 1fr))';
         }
       }
       if (rowHeight > 0) {
@@ -1292,9 +1310,23 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
       let col = 'repeat(auto-fit, minmax(' + minColWidth + 'px, 1fr) )';
       let rowHeight: any = 0;
-      if ((this.screenAspectRatio === "16:9") || (this.screenAspectRatio === "4:3")) {
-        const colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber);
-        rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber);
+      if (this.screenAspectRatio === "16:9" || this.screenAspectRatio === "4:3") {
+        let colWidth: any = 0;
+        if ((Math.floor(possibleCol) >= finalColNumber) && (Math.floor(possibleRow) >= finalRowNumber)) {
+          const SW = containerWidth / finalColNumber;
+          const SH = containerHeight / finalRowNumber;
+          const reHeight = this.screenAspectRatio === '16:9' ? (SW * (9 / 16)) : (SW * (3 / 4));
+          if (SH >= reHeight) {
+            colWidth = (containerWidth / finalColNumber) - 2;
+            rowHeight = reHeight;
+          } else {
+            rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber, this.screenAspectRatio);
+            colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber, this.screenAspectRatio);
+          }
+        } else {
+          rowHeight = this.getRowHeightColWidth(false, containerHeight, containerWidth, finalRowNumber, finalColNumber, this.screenAspectRatio);
+          colWidth = this.getRowHeightColWidth(true, containerHeight, containerWidth, finalRowNumber, finalColNumber, this.screenAspectRatio);
+        }
         col = 'repeat(auto-fit,' + colWidth + 'px)';
       }
       let row = '';
@@ -1307,60 +1339,52 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
       this._screenListContainer.style.setProperty('grid-template-columns', col);
       this._screenListContainer.style.setProperty('grid-template-rows', row);
     }
-
     for (let i = 0; i < this.numberOfScreens; i++) {
       const screen = this._screenListContainer.querySelector(`[screenid="${i}"]`) as HTMLElement;
       if (!screen) {
         continue;
       }
-      this._screenListContainer.style.removeProperty('width');
-      this._screenListContainer.style.removeProperty('height');
+      screen.style.removeProperty('width');
+      screen.style.removeProperty('height');
       screen.classList.remove('hideScreen');
       if (i >= visible_screens && !screen.classList.contains('hideScreen')) {
         screen.classList.add('hideScreen');
       }
 
-      if (this.screenAspectRatio === '16:9') {
-        if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
-          screen.style.width = Math.max(80, ((containerHeight / finalRowNumber) - 2)) + 'px';
-          screen.style.height = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (9 / 16)) + 'px';
+      if (this.screenAspectRatio === '4:3' || this.screenAspectRatio === '16:9') {
+        if ((Math.floor(possibleCol) >= finalColNumber) && (Math.floor(possibleRow) >= finalRowNumber)) {
+          const SW = containerWidth / finalColNumber;
+          const SH = containerHeight / finalRowNumber;
+          const reHeight = this.screenAspectRatio === '16:9' ? (SW * (9 / 16)) : (SW * (3 / 4));
+          if (SH >= reHeight) {
+            screen.style.width = (containerWidth / finalColNumber) - 2 + 'px';
+          } else {
+            if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
+              screen.style.height = (containerHeight / finalRowNumber) - 2 + 'px';
+            } else {
+              screen.style.height = (containerWidth / finalColNumber) - 2 + 'px';
+            }
+          }
         } else {
-          screen.style.width = Math.max(80, ((containerWidth / finalColNumber) - 2)) + 'px';
-          screen.style.height = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (9 / 16)) + 'px';
-        }
-      } else if (this.screenAspectRatio === '4:3') {
-        if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
-          screen.style.width = Math.max(80, ((containerHeight / finalRowNumber) - 2)) + 'px';
-          screen.style.height = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (3 / 4)) + 'px';
-        } else {
-          screen.style.width = Math.max(80, ((containerWidth / finalColNumber) - 2)) + 'px';
-          screen.style.height = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (3 / 4)) + 'px';
+          if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
+            screen.style.height = (containerHeight / finalRowNumber) - 2 + 'px';
+          } else {
+            screen.style.height = (containerWidth / finalColNumber) - 2 + 'px';
+          }
         }
       }
     }
   }
 
-  getRowHeightColWidth(colWidth: boolean = false, containerHeight: number, containerWidth: number, finalRowNumber: number, finalColNumber: number) {
+  getRowHeightColWidth(colWidth: boolean = false, containerHeight: number, containerWidth: number, finalRowNumber: number, finalColNumber: number, aspectRatio: string) {
     let colWidthSize = 0
     let rowHeightSize = 0;
     if ((containerHeight / finalRowNumber) < (containerWidth / finalColNumber)) {
-      colWidthSize = Math.max(80, ((containerHeight / finalRowNumber) - 2));
-      // if ((this.sourceListPosition === 'left') || (this.sourceListPosition === 'right')) {
-      if (this.screenAspectRatio === '16:9') {
-        rowHeightSize = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (9 / 16));
-      } else {
-        rowHeightSize = (Math.max(80, ((containerHeight / finalRowNumber) - 2)) * (3 / 4));
-      }
-      // }
+      rowHeightSize = (containerHeight / finalRowNumber) - 2;
+      colWidthSize = aspectRatio === '4:3' ? (((containerHeight / finalRowNumber) - 2) * (4 / 3)) : (((containerHeight / finalRowNumber) - 2) * (16 / 9));
     } else {
-      colWidthSize = Math.max(80, ((containerWidth / finalColNumber) - 2));
-      // if (((this.sourceListPosition === 'left') || (this.sourceListPosition === 'right'))) {
-      if (this.screenAspectRatio === '16:9') {
-        rowHeightSize = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (9 / 16));
-      } else {
-        rowHeightSize = (Math.max(80, ((containerWidth / finalColNumber) - 2)) * (3 / 4));
-      }
-      // }
+      rowHeightSize = (containerWidth / finalColNumber) - 2;
+      colWidthSize = aspectRatio === '4:3' ? (((containerWidth / finalColNumber) - 2) * (4 / 3)) : (((containerWidth / finalColNumber) - 2) * (16 / 9));
     }
     return colWidth ? colWidthSize : rowHeightSize;
   }
@@ -1417,13 +1441,23 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
 
   private sourceIconHelperCreate(index: number, sourceIcon: HTMLElement) {
     const source = this.querySelector(`#${this.getCrId()}-source-${index}`) as Ch5VideoSwitcherSource;
-    const iconClass = source && source.iconClass ? source.iconClass : this.sourceIconClass ? this.sourceIconClass : Ch5VideoSwitcher.DEFAULT_SOURCE_ICON
-    iconClass.split(' ').forEach((className: string) => {
-      className = className.trim();
-      if (className !== '') {
-        sourceIcon.classList.add(className);
-      }
-    });
+    if (source && source.iconUrl) {
+      sourceIcon.style.removeProperty('backgroundImage');
+      sourceIcon.classList.add('source-icon-url');
+      sourceIcon.style.backgroundImage = `url(${source.iconUrl})`;
+    } else if (this.sourceIconUrl) {
+      sourceIcon.style.removeProperty('backgroundImage');
+      sourceIcon.classList.add('source-icon-url');
+      sourceIcon.style.backgroundImage = `url(${this.sourceIconUrl})`;
+    } else {
+      const iconClass = source && source.iconClass ? source.iconClass : this.sourceIconClass ? this.sourceIconClass : Ch5VideoSwitcher.DEFAULT_SOURCE_ICON;
+      iconClass.split(' ').forEach((className: string) => {
+        className = className.trim();
+        if (className !== '') {
+          sourceIcon.classList.add(className);
+        }
+      });
+    }
   }
 
   private screenAlignLabelHelperCreate(index: number, screenEl: HTMLElement) {
@@ -1499,8 +1533,11 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     if (ele && ele?.getAttribute('sourceid')) {
       se.setAttribute('sourceId', ele?.getAttribute('sourceid') + '');
     }
-    // se.style.height = screen.offsetHeight * 0.4 + 'px';
-    // se.style.width = screen.offsetHeight * 0.4 + 'px';
+    const iconElement = se.children[0] as HTMLElement;
+    if (iconElement.classList.contains('source-icon-url')) {
+      iconElement.style.height = screen.offsetHeight * 0.27 + 'px';
+      iconElement.style.width = '100%';
+    } 
     se.style.fontSize = screen.offsetHeight * 0.27 + 'px';
     if (screen?.children.length === 2) {
       screen?.removeChild(screen?.children[1]);
@@ -1525,6 +1562,11 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         const screen = this._screenListContainer.children[i] as HTMLElement;
         const sourceOnScreen = this._screenListContainer.children[i].children[1] as HTMLElement;
         sourceOnScreen.style.fontSize = screen.offsetHeight * 0.27 + 'px';
+        const iconElement = sourceOnScreen.children[0] as HTMLElement;
+        if (iconElement.classList.contains('source-icon-url')) {
+          iconElement.style.height = screen.offsetHeight * 0.27 + 'px';
+          iconElement.style.width = '100%';
+        } 
       }
     }
     if (this.endless) {

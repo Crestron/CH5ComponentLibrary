@@ -104,6 +104,18 @@
           })
         });
 
+        test('Check icon Url Children ' + index, () => {
+          let icon = 'https://img.icons8.com/ios/100/music-video.png';
+          ch5VideoSwitcher1.getElementsByTagName('ch5-video-switcher-source')[index].setAttribute('iconurl', icon);
+          const sourceList = ch5VideoSwitcher1.querySelector('.ch5-video-switcher--source-list');
+
+          console.log(sourceList.children[index].children[0]);
+          expect(sourceList.children[index].children[0].classList.contains('source-icon-url'));
+
+          icon = 'https://img.icons8.com/ios-glyphs/60/play--v1.png';
+          ch5VideoSwitcher1.getElementsByTagName('ch5-video-switcher-source')[index].setAttribute('iconurl', icon);
+          expect(sourceList.children[index].children[0].classList.contains('source-icon-url'));
+        });
       })
     });
   </script>

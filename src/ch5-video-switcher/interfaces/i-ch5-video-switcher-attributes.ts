@@ -144,6 +144,18 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
   /**
    * @documentation
    * [
+   * "`sourceIconUrl` attribute",
+   * "***",
+   * "This attributes supports SVG icons and PNG icons, we can pass only one url in the sourceIconUrl attribute.The iconUrl in the ch5-video-switcher-source tag will override this value."
+   * ]
+   * @name sourceiconurl
+   * @default 
+   * @attributeType "String"
+   */
+  sourceIconUrl: string;
+  /**
+   * @documentation
+   * [
    * "`sendEventOnDrop` attribute",
    * "***",
    * "Index sent to the control system for each icon when it is dropped on a screen."
@@ -151,6 +163,7 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    * @name sendeventondrop
    * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   sendEventOnDrop: string;
   /**
@@ -163,6 +176,7 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    * @name sendeventonchange
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   sendEventOnChange: string;
   /**
@@ -175,6 +189,7 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    * @name receivestatesourcechanged
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   receiveStateSourceChanged: string;
   /**
@@ -187,6 +202,7 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    * @name receivestatesourcelabel
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   receiveStateSourceLabel: string;
   /**
@@ -199,6 +215,7 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    * @name receivestatescriptsourcelabelhtml
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   receiveStateScriptSourceLabelHtml: string;
   /**
@@ -211,6 +228,7 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    * @name receivestatescreenlabel
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   receiveStateScreenLabel: string;
   /**
@@ -223,6 +241,7 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    * @name receivestatescriptscreenlabelhtml
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    * @attributeType "Join"
+   * @applicableToListItem true
    */
   receiveStateScriptScreenLabelHtml: string;
   /**
