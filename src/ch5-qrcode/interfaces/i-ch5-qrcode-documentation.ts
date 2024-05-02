@@ -25,7 +25,7 @@ import { ICh5QrCodeAttributes } from "./i-ch5-qrcode-attributes";
  * [
  *  {
  *    "prefix": "ch5-qrcode:blank",
- *     "description": "Crestron qrcode",
+ *     "description": "Crestron QR Code",
  *     "body": [
  *       "<ch5-qrcode>",
  *       "</ch5-qrcode>$0"

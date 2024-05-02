@@ -1,14 +1,14 @@
-// import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
-// import { ICh5QrCodeAttributes } from './interfaces/i-ch5-qrcode-attributes';
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import QRCode from "qrcode";
 import { Ch5ComponentLibrary } from "../ch5-core/ch5-component";
 import Ch5ColorUtils from '../ch5-common/utils/ch5-color-utils';
 import { Ch5BaseClass } from "../ch5-base/ch5-base-class";
+import { ICh5QrCodeAttributes } from "./interfaces/i-ch5-qrcode-attributes";
 
-export class Ch5QrCode extends Ch5BaseClass { //} implements ICh5QrCodeAttributes {
+export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 
 	//#region Variables
+
 	protected COMPONENT_NAME = "Ch5QrCode";
 
 	public static COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
@@ -147,14 +147,13 @@ export class Ch5QrCode extends Ch5BaseClass { //} implements ICh5QrCodeAttribute
 	public connectedCallback() {
 		super.connectedCallback();
 		this.logger.start('connectedCallback()');
-		// WAI-ARIA Attributes
 		if (!this.hasAttribute('role')) {
 			this.setAttribute('role', Ch5ComponentLibrary.ROLES.Ch5QrCode);
 		}
-		// if (this._elContainer.parentElement !== this) {
-		// 	this._elContainer.classList.add('ch5-qrcode');
-		// 	this.appendChild(this._elContainer);
-		// }
+		if (this._elContainer.parentElement !== this) {
+			this._elContainer.classList.add('ch5-qrcode');
+			this.appendChild(this._elContainer);
+		}
 		this.initAttributes();
 		this.initCommonMutationObserver(this);
 
@@ -179,16 +178,11 @@ export class Ch5QrCode extends Ch5BaseClass { //} implements ICh5QrCodeAttribute
 		this.clearComponentContent();
 		this._elContainer = document.createElement('div');
 		this._canvasContainer = document.createElement('canvas');
-		// this._canvasContainer.setAttribute("id", (new Date().getTime()).toString());
 		this._elContainer.appendChild(this._canvasContainer);
 		this._elContainer.classList.add(this.primaryCssClass);
 		this.appendChild(this._elContainer);
 		this.logger.stop();
 	}
-
-	// protected unsubscribeFromSignals() {
-	// 	super.unsubscribeFromSignals();
-	// }
 
 	public debounceBuildQrCode = this.util.debounce(() => {
 		this.handleQrCode();
@@ -198,7 +192,6 @@ export class Ch5QrCode extends Ch5BaseClass { //} implements ICh5QrCodeAttribute
 	 * Clear the content of component in order to avoid duplication of elements
 	 */
 	private clearComponentContent() {
-		//TODO - improve the method.
 		const containers = this.getElementsByTagName("div");
 		Array.from(containers).forEach((container) => {
 			container.remove();
@@ -235,10 +228,3 @@ export class Ch5QrCode extends Ch5BaseClass { //} implements ICh5QrCodeAttribute
 }
 
 Ch5ComponentLibrary.registerComponent(Ch5QrCode);
-// Ch5ComponentLibrary.registerComponent(Ch5QrCode.ELEMENT_NAME, Ch5QrCode.getSignalElementAttributeRegistryEntries(Ch5QrCode.COMPONENT_PROPERTIES), Ch5QrCode);
-
-//TODO List
-// Test
-// dir
-// SIGNAL_ATTRIBUTE_TYPES
-// Add index for componentlibrary and baseclass

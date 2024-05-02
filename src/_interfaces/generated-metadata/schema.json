@@ -1,6 +1,6 @@
 {
   "version": "2.8.0",
-  "componentsVersion": "2.8.0",
+  "componentsVersion": "2.9.1",
   "htmlElements": {
     "common": {
       "attributes": [
@@ -309,7 +309,7 @@
           },
           {
             "documentation": [
-              "`animationStyleqqq` attribute",
+              "`animationStyle` attribute",
               "***",
               "The styled graphics that determine the look/feel of this object. Each state of the style chosen corresponds to a frame of the animation. Default value is ring"
             ],
@@ -13687,6 +13687,285 @@
           },
           {
             "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "value": [],
+            "name": "receivestateshow",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`color` attribute",
+              "***",
+              "Set the color for the qr code. Default value is #000000."
+            ],
+            "value": [],
+            "name": "color",
+            "default": "#000000",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
+              "`backgroundColor` attribute",
+              "***",
+              "Set the background color for the qr code. Default value is #ffffff."
+            ],
+            "value": [],
+            "name": "backgroundcolor",
+            "default": "#ffffff",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
+              "`size` attribute",
+              "***",
+              "Set the width of the qr code. The height of the qr code will be same as width. Default value is 200 and it can range from 160 to 10000. The unit is pixel and should not be set in the attribute."
+            ],
+            "value": [],
+            "name": "size",
+            "default": "200",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [
+              {
+                "min": 160,
+                "max": 10000
+              }
+            ],
+            "attributeType": "number"
+          },
+          {
+            "documentation": [
+              "`qrCode` attribute",
+              "***",
+              "Sets the data stored in the QR Code image generated by the widget"
+            ],
+            "value": [],
+            "name": "qrcode",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`receiveStateQrCode` attribute",
+              "***",
+              "You may optionally select a serial join to programmatically change the data stored in the QR Code image generated by the widget."
+            ],
+            "value": [],
+            "name": "receivestateqrcode",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`class` attribute",
+              "***",
+              "This is a standard class HTML attribute."
+            ],
+            "value": [],
+            "name": "class",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`style` attribute",
+              "***",
+              "This is a standard style HTML attribute."
+            ],
+            "value": [],
+            "name": "style",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`role` attribute",
+              "***",
+              "This is an accessibility attribute implemented by all ch5-components and added automatically if not set by the user. ",
+              "Where possible, it represents the closest supported type for a ch5-component. In the case of a ch5-button, the value of the role attribute is 'button', for a ch5-modal-dialog the value is 'dialog', and so on. ",
+              "The default value for this ch5-component can be overridden via this attribute."
+            ],
+            "value": [],
+            "name": "role",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`debug` attribute",
+              "***",
+              "The default value is false. Used to get useful developer-related information about component behavior."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "debug",
+            "default": "true",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          }
+        ],
+        "documentation": [
+          "`ch5-qrcode` element",
+          "***",
+          "The QR Code component is designed to provide options to add backgroundColor, color, qrCode, size and receiveStateQrCode."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-qrcode:blank",
+            "description": "Crestron QR Code",
+            "body": [
+              "<ch5-qrcode>",
+              "</ch5-qrcode>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-qrcode:all-attributes",
+            "description": "Crestron qrcode (All Attributes)",
+            "body": [
+              "<ch5-qrcode id=\"ch5-qrcode_${1:id}\"",
+              "\tqrCode=\"${2:}\"",
+              "\tcolor=\"${3:#000000}\"",
+              "\tbackgroundColor=\"${4:#ffffff}\"",
+              "\tsize=\"${5:200}\"",
+              "\treceiveStateQrCode=\"${6:}\">",
+              "</ch5-qrcode>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-qrcode:default",
+            "description": "Crestron qrcode (default)",
+            "body": [
+              "<ch5-qrcode id=\"ch5-qrcode_${1:id}\"",
+              "\tqrCode=\"${2:}\"",
+              "\tcolor=\"${3:#000000}\"",
+              "\tbackgroundColor=\"${4:#ffffff}\"",
+              "\tsize=\"${5:200}\">",
+              "</ch5-qrcode>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "The QR Code Generator Widget is a programmable control used to display QR Code image desired by the designer.",
+        "name": "Ch5 QrCode",
+        "tagName": "ch5-qrcode",
+        "role": "QR code",
+        "componentVersion": "2.10.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "value": [],
+            "name": "id",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
               "`customclass` attribute",
               "***",
               "Contains a list of space delimited CSS classes that are applied on the component"
@@ -14668,7 +14947,7 @@
               "***",
               "Provides the name of the offset identifier to be substituted with ",
               "a 1-based index of the item in a list within the template item ",
-              "surrounded by {{ }} delimiters."
+              "surrounded by '{{ delimiters }}' delimiters."
             ],
             "value": [],
             "name": "indexid",
@@ -18849,7 +19128,7 @@
               "***",
               "Provides the name of the offset identifier to be substituted with ",
               "a 1-based index of the item in a list within the template item ",
-              "surrounded by {{ }} delimiters."
+              "surrounded by '{{ delimiters }}'."
             ],
             "value": [],
             "name": "indexid",
@@ -23791,7 +24070,7 @@
             "documentation": [
               "`indexId` attribute",
               "***",
-              "Provides the name of the offset identifier to be substituted with 0 based index of the item in list within the signal names provided in other attributes surrounded by {{ }} delimiters. See examples. Note: 0-based.  Other components, e.g. List, Spinner, Select, are currently 1-based, but will be changed to 0-based in the future.  This component will start as 0-based. "
+              "Provides the name of the offset identifier to be substituted with 0 based index of the item in list within the signal names provided in other attributes surrounded by '{{ delimiters }}'. See examples. Note: 0-based.  Other components, e.g. List, Spinner, Select, are currently 1-based, but will be changed to 0-based in the future.  This component will start as 0-based. "
             ],
             "value": [],
             "name": "indexid",
@@ -24513,6 +24792,1075 @@
         "tagName": "ch5-video",
         "role": "video",
         "componentVersion": "1.0.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "value": [],
+            "name": "id",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of space delimited CSS classes that are applied on the component"
+            ],
+            "value": [],
+            "name": "customclass",
+            "default": "null",
+            "hideWhen": [
+              {
+                "receiveStateCustomClass": [
+                  "true"
+                ]
+              }
+            ],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of semicolon delimited style classes applied on the component."
+            ],
+            "value": [],
+            "name": "customstyle",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "value": [],
+            "name": "receivestateshow",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "value": [],
+            "name": "receivestateenable",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`sourceListPosition` attribute",
+              "***",
+              "The position of the drag and drop list in relation to the area where the droppable screens are rendered. Possible values are top(default), left, right, bottom"
+            ],
+            "value": [
+              "top",
+              "left",
+              "right",
+              "bottom"
+            ],
+            "name": "sourcelistposition",
+            "default": "top",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`endless` attribute",
+              "***",
+              "When endless scrolling is selected the items in the list will loop when the end is reached creating the illusion  that there is an 'endless'. Only works when numberOfSourceListDivisions is 1. Default value is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "endless",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`numberOfSourceListDivisions` attribute",
+              "***",
+              "This property determines the number of rows (when the list is at the top or bottom i.e. horizontal) or columns (when the list is on the left or right i.e. vertical) the contents of the list will be divided into user sets a default location attribute. This is an attribute for the sources. Default value is 1, Minimum value is 1 and Maximum value is 10."
+            ],
+            "value": [],
+            "name": "numberofsourcelistdivisions",
+            "default": "1",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [
+              {
+                "min": 1,
+                "max": 10
+              }
+            ],
+            "attributeType": "Integer"
+          },
+          {
+            "documentation": [
+              "`scrollbar` attribute",
+              "***",
+              "Determines whether or not the scrollbar will be visible on the list. The scrollbar position shall be bottom for horizontal and right for vertical. Default value is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "scrollbar",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`numberOfSources` attribute",
+              "***",
+              "Sets the number of sources on the control. Default value is 5, Minimum value is 1 and Maximum value is 256."
+            ],
+            "value": [],
+            "name": "numberofsources",
+            "default": "5",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [
+              {
+                "min": 1,
+                "max": 256
+              }
+            ],
+            "attributeType": "Integer"
+          },
+          {
+            "documentation": [
+              "`numberOfScreenColumns` attribute",
+              "***",
+              "Sets the number of columns in the screen view. Setting to zero disables this feature and returns to standard calculations. Note: A minimum screen size of 80Wx60H will be enforced. Your total number of columns may be limited automatically if the width of the control is exceeded. Default value is 0, Minimum value is 0 and Maximum value is 10."
+            ],
+            "value": [],
+            "name": "numberofscreencolumns",
+            "default": "0",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [
+              {
+                "min": 0,
+                "max": 10
+              }
+            ],
+            "attributeType": "Integer"
+          },
+          {
+            "documentation": [
+              "`indexId` attribute",
+              "***",
+              "Provides the name of the offset identifier to be substituted with 0 based index of the item in a list within the template item surrounded by '{{ delimiters }}'."
+            ],
+            "value": [],
+            "name": "indexid",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`displayScreenLabel` attribute",
+              "***",
+              "Enables or disables the display of all labels on screens. Default value is true."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "displayscreenlabel",
+            "default": "true",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`screenAspectRatio` attribute",
+              "***",
+              "The aspect ratio of the drag and drop screen area. If this value is set the screens will always maintain the specified aspect ratio. Possible value are stretch(default), 16:9, 4:3."
+            ],
+            "value": [
+              "stretch",
+              "16:9",
+              "4:3"
+            ],
+            "name": "screenaspectratio",
+            "default": "stretch",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`numberOfScreens` attribute",
+              "***",
+              "Sets the maximum number of screens on the control. Note: A minimum screen size of 80Wx60H will be enforced. Your total number of screens may be limited automatically if the size of the control is exceeded. Default value is 2, Minimum value is 1 and Maximum value is 36."
+            ],
+            "value": [],
+            "name": "numberofscreens",
+            "default": "2",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [
+              {
+                "min": 1,
+                "max": 36
+              }
+            ],
+            "attributeType": "Integer"
+          },
+          {
+            "documentation": [
+              "`sourceIconClass` attribute",
+              "***",
+              "Sets the default icon for each source. The iconClass in the ch5-video-switcher-source tag will override this value. Default value is fa-solid fa-video"
+            ],
+            "value": [],
+            "name": "sourceiconclass",
+            "default": "fa-solid fa-video",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`sourceIconUrl` attribute",
+              "***",
+              "This attributes supports SVG icons and PNG icons, we can pass only one url in the sourceIconUrl attribute.The iconUrl in the ch5-video-switcher-source tag will override this value."
+            ],
+            "value": [],
+            "name": "sourceiconurl",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`sendEventOnDrop` attribute",
+              "***",
+              "Index sent to the control system for each icon when it is dropped on a screen."
+            ],
+            "value": [],
+            "name": "sendeventondrop",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "numericJoin": 1
+            },
+            "limits": [],
+            "applicableToListItem": true,
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`sendEventOnChange` attribute",
+              "***",
+              "Boolean signal sent to the control system for each source dropped on the screen. No Repeat digital in this case."
+            ],
+            "value": [],
+            "name": "sendeventonchange",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "applicableToListItem": true,
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receiveStateSourceChanged` attribute",
+              "***",
+              "Index of the screen changed."
+            ],
+            "value": [],
+            "name": "receivestatesourcechanged",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "numericJoin": 1
+            },
+            "limits": [],
+            "applicableToListItem": true,
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receiveStateSourceLabel` attribute",
+              "***",
+              "After receiving value from control system, this value is applied to the label attribute of all the sources in the list."
+            ],
+            "value": [],
+            "name": "receivestatesourcelabel",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "applicableToListItem": true,
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receiveStateScriptSourceLabelHtml` attribute",
+              "***",
+              "Allows the signal script evaluation to be applied to the source label. Allows for multiline, multiStyled labels."
+            ],
+            "value": [],
+            "name": "receivestatescriptsourcelabelhtml",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "applicableToListItem": true,
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receiveStateScreenLabel` attribute",
+              "***",
+              "After receiving value from control system, this value is applied to the label attribute of all the screens."
+            ],
+            "value": [],
+            "name": "receivestatescreenlabel",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "applicableToListItem": true,
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receiveStateScriptScreenLabelHtml` attribute",
+              "***",
+              "Allows the signal script evaluation to be applied to the screen label. Allows for multiline, multiStyled screen labels."
+            ],
+            "value": [],
+            "name": "receivestatescriptscreenlabelhtml",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "applicableToListItem": true,
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receiveStateNumberOfScreens` attribute",
+              "***",
+              "Value received from the receiveStateNumberOfScreens Join will be set to the numberOfScreens attribute."
+            ],
+            "value": [],
+            "name": "receivestatenumberofscreens",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "numericJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`contractName` attribute",
+              "***",
+              "ContractName attribute sets the name of the contract."
+            ],
+            "value": [],
+            "name": "contractname",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`useContractForEnable` attribute",
+              "***",
+              "Default value is false. When true, contract 'Enable' state determines if the component is enabled. When false, the 'receiveStateEnable' join may be applied. Consistent with other components, if the 'receiveStateEnable' join is provided, the value of that join determines if the component is enabled "
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "usecontractforenable",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`useContractForShow` attribute",
+              "***",
+              "Default value is false. When true, contract 'Show' state determines if the component is enabled. When false, the 'receiveStateShow' join may be applied. Consistent with other components, if the 'receiveStateShow' join is provided, the value of that join determines if the component is visible."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "usecontractforshow",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`contractSourceLabelType` attribute",
+              "***",
+              "Default value is 'none'. When 'none', contract ‘Source_X_Label’, will not change the label of source x. When 'textContent', change in value of contract 'Source_X_Label’, will change the label as if it were text, not HTML markup. When 'innerHTML', change in value of contract ‘Source_X_Label’, will change the label as if it were HTML content"
+            ],
+            "value": [
+              "none",
+              "textContent",
+              "innerHTML"
+            ],
+            "name": "contractsourcelabeltype",
+            "default": "none",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`contractScreenLabelType` attribute",
+              "***",
+              "Default value is 'none'. When 'none', contract ‘Screen_X_Label’, will not change the label of source x. When 'textContent', change in value of contract 'Screen_X_Label’, will change the label as if it were text, not HTML markup. When 'innerHTML', change in value of contract ‘Screen_X_Label’, will change the label as if it were HTML content "
+            ],
+            "value": [
+              "none",
+              "textContent",
+              "innerHTML"
+            ],
+            "name": "contractscreenlabeltype",
+            "default": "none",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`class` attribute",
+              "***",
+              "This is a standard class HTML attribute."
+            ],
+            "value": [],
+            "name": "class",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`style` attribute",
+              "***",
+              "This is a standard style HTML attribute."
+            ],
+            "value": [],
+            "name": "style",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`role` attribute",
+              "***",
+              "This is an accessibility attribute implemented by all ch5-components and added automatically if not set by the user. ",
+              "Where possible, it represents the closest supported type for a ch5-component. In the case of a ch5-button, the value of the role attribute is 'button', for a ch5-modal-dialog the value is 'dialog', and so on. ",
+              "The default value for this ch5-component can be overridden via this attribute."
+            ],
+            "value": [],
+            "name": "role",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`debug` attribute",
+              "***",
+              "The default value is false. Used to get useful developer-related information about component behavior."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "debug",
+            "default": "true",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`disabled` attribute",
+              "***",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
+              "to reflect a disabled state when true."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "disabled",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          }
+        ],
+        "documentation": [
+          "`ch5-video-switcher` element",
+          "***",
+          "The Video Switcher widget combines a scrolling list with a drag and drop functionality geared towards controlling video sources in a switcher matrix."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-video-switcher:blank",
+            "description": "Crestron video switcher",
+            "body": [
+              "<ch5-video-switcher>",
+              "</ch5-video-switcher>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-video-switcher:all-attributes",
+            "description": "Crestron video switcher (All Attributes)",
+            "body": [
+              "<ch5-video-switcher id=\"ch5-video-switcher_${1:id}\"",
+              "\tsourceListPosition=\"${2:top}\"",
+              "\tendless=\"${3:false}\"",
+              "\tnumberOfSourceListDivisions=\"${4:1}\"",
+              "\tscrollbar=\"${5:false}\"",
+              "\tnumberOfSources=\"${6:5}\"",
+              "\tnumberOfScreenColumns=\"${7:0}\"",
+              "\tindexId=\"${8:}\"",
+              "\tdisplayScreenLabel=\"${9:true}\"",
+              "\tscreenAspectRatio=\"${10:stretch}\"",
+              "\tnumberOfScreens=\"${11:2}\"",
+              "\tsourceIconClass=\"${12:fa-solid fa-video}\"",
+              "\tsourceIconUrl=\"${13:}\"",
+              "\tsendEventOnDrop=\"${14:}\"",
+              "\tsendEventOnChange=\"${15:}\"",
+              "\treceiveStateSourceChanged=\"${16:}\"",
+              "\treceiveStateSourceLabel=\"${17:}\"",
+              "\treceiveStateScriptSourceLabelHtml=\"${18:}\"",
+              "\treceiveStateScreenLabel=\"${19:}\"",
+              "\treceiveStateScriptScreenLabelHtml=\"${20:}\"",
+              "\treceiveStateNumberOfScreens=\"${21:}\"",
+              "\tcontractName=\"${22:}\"",
+              "\tuseContractForEnable=\"${23:false}\"",
+              "\tuseContractForShow=\"${24:false}\"",
+              "\tcontractSourceLabelType=\"${25:none}\"",
+              "\tcontractScreenLabelType=\"${26:none}\">",
+              "</ch5-video-switcher>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-video-switcher:default",
+            "description": "Crestron video switcher (default)",
+            "body": [
+              "<ch5-video-switcher id=\"ch5-video-switcher_${1:id}\"",
+              "\tsourceListPosition=\"${2:top}\"",
+              "\tendless=\"${3:false}\"",
+              "\tnumberOfSourceListDivisions=\"${4:1}\"",
+              "\tscrollbar=\"${5:false}\"",
+              "\tnumberOfSources=\"${6:5}\"",
+              "\tnumberOfScreenColumns=\"${7:0}\"",
+              "\tindexId=\"${8:}\"",
+              "\tdisplayScreenLabel=\"${9:true}\"",
+              "\tscreenAspectRatio=\"${10:stretch}\"",
+              "\tnumberOfScreens=\"${11:2}\"",
+              "\tsourceIconClass=\"${12:fa-solid fa-video}\"",
+              "\tsourceIconUrl=\"${13:}\">",
+              "</ch5-video-switcher>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-video-switcher:contractbased",
+            "description": "Crestron video switcher(contractbased)",
+            "body": [
+              "<ch5-video-switcher id=\"ch5-video-switcher_${1:id}\"",
+              "\tcontractName=\"${2:}\">",
+              "</ch5-video-switcher>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-video-switcher:contractbased-attributes",
+            "description": "Crestron video switcher(contractbased-attributes)",
+            "body": [
+              "<ch5-video-switcher id=\"ch5-video-switcher_${1:id}\"",
+              "\tcontractName=\"${2:}\"",
+              "\tuseContractForEnable=\"${3:false}\"",
+              "\tuseContractForShow=\"${4:false}\"",
+              "\tcontractSourceLabelType=\"${5:none}\"",
+              "\tcontractScreenLabelType=\"${6:none}\">",
+              "</ch5-video-switcher>$0"
+            ]
+          }
+        ],
+        "childElements": [
+          {
+            "tagName": "ch5-video-switcher-source",
+            "optional": true,
+            "childElements": [
+              {
+                "tagName": "ch5-video-switcher-source-label",
+                "optional": true,
+                "childElements": [
+                  {
+                    "tagName": "template",
+                    "optional": false,
+                    "childElements": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tagName": "ch5-video-switcher-screen",
+            "optional": true,
+            "childElements": [
+              {
+                "tagName": "ch5-video-switcher-screen-label",
+                "optional": true,
+                "childElements": [
+                  {
+                    "tagName": "template",
+                    "optional": false,
+                    "childElements": []
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "description": "Ch5 Video Switcher offers a wide range of functionality out-of-the-box.",
+        "name": "Ch5 Video Switcher",
+        "tagName": "ch5-video-switcher",
+        "role": "video-switcher",
+        "componentVersion": "2.9.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`labelInnerHTML` attribute",
+              "***",
+              "Ability to provide a template that applies for the individual screen in the list."
+            ],
+            "value": [],
+            "name": "labelinnerhtml",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String",
+            "hidden": true
+          },
+          {
+            "documentation": [
+              "`alignLabel` attribute",
+              "***",
+              "Set the label alignment on the screen window as either left, center(default) and right."
+            ],
+            "value": [
+              "center",
+              "left",
+              "right"
+            ],
+            "name": "alignlabel",
+            "default": "center",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          }
+        ],
+        "documentation": [
+          "`ch5-video-switcher-screen` element",
+          "***",
+          "Ch5 Video Switcher Screen tag to provide ability to enter individual screen labels and align the labels for the screen."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-video-switcher-screen:blank",
+            "description": "Crestron video switcher screen",
+            "body": [
+              "<ch5-video-switcher-screen>",
+              "</ch5-video-switcher-screen>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-video-switcher-screen:default/all",
+            "description": "Crestron video switcher screen (default)",
+            "body": [
+              "<ch5-video-switcher-screen",
+              "\talignLabel=\"${1:center}\">",
+              "</ch5-video-switcher-screen>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "A child element designed to handle individual screen for Ch5 Video Switcher component",
+        "name": "Ch5 Video Switcher Screen",
+        "tagName": "ch5-video-switcher-screen",
+        "role": "template",
+        "componentVersion": "2.9.0"
+      },
+      {
+        "attributes": [],
+        "documentation": [
+          "`ch5-video-switcher-screen-label` element",
+          "***",
+          "A child element designed to capture the label for Ch5 Video Switcher Screen Label."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-video-switcher-screen-label:blank",
+            "description": "Crestron video switcher screen label",
+            "body": [
+              "<ch5-video-switcher-screen-label>",
+              "\t<template>",
+              "\t$1",
+              "\t</template>",
+              "</ch5-video-switcher-screen-label>$0"
+            ]
+          }
+        ],
+        "childElements": [
+          {
+            "tagName": "template",
+            "optional": false,
+            "childElements": []
+          }
+        ],
+        "description": "Ch5 Video Switcher Screen Label is a child node for <ch5-video-switcher-screen>.",
+        "name": "Ch5 Video Switcher Screen Label",
+        "tagName": "ch5-video-switcher-screen-label",
+        "role": "label",
+        "componentVersion": "2.9.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`labelInnerHTML` attribute",
+              "***",
+              "Ability to provide a template that applies for the individual sources in the video switcher."
+            ],
+            "value": [],
+            "name": "labelinnerhtml",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String",
+            "hidden": true
+          },
+          {
+            "documentation": [
+              "`iconClass` attribute",
+              "***",
+              "The styled graphics and font styling information that determine the look/feel of the source icon image and the source icon text label. This style contains n states of icon images"
+            ],
+            "value": [],
+            "name": "iconclass",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`iconUrl` attribute",
+              "***",
+              "This attribute supports SVG icons and PNG Icons, we can pass only one url in the iconUrl attribute."
+            ],
+            "value": [],
+            "name": "iconurl",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          }
+        ],
+        "documentation": [
+          "`ch5-video-switcher-source` element",
+          "***",
+          "Ch5 Video Switcher Source tag to provide ability to enter individual source labels, align the labels for the source and provide iconclass for the source."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-video-switcher-source:blank",
+            "description": "Crestron video switcher source",
+            "body": [
+              "<ch5-video-switcher-source>",
+              "</ch5-video-switcher-source>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-video-switcher-source:default/all",
+            "description": "Crestron video switcher source (default)",
+            "body": [
+              "<ch5-video-switcher-source",
+              "\ticonClass=\"${1:}\"",
+              "\ticonUrl=\"${2:}\">",
+              "</ch5-video-switcher-source>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "A child element designed to handle individual source for Ch5 Video Switcher component",
+        "name": "Ch5 Video Switcher Source",
+        "tagName": "ch5-video-switcher-source",
+        "role": "template",
+        "componentVersion": "2.9.0"
+      },
+      {
+        "attributes": [],
+        "documentation": [
+          "`ch5-video-switcher-source-label` element",
+          "***",
+          "A child element designed to capture the label for Ch5 Video Switcher Source Label."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-video-switcher-source-label:blank",
+            "description": "Crestron video switcher source label",
+            "body": [
+              "<ch5-video-switcher-source-label>",
+              "\t<template>",
+              "\t$1",
+              "\t</template>",
+              "</ch5-video-switcher-source-label>$0"
+            ]
+          }
+        ],
+        "childElements": [
+          {
+            "tagName": "template",
+            "optional": false,
+            "childElements": []
+          }
+        ],
+        "description": "Ch5 Video Switcher Source Label is a child node for <ch5-video-switcher-source>.",
+        "name": "Ch5 Video Switcher Source Label",
+        "tagName": "ch5-video-switcher-source-label",
+        "role": "label",
+        "componentVersion": "2.9.0"
       },
       {
         "attributes": [

@@ -1143,4 +1143,9 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
  * // Translation library is moved to Ch5-translation-class - translatecallback is used in spinner
  * Original name was updateForChangeInStyleCss (changed to updateForChangeInCustomStyle) and is used in ch5button, so this method has to be checked when upgrading ch5button
  * _listOfAllPossibleComponentCssClasses - really can be avoided
+ * //TODO List
+// Test
+// dir
+// SIGNAL_ATTRIBUTE_TYPES
+// Add index for componentlibrary and baseclass
  */
