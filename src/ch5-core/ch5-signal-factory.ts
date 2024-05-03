@@ -30,46 +30,46 @@ export class Ch5SignalFactory {
 
     private constructor() {
         // this._signals = {};
-        this._signals = {'boolean': {}, 'number': {}, 'string': {}, 'object': {}};
+        this._signals = { 'boolean': {}, 'number': {}, 'string': {}, 'object': {} };
     }
 
     // Utility for testing purposes only
     public clearSignals(keepObjSignals: boolean) {
         if (this._signals) {
-            keepObjSignals ? this._signals = {'boolean': {}, 'number': {}, 'string': {}, 'object': this._signals.object}
-              : this._signals = {'boolean': {}, 'number': {}, 'string': {}, 'object': {}};
+            keepObjSignals ? this._signals = { 'boolean': {}, 'number': {}, 'string': {}, 'object': this._signals.object }
+                : this._signals = { 'boolean': {}, 'number': {}, 'string': {}, 'object': {} };
         }
     }
 
-    public getStates():any{
+    public getStates(): any {
         return this._signals;
     }
 
-    public getBooleanSignal(name: string, createNewIfNotFound=true): Ch5Signal<boolean> | null {
+    public getBooleanSignal(name: string, createNewIfNotFound = true): Ch5Signal<boolean> | null {
         return this.getState<boolean>(name, false, createNewIfNotFound);
     }
 
-    public getObjectAsBooleanSignal(name: string, createNewIfNotFound=true): Ch5Signal<object|boolean> | null {
-        return this.getState<object|boolean>(name, false, createNewIfNotFound);
+    public getObjectAsBooleanSignal(name: string, createNewIfNotFound = true): Ch5Signal<object | boolean> | null {
+        return this.getState<object | boolean>(name, false, createNewIfNotFound);
     }
 
-    public getNumberSignal(name: string, createNewIfNotFound=true): Ch5Signal<number> | null {
+    public getNumberSignal(name: string, createNewIfNotFound = true): Ch5Signal<number> | null {
         return this.getState<number>(name, 0, createNewIfNotFound);
     }
 
-    public getStringSignal(name: string, createNewIfNotFound=true): Ch5Signal<string> | null {
+    public getStringSignal(name: string, createNewIfNotFound = true): Ch5Signal<string> | null {
         return this.getState<string>(name, '', createNewIfNotFound);
     }
 
-    public getObjectSignal(name: string, createNewIfNotFound=true): Ch5Signal<object> | null {
+    public getObjectSignal(name: string, createNewIfNotFound = true): Ch5Signal<object> | null {
         return this.getState<object>(name, {}, createNewIfNotFound);
     }
 
-    public getState<T extends TSignal>(name: string, typeInstance: T, createNewIfNotFound=true): Ch5Signal<T> | null {
+    public getState<T extends TSignal>(name: string, typeInstance: T, createNewIfNotFound = true): Ch5Signal<T> | null {
         if (name === undefined || this._signals === undefined) {
             return null;
         }
-        const type: string = typeof(typeInstance);
+        const type: string = typeof (typeInstance);
         if (this._signals[type] === undefined) {
             return null;
         }
@@ -84,7 +84,7 @@ export class Ch5SignalFactory {
             return newSignal;
         } else {
             const existingSignal: Ch5Signal<T> = this._signals[type][name] as Ch5Signal<T>;
-            if (existingSignal.type === typeof(typeInstance)) {
+            if (existingSignal.type === typeof (typeInstance)) {
                 return existingSignal;
             } else {
                 // not the same type !!! return null for now.

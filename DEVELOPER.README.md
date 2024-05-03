@@ -94,3 +94,4 @@ A custom element must always have a closing tag to render. A simple "< custom-el
 1. Ensure that ```tsc -p tsconfig.umd.json``` is executed and any warnings and errors are addressed.
 2. Ensure to run ```npm run lint``` to identify linting errors.
 3. Execute wct cases to ensure completion of tasks.
+4. Do not use 'the template item surrounded by {{ }} delimiters'. The empty delimiters in the comments will fail. Use {{ delimiters }} instead.
