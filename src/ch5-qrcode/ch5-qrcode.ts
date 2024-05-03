@@ -146,7 +146,6 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 	 */
 	public connectedCallback() {
 		super.connectedCallback();
-		console.log("QR Code *** this.logger.isDebugEnabled: " + this.logger.isDebugEnabled);
 		this.logger.start('connectedCallback()');
 		if (!this.hasAttribute('role')) {
 			this.setAttribute('role', Ch5ComponentLibrary.ROLES.Ch5QrCode);

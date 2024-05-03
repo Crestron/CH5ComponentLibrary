@@ -9,7 +9,7 @@ import { ICh5QrCodeAttributes } from "./i-ch5-qrcode-attributes";
  * @isattribute false
  * @tagName ch5-qrcode
  * @role QR code
- * @description The QR Code Generator Widget is a programmable control used to display QR Code image desired by the designer.
+ * @description QR Code component is a programmable control used to display QR Code image desired by the designer.
  * @componentVersion 2.10.0
  * @childElements
  * [
