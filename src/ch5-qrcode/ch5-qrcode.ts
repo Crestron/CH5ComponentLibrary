@@ -200,6 +200,12 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 
 	private handleQrCode() {
 		const data: string = this.qrCode;
+		const canvasForQRCode = this.querySelector<HTMLCanvasElement>('canvas');
+		if (canvasForQRCode) {
+			canvasForQRCode.setAttribute("width", String(this.size));
+			canvasForQRCode.setAttribute("height", String(this.size));
+		}
+
 		if (data && data !== "") {
 			const foregroundColor = Ch5ColorUtils.col2hex(this.color);
 			const backgroundColor = Ch5ColorUtils.col2hex(this.backgroundColor);
@@ -213,11 +219,12 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 					dark: foregroundColor
 				}
 			};
+
+			// The below is the best way to set QR Code. The above code is implemented for sake of x60
 			QRCode.toCanvas(this._canvasContainer, data, opts, function (error) {
 				if (error) { console.error(error); }
 			});
 		} else {
-			const canvasForQRCode = this.querySelector<HTMLCanvasElement>('canvas');
 			if (canvasForQRCode) {
 				const context = canvasForQRCode.getContext('2d');
 				if (context) {

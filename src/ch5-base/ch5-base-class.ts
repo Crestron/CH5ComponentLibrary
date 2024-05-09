@@ -918,11 +918,11 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 	 * Initializes the values of the common attributes, taking into account the attribute values declared in the HTML
 	 */
 	protected initAttributes() {
-		this.applyPreConfiguredAttributes();
-
 		const thisRef: any = this;
+		// TODO - test dir by uncommenting below
+		// this.dir = this.hasAttribute('dir') ? ((this.getAttribute('dir')?.toLowerCase() === Ch5BaseClass.DIRECTION[0]) ? Ch5BaseClass.DIRECTION[0] : Ch5BaseClass.DIRECTION[1]): Ch5BaseClass.DIRECTION[0];
+
 		for (let i: number = 0; i < this.componentProperties.length; i++) {
-			// this.dir = this.getAttribute('dir') || Ch5BaseClass.DIRECTION[0];
 			if (this.componentProperties[i].isObservableProperty === true) {
 				if (this.hasAttribute(this.componentProperties[i].name.toLowerCase())) {
 					const key = this.componentProperties[i].name;

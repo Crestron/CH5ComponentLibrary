@@ -5,7 +5,7 @@ import { ICh5CommonForStyle } from "../../ch5-common/interfaces/common/i-ch5-com
 import { ICh5QrCodeAttributes } from "./i-ch5-qrcode-attributes";
 
 /**
- * @name Ch5 QrCode
+ * @name Ch5 QR Code
  * @isattribute false
  * @tagName ch5-qrcode
  * @role QR code
