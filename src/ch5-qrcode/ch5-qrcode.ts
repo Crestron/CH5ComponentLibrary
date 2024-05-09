@@ -159,6 +159,7 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 
 		customElements.whenDefined(Ch5QrCode.ELEMENT_NAME).then(() => {
 			this.componentLoadedEvent(Ch5QrCode.ELEMENT_NAME, this.id);
+			this.debounceBuildQrCode();
 		});
 		this.logger.stop();
 	}
