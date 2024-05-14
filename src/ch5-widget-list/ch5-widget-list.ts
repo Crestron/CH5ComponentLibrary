@@ -855,19 +855,19 @@ export class Ch5WidgetList extends Ch5Common implements ICh5WidgetListAttributes
 
   protected attachEventListeners() {
     super.attachEventListeners();
-    // this._elContainer.addEventListener('mousedown', this.handleMouseDown);
-    // this._elContainer.addEventListener('mouseleave', this.handleMouseUpAndLeave);
-    // this._elContainer.addEventListener('mouseup', this.handleMouseUpAndLeave);
-    // this._elContainer.addEventListener('mousemove', this.handleMouseMove);
+    this._elContainer.addEventListener('mousedown', this.handleMouseDown);
+    this._elContainer.addEventListener('mouseleave', this.handleMouseUpAndLeave);
+    this._elContainer.addEventListener('mouseup', this.handleMouseUpAndLeave);
+    this._elContainer.addEventListener('mousemove', this.handleMouseMove);
     // this._elContainer.addEventListener('scroll', this.handleScrollEvent);
   }
 
   protected removeEventListeners() {
     super.removeEventListeners();
-    // this._elContainer.removeEventListener('mouseleave', this.handleMouseUpAndLeave);
-    // this._elContainer.removeEventListener('mouseup', this.handleMouseUpAndLeave);
-    // this._elContainer.removeEventListener('mousedown', this.handleMouseDown);
-    // this._elContainer.removeEventListener('mousemove', this.handleMouseMove);
+    this._elContainer.removeEventListener('mouseleave', this.handleMouseUpAndLeave);
+    this._elContainer.removeEventListener('mouseup', this.handleMouseUpAndLeave);
+    this._elContainer.removeEventListener('mousedown', this.handleMouseDown);
+    this._elContainer.removeEventListener('mousemove', this.handleMouseMove);
     // this._elContainer.removeEventListener('scroll', this.handleScrollEvent);
   }
 
