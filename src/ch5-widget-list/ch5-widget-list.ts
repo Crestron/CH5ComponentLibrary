@@ -859,7 +859,7 @@ export class Ch5WidgetList extends Ch5Common implements ICh5WidgetListAttributes
     this._elContainer.addEventListener('mouseleave', this.handleMouseUpAndLeave);
     this._elContainer.addEventListener('mouseup', this.handleMouseUpAndLeave);
     this._elContainer.addEventListener('mousemove', this.handleMouseMove);
-    // this._elContainer.addEventListener('scroll', this.handleScrollEvent);
+    this._elContainer.addEventListener('scroll', this.handleScrollEvent);
   }
 
   protected removeEventListeners() {
@@ -868,7 +868,7 @@ export class Ch5WidgetList extends Ch5Common implements ICh5WidgetListAttributes
     this._elContainer.removeEventListener('mouseup', this.handleMouseUpAndLeave);
     this._elContainer.removeEventListener('mousedown', this.handleMouseDown);
     this._elContainer.removeEventListener('mousemove', this.handleMouseMove);
-    // this._elContainer.removeEventListener('scroll', this.handleScrollEvent);
+    this._elContainer.removeEventListener('scroll', this.handleScrollEvent);
   }
 
   protected unsubscribeFromSignals() {
@@ -901,25 +901,25 @@ export class Ch5WidgetList extends Ch5Common implements ICh5WidgetListAttributes
   }
 
   private handleScrollEvent = () => {
-    // update the scrollbar width and position
-    this.initScrollbar();
+    // // update the scrollbar width and position
+    // this.initScrollbar();
 
-    // endless is handled in endlessHelper method
-    if (this.endless) {
-      if (this.loadItems === "all") {
-        this.subpageWidth = this._elContainer.children[0].getBoundingClientRect().width;
-        this.subpageHeight = this._elContainer.children[0].getBoundingClientRect().height;
-        return this.endlessHelper();
-      } else if (this.loadItems === "load-new") {
-        return this.endlessHelperForNew();
-      }
-      return this.endlessHelper();
-    }
-    if (this.loadItems === "visible-only") {
-      this.scrollHelper();
-    } else if (this.loadItems === "load-new") {
-      this.scrollHelperForNew();
-    }
+    // // endless is handled in endlessHelper method
+    // if (this.endless) {
+    //   if (this.loadItems === "all") {
+    //     this.subpageWidth = this._elContainer.children[0].getBoundingClientRect().width;
+    //     this.subpageHeight = this._elContainer.children[0].getBoundingClientRect().height;
+    //     return this.endlessHelper();
+    //   } else if (this.loadItems === "load-new") {
+    //     return this.endlessHelperForNew();
+    //   }
+    //   return this.endlessHelper();
+    // }
+    // if (this.loadItems === "visible-only") {
+    //   this.scrollHelper();
+    // } else if (this.loadItems === "load-new") {
+    //   this.scrollHelperForNew();
+    // }
   }
 
   private scrollHelperForNew() {
