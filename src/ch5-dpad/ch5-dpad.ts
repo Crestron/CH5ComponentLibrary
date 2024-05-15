@@ -874,42 +874,42 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		if (Ch5Common.isNotNil(valueInput) && valueInput?.trim() !== "") {
 			const eventKeyStart = parseInt(valueInput?.trim(), 10);
 			if (contractName.length === 0 && !isNaN(eventKeyStart)) {
-				if (!_.isNil(centerBtn)) {
+				if (!Ch5Common.isNil(centerBtn)) {
 					const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.center;
 					centerBtn.setAttribute('sendEventOnClick', contractVal.toString());
 				}
-				if (!_.isNil(upBtn)) {
+				if (!Ch5Common.isNil(upBtn)) {
 					const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.up;
 					upBtn.setAttribute('sendEventOnClick', contractVal.toString());
 				}
-				if (!_.isNil(rightBtn)) {
+				if (!Ch5Common.isNil(rightBtn)) {
 					const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.right;
 					rightBtn.setAttribute('sendEventOnClick', contractVal.toString());
 				}
-				if (!_.isNil(downBtn)) {
+				if (!Ch5Common.isNil(downBtn)) {
 					const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.down;
 					downBtn.setAttribute('sendEventOnClick', contractVal.toString());
 				}
-				if (!_.isNil(leftBtn)) {
+				if (!Ch5Common.isNil(leftBtn)) {
 					const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.left;
 					leftBtn.setAttribute('sendEventOnClick', contractVal.toString());
 				}
 			}
 		} else {
 			if (contractName.length === 0) {
-				if (!_.isNil(centerBtn)) {
+				if (!Ch5Common.isNil(centerBtn)) {
 					centerBtn.removeAttribute('sendEventOnClick');
 				}
-				if (!_.isNil(upBtn)) {
+				if (!Ch5Common.isNil(upBtn)) {
 					upBtn.removeAttribute('sendEventOnClick');
 				}
-				if (!_.isNil(rightBtn)) {
+				if (!Ch5Common.isNil(rightBtn)) {
 					rightBtn.removeAttribute('sendEventOnClick');
 				}
-				if (!_.isNil(downBtn)) {
+				if (!Ch5Common.isNil(downBtn)) {
 					downBtn.removeAttribute('sendEventOnClick');
 				}
-				if (!_.isNil(leftBtn)) {
+				if (!Ch5Common.isNil(leftBtn)) {
 					leftBtn.removeAttribute('sendEventOnClick');
 				}
 			}
@@ -969,27 +969,27 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				this.receiveStateHideCenterButton = contractName + '.HideCenterButton';
 			}
 
-			if (!_.isNil(centerBtn)) {
+			if (!Ch5Common.isNil(centerBtn)) {
 				const contractVal = contractName + "." + CH5DpadUtils.contractSuffix.center;
 				centerBtn.setAttribute('sendEventOnClick', contractVal.toString());
 			}
 
-			if (!_.isNil(upBtn)) {
+			if (!Ch5Common.isNil(upBtn)) {
 				const contractVal = contractName + "." + CH5DpadUtils.contractSuffix.up;
 				upBtn.setAttribute('sendEventOnClick', contractVal.toString());
 			}
 
-			if (!_.isNil(rightBtn)) {
+			if (!Ch5Common.isNil(rightBtn)) {
 				const contractVal = contractName + "." + CH5DpadUtils.contractSuffix.right;
 				rightBtn.setAttribute('sendEventOnClick', contractVal.toString());
 			}
 
-			if (!_.isNil(downBtn)) {
+			if (!Ch5Common.isNil(downBtn)) {
 				const contractVal = contractName + "." + CH5DpadUtils.contractSuffix.down;
 				downBtn.setAttribute('sendEventOnClick', contractVal.toString());
 			}
 
-			if (!_.isNil(leftBtn)) {
+			if (!Ch5Common.isNil(leftBtn)) {
 				const contractVal = contractName + "." + CH5DpadUtils.contractSuffix.left;
 				leftBtn.setAttribute('sendEventOnClick', contractVal.toString());
 			}
