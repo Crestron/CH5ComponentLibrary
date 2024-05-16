@@ -6,9 +6,8 @@
     <script src="/webcomponentsjs/webcomponents-lite.js"></script>
     <script src="/bower_components/web-component-tester/browser.js"></script>
     <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
-
-    <script src="/build_bundles/umd/cr-com-lib.js"></script>
     <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
     <script src="/wct_tests/ch5-button/js/helpers.js"></script>
 </head>
 
@@ -356,11 +355,11 @@
                     ch5Button5.setAttribute('receiveStateCustomStyle', "current_value_customstyle_fixture5_" + String(selectionObj));
                     const setValueForSignal = "color: blue;";
                     CrComLib.publishEvent('s', 'current_value_customstyle_fixture5_' + String(selectionObj), setValueForSignal);
-                    
+
                     flush(() => {
                         setTimeout(() => {
                             expect(ch5Button5.getAttribute('customstyle')).to.be.equal("color: white;");
-                           expect(ch5Button5.customStyle).to.be.equal(setValueForSignal);
+                            expect(ch5Button5.customStyle).to.be.equal(setValueForSignal);
                             expect(getDiv(ch5Button5).getAttribute("style").indexOf(setValueForSignal) >= 0).to.be.equal(true);
                             const unexpectedValue = customStyleAttributeArray;
                             for (let i = 0; i < unexpectedValue.length; i++) {

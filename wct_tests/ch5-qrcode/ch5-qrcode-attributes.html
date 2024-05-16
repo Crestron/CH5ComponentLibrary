@@ -11,20 +11,19 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-color-picker-default-attributes">
+  <test-fixture id="ch5-qrcode-default-attributes">
     <template>
-      <ch5-color-picker></ch5-color-picker>
+      <ch5-qrcode></ch5-qrcode>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-color-picker-default-attributes-value', () => {
-      let ch5ColorPicker;
-      const signalTypes = CrComLib.Ch5ColorPicker.SIGNAL_ATTRIBUTE_TYPES;
-
+    suite('ch5-qrcode-default-attributes-value', () => {
+      let ch5QrCode;
+      const signalTypes = CrComLib.Ch5QrCode.SIGNAL_ATTRIBUTE_TYPES;
       setup(async () => {
-        ch5ColorPicker = fixture('ch5-color-picker-default-attributes');
+        ch5QrCode = fixture('ch5-qrcode-default-attributes');
       });
-
+        
       test('Check signal types', () => {
         for (signal in signalTypes) {
           if (signal.includes("sendevent")) {
@@ -34,7 +33,6 @@
           }
         }
       });
-
     });
   </script>
 </body>
