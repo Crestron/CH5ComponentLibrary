@@ -876,50 +876,62 @@ export class Ch5WidgetList extends Ch5Common implements ICh5WidgetListAttributes
     this._ch5Properties.unsubscribe();
   }
   private handleMouseDown = (e: MouseEvent) => {
-    this.isDown = true;
-    this._elContainer.classList.add('active');
-    this.startX = e.pageX - this._elContainer.offsetLeft;
-    this.startY = e.pageY - this._elContainer.offsetTop;
-    this.scrollListLeft = this._elContainer.scrollLeft;
-    this.scrollListTop = this._elContainer.scrollTop;
+    console.log('Down', new Date());
+    this.debounce(() => {
+      this.isDown = true;
+      this._elContainer.classList.add('active');
+      this.startX = e.pageX - this._elContainer.offsetLeft;
+      this.startY = e.pageY - this._elContainer.offsetTop;
+      this.scrollListLeft = this._elContainer.scrollLeft;
+      this.scrollListTop = this._elContainer.scrollTop;
+    }, 50)
   }
 
   private handleMouseUpAndLeave = () => {
-    this.isDown = false;
-    this._elContainer.classList.remove('active');
+    console.log('Leave', new Date());
+    this.debounce(() => {
+      this.isDown = false;
+      this._elContainer.classList.remove('active');
+    }, 50);
   }
 
   private handleMouseMove = (e: MouseEvent) => {
-    if (!this.isDown) { return; }
-    e.preventDefault();
-    const x = e.pageX - this._elContainer.offsetLeft;
-    const y = e.pageY - this._elContainer.offsetTop;
-    const walkX = (x - this.startX) * 3;
-    const walkY = (y - this.startY) * 3;
-    this._elContainer.scrollLeft = this.scrollListLeft - walkX;
-    this._elContainer.scrollTop = this.scrollListTop - walkY;
+    console.log('Move', new Date());
+    this.debounce(() => {
+      if (!this.isDown) { return; }
+      e.preventDefault();
+      const x = e.pageX - this._elContainer.offsetLeft;
+      const y = e.pageY - this._elContainer.offsetTop;
+      const walkX = (x - this.startX) * 3;
+      const walkY = (y - this.startY) * 3;
+      this._elContainer.scrollLeft = this.scrollListLeft - walkX;
+      this._elContainer.scrollTop = this.scrollListTop - walkY;
+    }, 50);
   }
 
   private handleScrollEvent = () => {
-    // // update the scrollbar width and position
-    // this.initScrollbar();
+    console.log('scroll', new Date())
+    this.debounce(() => {
+      // update the scrollbar width and position
+      this.initScrollbar();
 
-    // // endless is handled in endlessHelper method
-    // if (this.endless) {
-    //   if (this.loadItems === "all") {
-    //     this.subpageWidth = this._elContainer.children[0].getBoundingClientRect().width;
-    //     this.subpageHeight = this._elContainer.children[0].getBoundingClientRect().height;
-    //     return this.endlessHelper();
-    //   } else if (this.loadItems === "load-new") {
-    //     return this.endlessHelperForNew();
-    //   }
-    //   return this.endlessHelper();
-    // }
-    // if (this.loadItems === "visible-only") {
-    //   this.scrollHelper();
-    // } else if (this.loadItems === "load-new") {
-    //   this.scrollHelperForNew();
-    // }
+      // endless is handled in endlessHelper method
+      if (this.endless) {
+        if (this.loadItems === "all") {
+          this.subpageWidth = this._elContainer.children[0].getBoundingClientRect().width;
+          this.subpageHeight = this._elContainer.children[0].getBoundingClientRect().height;
+          return this.endlessHelper();
+        } else if (this.loadItems === "load-new") {
+          return this.endlessHelperForNew();
+        }
+        return this.endlessHelper();
+      }
+      if (this.loadItems === "visible-only") {
+        this.scrollHelper();
+      } else if (this.loadItems === "load-new") {
+        this.scrollHelperForNew();
+      }
+    }, 50);
   }
 
   private scrollHelperForNew() {
