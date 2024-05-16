@@ -6,9 +6,8 @@
     <script src="/webcomponentsjs/webcomponents-lite.js"></script>
     <script src="/bower_components/web-component-tester/browser.js"></script>
     <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
-
-    <script src="/build_bundles/umd/cr-com-lib.js"></script>
     <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
     <script src="/wct_tests/ch5-button/js/helpers.js"></script>
 </head>
 
@@ -865,57 +864,57 @@
             //         //         //                     done();
             //         //         //                 }, BASIC_TESTING_TIMEOUT);
             //         //         //             });
-                    //         //         });
-                    //         //     });
-                    //         // });
+            //         //         });
+            //         //     });
+            //         // });
 
-                    //         // // ch5Button3
-                    //         // valid_selected.forEach((selectionObj, i) => {
-                    //         //     test(`ch5-button-icon-fixture3 - Check attribute iconPosition for ch5-button-mode-state with selected as "${selectionObj}"`, (done) => {
-                    //         //         ch5Button3.setAttribute('selected', selectionObj);
-                    //         //         const expectedValue = selectionObj === true ? "right" : "left";
-                    //         //         expect(ch5Button3.getAttribute('iconPosition')).to.be.equal("right");
-                    //         //         expect(ch5Button3.iconPosition).to.be.equal(expectedValue);
-                    //         //     });
-                    //         //     test(`ch5-button-icon-fixture3 - Check ch5-button > div css class name for ch5-button-mode-state with selected as "${selectionObj}"`, (done) => {
-                    //         //         ch5Button3.setAttribute('selected', selectionObj);
-                    //         //         const expectedValue = selectionObj === true ? "right" : "left";
-                    //         //         expect(!!getITagInButtonForCheckbox(ch5Button3)).to.be.equal(true);
-                    //         //         expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__icon")).to.be.equal(true);
-                    //         //         expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__icon--unchecked")).to.be.equal(!ch5Button3.selected);
-                    //         //         expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__icon--checked")).to.be.equal(ch5Button3.selected);
-                    //         //         expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("cx-button-icon-pos-" + expectedValue)).to.be.equal(true);
-                    //         //     });
+            //         // // ch5Button3
+            //         // valid_selected.forEach((selectionObj, i) => {
+            //         //     test(`ch5-button-icon-fixture3 - Check attribute iconPosition for ch5-button-mode-state with selected as "${selectionObj}"`, (done) => {
+            //         //         ch5Button3.setAttribute('selected', selectionObj);
+            //         //         const expectedValue = selectionObj === true ? "right" : "left";
+            //         //         expect(ch5Button3.getAttribute('iconPosition')).to.be.equal("right");
+            //         //         expect(ch5Button3.iconPosition).to.be.equal(expectedValue);
+            //         //     });
+            //         //     test(`ch5-button-icon-fixture3 - Check ch5-button > div css class name for ch5-button-mode-state with selected as "${selectionObj}"`, (done) => {
+            //         //         ch5Button3.setAttribute('selected', selectionObj);
+            //         //         const expectedValue = selectionObj === true ? "right" : "left";
+            //         //         expect(!!getITagInButtonForCheckbox(ch5Button3)).to.be.equal(true);
+            //         //         expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__icon")).to.be.equal(true);
+            //         //         expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__icon--unchecked")).to.be.equal(!ch5Button3.selected);
+            //         //         expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__icon--checked")).to.be.equal(ch5Button3.selected);
+            //         //         expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("cx-button-icon-pos-" + expectedValue)).to.be.equal(true);
+            //         //     });
 
-                    //         //     test(`ch5-button-icon-fixture3 - Check attribute iconPosition for for ch5-button-mode-state using receiveStateSelected as "${selectionObj}"`, (done) => {
-                    //         //         CrComLib.publishEvent('b', 'receive_selected_state_iconPosition_fixture3', selectionObj);
-                    //         //         flush(() => {
-                    //         //             setTimeout(() => {
-                    //         //                 expect(ch5Button3.getAttribute('iconPosition')).to.be.equal("right");
-                    //         //                 const expectedValue = selectionObj === true ? "right" : "left";
-                    //         //                 expect(ch5Button3.iconPosition).to.be.equal(expectedValue);
-                    //         //                 done();
-                    //         //             }, BASIC_TESTING_TIMEOUT);
-                    //         //         });
-                    //         //     });
+            //         //     test(`ch5-button-icon-fixture3 - Check attribute iconPosition for for ch5-button-mode-state using receiveStateSelected as "${selectionObj}"`, (done) => {
+            //         //         CrComLib.publishEvent('b', 'receive_selected_state_iconPosition_fixture3', selectionObj);
+            //         //         flush(() => {
+            //         //             setTimeout(() => {
+            //         //                 expect(ch5Button3.getAttribute('iconPosition')).to.be.equal("right");
+            //         //                 const expectedValue = selectionObj === true ? "right" : "left";
+            //         //                 expect(ch5Button3.iconPosition).to.be.equal(expectedValue);
+            //         //                 done();
+            //         //             }, BASIC_TESTING_TIMEOUT);
+            //         //         });
+            //         //     });
 
-                    //         //     test(`ch5-button-icon-fixture3 - Check ch5-button > div css class name  for ch5-button-mode-state using receiveStateSelected as "${selectionObj}"`, (done) => {
-                    //         //         CrComLib.publishEvent('b', 'receive_selected_state_iconPosition_fixture3', selectionObj);
-                    //         //         flush(() => {
-                    //         //             setTimeout(() => {
-                    //         //                 const expectedValue = selectionObj === true ? "right" : "left";
-                    //         //                 expect(!!getITagInButtonForCheckbox(ch5Button3)).to.be.equal(true);
-                    //         //                 expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__icon")).to.be.equal(true);
-                    //         //                 expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__icon--unchecked")).to.be.equal(!ch5Button3.selected);
-                    //         //                 expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__icon--checked")).to.be.equal(ch5Button3.selected);
-                    //         //                 expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("cx-button-icon-pos-" + expectedValue)).to.be.equal(true);
-                    //         //                 done();
-                    //         //             }, BASIC_TESTING_TIMEOUT);
-                    //         //         });
-                    //         //     });
-                    //         // });
+            //         //     test(`ch5-button-icon-fixture3 - Check ch5-button > div css class name  for ch5-button-mode-state using receiveStateSelected as "${selectionObj}"`, (done) => {
+            //         //         CrComLib.publishEvent('b', 'receive_selected_state_iconPosition_fixture3', selectionObj);
+            //         //         flush(() => {
+            //         //             setTimeout(() => {
+            //         //                 const expectedValue = selectionObj === true ? "right" : "left";
+            //         //                 expect(!!getITagInButtonForCheckbox(ch5Button3)).to.be.equal(true);
+            //         //                 expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__icon")).to.be.equal(true);
+            //         //                 expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__icon--unchecked")).to.be.equal(!ch5Button3.selected);
+            //         //                 expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__icon--checked")).to.be.equal(ch5Button3.selected);
+            //         //                 expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("cx-button-icon-pos-" + expectedValue)).to.be.equal(true);
+            //         //                 done();
+            //         //             }, BASIC_TESTING_TIMEOUT);
+            //         //         });
+            //         //     });
+            //         // });
 
-       });
+        });
 
     </script>
 </body>
