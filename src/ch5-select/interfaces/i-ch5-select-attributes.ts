@@ -175,7 +175,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "***",
    * "Provides the name of the offset identifier to be substituted with ",
    * "a 1-based index of the item in a list within the template item ",
-   * "surrounded by {{ }} delimiters."
+   * "surrounded by '{{ delimiters }}'."
    * ]
    * @name indexid
    * @attributeType "String"

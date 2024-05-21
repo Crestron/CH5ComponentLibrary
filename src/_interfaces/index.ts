@@ -37,6 +37,7 @@ export * from "./../ch5-keypad/interfaces/i-ch5-keypad-documentation";
 export * from "./../ch5-list/interfaces/i-ch5-list-documentation";
 export * from "./../ch5-modal-dialog/interfaces/i-ch5-modal-dialog-documentation";
 export * from "./../ch5-overlay-panel/interfaces/i-ch5-overlay-panel-documentation";
+export * from './../ch5-qrcode/interfaces/i-ch5-qrcode-documentation';
 export * from './../ch5-segmented-gauge/interfaces/i-ch5-segmented-gauge-documentation';
 export * from "./../ch5-select/interfaces/i-ch5-select-documentation";
 export * from "./../ch5-select-option/interfaces/i-ch5-select-option-documentation";

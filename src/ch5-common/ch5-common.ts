@@ -1,4 +1,4 @@
-// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+// Copyright (C) 2023 to the present, Crestron Electronics, Inc.
 // All rights reserved.
 // No part of this software may be reproduced in any form, machine
 // or natural, without the express written consent of Crestron Electronics.
@@ -87,14 +87,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
 	public translatableObjects: any = {} as any;
 	public childrenOfCurrentNode: [HTMLElement] | null = null;
-
-	public _class: string = '';
-	public _style: string = '';
-
-	/**
-	 * Standard html attribute.
-	 */
-	protected _id: string = '';
 
 	/**
 	 *
@@ -263,11 +255,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	protected _crId: string = '';
 
 	/**
-	 * Ch5 internal unique ID with Increment
-	 */
-	protected _ch5Id: number = 0;
-
-	/**
 	 * CSS class name for noshowtype = visibility
 	 */
 	private readonly _cssClassHideVisibility = 'ch5-hide-vis';
@@ -293,11 +280,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	 * If this is true then the component will not unsubscribe from signals on removal from DOM ( as a consequence of a show signal change)
 	 */
 	protected _keepListeningOnSignalsAfterRemoval = false;
-
-	/**
-	 * This will be the target element for adding css classes or css style ( except the classes related to show/hide )
-	 */
-	protected _targetElementForCssClassesAndStyle: HTMLElement | null = null;
 
 	/**
 	 * An RxJs observable for the gestureable property.
@@ -702,7 +684,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		}
 	}
 
-	public get appendClassWhenInViewport(): string {
+	public get appendClassWhenInViewPort(): string {
 		return this._appendClassWhenInViewPort;
 	}
 
@@ -1202,7 +1184,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 				break;
 			case 'appendclasswheninviewport':
 				if (this.hasAttribute('appendclasswheninviewport')) {
-					this.appendClassWhenInViewPort = this.getAttribute('appendClassWhenInViewport') as string;
+					this.appendClassWhenInViewPort = this.getAttribute('appendClassWhenInViewPort') as string;
 				}
 				break;
 			default:
@@ -1416,7 +1398,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 				this.logger.log(' appended element to parent due to change in show signal')
 				this._keepListeningOnSignalsAfterRemoval = false;
 			}
-
 			this._isDetachedFromDom = false;
 		}
 

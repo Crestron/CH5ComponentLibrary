@@ -85,7 +85,7 @@ export interface ICh5VideoSwitcherAttributes extends ICh5CommonAttributesVideoSw
    * [
    * "`indexId` attribute",
    * "***",
-   * "Provides the name of the offset identifier to be substituted with 0 based index of the item in a list within the template item surrounded by {{ }} delimiters."
+   * "Provides the name of the offset identifier to be substituted with 0 based index of the item in a list within the template item surrounded by '{{ delimiters }}'."
    * ]
    * @name indexid
    * @default 

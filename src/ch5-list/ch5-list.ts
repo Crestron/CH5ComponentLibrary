@@ -7,7 +7,6 @@
 
 import isNil from 'lodash/isNil';
 import { Ch5Common } from '../ch5-common/ch5-common';
-import { noop } from '../ch5-common/utils/noop';
 import { TCh5ListElementOrientation } from "./interfaces";
 import { Ch5Config } from '..';
 import { clamp } from '../ch5-triggerview/utils';
@@ -24,6 +23,7 @@ import { Ch5RoleAttributeMapping } from '../utility-models';
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
+import { noop } from '../ch5-common/utils';
 
 /**
  * An object containing information about a item.

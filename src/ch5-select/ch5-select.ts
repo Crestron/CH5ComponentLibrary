@@ -215,7 +215,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 
 	/**
 	 * Provides the name of the offset identifier to substituted with 1 based index of the item in list within
-	 * the template item surrounded by {{ }} delimiters.
+	 * the template item surrounded by '{{ delimiters }}'.
 	 * @type {string}
 	 * @private
 	 */

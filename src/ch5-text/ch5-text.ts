@@ -264,6 +264,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
     customElements.whenDefined('ch5-text').then(() => {
       this.componentLoadedEvent(Ch5Text.ELEMENT_NAME, this.id);
+      this.handleLabel(); // This is important in case where label is missing in parent and template tag exists
     });
     this.logger.stop();
   }
@@ -421,7 +422,8 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     if (this.truncateText) {
       this._elSpan.setAttribute("style", "-webkit-line-clamp:" + numberOfLines);
     } else {
-      this._elSpan.setAttribute("style", "max-height: " + (numberOfLines * lineHeight) + "px" + ";word-wrap: break-word;display: flex;");
+      this._elSpan.setAttribute("style", "max-height: " + (numberOfLines * lineHeight) + "px" + ";");
+      // this._elSpan.setAttribute("style", "max-height: " + (numberOfLines * lineHeight) + "px" + ";word-wrap: break-word; display: flex;");
     }
   }
 
