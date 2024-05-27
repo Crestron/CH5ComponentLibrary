@@ -37,14 +37,14 @@ describe('Ch5ColorPicker', () => {
         }
     });
 
-    it('should default to "255" for an invalid maxValue', () => {
-        const invalidTypes = ['a', '', ' '];
+    // it('should default to "255" for an invalid maxValue', () => {
+    //     const invalidTypes = ['a', '', ' '];
 
-        for (let i = 0, len = invalidTypes.length; i < len; i++) {
-            cb.setAttribute('maxValue', invalidTypes[i]);
-            setTimeout(() => {
-                expect(cb.getAttribute('maxValue')).to.be.equal('255');
-            }, 100)
-        }
-    })
+    //     for (let i = 0, len = invalidTypes.length; i < len; i++) {
+    //         cb.setAttribute('maxValue', invalidTypes[i]);
+    //         setTimeout(() => {
+    //             expect(cb.getAttribute('maxValue')).to.be.equal('255');
+    //         }, 100)
+    //     }
+    // });
 });

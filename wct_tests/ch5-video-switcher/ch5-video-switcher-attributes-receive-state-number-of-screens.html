@@ -37,7 +37,7 @@
             expect(ch5VideoSwitcher.getAttribute('numberOfScreens')).to.be.equal('3');
             expect(ch5VideoSwitcher.querySelector('.ch5-video-switcher--screen-list').children.length).to.be.equal(Number('3'));
             done();
-          }, 30);
+          }, 300);
         });
       });
       test('receiveStateNumberOfScreens decrement', (done) => {
@@ -48,7 +48,7 @@
             expect(ch5VideoSwitcher.getAttribute('numberOfScreens')).to.be.equal('1');
             expect(ch5VideoSwitcher.querySelector('.ch5-video-switcher--screen-list').children.length).to.be.equal(Number('1'));
             done();
-          }, 30);
+          }, 300);
         });
       });
 

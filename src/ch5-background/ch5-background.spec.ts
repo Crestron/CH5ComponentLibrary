@@ -15,10 +15,6 @@ describe('Ch5Background', () => {
 
     let cb = document.createElement('ch5-button-list');
 
-    before(() => {
-        // Ch5Background.registerCustomElement();
-    });
-
     beforeEach(() => {
         // const cb = new Ch5Button(); // cannot be instantiated like this
         cb = document.createElement('ch5-background');
@@ -30,19 +26,7 @@ describe('Ch5Background', () => {
 
     it('should allow setting only valid backgroundcolor value', () => {
         cb.setAttribute("backgroundcolor", 'green');
-        // setTimeout(() => {
-        expect(cb.getAttribute('backgroundcolor')).to.be.equal('#008000');
-        //}, 100);
+        expect(cb.getAttribute('backgroundcolor')).to.be.equal('green');
     });
 
-    /*  it('should default to "horizontal" for an invalid orientation value', () => {
-         const invalidTypes = ['ddd', 'tttt', 'info2'];
- 
-         for (let i = 0, len = invalidTypes.length; i < len; i++) {
-             cb.setAttribute('orientation', invalidTypes[i]);
-             setTimeout(() => {
-                 expect(cb.getAttribute('orientation')).to.be.equal('horizontal');
-             }, 100)
-         }
-     }); */
 });

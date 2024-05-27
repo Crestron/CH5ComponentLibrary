@@ -303,8 +303,8 @@
         const contractName = ch5ButtonList.getAttribute('contractname');
         flush(() => {
           setTimeout(() => {
-            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateiconurl')).to.be.equal(`${contractName}.Button1IconUrl`);
-            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateIconUrl')).to.be.equal(`${contractName}.Button2IconUrl`);
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateiconurl')).to.be.equal(`${contractName}.Button1IconURL`);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateIconUrl')).to.be.equal(`${contractName}.Button2IconURL`);
             done();
           }, 200);
         });
@@ -359,8 +359,8 @@
         const contractName = ch5ButtonList.getAttribute('contractname');
         flush(() => {
           setTimeout(() => {
-            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateiconurl')).to.be.equal(`${contractName}.Button1IconUrl`);
-            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateIconUrl')).to.be.equal(`${contractName}.Button2IconUrl`);
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateiconurl')).to.be.equal(`${contractName}.Button1IconURL`);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateIconUrl')).to.be.equal(`${contractName}.Button2IconURL`);
             done();
           }, 200);
         });

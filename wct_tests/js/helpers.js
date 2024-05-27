@@ -59,3 +59,9 @@ function triggerEvent(el, type) {
     el.fireEvent('on' + e.eventType, e);
   }
 }
+
+function loopWithABreak(data) {
+  for (let i = 0; i < data.length; i++ ) {
+    console.log(data[i]);
+  }
+}

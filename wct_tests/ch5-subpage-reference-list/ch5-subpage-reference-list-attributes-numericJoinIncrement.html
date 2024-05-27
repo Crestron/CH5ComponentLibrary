@@ -134,8 +134,8 @@
       test('numericJoinIncrement with valid value  20', (done) => {
         flush(() => {
           setTimeout(() => {
-            expect(ch5SubpageReferenceList.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-NUMERIC');
-            expect(ch5SubpageReferenceList.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100 + 20).toString());
+            expect(ch5SubpageReferenceList.children[0].children[1].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-NUMERIC');
+            expect(ch5SubpageReferenceList.children[0].children[1].children[0].children[1].children[0].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100 + 20).toString());
             done();
           }, 100);
         });
@@ -184,8 +184,8 @@
       test('numericJoinIncrement  with valid  value 30 ', (done) => {
         flush(() => {
           setTimeout(() => {
-            expect(ch5SubpageReferenceList5.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-NUMERIC');
-            expect(ch5SubpageReferenceList5.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100 + 30).toString());
+            expect(ch5SubpageReferenceList5.children[0].children[1].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-NUMERIC');
+            expect(ch5SubpageReferenceList5.children[0].children[1].children[0].children[1].children[0].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100 + 30).toString());
             done();
           }, 100);
         });

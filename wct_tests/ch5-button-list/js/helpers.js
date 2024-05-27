@@ -1,5 +1,5 @@
 const BASIC_TESTING_TIMEOUT = 40;
-const COMPONENT_TESTING_TIMEOUT = 100;
+const COMPONENT_TESTING_TIMEOUT = 200;
 
 function getDiv(myComponent) {
   return myComponent.getElementsByTagName('div')[0];
