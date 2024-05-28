@@ -47,6 +47,5 @@ export * from './ch5-triggerview/index';
 export * from './ch5-logger/index';
 export * from './ch5-video/index';
 export * from './ch5-video-switcher/index';
-export * from './ch5-widget-list/index';
 export * from './ch5-wifi-signal-level-gauge';
 export * from './utility-models/index'; // Use CrComLib.Ch5RoleAttributeMapping to access
