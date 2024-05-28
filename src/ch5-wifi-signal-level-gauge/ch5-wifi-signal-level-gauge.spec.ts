@@ -13,36 +13,25 @@ import { Ch5WifiSignalLevelGauge } from './ch5-wifi-signal-level-gauge';
 
 describe('Ch5WifiSignalLevelGauge', () => {
 
-    let cb = document.createElement('ch5-wifi-signal-level-gauge');
+	let cb = document.createElement('ch5-wifi-signal-level-gauge');
 
-    before(() => {
-        //Ch5WifiSignalLevelGauge.registerCustomElement();
-    });
+	beforeEach(() => {
+		// const cb = new Ch5WifiSignalLevelGauge(); // cannot be instantiated like this
+		cb = document.createElement('ch5-wifi-signal-level-gauge');
+	});
 
-    beforeEach(() => {
-        // const cb = new Ch5WifiSignalLevelGauge(); // cannot be instantiated like this
-        cb = document.createElement('ch5-wifi-signal-level-gauge');
-    });
+	it('#create', () => {
+		expect(typeof cb).to.be.equal('object');
+	});
 
-    it('#create', () => {
-        expect(typeof cb).to.be.equal('object');
-    });
 
-    /* it('should allow setting only valid types', () => {
-        const validTypes = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
+	let testCases = ['a', '', ' ', 'number', 'regular', 'small', 'large', 'x-large'];
+	let expectedResult = ['regular', 'regular', 'regular', 'regular', 'regular', 'small', 'large', 'x-large'];
+	testCases.forEach((ele, i) => {
+		it('should allow setting only valid size', () => {
+			cb.setAttribute('size', ele);
+			expect(cb.getAttribute('size')).to.be.equal(expectedResult[i]);
+		});
+	});
 
-        for (let i = 0,len=validTypes.length; i < len; i++) {
-            cb.setAttribute('type', validTypes[i]);
-            expect(cb.getAttribute('type')).to.be.equal(validTypes[i]);
-        }
-    });
-
-    it('should default to "default" for an invalid type', () => {
-        const invalidTypes = ['ddd', 'tttt', 'info2'];
-
-        for (let i = 0, len = invalidTypes.length; i < len; i++) {
-            cb.setAttribute('type', invalidTypes[i]);
-            expect(cb.getAttribute('type')).to.be.equal('default');
-        }
-    }); */
 });
