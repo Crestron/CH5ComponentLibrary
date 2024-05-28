@@ -709,22 +709,23 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         const key = attributeChangedProperty.name;
         thisRef[key] = newValue;
       } else {
-        if (attr.toLowerCase() === "receivestatecustomclass") {
+        attr = attr.toLowerCase();
+        if (attr === "receivestatecustomclass") {
           if (this.useContractForCustomClass === false) {
             super.attributeChangedCallback(attr, oldValue, newValue);
             this.previousSignalValues.receiveStateCustomClass = this.receiveStateCustomClass;
           }
-        } else if (attr.toLowerCase() === "receivestatecustomstyle") {
+        } else if (attr === "receivestatecustomstyle") {
           if (this.useContractForCustomStyle === false) {
             super.attributeChangedCallback(attr, oldValue, newValue);
             this.previousSignalValues.receiveStateCustomStyle = this.receiveStateCustomStyle;
           }
-        } else if (attr.toLowerCase() === "receivestateshow") {
+        } else if (attr === "receivestateshow") {
           if (this.useContractForShow === false) {
             super.attributeChangedCallback(attr, oldValue, newValue);
             this.previousSignalValues.receiveStateShow = this.receiveStateShow;
           }
-        } else if (attr.toLowerCase() === "receivestateenable") {
+        } else if (attr === "receivestateenable") {
           if (this.useContractForEnable === false) {
             super.attributeChangedCallback(attr, oldValue, newValue);
             this.previousSignalValues.receiveStateEnable = this.receiveStateEnable;
@@ -784,36 +785,25 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this._refreshSubId = ch5subpageReferenceListSubject.subscribe((ch5SubpageReferenceListId: string) => {
       this.info(`Ch5SubpageReferenceList.listenForCh5SubpageReferenceListRefreshRequests() new request for ${ch5SubpageReferenceListId}`);
 
-      if (!this.shouldRefresh(ch5SubpageReferenceListId)) {
-        return;
+      if (this.getAttribute('widgetId') === ch5SubpageReferenceListId) {
+        this.initializations();
       }
-
-      this.initializations(true);
     });
   }
 
-  private shouldRefresh(id: string) {
-    this.info(`Ch5SubpageReferenceList.shouldRefresh() got called for id ${id}`);
-    return this.getAttribute('widgetId') === id;
-  }
+  private initializations(): void {
 
-  private initializations(force?: boolean): void {
-
-    this.info(`Ch5SubpageReferenceList.initializations(${force === true})`);
-
-    if (force === true || !this.widgetId) {
-      if (this._elContainer.parentElement !== this) {
-        this._elContainer.classList.add('ch5-subpage-reference-list');
-        this.appendChild(this._elContainer);
-      }
-      this.checkInternalHTML();
-      this.attachEventListeners();
-      this.initAttributes();
-      this.handleWidgetID();
-      this.initCommonMutationObserver(this);
-      this.debounceSubpageDisplay();
-      this.info('Ch5SubpageReferenceList --- Initialization Finished');
+    if (this._elContainer.parentElement !== this) {
+      this._elContainer.classList.add('ch5-subpage-reference-list');
+      this.appendChild(this._elContainer);
     }
+    this.checkInternalHTML();
+    this.attachEventListeners();
+    this.initAttributes();
+    this.handleWidgetID();
+    this.initCommonMutationObserver(this);
+    this.debounceSubpageDisplay();
+    this.info('Ch5SubpageReferenceList --- Initialization Finished');
 
   }
 
@@ -888,50 +878,58 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this._ch5Properties.unsubscribe();
   }
   private handleMouseDown = (e: MouseEvent) => {
-    this.isDown = true;
-    this._elContainer.classList.add('active');
-    this.startX = e.pageX - this._elContainer.offsetLeft;
-    this.startY = e.pageY - this._elContainer.offsetTop;
-    this.scrollListLeft = this._elContainer.scrollLeft;
-    this.scrollListTop = this._elContainer.scrollTop;
+    this.debounce(() => {
+      this.isDown = true;
+      this._elContainer.classList.add('active');
+      this.startX = e.pageX - this._elContainer.offsetLeft;
+      this.startY = e.pageY - this._elContainer.offsetTop;
+      this.scrollListLeft = this._elContainer.scrollLeft;
+      this.scrollListTop = this._elContainer.scrollTop;
+    }, 50);
   }
 
   private handleMouseUpAndLeave = () => {
-    this.isDown = false;
-    this._elContainer.classList.remove('active');
+    this.debounce(() => {
+      this.isDown = false;
+      this._elContainer.classList.remove('active');
+    }, 50);
   }
 
   private handleMouseMove = (e: MouseEvent) => {
-    if (!this.isDown) { return; }
-    e.preventDefault();
-    const x = e.pageX - this._elContainer.offsetLeft;
-    const y = e.pageY - this._elContainer.offsetTop;
-    const walkX = (x - this.startX) * 3;
-    const walkY = (y - this.startY) * 3;
-    this._elContainer.scrollLeft = this.scrollListLeft - walkX;
-    this._elContainer.scrollTop = this.scrollListTop - walkY;
+    this.debounce(() => {
+      if (!this.isDown) { return; }
+      e.preventDefault();
+      const x = e.pageX - this._elContainer.offsetLeft;
+      const y = e.pageY - this._elContainer.offsetTop;
+      const walkX = (x - this.startX) * 3;
+      const walkY = (y - this.startY) * 3;
+      this._elContainer.scrollLeft = this.scrollListLeft - walkX;
+      this._elContainer.scrollTop = this.scrollListTop - walkY;
+    }, 50);
   }
 
   private handleScrollEvent = () => {
-    // update the scrollbar width and position
-    this.initScrollbar();
+    this.debounce(() => {
+      // update the scrollbar width and position
+      this.initScrollbar();
 
-    // endless is handled in endlessHelper method
-    if (this.endless) {
-      if (this.loadItems === "all") {
-        this.subpageWidth = this._elContainer.children[0].getBoundingClientRect().width;
-        this.subpageHeight = this._elContainer.children[0].getBoundingClientRect().height;
+      // endless is handled in endlessHelper method
+      if (this.endless) {
+        if (this.loadItems === "all") {
+          this.subpageWidth = this._elContainer.children[0].getBoundingClientRect().width;
+          this.subpageHeight = this._elContainer.children[0].getBoundingClientRect().height;
+          return this.endlessHelper();
+        } else if (this.loadItems === "load-new") {
+          return this.endlessHelperForNew();
+        }
         return this.endlessHelper();
-      } else if (this.loadItems === "load-new") {
-        return this.endlessHelperForNew();
       }
-      return this.endlessHelper();
-    }
-    if (this.loadItems === "visible-only") {
-      this.scrollHelper();
-    } else if (this.loadItems === "load-new") {
-      this.scrollHelperForNew();
-    }
+      if (this.loadItems === "visible-only") {
+        this.scrollHelper();
+      } else if (this.loadItems === "load-new") {
+        this.scrollHelperForNew();
+      }
+    }, 50);
   }
 
   private scrollHelperForNew() {
