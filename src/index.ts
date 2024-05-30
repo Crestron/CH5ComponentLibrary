@@ -6,8 +6,8 @@
 // under which you licensed this source code.
 
 export * from './ch5-animation/index';
-export * from './ch5-button/index';
 export * from './ch5-background/index';
+export * from './ch5-button/index';
 export * from './ch5-button-list/index';
 export * from './ch5-color-chip/index';
 export * from './ch5-color-picker/index';

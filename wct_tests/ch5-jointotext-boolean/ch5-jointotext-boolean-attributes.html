@@ -6,7 +6,7 @@
   <script src="/webcomponentsjs/webcomponents-lite.js"></script>
   <script src="/bower_components/web-component-tester/browser.js"></script>
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
-
+  <script src="/wct_tests/js/helpers.js"></script>    
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
 </head>
 
@@ -211,7 +211,7 @@
         expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('text when true');
         expect(ch5JointextBoolean.textWhenTrue).to.be.equal('text when true');
         ch5JointextBoolean.removeAttribute('textWhenTrue');
-        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('');
+        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal(null);
         expect(ch5JointextBoolean.textWhenTrue).to.be.equal('');
       });
     });
@@ -229,7 +229,7 @@
         expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('text when false');
         expect(ch5JointextBoolean.textWhenFalse).to.be.equal('text when false');
         ch5JointextBoolean.removeAttribute('textWhenFalse');
-        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('');
+        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal(null);
         expect(ch5JointextBoolean.textWhenFalse).to.be.equal('');
       });
     });
@@ -408,9 +408,9 @@
       });
 
       test(`Check when value is empty, textWhenTrue exists`, () => {
-        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('');
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('true');
         expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('Playing');
-        expect(ch5JointextBoolean.textContent).to.be.equal('');
+        expect(ch5JointextBoolean.textContent).to.be.equal('Playing');
       });
     });
 
@@ -425,7 +425,7 @@
         expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('Paused');
         expect(ch5JointextBoolean.textContent).to.be.equal('Paused');
         ch5JointextBoolean.removeAttribute('textWhenFalse');
-        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('');
+        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal(null);
       });
     });
 
@@ -440,7 +440,7 @@
         expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('Playing');
         expect(ch5JointextBoolean.textContent).to.be.equal('');
         ch5JointextBoolean.removeAttribute('textWhenTrue');
-        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('');
+        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal(null);
       });
     });
 
@@ -452,15 +452,15 @@
       });
 
       test('Check when value is misspelled and textWhenFalse exists', () => {
-        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('flse');
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('false');
         expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('Paused');
         expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('Playing');
         expect(ch5JointextBoolean.textContent).to.be.equal('Paused');
         ch5JointextBoolean.removeAttribute('value');
         ch5JointextBoolean.removeAttribute('textWhenFalse');
         ch5JointextBoolean.removeAttribute('textWhenTrue');
-        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('');
-        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('');
+        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal(null);
+        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal(null);
       });
     });
 
@@ -472,7 +472,7 @@
       });
 
       test(`Check when value is misspelled`, () => {
-        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('988');
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('false');
         expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('Playing');
         expect(ch5JointextBoolean.textContent).to.be.equal('');
       });
@@ -486,10 +486,10 @@
       });
 
       test(`Check when value is empty textWhenTrue and textWhenFalse exists`, () => {
-        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('');
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('true');
         expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('Playing');
         expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('Paused');
-        expect(ch5JointextBoolean.textContent).to.be.equal('Paused');
+        expect(ch5JointextBoolean.textContent).to.be.equal('Playing');
       });
     });
 
@@ -519,7 +519,7 @@
         expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('Paused');
         expect(ch5JointextBoolean.textContent).to.be.equal("Paused");
         expect(ch5JointextBoolean.removeAttribute('textWhenFalse'));
-        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('');
+        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal(null);
         expect(ch5JointextBoolean.textContent).to.be.equal('');
       });
     });

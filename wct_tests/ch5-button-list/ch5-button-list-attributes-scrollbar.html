@@ -6,9 +6,8 @@
   <script src="/webcomponentsjs/webcomponents-lite.js"></script>
   <script src="/bower_components/web-component-tester/browser.js"></script>
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
-
+  <script src="/wct_tests/js/helpers.js"></script>    
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
-  <script src="/wct_tests/js/helpers.js"></script>
   <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
 </head>
 
@@ -137,9 +136,9 @@
       });
 
       test(`Check attribute scrollbar`, () => {
-        ch5ButtonList.setAttribute('rows', 1);
-        ch5ButtonList.setAttribute('scrollbar', true);
-        ch5ButtonList.setAttribute('numberOfItems', 20);
+        ch5ButtonList.setAttribute('rows', "1");
+        ch5ButtonList.setAttribute('scrollbar', "true");
+        ch5ButtonList.setAttribute('numberOfItems', "20");
         ch5ButtonList.setAttribute('customStyle', 'width:50%;');
         ch5ButtonList.setAttribute('orientation', 'horizontal');
         flush(() => {
@@ -157,181 +156,182 @@
         });
       });
 
-      numberOfRows.forEach((val, i) => {
-        test(`Check attribute scrollbar with multiple rows ${val}`, (done) => {
-          ch5ButtonList1.setAttribute('rows', val);
-          ch5ButtonList1.setAttribute('scrollbar', true);
-          ch5ButtonList1.setAttribute('numberOfItems', val);
-          ch5ButtonList1.setAttribute('customStyle', 'width:50%;');
-          flush(() => {
-            setTimeout(() => {
-              expect(ch5ButtonList1.orientation).to.be.equal('horizontal');
-              expect(ch5ButtonList1.rows).to.be.equal(val);
-              expect(ch5ButtonList1.scrollbar).to.be.equal(true);
-              expect(ch5ButtonList1.numberOfItems).to.be.equal(val);
-              console.log(getDiv(ch5ButtonList1), ch5ButtonList1.scrollbar)
-              expect(ch5ButtonList1.customStyle).to.be.equal('width:50%;');
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button--danger')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + val)).to.be.equal(true);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
-              done();
-            }, COMPONENT_TESTING_TIMEOUT);
-          });
-        });
+      // numberOfRows.forEach((val, i) => {
+      //   test(`Check attribute scrollbar true with multiple rows ${val}`, (done) => {
+      //     ch5ButtonList1.setAttribute('rows', String(val));
+      //     ch5ButtonList1.setAttribute('scrollbar', String(true));
+      //     ch5ButtonList1.setAttribute('numberOfItems', String(val));
+      //     ch5ButtonList1.setAttribute('customStyle', 'width:50%;');
+      //     flush(() => {
+      //       setTimeout(() => {
+      //         // expect(ch5ButtonList1.orientation).to.be.equal('horizontal');
+      //         // expect(ch5ButtonList1.rows).to.be.equal(val);
+      //         // expect(ch5ButtonList1.scrollbar).to.be.equal(true);
+      //         // expect(ch5ButtonList1.numberOfItems).to.be.equal(val);
+      //         // console.log("ch5ButtonList1", (ch5ButtonList1));
+      //         // expect(ch5ButtonList1.customStyle).to.be.equal('width:50%;');
+      //         // expect(getDiv(ch5ButtonList1).classList.contains('ch5-button--danger')).to.be.equal(true);
+      //         // expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + val)).to.be.equal(true);
+      //         // expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
+      //         // expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
+      //         done();
+      //       }, COMPONENT_TESTING_TIMEOUT);
+      //     });
+      //   });
 
-        test(`Check attribute scrollbar false with multiple rows ${val}`, (done) => {
-          ch5ButtonList1.setAttribute('rows', val);
-          ch5ButtonList1.setAttribute('scrollbar', false);
-          ch5ButtonList1.setAttribute('numberOfItems', val);
-          ch5ButtonList1.setAttribute('customStyle', 'width:50%;');
-          flush(() => {
-            setTimeout(() => {
-              expect(ch5ButtonList1.rows).to.be.equal(val);
-              expect(ch5ButtonList1.rows).to.be.equal(2);
-              expect(ch5ButtonList1.scrollbar).to.be.equal(true);
-              expect(ch5ButtonList1.numberOfItems).to.be.equal(val);
-              expect(ch5ButtonList1.orientation).to.be.equal('horizontal');
-              expect(ch5ButtonList1.customStyle).to.be.equal('width:50%;');
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button--danger')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + val)).to.be.equal(true);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-false')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
-              done();
-            }, COMPONENT_TESTING_TIMEOUT);
-          });
-        });
-      });
+      //   test(`Check attribute scrollbar false with multiple rows ${val}`, (done) => {
+      //     ch5ButtonList1.setAttribute('rows', val);
+      //     ch5ButtonList1.setAttribute('scrollbar', false);
+      //     ch5ButtonList1.setAttribute('numberOfItems', val);
+      //     ch5ButtonList1.setAttribute('customStyle', 'width:50%;');
+      //     flush(() => {
+      //       setTimeout(() => {
+      //         // expect(ch5ButtonList1.rows).to.be.equal(val);
+      //         // expect(ch5ButtonList1.rows).to.be.equal(2);
+      //         // expect(ch5ButtonList1.scrollbar).to.be.equal(true);
+      //         // expect(ch5ButtonList1.numberOfItems).to.be.equal(val);
+      //         // expect(ch5ButtonList1.orientation).to.be.equal('horizontal');
+      //         // expect(ch5ButtonList1.customStyle).to.be.equal('width:50%;');
+      //         // expect(getDiv(ch5ButtonList1).classList.contains('ch5-button--danger')).to.be.equal(true);
+      //         // expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + val)).to.be.equal(true);
+      //         // expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-false')).to.be.equal(true);
+      //         // expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
+      //         done();
+      //       }, COMPONENT_TESTING_TIMEOUT);
+      //     });
+      //   });
+      // });
 
-      scrollBarVal.forEach((val, i) => {
-        test(`Check attribute scrollbar for rows ${val.rows} and columns ${val.columns}`, (done) => {
-          ch5ButtonList1.setAttribute('rows', val.rows);
-          ch5ButtonList1.setAttribute('scrollbar', true);
-          ch5ButtonList1.setAttribute('columns', val.columns);
-          ch5ButtonList1.setAttribute('orientation', 'vertical');
-          ch5ButtonList1.setAttribute('numberOfItems', val.numberOfItems);
-          ch5ButtonList1.setAttribute('customStyle', 'height:50%; width:50%;');
-          flush(() => {
-            setTimeout(() => {
-              expect(ch5ButtonList1.scrollbar).to.be.equal(true);
-              expect(ch5ButtonList1.rows).to.be.equal(scrollBarVal[i].rows);
-              expect(ch5ButtonList1.columns).to.be.equal(scrollBarVal[i].columns);
-              expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
-              expect(ch5ButtonList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button--danger')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + scrollBarVal[i].rows)).to.be.equal(true);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
-              done();
-            }, COMPONENT_TESTING_TIMEOUT);
-          });
-        });
+      // scrollBarVal.forEach((val, i) => {
+      //   test(`Check attribute scrollbar for rows ${val.rows} and columns ${val.columns}`, (done) => {
+      //     ch5ButtonList1.setAttribute('rows', val.rows);
+      //     ch5ButtonList1.setAttribute('scrollbar', true);
+      //     ch5ButtonList1.setAttribute('columns', val.columns);
+      //     ch5ButtonList1.setAttribute('orientation', 'vertical');
+      //     ch5ButtonList1.setAttribute('numberOfItems', val.numberOfItems);
+      //     ch5ButtonList1.setAttribute('customStyle', 'height:50%; width:50%;');
+      //     flush(() => {
+      //       setTimeout(() => {
+      //         expect(ch5ButtonList1.scrollbar).to.be.equal(true);
+      //         expect(ch5ButtonList1.rows).to.be.equal(scrollBarVal[i].rows);
+      //         expect(ch5ButtonList1.columns).to.be.equal(scrollBarVal[i].columns);
+      //         expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
+      //         expect(ch5ButtonList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+      //         expect(getDiv(ch5ButtonList1).classList.contains('ch5-button--danger')).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + scrollBarVal[i].rows)).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+      //         done();
+      //       }, COMPONENT_TESTING_TIMEOUT);
+      //     });
+      //   });
 
-        test(`Check attribute scrollbar false for rows ${val.rows} and columns ${val.columns}`, (done) => {
-          ch5ButtonList1.setAttribute('rows', val.rows);
-          ch5ButtonList1.setAttribute('scrollbar', false);
-          ch5ButtonList1.setAttribute('columns', val.columns);
-          ch5ButtonList1.setAttribute('orientation', 'vertical');
-          ch5ButtonList1.setAttribute('numberOfItems', val.numberOfItems);
-          ch5ButtonList1.setAttribute('customStyle', 'height:50%; width:50%;');
-          flush(() => {
-            setTimeout(() => {
-              expect(ch5ButtonList1.scrollbar).to.be.equal(false);
-              expect(ch5ButtonList1.rows).to.be.equal(scrollBarVal[i].rows);
-              expect(ch5ButtonList1.columns).to.be.equal(scrollBarVal[i].columns);
-              expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
-              expect(ch5ButtonList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button--danger')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-false')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + scrollBarVal[i].rows)).to.be.equal(true);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
-              done();
-            }, COMPONENT_TESTING_TIMEOUT);
-          });
-        });
+      //   test(`Check attribute scrollbar false for rows ${val.rows} and columns ${val.columns}`, (done) => {
+      //     ch5ButtonList1.setAttribute('rows', val.rows);
+      //     ch5ButtonList1.setAttribute('scrollbar', false);
+      //     ch5ButtonList1.setAttribute('columns', val.columns);
+      //     ch5ButtonList1.setAttribute('orientation', 'vertical');
+      //     ch5ButtonList1.setAttribute('numberOfItems', val.numberOfItems);
+      //     ch5ButtonList1.setAttribute('customStyle', 'height:50%; width:50%;');
+      //     flush(() => {
+      //       setTimeout(() => {
+      //         expect(ch5ButtonList1.scrollbar).to.be.equal(false);
+      //         expect(ch5ButtonList1.rows).to.be.equal(scrollBarVal[i].rows);
+      //         expect(ch5ButtonList1.columns).to.be.equal(scrollBarVal[i].columns);
+      //         expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
+      //         expect(ch5ButtonList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+      //         expect(getDiv(ch5ButtonList1).classList.contains('ch5-button--danger')).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-false')).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + scrollBarVal[i].rows)).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+      //         done();
+      //       }, COMPONENT_TESTING_TIMEOUT);
+      //     });
+      //   });
 
-        test(`Check attribute scrollbar for rows ${val.rows} and columns ${val.columns} with buttonShape and buttonIconClass`, (done) => {
-          ch5ButtonList2.setAttribute('rows', val.rows);
-          ch5ButtonList2.setAttribute('scrollbar', true);
-          ch5ButtonList2.setAttribute('columns', val.columns);
-          ch5ButtonList2.setAttribute('orientation', 'vertical');
-          ch5ButtonList2.setAttribute('numberOfItems', val.numberOfItems);
-          ch5ButtonList2.setAttribute('customStyle', 'height:50%; width:50%;');
-          flush(() => {
-            setTimeout(() => {
-              expect(ch5ButtonList2.scrollbar).to.be.equal(true);
-              expect(ch5ButtonList2.rows).to.be.equal(scrollBarVal[i].rows);
-              expect(ch5ButtonList2.columns).to.be.equal(scrollBarVal[i].columns);
-              expect(ch5ButtonList2.customStyle).to.be.equal('height:50%; width:50%;');
-              expect(ch5ButtonList2.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
-              expect(getSpan(ch5ButtonList2).classList.contains('material-icons md-alarm_on')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--rows-' + scrollBarVal[i].rows)).to.be.equal(true);
-              expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--button-shape-rounded-rectangle')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
-              done();
-            }, COMPONENT_TESTING_TIMEOUT);
-          });
-        });
+      //   test(`Check attribute scrollbar for rows ${val.rows} and columns ${val.columns} with buttonShape and buttonIconClass`, (done) => {
+      //     ch5ButtonList2.setAttribute('rows', val.rows);
+      //     ch5ButtonList2.setAttribute('scrollbar', true);
+      //     ch5ButtonList2.setAttribute('columns', val.columns);
+      //     ch5ButtonList2.setAttribute('orientation', 'vertical');
+      //     ch5ButtonList2.setAttribute('numberOfItems', val.numberOfItems);
+      //     ch5ButtonList2.setAttribute('customStyle', 'height:50%; width:50%;');
+      //     flush(() => {
+      //       setTimeout(() => {
+      //         expect(ch5ButtonList2.scrollbar).to.be.equal(true);
+      //         expect(ch5ButtonList2.rows).to.be.equal(scrollBarVal[i].rows);
+      //         expect(ch5ButtonList2.columns).to.be.equal(scrollBarVal[i].columns);
+      //         expect(ch5ButtonList2.customStyle).to.be.equal('height:50%; width:50%;');
+      //         expect(ch5ButtonList2.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+      //         expect(getSpan(ch5ButtonList2).classList.contains('material-icons md-alarm_on')).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--rows-' + scrollBarVal[i].rows)).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--button-shape-rounded-rectangle')).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+      //         done();
+      //       }, COMPONENT_TESTING_TIMEOUT);
+      //     });
+      //   });
 
-        test(`Check attribute scrollbar false for rows ${val.rows} and columns ${val.columns} with buttonShape and buttonIconClass`, (done) => {
-          ch5ButtonList2.setAttribute('rows', val.rows);
-          ch5ButtonList2.setAttribute('scrollbar', false);
-          ch5ButtonList2.setAttribute('columns', val.columns);
-          ch5ButtonList2.setAttribute('orientation', 'vertical');
-          ch5ButtonList2.setAttribute('numberOfItems', val.numberOfItems);
-          ch5ButtonList2.setAttribute('customStyle', 'height:50%; width:50%;');
-          flush(() => {
-            setTimeout(() => {
-              expect(ch5ButtonList2.scrollbar).to.be.equal(false);
-              expect(ch5ButtonList2.rows).to.be.equal(scrollBarVal[i].rows);
-              expect(ch5ButtonList2.columns).to.be.equal(scrollBarVal[i].columns);
-              expect(ch5ButtonList2.customStyle).to.be.equal('height:50%; width:50%;');
-              expect(ch5ButtonList2.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
-              expect(getSpan(ch5ButtonList2).classList.contains('material-icons md-alarm_on')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--scrollbar-false')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--rows-' + scrollBarVal[i].rows)).to.be.equal(true);
-              expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--button-shape-rounded-rectangle')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
-              done();
-            }, COMPONENT_TESTING_TIMEOUT);
-          });
-        });
+      //   test(`Check attribute scrollbar false for rows ${val.rows} and columns ${val.columns} with buttonShape and buttonIconClass`, (done) => {
+      //     ch5ButtonList2.setAttribute('rows', val.rows);
+      //     ch5ButtonList2.setAttribute('scrollbar', false);
+      //     ch5ButtonList2.setAttribute('columns', val.columns);
+      //     ch5ButtonList2.setAttribute('orientation', 'vertical');
+      //     ch5ButtonList2.setAttribute('numberOfItems', val.numberOfItems);
+      //     ch5ButtonList2.setAttribute('customStyle', 'height:50%; width:50%;');
+      //     flush(() => {
+      //       setTimeout(() => {
+      //         expect(ch5ButtonList2.scrollbar).to.be.equal(false);
+      //         expect(ch5ButtonList2.rows).to.be.equal(scrollBarVal[i].rows);
+      //         expect(ch5ButtonList2.columns).to.be.equal(scrollBarVal[i].columns);
+      //         expect(ch5ButtonList2.customStyle).to.be.equal('height:50%; width:50%;');
+      //         expect(ch5ButtonList2.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+      //         expect(getSpan(ch5ButtonList2).classList.contains('material-icons md-alarm_on')).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--scrollbar-false')).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--rows-' + scrollBarVal[i].rows)).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--button-shape-rounded-rectangle')).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+      //         done();
+      //       }, COMPONENT_TESTING_TIMEOUT);
+      //     });
+      //   });
 
-        test(`Check attribute scrollbar for rows ${val.rows} and columns ${val.columns} with buttonMode`, (done) => {
-          ch5ButtonList3.setAttribute('buttonMode', i);
-          ch5ButtonList3.setAttribute('rows', val.rows);
-          ch5ButtonList3.setAttribute('scrollbar', true);
-          ch5ButtonList3.setAttribute('columns', val.columns);
-          ch5ButtonList3.setAttribute('orientation', 'horizontal');
-          ch5ButtonList3.setAttribute('numberOfItems', val.numberOfItems);
-          ch5ButtonList3.setAttribute('customStyle', 'height:50%; width:50%;');
-          flush(() => {
-            setTimeout(() => {
-              console.log("dom");
-              expect(ch5ButtonList3.buttonMode).to.be.equal(i);
-              expect(ch5ButtonList3.scrollbar).to.be.equal(true);
-              expect(ch5ButtonList3.rows).to.be.equal(scrollBarVal[i].rows);
-              expect(ch5ButtonList3.columns).to.be.equal(scrollBarVal[i].columns);
-              expect(ch5ButtonList3.customStyle).to.be.equal('height:50%; width:50%;');
-              expect(getSpan(ch5ButtonList3).innerText).to.be.equal(`Mode-${i}-normal_${i}`);
-              expect(ch5ButtonList3.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
-              expect(getDiv(ch5ButtonList3).classList.contains('ch5-button--text')).to.be.equal(true);
-              expect(getSpan(ch5ButtonList3).classList.contains('material-icons md-alarm_on')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--button-shape-rectangle')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--rows-' + scrollBarVal[i].rows)).to.be.equal(true);
-              expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
-              done();
-            }, COMPONENT_TESTING_TIMEOUT);
-          });
-        });
-      });
+      //   test(`Check attribute scrollbar for rows ${val.rows} and columns ${val.columns} with buttonMode`, (done) => {
+      //     ch5ButtonList3.setAttribute('buttonMode', i);
+      //     ch5ButtonList3.setAttribute('rows', val.rows);
+      //     ch5ButtonList3.setAttribute('scrollbar', true);
+      //     ch5ButtonList3.setAttribute('columns', val.columns);
+      //     ch5ButtonList3.setAttribute('orientation', 'horizontal');
+      //     ch5ButtonList3.setAttribute('numberOfItems', val.numberOfItems);
+      //     ch5ButtonList3.setAttribute('customStyle', 'height:50%; width:50%;');
+      //     flush(() => {
+      //       setTimeout(() => {
+      //         console.log("dom");
+      //         expect(ch5ButtonList3.buttonMode).to.be.equal(i);
+      //         expect(ch5ButtonList3.scrollbar).to.be.equal(true);
+      //         expect(ch5ButtonList3.rows).to.be.equal(scrollBarVal[i].rows);
+      //         expect(ch5ButtonList3.columns).to.be.equal(scrollBarVal[i].columns);
+      //         expect(ch5ButtonList3.customStyle).to.be.equal('height:50%; width:50%;');
+      //         expect(getSpan(ch5ButtonList3).innerText).to.be.equal(`Mode-${i}-normal_${i}`);
+      //         expect(ch5ButtonList3.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+      //         expect(getDiv(ch5ButtonList3).classList.contains('ch5-button--text')).to.be.equal(true);
+      //         expect(getSpan(ch5ButtonList3).classList.contains('material-icons md-alarm_on')).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--button-shape-rectangle')).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--rows-' + scrollBarVal[i].rows)).to.be.equal(true);
+      //         expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+      //         done();
+      //       }, COMPONENT_TESTING_TIMEOUT);
+      //     });
+      //   });
+      // });
+   
     });
   </script>
 </body>

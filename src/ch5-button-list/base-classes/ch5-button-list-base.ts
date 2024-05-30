@@ -1298,51 +1298,59 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   }
 
   private handleMouseDown = (e: MouseEvent) => {
-    this.isDown = true;
-    this._elContainer.classList.add('active');
-    this.startX = e.pageX - this._elContainer.offsetLeft;
-    this.startY = e.pageY - this._elContainer.offsetTop;
-    this.scrollListLeft = this._elContainer.scrollLeft;
-    this.scrollListTop = this._elContainer.scrollTop;
+    this.debounce(() => {
+      this.isDown = true;
+      this._elContainer.classList.add('active');
+      this.startX = e.pageX - this._elContainer.offsetLeft;
+      this.startY = e.pageY - this._elContainer.offsetTop;
+      this.scrollListLeft = this._elContainer.scrollLeft;
+      this.scrollListTop = this._elContainer.scrollTop;
+    }, 50);
   }
 
   private handleMouseUpAndLeave = () => {
-    this.isDown = false;
-    this._elContainer.classList.remove('active');
+    this.debounce(() => {
+      this.isDown = false;
+      this._elContainer.classList.remove('active');
+    }, 50);
   }
 
   private handleMouseMove = (e: MouseEvent) => {
-    if (!this.isDown) return;
-    e.preventDefault();
-    const x = e.pageX - this._elContainer.offsetLeft;
-    const y = e.pageY - this._elContainer.offsetTop;
-    const walkX = (x - this.startX) * 3;
-    const walkY = (y - this.startY) * 3;
-    this._elContainer.scrollLeft = this.scrollListLeft - walkX;
-    this._elContainer.scrollTop = this.scrollListTop - walkY;
+    this.debounce(() => {
+      if (!this.isDown) return;
+      e.preventDefault();
+      const x = e.pageX - this._elContainer.offsetLeft;
+      const y = e.pageY - this._elContainer.offsetTop;
+      const walkX = (x - this.startX) * 3;
+      const walkY = (y - this.startY) * 3;
+      this._elContainer.scrollLeft = this.scrollListLeft - walkX;
+      this._elContainer.scrollTop = this.scrollListTop - walkY;
+    }, 50);
   }
 
   private handleScrollEvent = () => {
-    // update the scrollbar width and position
-    this.initScrollbar();
+    this.debounce(() => {
+      // update the scrollbar width and position
+      this.initScrollbar();
 
-    // endless is handled in endlessHelper method
-    if (this.endless) {
-      if (this.loadItems === "all") {
-        this.buttonWidth = this._elContainer.children[0].getBoundingClientRect().width;
-        this.buttonHeight = this._elContainer.children[0].getBoundingClientRect().height;
+      // endless is handled in endlessHelper method
+      if (this.endless) {
+        if (this.loadItems === "all") {
+          this.buttonWidth = this._elContainer.children[0].getBoundingClientRect().width;
+          this.buttonHeight = this._elContainer.children[0].getBoundingClientRect().height;
+          return this.endlessHelper();
+        } else if (this.loadItems === "load-new") {
+          return this.endlessHelperForNew();
+        }
         return this.endlessHelper();
-      } else if (this.loadItems === "load-new") {
-        return this.endlessHelperForNew();
       }
-      return this.endlessHelper();
-    }
 
-    if (this.loadItems === "visible-only") {
-      this.scrollHelper();
-    } else if (this.loadItems === "load-new") {
-      this.scrollHelperForNew();
-    }
+      if (this.loadItems === "visible-only") {
+        this.scrollHelper();
+      } else if (this.loadItems === "load-new") {
+        this.scrollHelperForNew();
+      }
+    }, 50);
   }
 
   private scrollHelperForNew() {
@@ -2390,75 +2398,76 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     const individualButtons = this.getElementsByTagName(this.nodeName.toLowerCase() + '-individual-button');
     const individualButtonsLength = individualButtons.length;
     remainingAttributes.forEach((attr: string) => {
+      attr = attr.toLowerCase();
       if (index < individualButtonsLength) {
-        if (attr.toLowerCase() === 'buttoniconclass') {
+        if (attr === 'buttoniconclass') {
           if (individualButtons[index] && individualButtons[index].hasAttribute('iconclass')) {
             const attrValue = individualButtons[index].getAttribute('iconclass')?.trim();
             if (attrValue) {
               btn.setAttribute('iconclass', attrValue);
             }
-          } else if (attr.toLowerCase().startsWith('button') && this.hasAttribute(attr)) {
+          } else if (attr.startsWith('button') && this.hasAttribute(attr)) {
             const attrValue = this.getAttribute(attr)?.trim().replace(`{{${this.indexId}}}`, index + '');
             if (attrValue) {
-              btn.setAttribute(attr.toLowerCase().replace('button', ''), attrValue.trim());
+              btn.setAttribute(attr.replace('button', ''), attrValue.trim());
             }
           }
-        } else if (attr.toLowerCase() === 'buttoniconurl') {
+        } else if (attr === 'buttoniconurl') {
           if (individualButtons[index] && individualButtons[index].hasAttribute('iconurl')) {
             const attrValue = individualButtons[index].getAttribute('iconurl')?.trim();
             if (attrValue) {
               btn.setAttribute('iconurl', attrValue);
             }
-          } else if (attr.toLowerCase().startsWith('button') && this.hasAttribute(attr)) {
+          } else if (attr.startsWith('button') && this.hasAttribute(attr)) {
             const attrValue = this.getAttribute(attr)?.trim().replace(`{{${this.indexId}}}`, index + '');
             if (attrValue) {
-              btn.setAttribute(attr.toLowerCase().replace('button', ''), attrValue.trim());
+              btn.setAttribute(attr.replace('button', ''), attrValue.trim());
             }
           }
         } else {
-          if (attr.toLowerCase() === 'buttonreceivestateshow' && this.hasAttribute('receivestateshow')) {
+          if (attr === 'buttonreceivestateshow' && this.hasAttribute('receivestateshow')) {
             btn.setAttribute('receivestateshow', this.getAttribute('receivestateshow') + '');
           }
-          else if (attr.toLowerCase() === 'buttonreceivestateenable' && this.hasAttribute('receivestateenable')) {
+          else if (attr === 'buttonreceivestateenable' && this.hasAttribute('receivestateenable')) {
             btn.setAttribute('receivestateenable', this.getAttribute('receivestateenable') + '');
           }
-          else if (attr.toLowerCase().startsWith('button') && this.hasAttribute(attr)) {
+          else if (attr.startsWith('button') && this.hasAttribute(attr)) {
             if (this.getAttribute(attr)?.trim().includes(`{{${this.indexId}}}`) === false) {
               const attrValue = this.getAttribute(attr)?.trim();
               if (attrValue) {
-                btn.setAttribute(attr.toLowerCase().replace('button', ''), attrValue.trim());
+                btn.setAttribute(attr.replace('button', ''), attrValue.trim());
               }
             } else if (this.getAttribute(attr)?.trim().length !== 0) {
               const attrValue = this.replaceAll(this.getAttribute(attr)?.trim() + '', `{{${this.indexId}}}`, '');
               const isNumber = /^[0-9]+$/.test(attrValue);
               if (isNumber) {
-                btn.setAttribute(attr.toLowerCase().replace('button', ''), Number(attrValue) + index + '');
+                btn.setAttribute(attr.replace('button', ''), Number(attrValue) + index + '');
               } else {
-                btn.setAttribute(attr.toLowerCase().replace('button', ''), this.replaceAll(this.getAttribute(attr)?.trim() + '', `{{${this.indexId}}}`, index + ''));
+                btn.setAttribute(attr.replace('button', ''), this.replaceAll(this.getAttribute(attr)?.trim() + '', `{{${this.indexId}}}`, index + ''));
               }
             }
           }
         }
       } else {
-        if (attr.toLowerCase() === 'buttonreceivestateshow' && this.hasAttribute('receivestateshow')) {
+        if (attr === 'buttonreceivestateshow' && this.hasAttribute('receivestateshow')) {
           btn.setAttribute('receivestateshow', this.getAttribute('receivestateshow') + '');
         }
-        else if (attr.toLowerCase() === 'buttonreceivestateenable' && this.hasAttribute('receivestateenable')) {
+        else if (attr === 'buttonreceivestateenable' && this.hasAttribute('receivestateenable')) {
           btn.setAttribute('receivestateenable', this.getAttribute('receivestateenable') + '');
         }
-        else if (attr.toLowerCase().startsWith('button') && this.hasAttribute(attr)) {
+        else if (attr.startsWith('button') && this.hasAttribute(attr)) {
           if (this.getAttribute(attr)?.trim().includes(`{{${this.indexId}}}`) === false) {
             const attrValue = this.getAttribute(attr)?.trim();
             if (attrValue) {
-              btn.setAttribute(attr.toLowerCase().replace('button', ''), attrValue.trim());
+              btn.setAttribute(attr.replace('button', ''), attrValue.trim());
             }
           } else if (this.getAttribute(attr)?.trim().length !== 0) {
             const attrValue = this.replaceAll(this.getAttribute(attr)?.trim() + '', `{{${this.indexId}}}`, '');
             const isNumber = /^[0-9]+$/.test(attrValue);
             if (isNumber) {
-              btn.setAttribute(attr.toLowerCase().replace('button', ''), Number(attrValue) + index + '');
+              btn.setAttribute(attr.replace('button', ''), Number(attrValue) + index + '');
             } else {
-              btn.setAttribute(attr.toLowerCase().replace('button', ''), this.replaceAll(this.getAttribute(attr)?.trim() + '', `{{${this.indexId}}}`, index + ''));
+              btn.setAttribute(attr.replace('button', ''), this.replaceAll(this.getAttribute(attr)?.trim() + '', `{{${this.indexId}}}`, index + ''));
             }
           }
         }

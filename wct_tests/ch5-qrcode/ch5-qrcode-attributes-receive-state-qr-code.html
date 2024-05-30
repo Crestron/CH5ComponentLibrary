@@ -13,7 +13,7 @@
 <body>
   <test-fixture id="ch5-qrcode-receiveStateQrCode-attributes">
     <template>
-      <ch5-qrcode receiveStateQrCode="trigger_event_listener"></ch5-qrcode>
+      <ch5-qrcode receiveStateQrCode="receive_qr_code"></ch5-qrcode>
     </template>
   </test-fixture>
   <script>
@@ -28,10 +28,10 @@
       });
         
         test('receiveStateQrCode', (done) => {
-          CrComLib.publishEvent('b', 'trigger_event',true );
+          CrComLib.publishEvent('b', 'set_qr_code',true );
           flush(() => {
               setTimeout(() => {
-                  expect(ch5QrCode.getAttribute('receiveStateQrCode')).to.be.equal('String Signal');
+                  expect(ch5QrCode.getAttribute('qrCode')).to.be.equal('https://crestron.com/');
                   done();
               }, 100);
           });

@@ -744,28 +744,34 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private handleMouseDown = (e: MouseEvent) => {
-    this.isDown = true;
-    this._sourceListContainer.classList.add('active');
-    this.startX = e.pageX - this._sourceListContainer.offsetLeft;
-    this.startY = e.pageY - this._sourceListContainer.offsetTop;
-    this.scrollListLeft = this._sourceListContainer.scrollLeft;
-    this.scrollListTop = this._sourceListContainer.scrollTop;
+    this.debounce(() => {
+      this.isDown = true;
+      this._sourceListContainer.classList.add('active');
+      this.startX = e.pageX - this._sourceListContainer.offsetLeft;
+      this.startY = e.pageY - this._sourceListContainer.offsetTop;
+      this.scrollListLeft = this._sourceListContainer.scrollLeft;
+      this.scrollListTop = this._sourceListContainer.scrollTop;
+    }, 50);
   }
 
   private handleMouseUpAndLeave = () => {
-    this.isDown = false;
-    this._sourceListContainer.classList.remove('active');
+    this.debounce(() => {
+      this.isDown = false;
+      this._sourceListContainer.classList.remove('active');
+    }, 50);
   }
 
   private handleMouseMove = (e: MouseEvent) => {
-    if (!this.isDown) return;
-    e.preventDefault();
-    const x = e.pageX - this._sourceListContainer.offsetLeft;
-    const y = e.pageY - this._sourceListContainer.offsetTop;
-    const walkX = (x - this.startX) * (this.endless ? 1 : 3);
-    const walkY = (y - this.startY) * (this.endless ? 1 : 3);
-    this._sourceListContainer.scrollLeft = this.scrollListLeft - walkX;
-    this._sourceListContainer.scrollTop = this.scrollListTop - walkY;
+    this.debounce(() => {
+      if (!this.isDown) return;
+      e.preventDefault();
+      const x = e.pageX - this._sourceListContainer.offsetLeft;
+      const y = e.pageY - this._sourceListContainer.offsetTop;
+      const walkX = (x - this.startX) * (this.endless ? 1 : 3);
+      const walkY = (y - this.startY) * (this.endless ? 1 : 3);
+      this._sourceListContainer.scrollLeft = this.scrollListLeft - walkX;
+      this._sourceListContainer.scrollTop = this.scrollListTop - walkY;
+    }, 50);
   }
 
   protected removeEventListeners() {
@@ -1051,13 +1057,15 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
   }
 
   private handleScrollEvent = () => {
-    const draggedElement = this.querySelector(".dragging") as HTMLElement;
-    if (!draggedElement) {// Scrollbar moves when drag happens
-      this.initScrollbar();
-      if (this.endless) {
-        return this.endlessHelper();
+    this.debounce(() => {
+      const draggedElement = this.querySelector(".dragging") as HTMLElement;
+      if (!draggedElement) {// Scrollbar moves when drag happens
+        this.initScrollbar();
+        if (this.endless) {
+          return this.endlessHelper();
+        }
       }
-    }
+    }, 50);
   }
 
   private endlessHelper() {
@@ -1537,7 +1545,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     if (iconElement.classList.contains('source-icon-url')) {
       iconElement.style.height = screen.offsetHeight * 0.27 + 'px';
       iconElement.style.width = '100%';
-    } 
+    }
     se.style.fontSize = screen.offsetHeight * 0.27 + 'px';
     if (screen?.children.length === 2) {
       screen?.removeChild(screen?.children[1]);
@@ -1566,7 +1574,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
         if (iconElement.classList.contains('source-icon-url')) {
           iconElement.style.height = screen.offsetHeight * 0.27 + 'px';
           iconElement.style.width = '100%';
-        } 
+        }
       }
     }
     if (this.endless) {

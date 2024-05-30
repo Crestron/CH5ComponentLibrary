@@ -6,7 +6,7 @@
   <script src="/webcomponentsjs/webcomponents-lite.js"></script>
   <script src="/bower_components/web-component-tester/browser.js"></script>
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
-
+  <script src="/wct_tests/js/helpers.js"></script>    
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
 </head>
 
@@ -24,8 +24,8 @@
         ch5DateTime = fixture('ch5-datetime-timeOffsetHours-attributes');
       });
         
-        let testCases = ['a', '', ' ', 'number', '-37769', '-37768', '-37767', '37766', '37767', '37768'];
-        let expectedResult = ['0', '0', '0', '0','-37768', '-37768', '-37767', '37766', '37767', '37767'];
+        let testCases = ['a', '', ' ', 'number', '-32769', '-32768', '-32767', '32766', '32767', '32768'];
+        let expectedResult = ['0', '0', '0', '0','-32768', '-32768', '-32767', '32766', '32767', '32767'];
         testCases.forEach((ele, i) => {
               test('Check Value "timeOffsetHours"', () => {
                   ch5DateTime.setAttribute('timeOffsetHours', ele);

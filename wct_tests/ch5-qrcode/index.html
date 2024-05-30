@@ -5,13 +5,16 @@
   <meta charset="utf-8">
   <script src="/webcomponentsjs/webcomponents-lite.js"></script>
   <script src="/bower_components/web-component-tester/browser.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
 </head>
 
 <body>
   <script>
-    WCT.loadSuites([
-      'ch5-qrcode-attributes.html',
-      'ch5-qrcode-attributes-receive-state-qr-code.html', 
+    executeTestCases([
+      'ch5-qrcode-attributes-size.html',
+      'ch5-qrcode-attributes-receive-state-qr-code.html',
+      'ch5-qrcode-attributes-background-color.html',
+      'ch5-qrcode-attributes-color.html'
     ]);
   </script>
 </body>

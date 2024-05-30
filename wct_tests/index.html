@@ -2,90 +2,91 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script src="/bower_components/web-component-tester/browser.js"></script>
-    <style>
-        .n-i:after {
-            content: 'not implemented';
-            color: #FF5555;
-        }
+	<meta charset="utf-8">
+	<script src="/webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="/bower_components/web-component-tester/browser.js"></script>
+	<script src="/wct_tests/js/helpers.js"></script>
+	<style>
+		.n-i:after {
+			content: 'not implemented';
+			color: #FF5555;
+		}
 
-        .run-all {
-            color: #FF5555;
-            font-size: 24px;
-            text-decoration: none;
-        }
+		.run-all {
+			color: #FF5555;
+			font-size: 24px;
+			text-decoration: none;
+		}
 
-        .available-tests li a {
-            font-size: 18px;
-            color: #3273DC;
-            text-decoration: none;
-        }
+		.available-tests li a {
+			font-size: 18px;
+			color: #3273DC;
+			text-decoration: none;
+		}
 
-        .available-tests li {
-            padding: 3px 0;
-        }
+		.available-tests li {
+			padding: 3px 0;
+		}
 
-        .wrapper {
-            margin: 15px;
-        }
-    </style>
+		.wrapper {
+			margin: 15px;
+		}
+	</style>
 </head>
 
 <body>
-    <div class="wrapper">
-        <h2>Web Component Tester (WCT)</h2>
-        <ol class="available-tests">
-            <li><a href="wct_tests/ch5-accessibility-attributes/">accessibility attributes</a></li>
-            <li><a href="wct_tests/ch5-animation/">ch5-animation</a></li>
-            <li><a href="wct_tests/ch5-background/">ch5-background</a></li>
-            <li><a href="wct_tests/ch5-button/">ch5-button</a></li>
-            <li><a href="wct_tests/ch5-button-list/">ch5-button-list</a></li>
-            <li><a href="wct_tests/ch5-color-chip/">ch5-color-chip</a></li>
-            <li><a href="wct_tests/ch5-color-picker/">ch5-color-picker</a></li>
-            <li><a href="wct_tests/ch5-datetime/">ch5-datetime</a></li>
-            <li><a href="wct_tests/ch5-dpad/">ch5-dpad</a></li>
-            <li><a href="wct_tests/ch5-keypad/">ch5-keypad</a></li>
-            <li><a href="wct_tests/ch5-form/">ch5-form</a></li>
-            <li><a href="wct_tests/ch5-image/">ch5-image</a></li>
-            <li><a href="wct_tests/ch5-import-htmlsnippet/">ch5-import-htmlsnippet</a></li>
-            <li><a href="wct_tests/ch5-jointotext-boolean/">ch5-jointotext-boolean</a></li>
-            <li><a href="wct_tests/ch5-jointotext-numeric/">ch5-jointotext-numeric</a></li>
-            <li><a href="wct_tests/ch5-jointotext-string/">ch5-jointotext-string</a></li>
-            <li><a href="wct_tests/ch5-list/">ch5-list</a></li>
-            <li><a href="wct_tests/ch5-modal-dialog/">ch5-modal-dialog</a></li>
-            <li><a href="wct_tests/ch5-overlay-panel/">ch5-overlay-panel</a></li>
-            <li><a href="wct_tests/ch5-qrcode/">ch5-qrcode</a></li>
-            <li><a href="wct_tests/ch5-segmented-gauge/">ch5-segmented-gauge</a></li>
-            <li><a href="wct_tests/ch5-select/">ch5-select</a></li>
-            <li><a href="wct_tests/ch5-signal-level-gauge/">ch5-signal-level-gauge</a></li>
-            <li><a href="wct_tests/ch5-slider/">ch5-slider</a></li>
-            <li><a href="wct_tests/ch5-spinner/">ch5-spinner</a></li>
-            <li><a href="wct_tests/ch5-subpage-reference-list/">ch5-subpage-reference-list</a></li>
-            <li><a href="wct_tests/ch5-tab-button/">ch5-tab-button</a></li>
-            <li><a href="wct_tests/ch5-template/">ch5-template</a></li>
-            <li><a href="wct_tests/ch5-text/">ch5-text</a></li>
-            <li><a href="wct_tests/ch5-textinput/">ch5-textinput</a></li>
-            <li><a href="wct_tests/ch5-toggle/">ch5-toggle</a></li>
-            <li><a href="wct_tests/ch5-triggerview/">ch5-triggerview</a></li>
-            <li><a href="wct_tests/ch5-video/">ch5-video</a></li>
-            <li><a href="wct_tests/ch5-video-switcher/">ch5-video-switcher</a></li>
-            <li><a href="wct_tests/ch5-wifi-signal-level-gauge/">ch5-wifi-signal-level-gauge</a></li>
-            <li><a href="wct_tests/component-config/">component config</a></li>
-            <li><a href="wct_tests/general/">general</a></li>
-            <li><a href="wct_tests/join-nr-as-signal-names/">join numbers as signal names</a></li>
-        </ol>
-        <hr>
-        <ul>
-            <li><a class="run-all" href="wct_tests/run-all.html">Run All Tests</a></li>
-        </ul>
-    </div>
-    <script>
-        // WCT.loadSuites([
-        //     'ch5-select-tests.html',
-        // ]);
-    </script>
+	<div class="wrapper">
+		<h2>Web Component Tester (WCT)</h2>
+		<ol class="available-tests">
+			<li><a href="wct_tests/ch5-accessibility-attributes/">accessibility attributes</a></li>
+			<li><a href="wct_tests/ch5-animation/">ch5-animation</a></li>
+			<li><a href="wct_tests/ch5-background/">ch5-background</a></li>
+			<li><a href="wct_tests/ch5-button/">ch5-button</a></li>
+			<li><a href="wct_tests/ch5-button-list/">ch5-button-list</a></li>
+			<li><a href="wct_tests/ch5-color-chip/">ch5-color-chip</a></li>
+			<li><a href="wct_tests/ch5-color-picker/">ch5-color-picker</a></li>
+			<li><a href="wct_tests/ch5-datetime/">ch5-datetime</a></li>
+			<li><a href="wct_tests/ch5-dpad/">ch5-dpad</a></li>
+			<li><a href="wct_tests/ch5-keypad/">ch5-keypad</a></li>
+			<li><a href="wct_tests/ch5-form/">ch5-form</a></li>
+			<li><a href="wct_tests/ch5-image/">ch5-image</a></li>
+			<li><a href="wct_tests/ch5-import-htmlsnippet/">ch5-import-htmlsnippet</a></li>
+			<li><a href="wct_tests/ch5-jointotext-boolean/">ch5-jointotext-boolean</a></li>
+			<li><a href="wct_tests/ch5-jointotext-numeric/">ch5-jointotext-numeric</a></li>
+			<li><a href="wct_tests/ch5-jointotext-string/">ch5-jointotext-string</a></li>
+			<li><a href="wct_tests/ch5-list/">ch5-list</a></li>
+			<li><a href="wct_tests/ch5-modal-dialog/">ch5-modal-dialog</a></li>
+			<li><a href="wct_tests/ch5-overlay-panel/">ch5-overlay-panel</a></li>
+			<li><a href="wct_tests/ch5-qrcode/">ch5-qrcode</a></li>
+			<li><a href="wct_tests/ch5-segmented-gauge/">ch5-segmented-gauge</a></li>
+			<li><a href="wct_tests/ch5-select/">ch5-select</a></li>
+			<li><a href="wct_tests/ch5-signal-level-gauge/">ch5-signal-level-gauge</a></li>
+			<li><a href="wct_tests/ch5-slider/">ch5-slider</a></li>
+			<li><a href="wct_tests/ch5-spinner/">ch5-spinner</a></li>
+			<li><a href="wct_tests/ch5-subpage-reference-list/">ch5-subpage-reference-list</a></li>
+			<li><a href="wct_tests/ch5-tab-button/">ch5-tab-button</a></li>
+			<li><a href="wct_tests/ch5-template/">ch5-template</a></li>
+			<li><a href="wct_tests/ch5-text/">ch5-text</a></li>
+			<li><a href="wct_tests/ch5-textinput/">ch5-textinput</a></li>
+			<li><a href="wct_tests/ch5-toggle/">ch5-toggle</a></li>
+			<li><a href="wct_tests/ch5-triggerview/">ch5-triggerview</a></li>
+			<li><a href="wct_tests/ch5-video/">ch5-video</a></li>
+			<li><a href="wct_tests/ch5-video-switcher/">ch5-video-switcher</a></li>
+			<li><a href="wct_tests/ch5-wifi-signal-level-gauge/">ch5-wifi-signal-level-gauge</a></li>
+			<li><a href="wct_tests/component-config/">component config</a></li>
+			<li><a href="wct_tests/general/">general</a></li>
+			<li><a href="wct_tests/join-nr-as-signal-names/">join numbers as signal names</a></li>
+		</ol>
+		<hr>
+		<ul>
+			<li><a class="run-all" href="wct_tests/run-all.html">Run All Tests</a></li>
+		</ul>
+	</div>
+	<script>
+		// WCT.loadSuites([
+		//     'ch5-select-tests.html',
+		// ]);
+	</script>
 </body>
 
 </html>
