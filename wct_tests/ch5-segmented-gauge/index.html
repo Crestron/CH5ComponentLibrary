@@ -5,11 +5,12 @@
   <meta charset="utf-8">
   <script src="/webcomponentsjs/webcomponents-lite.js"></script>
   <script src="/bower_components/web-component-tester/browser.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
 </head>
 
 <body>
   <script>
-    WCT.loadSuites([
+    executeTestCases([
       'ch5-segmented-gauge-attributes.html', 'ch5-segmented-gauge-attributes-max-value.html',
       'ch5-segmented-gauge-attributes-min-value.html', 'ch5-segmented-gauge-attributes-numberofsegments.html',
       'ch5-segmented-gauge-attributes-orientation.html', 'ch5-segmented-gauge-attributes-gaugeLedStyle.html',
