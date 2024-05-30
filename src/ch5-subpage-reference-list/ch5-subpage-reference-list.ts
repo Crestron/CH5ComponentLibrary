@@ -877,60 +877,53 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     super.unsubscribeFromSignals();
     this._ch5Properties.unsubscribe();
   }
-  private handleMouseDown = (e: MouseEvent) => {
-    this.debounce(() => {
-      this.isDown = true;
-      this._elContainer.classList.add('active');
-      this.startX = e.pageX - this._elContainer.offsetLeft;
-      this.startY = e.pageY - this._elContainer.offsetTop;
-      this.scrollListLeft = this._elContainer.scrollLeft;
-      this.scrollListTop = this._elContainer.scrollTop;
-    }, 50);
-  }
+  private handleMouseDown = this.debounce((e: MouseEvent) => {
+    this.isDown = true;
+    this._elContainer.classList.add('active');
+    this.startX = e.pageX - this._elContainer.offsetLeft;
+    this.startY = e.pageY - this._elContainer.offsetTop;
+    this.scrollListLeft = this._elContainer.scrollLeft;
+    this.scrollListTop = this._elContainer.scrollTop;
+  }, 10);
 
-  private handleMouseUpAndLeave = () => {
-    this.debounce(() => {
-      this.isDown = false;
-      this._elContainer.classList.remove('active');
-    }, 50);
-  }
+  private handleMouseUpAndLeave = this.debounce(() => {
+    this.isDown = false;
+    this._elContainer.classList.remove('active');
+  }, 10);
 
-  private handleMouseMove = (e: MouseEvent) => {
-    this.debounce(() => {
-      if (!this.isDown) { return; }
-      e.preventDefault();
-      const x = e.pageX - this._elContainer.offsetLeft;
-      const y = e.pageY - this._elContainer.offsetTop;
-      const walkX = (x - this.startX) * 3;
-      const walkY = (y - this.startY) * 3;
-      this._elContainer.scrollLeft = this.scrollListLeft - walkX;
-      this._elContainer.scrollTop = this.scrollListTop - walkY;
-    }, 50);
-  }
+  private handleMouseMove = this.debounce((e: MouseEvent) => {
+    if (!this.isDown) { return; }
+    e.preventDefault();
+    const x = e.pageX - this._elContainer.offsetLeft;
+    const y = e.pageY - this._elContainer.offsetTop;
+    const walkX = (x - this.startX) * 3;
+    const walkY = (y - this.startY) * 3;
+    this._elContainer.scrollLeft = this.scrollListLeft - walkX;
+    this._elContainer.scrollTop = this.scrollListTop - walkY;
+  }, 10);
 
-  private handleScrollEvent = () => {
-    this.debounce(() => {
-      // update the scrollbar width and position
-      this.initScrollbar();
+  private handleScrollEvent = this.debounce(() => {
+    // update the scrollbar width and position
+    this.initScrollbar();
 
-      // endless is handled in endlessHelper method
-      if (this.endless) {
-        if (this.loadItems === "all") {
-          this.subpageWidth = this._elContainer.children[0].getBoundingClientRect().width;
-          this.subpageHeight = this._elContainer.children[0].getBoundingClientRect().height;
-          return this.endlessHelper();
-        } else if (this.loadItems === "load-new") {
-          return this.endlessHelperForNew();
-        }
+    // endless is handled in endlessHelper method
+    if (this.endless) {
+      if (this.loadItems === "all") {
+        this.subpageWidth = this._elContainer.children[0].getBoundingClientRect().width;
+        this.subpageHeight = this._elContainer.children[0].getBoundingClientRect().height;
         return this.endlessHelper();
-      }
-      if (this.loadItems === "visible-only") {
-        this.scrollHelper();
       } else if (this.loadItems === "load-new") {
-        this.scrollHelperForNew();
+        return this.endlessHelperForNew();
       }
-    }, 50);
-  }
+      return this.endlessHelper();
+    }
+    if (this.loadItems === "visible-only") {
+      this.scrollHelper();
+    } else if (this.loadItems === "load-new") {
+      this.scrollHelperForNew();
+    }
+  }, 10)
+
 
   private scrollHelperForNew() {
     if (this.dir === 'rtl' && this.orientation === 'horizontal') {
