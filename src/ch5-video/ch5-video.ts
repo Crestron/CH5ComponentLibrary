@@ -1234,9 +1234,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     if (this.responseObj.id !== this.ch5UId || isMyObjectEmpty) {
       return;
     }
-    if (isMyObjectEmpty) {
-      return;
-    }
+    // if (isMyObjectEmpty) {
+    //   return;
+    // }
     // Return if response object id is negative or empty
     if (this.responseObj.id === -1 || !this.responseObj.id) {
       return;
