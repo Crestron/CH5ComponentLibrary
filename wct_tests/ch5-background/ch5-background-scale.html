@@ -5,9 +5,9 @@
     <meta charset="utf-8">
     <script src="/webcomponentsjs/webcomponents-lite.js"></script>
     <script src="/bower_components/web-component-tester/browser.js"></script>
-  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
-  <script src="/wct_tests/js/helpers.js"></script>
-  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
 </head>
 
 <body>
@@ -94,26 +94,26 @@
                 return Promise.all([customElements.whenDefined('ch5-background')]);
             });
             let testcases = {
-                "stretch":"stretch",
-                "fill":"fill",
-                "fit":"fit",
-                "fit | fill":"stretch",
-                "stretch | fit":"stretch",
-                "empty":"stretch",
-                "fit,fill":"stretch",
-                "fit fill":"stretch",
-                "null":"stretch",
-                "true":"stretch",
-                "":"stretch",
+                "stretch": "stretch",
+                "fill": "fill",
+                "fit": "fit",
+                "fit | fill": "stretch",
+                "stretch | fit": "stretch",
+                "empty": "stretch",
+                "fit,fill": "stretch",
+                "fit fill": "stretch",
+                "null": "stretch",
+                "true": "stretch",
+                "": "stretch",
 
             }
-            Object.keys(testcases).forEach(ele=>{
+            Object.keys(testcases).forEach(ele => {
                 test(`Case  repeat=${ele}`, () => {
                     ch5Background.scale = ele;
                     expect(ch5Background.scale).to.be.equal(testcases[`${ele}`]);
                 });
             })
-            
+
         });
     </script>
 </body>

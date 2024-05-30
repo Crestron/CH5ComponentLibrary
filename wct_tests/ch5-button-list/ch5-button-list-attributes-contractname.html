@@ -828,7 +828,7 @@
       });
 
       test('When usecontractforitemshow is true', (done) => {
-        ch5ButtonList.setAttribute('usecontractforitemshow', true);
+        ch5ButtonList.setAttribute('usecontractforitemshow', "true");
         const contractName = ch5ButtonList.getAttribute('contractname');
         flush(() => {
           setTimeout(() => {
@@ -840,7 +840,7 @@
       });
 
       test('When usecontractforitemshow is false', (done) => {
-        ch5ButtonList.setAttribute('usecontractforitemshow', false);
+        ch5ButtonList.setAttribute('usecontractforitemshow', "false");
         flush(() => {
           setTimeout(() => {
             expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receiveStateShow')).to.be.equal('btn0Show');
