@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-animation-noShowType-emulation">
+    <template>
+      <ch5-animation noShowType="display" receiveStateAnimate="trigger_event_listener"></ch5-animation>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-animation-noShowType-emulation-value', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/noShowType.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Animation = fixture('ch5-animation-noShowType-emulation');
+      });
+
+      test('receiveStateAnimate', (done) => {
+        ch5QrCode.setAttribute('noShowType', 'remove');
+        CrComLib.publishEvent('b', 'trigger_remove', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Animation.getAttribute('noShowType')).to.be.equal('remove');
+            done();
+          }, 100);
+        });
+      });
+      test('receiveStateAnimate', (done) => {
+        CrComLib.publishEvent('b', 'trigger_display', true);
+        flush(() => {
+          setTimeout(() => {
+            console.log('ele->',ch5Animation);
+            expect(ch5Animation.getAttribute('noShowType')).to.be.equal('display');
+            done();
+          }, 100);
+        });
+      });
+      test('receiveStateAnimate', (done) => {
+        ch5QrCode.setAttribute('noShowType', 'visibility');
+        CrComLib.publishEvent('b', 'trigger_visibility', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Animation.getAttribute('noShowType')).to.be.equal('visibility');
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

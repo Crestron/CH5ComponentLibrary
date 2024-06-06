@@ -36,6 +36,12 @@
         </template>
     </test-fixture>
 
+    <test-fixture id="ch5-qrcode-background-color-default-fixture">
+        <template>
+            <ch5-qrcode qrCode="Test qrcode background color"></ch5-qrcode>
+        </template>
+    </test-fixture>
+
     <script>
         suite('ch5-qrcode backgroundColor', () => {
             let ch5QrCode;
@@ -48,11 +54,34 @@
 
             test('backgroundColor to be a string', () => {
                 ch5QrCode.setAttribute('backgroundColor', false);
-                expect(ch5QrCode.backgroundColor).to.be.a('string');
+                expect(ch5QrCode.backgroundColor).to.be.a('#ffffff');
+            });
+
+            test('backgroundColor to be invalid', () => {
+                ch5QrCode.setAttribute('backgroundColor', 'werwrwrw');
+                expect(ch5QrCode.backgroundColor).to.be.a('#ffffff');
+            });
+
+            test('backgroundColor to be special invalid', () => {
+                ch5QrCode.setAttribute('backgroundColor', '@#@#');
+                expect(ch5QrCode.backgroundColor).to.be.a('#ffffff');
             });
 
             test('backgroundColor "blue"', () => {
                 expect(ch5QrCode.backgroundColor).to.be.equal('blue');
+            });
+        });
+
+        suite('ch5-qrcode backgroundColor', () => {
+            let ch5QrCode;
+
+            setup(() => {
+                ch5QrCode = fixture('ch5-qrcode-background-color-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-qrcode')]);
+            });
+
+            test('backgroundColor to be a string', () => {
+                expect(ch5QrCode.backgroundColor).to.be.a('#ffffff');
             });
         });
 
@@ -75,11 +104,11 @@
                 return Promise.all([customElements.whenDefined('ch5-qrcode')]);
             });
 
-            test('Invalid backgroundColor should switch to default "black"', (done) => {
+            test('Invalid backgroundColor should switch to default "white"', (done) => {
                 flush(() => {
                     const canvasElm = ch5QrCode.querySelector('canvas');
                     const ctx = canvasElm.getContext('2d');
-                    expect(ctx.fillStyle).to.be.equal('#000000');
+                    expect(ctx.fillStyle).to.be.equal('#ffffff');
                     done();
                 });
             });
@@ -108,11 +137,11 @@
                 "hsl(143, 100%, 50%)": "#00ff62",
                 "hsla(120,100%,50%,0.3)": "rgba(0, 255, 0, 0.3)",
                 "hsla(120,100%,75%,0.3)": "rgba(128, 255, 128, 0.3)",
-                "mycolor": "#000000",
-                "randomcolor": "#000000",
-                "nocolor": "#000000",
-                "greene": "#000000",
-                "rede": "#000000"
+                "mycolor": "#ffffff",
+                "randomcolor": "#ffffff",
+                "nocolor": "#ffffff",
+                "greene": "#ffffff",
+                "rede": "#ffffff"
             }
             setup(() => {
                 ch5QrCode = fixture('ch5-qrcode-background-color-valid-invalid-fixture');

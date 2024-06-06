@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-qrcode-show-attributes">
+    <template>
+      <ch5-qrcode></ch5-qrcode>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-qrcode-show-attributes-value', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        ch5Animation = fixture('ch5-qrcode-show-attributes');
+      });
+
+      let testCases = ['a', '', ' ', '156', 'test', 'true', 'false'];
+      let expectedResult = ['true', 'true', 'true', 'true', 'true', 'true', 'false'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "Show"', () => {
+          ch5Animation.setAttribute('show', ele);
+          expect(ch5Animation.getAttribute('show')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+    });
+  </script>
+</body>
+
+</html>

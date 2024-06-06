@@ -16,6 +16,16 @@
       <ch5-animation></ch5-animation>
     </template>
   </test-fixture>
+  <test-fixture id="ch5-animation-startAnimating-true-class">
+    <template>
+      <ch5-animation startAnimating="true" animationStyle="ring"></ch5-animation>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-animation-startAnimating-false-class">
+    <template>
+      <ch5-animation startAnimating="false" animationStyle="ring"></ch5-animation>
+    </template>
+  </test-fixture>
   <script>
     suite('ch5-animation-startAnimating-attributes-value', () => {
       let ch5Animation;
@@ -34,6 +44,36 @@
       });
 
     });
+
+    suite('ch5-animation-startAnimating-true-class', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        ch5Animation = fixture('ch5-animation-startAnimating-true-class');
+      });
+
+      test('Check Value "startAnimating"', () => {
+        expect(ch5Animation.children[0].children[0].classList.contains('ch5-animation--start-animating-true')).to.be.equal(true);
+
+        });
+
+    });
+
+    suite('ch5-animation-startAnimating-falsefalse-class', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        ch5Animation = fixture('ch5-animation-startAnimating-true-class');
+      });
+
+      test('Check Value "startAnimating"', () => {
+        expect(ch5Animation.children[0].children[0].classList.contains('ch5-animation--start-animating-false')).to.be.equal(true);
+
+        });
+
+    });
+
+
   </script>
 </body>
 

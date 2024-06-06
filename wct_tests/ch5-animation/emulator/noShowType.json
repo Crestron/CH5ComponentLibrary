@@ -1,0 +1,40 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_remove",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "string",
+          "logic": "remove"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_display",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "string",
+          "logic": "display"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_visibility",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "string",
+          "logic": "visibility"
+        }
+      ]
+    }
+  ]
+}

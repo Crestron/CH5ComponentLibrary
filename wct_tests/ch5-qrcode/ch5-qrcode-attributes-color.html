@@ -24,9 +24,27 @@
         </template>
     </test-fixture>
 
+    <test-fixture id="ch5-qrcode-invalid-color-with-qrcode-fixture">
+        <template>
+            <ch5-qrcode color="randomColor" qrCode="Test qrcode color"></ch5-qrcode>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-qrcode-invalid-special-color-with-qrcode-fixture">
+        <template>
+            <ch5-qrcode color="randomColor" qrCode="Test qrcode color"></ch5-qrcode>
+        </template>
+    </test-fixture>
+
     <test-fixture id="ch5-qrcode-color-invalid-fixture">
         <template>
-            <ch5-qrcode color="randomColor"></ch5-qrcode>
+            <ch5-qrcode color="randomColor" qrCode="Test qrcode color"></ch5-qrcode>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-qrcode-color-empty-invalid-fixture">
+        <template>
+            <ch5-qrcode color="" qrCode="Test qrcode color"></ch5-qrcode>
         </template>
     </test-fixture>
 
@@ -37,6 +55,7 @@
     </test-fixture>
 
     <script>
+        const black = '#000000'
         suite('ch5-qrcode color', () => {
             let ch5QrCode;
 
@@ -48,7 +67,7 @@
 
             test('color to be a string', () => {
                 ch5QrCode.setAttribute('color', false);
-                expect(ch5QrCode.color).to.be.a('string');
+                expect(parseInt(ch5QrCode.color)).to.be.a(black);
             });
 
             test('color "blue"', () => {
@@ -64,7 +83,35 @@
             });
 
             test('qrcode "Test qrcode color"', () => {
+                expect(ch5QrCode.color).to.be.equal('blue');
                 expect(ch5QrCode.qrCode).to.be.equal('Test qrcode color');
+                expect(ch5QrCode.children[0].classList.contains('ch5-qrcode')).to.be.equal(true);
+            });
+        });
+
+        suite('ch5-qrcode color invalid with qrcode', () => {
+            let ch5QrCode;
+            setup(() => {
+                ch5QrCode = fixture('ch5-qrcode-invalid-color-with-qrcode-fixture');
+                return Promise.all([customElements.whenDefined('ch5-qrcode')]);
+            });
+
+            test('Empty invalid color should switch to default "black', () => {
+                ch5QrCode.setAttribute('color', 'asasas');
+                expect(ch5QrCode.getAttribute('color')).to.be.equal(black);
+            });
+        });
+
+        suite('ch5-qrcode color special invalid with qrcode', () => {
+            let ch5QrCode;
+            setup(() => {
+                ch5QrCode = fixture('ch5-qrcode-invalid-special-color-with-qrcode-fixture');
+                return Promise.all([customElements.whenDefined('ch5-qrcode')]);
+            });
+
+            test('Empty invalid color should switch to default "black', () => {
+                ch5QrCode.setAttribute('color', '=@@@');
+                expect(ch5QrCode.getAttribute('color')).to.be.equal(black);
             });
         });
 
@@ -75,13 +122,21 @@
                 return Promise.all([customElements.whenDefined('ch5-qrcode')]);
             });
 
-            test('Invalid color should switch to default "black"', (done) => {
-                flush(() => {
-                    const canvasElm = ch5QrCode.querySelector('canvas');
-                    const ctx = canvasElm.getContext('2d');
-                    expect(ctx.fillStyle).to.be.equal('#000000');
-                    done();
-                });
+            test('Empty invalid color should switch to default "black', () => {
+                expect(ch5QrCode.getAttribute('color')).to.be.equal(black);
+            });
+        });
+
+        suite('ch5-qrcode color empty invalid', () => {
+            let ch5QrCode;
+            setup(() => {
+                ch5QrCode = fixture('ch5-qrcode-color-empty-invalid-fixture');
+                return Promise.all([customElements.whenDefined('ch5-qrcode')]);
+            });
+
+            test('Empty invalid color should switch to default "black', () => {
+                ch5QrCode.setAttribute('color', '');
+                expect(ch5QrCode.getAttribute('color')).to.be.equal(black);
             });
         });
 
