@@ -27,7 +27,7 @@
         ch5QrCode = fixture('ch5-qrcode-noShowType-emulation');
       });
 
-      test('receiveStateAnimate', (done) => {
+      test('receiveStateQrCode', (done) => {
         ch5QrCode.setAttribute('noShowType', 'remove');
         CrComLib.publishEvent('b', 'trigger_remove', true);
         flush(() => {
@@ -37,7 +37,7 @@
           }, 100);
         });
       });
-      test('receiveStateAnimate', (done) => {
+      test('receiveStateQrCode', (done) => {
         CrComLib.publishEvent('b', 'trigger_display', true);
         flush(() => {
           setTimeout(() => {
@@ -47,7 +47,7 @@
           }, 100);
         });
       });
-      test('receiveStateAnimate', (done) => {
+      test('receiveStateQrCode', (done) => {
         ch5QrCode.setAttribute('noShowType', 'visibility');
         CrComLib.publishEvent('b', 'trigger_visibility', true);
         flush(() => {
