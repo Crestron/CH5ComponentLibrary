@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-animation-disabled-attributes">
+    <template>
+      <ch5-animation></ch5-animation>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-animation-disabled-class">
+    <template>
+      <ch5-animation disabled="true" animationStyle="ring"></ch5-animation>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-animation-disabled-attributes-value', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        ch5Animation = fixture('ch5-animation-disabled-attributes');
+      });
+
+      let testCases = ['a', '', ' ', '156', 'test', 'true', 'false'];
+      let expectedResult = ['false', 'false', 'false', 'false', 'false', 'true', 'false'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "Disabled"', () => {
+          ch5Animation.setAttribute('disabled', ele);
+          expect(ch5Animation.getAttribute('disabled')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+      suite('ch5-animation-disabled-class', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        ch5Animation = fixture('ch5-animation-disabled-class');
+      });
+
+      test('Check class for "disabled" true', () => {
+        expect(ch5Animation.children[0].children[0].classList.contains('ch5-animation--start-animating-true')).to.be.equal(true);
+
+        });
+
+    });
+
+    });
+  </script>
+</body>
+
+</html>
