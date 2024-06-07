@@ -4,6 +4,7 @@ import { Ch5ComponentLibrary } from "../ch5-core/ch5-component";
 import Ch5ColorUtils from '../ch5-common/utils/ch5-color-utils';
 import { Ch5BaseClass } from "../ch5-base/ch5-base-class";
 import { ICh5QrCodeAttributes } from "./interfaces/i-ch5-qrcode-attributes";
+import { resizeObserver } from "../ch5-core/resize-observer";
 
 export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 
@@ -35,18 +36,18 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 			isObservableProperty: true
 		},
 		{
-			default: 200,
+			default: 160,
 			name: "size",
 			removeAttributeOnNull: true,
 			type: "number",
-			valueOnAttributeEmpty: 200,
+			valueOnAttributeEmpty: 160,
 			numberProperties: {
 				min: 160,
 				max: 10000,
 				conditionalMin: 160,
 				conditionalMax: 10000,
 				conditionalMinValue: 160,
-				conditionalMaxValue: 10000
+				conditionalMaxValue: 160
 			},
 			isObservableProperty: true
 		},
@@ -77,6 +78,7 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 
 	private _elContainer: HTMLElement = {} as HTMLElement;
 	private _canvasContainer: HTMLElement = {} as HTMLElement;
+	private calcuatedSizeFromCSS: number = 0;
 
 	//#endregion
 
@@ -139,6 +141,7 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 			this.createInternalHtml();
 		}
 		this._isInstantiated = true;
+		this.initializeCssClasses();
 	}
 
 	/**
@@ -157,11 +160,52 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 		this.initAttributes();
 		this.initCommonMutationObserver(this);
 
+		resizeObserver(this._elContainer, this.onWindowResizeHandler.bind(this));
+
 		customElements.whenDefined(Ch5QrCode.ELEMENT_NAME).then(() => {
 			this.componentLoadedEvent(Ch5QrCode.ELEMENT_NAME, this.id);
 			this.debounceBuildQrCode();
 		});
 		this.logger.stop();
+	}
+
+	private initializeCssClasses() {
+		if (!this._elContainer.classList.contains("ch5-qrcode--size-css")) {
+			this._elContainer.classList.add("ch5-qrcode--size-css");
+		}
+	}
+
+	private onWindowResizeHandler() {
+		// if (!this.hasAttribute("size")) {
+		// 	// Get size from CSS
+		// 	// Component Attribute overrides CSS Value
+
+		// } else {
+		// 	this.style.setProperty('--ch5-qrcode--size', String(this.size));
+		// 	this.calcuatedSizeFromCSS = 0;
+		// 	this.style.setProperty('--ch5-qrcode--size', String(this.size));
+		// 	// set width and height in css class
+		// }
+
+		if (!this.hasAttribute("size")) {
+			// Get size from CSS
+			// Component Attribute overrides CSS Value
+			// this.style.removeProperty('--ch5-qrcode--size'); // Used incase the size attribute is removed from DOM
+			const computedStyle = getComputedStyle(this);
+			const calcuatedSizeFromCSS = Number(computedStyle.getPropertyValue('--ch5-qrcode--size'));
+			const calculatedSizeObj = Ch5QrCode.COMPONENT_PROPERTIES.find((colorCode: ICh5PropertySettings) => colorCode.name === "size");
+			if (calcuatedSizeFromCSS >= Number(calculatedSizeObj?.numberProperties?.min) && calcuatedSizeFromCSS <= Number(calculatedSizeObj?.numberProperties?.max)) {
+				this.calcuatedSizeFromCSS = calcuatedSizeFromCSS;
+			} else {
+				// this.style.setProperty('--ch5-qrcode--size', calculatedSizeObj?.default);
+				this.calcuatedSizeFromCSS = 0;
+			}
+			// this.style.setProperty('--ch5-qrcode--size', calculatedSizeObj?.default);
+			this.handleQrCode();
+		} else {
+			// this.style.setProperty('--ch5-qrcode--size', String(this.size));
+			this.calcuatedSizeFromCSS = 0;
+		}
 	}
 
 	public disconnectedCallback() {
@@ -202,18 +246,32 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 	private handleQrCode() {
 		const data: string = this.qrCode;
 		const canvasForQRCode = this.querySelector<HTMLCanvasElement>('canvas');
+		let calculatedSize: number = this.size;
+		if (!this.hasAttribute("size") && this.calcuatedSizeFromCSS > 0) {
+			// const calculatedSizeObj = Ch5QrCode.COMPONENT_PROPERTIES.find((colorCode: ICh5PropertySettings) => colorCode.name === "size")?.numberProperties;
+			// if (this.calcuatedSizeFromCSS > Number(calculatedSizeObj?.min) && this.calcuatedSizeFromCSS < Number(calculatedSizeObj?.max)) {
+			calculatedSize = this.calcuatedSizeFromCSS;
+			// }
+		}
+		// console.log("calculatedSize", calculatedSize);
 		if (canvasForQRCode) {
-			canvasForQRCode.setAttribute("width", String(this.size));
-			canvasForQRCode.setAttribute("height", String(this.size));
+			canvasForQRCode.setAttribute("width", String(calculatedSize));
+			canvasForQRCode.setAttribute("height", String(calculatedSize));
 		}
 
 		if (data && data !== "") {
-			const foregroundColor = Ch5ColorUtils.col2hex(this.color);
-			const backgroundColor = Ch5ColorUtils.col2hex(this.backgroundColor);
+			let foregroundColor = Ch5ColorUtils.col2hex(this.color);
+			if (!Ch5ColorUtils.validateColorName(this.color)) {
+				foregroundColor = Ch5QrCode.COMPONENT_PROPERTIES.find((colorCode: ICh5PropertySettings) => colorCode.name === "color")?.default;
+			}
+			let backgroundColor = Ch5ColorUtils.col2hex(this.backgroundColor);
+			if (!Ch5ColorUtils.validateColorName(this.backgroundColor)) {
+				backgroundColor = Ch5QrCode.COMPONENT_PROPERTIES.find((colorCode: ICh5PropertySettings) => colorCode.name === "backgroundColor")?.default;
+			}
 			const opts: any = {
 				errorCorrectionLevel: 'H',
 				type: 'image/svg',
-				width: this.size,
+				width: calculatedSize,
 				margin: 3,
 				color: {
 					light: backgroundColor,
@@ -229,7 +287,7 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 			if (canvasForQRCode) {
 				const context = canvasForQRCode.getContext('2d');
 				if (context) {
-					context.clearRect(0, 0, this.size, this.size);
+					context.clearRect(0, 0, calculatedSize, calculatedSize);
 				}
 			}
 		}
