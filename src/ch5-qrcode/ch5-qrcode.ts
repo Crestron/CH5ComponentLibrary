@@ -78,7 +78,7 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 
 	private _elContainer: HTMLElement = {} as HTMLElement;
 	private _canvasContainer: HTMLElement = {} as HTMLElement;
-	private calcuatedSizeFromCSS: number = 0;
+	// private calcuatedSizeFromCSS: number = 0;
 
 	//#endregion
 
@@ -246,13 +246,13 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 	private handleQrCode() {
 		const data: string = this.qrCode;
 		const canvasForQRCode = this.querySelector<HTMLCanvasElement>('canvas');
-		let calculatedSize: number = this.size;
-		if (!this.hasAttribute("size") && this.calcuatedSizeFromCSS > 0) {
-			// const calculatedSizeObj = Ch5QrCode.COMPONENT_PROPERTIES.find((colorCode: ICh5PropertySettings) => colorCode.name === "size")?.numberProperties;
-			// if (this.calcuatedSizeFromCSS > Number(calculatedSizeObj?.min) && this.calcuatedSizeFromCSS < Number(calculatedSizeObj?.max)) {
-			calculatedSize = this.calcuatedSizeFromCSS;
-			// }
-		}
+		const calculatedSize: number = this.size; // TODO - use let after the below fix
+		// if (!this.hasAttribute("size") && this.calcuatedSizeFromCSS > 0) {
+		// 	// const calculatedSizeObj = Ch5QrCode.COMPONENT_PROPERTIES.find((colorCode: ICh5PropertySettings) => colorCode.name === "size")?.numberProperties;
+		// 	// if (this.calcuatedSizeFromCSS > Number(calculatedSizeObj?.min) && this.calcuatedSizeFromCSS < Number(calculatedSizeObj?.max)) {
+		// 	calculatedSize = this.calcuatedSizeFromCSS;
+		// 	// }
+		// }
 		// console.log("calculatedSize", calculatedSize);
 		if (canvasForQRCode) {
 			canvasForQRCode.setAttribute("width", String(calculatedSize));
