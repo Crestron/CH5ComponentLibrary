@@ -468,10 +468,10 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 */
 
 	/**
-	 * Ch5Pressable manager
+	 * Ch5PressableSlider manager
 	 *
 	 * @private
-	 * @type {(Ch5Pressable | null)}
+	 * @type {(Ch5PressableSlider | null)}
 	 * @memberof Ch5Image
 	 */
 	private _pressable: Ch5PressableSlider | null = null;

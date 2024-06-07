@@ -311,7 +311,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
   protected removeEventListeners() {
     super.removeEventListeners();
-
+    // TODO - destroy resize observer
   }
 
   protected unsubscribeFromSignals() {
@@ -328,7 +328,6 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
       container.remove();
     });
   }
-
 
   private handleHorizontalAlignment() {
     Array.from(Ch5Text.COMPONENT_DATA.HORIZONTAL_ALIGNMENT.values).forEach((e: any) => {
@@ -427,10 +426,12 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     }
   }
 
+  // TODO - why is this public and not used
   public getLineHeight(el: HTMLElement) {
     return window.getComputedStyle(el).lineHeight;
   }
 
+  // TODO - why is this public 
   public getLineHeightSuper(element: HTMLElement) {
     const oldHtml = element.innerHTML;
     element.innerHTML = "&nbsp;";
