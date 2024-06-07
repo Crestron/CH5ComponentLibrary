@@ -35,9 +35,6 @@
         test('Check Value "Disabled"', () => {
           ch5Animation.setAttribute('disabled', ele);
           expect(ch5Animation.getAttribute('disabled')).to.be.equal(expectedResult[i]);
-          if(expect(ch5Animation.getAttribute('disabled')).to.be.equal(expectedResult[i]) == true){
-            expect(ch5Animation.children[0].classList.contains('ch5-animation--disabled')).to.be.equal(true);
-          }
         });
       });
 
