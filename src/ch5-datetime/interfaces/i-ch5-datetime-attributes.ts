@@ -104,7 +104,7 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * [
 	 * "`timeOffsetHours` attribute",
 	 * "***",
-	 * "Default value: 0 | Min value: -32768 | Max value: 32767 | Offset the date/time in hours. As an example, to direct an offset of 1 hour 30 minutes, provide an analog value of 1.5"
+	 * "Default value: 0 | Min value: -32768 | Max value: 32767 | Offset the time in hours. As an example, to direct an offset of 1 hour 30 minutes, provide an analog value of 1.5"
 	 * ]
 	 * @name timeoffsethours
 	 * @default 0
