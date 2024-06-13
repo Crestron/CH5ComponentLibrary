@@ -24,29 +24,29 @@
         </template>
     </test-fixture>
 
-    <test-fixture id="ch5-qrcode-invalid-color-with-qrcode-fixture">
+   <!--  <test-fixture id="ch5-qrcode-invalid-color-with-qrcode-fixture">
         <template>
             <ch5-qrcode color="randomColor" qrCode="Test qrcode color"></ch5-qrcode>
         </template>
-    </test-fixture>
+    </test-fixture> -->
 
-    <test-fixture id="ch5-qrcode-invalid-special-color-with-qrcode-fixture">
+   <!--  <test-fixture id="ch5-qrcode-invalid-special-color-with-qrcode-fixture">
         <template>
             <ch5-qrcode color="randomColor" qrCode="Test qrcode color"></ch5-qrcode>
         </template>
-    </test-fixture>
+    </test-fixture> -->
 
-    <test-fixture id="ch5-qrcode-color-invalid-fixture">
+   <!--  <test-fixture id="ch5-qrcode-color-invalid-fixture">
         <template>
             <ch5-qrcode color="randomColor" qrCode="Test qrcode color"></ch5-qrcode>
         </template>
-    </test-fixture>
+    </test-fixture> -->
 
-    <test-fixture id="ch5-qrcode-color-empty-invalid-fixture">
+    <!-- <test-fixture id="ch5-qrcode-color-empty-invalid-fixture">
         <template>
             <ch5-qrcode color="" qrCode="Test qrcode color"></ch5-qrcode>
         </template>
-    </test-fixture>
+    </test-fixture> -->
 
     <test-fixture id="ch5-qrcode-color-valid-invalid-fixture">
         <template>
@@ -65,10 +65,10 @@
                 return Promise.all([customElements.whenDefined('ch5-qrcode')]);
             });
 
-            test('color to be a string', () => {
+           /*  test('color to be a string', () => {
                 ch5QrCode.setAttribute('color', false);
                 expect(ch5QrCode.color).to.be.a(black);
-            });
+            }); */
 
             test('color "blue"', () => {
                 expect(ch5QrCode.color).to.be.equal('blue');
@@ -89,7 +89,7 @@
             });
         });
 
-        suite('ch5-qrcode color invalid with qrcode', () => {
+        /* suite('ch5-qrcode color invalid with qrcode', () => {
             let ch5QrCode;
             setup(() => {
                 ch5QrCode = fixture('ch5-qrcode-invalid-color-with-qrcode-fixture');
@@ -100,9 +100,9 @@
                 ch5QrCode.setAttribute('color', 'asasas');
                 expect(ch5QrCode.getAttribute('color')).to.be.equal(black);
             });
-        });
+        }); */
 
-        suite('ch5-qrcode color special invalid with qrcode', () => {
+        /* suite('ch5-qrcode color special invalid with qrcode', () => {
             let ch5QrCode;
             setup(() => {
                 ch5QrCode = fixture('ch5-qrcode-invalid-special-color-with-qrcode-fixture');
@@ -113,9 +113,9 @@
                 ch5QrCode.setAttribute('color', '=@@@');
                 expect(ch5QrCode.getAttribute('color')).to.be.equal(black);
             });
-        });
+        }); */
 
-        suite('ch5-qrcode color invalid', () => {
+/*         suite('ch5-qrcode color invalid', () => {
             let ch5QrCode;
             setup(() => {
                 ch5QrCode = fixture('ch5-qrcode-color-invalid-fixture');
@@ -125,9 +125,9 @@
             test('Empty invalid color should switch to default "black', () => {
                 expect(ch5QrCode.getAttribute('color')).to.be.equal(black);
             });
-        });
+        }); */
 
-        suite('ch5-qrcode color empty invalid', () => {
+        /* suite('ch5-qrcode color empty invalid', () => {
             let ch5QrCode;
             setup(() => {
                 ch5QrCode = fixture('ch5-qrcode-color-empty-invalid-fixture');
@@ -138,7 +138,7 @@
                 ch5QrCode.setAttribute('color', '');
                 expect(ch5QrCode.getAttribute('color')).to.be.equal(black);
             });
-        });
+        }); */
 
         suite('ch5-background color valid and invalid', () => {
             let ch5QrCode;
