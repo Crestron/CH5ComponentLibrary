@@ -364,7 +364,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   // Default Row and Column value
   private rowClassValue: number = 1;
-  private columnsClassValue: number = 1;
+  private columnClassValue: number = 1;
 
   private showSignalHolder: any = [];
   private loadSubpageForShow: boolean = false;
@@ -1316,25 +1316,31 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     if (this.stretch === 'both') { this.stretch = this.orientation === 'horizontal' ? this.rows === 1 ? 'both' : null : this.columns === 1 ? 'both' : null; }
     if (this.orientation === "horizontal") {
       // Remove Previous loaded class for both rows and columns
-      this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
-      this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.COLUMNS_CLASSLIST_PREFIX + this.columnsClassValue);
+      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
+      this._elContainer.style.removeProperty("grid-template-columns");
+      this._elContainer.style.removeProperty("grid-template-rows");
 
       // Calculate New Row class value
       this.rowClassValue = this.rows < this.numberOfItems ? this.rows : this.numberOfItems;
 
       // Add the new class to the container
-      this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      // this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      this._elContainer.style.setProperty("grid-template-rows", "repeat(" + this.rowClassValue + ", 1fr);");
     } else {
 
       // Remove Previous loaded class for both rows and columns
-      this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.COLUMNS_CLASSLIST_PREFIX + this.columnsClassValue);
-      this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
+      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      this._elContainer.style.removeProperty("grid-template-columns");
+      this._elContainer.style.removeProperty("grid-template-rows");
 
       // Calculate New Row class value
-      this.columnsClassValue = this.columns < this.numberOfItems ? this.columns : this.numberOfItems;
+      this.columnClassValue = this.columns < this.numberOfItems ? this.columns : this.numberOfItems;
 
       // Add the new class to the container
-      this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.COLUMNS_CLASSLIST_PREFIX + this.columnsClassValue);
+      // this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
+      this._elContainer.style.setProperty("grid-template-columns", "repeat(" + this.columnClassValue + ", 1fr);");
     }
     this.debounceSubpageDisplay();
   }
@@ -1808,7 +1814,9 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
     this._elContainer.classList.add(Ch5SubpageReferenceList.ELEMENT_NAME + Ch5SubpageReferenceList.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
     // Set default rows 
-    this._elContainer.classList.add(Ch5SubpageReferenceList.ELEMENT_NAME + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rows);
+    // this._elContainer.classList.add(Ch5SubpageReferenceList.ELEMENT_NAME + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rows);
+    this._elContainer.style.setProperty("grid-template-rows", "repeat(" + this.rows + ", 1fr);");
+
     // Sets default scroll bar class
     this._elContainer.classList.add(Ch5SubpageReferenceList.ELEMENT_NAME + Ch5SubpageReferenceList.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
     // sets default center item class
