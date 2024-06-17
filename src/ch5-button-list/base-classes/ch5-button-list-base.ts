@@ -28,8 +28,8 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   //#region Variables
 
   // ClassList Prefix
-  public static readonly ROWS_CLASSLIST_PREFIX: string = '--rows-';
-  public static readonly COLUMNS_CLASSLIST_PREFIX: string = '--columns-';
+  //public static readonly ROWS_CLASSLIST_PREFIX: string = '--rows-';
+  //public static readonly COLUMNS_CLASSLIST_PREFIX: string = '--columns-';
   public static readonly SCROLLBAR_CLASSLIST_PREFIX: string = '--scrollbar-';
   public static readonly CENTER_ITEMS_CLASSLIST_PREFIX: string = '--center-items-';
 
