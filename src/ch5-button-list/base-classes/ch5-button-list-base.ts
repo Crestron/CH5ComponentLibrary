@@ -1743,7 +1743,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
 
       // Add the new class to the container
       // this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
-      this._elContainer.style.setProperty("grid-template-rows", "repeat(" + this.rowClassValue + ", 1fr);");
+      this._elContainer.style.setProperty("grid-template-rows", "repeat(" + this.rowClassValue + ", 1fr)");
     } else {
 
       // Remove Previous loaded class for both rows and columns
@@ -1752,12 +1752,12 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       this._elContainer.style.removeProperty("grid-template-columns");
       this._elContainer.style.removeProperty("grid-template-rows");
 
-      // Calculate New Row class value
+      // Calculate New Column class value
       this.columnClassValue = this.columns < this.numberOfItems ? this.columns : this.numberOfItems;
 
       // Add the new class to the container
       // this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
-      this._elContainer.style.setProperty("grid-template-columns", "repeat(" +  this.columnClassValue + ", 1fr);");
+      this._elContainer.style.setProperty("grid-template-columns", "repeat(" +  this.columnClassValue + ", 1fr)");
     }
     this.debounceButtonDisplay();
   }
