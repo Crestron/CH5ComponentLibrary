@@ -38,7 +38,7 @@
               expect(ch5ButtonList.columns).to.be.equal(Number(val));
               expect(ch5ButtonList.numberOfItems).to.be.equal(Number(val));
               expect(ch5ButtonList.orientation).to.be.equal('vertical');
-              // expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--columns-' + Number(val))).to.be.equal(true);
+              expect(getDiv(ch5ButtonList).style.gridTemplateColumns).to.be.equal('repeat('+ Number(val) + ', 1fr)');
               expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
               done();
             }, COMPONENT_TESTING_TIMEOUT);
