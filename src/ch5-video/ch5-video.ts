@@ -1182,7 +1182,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       timing: "linear" // only linear supported initially
     };
     this.sendEvent(this.sendEventResolution, width + "x" + height);
-    console.log('Return-->', retObj);
+    console.log('Request OBJ-->', retObj);
     return retObj;
   }
 
@@ -1225,7 +1225,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   private _videoResponse(response: TVideoResponse) { // Process the backend response
-    console.log('resp-->', response);
+    console.log('Response Obj-->', response);
     if (typeof response === 'string') {
       this.responseObj = JSON.parse(response);
     } else {
