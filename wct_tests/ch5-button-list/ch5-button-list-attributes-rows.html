@@ -50,6 +50,7 @@
               setTimeout(() => {
                 expect(ch5ButtonList.rows).to.be.equal(1);
                 // expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--rows-1')).to.be.equal(true);
+                expect(getDiv(ch5ButtonList).style.gridTemplateRows).to.be.equal('repeat(1, 1fr)');
                 expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
                 done();
               }, COMPONENT_TESTING_TIMEOUT);

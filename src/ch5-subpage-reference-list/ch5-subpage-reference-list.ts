@@ -1326,7 +1326,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
       // Add the new class to the container
       // this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
-      this._elContainer.style.setProperty("grid-template-rows", "repeat(" + this.rowClassValue + ", 1fr);");
+      this._elContainer.style.setProperty("grid-template-rows", "repeat(" + this.rowClassValue + ", 1fr)");
     } else {
 
       // Remove Previous loaded class for both rows and columns
@@ -1340,7 +1340,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
       // Add the new class to the container
       // this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
-      this._elContainer.style.setProperty("grid-template-columns", "repeat(" + this.columnClassValue + ", 1fr);");
+      this._elContainer.style.setProperty("grid-template-columns", "repeat(" + this.columnClassValue + ", 1fr)");
     }
     this.debounceSubpageDisplay();
   }

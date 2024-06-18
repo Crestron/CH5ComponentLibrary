@@ -8,6 +8,7 @@
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
   <script src="/wct_tests/js/helpers.js"></script>    
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
 </head>
 
 <body>
@@ -96,7 +97,8 @@
               expect(ch5SubpageReferenceList.scrollbar).to.be.equal(false);
               expect(ch5SubpageReferenceList.numberOfItems).to.be.equal(30);
               expect(ch5SubpageReferenceList.customStyle).to.be.equal('width:100%');
-              expect(ch5SubpageReferenceList.children[0].classList.contains('ch5-subpage-reference-list--rows-1')).to.be.equal(true);
+              console.log('styleee11111 ', getDiv(ch5SubpageReferenceList).style)
+              expect(getDiv(ch5SubpageReferenceList).style.gridTemplateRows).to.be.equal('repeat(1, 1fr)');
               //expect(ch5SubpageReferenceList.children[0].classList.contains('ch5-subpage-reference-list--scrollbar-'+val)).to.be.equal(val);
               expect(ch5SubpageReferenceList.children[0].classList.contains('ch5-subpage-reference-list--orientation-horizontal')).to.be.equal(true);
               for (let i = 0; i < ch5SubpageReferenceList.children[0].children.length; i++) {
@@ -126,7 +128,9 @@
               expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
            //   expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--scrollbar-'+val)).to.be.equal(true);
               expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--orientation-vertical')).to.be.equal(true);
-              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+              //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+              expect(getDiv(ch5SubpageReferenceList1).style.gridTemplateColumns).to.be.equal('repeat(1, 1fr)');
+
               for (let i = 0; i < ch5SubpageReferenceList.children[0].children.length; i++) {
                 document.querySelector(".ch5-subpage-reference-list").scrollTop += 100;
                 expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].getAttribute('label')).to.be.equal('tgl_' + i);
@@ -152,7 +156,8 @@
               expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
               //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--scrollbar-'+val)).to.be.equal(true);
               expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--orientation-vertical')).to.be.equal(true);
-              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+              //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+              expect(getDiv(ch5SubpageReferenceList1).style.gridTemplateColumns).to.be.equal('repeat(1, 1fr)');
               for (let i = 0; i < ch5SubpageReferenceList.children[0].children.length; i++) {
                 document.querySelector(".ch5-subpage-reference-list").scrollTop += 100;
                 expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].getAttribute('label')).to.be.equal('tgl_' + i);
@@ -177,7 +182,9 @@
               expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
               //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--scrollbar-'+val)).to.be.equal(true);
               expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--orientation-horizontal')).to.be.equal(true);
-              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--columns-' + scrollBarVal[i].columns)).to.be.equal(false);
+              //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--columns-' + scrollBarVal[i].columns)).to.be.equal(false);
+              expect(getDiv(ch5SubpageReferenceList1).style.gridTemplateColumns).to.be.equal('repeat(1, 1fr)');
+
               for (let i = 0; i < ch5SubpageReferenceList.children[0].children.length; i++) {
                 document.querySelector(".ch5-subpage-reference-list").scrollLeft += 100;
                 expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].getAttribute('label')).to.be.equal('tgl_' + i);
@@ -203,7 +210,9 @@
               expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
               //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--scrollbar-'+val)).to.be.equal(true);
               expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--orientation-horizontal')).to.be.equal(true);
-              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--columns-' + scrollBarVal[i].columns)).to.be.equal(false);
+              //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--columns-' + scrollBarVal[i].columns)).to.be.equal(false);
+              expect(getDiv(ch5SubpageReferenceList1).style.gridTemplateColumns).to.be.equal('repeat(1, 1fr)');
+
               for (let i = 0; i < ch5SubpageReferenceList.children[0].children.length; i++) {
                 document.querySelector(".ch5-subpage-reference-list").scrollLeft += 100;
                 expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].getAttribute('label')).to.be.equal('tgl_' + i);
@@ -234,8 +243,11 @@
               expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(scrollBarRow[i].numberOfItems);
               //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--scrollbar-'+val)).to.be.equal(true);
               expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--orientation-vertical')).to.be.equal(true);
-              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--rows-' + scrollBarRow[i].rows)).to.be.equal(false);
-              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--columns-' + scrollBarRow[i].rows)).to.be.equal(true);
+              //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--rows-' + scrollBarRow[i].rows)).to.be.equal(false);
+              expect(getDiv(ch5SubpageReferenceList1).style.gridTemplateRows).to.be.equal('repeat(1, 1fr)');
+              //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--columns-' + scrollBarRow[i].rows)).to.be.equal(true);
+              expect(getDiv(ch5SubpageReferenceList1).style.gridTemplateColumns).to.be.equal('repeat(1, 1fr)');
+
               for (let i = 0; i < ch5SubpageReferenceList.children[0].children.length; i++) {
                 document.querySelector(".ch5-subpage-reference-list").scrollLTop += 100;
                 expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].getAttribute('label')).to.be.equal('tgl_' + i);
@@ -261,8 +273,11 @@
               expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(scrollBarRow[i].numberOfItems);
              // expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--scrollbar-'+val)).to.be.equal(true);
               expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--orientation-vertical')).to.be.equal(true);
-              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--columns-' + scrollBarRow[i].rows)).to.be.equal(true);
-              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--rows-' + scrollBarRow[i].rows)).to.be.equal(false);
+             // expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--columns-' + scrollBarRow[i].rows)).to.be.equal(true);
+              expect(getDiv(ch5SubpageReferenceList1).style.gridTemplateColumns).to.be.equal('repeat(1, 1fr)');
+
+              //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--rows-' + scrollBarRow[i].rows)).to.be.equal(false);
+              expect(getDiv(ch5SubpageReferenceList1).style.gridTemplateRows).to.be.equal('repeat(1, 1fr)');
               for (let i = 0; i < ch5SubpageReferenceList.children[0].children.length; i++) {
                 document.querySelector(".ch5-subpage-reference-list").scrollTop += 100;
                 expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].getAttribute('label')).to.be.equal('tgl_' + i);
@@ -288,7 +303,8 @@
               expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(scrollBarRow[i].numberOfItems);
               //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--scrollbar-'+val)).to.be.equal(true);
               expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--orientation-horizontal')).to.be.equal(true);
-              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--rows-' + scrollBarRow[i].rows)).to.be.equal(true);
+              //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--rows-' + scrollBarRow[i].rows)).to.be.equal(true);
+              expect(getDiv(ch5SubpageReferenceList1).style.gridTemplateRows).to.be.equal('repeat(1, 1fr)');
               for (let i = 0; i < ch5SubpageReferenceList.children[0].children.length; i++) {
                 document.querySelector(".ch5-subpage-reference-list").scrollLeft += 100;
                 expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].getAttribute('label')).to.be.equal('tgl_' + i);
@@ -314,7 +330,8 @@
               expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(scrollBarRow[i].numberOfItems);
               //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--scrollbar-'+val)).to.be.equal(true);
               expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--orientation-horizontal')).to.be.equal(true);
-              expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--rows-' + scrollBarRow[i].rows)).to.be.equal(true);
+              //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--rows-' + scrollBarRow[i].rows)).to.be.equal(true);
+              expect(getDiv(ch5SubpageReferenceList1).style.gridTemplateRows).to.be.equal('repeat(1, 1fr)');
               for (let i = 0; i < ch5SubpageReferenceList.children[0].children.length; i++) {
                 document.querySelector(".ch5-subpage-reference-list").scrollLeft += 100;
                 expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].getAttribute('label')).to.be.equal('tgl_' + i);
