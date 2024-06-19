@@ -1183,6 +1183,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     };
     this.sendEvent(this.sendEventResolution, width + "x" + height);
     console.log('Request OBJ-->', retObj);
+    this.logger.log("Request OBJ-->" + JSON.stringify(retObj));
     return retObj;
   }
 
@@ -1252,7 +1253,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       return;
     }
 
-    // this.logger.log("Video Response : " + JSON.stringify(this.responseObj));
+    this.logger.log("Video Response : " + JSON.stringify(this.responseObj));
 
     this.lastResponseStatus = this.responseObj.status.toLowerCase();
     if (!(this.lastResponseStatus === 'started' || (this.lastRequestStatus === 'resize' && this.lastResponseStatus === 'resized'))) {
