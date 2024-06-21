@@ -71,7 +71,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributesVideo {
 	 * [
 	 * "`sourceType` attribute",
 	 * "***",
-	 * "Default 'Network'. Defines the type of Video stream, superseded by receiveStateSourceType. See enumeration values in receiveStateSourceType."
+	 * "Default 'Network'. Defines the type of Video stream, superseded by receiveStateSourceType. Possible values are Network and HDMI."
 	 * ]
 	 * @name sourcetype
 	 * @default Network

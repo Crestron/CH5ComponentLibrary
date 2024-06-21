@@ -522,7 +522,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   public set url(value: string) {
     this._ch5Properties.set<string>("url", value.trim(), () => {
       this.sendEvent(this.sendEventSelectionURL, this.url);
-      this.checkUrl();
+      this.publishVideoForNetwork();
     });
   }
   public get url(): string {
@@ -1182,7 +1182,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       timing: "linear" // only linear supported initially
     };
     this.sendEvent(this.sendEventResolution, width + "x" + height);
-    console.log('Request OBJ-->', retObj);
     this.logger.log("Request OBJ-->" + JSON.stringify(retObj));
     return retObj;
   }
@@ -1195,9 +1194,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   private publishVideo(actionType: string) {
     switch (actionType) {
       case 'start':
-        if ((this.url === "" || this.validateVideoUrl(this.url) === false) && this.sourceType.toLowerCase() !== 'hdmi') {
-          return this.checkUrl();
-        }
+        if ((this.url === "" || this.validateVideoUrl(this.url) === false) && this.sourceType.toLowerCase() === 'network') {
+           this.publishVideoForNetwork();
+        } else {
         this.isVideoPublished = true;
         if (this.responseObj?.id && this.responseObj?.id !== this.ch5UId && this.responseObj?.status === 'started') {
           publishEvent('o', 'Csig.video.request', this.videoStopObjJSON('stop', this.responseObj?.id));
@@ -1205,6 +1204,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         } else {
           publishEvent('o', 'Csig.video.request', this.videoStartObjJSON('start'));
         }
+      }
         break;
       case 'stop':
         if (this.isVideoPublished === false) { return; }
@@ -1226,7 +1226,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   }
 
   private _videoResponse(response: TVideoResponse) { // Process the backend response
-    console.log('Response Obj-->', response);
     if (typeof response === 'string') {
       this.responseObj = JSON.parse(response);
     } else {
@@ -1655,11 +1654,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
   }
 
-  private checkUrl() {
-    if (this.url === '' && this.sourceType.toLowerCase() !== 'hdmi') {
+  private publishVideoForNetwork() {
+    if (this.url === '' && this.sourceType.toLowerCase() === 'network') {
       this.ch5BackgroundRequest('nourl');
       this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
-    } else if (this.validateVideoUrl(this.url) === false && this.sourceType.toLowerCase() !== 'hdmi') {
+    } else if (this.validateVideoUrl(this.url) === false && this.sourceType.toLowerCase() === 'network') {
       this.sendEvent(this.sendEventErrorMessage, 'Invalid URL');
       this.sendEvent(this.sendEventErrorCode, -9002);
       this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.ERROR);
@@ -1700,7 +1699,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   private urlCB(newValue: string) {
     this._ch5Properties.setForSignalResponse<string>("url", newValue, () => {
       this.sendEvent(this.sendEventSelectionURL, this.url);
-      this.checkUrl();
+      this.publishVideoForNetwork();
     });
   }
 
