@@ -1815,7 +1815,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this._elContainer.classList.add(Ch5SubpageReferenceList.ELEMENT_NAME + Ch5SubpageReferenceList.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
     // Set default rows 
     // this._elContainer.classList.add(Ch5SubpageReferenceList.ELEMENT_NAME + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rows);
-    this._elContainer.style.setProperty("grid-template-rows", "repeat(" + this.rows + ", 1fr);");
+    this._elContainer.style.setProperty("grid-template-rows", "repeat(" + this.rows + ", 1fr)");
 
     // Sets default scroll bar class
     this._elContainer.classList.add(Ch5SubpageReferenceList.ELEMENT_NAME + Ch5SubpageReferenceList.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
