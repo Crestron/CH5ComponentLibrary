@@ -8,6 +8,7 @@
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
   <script src="/wct_tests/js/helpers.js"></script>    
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
 </head>
 
 <body>
@@ -43,7 +44,7 @@
               expect(ch5SubpageReferenceList.columns).to.be.equal(Number(val));
               expect(ch5SubpageReferenceList.numberOfItems).to.be.equal(Number(val));
               expect(ch5SubpageReferenceList.orientation).to.be.equal('vertical');
-              expect(ch5SubpageReferenceList.children[0].classList.contains('ch5-subpage-reference-list--columns-' + Number(val))).to.be.equal(true);
+              expect(getDiv(ch5SubpageReferenceList).style.gridTemplateColumns).to.be.equal('repeat('+ Number(val) + ', 1fr)');
               expect(ch5SubpageReferenceList.children[0].classList.contains('ch5-subpage-reference-list--orientation-vertical')).to.be.equal(true);
               done();
             }, 100);
@@ -61,7 +62,7 @@
               setTimeout(() => {
                 expect(ch5SubpageReferenceList.columns).to.be.equal(1);
                 expect(ch5SubpageReferenceList.orientation).to.be.equal('vertical');
-                expect(ch5SubpageReferenceList.children[0].classList.contains('ch5-subpage-reference-list--columns-1')).to.be.equal(true);
+                expect(getDiv(ch5SubpageReferenceList).style.gridTemplateColumns).to.be.equal('repeat(1, 1fr)');
                 expect(ch5SubpageReferenceList.children[0].classList.contains('ch5-subpage-reference-list--orientation-vertical')).to.be.equal(true);
                 done();
               }, 100);

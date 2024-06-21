@@ -6,7 +6,7 @@
   <script src="/webcomponentsjs/webcomponents-lite.js"></script>
   <script src="/bower_components/web-component-tester/browser.js"></script>
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
-  <script src="/wct_tests/js/helpers.js"></script>    
+  <script src="/wct_tests/js/helpers.js"></script>
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
   <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
 </head>
@@ -123,14 +123,16 @@
       });
 
       rowsColumnValue.forEach((val, i) => {
-        test(`Check attributes orientation horizontal with rows attribute`, (done) => {
+        test(`Check attributes orientation horizontal with rows "${val}" attribute`, (done) => {
           ch5ButtonList1.setAttribute('orientation', 'horizontal');
           ch5ButtonList1.setAttribute('rows', val);
+          ch5ButtonList1.setAttribute('numberOfItems', val);
           flush(() => {
             setTimeout(() => {
               if (val === "500") {
                 ch5ButtonList1.setAttribute('numberOfItems', 500);
                 // expect(getDiv(ch5ButtonList1).classList.contains("ch5-button-list--rows-" + val)).to.be.equal(true);
+                expect(getDiv(ch5ButtonList1).style.gridTemplateRows).to.be.equal('repeat(500, 1fr)');
               }
               expect(ch5ButtonList1.orientation).to.be.equal('horizontal');
               expect(getDiv(ch5ButtonList1).classList.contains("ch5-button-list--orientation-horizontal")).to.be.equal(true);
@@ -138,6 +140,7 @@
               expect(ch5ButtonList1.rows).to.be.equal(Number(val));
               // TODO this after sizing improvement in the ch5 theme 
               // expect(getDiv(ch5ButtonList1).classList.contains("ch5-button-list--rows-" + val)).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).style.gridTemplateRows).to.be.equal('repeat(' + Number(val) + ', 1fr)');
               done();
             }, COMPONENT_TESTING_TIMEOUT);
           });
@@ -145,7 +148,7 @@
       });
 
       invalidValue.forEach((val, i) => {
-        test(`Check attributes orientation horizontal with rows attribute`, (done) => {
+        test(`Check attributes orientation horizontal with rows "${val}" attribute`, (done) => {
           ch5ButtonList1.setAttribute('orientation', 'horizontal');
           ch5ButtonList1.setAttribute('rows', val);
           flush(() => {
@@ -155,6 +158,7 @@
               expect(getDiv(ch5ButtonList1).classList.contains("ch5-button-list--orientation-vertical")).to.be.equal(false);
               expect(ch5ButtonList1.rows).to.be.equal(Number(expectedValue));
               // expect(getDiv(ch5ButtonList1).classList.contains("ch5-button-list--rows-" + expectedValue)).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).style.gridTemplateRows).to.be.equal('repeat(1, 1fr)');
               done();
             }, COMPONENT_TESTING_TIMEOUT);
           });
@@ -170,12 +174,16 @@
               if (val === "500") {
                 ch5ButtonList2.setAttribute('numberOfItems', 500);
                 // expect(getDiv(ch5ButtonList2).classList.contains("ch5-button-list--columns-" + val)).to.be.equal(true);
+                expect(getDiv(ch5ButtonList2).style.gridTemplateColumns).to.be.equal('repeat(' + Number(val) + ', 1fr)');
+
               }
               expect(ch5ButtonList2.orientation).to.be.equal('vertical');
               expect(getDiv(ch5ButtonList2).classList.contains("ch5-button-list--orientation-vertical")).to.be.equal(true);
               expect(getDiv(ch5ButtonList2).classList.contains("ch5-button-list--orientation-horizontal")).to.be.equal(false);
               expect(ch5ButtonList2.columns).to.be.equal(Number(val));
               // expect(getDiv(ch5ButtonList2).classList.contains("ch5-button-list--columns-" + val)).to.be.equal(true);
+              expect(getDiv(ch5ButtonList2).style.gridTemplateColumns).to.be.equal('repeat(' + Number(val) + ', 1fr)');
+
               done();
             }, COMPONENT_TESTING_TIMEOUT);
           });
@@ -193,7 +201,8 @@
               expect(getDiv(ch5ButtonList2).classList.contains("ch5-button-list--orientation-horizontal")).to.be.equal(false);
               expect(ch5ButtonList2.columns).to.be.equal(Number(expectedValue));
               // expect(getDiv(ch5ButtonList2).classList.contains("ch5-button-list--columns-" + expectedValue)).to.be.equal(true);
-              done();
+              expect(getDiv(ch5ButtonList2).style.gridTemplateColumns).to.be.equal('repeat(1, 1fr)');
+              done()
             }, COMPONENT_TESTING_TIMEOUT);
           });
         });
@@ -206,6 +215,7 @@
             expect(ch5ButtonList3.rows).to.be.equal(3);
             expect(ch5ButtonList3.orientation).to.be.equal('horizontal');
             // expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--rows-3')).to.be.equal(true);
+            expect(getDiv(ch5ButtonList3).style.gridTemplateRows).to.be.equal('repeat(3, 1fr)');
             expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
             for (let i = 0; i < getDiv(ch5ButtonList3).children.length; i++) {
               expect(getDiv(ch5ButtonList3).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
@@ -215,21 +225,22 @@
         });
       });
 
-      test(`Check attributes orientation vertical with button list index attributes`, (done) => {
-        flush(() => {
-          setTimeout(() => {
-            expect(ch5ButtonList4.numberOfItems).to.be.equal(20);
-            expect(ch5ButtonList4.columns).to.be.equal(3);
-            expect(ch5ButtonList4.orientation).to.be.equal('vertical');
-            // expect(getDiv(ch5ButtonList4).classList.contains('ch5-button-list--columns-3')).to.be.equal(true);
-            expect(getDiv(ch5ButtonList4).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
-            for (let i = 0; i < getDiv(ch5ButtonList4).children.length; i++) {
-              expect(getDiv(ch5ButtonList4).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
-            }
-            done();
-          }, COMPONENT_TESTING_TIMEOUT);
-        });
-      });
+       test(`Check attributes orientation vertical with button list index attributes`, (done) => {
+         flush(() => {
+           setTimeout(() => {
+             expect(ch5ButtonList4.numberOfItems).to.be.equal(20);
+             expect(ch5ButtonList4.columns).to.be.equal(3);
+             expect(ch5ButtonList4.orientation).to.be.equal('vertical');
+             // expect(getDiv(ch5ButtonList4).classList.contains('ch5-button-list--columns-3')).to.be.equal(true);
+             expect(getDiv(ch5ButtonList4).style.gridTemplateColumns).to.be.equal('repeat(3, 1fr)');
+             expect(getDiv(ch5ButtonList4).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
+             for (let i = 0; i < getDiv(ch5ButtonList4).children.length; i++) {
+               expect(getDiv(ch5ButtonList4).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
+             }
+             done();
+           }, COMPONENT_TESTING_TIMEOUT);
+         });
+       });
     });
   </script>
 </body>
