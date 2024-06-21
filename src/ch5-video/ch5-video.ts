@@ -1677,7 +1677,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
   private setErrorMessages() {
     this.videoErrorMessages.set(0, "success");
     this.videoErrorMessages.set(1, "HDMI no sync");
-    // this.videoErrorMessages.set(2, "DM no stream");
+    this.videoErrorMessages.set(2, "DM no stream");
     // this.videoErrorMessages.set(3, "No input sync");
     this.videoErrorMessages.set(-1, "connection refused / camera offline");
     this.videoErrorMessages.set(-2, "no network");
