@@ -148,7 +148,8 @@
             expect(ch5ButtonList.numberOfItems).to.be.equal(20);
             expect(ch5ButtonList.orientation).to.be.equal('horizontal');
             expect(ch5ButtonList.customStyle).to.be.equal('width:50%;');
-            expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--rows-1')).to.be.equal(true);
+            //expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--rows-1')).to.be.equal(true);
+            expect(getDiv(ch5ButtonList).style.gridTemplateRows).to.be.equal('repeat('+ Number(val) + ', 1fr)');
             expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
             expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
             done();
