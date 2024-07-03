@@ -1695,7 +1695,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.videoErrorMessages.set(-9003, "Request for greater than maximum simultaneous sessions per source type");
     this.videoErrorMessages.set(-9004, "Request for greater than maximum simultaneous sessions per device");
     this.videoErrorMessages.set(-9007, "Unknown Error Message");
-    this.videoErrorMessages.set(-9008, "Non HDCP Monitor");
+    this.videoErrorMessages.set(-9008, "HDCP error when using HDMI input");
   }
 
   private urlCB(newValue: string) {
