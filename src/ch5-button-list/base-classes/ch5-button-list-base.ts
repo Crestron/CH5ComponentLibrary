@@ -1297,14 +1297,14 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     this._ch5Properties.unsubscribe();
   }
 
-  private handleMouseDown = this.debounce((e: MouseEvent) => {
+  private handleMouseDown(e: MouseEvent) {
     this.isDown = true;
     this._elContainer.classList.add('active');
     this.startX = e.pageX - this._elContainer.offsetLeft;
     this.startY = e.pageY - this._elContainer.offsetTop;
     this.scrollListLeft = this._elContainer.scrollLeft;
     this.scrollListTop = this._elContainer.scrollTop;
-  }, 10);
+  };
 
   private handleMouseUpAndLeave = this.debounce(() => {
     this.isDown = false;
@@ -1757,7 +1757,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
 
       // Add the new class to the container
       // this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
-      this._elContainer.style.setProperty("grid-template-columns", "repeat(" +  this.columnClassValue + ", 1fr)");
+      this._elContainer.style.setProperty("grid-template-columns", "repeat(" + this.columnClassValue + ", 1fr)");
     }
     this.debounceButtonDisplay();
   }

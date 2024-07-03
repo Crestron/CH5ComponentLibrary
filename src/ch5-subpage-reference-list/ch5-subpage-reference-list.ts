@@ -877,15 +877,14 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     super.unsubscribeFromSignals();
     this._ch5Properties.unsubscribe();
   }
-  private handleMouseDown = this.debounce((e: MouseEvent) => {
+  private handleMouseDown(e: MouseEvent) {
     this.isDown = true;
     this._elContainer.classList.add('active');
     this.startX = e.pageX - this._elContainer.offsetLeft;
     this.startY = e.pageY - this._elContainer.offsetTop;
     this.scrollListLeft = this._elContainer.scrollLeft;
     this.scrollListTop = this._elContainer.scrollTop;
-  }, 10);
-
+  };
   private handleMouseUpAndLeave = this.debounce(() => {
     this.isDown = false;
     this._elContainer.classList.remove('active');
