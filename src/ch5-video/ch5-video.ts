@@ -1253,7 +1253,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       return;
     }
 
-    this.logger.log("Video Response : " + JSON.stringify(this.responseObj));
+    this.logger.log("Video Response -->" + JSON.stringify(this.responseObj));
 
     this.lastResponseStatus = this.responseObj.status.toLowerCase();
     if (!(this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.STARTED || (this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.RESIZE && this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.RESIZED))) {
@@ -1659,7 +1659,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     if (this.url === '' && this.sourceType.toLowerCase() === 'network') {
       this.ch5BackgroundRequest('nourl');
       this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
-    } else if (this.validateVideoUrl(this.url) === false && this.sourceType.toLowerCase() === 'network') {
+    } else if (this.validateVideoUrl(this.url) === false && this.sourceType.toLowerCase() === 'network' && !this.hasAttribute('receiveStateSourceType')) {
       this.sendEvent(this.sendEventErrorMessage, 'Invalid URL');
       this.sendEvent(this.sendEventErrorCode, -9002);
       this.ch5BackgroundRequest(CH5VideoUtils.VIDEO_ACTION.ERROR);
