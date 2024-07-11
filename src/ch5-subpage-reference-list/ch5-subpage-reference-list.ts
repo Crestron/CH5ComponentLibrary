@@ -877,7 +877,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     super.unsubscribeFromSignals();
     this._ch5Properties.unsubscribe();
   }
-  private handleMouseDown(e: MouseEvent) {
+  private handleMouseDown = (e: MouseEvent) => {
     this.isDown = true;
     this._elContainer.classList.add('active');
     this.startX = e.pageX - this._elContainer.offsetLeft;
@@ -901,7 +901,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this._elContainer.scrollTop = this.scrollListTop - walkY;
   }, 10);
 
-  private handleScrollEvent = this.debounce(() => {
+  private handleScrollEvent = () => {
     // update the scrollbar width and position
     this.initScrollbar();
 
@@ -921,7 +921,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     } else if (this.loadItems === "load-new") {
       this.scrollHelperForNew();
     }
-  }, 10)
+  };
 
 
   private scrollHelperForNew() {
