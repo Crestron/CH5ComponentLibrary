@@ -1322,7 +1322,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     this._elContainer.scrollTop = this.scrollListTop - walkY;
   }, 10);
 
-  private handleScrollEvent = this.debounce(() => {
+  private handleScrollEvent = () => {
     // update the scrollbar width and position
     this.initScrollbar();
 
@@ -1343,7 +1343,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     } else if (this.loadItems === "load-new") {
       this.scrollHelperForNew();
     }
-  }, 10);
+  };
 
   private scrollHelperForNew() {
     if (this.dir === 'rtl' && this.orientation === 'horizontal') {
