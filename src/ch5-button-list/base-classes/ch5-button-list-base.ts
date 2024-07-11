@@ -1297,7 +1297,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     this._ch5Properties.unsubscribe();
   }
 
-  private handleMouseDown(e: MouseEvent) {
+  private handleMouseDown = (e: MouseEvent) => {
     this.isDown = true;
     this._elContainer.classList.add('active');
     this.startX = e.pageX - this._elContainer.offsetLeft;
