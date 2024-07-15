@@ -898,8 +898,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.unsubscribeFromSignals();
     this.clearMultiSignal();
     this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
+    const parentCh5Background: Ch5Background[] = [];
     if (this.isVideoPublished === true) {
-      this.refillBackground();
+      const bgElemList = document.querySelectorAll('ch5-background');
+      Array.from(bgElemList).forEach((children) => {
+        if (children.nodeName.toLowerCase() === 'ch5-background') {
+          parentCh5Background.push(children as Ch5Background);
+        }
+      })
+      Array.from(parentCh5Background).forEach(bg => bg.refillBackground())
     }
     this.selectedVideo = 0;
     this.maxVideoCount = 1;
@@ -1111,6 +1118,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       action: actionType,
       id: uId
     };
+    this.logger.log('Stop Video Request:', retObj);
     this.sendEvent(this.sendEventState, 3);
     return retObj;
   }
@@ -1182,7 +1190,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       timing: "linear" // only linear supported initially
     };
     this.sendEvent(this.sendEventResolution, width + "x" + height);
-    this.logger.log("Request OBJ-->" + JSON.stringify(retObj));
+    this.logger.log("Start Video Request:", retObj);
     return retObj;
   }
 
@@ -1210,7 +1218,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         if (this.isVideoPublished === false) { return; }
         window.clearTimeout(this.stopDebounce);
         this.stopDebounce = window.setTimeout(() => publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(actionType, this.ch5UId)), 300);// Stop the video immediately
-        this.isVideoPublished = false;
+        // this.isVideoPublished = false;
         break;
       case CH5VideoUtils.VIDEO_ACTION.RESIZE:
         if (this.isVideoPublished === false) { return; }
@@ -1253,8 +1261,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       return;
     }
 
-    this.logger.log("Video Response -->" + JSON.stringify(this.responseObj));
-
+    this.logger.log("Video Response:", this.responseObj);
     this.lastResponseStatus = this.responseObj.status.toLowerCase();
     if (!(this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.STARTED || (this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.RESIZE && this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.RESIZED))) {
       this._fullScreenIcon.classList.add('hide')
