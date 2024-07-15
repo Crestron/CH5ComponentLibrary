@@ -1545,7 +1545,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this._elButton.addEventListener('focus', this._onFocus);
 		this._elButton.addEventListener('blur', this._onBlur);
 		// init pressable before initAttributes because pressable subscribe to gestureable attribute
-		this.logger.log("this._pressable", this._pressable);
 		if (!isNil(this._pressable)) {
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
