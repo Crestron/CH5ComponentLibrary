@@ -1118,7 +1118,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       action: actionType,
       id: uId
     };
-    this.logger.log('Stop Video Request-->', JSON.stringify(retObj));
+    this.logger.log('Stop Video Request:', retObj);
     this.sendEvent(this.sendEventState, 3);
     return retObj;
   }
@@ -1190,7 +1190,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       timing: "linear" // only linear supported initially
     };
     this.sendEvent(this.sendEventResolution, width + "x" + height);
-    this.logger.log("Start Video Request-->" + JSON.stringify(retObj));
+    this.logger.log("Start Video Request:", retObj);
     return retObj;
   }
 
@@ -1261,7 +1261,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       return;
     }
 
-    this.logger.log("Video Response -->" + JSON.stringify(this.responseObj));
+    this.logger.log("Video Response:", this.responseObj);
     this.lastResponseStatus = this.responseObj.status.toLowerCase();
     if (!(this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.STARTED || (this.lastRequestStatus === CH5VideoUtils.VIDEO_ACTION.RESIZE && this.lastResponseStatus === CH5VideoUtils.VIDEO_ACTION.RESIZED))) {
       this._fullScreenIcon.classList.add('hide')
