@@ -988,7 +988,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @param canvas is canvas object
 	 * @param ctx is canvas context
 	 */
-	private updateBgImageRepeat(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any, videoData: any) {
+	private updateBgImageRepeat(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any) {
 		switch (this._repeat) {
 			case 'repeat':
 			case 'repeat-x':
@@ -997,7 +997,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 				ctx.fillStyle = ctx.createPattern(img, this._repeat);
 				ctx.fillRect(0, 0, canvas.width, canvas.height);
 				setTimeout(() => {
-					if (videoData && this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
+					if (this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
 						ctx.clearRect(this._videoDimensions[0].left, this._videoDimensions[0].top, this._videoDimensions[0].width, this._videoDimensions[0].height);
 					}
 				}, 100);
@@ -1270,9 +1270,9 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @param img is background image object
 	 * @param ctx is canvas context
 	 */
-	private updateBgImage(img: HTMLImageElement, ctx: any, videoData: any = null) {
+	private updateBgImage(img: HTMLImageElement, ctx: any) {
 		if (!_.isNil(this._repeat)) {
-			this.updateBgImageRepeat(img, this._elCanvas, ctx, videoData);
+			this.updateBgImageRepeat(img, this._elCanvas, ctx);
 		} else {
 			this.updateBgImageScale(img, this._elCanvas, ctx);
 		}
@@ -1309,7 +1309,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 				switch (this._canvasList.length) {
 					case this._imgUrls.length:
 						this._elImages = [...this._elBackupImages];
-						this.updateBgImage(this._elImages[idx], ctx, videoData);
+						this.updateBgImage(this._elImages[idx], ctx);
 						break;
 					case this._bgColors.length:
 						this.updateBgColor(this._bgColors[idx], ctx, videoData);
