@@ -1223,12 +1223,13 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @param color is background color
 	 * @param ctx is canvas context
 	 */
-	private updateBgColor(color: string, ctx: any) {
+	private updateBgColor(color: string, ctx: any, videoData: any = null) {
 		ctx.fillStyle = color;
-		ctx.fillRect(0, 0, this._elCanvas.width, this._elCanvas.height);
-		/* if (page && this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
-			ctx.clearRect(this._videoDimensions[0].left, this._videoDimensions[0].top, this._videoDimensions[0].width, this._videoDimensions[0].height);
-		} */
+		if (videoData && videoData.left && videoData.top) {
+			ctx.fillRect(videoData.left, videoData.top, videoData.width, videoData.height);
+		} else {
+			ctx.fillRect(0, 0, this._elCanvas.width, this._elCanvas.height);
+		}
 		publishEvent('b', 'canvas.created', true);
 	}
 
@@ -1299,7 +1300,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	}
 
 	/**
-	 * Re-filling background for whole page
+	 * Re-filling background for spacific arear
 	 */
 	public refillBackgroundforOneVideo(videoData: any) {
 		if (this.isCanvasListValid()) {
@@ -1311,12 +1312,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 						this.updateBgImage(this._elImages[idx], ctx, videoData);
 						break;
 					case this._bgColors.length:
-						//this.updateBgColor(this._bgColors[idx], ctx, false);
-						ctx.fillStyle = this._bgColors[idx];
-						ctx.fillRect(videoData.left, videoData.top, videoData.width, videoData.height);
-						/* if (this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
-							ctx.clearRect(this._videoDimensions[0].left, this._videoDimensions[0].top, this._videoDimensions[0].width, this._videoDimensions[0].height);
-						} */
+						this.updateBgColor(this._bgColors[idx], ctx, videoData);
 						publishEvent('b', 'canvas.created', true);
 						break;
 				}
