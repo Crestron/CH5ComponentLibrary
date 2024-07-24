@@ -911,13 +911,13 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @param canvas is canvas object
 	 * @param ctx is canvas context
 	 */
-	private scaleToFill(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any, page: boolean) {
+	private scaleToFill(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any) {
 		const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
 		const x = canvas.width / 2 - (img.width / 2) * scale;
 		const y = canvas.height / 2 - (img.height / 2) * scale;
 		ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
 		setTimeout(() => {
-			if (page && this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
+			if (this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
 				ctx.clearRect(this._videoDimensions[0].left, this._videoDimensions[0].top, this._videoDimensions[0].width, this._videoDimensions[0].height);
 			}
 		}, 100);
@@ -930,13 +930,13 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @param canvas is canvas object
 	 * @param ctx is canvas context
 	 */
-	private scaleToFit(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any, page: boolean) {
+	private scaleToFit(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any) {
 		const scale = Math.min(canvas.width / img.width, canvas.height / img.height);
 		const x = canvas.width / 2 - (img.width / 2) * scale;
 		const y = canvas.height / 2 - (img.height / 2) * scale;
 		ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
 		setTimeout(() => {
-			if (page && this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
+			if (this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
 				ctx.clearRect(this._videoDimensions[0].left, this._videoDimensions[0].top, this._videoDimensions[0].width, this._videoDimensions[0].height);
 			}
 		}, 100);
@@ -949,10 +949,10 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @param canvas is canvas object
 	 * @param ctx is canvas context
 	 */
-	private scaleToStretch(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any, page: boolean) {
+	private scaleToStretch(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any) {
 		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 		setTimeout(() => {
-			if (page && this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
+			if (this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
 				ctx.clearRect(this._videoDimensions[0].left, this._videoDimensions[0].top, this._videoDimensions[0].width, this._videoDimensions[0].height);
 			}
 		}, 100);
@@ -965,16 +965,16 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @param canvas is canvas object
 	 * @param ctx is canvas context
 	 */
-	private updateBgImageScale(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any, page: boolean = false) {
+	private updateBgImageScale(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any) {
 		switch (this._scale) {
 			case 'fill':
-				this.scaleToFill(img, canvas, ctx, page);
+				this.scaleToFill(img, canvas, ctx);
 				break;
 			case 'fit':
-				this.scaleToFit(img, canvas, ctx, page);
+				this.scaleToFit(img, canvas, ctx);
 				break;
 			case 'stretch':
-				this.scaleToStretch(img, canvas, ctx, page);
+				this.scaleToStretch(img, canvas, ctx);
 				break;
 			default:
 				this.info('Scale value is wrong. it should be fill, fit or stretch(default)');
@@ -988,7 +988,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @param canvas is canvas object
 	 * @param ctx is canvas context
 	 */
-	private updateBgImageRepeat(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any, page: boolean) {
+	private updateBgImageRepeat(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any, videoData: any) {
 		switch (this._repeat) {
 			case 'repeat':
 			case 'repeat-x':
@@ -997,7 +997,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 				ctx.fillStyle = ctx.createPattern(img, this._repeat);
 				ctx.fillRect(0, 0, canvas.width, canvas.height);
 				setTimeout(() => {
-					if (page && this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
+					if (videoData && this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
 						ctx.clearRect(this._videoDimensions[0].left, this._videoDimensions[0].top, this._videoDimensions[0].width, this._videoDimensions[0].height);
 					}
 				}, 100);
@@ -1270,11 +1270,11 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @param img is background image object
 	 * @param ctx is canvas context
 	 */
-	private updateBgImage(img: HTMLImageElement, ctx: any, page: boolean = false) {
+	private updateBgImage(img: HTMLImageElement, ctx: any, videoData: any = null) {
 		if (!_.isNil(this._repeat)) {
-			this.updateBgImageRepeat(img, this._elCanvas, ctx, page);
+			this.updateBgImageRepeat(img, this._elCanvas, ctx, videoData);
 		} else {
-			this.updateBgImageScale(img, this._elCanvas, ctx, page);
+			this.updateBgImageScale(img, this._elCanvas, ctx);
 		}
 	}
 
