@@ -1054,7 +1054,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       }
     } else {
       this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
-      this.refillBackground();
+      //this.refillBackground();
     }
   }
 
@@ -1206,12 +1206,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
           this.checkUrlAndPublishVideo();
         } else {
           this.isVideoPublished = true;
-          if (this.responseObj?.id && this.responseObj?.id !== this.ch5UId && this.responseObj?.status === CH5VideoUtils.VIDEO_ACTION.STARTED) {
+         /*  if (this.responseObj?.id && this.responseObj?.id !== this.ch5UId && this.responseObj?.status === CH5VideoUtils.VIDEO_ACTION.STARTED) {
             publishEvent('o', 'Csig.video.request', this.videoStopObjJSON('stop', this.responseObj?.id));
             setTimeout(() => { publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(CH5VideoUtils.VIDEO_ACTION.START)); }, 300);
-          } else {
+          } else { */
             publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(CH5VideoUtils.VIDEO_ACTION.START));
-          }
+         // }
         }
         break;
       case CH5VideoUtils.VIDEO_ACTION.STOP:
@@ -1368,9 +1368,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
       width: this._elContainer.getBoundingClientRect().width,
       height: this._elContainer.getBoundingClientRect().height,
     };
-
     // avoid calls before proper initialization
-    if (videoInfo.width <= 0 || videoInfo.height <= 0 || videoInfo.id === '') {
+    /* if (videoInfo.width <= 0 || videoInfo.height <= 0 || videoInfo.id === '') {
+      return;
+    } */
+    if (videoInfo.id === '') {
       return;
     }
 
@@ -1676,11 +1678,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
   }
 
-  private refillBackground() {
-    this.parentCh5Background.length = 0;
-    this.getParentBackground(this);
-    Array.from(this.parentCh5Background).forEach(bg => bg.refillBackground())
-  }
+    /* private refillBackground() {
+      this.parentCh5Background.length = 0;
+      this.getParentBackground(this);
+      Array.from(this.parentCh5Background).forEach(bg => bg.refillBackground());
+    } */
 
   private setErrorMessages() {
     this.videoErrorMessages.set(0, "success");
