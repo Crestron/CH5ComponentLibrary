@@ -695,7 +695,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	public constructor() {
 		super();
 		this._crId = Ch5Uid.getUid();
-		this.logger = new Ch5CommonLog(false, false, this._crId);
+		this.logger = new Ch5CommonLog(false, false, this._crId, this.id);
 		const cssClasses: string[] = [];
 
 		cssClasses.push(this.primaryCssClass + '--disabled');

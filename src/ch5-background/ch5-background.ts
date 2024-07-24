@@ -916,6 +916,11 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 		const x = canvas.width / 2 - (img.width / 2) * scale;
 		const y = canvas.height / 2 - (img.height / 2) * scale;
 		ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+		setTimeout(() => {
+			if (this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
+				ctx.clearRect(this._videoDimensions[0].left, this._videoDimensions[0].top, this._videoDimensions[0].width, this._videoDimensions[0].height);
+			}
+		},100);
 		publishEvent('b', 'canvas.created', true);
 	}
 
@@ -930,6 +935,11 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 		const x = canvas.width / 2 - (img.width / 2) * scale;
 		const y = canvas.height / 2 - (img.height / 2) * scale;
 		ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+		setTimeout(() => {
+			if (this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
+				ctx.clearRect(this._videoDimensions[0].left, this._videoDimensions[0].top, this._videoDimensions[0].width, this._videoDimensions[0].height);
+			}
+		},100);
 		publishEvent('b', 'canvas.created', true);
 	}
 
@@ -941,6 +951,11 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 */
 	private scaleToStretch(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any) {
 		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+		setTimeout(() => {
+			if (this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
+				ctx.clearRect(this._videoDimensions[0].left, this._videoDimensions[0].top, this._videoDimensions[0].width, this._videoDimensions[0].height);
+			}
+		},100);
 		publishEvent('b', 'canvas.created', true);
 	}
 
@@ -981,6 +996,11 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 			case 'no-repeat':
 				ctx.fillStyle = ctx.createPattern(img, this._repeat);
 				ctx.fillRect(0, 0, canvas.width, canvas.height);
+				setTimeout(() => {
+					if (this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
+						ctx.clearRect(this._videoDimensions[0].left, this._videoDimensions[0].top, this._videoDimensions[0].width, this._videoDimensions[0].height);
+					}
+				}, 100);
 				publishEvent('b', 'canvas.created', true);
 				break;
 			default:
@@ -1009,18 +1029,27 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * Manage Video dimensions
 	 */
 	private manageVideoInfo(response: ICh5VideoBackground) {
+		console.log('RRRRRRRRRRRR',this._videoDimensions);
 		const index = this._videoDimensions.findIndex((item: ICh5VideoBackground) => item.id === response.id);
 		if (response.action === this.VIDEO_ACTION.STARTED || response.action === this.VIDEO_ACTION.RESIZE) {
 			if (index > -1) {
 				this._videoDimensions[index] = response;
+				console.log('adding tttttt', this._videoDimensions);
 				this.refillBackground();
 			} else {
 				this._videoDimensions.push(response);
+				
+				console.log('adding rrrrrr', response, '-------', this._videoDimensions);
 				this.refillBackground();
 			}
 		} else if (response.action === this.VIDEO_ACTION.STOP) {
 			if (index >= 0) {
 				this._videoDimensions.splice(index, 1);
+				/* setTimeout(()=>{
+					if(this._videoDimensions.length === 0) {
+						this._videoDimensions = [];
+					}
+				},50); */
 				this.refillBackground();
 			}
 		}
@@ -1205,6 +1234,9 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	private updateBgColor(color: string, ctx: any) {
 		ctx.fillStyle = color;
 		ctx.fillRect(0, 0, this._elCanvas.width, this._elCanvas.height);
+		if (this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
+			ctx.clearRect(this._videoDimensions[0].left, this._videoDimensions[0].top, this._videoDimensions[0].width, this._videoDimensions[0].height);
+		}
 		publishEvent('b', 'canvas.created', true);
 	}
 
@@ -1293,7 +1325,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 
 			this._videoRes.left = Math.ceil(this._videoRes.left);
 			this._videoRes.top = Math.ceil(this._videoRes.top);
-
+			console.log('videoBGAction manageVideoInfo sssssssssss', this._videoRes)
 			this.manageVideoInfo(this._videoRes);
 
 			if (this._videoDimensions.length) {

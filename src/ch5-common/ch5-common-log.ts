@@ -9,7 +9,7 @@ import { Ch5Debug } from "../ch5-core";
 
 export class Ch5CommonLog {
 
-  constructor(public isDebugEnabled: boolean, public isTraceEnabled: boolean = false, public crId: string = "") { }
+  constructor(public isDebugEnabled: boolean, public isTraceEnabled: boolean = false, public crId: string = "", public componentId: string="") { }
 
   public start(message: string, componentName: string = "") {
     // Trace takes preference over Debug
@@ -18,7 +18,7 @@ export class Ch5CommonLog {
       if (Ch5Debug.CONSOLE_OVERRIDDEN === false) {
         ts = (new Date()).toISOString();
       }
-      console.group((componentName !== "" ? componentName + " " : "") + ts + ": " + this.crId + ": " + message);
+      console.group((componentName !== "" ? componentName + " " : "") + ts + ": " + this.componentId + ": " + this.crId + ": " + message);
     } else if (this.isDebugEnabled === true) {
       this.info(message, componentName);
     }
@@ -53,7 +53,7 @@ export class Ch5CommonLog {
               callerName = "Method is " + callerName + ":";
             }
           }
-          console.log(ts + ':' + this.crId + ':' + callerName + ':', message);
+          console.log(ts + ':' + this.crId +  ':' + this.componentId + ':' + callerName + ':', message);
         } catch (e) {
           console.log(ts + ':' + this.crId + ':', message);
         }
