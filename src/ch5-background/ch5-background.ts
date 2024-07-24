@@ -911,16 +911,16 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @param canvas is canvas object
 	 * @param ctx is canvas context
 	 */
-	private scaleToFill(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any) {
+	private scaleToFill(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any, page: boolean) {
 		const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
 		const x = canvas.width / 2 - (img.width / 2) * scale;
 		const y = canvas.height / 2 - (img.height / 2) * scale;
 		ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
 		setTimeout(() => {
-			if (this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
+			if (page && this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
 				ctx.clearRect(this._videoDimensions[0].left, this._videoDimensions[0].top, this._videoDimensions[0].width, this._videoDimensions[0].height);
 			}
-		},100);
+		}, 100);
 		publishEvent('b', 'canvas.created', true);
 	}
 
@@ -930,16 +930,16 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @param canvas is canvas object
 	 * @param ctx is canvas context
 	 */
-	private scaleToFit(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any) {
+	private scaleToFit(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any, page: boolean) {
 		const scale = Math.min(canvas.width / img.width, canvas.height / img.height);
 		const x = canvas.width / 2 - (img.width / 2) * scale;
 		const y = canvas.height / 2 - (img.height / 2) * scale;
 		ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
 		setTimeout(() => {
-			if (this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
+			if (page && this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
 				ctx.clearRect(this._videoDimensions[0].left, this._videoDimensions[0].top, this._videoDimensions[0].width, this._videoDimensions[0].height);
 			}
-		},100);
+		}, 100);
 		publishEvent('b', 'canvas.created', true);
 	}
 
@@ -949,13 +949,13 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @param canvas is canvas object
 	 * @param ctx is canvas context
 	 */
-	private scaleToStretch(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any) {
+	private scaleToStretch(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any, page: boolean) {
 		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 		setTimeout(() => {
-			if (this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
+			if (page && this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
 				ctx.clearRect(this._videoDimensions[0].left, this._videoDimensions[0].top, this._videoDimensions[0].width, this._videoDimensions[0].height);
 			}
-		},100);
+		}, 100);
 		publishEvent('b', 'canvas.created', true);
 	}
 
@@ -965,16 +965,16 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @param canvas is canvas object
 	 * @param ctx is canvas context
 	 */
-	private updateBgImageScale(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any) {
+	private updateBgImageScale(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any, page: boolean = false) {
 		switch (this._scale) {
 			case 'fill':
-				this.scaleToFill(img, canvas, ctx);
+				this.scaleToFill(img, canvas, ctx, page);
 				break;
 			case 'fit':
-				this.scaleToFit(img, canvas, ctx);
+				this.scaleToFit(img, canvas, ctx, page);
 				break;
 			case 'stretch':
-				this.scaleToStretch(img, canvas, ctx);
+				this.scaleToStretch(img, canvas, ctx, page);
 				break;
 			default:
 				this.info('Scale value is wrong. it should be fill, fit or stretch(default)');
@@ -988,7 +988,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @param canvas is canvas object
 	 * @param ctx is canvas context
 	 */
-	private updateBgImageRepeat(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any) {
+	private updateBgImageRepeat(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any, page: boolean) {
 		switch (this._repeat) {
 			case 'repeat':
 			case 'repeat-x':
@@ -997,7 +997,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 				ctx.fillStyle = ctx.createPattern(img, this._repeat);
 				ctx.fillRect(0, 0, canvas.width, canvas.height);
 				setTimeout(() => {
-					if (this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
+					if (page && this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
 						ctx.clearRect(this._videoDimensions[0].left, this._videoDimensions[0].top, this._videoDimensions[0].width, this._videoDimensions[0].height);
 					}
 				}, 100);
@@ -1040,8 +1040,9 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 			}
 		} else if (response.action === this.VIDEO_ACTION.STOP) {
 			if (index >= 0) {
+				const dimensions = this._videoDimensions[index];
 				this._videoDimensions.splice(index, 1);
-				this.refillBackground();
+				this.refillBackgroundforOneVideo(dimensions);
 			}
 		}
 	}
@@ -1225,9 +1226,9 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	private updateBgColor(color: string, ctx: any) {
 		ctx.fillStyle = color;
 		ctx.fillRect(0, 0, this._elCanvas.width, this._elCanvas.height);
-		if (this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
+		/* if (page && this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
 			ctx.clearRect(this._videoDimensions[0].left, this._videoDimensions[0].top, this._videoDimensions[0].width, this._videoDimensions[0].height);
-		}
+		} */
 		publishEvent('b', 'canvas.created', true);
 	}
 
@@ -1268,11 +1269,11 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @param img is background image object
 	 * @param ctx is canvas context
 	 */
-	private updateBgImage(img: HTMLImageElement, ctx: any) {
+	private updateBgImage(img: HTMLImageElement, ctx: any, page: boolean = false) {
 		if (!_.isNil(this._repeat)) {
-			this.updateBgImageRepeat(img, this._elCanvas, ctx);
+			this.updateBgImageRepeat(img, this._elCanvas, ctx, page);
 		} else {
-			this.updateBgImageScale(img, this._elCanvas, ctx);
+			this.updateBgImageScale(img, this._elCanvas, ctx, page);
 		}
 	}
 
@@ -1296,6 +1297,34 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 			});
 		}
 	}
+
+	/**
+	 * Re-filling background for whole page
+	 */
+	public refillBackgroundforOneVideo(videoData: any) {
+		if (this.isCanvasListValid()) {
+			this._canvasList.forEach((canvas: HTMLCanvasElement, idx: number) => {
+				const ctx: any = canvas.getContext('2d');
+				switch (this._canvasList.length) {
+					case this._imgUrls.length:
+						this._elImages = [...this._elBackupImages];
+						this.updateBgImage(this._elImages[idx], ctx, videoData);
+						break;
+					case this._bgColors.length:
+						//this.updateBgColor(this._bgColors[idx], ctx, false);
+						ctx.fillStyle = this._bgColors[idx];
+						ctx.fillRect(videoData.left, videoData.top, videoData.width, videoData.height);
+						/* if (this._videoDimensions.length === 1 && this._videoDimensions[0].action === "started") {
+							ctx.clearRect(this._videoDimensions[0].left, this._videoDimensions[0].top, this._videoDimensions[0].width, this._videoDimensions[0].height);
+						} */
+						publishEvent('b', 'canvas.created', true);
+						break;
+				}
+				this._isRefilled = true;
+			});
+		}
+	}
+
 
 	/**
 	 * Cutting background as per video dimension and position

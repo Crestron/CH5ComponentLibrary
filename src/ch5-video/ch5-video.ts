@@ -906,7 +906,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
           parentCh5Background.push(children as Ch5Background);
         }
       })
-      Array.from(parentCh5Background).forEach(bg => bg.refillBackground())
+      Array.from(parentCh5Background).forEach(bg => bg.refillBackground());
     }
     this.selectedVideo = 0;
     this.maxVideoCount = 1;
