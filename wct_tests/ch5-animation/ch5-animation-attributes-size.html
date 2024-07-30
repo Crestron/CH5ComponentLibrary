@@ -6,16 +6,17 @@
   <script src="/webcomponentsjs/webcomponents-lite.js"></script>
   <script src="/bower_components/web-component-tester/browser.js"></script>
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
-
+  <script src="/wct_tests/js/helpers.js"></script>
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
 </head>
 
 <body>
   <test-fixture id="ch5-animation-size-attributes">
     <template>
-      <ch5-animation></ch5-animation>
+      <ch5-animation animationStyle="ring"></ch5-animation>
     </template>
   </test-fixture>
+  
   <script>
     suite('ch5-animation-size-attributes-value', () => {
       let ch5Animation;
@@ -32,7 +33,25 @@
           expect(ch5Animation.getAttribute('size')).to.be.equal(expectedResult[i]);
         });
       });
-
+      test('Check class for "primary"', () => {
+        expect(ch5Animation.children[0].classList.contains('ch5-animation')).to.be.equal(true);
+        });
+      test('Check class for "regular" size', () => {
+        ch5Animation.setAttribute('size', 'regular');
+        expect(ch5Animation.children[0].children[0].classList.contains('ch5-animation--size-regular')).to.be.equal(true);
+        });
+      test('Check class for "small" size', () => {
+        ch5Animation.setAttribute('size', 'small');
+        expect(ch5Animation.children[0].children[0].classList.contains('ch5-animation--size-small')).to.be.equal(true);
+      });
+      test('Check class for "large" size', () => {
+        ch5Animation.setAttribute('size', 'large');
+        expect(ch5Animation.children[0].children[0].classList.contains('ch5-animation--size-large')).to.be.equal(true);
+      });
+      test('Check class for "x-large" size', () => {
+        ch5Animation.setAttribute('size', 'x-large');
+        expect(ch5Animation.children[0].children[0].classList.contains('ch5-animation--size-x-large')).to.be.equal(true);
+      });
     });
   </script>
 </body>

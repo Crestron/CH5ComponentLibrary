@@ -5,11 +5,12 @@
   <meta charset="utf-8">
   <script src="/webcomponentsjs/webcomponents-lite.js"></script>
   <script src="/bower_components/web-component-tester/browser.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
 </head>
 
 <body>
   <script>
-    WCT.loadSuites([
+    executeTestCases([
       'ch5-subpage-reference-list-attributes.html',
       'ch5-subpage-reference-list-attributes-endless.html',
       'ch5-subpage-reference-list-attributes-centerItems.html',
@@ -19,7 +20,7 @@
       'ch5-subpage-reference-list-attributes-stretch.html',
       'ch5-subpage-reference-list-attributes-numberOfItems.html',
       'ch5-subpage-reference-list-attributes-receiveStateNumberOfItems.html',
-      'ch5-subpage-reference-list-attributes-booleanJoinIncrement.html', 
+      'ch5-subpage-reference-list-attributes-booleanJoinIncrement.html',
       'ch5-subpage-reference-list-attributes-numericJoinIncrement.html',
       'ch5-subpage-reference-list-attributes-stringJoinIncrement.html',
       'ch5-subpage-reference-list-attributes-orientation.html'

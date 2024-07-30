@@ -1,44 +1,47 @@
 <!doctype html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <script src="/webcomponentsjs/webcomponents-lite.js"></script>
     <script src="/bower_components/web-component-tester/browser.js"></script>
     <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
-
+    <script src="/wct_tests/js/helpers.js"></script>
     <script src="/build_bundles/umd/cr-com-lib.js"></script>
 </head>
+
 <body>
 
-<script>
-    suite('The components must not change the DOM in their constructors', function() {
+    <script>
+        suite('The components must not change the DOM in their constructors', function () {
 
-        const availableComponents = [
-            'ch5-button',
-            'ch5-form',
-            'ch5-image',
-            'ch5-list',
-            'ch5-modal-dialog',
-            'ch5-overlay-panel',
-            'ch5-select',
-            'ch5-slider',
-            'ch5-spinner',
-            'ch5-textinput',
-            'ch5-toggle',
-            'ch5-triggerview'
-        ];
+            const availableComponents = [
+                'ch5-button',
+                'ch5-form',
+                'ch5-image',
+                'ch5-list',
+                'ch5-modal-dialog',
+                'ch5-overlay-panel',
+                'ch5-select',
+                'ch5-slider',
+                'ch5-spinner',
+                'ch5-textinput',
+                'ch5-toggle',
+                'ch5-triggerview'
+            ];
 
-        availableComponents.forEach((componentName,i)=>{
-            test(`component: "${componentName}"`, function() {
-                let testCreateElement = function(){
-                    const c = document.createElement(componentName);
-                };
-                setTimeout(() => {
-                    expect(testCreateElement).not.to.throw();    
-                }, 40);
+            availableComponents.forEach((componentName, i) => {
+                test(`component: "${componentName}"`, function () {
+                    let testCreateElement = function () {
+                        const c = document.createElement(componentName);
+                    };
+                    setTimeout(() => {
+                        expect(testCreateElement).not.to.throw();
+                    }, 40);
+                });
             });
         });
-    });
-</script>
+    </script>
 </body>
+
 </html>

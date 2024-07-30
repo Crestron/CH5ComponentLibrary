@@ -18,8 +18,8 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   //#region Variables
   // ClassList Prefix
-  public static readonly ROWS_CLASSLIST_PREFIX: string = '--rows-';
-  public static readonly COLUMNS_CLASSLIST_PREFIX: string = '--columns-';
+  //public static readonly ROWS_CLASSLIST_PREFIX: string = '--rows-';
+  //public static readonly COLUMNS_CLASSLIST_PREFIX: string = '--columns-';
   public static readonly SCROLLBAR_CLASSLIST_PREFIX: string = '--scrollbar-';
   public static readonly CENTER_ITEMS_CLASSLIST_PREFIX: string = '--center-items-';
 
@@ -364,7 +364,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   // Default Row and Column value
   private rowClassValue: number = 1;
-  private columnsClassValue: number = 1;
+  private columnClassValue: number = 1;
 
   private showSignalHolder: any = [];
   private loadSubpageForShow: boolean = false;
@@ -709,22 +709,23 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         const key = attributeChangedProperty.name;
         thisRef[key] = newValue;
       } else {
-        if (attr.toLowerCase() === "receivestatecustomclass") {
+        attr = attr.toLowerCase();
+        if (attr === "receivestatecustomclass") {
           if (this.useContractForCustomClass === false) {
             super.attributeChangedCallback(attr, oldValue, newValue);
             this.previousSignalValues.receiveStateCustomClass = this.receiveStateCustomClass;
           }
-        } else if (attr.toLowerCase() === "receivestatecustomstyle") {
+        } else if (attr === "receivestatecustomstyle") {
           if (this.useContractForCustomStyle === false) {
             super.attributeChangedCallback(attr, oldValue, newValue);
             this.previousSignalValues.receiveStateCustomStyle = this.receiveStateCustomStyle;
           }
-        } else if (attr.toLowerCase() === "receivestateshow") {
+        } else if (attr === "receivestateshow") {
           if (this.useContractForShow === false) {
             super.attributeChangedCallback(attr, oldValue, newValue);
             this.previousSignalValues.receiveStateShow = this.receiveStateShow;
           }
-        } else if (attr.toLowerCase() === "receivestateenable") {
+        } else if (attr === "receivestateenable") {
           if (this.useContractForEnable === false) {
             super.attributeChangedCallback(attr, oldValue, newValue);
             this.previousSignalValues.receiveStateEnable = this.receiveStateEnable;
@@ -775,7 +776,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
    * function to setup a subscription for a change 
    * This functionality is primarily to support CCIDE update the template definition after a template 
    * instance has been put onto the CCIDE canvas. 
-   * The implemetnation is 'good enough' for design time to show updated widget, but in a runtime environment,
+   * The implementation is 'good enough' for design time to show updated widget, but in a runtime environment,
    * it will leak references over time. 
    */
   private listenForCh5SubpageReferenceListRefreshRequests() {
@@ -784,36 +785,25 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this._refreshSubId = ch5subpageReferenceListSubject.subscribe((ch5SubpageReferenceListId: string) => {
       this.info(`Ch5SubpageReferenceList.listenForCh5SubpageReferenceListRefreshRequests() new request for ${ch5SubpageReferenceListId}`);
 
-      if (!this.shouldRefresh(ch5SubpageReferenceListId)) {
-        return;
+      if (this.getAttribute('widgetId') === ch5SubpageReferenceListId) {
+        this.initializations();
       }
-
-      this.initializations(true);
     });
   }
 
-  private shouldRefresh(id: string) {
-    this.info(`Ch5SubpageReferenceList.shouldRefresh() got called for id ${id}`);
-    return this.getAttribute('widgetId') === id;
-  }
+  private initializations(): void {
 
-  private initializations(force?: boolean): void {
-
-    this.info(`Ch5SubpageReferenceList.initializations(${force === true})`);
-
-    if (force === true || !this.widgetId) {
-      if (this._elContainer.parentElement !== this) {
-        this._elContainer.classList.add('ch5-subpage-reference-list');
-        this.appendChild(this._elContainer);
-      }
-      this.checkInternalHTML();
-      this.attachEventListeners();
-      this.initAttributes();
-      this.handleWidgetID();
-      this.initCommonMutationObserver(this);
-      this.debounceSubpageDisplay();
-      this.info('Ch5SubpageReferenceList --- Initialization Finished');
+    if (this._elContainer.parentElement !== this) {
+      this._elContainer.classList.add('ch5-subpage-reference-list');
+      this.appendChild(this._elContainer);
     }
+    this.checkInternalHTML();
+    this.attachEventListeners();
+    this.initAttributes();
+    this.handleWidgetID();
+    this.initCommonMutationObserver(this);
+    this.debounceSubpageDisplay();
+    this.info('Ch5SubpageReferenceList --- Initialization Finished');
 
   }
 
@@ -894,14 +884,13 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.startY = e.pageY - this._elContainer.offsetTop;
     this.scrollListLeft = this._elContainer.scrollLeft;
     this.scrollListTop = this._elContainer.scrollTop;
-  }
-
-  private handleMouseUpAndLeave = () => {
+  };
+  private handleMouseUpAndLeave = this.debounce(() => {
     this.isDown = false;
     this._elContainer.classList.remove('active');
-  }
+  }, 10);
 
-  private handleMouseMove = (e: MouseEvent) => {
+  private handleMouseMove = this.debounce((e: MouseEvent) => {
     if (!this.isDown) { return; }
     e.preventDefault();
     const x = e.pageX - this._elContainer.offsetLeft;
@@ -910,7 +899,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     const walkY = (y - this.startY) * 3;
     this._elContainer.scrollLeft = this.scrollListLeft - walkX;
     this._elContainer.scrollTop = this.scrollListTop - walkY;
-  }
+  }, 10);
 
   private handleScrollEvent = () => {
     // update the scrollbar width and position
@@ -932,7 +921,8 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     } else if (this.loadItems === "load-new") {
       this.scrollHelperForNew();
     }
-  }
+  };
+
 
   private scrollHelperForNew() {
     if (this.dir === 'rtl' && this.orientation === 'horizontal') {
@@ -992,7 +982,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   }
 
   private scrollHelper() {
-
     if (this.dir === 'rtl' && this.orientation === 'horizontal') {
       const { offsetWidth, scrollLeft, scrollWidth } = this._elContainer;
       if (scrollWidth - offsetWidth < this.subpageWidth) { return; }
@@ -1326,25 +1315,31 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     if (this.stretch === 'both') { this.stretch = this.orientation === 'horizontal' ? this.rows === 1 ? 'both' : null : this.columns === 1 ? 'both' : null; }
     if (this.orientation === "horizontal") {
       // Remove Previous loaded class for both rows and columns
-      this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
-      this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.COLUMNS_CLASSLIST_PREFIX + this.columnsClassValue);
+      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
+      this._elContainer.style.removeProperty("grid-template-columns");
+      this._elContainer.style.removeProperty("grid-template-rows");
 
       // Calculate New Row class value
       this.rowClassValue = this.rows < this.numberOfItems ? this.rows : this.numberOfItems;
 
       // Add the new class to the container
-      this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      // this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      this._elContainer.style.setProperty("grid-template-rows", "repeat(" + this.rowClassValue + ", 1fr)");
     } else {
 
       // Remove Previous loaded class for both rows and columns
-      this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.COLUMNS_CLASSLIST_PREFIX + this.columnsClassValue);
-      this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
+      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      this._elContainer.style.removeProperty("grid-template-columns");
+      this._elContainer.style.removeProperty("grid-template-rows");
 
       // Calculate New Row class value
-      this.columnsClassValue = this.columns < this.numberOfItems ? this.columns : this.numberOfItems;
+      this.columnClassValue = this.columns < this.numberOfItems ? this.columns : this.numberOfItems;
 
       // Add the new class to the container
-      this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.COLUMNS_CLASSLIST_PREFIX + this.columnsClassValue);
+      // this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
+      this._elContainer.style.setProperty("grid-template-columns", "repeat(" + this.columnClassValue + ", 1fr)");
     }
     this.debounceSubpageDisplay();
   }
@@ -1818,7 +1813,9 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
     this._elContainer.classList.add(Ch5SubpageReferenceList.ELEMENT_NAME + Ch5SubpageReferenceList.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
     // Set default rows 
-    this._elContainer.classList.add(Ch5SubpageReferenceList.ELEMENT_NAME + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rows);
+    // this._elContainer.classList.add(Ch5SubpageReferenceList.ELEMENT_NAME + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rows);
+    this._elContainer.style.setProperty("grid-template-rows", "repeat(" + this.rows + ", 1fr)");
+
     // Sets default scroll bar class
     this._elContainer.classList.add(Ch5SubpageReferenceList.ELEMENT_NAME + Ch5SubpageReferenceList.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
     // sets default center item class

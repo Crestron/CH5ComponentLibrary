@@ -6,7 +6,7 @@
   <script src="/webcomponentsjs/webcomponents-lite.js"></script>
   <script src="/bower_components/web-component-tester/browser.js"></script>
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
-
+  <script src="/wct_tests/js/helpers.js"></script>    
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
 </head>
 
@@ -303,8 +303,8 @@
         const contractName = ch5ButtonList.getAttribute('contractname');
         flush(() => {
           setTimeout(() => {
-            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateiconurl')).to.be.equal(`${contractName}.Button1IconUrl`);
-            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateIconUrl')).to.be.equal(`${contractName}.Button2IconUrl`);
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateiconurl')).to.be.equal(`${contractName}.Button1IconURL`);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateIconUrl')).to.be.equal(`${contractName}.Button2IconURL`);
             done();
           }, 200);
         });
@@ -359,8 +359,8 @@
         const contractName = ch5ButtonList.getAttribute('contractname');
         flush(() => {
           setTimeout(() => {
-            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateiconurl')).to.be.equal(`${contractName}.Button1IconUrl`);
-            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateIconUrl')).to.be.equal(`${contractName}.Button2IconUrl`);
+            expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receivestateiconurl')).to.be.equal(`${contractName}.Button1IconURL`);
+            expect(ch5ButtonList.querySelectorAll('ch5-button')[1].getAttribute('receiveStateIconUrl')).to.be.equal(`${contractName}.Button2IconURL`);
             done();
           }, 200);
         });
@@ -828,7 +828,7 @@
       });
 
       test('When usecontractforitemshow is true', (done) => {
-        ch5ButtonList.setAttribute('usecontractforitemshow', true);
+        ch5ButtonList.setAttribute('usecontractforitemshow', "true");
         const contractName = ch5ButtonList.getAttribute('contractname');
         flush(() => {
           setTimeout(() => {
@@ -840,7 +840,7 @@
       });
 
       test('When usecontractforitemshow is false', (done) => {
-        ch5ButtonList.setAttribute('usecontractforitemshow', false);
+        ch5ButtonList.setAttribute('usecontractforitemshow', "false");
         flush(() => {
           setTimeout(() => {
             expect(ch5ButtonList.querySelector('ch5-button').getAttribute('receiveStateShow')).to.be.equal('btn0Show');

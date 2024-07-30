@@ -14,6 +14,23 @@ function createRandomString(lengthOfOutput) {
   return result;
 }
 
+function sleepTimer(time) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, time || 1000);
+  });
+}
+
+async function executeTestCases(pagesToExecute) {
+  for (let i = 0; i < pagesToExecute.length; i++) {
+    const newVal = [];
+    newVal.push(pagesToExecute[i]);
+    WCT.loadSuites(newVal);
+    // console.log("A:" + i);
+    // waitFor( function() { sleepTimer(2000);}, function() { }, 10000);
+    // await sleepTimer(2000);
+  }
+}
+
 /**
  * Get the list of attributes for a tag
  * @param {*} id 
@@ -57,5 +74,11 @@ function triggerEvent(el, type) {
     var e = document.createEventObject();
     e.eventType = type;
     el.fireEvent('on' + e.eventType, e);
+  }
+}
+
+function loopWithABreak(data) {
+  for (let i = 0; i < data.length; i++ ) {
+    console.log(data[i]);
   }
 }

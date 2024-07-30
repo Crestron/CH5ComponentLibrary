@@ -6,9 +6,10 @@
   <script src="/webcomponentsjs/webcomponents-lite.js"></script>
   <script src="/bower_components/web-component-tester/browser.js"></script>
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
-
+  <script src="/wct_tests/js/helpers.js"></script>    
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
-  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
+
 </head>
 
 <body>
@@ -102,13 +103,16 @@
             setTimeout(() => {
               if (val === "500") {
                 ch5SubpageReferenceList.setAttribute('numberOfItems', 500);
-                expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--rows-" + val)).to.be.equal(true);
+                //expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--rows-" + val)).to.be.equal(true);
+                expect(getDiv(ch5SubpageReferenceList).style.gridTemplateRows).to.be.equal('repeat(500, 1fr)');
               }
               expect(ch5SubpageReferenceList.orientation).to.be.equal('horizontal');
               expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--orientation-horizontal")).to.be.equal(true);
               expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--orientation-vertical")).to.be.equal(false);
               expect(ch5SubpageReferenceList.rows).to.be.equal(Number(val));
-              expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--rows-" + val)).to.be.equal(true);
+              //expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--rows-" + val)).to.be.equal(true);
+              expect(getDiv(ch5SubpageReferenceList).style.gridTemplateRows).to.be.equal('repeat('+ Number(val) + ', 1fr)');
+
               done();
             }, 100);
           });
@@ -125,7 +129,9 @@
               expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--orientation-horizontal")).to.be.equal(true);
               expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--orientation-vertical")).to.be.equal(false);
               expect(ch5SubpageReferenceList.rows).to.be.equal(Number(expectedValue));
-              expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--rows-" + expectedValue)).to.be.equal(true);
+              //expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--rows-" + expectedValue)).to.be.equal(true);
+              expect(getDiv(ch5SubpageReferenceList).style.gridTemplateRows).to.be.equal('repeat(1, 1fr)');
+
               done();
             }, 100);
           });
@@ -140,13 +146,16 @@
             setTimeout(() => {
               if (val === "500") {
                 ch5SubpageReferenceList.setAttribute('numberOfItems', 500);
-                expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--columns-" + val)).to.be.equal(true);
+                //expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--columns-" + val)).to.be.equal(true);
+                expect(getDiv(ch5SubpageReferenceList).style.gridTemplateColumns).to.be.equal('repeat(500, 1fr)');
+
               }
               expect(ch5SubpageReferenceList.orientation).to.be.equal('vertical');
               expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--orientation-vertical")).to.be.equal(true);
               expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--orientation-horizontal")).to.be.equal(false);
               expect(ch5SubpageReferenceList.columns).to.be.equal(Number(val));
-              expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--columns-" + val)).to.be.equal(true);
+              //expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--columns-" + val)).to.be.equal(true);
+              expect(getDiv(ch5SubpageReferenceList).style.gridTemplateColumns).to.be.equal('repeat('+ Number(val) + ', 1fr)');
               done();
             }, 100);
           });
@@ -163,7 +172,8 @@
               expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--orientation-vertical")).to.be.equal(true);
               expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--orientation-horizontal")).to.be.equal(false);
               expect(ch5SubpageReferenceList.columns).to.be.equal(Number(expectedValue));
-              expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--columns-" + expectedValue)).to.be.equal(true);
+              //expect(ch5SubpageReferenceList.children[0].classList.contains("ch5-subpage-reference-list--columns-" + expectedValue)).to.be.equal(true);
+              expect(getDiv(ch5SubpageReferenceList).style.gridTemplateColumns).to.be.equal('repeat(1, 1fr)');
               done();
             }, 100);
           });
@@ -176,10 +186,12 @@
             expect(ch5SubpageReferenceList1.numberOfItems).to.be.equal(20);
             expect(ch5SubpageReferenceList1.rows).to.be.equal(3);
             expect(ch5SubpageReferenceList1.orientation).to.be.equal('horizontal');
-            expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--rows-3')).to.be.equal(true);
+            //expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--rows-3')).to.be.equal(true);
+            expect(getDiv(ch5SubpageReferenceList1).style.gridTemplateRows).to.be.equal('repeat(3, 1fr)');
+
             expect(ch5SubpageReferenceList1.children[0].classList.contains('ch5-subpage-reference-list--orientation-horizontal')).to.be.equal(true);
             for (let i = 0; i < ch5SubpageReferenceList1.children[0].children.length; i++) {
-              expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].children[0].children[0].textContent).to.be.equal('tgl_' + i);
+              expect(ch5SubpageReferenceList1.children[0].children[i].children[0].children[0].children[0].children[0].textContent).to.be.equal('tgl_' + i);
             }
             done();
           }, 100);
@@ -192,10 +204,11 @@
             expect(ch5SubpageReferenceList2.numberOfItems).to.be.equal(20);
             expect(ch5SubpageReferenceList2.columns).to.be.equal(3);
             expect(ch5SubpageReferenceList2.orientation).to.be.equal('vertical');
-            expect(ch5SubpageReferenceList2.children[0].classList.contains('ch5-subpage-reference-list--columns-3')).to.be.equal(true);
+            //expect(ch5SubpageReferenceList2.children[0].classList.contains('ch5-subpage-reference-list--columns-3')).to.be.equal(true);
+            expect(getDiv(ch5SubpageReferenceList2).style.gridTemplateColumns).to.be.equal('repeat(3, 1fr)');
             expect(ch5SubpageReferenceList2.children[0].classList.contains('ch5-subpage-reference-list--orientation-vertical')).to.be.equal(true);
             for (let i = 0; i < ch5SubpageReferenceList2.children[0].children.length; i++) {
-              expect(ch5SubpageReferenceList.children[0].children[i].children[0].children[0].children[0].children[0].textContent).to.be.equal('tgl_' + i);
+              expect(ch5SubpageReferenceList2.children[0].children[i].children[0].children[0].children[0].children[0].textContent).to.be.equal('tgl_' + i);
             }
             done();
           }, 100);

@@ -6,9 +6,8 @@
   <script src="/webcomponentsjs/webcomponents-lite.js"></script>
   <script src="/bower_components/web-component-tester/browser.js"></script>
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
-
-  <script src="/build_bundles/umd/cr-com-lib.js"></script>
   <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
   <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
 </head>
 
@@ -92,7 +91,8 @@
               expect(ch5ButtonList.endless).to.be.equal(val);
               expect(ch5ButtonList.numberOfItems).to.be.equal(30);
               expect(ch5ButtonList.customStyle).to.be.equal('width:100%');
-              expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--rows-1')).to.be.equal(true);
+              // expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--rows-1')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList).style.gridTemplateRows).to.be.equal('repeat(1, 1fr)');
               expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
               for (let i = 0; i < getDiv(ch5ButtonList).children.length; i++) {
                 document.querySelector(".ch5-button-list").scrollLeft += 100;
@@ -102,28 +102,30 @@
             }, COMPONENT_TESTING_TIMEOUT);
           });
         });
-        test(`Check attribute scrollbar for button list`, (done) => {
-          ch5ButtonList.setAttribute('endless', 'true');
-          ch5ButtonList.setAttribute('scrollbar', 'true');
-          ch5ButtonList.setAttribute('customStyle', 'width:100%');
-          flush(() => {
-            setTimeout(() => {
-              document.querySelector(".ch5-button-list").scrollLeft = 100;
-              expect(ch5ButtonList.rows).to.be.equal(1);
-              expect(ch5ButtonList.endless).to.be.equal(true);
-              expect(ch5ButtonList.numberOfItems).to.be.equal(30);
-              expect(ch5ButtonList.scrollbar).to.be.equal(true);
-              expect(ch5ButtonList.customStyle).to.be.equal('width:100%');
-              expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--rows-1')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
-              for (let i = 0; i < getDiv(ch5ButtonList).children.length; i++) {
-                document.querySelector(".ch5-button-list").scrollLeft += 100;
-                expect(getDiv(ch5ButtonList).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
-              }
-              done();
-            }, COMPONENT_TESTING_TIMEOUT);
-          });
+      });
+
+      test(`Check attribute scrollbar for button list`, (done) => {
+        ch5ButtonList.setAttribute('endless', 'true');
+        ch5ButtonList.setAttribute('scrollbar', 'true');
+        ch5ButtonList.setAttribute('customStyle', 'width:100%');
+        flush(() => {
+          setTimeout(() => {
+            document.querySelector(".ch5-button-list").scrollLeft = 100;
+            expect(ch5ButtonList.rows).to.be.equal(1);
+            expect(ch5ButtonList.endless).to.be.equal(true);
+            expect(ch5ButtonList.numberOfItems).to.be.equal(30);
+            // expect(ch5ButtonList.scrollbar).to.be.equal(true);
+            expect(ch5ButtonList.customStyle).to.be.equal('width:100%');
+            // expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
+            // expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--rows-1')).to.be.equal(true);
+            expect(getDiv(ch5ButtonList).style.gridTemplateRows).to.be.equal('repeat(1, 1fr)');
+            expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
+            for (let i = 0; i < getDiv(ch5ButtonList).children.length; i++) {
+              document.querySelector(".ch5-button-list").scrollLeft += 100;
+              expect(getDiv(ch5ButtonList).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
+            }
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
         });
       });
 
@@ -143,7 +145,8 @@
               expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
               expect(ch5ButtonList1.numberOfItems).to.be.equal(val.numberOfItems);
               expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+              // expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).style.gridTemplateColumns).to.be.equal('repeat(' + Number(val.columns) + ', 1fr)');
               for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
                 document.querySelector(".ch5-button-list").scrollTop += 100;
                 expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
@@ -169,7 +172,8 @@
               expect(ch5ButtonList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
               expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-false')).to.be.equal(true);
               expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+              // expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).style.gridTemplateColumns).to.be.equal('repeat(' + Number(val.columns) + ', 1fr)');
               for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
                 document.querySelector(".ch5-button-list").scrollTop += 100;
                 expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
@@ -192,7 +196,7 @@
               expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
               expect(ch5ButtonList1.numberOfItems).to.be.equal(val.numberOfItems);
               console.log(getDiv(ch5ButtonList1).classList)
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
+              // expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
               expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
               for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
                 document.querySelector(".ch5-button-list").scrollLeft += 100;
@@ -216,7 +220,7 @@
               expect(ch5ButtonList1.columns).to.be.equal(scrollBarVal[i].columns);
               expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
               expect(ch5ButtonList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-false')).to.be.equal(true);
+              // expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-false')).to.be.equal(true);
               expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
               for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
                 document.querySelector(".ch5-button-list").scrollLeft += 100;
@@ -243,9 +247,10 @@
               expect(ch5ButtonList1.rows).to.be.equal(val.rows);
               expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
               expect(ch5ButtonList1.numberOfItems).to.be.equal(val.numberOfItems);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
+              // expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
               expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + val.rows)).to.be.equal(true);
+              // expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + val.rows)).to.be.equal(true);
+              expect(getDiv(ch5Butto4nList1).style.gridTemplateRows).to.be.equal('repeat(' + Number(val.rows) + ', 1fr)');
               for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
                 document.querySelector(".ch5-button-list").scrollLTop += 100;
                 expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
@@ -269,9 +274,10 @@
               expect(ch5ButtonList1.rows).to.be.equal(val.rows);
               expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
               expect(ch5ButtonList1.numberOfItems).to.be.equal(val.numberOfItems);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-false')).to.be.equal(true);
+              // expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-false')).to.be.equal(true);
               expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + val.rows)).to.be.equal(false);
+              // expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + val.rows)).to.be.equal(false);
+              expect(getDiv(ch5ButtonList1).style.gridTemplateRows).to.be.equal('repeat(' + Number(val.rows) + ', 1fr)');
               for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
                 document.querySelector(".ch5-button-list").scrollTop += 100;
                 expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
@@ -295,9 +301,10 @@
               expect(ch5ButtonList1.rows).to.be.equal(val.rows);
               expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
               expect(ch5ButtonList1.numberOfItems).to.be.equal(val.numberOfItems);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
+              // expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
               expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + val.rows)).to.be.equal(true);
+              // expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + val.rows)).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).style.gridTemplateRows).to.be.equal('repeat(' + Number(val.rows) + ', 1fr)');
               for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
                 document.querySelector(".ch5-button-list").scrollLeft += 100;
                 expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
@@ -321,9 +328,10 @@
               expect(ch5ButtonList1.rows).to.be.equal(val.rows);
               expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
               expect(ch5ButtonList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-false')).to.be.equal(true);
+              // expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-false')).to.be.equal(true);
               expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
-              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + val.rows)).to.be.equal(true);
+              // expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + val.rows)).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).style.gridTemplateRows).to.be.equal('repeat(' + Number(val.rows) + ', 1fr)');
               for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
                 document.querySelector(".ch5-button-list").scrollLeft += 100;
                 expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);

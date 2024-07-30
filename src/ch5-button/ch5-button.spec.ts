@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { expect } from 'chai';
-import {JSDOM} from 'jsdom';
+import { JSDOM } from 'jsdom';
 import 'jsdom-global/register';
 import { describe } from 'mocha';
 import { Ch5Button } from './ch5-button';
@@ -31,7 +31,7 @@ describe('Ch5Button', () => {
     it('should allow setting only valid types', () => {
         const validTypes = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
 
-        for (let i = 0,len=validTypes.length; i < len; i++) {
+        for (let i = 0, len = validTypes.length; i < len; i++) {
             cb.setAttribute('type', validTypes[i]);
             expect(cb.getAttribute('type')).to.be.equal(validTypes[i]);
         }

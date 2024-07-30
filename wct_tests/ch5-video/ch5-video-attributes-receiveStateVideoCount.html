@@ -30,24 +30,24 @@
         ch5Video = fixture('ch5-video-receiveStateVideoCount-attributes');
       });
 
-      test('receiveStateVideoCount', (done) => {
-        CrComLib.publishEvent('b', 'trigger_event_1', true);
-        flush(() => {
-          setTimeout(() => {
-            // expect(ch5Video.getAttribute('receiveStateVideoCount')).to.be.equal('1');
-            done();
-          }, 100);
-        });
-      });
-      test('receiveStateVideoCount', (done) => {
-        CrComLib.publishEvent('b', 'trigger_event_2', true);
-        flush(() => {
-          setTimeout(() => {
-            // expect(ch5Video.getAttribute('receiveStateVideoCount')).to.be.equal('0');
-            done();
-          }, 100);
-        });
-      });
+      // test('receiveStateVideoCount', (done) => {
+      //   CrComLib.publishEvent('b', 'trigger_event_1', true);
+      //   flush(() => {
+      //     setTimeout(() => {
+      //       // expect(ch5Video.getAttribute('receiveStateVideoCount')).to.be.equal('1');
+      //       done();
+      //     }, 100);
+      //   });
+      // });
+      // test('receiveStateVideoCount', (done) => {
+      //   CrComLib.publishEvent('b', 'trigger_event_2', true);
+      //   flush(() => {
+      //     setTimeout(() => {
+      //       // expect(ch5Video.getAttribute('receiveStateVideoCount')).to.be.equal('0');
+      //       done();
+      //     }, 100);
+      //   });
+      // });
 
     });
   </script>

@@ -6,7 +6,7 @@
     <script src="/webcomponentsjs/webcomponents-lite.js"></script>
     <script src="/bower_components/web-component-tester/browser.js"></script>
     <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
-
+    <script src="/wct_tests/js/helpers.js"></script>
     <script src="/build_bundles/umd/cr-com-lib.js"></script>
 </head>
 
@@ -84,46 +84,46 @@
         suite('ch5-background backgroundColor valid and invalid', () => {
             let ch5Background;
             let testCases = {
-                "green":"#008000",
-                "red":"#ff0000",
-                "orange":"#ffa500",
+                "green": "#008000",
+                "red": "#ff0000",
+                "orange": "#ffa500",
                 "#212529": "#212529",
-                "#c92a2a":"#c92a2a",
-                "#a61e4d":"#a61e4d",
-                "#862e9c":"#862e9c",
-                "#5f3dc4" : "#5f3dc4",
+                "#c92a2a": "#c92a2a",
+                "#a61e4d": "#a61e4d",
+                "#862e9c": "#862e9c",
+                "#5f3dc4": "#5f3dc4",
                 "#364fc7": "#364fc7",
-                "#087f5b":"#087f5b",
-                "rgb(255,0,0)":"#ff0000",
-                "rgb(0,255,0)":"#00ff00",
-                "rgb(0,0,255)":"#0000ff",
-                "rgba(255,0,0,0.1)":"rgba(255, 0, 0, 0.101960784313725)",
-                "rgba(0,255,0,0.1)":"rgba(0, 255, 0, 0.101960784313725)",
-                "rgba(0,0,255,0.1)":"rgba(0, 0, 255, 0.101960784313725)",
-                "hsl(0, 100%, 50%)":"#ff0000",
-                "hsl(143, 100%, 50%)":"#00ff62",
-                "hsla(120,100%,50%,0.3)":"rgba(0, 255, 0, 0.301960784313725)",
-                "hsla(120,100%,75%,0.3)":"rgba(128, 255, 128, 0.301960784313725)",
-                "mycolor":"#000000",
-                "randomcolor":"#000000",
-                "nocolor":"#000000",
-                "greene":"#000000",
-                "rede":"#000000"
+                "#087f5b": "#087f5b",
+                "rgb(255,0,0)": "#ff0000",
+                "rgb(0,255,0)": "#00ff00",
+                "rgb(0,0,255)": "#0000ff",
+                "rgba(255,0,0,0.1)": "rgba(255, 0, 0, 0.1)",
+                "rgba(0,255,0,0.1)": "rgba(0, 255, 0, 0.1)",
+                "rgba(0,0,255,0.1)": "rgba(0, 0, 255, 0.1)",
+                "hsl(0, 100%, 50%)": "#ff0000",
+                "hsl(143, 100%, 50%)": "#00ff62",
+                "hsla(120,100%,50%,0.3)": "rgba(0, 255, 0, 0.3)",
+                "hsla(120,100%,75%,0.3)": "rgba(128, 255, 128, 0.3)",
+                "mycolor": "#000000",
+                "randomcolor": "#000000",
+                "nocolor": "#000000",
+                "greene": "#000000",
+                "rede": "#000000"
             }
             setup(() => {
                 ch5Background = fixture('ch5-background-color-valid-invalid-fixture');
                 return Promise.all([customElements.whenDefined('ch5-background')]);
             });
-            Object.keys(testCases).forEach((ele)=>{
+            Object.keys(testCases).forEach((ele) => {
                 test(`check ${ele}`, (done) => {
-                    ch5Background.setAttribute("backgroundcolor",ele)
-                flush(() => {
-                    const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
-                    const ctx = canvasElm.getContext('2d');
-                    expect(ctx.fillStyle).to.be.equal(testCases[`${ele}`]);
-                    done();
+                    ch5Background.setAttribute("backgroundcolor", ele)
+                    flush(() => {
+                        const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
+                        const ctx = canvasElm.getContext('2d');
+                        expect(ctx.fillStyle).to.be.equal(testCases[`${ele}`]);
+                        done();
+                    });
                 });
-            });
             })
         });
     </script>

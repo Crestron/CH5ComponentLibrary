@@ -1,0 +1,243 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+  <test-fixture id="ch5-qrcode-size-fixture">
+    <template>
+      <ch5-qrcode size="200"></ch5-qrcode>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-qrcode-dom-fixture">
+    <template>
+      <ch5-qrcode></ch5-qrcode>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-qrcode-min-size-with-qrcode-fixture">
+    <template>
+      <ch5-qrcode size="160" qrCode="Test qrcode size"></ch5-qrcode>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-qrcode-max-size-with-qrcode-fixture">
+    <template>
+      <ch5-qrcode size="10000" qrCode="Test qrcode size"></ch5-qrcode>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-qrcode-more-max-size-with-qrcode-fixture">
+    <template>
+      <ch5-qrcode size="10001" qrCode="Test qrcode size"></ch5-qrcode>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-qrcode-size-with-qrcode-fixture">
+    <template>
+      <ch5-qrcode size="200" qrCode="Test qrcode size"></ch5-qrcode>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-qrcode-invalid-size-with-qrcode-fixture">
+    <template>
+      <ch5-qrcode size="1" qrCode="Test qrcode size"></ch5-qrcode>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-qrcode-invalid-special-size-with-qrcode-fixture">
+    <template>
+      <ch5-qrcode size="@^&" qrCode="Test qrcode size"></ch5-qrcode>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-qrcode-size-invalid-fixture">
+    <template>
+      <ch5-qrcode size="randomColor"></ch5-qrcode>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-qrcode-size-valid-invalid-fixture">
+    <template>
+      <ch5-qrcode></ch5-qrcode>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-qrcode size', () => {
+      let ch5QrCode;
+
+      /* coverity[implicit_this_used] */
+      setup(() => {
+        ch5QrCode = fixture('ch5-qrcode-size-fixture');
+        return Promise.all([customElements.whenDefined('ch5-qrcode')]);
+      });
+
+      test('size "200"', () => {
+        expect(ch5QrCode.size).to.be.equal(200);
+      });
+    });
+
+    suite('ch5-qrcode dom', () => {
+      let ch5QrCode;
+
+      setup(() => {
+        ch5QrCode = fixture('ch5-qrcode-dom-fixture');
+        return Promise.all([customElements.whenDefined('ch5-qrcode')]);
+      });
+
+      test('check value "size","qrCode","color" and "backgroundColor" ', () => {
+        ch5QrCode.setAttribute('size', '170');
+        expect(ch5QrCode.getAttribute('size')).to.be.equal('170');
+        ch5QrCode.setAttribute('qrCode', 'Hello');
+        expect(ch5QrCode.getAttribute('qrCode')).to.be.equal('Hello');
+        ch5QrCode.setAttribute('color', 'red');
+        expect(ch5QrCode.getAttribute('color')).to.be.equal('red');
+        ch5QrCode.setAttribute('backgroundColor', 'blue');
+        expect(ch5QrCode.getAttribute('backgroundColor')).to.be.equal('blue');
+      });
+    });
+
+    suite('ch5-qrcode min size with qrcode', () => {
+      let ch5QrCode;
+      setup(() => {
+        ch5QrCode = fixture('ch5-qrcode-min-size-with-qrcode-fixture');
+        return Promise.all([customElements.whenDefined('ch5-qrcode')]);
+      });
+
+      test('qrcode "Test qrcode size"', () => {
+        expect(ch5QrCode.size).to.be.equal(160);
+        expect(ch5QrCode.qrCode).to.be.equal('Test qrcode size');
+      });
+    });
+
+    suite('ch5-qrcode max size with qrcode', () => {
+      let ch5QrCode;
+      setup(() => {
+        ch5QrCode = fixture('ch5-qrcode-max-size-with-qrcode-fixture');
+        return Promise.all([customElements.whenDefined('ch5-qrcode')]);
+      });
+
+      test('qrcode "Test qrcode size"', () => {
+        expect(ch5QrCode.size).to.be.equal(10000);
+        expect(ch5QrCode.qrCode).to.be.equal('Test qrcode size');
+      });
+    });
+
+    suite('ch5-qrcode greater than max size with qrcode', () => {
+      let ch5QrCode;
+      setup(() => {
+        ch5QrCode = fixture('ch5-qrcode-more-max-size-with-qrcode-fixture');
+        return Promise.all([customElements.whenDefined('ch5-qrcode')]);
+      });
+
+      test('qrcode "Test qrcode size"', () => {
+        expect(ch5QrCode.size).to.be.equal(200);
+        expect(ch5QrCode.qrCode).to.be.equal('Test qrcode size');
+      });
+    });
+
+    suite('ch5-qrcode size with qrcode', () => {
+      let ch5QrCode;
+      setup(() => {
+        ch5QrCode = fixture('ch5-qrcode-size-with-qrcode-fixture');
+        return Promise.all([customElements.whenDefined('ch5-qrcode')]);
+      });
+
+      test('qrcode "Test qrcode size"', () => {
+        expect(ch5QrCode.size).to.be.equal(200);
+        expect(ch5QrCode.qrCode).to.be.equal('Test qrcode size');
+      });
+    });
+
+    suite('ch5-qrcode invalid size with qrcode', () => {
+      let ch5QrCode;
+      setup(() => {
+        ch5QrCode = fixture('ch5-qrcode-invalid-size-with-qrcode-fixture');
+        return Promise.all([customElements.whenDefined('ch5-qrcode')]);
+      });
+
+      test('qrcode "Test qrcode size"', () => {
+        expect(ch5QrCode.size).to.be.equal(200);
+        expect(ch5QrCode.qrCode).to.be.equal('Test qrcode size');
+      });
+    });
+
+    suite('ch5-qrcode invalid special size with qrcode', () => {
+      let ch5QrCode;
+      setup(() => {
+        ch5QrCode = fixture('ch5-qrcode-invalid-special-size-with-qrcode-fixture');
+        return Promise.all([customElements.whenDefined('ch5-qrcode')]);
+      });
+
+      test('qrcode "Test qrcode size"', () => {
+        expect(ch5QrCode.size).to.be.equal(200);
+        expect(ch5QrCode.qrCode).to.be.equal('Test qrcode size');
+      });
+    });
+
+    suite('ch5-qrcode size invalid', () => {
+      let ch5QrCode;
+      setup(() => {
+        ch5QrCode = fixture('ch5-qrcode-size-invalid-fixture');
+        return Promise.all([customElements.whenDefined('ch5-qrcode')]);
+      });
+
+      test('Invalid value should switch to default "200"', (done) => {
+        flush(() => {
+          const canvasElm = ch5QrCode.querySelector('canvas');
+          const ctx = canvasElm.getContext('2d');
+          setTimeout(() => {
+            expect(canvasElm.height).to.be.equal(200);
+            expect(canvasElm.width).to.be.equal(200);
+          })
+          done();
+        });
+      });
+    });
+
+    suite('ch5-background size valid and invalid', () => {
+      let ch5QrCode;
+      let testCases = {
+        "100": "200",
+        "150": "200",
+        "180": "180",
+        "kgkgh": "200",
+        "-160": "200",
+        "-200": "200",
+        "0": "200",
+        "": "200",
+        "@#$": "200",
+        "1 1": "200",
+      }
+      setup(() => {
+        ch5QrCode = fixture('ch5-qrcode-size-valid-invalid-fixture');
+        return Promise.all([customElements.whenDefined('ch5-qrcode')]);
+      });
+      Object.keys(testCases).forEach((ele) => {
+        test(`check ${ele}`, (done) => {
+          ch5QrCode.setAttribute("backgroundcolor", ele)
+          flush(() => {
+            const canvasElm = ch5QrCode.querySelector('canvas');
+            const ctx = canvasElm.getContext('2d');
+            setTimeout(() => {
+              expect(ctx.fillStyle).to.be.equal(testCases[`${ele}`]);
+            })
+            done();
+          });
+        });
+      })
+    });
+  </script>
+</body>
+
+</html>

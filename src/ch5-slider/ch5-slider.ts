@@ -468,10 +468,10 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 */
 
 	/**
-	 * Ch5Pressable manager
+	 * Ch5PressableSlider manager
 	 *
 	 * @private
-	 * @type {(Ch5Pressable | null)}
+	 * @type {(Ch5PressableSlider | null)}
 	 * @memberof Ch5Image
 	 */
 	private _pressable: Ch5PressableSlider | null = null;
@@ -1480,7 +1480,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 			// create noUiSlider
 			try {
-				if (!_.isNil((this._innerContainer as target).noUiSlider)) {
+				if (!Ch5Common.isNil((this._innerContainer as target).noUiSlider)) {
 					(this._innerContainer as target)?.noUiSlider?.destroy();
 				}
 				const slider = create(this._innerContainer, options);

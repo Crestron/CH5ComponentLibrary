@@ -1545,7 +1545,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this._elButton.addEventListener('focus', this._onFocus);
 		this._elButton.addEventListener('blur', this._onBlur);
 		// init pressable before initAttributes because pressable subscribe to gestureable attribute
-		this.logger.log("this._pressable", this._pressable);
 		if (!isNil(this._pressable)) {
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
@@ -1656,7 +1655,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				this.updateInternalHtml();
 				break;
 
-			case 'pressdelaytime':
+			/* case 'pressdelaytime':
 				this.pressDelayTime = Ch5ButtonUtils.getAttributeValue<number | null>(this, 'pressdelaytime', Number(newValue), null);
 				this.updatePressDelay();
 				break;
@@ -1664,7 +1663,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			case 'pressdelaydistance':
 				this.pressDelayDistance = Ch5ButtonUtils.getAttributeValue<number | null>(this, 'pressdelaydistance', Number(newValue), null);
 				this.updatePressDistance();
-				break;
+				break; */
 
 			case 'orientation':
 				this.orientation = Ch5ButtonUtils.getAttributeValue<TCh5ButtonOrientation>(this, 'orientation', newValue as TCh5ButtonOrientation, Ch5ButtonBase.ORIENTATIONS[0]);
@@ -1807,7 +1806,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	}
 
-	private updatePressDelay() {
+	/* private updatePressDelay() {
 		if (this._pressable !== null && !_.isNil(this._pressable.options) && !_.isNil(this.pressDelayTime) && !isNaN(this.pressDelayTime)) {
 			this._pressable.options.pressDelayTime = this.pressDelayTime;
 		}
@@ -1817,7 +1816,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		if (this._pressable !== null && !_.isNil(this._pressable.options) && !_.isNil(this.pressDelayDistance) && !isNaN(this.pressDelayDistance)) {
 			this._pressable.options.pressDelayDistance = this.pressDelayDistance;
 		}
-	}
+	} */
 	private backgroundImageURLHandler() {
 		if (this.backgroundImageUrl !== "" && !_.isNil(this.backgroundImageUrl)) {
 			this._elButton.style.backgroundImage = "url(" + this.backgroundImageUrl + ")";

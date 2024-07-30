@@ -133,6 +133,27 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	}
 
 	public set labelMinor(value: string) {
+		// if (value && value.trim() === "") {
+		// 	this._ch5Properties.set<string>("labelMinor", value, () => {
+		// 		this.handleLabelMinor();
+		// 	});
+		// } else {
+		// 	this._ch5Properties.set<string>("labelMinor", value, () => {
+		// 		this.setAttribute('labelMinor', this.getDefaultValue('labelMinor'))
+		// 		this.handleLabelMinor();
+		// 	});
+		// }
+		// const originalValue: string = value;
+		// console.log("1. value: ", value, originalValue);
+		// this._ch5Properties.set<string>("labelMinor", value, () => {
+		// 	console.log("2. value: ", value, originalValue);
+		// 	if (this.labelMinor.trim() === "") {
+		// 	// if (this.hasAttribute("labelMinor") === false) {
+		// 		this.setAttribute('labelMinor', this.getDefaultValue('labelMinor'))
+		// 	}
+		// 	this.handleLabelMinor();
+		// });
+
 		this._ch5Properties.set<string>("labelMinor", value, () => {
 			if (this.labelMinor.trim() === "") {
 				this.setAttribute('labelMinor', this.getDefaultValue('labelMinor'))

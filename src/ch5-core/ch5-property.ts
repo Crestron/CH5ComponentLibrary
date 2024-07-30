@@ -145,7 +145,7 @@ export class Ch5Property {
 					}
 				}
 
-				if (this._propertyValue !== valueToSet || setFromSignal === true || this.initializedValue === false) { // || String(value) !== String(valueToSet)) {
+				if (this._propertyValue !== valueToSet || setFromSignal === true || this.initializedValue === false || value !== valueToSet) { // || String(value) !== String(valueToSet)) {
 					// This variable is required only for checking first time and making changes when the default value is true
 					this._propertyPreviousValue = this._propertyValue;
 					this._propertyValue = valueToSet;

@@ -6,23 +6,21 @@
 // under which you licensed this source code.
 
 import { Ch5Common } from '../ch5-common/ch5-common';
-import { Subscription } from 'rxjs';
-import 'hammerjs';
+// import { Subscription } from 'rxjs';
+// import 'hammerjs';
 import { Subject } from 'rxjs';
-import _ from 'lodash';
-import { isIosDevice } from '../ch5-core';
+// import _ from 'lodash';
+// import { isIosDevice } from '../ch5-core';
 
 export interface ICh5PressableOptions {
 	cssTargetElement: HTMLElement;
 	cssPressedClass: string;
-	pressDelayTime?: number | null;
-	pressDelayDistance?: number | null;
-	clickDelayDistance?: number | null;
 }
 
 enum Ch5PressableFingerStateMode {
 	Idle,
 	Start,
+	FingerUp,
 	FingerDown
 }
 
@@ -35,18 +33,14 @@ export class Ch5Pressable {
 	 */
 	// tslint:disable-next-line: variable-name max-classes-per-file
 	private static FingerState = class {
-		public mode: Ch5PressableFingerStateMode;
+		public mode: Ch5PressableFingerStateMode = Ch5PressableFingerStateMode.Idle;
 		public touchHoldTimer: number | null = null;
-		public touchStartLocationX: number;
-		public touchStartLocationY: number;
+		public touchStartLocationX: number = 0;
+		public touchStartLocationY: number = 0;
 		public touchPointId: number = -1;
 
 		public constructor() {
-			this.mode = Ch5PressableFingerStateMode.Idle;
-			this.touchStartLocationX = 0;
-			this.touchStartLocationY = 0;
-			this.touchPointId = -1;
-			this.touchHoldTimer = null;
+			// this.reset();
 		}
 
 		public getTouchFromTouchList(touchEvent: TouchEvent): Touch | null {
@@ -102,7 +96,7 @@ export class Ch5Pressable {
 	/**
 	 * Reflects the touch of IOS.
 	 */
-	private _touchIos: boolean = false;
+	//private _touchIos: boolean = false;
 
 	/**
 	 * Reflects the pressed state of the component
@@ -119,17 +113,9 @@ export class Ch5Pressable {
 	public _released: boolean = true;
 
 	/**
-	 * HammerManger used for managing gestures like press
-	 *
-	 * @private
-	 * @type {(HammerManager | null)}
-	 */
-	private _hammerManager: HammerManager | null = null;
-
-	/**
 	 * The subscription id for the gestureable property
 	 */
-	private _gestureableSubscription: Subscription | null = null;
+	// private _gestureableSubscription: Subscription | null = null;
 
 	/**
 	 * An RxJs observable for the gestureable property.
@@ -177,7 +163,7 @@ export class Ch5Pressable {
 		this._onTouchHoldTimer = this._onTouchHoldTimer.bind(this);
 		this._onHold = this._onHold.bind(this);
 		this._onRelease = this._onRelease.bind(this);
-		this._onPanEnd = this._onPanEnd.bind(this);
+		// this._onPanEnd = this._onPanEnd.bind(this);
 		this._onMouseMove = this._onMouseMove.bind(this);
 	}
 
@@ -189,44 +175,20 @@ export class Ch5Pressable {
 		return this._options;
 	}
 
-	private get pressDelayTime(): number {
-		if (this._options !== null && !_.isNil(this._options.pressDelayTime)) {
-			return this._options.pressDelayTime;
-		} else {
-			return this.TOUCH_TIMEOUT;
-		}
-	}
-
-	private get pressDelayMoveDistance(): number {
-		if (this._options !== null && !_.isNil(this._options.pressDelayDistance)) {
-			return this._options.pressDelayDistance;
-		} else {
-			return this.PRESS_MOVE_THRESHOLD;
-		}
-	}
-
-	private get clickDelayMoveDistance(): number {
-		if (this.options !== null && !_.isNil(this.options.clickDelayDistance)) {
-			return this.options.clickDelayDistance;
-		} else {
-			return this.CLICK_MOVE_THRESHOLD;
-		}
-	}
-
 	/**
 	 * Initialize pressable
 	 *
 	 * @memberof Ch5Pressable
 	 */
 	public init() {
-		this._hammerManager = new Hammer(
-			this._ch5Component,
-			{
-				touchAction: 'auto'
-			}
-		);
+		// this._hammerManager = new Hammer(
+		// 	this._ch5Component,
+		// 	{
+		// 		touchAction: 'auto'
+		// 	}
+		// );
 
-		this._subscribeToGestureableProp();
+		// this._subscribeToGestureableProp();
 		this._attachEvents();
 	}
 
@@ -250,7 +212,7 @@ export class Ch5Pressable {
 	 * @memberof Ch5Pressable
 	 */
 	public destroy() {
-		this._unsubscribeFromGestureableProp();
+		// this._unsubscribeFromGestureableProp();
 		this.observablePressed?.complete();
 		this._removeEvents();
 	}
@@ -292,27 +254,27 @@ export class Ch5Pressable {
 		this._ch5Component.removeEventListener('touchend', this._onTouchEnd);
 		this._ch5Component.removeEventListener('touchcancel', this._onTouchCancel);
 
-		this._removeEventsFromHammer();
+		// this._removeEventsFromHammer();
 	}
 
-	/**
-	 * Subscribe to gestureable observable
-	 *
-	 * @private
-	 * @memberof Ch5Pressable
-	 */
-	private _subscribeToGestureableProp() {
-		if (this._gestureableSubscription === null) {
-			this._gestureableSubscription =
-				this._ch5Component.observableGestureableProperty.subscribe((value: boolean) => {
-					if (value) {
-						this._attachEventsFromHammer();
-					} else {
-						this._removeEventsFromHammer();
-					}
-				});
-		}
-	}
+	// /**
+	//  * Subscribe to gestureable observable
+	//  *
+	//  * @private
+	//  * @memberof Ch5Pressable
+	//  */
+	// private _subscribeToGestureableProp() {
+	// 	if (this._gestureableSubscription === null) {
+	// 		this._gestureableSubscription =
+	// 			this._ch5Component.observableGestureableProperty.subscribe((value: boolean) => {
+	// 				if (value) {
+	// 					this._attachEventsFromHammer();
+	// 				} else {
+	// 					this._removeEventsFromHammer();
+	// 				}
+	// 			});
+	// 	}
+	// }
 
 	/**
 	 * Unsubscribe to gestureable observable
@@ -320,42 +282,42 @@ export class Ch5Pressable {
 	 * @private
 	 * @memberof Ch5Pressable
 	 */
-	private _unsubscribeFromGestureableProp() {
-		if (this._gestureableSubscription !== null) {
-			this._gestureableSubscription.unsubscribe();
-			this._gestureableSubscription = null;
-		}
-	}
+	// private _unsubscribeFromGestureableProp() {
+	// 	if (this._gestureableSubscription !== null) {
+	// 		this._gestureableSubscription.unsubscribe();
+	// 		this._gestureableSubscription = null;
+	// 	}
+	// }
 
-	/**
-	 * Add events listeners related to hammerjs
-	 *
-	 * @private
-	 * @memberof Ch5Pressable
-	 */
-	private _attachEventsFromHammer() {
-		if (this._hammerManager !== null) {
-			this._hammerManager.on('press', this._onHold);
-			this._hammerManager.on('pressup', this._onRelease);
-			this._hammerManager.on('panend', this._onPanEnd);
-		}
-	}
+	// /**
+	//  * Add events listeners related to hammerjs
+	//  *
+	//  * @private
+	//  * @memberof Ch5Pressable
+	//  */
+	// private _attachEventsFromHammer() {
+	// 	if (this._hammerManager !== null) {
+	// 		this._hammerManager.on('press', this._onHold);
+	// 		this._hammerManager.on('pressup', this._onRelease);
+	// 		// this._hammerManager.on('panend', this._onPanEnd);
+	// 	}
+	// }
 
-	/**
-	 * Remove events listeners related to hammerjs
-	 *
-	 * @private
-	 * @memberof Ch5Pressable
-	 */
-	private _removeEventsFromHammer() {
-		if (this._hammerManager !== null) {
-			this._hammerManager.off('press', this._onHold);
-			this._hammerManager.off('pressup', this._onRelease);
-			this._hammerManager.off('panend', this._onPanEnd);
-			this._hammerManager.destroy();
-			this._hammerManager = null;
-		}
-	}
+	// /**
+	//  * Remove events listeners related to hammerjs
+	//  *
+	//  * @private
+	//  * @memberof Ch5Pressable
+	//  */
+	// private _removeEventsFromHammer() {
+	// 	if (this._hammerManager !== null) {
+	// 		this._hammerManager.off('press', this._onHold);
+	// 		this._hammerManager.off('pressup', this._onRelease);
+	// 		this._hammerManager.off('panend', this._onPanEnd);
+	// 		this._hammerManager.destroy();
+	// 		this._hammerManager = null;
+	// 	}
+	// }
 
 	/**
 	 *  EVENTS HANDLERS
@@ -378,7 +340,7 @@ export class Ch5Pressable {
 		const mouseEvent: MouseEvent = inEvent as MouseEvent;
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Idle) {
 			this._fingerState.mode = Ch5PressableFingerStateMode.Start;
-			this._fingerState.touchHoldTimer = window.setTimeout(this._onTouchHoldTimer, this.pressDelayTime);
+			this._fingerState.touchHoldTimer = window.setTimeout(this._onTouchHoldTimer, this.TOUCH_TIMEOUT);
 			this._fingerState.touchStartLocationX = mouseEvent.clientX;
 			this._fingerState.touchStartLocationY = mouseEvent.clientY;
 		}
@@ -398,7 +360,7 @@ export class Ch5Pressable {
 				const yMoveDistance = mouseEvent.clientY - this._fingerState.touchStartLocationY;
 				const distanceMoved = Math.sqrt(xMoveDistance ** 2 + yMoveDistance ** 2);
 				this._ch5Component.info(`DELETE ME Ch5Pressable.onMouseMove() , ${mouseEvent.clientX}, ${mouseEvent.clientY}, ${distanceMoved}`);
-				if (distanceMoved > this.clickDelayMoveDistance) {
+				if (distanceMoved > this.CLICK_MOVE_THRESHOLD) {
 					this._ch5Component.info(`Ch5Pressable.onMouseMove() cancelling press, ${mouseEvent.clientX}, ${mouseEvent.clientY}, ${distanceMoved}`);
 					this._touchStart = false;
 					this._fingerState.reset();
@@ -424,9 +386,9 @@ export class Ch5Pressable {
 			}
 
 			if (this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
-				if (!this._ch5Component.gestureable) {
+				// if (!this._ch5Component.gestureable) {
 					this._onRelease();
-				}
+				// }
 			}
 			this._fingerState.reset();
 		}
@@ -450,9 +412,9 @@ export class Ch5Pressable {
 			}
 
 			if (this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
-				if (!this._ch5Component.gestureable) {
+				// if (!this._ch5Component.gestureable) {
 					this._onRelease();
-				}
+				// }
 			}
 			this._fingerState.reset();
 		}
@@ -463,12 +425,12 @@ export class Ch5Pressable {
 			return;
 		}
 
-		if (isIosDevice()) {
+		/* if (isIosDevice()) {
 			if (this._touchIos === true) {
 				return;
 			}
 			this._touchIos = true;
-		}
+		} */
 
 		this.isTouch = true;
 		this.isMouse = false;
@@ -479,7 +441,7 @@ export class Ch5Pressable {
 		// this._ch5Component.info(`Ch5Pressable._onTouchStart(), ${touch.clientX}, ${touch.clientY}, ${touch.identifier}`);
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Idle) {
 			this._fingerState.mode = Ch5PressableFingerStateMode.Start;
-			this._fingerState.touchHoldTimer = window.setTimeout(this._onTouchHoldTimer, this.pressDelayTime);
+			this._fingerState.touchHoldTimer = window.setTimeout(this._onTouchHoldTimer, this.TOUCH_TIMEOUT);
 			this._fingerState.touchStartLocationX = touch.clientX;
 			this._fingerState.touchStartLocationY = touch.clientY;
 			this._fingerState.touchPointId = touch.identifier;
@@ -502,16 +464,16 @@ export class Ch5Pressable {
 				const yMoveDistance = touch.clientY - this._fingerState.touchStartLocationY;
 				const distanceMoved = Math.sqrt(xMoveDistance ** 2 + yMoveDistance ** 2);
 				this._ch5Component.info(`DELETE ME Ch5Pressable._onTouchMove() , ${touch.clientX}, ${touch.clientY}, ${touch.identifier}, ${distanceMoved}`);
-				if (distanceMoved > this.pressDelayMoveDistance) {
+				if (distanceMoved > this.PRESS_MOVE_THRESHOLD) {
 					this._ch5Component.info(`Ch5Pressable._onTouchMove() cancelling press, ${touch.clientX}, ${touch.clientY}, ${touch.identifier}, ${distanceMoved}`);
 					this._touchStart = false;
 					this._fingerState.reset();
-					if (isIosDevice()) {
+					/* if (isIosDevice()) {
 						if (this._touchIos === true) {
 							this._touchIos = false;
 							this._onTouchEnd(inEvent);
 						}
-					}
+					} */
 				}
 			}
 		}
@@ -526,9 +488,9 @@ export class Ch5Pressable {
 
 	private _fingerIsDownActions() {
 		this._fingerState.mode = Ch5PressableFingerStateMode.FingerDown;
-		if (!this._ch5Component.gestureable) {
+		// if (!this._ch5Component.gestureable) {
 			this._onHold();
-		}
+		// }
 		if (this._fingerState.touchHoldTimer !== null) {
 			window.clearTimeout(this._fingerState.touchHoldTimer);
 			this._fingerState.touchHoldTimer = null;
@@ -553,9 +515,9 @@ export class Ch5Pressable {
 			}
 
 			if (this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
-				if (!this._ch5Component.gestureable) {
+				// if (!this._ch5Component.gestureable) {
 					this._onRelease();
-				}
+				// }
 			}
 			this._fingerState.reset();
 		}
@@ -604,7 +566,6 @@ export class Ch5Pressable {
 				};
 			}
 		}
-
 	}
 
 	/**
@@ -621,13 +582,13 @@ export class Ch5Pressable {
 			// remove the visual feedback
 			setTimeout(() => {
 				this._removeCssPressClass();
-				if (isIosDevice()) {
+				/* if (isIosDevice()) {
 					setTimeout(() => {
 						this._touchIos = false;
 					}, 300);
-				}
+				} */
 
-			}, this.pressDelayTime);
+			}, this.TOUCH_TIMEOUT);
 
 			// update state of the button and tell the button the state
 			this._pressed = false;
@@ -648,23 +609,23 @@ export class Ch5Pressable {
 					eval(onReleaseAttrib);
 				}
 				// tslint:disable-next-line: no-empty
-				catch (e) { 
+				catch (e) {
 					// Ignore
 				};
 			}
 		}
 	}
 
-	/**
-	 * Trigger _onRelease() in case that press gesture is followed by a pan gesture
-	 *
-	 * @private
-	 * @memberof Ch5Pressable
-	 */
-	private _onPanEnd() {
-		this._ch5Component.info('Ch5Pressable._onPanEnd()');
-		this._onRelease();
-	}
+	// /**
+	//  * Trigger _onRelease() in case that press gesture is followed by a pan gesture
+	//  *
+	//  * @private
+	//  * @memberof Ch5Pressable
+	//  */
+	// private _onPanEnd() {
+	// 	this._ch5Component.info('Ch5Pressable._onPanEnd()');
+	// 	this._onRelease();
+	// }
 
 	/**
 	 * Add css class when the component is pressed

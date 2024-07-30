@@ -321,7 +321,7 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
     });
     this._iconContainer.classList.add(Ch5Animation.ELEMENT_NAME + Ch5Animation.COMPONENT_DATA.SIZE.classListPrefix + this.size);
   }
-  
+
   private handleAnimationStyle(value: TCh5AnimationStyle) {
     Ch5Animation.ANIMATION_STYLES_CLASS.forEach((clsName) => {
       this._iconContainer.classList.remove(clsName);

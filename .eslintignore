@@ -2,3 +2,4 @@ node_modules
 dist
 build_bundles
 src/**/**.spec.ts
+compiled_bundles

@@ -6,7 +6,7 @@
     <script src="/webcomponentsjs/webcomponents-lite.js"></script>
     <script src="/bower_components/web-component-tester/browser.js"></script>
     <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
-
+    <script src="/wct_tests/js/helpers.js"></script>
     <script src="/build_bundles/umd/cr-com-lib.js"></script>
 </head>
 
@@ -47,7 +47,7 @@
 
     <test-fixture id="ch5-background-referesh-rate-receiveState">
         <template>
-            <ch5-background url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" receivestaterefreshrate= 'receive_refresh_rate'>
+            <ch5-background url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" receivestaterefreshrate='receive_refresh_rate'>
             </ch5-background>
         </template>
     </test-fixture>
@@ -110,12 +110,12 @@
 
         suite('ch5-background refreshrate float value', () => {
             let ch5Background;
-            
+
             setup(() => {
                 ch5Background = fixture('ch5-background-refreshrate-float-value');
             });
-            
-            test('Refresh rate time in float"10.2"',  () => {
+
+            test('Refresh rate time in float"10.2"', () => {
                 expect(ch5Background.getAttribute('refreshRate')).to.be.equal('10.2');
                 expect(ch5Background.refreshRate).to.be.equal(10.2);
             });
@@ -140,7 +140,7 @@
                         done();
                     }, 100);
                 });
-            }); 
+            });
 
             test(`Check receive state value "refresh rate:15"`, (done) => {
                 CrComLib.publishEvent('b', 'send_refresh_rate_2', true);

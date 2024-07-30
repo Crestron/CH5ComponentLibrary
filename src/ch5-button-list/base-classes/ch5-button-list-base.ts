@@ -28,8 +28,8 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   //#region Variables
 
   // ClassList Prefix
-  public static readonly ROWS_CLASSLIST_PREFIX: string = '--rows-';
-  public static readonly COLUMNS_CLASSLIST_PREFIX: string = '--columns-';
+  //public static readonly ROWS_CLASSLIST_PREFIX: string = '--rows-';
+  //public static readonly COLUMNS_CLASSLIST_PREFIX: string = '--columns-';
   public static readonly SCROLLBAR_CLASSLIST_PREFIX: string = '--scrollbar-';
   public static readonly CENTER_ITEMS_CLASSLIST_PREFIX: string = '--center-items-';
 
@@ -1304,14 +1304,14 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     this.startY = e.pageY - this._elContainer.offsetTop;
     this.scrollListLeft = this._elContainer.scrollLeft;
     this.scrollListTop = this._elContainer.scrollTop;
-  }
+  };
 
-  private handleMouseUpAndLeave = () => {
+  private handleMouseUpAndLeave = this.debounce(() => {
     this.isDown = false;
     this._elContainer.classList.remove('active');
-  }
+  }, 10);
 
-  private handleMouseMove = (e: MouseEvent) => {
+  private handleMouseMove = this.debounce((e: MouseEvent) => {
     if (!this.isDown) return;
     e.preventDefault();
     const x = e.pageX - this._elContainer.offsetLeft;
@@ -1320,7 +1320,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     const walkY = (y - this.startY) * 3;
     this._elContainer.scrollLeft = this.scrollListLeft - walkX;
     this._elContainer.scrollTop = this.scrollListTop - walkY;
-  }
+  }, 10);
 
   private handleScrollEvent = () => {
     // update the scrollbar width and position
@@ -1343,7 +1343,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     } else if (this.loadItems === "load-new") {
       this.scrollHelperForNew();
     }
-  }
+  };
 
   private scrollHelperForNew() {
     if (this.dir === 'rtl' && this.orientation === 'horizontal') {
@@ -1733,25 +1733,31 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     if (this.stretch === 'both') { this.stretch = this.orientation === 'horizontal' ? this.rows === 1 ? 'both' : null : this.columns === 1 ? 'both' : null; }
     if (this.orientation === "horizontal") {
       // Remove Previous loaded class for both rows and columns
-      this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5ButtonListBase.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
-      this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5ButtonListBase.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
+      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5ButtonListBase.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5ButtonListBase.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
+      this._elContainer.style.removeProperty("grid-template-rows");
+      this._elContainer.style.removeProperty("grid-template-columns");
 
       // Calculate New Row class value
       this.rowClassValue = this.rows < this.numberOfItems ? this.rows : this.numberOfItems;
 
       // Add the new class to the container
-      this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      // this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      this._elContainer.style.setProperty("grid-template-rows", "repeat(" + this.rowClassValue + ", 1fr)");
     } else {
 
       // Remove Previous loaded class for both rows and columns
-      this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5ButtonListBase.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
-      this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5ButtonListBase.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5ButtonListBase.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
+      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5ButtonListBase.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      this._elContainer.style.removeProperty("grid-template-columns");
+      this._elContainer.style.removeProperty("grid-template-rows");
 
-      // Calculate New Row class value
+      // Calculate New Column class value
       this.columnClassValue = this.columns < this.numberOfItems ? this.columns : this.numberOfItems;
 
       // Add the new class to the container
-      this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
+      // this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
+      this._elContainer.style.setProperty("grid-template-columns", "repeat(" + this.columnClassValue + ", 1fr)");
     }
     this.debounceButtonDisplay();
   }
@@ -2390,75 +2396,76 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     const individualButtons = this.getElementsByTagName(this.nodeName.toLowerCase() + '-individual-button');
     const individualButtonsLength = individualButtons.length;
     remainingAttributes.forEach((attr: string) => {
+      attr = attr.toLowerCase();
       if (index < individualButtonsLength) {
-        if (attr.toLowerCase() === 'buttoniconclass') {
+        if (attr === 'buttoniconclass') {
           if (individualButtons[index] && individualButtons[index].hasAttribute('iconclass')) {
             const attrValue = individualButtons[index].getAttribute('iconclass')?.trim();
             if (attrValue) {
               btn.setAttribute('iconclass', attrValue);
             }
-          } else if (attr.toLowerCase().startsWith('button') && this.hasAttribute(attr)) {
+          } else if (attr.startsWith('button') && this.hasAttribute(attr)) {
             const attrValue = this.getAttribute(attr)?.trim().replace(`{{${this.indexId}}}`, index + '');
             if (attrValue) {
-              btn.setAttribute(attr.toLowerCase().replace('button', ''), attrValue.trim());
+              btn.setAttribute(attr.replace('button', ''), attrValue.trim());
             }
           }
-        } else if (attr.toLowerCase() === 'buttoniconurl') {
+        } else if (attr === 'buttoniconurl') {
           if (individualButtons[index] && individualButtons[index].hasAttribute('iconurl')) {
             const attrValue = individualButtons[index].getAttribute('iconurl')?.trim();
             if (attrValue) {
               btn.setAttribute('iconurl', attrValue);
             }
-          } else if (attr.toLowerCase().startsWith('button') && this.hasAttribute(attr)) {
+          } else if (attr.startsWith('button') && this.hasAttribute(attr)) {
             const attrValue = this.getAttribute(attr)?.trim().replace(`{{${this.indexId}}}`, index + '');
             if (attrValue) {
-              btn.setAttribute(attr.toLowerCase().replace('button', ''), attrValue.trim());
+              btn.setAttribute(attr.replace('button', ''), attrValue.trim());
             }
           }
         } else {
-          if (attr.toLowerCase() === 'buttonreceivestateshow' && this.hasAttribute('receivestateshow')) {
+          if (attr === 'buttonreceivestateshow' && this.hasAttribute('receivestateshow')) {
             btn.setAttribute('receivestateshow', this.getAttribute('receivestateshow') + '');
           }
-          else if (attr.toLowerCase() === 'buttonreceivestateenable' && this.hasAttribute('receivestateenable')) {
+          else if (attr === 'buttonreceivestateenable' && this.hasAttribute('receivestateenable')) {
             btn.setAttribute('receivestateenable', this.getAttribute('receivestateenable') + '');
           }
-          else if (attr.toLowerCase().startsWith('button') && this.hasAttribute(attr)) {
+          else if (attr.startsWith('button') && this.hasAttribute(attr)) {
             if (this.getAttribute(attr)?.trim().includes(`{{${this.indexId}}}`) === false) {
               const attrValue = this.getAttribute(attr)?.trim();
               if (attrValue) {
-                btn.setAttribute(attr.toLowerCase().replace('button', ''), attrValue.trim());
+                btn.setAttribute(attr.replace('button', ''), attrValue.trim());
               }
             } else if (this.getAttribute(attr)?.trim().length !== 0) {
               const attrValue = this.replaceAll(this.getAttribute(attr)?.trim() + '', `{{${this.indexId}}}`, '');
               const isNumber = /^[0-9]+$/.test(attrValue);
               if (isNumber) {
-                btn.setAttribute(attr.toLowerCase().replace('button', ''), Number(attrValue) + index + '');
+                btn.setAttribute(attr.replace('button', ''), Number(attrValue) + index + '');
               } else {
-                btn.setAttribute(attr.toLowerCase().replace('button', ''), this.replaceAll(this.getAttribute(attr)?.trim() + '', `{{${this.indexId}}}`, index + ''));
+                btn.setAttribute(attr.replace('button', ''), this.replaceAll(this.getAttribute(attr)?.trim() + '', `{{${this.indexId}}}`, index + ''));
               }
             }
           }
         }
       } else {
-        if (attr.toLowerCase() === 'buttonreceivestateshow' && this.hasAttribute('receivestateshow')) {
+        if (attr === 'buttonreceivestateshow' && this.hasAttribute('receivestateshow')) {
           btn.setAttribute('receivestateshow', this.getAttribute('receivestateshow') + '');
         }
-        else if (attr.toLowerCase() === 'buttonreceivestateenable' && this.hasAttribute('receivestateenable')) {
+        else if (attr === 'buttonreceivestateenable' && this.hasAttribute('receivestateenable')) {
           btn.setAttribute('receivestateenable', this.getAttribute('receivestateenable') + '');
         }
-        else if (attr.toLowerCase().startsWith('button') && this.hasAttribute(attr)) {
+        else if (attr.startsWith('button') && this.hasAttribute(attr)) {
           if (this.getAttribute(attr)?.trim().includes(`{{${this.indexId}}}`) === false) {
             const attrValue = this.getAttribute(attr)?.trim();
             if (attrValue) {
-              btn.setAttribute(attr.toLowerCase().replace('button', ''), attrValue.trim());
+              btn.setAttribute(attr.replace('button', ''), attrValue.trim());
             }
           } else if (this.getAttribute(attr)?.trim().length !== 0) {
             const attrValue = this.replaceAll(this.getAttribute(attr)?.trim() + '', `{{${this.indexId}}}`, '');
             const isNumber = /^[0-9]+$/.test(attrValue);
             if (isNumber) {
-              btn.setAttribute(attr.toLowerCase().replace('button', ''), Number(attrValue) + index + '');
+              btn.setAttribute(attr.replace('button', ''), Number(attrValue) + index + '');
             } else {
-              btn.setAttribute(attr.toLowerCase().replace('button', ''), this.replaceAll(this.getAttribute(attr)?.trim() + '', `{{${this.indexId}}}`, index + ''));
+              btn.setAttribute(attr.replace('button', ''), this.replaceAll(this.getAttribute(attr)?.trim() + '', `{{${this.indexId}}}`, index + ''));
             }
           }
         }
@@ -2498,7 +2505,8 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     // Default Orientation
     this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
     // Set default rows 
-    this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.ROWS_CLASSLIST_PREFIX + this.rows);
+    // this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.ROWS_CLASSLIST_PREFIX + this.rows);
+    this._elContainer.style.setProperty("grid-template-rows", "repeat(" + this.rows + ", 1fr)");
     // Sets default scroll bar class
     this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
     // sets default center item class

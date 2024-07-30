@@ -91,6 +91,19 @@ export default class Ch5ColorUtils {
     return "rgb(" + rgbValue.toString() + ")";
   }
 
+  public static validateColorName(color: string) {
+    try {
+      const validator = new Option().style;
+      validator.color = color;
+
+      // Check if the computed color is the same as the input color
+      return typeof validator.color === "string" && validator.color.length > 0;
+    } catch (e) {
+      //
+    }
+    return false;
+  }
+
   public static convert(color: string) {
     const fakeDiv = document.createElement("div");
     fakeDiv.style.color = color;

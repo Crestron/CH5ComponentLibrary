@@ -2,16 +2,23 @@
   "cues": [
     {
       "type": "boolean",
-      "event": "trigger_event",
+      "event": "set_qr_code",
       "trigger": true,
       "actions": [
         {
           "type": "string",
-          "state": "trigger_event_listener",
+          "state": "receive_qr_code",
           "logic": "set",
-          "value": "String Signal"
+          "value": "https://crestron.com/"
         }
       ]
+    }
+  ],
+  "onStart": [
+    {
+      "state": "receive_qr_code",
+      "type": "string",
+      "value": "https://www.crestron.com/Products/Audio/Accessories/Power-Accessories"
     }
   ]
 }
