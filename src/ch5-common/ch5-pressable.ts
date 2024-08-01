@@ -5,28 +5,28 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { Ch5BaseClass } from '../ch5-base/ch5-base-class';
+import { Ch5Common } from '../ch5-common/ch5-common';
 import { Subject } from 'rxjs';
 
-export interface ICh5PressableButtonOptions {
+export interface ICh5PressableOptions {
 	cssTargetElement: HTMLElement;
 	cssPressedClass: string;
 }
 
-enum Ch5PressableButtonFingerStateMode {
+enum Ch5PressableFingerStateMode {
 	Idle,
 	Start,
 	FingerDown
 }
 
-export class Ch5PressableButton {
+export class Ch5Pressable {
 
 	/**
 	 * This class provides variables to be accessed between touch and mouse events.
 	 */
 	// tslint:disable-next-line: variable-name max-classes-per-file
 	private static FingerState = class {
-		public mode: Ch5PressableButtonFingerStateMode = Ch5PressableButtonFingerStateMode.Idle;
+		public mode: Ch5PressableFingerStateMode = Ch5PressableFingerStateMode.Idle;
 		public touchHoldTimer: number | null = null;
 		public touchStartLocationX: number = 0;
 		public touchStartLocationY: number = 0;
@@ -49,7 +49,7 @@ export class Ch5PressableButton {
 		}
 
 		public reset() {
-			this.mode = Ch5PressableButtonFingerStateMode.Idle;
+			this.mode = Ch5PressableFingerStateMode.Idle;
 			this.touchStartLocationX = 0;
 			this.touchStartLocationY = 0;
 			this.touchPointId = -1;
@@ -60,11 +60,11 @@ export class Ch5PressableButton {
 		}
 	}
 
-	private _fingerState = new Ch5PressableButton.FingerState();
+	private _fingerState = new Ch5Pressable.FingerState();
 
-	private _ch5Component: Ch5BaseClass;
+	private _ch5Component: Ch5Common;
 
-	private _options: ICh5PressableButtonOptions | null;
+	private _options: ICh5PressableOptions | null;
 
 	/**
 	 * Event press: touchstart/mousedown
@@ -99,7 +99,7 @@ export class Ch5PressableButton {
 	// private isTouch: boolean = false;
 	// private isMouse: boolean = false;
 
-	constructor(component: Ch5BaseClass, options?: ICh5PressableButtonOptions) {
+	constructor(component: Ch5Common, options?: ICh5PressableOptions) {
 		this._ch5Component = component;
 		this._options = options || null;
 		this.observablePressed = new Subject<boolean>();
@@ -131,11 +131,11 @@ export class Ch5PressableButton {
 		this._onRelease = this._onRelease.bind(this);
 	}
 
-	public get ch5Component(): Ch5BaseClass {
+	public get ch5Component(): Ch5Common {
 		return this._ch5Component;
 	}
 
-	public get options(): ICh5PressableButtonOptions | null {
+	public get options(): ICh5PressableOptions | null {
 		return this._options;
 	}
 
@@ -218,8 +218,8 @@ export class Ch5PressableButton {
 		// this.isMouse = true;
 		// this.isTouch = false;
 		const mouseEvent: MouseEvent = inEvent as MouseEvent;
-		if (this._fingerState.mode === Ch5PressableButtonFingerStateMode.Idle) {
-			this._fingerState.mode = Ch5PressableButtonFingerStateMode.Start;
+		if (this._fingerState.mode === Ch5PressableFingerStateMode.Idle) {
+			this._fingerState.mode = Ch5PressableFingerStateMode.Start;
 			this._fingerState.touchHoldTimer = window.setTimeout(this._onTouchHoldTimer, this.TOUCH_TIMEOUT);
 			this._fingerState.touchStartLocationX = mouseEvent.clientX;
 			this._fingerState.touchStartLocationY = mouseEvent.clientY;
@@ -233,7 +233,7 @@ export class Ch5PressableButton {
 		// }
 
 		// On a swipe motion we don't want to send a join or show visual feedback, check if finger has moved
-		if (this._fingerState.mode === Ch5PressableButtonFingerStateMode.Start) {
+		if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
 			const mouseEvent: MouseEvent = inEvent as MouseEvent;
 			if (mouseEvent !== null) {
 				const xMoveDistance = mouseEvent.clientX - this._fingerState.touchStartLocationX;
@@ -287,8 +287,8 @@ export class Ch5PressableButton {
 		const touchEvent: TouchEvent = inEvent as TouchEvent;
 		const touch: Touch = touchEvent.changedTouches[0];
 		// this._ch5Component.info(`Ch5PressableButton._onTouchStart(), ${touch.clientX}, ${touch.clientY}, ${touch.identifier}`);
-		if (this._fingerState.mode === Ch5PressableButtonFingerStateMode.Idle) {
-			this._fingerState.mode = Ch5PressableButtonFingerStateMode.Start;
+		if (this._fingerState.mode === Ch5PressableFingerStateMode.Idle) {
+			this._fingerState.mode = Ch5PressableFingerStateMode.Start;
 			this._fingerState.touchHoldTimer = window.setTimeout(this._onTouchHoldTimer, this.TOUCH_TIMEOUT);
 			this._fingerState.touchStartLocationX = touch.clientX;
 			this._fingerState.touchStartLocationY = touch.clientY;
@@ -303,7 +303,7 @@ export class Ch5PressableButton {
 		// }
 
 		// On a swipe motion we don't want to send a join or show visual feedback, check if finger has moved
-		if (this._fingerState.mode === Ch5PressableButtonFingerStateMode.Start) {
+		if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
 			const touchEvent: TouchEvent = inEvent as TouchEvent;
 			const touch: Touch | null = this._fingerState.getTouchFromTouchList(touchEvent);
 			if (touch !== null) {
@@ -327,7 +327,7 @@ export class Ch5PressableButton {
 	}
 
 	private _fingerIsDownActions() {
-		this._fingerState.mode = Ch5PressableButtonFingerStateMode.FingerDown;
+		this._fingerState.mode = Ch5PressableFingerStateMode.FingerDown;
 		this._onHold();
 		if (this._fingerState.touchHoldTimer !== null) {
 			window.clearTimeout(this._fingerState.touchHoldTimer);
@@ -349,12 +349,12 @@ export class Ch5PressableButton {
 	}
 
 	private fingerStateActions() {
-		if (this._fingerState.mode === Ch5PressableButtonFingerStateMode.Start) {
+		if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
 			// quick tap, must do both press and release
 			this._fingerIsDownActions();
 		}
 
-		if (this._fingerState.mode === Ch5PressableButtonFingerStateMode.FingerDown) {
+		if (this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
 			this._onRelease();
 		}
 		this.resetFingerObject();
