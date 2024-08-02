@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import * as _ from 'lodash';
+// import * as _ from 'lodash';
 import { Subscription } from "rxjs";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
@@ -259,21 +259,21 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		this.setAttribute('data-ch5-id', this.getCrId());
 
 		this.initPressable(this.primaryCssClass + this.pressedCssClassPostfix);
-
 		this.initAttributes();
-		this.attachEventListeners();
+
+		// this.attachEventListeners();
 		this.setDefaultClasses();
 
 		this.initCommonMutationObserver(this);
 		this.logger.stop();
 	}
 
-	protected attachEventListeners() {
-		if (!_.isNil(this._pressable)) {
-			this._pressable?.init();
-			this._subscribeToPressableIsPressed();
-		}
-	}
+	// protected attachEventListeners() {
+	// 	if (!_.isNil(this._pressable)) {
+	// 		this._pressable?.init();
+	// 		this._subscribeToPressableIsPressed();
+	// 	}
+	// }
 
 	/**
 	 * Called every time the element is removed from the DOM.
@@ -282,34 +282,37 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	public disconnectedCallback() {
 		this.logger.start('disconnectedCallback() - start', Ch5KeypadButton.ELEMENT_NAME);
 
-		if (this.parentElement && this.parentElement.classList.contains('ch5-keypad') === false) {
-			this.logger.stop();
-			return;
-		}
+		// if (this.parentElement && this.parentElement.classList.contains('ch5-keypad') === false) {
+		// 	this.logger.stop();
+		// 	return;
+		// }
 
-		this.removeEventListeners();
+		// this.removeEventListeners();
 
 		// destroy pressable
 		if (null !== this._pressable) {
 			this._pressable.destroy();
+			this._pressable = null;
 		}
+		if (this._pressableIsPressedSubscription !== null) {
+			this._pressableIsPressedSubscription.unsubscribe();
+		}
+		this._pressableIsPressedSubscription = null;
+
 		this.unsubscribeFromSignals();
 
 		// disconnect common mutation observer
 		this.disconnectCommonMutationObserver();
 
-		if (!_.isNil(this._pressable)) {
-			this._unsubscribeFromPressableIsPressed();
-		}
 
 		this.logger.stop();
 	}
 
-	public removeEventListeners() {
-		if (!_.isNil(this._pressable)) {
-			this._unsubscribeFromPressableIsPressed();
-		}
-	}
+	// public removeEventListeners() {
+	// 	if (!_.isNil(this._pressable)) {
+	// 		this._unsubscribeFromPressableIsPressed();
+	// 	}
+	// }
 
 	/**
 	 * Unsubscribe signals
@@ -392,7 +395,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	/**
 	 * Sends the signal passed via sendEventOnClick or sendEventOnTouch
 	 */
-	protected handleSendEventOnCLick() {
+	protected handleSendEventOnClick() {
 		if (this.sendEventOnClick) {
 			Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(true);
 			Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(false);
@@ -400,21 +403,25 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	}
 
 	protected _subscribeToPressableIsPressed() {
+		if (this._pressableIsPressedSubscription !== null) {
+			this._pressableIsPressedSubscription.unsubscribe();
+			this._pressableIsPressedSubscription = null;
+		}
 		if (this._pressableIsPressedSubscription === null && this._pressable !== null) {
 			this._pressableIsPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
 				if (value === false) {
-					this.handleSendEventOnCLick();
+					this.handleSendEventOnClick();
 				}
 			});
 		}
 	}
 
-	protected _unsubscribeFromPressableIsPressed() {
-		if (this._pressableIsPressedSubscription !== null) {
-			this._pressableIsPressedSubscription.unsubscribe();
-			this._pressableIsPressedSubscription = null;
-		}
-	}
+	// protected _unsubscribeFromPressableIsPressed() {
+	// 	if (this._pressableIsPressedSubscription !== null) {
+	// 		this._pressableIsPressedSubscription.unsubscribe();
+	// 		this._pressableIsPressedSubscription = null;
+	// 	}
+	// }
 
 	private handleIconLabelMajor() {
 		if (this.iconClass.trim()) {
@@ -433,9 +440,9 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		this._elMinorSpan.innerHTML = this.labelMinor;
 	}
 	private handlePressed() {
-		if (!this._pressable) {
-			this.initPressable(this.primaryCssClass + this.pressedCssClassPostfix);
-		}
+		// if (!this._pressable) {
+		// 	this.initPressable(this.primaryCssClass + this.pressedCssClassPostfix);
+		// }
 		if (this._pressable) {
 			if (this._pressable._pressed !== this.pressed) {
 				this._pressable.setPressed(this.pressed);
