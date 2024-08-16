@@ -116,15 +116,15 @@ export class Ch5Pressable {
 			cancelable: false
 		});
 
-		// this._onClick = this._onClick.bind(this);
+		this._onClick = this._onClick.bind(this);
 		this._onMouseDown = this._onMouseDown.bind(this);
 		this._onMouseUp = this._onMouseUp.bind(this);
 		this._onMouseLeave = this._onMouseLeave.bind(this);
 		this._onMouseMove = this._onMouseMove.bind(this);
-		this._onTouchStart = this._onTouchStart.bind(this);
-		this._onTouchMove = this._onTouchMove.bind(this);
-		this._onTouchEnd = this._onTouchEnd.bind(this);
-		this._onTouchCancel = this._onTouchCancel.bind(this);
+		// this._onTouchStart = this._onTouchStart.bind(this);
+		// this._onTouchMove = this._onTouchMove.bind(this);
+		// this._onTouchEnd = this._onTouchEnd.bind(this);
+		// this._onTouchCancel = this._onTouchCancel.bind(this);
 		this._onTouchHoldTimer = this._onTouchHoldTimer.bind(this);
 
 		this._onHold = this._onHold.bind(this);
@@ -170,44 +170,51 @@ export class Ch5Pressable {
 	 * Add events listeners related in order to achieve press and release events
 	 */
 	private _attachEvents() {
-		// this._ch5Component.addEventListener('click', this._onClick);
+		this._ch5Component.addEventListener('click', this._onClick);
 
-		this._ch5Component.addEventListener('mousedown', this._onMouseDown, { passive: true });
-		this._ch5Component.addEventListener('mouseup', this._onMouseUp);
-		this._ch5Component.addEventListener('mousemove', this._onMouseMove);
-		this._ch5Component.addEventListener('mouseleave', this._onMouseLeave);
+		this._ch5Component.addEventListener('pointerdown', this._onMouseDown); //, { passive: true });
+		this._ch5Component.addEventListener('pointerup', this._onMouseUp);
+		this._ch5Component.addEventListener('pointermove', this._onMouseMove);
+		this._ch5Component.addEventListener('pointerleave', this._onMouseLeave);
+		this._ch5Component.addEventListener('contextmenu', this._onContextMenu);
 		// this._ch5Component.addEventListener('mouseout', this._onMouseLeave);
 
-		this._ch5Component.addEventListener('touchstart', this._onTouchStart);
-		this._ch5Component.addEventListener('touchmove', this._onTouchMove);
-		this._ch5Component.addEventListener('touchend', this._onTouchEnd);
-		this._ch5Component.addEventListener('touchcancel', this._onTouchCancel);
+		// this._ch5Component.addEventListener('touchstart', this._onTouchStart);
+		// this._ch5Component.addEventListener('touchmove', this._onTouchMove);
+		// this._ch5Component.addEventListener('touchend', this._onTouchEnd);
+		// this._ch5Component.addEventListener('touchcancel', this._onTouchCancel);
 	}
 
 	/**
 	 * Remove events listeners
 	 */
 	private _removeEvents() {
-		// this._ch5Component.removeEventListener('click', this._onClick);
+		this._ch5Component.removeEventListener('click', this._onClick);
 
-		this._ch5Component.removeEventListener('mousedown', this._onMouseDown);
-		this._ch5Component.removeEventListener('mouseup', this._onMouseUp);
-		this._ch5Component.removeEventListener('mousemove', this._onMouseMove);
-		this._ch5Component.removeEventListener('mouseleave', this._onMouseLeave);
+		this._ch5Component.removeEventListener('pointerdown', this._onMouseDown);
+		this._ch5Component.removeEventListener('pointerup', this._onMouseUp);
+		this._ch5Component.removeEventListener('pointermove', this._onMouseMove);
+		this._ch5Component.removeEventListener('pointerleave', this._onMouseLeave);
+		this._ch5Component.removeEventListener('contextmenu', this._onContextMenu);
 		// this._ch5Component.removeEventListener('mouseout', this._onMouseLeave);
 
-		this._ch5Component.removeEventListener('touchstart', this._onTouchStart);
-		this._ch5Component.removeEventListener('touchmove', this._onTouchMove);
-		this._ch5Component.removeEventListener('touchend', this._onTouchEnd);
-		this._ch5Component.removeEventListener('touchcancel', this._onTouchCancel);
+		// this._ch5Component.removeEventListener('touchstart', this._onTouchStart);
+		// this._ch5Component.removeEventListener('touchmove', this._onTouchMove);
+		// this._ch5Component.removeEventListener('touchend', this._onTouchEnd);
+		// this._ch5Component.removeEventListener('touchcancel', this._onTouchCancel);
 	}
 
 	// // eslint-disable-next-line @typescript-eslint/no-unused-vars
-	// private _onClick(inEvent: Event): void {
-	// 	// reset touchstart/touchend flags
-	// 	// this._touchStart = false;
-	// 	// this._touchEnd = false;
-	// }
+	private _onClick(): void {
+		// reset touchstart/touchend flags
+		// this._touchStart = false;
+		// this._touchEnd = false;
+		// inEvent.preventDefault();
+	}
+
+	private _onContextMenu(inEvent: MouseEvent): void {
+		inEvent.preventDefault();
+	}
 
 	private _onMouseDown(inEvent: Event): void {
 		this._ch5Component.logger.log("this._onMouseDown"); //, this.isTouch, this.isMouse);
@@ -220,7 +227,8 @@ export class Ch5Pressable {
 		const mouseEvent: MouseEvent = inEvent as MouseEvent;
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Idle) {
 			this._fingerState.mode = Ch5PressableFingerStateMode.Start;
-			this._fingerState.touchHoldTimer = window.setTimeout(this._onTouchHoldTimer, this.TOUCH_TIMEOUT);
+			// this._fingerState.touchHoldTimer = window.setTimeout(this._onTouchHoldTimer, this.TOUCH_TIMEOUT);
+			this._fingerIsDownActions();
 			this._fingerState.touchStartLocationX = mouseEvent.clientX;
 			this._fingerState.touchStartLocationY = mouseEvent.clientY;
 		}
@@ -273,8 +281,8 @@ export class Ch5Pressable {
 		}
 	}
 
-	private _onTouchStart(inEvent: Event): void {
-		inEvent.preventDefault();
+	/* private _onTouchStart(inEvent: Event): void {
+		// inEvent.preventDefault();
 		this._ch5Component.logger.log("this._onTouchStart"); //, this.isTouch, this.isMouse);
 		// if (this.isMouse) {
 		// 	return;
@@ -294,9 +302,9 @@ export class Ch5Pressable {
 			this._fingerState.touchStartLocationY = touch.clientY;
 			this._fingerState.touchPointId = touch.identifier;
 		}
-	}
+	} */
 
-	private _onTouchMove(inEvent: Event): void {
+	/* private _onTouchMove(inEvent: Event): void {
 		this._ch5Component.logger.log("this._onTouchMove");
 		// if (this.isMouse) {
 		// 	return;
@@ -318,7 +326,7 @@ export class Ch5Pressable {
 				}
 			}
 		}
-	}
+	} */
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	private _onTouchHoldTimer(event: Event): void {
@@ -335,18 +343,18 @@ export class Ch5Pressable {
 		}
 	}
 
-	private _onTouchEnd(inEvent: Event): void {
-		this._ch5Component.logger.log("this._onTouchEnd");
-		// if (this.isMouse) {
-		// 	return;
-		// }
-
-		const touchEvent: TouchEvent = inEvent as TouchEvent;
-		const touch: Touch | null = this._fingerState.getTouchFromTouchList(touchEvent);
-		if (touch !== null) {
-			this.fingerStateActions();
-		}
-	}
+	/* 	private _onTouchEnd(inEvent: Event): void {
+			this._ch5Component.logger.log("this._onTouchEnd");
+			// if (this.isMouse) {
+			// 	return;
+			// }
+	
+			const touchEvent: TouchEvent = inEvent as TouchEvent;
+			const touch: Touch | null = this._fingerState.getTouchFromTouchList(touchEvent);
+			if (touch !== null) {
+				this.fingerStateActions();
+			}
+		} */
 
 	private fingerStateActions() {
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
@@ -360,10 +368,10 @@ export class Ch5Pressable {
 		this.resetFingerObject();
 	}
 
-	private _onTouchCancel(inEvent: Event): void {
+	/* private _onTouchCancel(inEvent: Event): void {
 		this._ch5Component.logger.log("this._onTouchCancel");
 		this._onTouchEnd(inEvent);
-	}
+	} */
 
 	/**
 	 * Dispatch press event. Add press css class.
