@@ -30,7 +30,7 @@ import {
 } from './interfaces/t-ch5-button';
 import { ICh5ButtonListContractObj } from "./interfaces/t-for-ch5-button-list-contract"
 import { ICh5ButtonAttributes } from "./interfaces/i-ch5-button-attributes";
-import { Ch5Pressable } from "../ch5-common/ch5-pressable";
+import { Ch5PressableButton } from "../ch5-common/ch5-pressable-button";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 import { Subscription } from "rxjs";
@@ -598,7 +598,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	private _ch5ButtonSignal: Ch5ButtonSignal;
 
-	private _pressable: Ch5Pressable | null = null;
+	private _pressable: Ch5PressableButton | null = null;
 
 	// private _hammerManager: HammerManager = {} as HammerManager;
 
@@ -1956,7 +1956,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 * @param pressedClass is class name. it will add after press the ch5 button
 	 */
 	private updatePressedClass(pressedClass: string) {
-		this._pressable = new Ch5Pressable(this, {
+		this._pressable = new Ch5PressableButton(this, {
 			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
 			cssPressedClass: pressedClass
 		});
