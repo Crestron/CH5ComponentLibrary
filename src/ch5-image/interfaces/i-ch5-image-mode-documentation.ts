@@ -18,7 +18,7 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  * [
  * "`ch5-image-mode` element",
  * "***",
- * Enhances ch5-image to support multiple modes
+ * "Enhances ch5-image to support multiple modes"
  * ]
  * @snippets
  * [

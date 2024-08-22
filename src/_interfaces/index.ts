@@ -30,6 +30,7 @@ export * from './../ch5-dpad/interfaces/i-ch5-dpad-documentation';
 export * from "./../ch5-form/interfaces/i-ch5-form-documentation";
 export * from "./../ch5-import-htmlsnippet/interfaces/i-ch5-htmlsnippet-documentation";
 export * from "./../ch5-image/interfaces/i-ch5-image-documentation";
+export * from "./../ch5-image/interfaces/i-ch5-image-mode-documentation";
 export * from './../ch5-jointotext-boolean/interfaces/i-ch5-jointotext-boolean-documentation';
 export * from './../ch5-jointotext-string/interfaces/i-ch5-jointotext-string-documentation';
 export * from './../ch5-jointotext-numeric/interfaces/i-ch5-jointotext-numeric-documentation';
