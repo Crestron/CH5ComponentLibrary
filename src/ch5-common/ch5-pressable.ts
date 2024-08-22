@@ -86,6 +86,7 @@ export class Ch5Pressable {
 	 */
 	public _released: boolean = true;
 
+	public _isDestroyed: boolean = false;
 	/**
 	 * An RxJs observable for the gestureable property.
 	 * Other classes can subscribe to this and be notified when the gestureable property changes.
@@ -162,6 +163,11 @@ export class Ch5Pressable {
 	 * Destroy pressable
 	 */
 	public destroy() {
+		// if (this._pressed === true) {
+		// 	this._pressed = false;
+		this._isDestroyed = true;
+		this._onReleaseAsap();
+		// }
 		this.observablePressed?.complete();
 		this._removeEvents();
 	}
@@ -416,6 +422,36 @@ export class Ch5Pressable {
 			setTimeout(() => {
 				this.removeCssPressClass();
 			}, this.TOUCH_TIMEOUT);
+
+			// update state of the button and tell the button the state
+			this._pressed = false;
+			this._released = true;
+			this.observablePressed.next(this._pressed);
+			this._ch5Component.removeAttribute("pressed");
+
+			// dispatch event for addEventListener consumers
+			this._ch5Component.dispatchEvent(this._releaseEvent);
+
+			// dispatch event for onrelease="" consumers 
+			// simply eval()uate the on<event> text.   
+			// This is consistent with how standard events are processed, example <div onclick="">
+			const onReleaseAttrib = this._ch5Component.getAttribute('onrelease');
+			if (onReleaseAttrib !== null) {
+				try {
+					// tslint:disable-next-line: no-eval
+					eval(onReleaseAttrib);
+				} catch (e) {
+					// Ignore
+				};
+			}
+		}
+	}
+
+	private _onReleaseAsap() {
+		this._ch5Component.logger.log(`Ch5PressableButton._onRelease() alreadyReleased:${this._released}`);
+		if (!this._released) {
+			// remove the visual feedback
+			this.removeCssPressClass();
 
 			// update state of the button and tell the button the state
 			this._pressed = false;
