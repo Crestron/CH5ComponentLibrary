@@ -1826,8 +1826,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private _subscribeToPressableIsPressed() {
 		if (this.buttonListContract.contractName.trim() !== "" && this.buttonListContract.parentComponent.trim() === 'ch5-button-list') { return this._subscribeToPressableIsPressedForButtonList(); }
 		if (this.buttonListContract.contractName.trim() !== "" && this.buttonListContract.parentComponent.trim() === 'ch5-tab-button') { return this._subscribeToPressableIsPressedForTabButton(); }
-		const REPEAT_DIGITAL_PERIOD = 200;
-		const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
+		const REPEAT_DIGITAL_PERIOD = 300;
+		const MAX_REPEAT_DIGITALS = 45000 / REPEAT_DIGITAL_PERIOD;
 		if (this._isPressedSubscription === null && this._pressable !== null) {
 			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
 				this.logger.log(`Ch5Button.pressableSubscriptionCb(${value})`, this.pressed);
