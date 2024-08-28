@@ -19,10 +19,10 @@ enum Ch5PressableFingerStateMode {
 	FingerDown
 }
 
-export class Ch5Pressable {
+export class Ch5PressableButton {
 
 	/**
-	 * This class provides variables to be accessed between touch and mouse events. 
+	 * This class provides variables to be accessed between touch and mouse events.
 	 */
 	// tslint:disable-next-line: variable-name max-classes-per-file
 	private static FingerState = class {
@@ -32,7 +32,9 @@ export class Ch5Pressable {
 		public touchStartLocationY: number = 0;
 		public touchPointId: number = -1;
 
-		public constructor() { }
+		public constructor() {
+			// this.reset();
+		}
 
 		public getTouchFromTouchList(touchEvent: TouchEvent): Touch | null {
 			if (touchEvent.changedTouches !== undefined) {
@@ -58,7 +60,7 @@ export class Ch5Pressable {
 		}
 	}
 
-	private _fingerState = new Ch5Pressable.FingerState();
+	private _fingerState = new Ch5PressableButton.FingerState();
 
 	private _ch5Component: Ch5Common;
 
@@ -75,11 +77,6 @@ export class Ch5Pressable {
 	private _releaseEvent: Event;
 
 	/**
-	 * Reflects the touchstart state of the component.
-	 */
-	private isTouchFired: boolean = false;
-
-	/**
 	 * Reflects the pressed state of the component
 	 */
 	public _pressed: boolean = false;
@@ -89,6 +86,7 @@ export class Ch5Pressable {
 	 */
 	public _released: boolean = true;
 
+	public _isDestroyed: boolean = false;
 	/**
 	 * An RxJs observable for the gestureable property.
 	 * Other classes can subscribe to this and be notified when the gestureable property changes.
@@ -99,11 +97,9 @@ export class Ch5Pressable {
 	private readonly PRESS_MOVE_THRESHOLD: number = 10;
 	private readonly CLICK_MOVE_THRESHOLD: number = 1;
 
-	/**
-	 * Creates an instance of Ch5Pressable.
-	 * @param {Ch5Common} component
-	 * @memberof Ch5Pressable
-	 */
+	// private isTouch: boolean = false;
+	// private isMouse: boolean = false;
+
 	constructor(component: Ch5Common, options?: ICh5PressableOptions) {
 		this._ch5Component = component;
 		this._options = options || null;
@@ -126,11 +122,12 @@ export class Ch5Pressable {
 		this._onMouseUp = this._onMouseUp.bind(this);
 		this._onMouseLeave = this._onMouseLeave.bind(this);
 		this._onMouseMove = this._onMouseMove.bind(this);
-		this._onTouchStart = this._onTouchStart.bind(this);
-		this._onTouchMove = this._onTouchMove.bind(this);
-		this._onTouchEnd = this._onTouchEnd.bind(this);
-		this._onTouchCancel = this._onTouchCancel.bind(this);
+		// this._onTouchStart = this._onTouchStart.bind(this);
+		// this._onTouchMove = this._onTouchMove.bind(this);
+		// this._onTouchEnd = this._onTouchEnd.bind(this);
+		// this._onTouchCancel = this._onTouchCancel.bind(this);
 		this._onTouchHoldTimer = this._onTouchHoldTimer.bind(this);
+
 		this._onHold = this._onHold.bind(this);
 		this._onRelease = this._onRelease.bind(this);
 	}
@@ -166,6 +163,11 @@ export class Ch5Pressable {
 	 * Destroy pressable
 	 */
 	public destroy() {
+		// if (this._pressed === true) {
+		// 	this._pressed = false;
+		this._isDestroyed = true;
+		this._onReleaseAsap();
+		// }
 		this.observablePressed?.complete();
 		this._removeEvents();
 	}
@@ -176,16 +178,17 @@ export class Ch5Pressable {
 	private _attachEvents() {
 		this._ch5Component.addEventListener('click', this._onClick);
 
-		this._ch5Component.addEventListener('mousedown', this._onMouseDown, { passive: true });
-		this._ch5Component.addEventListener('mouseup', this._onMouseUp);
-		this._ch5Component.addEventListener('mousemove', this._onMouseMove);
-		this._ch5Component.addEventListener('mouseleave', this._onMouseLeave);
-		this._ch5Component.addEventListener('mouseout', this._onMouseLeave);
+		this._ch5Component.addEventListener('pointerdown', this._onMouseDown); //, { passive: true });
+		this._ch5Component.addEventListener('pointerup', this._onMouseUp);
+		this._ch5Component.addEventListener('pointermove', this._onMouseMove);
+		this._ch5Component.addEventListener('pointerleave', this._onMouseLeave);
+		this._ch5Component.addEventListener('contextmenu', this._onContextMenu);
+		// this._ch5Component.addEventListener('mouseout', this._onMouseLeave);
 
-		this._ch5Component.addEventListener('touchstart', this._onTouchStart, { passive: true });
-		this._ch5Component.addEventListener('touchmove', this._onTouchMove);
-		this._ch5Component.addEventListener('touchend', this._onTouchEnd);
-		this._ch5Component.addEventListener('touchcancel', this._onTouchCancel);
+		// this._ch5Component.addEventListener('touchstart', this._onTouchStart);
+		// this._ch5Component.addEventListener('touchmove', this._onTouchMove);
+		// this._ch5Component.addEventListener('touchend', this._onTouchEnd);
+		// this._ch5Component.addEventListener('touchcancel', this._onTouchCancel);
 	}
 
 	/**
@@ -194,102 +197,110 @@ export class Ch5Pressable {
 	private _removeEvents() {
 		this._ch5Component.removeEventListener('click', this._onClick);
 
-		this._ch5Component.removeEventListener('mousedown', this._onMouseDown);
-		this._ch5Component.removeEventListener('mouseup', this._onMouseUp);
-		this._ch5Component.removeEventListener('mouseleave', this._onMouseLeave);
+		this._ch5Component.removeEventListener('pointerdown', this._onMouseDown);
+		this._ch5Component.removeEventListener('pointerup', this._onMouseUp);
+		this._ch5Component.removeEventListener('pointermove', this._onMouseMove);
+		this._ch5Component.removeEventListener('pointerleave', this._onMouseLeave);
+		this._ch5Component.removeEventListener('contextmenu', this._onContextMenu);
+		// this._ch5Component.removeEventListener('mouseout', this._onMouseLeave);
 
-		this._ch5Component.removeEventListener('touchstart', this._onTouchStart);
-		this._ch5Component.removeEventListener('touchmove', this._onTouchMove);
-		this._ch5Component.removeEventListener('touchend', this._onTouchEnd);
-		this._ch5Component.removeEventListener('touchcancel', this._onTouchCancel);
+		// this._ch5Component.removeEventListener('touchstart', this._onTouchStart);
+		// this._ch5Component.removeEventListener('touchmove', this._onTouchMove);
+		// this._ch5Component.removeEventListener('touchend', this._onTouchEnd);
+		// this._ch5Component.removeEventListener('touchcancel', this._onTouchCancel);
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	private _onClick(inEvent: Event): void {
-		// reset touchfired flag since click always called after mouseup, touchend etc (last event fired)
-		this.isTouchFired = false;
+	// // eslint-disable-next-line @typescript-eslint/no-unused-vars
+	private _onClick(): void {
+		// reset touchstart/touchend flags
+		// this._touchStart = false;
+		// this._touchEnd = false;
+		// inEvent.preventDefault();
+	}
+
+	private _onContextMenu(inEvent: MouseEvent): void {
+		inEvent.preventDefault();
 	}
 
 	private _onMouseDown(inEvent: Event): void {
-		// ignore mousedown if isTouchFired
-		if (this.isTouchFired) { return; }
+		this._ch5Component.logger.log("this._onMouseDown"); //, this.isTouch, this.isMouse);
+		// ignore mousedown if touchstart
+		// if (this.isTouch) { return }
+		// this._ch5Component.logger.log("this._onMouseDown Continues...", this.ch5Component.getCrId());
+
+		// this.isMouse = true;
+		// this.isTouch = false;
 		const mouseEvent: MouseEvent = inEvent as MouseEvent;
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Idle) {
 			this._fingerState.mode = Ch5PressableFingerStateMode.Start;
-			this._fingerState.touchHoldTimer = window.setTimeout(this._onTouchHoldTimer, this.TOUCH_TIMEOUT);
+			// this._fingerState.touchHoldTimer = window.setTimeout(this._onTouchHoldTimer, this.TOUCH_TIMEOUT);
+			this._fingerIsDownActions();
 			this._fingerState.touchStartLocationX = mouseEvent.clientX;
 			this._fingerState.touchStartLocationY = mouseEvent.clientY;
 		}
 	}
 
 	private _onMouseMove(inEvent: Event): void {
-		if (this.isTouchFired) {
-			return;
-		}
+		this._ch5Component.logger.log("this._onMouseMove");
+		// if (this.isTouch) {
+		// 	return;
+		// }
 
-		// On a swipe motion we don't want to send a join or show visual feedback,
-		// check if finger has moved
+		// On a swipe motion we don't want to send a join or show visual feedback, check if finger has moved
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
 			const mouseEvent: MouseEvent = inEvent as MouseEvent;
 			if (mouseEvent !== null) {
 				const xMoveDistance = mouseEvent.clientX - this._fingerState.touchStartLocationX;
 				const yMoveDistance = mouseEvent.clientY - this._fingerState.touchStartLocationY;
 				const distanceMoved = Math.sqrt(xMoveDistance ** 2 + yMoveDistance ** 2);
-				this._ch5Component.info(`DELETE ME Ch5Pressable.onMouseMove() , ${mouseEvent.clientX}, ${mouseEvent.clientY}, ${distanceMoved}`);
+				this._ch5Component.logger.log(`DELETE ME Ch5PressableButton.onMouseMove() , ${mouseEvent.clientX}, ${mouseEvent.clientY}, ${distanceMoved}`);
 				if (distanceMoved > this.CLICK_MOVE_THRESHOLD) {
-					this._ch5Component.info(`Ch5Pressable.onMouseMove() cancelling press, ${mouseEvent.clientX}, ${mouseEvent.clientY}, ${distanceMoved}`);
-					this.isTouchFired = false;
-					this._fingerState.reset();
+					this._ch5Component.logger.log(`Ch5PressableButton.onMouseMove() cancelling press, ${mouseEvent.clientX}, ${mouseEvent.clientY}, ${distanceMoved}`);
+					this.resetFingerObject();
 				}
 			}
 		}
 	}
 
+	private resetFingerObject() {
+		// setTimeout(()=> {
+		// this.isMouse = false;
+		// this.isTouch = false;
+		this._fingerState.reset();
+		// });
+	}
+
 	private _onMouseUp(inEvent: Event): void {
-		if (this.isTouchFired) {
-			this.isTouchFired = false;
-			return;
-		}
-
-		const mouseEvent: MouseEvent = inEvent as MouseEvent;
-		if (mouseEvent !== null) {
-			if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
-				// quick tap, must do both press and release
-				this._fingerIsDownActions();
-			}
-
-			if (this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
-				this._onRelease();
-			}
-			this._fingerState.reset();
-		}
+		this._ch5Component.logger.log("this._onMouseUp");
+		this._onMouseLeave(inEvent);
 	}
 
 	private _onMouseLeave(inEvent: Event): void {
-		if (this.isTouchFired) {
-			this.isTouchFired = false;
-			return;
-		}
+		this._ch5Component.logger.log("this._onMouseLeave");
+		// if (this.isTouch) {
+		// 	return;
+		// }
 
 		const mouseEvent: MouseEvent = inEvent as MouseEvent;
 		if (mouseEvent !== null) {
-			if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
-				// quick tap, must do both press and release
-				this._fingerIsDownActions();
-			}
-
-			if (this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
-				this._onRelease();
-			}
-			this._fingerState.reset();
+			this.fingerStateActions();
 		}
 	}
 
-	private _onTouchStart(inEvent: Event): void {
-		this.isTouchFired = true;
+	/* private _onTouchStart(inEvent: Event): void {
+		// inEvent.preventDefault();
+		this._ch5Component.logger.log("this._onTouchStart"); //, this.isTouch, this.isMouse);
+		// if (this.isMouse) {
+		// 	return;
+		// }
+		// this._ch5Component.logger.log("this._onTouchStart Continues...", this.ch5Component.getCrId());
+
+		// this.isTouch = true;
+		// this.isMouse = false;
 
 		const touchEvent: TouchEvent = inEvent as TouchEvent;
 		const touch: Touch = touchEvent.changedTouches[0];
+		// this._ch5Component.info(`Ch5PressableButton._onTouchStart(), ${touch.clientX}, ${touch.clientY}, ${touch.identifier}`);
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Idle) {
 			this._fingerState.mode = Ch5PressableFingerStateMode.Start;
 			this._fingerState.touchHoldTimer = window.setTimeout(this._onTouchHoldTimer, this.TOUCH_TIMEOUT);
@@ -297,27 +308,31 @@ export class Ch5Pressable {
 			this._fingerState.touchStartLocationY = touch.clientY;
 			this._fingerState.touchPointId = touch.identifier;
 		}
-	}
+	} */
 
-	private _onTouchMove(inEvent: Event): void {
-		// On a swipe motion we don't want to send a join or show visual feedback,
-		// check if finger has moved
+	/* private _onTouchMove(inEvent: Event): void {
+		this._ch5Component.logger.log("this._onTouchMove");
+		// if (this.isMouse) {
+		// 	return;
+		// }
+
+		// On a swipe motion we don't want to send a join or show visual feedback, check if finger has moved
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
 			const touchEvent: TouchEvent = inEvent as TouchEvent;
 			const touch: Touch | null = this._fingerState.getTouchFromTouchList(touchEvent);
 			if (touch !== null) {
+				// this._ch5Component.info(`Ch5PressableButton._onTouchMove() , ${touch.clientX}, ${touch.clientY}, ${touch.identifier}`);
 				const xMoveDistance = touch.clientX - this._fingerState.touchStartLocationX;
 				const yMoveDistance = touch.clientY - this._fingerState.touchStartLocationY;
 				const distanceMoved = Math.sqrt(xMoveDistance ** 2 + yMoveDistance ** 2);
-				this._ch5Component.info(`DELETE ME Ch5Pressable._onTouchMove() , ${touch.clientX}, ${touch.clientY}, ${touch.identifier}, ${distanceMoved}`);
+				this._ch5Component.logger.log(`DELETE ME Ch5PressableButton._onTouchMove() , ${touch.clientX}, ${touch.clientY}, ${touch.identifier}, ${distanceMoved}`);
 				if (distanceMoved > this.PRESS_MOVE_THRESHOLD) {
-					this._ch5Component.info(`Ch5Pressable._onTouchMove() cancelling press, ${touch.clientX}, ${touch.clientY}, ${touch.identifier}, ${distanceMoved}`);
-					this.isTouchFired = false;
-					this._fingerState.reset();
+					this._ch5Component.logger.log(`Ch5PressableButton._onTouchMove() cancelling press, ${touch.clientX}, ${touch.clientY}, ${touch.identifier}, ${distanceMoved}`);
+					this.resetFingerObject();
 				}
 			}
 		}
-	}
+	} */
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	private _onTouchHoldTimer(event: Event): void {
@@ -334,35 +349,44 @@ export class Ch5Pressable {
 		}
 	}
 
-	private _onTouchEnd(inEvent: Event): void {
-		const touchEvent: TouchEvent = inEvent as TouchEvent;
-		const touch: Touch | null = this._fingerState.getTouchFromTouchList(touchEvent);
-		if (touch !== null) {
-			if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
-				// quick tap, must do both press and release
-				this._fingerIsDownActions();
+	/* 	private _onTouchEnd(inEvent: Event): void {
+			this._ch5Component.logger.log("this._onTouchEnd");
+			// if (this.isMouse) {
+			// 	return;
+			// }
+	
+			const touchEvent: TouchEvent = inEvent as TouchEvent;
+			const touch: Touch | null = this._fingerState.getTouchFromTouchList(touchEvent);
+			if (touch !== null) {
+				this.fingerStateActions();
 			}
+		} */
 
-			if (this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
-				this._onRelease();
-			}
-			this._fingerState.reset();
+	private fingerStateActions() {
+		if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
+			// quick tap, must do both press and release
+			this._fingerIsDownActions();
 		}
+
+		if (this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
+			this._onRelease();
+		}
+		this.resetFingerObject();
 	}
 
-	private _onTouchCancel(inEvent: Event): void {
-		this._ch5Component.info('Ch5Pressable._onCancel()');
+	/* private _onTouchCancel(inEvent: Event): void {
+		this._ch5Component.logger.log("this._onTouchCancel");
 		this._onTouchEnd(inEvent);
-	}
+	} */
 
 	/**
-	 * Dispatch press event. Add press css class
+	 * Dispatch press event. Add press css class.
 	 */
 	private _onHold() {
-		this._ch5Component.info(`Ch5Pressable._onHold() alreadyPressed:${this._pressed}`);
+		this._ch5Component.logger.log(`Ch5PressableButton._onHold() alreadyPressed:${this._pressed}`);
 		if (!this._pressed) {
 			// add the visual feedback
-			this._addCssPressClass();
+			this.addCssPressClass();
 
 			this._pressed = true;
 			this._released = false;
@@ -381,9 +405,7 @@ export class Ch5Pressable {
 				try {
 					// tslint:disable-next-line: no-eval
 					eval(onPressAttrib);
-				}
-				// tslint:disable-next-line: no-empty
-				catch (e) {
+				} catch (e) {
 					// Ignore
 				};
 			}
@@ -391,14 +413,14 @@ export class Ch5Pressable {
 	}
 
 	/**
-	 * Dispatch release event. Remove press css class
+	 * Dispatch release event. Remove press css class.
 	 */
 	private _onRelease() {
-		this._ch5Component.info(`Ch5Pressable._onRelease() alreadyReleased:${this._released}`);
+		this._ch5Component.logger.log(`Ch5PressableButton._onRelease() alreadyReleased:${this._released}`);
 		if (!this._released) {
 			// remove the visual feedback
 			setTimeout(() => {
-				this._removeCssPressClass();
+				this.removeCssPressClass();
 			}, this.TOUCH_TIMEOUT);
 
 			// update state of the button and tell the button the state
@@ -418,9 +440,37 @@ export class Ch5Pressable {
 				try {
 					// tslint:disable-next-line: no-eval
 					eval(onReleaseAttrib);
-				}
-				// tslint:disable-next-line: no-empty
-				catch (e) {
+				} catch (e) {
+					// Ignore
+				};
+			}
+		}
+	}
+
+	private _onReleaseAsap() {
+		this._ch5Component.logger.log(`Ch5PressableButton._onRelease() alreadyReleased:${this._released}`);
+		if (!this._released) {
+			// remove the visual feedback
+			this.removeCssPressClass();
+
+			// update state of the button and tell the button the state
+			this._pressed = false;
+			this._released = true;
+			this.observablePressed.next(this._pressed);
+			this._ch5Component.removeAttribute("pressed");
+
+			// dispatch event for addEventListener consumers
+			this._ch5Component.dispatchEvent(this._releaseEvent);
+
+			// dispatch event for onrelease="" consumers 
+			// simply eval()uate the on<event> text.   
+			// This is consistent with how standard events are processed, example <div onclick="">
+			const onReleaseAttrib = this._ch5Component.getAttribute('onrelease');
+			if (onReleaseAttrib !== null) {
+				try {
+					// tslint:disable-next-line: no-eval
+					eval(onReleaseAttrib);
+				} catch (e) {
 					// Ignore
 				};
 			}
@@ -430,7 +480,7 @@ export class Ch5Pressable {
 	/**
 	 * Add css class when the component is pressed
 	 */
-	private _addCssPressClass() {
+	private addCssPressClass() {
 		if (this._options !== null &&
 			this._options.cssTargetElement.classList !== undefined) {
 			this._options.cssPressedClass.split(' ').forEach((ele) => {
@@ -442,7 +492,7 @@ export class Ch5Pressable {
 	/**
 	 * Remove pressed css class when the component is released
 	 */
-	private _removeCssPressClass() {
+	private removeCssPressClass() {
 		if (this._options !== null &&
 			this._options.cssTargetElement.classList !== undefined) {
 			this._options.cssPressedClass.split(' ').forEach((ele) => {

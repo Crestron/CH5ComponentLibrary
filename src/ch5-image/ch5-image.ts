@@ -516,15 +516,15 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 			detail: "ch5-image triggered error CustomEvent",
 		});
 
-		this._pressable = new Ch5Pressable(this);
+		// this._pressable = new Ch5Pressable(this);
 
-		// events binding
-		this._onClick = this._onClick.bind(this);
-		this._onTouchStart = this._onTouchStart.bind(this);
-		this._onTouchEnd = this._onTouchEnd.bind(this);
-		this._onTouchCancel = this._onTouchCancel.bind(this);
-		this._onTouchMove = this._onTouchMove.bind(this);
-		this._onError = this._onError.bind(this);
+		// // events binding
+		// this._onClick = this._onClick.bind(this);
+		// this._onTouchStart = this._onTouchStart.bind(this);
+		// this._onTouchEnd = this._onTouchEnd.bind(this);
+		// this._onTouchCancel = this._onTouchCancel.bind(this);
+		// this._onTouchMove = this._onTouchMove.bind(this);
+		// this._onError = this._onError.bind(this);
 
 		// check if the img element has been created by verifying one of its properties
 		if (typeof this._img.classList === 'undefined') {
@@ -779,6 +779,18 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	 */
 	public connectedCallback() {
 		this.info(' connectedCallback() - start');
+
+
+		this._pressable = new Ch5Pressable(this);
+
+		// events binding
+		this._onClick = this._onClick.bind(this);
+		this._onTouchStart = this._onTouchStart.bind(this);
+		this._onTouchEnd = this._onTouchEnd.bind(this);
+		this._onTouchCancel = this._onTouchCancel.bind(this);
+		this._onTouchMove = this._onTouchMove.bind(this);
+		this._onError = this._onError.bind(this);
+
 
 		// WAI-ARIA Attributes
 		if (!this.hasAttribute('role')) {
@@ -1093,9 +1105,9 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 							window.clearInterval(this._repeatDigitalInterval as number);
 						}
 						this.sendValueForRepeatDigitalWorking(false);
-						setTimeout(() => {
-							// this.setButtonDisplay();
-						}, this.STATE_CHANGE_TIMEOUTS);
+						// setTimeout(() => {
+						// 	// this.setButtonDisplay();
+						// }, this.STATE_CHANGE_TIMEOUTS);
 					} else {
 						this.sendValueForRepeatDigitalWorking(true);
 						if (this._repeatDigitalInterval !== null) {
@@ -1305,6 +1317,10 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		if (null !== this._pressable) {
 			this._pressable.destroy();
 		}
+		if (this._isPressedSubscription !== null) {
+			this._isPressedSubscription.unsubscribe();
+			this._isPressedSubscription = null;
+		}
 	}
 
 	/**
@@ -1358,7 +1374,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	protected _onTouchStart(inEvent: Event): void {
 		this.info("Ch5Image._onTouchStart()");
 		// inEvent.preventDefault();
-
 		if (this._timerIdForTouch) {
 			window.clearTimeout(this._timerIdForTouch);
 		}
@@ -1389,7 +1404,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	private _onClick(inEvent: Event): void {
 		this.info("Ch5Image._onClick()");
 		// inEvent.preventDefault();
-
 		// this._sendValueForClickSignal();
 	}
 
