@@ -189,5 +189,5 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
 	 * @attributeType "Join"
 	 */
-	receiveStateDateFormat: string;
+	receiveStateStyleForDate: string;
 }

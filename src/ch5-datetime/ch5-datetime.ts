@@ -43,7 +43,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
     receiveStateAmPmFormat: { direction: "state", numericJoin: 1, contractName: true },
     receiveStateSecondsFormat: { direction: "state", numericJoin: 1, contractName: true },
     receiveStateTwoDigitsHourFormat: { direction: "state", numericJoin: 1, contractName: true },
-    receiveStateDateFormat: { direction: "state", numericJoin: 1, contractName: true }
+    receiveStateStyleForDate: { direction: "state", numericJoin: 1, contractName: true }
   };
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
     {
@@ -212,7 +212,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
     {
 			default: false,
 			name: "styleForDate",
-			nameForSignal: "receiveStateDateFormat",
+			nameForSignal: "receiveStateStyleForDate",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: true,
@@ -221,7 +221,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
     {
       default: "",
       isSignal: true,
-      name: "receiveStateDateFormat",
+      name: "receiveStateStyleForDate",
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
@@ -332,7 +332,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
   }
 
   public set receiveState24HourFormat(value: string) {
-    this._ch5Properties.set("receiveState24HourFormat", value, null, (newValue: number) => {
+    this._ch5Properties.set("receiveState24HourFormat", value, null, (newValue: boolean) => {
       this._ch5Properties.setForSignalResponse<boolean>("display24HourFormat", newValue, () => {
         this.debounceRender();
       });
@@ -343,7 +343,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
   }
 
   public set receiveStateAmPmFormat(value: string) {
-    this._ch5Properties.set("receiveStateAmPmFormat", value, null, (newValue: number) => {
+    this._ch5Properties.set("receiveStateAmPmFormat", value, null, (newValue: boolean) => {
       this._ch5Properties.setForSignalResponse<boolean>("displayAmPm", newValue, () => {
         this.debounceRender();
       });
@@ -354,7 +354,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
   }
 
   public set receiveStateSecondsFormat(value: string) {
-    this._ch5Properties.set("receiveStateSecondsFormat", value, null, (newValue: number) => {
+    this._ch5Properties.set("receiveStateSecondsFormat", value, null, (newValue: boolean) => {
       this._ch5Properties.setForSignalResponse<boolean>("displaySeconds", newValue, () => {
         this.debounceRender();
       });
@@ -365,7 +365,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
   }
 
   public set receiveStateTwoDigitsHourFormat(value: string) {
-    this._ch5Properties.set("receiveStateTwoDigitsHourFormat", value, null, (newValue: number) => {
+    this._ch5Properties.set("receiveStateTwoDigitsHourFormat", value, null, (newValue: boolean) => {
       this._ch5Properties.setForSignalResponse<boolean>("displayTwoDigitsHour", newValue, () => {
         this.debounceRender();
       });
@@ -375,15 +375,15 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
     return this._ch5Properties.get<string>('receiveStateTwoDigitsHourFormat');
   }
 
-  public set receiveStateDateFormat(value: string) {
-    this._ch5Properties.set("receiveStateDateFormat", value, null, (newValue: number) => {
-      this._ch5Properties.setForSignalResponse<boolean>("styleForDate", newValue, () => {
+  public set receiveStateStyleForDate(value: string) {
+    this._ch5Properties.set("receiveStateStyleForDate", value, null, (newValue: string) => {
+      this._ch5Properties.setForSignalResponse<string>("styleForDate", newValue, () => {
         this.debounceRender();
       });
     });
   }
-  public get receiveStateDateFormat(): string {
-    return this._ch5Properties.get<string>('receiveStateDateFormat');
+  public get receiveStateStyleForDate(): string {
+    return this._ch5Properties.get<string>('receiveStateStyleForDate');
   }
 
   //#endregion
