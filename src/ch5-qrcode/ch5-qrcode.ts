@@ -176,33 +176,18 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 	}
 
 	private onWindowResizeHandler() {
-		// if (!this.hasAttribute("size")) {400
-		// 	// Get size from CSS
-		// 	// Component Attribute overrides CSS Value
-
-		// } else {
-		// 	this.style.setProperty('--ch5-qrcode--size', String(this.size));
-		// 	this.calcuatedSizeFromCSS = 0;
-		// 	this.style.setProperty('--ch5-qrcode--size', String(this.size));
-		// 	// set width and height in css class
-		// }
-console.log("AAAAA");
 		if (!this.hasAttribute("size")) {
 			// Get size from CSS
 			// Component Attribute overrides CSS Value
-			// this.style.removeProperty('--ch5-qrcode--size'); // Used incase the size attribute is removed from DOM
 			const computedStyle = getComputedStyle(this);
 			const calcuatedSizeFromCSS = Number(computedStyle.getPropertyValue('--ch5-qrcode--size'));
 			const calculatedSizeObj = Ch5QrCode.COMPONENT_PROPERTIES.find((colorCode: ICh5PropertySettings) => colorCode.name === "size");
 			if (calcuatedSizeFromCSS >= Number(calculatedSizeObj?.numberProperties?.min) && calcuatedSizeFromCSS <= Number(calculatedSizeObj?.numberProperties?.max)) {
 				this.calcuatedSizeFromCSS = calcuatedSizeFromCSS;
 			} else {
-				// this.style.setProperty('--ch5-qrcode--size', calculatedSizeObj?.default);
 				this.calcuatedSizeFromCSS = 0;
 			}
-			// this.style.setProperty('--ch5-qrcode--size', calculatedSizeObj?.default);
 		} else {
-			// this.style.setProperty('--ch5-qrcode--size', String(this.size));
 			this.calcuatedSizeFromCSS = 0;
 		}
 		this.handleQrCode();
@@ -248,13 +233,8 @@ console.log("AAAAA");
 		const canvasForQRCode = this.querySelector<HTMLCanvasElement>('canvas');
 		let calculatedSize: number = this.size; // TODO - use let after the below fix
 		if (!this.hasAttribute("size") && this.calcuatedSizeFromCSS > 0) {
-			// const calculatedSizeObj = Ch5QrCode.COMPONENT_PROPERTIES.find((colorCode: ICh5PropertySettings) => colorCode.name === "size")?.numberProperties;
-			// if (this.calcuatedSizeFromCSS > Number(calculatedSizeObj?.min) && this.calcuatedSizeFromCSS < Number(calculatedSizeObj?.max)) {
 			calculatedSize = this.calcuatedSizeFromCSS;
-			// }
 		}
-		console.log("calculatedSize is ", calculatedSize);
-		this.style.setProperty('--ch5-qrcode--size', String(calculatedSize));
 			
 		if (canvasForQRCode) {
 			canvasForQRCode.setAttribute("width", String(calculatedSize));
