@@ -186,13 +186,12 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 		// 	this.style.setProperty('--ch5-qrcode--size', String(this.size));
 		// 	// set width and height in css class
 		// }
-
+console.log("AAAAA");
 		if (!this.hasAttribute("size")) {
 			// Get size from CSS
 			// Component Attribute overrides CSS Value
 			// this.style.removeProperty('--ch5-qrcode--size'); // Used incase the size attribute is removed from DOM
 			const computedStyle = getComputedStyle(this);
-			console.log("computedStyle", computedStyle, computedStyle.getPropertyValue('--ch5-qrcode--size'));
 			const calcuatedSizeFromCSS = Number(computedStyle.getPropertyValue('--ch5-qrcode--size'));
 			const calculatedSizeObj = Ch5QrCode.COMPONENT_PROPERTIES.find((colorCode: ICh5PropertySettings) => colorCode.name === "size");
 			if (calcuatedSizeFromCSS >= Number(calculatedSizeObj?.numberProperties?.min) && calcuatedSizeFromCSS <= Number(calculatedSizeObj?.numberProperties?.max)) {
@@ -202,11 +201,11 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 				this.calcuatedSizeFromCSS = 0;
 			}
 			// this.style.setProperty('--ch5-qrcode--size', calculatedSizeObj?.default);
-			this.handleQrCode();
 		} else {
 			// this.style.setProperty('--ch5-qrcode--size', String(this.size));
 			this.calcuatedSizeFromCSS = 0;
 		}
+		this.handleQrCode();
 	}
 
 	public disconnectedCallback() {
@@ -254,7 +253,9 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 			calculatedSize = this.calcuatedSizeFromCSS;
 			// }
 		}
-		// console.log("calculatedSize", calculatedSize);
+		console.log("calculatedSize is ", calculatedSize);
+		this.style.setProperty('--ch5-qrcode--size', String(calculatedSize));
+			
 		if (canvasForQRCode) {
 			canvasForQRCode.setAttribute("width", String(calculatedSize));
 			canvasForQRCode.setAttribute("height", String(calculatedSize));
