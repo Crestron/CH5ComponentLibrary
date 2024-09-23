@@ -231,11 +231,16 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 	private handleQrCode() {
 		const data: string = this.qrCode;
 		const canvasForQRCode = this.querySelector<HTMLCanvasElement>('canvas');
-		let calculatedSize: number = this.size; // TODO - use let after the below fix
+		let calculatedSize: number = this.size;
 		if (!this.hasAttribute("size") && this.calcuatedSizeFromCSS > 0) {
 			calculatedSize = this.calcuatedSizeFromCSS;
 		}
-			
+		if (this.hasAttribute("size")) {
+			this._elContainer.style.setProperty('--ch5-qrcode--size', String(calculatedSize));
+		} else {
+			this._elContainer.style.removeProperty('--ch5-qrcode--size');
+		}
+	
 		if (canvasForQRCode) {
 			canvasForQRCode.setAttribute("width", String(calculatedSize));
 			canvasForQRCode.setAttribute("height", String(calculatedSize));
