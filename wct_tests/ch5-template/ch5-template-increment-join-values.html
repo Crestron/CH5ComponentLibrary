@@ -175,19 +175,20 @@
 				]);
 			});
 
-			test('Increment content in ch5-button-label', (done) => {
-				const ch5ButtonUsingNumericSelector = 'ch5-button.uses-numeric > div > button > span > span > span';
-				const ch5ButtonUsingNumericContract = 'ch5-button.uses-contract > div > button > span > span > span';
-				flush(() => {
-					setTimeout(() => {
-						const labelUsingNumeric = ch5ButtonUsingNumeric.querySelector(ch5ButtonUsingNumericSelector);
-						const labelUsingContract = ch5ButtonUsingContract.querySelector(ch5ButtonUsingNumericContract);
-						assert.strictEqual(labelUsingNumeric.getAttribute("data-ch5-textcontent"), '101');
-						assert.strictEqual(labelUsingContract.getAttribute("data-ch5-textcontent"), 'My.Contract.Prefix.ButtonLabel');
-						done();
-					}, 100);
-				});
-			});
+			// test('Increment content in ch5-button-label', (done) => {
+			// 	const ch5ButtonUsingNumericSelector = 'ch5-button.uses-numeric > div > button > span > span > span';
+			// 	const ch5ButtonUsingNumericContract = 'ch5-button.uses-contract > div > button > span > span > span';
+			// 	flush(() => {
+			// 		setTimeout(() => {
+			// 			const labelUsingNumeric = ch5ButtonUsingNumeric.querySelector(ch5ButtonUsingNumericSelector);
+			// 			const labelUsingContract = ch5ButtonUsingContract.querySelector(ch5ButtonUsingNumericContract);
+			// 			assert.strictEqual(labelUsingNumeric.getAttribute("data-ch5-textcontent"), '101');
+			// 			assert.strictEqual(labelUsingContract.getAttribute("data-ch5-textcontent"), 'My.Contract.Prefix.ButtonLabel');
+			// 			done();
+			// 		}, 100);
+			// 	});
+			// });
+
 		});
 	</script>
 

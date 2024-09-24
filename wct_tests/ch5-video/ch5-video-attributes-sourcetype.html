@@ -6,7 +6,7 @@
   <script src="/webcomponentsjs/webcomponents-lite.js"></script>
   <script src="/bower_components/web-component-tester/browser.js"></script>
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
-  <script src="/wct_tests/js/helpers.js"></script>    
+  <script src="/wct_tests/js/helpers.js"></script>
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
 </head>
 
@@ -23,16 +23,16 @@
       setup(async () => {
         ch5Video = fixture('ch5-video-sourceType-attributes');
       });
-        
-        let testCases = ['a', '', ' ', 'number', 'Network', 'HDMI', 'DM'];
-        let expectedResult = ['Network', 'Network', 'Network', 'Network', 'Network',  'Network',  'Network']; // 'HDMI', 'DM'];
-        testCases.forEach((ele, i) => {
-              test('Check Value "sourceType"', () => {
-                  ch5Video.setAttribute('sourceType', ele);
-                  expect(ch5Video.getAttribute('sourceType')).to.be.equal(expectedResult[i]);
-              });
-          });
-        
+
+      let testCases = ['a', '', ' ', 'number', 'Network', 'HDMI', 'DM'];
+      let expectedResult = ['Network', 'Network', 'Network', 'Network', 'Network', 'HDMI', 'Network']; // , 'DM'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "sourceType"', () => {
+          ch5Video.setAttribute('sourceType', ele);
+          expect(ch5Video.getAttribute('sourceType')).to.be.equal(expectedResult[i]);
+        });
+      });
+
     });
   </script>
 </body>

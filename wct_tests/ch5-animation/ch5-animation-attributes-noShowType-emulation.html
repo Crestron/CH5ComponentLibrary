@@ -28,7 +28,7 @@
       });
 
       test('receiveStateAnimate', (done) => {
-        ch5QrCode.setAttribute('noShowType', 'remove');
+        ch5Animation.setAttribute('noShowType', 'remove');
         CrComLib.publishEvent('b', 'trigger_remove', true);
         flush(() => {
           setTimeout(() => {
@@ -41,14 +41,13 @@
         CrComLib.publishEvent('b', 'trigger_display', true);
         flush(() => {
           setTimeout(() => {
-            console.log('ele->',ch5Animation);
             expect(ch5Animation.getAttribute('noShowType')).to.be.equal('display');
             done();
           }, 100);
         });
       });
       test('receiveStateAnimate', (done) => {
-        ch5QrCode.setAttribute('noShowType', 'visibility');
+        ch5Animation.setAttribute('noShowType', 'visibility');
         CrComLib.publishEvent('b', 'trigger_visibility', true);
         flush(() => {
           setTimeout(() => {
