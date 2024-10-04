@@ -133,11 +133,14 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
   public set multilineSupport(value: boolean) {
     this._ch5Properties.set<boolean>("multilineSupport", value, () => {
-      setTimeout(() => {
-        this.handleMultilineSupport(); // Line height is not accurately calculated
-      }, 50);
+      this.debounceHandleMultilineSupport();
     });
   }
+
+  public debounceHandleMultilineSupport = this.debounce(() => {
+    this.handleMultilineSupport();
+  }, 150);
+
   public get multilineSupport(): boolean {
     return this._ch5Properties.get<boolean>("multilineSupport");
   }
@@ -247,7 +250,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     this.logger.start('connectedCallback()', Ch5Text.ELEMENT_NAME);
     subscribeInViewPortChange(this, () => {
       if (this.elementIsInViewPort) {
-        this.handleMultilineSupport();
+        this.debounceHandleMultilineSupport();
       }
     });
     // WAI-ARIA Attributes
@@ -414,10 +417,15 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   }
 
   public fitEllipsisForMultiline() {
+    let numberOfLines = 0;
     const lineHeight = this.getLineHeightSuper(this._elSpan);
     const topAndBottomPadding = 20;
     const containerHeight = this.getContainerHeight(this._elContainer) - topAndBottomPadding;
-    const numberOfLines = Math.floor(containerHeight / lineHeight);
+    if (containerHeight < lineHeight) {
+      numberOfLines = 1
+    } else {
+      numberOfLines = Math.floor(containerHeight / lineHeight);
+    }
     if (this.truncateText) {
       this._elSpan.setAttribute("style", "-webkit-line-clamp:" + numberOfLines);
     } else {
@@ -445,7 +453,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   }
 
   private onWindowResizeHandler() {
-    this.handleMultilineSupport();
+    this.debounceHandleMultilineSupport()
   }
 
   //#endregion
