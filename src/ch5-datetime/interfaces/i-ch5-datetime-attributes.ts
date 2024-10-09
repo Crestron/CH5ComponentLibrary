@@ -129,65 +129,78 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	/**
 	 * @documentation
 	 * [
-	 * "`receiveStateTimeFormat` attribute",
+	 * "`receiveStateDisplay24HourFormat` attribute",
 	 * "***",
-	 * "Boolean signal to change format of time. This will override display24HourFormat."
+	 * "Boolean signal to change 24hr format of time. This will override display24HourFormat."
 	 * ]
-	 * @name receiveState24HourFormat
+	 * @name receiveStateDisplay24HourFormat
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
 	 * @attributeType "Join"
 	 */
-	receiveState24HourFormat: string;
+	receiveStateDisplay24HourFormat: string;
 
 	/**
 	 * @documentation
 	 * [
-	 * "`receiveStateAmPmFormat` attribute",
+	 * "`receiveStateDisplayAmPm` attribute",
 	 * "***",
-	 * "Boolean signal to change format of time. This will override displayAmPm."
+	 * "Boolean signal to change am/pm format of time. This will override displayAmPm."
 	 * ]
-	 * @name receiveStateAmPmFormat
+	 * @name receiveStateDisplayAmPm
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
 	 * @attributeType "Join"
 	 */
-	receiveStateAmPmFormat: string;
+	receiveStateDisplayAmPm: string;
 
 	/**
 	 * @documentation
 	 * [
-	 * "`receiveStateSecondsFormat` attribute",
+	 * "`receiveStateDisplaySeconds` attribute",
 	 * "***",
-	 * "Boolean signal to change format of time. This will override displaySeconds."
+	 * "Boolean signal to change format of seconds time. This will override displaySeconds."
 	 * ]
-	 * @name receiveStateSecondsFormat
+	 * @name receiveStateDisplaySeconds
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
 	 * @attributeType "Join"
 	 */
-	receiveStateSecondsFormat: string;
+	receiveStateDisplaySeconds: string;
 
 	/**
 	 * @documentation
 	 * [
-	 * "`receiveStateTwoDigitsHourFormat` attribute",
+	 * "`receiveStateDisplayTwoDigitsHour` attribute",
 	 * "***",
-	 * "Boolean signal to change format of time. This will override displayTwoDigitsHour."
+	 * "Boolean signal to change format of hour time. This will override displayTwoDigitsHour."
 	 * ]
-	 * @name receiveStateTwoDigitsHourFormat
+	 * @name receiveStateDisplayTwoDigitsHour
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
 	 * @attributeType "Join"
 	 */
-	receiveStateTwoDigitsHourFormat: string;
+	receiveStateDisplayTwoDigitsHour: string;
 
 	/**
 	 * @documentation
 	 * [
-	 * "`receiveStateDateFormat` attribute",
+	 * "`receiveStateStyleForDate` attribute",
 	 * "***",
-	 * "Boolean signal to change format of time. This will override styleForDate."
+	 * "Change format of date. This will override styleForDate."
 	 * ]
-	 * @name receiveStateDateFormat
+	 * @name receiveStateStyleForDate
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
 	 * @attributeType "Join"
 	 */
 	receiveStateStyleForDate: string;
+
+	/**
+	 * @documentation
+	 * [
+	 * "`receiveStateDisplayType` attribute",
+	 * "***",
+	 * "Set display type. This will override displayType."
+	 * ]
+	 * @name receiveStateDisplayType
+	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+	 * @attributeType "Join"
+	 */
+	receiveStateDisplayType: string;
 }
