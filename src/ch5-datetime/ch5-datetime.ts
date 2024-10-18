@@ -50,6 +50,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
     {
       default: false,
       name: "display24HourFormat",
+      nameForSignal: "receiveStateDisplay24HourFormat",
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: true,
@@ -58,6 +59,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
     {
       default: true,
       name: "displayAmPm",
+      nameForSignal: "receiveStateDisplayAmPm",
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: true,
@@ -66,6 +68,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
     {
       default: false,
       name: "displayTwoDigitsHour",
+      nameForSignal: "receiveStateDisplayTwoDigitsHour",
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: true,
@@ -74,6 +77,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
     {
       default: false,
       name: "displaySeconds",
+      nameForSignal: "receiveStateDisplaySeconds",
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: true,
@@ -83,6 +87,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
       default: Ch5DateTime.STYLE_FOR_DATE[0],
       enumeratedValues: Ch5DateTime.STYLE_FOR_DATE,
       name: "styleForDate",
+      nameForSignal: "receiveStateStyleForDate",
       removeAttributeOnNull: true,
       type: "enum",
       valueOnAttributeEmpty: Ch5DateTime.STYLE_FOR_DATE[0],
@@ -101,6 +106,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
       default: Ch5DateTime.DISPLAY_TYPE[0],
       enumeratedValues: Ch5DateTime.DISPLAY_TYPE,
       name: "displayType",
+      nameForSignal: "receiveStateDisplayType",
       removeAttributeOnNull: true,
       type: "enum",
       valueOnAttributeEmpty: Ch5DateTime.DISPLAY_TYPE[0],
@@ -134,15 +140,6 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
       isObservableProperty: true,
     },
     {
-      default: false,
-      name: "display24HourFormat",
-      nameForSignal: "receiveStateDisplay24HourFormat",
-      removeAttributeOnNull: true,
-      type: "boolean",
-      valueOnAttributeEmpty: true,
-      isObservableProperty: true,
-    },
-    {
       default: "",
       isSignal: true,
       name: "receiveStateDisplay24HourFormat",
@@ -150,15 +147,6 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
-    },
-    {
-      default: false,
-      name: "displayAmPm",
-      nameForSignal: "receiveStateDisplayAmPm",
-      removeAttributeOnNull: true,
-      type: "boolean",
-      valueOnAttributeEmpty: true,
       isObservableProperty: true,
     },
     {
@@ -172,15 +160,6 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
       isObservableProperty: true,
     },
     {
-      default: false,
-      name: "displaySeconds",
-      nameForSignal: "receiveStateDisplaySeconds",
-      removeAttributeOnNull: true,
-      type: "boolean",
-      valueOnAttributeEmpty: true,
-      isObservableProperty: true,
-    },
-    {
       default: "",
       isSignal: true,
       name: "receiveStateDisplaySeconds",
@@ -188,15 +167,6 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
-    },
-    {
-      default: false,
-      name: "displayTwoDigitsHour",
-      nameForSignal: "receiveStateDisplayTwoDigitsHour",
-      removeAttributeOnNull: true,
-      type: "boolean",
-      valueOnAttributeEmpty: true,
       isObservableProperty: true,
     },
     {
@@ -210,15 +180,6 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
       isObservableProperty: true,
     },
     {
-      default: false,
-      name: "styleForDate",
-      nameForSignal: "receiveStateStyleForDate",
-      removeAttributeOnNull: true,
-      type: "string",
-      valueOnAttributeEmpty: true,
-      isObservableProperty: true,
-    },
-    {
       default: "",
       isSignal: true,
       name: "receiveStateStyleForDate",
@@ -226,15 +187,6 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
-    },
-    {
-      default: false,
-      name: "displayType",
-      nameForSignal: "receiveStateDisplayType",
-      removeAttributeOnNull: true,
-      type: "string",
-      valueOnAttributeEmpty: true,
       isObservableProperty: true,
     },
     {
