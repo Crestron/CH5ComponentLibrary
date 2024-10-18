@@ -26,6 +26,149 @@
               "offset": 100
             } 
           ]
+        },
+        {
+          "type": "boolean",
+          "event": "trigger_event_true",
+          "trigger": true,
+          "actions": [
+            {
+              "state": "trigger_event_listener",
+              "type": "boolean",
+              "logic": "set",
+              "value": "true"
+            }
+          ]
+        },
+        {
+          "type": "boolean",
+          "event": "trigger_event_false",
+          "trigger": false,
+          "actions": [
+            {
+              "state": "trigger_event_listener",
+              "type": "boolean",
+              "logic": "set",
+              "value": "false"
+            }
+          ]
+        },
+        {
+          "type": "boolean",
+          "event": "trigger_event_chars",
+          "trigger": true,
+          "actions": [
+            {
+              "state": "trigger_event_listener",
+              "type": "string",
+              "logic": "set",
+              "value": "abc"
+            }
+          ]
+        },
+        {
+          "type": "boolean",
+          "event": "trigger_event_number",
+          "trigger": true,
+          "actions": [
+            {
+              "state": "trigger_event_listener",
+              "type": "numeric",
+              "logic": "set",
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "type": "boolean",
+          "event": "trigger_event_special",
+          "trigger": true,
+          "actions": [
+            {
+              "state": "trigger_event_listener",
+              "type": "numeric",
+              "logic": "set",
+              "value": "&"
+            }
+          ]
+        },
+        {
+          "type": "boolean",
+          "event": "trigger_event_date",
+          "trigger": true,
+          "actions": [
+            {
+              "state": "trigger_event_listener",
+              "type": "string",
+              "logic": "set",
+              "value": "date"
+            }
+          ]
+        },
+        {
+          "type": "boolean",
+          "event": "trigger_event_time",
+          "trigger": true,
+          "actions": [
+            {
+              "state": "trigger_event_listener",
+              "type": "string",
+              "logic": "set",
+              "value": "time"
+            }
+          ]
+        },
+        {
+          "type": "boolean",
+          "event": "trigger_event_datetime",
+          "trigger": true,
+          "actions": [
+            {
+              "state": "trigger_event_listener",
+              "type": "string",
+              "logic": "set",
+              "value": "datetime"
+            }
+          ]
+        },
+        {
+          "type": "boolean",
+          "event": "trigger_event_datestyle1",
+          "trigger": true,
+          "actions": [
+            {
+              "state": "trigger_event_listener",
+              "type": "string",
+              "logic": "set",
+              "value": "dd_MM_yyyy"
+            }
+          ]
+        },
+        {
+          "type": "boolean",
+          "event": "trigger_event_datestyle2",
+          "trigger": true,
+          "actions": [
+            {
+              "state": "trigger_event_listener",
+              "type": "string",
+              "logic": "set",
+              "value": "yyyy MMMM, dd"
+            }
+          ]
+        },
+        {
+          "type": "boolean",
+          "event": "trigger_event_datestyle3",
+          "trigger": true,
+          "actions": [
+            {
+              "state": "trigger_event_listener",
+              "type": "string",
+              "logic": "set",
+              "value": "MMM d, yyyy"
+            }
+          ]
         }
   ]
 }
