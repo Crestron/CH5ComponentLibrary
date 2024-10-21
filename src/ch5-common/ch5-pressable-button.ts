@@ -19,7 +19,7 @@ enum Ch5PressableFingerStateMode {
 	FingerDown
 }
 
-export class Ch5Pressable {
+export class Ch5PressableButton {
 
 	/**
 	 * This class provides variables to be accessed between touch and mouse events. 
