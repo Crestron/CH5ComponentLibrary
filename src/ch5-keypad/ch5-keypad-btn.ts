@@ -155,8 +155,8 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		// });
 
 		this._ch5Properties.set<string>("labelMinor", value, () => {
-			if (this.labelMinor.trim() === "" || this.labelMinor.trim() === "null") {
-				this.setAttribute('labelMinor', "&nbsp")
+			if (this.labelMinor.trim() === "") {
+				this.setAttribute('labelMinor', this.getDefaultValue('labelMinor'))
 			}
 			this.handleLabelMinor();
 		});
