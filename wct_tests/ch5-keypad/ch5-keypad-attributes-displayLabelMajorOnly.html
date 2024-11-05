@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/wct_tests/js/helpers.js"></script>    
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-keypad-displayLabelMajorOnly-attributes">
+    <template>
+      <ch5-keypad></ch5-keypad>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-keypad-displayLabelMajorOnly-attributes-value', () => {
+      let ch5Keypad;
+
+      setup(async () => {
+        ch5Keypad = fixture('ch5-keypad-displayLabelMajorOnly-attributes');
+      });
+
+      let testCases = ['a', '', ' ', '12', true, false];
+      let expectedResult = ['false', 'false', 'false', 'false', 'true', 'false'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "displayLabelMajorOnly"', () => {
+          ch5Keypad.setAttribute('displayLabelMajorOnly', ele);
+          expect(ch5Keypad.getAttribute('displayLabelMajorOnly')).to.be.equal(expectedResult[i]);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
