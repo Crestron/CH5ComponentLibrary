@@ -133,7 +133,7 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * "***",
 	 * "Boolean signal to change 24hr format of time. This will override display24HourFormat."
 	 * ]
-	 * @name receiveStateDisplay24HourFormat
+	 * @name receivestatedisplay24hourformat
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
 	 * @attributeType "Join"
 	 */
@@ -146,7 +146,7 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * "***",
 	 * "Boolean signal to change am/pm format of time. This will override displayAmPm."
 	 * ]
-	 * @name receiveStateDisplayAmPm
+	 * @name receivestatedisplayampm
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
 	 * @attributeType "Join"
 	 */
@@ -159,7 +159,7 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * "***",
 	 * "Boolean signal to change format of seconds time. This will override displaySeconds."
 	 * ]
-	 * @name receiveStateDisplaySeconds
+	 * @name receivestatedisplayseconds
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
 	 * @attributeType "Join"
 	 */
@@ -172,7 +172,7 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * "***",
 	 * "Boolean signal to change format of hour time. This will override displayTwoDigitsHour."
 	 * ]
-	 * @name receiveStateDisplayTwoDigitsHour
+	 * @name receivestatedisplaytwodigitshour
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
 	 * @attributeType "Join"
 	 */
@@ -185,7 +185,7 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * "***",
 	 * "Change format of date. This will override styleForDate."
 	 * ]
-	 * @name receiveStateStyleForDate
+	 * @name receivestatestylefordate
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
 	 * @attributeType "Join"
 	 */
@@ -198,7 +198,7 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * "***",
 	 * "Set display type. This will override displayType."
 	 * ]
-	 * @name receiveStateDisplayType
+	 * @name receivestatedisplaytype
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
 	 * @attributeType "Join"
 	 */
