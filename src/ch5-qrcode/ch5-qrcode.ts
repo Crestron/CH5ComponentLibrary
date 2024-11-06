@@ -47,7 +47,7 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 				conditionalMin: 160,
 				conditionalMax: 4000,
 				conditionalMinValue: 160,
-				conditionalMaxValue: 160
+				conditionalMaxValue: 4000
 			},
 			isObservableProperty: true
 		},
@@ -182,11 +182,20 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 			const computedStyle = getComputedStyle(this);
 			const calcuatedSizeFromCSS = Number(computedStyle.getPropertyValue('--ch5-qrcode--size'));
 			const calculatedSizeObj = Ch5QrCode.COMPONENT_PROPERTIES.find((colorCode: ICh5PropertySettings) => colorCode.name === "size");
-			if (calcuatedSizeFromCSS >= Number(calculatedSizeObj?.numberProperties?.min) && calcuatedSizeFromCSS <= Number(calculatedSizeObj?.numberProperties?.max)) {
-				this.calcuatedSizeFromCSS = calcuatedSizeFromCSS;
+			if (calculatedSizeObj && calculatedSizeObj.numberProperties) {
+				if (calcuatedSizeFromCSS >= Number(calculatedSizeObj.numberProperties.min) && calcuatedSizeFromCSS <= Number(calculatedSizeObj.numberProperties.max)) {
+					this.calcuatedSizeFromCSS = calcuatedSizeFromCSS;
+				} else if (calcuatedSizeFromCSS < Number(calculatedSizeObj.numberProperties.min)) {
+					this.calcuatedSizeFromCSS = calculatedSizeObj.numberProperties.min;
+				} else if (calcuatedSizeFromCSS > Number(calculatedSizeObj.numberProperties.max)) {
+					this.calcuatedSizeFromCSS = calculatedSizeObj.numberProperties.max;
+				} else {
+					this.calcuatedSizeFromCSS = 0;
+				}
 			} else {
 				this.calcuatedSizeFromCSS = 0;
 			}
+
 		} else {
 			this.calcuatedSizeFromCSS = 0;
 		}
@@ -240,7 +249,7 @@ export class Ch5QrCode extends Ch5BaseClass implements ICh5QrCodeAttributes {
 		} else {
 			this._elContainer.style.removeProperty('--ch5-qrcode--size');
 		}
-	
+
 		if (canvasForQRCode) {
 			canvasForQRCode.setAttribute("width", String(calculatedSize));
 			canvasForQRCode.setAttribute("height", String(calculatedSize));
