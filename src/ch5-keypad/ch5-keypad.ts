@@ -573,11 +573,11 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	private handleDisplayLabelMajorOnly() {
-        [true, false].forEach((bool: boolean) => {
-            this._elContainer.classList.remove(this.primaryCssClass + this.displayLabelMajorOnlyCssClass + bool.toString());
-        });
-        this._elContainer.classList.add(this.primaryCssClass + this.displayLabelMajorOnlyCssClass + this.displayLabelMajorOnly);
-    }
+		[true, false].forEach((bool: boolean) => {
+			this._elContainer.classList.remove(this.primaryCssClass + this.displayLabelMajorOnlyCssClass + bool.toString());
+		});
+		this._elContainer.classList.add(this.primaryCssClass + this.displayLabelMajorOnlyCssClass + this.displayLabelMajorOnly);
+	}
 
 	private createKeyPadButtons() {
 		this._elContainer.innerHTML = "";
@@ -753,7 +753,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	private contractDefaultHelper() {
-		if (this.contractName !== "" ) {
+		if (this.contractName !== "") {
 			if (this.useContractForCustomStyle === true) {
 				this.receiveStateCustomStyle = this.contractName + '.CustomStyle';
 			}
@@ -879,7 +879,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		this._elContainer.classList.add(this.primaryCssClass + Ch5Keypad.COMPONENT_DATA.SIZE.classListPrefix + this.size);
 
 		this._elContainer.classList.add(this.primaryCssClass + this.displayLabelMajorOnlyCssClass + this.displayLabelMajorOnly);
-		
+
 		this.logger.stop();
 	}
 

@@ -311,7 +311,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "This property is meant to control the behavior of labelMajor. If set to true, ",
      * "only Label Major will be visible and will aligned center of the button. This attribute will take precedence over labelMinor in each child element"
      * ]
-     * @name displayLabelMajorOnly
+     * @name displaylabelmajoronly
      * @default false
      * @attributeType "Boolean"
      */
