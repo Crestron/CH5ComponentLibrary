@@ -61,7 +61,7 @@ from ch5 components, and custom attributes will not be affected)
 
 http://localhost:3000/?ipId=0x99&host=10.0.0.203
 
-## Whats New,
+## What's New
 
 Updates to the Crestron HTML5 User Interface and documentation are avalilable in the following link
 https://sdkcon78221.crestron.com/sdk/Crestron_HTML5UI/Content/Topics/Whats-New.htm
