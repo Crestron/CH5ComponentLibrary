@@ -382,7 +382,23 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     } else {
       this.subpageDisplayForLoadItemsAll(isReceiveStateScrollTo);
     }
+
+    this.setCustomAttributesInChildComponents(this);
   }, 100);
+
+  private setCustomAttributesInChildComponents(parentElement: any) {
+    const found: any = [];
+    const allElements = parentElement.getElementsByTagName('*');
+
+    for (const element of allElements) {
+      const elementTagName = element.tagName;
+      if (elementTagName.startsWith('CH5-')) {
+        element.setAttribute("swipeGestureEnabled", "true");
+        found.push(element);
+      }
+    }
+    return found;
+  }
 
   public debounceInitScrollBar = this.debounce(() => {
     this.initScrollbar();
@@ -921,6 +937,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     } else if (this.loadItems === "load-new") {
       this.scrollHelperForNew();
     }
+    this.setCustomAttributesInChildComponents(this);
   };
 
 

@@ -2088,6 +2088,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     if (index < 0 || index >= this.numberOfItems) { return };
     const buttonListContractObj: ICh5ButtonListContractObj = { index: index + 1, clickHoldTime: this.clickHoldTime, contractName: this.contractName, parentComponent: 'ch5-button-list' };
     const btn = new Ch5Button(buttonListContractObj);
+    btn.setAttribute("swipeGestureEnabled", "true");
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
     if (this.contractName !== "" && this.useContractForItemShow === true) {

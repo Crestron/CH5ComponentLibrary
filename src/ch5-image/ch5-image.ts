@@ -781,7 +781,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		this.info(' connectedCallback() - start');
 
 
-		this._pressable = new Ch5Pressable(this);
+		this._pressable = new Ch5Pressable(this,);
 
 		// events binding
 		this._onClick = this._onClick.bind(this);
