@@ -682,10 +682,10 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 	protected updateSwipeGesture() {
 		if (this._elBtnCancel) {
-			this._elBtnCancel.swipeGestureEnabled = this.swipeGestureEnabled;
+			this._elBtnCancel.setAttribute('sendEventOnClick', String(this.swipeGestureEnabled));
 		}
 		if (this._elBtnOk) {
-			this._elBtnOk.swipeGestureEnabled = this.swipeGestureEnabled;
+			this._elBtnOk.setAttribute('sendEventOnClick', String(this.swipeGestureEnabled));
 		}
 	}
 
