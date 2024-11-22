@@ -231,7 +231,7 @@ export class Ch5Pressable {
 		// On a swipe motion we don't want to send a join or show visual feedback,
 		// check if finger has moved
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
-			console.log("this._options?.enableSwipe", this._options?.enableSwipe);
+			this._ch5Component.logger.log("this._options?.enableSwipe", this._options?.enableSwipe);
 			if  (this._options && this._options.enableSwipe === true) {
 				const mouseEvent: MouseEvent = inEvent as MouseEvent;
 				if (mouseEvent !== null) {
@@ -240,7 +240,7 @@ export class Ch5Pressable {
 					const distanceMoved = Math.sqrt(xMoveDistance ** 2 + yMoveDistance ** 2);
 					this._ch5Component.info(`DELETE ME Ch5Pressable.onMouseMove() , ${mouseEvent.clientX}, ${mouseEvent.clientY}, ${distanceMoved}`);
 					if (distanceMoved > this.CLICK_MOVE_THRESHOLD) {
-						console.log("Swipe is true");
+						this._ch5Component.logger.log("Swipe is true");
 						this._ch5Component.info(`Ch5Pressable.onMouseMove() cancelling press, ${mouseEvent.clientX}, ${mouseEvent.clientY}, ${distanceMoved}`);
 						this.isTouchFired = false;
 						this._fingerState.reset();
@@ -318,7 +318,7 @@ export class Ch5Pressable {
 					const distanceMoved = Math.sqrt(xMoveDistance ** 2 + yMoveDistance ** 2);
 					this._ch5Component.info(`DELETE ME Ch5Pressable._onTouchMove() , ${touch.clientX}, ${touch.clientY}, ${touch.identifier}, ${distanceMoved}`);
 					if (distanceMoved > this.PRESS_MOVE_THRESHOLD) {
-						console.log("Swipe is true");
+						this._ch5Component.logger.log("Swipe is true");
 					this._ch5Component.info(`Ch5Pressable._onTouchMove() cancelling press, ${touch.clientX}, ${touch.clientY}, ${touch.identifier}, ${distanceMoved}`);
 						this.isTouchFired = false;
 						this._fingerState.reset();
