@@ -126,8 +126,11 @@ export default class Ch5ColorUtils {
   }
 
   public static col2hex(color: string) {
+    let colorVal = color;
+    if (colorVal.toString().toLowerCase() === "transparent") {
+      return "#0000";
+    }
     if (this.checkHex(color) === false) {
-      let colorVal = color;
       if (this.checkRgb(color) === false) {
         colorVal = this.convert(color);
       }
