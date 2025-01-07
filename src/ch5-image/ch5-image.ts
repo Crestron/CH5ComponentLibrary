@@ -16,6 +16,8 @@ import { ICh5ImageAttributes } from "./interfaces/i-ch5-image-attributes";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 import { Subscription } from "rxjs/internal/Subscription";
 import _ from "lodash";
+import { ICh5PropertySettings } from "../ch5-core/ch5-property";
+import { Ch5Properties } from "../ch5-core/ch5-properties";
 
 export interface IShowStyle {
 	visibility: string;
@@ -26,6 +28,7 @@ export interface IShowStyle {
 export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 	public static readonly ELEMENT_NAME = 'ch5-image';
+	private _ch5Properties: Ch5Properties;
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -45,6 +48,18 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 			classListPrefix: '--dir--'
 		}
 	};
+
+
+	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
+		{
+			default: false,
+			name: "sendPositionData",
+			removeAttributeOnNull: false,
+			type: "boolean",
+			valueOnAttributeEmpty: false,
+			isObservableProperty: true
+		}
+	];
 
 	private readonly MODES: {
 		MIN_LENGTH: number,
@@ -135,6 +150,15 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 				// }
 			}
 		}
+	}
+
+	public set sendPositionData(value: boolean) {
+		this._ch5Properties.set<boolean>("sendPositionData", value, () => {
+			this.handleSendPositionData();
+		});
+	}
+	public get sendPositionData(): boolean {
+		return this._ch5Properties.get<boolean>("sendPositionData");
 	}
 
 	public get direction() {
@@ -508,7 +532,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	 */
 	public constructor() {
 		super();
-
+		this._ch5Properties = new Ch5Properties(this, Ch5Image.COMPONENT_PROPERTIES);
 		// custom release event
 		this.errorEvent = new CustomEvent("error", {
 			bubbles: true,
@@ -552,6 +576,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 			'refreshrate',
 			'dir',
 			'mode',
+			'sendPositionData',
 
 			// receive signals
 			'receivestateurl',
@@ -561,6 +586,12 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 			'sendeventonerror',
 			'sendeventontouch'
 		];
+
+		for (let i: number = 0; i < Ch5Image.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5Image.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				ch5ImageAttributes.push(Ch5Image.COMPONENT_PROPERTIES[i].name.toLowerCase());
+			}
+		}
 
 		return commonAttributes.concat(ch5ImageAttributes);
 	};
@@ -870,6 +901,13 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 		this.info('ch5-image attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
 
+		const attributeChangedProperty = Ch5Image.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
+		if (attributeChangedProperty) {
+			const thisRef: any = this;
+			const key = attributeChangedProperty.name;
+			thisRef[key] = newValue;
+		}
+
 		switch (attr) {
 			case 'url':
 				if (this.hasAttribute('url')) {
@@ -1024,6 +1062,14 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		}
 	}
 
+	public handleSendPositionData() {
+		if (this.sendPositionData) {
+			this.addEventListener('pointerup', this._sendPositionImageData, { passive: true });
+		} else {
+			this.removeEventListener('pointerup', this._sendPositionImageData);
+		}
+	}
+
 	private setUrlByInput(url: string) {
 		this.logger.log("setUrlByInput url: ", url);
 		this._url = url;
@@ -1052,6 +1098,16 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	 */
 	protected initAttributes(): void {
 		super.initAttributes();
+
+		const thisRef: any = this;
+		for (let i: number = 0; i < Ch5Image.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5Image.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				if (this.hasAttribute(Ch5Image.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
+					const key = Ch5Image.COMPONENT_PROPERTIES[i].name;
+					thisRef[key] = this.getAttribute(key);
+				}
+			}
+		}
 
 		if (this.hasAttribute('receiveStateUrl')) {
 			this.receiveStateUrl = this.getAttribute('receiveStateUrl') as string;
@@ -1380,6 +1436,39 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 		this._onLongTouch();
 
+	}
+
+
+	protected _sendPositionImageData(event: PointerEvent): void {
+		//console.log(event);
+		const imagePos = this.getBoundingClientRect();
+		const x = Math.round(event.clientX - imagePos.x);
+		const y = Math.round(event.clientY - imagePos.y);
+		//console.log(this.clientWidth, this.clientHeight);
+		const width = this.getAnalogValue(x, this.clientWidth);
+		const height = this.getAnalogValue(y, this.clientHeight);
+		/* 		console.log(width, height);
+				console.log('x->', x);
+				console.log('y->', y); */
+
+		Ch5SignalFactory.getInstance().getNumberSignal('width')?.publish((width) as number);
+		Ch5SignalFactory.getInstance().getNumberSignal('height')?.publish((height) as number);
+		/* document.getElementById("abc").innerHTML +=
+			"x: " + calculateValue(x, element.clientWidth) +
+			"<br />" +
+			"y: " + calculateValue(y, element.clientHeight) +
+			"<br /><br />";
+
+		document.getElementById("cef").innerHTML +=
+			"x: " + x +
+			"<br />" +
+			"y: " + y +
+			"<br /><br />"; */
+	}
+
+
+	private getAnalogValue(val: any, input: any) {
+		return Math.round(val * 65535 / input);
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
