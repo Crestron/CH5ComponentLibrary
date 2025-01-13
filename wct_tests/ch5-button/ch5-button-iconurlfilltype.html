@@ -44,7 +44,7 @@
           setTimeout(() => {
             expect(ch5Button.iconUrlFillType).to.be.equal(null);
             expect(ch5Button.getAttribute("iconUrlFillType")).to.be.equal(null);
-            expect(ch5Button.firstChild.firstChild.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+            expect(getITagInSpanForIcon(ch5Button).style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
             done();
           }, BASIC_TESTING_TIMEOUT);
         });
@@ -56,8 +56,8 @@
           flush(() => {
             setTimeout(() => {
               expect(ch5Button.iconUrlFillType).to.be.equal(val);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-${val}`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--icon-url-fill-type-${val}`)).to.be.equal(true);
+              expect(getITagInSpanForIcon(ch5Button).style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -70,8 +70,8 @@
           flush(() => {
             setTimeout(() => {
               expect(ch5Button.iconUrlFillType).to.be.equal(null);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-${val}`)).to.be.equal(false);
-              expect(ch5Button.firstChild.firstChild.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--icon-url-fill-type-${val}`)).to.be.equal(false);
+              expect(getITagInSpanForIcon(ch5Button).style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -85,10 +85,10 @@
           flush(() => {
             setTimeout(() => {
               expect(ch5Button.iconUrlFillType).to.be.equal('initial');
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-${val}`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-middle`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--horizontal-${val}`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--vertical-middle`)).to.be.equal(true);
+              expect(getITagInSpanForIcon(ch5Button).style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -103,10 +103,10 @@
           flush(() => {
             setTimeout(() => {
               expect(ch5Button.iconUrlFillType).to.be.equal('initial');
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-${val}`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-top`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--horizontal-${val}`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--vertical-top`)).to.be.equal(true);
+              expect(getITagInSpanForIcon(ch5Button).style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -121,10 +121,10 @@
           flush(() => {
             setTimeout(() => {
               expect(ch5Button.iconUrlFillType).to.be.equal('initial');
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-${val}`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-bottom`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--horizontal-${val}`)).to.be.equal(true);
+              expect(getITagInSpanForIcon(ch5Button).style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--vertical-bottom`)).to.be.equal(true);
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -138,10 +138,10 @@
           flush(() => {
             setTimeout(() => {
               expect(ch5Button.iconUrlFillType).to.be.equal('initial');
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-center`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-${val}`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--horizontal-center`)).to.be.equal(true);
+              expect(getITagInSpanForIcon(ch5Button).style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--vertical-${val}`)).to.be.equal(true);
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -156,10 +156,10 @@
           flush(() => {
             setTimeout(() => {
               expect(ch5Button.iconUrlFillType).to.be.equal('initial');
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-left`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-${val}`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--horizontal-left`)).to.be.equal(true);
+              expect(getITagInSpanForIcon(ch5Button).style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--vertical-${val}`)).to.be.equal(true);
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -174,10 +174,10 @@
           flush(() => {
             setTimeout(() => {
               expect(ch5Button.iconUrlFillType).to.be.equal('initial');
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-right`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-${val}`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--horizontal-right`)).to.be.equal(true);
+              expect(getITagInSpanForIcon(ch5Button).style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--vertical-${val}`)).to.be.equal(true);
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -190,10 +190,10 @@
           flush(() => {
             setTimeout(() => {
               expect(ch5Button.iconUrlFillType).to.be.equal(val);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-${val}`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-center`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-middle`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--icon-url-fill-type-${val}`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--horizontal-center`)).to.be.equal(true);
+              expect(getITagInSpanForIcon(ch5Button).style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--vertical-middle`)).to.be.equal(true);
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -211,7 +211,7 @@
               expect(ch5Button.iconUrl).to.be.equal(receiveStateSignalValue);
               const getObjectForIconUrl = getITagInSpanForIcon(ch5Button);
               expect(getObjectForIconUrl.style.backgroundImage).to.be.equal('url("' + receiveStateSignalValue + '")');
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-${val}`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--icon-url-fill-type-${val}`)).to.be.equal(true);
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -229,7 +229,7 @@
               expect(ch5Button.iconUrl).to.be.equal(receiveStateSignalValue);
               const getObjectForIconUrl = getITagInSpanForIcon(ch5Button);
               expect(getObjectForIconUrl.style.backgroundImage).to.be.equal('url("' + receiveStateSignalValue + '")');
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-${val}`)).to.be.equal(false);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--icon-url-fill-type-${val}`)).to.be.equal(false);
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -249,9 +249,9 @@
               expect(ch5Button.iconUrl).to.be.equal(receiveStateSignalValue);
               const getObjectForIconUrl = getITagInSpanForIcon(ch5Button);
               expect(getObjectForIconUrl.style.backgroundImage).to.be.equal('url("' + receiveStateSignalValue + '")');
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-${val}`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-middle`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--horizontal-${val}`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--vertical-middle`)).to.be.equal(true);
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -271,9 +271,9 @@
               expect(ch5Button.iconUrl).to.be.equal(receiveStateSignalValue);
               const getObjectForIconUrl = getITagInSpanForIcon(ch5Button);
               expect(getObjectForIconUrl.style.backgroundImage).to.be.equal('url("' + receiveStateSignalValue + '")');
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-${val}`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-top`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--horizontal-${val}`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--vertical-top`)).to.be.equal(true);
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -293,9 +293,9 @@
               expect(ch5Button.iconUrl).to.be.equal(receiveStateSignalValue);
               const getObjectForIconUrl = getITagInSpanForIcon(ch5Button);
               expect(getObjectForIconUrl.style.backgroundImage).to.be.equal('url("' + receiveStateSignalValue + '")');
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-${val}`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-bottom`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--horizontal-${val}`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--vertical-bottom`)).to.be.equal(true);
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -315,9 +315,9 @@
               expect(ch5Button.iconUrl).to.be.equal(receiveStateSignalValue);
               const getObjectForIconUrl = getITagInSpanForIcon(ch5Button);
               expect(getObjectForIconUrl.style.backgroundImage).to.be.equal('url("' + receiveStateSignalValue + '")');
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-left`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-${val}`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--horizontal-left`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--vertical-${val}`)).to.be.equal(true);
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -337,9 +337,9 @@
               expect(ch5Button.iconUrl).to.be.equal(receiveStateSignalValue);
               const getObjectForIconUrl = getITagInSpanForIcon(ch5Button);
               expect(getObjectForIconUrl.style.backgroundImage).to.be.equal('url("' + receiveStateSignalValue + '")');
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-right`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-${val}`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--horizontal-right`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--vertical-${val}`)).to.be.equal(true);
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -359,9 +359,9 @@
               expect(ch5Button.iconUrl).to.be.equal(receiveStateSignalValue);
               const getObjectForIconUrl = getITagInSpanForIcon(ch5Button);
               expect(getObjectForIconUrl.style.backgroundImage).to.be.equal('url("' + receiveStateSignalValue + '")');
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--horizontal-center`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.firstChild.classList.contains(`ch5-button--vertical-${val}`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--icon-url-fill-type-initial`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--horizontal-center`)).to.be.equal(true);
+              expect(getSpan(ch5Button).classList.contains(`ch5-button--vertical-${val}`)).to.be.equal(true);
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
