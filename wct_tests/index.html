@@ -6,14 +6,26 @@
 	<script src="/webcomponentsjs/webcomponents-lite.js"></script>
 	<script src="/bower_components/web-component-tester/browser.js"></script>
 	<script src="/wct_tests/js/helpers.js"></script>
+
+
 	<style>
+		html,
+		body {
+			font-family: "Helvetica", sans-serif;
+		}
+
 		.n-i:after {
 			content: 'not implemented';
 			color: #FF5555;
 		}
 
 		.run-all {
-			color: #FF5555;
+			padding-top: 10px;
+			padding-bottom: 30px;
+		}
+
+		.run-all a {
+			color: #15a431;
 			font-size: 24px;
 			text-decoration: none;
 		}
@@ -78,9 +90,7 @@
 			<li><a href="wct_tests/join-nr-as-signal-names/">join numbers as signal names</a></li>
 		</ol>
 		<hr>
-		<ul>
-			<li><a class="run-all" href="wct_tests/run-all.html">Run All Tests</a></li>
-		</ul>
+		<div class="run-all"><a href="wct_tests/run-all.html">Run All Tests</a></div>
 	</div>
 	<script>
 		// WCT.loadSuites([

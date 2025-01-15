@@ -440,15 +440,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private isLabelLoaded: boolean = false;
 	private _isPressedSubscription: Subscription | null = null;
 
-	/**
-	 * State of the button ( pressed or not )
-	 */
-	// private _buttonPressedInPressable: boolean = false;
-
 	private _mode: number = 0;
 	private isModeSetUsingJavascript: boolean = false;
-	private _pressDelayTime: number | null = null;
-	private _pressDelayDistance: number | null = null;
 
 	private _label: string = '';
 	private _labelInnerHTML: string = '';
@@ -788,32 +781,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		return this._mode;
 	}
 
-	public set pressDelayTime(value: number | null) {
-		this.logger.log('set pressDelayTime("' + value + '")');
-		if (this._pressDelayTime !== value && value !== null) {
-			if (!Number.isNaN(value)) {
-				this._pressDelayTime = value;
-				this.setAttribute('pressDelayTime', String(this._pressDelayTime));
-			}
-		}
-	}
-	public get pressDelayTime(): number | null {
-		return this._pressDelayTime;
-	}
-
-	public set pressDelayDistance(value: number | null) {
-		this.logger.log('set pressDelayDistance("' + value + '")');
-		if (this._pressDelayDistance !== value && value !== null) {
-			if (!Number.isNaN(value)) {
-				this._pressDelayDistance = value;
-				this.setAttribute('pressDelayDistance', String(this._pressDelayDistance));
-			}
-		}
-	}
-	public get pressDelayDistance(): number | null {
-		return this._pressDelayDistance;
-	}
-
 	public set checkboxPosition(value: TCh5ButtonCheckboxPosition) {
 		this.setButtonAttribute('checkboxPosition', value, Ch5ButtonBase.CHECKBOX_POSITIONS, Ch5ButtonBase.CHECKBOX_POSITIONS[0]);
 	}
@@ -997,6 +964,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	public get customClassDisabled(): string | null {
 		return this._customClassDisabled;
 	}
+
 	public set backgroundImageUrl(value: string) {
 		this._ch5Properties.set<string>("backgroundImageUrl", value, () => {
 			this.backgroundImageURLHandler();
@@ -1379,9 +1347,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			'halignlabel',
 			'valignlabel',
 
-			'pressdelaytime',
-			'pressdelaydistance',
-
 			'shape',
 			'size',
 			'stretch',
@@ -1469,12 +1434,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 		if (this.hasAttribute('mode')) {
 			this.mode = Number(this.getAttribute('mode')); // TODO isNaN(this.getAttribute('mode')) ? 0 : Number(this.getAttribute('mode')) as number;
-		}
-		if (this.hasAttribute('pressdelaytime')) {
-			this.pressDelayTime = Number(this.getAttribute('pressdelaytime'));
-		}
-		if (this.hasAttribute('pressdelaydistance')) {
-			this.pressDelayDistance = Number(this.getAttribute('pressdelaydistance'));
 		}
 		if (this.hasAttribute('orientation')) {
 			this.orientation = this.getAttribute('orientation') as TCh5ButtonOrientation;
@@ -1655,16 +1614,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				this.updateInternalHtml();
 				break;
 
-			/* case 'pressdelaytime':
-				this.pressDelayTime = Ch5ButtonUtils.getAttributeValue<number | null>(this, 'pressdelaytime', Number(newValue), null);
-				this.updatePressDelay();
-				break;
-
-			case 'pressdelaydistance':
-				this.pressDelayDistance = Ch5ButtonUtils.getAttributeValue<number | null>(this, 'pressdelaydistance', Number(newValue), null);
-				this.updatePressDistance();
-				break; */
-
 			case 'orientation':
 				this.orientation = Ch5ButtonUtils.getAttributeValue<TCh5ButtonOrientation>(this, 'orientation', newValue as TCh5ButtonOrientation, Ch5ButtonBase.ORIENTATIONS[0]);
 				this.updateCssClasses();
@@ -1785,6 +1734,12 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.stop();
 	}
 
+
+	protected updateSwipeGesture() {
+		if (this._pressable !== null && !_.isNil(this._pressable.options)) {
+			this._pressable.options.enableSwipe = this.swipeGestureEnabled;
+		}
+	}
 	public createButtonLabel(selectedObject: Ch5ButtonBase | Ch5ButtonMode | Ch5ButtonModeState) {
 		const buttonLabelList = selectedObject.getElementsByTagName("ch5-button-label");
 		const findButtonLabel = Array.prototype.slice.call(buttonLabelList).filter((x: { parentNode: { nodeName: { toString: () => string; }; }; }) => x.parentNode.nodeName.toString().toLowerCase() === selectedObject.nodeName.toString().toLowerCase());
@@ -1954,7 +1909,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private updatePressedClass(pressedClass: string) {
 		this._pressable = new Ch5Pressable(this, {
 			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
-			cssPressedClass: pressedClass
+			cssPressedClass: pressedClass,
+			enableSwipe: this.swipeGestureEnabled
 		});
 	}
 
@@ -2368,7 +2324,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			.replace("&apos;", "/'");
 	}
 
-	protected setButtonDisplayDetails(parentComponent:string = "ch5-button"): void {
+	protected setButtonDisplayDetails(parentComponent: string = "ch5-button"): void {
 		this.logger.start("setButtonDisplayDetails");
 		this.DEBOUNCE_BUTTON_DISPLAY = 0;
 		// Applicable on Mode change and Selected change

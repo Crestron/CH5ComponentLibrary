@@ -92,8 +92,8 @@
         expect(ch5ModalDialog.okButtonIcon).to.be.equal("fas fa-plus");
         flush(() => {
           setTimeout(() => {
-            expect(ch5ModalDialog.children[0].children[1].children[0].children[0].children[0].children[0].children[0].classList.contains("fas")).to.be.equal(true);
-            expect(ch5ModalDialog.children[0].children[1].children[0].children[0].children[0].children[0].children[0].classList.contains("fa-plus")).to.be.equal(true);
+            expect(ch5ModalDialog.children[0].children[1].children[0].children[0].children[0].children[0].classList.contains("fas")).to.be.equal(true);
+            expect(ch5ModalDialog.children[0].children[1].children[0].children[0].children[0].children[0].classList.contains("fa-plus")).to.be.equal(true);
             done();
           }, 100);
         });
@@ -105,8 +105,8 @@
         expect(ch5ModalDialog.cancelButtonIcon).to.be.equal("fas fa-minus");
         flush(() => {
           setTimeout(() => {
-            expect(ch5ModalDialog.children[0].children[1].children[1].children[0].children[0].children[0].children[0].classList.contains("fas")).to.be.equal(true);
-            expect(ch5ModalDialog.children[0].children[1].children[1].children[0].children[0].children[0].children[0].classList.contains("fa-minus")).to.be.equal(true);
+            expect(ch5ModalDialog.children[0].children[1].children[1].children[0].children[0].children[0].classList.contains("fas")).to.be.equal(true);
+            expect(ch5ModalDialog.children[0].children[1].children[1].children[0].children[0].children[0].classList.contains("fa-minus")).to.be.equal(true);
             done();
           }, 100);
         });
