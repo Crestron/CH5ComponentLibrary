@@ -78,7 +78,7 @@ export class Ch5Pressable {
 	/**
 	 * Reflects the touchstart state of the component.
 	 */
-	private isTouchFired: boolean = false;
+	/* private isTouchFired: boolean = false;*/
 
 	/**
 	 * Reflects the pressed state of the component
@@ -98,7 +98,7 @@ export class Ch5Pressable {
 
 	private readonly TOUCH_TIMEOUT: number = 250; // Repeat Digital is triggered after 250 ms of press and hold.
 	private readonly PRESS_MOVE_THRESHOLD: number = 10;
-	private readonly CLICK_MOVE_THRESHOLD: number = 1;
+	private readonly CLICK_MOVE_THRESHOLD: number = 10;
 
 	/**
 	 * Creates an instance of Ch5Pressable.
@@ -127,10 +127,10 @@ export class Ch5Pressable {
 		this._onMouseUp = this._onMouseUp.bind(this);
 		this._onMouseLeave = this._onMouseLeave.bind(this);
 		this._onMouseMove = this._onMouseMove.bind(this);
-		this._onTouchStart = this._onTouchStart.bind(this);
+		/* this._onTouchStart = this._onTouchStart.bind(this);
 		this._onTouchMove = this._onTouchMove.bind(this);
 		this._onTouchEnd = this._onTouchEnd.bind(this);
-		this._onTouchCancel = this._onTouchCancel.bind(this);
+		this._onTouchCancel = this._onTouchCancel.bind(this); */
 		this._onTouchHoldTimer = this._onTouchHoldTimer.bind(this);
 		this._onHold = this._onHold.bind(this);
 		this._onRelease = this._onRelease.bind(this);
@@ -168,6 +168,7 @@ export class Ch5Pressable {
 	 */
 	public destroy() {
 		this.observablePressed?.complete();
+		this.resetPressAndReleaseActions();
 		this._removeEvents();
 	}
 
@@ -177,16 +178,15 @@ export class Ch5Pressable {
 	private _attachEvents() {
 		this._ch5Component.addEventListener('click', this._onClick);
 
-		this._ch5Component.addEventListener('mousedown', this._onMouseDown, { passive: true });
-		this._ch5Component.addEventListener('mouseup', this._onMouseUp);
-		this._ch5Component.addEventListener('mousemove', this._onMouseMove);
-		this._ch5Component.addEventListener('mouseleave', this._onMouseLeave);
-		this._ch5Component.addEventListener('mouseout', this._onMouseLeave);
-
-		this._ch5Component.addEventListener('touchstart', this._onTouchStart, { passive: true });
+		this._ch5Component.addEventListener('pointerdown', this._onMouseDown, { passive: true });
+		this._ch5Component.addEventListener('pointerup', this._onMouseUp);
+		this._ch5Component.addEventListener('pointermove', this._onMouseMove);
+		this._ch5Component.addEventListener('pointerleave', this._onMouseLeave);
+		this._ch5Component.addEventListener('pointerout', this._onMouseLeave);
+		/* this._ch5Component.addEventListener('touchstart', this._onTouchStart, { passive: true });
 		this._ch5Component.addEventListener('touchmove', this._onTouchMove);
 		this._ch5Component.addEventListener('touchend', this._onTouchEnd);
-		this._ch5Component.addEventListener('touchcancel', this._onTouchCancel);
+		this._ch5Component.addEventListener('touchcancel', this._onTouchCancel); */
 	}
 
 	/**
@@ -195,26 +195,31 @@ export class Ch5Pressable {
 	private _removeEvents() {
 		this._ch5Component.removeEventListener('click', this._onClick);
 
-		this._ch5Component.removeEventListener('mousedown', this._onMouseDown);
-		this._ch5Component.removeEventListener('mouseup', this._onMouseUp);
-		this._ch5Component.removeEventListener('mouseleave', this._onMouseLeave);
+		this._ch5Component.removeEventListener('pointerdown', this._onMouseDown);
+		this._ch5Component.removeEventListener('pointerup', this._onMouseUp);
+		this._ch5Component.removeEventListener('pointermove', this._onMouseMove);
+		this._ch5Component.removeEventListener('pointerleave', this._onMouseLeave);
+		this._ch5Component.removeEventListener('pointerout', this._onMouseLeave);
 
-		this._ch5Component.removeEventListener('touchstart', this._onTouchStart);
+		/* this._ch5Component.removeEventListener('touchstart', this._onTouchStart);
 		this._ch5Component.removeEventListener('touchmove', this._onTouchMove);
 		this._ch5Component.removeEventListener('touchend', this._onTouchEnd);
-		this._ch5Component.removeEventListener('touchcancel', this._onTouchCancel);
+		this._ch5Component.removeEventListener('touchcancel', this._onTouchCancel); */
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	private _onClick(inEvent: Event): void {
+		if (!this._ch5Component.elementIsInViewPort) { return; }
 		// reset touchfired flag since click always called after mouseup, touchend etc (last event fired)
-		this.isTouchFired = false;
+		// this.isTouchFired = false;
 	}
 
 	private _onMouseDown(inEvent: Event): void {
 		// ignore mousedown if isTouchFired
-		if (this.isTouchFired) { return; }
-		const mouseEvent: MouseEvent = inEvent as MouseEvent;
+		// if (this.isTouchFired) { return; }
+		if (!this._ch5Component.elementIsInViewPort) { return; }
+		// console.log("_onMouseDown 2: ", this._ch5Component.getCrId());
+		const mouseEvent: PointerEvent = inEvent as PointerEvent;
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Idle) {
 			this._fingerState.mode = Ch5PressableFingerStateMode.Start;
 			this._fingerState.touchHoldTimer = window.setTimeout(this._onTouchHoldTimer, this.TOUCH_TIMEOUT);
@@ -224,16 +229,16 @@ export class Ch5Pressable {
 	}
 
 	private _onMouseMove(inEvent: Event): void {
-		if (this.isTouchFired) {
-			return;
-		}
+		// if (this.isTouchFired) {
+		// 	return;
+		// }
 
 		// On a swipe motion we don't want to send a join or show visual feedback,
 		// check if finger has moved
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
 			this._ch5Component.logger.log("this._options?.enableSwipe", this._options?.enableSwipe);
-			if  (this._options && this._options.enableSwipe === true) {
-				const mouseEvent: MouseEvent = inEvent as MouseEvent;
+			if (this._options && this._options.enableSwipe === true) {
+				const mouseEvent: PointerEvent = inEvent as PointerEvent;
 				if (mouseEvent !== null) {
 					const xMoveDistance = mouseEvent.clientX - this._fingerState.touchStartLocationX;
 					const yMoveDistance = mouseEvent.clientY - this._fingerState.touchStartLocationY;
@@ -242,56 +247,60 @@ export class Ch5Pressable {
 					if (distanceMoved > this.CLICK_MOVE_THRESHOLD) {
 						this._ch5Component.logger.log("Swipe is true");
 						this._ch5Component.info(`Ch5Pressable.onMouseMove() cancelling press, ${mouseEvent.clientX}, ${mouseEvent.clientY}, ${distanceMoved}`);
-						this.isTouchFired = false;
+						// this.isTouchFired = false;
 						this._fingerState.reset();
 					}
 				}
-
 			}
 		}
 	}
 
 	private _onMouseUp(inEvent: Event): void {
-		if (this.isTouchFired) {
+		/* if (this.isTouchFired) {
 			this.isTouchFired = false;
+			return;
+		} */
+		this._ch5Component.logger.log("_onMouseUp: ", this._ch5Component.getCrId());
+		if (!this._ch5Component.elementIsInViewPort) {
 			return;
 		}
 
-		const mouseEvent: MouseEvent = inEvent as MouseEvent;
+		const mouseEvent: PointerEvent = inEvent as PointerEvent;
 		if (mouseEvent !== null) {
-			if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
-				// quick tap, must do both press and release
-				this._fingerIsDownActions();
-			}
-
-			if (this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
-				this._onRelease();
-			}
-			this._fingerState.reset();
+			this.resetPressAndReleaseActions();
 		}
+	}
+
+	private resetPressAndReleaseActions() {
+		if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
+			// quick tap, must do both press and release
+			this._fingerIsDownActions();
+		}
+		if (this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
+			this._onRelease();
+		}
+		this._fingerState.reset();
 	}
 
 	private _onMouseLeave(inEvent: Event): void {
-		if (this.isTouchFired) {
+		/* if (this.isTouchFired) {
 			this.isTouchFired = false;
 			return;
+		} */
+		if (!this._ch5Component.elementIsInViewPort) {
+			/* if (this.isMouseFired === true) {
+				this.resetPressAndReleaseActions();
+			} */
+			return;
 		}
-
-		const mouseEvent: MouseEvent = inEvent as MouseEvent;
+		const mouseEvent: PointerEvent = inEvent as PointerEvent;
 		if (mouseEvent !== null) {
-			if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
-				// quick tap, must do both press and release
-				this._fingerIsDownActions();
-			}
-
-			if (this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
-				this._onRelease();
-			}
-			this._fingerState.reset();
+			this.resetPressAndReleaseActions();
 		}
 	}
 
-	private _onTouchStart(inEvent: Event): void {
+	/* private _onTouchStart(inEvent: Event): void {
+		if (!this._ch5Component.elementIsInViewPort) { return; }
 		this.isTouchFired = true;
 
 		const touchEvent: TouchEvent = inEvent as TouchEvent;
@@ -303,11 +312,17 @@ export class Ch5Pressable {
 			this._fingerState.touchStartLocationY = touch.clientY;
 			this._fingerState.touchPointId = touch.identifier;
 		}
-	}
+	} */
 
-	private _onTouchMove(inEvent: Event): void {
+	/* private _onTouchMove(inEvent: Event): void {
 		// On a swipe motion we don't want to send a join or show visual feedback,
 		// check if finger has moved
+		if (!this._ch5Component.elementIsInViewPort) {
+			if (this.isTouchFired === true) {
+				this.resetPressAndReleaseActions();
+			}
+			return;
+		}
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
 			if (this._options && this._options.enableSwipe === true) {
 				const touchEvent: TouchEvent = inEvent as TouchEvent;
@@ -326,10 +341,11 @@ export class Ch5Pressable {
 				}
 			}
 		}
-	}
+	} */
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	private _onTouchHoldTimer(event: Event): void {
+		if (!this._ch5Component.elementIsInViewPort) { return; }
 		this._fingerState.touchHoldTimer = null;
 		this._fingerIsDownActions();
 	}
@@ -343,26 +359,24 @@ export class Ch5Pressable {
 		}
 	}
 
-	private _onTouchEnd(inEvent: Event): void {
-		const touchEvent: TouchEvent = inEvent as TouchEvent;
-		const touch: Touch | null = this._fingerState.getTouchFromTouchList(touchEvent);
-		if (touch !== null) {
-			if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
-				// quick tap, must do both press and release
-				this._fingerIsDownActions();
+	/* private _onTouchEnd(inEvent: Event): void {
+		if (!this._ch5Component.elementIsInViewPort) {
+			if (this.isTouchFired === true) {
+				this.resetPressAndReleaseActions();
 			}
-
-			if (this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
-				this._onRelease();
+		} else {
+			const touchEvent: TouchEvent = inEvent as TouchEvent;
+			const touch: Touch | null = this._fingerState.getTouchFromTouchList(touchEvent);
+			if (touch !== null) {
+				this.resetPressAndReleaseActions();
 			}
-			this._fingerState.reset();
 		}
-	}
+	} */
 
-	private _onTouchCancel(inEvent: Event): void {
+	/* private _onTouchCancel(inEvent: Event): void {
 		this._ch5Component.info('Ch5Pressable._onCancel()');
 		this._onTouchEnd(inEvent);
-	}
+	} */
 
 	/**
 	 * Dispatch press event. Add press css class
