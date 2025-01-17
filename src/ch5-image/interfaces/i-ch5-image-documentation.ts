@@ -57,6 +57,23 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *        "\treceivestateurl=\"${5:url_for_image_signal}\">",
  *         "</ch5-image>$0"
  *        ] 
+ *    },
+ *    {
+ *      "prefix": "ch5-image:Support-touch-position-output",
+ *      "description": "Crestron Image (Receive Signal)",
+ *      "body": [
+ *        "<ch5-image alt=\"${1:Backyard image}\"",
+ *        "\theight=\"${2:450px}\"",
+ *        "\twidth=\"${3:800px}\"",
+ *        "\tallowValuesOnMove=\"${4:false}\"",
+ *        "\tallowPositionDataToBeSent=\"${5:false}\"",
+ *        "\treceiveStateAllowValuesOnMove=\"${6:}\"",
+ *        "\treceiveStateAllowPositionDataToBeSent=\"${7:}\"",
+ *        "\tsendEventXPosition=\"${8:}\"",
+ *        "\tsendEventYPosition=\"${9:}\"",
+ *        "\turl=\"${5:http://someServer/image.png}\">",
+ *        "</ch5-image>$0"
+ *        ] 
  *    }
  * ]
  * 

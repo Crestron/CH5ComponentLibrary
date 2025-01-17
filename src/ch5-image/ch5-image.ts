@@ -29,6 +29,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 	public static readonly ELEMENT_NAME = 'ch5-image';
 	private _ch5Properties: Ch5Properties;
+	private touchStart: boolean = false;
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -37,7 +38,12 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventonerror: { direction: "event", stringJoin: 1, contractName: true }
+		sendeventonerror: { direction: "event", stringJoin: 1, contractName: true },
+
+		receivestateallowvaluesonmove: { direction: "state", booleanJoin: 1, contractName: true },
+		receivestateallowpositiondatatobesent: { direction: "state", booleanJoin: 1, contractName: true },
+		sendeventxposition: { direction: "event", numericJoin: 1, contractName: true },
+		sendeventyposition: { direction: "event", numericJoin: 1, contractName: true },
 	};
 
 	public static readonly COMPONENT_DATA: any = {
@@ -53,12 +59,62 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
 		{
 			default: false,
-			name: "sendPositionData",
-			removeAttributeOnNull: false,
+			name: "allowValuesOnMove",
+			nameForSignal: "receiveStateAllowValuesOnMove",
+			removeAttributeOnNull: true,
 			type: "boolean",
 			valueOnAttributeEmpty: false,
-			isObservableProperty: true
-		}
+			isObservableProperty: true,
+		},
+		{
+			default: false,
+			name: "allowPositionDataToBeSent",
+			nameForSignal: "receiveStateAllowPositionDataToBeSent",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: false,
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "receiveStateAllowValuesOnMove",
+			signalType: "boolean",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "receiveStateAllowPositionDataToBeSent",
+			signalType: "boolean",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "sendEventXPosition",
+			signalType: "number",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "sendEventYPosition",
+			signalType: "number",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
 	];
 
 	private readonly MODES: {
@@ -152,13 +208,76 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		}
 	}
 
-	public set sendPositionData(value: boolean) {
-		this._ch5Properties.set<boolean>("sendPositionData", value, () => {
-			this.handleSendPositionData();
+	public set allowPositionDataToBeSent(value: boolean) {
+		this._ch5Properties.set<boolean>("allowPositionDataToBeSent", value, () => {
+			if (this.allowPositionDataToBeSent) {
+				this.addEventListener('pointerdown', this.handlePointerDown, { passive: true })
+				this.addEventListener('pointerup', this.handlePointerUp, { passive: true });
+			} else {
+				this.removeEventListener('pointerdown', this.handlePointerDown)
+				this.removeEventListener('pointerup', this.handlePointerUp);
+			}
 		});
 	}
-	public get sendPositionData(): boolean {
-		return this._ch5Properties.get<boolean>("sendPositionData");
+	public get allowPositionDataToBeSent(): boolean {
+		return this._ch5Properties.get<boolean>("allowPositionDataToBeSent");
+	}
+
+	public set allowValuesOnMove(value: boolean) {
+		this._ch5Properties.set<boolean>("allowValuesOnMove", value, () => {
+			if (this.allowPositionDataToBeSent && this.allowValuesOnMove) {
+				this.addEventListener('pointermove', this.handlePointerMove, { passive: true });
+			} else {
+				this.removeEventListener('pointermove', this.handlePointerMove);
+			}
+		});
+	}
+	public get allowValuesOnMove(): boolean {
+		return this._ch5Properties.get<boolean>("allowValuesOnMove");
+	}
+
+	public set sendEventXPosition(value: string) {
+		this._ch5Properties.set("sendEventXPosition", value);
+	}
+	public get sendEventXPosition(): string {
+		return this._ch5Properties.get<string>('sendEventXPosition');
+	}
+
+	public set sendEventYPosition(value: string) {
+		this._ch5Properties.set("sendEventYPosition", value,);
+	}
+	public get sendEventYPosition(): string {
+		return this._ch5Properties.get<string>('sendEventYPosition');
+	}
+
+	public set receiveStateAllowValuesOnMove(value: string) {
+		this._ch5Properties.set("receiveStateAllowValuesOnMove", value, null, (newValue: boolean) => {
+			this._ch5Properties.setForSignalResponse<boolean>("allowValuesOnMove", newValue, () => {
+				if (this.allowPositionDataToBeSent) {
+					this.addEventListener('pointermove', this.handlePointerMove, { passive: true });
+				} else {
+					this.removeEventListener('pointermove', this.handlePointerMove);
+				}
+			});
+		});
+	}
+	public get receiveStateAllowValuesOnMove(): string {
+		return this._ch5Properties.get<string>('receiveStateAllowValuesOnMove');
+	}
+
+	public set receiveStateAllowPositionDataToBeSent(value: string) {
+		this._ch5Properties.set("receiveStateAllowPositionDataToBeSent", value, null, (newValue: boolean) => {
+			this._ch5Properties.setForSignalResponse<boolean>("allowPositionDataToBeSent", newValue, () => {
+				if (this.allowPositionDataToBeSent) {
+					this.addEventListener('pointerup', this.handlePointerUp, { passive: true });
+				} else {
+					this.removeEventListener('pointerup', this.handlePointerUp);
+				}
+			});
+		});
+	}
+	public get receiveStateAllowPositionDataToBeSent(): string {
+		return this._ch5Properties.get<string>('receiveStateAllowPositionDataToBeSent');
 	}
 
 	public get direction() {
@@ -576,15 +695,20 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 			'refreshrate',
 			'dir',
 			'mode',
-			'sendPositionData',
+			'allowPositionDataToBeSent',
+			'allowValuesOnMove',
 
 			// receive signals
 			'receivestateurl',
+			'receiveStateAllowValuesOnMove',
+			'receiveStateAllowPositionDataToBeSent',
 
 			// send signals
 			'sendeventonclick',
 			'sendeventonerror',
-			'sendeventontouch'
+			'sendeventontouch',
+			'sendEventXPosition',
+			'sendEventYPosition'
 		];
 
 		for (let i: number = 0; i < Ch5Image.COMPONENT_PROPERTIES.length; i++) {
@@ -1062,13 +1186,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		}
 	}
 
-	public handleSendPositionData() {
-		if (this.sendPositionData) {
-			this.addEventListener('pointerup', this._sendPositionImageData, { passive: true });
-		} else {
-			this.removeEventListener('pointerup', this._sendPositionImageData);
-		}
-	}
 
 	private setUrlByInput(url: string) {
 		this.logger.log("setUrlByInput url: ", url);
@@ -1439,31 +1556,35 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	}
 
 
-	protected _sendPositionImageData(event: PointerEvent): void {
-		//console.log(event);
+	private handlePointerDown() {
+		//this.touchStart = true;
+	}
+
+
+	private handlePointerUp(event: PointerEvent) {
+		// this.touchStart = false;
+		this.handleAllowPositionDataToBeSent(event);
+	}
+
+
+	private handlePointerMove(event: PointerEvent) {
+		//if (this.touchStart) {
+		this.handleAllowPositionDataToBeSent(event);
+		//}
+	}
+	protected handleAllowPositionDataToBeSent(event: PointerEvent): void {
+		// console.log(event);
 		const imagePos = this.getBoundingClientRect();
 		const x = Math.round(event.clientX - imagePos.x);
 		const y = Math.round(event.clientY - imagePos.y);
-		//console.log(this.clientWidth, this.clientHeight);
 		const width = this.getAnalogValue(x, this.clientWidth);
 		const height = this.getAnalogValue(y, this.clientHeight);
-		/* 		console.log(width, height);
-				console.log('x->', x);
-				console.log('y->', y); */
-
-		Ch5SignalFactory.getInstance().getNumberSignal('width')?.publish((width) as number);
-		Ch5SignalFactory.getInstance().getNumberSignal('height')?.publish((height) as number);
-		/* document.getElementById("abc").innerHTML +=
-			"x: " + calculateValue(x, element.clientWidth) +
-			"<br />" +
-			"y: " + calculateValue(y, element.clientHeight) +
-			"<br /><br />";
-
-		document.getElementById("cef").innerHTML +=
-			"x: " + x +
-			"<br />" +
-			"y: " + y +
-			"<br /><br />"; */
+		if (this.sendEventXPosition && this.sendEventYPosition) {
+			Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventXPosition)?.publish((width) as number);
+			Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventYPosition)?.publish((height) as number);
+		}
+		(document.getElementById("testX") as HTMLElement).innerHTML += '\n x->: ' + width;
+		(document.getElementById("testY") as HTMLElement).innerHTML += '\n Y->: ' + height;
 	}
 
 
