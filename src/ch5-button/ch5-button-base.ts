@@ -42,69 +42,6 @@ import { Ch5ButtonModeState } from "./ch5-button-mode-state";
 import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
 import { resizeObserver } from "../ch5-core/resize-observer";
 
-/**
- * Html Attributes
- *
- * - checkboxShow, checkboxshow
- * - checkboxPosition, checkboxposition
- * - customClassSelected, customclassselected
- * - customClassPressed, customclasspressed
- * - customClassDisabled, customclassdisabled
- * - disabled
- * - hAlignLabel, halignlabel
- * - iconClass, iconclass
- * - iconPosition, iconposition
- * - iconUrl, iconurl
- * - id
- * - label
- * - mode
- * - orientation
- * - receiveStateSelected, receivestateselected
- * - receiveStateLabel, receivestatelabel,
- * - receiveStateScriptLabelHtml, receivestatescriptlabelhtml
- * - receiveStateIconClass, receivestateiconclass
- * - receiveStateIconUrl, receivestateiconurl
- * - selected
- * - sendEventOnTouch, sendeventontouch
- * - sendEventOnClick, sendeventonclick
- * - shape
- * - size
- * - stretch
- * - type
- * - vAlignLabel, valignlabel
- *
- *
- * CSS Classes applied for ch5-button
- *
- * | Name                             | Description                                                          |
- * |----------------------------------|-------------------------------------------------------------------- |
- * | ch5-button                       | primary class
- * | ch5-button--label                | applied on button label
- * | ch5-button--icon                 | applied on button icon
- * | ch5-button--rectangle            | applied when shape is "rectangle"
- * | ch5-button--rounded-rectangle    | applied when shape is "rounded-rectangle"
- * | ch5-button--circle               | applied when shape is "circle"
- * | ch5-button--tab                  | applied when shape is "tab"
- * | ch5-button--oval                 | applied when shape is "oval"
- * | ch5-button--info,                | applied when type is "info"
- * | ch5-button--warning,             | applied when type is "warning"
- * | ch5-button--danger,              | applied when type is "danger"
- * | ch5-button--text,                | applied when type is "text"
- * | ch5-button--success,             | applied when type is "success"
- * | ch5-button--primary,             | applied when type is "primary"
- * | ch5-button--secondary,           | applied when type is "secondary"
- * | ch5-button--default,             | applied when type is "default"
- * | ch5-button--disabled             | applied when button is disabled
- * | ch5-button_selected              | applied when button is selected (when true was received on the receiveStateSelected signal
- * | ch5-button_pressed               | applied while the button is pressed
- * | ch5-button--horizontal-* 				| applied for horizontal alignment of the label
- * | ch5-button--vertical-* 					| applied for vertical alignment of the label
- * | ch5-button__checkbox 						| applied to define the checkbox position
- * | ch5-button__checkbox--checked 		| applied to define the icon for 'selected (checked) checkbox'
- * | ch5-button__checkbox--unchecked 	| applied to define the icon for 'deselected (unchecked) checkbox'
- * | ch5-button__checkbox--checked-disabled | applied to define the icon for 'disabled selected (checked) checkbox'
- * | ch5-button__checkbox--unchecked-disabled | applied to define the icon for 'disabled deselected (unchecked) checkbox'
- */
 export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	//#region 1. Variables
@@ -414,7 +351,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	private readonly pressedCssClassPostfix: string = '--pressed';
 	private readonly selectedCssClassPostfix: string = '--selected';
-	private readonly iosCssClassPostfix: string = '--ios-vertical';
 
 	//#endregion
 
@@ -434,10 +370,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private _elSpanForLabelIconImg: HTMLElement = {} as HTMLElement;
 	private _elIcon: HTMLElement = {} as HTMLElement;
 	private _elCheckboxIcon: HTMLElement = {} as HTMLElement;
-	// private _elIosDots: HTMLElement = {} as HTMLElement;
 	protected _ch5Properties: Ch5Properties;
 
-	// private isLabelLoaded: boolean = false;
 	private _isPressedSubscription: Subscription | null = null;
 
 	private _mode: number = 0;
@@ -1761,17 +1695,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	}
 
-	/* private updatePressDelay() {
-		if (this._pressable !== null && !_.isNil(this._pressable.options) && !_.isNil(this.pressDelayTime) && !isNaN(this.pressDelayTime)) {
-			this._pressable.options.pressDelayTime = this.pressDelayTime;
-		}
-	}
-
-	private updatePressDistance() {
-		if (this._pressable !== null && !_.isNil(this._pressable.options) && !_.isNil(this.pressDelayDistance) && !isNaN(this.pressDelayDistance)) {
-			this._pressable.options.pressDelayDistance = this.pressDelayDistance;
-		}
-	} */
 	private backgroundImageURLHandler() {
 		if (this.backgroundImageUrl !== "" && !_.isNil(this.backgroundImageUrl)) {
 			this._elButton.style.backgroundImage = "url(" + this.backgroundImageUrl + ")";
@@ -1941,15 +1864,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.stop();
 	}
 
-	// /**
-	//  * Called this method if you have to wrap the element
-	//  * @param el html element which you have to wrap
-	//  * @param wrapper wrapper html element
-	//  */
-	// private wrap(el: any, wrapper: HTMLElement) {
-	// 	el.parentNode.insertBefore(wrapper, el);
-	// 	wrapper.appendChild(el);
-	// }
 
 	private generateListOfAllPossibleComponentCssClasses(): string[] {
 		const cssClasses: string[] = [];
@@ -2104,7 +2018,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this._elButton.setAttribute('data-ch5-id', this.getCrId());
 		this._elIcon.classList.add(this.primaryCssClass + '--icon');
 		this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label');
-		// this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + '--span');
 
 		// The icon and label elements are not appended here since they might not always be displayed and the default
 		// css ( like padding ... ) would be applied without having an actual icon or label
@@ -2135,33 +2048,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 					node.remove();
 				}
 			});
-
-			// if (this.isLabelLoaded) {
-			// 	this.createEllipsisTpl();
-			// } else {
-			// 	setTimeout(() => {
-			// 		this.createEllipsisTpl();
-			// 		this.isLabelLoaded = true;
-			// 	}, 2000);
-			// }
 		}
 	}
-
-	// // creating three dots for iOS
-	// private createEllipsisTpl() {
-	// 	if (this._elSpanForLabelOnly.scrollHeight > this._elSpanForLabelOnly.clientHeight) {
-	// 		this._elContainer.classList.add(this.primaryCssClass + this.iosCssClassPostfix);
-	// 		this._elIosDots = document.createElement('i');
-	// 		this._elIosDots.classList.add('dots');
-	// 		this._elIosDots.innerHTML = '...';
-	// 		this._elSpanForLabelOnly.appendChild(this._elIosDots);
-	// 		const wrapper: HTMLElement = document.createElement('span');
-	// 		wrapper.classList.add(this.primaryCssClass + '--ios-label');
-	// 		if (!this._elSpanForLabelOnly.closest('.' + this.primaryCssClass + '--ios-label')) {
-	// 			this.wrap(this._elSpanForLabelOnly, wrapper);
-	// 		}
-	// 	}
-	// }
 
 	/**
 	 * Clear the button content in order to avoid duplication of buttons
@@ -3649,7 +3537,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private setSelectionMethods() {
 		this.setButtonDisplay();
 		this.updateInternalHtml();
-		// this.checkboxDisplay();
 		this.updateCssClasses();
 	}
 
