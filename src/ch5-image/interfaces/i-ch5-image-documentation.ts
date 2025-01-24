@@ -59,8 +59,8 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *        ] 
  *    },
  *    {
- *      "prefix": "ch5-image:Support-touch-position-output",
- *      "description": "Crestron Image (Receive Signal)",
+ *      "prefix": "ch5-image:support-touch-position-output",
+ *      "description": "Crestron Image (Send touch position output)",
  *      "body": [
  *        "<ch5-image alt=\"${1:Backyard image}\"",
  *        "\theight=\"${2:450px}\"",

@@ -29,7 +29,9 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 	public static readonly ELEMENT_NAME = 'ch5-image';
 	private _ch5Properties: Ch5Properties;
-	private touchStart: boolean = false;
+	private isDragging: boolean = false;
+	private pointerId: number = 0;
+	private outsideUp: boolean = false;
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -209,28 +211,14 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	}
 
 	public set allowPositionDataToBeSent(value: boolean) {
-		this._ch5Properties.set<boolean>("allowPositionDataToBeSent", value, () => {
-			if (this.allowPositionDataToBeSent) {
-				this.addEventListener('pointerdown', this.handlePointerDown, { passive: true })
-				this.addEventListener('pointerup', this.handlePointerUp, { passive: true });
-			} else {
-				this.removeEventListener('pointerdown', this.handlePointerDown)
-				this.removeEventListener('pointerup', this.handlePointerUp);
-			}
-		});
+		this._ch5Properties.set<boolean>("allowPositionDataToBeSent", value, null);
 	}
 	public get allowPositionDataToBeSent(): boolean {
 		return this._ch5Properties.get<boolean>("allowPositionDataToBeSent");
 	}
 
 	public set allowValuesOnMove(value: boolean) {
-		this._ch5Properties.set<boolean>("allowValuesOnMove", value, () => {
-			if (this.allowPositionDataToBeSent && this.allowValuesOnMove) {
-				this.addEventListener('pointermove', this.handlePointerMove, { passive: true });
-			} else {
-				this.removeEventListener('pointermove', this.handlePointerMove);
-			}
-		});
+		this._ch5Properties.set<boolean>("allowValuesOnMove", value, null);
 	}
 	public get allowValuesOnMove(): boolean {
 		return this._ch5Properties.get<boolean>("allowValuesOnMove");
@@ -252,13 +240,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 	public set receiveStateAllowValuesOnMove(value: string) {
 		this._ch5Properties.set("receiveStateAllowValuesOnMove", value, null, (newValue: boolean) => {
-			this._ch5Properties.setForSignalResponse<boolean>("allowValuesOnMove", newValue, () => {
-				if (this.allowPositionDataToBeSent) {
-					this.addEventListener('pointermove', this.handlePointerMove, { passive: true });
-				} else {
-					this.removeEventListener('pointermove', this.handlePointerMove);
-				}
-			});
+			this._ch5Properties.setForSignalResponse<boolean>("allowValuesOnMove", newValue, null);
 		});
 	}
 	public get receiveStateAllowValuesOnMove(): string {
@@ -267,13 +249,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 	public set receiveStateAllowPositionDataToBeSent(value: string) {
 		this._ch5Properties.set("receiveStateAllowPositionDataToBeSent", value, null, (newValue: boolean) => {
-			this._ch5Properties.setForSignalResponse<boolean>("allowPositionDataToBeSent", newValue, () => {
-				if (this.allowPositionDataToBeSent) {
-					this.addEventListener('pointerup', this.handlePointerUp, { passive: true });
-				} else {
-					this.removeEventListener('pointerup', this.handlePointerUp);
-				}
-			});
+			this._ch5Properties.setForSignalResponse<boolean>("allowPositionDataToBeSent", newValue, null);
 		});
 	}
 	public get receiveStateAllowPositionDataToBeSent(): string {
@@ -663,10 +639,10 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 		// // events binding
 		// this._onClick = this._onClick.bind(this);
-		// this._onTouchStart = this._onTouchStart.bind(this);
-		// this._onTouchEnd = this._onTouchEnd.bind(this);
-		// this._onTouchCancel = this._onTouchCancel.bind(this);
-		// this._onTouchMove = this._onTouchMove.bind(this);
+		// this._pointerDown = this._pointerDown.bind(this);
+		// this._pointerUp = this._pointerUp.bind(this);
+		// this._pointerCancel = this._pointerCancel.bind(this);
+		// this._pointerMove = this._pointerMove.bind(this);
 		// this._onError = this._onError.bind(this);
 
 		// check if the img element has been created by verifying one of its properties
@@ -678,6 +654,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		// add primary class
 		this._img.classList.add(this.primaryCssClass);
 		this._img.classList.add(this.primaryCssClass + '__img');
+		this._img.setAttribute('draggable', 'false')
 	}
 
 	// Respond to attribute changes.
@@ -940,10 +917,10 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 		// events binding
 		this._onClick = this._onClick.bind(this);
-		this._onTouchStart = this._onTouchStart.bind(this);
-		this._onTouchEnd = this._onTouchEnd.bind(this);
-		this._onTouchCancel = this._onTouchCancel.bind(this);
-		this._onTouchMove = this._onTouchMove.bind(this);
+		this._pointerDown = this._pointerDown.bind(this);
+		this._pointerUp = this._pointerUp.bind(this);
+		this._pointerCancel = this._pointerCancel.bind(this);
+		this._pointerMove = this._pointerMove.bind(this);
 		this._onError = this._onError.bind(this);
 
 
@@ -1251,10 +1228,10 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 		this.addEventListener('click', this._onClick);
 
-		this.addEventListener('touchstart', this._onTouchStart, { passive: true });
-		this.addEventListener('touchend', this._onTouchEnd);
-		this.addEventListener('touchmove', this._onTouchMove, { passive: true });
-		this.addEventListener('touchcancel', this._onTouchCancel);
+		this.addEventListener('pointerdown', this._pointerDown, { passive: true });
+		this.addEventListener('pointerup', this._pointerUp);
+		this.addEventListener('pointermove', this._pointerMove, { passive: true });
+		this.addEventListener('pointercancel', this._pointerCancel);
 
 		this._img.addEventListener('error', this._onError);
 	}
@@ -1479,10 +1456,10 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		super.removeEventListeners();
 
 		this.removeEventListener('click', this._onClick);
-		this.removeEventListener('touchstart', this._onTouchStart);
-		this.removeEventListener('touchend', this._onTouchEnd);
-		this.removeEventListener('touchmove', this._onTouchMove);
-		this.removeEventListener('touchcancel', this._onTouchCancel);
+		this.removeEventListener('pointerdown', this._pointerDown);
+		this.removeEventListener('pointerup', this._pointerUp);
+		this.removeEventListener('pointermove', this._pointerMove);
+		this.removeEventListener('pointercancel', this._pointerCancel);
 
 		this._img.removeEventListener('error', this._onError);
 
@@ -1544,9 +1521,12 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	 *  EVENTS HANDLERS
 	 */
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	protected _onTouchStart(inEvent: Event): void {
-		this.info("Ch5Image._onTouchStart()");
+	protected _pointerDown(inEvent: PointerEvent): void {
+		this.info("Ch5Image._pointerDown()");
 		// inEvent.preventDefault();
+		this.isDragging = true;
+		this.pointerId = inEvent.pointerId;
+		this.outsideUp = false;
 		if (this._timerIdForTouch) {
 			window.clearTimeout(this._timerIdForTouch);
 		}
@@ -1556,57 +1536,58 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	}
 
 
-	private handlePointerDown() {
-		//this.touchStart = true;
-	}
-
-
-	private handlePointerUp(event: PointerEvent) {
-		// this.touchStart = false;
-		this.handleAllowPositionDataToBeSent(event);
-	}
-
-
-	private handlePointerMove(event: PointerEvent) {
-		//if (this.touchStart) {
-		this.handleAllowPositionDataToBeSent(event);
-		//}
-	}
 	protected handleAllowPositionDataToBeSent(event: PointerEvent): void {
 		// console.log(event);
 		const imagePos = this.getBoundingClientRect();
 		const x = Math.round(event.clientX - imagePos.x);
 		const y = Math.round(event.clientY - imagePos.y);
-		const width = this.getAnalogValue(x, this.clientWidth);
-		const height = this.getAnalogValue(y, this.clientHeight);
+		const xPosition = this.getAnalogValue(x, this.clientWidth);
+		const yPosition = this.getAnalogValue(y, this.clientHeight);
 		if (this.sendEventXPosition && this.sendEventYPosition) {
-			Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventXPosition)?.publish((width) as number);
-			Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventYPosition)?.publish((height) as number);
+			Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventXPosition)?.publish((xPosition) as number);
+			Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventYPosition)?.publish((yPosition) as number);
 		}
-		(document.getElementById("testX") as HTMLElement).innerHTML += '\n x->: ' + width;
-		(document.getElementById("testY") as HTMLElement).innerHTML += '\n Y->: ' + height;
 	}
-
 
 	private getAnalogValue(val: any, input: any) {
 		return Math.round(val * 65535 / input);
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	protected _onTouchEnd(inEvent: Event): void {
-		this.info("Ch5Image._onTouchEnd()");
-
+	protected _pointerUp(inEvent: PointerEvent): void {
+		this.isDragging = false;
+		this.pointerId = 0;
+		this.info("Ch5Image._pointerUp()");
+		if (this.allowPositionDataToBeSent && this.sendEventXPosition && this.sendEventYPosition && !this.outsideUp) {
+			this.handleAllowPositionDataToBeSent(inEvent)
+		}
 		this._stopSendSignalOnTouch();
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	private _onTouchMove(inEvent: Event): void {
+	private _pointerMove(inEvent: PointerEvent): void {
 		// inEvent.preventDefault();
-		this._stopSendSignalOnTouch();
+		if (this.isDragging && (inEvent.pointerId === this.pointerId)) {
+			const rect = this.getBoundingClientRect();
+			if (inEvent.clientX < rect.left || inEvent.clientX > rect.right ||
+				inEvent.clientY < rect.top || inEvent.clientY > rect.bottom ||
+				(inEvent.pointerType === 'mouse' && inEvent.pressure === 0)) {
+				this.dispatchEvent(new PointerEvent('pointercancel', inEvent));
+				this.isDragging = false;
+				this.outsideUp == true;
+			} else {
+				if (this.allowPositionDataToBeSent && this.allowValuesOnMove && this.sendEventXPosition && this.sendEventYPosition) {
+					this.handleAllowPositionDataToBeSent(inEvent)
+				}
+				this._stopSendSignalOnTouch();
+			}
+		}
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	protected _onTouchCancel(inEvent: Event): void {
+	protected _pointerCancel(inEvent: PointerEvent): void {
+		this.isDragging = false;
+		this.pointerId = 0;
 		this._stopSendSignalOnTouch();
 	}
 
