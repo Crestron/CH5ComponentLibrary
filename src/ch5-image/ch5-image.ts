@@ -677,7 +677,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 			// receive signals
 			'receivestateurl',
-			'receivestateallowvaluesOnMove',
+			'receivestateallowvaluesonmove',
 			'receivestateallowpositiondatatobesent',
 
 			// send signals
@@ -1549,7 +1549,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		}
 	}
 
-	private getAnalogValue(val: any, input: any) {
+	private getAnalogValue(val: number, input: number) {
 		return Math.round(val * 65535 / input);
 	}
 
