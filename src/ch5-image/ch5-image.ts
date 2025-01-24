@@ -31,7 +31,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	private _ch5Properties: Ch5Properties;
 	private isDragging: boolean = false;
 	private pointerId: number = 0;
-	private outsideUp: boolean = false;
+	private liftFingerOutSideElement: boolean = false;
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -672,20 +672,20 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 			'refreshrate',
 			'dir',
 			'mode',
-			'allowPositionDataToBeSent',
-			'allowValuesOnMove',
+			'allowpositiondatatobesent',
+			'allowvaluesonmove',
 
 			// receive signals
 			'receivestateurl',
-			'receiveStateAllowValuesOnMove',
-			'receiveStateAllowPositionDataToBeSent',
+			'receivestateallowvaluesOnMove',
+			'receivestateallowpositiondatatobesent',
 
 			// send signals
 			'sendeventonclick',
 			'sendeventonerror',
 			'sendeventontouch',
-			'sendEventXPosition',
-			'sendEventYPosition'
+			'sendeventxposition',
+			'sendeventyposition'
 		];
 
 		for (let i: number = 0; i < Ch5Image.COMPONENT_PROPERTIES.length; i++) {
@@ -1526,12 +1526,12 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		// inEvent.preventDefault();
 		this.isDragging = true;
 		this.pointerId = inEvent.pointerId;
-		this.outsideUp = false;
+		this.liftFingerOutSideElement = false;
 		if (this._timerIdForTouch) {
 			window.clearTimeout(this._timerIdForTouch);
 		}
 
-		this._onLongTouch();
+		// this._onLongTouch();
 
 	}
 
@@ -1558,7 +1558,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		this.isDragging = false;
 		this.pointerId = 0;
 		this.info("Ch5Image._pointerUp()");
-		if (this.allowPositionDataToBeSent && this.sendEventXPosition && this.sendEventYPosition && !this.outsideUp) {
+		if (this.allowPositionDataToBeSent && this.sendEventXPosition && this.sendEventYPosition && !this.liftFingerOutSideElement) {
 			this.handleAllowPositionDataToBeSent(inEvent)
 		}
 		this._stopSendSignalOnTouch();
@@ -1574,7 +1574,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 				(inEvent.pointerType === 'mouse' && inEvent.pressure === 0)) {
 				this.dispatchEvent(new PointerEvent('pointercancel', inEvent));
 				this.isDragging = false;
-				this.outsideUp == true;
+				this.liftFingerOutSideElement = true;
 			} else {
 				if (this.allowPositionDataToBeSent && this.allowValuesOnMove && this.sendEventXPosition && this.sendEventYPosition) {
 					this.handleAllowPositionDataToBeSent(inEvent)
