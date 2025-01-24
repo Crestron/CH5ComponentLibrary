@@ -16,6 +16,8 @@ import { ICh5ImageAttributes } from "./interfaces/i-ch5-image-attributes";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 import { Subscription } from "rxjs/internal/Subscription";
 import _ from "lodash";
+import { ICh5PropertySettings } from "../ch5-core/ch5-property";
+import { Ch5Properties } from "../ch5-core/ch5-properties";
 
 export interface IShowStyle {
 	visibility: string;
@@ -26,6 +28,10 @@ export interface IShowStyle {
 export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 	public static readonly ELEMENT_NAME = 'ch5-image';
+	private _ch5Properties: Ch5Properties;
+	private isDragging: boolean = false;
+	private pointerId: number = 0;
+	private liftFingerOutSideElement: boolean = false;
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -34,7 +40,12 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventonerror: { direction: "event", stringJoin: 1, contractName: true }
+		sendeventonerror: { direction: "event", stringJoin: 1, contractName: true },
+
+		receivestateallowvaluesonmove: { direction: "state", booleanJoin: 1, contractName: true },
+		receivestateallowpositiondatatobesent: { direction: "state", booleanJoin: 1, contractName: true },
+		sendeventxposition: { direction: "event", numericJoin: 1, contractName: true },
+		sendeventyposition: { direction: "event", numericJoin: 1, contractName: true },
 	};
 
 	public static readonly COMPONENT_DATA: any = {
@@ -45,6 +56,68 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 			classListPrefix: '--dir--'
 		}
 	};
+
+
+	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
+		{
+			default: false,
+			name: "allowValuesOnMove",
+			nameForSignal: "receiveStateAllowValuesOnMove",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: false,
+			isObservableProperty: true,
+		},
+		{
+			default: false,
+			name: "allowPositionDataToBeSent",
+			nameForSignal: "receiveStateAllowPositionDataToBeSent",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: false,
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "receiveStateAllowValuesOnMove",
+			signalType: "boolean",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "receiveStateAllowPositionDataToBeSent",
+			signalType: "boolean",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "sendEventXPosition",
+			signalType: "number",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			isSignal: true,
+			name: "sendEventYPosition",
+			signalType: "number",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+	];
 
 	private readonly MODES: {
 		MIN_LENGTH: number,
@@ -135,6 +208,52 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 				// }
 			}
 		}
+	}
+
+	public set allowPositionDataToBeSent(value: boolean) {
+		this._ch5Properties.set<boolean>("allowPositionDataToBeSent", value, null);
+	}
+	public get allowPositionDataToBeSent(): boolean {
+		return this._ch5Properties.get<boolean>("allowPositionDataToBeSent");
+	}
+
+	public set allowValuesOnMove(value: boolean) {
+		this._ch5Properties.set<boolean>("allowValuesOnMove", value, null);
+	}
+	public get allowValuesOnMove(): boolean {
+		return this._ch5Properties.get<boolean>("allowValuesOnMove");
+	}
+
+	public set sendEventXPosition(value: string) {
+		this._ch5Properties.set("sendEventXPosition", value);
+	}
+	public get sendEventXPosition(): string {
+		return this._ch5Properties.get<string>('sendEventXPosition');
+	}
+
+	public set sendEventYPosition(value: string) {
+		this._ch5Properties.set("sendEventYPosition", value,);
+	}
+	public get sendEventYPosition(): string {
+		return this._ch5Properties.get<string>('sendEventYPosition');
+	}
+
+	public set receiveStateAllowValuesOnMove(value: string) {
+		this._ch5Properties.set("receiveStateAllowValuesOnMove", value, null, (newValue: boolean) => {
+			this._ch5Properties.setForSignalResponse<boolean>("allowValuesOnMove", newValue, null);
+		});
+	}
+	public get receiveStateAllowValuesOnMove(): string {
+		return this._ch5Properties.get<string>('receiveStateAllowValuesOnMove');
+	}
+
+	public set receiveStateAllowPositionDataToBeSent(value: string) {
+		this._ch5Properties.set("receiveStateAllowPositionDataToBeSent", value, null, (newValue: boolean) => {
+			this._ch5Properties.setForSignalResponse<boolean>("allowPositionDataToBeSent", newValue, null);
+		});
+	}
+	public get receiveStateAllowPositionDataToBeSent(): string {
+		return this._ch5Properties.get<string>('receiveStateAllowPositionDataToBeSent');
 	}
 
 	public get direction() {
@@ -508,7 +627,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	 */
 	public constructor() {
 		super();
-
+		this._ch5Properties = new Ch5Properties(this, Ch5Image.COMPONENT_PROPERTIES);
 		// custom release event
 		this.errorEvent = new CustomEvent("error", {
 			bubbles: true,
@@ -520,10 +639,10 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 		// // events binding
 		// this._onClick = this._onClick.bind(this);
-		// this._onTouchStart = this._onTouchStart.bind(this);
-		// this._onTouchEnd = this._onTouchEnd.bind(this);
-		// this._onTouchCancel = this._onTouchCancel.bind(this);
-		// this._onTouchMove = this._onTouchMove.bind(this);
+		// this._pointerDown = this._pointerDown.bind(this);
+		// this._pointerUp = this._pointerUp.bind(this);
+		// this._pointerCancel = this._pointerCancel.bind(this);
+		// this._pointerMove = this._pointerMove.bind(this);
 		// this._onError = this._onError.bind(this);
 
 		// check if the img element has been created by verifying one of its properties
@@ -535,6 +654,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		// add primary class
 		this._img.classList.add(this.primaryCssClass);
 		this._img.classList.add(this.primaryCssClass + '__img');
+		this._img.setAttribute('draggable', 'false')
 	}
 
 	// Respond to attribute changes.
@@ -552,15 +672,27 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 			'refreshrate',
 			'dir',
 			'mode',
+			'allowpositiondatatobesent',
+			'allowvaluesonmove',
 
 			// receive signals
 			'receivestateurl',
+			'receivestateallowvaluesonmove',
+			'receivestateallowpositiondatatobesent',
 
 			// send signals
 			'sendeventonclick',
 			'sendeventonerror',
-			'sendeventontouch'
+			'sendeventontouch',
+			'sendeventxposition',
+			'sendeventyposition'
 		];
+
+		for (let i: number = 0; i < Ch5Image.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5Image.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				ch5ImageAttributes.push(Ch5Image.COMPONENT_PROPERTIES[i].name.toLowerCase());
+			}
+		}
 
 		return commonAttributes.concat(ch5ImageAttributes);
 	};
@@ -785,10 +917,10 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 		// events binding
 		this._onClick = this._onClick.bind(this);
-		this._onTouchStart = this._onTouchStart.bind(this);
-		this._onTouchEnd = this._onTouchEnd.bind(this);
-		this._onTouchCancel = this._onTouchCancel.bind(this);
-		this._onTouchMove = this._onTouchMove.bind(this);
+		this._pointerDown = this._pointerDown.bind(this);
+		this._pointerUp = this._pointerUp.bind(this);
+		this._pointerCancel = this._pointerCancel.bind(this);
+		this._pointerMove = this._pointerMove.bind(this);
 		this._onError = this._onError.bind(this);
 
 
@@ -869,6 +1001,13 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		}
 
 		this.info('ch5-image attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+
+		const attributeChangedProperty = Ch5Image.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
+		if (attributeChangedProperty) {
+			const thisRef: any = this;
+			const key = attributeChangedProperty.name;
+			thisRef[key] = newValue;
+		}
 
 		switch (attr) {
 			case 'url':
@@ -1024,6 +1163,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		}
 	}
 
+
 	private setUrlByInput(url: string) {
 		this.logger.log("setUrlByInput url: ", url);
 		this._url = url;
@@ -1053,6 +1193,16 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	protected initAttributes(): void {
 		super.initAttributes();
 
+		const thisRef: any = this;
+		for (let i: number = 0; i < Ch5Image.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5Image.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				if (this.hasAttribute(Ch5Image.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
+					const key = Ch5Image.COMPONENT_PROPERTIES[i].name;
+					thisRef[key] = this.getAttribute(key);
+				}
+			}
+		}
+
 		if (this.hasAttribute('receiveStateUrl')) {
 			this.receiveStateUrl = this.getAttribute('receiveStateUrl') as string;
 		}
@@ -1078,10 +1228,10 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 		this.addEventListener('click', this._onClick);
 
-		this.addEventListener('touchstart', this._onTouchStart, { passive: true });
-		this.addEventListener('touchend', this._onTouchEnd);
-		this.addEventListener('touchmove', this._onTouchMove, { passive: true });
-		this.addEventListener('touchcancel', this._onTouchCancel);
+		this.addEventListener('pointerdown', this._pointerDown, { passive: true });
+		this.addEventListener('pointerup', this._pointerUp);
+		this.addEventListener('pointermove', this._pointerMove, { passive: true });
+		this.addEventListener('pointercancel', this._pointerCancel);
 
 		this._img.addEventListener('error', this._onError);
 	}
@@ -1306,10 +1456,10 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		super.removeEventListeners();
 
 		this.removeEventListener('click', this._onClick);
-		this.removeEventListener('touchstart', this._onTouchStart);
-		this.removeEventListener('touchend', this._onTouchEnd);
-		this.removeEventListener('touchmove', this._onTouchMove);
-		this.removeEventListener('touchcancel', this._onTouchCancel);
+		this.removeEventListener('pointerdown', this._pointerDown);
+		this.removeEventListener('pointerup', this._pointerUp);
+		this.removeEventListener('pointermove', this._pointerMove);
+		this.removeEventListener('pointercancel', this._pointerCancel);
 
 		this._img.removeEventListener('error', this._onError);
 
@@ -1371,32 +1521,73 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	 *  EVENTS HANDLERS
 	 */
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	protected _onTouchStart(inEvent: Event): void {
-		this.info("Ch5Image._onTouchStart()");
+	protected _pointerDown(inEvent: PointerEvent): void {
+		this.info("Ch5Image._pointerDown()");
 		// inEvent.preventDefault();
+		this.isDragging = true;
+		this.pointerId = inEvent.pointerId;
+		this.liftFingerOutSideElement = false;
 		if (this._timerIdForTouch) {
 			window.clearTimeout(this._timerIdForTouch);
 		}
 
-		this._onLongTouch();
+		// this._onLongTouch();
 
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	protected _onTouchEnd(inEvent: Event): void {
-		this.info("Ch5Image._onTouchEnd()");
 
+	protected handleAllowPositionDataToBeSent(event: PointerEvent): void {
+		// console.log(event);
+		const imagePos = this.getBoundingClientRect();
+		const x = Math.round(event.clientX - imagePos.x);
+		const y = Math.round(event.clientY - imagePos.y);
+		const xPosition = this.getAnalogValue(x, this.clientWidth);
+		const yPosition = this.getAnalogValue(y, this.clientHeight);
+		if (this.sendEventXPosition && this.sendEventYPosition) {
+			Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventXPosition)?.publish((xPosition) as number);
+			Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventYPosition)?.publish((yPosition) as number);
+		}
+	}
+
+	private getAnalogValue(val: number, input: number) {
+		return Math.round(val * 65535 / input);
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	protected _pointerUp(inEvent: PointerEvent): void {
+		this.isDragging = false;
+		this.pointerId = 0;
+		this.info("Ch5Image._pointerUp()");
+		if (this.allowPositionDataToBeSent && this.sendEventXPosition && this.sendEventYPosition && !this.liftFingerOutSideElement) {
+			this.handleAllowPositionDataToBeSent(inEvent)
+		}
 		this._stopSendSignalOnTouch();
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	private _onTouchMove(inEvent: Event): void {
+	private _pointerMove(inEvent: PointerEvent): void {
 		// inEvent.preventDefault();
-		this._stopSendSignalOnTouch();
+		if (this.isDragging && (inEvent.pointerId === this.pointerId)) {
+			const rect = this.getBoundingClientRect();
+			if (inEvent.clientX < rect.left || inEvent.clientX > rect.right ||
+				inEvent.clientY < rect.top || inEvent.clientY > rect.bottom ||
+				(inEvent.pointerType === 'mouse' && inEvent.pressure === 0)) {
+				this.dispatchEvent(new PointerEvent('pointercancel', inEvent));
+				this.isDragging = false;
+				this.liftFingerOutSideElement = true;
+			} else {
+				if (this.allowPositionDataToBeSent && this.allowValuesOnMove && this.sendEventXPosition && this.sendEventYPosition) {
+					this.handleAllowPositionDataToBeSent(inEvent)
+				}
+				this._stopSendSignalOnTouch();
+			}
+		}
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	protected _onTouchCancel(inEvent: Event): void {
+	protected _pointerCancel(inEvent: PointerEvent): void {
+		this.isDragging = false;
+		this.pointerId = 0;
 		this._stopSendSignalOnTouch();
 	}
 
