@@ -1523,7 +1523,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	protected _pointerDown(inEvent: PointerEvent): void {
 		this.info("Ch5Image._pointerDown()");
-		// inEvent.preventDefault();
 		this.isDragging = true;
 		this.pointerId = inEvent.pointerId;
 		this.liftFingerOutSideElement = false;
@@ -1537,7 +1536,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 
 	protected handleAllowPositionDataToBeSent(event: PointerEvent): void {
-		// console.log(event);
 		const imagePos = this.getBoundingClientRect();
 		const x = Math.round(event.clientX - imagePos.x);
 		const y = Math.round(event.clientY - imagePos.y);
@@ -1550,7 +1548,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	}
 
 	private getAnalogValue(val: number, input: number) {
-		return Math.round(val * 65535 / input);
+		return Math.min(Math.max(Math.round(val * 65535 / input), 0), 65535);
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -1566,7 +1564,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	private _pointerMove(inEvent: PointerEvent): void {
-		// inEvent.preventDefault();
 		if (this.isDragging && (inEvent.pointerId === this.pointerId)) {
 			const rect = this.getBoundingClientRect();
 			if (inEvent.clientX < rect.left || inEvent.clientX > rect.right ||
@@ -1602,7 +1599,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	private _onError(inEvent: Event): void {
 		this.logger.log("onError called");
 		this.dispatchEvent(this.errorEvent);
-		// inEvent.preventDefault();
 
 		const message = 'Error loading image with src: ' + this._url;
 
