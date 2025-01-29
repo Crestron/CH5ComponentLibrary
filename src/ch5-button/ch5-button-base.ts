@@ -2110,70 +2110,71 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	private checkboxDisplay() {
 		this.logger.start("checkboxDisplay");
-		let classForCheckboxRemove: string[] = [];
-		let classForCheckboxAdd: string[] = [];
-		const checkboxCssClass: string = this.primaryCssClass + "__checkbox";
-		classForCheckboxRemove = [checkboxCssClass, checkboxCssClass + "--unchecked", checkboxCssClass + "--checked"];
-		if (this._checkboxShow === true && this._selected === true) {
-			classForCheckboxAdd = [checkboxCssClass, checkboxCssClass + "--checked"];
-		} else if (this._checkboxShow === false) {
-			// This case is addressed.
-		} else if (this._checkboxShow === true) {
-			classForCheckboxAdd = [checkboxCssClass, checkboxCssClass + "--unchecked"];
-		}
-
-		classForCheckboxRemove.forEach((className: string) => {
-			className = className.trim();
-			if (className !== '') {
-				this._elCheckboxIcon.classList.remove(className);
+		if (this.isCheckboxVisible()) {
+			let classForCheckboxRemove: string[] = [];
+			let classForCheckboxAdd: string[] = [];
+			const checkboxCssClass: string = this.primaryCssClass + "__checkbox";
+			classForCheckboxRemove = [checkboxCssClass, checkboxCssClass + "--unchecked", checkboxCssClass + "--checked"];
+			if (this._checkboxShow === true && this._selected === true) {
+				classForCheckboxAdd = [checkboxCssClass, checkboxCssClass + "--checked"];
+			} else if (this._checkboxShow === false) {
+				// This case is addressed.
+			} else if (this._checkboxShow === true) {
+				classForCheckboxAdd = [checkboxCssClass, checkboxCssClass + "--unchecked"];
 			}
-		});
 
-		classForCheckboxAdd.forEach((className: string) => {
-			className = className.trim();
-			if (className !== '') {
-				this._elCheckboxIcon.classList.add(className);
-			}
-		});
-
-		this._elCheckboxIcon.classList.remove('cx-button-checkbox-pos-left');
-		this._elCheckboxIcon.classList.remove('cx-button-checkbox-pos-right');
-		if (this.checkboxShow === true) {
-			this._elCheckboxIcon.classList.add('cx-button-checkbox-pos-' + this.checkboxPosition);
-		}
-
-		let hasCheckboxIcon = false;
-
-		if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
-			hasCheckboxIcon = true;
-		}
-		this.logger.log("hasCheckboxIcon", hasCheckboxIcon);
-		// TODO - remove twice usage after testing valign and halign
-		if (this._elCheckboxIcon.parentNode) {
-			this._elCheckboxIcon.remove();
-		}
-
-		if (hasCheckboxIcon) {
-			if (this.checkboxPosition === 'right') {
-				if (this._elCheckboxIcon.parentNode !== (this._elButton as Node)) {
-					// if the icon element was not yet added to the button
-					this._elButton.appendChild(this._elCheckboxIcon);
-				} else {
-					// if the icon element was already added and needs to be switched with the label element
-					this._elButton.insertBefore(this._elSpanForLabelIconImg as Node, this._elCheckboxIcon as Node);
+			classForCheckboxRemove.forEach((className: string) => {
+				className = className.trim();
+				if (className !== '') {
+					this._elCheckboxIcon.classList.remove(className);
 				}
+			});
 
-			} else if (this.checkboxPosition === 'left') {
-				if ((this._elSpanForLabelIconImg as any).isConnected === true) {
-					this._elButton.insertBefore(this._elCheckboxIcon as Node, this._elSpanForLabelIconImg as Node);
+			classForCheckboxAdd.forEach((className: string) => {
+				className = className.trim();
+				if (className !== '') {
+					this._elCheckboxIcon.classList.add(className);
 				}
+			});
+
+			this._elCheckboxIcon.classList.remove('cx-button-checkbox-pos-left');
+			this._elCheckboxIcon.classList.remove('cx-button-checkbox-pos-right');
+			if (this.checkboxShow === true) {
+				this._elCheckboxIcon.classList.add('cx-button-checkbox-pos-' + this.checkboxPosition);
 			}
-		} else {
+
+			let hasCheckboxIcon = false;
+
+			if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
+				hasCheckboxIcon = true;
+			}
+			this.logger.log("hasCheckboxIcon", hasCheckboxIcon);
+			// TODO - remove twice usage after testing valign and halign
 			if (this._elCheckboxIcon.parentNode) {
 				this._elCheckboxIcon.remove();
 			}
-		}
 
+			if (hasCheckboxIcon) {
+				if (this.checkboxPosition === 'right') {
+					if (this._elCheckboxIcon.parentNode !== (this._elButton as Node)) {
+						// if the icon element was not yet added to the button
+						this._elButton.appendChild(this._elCheckboxIcon);
+					} else {
+						// if the icon element was already added and needs to be switched with the label element
+						this._elButton.insertBefore(this._elSpanForLabelIconImg as Node, this._elCheckboxIcon as Node);
+					}
+
+				} else if (this.checkboxPosition === 'left') {
+					if ((this._elSpanForLabelIconImg as any).isConnected === true) {
+						this._elButton.insertBefore(this._elCheckboxIcon as Node, this._elSpanForLabelIconImg as Node);
+					}
+				}
+			} else {
+				if (this._elCheckboxIcon.parentNode) {
+					this._elCheckboxIcon.remove();
+				}
+			}
+		}
 		this.logger.stop();
 	}
 
@@ -2640,12 +2641,18 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 	}
 
+	private isCheckboxVisible() {
+		if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
+			// if ((!isNil(this._checkboxShow) && this._checkboxShow === true)) {
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * Reorders ( if needed ) the position of the label and the icon inside the button
 	 */
 	protected updateInternalHtml(): void {
 		this.logger.start("updateInternalHtml()");
-		let hasCheckbox = false;
 
 		if (!(typeof this._elButton.insertBefore === "undefined"
 			|| typeof this._elIcon.classList === "undefined")) {
@@ -2671,7 +2678,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			let hasSgNumeric = false;
 			let hasSgString = false;
 			let hasAriaLabel = false;
-			
+			let hasCheckbox = false;
+
 			if ((!isNil(this.iconClass) && this.iconClass !== "") || (this.receiveStateIconClass && this.receiveStateIconClass !== '')) {
 				hasIcon = true;
 			}
@@ -2688,10 +2696,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				hasSgString = true;
 			}
 
-			if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
-				// if ((!isNil(this._checkboxShow) && this._checkboxShow === true)) {
-				hasCheckbox = true;
-			}
+			// if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
+			// if ((!isNil(this._checkboxShow) && this._checkboxShow === true)) {
+			hasCheckbox = this.isCheckboxVisible();
+			// }
 
 			// TODO - check the below for empty<template> tag
 			if ((!isNil(this.label) && this.label !== "") || (this.receiveStateLabel && this.receiveStateLabel !== '') || (this.receiveStateScriptLabelHtml && this.receiveStateScriptLabelHtml !== '')) {
@@ -2879,9 +2887,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				this.createIosEllipsis();
 			}
 		}
-		if (hasCheckbox === true) {
-			this.checkboxDisplay(); // TODO - cehck if this can be removed - issue comes when values change for halign and valign
-		}
+
+		this.checkboxDisplay(); // TODO - cehck if this can be removed - issue comes when values change for halign and valign
 		this.logger.stop();
 	}
 
