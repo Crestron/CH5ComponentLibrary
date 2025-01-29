@@ -2143,11 +2143,11 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				this._elCheckboxIcon.classList.add('cx-button-checkbox-pos-' + this.checkboxPosition);
 			}
 
-			let hasCheckboxIcon = false;
+			const hasCheckboxIcon = this.isCheckboxVisible();
 
-			if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
-				hasCheckboxIcon = true;
-			}
+			// if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
+			// 	hasCheckboxIcon = true;
+			// }
 			this.logger.log("hasCheckboxIcon", hasCheckboxIcon);
 			// TODO - remove twice usage after testing valign and halign
 			if (this._elCheckboxIcon.parentNode) {
