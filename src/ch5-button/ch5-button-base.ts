@@ -2018,7 +2018,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this._elButton.setAttribute('data-ch5-id', this.getCrId());
 		this._elIcon.classList.add(this.primaryCssClass + '--icon');
 		this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label');
-		this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + '--span');
+		// this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + '--span');
 
 		// The icon and label elements are not appended here since they might not always be displayed and the default
 		// css ( like padding ... ) would be applied without having an actual icon or label
@@ -2669,10 +2669,12 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			let hasSgNumeric = false;
 			let hasSgString = false;
 			let hasAriaLabel = false;
+			let hasCheckbox = false;
 
 			if ((!isNil(this.iconClass) && this.iconClass !== "") || (this.receiveStateIconClass && this.receiveStateIconClass !== '')) {
 				hasIcon = true;
 			}
+
 			if ((!isNil(this.iconUrl) && this.iconUrl !== "") || (this.receiveStateIconUrl && this.receiveStateIconUrl !== '')) {
 				hasImage = true;
 			}
@@ -2683,6 +2685,11 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 			if ((!isNil(this.sgIconString) && this.sgIconString !== '') || (this.receiveStateSGIconString && this.receiveStateSGIconString !== '')) {
 				hasSgString = true;
+			}
+
+			if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
+				// if ((!isNil(this._checkboxShow) && this._checkboxShow === true)) {
+				hasCheckbox = true;
 			}
 
 			// TODO - check the below for empty<template> tag
@@ -2697,6 +2704,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this.logger.log("hasLabel", hasLabel);
 			this.logger.log("hasImage", hasImage);
 			this.logger.log("hasAriaLabel", hasAriaLabel);
+			this.logger.log("hasCheckbox", hasCheckbox);
 
 			if (!hasLabel && hasAriaLabel && hasImage) {
 				const ariaLabel = this.getAttribute('aria-label');
@@ -2729,58 +2737,113 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				this._elIcon.style.backgroundImage = `url(${this.iconUrl})`;
 				this._elIcon.classList.remove(this.primaryCssClass + '--icon');
 				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
-					this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
+					if (hasCheckbox === true) {
+						this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
+					} else {
+						this._elButton.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
+					}
 				});
 				this._elIcon.classList.add(this.primaryCssClass + '--img');
 				if (this.iconUrlFillType !== null) {
-					this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
+					if (hasCheckbox === true) {
+						this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
+					} else {
+						this._elButton.classList.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
+					}
 				}
 			} else if (hasIcon && this.iconClass === this._ch5ButtonSignal.getSignal('receiveStateiconClass')?.currentValue) {
 				this._elIcon.classList.remove(this.primaryCssClass + '--img');
 				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
-					this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
+					if (hasCheckbox === true) {
+						this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
+					} else {
+						this._elButton.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
+					}
 				});
 				this._elIcon.classList.add(this.primaryCssClass + '--icon');
 			} else if (hasImage) {
 				this._elIcon.style.backgroundImage = `url(${this.iconUrl})`;
 				this._elIcon.classList.remove(this.primaryCssClass + '--icon');
 				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
-					this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
+					if (hasCheckbox === true) {
+						this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
+					} else {
+						this._elButton.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
+					}
 				});
 				this._elIcon.classList.add(this.primaryCssClass + '--img');
 				if (this.iconUrlFillType !== null) {
-					this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
+					if (hasCheckbox === true) {
+						this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
+					} else {
+						this._elButton.classList.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
+					}
 				}
 			} else if (hasIcon) {
 				this._elIcon.classList.remove(this.primaryCssClass + '--img');
 				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
-					this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
+					if (hasCheckbox === true) {
+						this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
+					} else {
+						this._elButton.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
+					}
 				});
 				this._elIcon.classList.add(this.primaryCssClass + '--icon');
 			}
-			this._elButton.appendChild(this._elSpanForLabelIconImg);
-			this._elSpanForLabelIconImg.appendChild(this._elSpanForLabelOnly);
 
+			if (hasCheckbox === true) {
+				this._elButton.appendChild(this._elSpanForLabelIconImg);
+				this._elSpanForLabelIconImg.appendChild(this._elSpanForLabelOnly);
+				this._elButton.classList.remove(this.primaryCssClass + '--span');
+				this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + '--span');
+				this.updateCssClasses();
+			} else {
+				this._elButton.innerHTML = '';
+				this._elButton.appendChild(this._elSpanForLabelOnly);
+				this._elSpanForLabelIconImg?.classList.remove(this.primaryCssClass + '--span');
+				this._elButton.classList.add(this.primaryCssClass + '--span');
+				this.updateCssClasses();
+			}
 			if (hasLabel && (hasIcon || hasImage || hasSgNumeric || hasSgString)) {
 				this.logger.log("Has Label and Icon");
 				if ((this._elSpanForLabelOnly as any).isConnected === false) {
-					this._elSpanForLabelIconImg.appendChild(this._elSpanForLabelOnly);
+					if (hasCheckbox === true) {
+						this._elSpanForLabelIconImg.appendChild(this._elSpanForLabelOnly);
+					} else {
+						this._elButton.appendChild(this._elSpanForLabelOnly);
+					}
 				} else if (this._elIcon.parentNode !== (this._elSpanForLabelOnly as Node)) {
-					this._elSpanForLabelIconImg.appendChild(this._elSpanForLabelOnly);
+					if (hasCheckbox === true) {
+						this._elSpanForLabelIconImg.appendChild(this._elSpanForLabelOnly);
+					} else {
+						this._elButton.appendChild(this._elSpanForLabelOnly);
+					}
 				}
 
 				if (['last', 'bottom'].indexOf(this.iconPosition) >= 0) {
 					if (this._elIcon.parentNode !== (this._elButton as Node)) {
 						// if the icon element was not yet added to the button
-						this._elSpanForLabelIconImg.appendChild(this._elIcon);
+						if (hasCheckbox === true) {
+							this._elSpanForLabelIconImg.appendChild(this._elIcon);
+						} else {
+							this._elButton.appendChild(this._elIcon);
+						}
 					} else {
 						// if the icon element was already added and needs to be switched with the label element
-						this._elSpanForLabelIconImg.insertBefore(this._elSpanForLabelOnly as Node, this._elIcon as Node);
+						if (hasCheckbox === true) {
+							this._elSpanForLabelIconImg.insertBefore(this._elSpanForLabelOnly as Node, this._elIcon as Node);
+						} else {
+							this._elButton.insertBefore(this._elSpanForLabelOnly as Node, this._elIcon as Node);
+						}
 					}
 				} else if (['first', 'top'].indexOf(this.iconPosition) >= 0) {
 					this.logger.log('insert icon before label');
 					if ((this._elSpanForLabelOnly as any).isConnected === true) {
-						this._elSpanForLabelIconImg.insertBefore(this._elIcon as Node, this._elSpanForLabelOnly as Node);
+						if (hasCheckbox === true) {
+							this._elSpanForLabelIconImg.insertBefore(this._elIcon as Node, this._elSpanForLabelOnly as Node);
+						} else {
+							this._elButton.insertBefore(this._elIcon as Node, this._elSpanForLabelOnly as Node);
+						}
 					}
 				}
 			} else if (hasLabel && !(hasIcon || hasImage || hasSgNumeric || hasSgString)) {
@@ -2790,9 +2853,16 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				}
 			} else if (!hasLabel && (hasIcon || hasImage || hasSgNumeric || hasSgString)) {
 				this.logger.log("Has Icon Only");
-				this._elSpanForLabelIconImg.appendChild(this._elIcon);
-				if (this._elSpanForLabelOnly.parentNode) {
-					this._elSpanForLabelOnly.remove();
+				if (hasCheckbox === true) {
+					this._elSpanForLabelIconImg.appendChild(this._elIcon);
+					if (this._elSpanForLabelOnly.parentNode) {
+						this._elSpanForLabelOnly.remove();
+					}
+				} else {
+					this._elButton.appendChild(this._elIcon);
+					if (this._elSpanForLabelOnly.parentNode) {
+						this._elSpanForLabelOnly.remove();
+					}
 				}
 			} else { // if no icon and no label
 				this.logger.log("No Label and No Icon");
@@ -2807,7 +2877,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			if (this.orientation === 'vertical' && this.shape !== 'circle') {
 				this.createIosEllipsis();
 			}
-
 		}
 		this.checkboxDisplay(); // TODO - cehck if this can be removed - issue comes when values change for halign and valign
 		this.logger.stop();
@@ -2882,14 +2951,23 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			setOfCssClassesToBeAppliedForLabelAlignment.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
 		}
 
-		this._listOfAllPossibleComponentCssClasses.forEach((cssClass: string) => {
-			if (setOfCssClassesToBeAppliedForLabelAlignment.has(cssClass)) {
-				this._elSpanForLabelIconImg.classList.add(cssClass);
-			} else {
-				this._elSpanForLabelIconImg.classList.remove(cssClass);
-			}
-		});
-
+		if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
+			this._listOfAllPossibleComponentCssClasses.forEach((cssClass: string) => {
+				if (setOfCssClassesToBeAppliedForLabelAlignment.has(cssClass)) {
+					this._elSpanForLabelIconImg.classList.add(cssClass);
+				} else {
+					this._elSpanForLabelIconImg.classList.remove(cssClass);
+				}
+			});
+		} else {
+			this._listOfAllPossibleComponentCssClasses.forEach((cssClass: string) => {
+				if (setOfCssClassesToBeAppliedForLabelAlignment.has(cssClass)) {
+					this._elButton.classList.add(cssClass);
+				} else {
+					this._elButton.classList.remove(cssClass);
+				}
+			});
+		}
 		this.logger.stop();
 	}
 
