@@ -71,7 +71,7 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *        "\treceiveStateAllowPositionDataToBeSent=\"${7:}\"",
  *        "\tsendEventXPosition=\"${8:}\"",
  *        "\tsendEventYPosition=\"${9:}\"",
- *        "\turl=\"${5:http://someServer/image.png}\">",
+ *        "\turl=\"${10:http://someServer/image.png}\">",
  *        "</ch5-image>$0"
  *        ] 
  *    }
