@@ -2645,6 +2645,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	protected updateInternalHtml(): void {
 		this.logger.start("updateInternalHtml()");
+		let hasCheckbox = false;
+
 		if (!(typeof this._elButton.insertBefore === "undefined"
 			|| typeof this._elIcon.classList === "undefined")) {
 
@@ -2669,8 +2671,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			let hasSgNumeric = false;
 			let hasSgString = false;
 			let hasAriaLabel = false;
-			let hasCheckbox = false;
-
+			
 			if ((!isNil(this.iconClass) && this.iconClass !== "") || (this.receiveStateIconClass && this.receiveStateIconClass !== '')) {
 				hasIcon = true;
 			}
@@ -2878,7 +2879,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				this.createIosEllipsis();
 			}
 		}
-		this.checkboxDisplay(); // TODO - cehck if this can be removed - issue comes when values change for halign and valign
+		if (hasCheckbox === true) {
+			this.checkboxDisplay(); // TODO - cehck if this can be removed - issue comes when values change for halign and valign
+		}
 		this.logger.stop();
 	}
 
