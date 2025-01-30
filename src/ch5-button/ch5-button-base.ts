@@ -32,7 +32,6 @@ import { ICh5ButtonListContractObj } from "./interfaces/t-for-ch5-button-list-co
 import { ICh5ButtonAttributes } from "./interfaces/i-ch5-button-attributes";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
-import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 import { Subscription } from "rxjs";
 import { ICh5ButtonExtendedProperties, Ch5ButtonUtils } from "./ch5-button-utils";
 import { Ch5ButtonSignal } from "./ch5-button-signal";
@@ -363,6 +362,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	public primaryCssClass: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
 
 	private DEBOUNCE_BUTTON_DISPLAY: number = 25;
+	private DEBOUNCE_UPDATE_CSS_CLASS: number = 25;
 
 	private _elContainer: HTMLElement = {} as HTMLElement;
 	private _elButton: HTMLElement = {} as HTMLElement;
@@ -560,6 +560,11 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private debounceSetButtonDisplay = this.debounce(() => {
 		this.setButtonDisplayDetails();
 	}, this.DEBOUNCE_BUTTON_DISPLAY);
+
+
+	private debounceUpdateCssClasses = this.debounce(() => {
+		this.updateCssClasses();
+	}, this.DEBOUNCE_UPDATE_CSS_CLASS)
 
 	//#endregion
 
@@ -816,7 +821,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this._stretch = null;
 			this.removeAttribute('stretch');
 		}
-		this.updateCssClasses();
+		this.debounceUpdateCssClasses();
 	}
 	public get stretch(): TCh5ButtonStretch | null {
 		return this._stretch;
@@ -856,7 +861,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				this._pressable.setPressed(valueToSet);
 			}
 		}
-		this.updateCssClasses();
+		this.debounceUpdateCssClasses();
 	}
 	public get pressed(): boolean {
 		if (this._pressable) {
@@ -910,7 +915,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	public set backgroundImageFillType(value: TCh5ButtonBackgroundImageFillType) {
 		this._ch5Properties.set<TCh5ButtonBackgroundImageFillType>("backgroundImageFillType", value, () => {
-			this.updateCssClasses();
+			this.debounceUpdateCssClasses();
 		});
 	}
 	public get backgroundImageFillType(): TCh5ButtonBackgroundImageFillType {
@@ -921,7 +926,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this._ch5Properties.set<TCh5ButtonIconUrlFillType | null>("iconUrlFillType", value, () => {
 			if (this._iconUrlFillType !== value) {
 				this.setButtonDisplay();
-				this.updateCssClasses();
+				this.debounceUpdateCssClasses();
 			}
 		});
 	}
@@ -1161,7 +1166,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this._onBlur = this._onBlur.bind(this);
 		this._onFocus = this._onFocus.bind(this);
 		this._ch5Properties = new Ch5Properties(this, Ch5ButtonBase.COMPONENT_PROPERTIES);
-		this.updateCssClasses();
+		this.debounceUpdateCssClasses();
 		this.logger.stop();
 	}
 
@@ -1209,7 +1214,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		customElements.whenDefined('ch5-button').then(() => {
 			this.isButtonInitiated = true;
 			this.setButtonDisplay(); // This is to handle specific case where the setButtonDisplay isn't called as all button attributes are set to "default" values.
-			this.updateCssClasses(); // Temporary fix for the previousExtendedProperties mentioned above
+			this.debounceUpdateCssClasses(); // Temporary fix for the previousExtendedProperties mentioned above
 			this.componentLoadedEvent(this.ELEMENT_NAME, this.id);
 			// publishEvent('object', `component`, { tagName: 'ch5-button', loaded: true, id: this.id });
 			// publishEvent('object', `ch5-button:${this.id}`, { loaded: true, id: this.id });
@@ -1427,7 +1432,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this.sendEventOnTouch = this.getAttribute('sendeventontouch') as string;
 		}
 
-		this.updateCssClasses();
+		this.debounceUpdateCssClasses();
 		this.updateInternalHtml();
 		this.logger.stop();
 	}
@@ -1544,13 +1549,13 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 			case 'mode':
 				this.mode = Ch5ButtonUtils.getAttributeValue<number>(this, 'mode', Number(newValue), 0);
-				this.updateCssClasses();
+				this.debounceUpdateCssClasses();
 				this.updateInternalHtml();
 				break;
 
 			case 'orientation':
 				this.orientation = Ch5ButtonUtils.getAttributeValue<TCh5ButtonOrientation>(this, 'orientation', newValue as TCh5ButtonOrientation, Ch5ButtonBase.ORIENTATIONS[0]);
-				this.updateCssClasses();
+				this.debounceUpdateCssClasses();
 				break;
 
 			case 'type':
@@ -1559,7 +1564,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 			case 'shape':
 				this.shape = Ch5ButtonUtils.getAttributeValue<TCh5ButtonShape>(this, 'shape', newValue as TCh5ButtonShape, Ch5ButtonBase.SHAPES[0]);
-				this.updateCssClasses();
+				this.debounceUpdateCssClasses();
 				break;
 
 			case 'halignlabel':
@@ -1572,12 +1577,12 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 			case 'size':
 				this.size = Ch5ButtonUtils.getAttributeValue<TCh5ButtonSize>(this, 'size', newValue as TCh5ButtonSize, Ch5ButtonBase.SIZES[0]);
-				this.updateCssClasses();
+				this.debounceUpdateCssClasses();
 				break;
 
 			case 'stretch':
 				this.stretch = Ch5ButtonUtils.getAttributeValue<TCh5ButtonStretch | null>(this, 'stretch', newValue as TCh5ButtonStretch, null);
-				this.updateCssClasses();
+				this.debounceUpdateCssClasses();
 				break;
 
 			case 'selected':
@@ -2040,17 +2045,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 	}
 
-	// adding ellipsis in iOS device with vertical button
-	protected createIosEllipsis() {
-		if (isSafariMobile()) {
-			const btnNodes: NodeListOf<ChildNode> = this._elButton.childNodes;
-			btnNodes.forEach((node: any) => {
-				if (node.className === (this.primaryCssClass + '--ios-label')) {
-					node.remove();
-				}
-			});
-		}
-	}
 
 	/**
 	 * Clear the button content in order to avoid duplication of buttons
@@ -2143,7 +2137,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				this._elCheckboxIcon.classList.add('cx-button-checkbox-pos-' + this.checkboxPosition);
 			}
 
-			const hasCheckboxIcon = this.isCheckboxVisible();
+			const hasCheckboxIcon = true;
 
 			// if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
 			// 	hasCheckboxIcon = true;
@@ -2602,7 +2596,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		// Methods to be invoked
 		if (updateUIMethods.updateCssClasses === true) {
-			this.updateCssClasses();
+			this.debounceUpdateCssClasses();
 		}
 		if (updateUIMethods.updateIconDisplay === true) {
 			this.updateIconDisplay();
@@ -2695,11 +2689,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			if ((!isNil(this.sgIconString) && this.sgIconString !== '') || (this.receiveStateSGIconString && this.receiveStateSGIconString !== '')) {
 				hasSgString = true;
 			}
-
-			// if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
-			// if ((!isNil(this._checkboxShow) && this._checkboxShow === true)) {
 			hasCheckbox = this.isCheckboxVisible();
-			// }
 
 			// TODO - check the below for empty<template> tag
 			if ((!isNil(this.label) && this.label !== "") || (this.receiveStateLabel && this.receiveStateLabel !== '') || (this.receiveStateScriptLabelHtml && this.receiveStateScriptLabelHtml !== '')) {
@@ -2805,13 +2795,13 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				this._elSpanForLabelIconImg.appendChild(this._elSpanForLabelOnly);
 				this._elButton.classList.remove(this.primaryCssClass + '--span');
 				this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + '--span');
-				this.updateCssClasses();
+				this.debounceUpdateCssClasses();
 			} else {
 				this._elButton.innerHTML = '';
 				this._elButton.appendChild(this._elSpanForLabelOnly);
 				this._elSpanForLabelIconImg?.classList.remove(this.primaryCssClass + '--span');
 				this._elButton.classList.add(this.primaryCssClass + '--span');
-				this.updateCssClasses();
+				this.debounceUpdateCssClasses();
 			}
 			if (hasLabel && (hasIcon || hasImage || hasSgNumeric || hasSgString)) {
 				this.logger.log("Has Label and Icon");
@@ -2883,9 +2873,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				}
 			}
 
-			if (this.orientation === 'vertical' && this.shape !== 'circle') {
-				this.createIosEllipsis();
-			}
 		}
 
 		this.checkboxDisplay(); // TODO - cehck if this can be removed - issue comes when values change for halign and valign
