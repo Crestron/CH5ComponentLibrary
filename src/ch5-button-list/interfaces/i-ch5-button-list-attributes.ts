@@ -341,7 +341,7 @@ export interface ICh5ButtonListAttributes extends ICh5ButtonListCommonAttributes
   * [
   * "`buttonShape` attribute",
   * "***",
-  * "The default value is 'rectangle'. Valid values: 'rectangle', 'rounded-rectangle'. This attribute sets shape of the button."
+  * "The default value is 'rounded-rectangle'. Valid values: 'rounded-rectangle', 'rectangle'. This attribute sets shape of the button."
   * ]
   * @name buttonshape
   * @default rectangle

@@ -48,7 +48,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   public static readonly BUTTON_VALIGN_LABEL_POSITIONS: TCh5ButtonListButtonVAlignLabel[] = ['middle', 'top', 'bottom'];
   public static readonly BUTTON_CHECKBOX_POSITIONS: TCh5ButtonListButtonCheckboxPosition[] = ['left', 'right'];
   public static readonly BUTTON_ICON_POSITIONS: TCh5ButtonListButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
-  public static readonly BUTTON_SHAPES: TCh5ButtonListButtonShape[] = ['rectangle', 'rounded-rectangle'];
+  public static readonly BUTTON_SHAPES: TCh5ButtonListButtonShape[] = ['rounded-rectangle', 'rectangle'];
   public static readonly BUTTON_ICON_URL_FILL_TYPE: TCh5ButtonListButtonIconUrlFillType[] = ['stretch', 'stretch-aspect', 'center', 'tile', 'initial'];
   public static readonly SG_ICON_THEME: TCh5ButtonListSgIconTheme[] = ['icons-lg', 'icons-sm', 'media-transports-accents', 'media-transports-light', 'media-transports-dark'];
 
@@ -2216,7 +2216,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
 
   private buttonHelper(btn: Ch5Button, index: number) {
     btn.setAttribute('stretch', 'both');
-    btn.setAttribute('shape', 'rectangle');
+    btn.setAttribute('shape', Ch5ButtonListBase.BUTTON_SHAPES[0]);
     // Contract Helper
     if (this.contractName !== "") {
       return this.contractButtonHelper(btn, index);
