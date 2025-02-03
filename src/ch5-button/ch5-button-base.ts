@@ -362,7 +362,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	public primaryCssClass: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
 
 	private DEBOUNCE_BUTTON_DISPLAY: number = 25;
-	private DEBOUNCE_UPDATE_CSS_CLASS: number = 25;
 
 	private _elContainer: HTMLElement = {} as HTMLElement;
 	private _elButton: HTMLElement = {} as HTMLElement;
@@ -560,7 +559,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private debounceSetButtonDisplay = this.debounce(() => {
 		this.setButtonDisplayDetails();
 	}, this.DEBOUNCE_BUTTON_DISPLAY);
-
 
 	//#endregion
 
