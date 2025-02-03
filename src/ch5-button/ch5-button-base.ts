@@ -32,7 +32,6 @@ import { ICh5ButtonListContractObj } from "./interfaces/t-for-ch5-button-list-co
 import { ICh5ButtonAttributes } from "./interfaces/i-ch5-button-attributes";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
-import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 import { Subscription } from "rxjs";
 import { ICh5ButtonExtendedProperties, Ch5ButtonUtils } from "./ch5-button-utils";
 import { Ch5ButtonSignal } from "./ch5-button-signal";
@@ -307,7 +306,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				removeAttributeOnNull: true,
 				enumeratedValues: ['true', 'false', '', true, false],
 				componentReference: this,
-				callback: this.updateInternalHtml.bind(this) // this.checkboxDisplay()
+				callback: this.checkboxDisplay.bind(this)
 			},
 			SELECTED: {
 				default: false,
@@ -760,7 +759,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.log('set type("' + value + '")');
 		if (this._type !== value) {
 			this.setAttribute('type', Ch5ButtonUtils.getValidInputValue(Ch5ButtonBase.TYPES, value));
-			this.handleAttributeType();
+			this.setButtonDisplay();
 		}
 	}
 	public get type(): TCh5ButtonType {
@@ -1596,6 +1595,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 			case 'checkboxshow':
 				this.checkboxShow = newValue as unknown as boolean;
+				this.updateInternalHtml();
 				break;
 
 			case 'checkboxposition':
@@ -2018,6 +2018,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this._elButton.setAttribute('data-ch5-id', this.getCrId());
 		this._elIcon.classList.add(this.primaryCssClass + '--icon');
 		this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label');
+		// this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + '--span');
 
 		// The icon and label elements are not appended here since they might not always be displayed and the default
 		// css ( like padding ... ) would be applied without having an actual icon or label
@@ -2039,17 +2040,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 	}
 
-	// adding ellipsis in iOS device with vertical button
-	protected createIosEllipsis() {
-		if (isSafariMobile()) {
-			const btnNodes: NodeListOf<ChildNode> = this._elButton.childNodes;
-			btnNodes.forEach((node: any) => {
-				if (node.className === (this.primaryCssClass + '--ios-label')) {
-					node.remove();
-				}
-			});
-		}
-	}
 
 	/**
 	 * Clear the button content in order to avoid duplication of buttons
@@ -2109,70 +2099,71 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	private checkboxDisplay() {
 		this.logger.start("checkboxDisplay");
-		let classForCheckboxRemove: string[] = [];
-		let classForCheckboxAdd: string[] = [];
-		const checkboxCssClass: string = this.primaryCssClass + "__checkbox";
-		classForCheckboxRemove = [checkboxCssClass, checkboxCssClass + "--unchecked", checkboxCssClass + "--checked"];
-		if (this._checkboxShow === true && this._selected === true) {
-			classForCheckboxAdd = [checkboxCssClass, checkboxCssClass + "--checked"];
-		} else if (this._checkboxShow === false) {
-			// This case is addressed.
-		} else if (this._checkboxShow === true) {
-			classForCheckboxAdd = [checkboxCssClass, checkboxCssClass + "--unchecked"];
-		}
-
-		classForCheckboxRemove.forEach((className: string) => {
-			className = className.trim();
-			if (className !== '') {
-				this._elCheckboxIcon.classList.remove(className);
+		//if (this.isCheckboxVisible()) {
+			let classForCheckboxRemove: string[] = [];
+			let classForCheckboxAdd: string[] = [];
+			const checkboxCssClass: string = this.primaryCssClass + "__checkbox";
+			classForCheckboxRemove = [checkboxCssClass, checkboxCssClass + "--unchecked", checkboxCssClass + "--checked"];
+			if (this._checkboxShow === true && this._selected === true) {
+				classForCheckboxAdd = [checkboxCssClass, checkboxCssClass + "--checked"];
+			} else if (this._checkboxShow === false) {
+				// This case is addressed.
+			} else if (this._checkboxShow === true) {
+				classForCheckboxAdd = [checkboxCssClass, checkboxCssClass + "--unchecked"];
 			}
-		});
 
-		classForCheckboxAdd.forEach((className: string) => {
-			className = className.trim();
-			if (className !== '') {
-				this._elCheckboxIcon.classList.add(className);
-			}
-		});
-
-		this._elCheckboxIcon.classList.remove('cx-button-checkbox-pos-left');
-		this._elCheckboxIcon.classList.remove('cx-button-checkbox-pos-right');
-		if (this.checkboxShow === true) {
-			this._elCheckboxIcon.classList.add('cx-button-checkbox-pos-' + this.checkboxPosition);
-		}
-
-		let hasCheckboxIcon = false;
-
-		if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
-			hasCheckboxIcon = true;
-		}
-		this.logger.log("hasCheckboxIcon", hasCheckboxIcon);
-		// TODO - remove twice usage after testing valign and halign
-		if (this._elCheckboxIcon.parentNode) {
-			this._elCheckboxIcon.remove();
-		}
-
-		if (hasCheckboxIcon) {
-			if (this.checkboxPosition === 'right') {
-				if (this._elCheckboxIcon.parentNode !== (this._elButton as Node)) {
-					// if the icon element was not yet added to the button
-					this._elButton.appendChild(this._elCheckboxIcon);
-				} else {
-					// if the icon element was already added and needs to be switched with the label element
-					this._elButton.insertBefore(this._elSpanForLabelIconImg as Node, this._elCheckboxIcon as Node);
+			classForCheckboxRemove.forEach((className: string) => {
+				className = className.trim();
+				if (className !== '') {
+					this._elCheckboxIcon.classList.remove(className);
 				}
+			});
 
-			} else if (this.checkboxPosition === 'left') {
-				if ((this._elSpanForLabelIconImg as any).isConnected === true) {
-					this._elButton.insertBefore(this._elCheckboxIcon as Node, this._elSpanForLabelIconImg as Node);
+			classForCheckboxAdd.forEach((className: string) => {
+				className = className.trim();
+				if (className !== '') {
+					this._elCheckboxIcon.classList.add(className);
 				}
+			});
+
+			this._elCheckboxIcon.classList.remove('cx-button-checkbox-pos-left');
+			this._elCheckboxIcon.classList.remove('cx-button-checkbox-pos-right');
+			if (this.checkboxShow === true) {
+				this._elCheckboxIcon.classList.add('cx-button-checkbox-pos-' + this.checkboxPosition);
 			}
-		} else {
+
+			let hasCheckboxIcon = false;
+
+			if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
+				hasCheckboxIcon = true;
+			}
+			this.logger.log("hasCheckboxIcon", hasCheckboxIcon);
+			// TODO - remove twice usage after testing valign and halign
 			if (this._elCheckboxIcon.parentNode) {
 				this._elCheckboxIcon.remove();
 			}
-		}
 
+			if (hasCheckboxIcon) {
+				if (this.checkboxPosition === 'right') {
+					if (this._elCheckboxIcon.parentNode !== (this._elButton as Node)) {
+						// if the icon element was not yet added to the button
+						this._elButton.appendChild(this._elCheckboxIcon);
+					} else {
+						// if the icon element was already added and needs to be switched with the label element
+						this._elButton.insertBefore(this._elSpanForLabelIconImg as Node, this._elCheckboxIcon as Node);
+					}
+
+				} else if (this.checkboxPosition === 'left') {
+					if ((this._elSpanForLabelIconImg as any).isConnected === true) {
+						this._elButton.insertBefore(this._elCheckboxIcon as Node, this._elSpanForLabelIconImg as Node);
+					}
+				}
+			} else {
+				if (this._elCheckboxIcon.parentNode) {
+					this._elCheckboxIcon.remove();
+				}
+			}
+		//}
 		this.logger.stop();
 	}
 
@@ -2211,573 +2202,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			.replace('&quot;', '/"')
 			.replace("&apos;", "/'");
 	}
-
-	//#region " Attribute Handles "
-
-	protected handleAttributeType(): void {
-		this.logger.start("handleAttributeType");
-
-		let attributeValueToBeSet: TCh5ButtonType | null = null;
-
-		// Priority 1: ReceiveState Signals
-		if (this.receiveStateType && this.receiveStateType !== '') {
-			const receiveStateTypeResponseValue: TCh5ButtonType = this._ch5ButtonSignal.getVariable<TCh5ButtonType>("receiveStateType");
-			if (!isNil(receiveStateTypeResponseValue) && Ch5ButtonBase.TYPES.indexOf(receiveStateTypeResponseValue) >= 0) {
-				attributeValueToBeSet = receiveStateTypeResponseValue;
-			} else {
-				attributeValueToBeSet = Ch5ButtonBase.TYPES[0];
-				this._ch5ButtonSignal.setVariable("receiveStateType", Ch5ButtonBase.TYPES[0]);
-			}
-		} else {
-			// Priority 2: Button Mode State Attributes for Selected Mode
-			const selectedButtonMode = this.getButtonMode();
-			if (selectedButtonMode) {
-				const selectedButtonModeState: any | null = this.getButtonModeState();
-				if (selectedButtonModeState) {
-					if (isNil(attributeValueToBeSet) && !isNil(selectedButtonModeState.getAttribute("type"))) {
-						attributeValueToBeSet = selectedButtonModeState.getAttribute("type") as TCh5ButtonType;
-					}
-				}
-
-				// Priority 3: Button Mode Attributes for Selected Mode
-				if (isNil(attributeValueToBeSet) && !isNil(selectedButtonMode.getAttribute("type"))) {
-					attributeValueToBeSet = selectedButtonMode.getAttribute("type") as TCh5ButtonType;
-				}
-			}
-
-			// Priority 4: Button Attributes
-			if (isNil(attributeValueToBeSet) && !isNil(this.getAttribute("type"))) {
-				attributeValueToBeSet = this.getAttribute("type") as TCh5ButtonType;
-			}
-		}
-
-		// type
-		if (!isNil(attributeValueToBeSet)) {
-			if (Ch5ButtonBase.TYPES.indexOf(attributeValueToBeSet) === -1) {
-				attributeValueToBeSet = Ch5ButtonBase.TYPES[0];
-			}
-		} else {
-			attributeValueToBeSet = Ch5ButtonBase.TYPES[0];
-		}
-		this._type = attributeValueToBeSet as TCh5ButtonType;
-
-		if (this.previousExtendedProperties.type !== this.type) {
-			Ch5ButtonBase.TYPES.forEach((inputValue: TCh5ButtonType) => {
-				this._elContainer.classList.remove(this.primaryCssClass + "--" + inputValue);
-			});
-			this._elContainer.classList.add(this.primaryCssClass + "--" + this._type);
-		}
-
-		this.previousExtendedProperties.type = this._type;
-		this.logger.stop();
-	}
-
-	protected handleAttributeVAlign(): void {
-		this.logger.start("handleAttributeVAlign");
-
-		let attributeValueToBeSet: TCh5ButtonVerticalAlignLabel | null = null;
-
-		// Priority 2: Button Mode State Attributes for Selected Mode
-		const selectedButtonMode = this.getButtonMode();
-		if (selectedButtonMode) {
-			const selectedButtonModeState: any | null = this.getButtonModeState();
-			if (selectedButtonModeState) {
-				if (isNil(attributeValueToBeSet) && !isNil(selectedButtonModeState.getAttribute("valignlabel"))) {
-					attributeValueToBeSet = selectedButtonModeState.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel;
-				}
-			}
-
-			// Priority 3: Button Mode Attributes for Selected Mode
-			if (isNil(attributeValueToBeSet) && !isNil(selectedButtonMode.getAttribute("valignlabel"))) {
-				attributeValueToBeSet = selectedButtonMode.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel;
-			}
-		}
-
-		// Priority 4: Button Attributes
-		if (isNil(attributeValueToBeSet) && !isNil(this.getAttribute("valignlabel"))) {
-			attributeValueToBeSet = this.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel;
-		}
-
-		// vAlignLabel
-		if (!isNil(attributeValueToBeSet)) {
-			if (Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS.indexOf(attributeValueToBeSet) === -1) {
-				attributeValueToBeSet = Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0];
-			}
-		} else {
-			attributeValueToBeSet = Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0];
-		}
-
-		this._vAlignLabel = attributeValueToBeSet;
-		if (this.previousExtendedProperties.vAlignLabel !== this.vAlignLabel) {
-			Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS.forEach((inputValue: TCh5ButtonVerticalAlignLabel) => {
-				this._elContainer.classList.remove(this.primaryCssClass + '--vertical-' + inputValue);
-			});
-			this._elContainer.classList.add(this.primaryCssClass + '--vertical-' + this._vAlignLabel);
-		}
-
-		this.previousExtendedProperties.vAlignLabel = attributeValueToBeSet;
-		this.logger.stop();
-	}
-
-	protected handleAttributeHAlign(): void {
-		this.logger.start("handleAttributeHAlign");
-
-		let attributeValueToBeSet: TCh5ButtonHorizontalAlignLabel | null = null;
-
-		// Priority 2: Button Mode State Attributes for Selected Mode
-		const selectedButtonMode = this.getButtonMode();
-		if (selectedButtonMode) {
-			const selectedButtonModeState: any | null = this.getButtonModeState();
-			if (selectedButtonModeState) {
-				if (isNil(attributeValueToBeSet) && !isNil(selectedButtonModeState.getAttribute("halignlabel"))) {
-					attributeValueToBeSet = selectedButtonModeState.getAttribute("halignlabel") as TCh5ButtonHorizontalAlignLabel;
-				}
-			}
-			// Priority 3: Button Mode Attributes for Selected Mode
-			if (isNil(attributeValueToBeSet) && !isNil(selectedButtonMode.getAttribute("halignlabel"))) {
-				attributeValueToBeSet = selectedButtonMode.getAttribute("halignlabel") as TCh5ButtonHorizontalAlignLabel;
-			}
-		}
-
-		// Priority 4: Button Attributes
-		if (isNil(attributeValueToBeSet) && !isNil(this.getAttribute("halignlabel"))) {
-			attributeValueToBeSet = this.getAttribute("halignlabel") as TCh5ButtonHorizontalAlignLabel;
-		}
-
-		// hAlignLabel
-		if (!isNil(attributeValueToBeSet)) {
-			if (Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS.indexOf(attributeValueToBeSet) === -1) {
-				attributeValueToBeSet = Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS[0];
-			}
-		} else {
-			attributeValueToBeSet = Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS[0];
-		}
-		this._hAlignLabel = attributeValueToBeSet;
-
-		if (this.previousExtendedProperties.hAlignLabel !== this.hAlignLabel) {
-			Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS.forEach((inputValue: TCh5ButtonHorizontalAlignLabel) => {
-				this._elContainer.classList.remove(this.primaryCssClass + '--horizontal-' + inputValue);
-			});
-			this._elContainer.classList.add(this.primaryCssClass + '--horizontal-' + this._hAlignLabel);
-		}
-
-		this.previousExtendedProperties.hAlignLabel = attributeValueToBeSet;
-
-		this.logger.stop();
-	}
-
-	private getButtonMode() {
-		const buttonModesArray = this.getElementsByTagName("ch5-button-mode");
-		if (buttonModesArray && buttonModesArray.length > 0) {
-			return buttonModesArray[this.mode];
-		}
-		return null;
-	}
-
-	private getButtonModeState() {
-		const buttonModesArray = this.getElementsByTagName("ch5-button-mode");
-		if (buttonModesArray && buttonModesArray.length > 0) {
-			const selectedButtonMode = buttonModesArray[this.mode];
-			if (selectedButtonMode) {
-				const buttonModeStatesArray = selectedButtonMode.getElementsByTagName("ch5-button-mode-state");
-				if (buttonModeStatesArray && buttonModeStatesArray.length > 0) {
-					let selectedButtonModeState: any = null;
-					if (this._pressable?._pressed === true) {
-						selectedButtonModeState = Array.from(buttonModeStatesArray).find((buttonModeState: any) => {
-							return (buttonModeState.getAttribute("state") === "pressed");
-						});
-					} else if (this.selected === true) {
-						selectedButtonModeState = Array.from(buttonModeStatesArray).find((buttonModeState: any) => {
-							return (buttonModeState.getAttribute("state") === "selected");
-						});
-					} else {
-						selectedButtonModeState = Array.from(buttonModeStatesArray).find((buttonModeState: any) => {
-							return (buttonModeState.getAttribute("state") === "normal");
-						});
-					}
-					return selectedButtonModeState;
-				}
-			}
-		}
-		return null;
-	}
-
-	protected tempTemp(parentComponent: string = "ch5-button"): void {
-		this.logger.start("setButtonDisplayDetails");
-
-		const extendedProperties: ICh5ButtonExtendedProperties = {};
-
-		// Priority 1: ReceiveState Signals
-		if (this.receiveStateType && this.receiveStateType !== '') {
-			const receiveStateTypeResponseValue: TCh5ButtonType = this._ch5ButtonSignal.getVariable<TCh5ButtonType>("receiveStateType");
-			if (!isNil(receiveStateTypeResponseValue) && Ch5ButtonBase.TYPES.indexOf(receiveStateTypeResponseValue) >= 0) {
-				extendedProperties.type = receiveStateTypeResponseValue;
-			} else {
-				extendedProperties.type = Ch5ButtonBase.TYPES[0];
-				this._ch5ButtonSignal.setVariable("receiveStateType", Ch5ButtonBase.TYPES[0]);
-			}
-		}
-
-		if (this.receiveStateIconClass && this.receiveStateIconClass !== '') {
-			extendedProperties.iconClass = this._ch5ButtonSignal.getVariable<string>("receiveStateIconClass");
-		}
-
-		if (this.receiveStateIconUrl && this.receiveStateIconUrl !== '') {
-			extendedProperties.iconUrl = this._ch5ButtonSignal.getVariable<string>("receiveStateIconUrl");
-		}
-
-		if (this.receiveStateCustomClass && this.receiveStateCustomClass !== '') {
-			extendedProperties.customClass = this._ch5ButtonSignal.getVariable<string>("receiveStateCustomClass");
-		}
-
-		if (this.receiveStateCustomStyle && this.receiveStateCustomStyle !== '') {
-			extendedProperties.customStyle = this._ch5ButtonSignal.getVariable<string>("receiveStateCustomStyle");
-		}
-
-		if (this.isLabelSetUsingJavascript === true) {
-			extendedProperties.labelHtml = this.labelSetByJavascriptValue;
-		} else if (this.receiveStateScriptLabelHtml && this.receiveStateScriptLabelHtml !== '') {
-			extendedProperties.labelHtml = this._ch5ButtonSignal.getVariable<string>("receiveStateScriptLabelHtml");
-		} else if (this.receiveStateLabel && this.receiveStateLabel !== '') {
-			extendedProperties.label = this._ch5ButtonSignal.getVariable<string>("receiveStateLabel");
-		}
-
-		// this.logger.log("extendedProperties Signals: ", extendedProperties);
-
-		// TODO - update nodes cannot be on pressed becos it cannot take debounce
-
-		// Priority 2: Button Mode State Attributes for Selected Mode
-		const buttonModesArray = this.getElementsByTagName("ch5-button-mode");
-		if (buttonModesArray && buttonModesArray.length > 0) {
-			const selectedButtonMode = buttonModesArray[this.mode];
-			if (selectedButtonMode) {
-				const buttonModeStatesArray = selectedButtonMode.getElementsByTagName("ch5-button-mode-state");
-				if (buttonModeStatesArray && buttonModeStatesArray.length > 0) {
-					let selectedButtonModeState: any = null;
-					if (this._pressable?._pressed === true) {
-						selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
-							return (buttonModeState.getAttribute("state") === "pressed");
-						});
-					} else if (this.selected === true) {
-						selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
-							return (buttonModeState.getAttribute("state") === "selected");
-						});
-					} else {
-						selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
-							return (buttonModeState.getAttribute("state") === "normal");
-						});
-					}
-
-					if (selectedButtonModeState) {
-						// if (this._buttonPressedInPressable === true) {
-						// 	isButtonModePressedAvailable = true;
-						// }
-
-						if (isNil(extendedProperties.type) && !isNil(selectedButtonModeState.getAttribute("type"))) {
-							extendedProperties.type = selectedButtonModeState.getAttribute("type") as TCh5ButtonType;
-						}
-						if (isNil(extendedProperties.iconUrl) && !isNil(selectedButtonModeState.getAttribute("iconurl"))) {
-							extendedProperties.iconUrl = selectedButtonModeState.getAttribute("iconurl") as string;
-						}
-						if (isNil(extendedProperties.iconClass) && !isNil(selectedButtonModeState.getAttribute("iconclass"))) {
-							extendedProperties.iconClass = selectedButtonModeState.getAttribute("iconclass") as string;
-						}
-						if (isNil(extendedProperties.iconPosition) && !isNil(selectedButtonModeState.getAttribute("iconposition"))) {
-							extendedProperties.iconPosition = selectedButtonModeState.getAttribute("iconposition") as TCh5ButtonIconPosition;
-						}
-						if (isNil(extendedProperties.checkboxPosition) && !isNil(selectedButtonModeState.getAttribute("checkboxposition"))) {
-							extendedProperties.checkboxPosition = selectedButtonModeState.getAttribute("checkboxposition") as TCh5ButtonCheckboxPosition;
-						}
-						if (isNil(extendedProperties.customClass) && !isNil(selectedButtonModeState.getAttribute("customclass"))) {
-							extendedProperties.customClass = selectedButtonModeState.getAttribute("customclass") as string;
-						}
-						if (isNil(extendedProperties.customStyle) && !isNil(selectedButtonModeState.getAttribute("customstyle"))) {
-							extendedProperties.customStyle = selectedButtonModeState.getAttribute("customstyle") as string;
-						}
-						if (isNil(extendedProperties.hAlignLabel) && !isNil(selectedButtonModeState.getAttribute("halignlabel"))) {
-							extendedProperties.hAlignLabel = selectedButtonModeState.getAttribute("halignlabel") as TCh5ButtonHorizontalAlignLabel;
-						}
-						if (isNil(extendedProperties.vAlignLabel) && !isNil(selectedButtonModeState.getAttribute("valignlabel"))) {
-							extendedProperties.vAlignLabel = selectedButtonModeState.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel;
-						}
-
-						if (isNil(extendedProperties.iconUrlFillType) && !isNil(selectedButtonModeState.getAttribute("iconurlfilltype"))) {
-							extendedProperties.iconUrlFillType = selectedButtonModeState.getAttribute("iconurlfilltype") as TCh5ButtonIconUrlFillType | null;
-						}
-
-						const selectedButtonModeStateLabelButton = selectedButtonModeState.getElementsByTagName("ch5-button-label");
-						if ((isNil(extendedProperties.labelHtml) && isNil(extendedProperties.label)) && selectedButtonModeStateLabelButton && selectedButtonModeStateLabelButton.length > 0 &&
-							(selectedButtonModeStateLabelButton[0].children[0])) {
-							extendedProperties.labelHtml = selectedButtonModeStateLabelButton[0].children[0].innerHTML as string;
-						}
-					}
-					// this.logger.log("extendedProperties Mode States: ", JSON.parse(JSON.stringify(extendedProperties)));
-				}
-
-				// Priority 3: Button Mode Attributes for Selected Mode
-				// if (this._buttonPressedInPressable === false) {
-				if (isNil(extendedProperties.type) && !isNil(selectedButtonMode.getAttribute("type"))) {
-					extendedProperties.type = selectedButtonMode.getAttribute("type") as TCh5ButtonType;
-				}
-				if (isNil(extendedProperties.iconUrl) && !isNil(selectedButtonMode.getAttribute("iconurl"))) {
-					extendedProperties.iconUrl = selectedButtonMode.getAttribute("iconurl") as string;
-				}
-				if (isNil(extendedProperties.iconClass) && !isNil(selectedButtonMode.getAttribute("iconclass"))) {
-					extendedProperties.iconClass = selectedButtonMode.getAttribute("iconclass") as string;
-				}
-				if (isNil(extendedProperties.iconPosition) && !isNil(selectedButtonMode.getAttribute("iconposition"))) {
-					extendedProperties.iconPosition = selectedButtonMode.getAttribute("iconposition") as TCh5ButtonIconPosition;
-				}
-				if (isNil(extendedProperties.checkboxPosition) && !isNil(selectedButtonMode.getAttribute("checkboxposition"))) {
-					extendedProperties.checkboxPosition = selectedButtonMode.getAttribute("checkboxposition") as TCh5ButtonCheckboxPosition;
-				}
-				if (isNil(extendedProperties.customClass) && !isNil(selectedButtonMode.getAttribute("customclass"))) {
-					extendedProperties.customClass = selectedButtonMode.getAttribute("customclass") as string;
-				}
-				if (isNil(extendedProperties.customStyle) && !isNil(selectedButtonMode.getAttribute("customstyle"))) {
-					extendedProperties.customStyle = selectedButtonMode.getAttribute("customstyle") as string;
-				}
-				if (isNil(extendedProperties.hAlignLabel) && !isNil(selectedButtonMode.getAttribute("halignlabel"))) {
-					extendedProperties.hAlignLabel = selectedButtonMode.getAttribute("halignlabel") as TCh5ButtonHorizontalAlignLabel;
-				}
-				if (isNil(extendedProperties.vAlignLabel) && !isNil(selectedButtonMode.getAttribute("valignlabel"))) {
-					extendedProperties.vAlignLabel = selectedButtonMode.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel;
-				}
-
-				if (isNil(extendedProperties.iconUrlFillType) && !isNil(selectedButtonMode.getAttribute("iconurlfilltype"))) {
-					extendedProperties.iconUrlFillType = selectedButtonMode.getAttribute("iconurlfilltype") as TCh5ButtonIconUrlFillType | null;
-				}
-
-				const selectedButtonModeLabelButton = selectedButtonMode.getElementsByTagName("ch5-button-label");
-				if ((isNil(extendedProperties.labelHtml) && isNil(extendedProperties.label) &&
-					selectedButtonModeLabelButton && selectedButtonModeLabelButton.length > 0)) {
-					const checkDirectSelectedButtonModeLabelButton = Array.prototype.slice.call(selectedButtonModeLabelButton).filter((x: { parentNode: { nodeName: { toString: () => string; }; }; }) => x.parentNode.nodeName.toString().toLowerCase() === "ch5-button-mode");
-					if (checkDirectSelectedButtonModeLabelButton && checkDirectSelectedButtonModeLabelButton.length > 0 && !isNil(checkDirectSelectedButtonModeLabelButton[0].children[0])) {
-						extendedProperties.labelHtml = checkDirectSelectedButtonModeLabelButton[0].children[0].innerHTML as string;
-					}
-				}
-			}
-		}
-
-		// Priority 4: Button Attributes
-		if (isNil(extendedProperties.type) && !isNil(this.getAttribute("type"))) {
-			extendedProperties.type = this.getAttribute("type") as TCh5ButtonType;
-		}
-		if (isNil(extendedProperties.iconUrl) && this.getAttribute("iconurl") && this.getAttribute("iconurl") !== '') {
-			extendedProperties.iconUrl = this.getAttribute("iconurl") as string;
-		}
-		if (isNil(extendedProperties.iconClass) && this.getAttribute("iconclass") && this.getAttribute("iconclass") !== '') {
-			extendedProperties.iconClass = this.getAttribute("iconclass") as string;
-		}
-		if (isNil(extendedProperties.iconPosition) && !isNil(this.getAttribute("iconposition"))) {
-			extendedProperties.iconPosition = this.getAttribute("iconposition") as TCh5ButtonIconPosition;
-		}
-		if (isNil(extendedProperties.checkboxPosition) && !isNil(this.getAttribute("checkboxposition"))) {
-			extendedProperties.checkboxPosition = this.getAttribute("checkboxposition") as TCh5ButtonCheckboxPosition;
-		}
-		if (isNil(extendedProperties.customClass) && !isNil(this.getAttribute("customclass"))) {
-			extendedProperties.customClass = this.getAttribute("customclass") as string;
-		}
-		if (isNil(extendedProperties.customStyle) && !isNil(this.getAttribute("customstyle"))) {
-			extendedProperties.customStyle = this.getAttribute("customstyle") as string;
-		}
-		if (isNil(extendedProperties.hAlignLabel) && !isNil(this.getAttribute("halignlabel"))) {
-			extendedProperties.hAlignLabel = this.getAttribute("halignlabel") as TCh5ButtonHorizontalAlignLabel;
-		}
-		if (isNil(extendedProperties.vAlignLabel) && !isNil(this.getAttribute("valignlabel"))) {
-			extendedProperties.vAlignLabel = this.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel;
-		}
-		if (isNil(extendedProperties.iconUrlFillType) && !isNil(this.getAttribute("iconurlfilltype"))) {
-			extendedProperties.iconUrlFillType = this.getAttribute("iconurlfilltype") as TCh5ButtonIconUrlFillType | null;
-		}
-		if (isNil(extendedProperties.labelHtml) && isNil(extendedProperties.label)) {
-			const templateData = this.getElementsByTagName(parentComponent + "-label");
-			if (templateData && templateData.length > 0) {
-				const checkDirectSelectedButtonModeLabelButton = Array.prototype.slice.call(templateData).filter((x: { parentNode: { nodeName: { toString: () => string; }; }; }) => x.parentNode.nodeName.toString().toLowerCase() === parentComponent);
-				if (checkDirectSelectedButtonModeLabelButton && checkDirectSelectedButtonModeLabelButton.length > 0 && !isNil(checkDirectSelectedButtonModeLabelButton[0].children[0])) {
-					if (checkDirectSelectedButtonModeLabelButton && checkDirectSelectedButtonModeLabelButton.length > 0 && checkDirectSelectedButtonModeLabelButton[0].children) {
-						extendedProperties.labelHtml = checkDirectSelectedButtonModeLabelButton[0].children[0].innerHTML as string;
-					} else if (!isNil(this.getAttribute("label"))) {
-						extendedProperties.label = this.getAttribute("label") as string
-					}
-				}
-			} else if (!isNil(this.getAttribute("label"))) {
-				extendedProperties.label = this.getAttribute("label") as string
-			}
-		}
-
-		if (isNil(extendedProperties.labelHtml) && isNil(extendedProperties.label)) {
-			extendedProperties.labelHtml = "";
-		}
-
-		// Updating necessary UI
-		const updateUIMethods: any = {
-			updateCssClasses: false,
-			updateIconDisplay: false,
-			updateInternalHtml: false,
-			checkboxDisplay: false,
-			updateForChangeInCustomCssClass: false,
-			updateForChangeInStyleCss: false,
-		}
-
-		// type
-		if (!isNil(extendedProperties.type)) {
-			if (Ch5ButtonBase.TYPES.indexOf(extendedProperties.type) === -1) {
-				extendedProperties.type = Ch5ButtonBase.TYPES[0];
-			}
-		} else {
-			extendedProperties.type = Ch5ButtonBase.TYPES[0];
-		}
-		this._type = extendedProperties.type as TCh5ButtonType;
-		if (this.previousExtendedProperties.type !== this.type) {
-			updateUIMethods.updateCssClasses = true;
-		}
-
-		// iconUrl, iconClass
-		this._previousIconUrl = this._iconUrl;
-		this._previousIconClass = this._iconClass;
-		if (isNil(extendedProperties.iconUrl)) {
-			extendedProperties.iconUrl = "";
-		}
-		this._iconUrl = extendedProperties.iconUrl;
-
-		if (isNil(extendedProperties.iconClass)) {
-			extendedProperties.iconClass = "";
-		}
-		this._iconClass = extendedProperties.iconClass;
-
-		if (this._previousSgIconNumeric !== this.sgIconNumeric) {
-			updateUIMethods.updateIconDisplay = true;
-			updateUIMethods.updateInternalHtml = true;
-		} else if (this._previousSgIconString !== this.sgIconString) {
-			updateUIMethods.updateIconDisplay = true;
-			updateUIMethods.updateInternalHtml = true;
-		} else if (this.previousExtendedProperties.iconUrl !== this.iconUrl) {
-			updateUIMethods.updateIconDisplay = true;
-			updateUIMethods.updateInternalHtml = true; // Applicable when iconUrl changes and iconclass and url combines
-		} else if (this.previousExtendedProperties.iconClass !== this.iconClass) {
-			updateUIMethods.updateIconDisplay = true;
-			updateUIMethods.updateInternalHtml = true; // Applicable when iconUrl changes and iconclass and url combines
-		}
-
-		// iconPosition
-		if (isNil(extendedProperties.iconPosition)) {
-			extendedProperties.iconPosition = Ch5ButtonBase.ICON_POSITIONS[0];
-		}
-		this._iconPosition = extendedProperties.iconPosition;
-		if (this.previousExtendedProperties.iconPosition !== this.iconPosition) {
-			updateUIMethods.updateCssClasses = true;
-			updateUIMethods.updateInternalHtml = true;
-		}
-
-		// checkboxPosition
-		if (isNil(extendedProperties.checkboxPosition)) {
-			extendedProperties.checkboxPosition = Ch5ButtonBase.CHECKBOX_POSITIONS[0];
-		}
-		this._checkboxPosition = extendedProperties.checkboxPosition;
-		if (this.previousExtendedProperties.checkboxPosition !== this.checkboxPosition) {
-			updateUIMethods.checkboxDisplay = true;
-		}
-
-		// customClass
-		if (isNil(extendedProperties.customClass)) {
-			extendedProperties.customClass = "";
-		}
-		this._customClass = extendedProperties.customClass;
-		if (this.previousExtendedProperties.customClass !== this.customClass) {
-			updateUIMethods.updateForChangeInCustomCssClass = true;
-		}
-
-		// customStyle
-		if (isNil(extendedProperties.customStyle)) {
-			extendedProperties.customStyle = "";
-		}
-		this._customStyle = extendedProperties.customStyle;
-		if (this.previousExtendedProperties.customStyle !== this.customStyle) {
-			// isNil is accounted for first time change to style css
-			updateUIMethods.updateForChangeInStyleCss = true;
-		}
-
-		// hAlignLabel
-		if (!isNil(extendedProperties.hAlignLabel)) {
-			if (Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS.indexOf(extendedProperties.hAlignLabel) === -1) {
-				extendedProperties.hAlignLabel = Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS[0];
-			}
-		} else {
-			extendedProperties.hAlignLabel = Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS[0];
-		}
-		this._hAlignLabel = extendedProperties.hAlignLabel;
-		if (this.previousExtendedProperties.hAlignLabel !== this.hAlignLabel) {
-			updateUIMethods.updateCssClasses = true;
-		}
-
-		// vAlignLabel
-		if (!isNil(extendedProperties.vAlignLabel)) {
-			if (Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS.indexOf(extendedProperties.vAlignLabel) === -1) {
-				extendedProperties.vAlignLabel = Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0];
-			}
-		} else {
-			extendedProperties.vAlignLabel = Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0];
-		}
-		this._vAlignLabel = extendedProperties.vAlignLabel;
-		if (this.previousExtendedProperties.vAlignLabel !== this.vAlignLabel) {
-			updateUIMethods.updateCssClasses = true;
-		}
-
-		// iconUrlFillType
-		if (!isNil(extendedProperties.iconUrlFillType)) {
-			if (Ch5ButtonBase.ICON_URL_FILL_TYPE.indexOf(extendedProperties.iconUrlFillType) === -1) {
-				extendedProperties.iconUrlFillType = null;
-			}
-		} else {
-			extendedProperties.iconUrlFillType = null;
-		}
-		this._iconUrlFillType = extendedProperties.iconUrlFillType;
-		if (this.previousExtendedProperties.iconUrlFillType !== this.iconUrlFillType) {
-			updateUIMethods.updateCssClasses = true;
-		}
-
-		// label
-		if (!isNil(extendedProperties.labelHtml)) {
-			this._label = extendedProperties.labelHtml;
-			extendedProperties.label = extendedProperties.labelHtml;
-			this._elSpanForLabelOnly.innerHTML = this._label;
-		} else if (!isNil(extendedProperties.label)) {
-			this._label = extendedProperties.label;
-			extendedProperties.labelHtml = extendedProperties.label;
-			this._elSpanForLabelOnly.textContent = this._label;
-		}
-		if (!(this.previousExtendedProperties.labelHtml === this.label || this.previousExtendedProperties.label === this.label)) {
-			updateUIMethods.updateInternalHtml = true;
-		}
-
-		// Methods to be invoked
-		if (updateUIMethods.updateCssClasses === true) {
-			this.updateCssClasses();
-		}
-		if (updateUIMethods.updateIconDisplay === true) {
-			this.updateIconDisplay();
-		}
-		if (updateUIMethods.updateForChangeInCustomCssClass === true) {
-			this.updateForChangeInCustomCssClass();
-		}
-		if (updateUIMethods.updateForChangeInStyleCss === true) {
-			this.updateForChangeInStyleCss();
-		}
-		if (updateUIMethods.checkboxDisplay === true) {
-			this.updateInternalHtml();
-			// this.checkboxDisplay();
-		}
-		if (updateUIMethods.updateInternalHtml === true) {
-			this.updateInternalHtml();
-		}
-
-		this.previousExtendedProperties = extendedProperties;
-
-		this.logger.stop();
-	}
-
-	//#endregion
 
 	protected setButtonDisplayDetails(parentComponent: string = "ch5-button"): void {
 		this.logger.start("setButtonDisplayDetails");
@@ -2999,6 +2423,29 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			extendedProperties.labelHtml = "";
 		}
 
+		this.updatePropertiesObject(extendedProperties);
+		// if (this._buttonPressedInPressable === false) {
+		// 	this.updatePropertiesObject(extendedProperties);
+		// } else {
+		// 	if (isButtonModePressedAvailable === true) {
+		// 		this.updatePropertiesObject(extendedProperties);
+		// 	}
+		// }
+
+		// this.logger.log("extendedProperties Final: ", JSON.parse(JSON.stringify(extendedProperties)));
+
+		// update templateContent attributes to increment join numbers and prefix contract name
+		Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(this, this.getAttribute("contractname") || '',
+			parseInt(this.getAttribute("booleanjoinoffset") || '0', 10) || 0,
+			parseInt(this.getAttribute("numericJoinOffset") || '0', 10) || 0,
+			parseInt(this.getAttribute("stringJoinOffset") || '0', 10) || 0);
+
+		this.logger.stop();
+	}
+
+	private updatePropertiesObject(updatedNodes: ICh5ButtonExtendedProperties): void {
+		this.logger.start("updatePropertiesObject");
+
 		// Updating necessary UI
 		const updateUIMethods: any = {
 			updateCssClasses: false,
@@ -3010,14 +2457,14 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 
 		// type
-		if (!isNil(extendedProperties.type)) {
-			if (Ch5ButtonBase.TYPES.indexOf(extendedProperties.type) === -1) {
-				extendedProperties.type = Ch5ButtonBase.TYPES[0];
+		if (!isNil(updatedNodes.type)) {
+			if (Ch5ButtonBase.TYPES.indexOf(updatedNodes.type) === -1) {
+				updatedNodes.type = Ch5ButtonBase.TYPES[0];
 			}
 		} else {
-			extendedProperties.type = Ch5ButtonBase.TYPES[0];
+			updatedNodes.type = Ch5ButtonBase.TYPES[0];
 		}
-		this._type = extendedProperties.type as TCh5ButtonType;
+		this._type = updatedNodes.type as TCh5ButtonType;
 		if (this.previousExtendedProperties.type !== this.type) {
 			updateUIMethods.updateCssClasses = true;
 		}
@@ -3025,15 +2472,15 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		// iconUrl, iconClass
 		this._previousIconUrl = this._iconUrl;
 		this._previousIconClass = this._iconClass;
-		if (isNil(extendedProperties.iconUrl)) {
-			extendedProperties.iconUrl = "";
+		if (isNil(updatedNodes.iconUrl)) {
+			updatedNodes.iconUrl = "";
 		}
-		this._iconUrl = extendedProperties.iconUrl;
+		this._iconUrl = updatedNodes.iconUrl;
 
-		if (isNil(extendedProperties.iconClass)) {
-			extendedProperties.iconClass = "";
+		if (isNil(updatedNodes.iconClass)) {
+			updatedNodes.iconClass = "";
 		}
-		this._iconClass = extendedProperties.iconClass;
+		this._iconClass = updatedNodes.iconClass;
 
 		if (this._previousSgIconNumeric !== this.sgIconNumeric) {
 			updateUIMethods.updateIconDisplay = true;
@@ -3050,90 +2497,90 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 
 		// iconPosition
-		if (isNil(extendedProperties.iconPosition)) {
-			extendedProperties.iconPosition = Ch5ButtonBase.ICON_POSITIONS[0];
+		if (isNil(updatedNodes.iconPosition)) {
+			updatedNodes.iconPosition = Ch5ButtonBase.ICON_POSITIONS[0];
 		}
-		this._iconPosition = extendedProperties.iconPosition;
+		this._iconPosition = updatedNodes.iconPosition;
 		if (this.previousExtendedProperties.iconPosition !== this.iconPosition) {
 			updateUIMethods.updateCssClasses = true;
 			updateUIMethods.updateInternalHtml = true;
 		}
 
 		// checkboxPosition
-		if (isNil(extendedProperties.checkboxPosition)) {
-			extendedProperties.checkboxPosition = Ch5ButtonBase.CHECKBOX_POSITIONS[0];
+		if (isNil(updatedNodes.checkboxPosition)) {
+			updatedNodes.checkboxPosition = Ch5ButtonBase.CHECKBOX_POSITIONS[0];
 		}
-		this._checkboxPosition = extendedProperties.checkboxPosition;
+		this._checkboxPosition = updatedNodes.checkboxPosition;
 		if (this.previousExtendedProperties.checkboxPosition !== this.checkboxPosition) {
 			updateUIMethods.checkboxDisplay = true;
 		}
 
 		// customClass
-		if (isNil(extendedProperties.customClass)) {
-			extendedProperties.customClass = "";
+		if (isNil(updatedNodes.customClass)) {
+			updatedNodes.customClass = "";
 		}
-		this._customClass = extendedProperties.customClass;
+		this._customClass = updatedNodes.customClass;
 		if (this.previousExtendedProperties.customClass !== this.customClass) {
 			updateUIMethods.updateForChangeInCustomCssClass = true;
 		}
 
 		// customStyle
-		if (isNil(extendedProperties.customStyle)) {
-			extendedProperties.customStyle = "";
+		if (isNil(updatedNodes.customStyle)) {
+			updatedNodes.customStyle = "";
 		}
-		this._customStyle = extendedProperties.customStyle;
+		this._customStyle = updatedNodes.customStyle;
 		if (this.previousExtendedProperties.customStyle !== this.customStyle) {
 			// isNil is accounted for first time change to style css
 			updateUIMethods.updateForChangeInStyleCss = true;
 		}
 
 		// hAlignLabel
-		if (!isNil(extendedProperties.hAlignLabel)) {
-			if (Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS.indexOf(extendedProperties.hAlignLabel) === -1) {
-				extendedProperties.hAlignLabel = Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS[0];
+		if (!isNil(updatedNodes.hAlignLabel)) {
+			if (Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS.indexOf(updatedNodes.hAlignLabel) === -1) {
+				updatedNodes.hAlignLabel = Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS[0];
 			}
 		} else {
-			extendedProperties.hAlignLabel = Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS[0];
+			updatedNodes.hAlignLabel = Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS[0];
 		}
-		this._hAlignLabel = extendedProperties.hAlignLabel;
+		this._hAlignLabel = updatedNodes.hAlignLabel;
 		if (this.previousExtendedProperties.hAlignLabel !== this.hAlignLabel) {
 			updateUIMethods.updateCssClasses = true;
 		}
 
 		// vAlignLabel
-		if (!isNil(extendedProperties.vAlignLabel)) {
-			if (Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS.indexOf(extendedProperties.vAlignLabel) === -1) {
-				extendedProperties.vAlignLabel = Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0];
+		if (!isNil(updatedNodes.vAlignLabel)) {
+			if (Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS.indexOf(updatedNodes.vAlignLabel) === -1) {
+				updatedNodes.vAlignLabel = Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0];
 			}
 		} else {
-			extendedProperties.vAlignLabel = Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0];
+			updatedNodes.vAlignLabel = Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0];
 		}
-		this._vAlignLabel = extendedProperties.vAlignLabel;
+		this._vAlignLabel = updatedNodes.vAlignLabel;
 		if (this.previousExtendedProperties.vAlignLabel !== this.vAlignLabel) {
 			updateUIMethods.updateCssClasses = true;
 		}
 
 		// iconUrlFillType
-		if (!isNil(extendedProperties.iconUrlFillType)) {
-			if (Ch5ButtonBase.ICON_URL_FILL_TYPE.indexOf(extendedProperties.iconUrlFillType) === -1) {
-				extendedProperties.iconUrlFillType = null;
+		if (!isNil(updatedNodes.iconUrlFillType)) {
+			if (Ch5ButtonBase.ICON_URL_FILL_TYPE.indexOf(updatedNodes.iconUrlFillType) === -1) {
+				updatedNodes.iconUrlFillType = null;
 			}
 		} else {
-			extendedProperties.iconUrlFillType = null;
+			updatedNodes.iconUrlFillType = null;
 		}
-		this._iconUrlFillType = extendedProperties.iconUrlFillType;
+		this._iconUrlFillType = updatedNodes.iconUrlFillType;
 		if (this.previousExtendedProperties.iconUrlFillType !== this.iconUrlFillType) {
 			updateUIMethods.updateCssClasses = true;
 		}
 
 		// label
-		if (!isNil(extendedProperties.labelHtml)) {
-			this._label = extendedProperties.labelHtml;
-			extendedProperties.label = extendedProperties.labelHtml;
+		if (!isNil(updatedNodes.labelHtml)) {
+			this._label = updatedNodes.labelHtml;
+			updatedNodes.label = updatedNodes.labelHtml;
 			this._elSpanForLabelOnly.innerHTML = this._label;
-		} else if (!isNil(extendedProperties.label)) {
-			this._label = extendedProperties.label;
-			extendedProperties.labelHtml = extendedProperties.label;
+		} else if (!isNil(updatedNodes.label)) {
+			this._label = updatedNodes.label;
+			updatedNodes.labelHtml = updatedNodes.label;
 			this._elSpanForLabelOnly.textContent = this._label;
 		}
 		if (!(this.previousExtendedProperties.labelHtml === this.label || this.previousExtendedProperties.label === this.label)) {
@@ -3156,22 +2603,13 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this.updateForChangeInStyleCss();
 		}
 		if (updateUIMethods.checkboxDisplay === true) {
-			this.updateInternalHtml();
-			// this.checkboxDisplay();
+			this.checkboxDisplay();
 		}
 		if (updateUIMethods.updateInternalHtml === true) {
 			this.updateInternalHtml();
 		}
 
-		this.previousExtendedProperties = extendedProperties;
-
-		// this.logger.log("extendedProperties Final: ", JSON.parse(JSON.stringify(extendedProperties)));
-
-		// update templateContent attributes to increment join numbers and prefix contract name
-		Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(this, this.getAttribute("contractname") || '',
-			parseInt(this.getAttribute("booleanjoinoffset") || '0', 10) || 0,
-			parseInt(this.getAttribute("numericJoinOffset") || '0', 10) || 0,
-			parseInt(this.getAttribute("stringJoinOffset") || '0', 10) || 0);
+		this.previousExtendedProperties = updatedNodes;
 
 		this.logger.stop();
 	}
@@ -3192,11 +2630,19 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 	}
 
+	private isCheckboxVisible() {
+		if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
+			// if ((!isNil(this._checkboxShow) && this._checkboxShow === true)) {
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * Reorders ( if needed ) the position of the label and the icon inside the button
 	 */
 	protected updateInternalHtml(): void {
 		this.logger.start("updateInternalHtml()");
+
 		if (!(typeof this._elButton.insertBefore === "undefined"
 			|| typeof this._elIcon.classList === "undefined")) {
 
@@ -3238,11 +2684,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			if ((!isNil(this.sgIconString) && this.sgIconString !== '') || (this.receiveStateSGIconString && this.receiveStateSGIconString !== '')) {
 				hasSgString = true;
 			}
-
-			if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
-				// if ((!isNil(this._checkboxShow) && this._checkboxShow === true)) {
-				hasCheckbox = true;
-			}
+			hasCheckbox = this.isCheckboxVisible();
 
 			// TODO - check the below for empty<template> tag
 			if ((!isNil(this.label) && this.label !== "") || (this.receiveStateLabel && this.receiveStateLabel !== '') || (this.receiveStateScriptLabelHtml && this.receiveStateScriptLabelHtml !== '')) {
@@ -3426,10 +2868,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				}
 			}
 
-			if (this.orientation === 'vertical' && this.shape !== 'circle') {
-				this.createIosEllipsis();
-			}
 		}
+
 		this.checkboxDisplay(); // TODO - cehck if this can be removed - issue comes when values change for halign and valign
 		this.logger.stop();
 	}
@@ -3502,23 +2942,22 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		if (this.iconUrlFillType !== null) {
 			setOfCssClassesToBeAppliedForLabelAlignment.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
 		}
+		const arrayListTwo: string[] = [];
 
 		if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
-			this._listOfAllPossibleComponentCssClasses.forEach((cssClass: string) => {
-				if (setOfCssClassesToBeAppliedForLabelAlignment.has(cssClass)) {
-					this._elSpanForLabelIconImg.classList.add(cssClass);
-				} else {
-					this._elSpanForLabelIconImg.classList.remove(cssClass);
+			for (let i = 0; i < this._listOfAllPossibleComponentCssClasses.length; i++) {
+				if (setOfCssClassesToBeAppliedForLabelAlignment.has(this._listOfAllPossibleComponentCssClasses[i])) {
+					arrayListTwo.push(this._listOfAllPossibleComponentCssClasses[i]);
 				}
-			});
+			}
+			this._elSpanForLabelIconImg.className = this.primaryCssClass + '--span' + ' ' + arrayListTwo.join(' ');
 		} else {
-			this._listOfAllPossibleComponentCssClasses.forEach((cssClass: string) => {
-				if (setOfCssClassesToBeAppliedForLabelAlignment.has(cssClass)) {
-					this._elButton.classList.add(cssClass);
-				} else {
-					this._elButton.classList.remove(cssClass);
-				}
-			});
+			for (let i = 0; i < this._listOfAllPossibleComponentCssClasses.length; i++) {
+				if (setOfCssClassesToBeAppliedForLabelAlignment.has(this._listOfAllPossibleComponentCssClasses[i])) {
+					arrayListTwo.push(this._listOfAllPossibleComponentCssClasses[i]);
+				} 
+			}
+			this._elButton.className = this.BUTTON_PRIMARY_CLASS + ' ' + this.primaryCssClass + '--span' + ' ' + arrayListTwo.join(' ');//.add(this._listOfAllPossibleComponentCssClasses[i]);
 		}
 		this.logger.stop();
 	}
@@ -3536,7 +2975,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	private setSelectionMethods() {
 		this.setButtonDisplay();
-		this.updateInternalHtml();
+		this.checkboxDisplay();
 		this.updateCssClasses();
 	}
 
