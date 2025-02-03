@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-export type TCh5TabButtonButtonShape = 'rectangle' | 'rounded-rectangle' | 'tab';
+export type TCh5TabButtonButtonShape = 'rounded-rectangle' | 'rectangle' | 'tab';
 export type TCh5TabButtonButtonType = 'default' | 'danger' | 'text' | 'warning' | 'info' | 'success' | 'primary' | 'secondary';
 export type TCh5TabButtonButtonHAlignLabel = 'center' | 'left' | 'right';
 export type TCh5TabButtonButtonVAlignLabel = 'middle' | 'top' | 'bottom';
