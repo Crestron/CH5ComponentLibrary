@@ -1597,6 +1597,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 			case 'checkboxshow':
 				this.checkboxShow = newValue as unknown as boolean;
+				this.updateInternalHtml();
 				break;
 
 			case 'checkboxposition':
@@ -2949,59 +2950,17 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			for (let i = 0; i < this._listOfAllPossibleComponentCssClasses.length; i++) {
 				if (setOfCssClassesToBeAppliedForLabelAlignment.has(this._listOfAllPossibleComponentCssClasses[i])) {
 					arrayListTwo.push(this._listOfAllPossibleComponentCssClasses[i]);
-					//this._elSpanForLabelIconImg.classList.add(this._listOfAllPossibleComponentCssClasses[i]);
-				} else {
-					//this._elSpanForLabelIconImg.classList.remove(this._listOfAllPossibleComponentCssClasses[i]);
 				}
 			}
-			//this._elSpanForLabelIconImg.className = this.BUTTON_PRIMARY_CLASS + ' ' + arrayListTwo.join(' ');
-			//this._elSpanForLabelIconImg.className = 'cb-lbl' + ' ' + arrayListTwo.join(' ');
 			this._elSpanForLabelIconImg.className = this.primaryCssClass + '--span' + ' ' + arrayListTwo.join(' ');
 		} else {
 			for (let i = 0; i < this._listOfAllPossibleComponentCssClasses.length; i++) {
 				if (setOfCssClassesToBeAppliedForLabelAlignment.has(this._listOfAllPossibleComponentCssClasses[i])) {
-					//this._elButton.classList.add(this._listOfAllPossibleComponentCssClasses[i]);
 					arrayListTwo.push(this._listOfAllPossibleComponentCssClasses[i]);
-				} else {
-					//this._elButton.classList.remove(this._listOfAllPossibleComponentCssClasses[i]);
-				}
+				} 
 			}
 			this._elButton.className = this.BUTTON_PRIMARY_CLASS + ' ' + this.primaryCssClass + '--span' + ' ' + arrayListTwo.join(' ');//.add(this._listOfAllPossibleComponentCssClasses[i]);
 		}
-		//this.debounceUpdateCssClasses(setOfCssClassesToBeAppliedForLabelAlignment);
-		//if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
-		/* this._listOfAllPossibleComponentCssClasses.forEach((cssClass: string) => {
-			if (setOfCssClassesToBeAppliedForLabelAlignment.has(cssClass)) {
-				this._elSpanForLabelIconImg.classList.add(cssClass);
-			} else {
-				this._elSpanForLabelIconImg.classList.remove(cssClass);
-			}
-		}); */
-		/* for (let i = 0; i < this._listOfAllPossibleComponentCssClasses.length; i++) {
-			if (setOfCssClassesToBeAppliedForLabelAlignment.has(this._listOfAllPossibleComponentCssClasses[i])) {
-				this._elSpanForLabelIconImg.classList.add(this._listOfAllPossibleComponentCssClasses[i]);
-			} else {
-				this._elSpanForLabelIconImg.classList.remove(this._listOfAllPossibleComponentCssClasses[i]);
-			}
-		} */
-		//} else {
-		/* for (let i = 0; i < this._listOfAllPossibleComponentCssClasses.length; i++) {
-			//if (i === 0) {
-			if (setOfCssClassesToBeAppliedForLabelAlignment.has(this._listOfAllPossibleComponentCssClasses[i])) {
-				this._elButton.classList.add(this._listOfAllPossibleComponentCssClasses[i]);
-			} else {
-				this._elButton.classList.remove(this._listOfAllPossibleComponentCssClasses[i]);
-			}
-			//}
-		} */
-		/* this._listOfAllPossibleComponentCssClasses.forEach((cssClass: string) => {
-			if (setOfCssClassesToBeAppliedForLabelAlignment.has(cssClass)) {
-				this._elButton.classList.add(cssClass);
-			} else {
-				this._elButton.classList.remove(cssClass);
-			}
-		}); */
-		//}
 		this.logger.stop();
 	}
 
