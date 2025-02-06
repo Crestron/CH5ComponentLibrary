@@ -1754,10 +1754,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		// TODO: visibility here is an HTMLElement, not a boolean
 		//       and for this reason, it will always go on the if branch
 		if (visibility) {
-			this._show = true;
 			this._maybeLoadImage(true);
-		} else {
-			this._show = false;
 		}
 	}
 }
