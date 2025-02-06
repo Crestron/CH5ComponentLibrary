@@ -30,8 +30,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	public static readonly ELEMENT_NAME = 'ch5-image';
 	private _ch5Properties: Ch5Properties;
 	private isDragging: boolean = false;
-	private pointerId: number = 0;
-	private liftFingerOutSideElement: boolean = false;
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -1255,6 +1253,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 							window.clearInterval(this._repeatDigitalInterval as number);
 						}
 						this.sendValueForRepeatDigitalWorking(false);
+						this.isDragging = false
 						// setTimeout(() => {
 						// 	// this.setButtonDisplay();
 						// }, this.STATE_CHANGE_TIMEOUTS);
@@ -1524,8 +1523,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	protected _pointerDown(inEvent: PointerEvent): void {
 		this.info("Ch5Image._pointerDown()");
 		this.isDragging = true;
-		this.pointerId = inEvent.pointerId;
-		this.liftFingerOutSideElement = false;
 		if (this._timerIdForTouch) {
 			window.clearTimeout(this._timerIdForTouch);
 		}
@@ -1544,6 +1541,8 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		if (this.sendEventXPosition && this.sendEventYPosition) {
 			Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventXPosition)?.publish((xPosition) as number);
 			Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventYPosition)?.publish((yPosition) as number);
+			/* (document.getElementById("testX") as HTMLElement).innerHTML += '\n x->: ' + xPosition;
+			(document.getElementById("testY") as HTMLElement).innerHTML += '\n Y->: ' + yPosition; */
 		}
 	}
 
@@ -1553,10 +1552,9 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	protected _pointerUp(inEvent: PointerEvent): void {
-		this.isDragging = false;
-		this.pointerId = 0;
 		this.info("Ch5Image._pointerUp()");
-		if (this.allowPositionDataToBeSent && this.sendEventXPosition && this.sendEventYPosition && !this.liftFingerOutSideElement) {
+		if (this.allowPositionDataToBeSent && this.sendEventXPosition && this.sendEventYPosition && this.isDragging) {
+			this.isDragging = false;
 			this.handleAllowPositionDataToBeSent(inEvent)
 		}
 		this._stopSendSignalOnTouch();
@@ -1564,27 +1562,16 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	private _pointerMove(inEvent: PointerEvent): void {
-		if (this.isDragging && (inEvent.pointerId === this.pointerId)) {
-			const rect = this.getBoundingClientRect();
-			if (inEvent.clientX < rect.left || inEvent.clientX > rect.right ||
-				inEvent.clientY < rect.top || inEvent.clientY > rect.bottom ||
-				(inEvent.pointerType === 'mouse' && inEvent.pressure === 0)) {
-				this.dispatchEvent(new PointerEvent('pointercancel', inEvent));
-				this.isDragging = false;
-				this.liftFingerOutSideElement = true;
-			} else {
-				if (this.allowPositionDataToBeSent && this.allowValuesOnMove && this.sendEventXPosition && this.sendEventYPosition) {
-					this.handleAllowPositionDataToBeSent(inEvent)
-				}
-				this._stopSendSignalOnTouch();
-			}
+		this.info("Ch5Image._pointerMove()");
+		if (this.allowPositionDataToBeSent && this.allowValuesOnMove && this.sendEventXPosition && this.sendEventYPosition && this.isDragging) {
+			this.handleAllowPositionDataToBeSent(inEvent)
 		}
+		this._stopSendSignalOnTouch();
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	protected _pointerCancel(inEvent: PointerEvent): void {
 		this.isDragging = false;
-		this.pointerId = 0;
 		this._stopSendSignalOnTouch();
 	}
 
