@@ -1541,8 +1541,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		if (this.sendEventXPosition && this.sendEventYPosition) {
 			Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventXPosition)?.publish((xPosition) as number);
 			Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventYPosition)?.publish((yPosition) as number);
-			/* (document.getElementById("testX") as HTMLElement).innerHTML += '\n x->: ' + xPosition;
-			(document.getElementById("testY") as HTMLElement).innerHTML += '\n Y->: ' + yPosition; */
 		}
 	}
 
@@ -1553,7 +1551,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	protected _pointerUp(inEvent: PointerEvent): void {
 		this.info("Ch5Image._pointerUp()");
-		if (this.allowPositionDataToBeSent && this.sendEventXPosition && this.sendEventYPosition && this.isDragging) {
+		if (this.allowPositionDataToBeSent && this.sendEventXPosition && this.sendEventYPosition) {
 			this.isDragging = false;
 			this.handleAllowPositionDataToBeSent(inEvent)
 		}
