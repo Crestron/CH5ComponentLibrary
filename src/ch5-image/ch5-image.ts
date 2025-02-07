@@ -1553,16 +1553,15 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		this.info("Ch5Image._pointerUp()");
 		if (this.allowPositionDataToBeSent && this.sendEventXPosition && this.sendEventYPosition) {
 			this.isDragging = false;
-			this.handleAllowPositionDataToBeSent(inEvent)
+			this.handleAllowPositionDataToBeSent(inEvent);
 		}
 		this._stopSendSignalOnTouch();
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	private _pointerMove(inEvent: PointerEvent): void {
-		this.info("Ch5Image._pointerMove()");
 		if (this.allowPositionDataToBeSent && this.allowValuesOnMove && this.sendEventXPosition && this.sendEventYPosition && this.isDragging) {
-			this.handleAllowPositionDataToBeSent(inEvent)
+			this.handleAllowPositionDataToBeSent(inEvent);
 		}
 		this._stopSendSignalOnTouch();
 	}
