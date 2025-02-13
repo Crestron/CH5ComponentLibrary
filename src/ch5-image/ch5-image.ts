@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core";
+import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory, subscribeInViewPortChange } from "../ch5-core";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
 import { isNil, isEmpty } from 'lodash';
@@ -961,6 +961,10 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 			this.info(' connectedCallback() - end');
 		});
+		// Dont delete this below suscribe, this is added to fix CH5C-27781
+		subscribeInViewPortChange(this, () => {
+			console.log("subscribeInViewPortChange: " + this.elementIsInViewPort);
+		});
 	}
 
 	/**
@@ -1555,6 +1559,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 			this.isDragging = false;
 			this.handleAllowPositionDataToBeSent(inEvent);
 		}
+		// The method below is not being utilized, so it needs to be removed from the feature releases.
 		this._stopSendSignalOnTouch();
 	}
 
@@ -1563,12 +1568,14 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		if (this.allowPositionDataToBeSent && this.allowValuesOnMove && this.sendEventXPosition && this.sendEventYPosition && this.isDragging) {
 			this.handleAllowPositionDataToBeSent(inEvent);
 		}
+		// The method below is not being utilized, so it needs to be removed from the feature releases.
 		this._stopSendSignalOnTouch();
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	protected _pointerCancel(inEvent: PointerEvent): void {
 		this.isDragging = false;
+		// The method below is not being utilized, so it needs to be removed from the feature releases.
 		this._stopSendSignalOnTouch();
 	}
 

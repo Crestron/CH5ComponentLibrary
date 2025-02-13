@@ -146,6 +146,9 @@ export class Ch5Pressable {
 	 * Destroy pressable
 	 */
 	public destroy() {
+		if (this._pressed === true) {
+			this.setPressed(false);
+		}
 		this.observablePressed?.complete();
 		this.resetPressAndReleaseActions();
 		this._removeEvents();
