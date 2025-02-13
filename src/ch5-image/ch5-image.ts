@@ -963,7 +963,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		});
 		// Dont delete this below suscribe, this is added to fix CH5C-27781
 		subscribeInViewPortChange(this, () => {
-			console.log("subscribeInViewPortChange: " + this.elementIsInViewPort);
+			this.logger.log("subscribeInViewPortChange: " + this.elementIsInViewPort);
 		});
 	}
 
