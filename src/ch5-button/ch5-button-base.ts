@@ -1172,6 +1172,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		subscribeInViewPortChange(this, () => {
 			if (this.elementIsInViewPort) {
 				this.verticalOrientationHandler();
+			} else {
+				this.setAttribute("pressed", "false");
 			}
 		});
 		this.isButtonInitiated = false;
@@ -2100,69 +2102,69 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private checkboxDisplay() {
 		this.logger.start("checkboxDisplay");
 		//if (this.isCheckboxVisible()) {
-			let classForCheckboxRemove: string[] = [];
-			let classForCheckboxAdd: string[] = [];
-			const checkboxCssClass: string = this.primaryCssClass + "__checkbox";
-			classForCheckboxRemove = [checkboxCssClass, checkboxCssClass + "--unchecked", checkboxCssClass + "--checked"];
-			if (this._checkboxShow === true && this._selected === true) {
-				classForCheckboxAdd = [checkboxCssClass, checkboxCssClass + "--checked"];
-			} else if (this._checkboxShow === false) {
-				// This case is addressed.
-			} else if (this._checkboxShow === true) {
-				classForCheckboxAdd = [checkboxCssClass, checkboxCssClass + "--unchecked"];
-			}
+		let classForCheckboxRemove: string[] = [];
+		let classForCheckboxAdd: string[] = [];
+		const checkboxCssClass: string = this.primaryCssClass + "__checkbox";
+		classForCheckboxRemove = [checkboxCssClass, checkboxCssClass + "--unchecked", checkboxCssClass + "--checked"];
+		if (this._checkboxShow === true && this._selected === true) {
+			classForCheckboxAdd = [checkboxCssClass, checkboxCssClass + "--checked"];
+		} else if (this._checkboxShow === false) {
+			// This case is addressed.
+		} else if (this._checkboxShow === true) {
+			classForCheckboxAdd = [checkboxCssClass, checkboxCssClass + "--unchecked"];
+		}
 
-			classForCheckboxRemove.forEach((className: string) => {
-				className = className.trim();
-				if (className !== '') {
-					this._elCheckboxIcon.classList.remove(className);
+		classForCheckboxRemove.forEach((className: string) => {
+			className = className.trim();
+			if (className !== '') {
+				this._elCheckboxIcon.classList.remove(className);
+			}
+		});
+
+		classForCheckboxAdd.forEach((className: string) => {
+			className = className.trim();
+			if (className !== '') {
+				this._elCheckboxIcon.classList.add(className);
+			}
+		});
+
+		this._elCheckboxIcon.classList.remove('cx-button-checkbox-pos-left');
+		this._elCheckboxIcon.classList.remove('cx-button-checkbox-pos-right');
+		if (this.checkboxShow === true) {
+			this._elCheckboxIcon.classList.add('cx-button-checkbox-pos-' + this.checkboxPosition);
+		}
+
+		let hasCheckboxIcon = false;
+
+		if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
+			hasCheckboxIcon = true;
+		}
+		this.logger.log("hasCheckboxIcon", hasCheckboxIcon);
+		// TODO - remove twice usage after testing valign and halign
+		if (this._elCheckboxIcon.parentNode) {
+			this._elCheckboxIcon.remove();
+		}
+
+		if (hasCheckboxIcon) {
+			if (this.checkboxPosition === 'right') {
+				if (this._elCheckboxIcon.parentNode !== (this._elButton as Node)) {
+					// if the icon element was not yet added to the button
+					this._elButton.appendChild(this._elCheckboxIcon);
+				} else {
+					// if the icon element was already added and needs to be switched with the label element
+					this._elButton.insertBefore(this._elSpanForLabelIconImg as Node, this._elCheckboxIcon as Node);
 				}
-			});
 
-			classForCheckboxAdd.forEach((className: string) => {
-				className = className.trim();
-				if (className !== '') {
-					this._elCheckboxIcon.classList.add(className);
+			} else if (this.checkboxPosition === 'left') {
+				if ((this._elSpanForLabelIconImg as any).isConnected === true) {
+					this._elButton.insertBefore(this._elCheckboxIcon as Node, this._elSpanForLabelIconImg as Node);
 				}
-			});
-
-			this._elCheckboxIcon.classList.remove('cx-button-checkbox-pos-left');
-			this._elCheckboxIcon.classList.remove('cx-button-checkbox-pos-right');
-			if (this.checkboxShow === true) {
-				this._elCheckboxIcon.classList.add('cx-button-checkbox-pos-' + this.checkboxPosition);
 			}
-
-			let hasCheckboxIcon = false;
-
-			if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
-				hasCheckboxIcon = true;
-			}
-			this.logger.log("hasCheckboxIcon", hasCheckboxIcon);
-			// TODO - remove twice usage after testing valign and halign
+		} else {
 			if (this._elCheckboxIcon.parentNode) {
 				this._elCheckboxIcon.remove();
 			}
-
-			if (hasCheckboxIcon) {
-				if (this.checkboxPosition === 'right') {
-					if (this._elCheckboxIcon.parentNode !== (this._elButton as Node)) {
-						// if the icon element was not yet added to the button
-						this._elButton.appendChild(this._elCheckboxIcon);
-					} else {
-						// if the icon element was already added and needs to be switched with the label element
-						this._elButton.insertBefore(this._elSpanForLabelIconImg as Node, this._elCheckboxIcon as Node);
-					}
-
-				} else if (this.checkboxPosition === 'left') {
-					if ((this._elSpanForLabelIconImg as any).isConnected === true) {
-						this._elButton.insertBefore(this._elCheckboxIcon as Node, this._elSpanForLabelIconImg as Node);
-					}
-				}
-			} else {
-				if (this._elCheckboxIcon.parentNode) {
-					this._elCheckboxIcon.remove();
-				}
-			}
+		}
 		//}
 		this.logger.stop();
 	}
@@ -2955,7 +2957,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			for (let i = 0; i < this._listOfAllPossibleComponentCssClasses.length; i++) {
 				if (setOfCssClassesToBeAppliedForLabelAlignment.has(this._listOfAllPossibleComponentCssClasses[i])) {
 					arrayListTwo.push(this._listOfAllPossibleComponentCssClasses[i]);
-				} 
+				}
 			}
 			this._elButton.className = this.BUTTON_PRIMARY_CLASS + ' ' + this.primaryCssClass + '--span' + ' ' + arrayListTwo.join(' ');//.add(this._listOfAllPossibleComponentCssClasses[i]);
 		}
