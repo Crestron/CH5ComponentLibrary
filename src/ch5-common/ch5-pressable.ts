@@ -188,6 +188,7 @@ export class Ch5Pressable {
 	}
 
 	private _onPointerDown(pointerEvent: PointerEvent): void {
+		console.log("PPPPP",this._ch5Component.elementIsInViewPort, this._fingerState.mode );
 		if (!this._ch5Component.elementIsInViewPort) { return; }
 		// this._ch5Component.setPointerCapture(pointerEvent.pointerId);
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Idle) {
@@ -242,7 +243,7 @@ export class Ch5Pressable {
 		// this._ch5Component.releasePointerCapture(pointerEvent.pointerId);
 	}
 
-	private resetPressAndReleaseActions() {
+	public resetPressAndReleaseActions() {
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
 			// quick tap, must do both press and release
 			this._fingerIsDownActions();
