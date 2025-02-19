@@ -1178,9 +1178,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				this.setAttribute("pressed", "false");
 				if (this._pressable) {
 
-				this._pressable.resetPressAndReleaseActions();
+					this._pressable.resetPressAndReleaseActions();
+				}
 			}
-		}
 		});
 		this.isButtonInitiated = false;
 		this.previousExtendedProperties = {}; // Very important - for pages hidden with buttons and shown back with noshowtype remove
