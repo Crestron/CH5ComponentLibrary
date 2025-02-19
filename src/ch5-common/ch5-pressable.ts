@@ -188,7 +188,7 @@ export class Ch5Pressable {
 	}
 
 	private _onPointerDown(pointerEvent: PointerEvent): void {
-		console.log("PPPPP",this._ch5Component.elementIsInViewPort, this._fingerState.mode );
+		// console.log("PPPPP",this._ch5Component.elementIsInViewPort, this._fingerState.mode );
 		if (!this._ch5Component.elementIsInViewPort) { return; }
 		// this._ch5Component.setPointerCapture(pointerEvent.pointerId);
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Idle) {

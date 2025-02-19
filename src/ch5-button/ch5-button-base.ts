@@ -1740,7 +1740,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 					this._repeatDigitalInterval = window.setInterval(() => {
 						this.sendValueForRepeatDigitalWorking(true);
 						if (!this.repeatFlag) {
-							console.log('Touch move');
 							this.addEventListener('touchmove', this._onTouchMove, { passive: false });
 							this.repeatFlag = true;
 						}
