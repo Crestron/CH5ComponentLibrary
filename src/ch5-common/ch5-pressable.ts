@@ -159,7 +159,7 @@ export class Ch5Pressable {
 	 */
 	private _attachEvents() {
 		this._ch5Component.addEventListener('click', this._onClick);
-
+		// this._ch5Component.addEventListener('contextmenu', this._onContextMenu);
 		this._ch5Component.addEventListener('pointerdown', this._onPointerDown, { passive: true });
 		this._ch5Component.addEventListener('pointerup', this._onPointerUp);
 		this._ch5Component.addEventListener('pointermove', this._onPointerMove);
@@ -171,18 +171,24 @@ export class Ch5Pressable {
 	 */
 	private _removeEvents() {
 		this._ch5Component.removeEventListener('click', this._onClick);
-
+		// this._ch5Component.removeEventListener('contextmenu', this._onContextMenu);
 		this._ch5Component.removeEventListener('pointerdown', this._onPointerDown);
 		this._ch5Component.removeEventListener('pointerup', this._onPointerUp);
 		this._ch5Component.removeEventListener('pointermove', this._onPointerMove);
 		this._ch5Component.removeEventListener('pointerleave', this._onPointerLeave);
 	}
 
+	/* private _onContextMenu(inEvent: Event): void {
+		const mouseEvent: PointerEvent = inEvent as PointerEvent;
+		mouseEvent.preventDefault();
+	} */
+
 	private _onClick(): void {
 		if (!this._ch5Component.elementIsInViewPort) { return; }
 	}
 
 	private _onPointerDown(pointerEvent: PointerEvent): void {
+		// console.log("PPPPP",this._ch5Component.elementIsInViewPort, this._fingerState.mode );
 		if (!this._ch5Component.elementIsInViewPort) { return; }
 		// this._ch5Component.setPointerCapture(pointerEvent.pointerId);
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Idle) {
@@ -237,7 +243,7 @@ export class Ch5Pressable {
 		// this._ch5Component.releasePointerCapture(pointerEvent.pointerId);
 	}
 
-	private resetPressAndReleaseActions() {
+	public resetPressAndReleaseActions() {
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
 			// quick tap, must do both press and release
 			this._fingerIsDownActions();
