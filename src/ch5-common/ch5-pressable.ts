@@ -7,6 +7,7 @@
 
 import { Ch5Common } from '../ch5-common/ch5-common';
 import { Subject } from 'rxjs';
+import { isSafariMobile } from '../ch5-core/utility-functions/is-safari-mobile';
 
 export interface ICh5PressableOptions {
 	cssTargetElement: HTMLElement;
@@ -164,6 +165,9 @@ export class Ch5Pressable {
 		this._ch5Component.addEventListener('pointerup', this._onPointerUp);
 		this._ch5Component.addEventListener('pointermove', this._onPointerMove);
 		this._ch5Component.addEventListener('pointerleave', this._onPointerLeave);
+		if (isSafariMobile()) {
+			this._ch5Component.addEventListener('pointerout', this._onPointerLeave);
+		}
 	}
 
 	/**
@@ -176,6 +180,9 @@ export class Ch5Pressable {
 		this._ch5Component.removeEventListener('pointerup', this._onPointerUp);
 		this._ch5Component.removeEventListener('pointermove', this._onPointerMove);
 		this._ch5Component.removeEventListener('pointerleave', this._onPointerLeave);
+		if (isSafariMobile()) {
+			this._ch5Component.removeEventListener('pointerout', this._onPointerLeave);
+		}
 	}
 
 	/* private _onContextMenu(inEvent: Event): void {
@@ -254,12 +261,12 @@ export class Ch5Pressable {
 		this._fingerState.reset();
 	}
 
-	private _onPointerLeave(inEvent: PointerEvent): void {
+	private _onPointerLeave(pointerEvent: PointerEvent): void {
 		if (!this._ch5Component.elementIsInViewPort) {
 			return;
 		}
-		const mouseEvent: PointerEvent = inEvent as PointerEvent;
-		if (mouseEvent !== null) {
+		// const mouseEvent: PointerEvent = inEvent as PointerEvent;
+		if (pointerEvent !== null) {
 			this.resetPressAndReleaseActions();
 		}
 		// this._ch5Component.releasePointerCapture(mouseEvent.pointerId);
