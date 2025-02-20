@@ -1725,6 +1725,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 					this.repeatFlag = false;
 					try {
 						this.removeEventListener('touchmove', this._onTouchMove);
+						this.style.touchAction = '';
+						this._elContainer.style.touchAction = '';
 					} catch {
 						console.info('removeEventListener');
 					}
@@ -1740,6 +1742,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 					this._repeatDigitalInterval = window.setInterval(() => {
 						this.sendValueForRepeatDigitalWorking(true);
 						if (!this.repeatFlag) {
+							this.style.touchAction = 'none';
+							this._elContainer.style.touchAction = 'none';
 							this.addEventListener('touchmove', this._onTouchMove, { passive: false });
 							this.repeatFlag = true;
 						}
