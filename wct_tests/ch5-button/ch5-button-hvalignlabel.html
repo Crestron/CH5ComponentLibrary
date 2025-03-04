@@ -2,378 +2,389 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script src="/bower_components/web-component-tester/browser.js"></script>
-    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
-    <script src="/wct_tests/js/helpers.js"></script>
-    <script src="/build_bundles/umd/cr-com-lib.js"></script>
-    <script src="/wct_tests/ch5-button/js/helpers.js"></script>
+	<meta charset="utf-8">
+	<script src="/webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="/bower_components/web-component-tester/browser.js"></script>
+	<link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+	<script src="/wct_tests/js/helpers.js"></script>
+	<script src="/build_bundles/umd/cr-com-lib.js"></script>
+	<script src="/wct_tests/ch5-button/js/helpers.js"></script>
 </head>
 
 <body>
 
-    <test-fixture id="ch5-button-halignlabel-fixture">
-        <template>
-            <ch5-button></ch5-button>
-        </template>
-    </test-fixture>
+	<test-fixture id="ch5-button-halignlabel-fixture">
+		<template>
+			<ch5-button></ch5-button>
+		</template>
+	</test-fixture>
 
-    <test-fixture id="ch5-button-valignlabel-fixture">
-        <template>
-            <ch5-button></ch5-button>
-        </template>
-    </test-fixture>
+	<test-fixture id="ch5-button-valignlabel-fixture">
+		<template>
+			<ch5-button></ch5-button>
+		</template>
+	</test-fixture>
 
-    <test-fixture id="ch5-button-valignlabel-fixture1">
-        <template>
-            <ch5-button mode="0" size="x-large" label="center middle" type="default">
-                <ch5-button-mode type="default" hAlignLabel="left" vAlignLabel="top">
-                    <ch5-button-label>
-                        <template>
-                            left top
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode>
-                <ch5-button-mode type="warning" hAlignLabel="right" vAlignLabel="bottom">
-                    <ch5-button-label>
-                        <template>
-                            right bottom
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode>
-            </ch5-button>
-        </template>
-    </test-fixture>
+	<test-fixture id="ch5-button-valignlabel-fixture1">
+		<template>
+			<ch5-button mode="0" size="x-large" label="center middle" type="default">
+				<ch5-button-mode type="default" hAlignLabel="left" vAlignLabel="top">
+					<ch5-button-label>
+						<template>
+							left top
+						</template>
+					</ch5-button-label>
+				</ch5-button-mode>
+				<ch5-button-mode type="warning" hAlignLabel="right" vAlignLabel="bottom">
+					<ch5-button-label>
+						<template>
+							right bottom
+						</template>
+					</ch5-button-label>
+				</ch5-button-mode>
+			</ch5-button>
+		</template>
+	</test-fixture>
 
-    <test-fixture id="ch5-button-valignlabel-fixture2">
-        <template>
-            <ch5-button receiveStateMode="current_mode_alignments_fixture2" hAlignLabel="center" vAlignLabel="middle" size="x-large" label="center middle" type="danger">
-                <ch5-button-mode type="success" hAlignLabel="center" vAlignLabel="middle">
-                    <ch5-button-label>
-                        <template>
-                            center middle
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode>
-                <ch5-button-mode type="warning" hAlignLabel="center" vAlignLabel="top">
-                    <ch5-button-label>
-                        <template>
-                            center top
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode>
-                <ch5-button-mode type="danger" hAlignLabel="center" vAlignLabel="bottom">
-                    <ch5-button-label>
-                        <template>
-                            center bottom
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode>
-                <ch5-button-mode type="text" hAlignLabel="left" vAlignLabel="middle">
-                    <ch5-button-label>
-                        <template>
-                            left middle
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode>
-                <ch5-button-mode type="info" hAlignLabel="left" vAlignLabel="top">
-                    <ch5-button-label>
-                        <template>
-                            left top
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode>
-                <ch5-button-mode type="primary" hAlignLabel="left" vAlignLabel="bottom">
-                    <ch5-button-label>
-                        <template>
-                            left bottom
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode>
-                <ch5-button-mode type="secondary" hAlignLabel="right" vAlignLabel="middle">
-                    <ch5-button-label>
-                        <template>
-                            right middle
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode>
-                <ch5-button-mode type="danger" hAlignLabel="right" vAlignLabel="top">
-                    <ch5-button-label>
-                        <template>
-                            right top
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode>
-                <ch5-button-mode type="text" hAlignLabel="right" vAlignLabel="bottom">
-                    <ch5-button-label>
-                        <template>
-                            right bottom
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode>
-            </ch5-button>
-        </template>
-    </test-fixture>
+	<test-fixture id="ch5-button-valignlabel-fixture2">
+		<template>
+			<ch5-button receiveStateMode="current_mode_alignments_fixture2" hAlignLabel="center" vAlignLabel="middle" size="x-large" label="center middle" type="danger">
+				<ch5-button-mode type="success" hAlignLabel="center" vAlignLabel="middle">
+					<ch5-button-label>
+						<template>
+							center middle
+						</template>
+					</ch5-button-label>
+				</ch5-button-mode>
+				<ch5-button-mode type="warning" hAlignLabel="center" vAlignLabel="top">
+					<ch5-button-label>
+						<template>
+							center top
+						</template>
+					</ch5-button-label>
+				</ch5-button-mode>
+				<ch5-button-mode type="danger" hAlignLabel="center" vAlignLabel="bottom">
+					<ch5-button-label>
+						<template>
+							center bottom
+						</template>
+					</ch5-button-label>
+				</ch5-button-mode>
+				<ch5-button-mode type="text" hAlignLabel="left" vAlignLabel="middle">
+					<ch5-button-label>
+						<template>
+							left middle
+						</template>
+					</ch5-button-label>
+				</ch5-button-mode>
+				<ch5-button-mode type="info" hAlignLabel="left" vAlignLabel="top">
+					<ch5-button-label>
+						<template>
+							left top
+						</template>
+					</ch5-button-label>
+				</ch5-button-mode>
+				<ch5-button-mode type="primary" hAlignLabel="left" vAlignLabel="bottom">
+					<ch5-button-label>
+						<template>
+							left bottom
+						</template>
+					</ch5-button-label>
+				</ch5-button-mode>
+				<ch5-button-mode type="secondary" hAlignLabel="right" vAlignLabel="middle">
+					<ch5-button-label>
+						<template>
+							right middle
+						</template>
+					</ch5-button-label>
+				</ch5-button-mode>
+				<ch5-button-mode type="danger" hAlignLabel="right" vAlignLabel="top">
+					<ch5-button-label>
+						<template>
+							right top
+						</template>
+					</ch5-button-label>
+				</ch5-button-mode>
+				<ch5-button-mode type="text" hAlignLabel="right" vAlignLabel="bottom">
+					<ch5-button-label>
+						<template>
+							right bottom
+						</template>
+					</ch5-button-label>
+				</ch5-button-mode>
+			</ch5-button>
+		</template>
+	</test-fixture>
 
-    <test-fixture id="ch5-button-valignlabel-fixture3">
-        <template>
-            <ch5-button label="center middle" stretch="width" hAlignLabel="center" vAlignLabel="middle" type="text" mode="0" receivestateselected="receive_selected_state_alignments_fixture3" sendeventonclick="trigger_set_selected_state_alignments_fixture3">
-                <ch5-button-mode type="secondary">
-                    <ch5-button-mode-state state="normal" hAlignLabel="left" vAlignLabel="top" type="warning">
-                        <ch5-button-label>
-                            <template>
-                                <b>Normal</b> State with hAlignLabel: <b>left</b> and vAlignLabel: <b>top</b>
-                            </template>
-                        </ch5-button-label>
-                    </ch5-button-mode-state>
-                    <ch5-button-mode-state state="pressed" hAlignLabel="center" vAlignLabel="middle" type="info">
-                        <ch5-button-label>
-                            <template>
-                                <b>Pressed</b> State with hAlignLabel: <b>center</b> and vAlignLabel: <b>middle</b>
-                            </template>
-                        </ch5-button-label>
-                    </ch5-button-mode-state>
-                    <ch5-button-mode-state state="selected" hAlignLabel="right" vAlignLabel="bottom" type="success">
-                        <ch5-button-label>
-                            <template>
-                                <b>Selected</b> State with hAlignLabel: <b>right</b> and vAlignLabel: <b>bottom</b>
-                            </template>
-                        </ch5-button-label>
-                    </ch5-button-mode-state>
-                </ch5-button-mode>
-            </ch5-button>
-        </template>
-    </test-fixture>
+	<test-fixture id="ch5-button-valignlabel-fixture3">
+		<template>
+			<ch5-button label="center middle" stretch="width" hAlignLabel="center" vAlignLabel="middle" type="text" mode="0" receivestateselected="receive_selected_state_alignments_fixture3" sendeventonclick="trigger_set_selected_state_alignments_fixture3">
+				<ch5-button-mode type="secondary">
+					<ch5-button-mode-state state="normal" hAlignLabel="left" vAlignLabel="top" type="warning">
+						<ch5-button-label>
+							<template>
+								<b>Normal</b> State with hAlignLabel: <b>left</b> and vAlignLabel: <b>top</b>
+							</template>
+						</ch5-button-label>
+					</ch5-button-mode-state>
+					<ch5-button-mode-state state="pressed" hAlignLabel="center" vAlignLabel="middle" type="info">
+						<ch5-button-label>
+							<template>
+								<b>Pressed</b> State with hAlignLabel: <b>center</b> and vAlignLabel: <b>middle</b>
+							</template>
+						</ch5-button-label>
+					</ch5-button-mode-state>
+					<ch5-button-mode-state state="selected" hAlignLabel="right" vAlignLabel="bottom" type="success">
+						<ch5-button-label>
+							<template>
+								<b>Selected</b> State with hAlignLabel: <b>right</b> and vAlignLabel: <b>bottom</b>
+							</template>
+						</ch5-button-label>
+					</ch5-button-mode-state>
+				</ch5-button-mode>
+			</ch5-button>
+		</template>
+	</test-fixture>
 
-    <script>
-        suite('ch5-button', () => {
+	<script>
+		suite('ch5-button', () => {
 
-            let ch5Button;
-            let ch5Button1;
-            let ch5Button2;
-            let ch5Button3;
-            let ch5ButtonHAlignLabelFixture;
+			let ch5Button;
+			let ch5Button1;
+			let ch5Button2;
+			let ch5Button3;
+			let ch5ButtonHAlignLabelFixture;
 
-            setup(async () => {
-                const emulatorJson = await fetch('./emulator/alignments.json').then((response) => response.json());
-                const emulator = CrComLib.Ch5Emulator.getInstance();
-                emulator.loadScenario(emulatorJson);
-                ch5Button = fixture('ch5-button-valignlabel-fixture');
-                ch5Button1 = fixture('ch5-button-valignlabel-fixture1');
-                ch5Button2 = fixture('ch5-button-valignlabel-fixture2');
-                ch5Button3 = fixture('ch5-button-valignlabel-fixture3');
-                ch5ButtonHAlignLabelFixture = fixture('ch5-button-halignlabel-fixture');
-            });
+			setup(async () => {
+				const emulatorJson = await fetch('./emulator/alignments.json').then((response) => response.json());
+				const emulator = CrComLib.Ch5Emulator.getInstance();
+				emulator.loadScenario(emulatorJson);
+				ch5Button = fixture('ch5-button-valignlabel-fixture');
+				ch5Button1 = fixture('ch5-button-valignlabel-fixture1');
+				ch5Button2 = fixture('ch5-button-valignlabel-fixture2');
+				ch5Button3 = fixture('ch5-button-valignlabel-fixture3');
+				ch5ButtonHAlignLabelFixture = fixture('ch5-button-halignlabel-fixture');
+			});
 
-            const valid_vAlignLabel = CrComLib.Ch5Button.VERTICAL_LABEL_ALIGNMENTS;
-            const invalid_vAlignLabel = ['', 'junk', 'null', null, undefined, 'undefined', '0', '1', 'left', 'right', 'center'];
+			const valid_vAlignLabel = CrComLib.Ch5Button.VERTICAL_LABEL_ALIGNMENTS;
+			const invalid_vAlignLabel = ['', 'junk', 'null', null, undefined, 'undefined', '0', '1', 'left', 'right', 'center'];
 
-            const valid_hAlignLabel = CrComLib.Ch5Button.HORIZONTAL_LABEL_ALIGNMENTS;
-            const invalid_hAlignLabel = ['', 'junk', 'null', null, undefined, 'undefined', '0', '1', 'top', 'bottom', 'middle'];
+			const valid_hAlignLabel = CrComLib.Ch5Button.HORIZONTAL_LABEL_ALIGNMENTS;
+			const invalid_hAlignLabel = ['', 'junk', 'null', null, undefined, 'undefined', '0', '1', 'top', 'bottom', 'middle'];
 
-            valid_hAlignLabel.forEach((hAlignLabelName, i) => {
-                test(`Check attribute hAlignLabel: "${hAlignLabelName}"`, (done) => {
-                    ch5ButtonHAlignLabelFixture.setAttribute('hAlignLabel', hAlignLabelName);
-                    flush(() => {
-                        setTimeout(() => {
-                            expect(ch5ButtonHAlignLabelFixture.hAlignLabel).to.be.equal(hAlignLabelName);
-                            expect(getSpan(ch5ButtonHAlignLabelFixture).classList.contains("ch5-button--horizontal-" + hAlignLabelName)).to.be.equal(true);
-                            valid_hAlignLabel.forEach((hAlignLabelNameErrorCheck, j) => {
-                                if (hAlignLabelNameErrorCheck !== hAlignLabelName) {
-                                    expect(getSpan(ch5ButtonHAlignLabelFixture).classList.contains("ch5-button--horizontal-" + hAlignLabelNameErrorCheck)).to.be.equal(false);
-                                }
-                            });
-                            done();
-                        }, BASIC_TESTING_TIMEOUT);
-                    });
-                });
-            });
+			function getElementForClassValue(buttonObj) {
+				let hasCheckboxIcon = false;
+				if (buttonObj.hasAttribute("checkboxShow") && this.toBoolean((buttonObj.hasAttribute('checkboxshow') && buttonObj.getAttribute('checkboxshow') !== "false")) === true) {
+					hasCheckboxIcon = true;
+				}
+				return hasCheckboxIcon;
+			}
 
-            invalid_hAlignLabel.forEach((hAlignLabelName, i) => {
-                test(`Check attribute hAlignLabel: "${hAlignLabelName}" for invalid values`, (done) => {
-                    ch5ButtonHAlignLabelFixture.setAttribute('hAlignLabel', hAlignLabelName);
-                    flush(() => {
-                        setTimeout(() => {
-                            expect(ch5ButtonHAlignLabelFixture.hAlignLabel).to.be.equal("center");
-                            expect(getSpan(ch5ButtonHAlignLabelFixture).classList.contains("ch5-button--horizontal-center")).to.be.equal(true);
-                            valid_hAlignLabel.forEach((hAlignLabelNameErrorCheck, j) => {
-                                if (hAlignLabelNameErrorCheck !== "center") {
-                                    expect(getSpan(ch5ButtonHAlignLabelFixture).classList.contains("ch5-button--horizontal-" + hAlignLabelNameErrorCheck)).to.be.equal(false);
-                                }
-                            });
-                            done();
-                        }, BASIC_TESTING_TIMEOUT);
-                    });
-                });
-            });
+			valid_hAlignLabel.forEach((hAlignLabelName, i) => {
+				test(`Check attribute hAlignLabel: "${hAlignLabelName}"`, (done) => {
+					ch5ButtonHAlignLabelFixture.setAttribute('hAlignLabel', hAlignLabelName);
+					flush(() => {
+						setTimeout(() => {
+							expect(ch5ButtonHAlignLabelFixture.hAlignLabel).to.be.equal(hAlignLabelName);
+							expect(getSpan(ch5ButtonHAlignLabelFixture).classList.contains("ch5-button--horizontal-" + hAlignLabelName)).to.be.equal(true);
+							valid_hAlignLabel.forEach((hAlignLabelNameErrorCheck, j) => {
+								if (hAlignLabelNameErrorCheck !== hAlignLabelName) {
+									expect(getSpan(ch5ButtonHAlignLabelFixture).classList.contains("ch5-button--horizontal-" + hAlignLabelNameErrorCheck)).to.be.equal(false);
+								}
+							});
 
-            valid_vAlignLabel.forEach((vAlignLabelName, i) => {
-                test(`Check attribute vAlignLabel: "${vAlignLabelName}"`, (done) => {
-                    ch5Button.setAttribute('vAlignLabel', vAlignLabelName);
-                    flush(() => {
-                        setTimeout(() => {
-                            expect(ch5Button.vAlignLabel).to.be.equal(vAlignLabelName);
-                            done();
-                        }, BASIC_TESTING_TIMEOUT);
-                    });
-                });
-                test(`Check ch5-button > div css class name for vAlignLabel: "${vAlignLabelName}"`, (done) => {
-                    ch5Button.setAttribute('vAlignLabel', vAlignLabelName);
-                    flush(() => {
-                        setTimeout(() => {
-                            expect(getSpan(ch5Button).classList.contains("ch5-button--vertical-" + vAlignLabelName)).to.be.equal(true);
-                            valid_vAlignLabel.forEach((vAlignLabelNameErrorCheck, j) => {
-                                if (vAlignLabelNameErrorCheck !== vAlignLabelName) {
-                                    expect(getSpan(ch5Button).classList.contains("ch5-button--vertical-" + vAlignLabelNameErrorCheck)).to.be.equal(false);
-                                }
-                            });
-                            done();
-                        }, BASIC_TESTING_TIMEOUT);
-                    });
-                });
-            });
+							done();
+						}, BASIC_TESTING_TIMEOUT);
+					});
+				});
+			});
 
-            invalid_vAlignLabel.forEach((vAlignLabelName, i) => {
-                test(`Check attribute vAlignLabel: "${vAlignLabelName}"`, (done) => {
-                    ch5Button.setAttribute('vAlignLabel', vAlignLabelName);
-                    flush(() => {
-                        setTimeout(() => {
-                            expect(ch5Button.vAlignLabel).to.be.equal("middle");
-                            done();
-                        }, BASIC_TESTING_TIMEOUT);
-                    });
-                });
-                test(`Check ch5-button > div css class name for vAlignLabel: "${vAlignLabelName}"`, (done) => {
-                    ch5Button.setAttribute('vAlignLabel', vAlignLabelName);
-                    flush(() => {
-                        setTimeout(() => {
-                            expect(getSpan(ch5Button).classList.contains("ch5-button--vertical-middle")).to.be.equal(true);
-                            valid_vAlignLabel.forEach((vAlignLabelNameErrorCheck, j) => {
-                                if (vAlignLabelNameErrorCheck !== "middle") {
-                                    expect(getSpan(ch5Button).classList.contains("ch5-button--vertical-" + vAlignLabelNameErrorCheck)).to.be.equal(false);
-                                }
-                            });
-                            done();
-                        }, BASIC_TESTING_TIMEOUT);
-                    });
-                });
-            });
+			invalid_hAlignLabel.forEach((hAlignLabelName, i) => {
+				test(`Check attribute hAlignLabel: "${hAlignLabelName}" for invalid values`, (done) => {
+					ch5ButtonHAlignLabelFixture.setAttribute('hAlignLabel', hAlignLabelName);
+					flush(() => {
+						setTimeout(() => {
+							expect(ch5ButtonHAlignLabelFixture.hAlignLabel).to.be.equal("center");
+							expect(getSpan(ch5ButtonHAlignLabelFixture).classList.contains("ch5-button--horizontal-center")).to.be.equal(true);
+							valid_hAlignLabel.forEach((hAlignLabelNameErrorCheck, j) => {
+								if (hAlignLabelNameErrorCheck !== "center") {
+									expect(getSpan(ch5ButtonHAlignLabelFixture).classList.contains("ch5-button--horizontal-" + hAlignLabelNameErrorCheck)).to.be.equal(false);
+								}
+							});
+							done();
+						}, BASIC_TESTING_TIMEOUT);
+					});
+				});
+			});
 
-            // ch5Button1
-            test(`Check attribute hAlignLabel and vAlignLabel for ch5-button-mode and mode value=0`, (done) => {
-                ch5Button1.setAttribute('mode', "0");
-                flush(() => {
-                    setTimeout(() => {
-                        const expectedValueForHAlignLabel = "left";
-                        const expectedValueForVAlignLabel = "top";
-                        // expect(ch5Button1.getAttribute('hAlignLabel')).to.be.equal("center");
-                        // expect(ch5Button1.getAttribute('vAlignLabel')).to.be.equal("middle");
-                        expect(ch5Button1.hAlignLabel).to.be.equal(expectedValueForHAlignLabel);
-                        expect(ch5Button1.vAlignLabel).to.be.equal(expectedValueForVAlignLabel);
-                        expect(getSpan(ch5Button1).classList.contains("ch5-button--horizontal-" + expectedValueForHAlignLabel)).to.be.equal(true);
-                        expect(getSpan(ch5Button1).classList.contains("ch5-button--vertical-" + expectedValueForVAlignLabel)).to.be.equal(true);
-                        done();
-                    }, BASIC_TESTING_TIMEOUT);
-                });
-            });
+			valid_vAlignLabel.forEach((vAlignLabelName, i) => {
+				test(`Check attribute vAlignLabel: "${vAlignLabelName}"`, (done) => {
+					ch5Button.setAttribute('vAlignLabel', vAlignLabelName);
+					flush(() => {
+						setTimeout(() => {
+							expect(ch5Button.vAlignLabel).to.be.equal(vAlignLabelName);
+							done();
+						}, BASIC_TESTING_TIMEOUT);
+					});
+				});
 
-            test(`Check attribute hAlignLabel and vAlignLabel for ch5-button-mode and mode value=1`, (done) => {
-                ch5Button1.setAttribute('mode', "1");
-                flush(() => {
-                    setTimeout(() => {
-                        const expectedValueForHAlignLabel = "right";
-                        const expectedValueForVAlignLabel = "bottom";
-                        // expect(ch5Button1.getAttribute('hAlignLabel')).to.be.equal("center");
-                        // expect(ch5Button1.getAttribute('vAlignLabel')).to.be.equal("middle");
-                        expect(ch5Button1.hAlignLabel).to.be.equal(expectedValueForHAlignLabel);
-                        expect(ch5Button1.vAlignLabel).to.be.equal(expectedValueForVAlignLabel);
-                        expect(getSpan(ch5Button1).classList.contains("ch5-button--horizontal-" + expectedValueForHAlignLabel)).to.be.equal(true);
-                        expect(getSpan(ch5Button1).classList.contains("ch5-button--vertical-" + expectedValueForVAlignLabel)).to.be.equal(true);
-                        done();
-                    }, BASIC_TESTING_TIMEOUT);
-                });
-            });
+				test(`Check ch5-button > div css class name for vAlignLabel: "${vAlignLabelName}"`, (done) => {
+					ch5Button.setAttribute('vAlignLabel', vAlignLabelName);
+					flush(() => {
+						setTimeout(() => {
+							expect(getSpan(ch5Button).classList.contains("ch5-button--vertical-" + vAlignLabelName)).to.be.equal(true);
+							valid_vAlignLabel.forEach((vAlignLabelNameErrorCheck, j) => {
+								if (vAlignLabelNameErrorCheck !== vAlignLabelName) {
+									expect(getSpan(ch5Button).classList.contains("ch5-button--vertical-" + vAlignLabelNameErrorCheck)).to.be.equal(false);
+								}
+							});
+							done();
+						}, BASIC_TESTING_TIMEOUT);
+					});
+				});
+			});
 
-            test(`Check attribute hAlignLabel and vAlignLabel for ch5-button-mode and mode value=2`, (done) => {
-                ch5Button1.setAttribute('mode', "2");
-                flush(() => {
-                    setTimeout(() => {
-                        const expectedValueForHAlignLabel = "left";
-                        const expectedValueForVAlignLabel = "top";
-                        // expect(ch5Button1.getAttribute('hAlignLabel')).to.be.equal("center");
-                        // expect(ch5Button1.getAttribute('vAlignLabel')).to.be.equal("middle");
-                        expect(ch5Button1.hAlignLabel).to.be.equal(expectedValueForHAlignLabel);
-                        expect(ch5Button1.vAlignLabel).to.be.equal(expectedValueForVAlignLabel);
-                        expect(getSpan(ch5Button1).classList.contains("ch5-button--horizontal-" + expectedValueForHAlignLabel)).to.be.equal(true);
-                        expect(getSpan(ch5Button1).classList.contains("ch5-button--vertical-" + expectedValueForVAlignLabel)).to.be.equal(true);
-                        done();
-                    }, BASIC_TESTING_TIMEOUT);
-                });
-            });
+			invalid_vAlignLabel.forEach((vAlignLabelName, i) => {
+				test(`Check attribute vAlignLabel: "${vAlignLabelName}"`, (done) => {
+					ch5Button.setAttribute('vAlignLabel', vAlignLabelName);
+					flush(() => {
+						setTimeout(() => {
+							expect(ch5Button.vAlignLabel).to.be.equal("middle");
+							done();
+						}, BASIC_TESTING_TIMEOUT);
+					});
+				});
 
-            // ch5Button2
-            valid_hAlignLabel.forEach((hAlignLabelObj, i) => {
-                valid_vAlignLabel.forEach((vAlignLabelObj, j) => {
-                    const counterForMode = ((2 * i)) + (i + j);
-                    test(`Check attribute type for ch5-button-mode using receiveStateMode: "${counterForMode}", hAlignLabel:  "${hAlignLabelObj}", vAlignLabel:  "${vAlignLabelObj}"`, (done) => {
-                        CrComLib.publishEvent('n', 'current_mode_alignments_fixture2', counterForMode);
-                        flush(() => {
-                            setTimeout(() => {
-                                const expectedValueForHAlignLabel = hAlignLabelObj;
-                                const expectedValueForVAlignLabel = vAlignLabelObj;
-                                // expect(ch5Button2.getAttribute('hAlignLabel')).to.be.equal("center");
-                                // expect(ch5Button2.getAttribute('vAlignLabel')).to.be.equal("middle");
-                                expect(ch5Button2.hAlignLabel).to.be.equal(expectedValueForHAlignLabel);
-                                expect(ch5Button2.vAlignLabel).to.be.equal(expectedValueForVAlignLabel);
-                                expect(getSpan(ch5Button2).classList.contains("ch5-button--horizontal-" + expectedValueForHAlignLabel)).to.be.equal(true);
-                                expect(getSpan(ch5Button2).classList.contains("ch5-button--vertical-" + expectedValueForVAlignLabel)).to.be.equal(true);
-                                done();
-                            }, BASIC_TESTING_TIMEOUT);
-                        });
-                    });
-                });
-            });
+				test(`Check ch5-button > div css class name for vAlignLabel: "${vAlignLabelName}"`, (done) => {
+					ch5Button.setAttribute('vAlignLabel', vAlignLabelName);
+					flush(() => {
+						setTimeout(() => {
+							expect(getSpan(ch5Button).classList.contains("ch5-button--vertical-middle")).to.be.equal(true);
+							valid_vAlignLabel.forEach((vAlignLabelNameErrorCheck, j) => {
+								if (vAlignLabelNameErrorCheck !== "middle") {
+									expect(getSpan(ch5Button).classList.contains("ch5-button--vertical-" + vAlignLabelNameErrorCheck)).to.be.equal(false);
+								}
+							});
+							done();
+						}, BASIC_TESTING_TIMEOUT);
+					});
+				});
+			});
 
-            // ch5Button3
-            [true, false].forEach((selectionObj, i) => {
-                test(`Check attribute type for ch5-button-mode-state with selected as "${selectionObj}"`, (done) => {
-                    CrComLib.publishEvent('b', 'receive_selected_state_alignments_fixture3', selectionObj);
-                    ch5Button3.setAttribute('selected', selectionObj);
-                    flush(() => {
-                        setTimeout(() => {
-                            const expectedValueForHAlignLabel = selectionObj === true ? "right" : "left";
-                            const expectedValueForVAlignLabel = selectionObj === true ? "bottom" : "top";
-                            // expect(ch5Button3.getAttribute('hAlignLabel')).to.be.equal("center");
-                            // expect(ch5Button3.getAttribute('vAlignLabel')).to.be.equal("middle");
-                            expect(ch5Button3.hAlignLabel).to.be.equal(expectedValueForHAlignLabel);
-                            expect(ch5Button3.vAlignLabel).to.be.equal(expectedValueForVAlignLabel);
-                            expect(getSpan(ch5Button3).classList.contains("ch5-button--horizontal-" + expectedValueForHAlignLabel)).to.be.equal(true);
-                            expect(getSpan(ch5Button3).classList.contains("ch5-button--vertical-" + expectedValueForVAlignLabel)).to.be.equal(true);
-                            done();
-                        }, BASIC_TESTING_TIMEOUT);
-                    });
-                });
+			// ch5Button1
+			test(`Check attribute hAlignLabel and vAlignLabel for ch5-button-mode and mode value=0`, (done) => {
+				ch5Button1.setAttribute('mode', "0");
+				flush(() => {
+					setTimeout(() => {
+						const expectedValueForHAlignLabel = "left";
+						const expectedValueForVAlignLabel = "top";
+						// expect(ch5Button1.getAttribute('hAlignLabel')).to.be.equal("center");
+						// expect(ch5Button1.getAttribute('vAlignLabel')).to.be.equal("middle");
+						expect(ch5Button1.hAlignLabel).to.be.equal(expectedValueForHAlignLabel);
+						expect(ch5Button1.vAlignLabel).to.be.equal(expectedValueForVAlignLabel);
+						expect(getSpan(ch5Button1).classList.contains("ch5-button--horizontal-" + expectedValueForHAlignLabel)).to.be.equal(true);
+						expect(getSpan(ch5Button1).classList.contains("ch5-button--vertical-" + expectedValueForVAlignLabel)).to.be.equal(true);
+						done();
+					}, BASIC_TESTING_TIMEOUT);
+				});
+			});
 
-                test(`Check attribute type for for ch5-button-mode-state using receiveStateSelected as "${selectionObj}"`, (done) => {
-                    CrComLib.publishEvent('b', 'receive_selected_state_alignments_fixture3', selectionObj);
-                    flush(() => {
-                        setTimeout(() => {
-                            const expectedValueForHAlignLabel = selectionObj === true ? "right" : "left";
-                            const expectedValueForVAlignLabel = selectionObj === true ? "bottom" : "top";
-                            // expect(ch5Button3.getAttribute('hAlignLabel')).to.be.equal("center");
-                            // expect(ch5Button3.getAttribute('vAlignLabel')).to.be.equal("middle");
-                            expect(ch5Button3.hAlignLabel).to.be.equal(expectedValueForHAlignLabel);
-                            expect(ch5Button3.vAlignLabel).to.be.equal(expectedValueForVAlignLabel);
-                            expect(getSpan(ch5Button3).classList.contains("ch5-button--horizontal-" + expectedValueForHAlignLabel)).to.be.equal(true);
-                            expect(getSpan(ch5Button3).classList.contains("ch5-button--vertical-" + expectedValueForVAlignLabel)).to.be.equal(true);
-                            done();
-                        }, BASIC_TESTING_TIMEOUT);
-                    });
-                });
-            });
-        });
-    </script>
+			test(`Check attribute hAlignLabel and vAlignLabel for ch5-button-mode and mode value=1`, (done) => {
+				ch5Button1.setAttribute('mode', "1");
+				flush(() => {
+					setTimeout(() => {
+						const expectedValueForHAlignLabel = "right";
+						const expectedValueForVAlignLabel = "bottom";
+						// expect(ch5Button1.getAttribute('hAlignLabel')).to.be.equal("center");
+						// expect(ch5Button1.getAttribute('vAlignLabel')).to.be.equal("middle");
+						expect(ch5Button1.hAlignLabel).to.be.equal(expectedValueForHAlignLabel);
+						expect(ch5Button1.vAlignLabel).to.be.equal(expectedValueForVAlignLabel);
+						expect(getSpan(ch5Button1).classList.contains("ch5-button--horizontal-" + expectedValueForHAlignLabel)).to.be.equal(true);
+						expect(getSpan(ch5Button1).classList.contains("ch5-button--vertical-" + expectedValueForVAlignLabel)).to.be.equal(true);
+						done();
+					}, BASIC_TESTING_TIMEOUT);
+				});
+			});
+
+			test(`Check attribute hAlignLabel and vAlignLabel for ch5-button-mode and mode value=2`, (done) => {
+				ch5Button1.setAttribute('mode', "2");
+				flush(() => {
+					setTimeout(() => {
+						const expectedValueForHAlignLabel = "left";
+						const expectedValueForVAlignLabel = "top";
+						// expect(ch5Button1.getAttribute('hAlignLabel')).to.be.equal("center");
+						// expect(ch5Button1.getAttribute('vAlignLabel')).to.be.equal("middle");
+						expect(ch5Button1.hAlignLabel).to.be.equal(expectedValueForHAlignLabel);
+						expect(ch5Button1.vAlignLabel).to.be.equal(expectedValueForVAlignLabel);
+						expect(getSpan(ch5Button1).classList.contains("ch5-button--horizontal-" + expectedValueForHAlignLabel)).to.be.equal(true);
+						expect(getSpan(ch5Button1).classList.contains("ch5-button--vertical-" + expectedValueForVAlignLabel)).to.be.equal(true);
+						done();
+					}, BASIC_TESTING_TIMEOUT);
+				});
+			});
+
+			// ch5Button2
+			valid_hAlignLabel.forEach((hAlignLabelObj, i) => {
+				valid_vAlignLabel.forEach((vAlignLabelObj, j) => {
+					const counterForMode = ((2 * i)) + (i + j);
+					test(`Check attribute type for ch5-button-mode using receiveStateMode: "${counterForMode}", hAlignLabel:  "${hAlignLabelObj}", vAlignLabel:  "${vAlignLabelObj}"`, (done) => {
+						CrComLib.publishEvent('n', 'current_mode_alignments_fixture2', counterForMode);
+						flush(() => {
+							setTimeout(() => {
+								const expectedValueForHAlignLabel = hAlignLabelObj;
+								const expectedValueForVAlignLabel = vAlignLabelObj;
+								// expect(ch5Button2.getAttribute('hAlignLabel')).to.be.equal("center");
+								// expect(ch5Button2.getAttribute('vAlignLabel')).to.be.equal("middle");
+								expect(ch5Button2.hAlignLabel).to.be.equal(expectedValueForHAlignLabel);
+								expect(ch5Button2.vAlignLabel).to.be.equal(expectedValueForVAlignLabel);
+								expect(getSpan(ch5Button2).classList.contains("ch5-button--horizontal-" + expectedValueForHAlignLabel)).to.be.equal(true);
+								expect(getSpan(ch5Button2).classList.contains("ch5-button--vertical-" + expectedValueForVAlignLabel)).to.be.equal(true);
+								done();
+							}, BASIC_TESTING_TIMEOUT);
+						});
+					});
+				});
+			});
+
+			// ch5Button3
+			[true, false].forEach((selectionObj, i) => {
+				test(`Check attribute type for ch5-button-mode-state with selected as "${selectionObj}"`, (done) => {
+					CrComLib.publishEvent('b', 'receive_selected_state_alignments_fixture3', selectionObj);
+					ch5Button3.setAttribute('selected', selectionObj);
+					flush(() => {
+						setTimeout(() => {
+							const expectedValueForHAlignLabel = selectionObj === true ? "right" : "left";
+							const expectedValueForVAlignLabel = selectionObj === true ? "bottom" : "top";
+							// expect(ch5Button3.getAttribute('hAlignLabel')).to.be.equal("center");
+							// expect(ch5Button3.getAttribute('vAlignLabel')).to.be.equal("middle");
+							expect(ch5Button3.hAlignLabel).to.be.equal(expectedValueForHAlignLabel);
+							expect(ch5Button3.vAlignLabel).to.be.equal(expectedValueForVAlignLabel);
+							expect(getSpan(ch5Button3).classList.contains("ch5-button--horizontal-" + expectedValueForHAlignLabel)).to.be.equal(true);
+							expect(getSpan(ch5Button3).classList.contains("ch5-button--vertical-" + expectedValueForVAlignLabel)).to.be.equal(true);
+							done();
+						}, BASIC_TESTING_TIMEOUT);
+					});
+				});
+
+				test(`Check attribute type for for ch5-button-mode-state using receiveStateSelected as "${selectionObj}"`, (done) => {
+					CrComLib.publishEvent('b', 'receive_selected_state_alignments_fixture3', selectionObj);
+					flush(() => {
+						setTimeout(() => {
+							const expectedValueForHAlignLabel = selectionObj === true ? "right" : "left";
+							const expectedValueForVAlignLabel = selectionObj === true ? "bottom" : "top";
+							// expect(ch5Button3.getAttribute('hAlignLabel')).to.be.equal("center");
+							// expect(ch5Button3.getAttribute('vAlignLabel')).to.be.equal("middle");
+							expect(ch5Button3.hAlignLabel).to.be.equal(expectedValueForHAlignLabel);
+							expect(ch5Button3.vAlignLabel).to.be.equal(expectedValueForVAlignLabel);
+							expect(getSpan(ch5Button3).classList.contains("ch5-button--horizontal-" + expectedValueForHAlignLabel)).to.be.equal(true);
+							expect(getSpan(ch5Button3).classList.contains("ch5-button--vertical-" + expectedValueForVAlignLabel)).to.be.equal(true);
+							done();
+						}, BASIC_TESTING_TIMEOUT);
+					});
+				});
+			});
+		});
+	</script>
 </body>
 
 </html>

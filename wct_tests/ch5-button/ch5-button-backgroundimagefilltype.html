@@ -33,7 +33,7 @@
           setTimeout(() => {
             expect(ch5Button.backgroundImageFillType).to.be.equal("stretch-aspect");
             expect(ch5Button.getAttribute("backgroundImageFillType")).to.be.equal(null);
-            expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+            expect(getSpan(ch5Button).style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
             expect(ch5Button)
             done();
           }, BASIC_TESTING_TIMEOUT);
@@ -169,7 +169,7 @@
           flush(() => {
             setTimeout(() => {
               expect(ch5Button.backgroundImageFillType).to.be.equal(fillName);
-              expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              expect(getSpan(ch5Button).style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -182,7 +182,7 @@
           flush(() => {
             setTimeout(() => {
               expect(ch5Button.firstChild.classList.contains(`ch5-button--background-image-fill-type-${fillName}`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              expect(getSpan(ch5Button).style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -197,9 +197,9 @@
             setTimeout(() => {
               if (fillName === 'stretch-aspect') {
                 expect(ch5Button.firstChild.classList.contains(`ch5-button--background-image-fill-type-${fillName}`)).to.be.equal(true);
-                expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+                expect(getSpan(ch5Button).style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
               } else {
-                expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+                expect(getSpan(ch5Button).style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
                 expect(ch5Button.firstChild.classList.contains(`ch5-button--background-image-fill-type-${fillName}`)).to.be.equal(false);
               }
               done();
@@ -214,7 +214,7 @@
           flush(() => {
             setTimeout(() => {
               expect(ch5Button.firstChild.classList.contains(`ch5-button--background-image-fill-type-stretch-aspect`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              expect(getSpan(ch5Button).style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -229,7 +229,7 @@
             setTimeout(() => {
               expect(ch5Button.firstChild.classList.contains(`ch5-button--background-image-fill-type-${val.fillType}`)).to.be.equal(true);
               expect(ch5Button.firstChild.classList.contains(`ch5-button--size-${val.size}`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              expect(getSpan(ch5Button).style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -246,7 +246,7 @@
               expect(ch5Button.firstChild.classList.contains(`ch5-button--background-image-fill-type-${val.fillType}`)).to.be.equal(true);
               expect(ch5Button.firstChild.classList.contains(`ch5-button--size-${val.size}`)).to.be.equal(true);
               expect(ch5Button.firstChild.classList.contains(`ch5-button--${val.shape}`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              expect(getSpan(ch5Button).style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -267,7 +267,7 @@
               expect(ch5Button.firstChild.classList.contains(`ch5-button--${val.shape}`)).to.be.equal(true);
               expect(ch5Button.firstChild.classList.contains(`ch5-button--${val.type}`)).to.be.equal(true);
               expect(ch5Button.firstChild.classList.contains(`ch5-button--vertical`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
+              expect(getSpan(ch5Button).style.backgroundImage).to.be.equal('url("https://www.w3schools.com/css/paris.jpg")');
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -289,7 +289,7 @@
               expect(ch5Button.firstChild.classList.contains(`ch5-button--${val.shape}`)).to.be.equal(true);
               expect(ch5Button.firstChild.classList.contains(`ch5-button--${val.type}`)).to.be.equal(true);
               expect(ch5Button.firstChild.classList.contains(`ch5-button--vertical`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://img.icons8.com/material/24/000000/search.png")');
+              expect(getSpan(ch5Button).style.backgroundImage).to.be.equal('url("https://img.icons8.com/material/24/000000/search.png")');
               done();
             }, BASIC_TESTING_TIMEOUT);
           });
@@ -312,8 +312,8 @@
               expect(ch5Button.firstChild.classList.contains(`ch5-button--${val.shape}`)).to.be.equal(true);
               expect(ch5Button.firstChild.classList.contains(`ch5-button--${val.type}`)).to.be.equal(true);
               expect(ch5Button.firstChild.classList.contains(`ch5-button--vertical`)).to.be.equal(true);
-              expect(ch5Button.firstChild.firstChild.style.backgroundImage).to.be.equal('url("https://img.icons8.com/material/24/000000/search.png")');
-              expect(ch5Button.firstChild.firstChild.firstChild.firstChild.innerHTML).to.be.equal(`${val.fillType}`);
+              expect(getSpan(ch5Button).style.backgroundImage).to.be.equal('url("https://img.icons8.com/material/24/000000/search.png")');
+              expect(getSpanForLabel(ch5Button).innerHTML).to.be.equal(`${val.fillType}`);
               done();
             }, BASIC_TESTING_TIMEOUT);
           });

@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5Common } from "../../ch5-common/interfaces";
+import { ICH5ImageModeAttributes } from "./i-ch5-image-mode-attributes";
 
 /**
  * @name Ch5 Image Mode
@@ -42,5 +42,5 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  * ]
  * 
  */
-export interface ICh5ImageModeDocumentation extends ICh5Common {
+export interface ICh5ImageModeDocumentation extends ICH5ImageModeAttributes {
 }
