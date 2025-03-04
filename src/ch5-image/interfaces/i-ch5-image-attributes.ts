@@ -85,7 +85,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * @name mode
    * @attributeType "Integer"
    */
-   mode: number | undefined;
+  mode: number | undefined;
 
   /**
    * @documentation
@@ -147,7 +147,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    * @attributeType "Join"
    */
-   receiveStateMode: string;
+  receiveStateMode: string;
 
   /**
    * @documentation
@@ -193,4 +193,82 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * @attributeType "Join"
    */
   sendEventOnError: string;
+
+  /**
+   * @documentation
+   * [
+   * "`allowValuesOnMove` attribute",
+   * "***",
+   * "Signals for X and Y position will be sent if this value is set to true on touch move. If allowPositionDataToBeSent is set to false, then the value for allowValuesOnMove will be set to false automatically."
+   * ]
+   * @name allowvaluesonmove
+   * @default false
+   * @attributeType "Boolean"
+   */
+  allowValuesOnMove: boolean;
+
+  /**
+   * @documentation
+   * [
+   * "`allowPositionDataToBeSent` attribute",
+   * "***",
+   * "Signals for X and Y position will be sent if this value is set to true on touch end."
+   * ]
+   * @name allowpositiondatatobesent
+   * @default false
+   * @attributeType "Boolean"
+   */
+  allowPositionDataToBeSent: boolean;
+
+  /**
+   * @documentation
+   * [
+   * "`receiveStateAllowValuesOnMove` attribute",
+   * "***",
+   * "Receives signal to identify the events to be supported for sending signals. This is the signal based attribute for allowValuesOnMove. Signal always overrides the non-signal attribute."
+   * ]
+   * @name receivestateallowvaluesonmove
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "Join"
+   */
+  receiveStateAllowValuesOnMove: string;
+
+  /**
+   * @documentation
+   * [
+   * "`receiveStateAllowPositionDataToBeSent` attribute",
+   * "***",
+   * "Receives signal to identify if signals should be sent from UI to CS for the X and Y Positions. This is the signal based attribute for allowPositionDataToBeSent. Signal always overrides the non-signal attribute."
+   * ]
+   * @name receivestateallowpositiondatatobesent
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "Join"
+   */
+  receiveStateAllowPositionDataToBeSent: string;
+
+  /**
+   * @documentation
+   * [
+   * "`sendEventXPosition` attribute",
+   * "***",
+   * "Sends a value for X position "
+   * ]
+   * @name sendeventxposition
+   * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
+   * @attributeType "Join"
+   */
+  sendEventXPosition: string;
+
+  /**
+   * @documentation
+   * [
+   * "`sendEventYPosition` attribute",
+   * "***",
+   * "Sends a value for Y position"
+   * ]
+   * @name sendeventyposition
+   * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
+   * @attributeType "Join"
+   */
+  sendEventYPosition: string;
 }

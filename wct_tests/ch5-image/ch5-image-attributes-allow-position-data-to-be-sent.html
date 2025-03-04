@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-image-allowPositionDataToBeSent-attributes">
+    <template>
+      <ch5-image></ch5-image>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-image-allowPositionDataToBeSent-attributes-value', () => {
+      let ch5ImageData;
+
+      setup(async () => {
+        ch5ImageData = fixture('ch5-image-allowPositionDataToBeSent-attributes');
+      });
+        
+        let testCases = ['a', '', ' ', 'number', true,false];
+        let expectedResult = ['false', 'false', 'false', 'false', 'true','false'];
+        testCases.forEach((ele, i) => {
+              test('Check Value "allowPositionDataToBeSent"', () => {
+                  ch5ImageData.setAttribute('allowPositionDataToBeSent', ele);
+                  expect(ch5ImageData.getAttribute('allowPositionDataToBeSent')).to.be.equal(expectedResult[i]);
+              });
+          });
+        
+    });
+  </script>
+</body>
+
+</html>

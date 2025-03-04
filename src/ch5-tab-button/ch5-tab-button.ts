@@ -22,7 +22,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
   public static readonly BUTTON_TYPES: TCh5TabButtonButtonType[] = ['default', 'danger', 'text', 'warning', 'info', 'success', 'primary', 'secondary'];
   public static readonly BUTTON_HALIGN_LABEL_POSITIONS: TCh5TabButtonButtonHAlignLabel[] = ['center', 'left', 'right'];
   public static readonly BUTTON_VALIGN_LABEL_POSITIONS: TCh5TabButtonButtonVAlignLabel[] = ['middle', 'top', 'bottom'];
-  public static readonly BUTTON_SHAPES: TCh5TabButtonButtonShape[] = ['rectangle', 'rounded-rectangle', 'tab'];
+  public static readonly BUTTON_SHAPES: TCh5TabButtonButtonShape[] = ['rounded-rectangle', 'rectangle', 'tab'];
   public static readonly BUTTON_ICON_POSITIONS: TCh5TabButtonButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
   public static readonly ORIENTATION: TCh5TabButtonAttributesOrientation[] = ['horizontal', 'vertical'];
   public static readonly BUTTON_ICON_URL_FILL_TYPE: TCh5TabButtonButtonIconUrlFillType[] = ['stretch', 'stretch-aspect', 'center', 'tile', 'initial'];
@@ -813,6 +813,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
     if (index < 0 || index >= this.numberOfItems) { return };
     const buttonListContractObj: ICh5ButtonListContractObj = { index: index + 1, clickHoldTime: 0, contractName: this.contractName, parentComponent: 'ch5-tab-button' };
     const btn = new Ch5Button(buttonListContractObj);
+    btn.setAttribute("swipeGestureEnabled", "true");
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
     if (this.getAttribute('buttonReceiveStateShow')?.trim().includes(`{{${this.indexId}}}`) === false) {
@@ -866,7 +867,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
     const individualButtons = this.getElementsByTagName(this.nodeName.toLowerCase() + '-individual-button');
     const individualButtonsLength = individualButtons.length;
     btn.setAttribute('stretch', 'both');
-    btn.setAttribute('shape', 'rectangle');
+    btn.setAttribute('shape', Ch5TabButton.BUTTON_SHAPES[0]);
     Ch5TabButton.COMPONENT_PROPERTIES.forEach((attr: ICh5PropertySettings) => {
       if (index < individualButtonsLength) {
         if (attr.name.toLowerCase() === 'buttoniconclass') {

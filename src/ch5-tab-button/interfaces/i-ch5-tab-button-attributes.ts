@@ -109,10 +109,10 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * [
    * "`buttonShape` attribute",
    * "***",
-   * "Valid values are 'rectangle(default)', 'rounded-rectangle' and 'tab'. This attribute sets shape of the button."
+   * "Valid values are 'rounded-rectangle (default)', 'rectangle' and 'tab'. This attribute sets shape of the button."
    * ]
    * @name buttonshape
-   * @default rectangle
+   * @default rounded-rectangle
    * @attributeType "EnumeratedValue"
    */
   buttonShape: TCh5TabButtonButtonShape;
