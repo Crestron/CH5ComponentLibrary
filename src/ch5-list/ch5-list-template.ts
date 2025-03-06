@@ -189,7 +189,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
 			cssText += `max-height: ${this._list.maxHeight};`;
 		}
 		if (cssText) {
-			this._list.style.cssText = cssText;
+			this._list.style.cssText += cssText;
 		}
 	}
 
