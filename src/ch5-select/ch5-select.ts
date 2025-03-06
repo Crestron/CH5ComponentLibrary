@@ -525,7 +525,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 			// no nim/max width/height provided => set component width to parent width
 			styleText = this._getCssDimensionsUsingParent(true);
 		}
-		this.style.cssText = styleText;
+		this.style.cssText += styleText;
 		if (this._isValidElement(this.mainPanel)) {
 			this.mainPanel.style.cssText = this._getStyleHeightProps();
 		}
