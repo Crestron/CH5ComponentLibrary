@@ -41,11 +41,11 @@ export interface ICh5QrCodeAttributes extends ICh5CommonAttributesForDir,
    * [
    * "`size` attribute",
    * "***",
-   * "Set the width of the qr code. The height of the qr code will be same as width. Default value is 200 and it can range from 160 to 10000. The unit is pixel and should not be set in the attribute."
+   * "Set the width of the qr code. The height of the qr code will be same as width. Default value is 160 and it can range from 160 to 4000. The unit is pixel and should not be set in the attribute."
    * ]
    * @name size
-   * @default 200
-   * @limits [{"min": 160, "max": 10000}]
+   * @default 160
+   * @limits [{"min": 160, "max": 4000}]
    * @attributeType "number"
    */
   size: number;

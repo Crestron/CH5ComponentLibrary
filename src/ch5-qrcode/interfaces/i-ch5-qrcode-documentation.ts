@@ -39,7 +39,7 @@ import { ICh5QrCodeAttributes } from "./i-ch5-qrcode-attributes";
  *       "\tqrCode=\"${2:}\"",
  *       "\tcolor=\"${3:#000000}\"",
  *       "\tbackgroundColor=\"${4:#ffffff}\"",
- *       "\tsize=\"${5:200}\"",
+ *       "\tsize=\"${5:160}\"",
  *       "\treceiveStateQrCode=\"${6:}\">",
  *       "</ch5-qrcode>$0"
  *       ]
@@ -52,7 +52,7 @@ import { ICh5QrCodeAttributes } from "./i-ch5-qrcode-attributes";
  *       "\tqrCode=\"${2:}\"",
  *       "\tcolor=\"${3:#000000}\"",
  *       "\tbackgroundColor=\"${4:#ffffff}\"",
- *       "\tsize=\"${5:200}\">",
+ *       "\tsize=\"${5:160}\">",
  *       "</ch5-qrcode>$0"
  *       ]
  *    }
