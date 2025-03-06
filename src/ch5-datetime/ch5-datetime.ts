@@ -38,12 +38,19 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
 
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-    receivestateoffsettime: { direction: "state", numericJoin: 1, contractName: true }
+    receivestateoffsettime: { direction: "state", numericJoin: 1, contractName: true },
+    receivestatedisplay24hourformat: { direction: "state", booleanJoin: 1, contractName: true },
+    receivestatedisplayampm: { direction: "state", booleanJoin: 1, contractName: true },
+    receivestatedisplayseconds: { direction: "state", booleanJoin: 1, contractName: true },
+    receivestatedisplaytwodigitshour: { direction: "state", booleanJoin: 1, contractName: true },
+    receivestatestylefordate: { direction: "state", stringJoin: 1, contractName: true },
+    receivestatedisplaytype: { direction: "state", stringJoin: 1, contractName: true }
   };
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
     {
       default: false,
       name: "display24HourFormat",
+      nameForSignal: "receiveStateDisplay24HourFormat",
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: true,
@@ -52,6 +59,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
     {
       default: true,
       name: "displayAmPm",
+      nameForSignal: "receiveStateDisplayAmPm",
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: true,
@@ -60,6 +68,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
     {
       default: false,
       name: "displayTwoDigitsHour",
+      nameForSignal: "receiveStateDisplayTwoDigitsHour",
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: true,
@@ -68,6 +77,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
     {
       default: false,
       name: "displaySeconds",
+      nameForSignal: "receiveStateDisplaySeconds",
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: true,
@@ -77,6 +87,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
       default: Ch5DateTime.STYLE_FOR_DATE[0],
       enumeratedValues: Ch5DateTime.STYLE_FOR_DATE,
       name: "styleForDate",
+      nameForSignal: "receiveStateStyleForDate",
       removeAttributeOnNull: true,
       type: "enum",
       valueOnAttributeEmpty: Ch5DateTime.STYLE_FOR_DATE[0],
@@ -95,6 +106,7 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
       default: Ch5DateTime.DISPLAY_TYPE[0],
       enumeratedValues: Ch5DateTime.DISPLAY_TYPE,
       name: "displayType",
+      nameForSignal: "receiveStateDisplayType",
       removeAttributeOnNull: true,
       type: "enum",
       valueOnAttributeEmpty: Ch5DateTime.DISPLAY_TYPE[0],
@@ -122,6 +134,66 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
       isSignal: true,
       name: "receiveStateOffsetTime",
       signalType: "number",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+    {
+      default: "",
+      isSignal: true,
+      name: "receiveStateDisplay24HourFormat",
+      signalType: "boolean",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+    {
+      default: "",
+      isSignal: true,
+      name: "receiveStateDisplayAmPm",
+      signalType: "boolean",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+    {
+      default: "",
+      isSignal: true,
+      name: "receiveStateDisplaySeconds",
+      signalType: "boolean",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+    {
+      default: "",
+      isSignal: true,
+      name: "receiveStateDisplayTwoDigitsHour",
+      signalType: "boolean",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+    {
+      default: "",
+      isSignal: true,
+      name: "receiveStateStyleForDate",
+      signalType: "string",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+    {
+      default: "",
+      isSignal: true,
+      name: "receiveStateDisplayType",
+      signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -228,6 +300,72 @@ export class Ch5DateTime extends Ch5Common implements ICh5DateTimeAttributes {
   }
   public get receiveStateOffsetTime(): string {
     return this._ch5Properties.get<string>('receiveStateOffsetTime');
+  }
+
+  public set receiveStateDisplay24HourFormat(value: string) {
+    this._ch5Properties.set("receiveStateDisplay24HourFormat", value, null, (newValue: boolean) => {
+      this._ch5Properties.setForSignalResponse<boolean>("display24HourFormat", newValue, () => {
+        this.debounceRender();
+      });
+    });
+  }
+  public get receiveStateDisplay24HourFormat(): string {
+    return this._ch5Properties.get<string>('receiveStateDisplay24HourFormat');
+  }
+
+  public set receiveStateDisplayAmPm(value: string) {
+    this._ch5Properties.set("receiveStateDisplayAmPm", value, null, (newValue: boolean) => {
+      this._ch5Properties.setForSignalResponse<boolean>("displayAmPm", newValue, () => {
+        this.debounceRender();
+      });
+    });
+  }
+  public get receiveStateDisplayAmPm(): string {
+    return this._ch5Properties.get<string>('receiveStateDisplayAmPm');
+  }
+
+  public set receiveStateDisplaySeconds(value: string) {
+    this._ch5Properties.set("receiveStateDisplaySeconds", value, null, (newValue: boolean) => {
+      this._ch5Properties.setForSignalResponse<boolean>("displaySeconds", newValue, () => {
+        this.debounceRender();
+      });
+    });
+  }
+  public get receiveStateDisplaySeconds(): string {
+    return this._ch5Properties.get<string>('receiveStateDisplaySeconds');
+  }
+
+  public set receiveStateDisplayTwoDigitsHour(value: string) {
+    this._ch5Properties.set("receiveStateDisplayTwoDigitsHour", value, null, (newValue: boolean) => {
+      this._ch5Properties.setForSignalResponse<boolean>("displayTwoDigitsHour", newValue, () => {
+        this.debounceRender();
+      });
+    });
+  }
+  public get receiveStateDisplayTwoDigitsHour(): string {
+    return this._ch5Properties.get<string>('receiveStateDisplayTwoDigitsHour');
+  }
+
+  public set receiveStateStyleForDate(value: string) {
+    this._ch5Properties.set("receiveStateStyleForDate", value, null, (newValue: string) => {
+      this._ch5Properties.setForSignalResponse<string>("styleForDate", newValue, () => {
+        this.debounceRender();
+      });
+    });
+  }
+  public get receiveStateStyleForDate(): string {
+    return this._ch5Properties.get<string>('receiveStateStyleForDate');
+  }
+
+  public set receiveStateDisplayType(value: string) {
+    this._ch5Properties.set("receiveStateDisplayType", value, null, (newValue: string) => {
+      this._ch5Properties.setForSignalResponse<string>("displayType", newValue, () => {
+        this.debounceRender();
+      });
+    });
+  }
+  public get receiveStateDisplayType(): string {
+    return this._ch5Properties.get<string>('receiveStateDisplayType');
   }
 
   //#endregion
