@@ -266,7 +266,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			name: "displayLabelMajorOnly",
 			removeAttributeOnNull: true,
 			type: "boolean",
-			valueOnAttributeEmpty: false,
+			valueOnAttributeEmpty: true,
 			isObservableProperty: true
 		}
 	];

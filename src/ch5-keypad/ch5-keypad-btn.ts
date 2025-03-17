@@ -134,33 +134,12 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	}
 
 	public set labelMinor(value: string) {
-		// if (value && value.trim() === "") {
-		// 	this._ch5Properties.set<string>("labelMinor", value, () => {
-		// 		this.handleLabelMinor();
-		// 	});
-		// } else {
-		// 	this._ch5Properties.set<string>("labelMinor", value, () => {
-		// 		this.setAttribute('labelMinor', this.getDefaultValue('labelMinor'))
-		// 		this.handleLabelMinor();
-		// 	});
-		// }
-		// const originalValue: string = value;
-		// console.log("1. value: ", value, originalValue);
-		// this._ch5Properties.set<string>("labelMinor", value, () => {
-		// 	console.log("2. value: ", value, originalValue);
-		// 	if (this.labelMinor.trim() === "") {
-		// 	// if (this.hasAttribute("labelMinor") === false) {
-		// 		this.setAttribute('labelMinor', this.getDefaultValue('labelMinor'))
-		// 	}
-		// 	this.handleLabelMinor();
-		// });
-
 		this._ch5Properties.set<string>("labelMinor", value, () => {
 			if (this.labelMinor.trim() === "") {
 				this.setAttribute('labelMinor', this.getDefaultValue('labelMinor'))
 			}
-			this.handleLabelMinor();
 		});
+		this.handleLabelMinor(); // Handle this irrespective of content inside the label minor or its availability
 	}
 	public get labelMinor(): string {
 		return this._ch5Properties.get<string>("labelMinor")
@@ -453,6 +432,15 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		}
 	}
 	private handleLabelMinor() {
+		const parent = this.parentElement?.parentElement as Ch5Keypad;
+		if (parent) {
+			if (parent.displayLabelMajorOnly === false && (!this.labelMinor || this.labelMinor.trim() === "")) {
+				const getDefaultValue = this.getDefaultValue("labelMinor");
+				if (getDefaultValue !== "") {
+					this.labelMinor = "&nbsp;";
+				}
+			}
+		}
 		this._elMinorSpan.innerHTML = this.labelMinor;
 	}
 	private handlePressed() {
