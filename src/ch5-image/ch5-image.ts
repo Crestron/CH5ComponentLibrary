@@ -1245,7 +1245,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 	private _subscribeToPressableIsPressed() {
 		const REPEAT_DIGITAL_PERIOD = 200;
-		// const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
+		const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
 		if (this._isPressedSubscription === null && this._pressable !== null) {
 			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
 				this.info(`Ch5Button.pressableSubscriptionCb(${value})`);
@@ -1266,14 +1266,14 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 						if (this._repeatDigitalInterval !== null) {
 							window.clearInterval(this._repeatDigitalInterval as number);
 						}
-						// let numRepeatDigitals = 0;
+						let numRepeatDigitals = 0;
 						this._repeatDigitalInterval = window.setInterval(() => {
 							this.sendValueForRepeatDigitalWorking(true);
-							// if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
-							// 	console.warn("Ch5Button MAXIMUM Repeat digitals sent");
-							// 	window.clearInterval(this._repeatDigitalInterval as number);
-							// 	this.sendValueForRepeatDigitalWorking(false);
-							// }
+							if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
+								console.warn("Ch5Button MAXIMUM Repeat digitals sent");
+								window.clearInterval(this._repeatDigitalInterval as number);
+								this.sendValueForRepeatDigitalWorking(false);
+							}
 						}, REPEAT_DIGITAL_PERIOD);
 					}
 				}
