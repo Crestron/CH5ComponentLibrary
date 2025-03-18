@@ -33,6 +33,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
     receivestatelabel: { direction: "state", stringJoin: 1, contractName: true },
+    receivestatescriptlabelhtml: { direction: "state", stringJoin: 1, contractName: true },
   };
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
@@ -91,6 +92,16 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     },
     {
       default: "",
+      isSignal: true,
+      name: "receiveStateScriptLabelHtml",
+      signalType: "string",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+    {
+      default: "",
       name: "labelInnerHtml",
       removeAttributeOnNull: true,
       type: "string",
@@ -107,6 +118,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   private _elContainer: HTMLElement = {} as HTMLElement;
   private _elSpan: HTMLElement = {} as HTMLElement;
   public templateElement: HTMLTemplateElement = {} as HTMLTemplateElement;
+  private scriptLabelHtml: string = '';
 
   //#endregion
 
@@ -182,6 +194,18 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   public get labelInnerHtml(): string {
     return this._ch5Properties.get<string>("labelInnerHtml");
   }
+
+  public set receiveStateScriptLabelHtml(value: string) {
+    this._ch5Properties.set("receiveStateScriptLabelHtml", value, null, (newValue: string) => {
+      this.scriptLabelHtml = newValue;
+      this.handleLabel();
+    });
+  }
+  public get receiveStateScriptLabelHtml(): string {
+    return this._ch5Properties.get<string>("receiveStateScriptLabelHtml");
+  }
+
+
 
   //#endregion
 
@@ -377,7 +401,9 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     Array.from(this._elSpan.children).forEach(container => container.remove());
 
     this._elSpan.innerText = '';
-    if (this.receiveStateLabel !== null && this.receiveStateLabel.trim() !== "") {
+    if (this.receiveStateScriptLabelHtml !== null && this.receiveStateScriptLabelHtml.trim() !== "") {
+      this._elSpan.innerHTML = this.decodeInnerHTMLForAttribute(this.scriptLabelHtml);
+    } else if (this.receiveStateLabel !== null && this.receiveStateLabel.trim() !== "") {
       this._elSpan.innerText = this.label;
     } else if (Ch5Common.isNotNil(this.labelInnerHtml)) {
       this._elSpan.innerHTML = this.decodeInnerHTMLForAttribute(this.labelInnerHtml);

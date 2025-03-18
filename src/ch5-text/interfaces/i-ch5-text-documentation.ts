@@ -38,7 +38,8 @@ import { ICh5TextAttributes } from "./i-ch5-text-attributes";
  *       "\tmultilineSupport=\"${4:false}\"",
  *       "\ttruncateText=\"${5:false}\"",
  *       "\tlabel=\"${6:}\"",
- *       "\treceiveStateLabel=\"${7:}\">",
+ *       "\treceiveStateLabel=\"${7:}\"",
+ *       "\treceiveStateScriptLabelHtml=\"${8:}\">",
  *       "</ch5-text>$0"
  *       ]
  *    },
