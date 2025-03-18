@@ -560,16 +560,16 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 			if (this._pressable?._pressed !== this.pressed) {
 				this._pressable?.setPressed(this.pressed);
 			}
-			} else {
-				this._pressable?.setPressed(false);
-				this.setDisabledOrHidden(stateDisabledHidden);
-			}
+		} else {
+			this._pressable?.setPressed(false);
+			this.setDisabledOrHidden(stateDisabledHidden);
+		}
 	}
 
 	private _subscribeToPressableIsPressed() {
 		if (this._isPressedSubscription === null && this._pressable !== null) {
 			const REPEAT_DIGITAL_PERIOD = 200;
-			// const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
+			const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
 			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
 				this.logger.log(`Ch5DpadButton.pressableSubscriptionCb(${value})`);
 				if (value === false) {
@@ -582,15 +582,15 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 					if (this._repeatDigitalInterval !== null) {
 						window.clearInterval(this._repeatDigitalInterval as number);
 					}
-					// let numRepeatDigitals = 0;
+					let numRepeatDigitals = 0;
 					this._repeatDigitalInterval = window.setInterval(() => {
 						this.sendValueForRepeatDigitalWorking(true);
-						// if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
-						// 	console.warn("Ch5DpadButton MAXIMUM Repeat digitals sent");
-						// 	window.clearInterval(this._repeatDigitalInterval as number);
-						// 	// this.sendValueForRepeatDigitalWorking(false);
-						// 	this.pressed = false;
-						// }
+						if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
+							console.warn("Ch5DpadButton MAXIMUM Repeat digitals sent");
+							window.clearInterval(this._repeatDigitalInterval as number);
+							// this.sendValueForRepeatDigitalWorking(false);
+							this.pressed = false;
+						}
 					}, REPEAT_DIGITAL_PERIOD);
 				}
 			});
