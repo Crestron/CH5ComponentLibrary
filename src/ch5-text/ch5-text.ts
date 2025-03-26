@@ -168,6 +168,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
   public set label(value: string) {
     this._ch5Properties.set<string>("label", value, () => {
+      this.label = this._getTranslatedValue('label', this.label);
       this.handleLabel();
     });
   }

@@ -61,6 +61,7 @@ export class Ch5Label extends Ch5Common implements ICh5LabelAttributes {
 	public set label(value: string) {
 		this._ch5Properties.set<string>("label", value, () => {
 			this.handleLabel();
+			this.label = this._getTranslatedValue('label', this.label);
 		});
 		// if (this.label) {
 		// 	this.classList.add("ch5-slider-title");

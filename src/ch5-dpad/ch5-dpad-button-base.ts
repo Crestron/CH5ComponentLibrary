@@ -129,7 +129,7 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 
 	public set label(value: string) {
 		this._ch5Properties.set<string>("label", value, () => {
-			this.handleLabel();
+			this.handleLabel(value);
 		});
 	}
 	public get label() {
@@ -508,10 +508,11 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 		});
 	}
 
-	private handleLabel() {
+	private handleLabel(value:string) {
 		if (this._icon.innerHTML !== undefined) {
 			this._icon.classList.remove('dpad-btn-icon', 'fas', Ch5DpadButtonBase.DEFAULT_ICONS.center);
 			this._icon.classList.add("dpad-btn-label");
+			this.label = this._getTranslatedValue('label', value);
 			this._icon.innerHTML = this.label;
 		}
 	}
