@@ -37,6 +37,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "'default' is used."
    * ]
    * @name type
+   * @default default
    * @attributeType "EnumeratedValue"
    */
   type: TCh5ButtonType | null;
@@ -127,6 +128,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * " and the value right would set the checkbox to the right of the button."
    * ]
    * @name checkboxposition
+   * @default left
    * @attributeType "EnumeratedValue"
    */
   checkboxPosition: TCh5ButtonCheckboxPosition | null;
@@ -143,6 +145,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "The right property sets the horizontal alignment of the label to the right of the button. "
    * ]
    * @name halignlabel
+   * @default center
    * @attributeType "EnumeratedValue"
    */
   hAlignLabel: TCh5ButtonHorizontalAlignLabel | null;
@@ -159,6 +162,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "The bottom property sets the horizontal alignment of the label to the bottom of the button. "
    * ]
    * @name valignlabel
+   * @default middle
    * @attributeType "EnumeratedValue"
    */
   vAlignLabel: TCh5ButtonVerticalAlignLabel | null;

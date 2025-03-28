@@ -21,6 +21,7 @@ export interface ICh5CommonAttributesForNoShowType {
 	 * "custom HTML attribute for further information."
 	 * ]
 	 * @name noshowtype
+	 * @default display
 	 * @attributeType "String"
 	 */
 	noshowType: TCh5ShowType;
