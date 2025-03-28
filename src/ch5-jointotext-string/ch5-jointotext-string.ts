@@ -31,8 +31,8 @@ export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStri
 
 			this._textWhenEmpty = value;
 			this.setAttribute('textWhenEmpty', value);
-			this.setTextContent();
 		}
+		this.setTextContent();
 	}
 
 	public get textWhenEmpty(): string {
@@ -87,8 +87,8 @@ export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStri
 			}
 			this._value = value;
 			this.setAttribute('value', value + '');
-			this.setTextContent();
 		}
+		this.setTextContent();
 	}
 
 	public get value(): string {
@@ -138,6 +138,8 @@ export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStri
 		super.initAttributes();
 		if (this.hasAttribute('textwhenempty')) {
 			this.textWhenEmpty = this.getAttribute('textwhenempty') as string;
+		} else {
+			this.textWhenEmpty = '';
 		}
 
 		if (this.hasAttribute('value')) {
@@ -150,6 +152,7 @@ export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStri
 			this.receiveStateValue = this.getAttribute('receivestatevalue') as string;
 		}
 	}
+
 	public disconnectedCallback() {
 		const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
 		const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldSigName);
@@ -165,11 +168,14 @@ export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStri
 			return;
 		}
 
-		switch (attr) {
+		const attrValue = attr.toLowerCase();
+		switch (attrValue) {
 			case 'value':
+				// console.log("Came inside value");
 				this.value = newValue;
 				break;
 			case 'textwhenempty':
+				// console.log("Came inside textwhenempty");
 				this.textWhenEmpty = newValue;
 				break;
 			case 'receivestatevalue':
@@ -186,10 +192,13 @@ export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStri
 	//#region Private Methods
 
 	private setTextContent() {
-		if (!this.value) {
-			this.textContent = this._getTranslatedValue('textwhenempty', this.textWhenEmpty);
+		// console.log("setTextContent:", this.value);
+		if (!this.value || this.value === "") {
+			// console.log("@@@@ From:", this.textContent, " to ", this._getTranslatedValue('textWhenEmpty', this.textWhenEmpty));
+			this.textContent = this._getTranslatedValue('textWhenEmpty', this.textWhenEmpty);
 			return;
 		}
+		// console.log("#### From:", this.textContent, " to ", this._getTranslatedValue('value', this.value));
 		this.textContent = this._getTranslatedValue('value', this.value);
 	}
 
