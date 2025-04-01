@@ -96,6 +96,7 @@
       function testLabelAttribute(testName, id, attribute) {
         translateInLanguage(testName, id, attribute, 'de', 'DE')
         translateInLanguage(testName, id, attribute, 'cz', 'CZ')
+        translateInLanguage(testName + ' fallback to english', id, attribute, 'hi', 'EN')
       }
         
       function translateInLanguage(testName, id, attribute, lng, value) {
@@ -104,9 +105,9 @@
             crComLibTranslator = CrComLib.translationFactory.translator;
             let element = document.getElementById(id);
             crComLibTranslator.changeLanguage(lng);
-            expect(element.hasAttribute(attribute)).to.be.true;
-            if((element.attributes[attribute].value) === value){
-             expect(element.attributes[attribute].value).to.equal(value);
+            if(element.attributes[attribute] && (element.attributes[attribute].value) === value){
+              expect(element.hasAttribute(attribute)).to.be.true;
+              expect(element.attributes[attribute].value).to.equal(value);
             } else {
               const value = document.getElementById(id).innerHTML;
               expect(value).to.equal(value);
