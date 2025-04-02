@@ -1523,7 +1523,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 	private _subscribeToPressableIsPressed() {
 		const REPEAT_DIGITAL_PERIOD = 400;
-		const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
+		// const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
 		if (this._isPressedSubscription === null && this._pressable !== null) {
 			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: any) => {
 				if (value.pressed === false) {
@@ -1537,13 +1537,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 					if (this._repeatDigitalInterval !== null) {
 						window.clearInterval(this._repeatDigitalInterval as number);
 					}
-					let numRepeatDigitals = 0;
+					// let numRepeatDigitals = 0;
 					this._repeatDigitalInterval = window.setInterval(() => {
 						this.handleSendEvent(value.range, true);
-						if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
-							window.clearInterval(this._repeatDigitalInterval as number);
-							this.handleSendEvent(value.range, false);
-						}
+						// if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
+						// 	window.clearInterval(this._repeatDigitalInterval as number);
+						// 	this.handleSendEvent(value.range, false);
+						// }
 					}, REPEAT_DIGITAL_PERIOD);
 				}
 			});
