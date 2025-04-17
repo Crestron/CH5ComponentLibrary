@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-datetime-receiveStateDisplayAmPm-attributes">
+    <template>
+      <ch5-datetime receiveStateDisplayAmPm="trigger_event_listener" displayAmPm="true"></ch5-datetime>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-datetime-receiveStateDisplayAmPm-attributes-value', () => {
+      let ch5DateTime;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatetimeoffsethours.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5DateTime = fixture('ch5-datetime-receiveStateDisplayAmPm-attributes');
+      });
+
+      test('receiveStateDisplayAmPm(true)', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_true', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5DateTime.getAttribute('displayAmPm')).to.be.equal('true');
+            done();
+          }, 100);
+        });
+      });
+      test('receiveStateDisplayAmPm(false)', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_false', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5DateTime.getAttribute('displayAmPm')).to.be.equal('false');
+            done();
+          }, 100);
+        });
+      });
+      test('receiveStateDisplayAmPm(abc)', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_chars', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5DateTime.getAttribute('displayAmPm')).to.be.equal('true');
+            done();
+          }, 100);
+        });
+      });
+      test('receiveStateDisplayAmPm(&)', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_special', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5DateTime.getAttribute('displayAmPm')).to.be.equal('true');
+            done();
+          }, 100);
+        });
+      });
+      test('receiveStateDisplayAmPm(1)', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_number', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5DateTime.getAttribute('displayAmPm')).to.be.equal('true');
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

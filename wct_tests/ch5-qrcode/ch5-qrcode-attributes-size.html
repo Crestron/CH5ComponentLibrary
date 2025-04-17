@@ -32,13 +32,13 @@
 
   <test-fixture id="ch5-qrcode-max-size-with-qrcode-fixture">
     <template>
-      <ch5-qrcode size="10000" qrCode="Test qrcode size"></ch5-qrcode>
+      <ch5-qrcode size="4000" qrCode="Test qrcode size"></ch5-qrcode>
     </template>
   </test-fixture>
 
   <test-fixture id="ch5-qrcode-more-max-size-with-qrcode-fixture">
     <template>
-      <ch5-qrcode size="10001" qrCode="Test qrcode size"></ch5-qrcode>
+      <ch5-qrcode size="4001" qrCode="Test qrcode size"></ch5-qrcode>
     </template>
   </test-fixture>
 
@@ -128,7 +128,7 @@
       });
 
       test('qrcode "Test qrcode size"', () => {
-        expect(ch5QrCode.size).to.be.equal(10000);
+        expect(ch5QrCode.size).to.be.equal(4000);
         expect(ch5QrCode.qrCode).to.be.equal('Test qrcode size');
       });
     });
@@ -141,7 +141,7 @@
       });
 
       test('qrcode "Test qrcode size"', () => {
-        expect(ch5QrCode.size).to.be.equal(200);
+        expect(ch5QrCode.size).to.be.equal(160);
         expect(ch5QrCode.qrCode).to.be.equal('Test qrcode size');
       });
     });
@@ -167,7 +167,7 @@
       });
 
       test('qrcode "Test qrcode size"', () => {
-        expect(ch5QrCode.size).to.be.equal(200);
+        expect(ch5QrCode.size).to.be.equal(160);
         expect(ch5QrCode.qrCode).to.be.equal('Test qrcode size');
       });
     });
@@ -180,7 +180,7 @@
       });
 
       test('qrcode "Test qrcode size"', () => {
-        expect(ch5QrCode.size).to.be.equal(200);
+        expect(ch5QrCode.size).to.be.equal(160);
         expect(ch5QrCode.qrCode).to.be.equal('Test qrcode size');
       });
     });
@@ -192,13 +192,13 @@
         return Promise.all([customElements.whenDefined('ch5-qrcode')]);
       });
 
-      test('Invalid value should switch to default "200"', (done) => {
+      test('Invalid value should switch to default "160"', (done) => {
         flush(() => {
           const canvasElm = ch5QrCode.querySelector('canvas');
           const ctx = canvasElm.getContext('2d');
           setTimeout(() => {
-            expect(canvasElm.height).to.be.equal(200);
-            expect(canvasElm.width).to.be.equal(200);
+            expect(canvasElm.height).to.be.equal(160);
+            expect(canvasElm.width).to.be.equal(160);
           })
           done();
         });
@@ -208,16 +208,16 @@
     suite('ch5-background size valid and invalid', () => {
       let ch5QrCode;
       let testCases = {
-        "100": "200",
-        "150": "200",
+        "100": "160",
+        "150": "160",
         "180": "180",
-        "kgkgh": "200",
-        "-160": "200",
-        "-200": "200",
-        "0": "200",
-        "": "200",
-        "@#$": "200",
-        "1 1": "200",
+        "kgkgh": "160",
+        "-160": "160",
+        "-200": "160",
+        "0": "160",
+        "": "160",
+        "@#$": "160",
+        "1 1": "160",
       }
       setup(() => {
         ch5QrCode = fixture('ch5-qrcode-size-valid-invalid-fixture');

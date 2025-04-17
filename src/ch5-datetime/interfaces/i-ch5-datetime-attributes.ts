@@ -125,4 +125,82 @@ export interface ICh5DateTimeAttributes extends ICh5AttributesDateTime {
 	 * @attributeType "Join"
 	 */
 	receiveStateOffsetTime: string;
+
+	/**
+	 * @documentation
+	 * [
+	 * "`receiveStateDisplay24HourFormat` attribute",
+	 * "***",
+	 * "Boolean signal to change 24hr format of time. This will override display24HourFormat."
+	 * ]
+	 * @name receivestatedisplay24hourformat
+	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+	 * @attributeType "Join"
+	 */
+	receiveStateDisplay24HourFormat: string;
+
+	/**
+	 * @documentation
+	 * [
+	 * "`receiveStateDisplayAmPm` attribute",
+	 * "***",
+	 * "Boolean signal to change am/pm format of time. This will override displayAmPm."
+	 * ]
+	 * @name receivestatedisplayampm
+	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+	 * @attributeType "Join"
+	 */
+	receiveStateDisplayAmPm: string;
+
+	/**
+	 * @documentation
+	 * [
+	 * "`receiveStateDisplaySeconds` attribute",
+	 * "***",
+	 * "Boolean signal to change format of seconds time. This will override displaySeconds."
+	 * ]
+	 * @name receivestatedisplayseconds
+	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+	 * @attributeType "Join"
+	 */
+	receiveStateDisplaySeconds: string;
+
+	/**
+	 * @documentation
+	 * [
+	 * "`receiveStateDisplayTwoDigitsHour` attribute",
+	 * "***",
+	 * "Boolean signal to change format of hour time. This will override displayTwoDigitsHour."
+	 * ]
+	 * @name receivestatedisplaytwodigitshour
+	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+	 * @attributeType "Join"
+	 */
+	receiveStateDisplayTwoDigitsHour: string;
+
+	/**
+	 * @documentation
+	 * [
+	 * "`receiveStateStyleForDate` attribute",
+	 * "***",
+	 * "Change format of date. This will override styleForDate."
+	 * ]
+	 * @name receivestatestylefordate
+	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+	 * @attributeType "Join"
+	 */
+	receiveStateStyleForDate: string;
+
+	/**
+	 * @documentation
+	 * [
+	 * "`receiveStateDisplayType` attribute",
+	 * "***",
+	 * "Set display type. This will override displayType."
+	 * ]
+	 * @name receivestatedisplaytype
+	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+	 * @attributeType "Join"
+	 */
+	receiveStateDisplayType: string;
 }

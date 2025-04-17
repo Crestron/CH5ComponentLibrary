@@ -21,7 +21,7 @@
       let ch5DateTime;
 
       setup(async () => {
-        const emulatorJson = await fetch('./emulator/receiveStateOffsetTime.json').then((response) => response.json());
+        const emulatorJson = await fetch('./emulator/receivestatetimeoffsethours.json').then((response) => response.json());
         const emulator = CrComLib.Ch5Emulator.getInstance();
         emulator.loadScenario(emulatorJson);
         ch5DateTime = fixture('ch5-datetime-receiveStateOffsetTime-attributes');

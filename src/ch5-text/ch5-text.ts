@@ -33,6 +33,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
     receivestatelabel: { direction: "state", stringJoin: 1, contractName: true },
+    receivestatescriptlabelhtml: { direction: "state", stringJoin: 1, contractName: true },
   };
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
@@ -91,6 +92,16 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     },
     {
       default: "",
+      isSignal: true,
+      name: "receiveStateScriptLabelHtml",
+      signalType: "string",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+    {
+      default: "",
       name: "labelInnerHtml",
       removeAttributeOnNull: true,
       type: "string",
@@ -107,6 +118,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   private _elContainer: HTMLElement = {} as HTMLElement;
   private _elSpan: HTMLElement = {} as HTMLElement;
   public templateElement: HTMLTemplateElement = {} as HTMLTemplateElement;
+  private scriptLabelHtml: string = '';
 
   //#endregion
 
@@ -133,11 +145,14 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
   public set multilineSupport(value: boolean) {
     this._ch5Properties.set<boolean>("multilineSupport", value, () => {
-      setTimeout(() => {
-        this.handleMultilineSupport(); // Line height is not accurately calculated
-      }, 50);
+      this.debounceHandleMultilineSupport();
     });
   }
+
+  public debounceHandleMultilineSupport = this.debounce(() => {
+    this.handleMultilineSupport();
+  }, 150);
+
   public get multilineSupport(): boolean {
     return this._ch5Properties.get<boolean>("multilineSupport");
   }
@@ -179,6 +194,18 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   public get labelInnerHtml(): string {
     return this._ch5Properties.get<string>("labelInnerHtml");
   }
+
+  public set receiveStateScriptLabelHtml(value: string) {
+    this._ch5Properties.set("receiveStateScriptLabelHtml", value, null, (newValue: string) => {
+      this.scriptLabelHtml = newValue;
+      this.handleLabel();
+    });
+  }
+  public get receiveStateScriptLabelHtml(): string {
+    return this._ch5Properties.get<string>("receiveStateScriptLabelHtml");
+  }
+
+
 
   //#endregion
 
@@ -247,7 +274,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     this.logger.start('connectedCallback()', Ch5Text.ELEMENT_NAME);
     subscribeInViewPortChange(this, () => {
       if (this.elementIsInViewPort) {
-        this.handleMultilineSupport();
+        this.debounceHandleMultilineSupport();
       }
     });
     // WAI-ARIA Attributes
@@ -374,7 +401,9 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     Array.from(this._elSpan.children).forEach(container => container.remove());
 
     this._elSpan.innerText = '';
-    if (this.receiveStateLabel !== null && this.receiveStateLabel.trim() !== "") {
+    if (this.receiveStateScriptLabelHtml !== null && this.receiveStateScriptLabelHtml.trim() !== "") {
+      this._elSpan.innerHTML = this.decodeInnerHTMLForAttribute(this.scriptLabelHtml);
+    } else if (this.receiveStateLabel !== null && this.receiveStateLabel.trim() !== "") {
       this._elSpan.innerText = this.label;
     } else if (Ch5Common.isNotNil(this.labelInnerHtml)) {
       this._elSpan.innerHTML = this.decodeInnerHTMLForAttribute(this.labelInnerHtml);
@@ -414,10 +443,15 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   }
 
   public fitEllipsisForMultiline() {
+    let numberOfLines = 0;
     const lineHeight = this.getLineHeightSuper(this._elSpan);
     const topAndBottomPadding = 20;
     const containerHeight = this.getContainerHeight(this._elContainer) - topAndBottomPadding;
-    const numberOfLines = Math.floor(containerHeight / lineHeight);
+    if (containerHeight < lineHeight) {
+      numberOfLines = 1
+    } else {
+      numberOfLines = Math.floor(containerHeight / lineHeight);
+    }
     if (this.truncateText) {
       this._elSpan.setAttribute("style", "-webkit-line-clamp:" + numberOfLines);
     } else {
@@ -445,7 +479,7 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   }
 
   private onWindowResizeHandler() {
-    this.handleMultilineSupport();
+    this.debounceHandleMultilineSupport();
   }
 
   //#endregion

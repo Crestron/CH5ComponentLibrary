@@ -90,5 +90,17 @@ export interface ICh5TextAttributes extends ICh5CommonAttributesText {
    * @hidden true
    */
   labelInnerHtml: string;
+  /**
+  * @documentation
+  * [
+  * "`receivestatescriptlabelhtml` attribute",
+  * "***",
+  * "The value of the receiveStateScriptLabelHTML attribute is the name of a string signal. The signal should contain valid HTML. This HTML code will be placed in the label part of the ch5-text."
+  * ]
+  * @name receivestatescriptlabelhtml
+  * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+  * @attributeType "Join"
+  */
+    receiveStateScriptLabelHtml: string;
 
 }

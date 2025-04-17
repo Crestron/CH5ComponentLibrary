@@ -261,9 +261,18 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			valueOnAttributeEmpty: true,
 			isObservableProperty: true
 		},
+		{
+			default: false,
+			name: "displayLabelMajorOnly",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true
+		}
 	];
 
 	public readonly primaryCssClass = 'ch5-keypad';
+	public readonly displayLabelMajorOnlyCssClass = '--display-label-major-only-'
 
 	// private members
 	private _ch5Properties: Ch5Properties;
@@ -485,6 +494,15 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		return this._ch5Properties.get<boolean>("useContractForHideAsteriskButton");
 	}
 
+	public set displayLabelMajorOnly(value: boolean) {
+		this._ch5Properties.set<boolean>("displayLabelMajorOnly", value, () => {
+			this.handleDisplayLabelMajorOnly();
+		});
+	}
+	public get displayLabelMajorOnly(): boolean {
+		return this._ch5Properties.get<boolean>("displayLabelMajorOnly");
+	}
+
 	//#endregion
 
 	//#region 3. Lifecycle Hooks
@@ -552,6 +570,13 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			this.componentLoadedEvent(Ch5Keypad.ELEMENT_NAME, this.id);
 		});
 		this.logger.stop();
+	}
+
+	private handleDisplayLabelMajorOnly() {
+		[true, false].forEach((bool: boolean) => {
+			this._elContainer.classList.remove(this.primaryCssClass + this.displayLabelMajorOnlyCssClass + bool.toString());
+		});
+		this._elContainer.classList.add(this.primaryCssClass + this.displayLabelMajorOnlyCssClass + this.displayLabelMajorOnly);
 	}
 
 	private createKeyPadButtons() {
@@ -728,7 +753,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	}
 
 	private contractDefaultHelper() {
-		if (this.contractName !== "" ) {
+		if (this.contractName !== "") {
 			if (this.useContractForCustomStyle === true) {
 				this.receiveStateCustomStyle = this.contractName + '.CustomStyle';
 			}
@@ -852,6 +877,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		this._elContainer.classList.add(this.primaryCssClass + Ch5Keypad.COMPONENT_DATA.TEXT_ORIENTATION.classListPrefix + this.textOrientation);
 
 		this._elContainer.classList.add(this.primaryCssClass + Ch5Keypad.COMPONENT_DATA.SIZE.classListPrefix + this.size);
+
+		this._elContainer.classList.add(this.primaryCssClass + this.displayLabelMajorOnlyCssClass + this.displayLabelMajorOnly);
 
 		this.logger.stop();
 	}

@@ -560,10 +560,10 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 			if (this._pressable?._pressed !== this.pressed) {
 				this._pressable?.setPressed(this.pressed);
 			}
-			} else {
-				this._pressable?.setPressed(false);
-				this.setDisabledOrHidden(stateDisabledHidden);
-			}
+		} else {
+			this._pressable?.setPressed(false);
+			this.setDisabledOrHidden(stateDisabledHidden);
+		}
 	}
 
 	private _subscribeToPressableIsPressed() {
