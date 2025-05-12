@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="./language-translation.js"></script>
+</head>
+
+<body>
+  <test-fixture id="language-translation">
+    <template>
+      <ch5-text id="ch5-text" label="-+label+-"></ch5-text>
+      <ch5-button id="ch5-button" label="-+label+-"></ch5-button>
+  
+      <ch5-keypad>
+        <ch5-keypad-button id="ch5-keypad-button" key="button1" labelMajor="-+label+-" labelMinor="-+label+-">
+        </ch5-keypad-button>
+      </ch5-keypad>
+  
+      <ch5-dpad>
+        <ch5-dpad-button id="ch5-dpad-button" key="center" label="-+label+-"></ch5-dpad-button>
+      </ch5-dpad>
+  
+      <ch5-slider>
+        <ch5-slider-title-label id="ch5-slider-title-label" label="-+label+-"></ch5-slider-title-label>
+        <ch5-slider-button id="ch5-slider-button-off" key="off" label="-+label+-"> </ch5-slider-button>
+        <ch5-slider-button id="ch5-slider-button-on" key="on" label="-+label+-"> </ch5-slider-button>
+      </ch5-slider>
+
+      <ch5-image id="ch5-image" alt="-+label+-"></ch5-image>
+      
+      <ch5-modal-dialog id="ch5-modal-dialog" closable title="-+label+-" okButtonLabel="-+label+-"
+        cancelButtonLabel="-+label+-" prompt="-+label+-">
+      </ch5-modal-dialog>
+
+      <ch5-textinput id="ch5-textinput" placeholder="-+label+-" label="-+label+-"></ch5-textinput>
+      
+      <ch5-toggle id="ch5-toggle" label="-+label+-" labelOn="-+label+-"
+      labelOff="-+label+-"></ch5-toggle> 
+
+      <ch5-jointotext-string id="ch5-jointotext-string-value-textwhenempty" value="-+label+-" textWhenEmpty="-+emptyValue+-">
+      </ch5-jointotext-string>
+
+      <ch5-jointotext-string id="ch5-jointotext-string-textWhenEmpty" textWhenEmpty="-+label+-">
+      </ch5-jointotext-string>
+
+      <ch5-jointotext-string id="ch5-jointotext-string-value" value="-+label+-">
+      </ch5-jointotext-string>
+      
+    </template>
+  </test-fixture>
+  <script>
+    suite('language-translation-value', () => {
+      let languageTranslation;
+
+      setup(async () => {
+        languageTranslation = fixture('language-translation');
+      });
+
+      testLabelAttribute('test ch5-text label', 'ch5-text', 'label');
+
+      testLabelAttribute('test ch5-button label', 'ch5-button', 'label');
+
+      testLabelAttribute('test ch5-keypad major label', 'ch5-keypad-button', 'labelMajor');
+      testLabelAttribute('test ch5-keypad minor label', 'ch5-keypad-button', 'labelMinor');
+
+      testLabelAttribute('test ch5-dpad label', 'ch5-dpad-button', 'label');
+
+      testLabelAttribute('test ch5-slider title label', 'ch5-slider-title-label', 'label');
+      testLabelAttribute('test ch5-slider button off label', 'ch5-slider-button-off', 'label');
+      testLabelAttribute('test ch5-slider button on label', 'ch5-slider-button-on', 'label');
+
+      testLabelAttribute('test ch5-image alt', 'ch5-image', 'alt');
+
+      testLabelAttribute('test ch5-toggle label', 'ch5-toggle', 'label');
+      testLabelAttribute('test ch5-toggle on label', 'ch5-toggle', 'labelOn');
+      testLabelAttribute('test ch5-toggle off label', 'ch5-toggle', 'labelOff');
+
+      testLabelAttribute('test ch5-textinput label', 'ch5-textinput', 'label');
+      testLabelAttribute('test ch5-textinput placeholder', 'ch5-textinput', 'placeholder');
+
+      testLabelAttribute('test ch5-modal dialog title', 'ch5-modal-dialog', 'title');
+      testLabelAttribute('test ch5-modal dialog okButtonLabel', 'ch5-modal-dialog', 'okButtonLabel');
+      testLabelAttribute('test ch5-modal dialog cancelButtonLabel', 'ch5-modal-dialog', 'cancelButtonLabel');
+      testLabelAttribute('test ch5-modal dialog prompt', 'ch5-modal-dialog', 'prompt');
+
+      testLabelAttribute('test ch5-jointotext-string-value with textwhenempty', 'ch5-jointotext-string-value-textwhenempty', 'value');
+      testLabelAttribute('test ch5-jointotext-string textwhenempty', 'ch5-jointotext-string-textWhenEmpty', 'textWhenEmpty');
+      testLabelAttribute('test ch5-jointotext-string-value', 'ch5-jointotext-string-value', 'value');
+
+      function testLabelAttribute(testName, id, attribute) {
+        translateInLanguage(testName, id, attribute, 'de', 'DE')
+        translateInLanguage(testName, id, attribute, 'cz', 'CZ')
+        translateInLanguage(testName + ' fallback to english', id, attribute, 'hi', 'EN')
+      }
+        
+      function translateInLanguage(testName, id, attribute, lng, value) {
+          test(testName, (done) => {
+          setTimeout(() => {
+            crComLibTranslator = CrComLib.translationFactory.translator;
+            let element = document.getElementById(id);
+            crComLibTranslator.changeLanguage(lng);
+            if(element.attributes[attribute] && (element.attributes[attribute].value) === value){
+              expect(element.hasAttribute(attribute)).to.be.true;
+              expect(element.attributes[attribute].value).to.equal(value);
+            } else {
+              const value = document.getElementById(id).innerHTML;
+              expect(value).to.equal(value);
+            }
+            done();
+          }, 100);
+        });
+      }
+      
+    });
+  </script>
+</body>
+
+</html>
