@@ -585,8 +585,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
   }
 
   public set value(value: string) {
-    const trValue = this._getTranslatedValue('value', value);
-    this._ch5Properties.set<string>("value", trValue);
+    this._ch5Properties.set<string>("value", value);
   }
   public get value(): string {
     return this._ch5Properties.get<string>("value");
