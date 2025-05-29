@@ -389,7 +389,8 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
     return this._ch5Properties.get<string>("pattern");
   }
   public set mask(value: string) {
-    this._ch5Properties.set<string>("mask", value, () => {
+    const trValue = this._getTranslatedValue('mask', value);
+    this._ch5Properties.set<string>("mask", trValue, () => {
       this.handleMask();
     });
   }
@@ -416,7 +417,8 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
   }
 
   public set label(value: string) {
-    this._ch5Properties.set<string>("label", value, () => {
+    const trValue = this._getTranslatedValue('label', value);
+    this._ch5Properties.set<string>("label", trValue, () => {
       this.handleLabel();
     });
   }
@@ -425,7 +427,8 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
   }
 
   public set placeholder(value: string) {
-    this._ch5Properties.set<string>("placeholder", value, () => {
+    const trValue = this._getTranslatedValue('placeholder', value);
+    this._ch5Properties.set<string>("placeholder", trValue, () => {
       this.handlePlaceholder();
     });
   }

@@ -205,7 +205,8 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
   }
 
   public set label(value: string) {
-    this._ch5Properties.set<string>("label", value, () => {
+    const trValue = this._getTranslatedValue('label', value);
+    this._ch5Properties.set<string>("label", trValue, () => {
       this.handleLabel();
     });
   }
@@ -214,7 +215,8 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
   }
 
   public set labelOn(value: string) {
-    this._ch5Properties.set<string>("labelOn", value, () => {
+    const trValue = this._getTranslatedValue('labelOn', value);
+    this._ch5Properties.set<string>("labelOn", trValue, () => {
       this._elLabelOn.innerText = this._getTranslatedValue('labelOn', this.labelOn);
     });
   }
@@ -223,7 +225,8 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
   }
 
   public set labelOff(value: string) {
-    this._ch5Properties.set<string>("labelOff", value, () => {
+    const trValue = this._getTranslatedValue('labelOff', value);
+    this._ch5Properties.set<string>("labelOff", trValue, () => {
       this._elLabelOff.innerText = this._getTranslatedValue('labelOff', this.labelOff);
     });
   }
