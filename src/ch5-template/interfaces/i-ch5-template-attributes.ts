@@ -95,4 +95,53 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributesTemplate {
      */
     stringJoinOffset: string;
 
+    /**
+     * @documentation
+     * [
+     * "`transitionIn` attribute",
+     * "***",
+     * "Animation transition class when component enters the viewport."
+     * ]
+     * @name transitionin
+     * @default 
+     * @attributeType "String"
+     */
+    transitionIn: string;
+    /**
+     * @documentation
+     * [
+     * "`transitionOut` attribute",
+     * "***",
+     * "Animation transition class when the component exits the viewport."
+     * ]
+     * @name transitionout
+     * @default 
+     * @attributeType "String"
+     */
+    transitionOut: string;
+    /**
+     * @documentation
+     * [
+     * "`transitionDuration` attribute",
+     * "***",
+     * "Animation transition duration when the component enters or exits from the viewport."
+     * ]
+     * @name transitionduration
+     * @default 
+     * @attributeType "String"
+     */
+    transitionDuration: string;
+    /**
+     * @documentation
+     * [
+     * "`transitionDelay` attribute",
+     * "***",
+     * "Animation transition delay occurs when the component enters or exits the viewport."
+     * ]
+     * @name transitiondelay
+     * @default 
+     * @attributeType "String"
+     */
+    transitionDelay: string;
+
 }

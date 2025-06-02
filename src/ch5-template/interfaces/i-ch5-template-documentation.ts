@@ -36,9 +36,22 @@ import { ICh5CommonWoDisable } from "../../ch5-common/interfaces/i-ch5-common-wo
  *       "body": [
  *           "<ch5-template templateId=\"[provideTemplateId]\" context=\"[original]:[replacement]\"></ch5-template>"
  *      ]
- *     }
+ *    },
+ *    {
+ *     "prefix": "ch5-template:animation",
+ *     "description": "Crestron Ch5-Template (animation)",
+ *     "body": [
+ *       "<ch5-template transitionIn=\"${1:}\"",
+ *       "\ttransitionOut=\"${2:}\"",
+ *       "\ttransitionDuration=\"${3:}\"",
+ *       "\ttransitionDelay=\"${4:}\"",
+ *       "\tcontext=\"${5:[original]:[replacement]}\"",
+ *       "\ttemplateId=\"${6:[provideTemplateId]}\">",
+ *       "</ch5-template>$0"
+ *       ]
+ *    }
  * ]
  *
  */
- export interface ICh5TemplateDocumentation extends ICh5CommonWoDisable, ICh5TemplateAttributes {
+export interface ICh5TemplateDocumentation extends ICh5CommonWoDisable, ICh5TemplateAttributes {
 }

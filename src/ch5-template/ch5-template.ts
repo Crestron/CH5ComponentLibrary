@@ -13,11 +13,14 @@ import { ICh5TemplateAttributes } from "./interfaces/i-ch5-template-attributes";
 import { publishEvent } from "../ch5-core";
 import { ch5TemplateSubject } from "./refresh-ch5-template";
 import { Subscription } from "rxjs";
+import { ICh5PropertySettings } from "../ch5-core/ch5-property";
+import { Ch5Properties } from "../ch5-core/ch5-properties";
 
 export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 
 	public static CH5_TEMPLATE_STYLE_CLASS: string = 'ch5-template';
 	public static readonly ELEMENT_NAME = 'ch5-template';
+	private _ch5Properties: Ch5Properties;
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
 		contractname: { contractName: true },
@@ -25,6 +28,41 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 		numericjoinoffset: { numericJoin: 1 },
 		stringjoinoffset: { stringJoin: 1 }
 	};
+
+	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
+		{
+			default: "",
+			name: "transitionIn",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "",
+			name: "transitionOut",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "1s",
+			name: "transitionDuration",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "0s",
+			name: "transitionDelay",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+	];
 
 
 	// COMPONENT ATTRIBUTES
@@ -110,6 +148,11 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 			'stringjoinoffset'
 		];
 
+		for (let i: number = 0; i < Ch5Template.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5Template.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				contextObservedAttributes.push(Ch5Template.COMPONENT_PROPERTIES[i].name.toLowerCase());
+			}
+		}
 		return contextObservedAttributes.concat(commonObservedAttributes);
 	}
 
@@ -181,6 +224,42 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 		return this._stringJoinOffset;
 	}
 
+	public set transitionIn(value: string) {
+		this._ch5Properties.set<string>("transitionIn", value);
+	}
+	public get transitionIn(): string {
+		return this._ch5Properties.get<string>("transitionIn");
+	}
+
+	public set transitionOut(value: string) {
+		this._ch5Properties.set<string>("transitionOut", value);
+	}
+	public get transitionOut(): string {
+		return this._ch5Properties.get<string>("transitionOut");
+	}
+
+	public set transitionDuration(value: string) {
+		this._ch5Properties.set<string>("transitionDuration", value);
+	}
+	public get transitionDuration(): string {
+		return this._ch5Properties.get<string>("transitionDuration");
+	}
+
+	public set transitionDelay(value: string) {
+		this._ch5Properties.set<string>("transitionDelay", value);
+	}
+	public get transitionDelay(): string {
+		return this._ch5Properties.get<string>("transitionDelay");
+	}
+
+	/**
+		 * CONSTRUCTOR
+		 */
+	public constructor() {
+		super();
+		this._ch5Properties = new Ch5Properties(this, Ch5Template.COMPONENT_PROPERTIES);
+	}
+
 	public connectedCallback() {
 		this.info('Ch5Template.connectedCallback()');
 		Promise.all([
@@ -230,6 +309,15 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 	protected initAttributes(): void {
 		super.initAttributes();
 		this.info('Ch5Template.initAttributes()');
+		const thisRef: any = this;
+		for (let i: number = 0; i < Ch5Template.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5Template.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				if (this.hasAttribute(Ch5Template.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
+					const key = Ch5Template.COMPONENT_PROPERTIES[i].name;
+					thisRef[key] = this.getAttribute(key);
+				}
+			}
+		}
 
 		if (this.hasAttribute('templateid')) {
 			this.templateId = this.getAttribute('templateid') as string;
@@ -260,6 +348,12 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
 		if (oldValue === newValue) {
 			return;
+		}
+		const attributeChangedProperty = Ch5Template.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
+		if (attributeChangedProperty) {
+			const thisRef: any = this;
+			const key = attributeChangedProperty.name;
+			thisRef[key] = newValue;
 		}
 
 		this.info(`Ch5Template.attributeChangedCallback("${attr}", "${oldValue}", "${newValue}")`);
@@ -307,7 +401,43 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 		}
 
 	}
-	
+
+	beforeHandlingShow() {
+		console.log('beforeHandlingShow----');
+		if (this.children && this.children[0]) {
+			if (this.transitionDuration) {
+				document.documentElement.style.setProperty('--animate-duration', this.transitionDuration);
+			}
+			if (this.transitionDelay) {
+				document.documentElement.style.setProperty('--animate-delay', this.transitionDelay);
+			}
+			if (this.transitionOut && this.transitionOut !== '') {
+				this.children[0].classList.remove(this.transitionOut);
+			}
+			if (this.transitionIn && this.transitionIn !== '') {
+				this.children[0].classList.add(this.transitionIn);
+			}
+		}
+	};
+
+	beforeHandlingHide() {
+		console.log('beforeHandlingHide----');
+		if (this.children && this.children[0]) {
+			if (this.transitionDuration) {
+				document.documentElement.style.setProperty('--animate-duration', this.transitionDuration);
+			}
+			if (this.transitionDelay) {
+				document.documentElement.style.setProperty('--animate-delay', this.transitionDelay);
+			}
+
+			if (this.transitionIn && this.transitionIn !== '') {
+				this.children[0].classList.remove(this.transitionIn);
+			}
+			if (this.transitionOut && this.transitionOut !== '') {
+				this.children[0].classList.add(this.transitionOut);
+			}
+		}
+	};
 }
 
 Ch5Template.registerCustomElement();
