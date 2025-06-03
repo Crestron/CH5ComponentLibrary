@@ -1,20 +1,5 @@
 const effects: any = {
 
-    fadeOutUpBig: ["animate__animated", "animate__delay", "animate__fadeOutUpBig"],
-    fadeInUpBig: ["animate__animated", "animate__delay", "animate__fadeInUpBig"],
-    fadeOutDownBig: ["animate__animated", "animate__delay", "animate__fadeOutDownBig"],
-    fadeInDownBig: ["animate__animated", "animate__delay", "animate__fadeInDownBig"],
-    fadeOutUpBigFast: ["animate__animated", "animate__delay", "animate__fadeOutUpBig", "animate__fast"],
-    fadeInUpBigFast: ["animate__animated", "animate__delay", "animate__fadeInUpBig", "animate__fast"],
-    fadeOutDownBigFast: ["animate__animated", "animate__delay", "animate__fadeOutDownBig", "animate__fast"],
-    fadeInDownBigFast: ["animate__animated", "animate__delay", "animate__fadeInDownBig", "animate__fast"],
-    fadeOut: ["animate__animated", "animate__delay", "animate__fadeOut"],
-    fadeOutSlow: ["animate__animated", "animate__delay", "animate__fadeOut", "animate__slow"],
-    fadeIn: ["animate__animated", "animate__delay", "animate__fadeIn"],
-    fadeInSlow: ["animate__animated", "animate__delay", "animate__fadeIn", "animate__slow"],
-    fadeInFast: ["animate__animated", "animate__delay", "animate__fadeIn", "animate__fast"],
-    fadeOutFast: ["animate__animated", "animate__delay", "animate__fadeOut", "animate__fast"],
-
     // Back entrances
     backInDown: ["animate__animated", "animate__delay", "animate__backInDown"],
     backInLeft: ["animate__animated", "animate__delay", "animate__backInLeft"],
@@ -42,27 +27,46 @@ const effects: any = {
     bounceOutUp: ["animate__animated", "animate__delay", "animate__bounceOutUp"],
 
     // Fading entrances (extras)
+    fadeIn: ["animate__animated", "animate__delay", "animate__fadeIn"],
     fadeInDown: ["animate__animated", "animate__delay", "animate__fadeInDown"],
+    fadeInDownBig: ["animate__animated", "animate__delay", "animate__fadeInDownBig"],
     fadeInLeft: ["animate__animated", "animate__delay", "animate__fadeInLeft"],
     fadeInLeftBig: ["animate__animated", "animate__delay", "animate__fadeInLeftBig"],
     fadeInRight: ["animate__animated", "animate__delay", "animate__fadeInRight"],
     fadeInRightBig: ["animate__animated", "animate__delay", "animate__fadeInRightBig"],
+    fadeInUp: ["animate__animated", "animate__delay", "animate__fadeInUp"],
+    fadeInUpBig: ["animate__animated", "animate__delay", "animate__fadeInUpBig"],
     fadeInTopLeft: ["animate__animated", "animate__delay", "animate__fadeInTopLeft"],
     fadeInTopRight: ["animate__animated", "animate__delay", "animate__fadeInTopRight"],
     fadeInBottomLeft: ["animate__animated", "animate__delay", "animate__fadeInBottomLeft"],
     fadeInBottomRight: ["animate__animated", "animate__delay", "animate__fadeInBottomRight"],
 
+   // fading speed
+    fadeInUpBigFast: ["animate__animated", "animate__delay", "animate__fadeInUpBig", "animate__fast"],
+    fadeInDownBigFast: ["animate__animated", "animate__delay", "animate__fadeInDownBig", "animate__fast"],
+    fadeInSlow: ["animate__animated", "animate__delay", "animate__fadeIn", "animate__slow"],
+    fadeInFast: ["animate__animated", "animate__delay", "animate__fadeIn", "animate__fast"],
+
     // Fading exits (extras)
+    fadeOut: ["animate__animated", "animate__delay", "animate__fadeOut"],
     fadeOutDown: ["animate__animated", "animate__delay", "animate__fadeOutDown"],
+    fadeOutDownBig: ["animate__animated", "animate__delay", "animate__fadeOutDownBig"],
     fadeOutLeft: ["animate__animated", "animate__delay", "animate__fadeOutLeft"],
     fadeOutLeftBig: ["animate__animated", "animate__delay", "animate__fadeOutLeftBig"],
     fadeOutRight: ["animate__animated", "animate__delay", "animate__fadeOutRight"],
     fadeOutRightBig: ["animate__animated", "animate__delay", "animate__fadeOutRightBig"],
     fadeOutUp: ["animate__animated", "animate__delay", "animate__fadeOutUp"],
+    fadeOutUpBig: ["animate__animated", "animate__delay", "animate__fadeOutUpBig"],
     fadeOutTopLeft: ["animate__animated", "animate__delay", "animate__fadeOutTopLeft"],
     fadeOutTopRight: ["animate__animated", "animate__delay", "animate__fadeOutTopRight"],
     fadeOutBottomLeft: ["animate__animated", "animate__delay", "animate__fadeOutBottomLeft"],
     fadeOutBottomRight: ["animate__animated", "animate__delay", "animate__fadeOutBottomRight"],
+    
+    // fading speed
+    fadeOutUpBigFast: ["animate__animated", "animate__delay", "animate__fadeOutUpBig", "animate__fast"],
+    fadeOutDownBigFast: ["animate__animated", "animate__delay", "animate__fadeOutDownBig", "animate__fast"],
+    fadeOutSlow: ["animate__animated", "animate__delay", "animate__fadeOut", "animate__slow"],
+    fadeOutFast: ["animate__animated", "animate__delay", "animate__fadeOut", "animate__fast"],
 
     // Flippers
     flip: ["animate__animated", "animate__delay", "animate__flip"],
@@ -124,20 +128,18 @@ const effects: any = {
     slideOutUp: ["animate__animated", "animate__delay", "animate__slideOutUp"],
 };
 
-export function setTransition(selectedElement: any, effect: any): void {
-    console.log('test from crcomblib');
-    if (effect) {
-        const selectedEffect = effects[effect];
+export function setTransition(selectedElement: Element, effectType: string): void {
+    if (effectType) {
+        const selectedEffect = effects[effectType];
         for (let i = 0; i < selectedEffect.length; i++) {
             selectedElement.classList.add(selectedEffect[i]);
         }
     }
 }
 
-export function removeTransition(selectedElement: any, effect: any): void {
-    console.log('test from crcomblib');
-    if (effect) {
-        const selectedEffect = effects[effect];
+export function removeTransition(selectedElement: Element, effectType: string): void {
+    if (effectType) {
+        const selectedEffect = effects[effectType];
         for (let i = 0; i < selectedEffect.length; i++) {
             selectedElement.classList.remove(selectedEffect[i]);
         }

@@ -404,13 +404,12 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 	}
 
 	beforeHandlingShow() {
-		console.log('beforeHandlingShow----');
 		if (this.children && this.children[0]) {
 			if (this.transitionDuration) {
-				document.documentElement.style.setProperty('--animate-duration', this.transitionDuration);
+				this.style.setProperty('--animate-duration', this.transitionDuration);
 			}
 			if (this.transitionDelay) {
-				document.documentElement.style.setProperty('--animate-delay', this.transitionDelay);
+				this.style.setProperty('--animate-delay', this.transitionDelay);
 			}
 			if (this.transitionOut && this.transitionOut !== '') {
 				//this.children[0].classList.remove(this.transitionOut);
@@ -424,13 +423,12 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 	};
 
 	beforeHandlingHide() {
-		console.log('beforeHandlingHide----');
 		if (this.children && this.children[0]) {
 			if (this.transitionDuration) {
-				document.documentElement.style.setProperty('--animate-duration', this.transitionDuration);
+				this.style.setProperty('--animate-duration', this.transitionDuration);
 			}
 			if (this.transitionDelay) {
-				document.documentElement.style.setProperty('--animate-delay', this.transitionDelay);
+				this.style.setProperty('--animate-delay', this.transitionDelay);
 			}
 
 			if (this.transitionIn && this.transitionIn !== '') {
