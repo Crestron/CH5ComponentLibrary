@@ -15,6 +15,7 @@ import { ch5TemplateSubject } from "./refresh-ch5-template";
 import { Subscription } from "rxjs";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
+import { removeTransition, setTransition } from '../ch5-core/utility-functions/animate';
 
 export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 
@@ -113,7 +114,7 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 	/**
 	 * The subscription id of listener for refresh 
 	 */
-	private _refreshSubId: Subscription|null = null;
+	private _refreshSubId: Subscription | null = null;
 
 	public static registerSignalAttributeTypes() {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Template.ELEMENT_NAME, Ch5Template.SIGNAL_ATTRIBUTE_TYPES);
@@ -286,10 +287,10 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 	 */
 	private listenForCh5TemplateRefreshRequests() {
 		this.info('Ch5Template.listenForCh5TemplateRefreshRequests()');
-		
+
 		this._refreshSubId = ch5TemplateSubject.subscribe((ch5TemplateId: string) => {
 			this.info(`Ch5Template.listenForCh5TemplateRefreshRequests() new request for ${ch5TemplateId}`);
-			
+
 			if (!this.shouldRefresh(ch5TemplateId)) {
 				return;
 			}
@@ -332,7 +333,7 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 
 		this.info(`Ch5Template.initializations(${force === true})`);
 
-		if (force === true || !this._templateHelper || !this._templateHelper.instanceId ) {
+		if (force === true || !this._templateHelper || !this._templateHelper.instanceId) {
 			this.classList.add(Ch5Template.CH5_TEMPLATE_STYLE_CLASS);
 			this.initAttributes();
 			this._templateHelper = new Ch5TemplateStructure(this);
@@ -412,10 +413,12 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 				document.documentElement.style.setProperty('--animate-delay', this.transitionDelay);
 			}
 			if (this.transitionOut && this.transitionOut !== '') {
-				this.children[0].classList.remove(this.transitionOut);
+				//this.children[0].classList.remove(this.transitionOut);
+				removeTransition(this.children[0], this.transitionOut);
 			}
 			if (this.transitionIn && this.transitionIn !== '') {
-				this.children[0].classList.add(this.transitionIn);
+				//this.children[0].classList.add(this.transitionIn);
+				setTransition(this.children[0], this.transitionIn);
 			}
 		}
 	};
@@ -431,10 +434,12 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 			}
 
 			if (this.transitionIn && this.transitionIn !== '') {
-				this.children[0].classList.remove(this.transitionIn);
+				//this.children[0].classList.remove(this.transitionIn);
+				removeTransition(this.children[0], this.transitionIn);
 			}
 			if (this.transitionOut && this.transitionOut !== '') {
-				this.children[0].classList.add(this.transitionOut);
+				//this.children[0].classList.add(this.transitionOut);
+				setTransition(this.children[0], this.transitionOut);
 			}
 		}
 	};

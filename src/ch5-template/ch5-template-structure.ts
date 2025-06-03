@@ -130,7 +130,7 @@ export class Ch5TemplateStructure {
 
     private initializeWrapperDiv(): void {
         this._wrapperDiv = document.createElement("DIV") as HTMLDivElement;
-        this._wrapperDiv.classList.add("animate__animated","animate__delay", "ch5-template-content-wrapper");
+        this._wrapperDiv.classList.add("ch5-template-content-wrapper");
     }
 
     // Get the contents of the template
