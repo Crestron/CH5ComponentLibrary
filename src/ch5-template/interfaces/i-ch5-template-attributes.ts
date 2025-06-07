@@ -6,6 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5CommonAttributesTemplate } from "../../ch5-common/interfaces/i-ch5-common-attributes-template";
+import { TCh5TransitionType } from "./t-ch5-template";
 
 /**
  * @ignore
@@ -100,34 +101,34 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributesTemplate {
      * [
      * "`transitionIn` attribute",
      * "***",
-     * "Animation transition class when component enters the viewport."
+     * "Animation transition class when component enters the viewport.The default value is null."
      * ]
      * @name transitionin
-     * @default 
-     * @attributeType "String"
+     * @default null
+     * @attributeType "EnumeratedValue"
      */
-    transitionIn: string;
+    transitionIn: TCh5TransitionType;
     /**
      * @documentation
      * [
      * "`transitionOut` attribute",
      * "***",
-     * "Animation transition class when the component exits the viewport."
+     * "Animation transition class when the component exits the viewport.The default value is null."
      * ]
      * @name transitionout
-     * @default 
-     * @attributeType "String"
+     * @default null
+     * @attributeType "EnumeratedValue"
      */
-    transitionOut: string;
+    transitionOut: TCh5TransitionType;
     /**
      * @documentation
      * [
      * "`transitionDuration` attribute",
      * "***",
-     * "Animation transition duration when the component enters or exits from the viewport."
+     * "Animation transition duration when the component enters or exits from the viewport.The default value is '1s'. Both seconds (s) and milliseconds (ms) are acceptable values."
      * ]
      * @name transitionduration
-     * @default 
+     * @default 1s
      * @attributeType "String"
      */
     transitionDuration: string;
@@ -136,10 +137,10 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributesTemplate {
      * [
      * "`transitionDelay` attribute",
      * "***",
-     * "Animation transition delay occurs when the component enters or exits the viewport."
+     * "Animation transition delay occurs when the component enters or exits the viewport. The default value is '0s'. Both seconds (s) and milliseconds (ms) are acceptable values."
      * ]
      * @name transitiondelay
-     * @default 
+     * @default 0s
      * @attributeType "String"
      */
     transitionDelay: string;
