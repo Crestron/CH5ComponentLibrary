@@ -6,3 +6,4 @@
 // under which you licensed this source code.
 
 export * from './i-ch5-template-attributes';
+export * from './t-ch5-template';

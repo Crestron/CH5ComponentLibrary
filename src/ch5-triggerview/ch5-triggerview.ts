@@ -714,6 +714,10 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 		this.activeView = index;
 	}
 
+	public allowPageAnimation(): boolean {
+		return (this.gestureable === false) && (this.disableAnimation === true);
+	}
+
 	/**
 	 * Called whenever an observedAttribute's value changes.
 	 * @param {string} name The attribute's local name.

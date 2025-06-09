@@ -6,6 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5CommonAttributesTemplate } from "../../ch5-common/interfaces/i-ch5-common-attributes-template";
+import { TCh5TransitionType } from "./t-ch5-template";
 
 /**
  * @ignore
@@ -94,5 +95,54 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributesTemplate {
      * @attributeType "String"
      */
     stringJoinOffset: string;
+
+    /**
+     * @documentation
+     * [
+     * "`transitionIn` attribute",
+     * "***",
+     * "Animation transition class when component enters the viewport.The default value is null."
+     * ]
+     * @name transitionin
+     * @default null
+     * @attributeType "EnumeratedValue"
+     */
+    transitionIn: TCh5TransitionType | null;
+    /**
+     * @documentation
+     * [
+     * "`transitionOut` attribute",
+     * "***",
+     * "Animation transition class when the component exits the viewport.The default value is null."
+     * ]
+     * @name transitionout
+     * @default null
+     * @attributeType "EnumeratedValue"
+     */
+    transitionOut: TCh5TransitionType | null;
+    /**
+     * @documentation
+     * [
+     * "`transitionDuration` attribute",
+     * "***",
+     * "Animation transition duration when the component enters or exits from the viewport.The default value is '1s'. Both seconds (s) and milliseconds (ms) are acceptable values."
+     * ]
+     * @name transitionduration
+     * @default 1s
+     * @attributeType "String"
+     */
+    transitionDuration: string;
+    /**
+     * @documentation
+     * [
+     * "`transitionDelay` attribute",
+     * "***",
+     * "Animation transition delay occurs when the component enters or exits the viewport. The default value is '0s'. Both seconds (s) and milliseconds (ms) are acceptable values."
+     * ]
+     * @name transitiondelay
+     * @default 0s
+     * @attributeType "String"
+     */
+    transitionDelay: string;
 
 }
