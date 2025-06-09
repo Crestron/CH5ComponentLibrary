@@ -24,8 +24,8 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 		'bounce', 'flash', 'pulse', 'rubberBand', 'shake', 'swing', 'tada', 'wobble', 'jello', 'heartBeat',
 		'bounceIn', 'bounceInDown', 'bounceInLeft', 'bounceInRight', 'bounceInUp', 'bounceOut', 'bounceOutDown',
 		'bounceOutLeft', 'bounceOutRight', 'bounceOutUp', 'fadeIn', 'fadeInDown', 'fadeInDownBig', 'fadeInLeft',
-		'fadeInLeftBig', 'fadeInRight', 'fadeInRightBig', 'fadeInUp', 'fadeInUpBig', 'fadeInUpBigFast', 'fadeInDownBigFast',
-		'fadeInSlow', 'fadeInFast', 'fadeOut', 'fadeOutDown', 'fadeOutDownBig', 'fadeOutLeft', 'fadeOutLeftBig',
+		'fadeInLeftBig', 'fadeInRight', 'fadeInRightBig', 'fadeInUp', 'fadeInUpBig',
+		'fadeOut', 'fadeOutDown', 'fadeOutDownBig', 'fadeOutLeft', 'fadeOutLeftBig',
 		'fadeOutRight', 'fadeOutRightBig', 'fadeOutUp', 'fadeOutUpBig', 'flip', 'flipInX', 'flipInY', 'flipOutX',
 		'flipOutY', 'lightSpeedInRight', 'lightSpeedOut', 'rotateIn', 'rotateInDownLeft', 'rotateInDownRight',
 		'rotateInUpLeft', 'rotateInUpRight', 'rotateOut', 'rotateOutDownLeft', 'rotateOutDownRight', 'rotateOutUpLeft',
@@ -50,7 +50,7 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 			enumeratedValues: Ch5Template.TRANSITIONTYPE,
 			name: "transitionIn",
 			removeAttributeOnNull: true,
-			type: "string",
+			type: "enum",
 			valueOnAttributeEmpty: null,
 			isObservableProperty: true,
 			isNullable: true
@@ -272,8 +272,8 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 	}
 
 	/**
-		 * CONSTRUCTOR
-		 */
+	 * CONSTRUCTOR
+	 */
 	public constructor() {
 		super();
 		this._ch5Properties = new Ch5Properties(this, Ch5Template.COMPONENT_PROPERTIES);

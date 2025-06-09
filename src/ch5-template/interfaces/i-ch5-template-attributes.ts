@@ -107,7 +107,7 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributesTemplate {
      * @default null
      * @attributeType "EnumeratedValue"
      */
-    transitionIn: TCh5TransitionType;
+    transitionIn: TCh5TransitionType | null;
     /**
      * @documentation
      * [
@@ -119,7 +119,7 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributesTemplate {
      * @default null
      * @attributeType "EnumeratedValue"
      */
-    transitionOut: TCh5TransitionType;
+    transitionOut: TCh5TransitionType | null;
     /**
      * @documentation
      * [

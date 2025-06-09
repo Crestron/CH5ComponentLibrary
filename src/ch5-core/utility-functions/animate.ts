@@ -37,12 +37,6 @@ const effects: any = {
     fadeInUp: ["animated", "fadeInUp"],
     fadeInUpBig: ["animated", "fadeInUpBig"],
    
-    // fading speed
-    fadeInUpBigFast: ["animated", "fadeInUpBig", "fast"],
-    fadeInDownBigFast: ["animated", "fadeInDownBig", "fast"],
-    fadeInSlow: ["animated", "fadeIn", "slow"],
-    fadeInFast: ["animated", "fadeIn", "fast"],
-
     // Fading exits (extras)
     fadeOut: ["animated", "fadeOut"],
     fadeOutDown: ["animated", "fadeOutDown"],
