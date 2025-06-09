@@ -16,23 +16,22 @@ import { Subscription } from "rxjs";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { removeTransition, setTransition } from '../ch5-core/utility-functions/animate';
-import { TCh5TransitionType } from "./interfaces/t-ch5-template";
+import { TCh5TransitionInType, TCh5TransitionOutType } from "./interfaces/t-ch5-template";
 
 export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 
-	public static readonly TRANSITIONTYPE: TCh5TransitionType[] = [
-		'bounce', 'flash', 'pulse', 'rubberBand', 'shake', 'swing', 'tada', 'wobble', 'jello', 'heartBeat',
-		'bounceIn', 'bounceInDown', 'bounceInLeft', 'bounceInRight', 'bounceInUp', 'bounceOut', 'bounceOutDown',
-		'bounceOutLeft', 'bounceOutRight', 'bounceOutUp', 'fadeIn', 'fadeInDown', 'fadeInDownBig', 'fadeInLeft',
-		'fadeInLeftBig', 'fadeInRight', 'fadeInRightBig', 'fadeInUp', 'fadeInUpBig',
-		'fadeOut', 'fadeOutDown', 'fadeOutDownBig', 'fadeOutLeft', 'fadeOutLeftBig',
-		'fadeOutRight', 'fadeOutRightBig', 'fadeOutUp', 'fadeOutUpBig', 'flip', 'flipInX', 'flipInY', 'flipOutX',
-		'flipOutY', 'lightSpeedInRight', 'lightSpeedOut', 'rotateIn', 'rotateInDownLeft', 'rotateInDownRight',
-		'rotateInUpLeft', 'rotateInUpRight', 'rotateOut', 'rotateOutDownLeft', 'rotateOutDownRight', 'rotateOutUpLeft',
-		'rotateOutUpRight', 'hinge', 'jackInTheBox', 'rollIn', 'rollOut', 'zoomIn', 'zoomInDown', 'zoomInLeft',
-		'zoomInRight', 'zoomInUp', 'zoomOut', 'zoomOutDown', 'zoomOutLeft', 'zoomOutRight', 'zoomOutUp', 'slideInDown',
-		'slideInLeft', 'slideInRight', 'slideInUp', 'slideOutDown', 'slideOutLeft', 'slideOutRight', 'slideOutUp'
-	];;
+	public static readonly TRANSITIONINTYPE: TCh5TransitionInType[] = ['bounceIn', 'bounceInDown', 'bounceInLeft', 'bounceInRight', 'bounceInUp', 'fadeIn',
+		'fadeInDown', 'fadeInDownBig', 'fadeInLeft', 'fadeInLeftBig', 'fadeInRight', 'fadeInRightBig', 'fadeInUp', 'fadeInUpBig', 'flipInX', 'flipInY',
+		'lightSpeedInRight', 'rotateIn', 'rotateInDownLeft', 'rotateInDownRight', 'rotateInUpLeft', 'rotateInUpRight', 'rollIn',
+		'zoomIn', 'zoomInDown', 'zoomInLeft', 'zoomInRight', 'zoomInUp', 'slideInDown', 'slideInLeft', 'slideInRight', 'slideInUp'
+	];
+
+	public static readonly TRANSITIONOUTTYPE: TCh5TransitionOutType[] = ['bounceOut', 'bounceOutDown', 'bounceOutLeft', 'bounceOutRight', 'bounceOutUp', 'fadeOut',
+		'fadeOutDown', 'fadeOutDownBig', 'fadeOutLeft', 'fadeOutLeftBig', 'fadeOutRight', 'fadeOutRightBig', 'fadeOutUp', 'fadeOutUpBig', 'flipOutX', 'flipOutY',
+		'lightSpeedOut', 'rotateOut', 'rotateOutDownLeft', 'rotateOutDownRight', 'rotateOutUpLeft', 'rotateOutUpRight', 'rollOut',
+		'zoomOut', 'zoomOutDown', 'zoomOutLeft', 'zoomOutRight', 'zoomOutUp', 'slideOutDown', 'slideOutLeft', 'slideOutRight', 'slideOutUp'
+	];
+
 	public static CH5_TEMPLATE_STYLE_CLASS: string = 'ch5-template';
 	public static readonly ELEMENT_NAME = 'ch5-template';
 	private _ch5Properties: Ch5Properties;
@@ -47,7 +46,7 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
 		{
 			default: null,
-			enumeratedValues: Ch5Template.TRANSITIONTYPE,
+			enumeratedValues: Ch5Template.TRANSITIONINTYPE,
 			name: "transitionIn",
 			removeAttributeOnNull: true,
 			type: "enum",
@@ -57,7 +56,7 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 		},
 		{
 			default: null,
-			enumeratedValues: Ch5Template.TRANSITIONTYPE,
+			enumeratedValues: Ch5Template.TRANSITIONOUTTYPE,
 			name: "transitionOut",
 			removeAttributeOnNull: true,
 			type: "enum",
@@ -243,18 +242,18 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 		return this._stringJoinOffset;
 	}
 
-	public set transitionIn(value: TCh5TransitionType | null) {
-		this._ch5Properties.set<TCh5TransitionType | null>("transitionIn", value);
+	public set transitionIn(value: TCh5TransitionInType | null) {
+		this._ch5Properties.set<TCh5TransitionInType | null>("transitionIn", value);
 	}
-	public get transitionIn(): TCh5TransitionType {
-		return this._ch5Properties.get<TCh5TransitionType>("transitionIn");
+	public get transitionIn(): TCh5TransitionInType {
+		return this._ch5Properties.get<TCh5TransitionInType>("transitionIn");
 	}
 
-	public set transitionOut(value: TCh5TransitionType | null) {
-		this._ch5Properties.set<TCh5TransitionType | null>("transitionOut", value);
+	public set transitionOut(value: TCh5TransitionOutType | null) {
+		this._ch5Properties.set<TCh5TransitionOutType | null>("transitionOut", value);
 	}
-	public get transitionOut(): TCh5TransitionType {
-		return this._ch5Properties.get<TCh5TransitionType>("transitionOut");
+	public get transitionOut(): TCh5TransitionOutType {
+		return this._ch5Properties.get<TCh5TransitionOutType>("transitionOut");
 	}
 
 	public set transitionDuration(value: string) {

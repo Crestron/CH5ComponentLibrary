@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5CommonAttributesTemplate } from "../../ch5-common/interfaces/i-ch5-common-attributes-template";
-import { TCh5TransitionType } from "./t-ch5-template";
+import { TCh5TransitionInType, TCh5TransitionOutType } from "./t-ch5-template";
 
 /**
  * @ignore
@@ -107,7 +107,7 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributesTemplate {
      * @default null
      * @attributeType "EnumeratedValue"
      */
-    transitionIn: TCh5TransitionType | null;
+    transitionIn: TCh5TransitionInType | null;
     /**
      * @documentation
      * [
@@ -119,7 +119,7 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributesTemplate {
      * @default null
      * @attributeType "EnumeratedValue"
      */
-    transitionOut: TCh5TransitionType | null;
+    transitionOut: TCh5TransitionOutType | null;
     /**
      * @documentation
      * [
