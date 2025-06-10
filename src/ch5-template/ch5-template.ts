@@ -425,6 +425,7 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 		if (this.children && this.children[0]) {
 			this.setDurationAndDelay();
 			if (this.hasAttribute('transitionout')) {
+				this.classList.remove('inline-element');
 				removeTransition(this.children[0], this.transitionOut);
 			}
 			if (this.hasAttribute('transitionin')) {
