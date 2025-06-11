@@ -2017,7 +2017,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     }
     this.initScrollbar();
     if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
-    this.checkCenterItems();
+    // this.checkCenterItems();
     this.signalHolder();
     if (this.scrollToPosition !== 0) { this.handleScrollToPosition(this.scrollToPosition); }
   }
@@ -2061,7 +2061,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     }
     this.initScrollbar();
     if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
-    this.checkCenterItems();
+    // this.checkCenterItems();
     this.signalHolder();
     if (this.scrollToPosition !== 0) { this.handleScrollToPositionForNew(this.scrollToPosition); }
   }
@@ -2077,7 +2077,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     if (this.endless) { this.orientation === 'horizontal' ? this._elContainer.scrollLeft = 5 : this._elContainer.scrollTop = 5; }
     this.initScrollbar();
     if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
-    this.checkCenterItems();
+    // this.checkCenterItems();
     if (isReceiveStateScrollTo === true && this.scrollToPosition === 0) {
       this.orientation === "horizontal" ? this._elContainer.scrollLeft = 0 : this._elContainer.scrollTop = 0;
     }
@@ -2547,10 +2547,13 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
         this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5ButtonListBase.SCROLLBAR_CLASSLIST_PREFIX + 'true');
         this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.SCROLLBAR_CLASSLIST_PREFIX + 'false');
       } else {
-        this.checkCenterItems();
+        //this.checkCenterItems();
         this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5ButtonListBase.SCROLLBAR_CLASSLIST_PREFIX + 'false');
         this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.SCROLLBAR_CLASSLIST_PREFIX + 'true');
       }
+    }
+    if (this.centerItems) {
+      this.checkCenterItems();
     }
   }
 

@@ -101,7 +101,8 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributesTemplate {
      * [
      * "`transitionIn` attribute",
      * "***",
-     * "Animation transition class when component enters the viewport.The default value is null."
+     * "Animation transition class when component enters the viewport.The default value is null.",
+     * "Applicable values are bounceIn, bounceInDown, bounceInLeft, bounceInRight, bounceInUp, fadeIn, fadeInDown, fadeInDownBig, fadeInLeft, fadeInLeftBig, fadeInRight, fadeInRightBig, fadeInUp, fadeInUpBig, flipInX, flipInY, lightSpeedInRight, rotateIn, rotateInDownLeft, rotateInDownRight, rotateInUpLeft, rotateInUpRight, rollIn, slideInDown, slideInLeft, slideInRight, slideInUp, zoomIn, zoomInDown, zoomInLeft, zoomInRight, zoomInUp."
      * ]
      * @name transitionin
      * @default null
@@ -113,7 +114,8 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributesTemplate {
      * [
      * "`transitionOut` attribute",
      * "***",
-     * "Animation transition class when the component exits the viewport.The default value is null."
+     * "Animation transition class when the component exits the viewport.The default value is null.",
+     * "Applicable values are bounceOut, bounceOutDown, bounceOutLeft, bounceOutRight, bounceOutUp, fadeOut, fadeOutDown, fadeOutDownBig, fadeOutLeft, fadeOutLeftBig, fadeOutRight, fadeOutRightBig, fadeOutUp, fadeOutUpBig, flipOutX, flipOutY, lightSpeedOut, rotateOut, rotateOutDownLeft, rotateOutDownRight, rotateOutUpLeft, rotateOutUpRight, rollOut, slideOutDown, slideOutLeft, slideOutRight, slideOutUp, zoomOut, zoomOutDown, zoomOutLeft, zoomOutRight, zoomOutUp."
      * ]
      * @name transitionout
      * @default null
