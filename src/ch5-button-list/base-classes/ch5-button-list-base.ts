@@ -2698,6 +2698,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       if (this.showSignalHolder[this.getLastChild() + 1].value === true) { k = k + 1; }
       this.createButton(this.getLastChild() + 1);
     }
+    this.initScrollbar();
   }
 
   private scrollToLeftEdgeRange() {
