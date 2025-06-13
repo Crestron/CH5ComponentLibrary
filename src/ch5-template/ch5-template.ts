@@ -426,10 +426,10 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 			this.setDurationAndDelay();
 			if (this.hasAttribute('transitionout')) {
 				this.classList.remove('inline-element');
-				removeTransition(this.children[0], this.transitionOut);
+				removeTransition(this.children[0], this.transitionOut, 'OUT');
 			}
 			if (this.hasAttribute('transitionin')) {
-				setTransition(this.children[0], this.transitionIn);
+				setTransition(this.children[0], this.transitionIn, 'IN');
 			}
 		}
 	};
@@ -441,11 +441,11 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 
 			if (this.hasAttribute('transitionin')) {
 				this.classList.remove('inline-element');
-				removeTransition(this.children[0], this.transitionIn);
+				removeTransition(this.children[0], this.transitionIn, 'IN');
 			}
 			if (this.hasAttribute('transitionout')) {
 				this.classList.add('inline-element');
-				setTransition(this.children[0], this.transitionOut);
+				setTransition(this.children[0], this.transitionOut, 'OUT');
 			}
 		}
 	};
@@ -453,7 +453,7 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 	private updateAnimateClass() {
 		this.setDurationAndDelay();
 		if (this.show && this.hasAttribute('transitionin') && this.children && this.children[0]) {
-			setTransition(this.children[0], this.transitionIn);
+			setTransition(this.children[0], this.transitionIn, 'IN');
 		}
 	}
 
