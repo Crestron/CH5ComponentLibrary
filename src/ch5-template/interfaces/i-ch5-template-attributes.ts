@@ -102,7 +102,7 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributesTemplate {
      * "`transitionIn` attribute",
      * "***",
      * "Animation transition class when component enters the viewport.The default value is null.",
-     * "Applicable values are bounceIn, bounceInDown, bounceInLeft, bounceInRight, bounceInUp, fadeIn, fadeInDown, fadeInDownBig, fadeInLeft, fadeInLeftBig, fadeInRight, fadeInRightBig, fadeInUp, fadeInUpBig, flipInX, flipInY, lightSpeedInRight, rotateIn, rotateInDownLeft, rotateInDownRight, rotateInUpLeft, rotateInUpRight, rollIn, slideInDown, slideInLeft, slideInRight, slideInUp, zoomIn, zoomInDown, zoomInLeft, zoomInRight, zoomInUp."
+     * "Applicable values are bounceIn, bounceInDown, bounceInLeft, bounceInRight, bounceInUp, fadeIn, fadeInDown, fadeInDownBig, fadeInLeft, fadeInLeftBig, fadeInRight, fadeInRightBig, fadeInUp, fadeInUpBig, flipInX, flipInY, lightSpeedIn, rotateIn, rotateInDownLeft, rotateInDownRight, rotateInUpLeft, rotateInUpRight, rollIn, slideInDown, slideInLeft, slideInRight, slideInUp, zoomIn, zoomInDown, zoomInLeft, zoomInRight, zoomInUp."
      * ]
      * @name transitionin
      * @default null

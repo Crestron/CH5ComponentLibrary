@@ -35,7 +35,7 @@ export const transitionIneffects: any = {
     flipInY: ["animated", "flipInY"],
 
     // Lightspeed
-    lightSpeedInRight: ["animated", "lightSpeedIn"],
+    lightSpeedIn: ["animated", "lightSpeedIn"],
 
     // Rotating entrances
     rotateIn: ["animated", "rotateIn"],
