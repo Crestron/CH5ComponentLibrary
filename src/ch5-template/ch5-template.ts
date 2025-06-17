@@ -92,6 +92,7 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 	 * HTML attribute name: templateId
 	 */
 	private _templateId: string = '';
+	private firstLoad: boolean = false;
 
 	/**
 	 * A list of replacement strings to modify the template to particular instance.
@@ -280,12 +281,13 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 
 	public connectedCallback() {
 		this.info('Ch5Template.connectedCallback()');
+		this.firstLoad = true;
 		Promise.all([
 			customElements.whenDefined('ch5-template'),
 		]).then(() => {
 			this.initializations();
 			this.info('Ch5Template --- Callback loaded');
-
+			this.addEventListener('animationend', this.animationend);
 			if (this._templateHelper && this._templateHelper.instanceId) {
 				publishEvent('object', `ch5-template:${this._templateId}`, { loaded: true, id: this._templateHelper.instanceId, elementIds: this._templateHelper.elementIds });
 			}
@@ -413,6 +415,7 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 			// keep this in sync with ch5-template-structure
 			publishEvent('object', `ch5-template:${this.templateId}`, { loaded: false, id: this._templateHelper.instanceId });
 		}
+		this.removeEventListener('animationend', this.animationend);
 
 		if (this._refreshSubId !== null) {
 			this._refreshSubId.unsubscribe();
@@ -422,37 +425,45 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 	}
 
 	beforeHandlingShow() {
-		if (this.children && this.children[0]) {
-			this.setDurationAndDelay();
+		console.log('beforeHandlingShow');
+		this.firstLoad = false;
+		if (this.children && this.children[0] && this.noshowType !== 'remove') {
 			if (this.hasAttribute('transitionout')) {
-				this.classList.remove('inline-element');
+				this.classList.remove('inline-element', 'visible-element');
 				removeTransition(this.children[0], this.transitionOut, 'OUT');
 			}
 			if (this.hasAttribute('transitionin')) {
+				this.setDurationAndDelay();
 				setTransition(this.children[0], this.transitionIn, 'IN');
 			}
 		}
 	};
 
 	beforeHandlingHide() {
-
-		if (this.children && this.children[0]) {
-			this.setDurationAndDelay();
-
+		if (this.children && this.children[0] && this.firstLoad === false && this.noshowType !== 'remove') { // When the component is loading for the first time and its value is show=false, no animation is needed.
 			if (this.hasAttribute('transitionin')) {
-				this.classList.remove('inline-element');
+				this.classList.remove('inline-element', 'visible-element');
 				removeTransition(this.children[0], this.transitionIn, 'IN');
 			}
 			if (this.hasAttribute('transitionout')) {
-				this.classList.add('inline-element');
+				this.setDurationAndDelay();
+				if (this.noshowType === 'display') {
+					this.classList.add('inline-element');
+				} else if (this.noshowType === 'visibility') {
+					this.classList.add('visible-element');
+				}
 				setTransition(this.children[0], this.transitionOut, 'OUT');
 			}
 		}
 	};
 
+	private animationend() {
+		this.classList.remove('inline-element');
+	}
+
 	private updateAnimateClass() {
-		this.setDurationAndDelay();
-		if (this.show && this.hasAttribute('transitionin') && this.children && this.children[0]) {
+		if (this.show && this.hasAttribute('transitionin') && this.children && this.children[0] && this.noshowType !== 'remove') {
+			this.setDurationAndDelay();
 			setTransition(this.children[0], this.transitionIn, 'IN');
 		}
 	}
