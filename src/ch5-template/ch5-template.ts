@@ -287,9 +287,11 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 		]).then(() => {
 			this.initializations();
 			this.info('Ch5Template --- Callback loaded');
-			this.addEventListener('animationend', this.animationend);
 			if (this._templateHelper && this._templateHelper.instanceId) {
 				publishEvent('object', `ch5-template:${this._templateId}`, { loaded: true, id: this._templateHelper.instanceId, elementIds: this._templateHelper.elementIds });
+				this.addEventListener('animationend', this.animationend);
+				this.classList.remove('inline-element'); // TODO: not required
+				// console.log(this.classList);
 			}
 		});
 
@@ -425,7 +427,6 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 	}
 
 	beforeHandlingShow() {
-		console.log('beforeHandlingShow');
 		this.firstLoad = false;
 		if (this.children && this.children[0] && this.noshowType !== 'remove') {
 			if (this.hasAttribute('transitionout')) {
