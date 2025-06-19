@@ -290,8 +290,7 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 			if (this._templateHelper && this._templateHelper.instanceId) {
 				publishEvent('object', `ch5-template:${this._templateId}`, { loaded: true, id: this._templateHelper.instanceId, elementIds: this._templateHelper.elementIds });
 				this.addEventListener('animationend', this.animationend);
-				this.classList.remove('inline-element'); // TODO: not required
-				// console.log(this.classList);
+				this.classList.remove('inline-element', 'visible-element'); 
 			}
 		});
 
