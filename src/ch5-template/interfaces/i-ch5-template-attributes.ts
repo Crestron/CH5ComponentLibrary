@@ -6,6 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5CommonAttributesTemplate } from "../../ch5-common/interfaces/i-ch5-common-attributes-template";
+import { TCh5TransitionInType, TCh5TransitionOutType } from "./t-ch5-template";
 
 /**
  * @ignore
@@ -94,5 +95,56 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributesTemplate {
      * @attributeType "String"
      */
     stringJoinOffset: string;
+
+    /**
+     * @documentation
+     * [
+     * "`transitionIn` attribute",
+     * "***",
+     * "Animation transition class when component enters the viewport.The default value is null.",
+     * "Applicable values are bounceIn, bounceInDown, bounceInLeft, bounceInRight, bounceInUp, fadeIn, fadeInDown, fadeInDownBig, fadeInLeft, fadeInLeftBig, fadeInRight, fadeInRightBig, fadeInUp, fadeInUpBig, flipInX, flipInY, lightSpeedIn, rotateIn, rotateInDownLeft, rotateInDownRight, rotateInUpLeft, rotateInUpRight, rollIn, slideInDown, slideInLeft, slideInRight, slideInUp, zoomIn, zoomInDown, zoomInLeft, zoomInRight, zoomInUp."
+     * ]
+     * @name transitionin
+     * @default null
+     * @attributeType "EnumeratedValue"
+     */
+    transitionIn: TCh5TransitionInType | null;
+    /**
+     * @documentation
+     * [
+     * "`transitionOut` attribute",
+     * "***",
+     * "Animation transition class when the component exits the viewport.The default value is null.",
+     * "Applicable values are bounceOut, bounceOutDown, bounceOutLeft, bounceOutRight, bounceOutUp, fadeOut, fadeOutDown, fadeOutDownBig, fadeOutLeft, fadeOutLeftBig, fadeOutRight, fadeOutRightBig, fadeOutUp, fadeOutUpBig, flipOutX, flipOutY, lightSpeedOut, rotateOut, rotateOutDownLeft, rotateOutDownRight, rotateOutUpLeft, rotateOutUpRight, rollOut, slideOutDown, slideOutLeft, slideOutRight, slideOutUp, zoomOut, zoomOutDown, zoomOutLeft, zoomOutRight, zoomOutUp."
+     * ]
+     * @name transitionout
+     * @default null
+     * @attributeType "EnumeratedValue"
+     */
+    transitionOut: TCh5TransitionOutType | null;
+    /**
+     * @documentation
+     * [
+     * "`transitionDuration` attribute",
+     * "***",
+     * "Animation transition duration when the component enters or exits from the viewport.The default value is '1s'. Both seconds (s) and milliseconds (ms) are acceptable values."
+     * ]
+     * @name transitionduration
+     * @default 1s
+     * @attributeType "String"
+     */
+    transitionDuration: string;
+    /**
+     * @documentation
+     * [
+     * "`transitionDelay` attribute",
+     * "***",
+     * "Animation transition delay occurs when the component enters or exits the viewport. The default value is '0s'. Both seconds (s) and milliseconds (ms) are acceptable values."
+     * ]
+     * @name transitiondelay
+     * @default 0s
+     * @attributeType "String"
+     */
+    transitionDelay: string;
 
 }

@@ -13,11 +13,28 @@ import { ICh5TemplateAttributes } from "./interfaces/i-ch5-template-attributes";
 import { publishEvent } from "../ch5-core";
 import { ch5TemplateSubject } from "./refresh-ch5-template";
 import { Subscription } from "rxjs";
+import { ICh5PropertySettings } from "../ch5-core/ch5-property";
+import { Ch5Properties } from "../ch5-core/ch5-properties";
+import { removeTransition, setTransition } from '../ch5-core/utility-functions/animate';
+import { TCh5TransitionInType, TCh5TransitionOutType } from "./interfaces/t-ch5-template";
 
 export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 
+	public static readonly TRANSITIONINTYPE: TCh5TransitionInType[] = ['bounceIn', 'bounceInDown', 'bounceInLeft', 'bounceInRight', 'bounceInUp', 'fadeIn',
+		'fadeInDown', 'fadeInDownBig', 'fadeInLeft', 'fadeInLeftBig', 'fadeInRight', 'fadeInRightBig', 'fadeInUp', 'fadeInUpBig', 'flipInX', 'flipInY',
+		'lightSpeedIn', 'rotateIn', 'rotateInDownLeft', 'rotateInDownRight', 'rotateInUpLeft', 'rotateInUpRight', 'rollIn',
+		'zoomIn', 'zoomInDown', 'zoomInLeft', 'zoomInRight', 'zoomInUp', 'slideInDown', 'slideInLeft', 'slideInRight', 'slideInUp'
+	];
+
+	public static readonly TRANSITIONOUTTYPE: TCh5TransitionOutType[] = ['bounceOut', 'bounceOutDown', 'bounceOutLeft', 'bounceOutRight', 'bounceOutUp', 'fadeOut',
+		'fadeOutDown', 'fadeOutDownBig', 'fadeOutLeft', 'fadeOutLeftBig', 'fadeOutRight', 'fadeOutRightBig', 'fadeOutUp', 'fadeOutUpBig', 'flipOutX', 'flipOutY',
+		'lightSpeedOut', 'rotateOut', 'rotateOutDownLeft', 'rotateOutDownRight', 'rotateOutUpLeft', 'rotateOutUpRight', 'rollOut',
+		'zoomOut', 'zoomOutDown', 'zoomOutLeft', 'zoomOutRight', 'zoomOutUp', 'slideOutDown', 'slideOutLeft', 'slideOutRight', 'slideOutUp'
+	];
+
 	public static CH5_TEMPLATE_STYLE_CLASS: string = 'ch5-template';
 	public static readonly ELEMENT_NAME = 'ch5-template';
+	private _ch5Properties: Ch5Properties;
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
 		contractname: { contractName: true },
@@ -25,6 +42,45 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 		numericjoinoffset: { numericJoin: 1 },
 		stringjoinoffset: { stringJoin: 1 }
 	};
+
+	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
+		{
+			default: null,
+			enumeratedValues: Ch5Template.TRANSITIONINTYPE,
+			name: "transitionIn",
+			removeAttributeOnNull: true,
+			type: "enum",
+			valueOnAttributeEmpty: null,
+			isObservableProperty: true,
+			isNullable: true
+		},
+		{
+			default: null,
+			enumeratedValues: Ch5Template.TRANSITIONOUTTYPE,
+			name: "transitionOut",
+			removeAttributeOnNull: true,
+			type: "enum",
+			valueOnAttributeEmpty: null,
+			isObservableProperty: true,
+			isNullable: true
+		},
+		{
+			default: "1s",
+			name: "transitionDuration",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+		{
+			default: "0s",
+			name: "transitionDelay",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		},
+	];
 
 
 	// COMPONENT ATTRIBUTES
@@ -36,6 +92,7 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 	 * HTML attribute name: templateId
 	 */
 	private _templateId: string = '';
+	private firstLoad: boolean = false;
 
 	/**
 	 * A list of replacement strings to modify the template to particular instance.
@@ -75,7 +132,7 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 	/**
 	 * The subscription id of listener for refresh 
 	 */
-	private _refreshSubId: Subscription|null = null;
+	private _refreshSubId: Subscription | null = null;
 
 	public static registerSignalAttributeTypes() {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Template.ELEMENT_NAME, Ch5Template.SIGNAL_ATTRIBUTE_TYPES);
@@ -110,6 +167,11 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 			'stringjoinoffset'
 		];
 
+		for (let i: number = 0; i < Ch5Template.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5Template.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				contextObservedAttributes.push(Ch5Template.COMPONENT_PROPERTIES[i].name.toLowerCase());
+			}
+		}
 		return contextObservedAttributes.concat(commonObservedAttributes);
 	}
 
@@ -181,16 +243,54 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 		return this._stringJoinOffset;
 	}
 
+	public set transitionIn(value: TCh5TransitionInType | null) {
+		this._ch5Properties.set<TCh5TransitionInType | null>("transitionIn", value);
+	}
+	public get transitionIn(): TCh5TransitionInType {
+		return this._ch5Properties.get<TCh5TransitionInType>("transitionIn");
+	}
+
+	public set transitionOut(value: TCh5TransitionOutType | null) {
+		this._ch5Properties.set<TCh5TransitionOutType | null>("transitionOut", value);
+	}
+	public get transitionOut(): TCh5TransitionOutType {
+		return this._ch5Properties.get<TCh5TransitionOutType>("transitionOut");
+	}
+
+	public set transitionDuration(value: string) {
+		this._ch5Properties.set<string>("transitionDuration", value);
+	}
+	public get transitionDuration(): string {
+		return this._ch5Properties.get<string>("transitionDuration");
+	}
+
+	public set transitionDelay(value: string) {
+		this._ch5Properties.set<string>("transitionDelay", value);
+	}
+	public get transitionDelay(): string {
+		return this._ch5Properties.get<string>("transitionDelay");
+	}
+
+	/**
+	 * CONSTRUCTOR
+	 */
+	public constructor() {
+		super();
+		this._ch5Properties = new Ch5Properties(this, Ch5Template.COMPONENT_PROPERTIES);
+	}
+
 	public connectedCallback() {
 		this.info('Ch5Template.connectedCallback()');
+		this.firstLoad = true;
 		Promise.all([
 			customElements.whenDefined('ch5-template'),
 		]).then(() => {
 			this.initializations();
 			this.info('Ch5Template --- Callback loaded');
-
 			if (this._templateHelper && this._templateHelper.instanceId) {
 				publishEvent('object', `ch5-template:${this._templateId}`, { loaded: true, id: this._templateHelper.instanceId, elementIds: this._templateHelper.elementIds });
+				this.addEventListener('animationend', this.animationend);
+				this.classList.remove('inline-element', 'visible-element'); 
 			}
 		});
 
@@ -207,10 +307,10 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 	 */
 	private listenForCh5TemplateRefreshRequests() {
 		this.info('Ch5Template.listenForCh5TemplateRefreshRequests()');
-		
+
 		this._refreshSubId = ch5TemplateSubject.subscribe((ch5TemplateId: string) => {
 			this.info(`Ch5Template.listenForCh5TemplateRefreshRequests() new request for ${ch5TemplateId}`);
-			
+
 			if (!this.shouldRefresh(ch5TemplateId)) {
 				return;
 			}
@@ -230,6 +330,15 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 	protected initAttributes(): void {
 		super.initAttributes();
 		this.info('Ch5Template.initAttributes()');
+		const thisRef: any = this;
+		for (let i: number = 0; i < Ch5Template.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5Template.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				if (this.hasAttribute(Ch5Template.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
+					const key = Ch5Template.COMPONENT_PROPERTIES[i].name;
+					thisRef[key] = this.getAttribute(key);
+				}
+			}
+		}
 
 		if (this.hasAttribute('templateid')) {
 			this.templateId = this.getAttribute('templateid') as string;
@@ -244,11 +353,12 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 
 		this.info(`Ch5Template.initializations(${force === true})`);
 
-		if (force === true || !this._templateHelper || !this._templateHelper.instanceId ) {
+		if (force === true || !this._templateHelper || !this._templateHelper.instanceId) {
 			this.classList.add(Ch5Template.CH5_TEMPLATE_STYLE_CLASS);
 			this.initAttributes();
 			this._templateHelper = new Ch5TemplateStructure(this);
 			this._templateHelper.generateTemplate(this.templateId, this.context);
+			this.updateAnimateClass();
 			this.info('Ch5Template --- Initialization Finished');
 		}
 
@@ -260,6 +370,12 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
 		if (oldValue === newValue) {
 			return;
+		}
+		const attributeChangedProperty = Ch5Template.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
+		if (attributeChangedProperty) {
+			const thisRef: any = this;
+			const key = attributeChangedProperty.name;
+			thisRef[key] = newValue;
 		}
 
 		this.info(`Ch5Template.attributeChangedCallback("${attr}", "${oldValue}", "${newValue}")`);
@@ -300,6 +416,7 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 			// keep this in sync with ch5-template-structure
 			publishEvent('object', `ch5-template:${this.templateId}`, { loaded: false, id: this._templateHelper.instanceId });
 		}
+		this.removeEventListener('animationend', this.animationend);
 
 		if (this._refreshSubId !== null) {
 			this._refreshSubId.unsubscribe();
@@ -307,7 +424,54 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 		}
 
 	}
-	
+
+	beforeHandlingShow() {
+		this.firstLoad = false;
+		if (this.children && this.children[0] && this.noshowType !== 'remove') {
+			if (this.hasAttribute('transitionout')) {
+				this.classList.remove('inline-element', 'visible-element');
+				removeTransition(this.children[0], this.transitionOut, 'OUT');
+			}
+			if (this.hasAttribute('transitionin')) {
+				this.setDurationAndDelay();
+				setTransition(this.children[0], this.transitionIn, 'IN');
+			}
+		}
+	};
+
+	beforeHandlingHide() {
+		if (this.children && this.children[0] && this.firstLoad === false && this.noshowType !== 'remove') { // When the component is loading for the first time and its value is show=false, no animation is needed.
+			if (this.hasAttribute('transitionin')) {
+				this.classList.remove('inline-element', 'visible-element');
+				removeTransition(this.children[0], this.transitionIn, 'IN');
+			}
+			if (this.hasAttribute('transitionout')) {
+				this.setDurationAndDelay();
+				if (this.noshowType === 'display') {
+					this.classList.add('inline-element');
+				} else if (this.noshowType === 'visibility') {
+					this.classList.add('visible-element');
+				}
+				setTransition(this.children[0], this.transitionOut, 'OUT');
+			}
+		}
+	};
+
+	private animationend() {
+		this.classList.remove('inline-element');
+	}
+
+	private updateAnimateClass() {
+		if (this.show && this.hasAttribute('transitionin') && this.children && this.children[0] && this.noshowType !== 'remove') {
+			this.setDurationAndDelay();
+			setTransition(this.children[0], this.transitionIn, 'IN');
+		}
+	}
+
+	private setDurationAndDelay() {
+		this.style.setProperty('--animate-duration', this.transitionDuration ? this.transitionDuration : "1s");
+		this.style.setProperty('--animate-delay', this.transitionDelay ? this.transitionDelay : "0s");
+	}
 }
 
 Ch5Template.registerCustomElement();
