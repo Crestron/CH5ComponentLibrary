@@ -125,6 +125,8 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		this._ch5Properties.set<string>("labelMajor", value, () => {
 			if (this.labelMajor.trim() === "") {
 				this.setAttribute('labelMajor', this.getDefaultValue('labelMajor'))
+			} else {
+				this.labelMajor = this._getTranslatedValue('labelMajor', value);
 			}
 			this.handleIconLabelMajor();
 		});
@@ -137,6 +139,8 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		this._ch5Properties.set<string>("labelMinor", value, () => {
 			if (this.labelMinor.trim() === "") {
 				this.setAttribute('labelMinor', this.getDefaultValue('labelMinor'))
+			}  else {
+				this.labelMinor = this._getTranslatedValue('labelMinor', value);
 			}
 		});
 		this.handleLabelMinor(); // Handle this irrespective of content inside the label minor or its availability
