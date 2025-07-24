@@ -2659,6 +2659,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     const visibleButtons = this.showSignalHolder.filter((btn: any) => btn?.value === true).length
     this.allButtonsVisible = visibleButtons === this.numberOfItems ? true : false;
     if (this.allButtonsVisible === true) { return; }
+    this.initScrollbar();
 
     // check if any button needs to be added to make the container scrollable
     this.scrollToMiddleRange();
@@ -2698,7 +2699,6 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
       if (this.showSignalHolder[this.getLastChild() + 1].value === true) { k = k + 1; }
       this.createButton(this.getLastChild() + 1);
     }
-    this.initScrollbar();
   }
 
   private scrollToLeftEdgeRange() {
@@ -2737,7 +2737,9 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   }
 
   private resizeHandler = () => {
-    this.debounceButtonDisplay();
+    if (this.scrollToPosition < this.numberOfItems) { // To fix CH5C-28571 added this condtion
+      this.debounceButtonDisplay();
+    }
   }
 
   protected getTargetElementForCssClassesAndStyle(): HTMLElement {
