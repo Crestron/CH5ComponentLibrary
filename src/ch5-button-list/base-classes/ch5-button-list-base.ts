@@ -2737,7 +2737,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   }
 
   private resizeHandler = () => {
-    if (this.scrollToPosition < this.numberOfItems) { // To fix CH5C-28571 added this condtion
+    if (this.scrollToPosition <= this.numberOfItems) { // To fix CH5C-28571 added this condtion
       this.debounceButtonDisplay();
     }
   }
