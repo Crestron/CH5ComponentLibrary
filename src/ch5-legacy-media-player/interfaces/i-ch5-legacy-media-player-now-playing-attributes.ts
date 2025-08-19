@@ -4,7 +4,7 @@ import { ICh5CommonAttributesLegacyMediaPlayerNowPlaying  } from "../../ch5-comm
 /**
  * @ignore
  */
-export interface ICh5LegacyMediaPlayerNowPlayingAttributes extends ICh5CommonAttributesLegacyMediaPlayerNowPlaying  {
+export interface ICh5LegacyMediaPlayerNowPlayingAttributes {
   /**
             * @documentation
             * [

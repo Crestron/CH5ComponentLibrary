@@ -6,6 +6,8 @@ import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } 
 import { ICh5LegacyMediaPlayerAttributes } from './interfaces/i-ch5-legacy-media-player-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
+import {Ch5LegacyMediaPlayerMyMusic } from "./ch5-legacy-media-player-my-music";
+import {Ch5LegacyMediaPlayerNowPlaying} from "./ch5-legacy-media-player-now-playing";
 
 export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPlayerAttributes {
 
@@ -155,7 +157,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
-
+  private _legacyMediaPlayerMyMusic: Ch5LegacyMediaPlayerMyMusic = {} as Ch5LegacyMediaPlayerMyMusic;
+  private _legacyMediaPlayerNowPlaying: Ch5LegacyMediaPlayerNowPlaying = {} as Ch5LegacyMediaPlayerNowPlaying;
   //#endregion
 
   //#region Getters and Setters
@@ -367,8 +370,11 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   protected createInternalHtml() {
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
-    this._elContainer = document.createElement('div');
-
+    this._legacyMediaPlayerMyMusic= new Ch5LegacyMediaPlayerMyMusic();
+    this._legacyMediaPlayerNowPlaying= new Ch5LegacyMediaPlayerNowPlaying();
+    // this._elContainer = document.createElement('div');
+    this.appendChild(this._legacyMediaPlayerNowPlaying);
+    this.appendChild(this._legacyMediaPlayerMyMusic);
     this.logger.stop();
   }
 

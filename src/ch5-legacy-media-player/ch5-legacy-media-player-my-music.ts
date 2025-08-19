@@ -1,4 +1,4 @@
-import { Ch5Common } from "../ch5-common/ch5-common";
+// import { Ch5Common } from "../ch5-common/ch5-common";
 // import { Ch5SignalFactory } from "../ch5-core/index";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
@@ -6,14 +6,14 @@ import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } 
 import { ICh5LegacyMediaPlayerMyMusicAttributes } from './interfaces/i-ch5-legacy-media-player-my-music-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
+import { Ch5Log } from "../ch5-common/ch5-log";
 
-export class Ch5LegacyMediaPlayerMyMusic extends Ch5Common implements ICh5LegacyMediaPlayerMyMusicAttributes {
+export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log implements ICh5LegacyMediaPlayerMyMusicAttributes {
 
   //#region Variables
 
 
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-    ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
     receivestateselectedprofile: { direction: "state", stringJoin: 1, contractName: true },
 
   };
@@ -206,17 +206,13 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Common implements ICh5Legacy
   public constructor() {
     super();
     this.logger.start('constructor()', Ch5LegacyMediaPlayerMyMusic.ELEMENT_NAME);
-    this.ignoreAttributes = ["appendclasswheninviewport", "customclass", "customstyle", "noshowtype", "receivestatecustomclass", "receivestatecustomstyle", "receivestateenable", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "sendeventonshow",];
-    if (!this._wasInstatiated) {
-      this.createInternalHtml();
-    }
-    this._wasInstatiated = true;
     this._ch5Properties = new Ch5Properties(this, Ch5LegacyMediaPlayerMyMusic.COMPONENT_PROPERTIES);
+    this.createInternalHtml();
     this.updateCssClass();
   }
 
   public static get observedAttributes(): string[] {
-    const inheritedObsAttrs = Ch5Common.observedAttributes;
+    const inheritedObsAttrs = Ch5Log.observedAttributes;
     const newObsAttrs: string[] = [];
     for (let i: number = 0; i < Ch5LegacyMediaPlayerMyMusic.COMPONENT_PROPERTIES.length; i++) {
       if (Ch5LegacyMediaPlayerMyMusic.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
@@ -255,19 +251,16 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Common implements ICh5Legacy
       this._elContainer.classList.add('ch5-legacy-media-player-my-music');
       this.appendChild(this._elContainer);
     }
-    this.attachEventListeners();
     this.initAttributes();
-    this.initCommonMutationObserver(this);
 
-    customElements.whenDefined('ch5-legacy-media-player-my-music').then(() => {
-      this.componentLoadedEvent(Ch5LegacyMediaPlayerMyMusic.ELEMENT_NAME, this.id);
-    });
+    // customElements.whenDefined('ch5-legacy-media-player-my-music').then(() => {
+    //   this.componentLoadedEvent(Ch5LegacyMediaPlayerMyMusic.ELEMENT_NAME, this.id);
+    // });
     this.logger.stop();
   }
 
   public disconnectedCallback() {
     this.logger.start('disconnectedCallback()');
-    this.removeEventListeners();
     this.unsubscribeFromSignals();
     this.logger.stop();
   }
@@ -280,7 +273,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Common implements ICh5Legacy
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
     this._elContainer = document.createElement('div');
-
+    this._elContainer.innerText="My Music Container";
     this.logger.stop();
   }
 
@@ -298,18 +291,11 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Common implements ICh5Legacy
     }
   }
 
-  protected attachEventListeners() {
-    super.attachEventListeners();
 
-  }
 
-  protected removeEventListeners() {
-    super.removeEventListeners();
-
-  }
 
   protected unsubscribeFromSignals() {
-    super.unsubscribeFromSignals();
+    // super.unsubscribeFromSignals();
     this._ch5Properties.unsubscribe();
   }
 
@@ -348,8 +334,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Common implements ICh5Legacy
 
   private updateCssClass() {
     this.logger.start('UpdateCssClass');
-    super.updateCssClasses();
-
+    // super.updateCssClasses();
     this.logger.stop();
   }
 
