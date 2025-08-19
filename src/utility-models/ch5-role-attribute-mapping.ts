@@ -55,4 +55,5 @@ export class Ch5RoleAttributeMapping {
     public static readonly ch5VideoSwitcherSource = 'video-switcher-source';
     public static readonly ch5VideoSwitcherSourceLabel = 'video-switcher-source-label';
     public static readonly ch5WifiSignalLevelGauge = 'wifi-signal-level-gauge';
+    public static readonly ch5LegacyMediaPlayerNowPlaying = 'legacy-media-player-now-playing';
 }
