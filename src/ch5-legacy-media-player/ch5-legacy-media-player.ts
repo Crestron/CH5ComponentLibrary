@@ -394,7 +394,13 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   protected attachEventListeners() {
     super.attachEventListeners();
+    document.getElementsByClassName('music-button')[0].addEventListener('click', () => {
+			document.querySelector(".ch5-legacy-media-player-my-music")?.classList.add("my-music-transition");
+		});
 
+		document.getElementsByClassName('backToNowPlaying')[0].addEventListener('click', () => {
+			document.querySelector(".ch5-legacy-media-player-my-music")?.classList.remove("my-music-transition");
+		});
   }
 
   protected removeEventListeners() {
