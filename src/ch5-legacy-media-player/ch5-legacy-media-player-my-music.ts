@@ -2,7 +2,7 @@
 // import { Ch5SignalFactory } from "../ch5-core/index";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
-
+import { Ch5Button } from "../ch5-button/ch5-button";
 import { ICh5LegacyMediaPlayerMyMusicAttributes } from './interfaces/i-ch5-legacy-media-player-my-music-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
@@ -105,7 +105,25 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log implements ICh5LegacyMed
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
-
+  private _header: HTMLElement = {} as HTMLElement;
+  private _backMenu: HTMLElement = {} as HTMLElement;
+  private _backMenuIcon: HTMLElement = {} as HTMLElement;
+  private _headerText: HTMLElement = {} as HTMLElement;
+  private _headerLabel: HTMLElement = {} as HTMLElement;
+  private _headerSubtitle: HTMLElement = {} as HTMLElement;
+  private _sourceSection: HTMLElement = {} as HTMLElement;
+  private _sourceMenu: HTMLElement = {} as HTMLElement;
+  private _addSourceButton: HTMLElement = {} as HTMLElement;
+  private _searchSourceButton: HTMLElement = {} as HTMLElement;
+  private _favSourceButton: HTMLElement = {} as HTMLElement;
+  private _sourceListButton: HTMLElement = {} as HTMLElement;
+  private _sourceSettingsButton: HTMLElement = {} as HTMLElement;
+  private _sourceMenuIcon: HTMLElement = {} as HTMLElement;
+  private _item: HTMLElement = {} as HTMLElement;
+  private _title: HTMLElement = {} as HTMLElement;
+  private _subtitle: HTMLElement = {} as HTMLElement;
+  private _nowPlayingIcon: HTMLElement = {} as HTMLElement;
+  private _backToNowPlaying: HTMLElement = {} as HTMLElement;
   //#endregion
 
   //#region Getters and Setters
@@ -273,7 +291,60 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log implements ICh5LegacyMed
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
     this._elContainer = document.createElement('div');
-    this._elContainer.innerText="My Music Container";
+    this._header = document.createElement("div");
+    this._header.className = 'sourceBrowserHeader';
+
+    this._backMenu = document.createElement("button");
+    this._backMenu.classList.add('backMenu');
+    this._backMenuIcon = document.createElement("i");
+    this._backMenuIcon.className = 'fa fa-chevron-left';
+    this._backMenu.append(this._backMenuIcon);
+
+    this._headerText = document.createElement("div");
+    this._headerText.className = 'headerText';
+
+    this._headerLabel = document.createElement("h1");
+    this._headerLabel.className = 'headerLabel';
+    this._headerLabel.innerText = "HEADER TEXT";
+
+    this._headerSubtitle = document.createElement("p");
+    this._headerSubtitle.className = 'headerSubtitle';
+    this._headerSubtitle.innerText = 'SUBTITLE';
+    this._headerText.append(this._headerLabel, this._headerSubtitle);
+
+    this._backToNowPlaying = document.createElement("button");
+    this._backToNowPlaying.classList.add("backToNowPlaying");
+    this._nowPlayingIcon = document.createElement("i");
+    this._nowPlayingIcon.classList.add("fa-solid", "fa-signal");
+    this._backToNowPlaying.appendChild(this._nowPlayingIcon);
+    this._header.append(this._backMenu, this._headerText, this._backToNowPlaying);
+
+    this._sourceSection = document.createElement("div");
+    this._sourceSection.className = 'sourceSection';
+    this.createLine('Text Line 1', 'Sub Line 1');
+    this.createLine('Text Line 2', 'Sub Line 2');
+    this.createLine('Text Line 3', 'Sub Line 3');
+    this.createLine('Text Line 4', 'Sub Line 4');
+    this.createLine('Text Line 5', 'Sub Line 5');
+    this.createLine('Text Line 6', 'Sub Line 6');
+
+    this._sourceMenu = document.createElement("div");
+    this._sourceMenu.className = 'sourceMenuButtons';
+    const actions = [
+      { class: 'fa-solid fa-plus', label: 'Add Source', action: 'add' },
+      { class: 'fa-solid fa-search', label: 'Search Source', action: 'search' },
+      { class: 'fa-solid fa-icons', label: 'Favorites', action: 'fav' },
+      { class: 'fa-solid fa-music', label: 'Source List', action: 'music list' },
+      { class: 'fa-solid fa-gear', label: 'Settings', action: 'settings' },
+      { class: 'fa-solid fa-ellipsis', label: 'More Options', action: 'More Options' },
+    ];
+    actions.forEach(action => {
+      const button = new Ch5Button();
+      button.setAttribute('iconClass', action.class);
+      button.setAttribute('aria-label', action.label);
+      this._sourceMenu.appendChild(button);
+    });
+    this._elContainer.append(this._header, this._sourceSection, this._sourceMenu);
     this.logger.stop();
   }
 
@@ -309,7 +380,21 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log implements ICh5LegacyMed
     });
   }
 
+  private createLine(text: string, subText: string) {
 
+    this['_item'] = document.createElement('div');
+    this['_item'].className = 'list-item';
+    this['_title'] = document.createElement('div');
+    this['_title'].className = 'sourceTitle';
+    this['_title'].textContent = text;
+    this['_subtitle'] = document.createElement('div');
+    this['_subtitle'].className = 'sourceSubtitle';
+    this['_subtitle'].textContent = subText;
+    this['_item'].appendChild(this['_title']);
+    this['_item'].appendChild(this['_subtitle']);
+    this._sourceSection.appendChild(this['_item']);
+
+  }
   private handleReceiveStateSelectedProfile() {
     // Enter your Code here
   }
