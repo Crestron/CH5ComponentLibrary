@@ -372,9 +372,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this.clearComponentContent();
     this._legacyMediaPlayerMyMusic= new Ch5LegacyMediaPlayerMyMusic();
     this._legacyMediaPlayerNowPlaying= new Ch5LegacyMediaPlayerNowPlaying();
-    // this._elContainer = document.createElement('div');
-    this.appendChild(this._legacyMediaPlayerNowPlaying);
-    this.appendChild(this._legacyMediaPlayerMyMusic);
+    this._elContainer = document.createElement('div');
+    this._elContainer.appendChild(this._legacyMediaPlayerNowPlaying);
+    this._elContainer.appendChild(this._legacyMediaPlayerMyMusic);
     this.logger.stop();
   }
 
