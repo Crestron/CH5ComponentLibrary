@@ -1,4 +1,4 @@
-import { ICh5CommonAttributesLegacyMediaPlayerNowPlaying  } from "../../ch5-common/interfaces/i-ch5-common-attributes-legacy-media-player-now-playing";
+//import { ICh5CommonAttributesLegacyMediaPlayerNowPlaying  } from "../../ch5-common/interfaces/i-ch5-common-attributes-legacy-media-player-now-playing";
 
 
 /**
