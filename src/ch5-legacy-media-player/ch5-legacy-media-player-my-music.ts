@@ -2,11 +2,11 @@
 // import { Ch5SignalFactory } from "../ch5-core/index";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
-import { Ch5Button } from "../ch5-button/ch5-button";
 import { ICh5LegacyMediaPlayerMyMusicAttributes } from './interfaces/i-ch5-legacy-media-player-my-music-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Log } from "../ch5-common/ch5-log";
+import { Ch5MpIndividualIconButton } from "./ch5-mp-individual-icon-button";
 
 export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log implements ICh5LegacyMediaPlayerMyMusicAttributes {
 
@@ -339,7 +339,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log implements ICh5LegacyMed
       { class: 'fa-solid fa-ellipsis', label: 'More Options', action: 'More Options' },
     ];
     actions.forEach(action => {
-      const button = new Ch5Button();
+      const button = new Ch5MpIndividualIconButton();
       button.setAttribute('iconClass', action.class);
       button.setAttribute('aria-label', action.label);
       this._sourceMenu.appendChild(button);
