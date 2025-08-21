@@ -6,8 +6,8 @@ import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } 
 import { ICh5LegacyMediaPlayerAttributes } from './interfaces/i-ch5-legacy-media-player-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
-import {Ch5LegacyMediaPlayerMyMusic } from "./ch5-legacy-media-player-my-music";
-import {Ch5LegacyMediaPlayerNowPlaying} from "./ch5-legacy-media-player-now-playing";
+import { Ch5LegacyMediaPlayerMyMusic } from "./ch5-legacy-media-player-my-music";
+import { Ch5LegacyMediaPlayerNowPlaying } from "./ch5-legacy-media-player-now-playing";
 
 export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPlayerAttributes {
 
@@ -373,8 +373,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this._legacyMediaPlayerMyMusic= new Ch5LegacyMediaPlayerMyMusic();
     this._legacyMediaPlayerNowPlaying= new Ch5LegacyMediaPlayerNowPlaying();
     this._elContainer = document.createElement('div');
-    this.appendChild(this._legacyMediaPlayerNowPlaying);
-    this.appendChild(this._legacyMediaPlayerMyMusic);
+    this._elContainer.appendChild(this._legacyMediaPlayerNowPlaying.getTargetElementForCssClassesAndStyle());
+    this._elContainer.appendChild(this._legacyMediaPlayerMyMusic.getTargetElementForCssClassesAndStyle());
     this.logger.stop();
   }
 
@@ -395,12 +395,12 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   protected attachEventListeners() {
     super.attachEventListeners();
     document.getElementsByClassName('music-button')[0].addEventListener('click', () => {
-			document.querySelector(".ch5-legacy-media-player-my-music")?.classList.add("my-music-transition");
-		});
+      document.querySelector(".ch5-legacy-media-player-my-music")?.classList.add("my-music-transition");
+    });
 
-		document.getElementsByClassName('backToNowPlaying')[0].addEventListener('click', () => {
-			document.querySelector(".ch5-legacy-media-player-my-music")?.classList.remove("my-music-transition");
-		});
+    document.getElementsByClassName('backToNowPlaying')[0].addEventListener('click', () => {
+      document.querySelector(".ch5-legacy-media-player-my-music")?.classList.remove("my-music-transition");
+    });
   }
 
   protected removeEventListeners() {

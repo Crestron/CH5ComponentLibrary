@@ -266,7 +266,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log implements ICh5LegacyMed
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5LegacyMediaPlayerMyMusic);
     }
     if (this._elContainer.parentElement !== this) {
-      this._elContainer.classList.add('ch5-legacy-media-player-my-music');
+      
       this.appendChild(this._elContainer);
     }
     this.initAttributes();
@@ -291,6 +291,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log implements ICh5LegacyMed
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
     this._elContainer = document.createElement('div');
+    this._elContainer.classList.add('ch5-legacy-media-player-my-music');
     this._header = document.createElement("div");
     this._header.className = 'sourceBrowserHeader';
 
@@ -423,7 +424,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log implements ICh5LegacyMed
     this.logger.stop();
   }
 
-  protected getTargetElementForCssClassesAndStyle(): HTMLElement {
+  public getTargetElementForCssClassesAndStyle(): HTMLElement {
     return this._elContainer;
   }
 

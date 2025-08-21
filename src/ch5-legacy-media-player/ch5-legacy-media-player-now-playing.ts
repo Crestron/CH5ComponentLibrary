@@ -167,7 +167,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log implements ICh5Legacy
 			this.setAttribute('role', Ch5RoleAttributeMapping.ch5LegacyMediaPlayerNowPlaying);
 		}
 		if (this._elContainer.parentElement !== this) {
-			this._elContainer.classList.add('ch5-legacy-media-player-now-playing');
+			
 			this.appendChild(this._elContainer);
 		}
 		this.initAttributes();
@@ -188,6 +188,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log implements ICh5Legacy
 		this.logger.start('createInternalHtml()');
 		this.clearComponentContent();
 		this._elContainer = document.createElement('div');
+		this._elContainer.classList.add('ch5-legacy-media-player-now-playing');
 		this._albumArt = document.createElement("img");
 		this._albumArt.classList.add("album-art");
 		this._albumArt.alt = "Album Art";
@@ -524,7 +525,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log implements ICh5Legacy
 		this.logger.stop();
 	}
 
-	protected getTargetElementForCssClassesAndStyle(): HTMLElement {
+	public getTargetElementForCssClassesAndStyle(): HTMLElement {
 		return this._elContainer;
 	}
 
