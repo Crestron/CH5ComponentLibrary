@@ -158,7 +158,7 @@ export class Ch5MpIndividualIconButton extends Ch5Common {
 	public connectedCallback() {
 		this.logger.start('connectedCallback()', Ch5MpIndividualIconButton.ELEMENT_NAME);
 		if (this._elContainer.parentElement !== this) {
-			this._elContainer.classList.add('ch5-mp-individual-icon-button');
+			this._elContainer.classList.add('ch5-legacy-media-player-individual-icon-button');
 			this.appendChild(this._elContainer);
 		}
 		this.attachEventListeners();
@@ -185,7 +185,7 @@ export class Ch5MpIndividualIconButton extends Ch5Common {
 	protected createInternalHtml() {
 		this.logger.start('createInternalHtml()');
 		this.clearComponentContent();
-		this.classList.add('ch5-mp-individual-icon-button-container');
+		this.classList.add('ch5-legacy-media-player-individual-icon-button-container');
 		this._elContainer = document.createElement('button');
 
 		this.setAttribute('iconClass', this.iconClass || 'fas fa-music');

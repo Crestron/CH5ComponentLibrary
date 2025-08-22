@@ -47,30 +47,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log implements ICh5Legacy
 	public primaryCssClass = 'ch5-legacy-media-player-now-playing';
 
 	private _ch5Properties: Ch5Properties;
-	private _elContainer: HTMLElement = {} as HTMLElement;
-	private _albumArt: HTMLImageElement = {} as HTMLImageElement;
-	private _titleElem: HTMLDivElement = {} as HTMLDivElement;
-	private _artistElem: HTMLSpanElement = {} as HTMLSpanElement;
-	private _albumElem: HTMLSpanElement = {} as HTMLSpanElement;
-	private _artistAlbum: HTMLDivElement = {} as HTMLDivElement;
-	private _sourceElem: HTMLDivElement = {} as HTMLDivElement;
-	private _fourthLineElem: HTMLDivElement = {} as HTMLDivElement;
-
-	private _progressBarContainer: HTMLDivElement = {} as HTMLDivElement;
-	private _progressBarInput: HTMLInputElement = {} as HTMLInputElement;
-	private _audioElement: HTMLAudioElement = {} as HTMLAudioElement;
-	private _currentTime: HTMLSpanElement = {} as HTMLSpanElement;
-	private _duration: HTMLSpanElement = {} as HTMLSpanElement;
-
-	private _actionButtonsContainer: HTMLDivElement = {} as HTMLDivElement;
-	private _moreActionButtonsContainer: HTMLDivElement = {} as HTMLDivElement;
-	private _nextAndPreviousSongContainer: HTMLDivElement = {} as HTMLDivElement;
-
-	private _nextSongLabel: HTMLSpanElement = {} as HTMLSpanElement;
-	private _nextSongText: HTMLSpanElement = {} as HTMLSpanElement;
-
-	private _transportControls: HTMLElement = {} as HTMLElement;
-	private _nextPrevSong: HTMLElement = {} as HTMLElement;
 
 	//#endregion
 
@@ -123,7 +99,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log implements ICh5Legacy
 		super();
 		this.logger.start('constructor()', Ch5LegacyMediaPlayerNowPlaying.ELEMENT_NAME);
 		this._ch5Properties = new Ch5Properties(this, Ch5LegacyMediaPlayerNowPlaying.COMPONENT_PROPERTIES);
-		// this.createInternalHtml();
 		this.updateCssClass();
 	}
 
@@ -163,10 +138,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log implements ICh5Legacy
 		if (!this.hasAttribute('role')) {
 			this.setAttribute('role', Ch5RoleAttributeMapping.ch5LegacyMediaPlayerNowPlaying);
 		}
-		if (this._elContainer.parentElement !== this) {
 
-			this.appendChild(this._elContainer);
-		}
 		this.initAttributes();
 		this.logger.stop();
 	}
@@ -223,10 +195,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log implements ICh5Legacy
 		// super.updateCssClasses();
 
 		this.logger.stop();
-	}
-
-	public getTargetElementForCssClassesAndStyle(): HTMLElement {
-		return this._elContainer;
 	}
 
 	public getCssClassDisabled() {

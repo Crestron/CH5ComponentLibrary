@@ -687,27 +687,27 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
     // Progress bar section
     this._progressBarContainer = document.createElement('div');
-    this._progressBarContainer.classList.add('ch5-music-player-transport-controls--progressbar-container');
+    this._progressBarContainer.classList.add('ch5-legacy-media-player-transport-controls--progressbar-container');
     // Progress bar input
     this._progressBarInput = document.createElement('input');
     this._progressBarInput.type = 'range';
     this._progressBarInput.min = '0';
     this._progressBarInput.max = '100';
     this._progressBarInput.value = '0';
-    this._progressBarInput.classList.add('ch5-music-player-transport-controls--progressbar-input');
+    this._progressBarInput.classList.add('ch5-legacy-media-player-transport-controls--progressbar-input');
     this._progressBarContainer.appendChild(this._progressBarInput);
 
     // Current time and duration container
     const progressBarCurrentTimeDurationContainer = document.createElement('div');
-    progressBarCurrentTimeDurationContainer.classList.add('ch5-music-player-transport-controls--progressbar-current-time-duration-container');
+    progressBarCurrentTimeDurationContainer.classList.add('ch5-legacy-media-player-transport-controls--progressbar-current-time-duration-container');
     // Current time
     this._currentTime = document.createElement('span');
-    this._currentTime.classList.add('ch5-music-player-transport-controls--progressbar-current-time');
+    this._currentTime.classList.add('ch5-legacy-media-player-transport-controls--progressbar-current-time');
     this._currentTime.textContent = '0:00';
     progressBarCurrentTimeDurationContainer.appendChild(this._currentTime);
     // Duration
     this._duration = document.createElement('span');
-    this._duration.classList.add('ch5-music-player-transport-controls--progressbar-duration');
+    this._duration.classList.add('ch5-legacy-media-player-transport-controls--progressbar-duration');
     this._duration.textContent = '0:00';
     progressBarCurrentTimeDurationContainer.appendChild(this._duration);
     this._progressBarContainer.appendChild(progressBarCurrentTimeDurationContainer);
@@ -732,7 +732,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   protected renderActionButtons() {
     this._actionButtonsContainer = document.createElement('div');
-    this._actionButtonsContainer.classList.add('ch5-music-player-transport-controls--action-buttons-container');
+    this._actionButtonsContainer.classList.add('ch5-legacy-media-player-transport-controls--action-buttons-container');
 
     const actions = [
       { class: 'fas fa-thumbs-down', label: 'Dislike', action: 'dislike' },
@@ -758,7 +758,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   protected renderMoreActionButtons() {
     this._moreActionButtonsContainer = document.createElement('div');
-    this._moreActionButtonsContainer.classList.add('ch5-music-player-transport-controls--more-action-buttons-container');
+    this._moreActionButtonsContainer.classList.add('ch5-legacy-media-player-transport-controls--more-action-buttons-container');
 
     const actions = [
       { class: 'fas fa-shuffle', label: 'Shuffle', action: 'shuffle' },
@@ -781,30 +781,30 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   protected renderNextAndPreviousSong() {
     this._nextAndPreviousSongContainer = document.createElement('div');
-    this._nextAndPreviousSongContainer.classList.add('ch5-music-player-transport-controls--next-and-previous-song-container');
+    this._nextAndPreviousSongContainer.classList.add('ch5-legacy-media-player-transport-controls--next-and-previous-song-container');
     // Next Song Section
     const nextSongSection = document.createElement('div');
-    nextSongSection.classList.add('ch5-music-player-transport-controls--next-song-section');
+    nextSongSection.classList.add('ch5-legacy-media-player-transport-controls--next-song-section');
     //Next Song Label
     this._nextSongLabel = document.createElement('span');
-    this._nextSongLabel.classList.add('ch5-music-player-transport-controls--next-song-label');
+    this._nextSongLabel.classList.add('ch5-legacy-media-player-transport-controls--next-song-label');
     this._nextSongLabel.textContent = 'Next up:';
     nextSongSection.appendChild(this._nextSongLabel);
     //Next Song Text
     this._nextSongText = document.createElement('span');
-    this._nextSongText.classList.add('ch5-music-player-transport-controls--next-song-text');
+    this._nextSongText.classList.add('ch5-legacy-media-player-transport-controls--next-song-text');
     this._nextSongText.textContent = 'Song Name Here';
     nextSongSection.appendChild(this._nextSongText);
     this._nextAndPreviousSongContainer.appendChild(nextSongSection);
 
     // Next and Previous Arrows
     const arrowsContainer = document.createElement('div');
-    arrowsContainer.classList.add('ch5-music-player-transport-controls--arrows-container');
+    arrowsContainer.classList.add('ch5-legacy-media-player-transport-controls--arrows-container');
     const previousButton = document.createElement('button');
-    previousButton.classList.add('fas', 'fa-chevron-left', 'ch5-music-player-transport-controls--arrow-left-button');
+    previousButton.classList.add('fas', 'fa-chevron-left', 'ch5-legacy-media-player-transport-controls--arrow-left-button');
     arrowsContainer.appendChild(previousButton);
     const nextButton = document.createElement('button');
-    nextButton.classList.add('fas', 'fa-chevron-right', 'ch5-music-player-transport-controls--arrow-right-button');
+    nextButton.classList.add('fas', 'fa-chevron-right', 'ch5-legacy-media-player-transport-controls--arrow-right-button');
     arrowsContainer.appendChild(nextButton);
     this._nextAndPreviousSongContainer.appendChild(arrowsContainer);
 

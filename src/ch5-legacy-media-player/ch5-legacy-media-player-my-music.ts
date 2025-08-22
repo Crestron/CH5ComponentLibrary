@@ -202,7 +202,6 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log implements ICh5LegacyMed
     super();
     this.logger.start('constructor()', Ch5LegacyMediaPlayerMyMusic.ELEMENT_NAME);
     this._ch5Properties = new Ch5Properties(this, Ch5LegacyMediaPlayerMyMusic.COMPONENT_PROPERTIES);
-    // this.createInternalHtml();
     this.updateCssClass();
   }
 
@@ -244,10 +243,6 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log implements ICh5LegacyMed
     }
 
     this.initAttributes();
-
-    // customElements.whenDefined('ch5-legacy-media-player-my-music').then(() => {
-    //   this.componentLoadedEvent(Ch5LegacyMediaPlayerMyMusic.ELEMENT_NAME, this.id);
-    // });
     this.logger.stop();
   }
 
