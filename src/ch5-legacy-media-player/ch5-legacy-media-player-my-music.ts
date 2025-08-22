@@ -321,10 +321,6 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log implements ICh5LegacyMed
     this.logger.stop();
   }
 
-  protected getTargetElementForCssClassesAndStyle(): HTMLElement {
-    return this._elContainer;
-  }
-
   public getCssClassDisabled() {
     return this.primaryCssClass + '--disabled';
   }
