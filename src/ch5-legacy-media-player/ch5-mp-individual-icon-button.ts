@@ -1,6 +1,5 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
-
+import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 
@@ -8,38 +7,10 @@ export class Ch5MpIndividualIconButton extends Ch5Common {
 
 	//#region Variables
 
-	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestateiconclass: { direction: "state", stringJoin: 1, contractName: true },
-
-	};
-
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
 		{
 			default: "",
 			name: "iconClass",
-			nameForSignal: "receiveStateIconClass",
-			removeAttributeOnNull: true,
-			type: "string",
-			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
-
-		},
-		{
-			default: "",
-			isSignal: true,
-			name: "receiveStateIconClass",
-			signalType: "string",
-			removeAttributeOnNull: true,
-			type: "string",
-
-			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
-		},
-		{
-			default: "",
-			name: "label",
-			nameForSignal: "",
 			removeAttributeOnNull: true,
 			type: "string",
 			valueOnAttributeEmpty: "",
@@ -69,27 +40,6 @@ export class Ch5MpIndividualIconButton extends Ch5Common {
 	public get iconClass(): string {
 		return this._ch5Properties.get<string>("iconClass");
 	}
-
-	public set label(value: string) {
-		this._ch5Properties.set<string>("label", value, () => {
-			this.handleIconClass(value);
-		});
-	}
-	public get label(): string {
-		return this._ch5Properties.get<string>("label");
-	}
-
-	public set receiveStateIconClass(value: string) {
-		this._ch5Properties.set("receiveStateIconClass", value, null, (newValue: string) => {
-			this._ch5Properties.setForSignalResponse<string>("iconClass", newValue, () => {
-				this.handleReceiveStateIconClass();
-			});
-		});
-	}
-	public get receiveStateIconClass(): string {
-		return this._ch5Properties.get<string>('receiveStateIconClass');
-	}
-
 
 	//#endregion
 
@@ -211,12 +161,10 @@ export class Ch5MpIndividualIconButton extends Ch5Common {
 
 	protected attachEventListeners() {
 		super.attachEventListeners();
-
 	}
 
 	protected removeEventListeners() {
 		super.removeEventListeners();
-
 	}
 
 	protected unsubscribeFromSignals() {
@@ -244,14 +192,10 @@ export class Ch5MpIndividualIconButton extends Ch5Common {
 
 		this.updateCssClass();
 	}
-	private handleReceiveStateIconClass() {
-		// Enter your Code here
-	}
 
 	private updateCssClass() {
 		this.logger.start('UpdateCssClass');
 		super.updateCssClasses();
-
 		this.logger.stop();
 	}
 
