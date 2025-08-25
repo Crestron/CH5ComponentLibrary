@@ -440,7 +440,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   //#endregion
-
 }
 
 Ch5LegacyMediaPlayer.registerCustomElement();

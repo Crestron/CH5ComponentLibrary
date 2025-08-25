@@ -225,7 +225,6 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
   }
 
   //#endregion
-
 }
 
 Ch5LegacyMediaPlayerMyMusic.registerCustomElement();
