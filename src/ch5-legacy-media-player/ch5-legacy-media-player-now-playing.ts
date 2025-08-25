@@ -95,11 +95,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	};
 	//#endregion
 
-	//#region Getters and Setters
-
-
-	//#endregion
-
 	//#region Static Methods
 
 	public static registerSignalAttributeTypes() {
@@ -178,22 +173,21 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this.clearComponentContent();
 		this._nowPlayingContainer = document.createElement('div');
 		this._nowPlayingContainer.classList.add("ch5-legacy-media-player-now-playing");
-
+		//Now Playing Image
 		this._nowPlayingImage = document.createElement("img");
 		this._nowPlayingImage.classList.add("now-playing-image");
 		this._nowPlayingImage.alt = "Album Art";
 		this._nowPlayingImage.src = "https://i.ytimg.com/vi/ZUfWe-CkgBE/maxresdefault.jpg";
-
+		//Now Playing Track Information
 		this._nowPlayingTrackInfo = document.createElement("div");
 		this._nowPlayingTrackInfo.classList.add("now-playing-track-info");
-
+		//Now Playing Song Title
 		this._nowPlayingSongTitle = document.createElement("div");
 		this._nowPlayingSongTitle.classList.add("now-playing-song-title");
 		this._nowPlayingSongTitle.textContent = "Song Title";
-
+		//Now Playing Song Artist and Album
 		this._nowPlayingArtistAlbum = document.createElement("div");
 		this._nowPlayingArtistAlbum.classList.add("now-playing-artist-album");
-
 		this._nowPlayingArtist = document.createElement("span");
 		this._nowPlayingAlbum = document.createElement("span");
 		const longDash = document.createElement("span");
@@ -206,7 +200,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingArtistAlbum.appendChild(this._nowPlayingArtist);
 		this._nowPlayingArtistAlbum.appendChild(longDash);
 		this._nowPlayingArtistAlbum.appendChild(this._nowPlayingAlbum);
-
+		//Now Playing Song Additional Information
 		this._nowPlayingSongAdditionalInfo = document.createElement("div");
 		this._nowPlayingSongAdditionalInfo.classList.add("now-playing-song-additional-info");
 		this._nowPlayingSongAdditionalInfo.textContent = "Fourth Line";
@@ -214,16 +208,14 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingTrackInfo.appendChild(this._nowPlayingSongTitle);
 		this._nowPlayingTrackInfo.appendChild(this._nowPlayingArtistAlbum);
 		this._nowPlayingTrackInfo.appendChild(this._nowPlayingSongAdditionalInfo);
-
+		//Now playing player selection
 		this._nowPlayingPlayerContainer = document.createElement("div");
 		this._nowPlayingPlayerContainer.classList.add("now-playing-player-container");
-
 		const nowPlayingPlayerDropdown = document.createElement('div');
 		nowPlayingPlayerDropdown.classList.add('now-playing-player-dropdown');
 		const nowPlayingPlayerSelect = document.createElement('select');
 		nowPlayingPlayerSelect.classList.add('now-playing-player-select');
 		nowPlayingPlayerSelect.id = 'now-playing-player-select';
-
 		const nowPlayingPlayerSelectOption = document.createElement('option');
 		nowPlayingPlayerSelectOption.value = ''; // Empty value for validation
 		nowPlayingPlayerSelectOption.classList.add('now-playing-player-select-option');
@@ -238,14 +230,13 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			{ value: 'tidal', text: 'Tidal' },
 			{ value: 'podcast', text: 'Podcast' }
 		];
-
 		optionsData.forEach(optionData => {
 			const option = document.createElement('option');
 			option.value = optionData.value
 			option.textContent = optionData.text;
 			nowPlayingPlayerSelect.appendChild(option);
 		});
-
+		//Now Playing Player Music Note
 		const nowPlayingPlayerMusicNoteButton = new Ch5LegacyMediaPlayerIconButton();
 		nowPlayingPlayerMusicNoteButton.setAttribute('iconClass', "fas fa-music");
 		nowPlayingPlayerMusicNoteButton.classList.add("now-playing-player-music-note-button");
@@ -279,7 +270,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._progressBarInput.value = '0';
 		this._progressBarInput.classList.add('now-playing-progressbar-input');
 		this._progressBarContainer.appendChild(this._progressBarInput);
-
 		// Current time and duration container
 		const progressBarCurrentTimeDurationContainer = document.createElement('div');
 		progressBarCurrentTimeDurationContainer.classList.add('now-playing-progressbar-current-time-duration-container');
@@ -301,7 +291,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	protected renderActionButtons() {
 		this._actionButtonsContainer = document.createElement('div');
 		this._actionButtonsContainer.classList.add('now-playing-action-buttons-container');
-
 		const actions = [
 			{ class: 'fas fa-thumbs-down' },
 			{ class: 'fas fa-step-backward' },
@@ -318,28 +307,24 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			button.style.cssText = action.style || '';
 			this._actionButtonsContainer.appendChild(button);
 		});
-
 		this._transportControls.appendChild(this._actionButtonsContainer);
 	}
 
 	protected renderMoreActionButtons() {
 		this._moreActionButtonsContainer = document.createElement('div');
 		this._moreActionButtonsContainer.classList.add('now-playing-more-action-buttons-container');
-
 		const actions = [
 			{ class: 'fas fa-shuffle' },
 			{ class: 'fas fa-repeat' },
 			{ class: 'fas fa-notes-medical' },
 			{ class: 'fas fa-icons' },
 			{ class: 'fas fa-user-plus' },
-
 		];
 		actions.forEach(action => {
 			const button = new Ch5LegacyMediaPlayerIconButton();
 			button.setAttribute('iconClass', action.class);
 			this._moreActionButtonsContainer.appendChild(button);
 		});
-
 		this._transportControls.appendChild(this._moreActionButtonsContainer);
 	}
 
@@ -360,7 +345,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nextSongText.textContent = 'Song Name Here';
 		nextSongSection.appendChild(this._nextSongText);
 		this._nextAndPreviousSongContainer.appendChild(nextSongSection);
-
 		// Next and Previous Arrows
 		const arrowsContainer = document.createElement('div');
 		arrowsContainer.classList.add('now-playing-arrows-container');
@@ -371,10 +355,8 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		nextButton.classList.add('fas', 'fa-chevron-right', 'now-playing-arrow-right-button');
 		arrowsContainer.appendChild(nextButton);
 		this._nextAndPreviousSongContainer.appendChild(arrowsContainer);
-
 		this._nowPlayingContainer.appendChild(this._nextAndPreviousSongContainer);
 	}
-
 
 	// Utility: format time
 	protected formatTime = (seconds: number): string => {
@@ -389,7 +371,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	protected initAttributes() {
 		super.initAttributes();
-
 		const thisRef: any = this;
 		for (let i: number = 0; i < Ch5LegacyMediaPlayerNowPlaying.COMPONENT_PROPERTIES.length; i++) {
 			if (Ch5LegacyMediaPlayerNowPlaying.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
@@ -402,7 +383,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	}
 
 	protected unsubscribeFromSignals() {
-		// super.unsubscribeFromSignals();
 		this._ch5Properties.unsubscribe();
 	}
 
@@ -418,8 +398,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	private updateCssClass() {
 		this.logger.start('UpdateCssClass');
-		// super.updateCssClasses();
-
 		this.logger.stop();
 	}
 
@@ -428,7 +406,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	}
 
 	//#endregion
-
 }
 
 Ch5LegacyMediaPlayerNowPlaying.registerCustomElement();
