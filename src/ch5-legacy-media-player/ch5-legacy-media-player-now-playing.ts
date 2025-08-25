@@ -3,6 +3,7 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Log } from "../ch5-common/ch5-log";
 import { Ch5LegacyMediaPlayerIconButton } from "./ch5-legacy-media-player-icon-button-base.ts";
+
 export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	//#region Variables
@@ -36,6 +37,62 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	private _nextSongText: HTMLSpanElement = {} as HTMLSpanElement;
 	private _transportControls: HTMLElement = {} as HTMLElement;
 
+	private readonly DEMO_MODE_DATA = {
+		nowPlaying: {
+			classes: [
+				"ch5-legacy-media-player-now-playing"
+			]
+		},
+		albumArt: {
+			classes: [
+				"album-art"
+			],
+			alt: "Album Art",
+			src: "https://i.ytimg.com/vi/ZUfWe-CkgBE/maxresdefault.jpg"
+		},
+		info: {
+			classes: [
+				"info"
+			],
+			titleElement: {
+				classes: [
+					"song-title"
+				],
+				textContent: "Song Title"
+			},
+			artistAlbum: {
+				classes: [
+					"artist-album"
+				],
+				textContent: "Song Title"
+			},
+			artistElement: {
+				classes: [
+					""
+				],
+				textContent: ""
+			},
+			longDash: {
+				classes: [
+					""
+				],
+				textContent: ""
+			}
+		},
+		sourceElement: {
+			options: [
+				{ value: 'pandora', text: 'Pandora' },
+				{ value: 'spotify', text: 'Spotify' },
+				{ value: 'tidal', text: 'Tidal' },
+				{ value: 'podcast', text: 'Podcast' }
+			],
+			musicButton: {
+				icon: "fas fa-music",
+				class: "music-button"
+			}
+		},
+		transportControls: {}
+	};
 	//#endregion
 
 	//#region Getters and Setters

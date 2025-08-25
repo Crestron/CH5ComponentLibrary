@@ -14,17 +14,4 @@ export interface ICh5LegacyMediaPlayerNowPlayingAttributes {
    * @attributeType "Join"
    */
   receiveStateSelectedProfile: string;
-  /**
-   * @documentation
-   * [
-   * "`menuIconSendEventOnClick` attribute",
-   * "***",
-   * "Send an event on tap or click"
-   * ]
-   * @name menuiconsendeventonclick
-   * @default 
-   * @attributeType "String"
-   */
-  menuIconSendEventOnClick: string;
-           
 }

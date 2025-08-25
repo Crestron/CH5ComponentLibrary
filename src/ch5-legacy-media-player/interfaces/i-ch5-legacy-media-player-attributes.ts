@@ -9,7 +9,7 @@ export interface ICh5LegacyMediaPlayerAttributes extends ICh5CommonAttributesLeg
 		* [
 		* "`demoMode` attribute",
 		* "***",
-		* "This is an internal property specifically for Construct usage. This attribute will not be exposed in Showcase. This attribute will show labels / icons against each of the controls etc. The expectation of the attribute is to allow the end users to customize colors and other CSS variables for each theme."
+		* "This is an internal property specifically for Construct usage. This attribute will show labels / icons against each of the controls etc. The attribute will allow the end users to customize colors and other CSS variables at design time."
 		* ]
 		* @name demomode
 		* @default false

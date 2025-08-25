@@ -33,13 +33,7 @@ import { ICh5LegacyMediaPlayerMyMusicAttributes } from "./i-ch5-legacy-media-pla
  *     "description": "Crestron legacy media player my music (All Attributes)",
  *     "body": [
  *       "<ch5-legacy-media-player-my-music id=\"ch5-legacy-media-player-my-music_${1:id}\"",
- *       "\treceiveStateSelectedProfile=\"${2:}\"",
- *       "\tmenuIconReceiveStateSelected=\"${3:}\"",
- *       "\tmenuReceiveStateIconClass=\"${4:}\"",
- *       "\tmenuReceiveStateIconUrl=\"${5:}\"",
- *       "\tmenuIconReceiveStateShow=\"${6:}\"",
- *       "\tmenuIconReceiveStateEnable=\"${7:}\"",
- *       "\tmenuIconSendEventOnClick=\"${8:}\">",
+ *       "\treceiveStateSelectedProfile=\"${2:}\">",
  *       "</ch5-legacy-media-player-my-music>$0"
  *       ]
  *    },

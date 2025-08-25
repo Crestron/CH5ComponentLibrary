@@ -1,5 +1,4 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 
@@ -44,10 +43,6 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Common {
 
 	//#region Static Methods
 
-	public static registerSignalAttributeTypes() {
-		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5LegacyMediaPlayerIconButton.ELEMENT_NAME, Ch5LegacyMediaPlayerIconButton.SIGNAL_ATTRIBUTE_TYPES);
-	}
-
 	public static registerCustomElement() {
 		if (typeof window === "object"
 			&& typeof window.customElements === "object"
@@ -64,7 +59,7 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Common {
 	public constructor() {
 		super();
 		this.logger.start('constructor()', Ch5LegacyMediaPlayerIconButton.ELEMENT_NAME);
-		this.ignoreAttributes = [];
+		this.ignoreAttributes = []; // TODO - Fix this
 		this._ch5Properties = new Ch5Properties(this, Ch5LegacyMediaPlayerIconButton.COMPONENT_PROPERTIES);
 		if (!this._wasInstatiated) {
 			this.createInternalHtml();
@@ -211,4 +206,3 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Common {
 }
 
 Ch5LegacyMediaPlayerIconButton.registerCustomElement();
-Ch5LegacyMediaPlayerIconButton.registerSignalAttributeTypes();

@@ -139,7 +139,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
- 
+
   //#endregion
 
   //#region Getters and Setters
@@ -163,9 +163,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   public set receiveStateCRPC(value: string) {
-    this._ch5Properties.set("receiveStateCRPC", value, null, (newValue: string) => {
+    this._ch5Properties.set("receiveStateCRPC", value, null, () => {
       this.handleReceiveStateCRPC();
-      console.log(newValue);
     });
   }
   public get receiveStateCRPC(): string {
@@ -173,9 +172,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   public set sendEventCRPC(value: string) {
-    this._ch5Properties.set("sendEventCRPC", value, null, (newValue: string) => {
+    this._ch5Properties.set("sendEventCRPC", value, null, () => {
       this.handleSendEventCRPC();
-      console.log(newValue);
     });
   }
   public get sendEventCRPC(): string {
@@ -183,9 +181,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   public set receiveStateMessage(value: string) {
-    this._ch5Properties.set("receiveStateMessage", value, null, (newValue: string) => {
+    this._ch5Properties.set("receiveStateMessage", value, null, () => {
       this.handleReceiveStateMessage();
-      console.log(newValue);
     });
   }
   public get receiveStateMessage(): string {
@@ -193,9 +190,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   public set sendEventMessage(value: string) {
-    this._ch5Properties.set("sendEventMessage", value, null, (newValue: string) => {
+    this._ch5Properties.set("sendEventMessage", value, null, () => {
       this.handleSendEventMessage();
-      console.log(newValue);
     });
   }
   public get sendEventMessage(): string {
@@ -203,9 +199,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   public set receiveStateRefreshMediaPlayer(value: string) {
-    this._ch5Properties.set("receiveStateRefreshMediaPlayer", value, null, (newValue: boolean) => {
+    this._ch5Properties.set("receiveStateRefreshMediaPlayer", value, null, () => {
       this.handleReceiveStateRefreshMediaPlayer();
-      console.log(newValue);
     });
   }
   public get receiveStateRefreshMediaPlayer(): string {
@@ -213,9 +208,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   public set receiveStateDeviceOffline(value: string) {
-    this._ch5Properties.set("receiveStateDeviceOffline", value, null, (newValue: boolean) => {
+    this._ch5Properties.set("receiveStateDeviceOffline", value, null, () => {
       this.handleReceiveStateDeviceOffline();
-      console.log(newValue);
     });
   }
   public get receiveStateDeviceOffline(): string {
@@ -223,9 +217,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   public set receiveStateUseMessage(value: string) {
-    this._ch5Properties.set("receiveStateUseMessage", value, null, (newValue: boolean) => {
+    this._ch5Properties.set("receiveStateUseMessage", value, null, () => {
       this.handleReceiveStateUseMessage();
-      console.log(newValue);
     });
   }
   public get receiveStateUseMessage(): string {
@@ -233,9 +226,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   public set receiveStateControlSystemOffline(value: string) {
-    this._ch5Properties.set("receiveStateControlSystemOffline", value, null, (newValue: boolean) => {
+    this._ch5Properties.set("receiveStateControlSystemOffline", value, null, () => {
       this.handleReceiveStateControlSystemOffline();
-      console.log(newValue);
     });
   }
   public get receiveStateControlSystemOffline(): string {
@@ -243,9 +235,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   public set sendEventPlayerName(value: string) {
-    this._ch5Properties.set("sendEventPlayerName", value, null, (newValue: string) => {
+    this._ch5Properties.set("sendEventPlayerName", value, null, () => {
       this.handleSendEventPlayerName();
-      console.log(newValue);
     });
   }
   public get sendEventPlayerName(): string {
@@ -276,7 +267,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   public constructor() {
     super();
     this.logger.start('constructor()', Ch5LegacyMediaPlayer.ELEMENT_NAME);
-    this.ignoreAttributes = ["appendclasswheninviewport", "receivestateshowpulse", "receivestatehidepulse", "sendeventonshow",];
+    this.ignoreAttributes = ["appendclasswheninviewport", "receivestateshowpulse", "receivestatehidepulse", "sendeventonshow"];
     if (!this._wasInstatiated) {
       this.createInternalHtml();
     }
