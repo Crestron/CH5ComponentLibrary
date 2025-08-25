@@ -33,8 +33,7 @@ import { ICh5LegacyMediaPlayerNowPlayingAttributes } from "./i-ch5-legacy-media-
  *     "description": "Crestron legacy media player now playing (All Attributes)",
  *     "body": [
  *       "<ch5-legacy-media-player-now-playing id=\"ch5-legacy-media-player-now-playing_${1:id}\"",
- *       "\treceiveStateSelectedProfile=\"${2:}\"",
- *       "\tmenuIconSendEventOnClick=\"${3:}\">",
+ *       "\treceiveStateSelectedProfile=\"${2:}\">",
  *       "</ch5-legacy-media-player-now-playing>$0"
  *       ]
  *    },
