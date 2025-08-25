@@ -20,7 +20,6 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
   private _myMusicContainer: HTMLElement = {} as HTMLElement;
   private _myMusicHeaderSection: HTMLElement = {} as HTMLElement;
   private _myMusicHeaderBackButton: HTMLElement = {} as HTMLElement;
-  private _myMusicHeaderBackButtonIcon: HTMLElement = {} as HTMLElement;
   private _myMusicHeaderTitle: HTMLElement = {} as HTMLElement;
   private _myMusicHeaderTitleText: HTMLElement = {} as HTMLElement;
   private _myMusicheaderSubtitle: HTMLElement = {} as HTMLElement;
@@ -29,9 +28,8 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
   private _myMusicContentItem: HTMLElement = {} as HTMLElement;
   private _myMusicContentItemTitle: HTMLElement = {} as HTMLElement;
   private _myMusicContentItemSubtitle: HTMLElement = {} as HTMLElement;
-  private _myMusicHeaderNowPlayingButtonIcon: HTMLElement = {} as HTMLElement;
   private _myMusicHeaderNowPlayingButton: HTMLElement = {} as HTMLElement;
-  
+
   //#endregion
 
   //#region Static Methods
@@ -116,11 +114,9 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicHeaderSection = document.createElement("div");
     this._myMusicHeaderSection.className = 'my-music-header-section';
 
-    this._myMusicHeaderBackButton = document.createElement("button");
+    this._myMusicHeaderBackButton = new Ch5LegacyMediaPlayerIconButton();
+    this._myMusicHeaderBackButton.setAttribute('iconClass', "fas fa-chevron-left");
     this._myMusicHeaderBackButton.classList.add('my-music-header-back-button');
-    this._myMusicHeaderBackButtonIcon = document.createElement("i");
-    this._myMusicHeaderBackButtonIcon.className = 'fa fa-chevron-left';
-    this._myMusicHeaderBackButton.append(this._myMusicHeaderBackButtonIcon);
 
     this._myMusicHeaderTitle = document.createElement("div");
     this._myMusicHeaderTitle.className = 'my-music-header-title';
@@ -134,11 +130,9 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicheaderSubtitle.innerText = 'SUBTITLE';
     this._myMusicHeaderTitle.append(this._myMusicHeaderTitleText, this._myMusicheaderSubtitle);
 
-    this._myMusicHeaderNowPlayingButton = document.createElement("button");
+    this._myMusicHeaderNowPlayingButton = new Ch5LegacyMediaPlayerIconButton();
+    this._myMusicHeaderNowPlayingButton.setAttribute('iconClass', "fas fa-signal");
     this._myMusicHeaderNowPlayingButton.classList.add("my-music-header-now-playing-button");
-    this._myMusicHeaderNowPlayingButtonIcon = document.createElement("i");
-    this._myMusicHeaderNowPlayingButtonIcon.classList.add("fa-solid", "fa-signal");
-    this._myMusicHeaderNowPlayingButton.appendChild(this._myMusicHeaderNowPlayingButtonIcon);
     this._myMusicHeaderSection.append(this._myMusicHeaderBackButton, this._myMusicHeaderTitle, this._myMusicHeaderNowPlayingButton);
 
     this._myMusicContentSection = document.createElement("div");
