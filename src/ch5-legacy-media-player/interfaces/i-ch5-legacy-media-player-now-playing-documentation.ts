@@ -34,7 +34,7 @@ import { ICh5LegacyMediaPlayerNowPlayingAttributes } from "./i-ch5-legacy-media-
  *     "body": [
  *       "<ch5-legacy-media-player-now-playing id=\"ch5-legacy-media-player-now-playing_${1:id}\"",
  *       "\treceiveStateSelectedProfile=\"${2:}\"",
-          *       "\tmenuIconSendEventOnClick=\"${3:}\">",
+ *       "\tmenuIconSendEventOnClick=\"${3:}\">",
  *       "</ch5-legacy-media-player-now-playing>$0"
  *       ]
  *    },
@@ -42,8 +42,7 @@ import { ICh5LegacyMediaPlayerNowPlayingAttributes } from "./i-ch5-legacy-media-
  *     "prefix": "ch5-legacy-media-player-now-playing:default",
  *     "description": "Crestron legacy media player now playing (default)",
  *     "body": [
- *       "<ch5-legacy-media-player-now-playing id=\"ch5-legacy-media-player-now-playing_${1:id}\"",
- 
+ *       "<ch5-legacy-media-player-now-playing id=\"ch5-legacy-media-player-now-playing_${1:id}\">",
  *       "</ch5-legacy-media-player-now-playing>$0"
  *       ]
  *    }

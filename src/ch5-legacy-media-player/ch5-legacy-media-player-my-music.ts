@@ -1,9 +1,8 @@
-import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Log } from "../ch5-common/ch5-log";
-import { Ch5MpIndividualIconButton } from "./ch5-mp-individual-icon-button";
+import { Ch5LegacyMediaPlayerIconButton } from "./ch5-legacy-media-player-icon-button-base.ts";
 
 export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
@@ -32,6 +31,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
   private _subtitle: HTMLElement = {} as HTMLElement;
   private _nowPlayingIcon: HTMLElement = {} as HTMLElement;
   private _backToNowPlaying: HTMLElement = {} as HTMLElement;
+  
   //#endregion
 
   //#region Getters and Setters
@@ -97,10 +97,6 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()', Ch5LegacyMediaPlayerMyMusic.ELEMENT_NAME);
-    // WAI-ARIA Attributes
-    if (!this.hasAttribute('role')) {
-      this.setAttribute('role', Ch5RoleAttributeMapping.ch5LegacyMediaPlayerMyMusic);
-    }
     this.initAttributes();
     this.logger.stop();
   }
@@ -169,7 +165,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
       { class: 'fa-solid fa-ellipsis' },
     ];
     actions.forEach(action => {
-      const button = new Ch5MpIndividualIconButton();
+      const button = new Ch5LegacyMediaPlayerIconButton();
       button.setAttribute('iconClass', action.class);
       this._sourceMenu.appendChild(button);
     });

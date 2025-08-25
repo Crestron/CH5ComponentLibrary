@@ -34,12 +34,12 @@ import { ICh5LegacyMediaPlayerMyMusicAttributes } from "./i-ch5-legacy-media-pla
  *     "body": [
  *       "<ch5-legacy-media-player-my-music id=\"ch5-legacy-media-player-my-music_${1:id}\"",
  *       "\treceiveStateSelectedProfile=\"${2:}\"",
-          *       "\tmenuIconReceiveStateSelected=\"${3:}\"",
-          *       "\tmenuReceiveStateIconClass=\"${4:}\"",
-          *       "\tmenuReceiveStateIconUrl=\"${5:}\"",
-          *       "\tmenuIconReceiveStateShow=\"${6:}\"",
-          *       "\tmenuIconReceiveStateEnable=\"${7:}\"",
-          *       "\tmenuIconSendEventOnClick=\"${8:}\">",
+ *       "\tmenuIconReceiveStateSelected=\"${3:}\"",
+ *       "\tmenuReceiveStateIconClass=\"${4:}\"",
+ *       "\tmenuReceiveStateIconUrl=\"${5:}\"",
+ *       "\tmenuIconReceiveStateShow=\"${6:}\"",
+ *       "\tmenuIconReceiveStateEnable=\"${7:}\"",
+ *       "\tmenuIconSendEventOnClick=\"${8:}\">",
  *       "</ch5-legacy-media-player-my-music>$0"
  *       ]
  *    },
@@ -47,8 +47,7 @@ import { ICh5LegacyMediaPlayerMyMusicAttributes } from "./i-ch5-legacy-media-pla
  *     "prefix": "ch5-legacy-media-player-my-music:default",
  *     "description": "Crestron legacy media player my music (default)",
  *     "body": [
- *       "<ch5-legacy-media-player-my-music id=\"ch5-legacy-media-player-my-music_${1:id}\"",
- 
+ *       "<ch5-legacy-media-player-my-music id=\"ch5-legacy-media-player-my-music_${1:id}\">",
  *       "</ch5-legacy-media-player-my-music>$0"
  *       ]
  *    }

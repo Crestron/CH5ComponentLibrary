@@ -22,11 +22,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     receivestateusemessage: { direction: "state", booleanJoin: 1, contractName: true },
     receivestatecontrolsystemoffline: { direction: "state", booleanJoin: 1, contractName: true },
     receivestateplayername: { direction: "event", stringJoin: 1, contractName: true },
-
   };
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
-
     {
       default: false,
       name: "demoMode",
@@ -146,7 +144,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   //#region Getters and Setters
 
-
   public set demoMode(value: boolean) {
     this._ch5Properties.set<boolean>("demoMode", value, () => {
       this.handleDemoMode();
@@ -254,7 +251,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   public get sendEventPlayerName(): string {
     return this._ch5Properties.get<string>('sendEventPlayerName');
   }
-
 
   //#endregion
 
@@ -406,7 +402,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     });
   }
 
-
   private handleDemoMode() {
     // Enter your Code here
   }
@@ -455,8 +450,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   public getCssClassDisabled() {
     return this.primaryCssClass + '--disabled';
   }
-
-
 
   //#endregion
 
