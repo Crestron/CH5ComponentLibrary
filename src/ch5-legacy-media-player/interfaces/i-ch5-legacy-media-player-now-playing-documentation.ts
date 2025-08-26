@@ -1,5 +1,5 @@
 import { ICh5CommonLegacyMediaPlayerNowPlaying } from "../../ch5-common/interfaces/i-ch5-common-documentation-legacy-media-player-now-playing";
-import { ICh5LegacyMediaPlayerNowPlayingAttributes } from "./i-ch5-legacy-media-player-now-playing-attributes";
+//import { ICh5LegacyMediaPlayerNowPlayingAttributes } from "./i-ch5-legacy-media-player-now-playing-attributes";
 
 /**
  * @name Ch5 Legacy Media Player Now Playing
@@ -10,7 +10,17 @@ import { ICh5LegacyMediaPlayerNowPlayingAttributes } from "./i-ch5-legacy-media-
  * @componentVersion 1.0
  * @childElements
  * [
- *    
+ *   {
+ *     "tagName": "ch5-legacy-media-player-icon-button",
+ *     "optional": true,
+ *     "childElements": [
+ *       {
+ *         "tagName": "template",
+ *         "optional": false,
+ *         "childElements": []
+ *       }
+ *     ]
+ *   }
  * ]
  * @documentation
  * [
@@ -33,7 +43,6 @@ import { ICh5LegacyMediaPlayerNowPlayingAttributes } from "./i-ch5-legacy-media-
  *     "description": "Crestron legacy media player now playing (All Attributes)",
  *     "body": [
  *       "<ch5-legacy-media-player-now-playing id=\"ch5-legacy-media-player-now-playing_${1:id}\"",
- *       "\treceiveStateSelectedProfile=\"${2:}\">",
  *       "</ch5-legacy-media-player-now-playing>$0"
  *       ]
  *    },
@@ -47,6 +56,4 @@ import { ICh5LegacyMediaPlayerNowPlayingAttributes } from "./i-ch5-legacy-media-
  *    }
  *  ]
  */
-export interface ICh5LegacyMediaPlayerNowPlayingDocumentation extends ICh5CommonLegacyMediaPlayerNowPlaying, ICh5LegacyMediaPlayerNowPlayingAttributes {
-
-}
+export interface ICh5LegacyMediaPlayerNowPlayingDocumentation extends ICh5CommonLegacyMediaPlayerNowPlaying { }

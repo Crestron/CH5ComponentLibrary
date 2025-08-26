@@ -10,7 +10,17 @@ import { ICh5LegacyMediaPlayerMyMusicAttributes } from "./i-ch5-legacy-media-pla
  * @componentVersion 1.0
  * @childElements
  * [
- *    
+ *   {
+ *     "tagName": "ch5-legacy-media-player-icon-button",
+ *     "optional": true,
+ *     "childElements": [
+ *       {
+ *         "tagName": "template",
+ *         "optional": false,
+ *         "childElements": []
+ *       }
+ *     ]
+ *   }
  * ]
  * @documentation
  * [
@@ -33,7 +43,6 @@ import { ICh5LegacyMediaPlayerMyMusicAttributes } from "./i-ch5-legacy-media-pla
  *     "description": "Crestron legacy media player my music (All Attributes)",
  *     "body": [
  *       "<ch5-legacy-media-player-my-music id=\"ch5-legacy-media-player-my-music_${1:id}\"",
- *       "\treceiveStateSelectedProfile=\"${2:}\">",
  *       "</ch5-legacy-media-player-my-music>$0"
  *       ]
  *    },
@@ -47,6 +56,4 @@ import { ICh5LegacyMediaPlayerMyMusicAttributes } from "./i-ch5-legacy-media-pla
  *    }
  *  ]
  */
-export interface ICh5LegacyMediaPlayerMyMusicDocumentation extends ICh5CommonLegacyMediaPlayerMyMusic, ICh5LegacyMediaPlayerMyMusicAttributes {
-
-}
+export interface ICh5LegacyMediaPlayerMyMusicDocumentation extends ICh5CommonLegacyMediaPlayerMyMusic, ICh5LegacyMediaPlayerMyMusicAttributes { }
