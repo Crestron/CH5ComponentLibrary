@@ -9,7 +9,7 @@ import { ICh5CommonLegacyMediaPlayerNowPlaying } from "../../ch5-common/interfac
  * @description The Now Playing component displays information on the currently playing track in the selected zone for the current user profile. .
  * @componentVersion 1.0
  * @childElements
-* [
+ * [
  *   {
  *     "tagName": "ch5-legacy-media-player-icon-button",
  *     "optional": true,
