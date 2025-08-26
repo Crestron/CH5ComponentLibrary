@@ -10,7 +10,40 @@ import { ICh5LegacyMediaPlayerAttributes } from "./i-ch5-legacy-media-player-att
  * @componentVersion 1.0
  * @childElements
  * [
- *    
+ *    {
+ *      "tagName": "ch5-legacy-media-player-now-playing",
+ *      "optional": true,
+ *      "childElements": [
+ *        {
+ *          "tagName": "ch5-legacy-media-player-icon-button",
+ *          "optional": true,
+ *          "childElements": [
+ *            {
+ *              "tagName": "template",
+ *              "optional": false,
+ *              "childElements": []
+ *            }
+ *          ]
+ *        }
+ *      ]
+ *    },
+ *    {
+ *      "tagName": "ch5-legacy-media-player-my-music",
+ *      "optional": true,
+ *      "childElements": [
+ *        {
+ *          "tagName": "ch5-legacy-media-player-icon-button",
+ *          "optional": true,
+ *          "childElements": [
+ *            {
+ *              "tagName": "template",
+ *              "optional": false,
+ *              "childElements": []
+ *            }
+ *          ]
+ *        }
+ *      ]
+ *    }
  * ]
  * @documentation
  * [
