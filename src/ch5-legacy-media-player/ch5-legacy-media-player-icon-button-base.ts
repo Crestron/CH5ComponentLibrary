@@ -132,7 +132,7 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Common {
 		this.classList.add('ch5-legacy-media-player-individual-icon-button-container');
 		this._elContainer = document.createElement('button');
 
-		this.setAttribute('iconClass', this.iconClass || 'fas fa-music');
+		this.setAttribute('iconClass', this.iconClass || 'mp-icon fa-music');
 		this._icon = document.createElement('i');
 		this._icon.classList.add(...this.iconClass.split(' '));
 		this._elContainer.appendChild(this._icon);

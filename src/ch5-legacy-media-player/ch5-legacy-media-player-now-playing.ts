@@ -87,7 +87,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 				{ value: 'podcast', text: 'Podcast' }
 			],
 			musicButton: {
-				icon: "fas fa-music",
+				icon: "mp-icon mp-music-note",
 				class: "music-button"
 			}
 		},
@@ -238,7 +238,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		});
 		//Now Playing Player Music Note
 		const nowPlayingPlayerMusicNoteButton = new Ch5LegacyMediaPlayerIconButton();
-		nowPlayingPlayerMusicNoteButton.setAttribute('iconClass', "fas fa-music");
+		nowPlayingPlayerMusicNoteButton.setAttribute('iconClass', "mp-icon fa-music");
 		nowPlayingPlayerMusicNoteButton.classList.add("now-playing-player-music-note-button");
 
 		this._nowPlayingPlayerContainer.appendChild(nowPlayingPlayerDropdown);
@@ -292,14 +292,14 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._actionButtonsContainer = document.createElement('div');
 		this._actionButtonsContainer.classList.add('now-playing-action-buttons-container');
 		const actions = [
-			{ class: 'fas fa-thumbs-down' },
-			{ class: 'fas fa-step-backward' },
-			{ class: 'fas fa-backward' },
-			{ class: 'fas fa-play' },
-			{ class: 'fas fa-pause', style: 'display:none;' },
-			{ class: 'fas fa-forward' },
-			{ class: 'fas fa-step-forward' },
-			{ class: 'fas fa-thumbs-up' },
+			{ class: 'mp-icon mp-thumbs-down' },
+			{ class: 'mp-icon mp-skip-back' },
+			{ class: 'mp-icon mp-fast-backward' },
+			{ class: 'mp-icon mp-play' },
+			{ class: 'mp-icon fa-pause', style: 'display:none;' },
+			{ class: 'mp-icon mp-fast-forward' },
+			{ class: 'mp-icon mp-skip-forward' },
+			{ class: 'mp-icon mp-thumbs-up' },
 		];
 		actions.forEach(action => {
 			const button = new Ch5LegacyMediaPlayerIconButton();
@@ -314,11 +314,11 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._moreActionButtonsContainer = document.createElement('div');
 		this._moreActionButtonsContainer.classList.add('now-playing-more-action-buttons-container');
 		const actions = [
-			{ class: 'fas fa-shuffle' },
-			{ class: 'fas fa-repeat' },
-			{ class: 'fas fa-notes-medical' },
-			{ class: 'fas fa-icons' },
-			{ class: 'fas fa-user-plus' },
+			{ class: 'mp-icon fa-shuffle' },
+			{ class: 'mp-icon fa-repeat' },
+			{ class: 'mp-icon fa-notes-medical' },
+			{ class: 'mp-icon fa-icons' },
+			{ class: 'mp-icon fa-user-plus' },
 		];
 		actions.forEach(action => {
 			const button = new Ch5LegacyMediaPlayerIconButton();
@@ -349,10 +349,10 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		const arrowsContainer = document.createElement('div');
 		arrowsContainer.classList.add('now-playing-arrows-container');
 		const previousButton = document.createElement('button');
-		previousButton.classList.add('fas', 'fa-chevron-left', 'now-playing-arrow-left-button');
+		previousButton.classList.add('mp-icon', 'fa-chevron-left', 'now-playing-arrow-left-button');
 		arrowsContainer.appendChild(previousButton);
 		const nextButton = document.createElement('button');
-		nextButton.classList.add('fas', 'fa-chevron-right', 'now-playing-arrow-right-button');
+		nextButton.classList.add('mp-icon', 'fa-chevron-right', 'now-playing-arrow-right-button');
 		arrowsContainer.appendChild(nextButton);
 		this._nextAndPreviousSongContainer.appendChild(arrowsContainer);
 		this._nowPlayingContainer.appendChild(this._nextAndPreviousSongContainer);

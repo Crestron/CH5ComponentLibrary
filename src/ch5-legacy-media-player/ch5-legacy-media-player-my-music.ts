@@ -115,7 +115,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicHeaderSection.className = 'my-music-header-section';
 
     this._myMusicHeaderBackButton = new Ch5LegacyMediaPlayerIconButton();
-    this._myMusicHeaderBackButton.setAttribute('iconClass', "fas fa-chevron-left");
+    this._myMusicHeaderBackButton.setAttribute('iconClass', "mp-icon fa-chevron-left");
     this._myMusicHeaderBackButton.classList.add('my-music-header-back-button');
 
     this._myMusicHeaderTitle = document.createElement("div");
@@ -131,7 +131,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicHeaderTitle.append(this._myMusicHeaderTitleText, this._myMusicheaderSubtitle);
 
     this._myMusicHeaderNowPlayingButton = new Ch5LegacyMediaPlayerIconButton();
-    this._myMusicHeaderNowPlayingButton.setAttribute('iconClass', "fas fa-signal");
+    this._myMusicHeaderNowPlayingButton.setAttribute('iconClass', "mp-icon fa-signal");
     this._myMusicHeaderNowPlayingButton.classList.add("my-music-header-now-playing-button");
     this._myMusicHeaderSection.append(this._myMusicHeaderBackButton, this._myMusicHeaderTitle, this._myMusicHeaderNowPlayingButton);
 
