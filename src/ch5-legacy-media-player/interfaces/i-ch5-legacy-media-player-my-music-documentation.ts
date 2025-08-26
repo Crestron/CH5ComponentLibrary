@@ -1,5 +1,4 @@
 import { ICh5CommonLegacyMediaPlayerMyMusic } from "../../ch5-common/interfaces/i-ch5-common-documentation-legacy-media-player-my-music";
-import { ICh5LegacyMediaPlayerMyMusicAttributes } from "./i-ch5-legacy-media-player-my-music-attributes";
 
 /**
  * @name Ch5 Legacy Media Player My Music
@@ -56,4 +55,4 @@ import { ICh5LegacyMediaPlayerMyMusicAttributes } from "./i-ch5-legacy-media-pla
  *    }
  *  ]
  */
-export interface ICh5LegacyMediaPlayerMyMusicDocumentation extends ICh5CommonLegacyMediaPlayerMyMusic, ICh5LegacyMediaPlayerMyMusicAttributes { }
+export interface ICh5LegacyMediaPlayerMyMusicDocumentation extends ICh5CommonLegacyMediaPlayerMyMusic { }
