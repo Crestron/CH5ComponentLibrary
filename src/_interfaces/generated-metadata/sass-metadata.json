@@ -7619,20 +7619,6 @@
                     "relatedThemeVariable": "--theme-ch5-legacy-media-player--border-width"
                 },
                 {
-                    "name": "--ch5-legacy-media-player--child-background-color",
-                    "value": "var(--theme-ch5-legacy-media-player--child-background-color)",
-                    "description": "Music Player Now Playing background color",
-                    "type": "color",
-                    "possibleValues": [
-                        "rgb(35,35,35)",
-                        "#1a1a1a",
-                        "red"
-                    ],
-                    "showThemeEditor": true,
-                    "example": "#ffffff",
-                    "relatedThemeVariable": "--theme-ch5-legacy-media-player--child-background-color"
-                },
-                {
                     "name": "--ch5-legacy-media-player--height",
                     "value": "var(--theme-ch5-legacy-media-player--height)",
                     "description": "Sets the height for the component",
@@ -20556,7 +20542,7 @@
                     "variables": [
                         {
                             "name": "--theme-ch5-legacy-media-player--background-color",
-                            "value": "transparent",
+                            "value": "var(--theme-colors--theme-background-color)",
                             "description": "Sets the background color for the component at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -20608,19 +20594,6 @@
                             "example": "1px",
                             "possibleValues": [
                                 "px"
-                            ]
-                        },
-                        {
-                            "name": "--theme-ch5-legacy-media-player--child-background-color",
-                            "value": "var(--theme-colors--theme-background-color)",
-                            "description": "Music Player Now Playing background color at theme level",
-                            "type": "color",
-                            "showThemeEditor": true,
-                            "example": "#ffffff",
-                            "possibleValues": [
-                                "rgb(35,35,35)",
-                                "#1a1a1a",
-                                "red"
                             ]
                         },
                         {
@@ -34379,7 +34352,7 @@
                     "variables": [
                         {
                             "name": "--theme-ch5-legacy-media-player--background-color",
-                            "value": "transparent",
+                            "value": "var(--theme-colors--theme-background-color)",
                             "description": "Sets the background color for the component at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -34431,19 +34404,6 @@
                             "example": "1px",
                             "possibleValues": [
                                 "px"
-                            ]
-                        },
-                        {
-                            "name": "--theme-ch5-legacy-media-player--child-background-color",
-                            "value": "var(--theme-colors--theme-background-color)",
-                            "description": "Music Player Now Playing background color at theme level",
-                            "type": "color",
-                            "showThemeEditor": true,
-                            "example": "#ffffff",
-                            "possibleValues": [
-                                "rgb(35,35,35)",
-                                "#1a1a1a",
-                                "red"
                             ]
                         },
                         {
@@ -48202,7 +48162,7 @@
                     "variables": [
                         {
                             "name": "--theme-ch5-legacy-media-player--background-color",
-                            "value": "transparent",
+                            "value": "var(--theme-colors--theme-background-color)",
                             "description": "Sets the background color for the component at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -48254,19 +48214,6 @@
                             "example": "1px",
                             "possibleValues": [
                                 "px"
-                            ]
-                        },
-                        {
-                            "name": "--theme-ch5-legacy-media-player--child-background-color",
-                            "value": "var(--theme-colors--theme-background-color)",
-                            "description": "Music Player Now Playing background color at theme level",
-                            "type": "color",
-                            "showThemeEditor": true,
-                            "example": "#ffffff",
-                            "possibleValues": [
-                                "rgb(35,35,35)",
-                                "#1a1a1a",
-                                "red"
                             ]
                         },
                         {
@@ -62025,7 +61972,7 @@
                     "variables": [
                         {
                             "name": "--theme-ch5-legacy-media-player--background-color",
-                            "value": "transparent",
+                            "value": "var(--theme-colors--theme-background-color)",
                             "description": "Sets the background color for the component at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -62077,19 +62024,6 @@
                             "example": "1px",
                             "possibleValues": [
                                 "px"
-                            ]
-                        },
-                        {
-                            "name": "--theme-ch5-legacy-media-player--child-background-color",
-                            "value": "var(--theme-colors--theme-background-color)",
-                            "description": "Music Player Now Playing background color at theme level",
-                            "type": "color",
-                            "showThemeEditor": true,
-                            "example": "#ffffff",
-                            "possibleValues": [
-                                "rgb(35,35,35)",
-                                "#1a1a1a",
-                                "red"
                             ]
                         },
                         {
@@ -75848,7 +75782,7 @@
                     "variables": [
                         {
                             "name": "--theme-ch5-legacy-media-player--background-color",
-                            "value": "transparent",
+                            "value": "var(--theme-colors--theme-background-color)",
                             "description": "Sets the background color for the component at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -75900,19 +75834,6 @@
                             "example": "1px",
                             "possibleValues": [
                                 "px"
-                            ]
-                        },
-                        {
-                            "name": "--theme-ch5-legacy-media-player--child-background-color",
-                            "value": "var(--theme-colors--theme-background-color)",
-                            "description": "Music Player Now Playing background color at theme level",
-                            "type": "color",
-                            "showThemeEditor": true,
-                            "example": "#ffffff",
-                            "possibleValues": [
-                                "rgb(35,35,35)",
-                                "#1a1a1a",
-                                "red"
                             ]
                         },
                         {
