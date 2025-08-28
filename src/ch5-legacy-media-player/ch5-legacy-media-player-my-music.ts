@@ -133,6 +133,9 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicHeaderNowPlayingButton = new Ch5LegacyMediaPlayerIconButton();
     this._myMusicHeaderNowPlayingButton.setAttribute('iconClass', "mp-icon mp-animated-bar");
     this._myMusicHeaderNowPlayingButton.classList.add("my-music-header-now-playing-button");
+    this._myMusicHeaderNowPlayingButton.onclick = () => {
+			document.querySelector(".ch5-legacy-media-player-my-music")?.classList.remove("my-music-transition");
+		};
     this._myMusicHeaderSection.append(this._myMusicHeaderBackButton, this._myMusicHeaderTitle, this._myMusicHeaderNowPlayingButton);
 
     this._myMusicContentSection = document.createElement("div");
