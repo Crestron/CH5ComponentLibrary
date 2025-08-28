@@ -270,6 +270,11 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._progressBarInput.value = '0';
 		this._progressBarInput.classList.add('now-playing-progressbar-input');
 		this._progressBarContainer.appendChild(this._progressBarInput);
+
+		this._progressBarInput.addEventListener("input", () => {
+			this._progressBarInput.style.backgroundSize = this._progressBarInput.value + "% 100%";
+		});
+
 		// Current time and duration container
 		const progressBarCurrentTimeDurationContainer = document.createElement('div');
 		progressBarCurrentTimeDurationContainer.classList.add('now-playing-progressbar-current-time-duration-container');
