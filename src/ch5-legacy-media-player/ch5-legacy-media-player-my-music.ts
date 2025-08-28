@@ -147,12 +147,12 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicFooterSection = document.createElement("div");
     this._myMusicFooterSection.className = 'my-music-footer-section';
     const actions = [
-      { class: 'fa-solid fa-plus' },
-      { class: 'fa-solid fa-search' },
-      { class: 'fa-solid fa-icons' },
-      { class: 'fa-solid fa-music' },
-      { class: 'fa-solid fa-gear' },
-      { class: 'fa-solid fa-ellipsis' },
+      { class: 'mp-icon mp-plus-circle' },
+      { class: 'mp-icon mp-search-lg' },
+      { class: 'mp-icon mp-music-list-quick' },
+      { class: 'mp-icon mp-music-list' },
+      { class: 'mp-icon mp-settings' },
+      { class: 'mp-icon mp-dots-horizontal' },
     ];
     actions.forEach(action => {
       const button = new Ch5LegacyMediaPlayerIconButton();
