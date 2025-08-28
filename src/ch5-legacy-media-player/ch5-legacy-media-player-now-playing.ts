@@ -238,7 +238,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		});
 		//Now Playing Player Music Note
 		const nowPlayingPlayerMusicNoteButton = new Ch5LegacyMediaPlayerIconButton();
-		nowPlayingPlayerMusicNoteButton.setAttribute('iconClass', "mp-icon fa-music");
+		nowPlayingPlayerMusicNoteButton.setAttribute('iconClass', "mp-icon mp-music-note");
 		nowPlayingPlayerMusicNoteButton.classList.add("now-playing-player-music-note-button");
 
 		this._nowPlayingPlayerContainer.appendChild(nowPlayingPlayerDropdown);
@@ -296,7 +296,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			{ class: 'mp-icon mp-skip-back' },
 			{ class: 'mp-icon mp-fast-backward' },
 			{ class: 'mp-icon mp-play' },
-			{ class: 'mp-icon fa-pause', style: 'display:none;' },
+			{ class: 'mp-icon mp-pause', style: 'display:none;' },
 			{ class: 'mp-icon mp-fast-forward' },
 			{ class: 'mp-icon mp-skip-forward' },
 			{ class: 'mp-icon mp-thumbs-up' },
@@ -314,11 +314,11 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._moreActionButtonsContainer = document.createElement('div');
 		this._moreActionButtonsContainer.classList.add('now-playing-more-action-buttons-container');
 		const actions = [
-			{ class: 'mp-icon fa-shuffle' },
-			{ class: 'mp-icon fa-repeat' },
-			{ class: 'mp-icon fa-notes-medical' },
-			{ class: 'mp-icon fa-icons' },
-			{ class: 'mp-icon fa-user-plus' },
+			{ class: 'mp-icon mp-shuffle' },
+			{ class: 'mp-icon mp-repeat' },
+			{ class: 'mp-icon mp-play-multi-square' },
+			{ class: 'mp-icon mp-music-note-plus' },
+			{ class: 'mp-icon mp-image-user-plus' },
 		];
 		actions.forEach(action => {
 			const button = new Ch5LegacyMediaPlayerIconButton();
@@ -348,11 +348,15 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		// Next and Previous Arrows
 		const arrowsContainer = document.createElement('div');
 		arrowsContainer.classList.add('now-playing-arrows-container');
-		const previousButton = document.createElement('button');
-		previousButton.classList.add('mp-icon', 'fa-chevron-left', 'now-playing-arrow-left-button');
+
+		const previousButton = new Ch5LegacyMediaPlayerIconButton();
+		previousButton.setAttribute('iconClass', "mp-icon mp-chevron-left");
+		previousButton.classList.add("now-playing-arrow-left-button");
 		arrowsContainer.appendChild(previousButton);
-		const nextButton = document.createElement('button');
-		nextButton.classList.add('mp-icon', 'fa-chevron-right', 'now-playing-arrow-right-button');
+
+		const nextButton = new Ch5LegacyMediaPlayerIconButton();
+		nextButton.setAttribute('iconClass', "mp-icon mp-chevron-right");
+		nextButton.classList.add("now-playing-arrow-right-button");
 		arrowsContainer.appendChild(nextButton);
 		this._nextAndPreviousSongContainer.appendChild(arrowsContainer);
 		this._nowPlayingContainer.appendChild(this._nextAndPreviousSongContainer);
