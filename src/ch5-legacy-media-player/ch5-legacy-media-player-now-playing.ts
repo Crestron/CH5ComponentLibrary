@@ -177,7 +177,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingImage = document.createElement("img");
 		this._nowPlayingImage.classList.add("now-playing-image");
 		this._nowPlayingImage.alt = "Album Art";
-		this._nowPlayingImage.src = "https://i.ytimg.com/vi/ZUfWe-CkgBE/maxresdefault.jpg";
+		this._nowPlayingImage.src = "https://www.clipartmax.com/png/full/30-301220_free-svg-music-symbols-music-note-that-looks-like-an-s.png";
 		//Now Playing Track Information
 		this._nowPlayingTrackInfo = document.createElement("div");
 		this._nowPlayingTrackInfo.classList.add("now-playing-track-info");
@@ -211,11 +211,11 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		//Now playing player selection
 		this._nowPlayingPlayerContainer = document.createElement("div");
 		this._nowPlayingPlayerContainer.classList.add("now-playing-player-container");
-		const nowPlayingPlayerLabel=document.createElement('div');
+		const nowPlayingPlayerLabel = document.createElement('div');
 		nowPlayingPlayerLabel.classList.add('now-playing-player-label');
-		const nowPlayingPlayerName=document.createElement('label');
+		const nowPlayingPlayerName = document.createElement('label');
 		nowPlayingPlayerName.classList.add("now-playing-player-name");
-		nowPlayingPlayerName.textContent="Player Name";
+		nowPlayingPlayerName.textContent = "Player Name";
 		nowPlayingPlayerLabel.appendChild(nowPlayingPlayerName);
 		//Now Playing Player Music Note
 		const nowPlayingPlayerMusicNoteButton = new Ch5LegacyMediaPlayerIconButton();
