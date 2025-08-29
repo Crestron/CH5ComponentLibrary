@@ -6,6 +6,7 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5LegacyMediaPlayerNowPlaying } from "./ch5-legacy-media-player-now-playing";
 import { Ch5LegacyMediaPlayerMyMusic } from "./ch5-legacy-media-player-my-music";
+import { resizeObserver } from "../ch5-core/resize-observer";
 
 export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPlayerAttributes {
 
@@ -363,6 +364,14 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   protected attachEventListeners() {
     super.attachEventListeners();
+    resizeObserver(this._elContainer, this.handleResizeObserver)
+  }
+
+  private handleResizeObserver = () => {
+    const { width } = this._elContainer.getBoundingClientRect();
+    if(width > 800) {
+      document.querySelector(".ch5-legacy-media-player-my-music")?.classList.remove("my-music-transition");
+    }
   }
 
   protected removeEventListeners() {
