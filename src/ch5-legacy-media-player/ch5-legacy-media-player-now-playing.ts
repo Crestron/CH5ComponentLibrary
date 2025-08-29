@@ -211,31 +211,12 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		//Now playing player selection
 		this._nowPlayingPlayerContainer = document.createElement("div");
 		this._nowPlayingPlayerContainer.classList.add("now-playing-player-container");
-		const nowPlayingPlayerDropdown = document.createElement('div');
-		nowPlayingPlayerDropdown.classList.add('now-playing-player-dropdown');
-		const nowPlayingPlayerSelect = document.createElement('select');
-		nowPlayingPlayerSelect.classList.add('now-playing-player-select');
-		nowPlayingPlayerSelect.id = 'now-playing-player-select';
-		const nowPlayingPlayerSelectOption = document.createElement('option');
-		nowPlayingPlayerSelectOption.value = ''; // Empty value for validation
-		nowPlayingPlayerSelectOption.classList.add('now-playing-player-select-option');
-		nowPlayingPlayerSelectOption.textContent = 'Player Name';
-		nowPlayingPlayerSelectOption.disabled = true;
-		nowPlayingPlayerSelectOption.selected = true;
-		nowPlayingPlayerSelect.appendChild(nowPlayingPlayerSelectOption);
-		nowPlayingPlayerDropdown.appendChild(nowPlayingPlayerSelect);
-		const optionsData = [
-			{ value: 'pandora', text: 'Pandora' },
-			{ value: 'spotify', text: 'Spotify' },
-			{ value: 'tidal', text: 'Tidal' },
-			{ value: 'podcast', text: 'Podcast' }
-		];
-		optionsData.forEach(optionData => {
-			const option = document.createElement('option');
-			option.value = optionData.value
-			option.textContent = optionData.text;
-			nowPlayingPlayerSelect.appendChild(option);
-		});
+		const nowPlayingPlayerLabel=document.createElement('div');
+		nowPlayingPlayerLabel.classList.add('now-playing-player-label');
+		const nowPlayingPlayerName=document.createElement('label');
+		nowPlayingPlayerName.classList.add("now-playing-player-name");
+		nowPlayingPlayerName.textContent="Player Name";
+		nowPlayingPlayerLabel.appendChild(nowPlayingPlayerName);
 		//Now Playing Player Music Note
 		const nowPlayingPlayerMusicNoteButton = new Ch5LegacyMediaPlayerIconButton();
 		nowPlayingPlayerMusicNoteButton.setAttribute('iconClass', "mp-icon mp-music-note");
@@ -244,7 +225,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			document.querySelector(".ch5-legacy-media-player-my-music")?.classList.add("my-music-transition");
 		};
 
-		this._nowPlayingPlayerContainer.appendChild(nowPlayingPlayerDropdown);
+		this._nowPlayingPlayerContainer.appendChild(nowPlayingPlayerLabel);
 		this._nowPlayingPlayerContainer.appendChild(nowPlayingPlayerMusicNoteButton);
 
 		this._transportControls = document.createElement('div');
