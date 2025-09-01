@@ -5,24 +5,12 @@ export class MusicPlayerLib {
 
     private static instance: MusicPlayerLib;
 
-    /*  // Digital signals coming from the control system.
-     private mpSigRefresh: string = '1';
-     private mpSigOffline: string = '2';
-     private mpSigUseMessage: string = '3';
-     private mpSigCtrlSysOffline: string = '18495'; */
-
-    // Serial signals from the control systrem.
-    /*     private mpSigRPCIn: string = '1';
-        private mpSigMessageIn: string = '2'; */
-
     // Serial signals to the control system.
     private mpSigRPCOut: string = "";
     /*  private mpSigMessageOut = 2; */
 
     private mpRPCPrefix: string = '';
     private mpRPCDataIn: string = '';
-
-
 
     private mpMsgId = 0; // Increment our message id. ToDo: Need a max value check and reset to 0.
 
@@ -39,67 +27,64 @@ export class MusicPlayerLib {
         "connectionActive": false,
         "connectionIsDirect": false,
         "waitingForRegistration": false,
-        "registrationMsgId": 0,
-        "getObjectsMsgId": 0,
-        "registerEventMsgId": 0,
-        "getPropertiesSupportedMsgId": 0,
-        "getMenuMsgId": 0,
-        "getRegisterBusyChangedId": 0,
-        "getRegisterStatusMsgChangedId": 0,
-        "getRegisterStateChangedByBrowseContextId": 0,
-        "getRegisterStateChangedId": 0,
-        "getTextLinesId": 0,
-        "getActionsSupportedId": 0,
-        "getProgressBarId": 0,
-        "getElapsedSecId": 0,
-        "getTrackSecId": 0,
-        "getStreamStateId": 0,
-        "getTrackNumId": 0,
-        "getTrackCntId": 0,
-        "getPlayerStateId": 0,
-        "getPlayerIconId": 0,
-        "getPlayerNameId": 0,
-        "getPlayerIconURLId": 0,
-        "getMediaTypeId": 0,
-        "getInstanceId": 0,
-        "getAlbumArtId": 0,
-        "getAlbumArtUrlId": 0,
-        "getAlbumArtUrlNATId": 0,
-        "getStationNameId": 0,
-        "getAlbumId": 0,
-        "getGenreId": 0,
-        "getArtistId": 0,
-        "getTitleId": 0,
-        "getLanguageId": 0,
-        "getRewindSpeedId": 0,
-        "getProviderNameId": 0,
-        "getFfwdSpeedId": 0,
-        "getNextTitleId": 0,
-        "getMediaReadyId": 0,
-        "getShuffleStateId": 0,
-        "getRepeatStateId": 0,
-        "getStatusMsgId": 0,
-        "getBusyId": 0,
-        "getRatingId": 0,
-        "getSelectedId": 0,
-        "getVersionId": 0,
-        "getMaxReqItems": 0,
-        "getLevelId": 0,
-        "getItemCntId": 0,
-        "getSubtitleId": 0,
-        "getIsMenuAvailableId": 0,
-        "getStatusMsgMenuId": 0,
-        "getListSpecificFunctionsId": 0,
-        "getMaxReqItemsId": 0,
-        "getItemDataId": 0,
-        "getItemData2Id": 0,
-        "getActionsAvailableId": 0,
-        "getRegisterClearChangedId": 0,
-        "getRegisterListChangedId": 0,
-        "getRegisterStatusMsgMenuChangedId": 0,
-        "resetId": 0,
-
-
+        "RegistrationId": 0,
+        "ObjectsId": 0,
+        "RegisterEventId": 0,
+        "PropertiesSupportedId": 0,
+        "MenuId": 0,
+        "BusyChangedId": 0,
+        "StatusMsgChangedId": 0,
+        "StateChangedByBrowseContextId": 0,
+        "StateChangedId": 0,
+        "TextLinesId": 0,
+        "ActionsSupportedId": 0,
+        "ProgressBarId": 0,
+        "ElapsedSecId": 0,
+        "TrackSecId": 0,
+        "StreamStateId": 0,
+        "TrackNumId": 0,
+        "TrackCntId": 0,
+        "PlayerStateId": 0,
+        "PlayerIconId": 0,
+        "PlayerNameId": 0,
+        "PlayerIconURLId": 0,
+        "MediaTypeId": 0,
+        "InstanceId": 0,
+        "AlbumArtId": 0,
+        "AlbumArtUrlId": 0,
+        "AlbumArtUrlNATId": 0,
+        "StationNameId": 0,
+        "AlbumId": 0,
+        "GenreId": 0,
+        "ArtistId": 0,
+        "TitleId": 0,
+        "LanguageId": 0,
+        "RewindSpeedId": 0,
+        "ProviderNameId": 0,
+        "FfwdSpeedId": 0,
+        "NextTitleId": 0,
+        "MediaReadyId": 0,
+        "ShuffleStateId": 0,
+        "RepeatStateId": 0,
+        "StatusMsgId": 0,
+        "BusyId": 0,
+        "RatingId": 0,
+        "SelectedId": 0,
+        "VersionId": 0,
+        "MaxReqItems": 0,
+        "LevelId": 0,
+        "ItemCntId": 0,
+        "SubtitleId": 0,
+        "IsMenuAvailableId": 0,
+        "StatusMsgMenuId": 0,
+        "ListSpecificFunctionsId": 0,
+        "MaxReqItemsId": 0,
+        "ItemDataId": 0,
+        "ActionsAvailableId": 0,
+        "ClearChangedId": 0,
+        "ListChangedId": 0,
+        "StatusMsgMenuChangedId": 0,
+        "ResetId": 0,
 
         "instanceName": '',
         "menuInstanceName": '',
@@ -115,7 +100,6 @@ export class MusicPlayerLib {
     }
 
     constructor() {
-
         //refreshMediaPlayer
         subscribeState('b', 'mpSigRefresh', (value: any) => {
             // console.log('mpSigRefresh: ' + value);
@@ -152,10 +136,6 @@ export class MusicPlayerLib {
 
         // mpSigRPCIn from CS
         subscribeState('s', 'mpSigRPCIn', (value: any) => {
-            // console.log('Partial Data from mpRPCDataIn: ' + value);
-            // console.log('CRPC receive join:1' + value);
-
-
             // Check for length and if the data is a result of an update request.
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
@@ -193,7 +173,6 @@ export class MusicPlayerLib {
 
         //mpSigMessageIn from CS (ver tag src)
         subscribeState('s', 'mpSigMessageIn', (value: any) => {
-            // console.log('mpSigMessageIn: ' + value);
             if (value.length > 0) {
                 this.processMessage(value);
             }
@@ -201,7 +180,6 @@ export class MusicPlayerLib {
 
         //To get join name from the app
         subscribeState('s', 'mpSigRPCOut', (value: any) => {
-            // console.log('mpSigRPCOut', value);
             this.mpSigRPCOut = value;
         });
     }
@@ -215,7 +193,6 @@ export class MusicPlayerLib {
     // direct-connection or we need to close the connection and open a new one.
     // 4. Need to continually register until a valid response as long as the device is still online.
     private refreshMediaPlayer() {
-        // console.log('***refreshMediaPlayer***');
         // Do we have an active connection and need to unregister?
         if (this.myMP.connectionActive) {
             this.unregisterWithDevice();
@@ -227,8 +204,6 @@ export class MusicPlayerLib {
     }
 
     private unregisterWithDevice() {
-        // console.log('***unregisterWithDevice***');
-
         // We need to unregister with both the Media Player instance
         // as well as the Media player Menu instance.
 
@@ -247,12 +222,10 @@ export class MusicPlayerLib {
     }
 
     private deviceIsOnline() {
-        // console.log('***deviceIsOnline***');
         this.myMP.connectionActive = true;
     }
 
     private deviceIsOffline() {
-        // console.log('***deviceIsOffline***');
         this.myMP.connectionActive = false; // ToDo: This needs work since a direct connection with the device does not have a join from the control system.
         this.myMP.connectionIsDirect = false;
         this.myMP.waitingForRegistration = false;
@@ -285,13 +258,30 @@ export class MusicPlayerLib {
         //resendRegistrationTimeId = setTimeout(function, 30000);
     }
 
+    private getDirectConnectionInfoFromArray(data: any) {
+        // Data is an array of connections.
+        // ToDo: This is only for RPC v2.0 .. we need to handle RPC v.10 as well.
+        const myConnectionData: any = new Object();
+        myConnectionData.ip = '';
+        myConnectionData.port = 0;
 
+        let i, item;
+        const count = data.length;
+        for (i = 0; i < count; i++) {
+            item = data[i];
+            if (item.type == 'cip-direct/json-rpc') {
+                myConnectionData.ip = item.ip;
+                myConnectionData.port = item.port;
+            }
+        }
+
+        return myConnectionData;
+    }
 
     // Process message data from the control system.
     // Note: On an update request from the control system, the last data to be sent
     // will be the message string.
     private processMessage(data: any) {
-        // console.log('***processMessage***');
 
         const myObj = JSON.parse(data);
         if (myObj.hasOwnProperty("tag")) {
@@ -315,12 +305,9 @@ export class MusicPlayerLib {
     }
 
     private processRegistrationResponse(regResponse: RegisterwithDeviceResponse) {
-        // console.log('***processRegistrationResponse***');
 
         // Make sure we have a result.
         if (regResponse.result) {
-            //console.log('Found result.');
-
             // We have a response, so our connnecton is active.
             this.myMP.connectionActive = true;
 
@@ -334,25 +321,17 @@ export class MusicPlayerLib {
                   } */
             } else {
                 //console.log('RPC version = 2.0.');
-
                 // Do we have the connection list?
                 if (regResponse.result.connectionslist) {
                     // console.log('Found connections list.');
                     const myDirectConnectionInfo: any = this.getDirectConnectionInfoFromArray(regResponse.result.connectionslist);
                     console.log('myDirectConnectionInfo Ip: ' + myDirectConnectionInfo.ip);
-                    //publishEvent('s', 'deviceRegistered', 'responseData')
                 }
             }
         }
     }
 
     private processGetObjectsResponse(getObjectResponse: GetObjectsResponse) {
-        // console.log('***processGetObjectsResponse***');
-        // console.log('Process GetObjects Response data: ', getObjectResponse);
-
-        // ToDo: Probably need some error handling in here.
-        // This is pretty rough code.
-
         const myInstances = getObjectResponse.result.objects.object;
         myInstances.forEach((item: any) => {
             if (item.name == 'MediaPlayer') {
@@ -366,168 +345,72 @@ export class MusicPlayerLib {
         this.registerEvent(); //3
         this.getPropertiesSupported(this.myMP.instanceName); //4
         this.getMenu(this.myMP.instanceName);// 5 method not found
-        this.getRegisterBusyChnaged(this.myMP.instanceName); //6
-        this.getRegisterStatusMsgChanged(this.myMP.instanceName); //7 
-        this.getRegisterStateChangedByBrowseContext(this.myMP.instanceName); //8
-        this.getRegisterStateChanged(this.myMP.instanceName); //9
+        ['BusyChnaged', 'StatusMsgChanged', 'StateChangedByBrowseContext', 'StateChanged'].forEach((item: any) => {
+            const myRPC: CommonEventRequest = {
+                params: { "ev": item, "handle": "sg" },
+                jsonrpc: '2.0',
+                id: this.getMessageId(),
+                method: this.myMP.instanceName + '.RegisterEvent'
 
-        // console.log('Media player instance name:' + this.myMP.instanceName);
-        // console.log('Media player menu instance name:' + this.myMP.menuInstanceName);
+            };
+            const myRPCJSON = JSON.stringify(myRPC);
+            this.myMP[item + 'Id'] = myRPC.id;// Keep track of the message id.
+            this.sendRPCRequest(myRPCJSON);// Send the message.
+        });
     }
 
     private processPropertiesSupportedResponse(getPropertiesSupportedResponse: GetPropertiesSupportedResponse) {
-        console.log("---->", getPropertiesSupportedResponse);
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('TextLines')) {
-            this.getTextLines();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('ActionsSupported')) {
-            this.getActionsSupported();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('ActionsAvailable')) {
-            this.getActionsAvailable();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('ProgressBar')) {
-            this.getProgressBar();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('ElapsedSec')) {
-            this.getElapsedSec();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('TrackSec')) {
-            this.getTrackSec();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('StreamState')) {
-            this.getStreamState();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('TrackNum')) {
-            this.getTrackNum();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('TrackCnt')) {
-            this.getTrackCnt();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('PlayerState')) {
-            this.getPlayerState();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('PlayerIcon')) {
-            this.getPlayerIcon();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('PlayerName')) {
-            this.getPlayerName();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('PlayerIconURL')) {
-            this.getPlayerIconURL();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('MediaType')) {
-            this.getMediaType();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('Instance')) {
-            this.getInstance();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('AlbumArt')) {
-            this.getAlbumArt();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('AlbumArtUrl')) {
-            this.getAlbumArtUrl();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('AlbumArtUrlNAT')) {
-            this.getAlbumArtUrlNAT();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('StationName')) {
-            this.getStationName();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('Album')) {
-            this.getAlbum();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('Genre')) {
-            this.getGenre();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('Artist')) {
-            this.getArtist();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('Title')) {
-            this.getTitle(this.myMP.instanceName);
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('Language')) {
-            this.getLanguage();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('RewindSpeed')) {
-            this.getRewindSpeed();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('ProviderName')) {
-            this.getProviderName();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('FfwdSpeed')) {
-            this.getFfwdSpeed();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('NextTitle')) {
-            this.getNextTitle();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('MediaReady')) {
-            this.getMediaReady();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('ShuffleState')) {
-            this.getShuffleState();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('RepeatState')) {
-            this.getRepeatState();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('StatusMsg')) {
-            this.getStatusMsg();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('Busy')) {
-            this.getBusy();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('Rating')) {
-            this.getRating();
-        }
-        if (getPropertiesSupportedResponse.result.PropertiesSupported.includes('SelectedId')) {
-            this.getSelectedId();
-        }
-    }
+        const properties = getPropertiesSupportedResponse.result.PropertiesSupported;
+        console.log(properties);
+        properties.forEach((item: any) => {
+            if (item !== 'PropertiesSupported') { // in responsed geetting one of item as "PropertiesSupported", to avoid loop adding this condtion
+                const myRPC: CommonRequestPropName = {
+                    params: { "propName": item },
+                    jsonrpc: '2.0',
+                    id: this.getMessageId(),
+                    method: this.myMP.instanceName + '.GetProperty'
 
+                };
+                const myRPCJSON = JSON.stringify(myRPC);
+                this.myMP[item + "Id"] = myRPC.id; // Keep track of the message id.
+                //console.log(myRPCJSON);
+                this.sendRPCRequest(myRPCJSON);// Send the message.
+            }
+        });
+    }
 
     private processMenuResponse(getMenuResponse: GetMenuResponse) {
-        console.log("---->", getMenuResponse);
+        console.log("MenuResponse---->", getMenuResponse);
         this.myMP.menuInstanceName = getMenuResponse.result.instanceName;
         this.getReset(this.myMP.menuInstanceName);
-        this.getRegisterBusyChnaged(this.myMP.menuInstanceName);
-        this.getRegisterClearChanged(this.myMP.menuInstanceName);
-        this.getRegisterListChanged(this.myMP.menuInstanceName);
-        this.getRegisterStateChanged(this.myMP.menuInstanceName);
-        this.getRegisterStatusMsgMenuChanged(this.myMP.menuInstanceName);
 
-        this.getVersion();
-        this.getMaxReqItems();
-        this.getLevel();
-        this.getItemCnt();
-        this.getTitle(this.myMP.menuInstanceName);
-        this.getSubtitle();
-        this.getListSpecificFunctions();
-        this.getIsMenuAvailable();
-        this.getStatusMsgMenu();
+        ['BusyChnaged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'].forEach((item: any) => {
+            const myRPC: CommonEventRequest = {
+                params: { "ev": item, "handle": "sg" },
+                jsonrpc: '2.0',
+                id: this.getMessageId(),
+                method: this.myMP.menuInstanceName + '.RegisterEvent'
+            };
+            const myRPCJSON = JSON.stringify(myRPC);
+            this.myMP[item + 'Id'] = myRPC.id;// Keep track of the message id.
+            this.sendRPCRequest(myRPCJSON);// Send the message.
+        });
+
+        ['Version', 'MaxReqItems', 'Level', 'ItemCnt', 'Title', 'Subtitle', 'ListSpecificFunctions', 'IsMenuAvailable', 'StatusMsgMenu', 'ItemData'].forEach((item: any) => {
+            const myRPC: CommonRequestPropName = {
+                params: { "propName": item },
+                jsonrpc: '2.0',
+                id: this.getMessageId(),
+                method: this.myMP.menuInstanceName + '.GetProperty'
+            };
+            const myRPCJSON = JSON.stringify(myRPC);
+            this.myMP[item + 'Id'] = myRPC.id;// Keep track of the message id.
+            this.sendRPCRequest(myRPCJSON);// Send the message.
+        });
         this.getItemData();
+
     }
 
-    private getDirectConnectionInfoFromArray(data: any) {
-        //console.log('***getDirectConnectionInfoFromArray***');
-
-        // Data is an array of connections.
-        // ToDo: This is only for RPC v2.0 .. we need to handle RPC v.10 as well.
-        const myConnectionData: any = new Object();
-        myConnectionData.ip = '';
-        myConnectionData.port = 0;
-
-        let i, item;
-        const count = data.length;
-        for (i = 0; i < count; i++) {
-            item = data[i];
-            if (item.type == 'cip-direct/json-rpc') {
-                myConnectionData.ip = item.ip;
-                myConnectionData.port = item.port;
-            }
-        }
-
-        return myConnectionData;
-    }
 
 
     // Register with a media player device.
@@ -559,14 +442,8 @@ export class MusicPlayerLib {
         };
 
         const myRPCJSON = JSON.stringify(myRPC);
-
-        // console.log('JSON: ' + myRPCJSON);
-
-        // Keep track of the message id.
-        this.myMP.registrationMsgId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
+        this.myMP.RegistrationId = myRPC.id;// Keep track of the message id.
+        this.sendRPCRequest(myRPCJSON); // Send the message.
 
         // Start the re-send time.
         this.startRegistrationResendTimer();
@@ -582,12 +459,8 @@ export class MusicPlayerLib {
 
         };
         const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getObjectsMsgId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
+        this.myMP.ObjectsId = myRPC.id;// Keep track of the message id.
+        this.sendRPCRequest(myRPCJSON);// Send the message.
     }
 
     private registerEvent() {
@@ -602,7 +475,7 @@ export class MusicPlayerLib {
         const myRPCJSON = JSON.stringify(myRPC);
 
         // Keep track of the message id.
-        this.myMP.registerEventMsgId = myRPC.id;
+        this.myMP.RegisterEventId = myRPC.id;
 
         // Send the message.
         this.sendRPCRequest(myRPCJSON);
@@ -621,7 +494,7 @@ export class MusicPlayerLib {
         // console.log('PropertiesSupported Req JSON: ' + myRPCJSON);
 
         // Keep track of the message id.
-        this.myMP.getPropertiesSupportedMsgId = myRPC.id;
+        this.myMP.PropertiesSupportedId = myRPC.id;
 
         // Send the message.
         this.sendRPCRequest(myRPCJSON);
@@ -639,132 +512,12 @@ export class MusicPlayerLib {
         const myRPCJSON = JSON.stringify(myRPC);
 
         // Keep track of the message id.
-        this.myMP.getMenuMsgId = myRPC.id;
+        this.myMP.MenuId = myRPC.id;
 
         // Send the message.
         this.sendRPCRequest(myRPCJSON);
     }
 
-    private getRegisterBusyChnaged(instanceName: string) {
-        const myRPC: CommonEventRequest = {
-            params: { "ev": "BusyChanged", "handle": "sg" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: instanceName + '.RegisterEvent'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getRegisterBusyChangedId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getRegisterStatusMsgChanged(instanceName: string) {
-        const myRPC: CommonEventRequest = {
-            params: { "ev": "StatusMsgChanged", "handle": "sg" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: instanceName + '.RegisterEvent'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getRegisterStatusMsgChangedId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getRegisterStateChangedByBrowseContext(instanceName: string) {
-
-        const myRPC: CommonEventRequest = {
-            params: { "ev": "StateChangedByBrowseContext", "handle": "sg" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: instanceName + '.RegisterEvent'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getRegisterStateChangedByBrowseContextId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getRegisterStateChanged(instanceName: string) {
-
-        const myRPC: CommonEventRequest = {
-            params: { "ev": "StateChanged", "handle": "sg" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: instanceName + '.RegisterEvent'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-        // Keep track of the message id.
-        this.myMP.getRegisterStateChangedId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-
-    private getRegisterClearChanged(instanceName: string) {
-
-        const myRPC: CommonEventRequest = {
-            params: { "ev": "ClearChanged", "handle": "sg" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: instanceName + '.RegisterEvent'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-        // Keep track of the message id.
-        this.myMP.getRegisterClearChangedId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getRegisterListChanged(instanceName: string) {
-
-        const myRPC: CommonEventRequest = {
-            params: { "ev": "ListChanged", "handle": "sg" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: instanceName + '.RegisterEvent'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-        // Keep track of the message id.
-        this.myMP.getRegisterListChangedId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getRegisterStatusMsgMenuChanged(instanceName: string) {
-
-        const myRPC: CommonEventRequest = {
-            params: { "ev": "StatusMsgMenuChanged", "handle": "sg" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: instanceName + '.RegisterEvent'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-        // Keep track of the message id.
-        this.myMP.getRegisterStatusMsgMenuChangedId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
 
     private getReset(instanceName: string) {
 
@@ -777,786 +530,11 @@ export class MusicPlayerLib {
         };
         const myRPCJSON = JSON.stringify(myRPC);
         // Keep track of the message id.
-        this.myMP.resetId = myRPC.id;
+        this.myMP.ResetId = myRPC.id;
 
         // Send the message.
         this.sendRPCRequest(myRPCJSON);
     }
-
-    private getTextLines() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "TextLines" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getTextLinesId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getActionsSupported() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "ActionsSupported" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getActionsSupportedId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getActionsAvailable() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "ActionsAvailable" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getActionsAvailableId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getProgressBar() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "ProgressBar" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getProgressBarId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getElapsedSec() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "ElapsedSec" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getElapsedSecId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getTrackSec() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "TrackSec" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getTrackSecId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getStreamState() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "StreamState" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getStreamStateId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getTrackNum() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "TrackNum" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getTrackNumId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getTrackCnt() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "TrackCnt" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getTrackCntId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getPlayerState() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "PlayerState" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getPlayerStateId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getPlayerIcon() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "PlayerIcon" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getPlayerIconId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getPlayerName() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "PlayerName" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getPlayerNameId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getPlayerIconURL() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "PlayerIconURL" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getPlayerIconURLId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getMediaType() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "MediaType" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getMediaTypeId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getInstance() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "Instance" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getInstanceId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getAlbumArt() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "AlbumArt" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getAlbumArtId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getAlbumArtUrl() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "AlbumArtUrl" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getAlbumArtUrlId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getAlbumArtUrlNAT() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "AlbumArtUrlNAT" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getAlbumArtUrlNATId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getStationName() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "StationName" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getStationNameId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getAlbum() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "Album" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getAlbumId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getGenre() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "Genre" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getGenreId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getArtist() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "Artist" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getArtistId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getTitle(instanceName: string) {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "Title" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getTitleId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getLanguage() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "Language" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getLanguageId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getRewindSpeed() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "RewindSpeed" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getRewindSpeedId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getProviderName() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "ProviderName" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getProviderNameId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getFfwdSpeed() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "FfwdSpeed" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getFfwdSpeedId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getNextTitle() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "NextTitle" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getNextTitleId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getMediaReady() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "MediaReady" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getMediaReadyId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getShuffleState() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "ShuffleState" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getShuffleStateId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getRepeatState() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "RepeatState" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getRepeatStateId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getStatusMsg() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "StatusMsg" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getStatusMsgId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getBusy() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "Busy" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getBusyId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getRating() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "Rating" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getRatingId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getSelectedId() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "SelectedId" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.instanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getSelectedId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getVersion() {
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "Version" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.menuInstanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getVersionId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getMaxReqItems() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "MaxReqItems" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.menuInstanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getMaxReqItemsId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getLevel() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "Level" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.menuInstanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getLevelId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getItemCnt() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "ItemCnt" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.menuInstanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getItemCntId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getSubtitle() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "Subtitle" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.menuInstanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getSubtitleId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getListSpecificFunctions() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "ListSpecificFunctions" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.menuInstanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getListSpecificFunctionsId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getIsMenuAvailable() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "IsMenuAvailable" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.menuInstanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-        // console.log('GetMenu Req JSON: ' + myRPCJSON);
-
-        // Keep track of the message id.
-        this.myMP.getIsMenuAvailableId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-    private getStatusMsgMenu() {
-
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": "StatusMsgMenu" },
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.menuInstanceName + '.GetProperty'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-
-        // Keep track of the message id.
-        this.myMP.getStatusMsgMenuId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
 
     private getItemData() {
 
@@ -1570,17 +548,11 @@ export class MusicPlayerLib {
         const myRPCJSON = JSON.stringify(myRPC);
 
         // Keep track of the message id.
-        this.myMP.getItemDataId = myRPC.id;
+        this.myMP.ItemDataId = myRPC.id;
 
         // Send the message.
         this.sendRPCRequest(myRPCJSON);
     }
-
-
-
-
-
-
 
 
 
@@ -1619,7 +591,7 @@ export class MusicPlayerLib {
         const myMsgId = responseData.id;
         /* console.log('Message id: ' + myMsgId); */
 
-        if (myMsgId == this.myMP.registrationMsgId) {
+        if (myMsgId == this.myMP.RegistrationId) {
             console.log('Successful registration.');
             this.processRegistrationResponse(responseData);
 
@@ -1628,27 +600,27 @@ export class MusicPlayerLib {
                 // While objects are being returned, switch the connection to direct (if possible).
                 this.getObjects(); //2
             }
-        } else if (myMsgId == this.myMP.getObjectsMsgId) {
+        } else if (myMsgId == this.myMP.ObjectsId) {
             console.log('Successful get objects.');
             this.processGetObjectsResponse(responseData);
-        } else if (myMsgId == this.myMP.getPropertiesSupportedMsgId) {
+        } else if (myMsgId == this.myMP.PropertiesSupportedId) {
             console.log('Successful get PropertiesSupported.');
             this.processPropertiesSupportedResponse(responseData);
-        } else if (myMsgId == this.myMP.getMenuMsgId) {
+        } else if (myMsgId == this.myMP.MenuId) {
             console.log('Successful get Menus.');
             this.processMenuResponse(responseData);
-        } else if (myMsgId == this.myMP.getTextLinesId) {
+        } else if (myMsgId == this.myMP.TextLinesId) {
             console.log('Successful get TextLines->', responseData);
-        } else if (myMsgId == this.myMP.getActionsSupportedId) {
+        } else if (myMsgId == this.myMP.ActionsSupportedId) {
             console.log('Successful get ActionsSupported->', responseData);
-        } else if (myMsgId == this.myMP.getActionsAvailableId) {
+        } else if (myMsgId == this.myMP.ActionsAvailableId) {
             console.log('Successful get ActionsAvailable->', responseData);
-        } else if (myMsgId == this.myMP.getProgressBarId) {
+        } else if (myMsgId == this.myMP.ProgressBarId) {
             console.log('Successful get getProgressBar->', responseData);
-        } else if (myMsgId == this.myMP.getLevelId) {
+        } else if (myMsgId == this.myMP.LevelId) {
             console.log('Successful get Level->', responseData);
             this.itemLevel = responseData.result.Level;
-        } else if (myMsgId == this.myMP.getItemCntId) {
+        } else if (myMsgId == this.myMP.ItemCntId) {
             this.itemCount = responseData.result.ItemCnt;
             console.log('Successful get item count->', responseData);
         }
