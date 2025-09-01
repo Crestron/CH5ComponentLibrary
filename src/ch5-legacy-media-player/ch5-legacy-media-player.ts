@@ -6,6 +6,7 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5LegacyMediaPlayerNowPlaying } from "./ch5-legacy-media-player-now-playing";
 import { Ch5LegacyMediaPlayerMyMusic } from "./ch5-legacy-media-player-my-music";
+import { MusicPlayerLib, publishEvent } from "../ch5-core";
 
 export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPlayerAttributes {
 
@@ -163,8 +164,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   public set receiveStateCRPC(value: string) {
-    this._ch5Properties.set("receiveStateCRPC", value, null, () => {
-      this.handleReceiveStateCRPC();
+    this._ch5Properties.set("receiveStateCRPC", value, null, (newValue: string) => {
+      publishEvent('s', "mpSigRPCIn", newValue);
+      //this.handleReceiveStateCRPC();
     });
   }
   public get receiveStateCRPC(): string {
@@ -172,8 +174,10 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   public set sendEventCRPC(value: string) {
+    publishEvent('s', 'mpSigRPCOut', "1");
     this._ch5Properties.set("sendEventCRPC", value, null, () => {
-      this.handleSendEventCRPC();
+      // publishEvent('s', 'mpSigRPCOut', "1");
+      //this.handleSendEventCRPC();
     });
   }
   public get sendEventCRPC(): string {
@@ -181,8 +185,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   public set receiveStateMessage(value: string) {
-    this._ch5Properties.set("receiveStateMessage", value, null, () => {
-      this.handleReceiveStateMessage();
+    this._ch5Properties.set("receiveStateMessage", value, null, (newValue: string) => {
+      publishEvent('s', "mpSigMessageIn", newValue);
+      //this.handleReceiveStateMessage();
     });
   }
   public get receiveStateMessage(): string {
@@ -199,8 +204,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   public set receiveStateRefreshMediaPlayer(value: string) {
-    this._ch5Properties.set("receiveStateRefreshMediaPlayer", value, null, () => {
-      this.handleReceiveStateRefreshMediaPlayer();
+    this._ch5Properties.set("receiveStateRefreshMediaPlayer", value, null, (newValue: boolean) => {
+      //this.handleReceiveStateRefreshMediaPlayer();
+      publishEvent('b', "mpSigRefresh", newValue);
     });
   }
   public get receiveStateRefreshMediaPlayer(): string {
@@ -208,8 +214,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   public set receiveStateDeviceOffline(value: string) {
-    this._ch5Properties.set("receiveStateDeviceOffline", value, null, () => {
-      this.handleReceiveStateDeviceOffline();
+    this._ch5Properties.set("receiveStateDeviceOffline", value, null, (newValue: boolean) => {
+      //this.handleReceiveStateDeviceOffline();
+      publishEvent('b', "mpSigOffline", newValue);
     });
   }
   public get receiveStateDeviceOffline(): string {
@@ -217,8 +224,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   public set receiveStateUseMessage(value: string) {
-    this._ch5Properties.set("receiveStateUseMessage", value, null, () => {
-      this.handleReceiveStateUseMessage();
+    this._ch5Properties.set("receiveStateUseMessage", value, null, (newValue: boolean) => {
+      //this.handleReceiveStateUseMessage();
+      publishEvent('b', "mpSigUseMessage", newValue);
     });
   }
   public get receiveStateUseMessage(): string {
@@ -226,8 +234,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   public set receiveStateControlSystemOffline(value: string) {
-    this._ch5Properties.set("receiveStateControlSystemOffline", value, null, () => {
-      this.handleReceiveStateControlSystemOffline();
+    this._ch5Properties.set("receiveStateControlSystemOffline", value, null, (newValue: boolean) => {
+      publishEvent('b', "mpSigCtrlSysOffline", newValue);
+      // this.handleReceiveStateControlSystemOffline();
     });
   }
   public get receiveStateControlSystemOffline(): string {
@@ -267,6 +276,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   public constructor() {
     super();
     this.logger.start('constructor()', Ch5LegacyMediaPlayer.ELEMENT_NAME);
+    MusicPlayerLib.getInstance();
     this.ignoreAttributes = ["appendclasswheninviewport", "receivestateshowpulse", "receivestatehidepulse", "sendeventonshow"];
     if (!this._wasInstatiated) {
       this.createInternalHtml();
