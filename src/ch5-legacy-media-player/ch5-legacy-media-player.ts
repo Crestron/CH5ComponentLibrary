@@ -390,7 +390,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   //Generic Dialog
-  private genericDialog(dialogType: string, dialogHeading: string){
+  protected genericDialog(dialogType: string, dialogHeading: string) {
     console.log(dialogType);
     if(this._elMask) this._elMask.innerHTML = "";
     this._elMask = document.createElement('div');
@@ -426,7 +426,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   //Keyboard Input Dialog
-  protected keyboardInputDialog(dialogType: string, dialogHeading: string){
+  protected keyboardInputDialog(dialogType: string, dialogHeading: string, dialogFor: string) {
     console.log(dialogType);
     if(this._elMask) this._elMask.innerHTML = "";
     this._elMask = document.createElement('div');
@@ -457,13 +457,59 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
     const dialogFooterPrimaryButton = document.createElement('div');
     dialogFooterPrimaryButton.classList.add('generic-dialog-button', 'primary-dialog-button');
-    dialogFooterPrimaryButton.textContent = 'Search';
+    dialogFooterPrimaryButton.textContent = dialogFor === 'favorite' ? 'Ok' : 'Search';
     dialogFooterPrimaryButton.onclick = () => {
       console.log("Primary button click");
       this._elMask.remove();
       //needs to be updated based on the proper functionality
     }
     dialogFooter.appendChild(dialogFooterPrimaryButton);
+    this._elKeyboardDialogContent.appendChild(dialogFooter);
+
+    this._elMask.appendChild(this._elKeyboardDialogContent);
+    this._elContainer.appendChild(this._elMask);
+  }
+
+  protected actionGroupDialog(dialogType: string, dialogHeading: string) {
+    console.log(dialogType);
+    if(this._elMask) this._elMask.innerHTML = "";
+    this._elMask = document.createElement('div');
+    this._elMask.classList.add('ch5-legacy-media-player-mask');
+    this._elContainer.appendChild(this._elMask);
+    this._elKeyboardDialogContent = document.createElement('div');
+    this._elKeyboardDialogContent.classList.add('ch5-legacy-media-player-mask-content-action-group');
+    const dialogTitle = document.createElement('div');
+    dialogTitle.classList.add('generic-dialog-title');
+    dialogTitle.textContent = dialogHeading;
+    this._elKeyboardDialogContent.appendChild(dialogTitle);
+
+    const dialogFooter = document.createElement('div');
+    dialogFooter.classList.add('action-group-dialog-footer');
+
+    const dialogFooterPrimaryButtonRename = document.createElement('div');
+    dialogFooterPrimaryButtonRename.classList.add('action-group-dialog-button', 'primary-dialog-button');
+    dialogFooterPrimaryButtonRename.textContent = "Rename Favorite";
+    dialogFooterPrimaryButtonRename.onclick = () => {
+      console.log("Rename button click");
+      this._elMask.remove();
+    }
+    dialogFooter.appendChild(dialogFooterPrimaryButtonRename);
+
+    const dialogFooterPrimaryButtonDelete = document.createElement('div');
+    dialogFooterPrimaryButtonDelete.classList.add('action-group-dialog-button', 'primary-dialog-button');
+    dialogFooterPrimaryButtonDelete.textContent = "Delete Favorite";
+    dialogFooterPrimaryButtonDelete.onclick = () => {
+      console.log("Delete button click");
+      this._elMask.remove();
+    }
+    dialogFooter.appendChild(dialogFooterPrimaryButtonDelete);
+
+    const dialogFooterSecondayButtonCancel = document.createElement('div');
+    dialogFooterSecondayButtonCancel.classList.add('action-group-dialog-button', 'secondary-dialog-button');
+    dialogFooterSecondayButtonCancel.textContent = 'Cancel';
+    dialogFooterSecondayButtonCancel.onclick = () => this._elMask.remove();
+    dialogFooter.appendChild(dialogFooterSecondayButtonCancel);
+
     this._elKeyboardDialogContent.appendChild(dialogFooter);
 
     this._elMask.appendChild(this._elKeyboardDialogContent);
@@ -486,15 +532,28 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   protected attachEventListeners() {
     super.attachEventListeners();
     resizeObserver(this._elContainer, this.handleResizeObserver);
+
     this._elContainer.addEventListener('show-favorite-dialog', () => {
-      if(this._elMask){
-        this.genericDialog("generic", "Generic Dialog");
+      if(this._elMask) {
+        this.keyboardInputDialog("keyboardInput", "What would you like to call this favorite?", "favorite");
       }
     });
 
     this._elContainer.addEventListener('show-search-dialog', () => {
-      if(this._elKeyboardDialogContent){
-        this.keyboardInputDialog("keyboardInput", "Album Search");
+      if(this._elMask) {
+        this.keyboardInputDialog("keyboardInput", "Album Search", 'album');
+      }
+    });
+
+    this._elContainer.addEventListener('show-change-favorite', () => {
+      if(this._elMask) {
+        this.actionGroupDialog('actionGroup', "What would you like to do?");
+      }
+    });
+
+    this._elContainer.addEventListener('show-generic-dialog', () => {
+      if(this._elMask) {
+        this.genericDialog('generic', "This is a long dialog’s title that expands on 2 lines.");
       }
     });
   }

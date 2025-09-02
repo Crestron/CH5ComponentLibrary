@@ -156,10 +156,10 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicFooterSection = document.createElement("div");
     this._myMusicFooterSection.className = 'my-music-footer-section';
     const actions = [
-      { class: 'mp-icon mp-plus-circle', clickAction: this.onFavorite} ,
-      { class: 'mp-icon mp-search-lg',  clickAction: this.onSearch },
-      { class: 'mp-icon mp-music-list-quick' },
-      { class: 'mp-icon mp-music-list' },
+      { class: 'mp-icon mp-plus-circle', clickAction: this.onFavorite } ,
+      { class: 'mp-icon mp-search-lg', clickAction: this.onSearch },
+      { class: 'mp-icon mp-music-list-quick', clickAction: this.onChangeFavorite },
+      { class: 'mp-icon mp-music-list', clickAction: this.onGeneric },
       { class: 'mp-icon mp-settings' },
       { class: 'mp-icon mp-dots-horizontal' },
     ];
@@ -182,6 +182,16 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicContainer.dispatchEvent(new CustomEvent("show-search-dialog", {bubbles: true, composed: true}));
 		console.log("Search Click");
 	} 
+
+  protected onChangeFavorite = () => {
+    this._myMusicContainer.dispatchEvent(new CustomEvent("show-change-favorite", {bubbles: true, composed: true}));
+		console.log("Music List Quick Click");
+	}
+
+  protected onGeneric = () => {
+    this._myMusicContainer.dispatchEvent(new CustomEvent("show-generic-dialog", {bubbles: true, composed: true}));
+		console.log("Music List Click");
+	}
 
   protected createLine(text: string, subText: string, itemId: string) {
     this._myMusicContentItem = document.createElement('div');
