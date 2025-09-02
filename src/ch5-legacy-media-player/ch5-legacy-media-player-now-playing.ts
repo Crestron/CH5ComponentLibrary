@@ -306,10 +306,27 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	private onThumbsDown = () => {
 		console.log("Thumbs Down Click");
+		
+		const iconDislikeButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-thumbs-down"]')!;
+		if (iconDislikeButton.classList.contains('active')) {
+			iconDislikeButton.classList.remove('active');
+		} else {
+			iconDislikeButton.classList.add('active');
+		}
+		const iconLikeButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-thumbs-up"]')!;
+		iconLikeButton.classList.remove('active');
 	}
 
 	private onThumbsUp = () => {
 		console.log("Thumbs Up Click");
+		const iconLikeButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-thumbs-up"]')!;
+		if (iconLikeButton.classList.contains('active')) {
+			iconLikeButton.classList.remove('active');
+		} else {
+			iconLikeButton.classList.add('active');
+		}
+		const icondislikeButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-thumbs-down"]')!;
+		icondislikeButton.classList.remove('active');
 	}
 
 	private onSkipBack = () => {
@@ -330,10 +347,18 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	private onPlay = () => {
 		console.log("Play Click");
+		const iconPlayButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-play"]')!;
+		iconPlayButton.style.display = 'none';
+		const iconPauseButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-pause"]')!;
+		iconPauseButton.style.display = 'flex';
 	}
 
 	private onPause = () => {
 		console.log("Pause Click");
+		const iconPlayButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-play"]')!;
+		iconPlayButton.style.display = 'flex';
+		const iconPauseButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-pause"]')!;
+		iconPauseButton.style.display = 'none';
 	}
 
 	protected renderMoreActionButtons() {
@@ -380,7 +405,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nextAndPreviousSongContainer.classList.add('now-playing-next-and-previous-song-container');
 		// Next Song Section
 		const nextSongSection = document.createElement('div');
-		nextSongSection.classList.add('now-playing-next-song-section');
+		nextSongSection.classList.add('now-playing-next-song-container');
 		//Next Song Label
 		this._nextSongLabel = document.createElement('span');
 		this._nextSongLabel.classList.add('now-playing-next-song-label');

@@ -113,7 +113,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicContainer.classList.add("ch5-legacy-media-player-my-music");
 
     this._myMusicHeaderSection = document.createElement("div");
-    this._myMusicHeaderSection.className = 'my-music-header-section';
+    this._myMusicHeaderSection.className = 'my-music-header';
 
     this._myMusicHeaderBackButton = new Ch5LegacyMediaPlayerIconButton();
     this._myMusicHeaderBackButton.setAttribute('iconClass', "mp-icon mp-chevron-left");
@@ -140,7 +140,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicHeaderSection.append(this._myMusicHeaderBackButton, this._myMusicHeaderTitle, this._myMusicHeaderNowPlayingButton);
 
     this._myMusicContentSection = document.createElement("div");
-    this._myMusicContentSection.className = 'my-music-content-section';
+    this._myMusicContentSection.className = 'my-music-content';
     const myMusicContentList: TCh5LegacyMediaPlayerMyMusicContentItem[] = [
       {titleText: 'Text Line 1', subTitleText: 'Sub Line 1', id: '1' },
       {titleText: 'Text Line 2', subTitleText: 'Sub Line 2', id: '2' },
@@ -154,7 +154,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     }
 
     this._myMusicFooterSection = document.createElement("div");
-    this._myMusicFooterSection.className = 'my-music-footer-section';
+    this._myMusicFooterSection.className = 'my-music-footer';
     const actions = [
       { class: 'mp-icon mp-plus-circle' },
       { class: 'mp-icon mp-search-lg' },
