@@ -142,6 +142,11 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
 
+  private _elMask: HTMLElement = {} as HTMLElement;
+  private _elGenericDialogContent: HTMLElement = {} as HTMLElement;
+  private _elKeyboardDialogContent: HTMLElement = {} as HTMLElement;
+
+  //private _isShowPopup: boolean = false;
   //#endregion
 
   //#region Getters and Setters
@@ -253,6 +258,18 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     return this._ch5Properties.get<string>('sendEventPlayerName');
   }
 
+
+  // set showPopup(value: boolean) {
+  //   this._isShowPopup = value;
+  //   if (this._elMask) {
+  //     this._elMask.style.display = value ? '' : 'none';
+  //   }
+  // }
+  // get showPopup() {
+  //   return this._isShowPopup;
+  // }
+
+
   //#endregion
 
   //#region Static Methods
@@ -279,6 +296,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this.logger.start('constructor()', Ch5LegacyMediaPlayer.ELEMENT_NAME);
     MusicPlayerLib.getInstance();
     this.ignoreAttributes = ["appendclasswheninviewport", "receivestateshowpulse", "receivestatehidepulse", "sendeventonshow"];
+    //this._isShowPopup = false;
     if (!this._wasInstatiated) {
       this.createInternalHtml();
     }
@@ -319,6 +337,18 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()', Ch5LegacyMediaPlayer.ELEMENT_NAME);
+
+    //this.showPopup = false;
+    // if (this._elMask) {
+    //   this._elMask.style.display = '';
+    // }
+    // setTimeout(() => {
+    //   this.showPopup = false;
+    //   if (this._elMask) {
+    //     this._elMask.style.display = 'none';
+    //   }
+    // }, 3000);
+
     // WAI-ARIA Attributes
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5LegacyMediaPlayer);
@@ -359,6 +389,87 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this.logger.stop();
   }
 
+  //Generic Dialog
+  private genericDialog(dialogType: string, dialogHeading: string){
+    console.log(dialogType);
+    if(this._elMask) this._elMask.innerHTML = "";
+    this._elMask = document.createElement('div');
+    this._elMask.classList.add('ch5-legacy-media-player-mask');
+    this._elContainer.appendChild(this._elMask);
+    this._elGenericDialogContent = document.createElement('div');
+    this._elGenericDialogContent.classList.add('ch5-legacy-media-player-mask-content-generic');
+    const dialogTitle = document.createElement('div');
+    dialogTitle.classList.add('generic-dialog-title');
+    dialogTitle.textContent = dialogHeading;
+    this._elGenericDialogContent.appendChild(dialogTitle);
+
+    const dialogFooter = document.createElement('div');
+    dialogFooter.classList.add('generic-dialog-footer');
+    const dialogFooterSecondayButton = document.createElement('div');
+    dialogFooterSecondayButton.classList.add('generic-dialog-button', 'secondary-dialog-button');
+    dialogFooterSecondayButton.textContent = 'Secondary';
+    dialogFooterSecondayButton.onclick = () => this._elMask.remove();
+    dialogFooter.appendChild(dialogFooterSecondayButton);
+
+    const dialogFooterPrimaryButton = document.createElement('div');
+    dialogFooterPrimaryButton.classList.add('generic-dialog-button', 'primary-dialog-button');
+    dialogFooterPrimaryButton.textContent = 'Primary';
+    dialogFooterPrimaryButton.onclick = () => {
+      console.log("Primary button click");
+      this._elMask.remove();
+      //needs to be updated based on the proper functionality
+    }
+    dialogFooter.appendChild(dialogFooterPrimaryButton);
+    this._elGenericDialogContent.appendChild(dialogFooter);
+
+    this._elMask.appendChild(this._elGenericDialogContent);
+  }
+
+  //Keyboard Input Dialog
+  protected keyboardInputDialog(dialogType: string, dialogHeading: string){
+    console.log(dialogType);
+    if(this._elMask) this._elMask.innerHTML = "";
+    this._elMask = document.createElement('div');
+    this._elMask.classList.add('ch5-legacy-media-player-mask');
+    this._elContainer.appendChild(this._elMask);
+    this._elKeyboardDialogContent = document.createElement('div');
+    this._elKeyboardDialogContent.classList.add('ch5-legacy-media-player-mask-content-generic');
+    const dialogTitle = document.createElement('div');
+    dialogTitle.classList.add('generic-dialog-title');
+    dialogTitle.textContent = dialogHeading;
+    this._elKeyboardDialogContent.appendChild(dialogTitle);
+
+    const dialogContent = document.createElement('div');
+    dialogContent.classList.add("dialog-content");
+    const dialogContentInput = document.createElement("input");
+    dialogContentInput.classList.add('dialog-content-input');
+    dialogContent.appendChild(dialogContentInput);
+    this._elKeyboardDialogContent.appendChild(dialogContent);
+
+    const dialogFooter = document.createElement('div');
+    dialogFooter.classList.add('generic-dialog-footer');
+
+    const dialogFooterSecondayButton = document.createElement('div');
+    dialogFooterSecondayButton.classList.add('generic-dialog-button', 'secondary-dialog-button');
+    dialogFooterSecondayButton.textContent = 'Cancel';
+    dialogFooterSecondayButton.onclick = () => this._elMask.remove();
+    dialogFooter.appendChild(dialogFooterSecondayButton);
+
+    const dialogFooterPrimaryButton = document.createElement('div');
+    dialogFooterPrimaryButton.classList.add('generic-dialog-button', 'primary-dialog-button');
+    dialogFooterPrimaryButton.textContent = 'Search';
+    dialogFooterPrimaryButton.onclick = () => {
+      console.log("Primary button click");
+      this._elMask.remove();
+      //needs to be updated based on the proper functionality
+    }
+    dialogFooter.appendChild(dialogFooterPrimaryButton);
+    this._elKeyboardDialogContent.appendChild(dialogFooter);
+
+    this._elMask.appendChild(this._elKeyboardDialogContent);
+    this._elContainer.appendChild(this._elMask);
+  }
+
   protected initAttributes() {
     super.initAttributes();
     const thisRef: any = this;
@@ -374,12 +485,23 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   protected attachEventListeners() {
     super.attachEventListeners();
-    resizeObserver(this._elContainer, this.handleResizeObserver)
+    resizeObserver(this._elContainer, this.handleResizeObserver);
+    this._elContainer.addEventListener('show-favorite-dialog', () => {
+      if(this._elMask){
+        this.genericDialog("generic", "Generic Dialog");
+      }
+    });
+
+    this._elContainer.addEventListener('show-search-dialog', () => {
+      if(this._elKeyboardDialogContent){
+        this.keyboardInputDialog("keyboardInput", "Album Search");
+      }
+    });
   }
 
   private handleResizeObserver = () => {
     const { width } = this._elContainer.getBoundingClientRect();
-    if(width > 800) {
+    if (width > 800) {
       document.querySelector(".ch5-legacy-media-player-my-music")?.classList.remove("my-music-transition");
     }
   }
