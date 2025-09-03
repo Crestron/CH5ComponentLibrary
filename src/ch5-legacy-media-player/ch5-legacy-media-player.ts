@@ -393,8 +393,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   protected genericDialog(dialogType: string, dialogHeading: string) {
     console.log(dialogType);
     if(this._elMask) this._elMask.innerHTML = "";
+    //dialog heading
     this.getDialogHeading(dialogHeading);
-
+    //dialog footer buttons
     this.getDialogFooter("generic");
 
     this._elMask.appendChild(this._elGenericDialogContent);
@@ -404,30 +405,42 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   protected keyboardInputDialog(dialogType: string, dialogHeading: string, dialogFor: string) {
     console.log(dialogType);
     if(this._elMask) this._elMask.innerHTML = "";
+    //dialog heading
     this.getDialogHeading(dialogHeading);
-
+    //dialog input box
     const dialogContent = document.createElement('div');
     dialogContent.classList.add("dialog-content");
     const dialogContentInput = document.createElement("input");
     dialogContentInput.classList.add('dialog-content-input');
     dialogContent.appendChild(dialogContentInput);
     this._elGenericDialogContent.appendChild(dialogContent);
-
+    //dialog footer buttons
     this.getDialogFooter(dialogFor);
 
+    //disable primary button in input empty
+    dialogContentInput.addEventListener('input', () => {
+      const primaryButton = this._elGenericDialogContent.getElementsByClassName('primary-dialog-button')[0] as HTMLButtonElement;
+      if (dialogContentInput.value.trim() === '') {
+        primaryButton?.setAttribute('disabled', 'true');
+        primaryButton?.classList.add('disabled');
+      } else {
+        primaryButton?.removeAttribute('disabled');
+        primaryButton?.classList.remove('disabled');
+      }
+    });
+
     this._elMask.appendChild(this._elGenericDialogContent);
-    this._elContainer.appendChild(this._elMask);
   }
 
   //Action Group Dialog
   protected actionGroupDialog(dialogType: string, dialogHeading: string) {
     console.log(dialogType);
     if(this._elMask) this._elMask.innerHTML = "";
+    //dialog heading
     this.getDialogHeading(dialogHeading);
-
+    //dialog action buttons
     const dialogFooter = document.createElement('div');
     dialogFooter.classList.add('action-group-dialog-footer');
-
     const dialogFooterPrimaryButtonRename = document.createElement('div');
     dialogFooterPrimaryButtonRename.classList.add('action-group-dialog-button', 'primary-dialog-button');
     dialogFooterPrimaryButtonRename.textContent = "Rename Favorite";
@@ -451,11 +464,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     dialogFooterSecondayButtonCancel.textContent = 'Cancel';
     dialogFooterSecondayButtonCancel.onclick = () => this._elMask.remove();
     dialogFooter.appendChild(dialogFooterSecondayButtonCancel);
-
     this._elGenericDialogContent.appendChild(dialogFooter);
 
     this._elMask.appendChild(this._elGenericDialogContent);
-    this._elContainer.appendChild(this._elMask);
   }
 
   protected getDialogHeading(dialogHeading: string){
@@ -474,15 +485,19 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     const dialogFooter = document.createElement('div');
     dialogFooter.classList.add('generic-dialog-footer');
 
-    const dialogFooterSecondayButton = document.createElement('div');
+    const dialogFooterSecondayButton = document.createElement('button');
     dialogFooterSecondayButton.classList.add('generic-dialog-button', 'secondary-dialog-button');
     dialogFooterSecondayButton.textContent = dialogFor === 'generic' ? 'Secondary' : 'Cancel';
     dialogFooterSecondayButton.onclick = () => this._elMask.remove();
     dialogFooter.appendChild(dialogFooterSecondayButton);
 
-    const dialogFooterPrimaryButton = document.createElement('div');
+    const dialogFooterPrimaryButton = document.createElement('button');
     dialogFooterPrimaryButton.classList.add('generic-dialog-button', 'primary-dialog-button');
     dialogFooterPrimaryButton.textContent = dialogFor === 'generic' ? 'Primary'  : dialogFor === 'favorite' ? 'Ok' : 'Search';
+    if(dialogFor != 'generic') {
+      dialogFooterPrimaryButton.setAttribute('disabled', 'true');
+      dialogFooterPrimaryButton.classList.add('disabled');
+    }
     dialogFooterPrimaryButton.onclick = () => {
       console.log("Primary button click");
       this._elMask.remove();
@@ -529,7 +544,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
     this._elContainer.addEventListener('show-generic-dialog', () => {
       if(this._elMask) {
-        this.genericDialog('generic', "This is a long dialog’s title that expands on 2 lines.");
+        this.genericDialog('generic', "This is a long dialog's title that expands on 2 lines.");
       }
     });
   }
