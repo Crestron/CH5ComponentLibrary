@@ -160,8 +160,8 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
       { class: 'mp-icon mp-search-lg', clickAction: this.onSearch },
       { class: 'mp-icon mp-music-list-quick', clickAction: this.onChangeFavorite },
       { class: 'mp-icon mp-music-list', clickAction: this.onGeneric },
-      { class: 'mp-icon mp-settings' },
-      { class: 'mp-icon mp-dots-horizontal' },
+      { class: 'mp-icon mp-settings', clickAction: this.onGeneric },
+      { class: 'mp-icon mp-dots-horizontal', clickAction: this.onGeneric },
     ];
     actions.forEach(action => {
       const button = new Ch5LegacyMediaPlayerIconButton();
