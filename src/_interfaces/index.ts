@@ -62,6 +62,6 @@ export * from './../ch5-video-switcher/interfaces/i-ch5-video-switcher-screen-la
 export * from './../ch5-video-switcher/interfaces/i-ch5-video-switcher-source-documentation';
 export * from './../ch5-video-switcher/interfaces/i-ch5-video-switcher-source-label-documentation';
 export * from './../ch5-wifi-signal-level-gauge/interfaces/i-ch5-wifi-signal-level-gauge-documentation';
-export * from './../ch5-legacy-media-player-now-playing/interfaces/i-ch5-legacy-media-player-now-playing-documentation';
-export * from './../ch5-legacy-media-player-my-music/interfaces/i-ch5-legacy-media-player-my-music-documentation';
+export * from './../ch5-legacy-media-player/interfaces/i-ch5-legacy-media-player-now-playing-documentation';
+export * from './../ch5-legacy-media-player/interfaces/i-ch5-legacy-media-player-my-music-documentation';
 export * from './../ch5-legacy-media-player/interfaces/i-ch5-legacy-media-player-documentation';

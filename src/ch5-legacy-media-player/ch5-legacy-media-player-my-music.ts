@@ -3,6 +3,7 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Log } from "../ch5-common/ch5-log";
 import { Ch5LegacyMediaPlayerIconButton } from "./ch5-legacy-media-player-icon-button-base.ts";
+import { TCh5LegacyMediaPlayerMyMusicContentItem } from "./interfaces/t-ch5-legacy-media-player.ts";
 
 export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
@@ -112,7 +113,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicContainer.classList.add("ch5-legacy-media-player-my-music");
 
     this._myMusicHeaderSection = document.createElement("div");
-    this._myMusicHeaderSection.className = 'my-music-header-section';
+    this._myMusicHeaderSection.className = 'my-music-header';
 
     this._myMusicHeaderBackButton = new Ch5LegacyMediaPlayerIconButton();
     this._myMusicHeaderBackButton.setAttribute('iconClass', "mp-icon mp-chevron-left");
@@ -139,16 +140,21 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicHeaderSection.append(this._myMusicHeaderBackButton, this._myMusicHeaderTitle, this._myMusicHeaderNowPlayingButton);
 
     this._myMusicContentSection = document.createElement("div");
-    this._myMusicContentSection.className = 'my-music-content-section';
-    this.createLine('Text Line 1', 'Sub Line 1');
-    this.createLine('Text Line 2', 'Sub Line 2');
-    this.createLine('Text Line 3', 'Sub Line 3');
-    this.createLine('Text Line 4', 'Sub Line 4');
-    this.createLine('Text Line 5', 'Sub Line 5');
-    this.createLine('Text Line 6', 'Sub Line 6');
+    this._myMusicContentSection.className = 'my-music-content';
+    const myMusicContentList: TCh5LegacyMediaPlayerMyMusicContentItem[] = [
+      {titleText: 'Text Line 1', subTitleText: 'Sub Line 1', id: '1' },
+      {titleText: 'Text Line 2', subTitleText: 'Sub Line 2', id: '2' },
+      {titleText: 'Text Line 3', subTitleText: 'Sub Line 3', id: '3' },
+      {titleText: 'Text Line 4', subTitleText: 'Sub Line 4', id: '4' },
+      {titleText: 'Text Line 5', subTitleText: 'Sub Line 5', id: '5' },
+      {titleText: 'Text Line 6', subTitleText: 'Sub Line 6', id: '6' }
+    ];
+    for(const item of myMusicContentList){
+      this.createLine(item.titleText, item.subTitleText, item.id);
+    }
 
     this._myMusicFooterSection = document.createElement("div");
-    this._myMusicFooterSection.className = 'my-music-footer-section';
+    this._myMusicFooterSection.className = 'my-music-footer';
     const actions = [
       { class: 'mp-icon mp-plus-circle' },
       { class: 'mp-icon mp-search-lg' },
@@ -166,7 +172,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this.logger.stop();
   }
 
-  protected createLine(text: string, subText: string) {
+  protected createLine(text: string, subText: string, itemId: string) {
     this._myMusicContentItem = document.createElement('div');
     this._myMusicContentItem.className = 'my-music-content-item';
     this._myMusicContentItemTitle = document.createElement('div');
@@ -175,6 +181,18 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicContentItemSubtitle = document.createElement('div');
     this._myMusicContentItemSubtitle.className = 'my-music-content-item-subtitle';
     this._myMusicContentItemSubtitle.textContent = subText;
+    this._myMusicContentItem.onclick = () => {
+      console.log("content Item clicked");
+      this._myMusicContentSection.textContent = ""; 
+      const myMusicContentList: TCh5LegacyMediaPlayerMyMusicContentItem[] = [];
+      for(let i = 0; i < parseInt(itemId); i++){
+        myMusicContentList.push({titleText: 'Text Line 1 ' + itemId, subTitleText: 'Sub Line 1 ' + itemId, id: `${i + 1}` },);
+      }
+      for(const item of myMusicContentList){
+        this.createLine(item.titleText, item.subTitleText, item.id);
+      }
+    }
+
     this._myMusicContentItem.appendChild(this._myMusicContentItemTitle);
     this._myMusicContentItem.appendChild(this._myMusicContentItemSubtitle);
     this._myMusicContentSection.appendChild(this._myMusicContentItem);

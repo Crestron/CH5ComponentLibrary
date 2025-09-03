@@ -255,10 +255,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._progressBarInput.classList.add('now-playing-progressbar-input');
 		this._progressBarContainer.appendChild(this._progressBarInput);
 
-		this._progressBarInput.addEventListener("input", () => {
-			this._progressBarInput.style.backgroundSize = this._progressBarInput.value + "% 100%";
-		});
-
 		// Current time and duration container
 		const progressBarCurrentTimeDurationContainer = document.createElement('div');
 		progressBarCurrentTimeDurationContainer.classList.add('now-playing-progressbar-current-time-duration-container');
@@ -273,6 +269,14 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._duration.textContent = '0:00';
 		progressBarCurrentTimeDurationContainer.appendChild(this._duration);
 		this._progressBarContainer.appendChild(progressBarCurrentTimeDurationContainer);
+
+		//Seek
+		this._progressBarInput.addEventListener("input", () => {
+			this._progressBarInput.style.backgroundSize = this._progressBarInput.value + "% 100%";
+			this._currentTime.textContent = this.formatTime(parseInt(this._progressBarInput.value));
+			this._duration.textContent = this.formatTime(100)
+		});
+
 		// Append the progress bar container to the main container
 		this._transportControls.appendChild(this._progressBarContainer);
 	}
@@ -281,40 +285,119 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._actionButtonsContainer = document.createElement('div');
 		this._actionButtonsContainer.classList.add('now-playing-action-buttons-container');
 		const actions = [
-			{ class: 'mp-icon mp-thumbs-down' },
-			{ class: 'mp-icon mp-skip-back' },
-			{ class: 'mp-icon mp-fast-backward' },
-			{ class: 'mp-icon mp-play' },
-			{ class: 'mp-icon mp-pause', style: 'display:none;' },
-			{ class: 'mp-icon mp-fast-forward' },
-			{ class: 'mp-icon mp-skip-forward' },
-			{ class: 'mp-icon mp-thumbs-up' },
+			{ class: 'mp-icon mp-thumbs-down', clickAction: this.onThumbsDown },
+			{ class: 'mp-icon mp-skip-back', clickAction: this.onSkipBack },
+			{ class: 'mp-icon mp-fast-backward', clickAction: this.onFastBackward },
+			{ class: 'mp-icon mp-play', clickAction: this.onPlay },
+			{ class: 'mp-icon mp-pause', style: 'display:none;', clickAction: this.onPause },
+			{ class: 'mp-icon mp-fast-forward', clickAction: this.onFastForward },
+			{ class: 'mp-icon mp-skip-forward', clickAction: this.onSkipForward },
+			{ class: 'mp-icon mp-thumbs-up', clickAction: this.onThumbsUp },
 		];
 		actions.forEach(action => {
 			const button = new Ch5LegacyMediaPlayerIconButton();
 			button.setAttribute('iconClass', action.class);
+			button.onclick = action.clickAction ? (() => action.clickAction!()) : null;
 			button.style.cssText = action.style || '';
 			this._actionButtonsContainer.appendChild(button);
 		});
 		this._transportControls.appendChild(this._actionButtonsContainer);
 	}
 
+	private onThumbsDown = () => {
+		console.log("Thumbs Down Click");
+		
+		const iconDislikeButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-thumbs-down"]')!;
+		if (iconDislikeButton.classList.contains('active')) {
+			iconDislikeButton.classList.remove('active');
+		} else {
+			iconDislikeButton.classList.add('active');
+		}
+		const iconLikeButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-thumbs-up"]')!;
+		iconLikeButton.classList.remove('active');
+	}
+
+	private onThumbsUp = () => {
+		console.log("Thumbs Up Click");
+		const iconLikeButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-thumbs-up"]')!;
+		if (iconLikeButton.classList.contains('active')) {
+			iconLikeButton.classList.remove('active');
+		} else {
+			iconLikeButton.classList.add('active');
+		}
+		const icondislikeButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-thumbs-down"]')!;
+		icondislikeButton.classList.remove('active');
+	}
+
+	private onSkipBack = () => {
+		console.log("Skip Back Click");
+	}
+
+	private onSkipForward = () => {
+		console.log("Skip Forward Click");
+	}
+
+	private onFastBackward = () => {
+		console.log("Fast Backward Click");
+	}
+
+	private onFastForward = () => {
+		console.log("Fast Forward Click");
+	}
+
+	private onPlay = () => {
+		console.log("Play Click");
+		const iconPlayButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-play"]')!;
+		iconPlayButton.style.display = 'none';
+		const iconPauseButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-pause"]')!;
+		iconPauseButton.style.display = 'flex';
+	}
+
+	private onPause = () => {
+		console.log("Pause Click");
+		const iconPlayButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-play"]')!;
+		iconPlayButton.style.display = 'flex';
+		const iconPauseButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-pause"]')!;
+		iconPauseButton.style.display = 'none';
+	}
+
 	protected renderMoreActionButtons() {
 		this._moreActionButtonsContainer = document.createElement('div');
 		this._moreActionButtonsContainer.classList.add('now-playing-more-action-buttons-container');
 		const actions = [
-			{ class: 'mp-icon mp-shuffle' },
-			{ class: 'mp-icon mp-repeat' },
-			{ class: 'mp-icon mp-play-multi-square' },
-			{ class: 'mp-icon mp-music-note-plus' },
-			{ class: 'mp-icon mp-image-user-plus' },
+			{ class: 'mp-icon mp-shuffle', clickAction: this.onShuffle },
+			{ class: 'mp-icon mp-repeat', clickAction: this.onRepeat },
+			{ class: 'mp-icon mp-play-multi-square', clickAction: this.onPlayMultiSquare },
+			{ class: 'mp-icon mp-music-note-plus', clickAction: this.onMusicNotePlus },
+			{ class: 'mp-icon mp-image-user-plus', clickAction: this.onUserPlus },
 		];
 		actions.forEach(action => {
 			const button = new Ch5LegacyMediaPlayerIconButton();
 			button.setAttribute('iconClass', action.class);
+			button.onclick = action.clickAction ? (() => action.clickAction!()) : null;
 			this._moreActionButtonsContainer.appendChild(button);
 		});
 		this._transportControls.appendChild(this._moreActionButtonsContainer);
+	}
+
+	private onShuffle = () => {
+		console.log("Shuffle Click");
+	} 
+
+	private onRepeat = () => {
+		console.log("Repeat Click");
+	}
+
+	private onPlayMultiSquare = () => {
+		console.log("Play Multi Square Click");
+	}
+
+	private onMusicNotePlus = () => {
+		console.log("Music Note Plus Click");
+	}
+
+	private onUserPlus = () => {
+		console.log("User Plus Click");
 	}
 
 	protected renderNextAndPreviousSong() {
@@ -322,7 +405,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nextAndPreviousSongContainer.classList.add('now-playing-next-and-previous-song-container');
 		// Next Song Section
 		const nextSongSection = document.createElement('div');
-		nextSongSection.classList.add('now-playing-next-song-section');
+		nextSongSection.classList.add('now-playing-next-song-container');
 		//Next Song Label
 		this._nextSongLabel = document.createElement('span');
 		this._nextSongLabel.classList.add('now-playing-next-song-label');
@@ -341,14 +424,24 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		const previousButton = new Ch5LegacyMediaPlayerIconButton();
 		previousButton.setAttribute('iconClass', "mp-icon mp-chevron-left");
 		previousButton.classList.add("now-playing-arrow-left-button");
+		previousButton.onclick = this.onPreviousSong;
 		arrowsContainer.appendChild(previousButton);
 
 		const nextButton = new Ch5LegacyMediaPlayerIconButton();
 		nextButton.setAttribute('iconClass', "mp-icon mp-chevron-right");
 		nextButton.classList.add("now-playing-arrow-right-button");
+		nextButton.onclick = this.onNextSong;
 		arrowsContainer.appendChild(nextButton);
 		this._nextAndPreviousSongContainer.appendChild(arrowsContainer);
 		this._nowPlayingContainer.appendChild(this._nextAndPreviousSongContainer);
+	}
+
+	private onPreviousSong = () => {
+		console.log("Previous Song button click")
+	}
+
+	private onNextSong = () => {
+		console.log("Next Song button click")
 	}
 
 	// Utility: format time
