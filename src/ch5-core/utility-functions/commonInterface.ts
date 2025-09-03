@@ -5,15 +5,18 @@ export interface MyMpObject {
     connectionActive: boolean;
     connectionIsDirect: boolean;
     waitingForRegistration: boolean;
+
     RegistrationId: number;
     ObjectsId: number;
     RegisterEventId: number;
     PropertiesSupportedId: number;
     MenuId: number;
     BusyChangedId: number;
+    BusyChangedMenuId: number;
     StatusMsgChangedId: number;
     StateChangedByBrowseContextId: number;
     StateChangedId: number;
+    StateChangedMenuId: number;
     TextLinesId: number;
     ActionsSupportedId: number;
     ProgressBarId: number;
@@ -36,6 +39,7 @@ export interface MyMpObject {
     GenreId: number;
     ArtistId: number;
     TitleId: number;
+    TitleMenuId: number;
     LanguageId: number;
     RewindSpeedId: number;
     ProviderNameId: number;
@@ -77,7 +81,7 @@ export interface CommonRequest {
 
 export interface CommonEventRequest {
     jsonrpc: string;
-    params: { ev: string, handle: string };
+    params: { ev: string, handle: string } | null;
     method: string;
     id: number
 }
