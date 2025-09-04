@@ -229,6 +229,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingPlayerContainer.appendChild(nowPlayingPlayerMusicNoteButton);
 
 		this._transportControls = document.createElement('div');
+		this._transportControls.classList.add("now-playing-controls-container");
 		this.renderProgressBar();
 		this.renderActionButtons();
 		this.renderMoreActionButtons();
