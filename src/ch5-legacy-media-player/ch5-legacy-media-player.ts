@@ -469,6 +469,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this._elMask.appendChild(this._elGenericDialogContent);
   }
 
+  //Dialog Heading
   protected getDialogHeading(dialogHeading: string){
     this._elMask = document.createElement('div');
     this._elMask.classList.add('ch5-legacy-media-player-mask');
@@ -479,8 +480,18 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     dialogTitle.classList.add('generic-dialog-title');
     dialogTitle.textContent = dialogHeading;
     this._elGenericDialogContent.appendChild(dialogTitle);
+
+    //Remove dialog box on click of overlay
+    this._elMask.addEventListener('click', (event: MouseEvent) => {
+      if(this._elMask){
+        if(!this._elGenericDialogContent.contains(event.target as HTMLElement)) {
+          this._elMask.remove();
+        }
+      }
+    });
   }
 
+  //Dialog Footer Buttons
   protected getDialogFooter(dialogFor: string){
     const dialogFooter = document.createElement('div');
     dialogFooter.classList.add('generic-dialog-footer');
