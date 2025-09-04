@@ -15,7 +15,19 @@ export class MusicPlayerLib {
     private mpMsgId = 0; // Increment our message id. ToDo: Need a max value check and reset to 0.
 
     // Generate a constant UUID once per application start.
-    private myMPUUID: string = crypto.randomUUID();
+    private generateStrongCustomId = (): string => {
+        // Generate timestamp component (base36 for compactness)
+        const timestamp = Date.now().toString(36);
+
+        // Generate random component (4 groups of 8 hex digits)
+        const random = Array.from({ length: 4 }, () =>
+            Math.floor(Math.random() * 0xffffffff)
+                .toString(16)
+                .padStart(8, '0'),
+        ).join('-');
+
+        return `${timestamp}-${random}`;
+    };
 
     private mpIgnoreCRPCIn: boolean = false;
     private itemCount: number = -1;
@@ -27,15 +39,18 @@ export class MusicPlayerLib {
         "connectionActive": false,
         "connectionIsDirect": false,
         "waitingForRegistration": false,
+
         "RegistrationId": 0,
         "ObjectsId": 0,
         "RegisterEventId": 0,
         "PropertiesSupportedId": 0,
         "MenuId": 0,
         "BusyChangedId": 0,
+        "BusyChangedMenuId": 0,
         "StatusMsgChangedId": 0,
         "StateChangedByBrowseContextId": 0,
         "StateChangedId": 0,
+        "StateChangedMenuId": 0,
         "TextLinesId": 0,
         "ActionsSupportedId": 0,
         "ProgressBarId": 0,
@@ -58,6 +73,7 @@ export class MusicPlayerLib {
         "GenreId": 0,
         "ArtistId": 0,
         "TitleId": 0,
+        "TitleMenuId": 0,
         "LanguageId": 0,
         "RewindSpeedId": 0,
         "ProviderNameId": 0,
@@ -342,10 +358,10 @@ export class MusicPlayerLib {
             }
         });
 
-        this.registerEvent(); //3
-        this.getPropertiesSupported(this.myMP.instanceName); //4
-        this.getMenu(this.myMP.instanceName);// 5 method not found
-        ['BusyChnaged', 'StatusMsgChanged', 'StateChangedByBrowseContext', 'StateChanged'].forEach((item: any) => {
+        this.registerEvent();
+        this.getPropertiesSupported(this.myMP.instanceName);
+        this.getMenu(this.myMP.instanceName);
+        ['BusyChanged', 'StatusMsgChanged', 'StateChangedByBrowseContext', 'StateChanged'].forEach((item: any) => {
             const myRPC: CommonEventRequest = {
                 params: { "ev": item, "handle": "sg" },
                 jsonrpc: '2.0',
@@ -363,7 +379,7 @@ export class MusicPlayerLib {
         const properties = getPropertiesSupportedResponse.result.PropertiesSupported;
         console.log(properties);
         properties.forEach((item: any) => {
-            if (item !== 'PropertiesSupported') { // in responsed geetting one of item as "PropertiesSupported", to avoid loop adding this condtion
+            if (item !== 'PropertiesSupported') { // in response geetting one of item as "PropertiesSupported", to avoid loop adding this condtion
                 const myRPC: CommonRequestPropName = {
                     params: { "propName": item },
                     jsonrpc: '2.0',
@@ -382,21 +398,28 @@ export class MusicPlayerLib {
     private processMenuResponse(getMenuResponse: GetMenuResponse) {
         console.log("MenuResponse---->", getMenuResponse);
         this.myMP.menuInstanceName = getMenuResponse.result.instanceName;
-        this.getReset(this.myMP.menuInstanceName);
 
-        ['BusyChnaged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'].forEach((item: any) => {
+        ['Reset', 'BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'].forEach((item: any) => {
             const myRPC: CommonEventRequest = {
                 params: { "ev": item, "handle": "sg" },
                 jsonrpc: '2.0',
                 id: this.getMessageId(),
                 method: this.myMP.menuInstanceName + '.RegisterEvent'
             };
+            if (item === 'Reset') {
+                myRPC.params = null;
+                myRPC.method = this.myMP.menuInstanceName + '.Reset'
+            };
             const myRPCJSON = JSON.stringify(myRPC);
-            this.myMP[item + 'Id'] = myRPC.id;// Keep track of the message id.
-            this.sendRPCRequest(myRPCJSON);// Send the message.
+            if (item === 'BusyChanged' || item === 'StateChanged') {
+                this.myMP[item + 'MenuId'] = myRPC.id;// Keep track of the message id.
+            } else {
+                this.myMP[item + 'Id'] = myRPC.id;// Keep track of the message id.
+            }
+            this.sendRPCRequest(myRPCJSON);
         });
 
-        ['Version', 'MaxReqItems', 'Level', 'ItemCnt', 'Title', 'Subtitle', 'ListSpecificFunctions', 'IsMenuAvailable', 'StatusMsgMenu', 'ItemData'].forEach((item: any) => {
+        ['Version', 'MaxReqItems', 'Level', 'ItemCnt', 'Title', 'Subtitle', 'ListSpecificFunctions', 'IsMenuAvailable', 'StatusMsgMenu', 'Instance',].forEach((item: any) => {
             const myRPC: CommonRequestPropName = {
                 params: { "propName": item },
                 jsonrpc: '2.0',
@@ -404,10 +427,13 @@ export class MusicPlayerLib {
                 method: this.myMP.menuInstanceName + '.GetProperty'
             };
             const myRPCJSON = JSON.stringify(myRPC);
-            this.myMP[item + 'Id'] = myRPC.id;// Keep track of the message id.
-            this.sendRPCRequest(myRPCJSON);// Send the message.
+            if (item === 'Title') {
+                this.myMP[item + 'MenuId'] = myRPC.id;// Keep track of the message id.
+            } else {
+                this.myMP[item + 'Id'] = myRPC.id;// Keep track of the message id.
+            }
+            this.sendRPCRequest(myRPCJSON);
         });
-        this.getItemData();
 
     }
 
@@ -419,12 +445,11 @@ export class MusicPlayerLib {
     //    Note: Retry every 30 seconds for 5 min. Then once per minute.
     // 3. After successful registrcion via serial join, check if a direct connection to teh device can be made.
     private registerWithDevice() {
-        console.log('***registerWithDevice***');
 
         // Params for registration
         const myRPCParams: Params = {
             encoding: 'UTF-8',
-            uuid: this.myMPUUID,
+            uuid: this.generateStrongCustomId(),
             ver: '1.0',
             maxPacketSize: 65535,
             type: 'symbol/json-rpc',
@@ -433,7 +458,6 @@ export class MusicPlayerLib {
             jsonrpc: '3.0'
         };
 
-        // Local object to help generate JSON
         const myRPC: RegisterwithDeviceRequest = {
             jsonrpc: '3.0',
             id: this.getMessageId(),
@@ -443,7 +467,7 @@ export class MusicPlayerLib {
 
         const myRPCJSON = JSON.stringify(myRPC);
         this.myMP.RegistrationId = myRPC.id;// Keep track of the message id.
-        this.sendRPCRequest(myRPCJSON); // Send the message.
+        this.sendRPCRequest(myRPCJSON);
 
         // Start the re-send time.
         this.startRegistrationResendTimer();
@@ -473,12 +497,10 @@ export class MusicPlayerLib {
 
         };
         const myRPCJSON = JSON.stringify(myRPC);
+        this.myMP.RegisterEventId = myRPC.id; // Keep track of the message id.
 
-        // Keep track of the message id.
-        this.myMP.RegisterEventId = myRPC.id;
 
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
+        this.sendRPCRequest(myRPCJSON); // Send the message.
     }
 
     private getPropertiesSupported(instanceName: string) {
@@ -491,48 +513,23 @@ export class MusicPlayerLib {
 
         };
         const myRPCJSON = JSON.stringify(myRPC);
-        // console.log('PropertiesSupported Req JSON: ' + myRPCJSON);
+        this.myMP.PropertiesSupportedId = myRPC.id;// Keep track of the message id.
 
-        // Keep track of the message id.
-        this.myMP.PropertiesSupportedId = myRPC.id;
-
-        // Send the message.
         this.sendRPCRequest(myRPCJSON);
     }
 
     //Get the Menu (Should check an Autonomic device and see what data is returned) 
     private getMenu(instanceName: string) {
         const myRPC: GetMenuRequest = {
-            params: { "uuid": this.myMPUUID },
+            params: { "uuid": this.generateStrongCustomId() },
             jsonrpc: '2.0',
             id: this.getMessageId(),
             method: instanceName + '.GetMenu'
 
         };
         const myRPCJSON = JSON.stringify(myRPC);
+        this.myMP.MenuId = myRPC.id;// Keep track of the message id.
 
-        // Keep track of the message id.
-        this.myMP.MenuId = myRPC.id;
-
-        // Send the message.
-        this.sendRPCRequest(myRPCJSON);
-    }
-
-
-    private getReset(instanceName: string) {
-
-        const myRPC: any = {
-            params: null,
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: instanceName + '.Reset'
-
-        };
-        const myRPCJSON = JSON.stringify(myRPC);
-        // Keep track of the message id.
-        this.myMP.ResetId = myRPC.id;
-
-        // Send the message.
         this.sendRPCRequest(myRPCJSON);
     }
 
@@ -547,19 +544,15 @@ export class MusicPlayerLib {
         };
         const myRPCJSON = JSON.stringify(myRPC);
 
-        // Keep track of the message id.
-        this.myMP.ItemDataId = myRPC.id;
+        this.myMP.ItemDataId = myRPC.id; // Keep track of the message id.
 
-        // Send the message.
         this.sendRPCRequest(myRPCJSON);
     }
 
 
 
 
-
     private sendRPCRequest(data: any) {
-        //console.log('***send RPCData Request***');
         console.log('CRPC send join:' + this.mpSigRPCOut + " " + data);
 
         let myPrefix = '';
@@ -578,7 +571,6 @@ export class MusicPlayerLib {
 
     // Process CRPC data from the control system.
     private processCRPCResponse(data: any) {
-        /* console.log('***process CRPC Response***'); */
         const responseData = JSON.parse(data);
 
         // ToDO: Just because the message ID was found, doesn't mean
@@ -618,11 +610,11 @@ export class MusicPlayerLib {
         } else if (myMsgId == this.myMP.ProgressBarId) {
             console.log('Successful get getProgressBar->', responseData);
         } else if (myMsgId == this.myMP.LevelId) {
-            console.log('Successful get Level->', responseData);
             this.itemLevel = responseData.result.Level;
+            // this.getItemData(); this api will call after getting both responses of level and item count.
         } else if (myMsgId == this.myMP.ItemCntId) {
             this.itemCount = responseData.result.ItemCnt;
-            console.log('Successful get item count->', responseData);
+            this.getItemData();
         }
         // Check if an error was returned?
     }

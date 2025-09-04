@@ -1,8 +1,8 @@
-import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5Properties } from "../ch5-core/ch5-properties";
-import { ICh5PropertySettings } from "../ch5-core/ch5-property";
+import { Ch5Properties } from '../ch5-core/ch5-properties';
+import { Ch5Log } from '../ch5-common/ch5-log';
+import { ICh5PropertySettings } from '../ch5-core/ch5-property';
 
-export class Ch5LegacyMediaPlayerIconButton extends Ch5Common {
+export class Ch5LegacyMediaPlayerIconButton extends Ch5Log {
 
 	//#region Variables
 
@@ -15,20 +15,27 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Common {
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true,
 		},
+		{
+			default: "",
+			name: "onRelease",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		}
 	];
 
-	public static readonly ELEMENT_NAME = 'ch5-legacy-media-player-icon-button-base.ts';
+	public static readonly ELEMENT_NAME = 'ch5-legacy-media-player-icon-button';
 
-	public primaryCssClass = 'ch5-legacy-media-player-icon-button-base.ts';
+	public primaryCssClass = 'ch5-legacy-media-player-icon-button';
 
 	private _ch5Properties: Ch5Properties;
-	private _elContainer: HTMLElement = {} as HTMLElement;
 	private _icon: HTMLElement = {} as HTMLElement;
+	private _elButton: HTMLElement = {} as HTMLElement;
 
 	//#endregion
 
 	//#region Getters and Setters
-
 
 	public set iconClass(value: string) {
 		this._ch5Properties.set<string>("iconClass", value, () => {
@@ -37,6 +44,15 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Common {
 	}
 	public get iconClass(): string {
 		return this._ch5Properties.get<string>("iconClass");
+	}
+
+	public set onRelease(value: string) {
+		this._ch5Properties.set<string>("onRelease", value, () => {
+			this.handleIconClass(value);
+		});
+	}
+	public get onRelease(): string {
+		return this._ch5Properties.get<string>("onRelease");
 	}
 
 	//#endregion
@@ -51,7 +67,6 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Common {
 			window.customElements.define(Ch5LegacyMediaPlayerIconButton.ELEMENT_NAME, Ch5LegacyMediaPlayerIconButton);
 		}
 	}
-
 	//#endregion
 
 	//#region Component Lifecycle
@@ -59,18 +74,13 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Common {
 	public constructor() {
 		super();
 		this.logger.start('constructor()', Ch5LegacyMediaPlayerIconButton.ELEMENT_NAME);
-		this.ignoreAttributes = []; // TODO - Fix this
 		this._ch5Properties = new Ch5Properties(this, Ch5LegacyMediaPlayerIconButton.COMPONENT_PROPERTIES);
-		if (!this._wasInstatiated) {
-			this.createInternalHtml();
-		}
-		this._wasInstatiated = true;
-
+		this.createInternalHtml();
 		this.updateCssClass();
 	}
 
 	public static get observedAttributes(): string[] {
-		const inheritedObsAttrs = Ch5Common.observedAttributes;
+		const inheritedObsAttrs = Ch5Log.observedAttributes;
 		const newObsAttrs: string[] = [];
 		for (let i: number = 0; i < Ch5LegacyMediaPlayerIconButton.COMPONENT_PROPERTIES.length; i++) {
 			if (Ch5LegacyMediaPlayerIconButton.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
@@ -83,7 +93,7 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Common {
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
 		this.logger.start("attributeChangedCallback", this.primaryCssClass);
 		if (oldValue !== newValue) {
-			this.logger.log('ch5-legacy-media-player-icon-button-base.ts attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+			this.logger.log('ch5-legacy-media-player-icon-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
 			const attributeChangedProperty = Ch5LegacyMediaPlayerIconButton.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
 			if (attributeChangedProperty) {
 				const thisRef: any = this;
@@ -101,17 +111,12 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Common {
 	 */
 	public connectedCallback() {
 		this.logger.start('connectedCallback()', Ch5LegacyMediaPlayerIconButton.ELEMENT_NAME);
-		if (this._elContainer.parentElement !== this) {
-			this._elContainer.classList.add('ch5-legacy-media-player-individual-icon-button');
-			this.appendChild(this._elContainer);
-		}
+		// if (this._elButton.parentElement !== this) {
+		this._elButton.classList.add('ch5-legacy-media-player-individual-icon-button');
+		this.appendChild(this._elButton);
+		// }
 		this.attachEventListeners();
 		this.initAttributes();
-		this.initCommonMutationObserver(this);
-
-		customElements.whenDefined('ch5-legacy-media-player-icon-button-base.ts').then(() => {
-			this.componentLoadedEvent(Ch5LegacyMediaPlayerIconButton.ELEMENT_NAME, this.id);
-		});
 		this.logger.stop();
 	}
 
@@ -130,18 +135,15 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Common {
 		this.logger.start('createInternalHtml()');
 		this.clearComponentContent();
 		this.classList.add('ch5-legacy-media-player-individual-icon-button-container');
-		this._elContainer = document.createElement('button');
+		this._elButton = document.createElement('button');
 
-		this.setAttribute('iconClass', this.iconClass || 'mp-icon fa-music');
+		this.setAttribute('iconClass', this.iconClass);
 		this._icon = document.createElement('i');
-		this._icon.classList.add(...this.iconClass.split(' '));
-		this._elContainer.appendChild(this._icon);
+		this._elButton.appendChild(this._icon);
 		this.logger.stop();
 	}
 
 	protected initAttributes() {
-		super.initAttributes();
-
 		const thisRef: any = this;
 		for (let i: number = 0; i < Ch5LegacyMediaPlayerIconButton.COMPONENT_PROPERTIES.length; i++) {
 			if (Ch5LegacyMediaPlayerIconButton.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
@@ -154,15 +156,14 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Common {
 	}
 
 	protected attachEventListeners() {
-		super.attachEventListeners();
+
 	}
 
 	protected removeEventListeners() {
-		super.removeEventListeners();
+
 	}
 
 	protected unsubscribeFromSignals() {
-		super.unsubscribeFromSignals();
 		this._ch5Properties.unsubscribe();
 	}
 
@@ -178,8 +179,7 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Common {
 
 
 	private handleIconClass(value: string) {
-		// Enter your Code here
-		if (this._icon.classList && value) {
+		if (value) {
 			this._icon.classList.remove(...Array.from(this._icon.classList));
 			this._icon.classList.add(...value.split(' '));
 		}
@@ -189,12 +189,11 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Common {
 
 	private updateCssClass() {
 		this.logger.start('UpdateCssClass');
-		super.updateCssClasses();
 		this.logger.stop();
 	}
 
 	protected getTargetElementForCssClassesAndStyle(): HTMLElement {
-		return this._elContainer;
+		return this._elButton;
 	}
 
 	public getCssClassDisabled() {
