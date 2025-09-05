@@ -357,6 +357,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       this._elContainer.classList.add('ch5-legacy-media-player');
       this.appendChild(this._elContainer);
     }
+    this.addMusicTransition();
+    this.removeMusicTransition();
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
@@ -518,6 +520,20 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this._elGenericDialogContent.appendChild(dialogFooter);
   }
 
+
+  protected addMusicTransition(){
+    const nowPlayingPlayerMusicNoteButton=this.querySelector(".now-playing-player-music-note-button");
+    nowPlayingPlayerMusicNoteButton?.addEventListener("click", () => {
+      this.querySelector(".ch5-legacy-media-player-my-music")?.classList.add("my-music-transition");
+    });
+  }
+
+  protected removeMusicTransition(){
+    const myMusicHeaderNowPlayingButton=this.querySelector(".my-music-header-now-playing-button");
+    myMusicHeaderNowPlayingButton?.addEventListener("click",() => {
+			this.querySelector(".ch5-legacy-media-player-my-music")?.classList.remove("my-music-transition");
+		});
+  }
   protected initAttributes() {
     super.initAttributes();
     const thisRef: any = this;
@@ -563,7 +579,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   private handleResizeObserver = () => {
     const { width } = this._elContainer.getBoundingClientRect();
     if (width > 800) {
-      document.querySelector(".ch5-legacy-media-player-my-music")?.classList.remove("my-music-transition");
+      this.querySelector(".ch5-legacy-media-player-my-music")?.classList.remove("my-music-transition");
     }
   }
 
