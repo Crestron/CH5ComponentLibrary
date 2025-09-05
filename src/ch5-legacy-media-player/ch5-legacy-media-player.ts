@@ -145,6 +145,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   private _elMask: HTMLElement = {} as HTMLElement;
   private _elGenericDialogContent: HTMLElement = {} as HTMLElement;
 
+  private _loadingIndicator: HTMLElement = {} as HTMLElement;
+
   //private _isShowPopup: boolean = false;
   //#endregion
 
@@ -336,17 +338,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   public connectedCallback() {
     this.logger.start('connectedCallback()', Ch5LegacyMediaPlayer.ELEMENT_NAME);
 
-    //this.showPopup = false;
-    // if (this._elMask) {
-    //   this._elMask.style.display = '';
-    // }
-    // setTimeout(() => {
-    //   this.showPopup = false;
-    //   if (this._elMask) {
-    //     this._elMask.style.display = 'none';
-    //   }
-    // }, 3000);
-
     this.show
 
     // WAI-ARIA Attributes
@@ -366,6 +357,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     customElements.whenDefined('ch5-legacy-media-player').then(() => {
       this.componentLoadedEvent(Ch5LegacyMediaPlayer.ELEMENT_NAME, this.id);
     });
+    // setTimeout(() => {
+    //   this.stopMPLoading();
+    // }, 2000);
     this.logger.stop();
   }
 
@@ -388,7 +382,28 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this._elContainer.appendChild(nowPlaying.createInternalHtml());
     const myMusic = new Ch5LegacyMediaPlayerMyMusic();
     this._elContainer.appendChild(myMusic.createInternalHtml());
+    this.startMPLoading();
     this.logger.stop();
+  }
+
+  private startMPLoading() {
+    this._loadingIndicator = document.createElement('div');
+    this._loadingIndicator.classList.add('mp-loading-indicator');
+
+    const loadingIndicatorText = document.createElement('span');
+    loadingIndicatorText.classList.add('mp-loading-indicator-text');
+    const loadingIndicatorTextIcon = document.createElement('i');
+    loadingIndicatorTextIcon.classList.add('fa-solid', 'fa-circle-notch', 'fa-spin', 'mp-loader-icon-size');
+
+    loadingIndicatorText.appendChild(loadingIndicatorTextIcon);
+
+    this._loadingIndicator.appendChild(loadingIndicatorText);
+
+    this._elContainer.appendChild(this._loadingIndicator);
+  }
+
+  private stopMPLoading() {
+    this._loadingIndicator.remove();
   }
 
   //Generic Dialog
