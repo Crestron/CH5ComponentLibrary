@@ -304,7 +304,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	private onThumbsDown = () => {
 		console.log("Thumbs Down Click");
-		
+
 		const iconDislikeButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-thumbs-down"]')!;
 		if (iconDislikeButton.classList.contains('active')) {
 			iconDislikeButton.classList.remove('active');
@@ -380,7 +380,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	private onShuffle = () => {
 		console.log("Shuffle Click");
-	} 
+	}
 
 	private onRepeat = () => {
 		console.log("Repeat Click");
