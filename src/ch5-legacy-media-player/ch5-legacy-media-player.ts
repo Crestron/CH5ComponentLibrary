@@ -357,9 +357,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     customElements.whenDefined('ch5-legacy-media-player').then(() => {
       this.componentLoadedEvent(Ch5LegacyMediaPlayer.ELEMENT_NAME, this.id);
     });
-    // setTimeout(() => {
-    //   this.stopMPLoading();
-    // }, 2000);
+    setTimeout(() => {
+      this.stopMPLoading();
+    }, 2000);
     this.logger.stop();
   }
 
