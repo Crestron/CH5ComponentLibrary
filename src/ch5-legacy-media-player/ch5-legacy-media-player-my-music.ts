@@ -134,42 +134,60 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicHeaderNowPlayingButton = new Ch5LegacyMediaPlayerIconButton();
     this._myMusicHeaderNowPlayingButton.setAttribute('iconClass', "mp-icon mp-animated-bar");
     this._myMusicHeaderNowPlayingButton.classList.add("my-music-header-now-playing-button");
-    this._myMusicHeaderNowPlayingButton.onclick = () => {
-			document.querySelector(".ch5-legacy-media-player-my-music")?.classList.remove("my-music-transition");
-		};
     this._myMusicHeaderSection.append(this._myMusicHeaderBackButton, this._myMusicHeaderTitle, this._myMusicHeaderNowPlayingButton);
 
     this._myMusicContentSection = document.createElement("div");
     this._myMusicContentSection.className = 'my-music-content';
     const myMusicContentList: TCh5LegacyMediaPlayerMyMusicContentItem[] = [
-      {titleText: 'Text Line 1', subTitleText: 'Sub Line 1', id: '1' },
-      {titleText: 'Text Line 2', subTitleText: 'Sub Line 2', id: '2' },
-      {titleText: 'Text Line 3', subTitleText: 'Sub Line 3', id: '3' },
-      {titleText: 'Text Line 4', subTitleText: 'Sub Line 4', id: '4' },
-      {titleText: 'Text Line 5', subTitleText: 'Sub Line 5', id: '5' },
-      {titleText: 'Text Line 6', subTitleText: 'Sub Line 6', id: '6' }
+      { titleText: 'Text Line 1', subTitleText: 'Sub Line 1', id: '1' },
+      { titleText: 'Text Line 2', subTitleText: 'Sub Line 2', id: '2' },
+      { titleText: 'Text Line 3', subTitleText: 'Sub Line 3', id: '3' },
+      { titleText: 'Text Line 4', subTitleText: 'Sub Line 4', id: '4' },
+      { titleText: 'Text Line 5', subTitleText: 'Sub Line 5', id: '5' },
+      { titleText: 'Text Line 6', subTitleText: 'Sub Line 6', id: '6' }
     ];
-    for(const item of myMusicContentList){
+    for (const item of myMusicContentList) {
       this.createLine(item.titleText, item.subTitleText, item.id);
     }
 
     this._myMusicFooterSection = document.createElement("div");
     this._myMusicFooterSection.className = 'my-music-footer';
     const actions = [
-      { class: 'mp-icon mp-plus-circle' },
-      { class: 'mp-icon mp-search-lg' },
-      { class: 'mp-icon mp-music-list-quick' },
-      { class: 'mp-icon mp-music-list' },
-      { class: 'mp-icon mp-settings' },
-      { class: 'mp-icon mp-dots-horizontal' },
+      { class: 'mp-icon mp-plus-circle', clickAction: this.onFavorite },
+      { class: 'mp-icon mp-search-lg', clickAction: this.onSearch },
+      { class: 'mp-icon mp-music-list-quick', clickAction: this.onChangeFavorite },
+      { class: 'mp-icon mp-music-list', clickAction: this.onGeneric },
+      { class: 'mp-icon mp-settings', clickAction: this.onGeneric },
+      { class: 'mp-icon mp-dots-horizontal', clickAction: this.onGeneric },
     ];
     actions.forEach(action => {
       const button = new Ch5LegacyMediaPlayerIconButton();
       button.setAttribute('iconClass', action.class);
+      button.onclick = action.clickAction ? (() => action.clickAction!()) : null;
       this._myMusicFooterSection.appendChild(button);
     });
     this._myMusicContainer.append(this._myMusicHeaderSection, this._myMusicContentSection, this._myMusicFooterSection);
     this.logger.stop();
+  }
+
+  protected onFavorite = () => {
+    this._myMusicContainer.dispatchEvent(new CustomEvent("show-favorite-dialog", { bubbles: true, composed: true }));
+    console.log("Favorite Click");
+  }
+
+  protected onSearch = () => {
+    this._myMusicContainer.dispatchEvent(new CustomEvent("show-search-dialog", { bubbles: true, composed: true }));
+    console.log("Search Click");
+  }
+
+  protected onChangeFavorite = () => {
+    this._myMusicContainer.dispatchEvent(new CustomEvent("show-change-favorite", { bubbles: true, composed: true }));
+    console.log("Music List Quick Click");
+  }
+
+  protected onGeneric = () => {
+    this._myMusicContainer.dispatchEvent(new CustomEvent("show-generic-dialog", { bubbles: true, composed: true }));
+    console.log("Music List Click");
   }
 
   protected createLine(text: string, subText: string, itemId: string) {
@@ -183,12 +201,12 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicContentItemSubtitle.textContent = subText;
     this._myMusicContentItem.onclick = () => {
       console.log("content Item clicked");
-      this._myMusicContentSection.textContent = ""; 
+      this._myMusicContentSection.textContent = "";
       const myMusicContentList: TCh5LegacyMediaPlayerMyMusicContentItem[] = [];
-      for(let i = 0; i < parseInt(itemId); i++){
-        myMusicContentList.push({titleText: 'Text Line 1 ' + itemId, subTitleText: 'Sub Line 1 ' + itemId, id: `${i + 1}` },);
+      for (let i = 0; i < parseInt(itemId); i++) {
+        myMusicContentList.push({ titleText: 'Text Line 1 ' + itemId, subTitleText: 'Sub Line 1 ' + itemId, id: `${i + 1}` },);
       }
-      for(const item of myMusicContentList){
+      for (const item of myMusicContentList) {
         this.createLine(item.titleText, item.subTitleText, item.id);
       }
     }

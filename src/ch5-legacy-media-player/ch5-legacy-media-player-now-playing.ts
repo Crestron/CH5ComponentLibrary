@@ -224,14 +224,12 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		const nowPlayingPlayerMusicNoteButton = new Ch5LegacyMediaPlayerIconButton();
 		nowPlayingPlayerMusicNoteButton.setAttribute('iconClass', "mp-icon mp-music-note");
 		nowPlayingPlayerMusicNoteButton.classList.add("now-playing-player-music-note-button");
-		nowPlayingPlayerMusicNoteButton.onclick = () => {
-			document.querySelector(".ch5-legacy-media-player-my-music")?.classList.add("my-music-transition");
-		};
 
 		this._nowPlayingPlayerContainer.appendChild(nowPlayingPlayerLabel);
 		this._nowPlayingPlayerContainer.appendChild(nowPlayingPlayerMusicNoteButton);
 
 		this._transportControls = document.createElement('div');
+		this._transportControls.classList.add("now-playing-controls-container");
 		this.renderProgressBar();
 		this.renderActionButtons();
 		this.renderMoreActionButtons();
