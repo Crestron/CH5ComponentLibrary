@@ -216,20 +216,49 @@ export class MusicPlayerLib {
             this.unregisterWithDevice();
         }
         // Register with the new device. ToDo: Add checks for online & tag values.
-        if (this.myMP.tag && this.myMP.connectionActive) {
+        if (this.myMP.tag && this.myMP.connectionActive ) {
+            console.log('Register Device');
             this.registerWithDevice();
         }
     }
 
     private unregisterWithDevice() {
+        
         // We need to unregister with both the Media Player instance
         // as well as the Media player Menu instance.
 
-        // How do we need to unregister?
-        if (!this.myMP.connectionIsDirect) {
-            // Unregister the serial connection.
-        } else {
-            // Unregister the direct connection.
+        if (this.myMP.instanceName && this.myMP.menuInstanceName) {
+            console.log('Deregister Device');
+            ['BusyChanged', 'StatusMsgChanged', 'StateChangedByBrowseContext', 'StateChanged'].forEach((item: any) => {
+                const myRPC: CommonEventRequest = {
+                    params: { "ev": item, "handle": "sg" },
+                    jsonrpc: '2.0',
+                    id: this.getMessageId(),
+                    method: this.myMP.instanceName + '.DeregisterEvent'
+
+                };
+                const myRPCJSON = JSON.stringify(myRPC);
+                this.myMP[item + 'Id'] = myRPC.id;
+                this.sendRPCRequest(myRPCJSON);
+            });
+            ['BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'].forEach((item: any) => {
+                const myRPC: CommonEventRequest = {
+                    params: { "ev": item, "handle": "sg" },
+                    jsonrpc: '2.0',
+                    id: this.getMessageId(),
+                    method: this.myMP.menuInstanceName + '.DeregisterEvent'
+
+                };
+                const myRPCJSON = JSON.stringify(myRPC);
+                this.myMP[item + 'Id'] = myRPC.id;
+                this.sendRPCRequest(myRPCJSON);
+            });
+            this.myMusicData = {};
+            this.nowPlayingData = {};
+            publishEvent('o', 'myMusicData', this.myMusicData);
+            publishEvent('o', 'nowPlayingData', this.nowPlayingData);
+            this.myMP.instanceName = '';
+            this.myMP.menuInstanceName = '';
         }
     }
 
@@ -710,35 +739,6 @@ export class MusicPlayerLib {
         this.sendRPCRequest(JSON.stringify(myRPC));
     }
 
-    /* private deRegisterWithDevice() {
-
-        // Params for registration
-        const myRPCParams: Params = {
-            encoding: 'UTF-8',
-            uuid: this.generateStrongCustomId(),
-            ver: '1.0',
-            maxPacketSize: 65535,
-            type: 'symbol/json-rpc',
-            format: 'JSON',
-            name: 'CH5_v2.15', // ToDo: This should be dynamic based on the CH5 version.
-            jsonrpc: '3.0'
-        };
-
-        const myRPC: RegisterwithDeviceRequest = {
-            jsonrpc: '3.0',
-            id: this.getMessageId(),
-            method: 'Crpc.Register',
-            params: myRPCParams
-        };
-
-        const myRPCJSON = JSON.stringify(myRPC);
-        this.myMP.RegistrationId = myRPC.id;// Keep track of the message id.
-        this.sendRPCRequest(myRPCJSON);
-
-        // Start the re-send time.
-        this.startRegistrationResendTimer();
-    }
- */
 }
 
 export function getInstanceOfMP(): void {
