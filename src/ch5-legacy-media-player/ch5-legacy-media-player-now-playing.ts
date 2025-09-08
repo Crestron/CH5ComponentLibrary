@@ -127,7 +127,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this.updateCssClass();
 		subscribeState('o', 'nowPlayingData', ((data: any) => {
 			this.nowPlayingData = data;
-			console.log('My Music Data', this.nowPlayingData);
+			console.log('Now Playing Data', this.nowPlayingData);
 		}));
 	}
 

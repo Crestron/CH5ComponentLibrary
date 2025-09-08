@@ -106,6 +106,7 @@ export class MusicPlayerLib {
         "menuInstanceName": '',
     };
     public nowPlayingData: any = {};
+    public myMusicData: any = {};
 
     static getInstance() {
         console.log('getInstance');
@@ -661,14 +662,25 @@ export class MusicPlayerLib {
             this.nowPlayingData['rating'] = responseData.result.Rating;
         } else if (myMsgId == this.myMP.SelectedId) {
             this.nowPlayingData['selectedId'] = responseData.result.SelectedId;
+        } else if (myMsgId == this.myMP.TitleMenuId) { // Menu DFata
+            this.myMusicData['Title'] = responseData.result.Title;
+        } else if (myMsgId == this.myMP.SubtitleId) {
+            this.myMusicData['Subtitle'] = responseData.result.Subtitle;
+        } else if (myMsgId == this.myMP.ListSpecificFunctionsId) {
+            this.myMusicData['listSpecificFunctions'] = responseData.result.ListSpecificFunctions;
         } else if (myMsgId == this.myMP.LevelId) {
             this.itemLevel = responseData.result.Level;
             // this.getItemData(); this api will call after getting both responses of level and item count.
         } else if (myMsgId == this.myMP.ItemCntId) {
             this.itemCount = responseData.result.ItemCnt;
             this.getItemData();
+        } else if (myMsgId === this.myMP.ItemDataId) {
+            this.myMusicData['menuData'] = responseData.result;
         }
-        publishEvent('o', 'myMusicData', this.nowPlayingData);
+
+        publishEvent('o', 'nowPlayingData', this.nowPlayingData); // left section
+
+        publishEvent('o', 'myMusicData', this.myMusicData); // right section
         // Check if an error was returned?
     }
 
