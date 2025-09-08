@@ -105,7 +105,7 @@ export class MusicPlayerLib {
         "instanceName": '',
         "menuInstanceName": '',
     };
-    public muMusicObj:any;
+    public myMusicObj: any = {};
 
     static getInstance() {
         console.log('getInstance');
@@ -378,6 +378,7 @@ export class MusicPlayerLib {
 
     private processPropertiesSupportedResponse(getPropertiesSupportedResponse: GetPropertiesSupportedResponse) {
         const properties = getPropertiesSupportedResponse.result.PropertiesSupported;
+        // this.myMusicObj.PropertiesSupported = getPropertiesSupportedResponse.result.PropertiesSupported;
         console.log(properties);
         properties.forEach((item: any) => {
             if (item !== 'PropertiesSupported') { // in response geetting one of item as "PropertiesSupported", to avoid loop adding this condtion
@@ -591,25 +592,75 @@ export class MusicPlayerLib {
             // If we are not using a direct connection yet, go ahead and get objects.
             if (!this.myMP.connectionIsDirect) {
                 // While objects are being returned, switch the connection to direct (if possible).
-                this.getObjects(); //2
+                this.getObjects();
             }
         } else if (myMsgId == this.myMP.ObjectsId) {
-            console.log('Successful get objects.');
             this.processGetObjectsResponse(responseData);
         } else if (myMsgId == this.myMP.PropertiesSupportedId) {
-            console.log('Successful get PropertiesSupported.');
             this.processPropertiesSupportedResponse(responseData);
         } else if (myMsgId == this.myMP.MenuId) {
-            console.log('Successful get Menus.');
             this.processMenuResponse(responseData);
         } else if (myMsgId == this.myMP.TextLinesId) {
-            console.log('Successful get TextLines->', responseData);
+            console.log('iiiiiiiiiiiii', responseData.result.TextLines);
+            this.myMusicObj['textLines'] = responseData.result.TextLines;
         } else if (myMsgId == this.myMP.ActionsSupportedId) {
-            console.log('Successful get ActionsSupported->', responseData);
+            this.myMusicObj['actionsSupported'] = responseData.result.ActionsSupported;
         } else if (myMsgId == this.myMP.ActionsAvailableId) {
-            console.log('Successful get ActionsAvailable->', responseData);
+            this.myMusicObj['actionsAvailable'] = responseData.result.ActionsAvailable;
+        } else if (myMsgId == this.myMP.RewindSpeedId) {
+            this.myMusicObj['rewindSpeed'] = responseData.result.RewindSpeed;
+        } else if (myMsgId == this.myMP.FfwdSpeedId) {
+            this.myMusicObj['ffwdSpeed'] = responseData.result.FfwdSpeed;
+        } else if (myMsgId == this.myMP.ProviderNameId) {
+            this.myMusicObj['providerName'] = responseData.result.ProviderName;
+        } else if (myMsgId == this.myMP.PlayerStateId) {
+            this.myMusicObj['playerState'] = responseData.result.PlayerState;
+        } else if (myMsgId == this.myMP.PlayerIconId) {
+            this.myMusicObj['playerIcon'] = responseData.result.PlayerIcon;
+        } else if (myMsgId == this.myMP.PlayerIconURLId) {
+            this.myMusicObj['playerIconURL'] = responseData.result.PlayerIconURL;
+        } else if (myMsgId == this.myMP.PlayerNameId) {
+            this.myMusicObj['playerName'] = responseData.result.PlayerName;
+        } else if (myMsgId == this.myMP.StreamStateId) {
+            this.myMusicObj['streamState'] = responseData.result.StreamState;
+        } else if (myMsgId == this.myMP.MediaTypeId) {
+            this.myMusicObj['mediaType'] = responseData.result.MediaType;
+        } else if (myMsgId == this.myMP.AlbumArt) {
+            this.myMusicObj['albumArt'] = responseData.result.AlbumArt;
+        } else if (myMsgId == this.myMP.AlbumArtUrl) {
+            this.myMusicObj['albumArtUrl'] = responseData.result.AlbumArtUrl;
+        } else if (myMsgId == this.myMP.AlbumArtUrlNAT) {
+            this.myMusicObj['albumArtUrlNAT'] = responseData.result.AlbumArtUrlNAT;
+        } else if (myMsgId == this.myMP.StationNameId) {
+            this.myMusicObj['stationName'] = responseData.result.StationName;
+        } else if (myMsgId == this.myMP.GenreId) {
+            this.myMusicObj['genre'] = responseData.result.Genre;
+        } else if (myMsgId == this.myMP.ArtistId) {
+            this.myMusicObj['artist'] = responseData.result.Artist;
+        } else if (myMsgId == this.myMP.TitleId) {
+            this.myMusicObj['title'] = responseData.result.Title;
         } else if (myMsgId == this.myMP.ProgressBarId) {
-            console.log('Successful get getProgressBar->', responseData);
+            this.myMusicObj['progressBar'] = responseData.result.ProgressBar;
+        } else if (myMsgId == this.myMP.TrackSec) {
+            this.myMusicObj['trackSec'] = responseData.result.TrackSec;
+        } else if (myMsgId == this.myMP.TrackNumId) {
+            this.myMusicObj['trackNum'] = responseData.result.TrackNum;
+        } else if (myMsgId == this.myMP.TrackCntId) {
+            this.myMusicObj['trackCnt'] = responseData.result.TrackCnt;
+        } else if (myMsgId == this.myMP.NextTitleId) {
+            this.myMusicObj['nextTitle'] = responseData.result.NextTitle;
+        } else if (myMsgId == this.myMP.ShuffleStateId) {
+            this.myMusicObj['shuffleState'] = responseData.result.ShuffleState;
+        } else if (myMsgId == this.myMP.RepeatStateId) {
+            this.myMusicObj['repeatState'] = responseData.result.RepeatState;
+        } else if (myMsgId == this.myMP.MediaReadyId) {
+            this.myMusicObj['mediaReady'] = responseData.result.MediaReady;
+        } else if (myMsgId == this.myMP.BusyId) {
+            this.myMusicObj['busy'] = responseData.result.Busy;
+        } else if (myMsgId == this.myMP.RatingId) {
+            this.myMusicObj['rating'] = responseData.result.Rating;
+        } else if (myMsgId == this.myMP.SelectedId) {
+            this.myMusicObj['selectedId'] = responseData.result.SelectedId;
         } else if (myMsgId == this.myMP.LevelId) {
             this.itemLevel = responseData.result.Level;
             // this.getItemData(); this api will call after getting both responses of level and item count.
@@ -617,6 +668,7 @@ export class MusicPlayerLib {
             this.itemCount = responseData.result.ItemCnt;
             this.getItemData();
         }
+        publishEvent('o', 'myMusicData', this.myMusicObj);
         // Check if an error was returned?
     }
 

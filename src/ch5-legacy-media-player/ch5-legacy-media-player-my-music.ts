@@ -4,6 +4,7 @@ import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Log } from "../ch5-common/ch5-log";
 import { Ch5LegacyMediaPlayerIconButton } from "./ch5-legacy-media-player-icon-button-base.ts";
 import { TCh5LegacyMediaPlayerMyMusicContentItem } from "./interfaces/t-ch5-legacy-media-player.ts";
+import { subscribeState } from "../ch5-core/index.ts";
 
 export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
@@ -30,6 +31,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
   private _myMusicContentItemTitle: HTMLElement = {} as HTMLElement;
   private _myMusicContentItemSubtitle: HTMLElement = {} as HTMLElement;
   private _myMusicHeaderNowPlayingButton: HTMLElement = {} as HTMLElement;
+  private myMusicData: any;
 
   //#endregion
 
@@ -58,6 +60,10 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._ch5Properties = new Ch5Properties(this, Ch5LegacyMediaPlayerMyMusic.COMPONENT_PROPERTIES);
     this.createMyMusic();
     this.updateCssClass();
+    subscribeState('o', 'myMusicData', ((data: any) => {
+      this.myMusicData = data;
+      console.log('My Music Data', this.myMusicData);
+    }))
   }
 
   public static get observedAttributes(): string[] {
