@@ -6,12 +6,14 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5LegacyMediaPlayerNowPlaying } from "./ch5-legacy-media-player-now-playing";
 import { Ch5LegacyMediaPlayerMyMusic } from "./ch5-legacy-media-player-my-music";
-import { MusicPlayerLib, publishEvent } from "../ch5-core";
+import { MusicPlayerLib, publishEvent, subscribeState } from "../ch5-core";
 import { resizeObserver } from "../ch5-core/resize-observer";
 
 export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPlayerAttributes {
 
   //#region Variables
+
+  private busyChanged: any;
 
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -306,6 +308,10 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this._wasInstatiated = true;
     this._ch5Properties = new Ch5Properties(this, Ch5LegacyMediaPlayer.COMPONENT_PROPERTIES);
     this.updateCssClass();
+    subscribeState('o', 'busyChanged', ((data: any) => {
+      this.busyChanged = data;
+      console.log('busyChanged', this.busyChanged);
+    }));
   }
 
   public static get observedAttributes(): string[] {
