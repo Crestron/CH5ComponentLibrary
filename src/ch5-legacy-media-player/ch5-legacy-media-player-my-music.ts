@@ -63,7 +63,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     subscribeState('o', 'myMusicData', ((data: any) => {
       this.myMusicData = data;
       console.log('My Music Data', this.myMusicData);
-    }))
+    }));
   }
 
   public static get observedAttributes(): string[] {

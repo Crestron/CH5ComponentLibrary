@@ -4,6 +4,7 @@ import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Log } from "../ch5-common/ch5-log";
 import { Ch5LegacyMediaPlayerIconButton } from "./ch5-legacy-media-player-icon-button-base.ts";
 import { MusicPlayerLib } from "../ch5-core/utility-functions/music-player.ts";
+import { subscribeState } from "../ch5-core/index.ts";
 
 export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
@@ -38,6 +39,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	private _nextSongText: HTMLSpanElement = {} as HTMLSpanElement;
 	private _transportControls: HTMLElement = {} as HTMLElement;
 	private musicPlayerLibInstance: MusicPlayerLib;
+	private nowPlayingData: any;
 
 	private readonly DEMO_MODE_DATA = {
 		nowPlaying: {
@@ -123,6 +125,10 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this.createNowPlaying();
 		this._ch5Properties = new Ch5Properties(this, Ch5LegacyMediaPlayerNowPlaying.COMPONENT_PROPERTIES);
 		this.updateCssClass();
+		subscribeState('o', 'nowPlayingData', ((data: any) => {
+			this.nowPlayingData = data;
+			console.log('My Music Data', this.nowPlayingData);
+		}));
 	}
 
 	public static get observedAttributes(): string[] {
