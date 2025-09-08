@@ -3,6 +3,7 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Log } from "../ch5-common/ch5-log";
 import { Ch5LegacyMediaPlayerIconButton } from "./ch5-legacy-media-player-icon-button-base.ts";
+import { MusicPlayerLib } from "../ch5-core/utility-functions/music-player.ts";
 
 export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
@@ -36,6 +37,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	private _nextSongLabel: HTMLSpanElement = {} as HTMLSpanElement;
 	private _nextSongText: HTMLSpanElement = {} as HTMLSpanElement;
 	private _transportControls: HTMLElement = {} as HTMLElement;
+	private musicPlayerLibInstance: MusicPlayerLib;
 
 	private readonly DEMO_MODE_DATA = {
 		nowPlaying: {
@@ -114,8 +116,9 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	//#region Component Lifecycle
 
-	public constructor() {
+	public constructor(musicPlayerLib: MusicPlayerLib) {
 		super();
+		this.musicPlayerLibInstance = musicPlayerLib;
 		this.logger.start('constructor()', Ch5LegacyMediaPlayerNowPlaying.ELEMENT_NAME);
 		this.createNowPlaying();
 		this._ch5Properties = new Ch5Properties(this, Ch5LegacyMediaPlayerNowPlaying.COMPONENT_PROPERTIES);
@@ -306,7 +309,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	private onThumbsDown = () => {
 		console.log("Thumbs Down Click");
-		
+
 		const iconDislikeButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-thumbs-down"]')!;
 		if (iconDislikeButton.classList.contains('active')) {
 			iconDislikeButton.classList.remove('active');
@@ -347,6 +350,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	private onPlay = () => {
 		console.log("Play Click");
+		this.musicPlayerLibInstance.myMusicEvent('play');
 		const iconPlayButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-play"]')!;
 		iconPlayButton.style.display = 'none';
 		const iconPauseButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-pause"]')!;
@@ -355,6 +359,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	private onPause = () => {
 		console.log("Pause Click");
+		this.musicPlayerLibInstance.myMusicEvent('pause');
 		const iconPlayButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-play"]')!;
 		iconPlayButton.style.display = 'flex';
 		const iconPauseButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-pause"]')!;
@@ -382,7 +387,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	private onShuffle = () => {
 		console.log("Shuffle Click");
-	} 
+	}
 
 	private onRepeat = () => {
 		console.log("Repeat Click");

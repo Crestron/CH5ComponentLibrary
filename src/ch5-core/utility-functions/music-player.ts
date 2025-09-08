@@ -105,6 +105,7 @@ export class MusicPlayerLib {
         "instanceName": '',
         "menuInstanceName": '',
     };
+    public muMusicObj:any;
 
     static getInstance() {
         console.log('getInstance');
@@ -419,7 +420,7 @@ export class MusicPlayerLib {
             this.sendRPCRequest(myRPCJSON);
         });
 
-        ['Version', 'MaxReqItems', 'Level', 'ItemCnt', 'Title', 'Subtitle', 'ListSpecificFunctions', 'IsMenuAvailable', 'StatusMsgMenu', 'Instance',].forEach((item: any) => {
+        ['Version', 'MaxReqItems', 'Level', 'ItemCnt', 'Title', 'Subtitle', 'ListSpecificFunctions', 'IsMenuAvailable', 'StatusMsgMenu', 'Instance'].forEach((item: any) => {
             const myRPC: CommonRequestPropName = {
                 params: { "propName": item },
                 jsonrpc: '2.0',
@@ -455,11 +456,11 @@ export class MusicPlayerLib {
             type: 'symbol/json-rpc',
             format: 'JSON',
             name: 'CH5_v2.15', // ToDo: This should be dynamic based on the CH5 version.
-            jsonrpc: '3.0'
+            jsonrpc: '2.0'
         };
 
         const myRPC: RegisterwithDeviceRequest = {
-            jsonrpc: '3.0',
+            jsonrpc: '2.0',
             id: this.getMessageId(),
             method: 'Crpc.Register',
             params: myRPCParams
@@ -628,6 +629,52 @@ export class MusicPlayerLib {
         return;
     }
 
+    public myMusicEvent(action: string) {
+        console.log(action);
+        const myRPC: CommonEventRequest = {
+            params: null,
+            jsonrpc: '2.0',
+            id: this.getMessageId(),
+            method: ''
+        };
+        if (action === 'play') {
+            myRPC.method = this.myMP.instanceName + '.Play'
+        } else if (action === 'pause') {
+            myRPC.method = this.myMP.instanceName + '.Pause'
+        }
+        //this.myMP.ItemDataId = myRPC.id; // Keep track of the message id.
+        this.sendRPCRequest(JSON.stringify(myRPC));
+    }
+
+    /* private deRegisterWithDevice() {
+
+        // Params for registration
+        const myRPCParams: Params = {
+            encoding: 'UTF-8',
+            uuid: this.generateStrongCustomId(),
+            ver: '1.0',
+            maxPacketSize: 65535,
+            type: 'symbol/json-rpc',
+            format: 'JSON',
+            name: 'CH5_v2.15', // ToDo: This should be dynamic based on the CH5 version.
+            jsonrpc: '3.0'
+        };
+
+        const myRPC: RegisterwithDeviceRequest = {
+            jsonrpc: '3.0',
+            id: this.getMessageId(),
+            method: 'Crpc.Register',
+            params: myRPCParams
+        };
+
+        const myRPCJSON = JSON.stringify(myRPC);
+        this.myMP.RegistrationId = myRPC.id;// Keep track of the message id.
+        this.sendRPCRequest(myRPCJSON);
+
+        // Start the re-send time.
+        this.startRegistrationResendTimer();
+    }
+ */
 }
 
 export function getInstanceOfMP(): void {

@@ -141,6 +141,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
+  public musicPlayerLib: MusicPlayerLib;
 
   //#endregion
 
@@ -277,7 +278,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   public constructor() {
     super();
     this.logger.start('constructor()', Ch5LegacyMediaPlayer.ELEMENT_NAME);
-    MusicPlayerLib.getInstance();
+    //MusicPlayerLib.getInstance();
+    this.musicPlayerLib = new MusicPlayerLib();
+
     this.ignoreAttributes = ["appendclasswheninviewport", "receivestateshowpulse", "receivestatehidepulse", "sendeventonshow"];
     if (!this._wasInstatiated) {
       this.createInternalHtml();
@@ -352,7 +355,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
     this._elContainer = document.createElement('div');
-    const nowPlaying = new Ch5LegacyMediaPlayerNowPlaying();
+    const nowPlaying = new Ch5LegacyMediaPlayerNowPlaying(this.musicPlayerLib);
     this._elContainer.appendChild(nowPlaying.createInternalHtml());
     const myMusic = new Ch5LegacyMediaPlayerMyMusic();
     this._elContainer.appendChild(myMusic.createInternalHtml());
@@ -379,7 +382,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   private handleResizeObserver = () => {
     const { width } = this._elContainer.getBoundingClientRect();
-    if(width > 800) {
+    if (width > 800) {
       document.querySelector(".ch5-legacy-media-player-my-music")?.classList.remove("my-music-transition");
     }
   }
