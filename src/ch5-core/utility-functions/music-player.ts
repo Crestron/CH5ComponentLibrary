@@ -713,6 +713,7 @@ export class MusicPlayerLib {
                 this.myMusicData['Subtitle'] = responseData.result.Subtitle;
             } else if (myMsgId == this.myMP.ListSpecificFunctionsId) {
                 this.myMusicData['ListSpecificFunctions'] = responseData.result.ListSpecificFunctions;
+            } else if (myMsgId == this.myMP.LevelId) {
                 this.itemLevel = responseData.result.Level;
                 // this.getItemData(); this api will call after getting both responses of level and item count.
             } else if (myMsgId == this.myMP.ItemCntId) {
@@ -722,7 +723,8 @@ export class MusicPlayerLib {
                 this.myMusicData['MenuData'] = responseData.result;
             }
         }
-
+        console.log('nowPlayingData---->', this.nowPlayingData);
+        console.log('myMusicData---->', this.myMusicData);
         publishEvent('o', 'nowPlayingData', this.nowPlayingData); // left section
 
         publishEvent('o', 'myMusicData', this.myMusicData); // right section
