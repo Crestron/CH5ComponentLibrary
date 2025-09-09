@@ -101,6 +101,8 @@ export class MusicPlayerLib {
         "ListChangedId": 0,
         "StatusMsgMenuChangedId": 0,
         "ResetId": 0,
+        "PlayId": 0,
+        "PauseId": 0,
 
         "instanceName": '',
         "menuInstanceName": '',
@@ -626,6 +628,9 @@ export class MusicPlayerLib {
             for (const item in responseData.params.parameters) {
                 this.myMusicData[item] = responseData.params?.parameters[item];
             }
+        } else if (myMsgId === this.myMP.PlayId || myMsgId === this.myMP.PauseId) {
+            this.callTrackTime();
+            //this.myMusicData['Pla'] = responseData.result.ListSpecificFunctions;
         } else {
             if (myMsgId == this.myMP.RegistrationId) {
                 console.log('Successful registration.');
@@ -708,7 +713,6 @@ export class MusicPlayerLib {
                 this.myMusicData['Subtitle'] = responseData.result.Subtitle;
             } else if (myMsgId == this.myMP.ListSpecificFunctionsId) {
                 this.myMusicData['ListSpecificFunctions'] = responseData.result.ListSpecificFunctions;
-            } else if (myMsgId == this.myMP.LevelId) {
                 this.itemLevel = responseData.result.Level;
                 // this.getItemData(); this api will call after getting both responses of level and item count.
             } else if (myMsgId == this.myMP.ItemCntId) {
@@ -744,12 +748,30 @@ export class MusicPlayerLib {
         };
         if (action === 'play') {
             myRPC.method = this.myMP.instanceName + '.Play'
+            this.myMP.PlayId = myRPC.id;
         } else if (action === 'pause') {
             myRPC.method = this.myMP.instanceName + '.Pause'
+            this.myMP.PauseId = myRPC.id;
         }
         //this.myMP.ItemDataId = myRPC.id; // Keep track of the message id.
         this.sendRPCRequest(JSON.stringify(myRPC));
     }
+
+    public callTrackTime() {
+        ['ElapsedSec', 'TrackSec'].forEach((item: any) => {
+            const myRPC: CommonRequestPropName = {
+                params: { "propName": item },
+                jsonrpc: '2.0',
+                id: this.getMessageId(),
+                method: this.myMP.instanceName + '.GetProperty'
+
+            };
+            const myRPCJSON = JSON.stringify(myRPC);
+            this.myMP[item + "Id"] = myRPC.id; // Keep track of the message id.
+            //console.log(myRPCJSON);
+            this.sendRPCRequest(myRPCJSON);// Send the message.
+        });
+    };
 
 }
 

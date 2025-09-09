@@ -67,6 +67,8 @@ export interface MyMpObject {
     ListChangedId: number;
     StatusMsgMenuChangedId: number;
     ResetId: number;
+    PlayId: number;
+    PauseId: number;
 
     instanceName: string;
     menuInstanceName: string;
