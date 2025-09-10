@@ -709,7 +709,7 @@ export class MusicPlayerLib {
                 this.nowPlayingData['SelectedId'] = responseData.result.SelectedId;
             } else if (myMsgId == this.myMP.ElapsedSecId) {
                 this.nowPlayingData['ElapsedSec'] = responseData.result.ElapsedSec;
-            } else if (myMsgId == this.myMP.TrackSec) {
+            } else if (myMsgId == this.myMP.TrackSecId) {
                 this.nowPlayingData['TrackSec'] = responseData.result.TrackSec;
             } else if (myMsgId == this.myMP.TitleMenuId) { // Menu DFata
                 this.myMusicData['Title'] = responseData.result.Title;
