@@ -4,7 +4,7 @@ import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Log } from "../ch5-common/ch5-log";
 import { Ch5LegacyMediaPlayerIconButton } from "./ch5-legacy-media-player-icon-button-base.ts";
 // import { TCh5LegacyMediaPlayerMyMusicContentItem } from "./interfaces/t-ch5-legacy-media-player.ts";
-import { subscribeState } from "../ch5-core/index.ts";
+import { MusicPlayerLib, subscribeState } from "../ch5-core/index.ts";
 
 export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
@@ -32,6 +32,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
   private _myMusicContentItemSubtitle: HTMLElement = {} as HTMLElement;
   private _myMusicHeaderNowPlayingButton: HTMLElement = {} as HTMLElement;
   private myMusicData: any;
+  private musicPlayerLibInstance: MusicPlayerLib;
 
   //#endregion
 
@@ -54,8 +55,9 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
   //#region Component Lifecycle
 
-  public constructor() {
+  public constructor(musicPlayerLib: MusicPlayerLib) {
     super();
+    this.musicPlayerLibInstance = musicPlayerLib;
     this.logger.start('constructor()', Ch5LegacyMediaPlayerMyMusic.ELEMENT_NAME);
     this._ch5Properties = new Ch5Properties(this, Ch5LegacyMediaPlayerMyMusic.COMPONENT_PROPERTIES);
     this.createMyMusic();
@@ -181,7 +183,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     Array.from(this._myMusicHeaderSection.childNodes).forEach((child) => child.remove());
     Array.from(this._myMusicContentSection.childNodes).forEach((child) => child.remove());
     Array.from(this._myMusicFooterSection.childNodes).forEach((child) => child.remove());
-    
+
     if (this.myMusicData.IsMenuAvailable) {
       this._myMusicHeaderBackButton = new Ch5LegacyMediaPlayerIconButton();
       this._myMusicHeaderBackButton.setAttribute('iconClass', "mp-icon mp-chevron-left");
@@ -235,7 +237,10 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
           if (item === action.name) {
             const button = new Ch5LegacyMediaPlayerIconButton();
             button.setAttribute('iconClass', action.class);
-            button.onclick = () => { console.log("Method:", item); };
+            button.onclick = () => {
+              console.log("Method:", item);
+              this.musicPlayerLibInstance.myMusicEvent(item);
+            };
             this._myMusicFooterSection.appendChild(button);
           }
         });

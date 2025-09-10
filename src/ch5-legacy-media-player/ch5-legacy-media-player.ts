@@ -14,6 +14,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   //#region Variables
 
   private busyChanged: any;
+  private popUpData: any;
 
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -143,7 +144,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
-  public musicPlayerLib: MusicPlayerLib;
+  public musicPlayerLibInstance: MusicPlayerLib;
 
   private _elMask: HTMLElement = {} as HTMLElement;
   private _elGenericDialogContent: HTMLElement = {} as HTMLElement;
@@ -298,7 +299,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     super();
     this.logger.start('constructor()', Ch5LegacyMediaPlayer.ELEMENT_NAME);
     //MusicPlayerLib.getInstance();
-    this.musicPlayerLib = new MusicPlayerLib();
+    this.musicPlayerLibInstance = new MusicPlayerLib();
 
     this.ignoreAttributes = ["appendclasswheninviewport", "receivestateshowpulse", "receivestatehidepulse", "sendeventonshow"];
     //this._isShowPopup = false;
@@ -308,10 +309,16 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this._wasInstatiated = true;
     this._ch5Properties = new Ch5Properties(this, Ch5LegacyMediaPlayer.COMPONENT_PROPERTIES);
     this.updateCssClass();
+
     subscribeState('o', 'busyChanged', ((data: any) => {
       this.busyChanged = data;
       console.log('busyChanged', this.busyChanged);
     }));
+
+    subscribeState('o', 'StatusMsgMenuChanged', ((data: any) => {
+      this.popUpData = data;
+      console.log("Popup Data", this.popUpData);
+    }))
   }
 
   public static get observedAttributes(): string[] {
@@ -387,9 +394,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
     this._elContainer = document.createElement('div');
-    const nowPlaying = new Ch5LegacyMediaPlayerNowPlaying(this.musicPlayerLib);
+    const nowPlaying = new Ch5LegacyMediaPlayerNowPlaying(this.musicPlayerLibInstance);
     this._elContainer.appendChild(nowPlaying.createInternalHtml());
-    const myMusic = new Ch5LegacyMediaPlayerMyMusic();
+    const myMusic = new Ch5LegacyMediaPlayerMyMusic(this.musicPlayerLibInstance);
     this._elContainer.appendChild(myMusic.createInternalHtml());
     this.startMPLoading();
     this.logger.stop();

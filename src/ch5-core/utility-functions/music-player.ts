@@ -626,9 +626,10 @@ export class MusicPlayerLib {
                 this.myMusicData[item] = responseData.params?.parameters[item];
                 this.updatedMenuData();
             }
+        } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StatusMsgMenuChanged') {
+            publishEvent('o', 'StatusMsgMenuChanged', responseData.params?.parameters ? responseData.params.parameters : {});
         } else if (myMsgId === this.myMP.PlayId || myMsgId === this.myMP.PauseId) {
             this.callTrackTime();
-            //this.myMusicData['Pla'] = responseData.result.ListSpecificFunctions;
         } else {
             if (myMsgId == this.myMP.RegistrationId) {
                 console.log('Successful registration.');
@@ -731,8 +732,6 @@ export class MusicPlayerLib {
                 this.myMusicData['MenuData'] = responseData.result;
             }
         }
-        console.log('nowPlayingData---->', this.nowPlayingData);
-        console.log('myMusicData---->', this.myMusicData);
         publishEvent('o', 'nowPlayingData', this.nowPlayingData); // left section
 
         publishEvent('o', 'myMusicData', this.myMusicData); // right section
