@@ -354,7 +354,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	private onPlay = () => {
 		console.log("Play Click");
-		this.musicPlayerLibInstance.myMusicEvent('play');
+		this.musicPlayerLibInstance.nowPlayingvent('play');
 		const iconPlayButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-play"]')!;
 		iconPlayButton.style.display = 'none';
 		const iconPauseButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-pause"]')!;
@@ -363,7 +363,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	private onPause = () => {
 		console.log("Pause Click");
-		this.musicPlayerLibInstance.myMusicEvent('pause');
+		this.musicPlayerLibInstance.nowPlayingvent('pause');
 		const iconPlayButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-play"]')!;
 		iconPlayButton.style.display = 'flex';
 		const iconPauseButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-pause"]')!;

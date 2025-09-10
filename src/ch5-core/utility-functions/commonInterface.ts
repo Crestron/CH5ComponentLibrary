@@ -53,7 +53,6 @@ export interface MyMpObject {
     RatingId: number;
     SelectedId: number;
     VersionId: number;
-    MaxReqItems: number;
     LevelId: number;
     ItemCntId: number;
     SubtitleId: number;
