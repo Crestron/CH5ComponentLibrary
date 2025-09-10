@@ -5,6 +5,7 @@ import { Ch5Log } from "../ch5-common/ch5-log";
 import { Ch5LegacyMediaPlayerIconButton } from "./ch5-legacy-media-player-icon-button-base.ts";
 import { MusicPlayerLib } from "../ch5-core/utility-functions/music-player.ts";
 import { subscribeState } from "../ch5-core/index.ts";
+import { TCh5LegacyMediaPlayerSourcePlayerIcons } from "./interfaces/t-ch5-legacy-media-player.ts";
 
 export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
@@ -28,6 +29,9 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	private _nowPlayingAlbum: HTMLSpanElement = {} as HTMLSpanElement;
 	private _nowPlayingArtistAlbum: HTMLDivElement = {} as HTMLDivElement;
 	private _nowPlayingSongAdditionalInfo: HTMLDivElement = {} as HTMLDivElement;
+	private _nowPlayingPlayerIconContainer: HTMLDivElement = {} as HTMLDivElement;
+	private _nowPlayingPlayerIconImage: HTMLDivElement = {} as HTMLDivElement;
+	private _nowPlayingPlayerIconName: HTMLDivElement = {} as HTMLDivElement;
 	private _progressBarContainer: HTMLDivElement = {} as HTMLDivElement;
 	private _progressBarInput: HTMLInputElement = {} as HTMLInputElement;
 	private _currentTime: HTMLSpanElement = {} as HTMLSpanElement;
@@ -42,6 +46,8 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	private nowPlayingData: any;
 
 	private _nowPlayingPlayerName: HTMLElement = {} as HTMLElement
+
+	private _nowPlayingPlayerIconClass = TCh5LegacyMediaPlayerSourcePlayerIcons;
 
 	private readonly DEMO_MODE_DATA = {
 		nowPlaying: {
@@ -266,10 +272,26 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingSongAdditionalInfo = document.createElement("div");
 		this._nowPlayingSongAdditionalInfo.classList.add("now-playing-song-additional-info");
 		this._nowPlayingSongAdditionalInfo.textContent = trackAdditionalInfo;
+		//Now Playing Player Icon Image and Name Container
+		this._nowPlayingPlayerIconContainer = document.createElement('div');
+		this._nowPlayingPlayerIconContainer.classList.add("now-playing-player-icon-container");
+		//Now Playing Player Icon Image
+		this._nowPlayingPlayerIconImage = document.createElement('div');
+		this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
+		const playerImg = document.createElement('img');
+		playerImg.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRslcO84eWfXP_4Ucd4Yfz6B8uqJmHaTo0iTw&s";// temporary value
+		this._nowPlayingPlayerIconImage.appendChild(playerImg);
+		//Now Playing Player Icon Name
+		this._nowPlayingPlayerIconName = document.createElement('div');
+		this._nowPlayingPlayerIconName.classList.add("now-playing-player-icon-name");
+		this._nowPlayingPlayerIconName.textContent = "Spotify";
+		this._nowPlayingPlayerIconContainer.appendChild(this._nowPlayingPlayerIconImage);
+		this._nowPlayingPlayerIconContainer.appendChild(this._nowPlayingPlayerIconName);
 
 		this._nowPlayingTrackInfo.appendChild(this._nowPlayingSongTitle);
 		this._nowPlayingTrackInfo.appendChild(this._nowPlayingArtistAlbum);
 		this._nowPlayingTrackInfo.appendChild(this._nowPlayingSongAdditionalInfo);
+		this._nowPlayingTrackInfo.appendChild(this._nowPlayingPlayerIconContainer);
 	}
 
 	protected renderProgressBar(isProgressAvailable: boolean) {
