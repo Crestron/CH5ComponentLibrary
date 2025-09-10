@@ -30,8 +30,6 @@ export class MusicPlayerLib {
     };
 
     private mpIgnoreCRPCIn: boolean = false;
-    private itemCount: number = -1;
-    private itemLevel: number = -1;
 
     public myMP: MyMpObject = {
         "tag": "",
@@ -87,7 +85,6 @@ export class MusicPlayerLib {
         "RatingId": 0,
         "SelectedId": 0,
         "VersionId": 0,
-        "MaxReqItems": 0,
         "LevelId": 0,
         "ItemCntId": 0,
         "SubtitleId": 0,
@@ -570,7 +567,7 @@ export class MusicPlayerLib {
     private getItemData() {
 
         const myRPC: any = {
-            params: { "count": this.itemCount, "item": this.itemLevel },
+            params: { "count": this.myMusicData['ItemCnt'], "item": '1' },//"item": //this.myMusicData['Level']
             jsonrpc: '2.0',
             id: this.getMessageId(),
             method: this.myMP.menuInstanceName + '.GetData'
@@ -627,6 +624,7 @@ export class MusicPlayerLib {
         } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged') {
             for (const item in responseData.params.parameters) {
                 this.myMusicData[item] = responseData.params?.parameters[item];
+                this.updatedMenuData();
             }
         } else if (myMsgId === this.myMP.PlayId || myMsgId === this.myMP.PauseId) {
             this.callTrackTime();
@@ -714,11 +712,15 @@ export class MusicPlayerLib {
             } else if (myMsgId == this.myMP.ListSpecificFunctionsId) {
                 this.myMusicData['ListSpecificFunctions'] = responseData.result.ListSpecificFunctions;
             } else if (myMsgId == this.myMP.LevelId) {
-                this.itemLevel = responseData.result.Level;
+                this.myMusicData['Level'] = responseData.result.Level;
                 // this.getItemData(); this api will call after getting both responses of level and item count.
             } else if (myMsgId == this.myMP.ItemCntId) {
-                this.itemCount = responseData.result.ItemCnt;
+                this.myMusicData['ItemCnt'] = responseData.result.ItemCnt;
                 this.getItemData();
+            } else if (myMsgId == this.myMP.MaxReqItemsId) {
+                this.myMusicData['MaxReqItems'] = responseData.result.MaxReqItems;
+            } else if (myMsgId == this.myMP.IsMenuAvailableId) {
+                this.myMusicData['IsMenuAvailable'] = responseData.result.IsMenuAvailable;
             } else if (myMsgId === this.myMP.ItemDataId) {
                 this.myMusicData['MenuData'] = responseData.result;
             }
@@ -740,7 +742,7 @@ export class MusicPlayerLib {
         return;
     }
 
-    public myMusicEvent(action: string) {
+    public nowPlayingvent(action: string) {
         console.log(action);
         const myRPC: CommonEventRequest = {
             params: null,
@@ -759,6 +761,18 @@ export class MusicPlayerLib {
         this.sendRPCRequest(JSON.stringify(myRPC));
     }
 
+
+    public myMusicEvent(action: string) {
+        console.log(action);
+        const myRPC: CommonEventRequest = {
+            params: null,
+            jsonrpc: '2.0',
+            id: this.getMessageId(),
+            method: this.myMP.menuInstanceName + '.' + action
+        };
+        this.sendRPCRequest(JSON.stringify(myRPC));
+    }
+
     public callTrackTime() {
         ['ElapsedSec', 'TrackSec'].forEach((item: any) => {
             const myRPC: CommonRequestPropName = {
@@ -774,6 +788,25 @@ export class MusicPlayerLib {
             this.sendRPCRequest(myRPCJSON);// Send the message.
         });
     };
+
+
+    public updatedMenuData() {
+        ['ListSpecificFunctions', 'StatusMsgMenu', 'Instance', 'TransactionId'].forEach((item: any) => {
+            const myRPC: CommonRequestPropName = {
+                params: { "propName": item },
+                jsonrpc: '2.0',
+                id: this.getMessageId(),
+                method: this.myMP.instanceName + '.GetProperty'
+
+            };
+            const myRPCJSON = JSON.stringify(myRPC);
+            this.myMP[item + "Id"] = myRPC.id; // Keep track of the message id.
+            //console.log(myRPCJSON);
+            this.sendRPCRequest(myRPCJSON);// Send the message.
+        });
+        this.getItemData();
+    };
+
 
 }
 
