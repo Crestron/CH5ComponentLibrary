@@ -669,6 +669,8 @@ export class MusicPlayerLib {
                 this.nowPlayingData['StreamState'] = responseData.result.StreamState;
             } else if (myMsgId == this.myMP.MediaTypeId) {
                 this.nowPlayingData['MediaType'] = responseData.result.MediaType;
+            } else if (myMsgId == this.myMP.AlbumId) {
+                this.nowPlayingData['Album'] = responseData.result.Album;
             } else if (myMsgId == this.myMP.AlbumArtId) {
                 this.nowPlayingData['AlbumArt'] = responseData.result.AlbumArt;
             } else if (myMsgId == this.myMP.AlbumArtUrlId) {
@@ -705,6 +707,10 @@ export class MusicPlayerLib {
                 this.nowPlayingData['Rating'] = responseData.result.Rating;
             } else if (myMsgId == this.myMP.SelectedId) {
                 this.nowPlayingData['SelectedId'] = responseData.result.SelectedId;
+            } else if (myMsgId == this.myMP.ElapsedSecId) {
+                this.nowPlayingData['ElapsedSec'] = responseData.result.ElapsedSec;
+            } else if (myMsgId == this.myMP.TrackSec) {
+                this.nowPlayingData['TrackSec'] = responseData.result.TrackSec;
             } else if (myMsgId == this.myMP.TitleMenuId) { // Menu DFata
                 this.myMusicData['Title'] = responseData.result.Title;
             } else if (myMsgId == this.myMP.SubtitleId) {
