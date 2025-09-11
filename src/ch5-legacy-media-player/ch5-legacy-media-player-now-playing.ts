@@ -44,6 +44,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	private _transportControls: HTMLElement = {} as HTMLElement;
 	private musicPlayerLibInstance: MusicPlayerLib;
 	private nowPlayingData: any;
+	private progressBarData: any;
 
 	private _nowPlayingPlayerName: HTMLElement = {} as HTMLElement
 
@@ -138,6 +139,11 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			if (this.nowPlayingData && Object.keys(this.nowPlayingData).length > 0) this.updatedNowPlayingContent();
 			console.log('Now Playing Data', this.nowPlayingData);
 		}));
+
+		subscribeState('o', 'progressBarData', ((data: any) => {
+			this.progressBarData = data;
+			console.log('Progress bar data', this.progressBarData);
+		}));
 	}
 
 	private updatedNowPlayingContent() {
@@ -223,11 +229,11 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingContainer.appendChild(this._nowPlayingTrackInfo);
 		this._nowPlayingContainer.appendChild(this._transportControls);
 		this._nowPlayingContainer.appendChild(this._nextAndPreviousSongContainer);
-		
+
 		this.logger.stop();
 	}
 
-	protected renderProviderOrPlayer(playerName: string){
+	protected renderProviderOrPlayer(playerName: string) {
 		if (this._nowPlayingPlayerContainer && this._nowPlayingPlayerContainer.parentNode) {
 			this._nowPlayingPlayerContainer.parentNode.removeChild(this._nowPlayingPlayerContainer);
 		}

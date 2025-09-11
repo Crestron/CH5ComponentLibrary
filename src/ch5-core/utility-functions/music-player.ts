@@ -106,6 +106,7 @@ export class MusicPlayerLib {
     };
     public nowPlayingData: any = {};
     public myMusicData: any = {};
+    public progressBarData: any = {};
 
     static getInstance() {
         console.log('getInstance');
@@ -688,8 +689,6 @@ export class MusicPlayerLib {
                 this.nowPlayingData['Title'] = responseData.result.Title;
             } else if (myMsgId == this.myMP.ProgressBarId) {
                 this.nowPlayingData['ProgressBar'] = responseData.result.ProgressBar;
-            } else if (myMsgId == this.myMP.TrackSec) {
-                this.nowPlayingData['TrackSec'] = responseData.result.TrackSec;
             } else if (myMsgId == this.myMP.TrackNumId) {
                 this.nowPlayingData['TrackNum'] = responseData.result.TrackNum;
             } else if (myMsgId == this.myMP.TrackCntId) {
@@ -709,9 +708,9 @@ export class MusicPlayerLib {
             } else if (myMsgId == this.myMP.SelectedId) {
                 this.nowPlayingData['SelectedId'] = responseData.result.SelectedId;
             } else if (myMsgId == this.myMP.ElapsedSecId) {
-                this.nowPlayingData['ElapsedSec'] = responseData.result.ElapsedSec;
+                this.progressBarData['ElapsedSec'] = responseData.result.ElapsedSec;
             } else if (myMsgId == this.myMP.TrackSecId) {
-                this.nowPlayingData['TrackSec'] = responseData.result.TrackSec;
+                this.progressBarData['TrackSec'] = responseData.result.TrackSec;
             } else if (myMsgId == this.myMP.TitleMenuId) { // Menu DFata
                 this.myMusicData['Title'] = responseData.result.Title;
             } else if (myMsgId == this.myMP.SubtitleId) {
@@ -735,6 +734,9 @@ export class MusicPlayerLib {
         publishEvent('o', 'nowPlayingData', this.nowPlayingData); // left section
 
         publishEvent('o', 'myMusicData', this.myMusicData); // right section
+
+        publishEvent('o', 'progressBarData', this.progressBarData);
+
         // Check if an error was returned?
     }
 
@@ -767,10 +769,11 @@ export class MusicPlayerLib {
     }
 
 
-    public myMusicEvent(action: string) {
+    public myMusicEvent(action: string, itemIndex: number = 0) {
         console.log(action);
+        const param = itemIndex == 0 ? null : { 'item': itemIndex };
         const myRPC: CommonEventRequest = {
-            params: null,
+            params: param,
             jsonrpc: '2.0',
             id: this.getMessageId(),
             method: this.myMP.menuInstanceName + '.' + action
