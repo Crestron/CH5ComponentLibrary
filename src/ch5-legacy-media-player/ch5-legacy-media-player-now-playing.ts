@@ -44,6 +44,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	private _transportControls: HTMLElement = {} as HTMLElement;
 	private musicPlayerLibInstance: MusicPlayerLib;
 	private nowPlayingData: any;
+	private progressBarData: any;
 
 	private _nowPlayingPlayerName: HTMLElement = {} as HTMLElement
 	private _nowPlayingPlayerImage: HTMLImageElement = {} as HTMLImageElement;
@@ -138,6 +139,11 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this.nowPlayingData = data;
 			if (this.nowPlayingData && Object.keys(this.nowPlayingData).length > 0) this.updatedNowPlayingContent();
 			console.log('Now Playing Data', this.nowPlayingData);
+		}));
+
+		subscribeState('o', 'progressBarData', ((data: any) => {
+			this.progressBarData = data;
+			console.log('Progress bar data', this.progressBarData);
 		}));
 	}
 

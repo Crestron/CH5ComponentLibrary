@@ -174,6 +174,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicContentItem.onclick = () => {
       //Array.from(this._myMusicContentSection.childNodes).forEach((child) => child.remove());
       console.log('Item ', index + 1);
+      this.musicPlayerLibInstance.myMusicEvent('Select', index + 1);
     }
     this._myMusicContentItem.appendChild(this._myMusicContentItemTitle);
     this._myMusicContentItem.appendChild(this._myMusicContentItemSubtitle);
