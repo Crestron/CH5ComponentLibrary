@@ -365,7 +365,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       this.appendChild(this._elContainer);
     }
     this.addMusicTransition();
-    this.removeMusicTransition();
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
@@ -558,11 +557,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     });
   }
 
-  protected removeMusicTransition() {
-    this.querySelector(".my-music-header-now-playing-button")?.addEventListener("click", () => {
-      this.querySelector(".ch5-legacy-media-player-my-music")?.classList.remove("my-music-transition");
-    });
-  }
   protected initAttributes() {
     super.initAttributes();
     const thisRef: any = this;

@@ -46,6 +46,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	private nowPlayingData: any;
 
 	private _nowPlayingPlayerName: HTMLElement = {} as HTMLElement
+	private _nowPlayingPlayerImage: HTMLImageElement = {} as HTMLImageElement;
 
 	private _nowPlayingPlayerIconClass = TCh5LegacyMediaPlayerSourcePlayerIcons;
 
@@ -141,18 +142,19 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	}
 
 	private updatedNowPlayingContent() {
-		this.renderProviderOrPlayer(this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName);
-		this.renderAlbumArt(this.nowPlayingData.AlbumArtUrl);
-		this.renderTrackInfo(this.nowPlayingData.Title, this.nowPlayingData.Artist, this.nowPlayingData.Album, this.nowPlayingData.TextLines?.join(' '))
+		this._nowPlayingPlayerName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
+		this._nowPlayingImage.src = this.nowPlayingData.AlbumArtUrl;
+		this._nowPlayingSongTitle.textContent = this.nowPlayingData.Title;
+		this._nowPlayingArtist.textContent = this.nowPlayingData.Artist;
+		this._nowPlayingAlbum.textContent = this.nowPlayingData.Album;
+		this._nowPlayingSongAdditionalInfo.textContent = `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}`;
+		this._nowPlayingPlayerImage.src = this.nowPlayingData.PlayerIconURL;
+		this._nowPlayingPlayerIconName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
 		this.renderProgressBar(this.nowPlayingData.ProgressBar, this.nowPlayingData.ElapsedSec, this.nowPlayingData.TrackSec);
 		this.renderActionButtons(this.nowPlayingData.ActionsAvailable);
 		this.renderMoreActionButtons(this.nowPlayingData.ActionsAvailable);
-		this.renderNextAndPreviousSong(this.nowPlayingData.NextTitle);
-
-		this._nowPlayingContainer.appendChild(this._nowPlayingPlayerContainer);
-		this._nowPlayingContainer.appendChild(this._nowPlayingImage);
-		this._nowPlayingContainer.appendChild(this._nowPlayingTrackInfo);
 		this._nowPlayingContainer.appendChild(this._transportControls);
+		this.renderNextAndPreviousSong(this.nowPlayingData.NextTitle);
 		this._nowPlayingContainer.appendChild(this._nextAndPreviousSongContainer);
 	}
 
@@ -207,30 +209,23 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this.clearComponentContent();
 		this._nowPlayingContainer = document.createElement('div');
 		this._nowPlayingContainer.classList.add("ch5-legacy-media-player-now-playing");
-
-		this.renderProviderOrPlayer("Player Name");
-		this.renderAlbumArt("https://www.clipartmax.com/png/full/30-301220_free-svg-music-symbols-music-note-that-looks-like-an-s.png");
-		this.renderTrackInfo("Song name", "Artist Name", "Album Name", "Song track additional info");
-
+		this.renderProviderOrPlayer();
+		this.renderAlbumArt();
+		this.renderTrackInfo();
 		this._transportControls = document.createElement('div');
 		this._transportControls.classList.add("now-playing-controls-container");
 		this.renderProgressBar(true, 0, 0);
 		this.renderActionButtons(["ThumbsDown", "PreviousTrack", "Rewind", "Play", "Pause", "Ffwd", "NextTrack", "ThumbsUp"], true);
 		this.renderMoreActionButtons(["Shuffle", "Repeat", "PlayAll", "MusicNote", "UserNote"]);
-		this.renderNextAndPreviousSong("Next Song Name");
-		this._nowPlayingContainer.appendChild(this._nowPlayingPlayerContainer);
-		this._nowPlayingContainer.appendChild(this._nowPlayingImage);
-		this._nowPlayingContainer.appendChild(this._nowPlayingTrackInfo);
-		this._nowPlayingContainer.appendChild(this._transportControls);
-		this._nowPlayingContainer.appendChild(this._nextAndPreviousSongContainer);
 		
+		this._nowPlayingContainer.appendChild(this._transportControls);
+		this.renderNextAndPreviousSong("Next Song Name here");
+		this._nowPlayingContainer.appendChild(this._nextAndPreviousSongContainer);
+
 		this.logger.stop();
 	}
 
-	protected renderProviderOrPlayer(playerName: string){
-		if (this._nowPlayingPlayerContainer && this._nowPlayingPlayerContainer.parentNode) {
-			this._nowPlayingPlayerContainer.parentNode.removeChild(this._nowPlayingPlayerContainer);
-		}
+	protected renderProviderOrPlayer() {
 		//Now playing player
 		this._nowPlayingPlayerContainer = document.createElement("div");
 		this._nowPlayingPlayerContainer.classList.add("now-playing-player-container");
@@ -238,40 +233,35 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		nowPlayingPlayerLabel.classList.add('now-playing-player-label');
 		this._nowPlayingPlayerName = document.createElement('label');
 		this._nowPlayingPlayerName.classList.add("now-playing-player-name");
-		this._nowPlayingPlayerName.textContent = playerName;
+		this._nowPlayingPlayerName.textContent = "Player name";
 		nowPlayingPlayerLabel.appendChild(this._nowPlayingPlayerName);
+		this._nowPlayingPlayerContainer.appendChild(nowPlayingPlayerLabel);
 		//Now Playing Player Music Note
 		const nowPlayingPlayerMusicNoteButton = new Ch5LegacyMediaPlayerIconButton();
 		nowPlayingPlayerMusicNoteButton.setAttribute('iconClass', "mp-icon mp-music-note");
 		nowPlayingPlayerMusicNoteButton.classList.add("now-playing-player-music-note-button");
-
-		this._nowPlayingPlayerContainer.appendChild(nowPlayingPlayerLabel);
 		this._nowPlayingPlayerContainer.appendChild(nowPlayingPlayerMusicNoteButton);
+
+		this._nowPlayingContainer.appendChild(this._nowPlayingPlayerContainer);
 	}
 
-	protected renderAlbumArt(imageUrl: string) {
-		if (this._nowPlayingImage && this._nowPlayingImage.parentNode) {
-			this._nowPlayingImage.parentNode.removeChild(this._nowPlayingImage);
-		}
+	protected renderAlbumArt() {
 		//Now Playing Image
 		this._nowPlayingImage = document.createElement("img");
 		this._nowPlayingImage.classList.add("now-playing-image");
 		this._nowPlayingImage.alt = "Album Art";
-		this._nowPlayingImage.src = imageUrl;
-		//this._nowPlayingContainer.appendChild(this._nowPlayingImage);
+		this._nowPlayingImage.src = "https://www.clipartmax.com/png/full/30-301220_free-svg-music-symbols-music-note-that-looks-like-an-s.png";
+		this._nowPlayingContainer.appendChild(this._nowPlayingImage);
 	}
 
-	protected renderTrackInfo(songTitle: string, artistName: string, albumName: string, trackAdditionalInfo: string) {
-		if (this._nowPlayingTrackInfo && this._nowPlayingTrackInfo.parentNode) {
-			this._nowPlayingTrackInfo.parentNode.removeChild(this._nowPlayingTrackInfo);
-		}
+	protected renderTrackInfo() {
 		//Now Playing Track Information
 		this._nowPlayingTrackInfo = document.createElement("div");
 		this._nowPlayingTrackInfo.classList.add("now-playing-track-info");
 		//Now Playing Song Title
 		this._nowPlayingSongTitle = document.createElement("div");
 		this._nowPlayingSongTitle.classList.add("now-playing-song-title");
-		this._nowPlayingSongTitle.textContent = songTitle;
+		this._nowPlayingSongTitle.textContent = "Song name here";
 		//Now Playing Song Artist and Album
 		this._nowPlayingArtistAlbum = document.createElement("div");
 		this._nowPlayingArtistAlbum.classList.add("now-playing-artist-album");
@@ -282,24 +272,25 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingAlbum.classList.add("now-playing-album-name");
 		longDash.classList.add("long-dash");
 		longDash.textContent = ' — ';
-		this._nowPlayingArtist.textContent = artistName;
-		this._nowPlayingAlbum.textContent = albumName;
+		this._nowPlayingArtist.textContent = "Artist Name";
+		this._nowPlayingAlbum.textContent = "Album Name";
 		this._nowPlayingArtistAlbum.appendChild(this._nowPlayingArtist);
-		if (artistName && albumName) this._nowPlayingArtistAlbum.appendChild(longDash);
+		//if (artistName && albumName) this._nowPlayingArtistAlbum.appendChild(longDash);
+		this._nowPlayingArtistAlbum.appendChild(longDash);
 		this._nowPlayingArtistAlbum.appendChild(this._nowPlayingAlbum);
 		//Now Playing Song Additional Information
 		this._nowPlayingSongAdditionalInfo = document.createElement("div");
 		this._nowPlayingSongAdditionalInfo.classList.add("now-playing-song-additional-info");
-		this._nowPlayingSongAdditionalInfo.textContent = trackAdditionalInfo;
+		this._nowPlayingSongAdditionalInfo.textContent = "Track count and Genre here";
 		//Now Playing Player Icon Image and Name Container
 		this._nowPlayingPlayerIconContainer = document.createElement('div');
 		this._nowPlayingPlayerIconContainer.classList.add("now-playing-player-icon-container");
 		//Now Playing Player Icon Image
 		this._nowPlayingPlayerIconImage = document.createElement('div');
 		this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
-		const playerImg = document.createElement('img');
-		playerImg.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRslcO84eWfXP_4Ucd4Yfz6B8uqJmHaTo0iTw&s";// temporary value
-		this._nowPlayingPlayerIconImage.appendChild(playerImg);
+		this._nowPlayingPlayerImage = document.createElement('img');
+		this._nowPlayingPlayerImage.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRslcO84eWfXP_4Ucd4Yfz6B8uqJmHaTo0iTw&s";// temporary value
+		this._nowPlayingPlayerIconImage.appendChild(this._nowPlayingPlayerImage);
 		//Now Playing Player Icon Name
 		this._nowPlayingPlayerIconName = document.createElement('div');
 		this._nowPlayingPlayerIconName.classList.add("now-playing-player-icon-name");
@@ -311,7 +302,8 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingTrackInfo.appendChild(this._nowPlayingArtistAlbum);
 		this._nowPlayingTrackInfo.appendChild(this._nowPlayingSongAdditionalInfo);
 		this._nowPlayingTrackInfo.appendChild(this._nowPlayingPlayerIconContainer);
-		//this._nowPlayingContainer.appendChild(this._nowPlayingTrackInfo);
+
+		this._nowPlayingContainer.appendChild(this._nowPlayingTrackInfo);
 	}
 
 	protected renderProgressBar(isProgressAvailable: boolean, currentTime: number, duration: number) {
@@ -391,6 +383,12 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 					const button = new Ch5LegacyMediaPlayerIconButton();
 					button.setAttribute('iconClass', actionIconMap[action].class);
 					button.onclick = actionIconMap[action].clickAction;
+					this._actionButtonsContainer.appendChild(button);
+				} else {
+					const button = new Ch5LegacyMediaPlayerIconButton();
+					button.setAttribute('iconClass', actionIconMap[action].class);
+					button.onclick = actionIconMap[action].clickAction;
+					button.style.visibility = "hidden";
 					this._actionButtonsContainer.appendChild(button);
 				}
 			});
@@ -510,41 +508,38 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		if (this._nextAndPreviousSongContainer && this._nextAndPreviousSongContainer.parentNode) {
 			this._nextAndPreviousSongContainer.parentNode.removeChild(this._nextAndPreviousSongContainer);
 		}
-		if (nextSong) {
-			this._nextAndPreviousSongContainer = document.createElement('div');
-			this._nextAndPreviousSongContainer.classList.add('now-playing-next-and-previous-song-container');
-			// Next Song Section
-			const nextSongSection = document.createElement('div');
-			nextSongSection.classList.add('now-playing-next-song-container');
-			//Next Song Label
-			this._nextSongLabel = document.createElement('span');
-			this._nextSongLabel.classList.add('now-playing-next-song-label');
-			this._nextSongLabel.textContent = 'Next up';
-			nextSongSection.appendChild(this._nextSongLabel);
-			//Next Song Text
-			this._nextSongText = document.createElement('span');
-			this._nextSongText.classList.add('now-playing-next-song-text');
-			this._nextSongText.textContent = nextSong;
-			nextSongSection.appendChild(this._nextSongText);
-			this._nextAndPreviousSongContainer.appendChild(nextSongSection);
-			// Next and Previous Arrows
-			const arrowsContainer = document.createElement('div');
-			arrowsContainer.classList.add('now-playing-arrows-container');
+		this._nextAndPreviousSongContainer = document.createElement('div');
+		this._nextAndPreviousSongContainer.classList.add('now-playing-next-and-previous-song-container');
+		// Next Song Section
+		const nextSongSection = document.createElement('div');
+		nextSongSection.classList.add('now-playing-next-song-container');
+		//Next Song Label
+		this._nextSongLabel = document.createElement('span');
+		this._nextSongLabel.classList.add('now-playing-next-song-label');
+		this._nextSongLabel.textContent = 'Next up';
+		nextSongSection.appendChild(this._nextSongLabel);
+		//Next Song Text
+		this._nextSongText = document.createElement('span');
+		this._nextSongText.classList.add('now-playing-next-song-text');
+		this._nextSongText.textContent = nextSong;
+		nextSongSection.appendChild(this._nextSongText);
+		this._nextAndPreviousSongContainer.appendChild(nextSongSection);
+		// Next and Previous Arrows
+		const arrowsContainer = document.createElement('div');
+		arrowsContainer.classList.add('now-playing-arrows-container');
 
-			const previousButton = new Ch5LegacyMediaPlayerIconButton();
-			previousButton.setAttribute('iconClass', "mp-icon mp-chevron-left");
-			previousButton.classList.add("now-playing-arrow-left-button");
-			previousButton.onclick = this.onPreviousSong;
-			arrowsContainer.appendChild(previousButton);
+		const previousButton = new Ch5LegacyMediaPlayerIconButton();
+		previousButton.setAttribute('iconClass', "mp-icon mp-chevron-left");
+		previousButton.classList.add("now-playing-arrow-left-button");
+		previousButton.onclick = this.onPreviousSong;
+		arrowsContainer.appendChild(previousButton);
 
-			const nextButton = new Ch5LegacyMediaPlayerIconButton();
-			nextButton.setAttribute('iconClass', "mp-icon mp-chevron-right");
-			nextButton.classList.add("now-playing-arrow-right-button");
-			nextButton.onclick = this.onNextSong;
-			arrowsContainer.appendChild(nextButton);
-			this._nextAndPreviousSongContainer.appendChild(arrowsContainer);
-			//this._nowPlayingContainer.appendChild(this._nextAndPreviousSongContainer);
-		}
+		const nextButton = new Ch5LegacyMediaPlayerIconButton();
+		nextButton.setAttribute('iconClass', "mp-icon mp-chevron-right");
+		nextButton.classList.add("now-playing-arrow-right-button");
+		nextButton.onclick = this.onNextSong;
+		arrowsContainer.appendChild(nextButton);
+		this._nextAndPreviousSongContainer.appendChild(arrowsContainer);
 	}
 
 	private onPreviousSong = () => {

@@ -170,6 +170,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicContentItemSubtitle = document.createElement('div');
     this._myMusicContentItemSubtitle.className = 'my-music-content-item-subtitle';
     this._myMusicContentItemSubtitle.textContent = subText;
+    this._myMusicContentItemSubtitle.style.visibility = subText ? 'visible' : 'hidden';
     this._myMusicContentItem.onclick = () => {
       //Array.from(this._myMusicContentSection.childNodes).forEach((child) => child.remove());
       console.log('Item ', index + 1);
@@ -203,12 +204,16 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicheaderSubtitle = document.createElement("div");
     this._myMusicheaderSubtitle.className = 'my-music-header-subtitle';
     this._myMusicheaderSubtitle.innerText = this.myMusicData.Subtitle;
+    this._myMusicheaderSubtitle.style.visibility = this.myMusicData.Subtitle ? 'visible' : 'hidden';
 
     this._myMusicHeaderTitle.append(this._myMusicHeaderTitleText, this._myMusicheaderSubtitle);
 
     this._myMusicHeaderNowPlayingButton = new Ch5LegacyMediaPlayerIconButton();
     this._myMusicHeaderNowPlayingButton.setAttribute('iconClass', "mp-icon mp-animated-bar");
     this._myMusicHeaderNowPlayingButton.classList.add("my-music-header-now-playing-button");
+    this._myMusicHeaderNowPlayingButton.onclick = () => {
+      this._myMusicContainer.classList.remove("my-music-transition");
+    };
     this._myMusicHeaderSection.append(this._myMusicHeaderTitle, this._myMusicHeaderNowPlayingButton);
 
     if (this.myMusicData && this.myMusicData.MenuData) {
