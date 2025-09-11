@@ -30,8 +30,6 @@ export class MusicPlayerLib {
     };
 
     private mpIgnoreCRPCIn: boolean = false;
-    private itemCount: number = -1;
-    private itemLevel: number = -1;
 
     public myMP: MyMpObject = {
         "tag": "",
@@ -87,7 +85,6 @@ export class MusicPlayerLib {
         "RatingId": 0,
         "SelectedId": 0,
         "VersionId": 0,
-        "MaxReqItems": 0,
         "LevelId": 0,
         "ItemCntId": 0,
         "SubtitleId": 0,
@@ -101,10 +98,15 @@ export class MusicPlayerLib {
         "ListChangedId": 0,
         "StatusMsgMenuChangedId": 0,
         "ResetId": 0,
+        "PlayId": 0,
+        "PauseId": 0,
 
         "instanceName": '',
         "menuInstanceName": '',
     };
+    public nowPlayingData: any = {};
+    public myMusicData: any = {};
+    public progressBarData: any = {};
 
     static getInstance() {
         console.log('getInstance');
@@ -215,19 +217,48 @@ export class MusicPlayerLib {
         }
         // Register with the new device. ToDo: Add checks for online & tag values.
         if (this.myMP.tag && this.myMP.connectionActive) {
+            console.log('Register Device');
             this.registerWithDevice();
         }
     }
 
     private unregisterWithDevice() {
+
         // We need to unregister with both the Media Player instance
         // as well as the Media player Menu instance.
 
-        // How do we need to unregister?
-        if (!this.myMP.connectionIsDirect) {
-            // Unregister the serial connection.
-        } else {
-            // Unregister the direct connection.
+        if (this.myMP.instanceName && this.myMP.menuInstanceName) {
+            console.log('Deregister Device');
+            ['BusyChanged', 'StatusMsgChanged', 'StateChangedByBrowseContext', 'StateChanged'].forEach((item: any) => {
+                const myRPC: CommonEventRequest = {
+                    params: { "ev": item, "handle": "sg" },
+                    jsonrpc: '2.0',
+                    id: this.getMessageId(),
+                    method: this.myMP.instanceName + '.DeregisterEvent'
+
+                };
+                const myRPCJSON = JSON.stringify(myRPC);
+                this.myMP[item + 'Id'] = myRPC.id;
+                this.sendRPCRequest(myRPCJSON);
+            });
+            ['BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'].forEach((item: any) => {
+                const myRPC: CommonEventRequest = {
+                    params: { "ev": item, "handle": "sg" },
+                    jsonrpc: '2.0',
+                    id: this.getMessageId(),
+                    method: this.myMP.menuInstanceName + '.DeregisterEvent'
+
+                };
+                const myRPCJSON = JSON.stringify(myRPC);
+                this.myMP[item + 'Id'] = myRPC.id;
+                this.sendRPCRequest(myRPCJSON);
+            });
+            this.myMusicData = {};
+            this.nowPlayingData = {};
+            publishEvent('o', 'myMusicData', this.myMusicData);
+            publishEvent('o', 'nowPlayingData', this.nowPlayingData);
+            this.myMP.instanceName = '';
+            this.myMP.menuInstanceName = '';
         }
     }
 
@@ -377,6 +408,7 @@ export class MusicPlayerLib {
 
     private processPropertiesSupportedResponse(getPropertiesSupportedResponse: GetPropertiesSupportedResponse) {
         const properties = getPropertiesSupportedResponse.result.PropertiesSupported;
+        // this.nowPlayingData.PropertiesSupported = getPropertiesSupportedResponse.result.PropertiesSupported;
         console.log(properties);
         properties.forEach((item: any) => {
             if (item !== 'PropertiesSupported') { // in response geetting one of item as "PropertiesSupported", to avoid loop adding this condtion
@@ -419,7 +451,7 @@ export class MusicPlayerLib {
             this.sendRPCRequest(myRPCJSON);
         });
 
-        ['Version', 'MaxReqItems', 'Level', 'ItemCnt', 'Title', 'Subtitle', 'ListSpecificFunctions', 'IsMenuAvailable', 'StatusMsgMenu', 'Instance',].forEach((item: any) => {
+        ['Version', 'MaxReqItems', 'Level', 'ItemCnt', 'Title', 'Subtitle', 'ListSpecificFunctions', 'IsMenuAvailable', 'StatusMsgMenu', 'Instance'].forEach((item: any) => {
             const myRPC: CommonRequestPropName = {
                 params: { "propName": item },
                 jsonrpc: '2.0',
@@ -455,11 +487,11 @@ export class MusicPlayerLib {
             type: 'symbol/json-rpc',
             format: 'JSON',
             name: 'CH5_v2.15', // ToDo: This should be dynamic based on the CH5 version.
-            jsonrpc: '3.0'
+            jsonrpc: '2.0'
         };
 
         const myRPC: RegisterwithDeviceRequest = {
-            jsonrpc: '3.0',
+            jsonrpc: '2.0',
             id: this.getMessageId(),
             method: 'Crpc.Register',
             params: myRPCParams
@@ -536,7 +568,7 @@ export class MusicPlayerLib {
     private getItemData() {
 
         const myRPC: any = {
-            params: { "count": this.itemCount, "item": this.itemLevel },
+            params: { "count": this.myMusicData['ItemCnt'], "item": '1' },//"item": //this.myMusicData['Level']
             jsonrpc: '2.0',
             id: this.getMessageId(),
             method: this.myMP.menuInstanceName + '.GetData'
@@ -582,40 +614,129 @@ export class MusicPlayerLib {
         // for a specific API call we just made.
         const myMsgId = responseData.id;
         /* console.log('Message id: ' + myMsgId); */
-
-        if (myMsgId == this.myMP.RegistrationId) {
-            console.log('Successful registration.');
-            this.processRegistrationResponse(responseData);
-
-            // If we are not using a direct connection yet, go ahead and get objects.
-            if (!this.myMP.connectionIsDirect) {
-                // While objects are being returned, switch the connection to direct (if possible).
-                this.getObjects(); //2
+        const playerInstanceMethod = this.myMP?.instanceName + '.Event';
+        const menuInstanceMethod = this.myMP?.menuInstanceName + '.Event';
+        if ((playerInstanceMethod === responseData.method) && responseData.params.ev === 'BusyChanged') {
+            publishEvent('o', 'busyChanged', { 'timeoutSec': responseData.params?.parameters?.timeoutSec, 'on': responseData.params?.parameters?.on });
+        } else if (playerInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged') {
+            for (const item in responseData.params.parameters) {
+                this.nowPlayingData[item] = responseData.params?.parameters[item];
             }
-        } else if (myMsgId == this.myMP.ObjectsId) {
-            console.log('Successful get objects.');
-            this.processGetObjectsResponse(responseData);
-        } else if (myMsgId == this.myMP.PropertiesSupportedId) {
-            console.log('Successful get PropertiesSupported.');
-            this.processPropertiesSupportedResponse(responseData);
-        } else if (myMsgId == this.myMP.MenuId) {
-            console.log('Successful get Menus.');
-            this.processMenuResponse(responseData);
-        } else if (myMsgId == this.myMP.TextLinesId) {
-            console.log('Successful get TextLines->', responseData);
-        } else if (myMsgId == this.myMP.ActionsSupportedId) {
-            console.log('Successful get ActionsSupported->', responseData);
-        } else if (myMsgId == this.myMP.ActionsAvailableId) {
-            console.log('Successful get ActionsAvailable->', responseData);
-        } else if (myMsgId == this.myMP.ProgressBarId) {
-            console.log('Successful get getProgressBar->', responseData);
-        } else if (myMsgId == this.myMP.LevelId) {
-            this.itemLevel = responseData.result.Level;
-            // this.getItemData(); this api will call after getting both responses of level and item count.
-        } else if (myMsgId == this.myMP.ItemCntId) {
-            this.itemCount = responseData.result.ItemCnt;
-            this.getItemData();
+        } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged') {
+            for (const item in responseData.params.parameters) {
+                this.myMusicData[item] = responseData.params?.parameters[item];
+                this.updatedMenuData();
+            }
+        } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StatusMsgMenuChanged') {
+            publishEvent('o', 'StatusMsgMenuChanged', responseData.params?.parameters ? responseData.params.parameters : {});
+        } else if (myMsgId === this.myMP.PlayId || myMsgId === this.myMP.PauseId) {
+            this.callTrackTime();
+        } else {
+            if (myMsgId == this.myMP.RegistrationId) {
+                console.log('Successful registration.');
+                this.processRegistrationResponse(responseData);
+
+                // If we are not using a direct connection yet, go ahead and get objects.
+                if (!this.myMP.connectionIsDirect) {
+                    // While objects are being returned, switch the connection to direct (if possible).
+                    this.getObjects();
+                }
+            } else if (myMsgId == this.myMP.ObjectsId) {
+                this.processGetObjectsResponse(responseData);
+            } else if (myMsgId == this.myMP.PropertiesSupportedId) {
+                this.processPropertiesSupportedResponse(responseData);
+            } else if (myMsgId == this.myMP.MenuId) {
+                this.processMenuResponse(responseData);
+            } else if (myMsgId == this.myMP.TextLinesId) {
+                this.nowPlayingData['TextLines'] = responseData.result.TextLines;
+            } else if (myMsgId == this.myMP.ActionsSupportedId) {
+                this.nowPlayingData['ActionsSupported'] = responseData.result.ActionsSupported;
+            } else if (myMsgId == this.myMP.ActionsAvailableId) {
+                this.nowPlayingData['ActionsAvailable'] = responseData.result.ActionsAvailable;
+            } else if (myMsgId == this.myMP.RewindSpeedId) {
+                this.nowPlayingData['RewindSpeed'] = responseData.result.RewindSpeed;
+            } else if (myMsgId == this.myMP.FfwdSpeedId) {
+                this.nowPlayingData['FfwdSpeed'] = responseData.result.FfwdSpeed;
+            } else if (myMsgId == this.myMP.ProviderNameId) {
+                this.nowPlayingData['ProviderName'] = responseData.result.ProviderName;
+            } else if (myMsgId == this.myMP.PlayerStateId) {
+                this.nowPlayingData['PlayerState'] = responseData.result.PlayerState;
+            } else if (myMsgId == this.myMP.PlayerIconId) {
+                this.nowPlayingData['PlayerIcon'] = responseData.result.PlayerIcon;
+            } else if (myMsgId == this.myMP.PlayerIconURLId) {
+                this.nowPlayingData['PlayerIconURL'] = responseData.result.PlayerIconURL;
+            } else if (myMsgId == this.myMP.PlayerNameId) {
+                this.nowPlayingData['PlayerName'] = responseData.result.PlayerName;
+            } else if (myMsgId == this.myMP.StreamStateId) {
+                this.nowPlayingData['StreamState'] = responseData.result.StreamState;
+            } else if (myMsgId == this.myMP.MediaTypeId) {
+                this.nowPlayingData['MediaType'] = responseData.result.MediaType;
+            } else if (myMsgId == this.myMP.AlbumId) {
+                this.nowPlayingData['Album'] = responseData.result.Album;
+            } else if (myMsgId == this.myMP.AlbumArtId) {
+                this.nowPlayingData['AlbumArt'] = responseData.result.AlbumArt;
+            } else if (myMsgId == this.myMP.AlbumArtUrlId) {
+                this.nowPlayingData['AlbumArtUrl'] = responseData.result.AlbumArtUrl;
+            } else if (myMsgId == this.myMP.AlbumArtUrlNATId) {
+                this.nowPlayingData['AlbumArtUrlNAT'] = responseData.result.AlbumArtUrlNAT;
+            } else if (myMsgId == this.myMP.StationNameId) {
+                this.nowPlayingData['StationName'] = responseData.result.StationName;
+            } else if (myMsgId == this.myMP.GenreId) {
+                this.nowPlayingData['Genre'] = responseData.result.Genre;
+            } else if (myMsgId == this.myMP.ArtistId) {
+                this.nowPlayingData['Artist'] = responseData.result.Artist;
+            } else if (myMsgId == this.myMP.TitleId) {
+                this.nowPlayingData['Title'] = responseData.result.Title;
+            } else if (myMsgId == this.myMP.ProgressBarId) {
+                this.nowPlayingData['ProgressBar'] = responseData.result.ProgressBar;
+            } else if (myMsgId == this.myMP.TrackNumId) {
+                this.nowPlayingData['TrackNum'] = responseData.result.TrackNum;
+            } else if (myMsgId == this.myMP.TrackCntId) {
+                this.nowPlayingData['TrackCnt'] = responseData.result.TrackCnt;
+            } else if (myMsgId == this.myMP.NextTitleId) {
+                this.nowPlayingData['NextTitle'] = responseData.result.NextTitle;
+            } else if (myMsgId == this.myMP.ShuffleStateId) {
+                this.nowPlayingData['ShuffleState'] = responseData.result.ShuffleState;
+            } else if (myMsgId == this.myMP.RepeatStateId) {
+                this.nowPlayingData['RepeatState'] = responseData.result.RepeatState;
+            } else if (myMsgId == this.myMP.MediaReadyId) {
+                this.nowPlayingData['MediaReady'] = responseData.result.MediaReady;
+            } else if (myMsgId == this.myMP.BusyId) {
+                this.nowPlayingData['Busy'] = responseData.result.Busy;
+            } else if (myMsgId == this.myMP.RatingId) {
+                this.nowPlayingData['Rating'] = responseData.result.Rating;
+            } else if (myMsgId == this.myMP.SelectedId) {
+                this.nowPlayingData['SelectedId'] = responseData.result.SelectedId;
+            } else if (myMsgId == this.myMP.ElapsedSecId) {
+                this.progressBarData['ElapsedSec'] = responseData.result.ElapsedSec;
+            } else if (myMsgId == this.myMP.TrackSecId) {
+                this.progressBarData['TrackSec'] = responseData.result.TrackSec;
+            } else if (myMsgId == this.myMP.TitleMenuId) { // Menu DFata
+                this.myMusicData['Title'] = responseData.result.Title;
+            } else if (myMsgId == this.myMP.SubtitleId) {
+                this.myMusicData['Subtitle'] = responseData.result.Subtitle;
+            } else if (myMsgId == this.myMP.ListSpecificFunctionsId) {
+                this.myMusicData['ListSpecificFunctions'] = responseData.result.ListSpecificFunctions;
+            } else if (myMsgId == this.myMP.LevelId) {
+                this.myMusicData['Level'] = responseData.result.Level;
+                // this.getItemData(); this api will call after getting both responses of level and item count.
+            } else if (myMsgId == this.myMP.ItemCntId) {
+                this.myMusicData['ItemCnt'] = responseData.result.ItemCnt;
+                this.getItemData();
+            } else if (myMsgId == this.myMP.MaxReqItemsId) {
+                this.myMusicData['MaxReqItems'] = responseData.result.MaxReqItems;
+            } else if (myMsgId == this.myMP.IsMenuAvailableId) {
+                this.myMusicData['IsMenuAvailable'] = responseData.result.IsMenuAvailable;
+            } else if (myMsgId === this.myMP.ItemDataId) {
+                this.myMusicData['MenuData'] = responseData.result;
+            }
         }
+        publishEvent('o', 'nowPlayingData', this.nowPlayingData); // left section
+
+        publishEvent('o', 'myMusicData', this.myMusicData); // right section
+
+        publishEvent('o', 'progressBarData', this.progressBarData);
+
         // Check if an error was returned?
     }
 
@@ -627,6 +748,67 @@ export class MusicPlayerLib {
         console.info('Error Data:----  ', error.data);
         return;
     }
+
+    public nowPlayingvent(action: string) {
+        const myRPC: CommonEventRequest = {
+            params: null,
+            jsonrpc: '2.0',
+            id: this.getMessageId(),
+            method: this.myMP.instanceName + '.' + action
+        };
+        this.myMP[action + 'Id'] = myRPC.id;
+
+        //this.myMP.ItemDataId = myRPC.id; // Keep track of the message id.
+        this.sendRPCRequest(JSON.stringify(myRPC));
+    }
+
+
+    public myMusicEvent(action: string, itemIndex: number = 0) {
+        console.log(action);
+        const param = itemIndex == 0 ? null : { 'item': itemIndex };
+        const myRPC: CommonEventRequest = {
+            params: param,
+            jsonrpc: '2.0',
+            id: this.getMessageId(),
+            method: this.myMP.menuInstanceName + '.' + action
+        };
+        this.sendRPCRequest(JSON.stringify(myRPC));
+    }
+
+    public callTrackTime() {
+        ['ElapsedSec', 'TrackSec'].forEach((item: any) => {
+            const myRPC: CommonRequestPropName = {
+                params: { "propName": item },
+                jsonrpc: '2.0',
+                id: this.getMessageId(),
+                method: this.myMP.instanceName + '.GetProperty'
+
+            };
+            const myRPCJSON = JSON.stringify(myRPC);
+            this.myMP[item + "Id"] = myRPC.id; // Keep track of the message id.
+            //console.log(myRPCJSON);
+            this.sendRPCRequest(myRPCJSON);// Send the message.
+        });
+    };
+
+
+    public updatedMenuData() {
+        ['ListSpecificFunctions', 'StatusMsgMenu', 'Instance', 'TransactionId'].forEach((item: any) => {
+            const myRPC: CommonRequestPropName = {
+                params: { "propName": item },
+                jsonrpc: '2.0',
+                id: this.getMessageId(),
+                method: this.myMP.instanceName + '.GetProperty'
+
+            };
+            const myRPCJSON = JSON.stringify(myRPC);
+            this.myMP[item + "Id"] = myRPC.id; // Keep track of the message id.
+            //console.log(myRPCJSON);
+            this.sendRPCRequest(myRPCJSON);// Send the message.
+        });
+        this.getItemData();
+    };
+
 
 }
 

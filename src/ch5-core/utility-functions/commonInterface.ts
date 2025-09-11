@@ -53,7 +53,6 @@ export interface MyMpObject {
     RatingId: number;
     SelectedId: number;
     VersionId: number;
-    MaxReqItems: number;
     LevelId: number;
     ItemCntId: number;
     SubtitleId: number;
@@ -67,6 +66,8 @@ export interface MyMpObject {
     ListChangedId: number;
     StatusMsgMenuChangedId: number;
     ResetId: number;
+    PlayId: number;
+    PauseId: number;
 
     instanceName: string;
     menuInstanceName: string;
@@ -81,7 +82,7 @@ export interface CommonRequest {
 
 export interface CommonEventRequest {
     jsonrpc: string;
-    params: { ev: string, handle: string } | null;
+    params: { ev: string, handle: string } | { 'item': number } | null;
     method: string;
     id: number
 }
