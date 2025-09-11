@@ -151,8 +151,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this._duration.textContent = this.formatTime(this.progressBarData.TrackSec);
 			const percent = (this.progressBarData.ElapsedSec / this.progressBarData.TrackSec) * 100;
 			this._progressBarInput.style.backgroundSize = percent + "% 100%";
-			//this.renderProgressBar(this.progressBarData.ElapsedSec, this.progressBarData.TrackSec);
-
 		}));
 	}
 
@@ -170,13 +168,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingContainer.appendChild(this._transportControls);
 		this.renderNextAndPreviousSong(this.nowPlayingData.NextTitle);
 		this._nowPlayingContainer.appendChild(this._nextAndPreviousSongContainer);
-
-			//this._progressBarInput.max = this.formatTime(this.progressBarData.TrackSec);
-			this._progressBarInput.value = this.formatTime(this.nowPlayingData.ElapsedSec);
-			this._currentTime.textContent = this.formatTime(this.nowPlayingData.ElapsedSec);
-			//this._duration.textContent = this.formatTime(this.progressBarData.TrackSec);
-			const percent = (this.nowPlayingData.ElapsedSec / this.progressBarData.TrackSec) * 100;
-			this._progressBarInput.style.backgroundSize = percent + "% 100%";
 	}
 
 	public static get observedAttributes(): string[] {
