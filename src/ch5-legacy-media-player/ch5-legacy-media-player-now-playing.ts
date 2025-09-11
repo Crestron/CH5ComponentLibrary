@@ -145,7 +145,13 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		subscribeState('o', 'progressBarData', ((data: any) => {
 			this.progressBarData = data;
 			console.log('Progress bar data', this.progressBarData);
-			this.renderProgressBar(this.progressBarData.ElapsedSec, this.progressBarData.TrackSec);
+			this._progressBarInput.max = this.formatTime(this.progressBarData.TrackSec);
+			this._progressBarInput.value = this.formatTime(this.progressBarData.ElapsedSec);
+			this._currentTime.textContent = this.formatTime(this.progressBarData.ElapsedSec);
+			this._duration.textContent = this.formatTime(this.progressBarData.TrackSec);
+			const percent = (this.progressBarData.ElapsedSec / this.progressBarData.TrackSec) * 100;
+			this._progressBarInput.style.backgroundSize = percent + "% 100%";
+			//this.renderProgressBar(this.progressBarData.ElapsedSec, this.progressBarData.TrackSec);
 
 		}));
 	}
@@ -164,6 +170,13 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingContainer.appendChild(this._transportControls);
 		this.renderNextAndPreviousSong(this.nowPlayingData.NextTitle);
 		this._nowPlayingContainer.appendChild(this._nextAndPreviousSongContainer);
+
+			//this._progressBarInput.max = this.formatTime(this.progressBarData.TrackSec);
+			this._progressBarInput.value = this.formatTime(this.nowPlayingData.ElapsedSec);
+			this._currentTime.textContent = this.formatTime(this.nowPlayingData.ElapsedSec);
+			//this._duration.textContent = this.formatTime(this.progressBarData.TrackSec);
+			const percent = (this.nowPlayingData.ElapsedSec / this.progressBarData.TrackSec) * 100;
+			this._progressBarInput.style.backgroundSize = percent + "% 100%";
 	}
 
 	public static get observedAttributes(): string[] {
@@ -222,7 +235,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this.renderTrackInfo();
 		this._transportControls = document.createElement('div');
 		this._transportControls.classList.add("now-playing-controls-container");
-		this.renderProgressBar(0, 0);
+		this.renderProgressBar();
 		this.renderActionButtons(["ThumbsDown", "PreviousTrack", "Rewind", "Play", "Pause", "Ffwd", "NextTrack", "ThumbsUp"], true);
 		this.renderMoreActionButtons(["Shuffle", "Repeat", "PlayAll", "MusicNote", "UserNote"]);
 
@@ -314,11 +327,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingContainer.appendChild(this._nowPlayingTrackInfo);
 	}
 
-	protected renderProgressBar(currentTime: number, duration: number) {
-		if (this._progressBarContainer && this._progressBarContainer.parentNode) {
-			this._progressBarContainer.parentNode.removeChild(this._progressBarContainer);
-		}
-
+	protected renderProgressBar() {
 		// Progress bar section
 		this._progressBarContainer = document.createElement('div');
 		this._progressBarContainer.classList.add('now-playing-progressbar-container');
@@ -326,10 +335,10 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._progressBarInput = document.createElement('input');
 		this._progressBarInput.type = 'range';
 		this._progressBarInput.min = '0';
-		this._progressBarInput.max = duration.toString();
-		this._progressBarInput.value = currentTime.toString();
-		const percent = (currentTime / duration) * 100;
-		this._progressBarInput.style.backgroundSize = percent + "% 100%";
+		this._progressBarInput.max = this.formatTime(0);
+		this._progressBarInput.value = this.formatTime(0);
+		//const percent = (currentTime / duration) * 100;
+		this._progressBarInput.style.backgroundSize = "0% 100%";
 		this._progressBarInput.classList.add('now-playing-progressbar-input');
 		this._progressBarContainer.appendChild(this._progressBarInput);
 
@@ -339,7 +348,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		// Current time
 		this._currentTime = document.createElement('span');
 		this._currentTime.classList.add('now-playing-progressbar-current-time');
-		this._currentTime.textContent = this.formatTime(currentTime);
+		this._currentTime.textContent = "0:00";
 		progressBarCurrentTimeDurationContainer.appendChild(this._currentTime);
 		// Player State
 		this._playerState = document.createElement('span');
@@ -349,15 +358,15 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		// Duration
 		this._duration = document.createElement('span');
 		this._duration.classList.add('now-playing-progressbar-duration');
-		this._duration.textContent = this.formatTime(duration);
+		this._duration.textContent = "0:00";
 		progressBarCurrentTimeDurationContainer.appendChild(this._duration);
 		this._progressBarContainer.appendChild(progressBarCurrentTimeDurationContainer);
 
 		//Seek
 		this._progressBarInput.addEventListener("input", () => {
-			this._progressBarInput.style.backgroundSize = percent + "% 100%";
+			this._progressBarInput.style.backgroundSize = "0% 100%";
 			this._currentTime.textContent = this.formatTime(parseInt(this._progressBarInput.value));
-			this._duration.textContent = this.formatTime(duration)
+			this._duration.textContent = this._progressBarInput.max;
 		});
 
 		// Append the progress bar container to the main container
@@ -390,10 +399,16 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 					const button = new Ch5LegacyMediaPlayerIconButton();
 					button.setAttribute('iconClass', actionIconMap[action].class);
 					if (action === "Play") {
-						button.onclick = this.onPlay;
+						button.onclick =()=> { 
+							this.onPlay;
+							console.log(action);
+						}; 
 					}
 					else {
-						button.onclick = this.onPause;
+						button.onclick =()=> { 
+							this.onPause;
+							console.log(action);
+						}; 
 					}
 					button.style.display = availableActions.includes(action) ? '' : 'none';  //to hide based on api response
 					if (isShowCase && action === "Pause") button.style.display = 'none'; //for pause to hide in showcase
