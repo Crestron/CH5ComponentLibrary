@@ -35,6 +35,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	private _progressBarContainer: HTMLDivElement = {} as HTMLDivElement;
 	private _progressBarInput: HTMLInputElement = {} as HTMLInputElement;
 	private _currentTime: HTMLSpanElement = {} as HTMLSpanElement;
+	private _playerState: HTMLSpanElement = {} as HTMLSpanElement;
 	private _duration: HTMLSpanElement = {} as HTMLSpanElement;
 	private _actionButtonsContainer: HTMLDivElement = {} as HTMLDivElement;
 	private _moreActionButtonsContainer: HTMLDivElement = {} as HTMLDivElement;
@@ -325,9 +326,11 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			// Progress bar input
 			this._progressBarInput = document.createElement('input');
 			this._progressBarInput.type = 'range';
-			this._progressBarInput.min = this.formatTime(0).toString();
-			this._progressBarInput.max = this.formatTime(duration).toString();
-			this._progressBarInput.value = this.formatTime(currentTime).toString();
+			this._progressBarInput.min = '0';
+			this._progressBarInput.max = duration.toString();
+			this._progressBarInput.value = currentTime.toString();
+			const percent = (currentTime / duration)*100;
+			this._progressBarInput.style.backgroundSize = percent + "% 100%";
 			this._progressBarInput.classList.add('now-playing-progressbar-input');
 			this._progressBarContainer.appendChild(this._progressBarInput);
 
@@ -339,20 +342,25 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this._currentTime.classList.add('now-playing-progressbar-current-time');
 			this._currentTime.textContent = this.formatTime(currentTime);
 			progressBarCurrentTimeDurationContainer.appendChild(this._currentTime);
+			// Player State
+			this._playerState = document.createElement('span');
+			this._playerState.classList.add('now-playing-progressbar-player-state');
+			this._playerState.textContent = 'playerState';
+			progressBarCurrentTimeDurationContainer.appendChild(this._playerState);
 			// Duration
 			this._duration = document.createElement('span');
 			this._duration.classList.add('now-playing-progressbar-duration');
 			this._duration.textContent = this.formatTime(duration);
 			progressBarCurrentTimeDurationContainer.appendChild(this._duration);
 			this._progressBarContainer.appendChild(progressBarCurrentTimeDurationContainer);
-
+			
 			//Seek
 			this._progressBarInput.addEventListener("input", () => {
 				this._progressBarInput.style.backgroundSize = this._progressBarInput.value + "% 100%";
 				this._currentTime.textContent = this.formatTime(parseInt(this._progressBarInput.value));
 				this._duration.textContent = this.formatTime(duration)
 			});
-
+			
 			// Append the progress bar container to the main container
 			this._transportControls.appendChild(this._progressBarContainer);
 		}
