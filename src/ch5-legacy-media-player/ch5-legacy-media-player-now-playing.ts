@@ -145,6 +145,8 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		subscribeState('o', 'progressBarData', ((data: any) => {
 			this.progressBarData = data;
 			console.log('Progress bar data', this.progressBarData);
+			this.renderProgressBar(this.progressBarData.ElapsedSec, this.progressBarData.TrackSec);
+
 		}));
 	}
 
@@ -157,7 +159,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingSongAdditionalInfo.textContent = `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}`;
 		this._nowPlayingPlayerImage.src = this.nowPlayingData.PlayerIconURL;
 		this._nowPlayingPlayerIconName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
-		this.renderProgressBar(this.nowPlayingData.ProgressBar, this.nowPlayingData.ElapsedSec, this.nowPlayingData.TrackSec);
 		this.renderActionButtons(this.nowPlayingData.ActionsAvailable);
 		this.renderMoreActionButtons(this.nowPlayingData.ActionsAvailable);
 		this._nowPlayingContainer.appendChild(this._transportControls);
@@ -221,10 +222,10 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this.renderTrackInfo();
 		this._transportControls = document.createElement('div');
 		this._transportControls.classList.add("now-playing-controls-container");
-		this.renderProgressBar(true, 0, 0);
+		this.renderProgressBar(0, 0);
 		this.renderActionButtons(["ThumbsDown", "PreviousTrack", "Rewind", "Play", "Pause", "Ffwd", "NextTrack", "ThumbsUp"], true);
 		this.renderMoreActionButtons(["Shuffle", "Repeat", "PlayAll", "MusicNote", "UserNote"]);
-		
+
 		this._nowPlayingContainer.appendChild(this._transportControls);
 		this.renderNextAndPreviousSong("Next Song Name here");
 		this._nowPlayingContainer.appendChild(this._nextAndPreviousSongContainer);
@@ -313,55 +314,55 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingContainer.appendChild(this._nowPlayingTrackInfo);
 	}
 
-	protected renderProgressBar(isProgressAvailable: boolean, currentTime: number, duration: number) {
+	protected renderProgressBar(currentTime: number, duration: number) {
 		if (this._progressBarContainer && this._progressBarContainer.parentNode) {
 			this._progressBarContainer.parentNode.removeChild(this._progressBarContainer);
 		}
-		if (isProgressAvailable) {
-			// Progress bar section
-			this._progressBarContainer = document.createElement('div');
-			this._progressBarContainer.classList.add('now-playing-progressbar-container');
-			// Progress bar input
-			this._progressBarInput = document.createElement('input');
-			this._progressBarInput.type = 'range';
-			this._progressBarInput.min = '0';
-			this._progressBarInput.max = duration.toString();
-			this._progressBarInput.value = currentTime.toString();
-			const percent = (currentTime / duration)*100;
-			this._progressBarInput.style.backgroundSize = percent + "% 100%";
-			this._progressBarInput.classList.add('now-playing-progressbar-input');
-			this._progressBarContainer.appendChild(this._progressBarInput);
 
-			// Current time and duration container
-			const progressBarCurrentTimeDurationContainer = document.createElement('div');
-			progressBarCurrentTimeDurationContainer.classList.add('now-playing-progressbar-current-time-duration-container');
-			// Current time
-			this._currentTime = document.createElement('span');
-			this._currentTime.classList.add('now-playing-progressbar-current-time');
-			this._currentTime.textContent = this.formatTime(currentTime);
-			progressBarCurrentTimeDurationContainer.appendChild(this._currentTime);
-			// Player State
-			this._playerState = document.createElement('span');
-			this._playerState.classList.add('now-playing-progressbar-player-state');
-			this._playerState.textContent = 'playerState';
-			progressBarCurrentTimeDurationContainer.appendChild(this._playerState);
-			// Duration
-			this._duration = document.createElement('span');
-			this._duration.classList.add('now-playing-progressbar-duration');
-			this._duration.textContent = this.formatTime(duration);
-			progressBarCurrentTimeDurationContainer.appendChild(this._duration);
-			this._progressBarContainer.appendChild(progressBarCurrentTimeDurationContainer);
-			
-			//Seek
-			this._progressBarInput.addEventListener("input", () => {
-				this._progressBarInput.style.backgroundSize = percent + "% 100%";
-				this._currentTime.textContent = this.formatTime(parseInt(this._progressBarInput.value));
-				this._duration.textContent = this.formatTime(duration)
-			});
-			
-			// Append the progress bar container to the main container
-			this._transportControls.appendChild(this._progressBarContainer);
-		}
+		// Progress bar section
+		this._progressBarContainer = document.createElement('div');
+		this._progressBarContainer.classList.add('now-playing-progressbar-container');
+		// Progress bar input
+		this._progressBarInput = document.createElement('input');
+		this._progressBarInput.type = 'range';
+		this._progressBarInput.min = '0';
+		this._progressBarInput.max = duration.toString();
+		this._progressBarInput.value = currentTime.toString();
+		const percent = (currentTime / duration) * 100;
+		this._progressBarInput.style.backgroundSize = percent + "% 100%";
+		this._progressBarInput.classList.add('now-playing-progressbar-input');
+		this._progressBarContainer.appendChild(this._progressBarInput);
+
+		// Current time and duration container
+		const progressBarCurrentTimeDurationContainer = document.createElement('div');
+		progressBarCurrentTimeDurationContainer.classList.add('now-playing-progressbar-current-time-duration-container');
+		// Current time
+		this._currentTime = document.createElement('span');
+		this._currentTime.classList.add('now-playing-progressbar-current-time');
+		this._currentTime.textContent = this.formatTime(currentTime);
+		progressBarCurrentTimeDurationContainer.appendChild(this._currentTime);
+		// Player State
+		this._playerState = document.createElement('span');
+		this._playerState.classList.add('now-playing-progressbar-player-state');
+		this._playerState.textContent = 'playerState';
+		progressBarCurrentTimeDurationContainer.appendChild(this._playerState);
+		// Duration
+		this._duration = document.createElement('span');
+		this._duration.classList.add('now-playing-progressbar-duration');
+		this._duration.textContent = this.formatTime(duration);
+		progressBarCurrentTimeDurationContainer.appendChild(this._duration);
+		this._progressBarContainer.appendChild(progressBarCurrentTimeDurationContainer);
+
+		//Seek
+		this._progressBarInput.addEventListener("input", () => {
+			this._progressBarInput.style.backgroundSize = percent + "% 100%";
+			this._currentTime.textContent = this.formatTime(parseInt(this._progressBarInput.value));
+			this._duration.textContent = this.formatTime(duration)
+		});
+
+		// Append the progress bar container to the main container
+		this._transportControls.appendChild(this._progressBarContainer);
+
 	}
 
 	protected renderActionButtons(availableActions: string[], isShowCase: boolean = false) {
@@ -371,15 +372,15 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._actionButtonsContainer = document.createElement('div');
 		this._actionButtonsContainer.classList.add('now-playing-action-buttons-container');
 
-		const actionIconMap: { [key: string]: { class: string, style?: string, clickAction: () => void } } = {
-			"ThumbsDown": { class: 'mp-icon mp-thumbs-down', clickAction: this.onThumbsDown },
-			"PreviousTrack": { class: 'mp-icon mp-skip-back', clickAction: this.onSkipBack },
-			"Rewind": { class: 'mp-icon mp-fast-backward', clickAction: this.onFastBackward },
-			"Play": { class: 'mp-icon mp-play', clickAction: this.onPlay },
-			"Pause": { class: 'mp-icon mp-pause', style: 'display:none;', clickAction: this.onPause },
-			"Ffwd": { class: 'mp-icon mp-fast-forward', clickAction: this.onFastForward },
-			"NextTrack": { class: 'mp-icon mp-skip-forward', clickAction: this.onSkipForward },
-			"ThumbsUp": { class: 'mp-icon mp-thumbs-up', clickAction: this.onThumbsUp }
+		const actionIconMap: { [key: string]: { class: string, style?: string } } = {
+			"ThumbsDown": { class: 'mp-icon mp-thumbs-down' },
+			"PreviousTrack": { class: 'mp-icon mp-skip-back' },
+			"Rewind": { class: 'mp-icon mp-fast-backward' },
+			"Play": { class: 'mp-icon mp-play' },
+			"Pause": { class: 'mp-icon mp-pause', style: 'display:none;' },
+			"Ffwd": { class: 'mp-icon mp-fast-forward' },
+			"NextTrack": { class: 'mp-icon mp-skip-forward' },
+			"ThumbsUp": { class: 'mp-icon mp-thumbs-up' }
 		};
 
 		if (Array.isArray(availableActions)) {
@@ -388,7 +389,12 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 				if (action === "Play" || action === "Pause") {
 					const button = new Ch5LegacyMediaPlayerIconButton();
 					button.setAttribute('iconClass', actionIconMap[action].class);
-					button.onclick = actionIconMap[action].clickAction;
+					if (action === "Play") {
+						button.onclick = this.onPlay;
+					}
+					else {
+						button.onclick = this.onPause;
+					}
 					button.style.display = availableActions.includes(action) ? '' : 'none';  //to hide based on api response
 					if (isShowCase && action === "Pause") button.style.display = 'none'; //for pause to hide in showcase
 					this._actionButtonsContainer.appendChild(button);
@@ -396,12 +402,12 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 					// Render other actions only if present
 					const button = new Ch5LegacyMediaPlayerIconButton();
 					button.setAttribute('iconClass', actionIconMap[action].class);
-					button.onclick = actionIconMap[action].clickAction;
+					button.onclick = () => { console.log(action) };
 					this._actionButtonsContainer.appendChild(button);
 				} else {
 					const button = new Ch5LegacyMediaPlayerIconButton();
 					button.setAttribute('iconClass', actionIconMap[action].class);
-					button.onclick = actionIconMap[action].clickAction;
+					button.onclick = () => { console.log(action) };
 					button.style.visibility = "hidden";
 					this._actionButtonsContainer.appendChild(button);
 				}
@@ -410,63 +416,20 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._transportControls.appendChild(this._actionButtonsContainer);
 	}
 
-	private onThumbsDown = () => {
-		console.log("Thumbs Down Click");
-
-		const iconDislikeButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-thumbs-down"]')!;
-		if (iconDislikeButton.classList.contains('active')) {
-			iconDislikeButton.classList.remove('active');
-		} else {
-			iconDislikeButton.classList.add('active');
-		}
-		const iconLikeButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-thumbs-up"]')!;
-		iconLikeButton.classList.remove('active');
-	}
-
-	private onThumbsUp = () => {
-		console.log("Thumbs Up Click");
-		const iconLikeButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-thumbs-up"]')!;
-		if (iconLikeButton.classList.contains('active')) {
-			iconLikeButton.classList.remove('active');
-		} else {
-			iconLikeButton.classList.add('active');
-		}
-		const icondislikeButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-thumbs-down"]')!;
-		icondislikeButton.classList.remove('active');
-	}
-
-	private onSkipBack = () => {
-		console.log("Skip Back Click");
-	}
-
-	private onSkipForward = () => {
-		console.log("Skip Forward Click");
-	}
-
-	private onFastBackward = () => {
-		console.log("Fast Backward Click");
-	}
-
-	private onFastForward = () => {
-		console.log("Fast Forward Click");
-	}
-
 	private onPlay = () => {
-		console.log("Play Click");
 		this.musicPlayerLibInstance.nowPlayingvent('play');
-		const iconPlayButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-play"]')!;
-		iconPlayButton.style.display = 'none';
-		const iconPauseButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-pause"]')!;
-		iconPauseButton.style.display = 'flex';
+		// const iconPlayButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-play"]')!;
+		// iconPlayButton.style.display = 'none';
+		// const iconPauseButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-pause"]')!;
+		// iconPauseButton.style.display = 'flex';
 	}
 
 	private onPause = () => {
-		console.log("Pause Click");
 		this.musicPlayerLibInstance.nowPlayingvent('pause');
-		const iconPlayButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-play"]')!;
-		iconPlayButton.style.display = 'flex';
-		const iconPauseButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-pause"]')!;
-		iconPauseButton.style.display = 'none';
+		// const iconPlayButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-play"]')!;
+		// iconPlayButton.style.display = 'flex';
+		// const iconPauseButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-pause"]')!;
+		// iconPauseButton.style.display = 'none';
 	}
 
 	protected renderMoreActionButtons(availableActions: string[]) {
@@ -477,12 +440,12 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._moreActionButtonsContainer.classList.add('now-playing-more-action-buttons-container');
 
 		this._moreActionButtonsContainer.innerHTML = "";
-		const moreActionIconMap: { [key: string]: { class: string, style?: string, clickAction: () => void } } = {
-			"Shuffle": { class: 'mp-icon mp-shuffle', clickAction: this.onShuffle },
-			"Repeat": { class: 'mp-icon mp-repeat', clickAction: this.onRepeat },
-			"PlayAll": { class: 'mp-icon mp-play-multi-square', clickAction: this.onPlayMultiSquare },
-			"MusicNote": { class: 'mp-icon mp-music-note-plus', clickAction: this.onMusicNotePlus },
-			"UserNote": { class: 'mp-icon mp-image-user-plus', clickAction: this.onUserPlus },
+		const moreActionIconMap: { [key: string]: { class: string, style?: string } } = {
+			"Shuffle": { class: 'mp-icon mp-shuffle' },
+			"Repeat": { class: 'mp-icon mp-repeat' },
+			"PlayAll": { class: 'mp-icon mp-play-multi-square' },
+			"MusicNote": { class: 'mp-icon mp-music-note-plus' },
+			"UserNote": { class: 'mp-icon mp-image-user-plus' },
 		};
 
 		if (Array.isArray(availableActions)) {
@@ -490,32 +453,12 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 				if (availableActions.includes(action)) {
 					const button = new Ch5LegacyMediaPlayerIconButton();
 					button.setAttribute('iconClass', moreActionIconMap[action].class);
-					button.onclick = moreActionIconMap[action].clickAction;
+					button.onclick = () => { console.log(action) };
 					this._moreActionButtonsContainer.appendChild(button);
 				}
 			});
 		}
 		this._transportControls.appendChild(this._moreActionButtonsContainer);
-	}
-
-	private onShuffle = () => {
-		console.log("Shuffle Click");
-	}
-
-	private onRepeat = () => {
-		console.log("Repeat Click");
-	}
-
-	private onPlayMultiSquare = () => {
-		console.log("Play Multi Square Click");
-	}
-
-	private onMusicNotePlus = () => {
-		console.log("Music Note Plus Click");
-	}
-
-	private onUserPlus = () => {
-		console.log("User Plus Click");
 	}
 
 	protected renderNextAndPreviousSong(nextSong: string) {
