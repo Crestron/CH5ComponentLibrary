@@ -362,7 +362,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			
 			//Seek
 			this._progressBarInput.addEventListener("input", () => {
-				this._progressBarInput.style.backgroundSize = this._progressBarInput.value + "% 100%";
+				this._progressBarInput.style.backgroundSize = percent + "% 100%";
 				this._currentTime.textContent = this.formatTime(parseInt(this._progressBarInput.value));
 				this._duration.textContent = this.formatTime(duration)
 			});
