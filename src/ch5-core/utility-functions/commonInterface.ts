@@ -82,7 +82,7 @@ export interface CommonRequest {
 
 export interface CommonEventRequest {
     jsonrpc: string;
-    params: { ev: string, handle: string } | null;
+    params: { ev: string, handle: string } | { 'item': number } | null;
     method: string;
     id: number
 }
