@@ -168,6 +168,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingContainer.appendChild(this._transportControls);
 		this.renderNextAndPreviousSong(this.nowPlayingData.NextTitle);
 		this._nowPlayingContainer.appendChild(this._nextAndPreviousSongContainer);
+		this._playerState.textContent = this.nowPlayingData.PlayerState;
 	}
 
 	public static get observedAttributes(): string[] {
@@ -390,30 +391,37 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 					const button = new Ch5LegacyMediaPlayerIconButton();
 					button.setAttribute('iconClass', actionIconMap[action].class);
 					if (action === "Play") {
-						button.onclick =()=> { 
-							this.onPlay;
+						button.onclick = () => {
 							console.log(action);
-						}; 
+							this.musicPlayerLibInstance.nowPlayingvent(action);
+						};
 					}
 					else {
-						button.onclick =()=> { 
-							this.onPause;
+						button.onclick = () => {
 							console.log(action);
-						}; 
+							this.musicPlayerLibInstance.nowPlayingvent(action);
+						};
 					}
 					button.style.display = availableActions.includes(action) ? '' : 'none';  //to hide based on api response
 					if (isShowCase && action === "Pause") button.style.display = 'none'; //for pause to hide in showcase
 					this._actionButtonsContainer.appendChild(button);
+
 				} else if (availableActions.includes(action)) {
 					// Render other actions only if present
 					const button = new Ch5LegacyMediaPlayerIconButton();
 					button.setAttribute('iconClass', actionIconMap[action].class);
-					button.onclick = () => { console.log(action) };
+					button.onclick = () => {
+						console.log(action)
+						this.musicPlayerLibInstance.nowPlayingvent(action);
+					};
 					this._actionButtonsContainer.appendChild(button);
 				} else {
 					const button = new Ch5LegacyMediaPlayerIconButton();
 					button.setAttribute('iconClass', actionIconMap[action].class);
-					button.onclick = () => { console.log(action) };
+					button.onclick = () => {
+						console.log(action)
+						this.musicPlayerLibInstance.nowPlayingvent(action);
+					};
 					button.style.visibility = "hidden";
 					this._actionButtonsContainer.appendChild(button);
 				}
@@ -422,8 +430,8 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._transportControls.appendChild(this._actionButtonsContainer);
 	}
 
-	private onPlay = () => {
-		this.musicPlayerLibInstance.nowPlayingvent('play');
+	/* private onPlay = () => {
+		//	this.musicPlayerLibInstance.nowPlayingvent('play');
 		// const iconPlayButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-play"]')!;
 		// iconPlayButton.style.display = 'none';
 		// const iconPauseButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-pause"]')!;
@@ -431,12 +439,12 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	}
 
 	private onPause = () => {
-		this.musicPlayerLibInstance.nowPlayingvent('pause');
+		//this.musicPlayerLibInstance.nowPlayingvent('pause');
 		// const iconPlayButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-play"]')!;
 		// iconPlayButton.style.display = 'flex';
 		// const iconPauseButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-pause"]')!;
 		// iconPauseButton.style.display = 'none';
-	}
+	} */
 
 	protected renderMoreActionButtons(availableActions: string[]) {
 		if (this._moreActionButtonsContainer && this._moreActionButtonsContainer.parentNode) {

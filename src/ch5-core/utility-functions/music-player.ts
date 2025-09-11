@@ -750,20 +750,14 @@ export class MusicPlayerLib {
     }
 
     public nowPlayingvent(action: string) {
-        console.log(action);
         const myRPC: CommonEventRequest = {
             params: null,
             jsonrpc: '2.0',
             id: this.getMessageId(),
-            method: ''
+            method: this.myMP.instanceName + '.' + action
         };
-        if (action === 'play') {
-            myRPC.method = this.myMP.instanceName + '.Play'
-            this.myMP.PlayId = myRPC.id;
-        } else if (action === 'pause') {
-            myRPC.method = this.myMP.instanceName + '.Pause'
-            this.myMP.PauseId = myRPC.id;
-        }
+        this.myMP[action + 'Id'] = myRPC.id;
+
         //this.myMP.ItemDataId = myRPC.id; // Keep track of the message id.
         this.sendRPCRequest(JSON.stringify(myRPC));
     }
