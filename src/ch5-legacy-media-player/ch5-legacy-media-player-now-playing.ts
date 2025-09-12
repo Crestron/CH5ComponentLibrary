@@ -155,7 +155,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this._progressBarContainer.style.display = "none";
 		}
 		else {
-			this._progressBarContainer.style.display = "flex";
+		this._progressBarContainer.style.display = "flex";
 			this._progressBarInput.max = this.progressBarData?.TrackSec?.toString();
 			this._currentTime.textContent = this.formatTime(this.progressBarData.ElapsedSec);
 			this._duration.textContent = this.formatTime(this.progressBarData.TrackSec - this.progressBarData.ElapsedSec);
@@ -171,10 +171,10 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingSongTitle.textContent = this.nowPlayingData.Title;
 		this._nowPlayingArtist.textContent = this.nowPlayingData.Artist;
 		this._nowPlayingAlbum.textContent = this.nowPlayingData.Album;
-		if (!this.nowPlayingData.Album || !this.nowPlayingData.Artist) {
-			this._longDash.textContent = "";
+		if (!this.nowPlayingData.Album?.trim() || !this.nowPlayingData.Artist?.trim()) {
+			this._longDash.style.display = "none";
 		} else {
-			this._longDash.textContent = ' — ';
+			this._longDash.style.display = '';
 		}
 		this._nowPlayingSongAdditionalInfo.textContent = this.nowPlayingData.TrackCnt > 0 ? `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}` : '';
 		this._nowPlayingPlayerImage.src = this.nowPlayingData.PlayerIconURL;
@@ -245,7 +245,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._transportControls.classList.add("now-playing-controls-container");
 		this.renderProgressBar();
 		this.renderActionButtons(["ThumbsDown", "PreviousTrack", "Rewind", "Play", "Pause", "Ffwd", "NextTrack", "ThumbsUp"], true);
-		this.renderMoreActionButtons(["Shuffle", "Repeat", "PlayAll", "MusicNote", "UserNote"]);
+		this.renderMoreActionButtons(["Loop", "Shuffle", "Repeat", "PlayAll", "MusicNote", "UserNote", "Random"]);
 
 		this._nowPlayingContainer.appendChild(this._transportControls);
 		this.renderNextAndPreviousSong("Next Song Name here");
@@ -487,6 +487,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	protected renderNextAndPreviousSong(nextSong: string) {
 		if (this._nextAndPreviousSongContainer && this._nextAndPreviousSongContainer.parentNode) {
 			this._nextAndPreviousSongContainer.parentNode.removeChild(this._nextAndPreviousSongContainer);
+			this._nextAndPreviousSongContainer.innerHTML = "";
 		}
 		if (nextSong) {
 			this._nextAndPreviousSongContainer = document.createElement('div');
