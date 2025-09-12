@@ -255,6 +255,7 @@ export class MusicPlayerLib {
             });
             this.myMusicData = {};
             this.nowPlayingData = {};
+            this.progressBarData = {};
             publishEvent('o', 'myMusicData', this.myMusicData);
             publishEvent('o', 'nowPlayingData', this.nowPlayingData);
             this.myMP.instanceName = '';
@@ -688,7 +689,7 @@ export class MusicPlayerLib {
             } else if (myMsgId == this.myMP.TitleId) {
                 this.nowPlayingData['Title'] = responseData.result.Title;
             } else if (myMsgId == this.myMP.ProgressBarId) {
-                this.nowPlayingData['ProgressBar'] = responseData.result.ProgressBar;
+                this.progressBarData['ProgressBar'] = responseData.result.ProgressBar;
             } else if (myMsgId == this.myMP.TrackNumId) {
                 this.nowPlayingData['TrackNum'] = responseData.result.TrackNum;
             } else if (myMsgId == this.myMP.TrackCntId) {
