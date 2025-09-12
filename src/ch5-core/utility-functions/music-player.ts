@@ -617,8 +617,10 @@ export class MusicPlayerLib {
         /* console.log('Message id: ' + myMsgId); */
         const playerInstanceMethod = this.myMP?.instanceName + '.Event';
         const menuInstanceMethod = this.myMP?.menuInstanceName + '.Event';
-        if ((playerInstanceMethod === responseData.method) && responseData.params.ev === 'BusyChanged') {
-            publishEvent('o', 'busyChanged', { 'timeoutSec': responseData.params?.parameters?.timeoutSec, 'on': responseData.params?.parameters?.on });
+        if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method) && responseData.params.ev === 'BusyChanged') {
+            if (responseData.params?.parameters) {
+                publishEvent('o', 'busyChanged', { 'timeoutSec': responseData.params?.parameters?.timeoutSec, 'on': responseData.params?.parameters?.on });
+            }
         } else if (playerInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged') {
             for (const item in responseData.params.parameters) {
                 if (item === 'ElapsedSec') {
