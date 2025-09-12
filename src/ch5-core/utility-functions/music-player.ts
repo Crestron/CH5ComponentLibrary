@@ -621,7 +621,11 @@ export class MusicPlayerLib {
             publishEvent('o', 'busyChanged', { 'timeoutSec': responseData.params?.parameters?.timeoutSec, 'on': responseData.params?.parameters?.on });
         } else if (playerInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged') {
             for (const item in responseData.params.parameters) {
-                this.nowPlayingData[item] = responseData.params?.parameters[item];
+                if (item === 'ElapsedSec') {
+                    this.progressBarData[item] = responseData.params?.parameters[item];
+                } else {
+                    this.nowPlayingData[item] = responseData.params?.parameters[item];
+                }
             }
         } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged') {
             for (const item in responseData.params.parameters) {
