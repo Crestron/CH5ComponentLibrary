@@ -160,7 +160,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingSongTitle.textContent = this.nowPlayingData.Title;
 		this._nowPlayingArtist.textContent = this.nowPlayingData.Artist;
 		this._nowPlayingAlbum.textContent = this.nowPlayingData.Album;
-		this._nowPlayingSongAdditionalInfo.textContent = `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}`;
+		this._nowPlayingSongAdditionalInfo.textContent = this.nowPlayingData.TrackCnt > 0 ? `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}` : '';
 		this._nowPlayingPlayerImage.src = this.nowPlayingData.PlayerIconURL;
 		this._nowPlayingPlayerIconName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
 		this.renderActionButtons(this.nowPlayingData.ActionsAvailable);
@@ -430,22 +430,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._transportControls.appendChild(this._actionButtonsContainer);
 	}
 
-	/* private onPlay = () => {
-		//	this.musicPlayerLibInstance.nowPlayingvent('play');
-		// const iconPlayButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-play"]')!;
-		// iconPlayButton.style.display = 'none';
-		// const iconPauseButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-pause"]')!;
-		// iconPauseButton.style.display = 'flex';
-	}
-
-	private onPause = () => {
-		//this.musicPlayerLibInstance.nowPlayingvent('pause');
-		// const iconPlayButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-play"]')!;
-		// iconPlayButton.style.display = 'flex';
-		// const iconPauseButton: Ch5LegacyMediaPlayerIconButton = this._actionButtonsContainer.querySelector('.ch5-legacy-media-player-individual-icon-button-container[iconClass="mp-icon mp-pause"]')!;
-		// iconPauseButton.style.display = 'none';
-	} */
-
 	protected renderMoreActionButtons(availableActions: string[]) {
 		if (this._moreActionButtonsContainer && this._moreActionButtonsContainer.parentNode) {
 			this._moreActionButtonsContainer.parentNode.removeChild(this._moreActionButtonsContainer);
@@ -455,11 +439,13 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 		this._moreActionButtonsContainer.innerHTML = "";
 		const moreActionIconMap: { [key: string]: { class: string, style?: string } } = {
+			"Loop": { class: 'mp-icon mp-loop' },
 			"Shuffle": { class: 'mp-icon mp-shuffle' },
 			"Repeat": { class: 'mp-icon mp-repeat' },
 			"PlayAll": { class: 'mp-icon mp-play-multi-square' },
 			"MusicNote": { class: 'mp-icon mp-music-note-plus' },
 			"UserNote": { class: 'mp-icon mp-image-user-plus' },
+			"Random": { class: 'mp-icon mp-random' },
 		};
 
 		if (Array.isArray(availableActions)) {
@@ -468,6 +454,12 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 					const button = new Ch5LegacyMediaPlayerIconButton();
 					button.setAttribute('iconClass', moreActionIconMap[action].class);
 					button.onclick = () => { console.log(action) };
+					this._moreActionButtonsContainer.appendChild(button);
+				} else {
+					const button = new Ch5LegacyMediaPlayerIconButton();
+					button.setAttribute('iconClass', moreActionIconMap[action].class);
+					button.onclick = () => { console.log(action) };
+					button.style.visibility = "hidden";
 					this._moreActionButtonsContainer.appendChild(button);
 				}
 			});
