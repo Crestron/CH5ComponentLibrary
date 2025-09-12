@@ -614,12 +614,14 @@ export class MusicPlayerLib {
         // This can be used to determine if a valid response was received
         // for a specific API call we just made.
         const myMsgId = responseData.id;
+        let busyChanged: any = {};
         /* console.log('Message id: ' + myMsgId); */
         const playerInstanceMethod = this.myMP?.instanceName + '.Event';
         const menuInstanceMethod = this.myMP?.menuInstanceName + '.Event';
         if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method) && responseData.params.ev === 'BusyChanged') {
             if (responseData.params?.parameters) {
-                publishEvent('o', 'busyChanged', { 'timeoutSec': responseData.params?.parameters?.timeoutSec, 'on': responseData.params?.parameters?.on });
+                busyChanged = { 'timeoutSec': responseData.params?.parameters?.timeoutSec, 'on': responseData.params?.parameters?.on }
+                publishEvent('o', 'busyChanged', busyChanged);
             }
         } else if (playerInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged') {
             for (const item in responseData.params.parameters) {
@@ -738,11 +740,11 @@ export class MusicPlayerLib {
                 this.myMusicData['MenuData'] = responseData.result;
             }
         }
-        publishEvent('o', 'nowPlayingData', this.nowPlayingData); // left section
-
-        publishEvent('o', 'myMusicData', this.myMusicData); // right section
-
-        publishEvent('o', 'progressBarData', this.progressBarData);
+        if (!(busyChanged && busyChanged['on'] === true)) {
+            publishEvent('o', 'nowPlayingData', this.nowPlayingData); // left section
+            publishEvent('o', 'myMusicData', this.myMusicData); // right section
+            publishEvent('o', 'progressBarData', this.progressBarData);
+        }
 
         // Check if an error was returned?
     }

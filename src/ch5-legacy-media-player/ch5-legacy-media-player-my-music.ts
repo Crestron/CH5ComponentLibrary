@@ -192,6 +192,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
       this._myMusicHeaderBackButton.classList.add('my-music-header-back-button');
       this._myMusicHeaderBackButton.onclick = () => {
         console.log("My Music Back Button clicked")
+        this.musicPlayerLibInstance.myMusicEvent('Back');
       }
       this._myMusicHeaderSection.prepend(this._myMusicHeaderBackButton);
     }
