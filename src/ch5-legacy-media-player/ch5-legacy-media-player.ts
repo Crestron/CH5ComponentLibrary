@@ -377,9 +377,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     customElements.whenDefined('ch5-legacy-media-player').then(() => {
       this.componentLoadedEvent(Ch5LegacyMediaPlayer.ELEMENT_NAME, this.id);
     });
-    setTimeout(() => {
-      this.stopMPLoading();
-    }, 2000);
+    // setTimeout(() => {   //to show loader in showcase
+    //   this.stopMPLoading();
+    // }, 2000);
     this.logger.stop();
   }
 
@@ -407,6 +407,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   private startMPLoading() {
+    if (this._loadingIndicator && this._loadingIndicator.parentNode) {
+			this._loadingIndicator.parentNode.removeChild(this._loadingIndicator);
+		}
     this._loadingIndicator = document.createElement('div');
     this._loadingIndicator.classList.add('mp-loading-indicator');
 
@@ -423,7 +426,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   private stopMPLoading() {
-    this._loadingIndicator.remove();
+    if (this._loadingIndicator && this._loadingIndicator.parentNode) {
+			this._loadingIndicator.parentNode.removeChild(this._loadingIndicator);
+		}
   }
 
   //Generic Dialog

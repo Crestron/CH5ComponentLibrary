@@ -51,6 +51,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	private _nowPlayingPlayerImage: HTMLImageElement = {} as HTMLImageElement;
 
 	private _nowPlayingPlayerIconClass = TCh5LegacyMediaPlayerSourcePlayerIcons;
+	private _longDash: HTMLElement = {} as HTMLElement;
 
 	private readonly DEMO_MODE_DATA = {
 		nowPlaying: {
@@ -144,12 +145,18 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 		subscribeState('o', 'progressBarData', ((data: any) => {
 			this.progressBarData = data;
+			if(!this.progressBarData.ProgressBar) {
+				this._progressBarContainer.style.display="none";
+			}
+            else {
+				this._progressBarContainer.style.display="flex";
+			}
 			console.log('Progress bar data', this.progressBarData);
-			this._progressBarInput.max = this.formatTime(this.progressBarData.TrackSec);
-			this._progressBarInput.value = this.formatTime(this.progressBarData.ElapsedSec);
+			this._progressBarInput.max = this.progressBarData?.TrackSec?.toString();
 			this._currentTime.textContent = this.formatTime(this.progressBarData.ElapsedSec);
-			this._duration.textContent = this.formatTime(this.progressBarData.TrackSec);
+			this._duration.textContent = this.formatTime(this.progressBarData.TrackSec - this.progressBarData.ElapsedSec);
 			const percent = (this.progressBarData.ElapsedSec / this.progressBarData.TrackSec) * 100;
+			this._progressBarInput.value = percent?.toString();
 			this._progressBarInput.style.backgroundSize = percent + "% 100%";
 		}));
 	}
@@ -160,6 +167,9 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingSongTitle.textContent = this.nowPlayingData.Title;
 		this._nowPlayingArtist.textContent = this.nowPlayingData.Artist;
 		this._nowPlayingAlbum.textContent = this.nowPlayingData.Album;
+		if(!this.nowPlayingData.Album || !this.nowPlayingData.Artist){
+			this._longDash.textContent = "";
+		}
 		this._nowPlayingSongAdditionalInfo.textContent = this.nowPlayingData.TrackCnt > 0 ? `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}` : '';
 		this._nowPlayingPlayerImage.src = this.nowPlayingData.PlayerIconURL;
 		this._nowPlayingPlayerIconName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
@@ -280,16 +290,15 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingArtistAlbum.classList.add("now-playing-artist-album");
 		this._nowPlayingArtist = document.createElement("span");
 		this._nowPlayingAlbum = document.createElement("span");
-		const longDash = document.createElement("span");
+		this._longDash = document.createElement("span");
 		this._nowPlayingArtist.classList.add("now-playing-artist-name");
 		this._nowPlayingAlbum.classList.add("now-playing-album-name");
-		longDash.classList.add("long-dash");
-		longDash.textContent = ' — ';
+		this._longDash.classList.add("long-dash");
+		this._longDash.textContent = ' — ';
 		this._nowPlayingArtist.textContent = "Artist Name";
 		this._nowPlayingAlbum.textContent = "Album Name";
 		this._nowPlayingArtistAlbum.appendChild(this._nowPlayingArtist);
-		//if (artistName && albumName) this._nowPlayingArtistAlbum.appendChild(longDash);
-		this._nowPlayingArtistAlbum.appendChild(longDash);
+		this._nowPlayingArtistAlbum.appendChild(this._longDash);
 		this._nowPlayingArtistAlbum.appendChild(this._nowPlayingAlbum);
 		//Now Playing Song Additional Information
 		this._nowPlayingSongAdditionalInfo = document.createElement("div");
@@ -328,7 +337,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._progressBarInput.type = 'range';
 		this._progressBarInput.min = '0';
 		this._progressBarInput.max = this.formatTime(0);
-		this._progressBarInput.value = this.formatTime(0);
+		this._progressBarInput.value = "0";
 		//const percent = (currentTime / duration) * 100;
 		this._progressBarInput.style.backgroundSize = "0% 100%";
 		this._progressBarInput.classList.add('now-playing-progressbar-input');
