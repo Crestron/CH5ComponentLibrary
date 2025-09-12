@@ -22,6 +22,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	private _ch5Properties: Ch5Properties;
 	private _nowPlayingContainer: HTMLElement = {} as HTMLElement;
 	private _nowPlayingPlayerContainer: HTMLDivElement = {} as HTMLDivElement;
+	private _nowPlayingImageParent: HTMLDivElement = {} as HTMLDivElement;
 	private _nowPlayingImage: HTMLImageElement = {} as HTMLImageElement;
 	private _nowPlayingTrackInfo: HTMLDivElement = {} as HTMLDivElement;
 	private _nowPlayingSongTitle: HTMLDivElement = {} as HTMLDivElement;
@@ -168,6 +169,8 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	private updatedNowPlayingContent() {
 		this._nowPlayingPlayerName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
 		this._nowPlayingImage.src = this.nowPlayingData.AlbumArtUrl;
+		this._nowPlayingImage.classList.remove("ch5-hide-vis");
+		this._nowPlayingImageParent.classList.remove("mp-fallback-album-art");
 		this._nowPlayingSongTitle.textContent = this.nowPlayingData.Title;
 		this._nowPlayingArtist.textContent = this.nowPlayingData.Artist;
 		this._nowPlayingAlbum.textContent = this.nowPlayingData.Album;
@@ -278,9 +281,13 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		//Now Playing Image
 		this._nowPlayingImage = document.createElement("img");
 		this._nowPlayingImage.classList.add("now-playing-image");
+		this._nowPlayingImage.classList.add("ch5-hide-vis");
 		this._nowPlayingImage.alt = "Album Art";
-		this._nowPlayingImage.src = "https://www.clipartmax.com/png/full/30-301220_free-svg-music-symbols-music-note-that-looks-like-an-s.png";
-		this._nowPlayingContainer.appendChild(this._nowPlayingImage);
+		// this._nowPlayingImage.src = "https://www.clipartmax.com/png/full/30-301220_free-svg-music-symbols-music-note-that-looks-like-an-s.png";
+		this._nowPlayingImageParent = document.createElement("div");
+		this._nowPlayingImageParent.classList.add("mp-fallback-album-art");
+		this._nowPlayingImageParent.appendChild(this._nowPlayingImage);
+		this._nowPlayingContainer.appendChild(this._nowPlayingImageParent);
 	}
 
 	protected renderTrackInfo() {
