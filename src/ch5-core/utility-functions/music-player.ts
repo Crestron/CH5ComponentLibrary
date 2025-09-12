@@ -567,7 +567,6 @@ export class MusicPlayerLib {
     }
 
     private getItemData() {
-
         const myRPC: any = {
             params: { "count": this.myMusicData['ItemCnt'], "item": '1' },//"item": //this.myMusicData['Level']
             jsonrpc: '2.0',
@@ -575,11 +574,8 @@ export class MusicPlayerLib {
             method: this.myMP.menuInstanceName + '.GetData'
 
         };
-        const myRPCJSON = JSON.stringify(myRPC);
-
         this.myMP.ItemDataId = myRPC.id; // Keep track of the message id.
-
-        this.sendRPCRequest(myRPCJSON);
+        this.sendRPCRequest(JSON.stringify(myRPC));
     }
 
 
@@ -618,12 +614,10 @@ export class MusicPlayerLib {
         /* console.log('Message id: ' + myMsgId); */
         const playerInstanceMethod = this.myMP?.instanceName + '.Event';
         const menuInstanceMethod = this.myMP?.menuInstanceName + '.Event';
-        if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method) && responseData.params.ev === 'BusyChanged') {
-            if (responseData.params?.parameters) {
-                busyChanged = { 'timeoutSec': responseData.params?.parameters?.timeoutSec, 'on': responseData.params?.parameters?.on }
-                publishEvent('o', 'busyChanged', busyChanged);
-            }
-        } else if (playerInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged') {
+        if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method) && responseData.params.ev === 'BusyChanged' && responseData.params?.parameters) {// Busychanged event
+            busyChanged = { 'timeoutSec': responseData.params?.parameters?.timeoutSec, 'on': responseData.params?.parameters?.on }
+            publishEvent('o', 'busyChanged', busyChanged);
+        } else if (playerInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // Now music statechanged 
             for (const item in responseData.params.parameters) {
                 if (item === 'ElapsedSec') {
                     this.progressBarData[item] = responseData.params?.parameters[item];
@@ -631,14 +625,16 @@ export class MusicPlayerLib {
                     this.nowPlayingData[item] = responseData.params?.parameters[item];
                 }
             }
-        } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged') {
-            for (const item in responseData.params.parameters) {
+        } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // My music  statechanged 
+            for (const item in responseData.params?.parameters) {
                 this.myMusicData[item] = responseData.params?.parameters[item];
-                this.updatedMenuData();
             }
-        } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StatusMsgMenuChanged') {
+            if (responseData.params?.parameters.hasOwnProperty('Title')) {
+                this.updatedMenuData(); // we need to call only when statechanged event has parameters object include key has Title
+            }
+        } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StatusMsgMenuChanged' && responseData.params?.parameters) { // My music  StatusMsgMenuChanged 
             publishEvent('o', 'StatusMsgMenuChanged', responseData.params?.parameters ? responseData.params.parameters : {});
-        } else if (myMsgId === this.myMP.PlayId || myMsgId === this.myMP.PauseId) {
+        } else if (myMsgId === this.myMP.PlayId || myMsgId === this.myMP.PauseId) { // Play or pause clicked
             this.callTrackTime();
         } else {
             if (myMsgId == this.myMP.RegistrationId) {
@@ -743,7 +739,7 @@ export class MusicPlayerLib {
         if (!(busyChanged && busyChanged['on'] === true)) {
             publishEvent('o', 'nowPlayingData', this.nowPlayingData); // left section
             publishEvent('o', 'myMusicData', this.myMusicData); // right section
-            publishEvent('o', 'progressBarData', this.progressBarData);
+            publishEvent('o', 'progressBarData', this.progressBarData); //progress bar
         }
 
         // Check if an error was returned?
@@ -793,10 +789,8 @@ export class MusicPlayerLib {
                 method: this.myMP.instanceName + '.GetProperty'
 
             };
-            const myRPCJSON = JSON.stringify(myRPC);
-            this.myMP[item + "Id"] = myRPC.id; // Keep track of the message id.
-            //console.log(myRPCJSON);
-            this.sendRPCRequest(myRPCJSON);// Send the message.
+            this.myMP[item + "Id"] = myRPC.id;
+            this.sendRPCRequest(JSON.stringify(myRPC));
         });
     };
 
@@ -810,15 +804,11 @@ export class MusicPlayerLib {
                 method: this.myMP.instanceName + '.GetProperty'
 
             };
-            const myRPCJSON = JSON.stringify(myRPC);
-            this.myMP[item + "Id"] = myRPC.id; // Keep track of the message id.
-            //console.log(myRPCJSON);
-            this.sendRPCRequest(myRPCJSON);// Send the message.
+            this.myMP[item + "Id"] = myRPC.id;
+            this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
         });
         this.getItemData();
     };
-
-
 }
 
 export function getInstanceOfMP(): void {
