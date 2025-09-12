@@ -152,13 +152,13 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 				this._progressBarContainer.style.display="flex";
 			}
 			console.log('Progress bar data', this.progressBarData);
-			this._progressBarInput.max = this.progressBarData?.TrackSec?.toString();
-			this._currentTime.textContent = this.formatTime(this.progressBarData.ElapsedSec);
-			this._duration.textContent = this.formatTime(this.progressBarData.TrackSec - this.progressBarData.ElapsedSec);
-			const percent = (this.progressBarData.ElapsedSec / this.progressBarData.TrackSec) * 100;
-			this._progressBarInput.value = percent?.toString();
-			this._progressBarInput.style.backgroundSize = percent + "% 100%";
-		}));
+				this._progressBarInput.max = this.progressBarData?.TrackSec?.toString();
+				this._currentTime.textContent = this.formatTime(this.progressBarData.ElapsedSec);
+				this._duration.textContent = this.formatTime(this.progressBarData.TrackSec - this.progressBarData.ElapsedSec);
+				const percent = (this.progressBarData.ElapsedSec / this.progressBarData.TrackSec) * 100;
+				this._progressBarInput.value = percent?.toString();
+				this._progressBarInput.style.backgroundSize = percent + "% 100%";
+			}));
 	}
 
 	private updatedNowPlayingContent() {
@@ -336,7 +336,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._progressBarInput = document.createElement('input');
 		this._progressBarInput.type = 'range';
 		this._progressBarInput.min = '0';
-		this._progressBarInput.max = this.formatTime(0);
+		this._progressBarInput.max = '0';
 		this._progressBarInput.value = "0";
 		//const percent = (currentTime / duration) * 100;
 		this._progressBarInput.style.backgroundSize = "0% 100%";
@@ -359,15 +359,15 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		// Duration
 		this._duration = document.createElement('span');
 		this._duration.classList.add('now-playing-progressbar-duration');
-		this._duration.textContent = "0:00";
+		this._duration.textContent = this.formatTime(parseInt(this._progressBarInput.max) - parseInt(this._progressBarInput.value));
 		progressBarCurrentTimeDurationContainer.appendChild(this._duration);
 		this._progressBarContainer.appendChild(progressBarCurrentTimeDurationContainer);
 
 		//Seek
 		this._progressBarInput.addEventListener("input", () => {
-			this._progressBarInput.style.backgroundSize = "0% 100%";
+			this._progressBarInput.style.backgroundSize = ((parseInt(this._progressBarInput.value) / parseInt(this._progressBarInput.max)) * 100) + "% 100%";
 			this._currentTime.textContent = this.formatTime(parseInt(this._progressBarInput.value));
-			this._duration.textContent = this._progressBarInput.max;
+			this._duration.textContent = this.formatTime(parseInt(this._progressBarInput.max) - parseInt(this._progressBarInput.value));
 		});
 
 		// Append the progress bar container to the main container
