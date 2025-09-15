@@ -192,7 +192,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicHeaderTitle.append(this._myMusicHeaderTitleText, this._myMusicheaderSubtitle);
 
     this._myMusicHeaderNowPlayingButton = new Ch5LegacyMediaPlayerIconButton();
-    this._myMusicHeaderNowPlayingButton.setAttribute('iconClass', "mp-icon mp-animated-bar");
+    this._myMusicHeaderNowPlayingButton.setAttribute('iconClass', "mp-logo mp-animated-bar");
     this._myMusicHeaderNowPlayingButton.classList.add("my-music-header-now-playing-button");
     this._myMusicHeaderNowPlayingButton.onclick = () => {
       this._myMusicContainer.classList.remove("my-music-transition");
@@ -209,14 +209,13 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
       }
     }
     const actions = [
-      { class: 'mp-icon mp-plus-circle', name: 'Create' },
-      { class: 'mp-icon mp-plus-circle', name: 'Find' },
-      { class: 'mp-icon mp-plus-circle', name: 'BackToTop' },
-      { class: 'mp-icon mp-plus-circle', name: 'QuickList' },
-      { class: 'mp-icon mp-plus-circle', name: 'Advanced' },
       { class: 'mp-icon mp-plus-circle', name: 'Favorites' },
-      { class: 'mp-icon mp-plus-circle', name: 'PlayAll' },
-    ];
+      { class: 'mp-icon mp-search-lg', name: 'Find' },
+      { class: 'mp-icon mp-music-list-quick', name: 'BackToTop' },
+      { class: 'mp-icon mp-music-note-list', name: 'Create' },
+      { class: 'mp-icon mp-settings', name: 'QuickList' },
+      { class: 'mp-icon mp-dots-horizontal', name: 'Advanced' },
+    ];// named need to be fixed
 
     if (this.myMusicData?.ListSpecificFunctions?.length) {
       actions.forEach(action => {

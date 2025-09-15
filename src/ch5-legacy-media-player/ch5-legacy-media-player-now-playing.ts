@@ -100,14 +100,14 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			}
 		},
 		sourceElement: {
-			options: [
-				{ value: 'pandora', text: 'Pandora' },
-				{ value: 'spotify', text: 'Spotify' },
-				{ value: 'tidal', text: 'Tidal' },
-				{ value: 'podcast', text: 'Podcast' }
-			],
+			// options: [
+			// 	{ value: 'pandora', text: 'Pandora' },
+			// 	{ value: 'spotify', text: 'Spotify' },
+			// 	{ value: 'tidal', text: 'Tidal' },
+			// 	{ value: 'podcast', text: 'Podcast' }
+			// ],
 			musicButton: {
-				icon: "mp-icon mp-music-note",
+				icon: "mp-icon mp-music-note-dbl",
 				class: "music-button"
 			}
 		},
@@ -150,9 +150,18 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	private updatedNowPlayingContent() {
 		this._nowPlayingPlayerName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
-		this._nowPlayingImage.src = this.nowPlayingData.AlbumArtUrl;
-		this._nowPlayingImage.classList.remove("ch5-hide-vis");
-		this._nowPlayingImageParent.classList.remove("mp-fallback-album-art");
+		if (this.nowPlayingData.AlbumArt) {
+			this._nowPlayingImage.src = this.nowPlayingData.AlbumArtUrl;
+			this._nowPlayingImage.classList.remove("ch5-hide-vis");
+			this._nowPlayingImage.classList.add("now-playing-image");
+			this._nowPlayingImageParent.classList.remove(...Array.from(this._nowPlayingImageParent.classList));
+		}
+		else {
+			this._nowPlayingImage.classList.remove("now-playing-image");
+			this._nowPlayingImage.classList.add("ch5-hide-vis");
+			this._nowPlayingImageParent.classList.add("mp-fallback-album-art");
+			this._nowPlayingImageParent.classList.add("now-playing-image");
+		}
 		this._nowPlayingSongTitle.textContent = this.nowPlayingData.Title;
 		this._nowPlayingArtist.textContent = this.nowPlayingData.Artist;
 		this._nowPlayingAlbum.textContent = this.nowPlayingData.Album;
@@ -162,7 +171,18 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this._longDash.style.display = '';
 		}
 		this._nowPlayingSongAdditionalInfo.textContent = this.nowPlayingData.TrackCnt > 0 ? `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}` : '';
-		this._nowPlayingPlayerImage.src = this.nowPlayingData.PlayerIconURL;
+		if (this.nowPlayingData.PlayerIconURL) {
+			this._nowPlayingPlayerIconImage.classList.remove(...Array.from(this._nowPlayingPlayerIconImage.classList));
+			this._nowPlayingPlayerImage.classList.add("now-playing-player-icon-image");
+			this._nowPlayingPlayerImage.src = this.nowPlayingData.PlayerIconURL;
+			this._nowPlayingPlayerImage.classList.remove("ch5-hide-vis");
+		}
+		else {
+			this._nowPlayingPlayerImage.classList.add("ch5-hide-vis");
+			this._nowPlayingPlayerImage.classList.remove("now-playing-player-icon-image");
+			this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
+			this._nowPlayingPlayerIconImage.classList.add(...this._nowPlayingPlayerIconClass[this.nowPlayingData.PlayerIcon].split(' '));
+		}
 		this._nowPlayingPlayerIconName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
 		this.renderActionButtons(this.nowPlayingData.ActionsAvailable);
 		this.renderMoreActionButtons(this.nowPlayingData.ActionsAvailable);
@@ -285,7 +305,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingPlayerContainer.appendChild(nowPlayingPlayerLabel);
 		//Now Playing Player Music Note
 		const nowPlayingPlayerMusicNoteButton = new Ch5LegacyMediaPlayerIconButton();
-		nowPlayingPlayerMusicNoteButton.setAttribute('iconClass', "mp-icon mp-music-note");
+		nowPlayingPlayerMusicNoteButton.setAttribute('iconClass', "mp-icon mp-music-note-dbl");
 		nowPlayingPlayerMusicNoteButton.classList.add("now-playing-player-music-note-button");
 		this._nowPlayingPlayerContainer.appendChild(nowPlayingPlayerMusicNoteButton);
 
@@ -295,12 +315,11 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	protected renderAlbumArt() {
 		//Now Playing Image
 		this._nowPlayingImage = document.createElement("img");
-		this._nowPlayingImage.classList.add("now-playing-image");
 		this._nowPlayingImage.classList.add("ch5-hide-vis");
-		this._nowPlayingImage.alt = "Album Art";
 		// this._nowPlayingImage.src = "https://www.clipartmax.com/png/full/30-301220_free-svg-music-symbols-music-note-that-looks-like-an-s.png";
 		this._nowPlayingImageParent = document.createElement("div");
 		this._nowPlayingImageParent.classList.add("mp-fallback-album-art");
+		this._nowPlayingImageParent.classList.add("now-playing-image");
 		this._nowPlayingImageParent.appendChild(this._nowPlayingImage);
 		this._nowPlayingContainer.appendChild(this._nowPlayingImageParent);
 	}
@@ -338,13 +357,14 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		//Now Playing Player Icon Image
 		this._nowPlayingPlayerIconImage = document.createElement('div');
 		this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
+		this._nowPlayingPlayerIconImage.classList.add(...this._nowPlayingPlayerIconClass[0].split(' '));
 		this._nowPlayingPlayerImage = document.createElement('img');
-		this._nowPlayingPlayerImage.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRslcO84eWfXP_4Ucd4Yfz6B8uqJmHaTo0iTw&s";// temporary value
+		this._nowPlayingPlayerImage.classList.add("ch5-hide-vis");
 		this._nowPlayingPlayerIconImage.appendChild(this._nowPlayingPlayerImage);
 		//Now Playing Player Icon Name
 		this._nowPlayingPlayerIconName = document.createElement('div');
 		this._nowPlayingPlayerIconName.classList.add("now-playing-player-icon-name");
-		this._nowPlayingPlayerIconName.textContent = "Spotify";
+		this._nowPlayingPlayerIconName.textContent = "default";
 		this._nowPlayingPlayerIconContainer.appendChild(this._nowPlayingPlayerIconImage);
 		this._nowPlayingPlayerIconContainer.appendChild(this._nowPlayingPlayerIconName);
 
@@ -476,8 +496,8 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._moreActionButtonsContainer.innerHTML = "";
 		const moreActionIconMap: { [key: string]: { class: string, style?: string } } = {
 			"Loop": { class: 'mp-icon mp-loop' },
-			"Shuffle": { class: 'mp-icon mp-shuffle' },
-			"Repeat": { class: 'mp-icon mp-repeat' },
+			"Shuffle": { class: 'mp-icon mp-shuffle-1x_1' },
+			"Repeat": { class: 'mp-icon mp-repeat-1x_1' },
 			"PlayAll": { class: 'mp-icon mp-play-multi-square' },
 			"MusicNote": { class: 'mp-icon mp-music-note-plus' },
 			"UserNote": { class: 'mp-icon mp-image-user-plus' },
