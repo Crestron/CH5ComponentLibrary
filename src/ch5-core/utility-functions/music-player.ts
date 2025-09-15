@@ -106,7 +106,7 @@ export class MusicPlayerLib {
     };
     public nowPlayingData: any = {};
     public myMusicData: any = {};
-    public progressBarData: any = {};
+    //public progressBarData: any = {};
 
     static getInstance() {
         console.log('getInstance');
@@ -255,7 +255,7 @@ export class MusicPlayerLib {
             });
             this.myMusicData = {};
             this.nowPlayingData = {};
-            this.progressBarData = {};
+            //this.progressBarData = {};
             publishEvent('o', 'myMusicData', this.myMusicData);
             publishEvent('o', 'nowPlayingData', this.nowPlayingData);
             this.myMP.instanceName = '';
@@ -619,11 +619,11 @@ export class MusicPlayerLib {
             publishEvent('o', 'busyChanged', busyChanged);
         } else if (playerInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // Now music statechanged 
             for (const item in responseData.params.parameters) {
-                if (item === 'ElapsedSec') {
-                    this.progressBarData[item] = responseData.params?.parameters[item];
-                } else {
+                // if (item === 'ElapsedSec') {
+                //     this.progressBarData[item] = responseData.params?.parameters[item];
+                // } else {
                     this.nowPlayingData[item] = responseData.params?.parameters[item];
-                }
+                //}
             }
         } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // My music  statechanged 
             for (const item in responseData.params?.parameters) {
@@ -693,7 +693,7 @@ export class MusicPlayerLib {
             } else if (myMsgId == this.myMP.TitleId) {
                 this.nowPlayingData['Title'] = responseData.result.Title;
             } else if (myMsgId == this.myMP.ProgressBarId) {
-                this.progressBarData['ProgressBar'] = responseData.result.ProgressBar;
+                this.nowPlayingData['ProgressBar'] = responseData.result.ProgressBar;
             } else if (myMsgId == this.myMP.TrackNumId) {
                 this.nowPlayingData['TrackNum'] = responseData.result.TrackNum;
             } else if (myMsgId == this.myMP.TrackCntId) {
@@ -713,9 +713,9 @@ export class MusicPlayerLib {
             } else if (myMsgId == this.myMP.SelectedId) {
                 this.nowPlayingData['SelectedId'] = responseData.result.SelectedId;
             } else if (myMsgId == this.myMP.ElapsedSecId) {
-                this.progressBarData['ElapsedSec'] = responseData.result.ElapsedSec;
+                this.nowPlayingData['ElapsedSec'] = responseData.result.ElapsedSec;
             } else if (myMsgId == this.myMP.TrackSecId) {
-                this.progressBarData['TrackSec'] = responseData.result.TrackSec;
+                this.nowPlayingData['TrackSec'] = responseData.result.TrackSec;
             } else if (myMsgId == this.myMP.TitleMenuId) { // Menu DFata
                 this.myMusicData['Title'] = responseData.result.Title;
             } else if (myMsgId == this.myMP.SubtitleId) {
@@ -739,7 +739,7 @@ export class MusicPlayerLib {
         if (!(busyChanged && busyChanged['on'] === true)) {
             publishEvent('o', 'nowPlayingData', this.nowPlayingData); // left section
             publishEvent('o', 'myMusicData', this.myMusicData); // right section
-            publishEvent('o', 'progressBarData', this.progressBarData); //progress bar
+            //publishEvent('o', 'progressBarData', this.progressBarData); //progress bar
         }
 
         // Check if an error was returned?

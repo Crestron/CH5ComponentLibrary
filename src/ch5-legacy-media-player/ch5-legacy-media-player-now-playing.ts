@@ -46,13 +46,16 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	private _transportControls: HTMLElement = {} as HTMLElement;
 	private musicPlayerLibInstance: MusicPlayerLib;
 	private nowPlayingData: any;
-	private progressBarData: any;
 
 	private _nowPlayingPlayerName: HTMLElement = {} as HTMLElement
 	private _nowPlayingPlayerImage: HTMLImageElement = {} as HTMLImageElement;
 
 	private _nowPlayingPlayerIconClass = TCh5LegacyMediaPlayerSourcePlayerIcons;
 	private _longDash: HTMLElement = {} as HTMLElement;
+
+	private _progressBarTimer: number | null = null;
+	private _progressBarElapsedSec: number = 0;
+	private _progressBarTrackSec: number = 0;
 
 	private readonly DEMO_MODE_DATA = {
 		nowPlaying: {
@@ -143,27 +146,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			if (this.nowPlayingData && Object.keys(this.nowPlayingData).length > 0) this.updatedNowPlayingContent();
 			console.log('Now Playing Data', this.nowPlayingData);
 		}));
-
-		subscribeState('o', 'progressBarData', ((data: any) => {
-			this.progressBarData = data;
-			if (this.progressBarData && Object.keys(this.progressBarData).length > 0) this.updateProgressBarContent();
-			console.log('Progress bar data', this.progressBarData);
-		}));
-	}
-
-	private updateProgressBarContent() {
-		if (!this.progressBarData.ProgressBar) {
-			this._progressBarContainer.style.display = "none";
-		}
-		else {
-		this._progressBarContainer.style.display = "flex";
-			this._progressBarInput.max = this.progressBarData?.TrackSec?.toString();
-			this._currentTime.textContent = this.formatTime(this.progressBarData.ElapsedSec);
-			this._duration.textContent = this.formatTime(this.progressBarData.TrackSec - this.progressBarData.ElapsedSec);
-			const percent = (this.progressBarData.ElapsedSec / this.progressBarData.TrackSec) * 100;
-			this._progressBarInput.value = percent?.toString();
-			this._progressBarInput.style.backgroundSize = percent + "% 100%";
-		}
 	}
 
 	private updatedNowPlayingContent() {
@@ -188,6 +170,37 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this.renderNextAndPreviousSong(this.nowPlayingData.NextTitle);
 		this._nowPlayingContainer.appendChild(this._nextAndPreviousSongContainer);
 		this._playerState.textContent = this.nowPlayingData.PlayerState;
+
+		if (this._progressBarTimer) {
+			clearInterval(this._progressBarTimer);
+			this._progressBarTimer = null;
+		}
+		if (!this.nowPlayingData.ProgressBar) {
+			this._progressBarContainer.style.display = "none";
+			return;
+		}
+		this._progressBarContainer.style.display = "flex";
+		this._progressBarTrackSec = this.nowPlayingData.TrackSec;
+		this._progressBarElapsedSec = this.nowPlayingData.ElapsedSec;
+		this._progressBarInput.max = this._progressBarTrackSec.toString();
+		this._progressBarInput.value = this._progressBarElapsedSec.toString();
+		this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
+		this._currentTime.textContent = this.formatTime(this._progressBarElapsedSec);
+		this._duration.textContent = this.formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
+
+		this._progressBarTimer = window.setInterval(() => {
+			if (this._progressBarElapsedSec < this._progressBarTrackSec) {
+				this._progressBarElapsedSec += 1;
+				const percent = (this._progressBarElapsedSec / this._progressBarTrackSec) * 100;
+				this._progressBarInput.value = this._progressBarElapsedSec.toString();
+				this._progressBarInput.style.backgroundSize = percent + "% 100%";
+				this._currentTime.textContent = this.formatTime(this._progressBarElapsedSec);
+				this._duration.textContent = this.formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
+			} else {
+				clearInterval(this._progressBarTimer!);
+				this._progressBarTimer = null;
+			}
+		}, 1000);
 	}
 
 	public static get observedAttributes(): string[] {
@@ -351,7 +364,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._progressBarInput.min = '0';
 		this._progressBarInput.max = '0';
 		this._progressBarInput.value = "0";
-		//const percent = (currentTime / duration) * 100;
 		this._progressBarInput.style.backgroundSize = "0% 100%";
 		this._progressBarInput.classList.add('now-playing-progressbar-input');
 		this._progressBarContainer.appendChild(this._progressBarInput);
