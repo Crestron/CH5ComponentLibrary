@@ -140,25 +140,6 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this.logger.stop();
   }
 
-  protected onFavorite = () => {
-    this._myMusicContainer.dispatchEvent(new CustomEvent("show-favorite-dialog", { bubbles: true, composed: true }));
-    console.log("Favorite Click");
-  }
-
-  protected onSearch = () => {
-    this._myMusicContainer.dispatchEvent(new CustomEvent("show-search-dialog", { bubbles: true, composed: true }));
-    console.log("Search Click");
-  }
-
-  protected onChangeFavorite = () => {
-    this._myMusicContainer.dispatchEvent(new CustomEvent("show-change-favorite", { bubbles: true, composed: true }));
-    console.log("Music List Quick Click");
-  }
-
-  protected onGeneric = () => {
-    this._myMusicContainer.dispatchEvent(new CustomEvent("show-generic-dialog", { bubbles: true, composed: true }));
-    console.log("Music List Click");
-  }
 
   protected createLine(text: string, subText: string, itemId: string, index: number) {
     this._myMusicContentItem = document.createElement('div');
@@ -228,30 +209,31 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
       }
     }
     const actions = [
-      { class: 'mp-icon mp-plus-circle', name: 'Favorites' },
+      { class: 'mp-icon mp-plus-circle', name: 'Create' },
       { class: 'mp-icon mp-plus-circle', name: 'Find' },
       { class: 'mp-icon mp-plus-circle', name: 'BackToTop' },
-      { class: 'mp-icon mp-plus-circle', name: 'Create' },
-      { class: 'mp-icon mp-plus-circle', name: 'PlayAll' },
       { class: 'mp-icon mp-plus-circle', name: 'QuickList' },
       { class: 'mp-icon mp-plus-circle', name: 'Advanced' },
+      { class: 'mp-icon mp-plus-circle', name: 'Favorites' },
+      { class: 'mp-icon mp-plus-circle', name: 'PlayAll' },
     ];
 
     if (this.myMusicData?.ListSpecificFunctions?.length) {
-      for (let i = 0; i < this.myMusicData?.ListSpecificFunctions.length; i++) {
-        const item = this.myMusicData.ListSpecificFunctions[i];
-        actions.forEach(action => {
+      actions.forEach(action => {
+        for (let i = 0; i < this.myMusicData.ListSpecificFunctions.length; i++) {
+          const item = this.myMusicData.ListSpecificFunctions[i];
           if (item === action.name) {
             const button = new Ch5LegacyMediaPlayerIconButton();
             button.setAttribute('iconClass', action.class);
+            button.id = item;
             button.onclick = () => {
               console.log("Method:", item);
               this.musicPlayerLibInstance.myMusicEvent(item);
             };
             this._myMusicFooterSection.appendChild(button);
           }
-        });
-      }
+        };
+      });
     }
   }
 
