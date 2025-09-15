@@ -188,19 +188,21 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._currentTime.textContent = this.formatTime(this._progressBarElapsedSec);
 		this._duration.textContent = this.formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
 
-		this._progressBarTimer = window.setInterval(() => {
-			if (this._progressBarElapsedSec < this._progressBarTrackSec) {
-				this._progressBarElapsedSec += 1;
-				const percent = (this._progressBarElapsedSec / this._progressBarTrackSec) * 100;
-				this._progressBarInput.value = this._progressBarElapsedSec.toString();
-				this._progressBarInput.style.backgroundSize = percent + "% 100%";
-				this._currentTime.textContent = this.formatTime(this._progressBarElapsedSec);
-				this._duration.textContent = this.formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
-			} else {
-				clearInterval(this._progressBarTimer!);
-				this._progressBarTimer = null;
-			}
-		}, 1000);
+		if(this.nowPlayingData.PlayerState === 'playing') {
+			this._progressBarTimer = window.setInterval(() => {
+				if (this._progressBarElapsedSec < this._progressBarTrackSec) {
+					this._progressBarElapsedSec += 1;
+					const percent = (this._progressBarElapsedSec / this._progressBarTrackSec) * 100;
+					this._progressBarInput.value = this._progressBarElapsedSec.toString();
+					this._progressBarInput.style.backgroundSize = percent + "% 100%";
+					this._currentTime.textContent = this.formatTime(this._progressBarElapsedSec);
+					this._duration.textContent = this.formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
+				} else {
+					clearInterval(this._progressBarTimer!);
+					this._progressBarTimer = null;
+				}
+			}, 1000);
+		}
 	}
 
 	public static get observedAttributes(): string[] {
