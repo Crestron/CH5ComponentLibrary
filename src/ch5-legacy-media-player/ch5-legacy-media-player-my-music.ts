@@ -211,11 +211,11 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     const actions = [
       { class: 'mp-icon mp-plus-circle', name: 'Create' },
       { class: 'mp-icon mp-search', name: 'Find' },
-      { class: 'mp-icon mp-music-list-home', name: 'BackToTop' },// not sure what icon to use, not available, used closest match for now
       { class: 'mp-icon mp-music-note-list', name: 'QuickList' },
-      { class: '', name: 'Advanced' },// not sure what icon to use, not available
-      { class: 'mp-icon mp-music-list-favorites', name: 'Favorites' },// not sure what icon to use, not available, used closest match for now
-      { class: '', name: 'PlayAll' },// not sure what icon to use, not available
+      { class: 'mp-icon mp-settings', name: 'Advanced' },
+      { class: 'mp-icon mp-music-list-home', name: 'BackToTop' },
+      { class: 'mp-icon mp-music-list-favorites', name: 'Favorites' },
+      { class: 'mp-icon mp-play-multi-square', name: 'PlayAll' },
     ];
 
     if (this.myMusicData?.ListSpecificFunctions?.length) {
