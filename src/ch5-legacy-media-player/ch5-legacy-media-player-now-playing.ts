@@ -150,7 +150,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	private updatedNowPlayingContent() {
 		this._nowPlayingPlayerName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
-		if (this.nowPlayingData.AlbumArt) {
+		if (this.nowPlayingData.AlbumArt && this.nowPlayingData.AlbumArtUrl?.trim() !== "") {
 			this._nowPlayingImage.src = this.nowPlayingData.AlbumArtUrl;
 			this._nowPlayingImage.classList.remove("ch5-hide-vis");
 			this._nowPlayingImage.classList.add("now-playing-image");
@@ -163,6 +163,13 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this._nowPlayingImageParent.classList.add("now-playing-image");
 		}
 		this._nowPlayingSongTitle.textContent = this.nowPlayingData.Title;
+		this._nowPlayingSongTitle.classList.remove('marquee');
+		setTimeout(() => {
+			if (this._nowPlayingSongTitle.scrollWidth > this._nowPlayingSongTitle.clientWidth) {
+				this._nowPlayingSongTitle.classList.add('marquee');
+			}
+		}, 0);
+		
 		this._nowPlayingArtist.textContent = this.nowPlayingData.Artist;
 		this._nowPlayingAlbum.textContent = this.nowPlayingData.Album;
 		if (!this.nowPlayingData.Album?.trim() || !this.nowPlayingData.Artist?.trim()) {
@@ -185,7 +192,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		}
 		this._nowPlayingPlayerIconName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
 		this.renderActionButtons(this.nowPlayingData.ActionsAvailable);
-		this.renderMoreActionButtons(this.nowPlayingData.ActionsAvailable);
+		this.renderMoreActionButtons(this.nowPlayingData.ActionsAvailable, this.nowPlayingData.RepeatState, this.nowPlayingData.ShuffleState);
 		this._nowPlayingContainer.appendChild(this._transportControls);
 		this.renderNextAndPreviousSong(this.nowPlayingData.NextTitle);
 		this._nowPlayingContainer.appendChild(this._nextAndPreviousSongContainer);
@@ -490,7 +497,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._transportControls.appendChild(this._actionButtonsContainer);
 	}
 
-	protected renderMoreActionButtons(availableActions: string[]) {
+	protected renderMoreActionButtons(availableActions: string[], repeat: number = 2, shuffle: number = 1) {
 		if (this._moreActionButtonsContainer && this._moreActionButtonsContainer.parentNode) {
 			this._moreActionButtonsContainer.parentNode.removeChild(this._moreActionButtonsContainer);
 		}
@@ -500,8 +507,8 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._moreActionButtonsContainer.innerHTML = "";
 		const moreActionIconMap: { [key: string]: { class: string, style?: string } } = {
 			"Loop": { class: 'mp-icon mp-loop' },
-			"Shuffle": { class: 'mp-icon mp-shuffle-1x_1' },
-			"Repeat": { class: 'mp-icon mp-repeat-1x_1' },
+			"Shuffle": { class: shuffle === 0 ? 'mp-icon mp-shuffle-off' : 'mp-icon mp-shuffle-02' },
+			"Repeat": { class: repeat === 0 ? 'mp-icon mp-repeat-off' : repeat === 1 ? 'mp-icon mp-repeat-1x_1' : 'mp-icon mp-repeat-03' },
 			"PlayAll": { class: 'mp-icon mp-play-multi-square' },
 			"MusicNote": { class: 'mp-icon mp-music-note-plus' },
 			"UserNote": { class: 'mp-icon mp-image-user-plus' },
