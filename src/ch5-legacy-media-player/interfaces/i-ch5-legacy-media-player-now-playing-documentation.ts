@@ -9,17 +9,7 @@ import { ICh5CommonLegacyMediaPlayerNowPlaying } from "../../ch5-common/interfac
  * @componentVersion 1.0
  * @childElements
  * [
- *   {
- *     "tagName": "ch5-legacy-media-player-icon-button",
- *     "optional": true,
- *     "childElements": [
- *       {
- *         "tagName": "template",
- *         "optional": false,
- *         "childElements": []
- *       }
- *     ]
- *   }
+ *   
  * ]
  * @documentation
  * [

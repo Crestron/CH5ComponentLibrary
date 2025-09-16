@@ -1,5 +1,5 @@
 {
-  "version": "2.15.0",
+  "version": "2.13.0",
   "componentsVersion": "2.16.0",
   "htmlElements": {
     "common": {
@@ -26842,6 +26842,346 @@
           },
           {
             "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`class` attribute",
+              "***",
+              "This is a standard class HTML attribute."
+            ],
+            "value": [],
+            "name": "class",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`style` attribute",
+              "***",
+              "This is a standard style HTML attribute."
+            ],
+            "value": [],
+            "name": "style",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`role` attribute",
+              "***",
+              "This is an accessibility attribute implemented by all ch5-components and added automatically if not set by the user. ",
+              "Where possible, it represents the closest supported type for a ch5-component. In the case of a ch5-button, the value of the role attribute is 'button', for a ch5-modal-dialog the value is 'dialog', and so on. ",
+              "The default value for this ch5-component can be overridden via this attribute."
+            ],
+            "value": [],
+            "name": "role",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`debug` attribute",
+              "***",
+              "The default value is false. Used to get useful developer-related information about component behavior."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "debug",
+            "default": "true",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`disabled` attribute",
+              "***",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
+              "to reflect a disabled state when true."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "disabled",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          }
+        ],
+        "documentation": [
+          "`ch5-legacy-media-player-now-playing` element",
+          "***",
+          "The Now Playing component displays information on the currently playing track in the selected zone for the current user profile. "
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-legacy-media-player-now-playing:blank",
+            "description": "Crestron legacy media player now playing",
+            "body": [
+              "<ch5-legacy-media-player-now-playing>",
+              "</ch5-legacy-media-player-now-playing>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-legacy-media-player-now-playing:all-attributes",
+            "description": "Crestron legacy media player now playing (All Attributes)",
+            "body": [
+              "<ch5-legacy-media-player-now-playing id=\"ch5-legacy-media-player-now-playing_${1:id}\"",
+              "</ch5-legacy-media-player-now-playing>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-legacy-media-player-now-playing:default",
+            "description": "Crestron legacy media player now playing (default)",
+            "body": [
+              "<ch5-legacy-media-player-now-playing id=\"ch5-legacy-media-player-now-playing_${1:id}\">",
+              "</ch5-legacy-media-player-now-playing>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "The Now Playing component displays information on the currently playing track in the selected zone for the current user profile. .",
+        "name": "Ch5 Legacy Media Player Now Playing",
+        "tagName": "ch5-legacy-media-player-now-playing",
+        "role": "legacy-media-player-now-playing",
+        "componentVersion": "1.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "value": [],
+            "name": "id",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`class` attribute",
+              "***",
+              "This is a standard class HTML attribute."
+            ],
+            "value": [],
+            "name": "class",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`style` attribute",
+              "***",
+              "This is a standard style HTML attribute."
+            ],
+            "value": [],
+            "name": "style",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`role` attribute",
+              "***",
+              "This is an accessibility attribute implemented by all ch5-components and added automatically if not set by the user. ",
+              "Where possible, it represents the closest supported type for a ch5-component. In the case of a ch5-button, the value of the role attribute is 'button', for a ch5-modal-dialog the value is 'dialog', and so on. ",
+              "The default value for this ch5-component can be overridden via this attribute."
+            ],
+            "value": [],
+            "name": "role",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`debug` attribute",
+              "***",
+              "The default value is false. Used to get useful developer-related information about component behavior."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "debug",
+            "default": "true",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`disabled` attribute",
+              "***",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
+              "to reflect a disabled state when true."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "disabled",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          }
+        ],
+        "documentation": [
+          "`ch5-legacy-media-player-my-music` element",
+          "***",
+          "Legacy Media Player My Music component provides the home screen experience with a multi-dimensional grid of categories based on the active profile’s currently authorized streaming services."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-legacy-media-player-my-music:blank",
+            "description": "Crestron legacy media player my music",
+            "body": [
+              "<ch5-legacy-media-player-my-music>",
+              "</ch5-legacy-media-player-my-music>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-legacy-media-player-my-music:all-attributes",
+            "description": "Crestron legacy media player my music (All Attributes)",
+            "body": [
+              "<ch5-legacy-media-player-my-music id=\"ch5-legacy-media-player-my-music_${1:id}\"",
+              "</ch5-legacy-media-player-my-music>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-legacy-media-player-my-music:default",
+            "description": "Crestron legacy media player my music (default)",
+            "body": [
+              "<ch5-legacy-media-player-my-music id=\"ch5-legacy-media-player-my-music_${1:id}\">",
+              "</ch5-legacy-media-player-my-music>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "Legacy Media Player My Music component provides the home screen experience with a multi-dimensional grid of categories based on the active profile’s currently authorized streaming services..",
+        "name": "Ch5 Legacy Media Player My Music",
+        "tagName": "ch5-legacy-media-player-my-music",
+        "role": "legacy-media-player-my-music",
+        "componentVersion": "1.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "value": [],
+            "name": "id",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
               "`customclass` attribute",
               "***",
               "Contains a list of space delimited CSS classes that are applied on the component"
@@ -27333,42 +27673,7 @@
             ]
           }
         ],
-        "childElements": [
-          {
-            "tagName": "ch5-legacy-media-player-now-playing",
-            "optional": true,
-            "childElements": [
-              {
-                "tagName": "ch5-legacy-media-player-icon-button",
-                "optional": true,
-                "childElements": [
-                  {
-                    "tagName": "template",
-                    "optional": false,
-                    "childElements": []
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "tagName": "ch5-legacy-media-player-my-music",
-            "optional": true,
-            "childElements": [
-              {
-                "tagName": "ch5-legacy-media-player-icon-button",
-                "optional": true,
-                "childElements": [
-                  {
-                    "tagName": "template",
-                    "optional": false,
-                    "childElements": []
-                  }
-                ]
-              }
-            ]
-          }
-        ],
+        "childElements": [],
         "description": "Legacy Media Player provides a standard music playback solution (an audio-only solution). The component is an HTML5 implementation of the legacy VTPro version and is based on CRPC.  Legacy Media Player should support legacy devices like Autonomic, Sonos, BlueSound, etc. along with the new look and feel for UI component. Legacy Media Player should be able to communicate with the NAX hardware..",
         "name": "Ch5 Legacy Media Player",
         "tagName": "ch5-legacy-media-player",

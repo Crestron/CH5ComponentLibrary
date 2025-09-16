@@ -9,18 +9,8 @@ import { ICh5CommonLegacyMediaPlayerMyMusic } from "../../ch5-common/interfaces/
  * @componentVersion 1.0
  * @childElements
  * [
- *   {
- *     "tagName": "ch5-legacy-media-player-icon-button",
- *     "optional": true,
- *     "childElements": [
- *       {
- *         "tagName": "template",
- *         "optional": false,
- *         "childElements": []
- *       }
- *     ]
- *   }
- * ]
+ *
+* ]
  * @documentation
  * [
  *   "`ch5-legacy-media-player-my-music` element",
