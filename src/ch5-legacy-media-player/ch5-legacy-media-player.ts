@@ -313,11 +313,11 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
     subscribeState('o', 'busyChanged', ((data: any) => {
       this.busyChanged = data;
-      if (this.busyChanged.on) {
-        this.startMPLoading();
-      } else {
-        this.stopMPLoading();
-      }
+      // if (this.busyChanged.on) {
+      //   this.startMPLoading();
+      // } else {
+      //   this.stopMPLoading();
+      // }
       console.log('busyChanged', this.busyChanged);
     }));
 
@@ -414,7 +414,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this._elContainer.appendChild(nowPlaying.createInternalHtml());
     const myMusic = new Ch5LegacyMediaPlayerMyMusic(this.musicPlayerLibInstance);
     this._elContainer.appendChild(myMusic.createInternalHtml());
-    this.startMPLoading();
+    // this.startMPLoading();
     this.logger.stop();
   }
 
