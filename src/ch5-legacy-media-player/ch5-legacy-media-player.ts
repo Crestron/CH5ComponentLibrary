@@ -500,6 +500,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     for (let i = 0; i < dialogType; i++) {
       const button = document.createElement('button');
       button.classList.add('generic-dialog-button');
+      button.addEventListener("click",()=>{
+        console.log("Button Confirmation:", dialogArray[i]);
+      });
       button.textContent = dialogArray[i];
       this._dialogFooter.appendChild(button);
     }
