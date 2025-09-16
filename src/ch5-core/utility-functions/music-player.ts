@@ -1,5 +1,5 @@
 import { publishEvent, subscribeState } from "..";
-import { CommonEventRequest, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest, RegisterwithDeviceResponse } from "./commonInterface";
+import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest, RegisterwithDeviceResponse } from "./commonInterface";
 
 export class MusicPlayerLib {
 
@@ -808,6 +808,25 @@ export class MusicPlayerLib {
             this.myMP[item + "Id"] = myRPC.id;
             this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
         });
+        this.getItemData();
+    };
+
+    public popUpAction(inputValue: string = "", id: number = 0) {
+        const myRPC: CommonRequestForPopup = {
+            params: {
+                "localExit": false,
+                "state": 1,
+                "id": id,
+                "userInput": inputValue
+            },
+            jsonrpc: '2.0',
+
+            id: this.getMessageId(),
+            method: this.myMP.menuInstanceName + '.StatusMsgResponseMenu'
+
+        };
+        // this.myMP[item + "Id"] = myRPC.id;
+        this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
         this.getItemData();
     };
 }

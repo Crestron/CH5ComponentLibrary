@@ -325,16 +325,16 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       this.popUpData = data;
       console.log("Popup Data", this.popUpData);
       if (this._elMask && this._elMask.parentNode) {
-          this._elMask.parentNode.removeChild(this._elMask); 
-        }
+        this._elMask.parentNode.removeChild(this._elMask);
+      }
       if (this.popUpData.show) {
         this.keyboardInputDialog(this.popUpData.userInputRequired, this.popUpData.text, this.popUpData.textForItems, this.popUpData.initialUserInput);
       }
-      else{
-         if (this._elMask && this._elMask.parentNode) {
-          this._elMask.parentNode.removeChild(this._elMask); 
+      else {
+        if (this._elMask && this._elMask.parentNode) {
+          this._elMask.parentNode.removeChild(this._elMask);
         }
-     }  
+      }
     }));
   }
 
@@ -455,24 +455,24 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   //Keyboard Input Dialog
-  protected keyboardInputDialog(dialogType: string, dialogHeading: string, dialogArray: Array<string>, dialogInput:string) {
+  protected keyboardInputDialog(dialogType: string, dialogHeading: string, dialogArray: Array<string>, dialogInput: string) {
     console.log(dialogType);
     if (this._elMask) this._elMask.innerHTML = "";
 
     // Set dialog heading
     this.getDialogHeading(dialogHeading);
 
+    const dialogContentInput = document.createElement("input");
     // Create input box 
     if (dialogType === "alphanumeric") {
       const dialogContent = document.createElement('div');
       dialogContent.classList.add("dialog-content");
-      const dialogContentInput = document.createElement("input");
       dialogContentInput.classList.add('dialog-content-input');
-      dialogContentInput.value =dialogInput;
+      dialogContentInput.value = dialogInput;
       dialogContent.appendChild(dialogContentInput);
       this._elGenericDialogContent.appendChild(dialogContent);
     }
-    this.getDialogFooter(dialogArray);
+    this.getDialogFooter(dialogArray, dialogContentInput);
 
     this._elMask.appendChild(this._elGenericDialogContent);
     this._elContainer.appendChild(this._elMask);
@@ -492,7 +492,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   //Dialog Footer Buttons
-  protected getDialogFooter(dialogArray: Array<string>) {
+  protected getDialogFooter(dialogArray: Array<string>, inputEle?: HTMLInputElement) {
 
     this._dialogFooter = document.createElement('div');
     this._dialogFooter.classList.add('generic-dialog-footer');
@@ -500,14 +500,16 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     for (let i = 0; i < dialogType; i++) {
       const button = document.createElement('button');
       button.classList.add('generic-dialog-button');
-      button.addEventListener("click",()=>{
-        console.log("Button Confirmation:", dialogArray[i]);
+      button.addEventListener("click", () => {
+        console.log("Button Confirmation Id:", i + 1);
+        console.log("Input Value:", inputEle?.value);
+        this.musicPlayerLibInstance.popUpAction(inputEle?.value, i + 1);
       });
       button.textContent = dialogArray[i];
       this._dialogFooter.appendChild(button);
     }
-    if(dialogType>2)  {this._dialogFooter.style.flexDirection="column";}
-    else {this._dialogFooter.style.flexDirection="row";}
+    if (dialogType > 2) { this._dialogFooter.style.flexDirection = "column"; }
+    else { this._dialogFooter.style.flexDirection = "row"; }
     this._elGenericDialogContent.appendChild(this._dialogFooter);
   }
 

@@ -94,6 +94,17 @@ export interface CommonRequestPropName {
     method: string;
     id: number
 }
+export interface CommonRequestForPopup {
+    jsonrpc: string;
+    params: {
+        localExit: boolean,
+        state: 1,
+        id: number,
+        userInput: string
+    };
+    method: string;
+    id: number
+}
 
 export interface CommonResponse {
     jsonrpc: string;

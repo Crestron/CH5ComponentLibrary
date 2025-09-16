@@ -152,11 +152,40 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicContentItemSubtitle.className = 'my-music-content-item-subtitle';
     this._myMusicContentItemSubtitle.textContent = subText;
     this._myMusicContentItemSubtitle.style.visibility = subText ? 'visible' : 'hidden';
-    this._myMusicContentItem.onclick = () => {
-      //Array.from(this._myMusicContentSection.childNodes).forEach((child) => child.remove());
-      console.log('Item ', index + 1);
-      this.musicPlayerLibInstance.myMusicEvent('Select', index + 1);
+
+    if (this.myMusicData.Title === 'Favorites') {
+
+      let holdTimer: number | null = null;
+      let isHeld = false;
+
+      this._myMusicContentItem.addEventListener('pointerdown', () => {
+        isHeld = false;
+        holdTimer = window.setTimeout(() => {
+          isHeld = true;
+          this.musicPlayerLibInstance.myMusicEvent('PressAndHold', index + 1); // PressAndHold action
+        }, 3000); // 3 seconds
+      });
+
+      this._myMusicContentItem.addEventListener('pointerup', () => {
+        if (holdTimer !== null) {
+          clearTimeout(holdTimer);
+          holdTimer = null;
+        }
+      });
+
+      this._myMusicContentItem.addEventListener('click', () => { // Click Action
+        if (!isHeld) {
+          this.musicPlayerLibInstance.myMusicEvent('Select', index + 1);
+        }
+      });
+    } else {
+      this._myMusicContentItem.onclick = () => {
+        //Array.from(this._myMusicContentSection.childNodes).forEach((child) => child.remove());
+        console.log('Item ', index + 1);
+        this.musicPlayerLibInstance.myMusicEvent('Select', index + 1);
+      }
     }
+
     this._myMusicContentItem.appendChild(this._myMusicContentItemTitle);
     this._myMusicContentItem.appendChild(this._myMusicContentItemSubtitle);
     this._myMusicContentSection.appendChild(this._myMusicContentItem);
