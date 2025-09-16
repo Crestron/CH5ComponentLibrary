@@ -100,6 +100,7 @@ export class MusicPlayerLib {
         "ResetId": 0,
         "PlayId": 0,
         "PauseId": 0,
+        "SeekId": 0,
 
         "instanceName": '',
         "menuInstanceName": '',
@@ -622,7 +623,7 @@ export class MusicPlayerLib {
                 // if (item === 'ElapsedSec') {
                 //     this.progressBarData[item] = responseData.params?.parameters[item];
                 // } else {
-                    this.nowPlayingData[item] = responseData.params?.parameters[item];
+                this.nowPlayingData[item] = responseData.params?.parameters[item];
                 //}
             }
         } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // My music  statechanged 
@@ -634,7 +635,7 @@ export class MusicPlayerLib {
             }
         } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StatusMsgMenuChanged' && responseData.params?.parameters) { // My music  StatusMsgMenuChanged 
             publishEvent('o', 'StatusMsgMenuChanged', responseData.params?.parameters ? responseData.params.parameters : {});
-        } else if (myMsgId === this.myMP.PlayId || myMsgId === this.myMP.PauseId) { // Play or pause clicked
+        } else if (myMsgId === this.myMP.PlayId || myMsgId === this.myMP.PauseId || myMsgId === this.myMP.SeekId) { // Play or pause clicked
             this.callTrackTime();
         } else {
             if (myMsgId == this.myMP.RegistrationId) {
@@ -754,9 +755,9 @@ export class MusicPlayerLib {
         return;
     }
 
-    public nowPlayingvent(action: string) {
+    public nowPlayingvent(action: string, time: string = '') {
         const myRPC: CommonEventRequest = {
-            params: null,
+            params: action === 'Seek' ? { 'time': time } : null,
             jsonrpc: '2.0',
             id: this.getMessageId(),
             method: this.myMP.instanceName + '.' + action

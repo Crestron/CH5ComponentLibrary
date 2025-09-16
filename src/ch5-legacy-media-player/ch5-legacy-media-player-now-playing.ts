@@ -208,7 +208,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._currentTime.textContent = this.formatTime(this._progressBarElapsedSec);
 		this._duration.textContent = this.formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
 
-		if(this.nowPlayingData.PlayerState === 'playing') {
+		if (this.nowPlayingData.PlayerState === 'playing') {
 			this._progressBarTimer = window.setInterval(() => {
 				if (this._progressBarElapsedSec < this._progressBarTrackSec) {
 					this._progressBarElapsedSec += 1;
@@ -415,6 +415,10 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this._progressBarInput.style.backgroundSize = ((parseInt(this._progressBarInput.value) / parseInt(this._progressBarInput.max)) * 100) + "% 100%";
 			this._currentTime.textContent = this.formatTime(parseInt(this._progressBarInput.value));
 			this._duration.textContent = this.formatTime(parseInt(this._progressBarInput.max) - parseInt(this._progressBarInput.value));
+			console.log('_currentTime==', this._progressBarInput.value);
+			setTimeout(() => {
+				this.musicPlayerLibInstance.nowPlayingvent('Seek', this._progressBarInput.value);
+			}, 300)
 		});
 
 		// Append the progress bar container to the main container
