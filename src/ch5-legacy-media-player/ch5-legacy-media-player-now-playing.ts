@@ -205,8 +205,9 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this._nowPlayingPlayerImage.classList.add("ch5-hide-vis");
 			this._nowPlayingPlayerImage.classList.remove("now-playing-player-icon-image");
 			this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
-			if (this._nowPlayingPlayerIconClass[this.nowPlayingData.PlayerIcon] !== "")
+			if (this._nowPlayingPlayerIconClass[this.nowPlayingData.PlayerIcon]) {
 				this._nowPlayingPlayerIconImage.classList.add(...this._nowPlayingPlayerIconClass[this.nowPlayingData.PlayerIcon].split(' '));
+			}
 		}
 		this._nowPlayingPlayerIconName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
 		this.renderActionButtons(this.nowPlayingData.ActionsAvailable);
@@ -227,8 +228,8 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._progressBarContainer.style.display = "flex";
 		this._progressBarTrackSec = this.nowPlayingData.TrackSec;
 		this._progressBarElapsedSec = this.nowPlayingData.ElapsedSec;
-		this._progressBarInput.max = this._progressBarTrackSec.toString();
-		this._progressBarInput.value = this._progressBarElapsedSec.toString();
+		this._progressBarInput.max = this._progressBarTrackSec?.toString();
+		this._progressBarInput.value = this._progressBarElapsedSec?.toString();
 		this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
 		this._currentTime.textContent = this.formatTime(this._progressBarElapsedSec);
 		this._duration.textContent = this.formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
@@ -382,8 +383,9 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		//Now Playing Player Icon Image
 		this._nowPlayingPlayerIconImage = document.createElement('div');
 		this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
-		if (this._nowPlayingPlayerIconClass[0] !== '')
+		if (this._nowPlayingPlayerIconClass[0]) {
 			this._nowPlayingPlayerIconImage.classList.add(...this._nowPlayingPlayerIconClass[0].split(' '));
+		}
 		this._nowPlayingPlayerImage = document.createElement('img');
 		this._nowPlayingPlayerImage.classList.add("ch5-hide-vis");
 		this._nowPlayingPlayerIconImage.appendChild(this._nowPlayingPlayerImage);
