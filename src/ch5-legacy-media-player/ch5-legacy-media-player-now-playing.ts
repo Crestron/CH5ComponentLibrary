@@ -57,6 +57,23 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	private _progressBarElapsedSec: number = 0;
 	private _progressBarTrackSec: number = 0;
 
+	// Returns a function, that, as long as it continues to be invoked, will not be triggered. 
+	// The function will be called after it stops being called for `wait` milliseconds.
+	public debounce = (func: any, wait: number) => {
+		let timeout: any;
+		return function executedFunction(...args: any[]) {
+			const later = () => {
+				window.clearTimeout(timeout);
+				func(...args);
+			};
+			// if (timeout) {
+			window.clearTimeout(timeout);
+			// }
+			timeout = window.setTimeout(later, wait);
+		};
+	};
+
+
 	private readonly DEMO_MODE_DATA = {
 		nowPlaying: {
 			classes: [
@@ -169,7 +186,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 				this._nowPlayingSongTitle.classList.add('marquee');
 			}
 		}, 0);
-		
+
 		this._nowPlayingArtist.textContent = this.nowPlayingData.Artist;
 		this._nowPlayingAlbum.textContent = this.nowPlayingData.Album;
 		if (!this.nowPlayingData.Album?.trim() || !this.nowPlayingData.Artist?.trim()) {
@@ -383,6 +400,12 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingContainer.appendChild(this._nowPlayingTrackInfo);
 	}
 
+	public seekApiCall = this.debounce(() => {
+		this.musicPlayerLibInstance.nowPlayingvent('Seek', this._progressBarInput.value);
+	}, 150);
+
+
+
 	protected renderProgressBar() {
 		// Progress bar section
 		this._progressBarContainer = document.createElement('div');
@@ -423,9 +446,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this._currentTime.textContent = this.formatTime(parseInt(this._progressBarInput.value));
 			this._duration.textContent = this.formatTime(parseInt(this._progressBarInput.max) - parseInt(this._progressBarInput.value));
 			console.log('_currentTime==', this._progressBarInput.value);
-			setTimeout(() => {
-				this.musicPlayerLibInstance.nowPlayingvent('Seek', this._progressBarInput.value);
-			}, 300)
+			this.seekApiCall();
 		});
 
 		// Append the progress bar container to the main container
