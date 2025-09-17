@@ -296,6 +296,44 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		return this._nowPlayingContainer;
 	}
 
+	protected createDefaultNowPlaying() {
+		// if(this.nowPlayingData && Object.keys(this.nowPlayingData).length > 0) {}
+		this._nowPlayingContainer = document.createElement('div');
+		this._nowPlayingContainer.classList.add("ch5-legacy-media-player-now-playing-default");
+		const defaultProviderContainer = document.createElement('div');
+		defaultProviderContainer.classList.add('default-provider-container');
+		defaultProviderContainer.textContent = "No Content Provider";
+		const defaultAlbumArtContainer = document.createElement('div');
+		defaultAlbumArtContainer.classList.add("default-album-art-container");
+		const defaultTrackInfoContainer = document.createElement('div');
+		defaultTrackInfoContainer.classList.add('default-track-info-container');
+		const trackInfoNotPlaying = document.createElement('div');
+		trackInfoNotPlaying.textContent = "Not Playing";
+		const trackInfoNone = document.createElement('div');
+		trackInfoNone.textContent = '— —';
+		defaultTrackInfoContainer.append(trackInfoNotPlaying, trackInfoNone);
+		const defaultProgressbarContainer = document.createElement('div');
+		defaultProgressbarContainer.classList.add('default-progressbar-container');
+		const progressbarDefault = document.createElement('div');
+		progressbarDefault.classList.add('progressbar-default');
+		const progressbarDefaultTime = document.createElement('div');
+		progressbarDefaultTime.classList.add('progressbar-default-time');
+		const progressbarTimeNone = document.createElement('div');
+		progressbarTimeNone.textContent = '— : — —';
+		progressbarDefaultTime.append(progressbarTimeNone, progressbarTimeNone.cloneNode(true));
+		defaultProgressbarContainer.append(progressbarDefault, progressbarDefaultTime);
+		const defaultActionsContainer = document.createElement('div');
+		defaultActionsContainer.classList.add('default-actions-container');
+		const defaultBackwardIcon = new Ch5LegacyMediaPlayerIconButton();
+		defaultBackwardIcon.setAttribute('iconClass', "mp-icon mp-fast-backward");
+		const defaultPlayIcon = new Ch5LegacyMediaPlayerIconButton();
+		defaultPlayIcon.setAttribute('iconClass', "mp-icon mp-play");
+		const defaultforwardIcon = new Ch5LegacyMediaPlayerIconButton();
+		defaultforwardIcon.setAttribute('iconClass', "mp-icon mp-fast-forward");
+		defaultActionsContainer.append(defaultBackwardIcon, defaultPlayIcon, defaultforwardIcon);
+		this._nowPlayingContainer.append(defaultProviderContainer, defaultAlbumArtContainer, defaultTrackInfoContainer, defaultProgressbarContainer, defaultActionsContainer);
+	}
+
 	protected createNowPlaying() {
 		this.logger.start('createInternalHtml()');
 		this.clearComponentContent();
