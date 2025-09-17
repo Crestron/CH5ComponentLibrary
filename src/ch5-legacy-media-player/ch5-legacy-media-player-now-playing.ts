@@ -169,13 +169,13 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingPlayerName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
 		if (this.nowPlayingData.AlbumArt && this.nowPlayingData.AlbumArtUrl?.trim() !== "") {
 			this._nowPlayingImage.src = this.nowPlayingData.AlbumArtUrl;
-			this._nowPlayingImage.classList.remove("ch5-hide-vis");
+			this._nowPlayingImage.classList.remove("ch5-hide-dis");
 			this._nowPlayingImage.classList.add("now-playing-image");
 			this._nowPlayingImageParent.classList.remove(...Array.from(this._nowPlayingImageParent.classList));
 		}
 		else {
 			this._nowPlayingImage.classList.remove("now-playing-image");
-			this._nowPlayingImage.classList.add("ch5-hide-vis");
+			this._nowPlayingImage.classList.add("ch5-hide-dis");
 			this._nowPlayingImageParent.classList.add("mp-fallback-album-art");
 			this._nowPlayingImageParent.classList.add("now-playing-image");
 		}
@@ -199,10 +199,10 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this._nowPlayingPlayerIconImage.classList.remove(...Array.from(this._nowPlayingPlayerIconImage.classList));
 			this._nowPlayingPlayerImage.classList.add("now-playing-player-icon-image");
 			this._nowPlayingPlayerImage.src = this.nowPlayingData.PlayerIconURL;
-			this._nowPlayingPlayerImage.classList.remove("ch5-hide-vis");
+			this._nowPlayingPlayerImage.classList.remove("ch5-hide-dis");
 		}
 		else {
-			this._nowPlayingPlayerImage.classList.add("ch5-hide-vis");
+			this._nowPlayingPlayerImage.classList.add("ch5-hide-dis");
 			this._nowPlayingPlayerImage.classList.remove("now-playing-player-icon-image");
 			this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
 			if (this._nowPlayingPlayerIconClass[this.nowPlayingData.PlayerIcon]) {
@@ -339,7 +339,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	protected renderAlbumArt() {
 		//Now Playing Image
 		this._nowPlayingImage = document.createElement("img");
-		this._nowPlayingImage.classList.add("ch5-hide-vis");
+		this._nowPlayingImage.classList.add("ch5-hide-dis");
 		// this._nowPlayingImage.src = "https://www.clipartmax.com/png/full/30-301220_free-svg-music-symbols-music-note-that-looks-like-an-s.png";
 		this._nowPlayingImageParent = document.createElement("div");
 		this._nowPlayingImageParent.classList.add("mp-fallback-album-art");
@@ -385,7 +385,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this._nowPlayingPlayerIconImage.classList.add(...this._nowPlayingPlayerIconClass[0].split(' '));
 		}
 		this._nowPlayingPlayerImage = document.createElement('img');
-		this._nowPlayingPlayerImage.classList.add("ch5-hide-vis");
+		this._nowPlayingPlayerImage.classList.add("ch5-hide-dis");
 		this._nowPlayingPlayerIconImage.appendChild(this._nowPlayingPlayerImage);
 		//Now Playing Player Icon Name
 		this._nowPlayingPlayerIconName = document.createElement('div');
@@ -534,7 +534,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 		if (Array.isArray(availableActions)) {
 			Object.keys(moreActionIconMap).forEach((action: string) => {
-				if (availableActions.includes(action)) {
+				if (availableActions?.includes(action)) {
 					const button = new Ch5LegacyMediaPlayerIconButton();
 					button.setAttribute('iconClass', moreActionIconMap[action].class);
 					button.onclick = () => {
