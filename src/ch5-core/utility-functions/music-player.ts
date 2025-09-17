@@ -107,6 +107,8 @@ export class MusicPlayerLib {
     };
     public nowPlayingData: any = {};
     public myMusicData: any = {};
+    public tempNowPlayingData: any = {};
+    public tempMyMusicData: any = {};
     //public progressBarData: any = {};
 
     static getInstance() {
@@ -410,8 +412,6 @@ export class MusicPlayerLib {
 
     private processPropertiesSupportedResponse(getPropertiesSupportedResponse: GetPropertiesSupportedResponse) {
         const properties = getPropertiesSupportedResponse.result.PropertiesSupported;
-        // this.nowPlayingData.PropertiesSupported = getPropertiesSupportedResponse.result.PropertiesSupported;
-        console.log(properties);
         properties.forEach((item: any) => {
             if (item !== 'PropertiesSupported') { // in response geetting one of item as "PropertiesSupported", to avoid loop adding this condtion
                 const myRPC: CommonRequestPropName = {
@@ -580,8 +580,6 @@ export class MusicPlayerLib {
     }
 
 
-
-
     private sendRPCRequest(data: any) {
         console.log('CRPC send join:' + this.mpSigRPCOut + " " + data);
 
@@ -603,6 +601,7 @@ export class MusicPlayerLib {
     private processCRPCResponse(data: any) {
         const responseData = JSON.parse(data);
 
+
         // ToDO: Just because the message ID was found, doesn't mean
         /// there were no errors. Add error checking to the response
         // ID handler.
@@ -623,12 +622,12 @@ export class MusicPlayerLib {
                 // if (item === 'ElapsedSec') {
                 //     this.progressBarData[item] = responseData.params?.parameters[item];
                 // } else {
-                this.nowPlayingData[item] = responseData.params?.parameters[item];
+                this.tempNowPlayingData[item] = responseData.params?.parameters[item];
                 //}
             }
         } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // My music  statechanged 
             for (const item in responseData.params?.parameters) {
-                this.myMusicData[item] = responseData.params?.parameters[item];
+                this.tempMyMusicData[item] = responseData.params?.parameters[item];
             }
             if (responseData.params?.parameters.hasOwnProperty('Title')) {
                 this.updatedMenuData(); // we need to call only when statechanged event has parameters object include key has Title
@@ -654,92 +653,99 @@ export class MusicPlayerLib {
             } else if (myMsgId == this.myMP.MenuId) {
                 this.processMenuResponse(responseData);
             } else if (myMsgId == this.myMP.TextLinesId) {
-                this.nowPlayingData['TextLines'] = responseData.result.TextLines;
+                this.tempNowPlayingData['TextLines'] = responseData.result.TextLines;
             } else if (myMsgId == this.myMP.ActionsSupportedId) {
-                this.nowPlayingData['ActionsSupported'] = responseData.result.ActionsSupported;
+                this.tempNowPlayingData['ActionsSupported'] = responseData.result.ActionsSupported;
             } else if (myMsgId == this.myMP.ActionsAvailableId) {
-                this.nowPlayingData['ActionsAvailable'] = responseData.result.ActionsAvailable;
+                this.tempNowPlayingData['ActionsAvailable'] = responseData.result.ActionsAvailable;
             } else if (myMsgId == this.myMP.RewindSpeedId) {
-                this.nowPlayingData['RewindSpeed'] = responseData.result.RewindSpeed;
+                this.tempNowPlayingData['RewindSpeed'] = responseData.result.RewindSpeed;
             } else if (myMsgId == this.myMP.FfwdSpeedId) {
-                this.nowPlayingData['FfwdSpeed'] = responseData.result.FfwdSpeed;
+                this.tempNowPlayingData['FfwdSpeed'] = responseData.result.FfwdSpeed;
             } else if (myMsgId == this.myMP.ProviderNameId) {
-                this.nowPlayingData['ProviderName'] = responseData.result.ProviderName;
+                this.tempNowPlayingData['ProviderName'] = responseData.result.ProviderName;
             } else if (myMsgId == this.myMP.PlayerStateId) {
-                this.nowPlayingData['PlayerState'] = responseData.result.PlayerState;
+                this.tempNowPlayingData['PlayerState'] = responseData.result.PlayerState;
             } else if (myMsgId == this.myMP.PlayerIconId) {
-                this.nowPlayingData['PlayerIcon'] = responseData.result.PlayerIcon;
+                this.tempNowPlayingData['PlayerIcon'] = responseData.result.PlayerIcon;
             } else if (myMsgId == this.myMP.PlayerIconURLId) {
-                this.nowPlayingData['PlayerIconURL'] = responseData.result.PlayerIconURL;
+                this.tempNowPlayingData['PlayerIconURL'] = responseData.result.PlayerIconURL;
             } else if (myMsgId == this.myMP.PlayerNameId) {
-                this.nowPlayingData['PlayerName'] = responseData.result.PlayerName;
+                this.tempNowPlayingData['PlayerName'] = responseData.result.PlayerName;
             } else if (myMsgId == this.myMP.StreamStateId) {
-                this.nowPlayingData['StreamState'] = responseData.result.StreamState;
+                this.tempNowPlayingData['StreamState'] = responseData.result.StreamState;
             } else if (myMsgId == this.myMP.MediaTypeId) {
-                this.nowPlayingData['MediaType'] = responseData.result.MediaType;
+                this.tempNowPlayingData['MediaType'] = responseData.result.MediaType;
             } else if (myMsgId == this.myMP.AlbumId) {
-                this.nowPlayingData['Album'] = responseData.result.Album;
+                this.tempNowPlayingData['Album'] = responseData.result.Album;
             } else if (myMsgId == this.myMP.AlbumArtId) {
-                this.nowPlayingData['AlbumArt'] = responseData.result.AlbumArt;
+                this.tempNowPlayingData['AlbumArt'] = responseData.result.AlbumArt;
             } else if (myMsgId == this.myMP.AlbumArtUrlId) {
-                this.nowPlayingData['AlbumArtUrl'] = responseData.result.AlbumArtUrl;
+                this.tempNowPlayingData['AlbumArtUrl'] = responseData.result.AlbumArtUrl;
             } else if (myMsgId == this.myMP.AlbumArtUrlNATId) {
-                this.nowPlayingData['AlbumArtUrlNAT'] = responseData.result.AlbumArtUrlNAT;
+                this.tempNowPlayingData['AlbumArtUrlNAT'] = responseData.result.AlbumArtUrlNAT;
             } else if (myMsgId == this.myMP.StationNameId) {
-                this.nowPlayingData['StationName'] = responseData.result.StationName;
+                this.tempNowPlayingData['StationName'] = responseData.result.StationName;
             } else if (myMsgId == this.myMP.GenreId) {
-                this.nowPlayingData['Genre'] = responseData.result.Genre;
+                this.tempNowPlayingData['Genre'] = responseData.result.Genre;
             } else if (myMsgId == this.myMP.ArtistId) {
-                this.nowPlayingData['Artist'] = responseData.result.Artist;
+                this.tempNowPlayingData['Artist'] = responseData.result.Artist;
             } else if (myMsgId == this.myMP.TitleId) {
-                this.nowPlayingData['Title'] = responseData.result.Title;
+                this.tempNowPlayingData['Title'] = responseData.result.Title;
             } else if (myMsgId == this.myMP.ProgressBarId) {
-                this.nowPlayingData['ProgressBar'] = responseData.result.ProgressBar;
+                this.tempNowPlayingData['ProgressBar'] = responseData.result.ProgressBar;
             } else if (myMsgId == this.myMP.TrackNumId) {
-                this.nowPlayingData['TrackNum'] = responseData.result.TrackNum;
+                this.tempNowPlayingData['TrackNum'] = responseData.result.TrackNum;
             } else if (myMsgId == this.myMP.TrackCntId) {
-                this.nowPlayingData['TrackCnt'] = responseData.result.TrackCnt;
+                this.tempNowPlayingData['TrackCnt'] = responseData.result.TrackCnt;
             } else if (myMsgId == this.myMP.NextTitleId) {
-                this.nowPlayingData['NextTitle'] = responseData.result.NextTitle;
+                this.tempNowPlayingData['NextTitle'] = responseData.result.NextTitle;
             } else if (myMsgId == this.myMP.ShuffleStateId) {
-                this.nowPlayingData['ShuffleState'] = responseData.result.ShuffleState;
+                this.tempNowPlayingData['ShuffleState'] = responseData.result.ShuffleState;
             } else if (myMsgId == this.myMP.RepeatStateId) {
-                this.nowPlayingData['RepeatState'] = responseData.result.RepeatState;
+                this.tempNowPlayingData['RepeatState'] = responseData.result.RepeatState;
             } else if (myMsgId == this.myMP.MediaReadyId) {
-                this.nowPlayingData['MediaReady'] = responseData.result.MediaReady;
+                this.tempNowPlayingData['MediaReady'] = responseData.result.MediaReady;
             } else if (myMsgId == this.myMP.BusyId) {
-                this.nowPlayingData['Busy'] = responseData.result.Busy;
+                this.tempNowPlayingData['Busy'] = responseData.result.Busy;
             } else if (myMsgId == this.myMP.RatingId) {
-                this.nowPlayingData['Rating'] = responseData.result.Rating;
+                this.tempNowPlayingData['Rating'] = responseData.result.Rating;
             } else if (myMsgId == this.myMP.SelectedId) {
-                this.nowPlayingData['SelectedId'] = responseData.result.SelectedId;
+                this.tempNowPlayingData['SelectedId'] = responseData.result.SelectedId;
             } else if (myMsgId == this.myMP.ElapsedSecId) {
-                this.nowPlayingData['ElapsedSec'] = responseData.result.ElapsedSec;
+                this.tempNowPlayingData['ElapsedSec'] = responseData.result.ElapsedSec;
             } else if (myMsgId == this.myMP.TrackSecId) {
-                this.nowPlayingData['TrackSec'] = responseData.result.TrackSec;
+                this.tempNowPlayingData['TrackSec'] = responseData.result.TrackSec;
             } else if (myMsgId == this.myMP.TitleMenuId) { // Menu DFata
-                this.myMusicData['Title'] = responseData.result.Title;
+                this.tempMyMusicData['Title'] = responseData.result.Title;
             } else if (myMsgId == this.myMP.SubtitleId) {
-                this.myMusicData['Subtitle'] = responseData.result.Subtitle;
+                this.tempMyMusicData['Subtitle'] = responseData.result.Subtitle;
             } else if (myMsgId == this.myMP.ListSpecificFunctionsId) {
-                this.myMusicData['ListSpecificFunctions'] = responseData.result.ListSpecificFunctions;
+                this.tempMyMusicData['ListSpecificFunctions'] = responseData.result.ListSpecificFunctions;
             } else if (myMsgId == this.myMP.LevelId) {
-                this.myMusicData['Level'] = responseData.result.Level;
+                this.tempMyMusicData['Level'] = responseData.result.Level;
                 // this.getItemData(); this api will call after getting both responses of level and item count.
             } else if (myMsgId == this.myMP.ItemCntId) {
+                this.tempMyMusicData['ItemCnt'] = responseData.result.ItemCnt;
                 this.myMusicData['ItemCnt'] = responseData.result.ItemCnt;
                 this.getItemData();
             } else if (myMsgId == this.myMP.MaxReqItemsId) {
-                this.myMusicData['MaxReqItems'] = responseData.result.MaxReqItems;
+                this.tempMyMusicData['MaxReqItems'] = responseData.result.MaxReqItems;
             } else if (myMsgId == this.myMP.IsMenuAvailableId) {
-                this.myMusicData['IsMenuAvailable'] = responseData.result.IsMenuAvailable;
+                this.tempMyMusicData['IsMenuAvailable'] = responseData.result.IsMenuAvailable;
             } else if (myMsgId === this.myMP.ItemDataId) {
-                this.myMusicData['MenuData'] = responseData.result;
+                this.tempMyMusicData['MenuData'] = responseData.result;
             }
         }
         if (!(busyChanged && busyChanged['on'] === true)) {
-            publishEvent('o', 'nowPlayingData', this.nowPlayingData); // left section
-            publishEvent('o', 'myMusicData', this.myMusicData); // right section
+            if (!this.deepEqual(this.nowPlayingData, this.tempNowPlayingData)) {
+                this.nowPlayingData = { ...this.tempNowPlayingData };
+                publishEvent('o', 'nowPlayingData', this.nowPlayingData); // left section
+            }
+            if (!this.deepEqual(this.myMusicData, this.tempMyMusicData)) {
+                this.myMusicData = { ...this.tempMyMusicData };
+                publishEvent('o', 'myMusicData', this.myMusicData); // right section
+            }
             //publishEvent('o', 'progressBarData', this.progressBarData); //progress bar
         }
 
@@ -829,6 +835,42 @@ export class MusicPlayerLib {
         this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
         this.getItemData();
     };
+
+
+    private deepEqual(a: any, b: any): boolean {
+        if (a === b) return true;
+
+        if (a && b && typeof a === 'object' && typeof b === 'object') {
+            if (Array.isArray(a) !== Array.isArray(b)) return false;
+
+            if (Array.isArray(a)) {
+                if (a.length !== b.length) return false;
+                for (let i = 0; i < a.length; i++) {
+                    if (!this.deepEqual(a[i], b[i])) return false;
+                }
+                return true;
+            }
+
+            /* if (a instanceof Date && b instanceof Date) {
+                return a.getTime() === b.getTime();
+            }
+ */
+            const keysA = Object.keys(a);
+            const keysB = Object.keys(b);
+
+            if (keysA.length !== keysB.length) return false;
+
+            for (const key of keysA) {
+                if (!keysB.includes(key)) return false;
+                if (!this.deepEqual(a[key], b[key])) return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
 }
 
 export function getInstanceOfMP(): void {
