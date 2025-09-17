@@ -7559,6 +7559,34 @@
             "version": "2.17.0",
             "variables": [
                 {
+                    "name": "--ch5-legacy-media-player--active-icon-background-color",
+                    "value": "var(--theme-ch5-legacy-media-player--active-icon-background-color)",
+                    "description": "Sets Media Player Active Icon background color",
+                    "type": "color",
+                    "possibleValues": [
+                        "rgb(35,35,35)",
+                        "#1a1a1a",
+                        "red"
+                    ],
+                    "showThemeEditor": true,
+                    "example": "#e91e63",
+                    "relatedThemeVariable": "--theme-ch5-legacy-media-player--active-icon-background-color"
+                },
+                {
+                    "name": "--ch5-legacy-media-player--active-icon-color",
+                    "value": "var(--theme-ch5-legacy-media-player--active-icon-color)",
+                    "description": "Sets Media Player Active Icon color",
+                    "type": "color",
+                    "possibleValues": [
+                        "rgb(35,35,35)",
+                        "#1a1a1a",
+                        "red"
+                    ],
+                    "showThemeEditor": true,
+                    "example": "#fff",
+                    "relatedThemeVariable": "--theme-ch5-legacy-media-player--active-icon-color"
+                },
+                {
                     "name": "--ch5-legacy-media-player--background-color",
                     "value": "var(--theme-ch5-legacy-media-player--background-color)",
                     "description": "Sets the background color for the component",
@@ -7619,6 +7647,18 @@
                     "relatedThemeVariable": "--theme-ch5-legacy-media-player--border-width"
                 },
                 {
+                    "name": "--ch5-legacy-media-player--default-border-radius",
+                    "value": "var(--theme-ch5-legacy-media-player--default-border-radius)",
+                    "description": "Sets the border radius for the elements",
+                    "type": "unit",
+                    "possibleValues": [
+                        "px"
+                    ],
+                    "showThemeEditor": true,
+                    "example": "16px",
+                    "relatedThemeVariable": "--theme-ch5-legacy-media-player--default-border-radius"
+                },
+                {
                     "name": "--ch5-legacy-media-player--height",
                     "value": "var(--theme-ch5-legacy-media-player--height)",
                     "description": "Sets the height for the component",
@@ -7643,6 +7683,32 @@
                     "showThemeEditor": true,
                     "example": "#0091ea",
                     "relatedThemeVariable": "--theme-ch5-legacy-media-player--icon-background-color"
+                },
+                {
+                    "name": "--ch5-legacy-media-player--mask-bg-color",
+                    "value": "var(--theme-ch5-legacy-media-player--mask-bg-color)",
+                    "description": "Modal Dialog Background color for Legacy Media PLayer",
+                    "type": "color",
+                    "possibleValues": [
+                        "rgb(35,35,35)",
+                        "#1a1a1a",
+                        "red"
+                    ],
+                    "showThemeEditor": true,
+                    "example": "rgba(72, 72, 72, 0.7)",
+                    "relatedThemeVariable": "--theme-ch5-legacy-media-player--mask-bg-color"
+                },
+                {
+                    "name": "--ch5-legacy-media-player--modal-dialog-width",
+                    "value": "var(--theme-ch5-legacy-media-player--modal-dialog-width)",
+                    "description": "Sets the width of the legacy media player modal dialog",
+                    "type": "unit",
+                    "possibleValues": [
+                        "px"
+                    ],
+                    "showThemeEditor": true,
+                    "example": "300px",
+                    "relatedThemeVariable": "--theme-ch5-legacy-media-player--modal-dialog-width"
                 },
                 {
                     "name": "--ch5-legacy-media-player--my-music-menu-icon-color",
@@ -7685,6 +7751,18 @@
                     "relatedThemeVariable": "--theme-ch5-legacy-media-player--now-playing-icon-size"
                 },
                 {
+                    "name": "--ch5-legacy-media-player--oval-border-radius",
+                    "value": "var(--theme-ch5-legacy-media-player--oval-border-radius)",
+                    "description": "Sets the oval shaped border radius for the elements",
+                    "type": "unit",
+                    "possibleValues": [
+                        "%"
+                    ],
+                    "showThemeEditor": true,
+                    "example": "50%",
+                    "relatedThemeVariable": "--theme-ch5-legacy-media-player--oval-border-radius"
+                },
+                {
                     "name": "--ch5-legacy-media-player--padding",
                     "value": "var(--theme-ch5-legacy-media-player--padding)",
                     "description": "Sets the padding for the component",
@@ -7723,6 +7801,18 @@
                     "showThemeEditor": true,
                     "example": "#0091ea",
                     "relatedThemeVariable": "--theme-ch5-legacy-media-player--secondary-font-color"
+                },
+                {
+                    "name": "--ch5-legacy-media-player--text-font-size",
+                    "value": "var(--theme-ch5-legacy-media-player--text-font-size)",
+                    "description": "Sets the font size for the component",
+                    "type": "unit",
+                    "possibleValues": [
+                        "px"
+                    ],
+                    "showThemeEditor": true,
+                    "example": "16px",
+                    "relatedThemeVariable": "--theme-ch5-legacy-media-player--text-font-size"
                 },
                 {
                     "name": "--ch5-legacy-media-player--width",
@@ -20541,6 +20631,32 @@
                     "name": "ch5-legacy-media-player",
                     "variables": [
                         {
+                            "name": "--theme-ch5-legacy-media-player--active-icon-background-color",
+                            "value": "#e91e63",
+                            "description": "Sets Media Player Active Icon background color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#e91e63",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--active-icon-color",
+                            "value": "#fff",
+                            "description": "Sets Media Player Active Icon color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#fff",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--background-color",
                             "value": "var(--theme-colors--theme-background-color)",
                             "description": "Sets the background color for the component at theme level",
@@ -20597,6 +20713,17 @@
                             ]
                         },
                         {
+                            "name": "--theme-ch5-legacy-media-player--default-border-radius",
+                            "value": "16px",
+                            "description": "Sets the border radius for the elements at theme level",
+                            "type": "unit",
+                            "showThemeEditor": true,
+                            "example": "16px",
+                            "possibleValues": [
+                                "px"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--height",
                             "value": "600px",
                             "description": "Sets the height for the component at theme level",
@@ -20621,8 +20748,32 @@
                             ]
                         },
                         {
+                            "name": "--theme-ch5-legacy-media-player--mask-bg-color",
+                            "value": "rgba(72, 72, 72, 0.7)",
+                            "description": "Modal Dialog Background color for Legacy Media PLayer at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "rgba(72, 72, 72, 0.7)",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--modal-dialog-width",
+                            "value": "300px",
+                            "description": "Sets the width of the legacy media player modal dialog at theme level",
+                            "type": "unit",
+                            "showThemeEditor": true,
+                            "example": "300px",
+                            "possibleValues": [
+                                "px"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--my-music-menu-icon-color",
-                            "value": "#f2f2f7",
+                            "value": "#a9a9ab",
                             "description": "Menu Icons color for source browsing at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -20658,6 +20809,17 @@
                             ]
                         },
                         {
+                            "name": "--theme-ch5-legacy-media-player--oval-border-radius",
+                            "value": "50%",
+                            "description": "Sets the oval shaped border radius for the elements at theme level",
+                            "type": "unit",
+                            "showThemeEditor": true,
+                            "example": "50%",
+                            "possibleValues": [
+                                "%"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--padding",
                             "value": "16px",
                             "description": "Sets the padding for the component at theme level",
@@ -20683,7 +20845,7 @@
                         },
                         {
                             "name": "--theme-ch5-legacy-media-player--secondary-font-color",
-                            "value": "#F2F2F7",
+                            "value": "#a9a9ab",
                             "description": "Subtitle label color for source browsing at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -20692,6 +20854,17 @@
                                 "rgb(35,35,35)",
                                 "#1a1a1a",
                                 "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--text-font-size",
+                            "value": "16px",
+                            "description": "Sets the font size for the component at theme level",
+                            "type": "unit",
+                            "showThemeEditor": true,
+                            "example": "16px",
+                            "possibleValues": [
+                                "px"
                             ]
                         },
                         {
@@ -34351,6 +34524,32 @@
                     "name": "ch5-legacy-media-player",
                     "variables": [
                         {
+                            "name": "--theme-ch5-legacy-media-player--active-icon-background-color",
+                            "value": "#e91e63",
+                            "description": "Sets Media Player Active Icon background color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#e91e63",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--active-icon-color",
+                            "value": "#fff",
+                            "description": "Sets Media Player Active Icon color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#fff",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--background-color",
                             "value": "var(--theme-colors--theme-background-color)",
                             "description": "Sets the background color for the component at theme level",
@@ -34365,7 +34564,7 @@
                         },
                         {
                             "name": "--theme-ch5-legacy-media-player--border-color",
-                            "value": "#d8d8d8",
+                            "value": "#ebebeb",
                             "description": "Sets the border color for the component at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -34407,6 +34606,17 @@
                             ]
                         },
                         {
+                            "name": "--theme-ch5-legacy-media-player--default-border-radius",
+                            "value": "16px",
+                            "description": "Sets the border radius for the elements at theme level",
+                            "type": "unit",
+                            "showThemeEditor": true,
+                            "example": "16px",
+                            "possibleValues": [
+                                "px"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--height",
                             "value": "600px",
                             "description": "Sets the height for the component at theme level",
@@ -34431,8 +34641,32 @@
                             ]
                         },
                         {
+                            "name": "--theme-ch5-legacy-media-player--mask-bg-color",
+                            "value": "var(--theme-ch5-modal-dialog--mask-bg-color)",
+                            "description": "Modal Dialog Background color for Legacy Media PLayer at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "rgba(72, 72, 72, 0.7)",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--modal-dialog-width",
+                            "value": "300px",
+                            "description": "Sets the width of the legacy media player modal dialog at theme level",
+                            "type": "unit",
+                            "showThemeEditor": true,
+                            "example": "300px",
+                            "possibleValues": [
+                                "px"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--my-music-menu-icon-color",
-                            "value": "#1c1c1e",
+                            "value": "#7b7b7e",
                             "description": "Menu Icons color for source browsing at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -34468,6 +34702,17 @@
                             ]
                         },
                         {
+                            "name": "--theme-ch5-legacy-media-player--oval-border-radius",
+                            "value": "50%",
+                            "description": "Sets the oval shaped border radius for the elements at theme level",
+                            "type": "unit",
+                            "showThemeEditor": true,
+                            "example": "50%",
+                            "possibleValues": [
+                                "%"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--padding",
                             "value": "16px",
                             "description": "Sets the padding for the component at theme level",
@@ -34493,7 +34738,7 @@
                         },
                         {
                             "name": "--theme-ch5-legacy-media-player--secondary-font-color",
-                            "value": "#1C1C1E",
+                            "value": "#7b7b7e",
                             "description": "Subtitle label color for source browsing at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -34502,6 +34747,17 @@
                                 "rgb(35,35,35)",
                                 "#1a1a1a",
                                 "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--text-font-size",
+                            "value": "16px",
+                            "description": "Sets the font size for the component at theme level",
+                            "type": "unit",
+                            "showThemeEditor": true,
+                            "example": "16px",
+                            "possibleValues": [
+                                "px"
                             ]
                         },
                         {
@@ -48161,6 +48417,32 @@
                     "name": "ch5-legacy-media-player",
                     "variables": [
                         {
+                            "name": "--theme-ch5-legacy-media-player--active-icon-background-color",
+                            "value": "#e91e63",
+                            "description": "Sets Media Player Active Icon background color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#e91e63",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--active-icon-color",
+                            "value": "#fff",
+                            "description": "Sets Media Player Active Icon color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#fff",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--background-color",
                             "value": "var(--theme-colors--theme-background-color)",
                             "description": "Sets the background color for the component at theme level",
@@ -48175,7 +48457,7 @@
                         },
                         {
                             "name": "--theme-ch5-legacy-media-player--border-color",
-                            "value": "#d8d8d8",
+                            "value": "#ebebeb",
                             "description": "Sets the border color for the component at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -48217,6 +48499,17 @@
                             ]
                         },
                         {
+                            "name": "--theme-ch5-legacy-media-player--default-border-radius",
+                            "value": "16px",
+                            "description": "Sets the border radius for the elements at theme level",
+                            "type": "unit",
+                            "showThemeEditor": true,
+                            "example": "16px",
+                            "possibleValues": [
+                                "px"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--height",
                             "value": "600px",
                             "description": "Sets the height for the component at theme level",
@@ -48241,8 +48534,32 @@
                             ]
                         },
                         {
+                            "name": "--theme-ch5-legacy-media-player--mask-bg-color",
+                            "value": "var(--theme-ch5-modal-dialog--mask-bg-color)",
+                            "description": "Modal Dialog Background color for Legacy Media PLayer at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "rgba(72, 72, 72, 0.7)",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--modal-dialog-width",
+                            "value": "300px",
+                            "description": "Sets the width of the legacy media player modal dialog at theme level",
+                            "type": "unit",
+                            "showThemeEditor": true,
+                            "example": "300px",
+                            "possibleValues": [
+                                "px"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--my-music-menu-icon-color",
-                            "value": "#1c1c1e",
+                            "value": "#7b7b7e",
                             "description": "Menu Icons color for source browsing at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -48278,6 +48595,17 @@
                             ]
                         },
                         {
+                            "name": "--theme-ch5-legacy-media-player--oval-border-radius",
+                            "value": "50%",
+                            "description": "Sets the oval shaped border radius for the elements at theme level",
+                            "type": "unit",
+                            "showThemeEditor": true,
+                            "example": "50%",
+                            "possibleValues": [
+                                "%"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--padding",
                             "value": "16px",
                             "description": "Sets the padding for the component at theme level",
@@ -48303,7 +48631,7 @@
                         },
                         {
                             "name": "--theme-ch5-legacy-media-player--secondary-font-color",
-                            "value": "#1C1C1E",
+                            "value": "#7b7b7e",
                             "description": "Subtitle label color for source browsing at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -48312,6 +48640,17 @@
                                 "rgb(35,35,35)",
                                 "#1a1a1a",
                                 "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--text-font-size",
+                            "value": "16px",
+                            "description": "Sets the font size for the component at theme level",
+                            "type": "unit",
+                            "showThemeEditor": true,
+                            "example": "16px",
+                            "possibleValues": [
+                                "px"
                             ]
                         },
                         {
@@ -61971,6 +62310,32 @@
                     "name": "ch5-legacy-media-player",
                     "variables": [
                         {
+                            "name": "--theme-ch5-legacy-media-player--active-icon-background-color",
+                            "value": "#e91e63",
+                            "description": "Sets Media Player Active Icon background color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#e91e63",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--active-icon-color",
+                            "value": "#fff",
+                            "description": "Sets Media Player Active Icon color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#fff",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--background-color",
                             "value": "var(--theme-colors--theme-background-color)",
                             "description": "Sets the background color for the component at theme level",
@@ -62027,6 +62392,17 @@
                             ]
                         },
                         {
+                            "name": "--theme-ch5-legacy-media-player--default-border-radius",
+                            "value": "16px",
+                            "description": "Sets the border radius for the elements at theme level",
+                            "type": "unit",
+                            "showThemeEditor": true,
+                            "example": "16px",
+                            "possibleValues": [
+                                "px"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--height",
                             "value": "600px",
                             "description": "Sets the height for the component at theme level",
@@ -62051,8 +62427,32 @@
                             ]
                         },
                         {
+                            "name": "--theme-ch5-legacy-media-player--mask-bg-color",
+                            "value": "var(--theme-ch5-modal-dialog--mask-bg-color)",
+                            "description": "Modal Dialog Background color for Legacy Media PLayer at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "rgba(72, 72, 72, 0.7)",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--modal-dialog-width",
+                            "value": "300px",
+                            "description": "Sets the width of the legacy media player modal dialog at theme level",
+                            "type": "unit",
+                            "showThemeEditor": true,
+                            "example": "300px",
+                            "possibleValues": [
+                                "px"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--my-music-menu-icon-color",
-                            "value": "#f2f2f7",
+                            "value": "#a9a9ab",
                             "description": "Menu Icons color for source browsing at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -62088,6 +62488,17 @@
                             ]
                         },
                         {
+                            "name": "--theme-ch5-legacy-media-player--oval-border-radius",
+                            "value": "50%",
+                            "description": "Sets the oval shaped border radius for the elements at theme level",
+                            "type": "unit",
+                            "showThemeEditor": true,
+                            "example": "50%",
+                            "possibleValues": [
+                                "%"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--padding",
                             "value": "16px",
                             "description": "Sets the padding for the component at theme level",
@@ -62113,7 +62524,7 @@
                         },
                         {
                             "name": "--theme-ch5-legacy-media-player--secondary-font-color",
-                            "value": "#F2F2F7",
+                            "value": "#a9a9ab",
                             "description": "Subtitle label color for source browsing at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -62122,6 +62533,17 @@
                                 "rgb(35,35,35)",
                                 "#1a1a1a",
                                 "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--text-font-size",
+                            "value": "16px",
+                            "description": "Sets the font size for the component at theme level",
+                            "type": "unit",
+                            "showThemeEditor": true,
+                            "example": "16px",
+                            "possibleValues": [
+                                "px"
                             ]
                         },
                         {
@@ -75781,6 +76203,32 @@
                     "name": "ch5-legacy-media-player",
                     "variables": [
                         {
+                            "name": "--theme-ch5-legacy-media-player--active-icon-background-color",
+                            "value": "#e91e63",
+                            "description": "Sets Media Player Active Icon background color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#e91e63",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--active-icon-color",
+                            "value": "#fff",
+                            "description": "Sets Media Player Active Icon color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#fff",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--background-color",
                             "value": "var(--theme-colors--theme-background-color)",
                             "description": "Sets the background color for the component at theme level",
@@ -75795,7 +76243,7 @@
                         },
                         {
                             "name": "--theme-ch5-legacy-media-player--border-color",
-                            "value": "#d8d8d8",
+                            "value": "#ebebeb",
                             "description": "Sets the border color for the component at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -75837,6 +76285,17 @@
                             ]
                         },
                         {
+                            "name": "--theme-ch5-legacy-media-player--default-border-radius",
+                            "value": "16px",
+                            "description": "Sets the border radius for the elements at theme level",
+                            "type": "unit",
+                            "showThemeEditor": true,
+                            "example": "16px",
+                            "possibleValues": [
+                                "px"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--height",
                             "value": "600px",
                             "description": "Sets the height for the component at theme level",
@@ -75861,8 +76320,32 @@
                             ]
                         },
                         {
+                            "name": "--theme-ch5-legacy-media-player--mask-bg-color",
+                            "value": "var(--theme-ch5-modal-dialog--mask-bg-color)",
+                            "description": "Modal Dialog Background color for Legacy Media PLayer at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "rgba(72, 72, 72, 0.7)",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--modal-dialog-width",
+                            "value": "300px",
+                            "description": "Sets the width of the legacy media player modal dialog at theme level",
+                            "type": "unit",
+                            "showThemeEditor": true,
+                            "example": "300px",
+                            "possibleValues": [
+                                "px"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--my-music-menu-icon-color",
-                            "value": "#1c1c1e",
+                            "value": "#7b7b7e",
                             "description": "Menu Icons color for source browsing at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -75898,6 +76381,17 @@
                             ]
                         },
                         {
+                            "name": "--theme-ch5-legacy-media-player--oval-border-radius",
+                            "value": "50%",
+                            "description": "Sets the oval shaped border radius for the elements at theme level",
+                            "type": "unit",
+                            "showThemeEditor": true,
+                            "example": "50%",
+                            "possibleValues": [
+                                "%"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--padding",
                             "value": "16px",
                             "description": "Sets the padding for the component at theme level",
@@ -75923,7 +76417,7 @@
                         },
                         {
                             "name": "--theme-ch5-legacy-media-player--secondary-font-color",
-                            "value": "#1c1c1e",
+                            "value": "#7b7b7e",
                             "description": "Subtitle label color for source browsing at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -75932,6 +76426,17 @@
                                 "rgb(35,35,35)",
                                 "#1a1a1a",
                                 "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--text-font-size",
+                            "value": "16px",
+                            "description": "Sets the font size for the component at theme level",
+                            "type": "unit",
+                            "showThemeEditor": true,
+                            "example": "16px",
+                            "possibleValues": [
+                                "px"
                             ]
                         },
                         {
