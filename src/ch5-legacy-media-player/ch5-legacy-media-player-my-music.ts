@@ -115,6 +115,36 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     return this._myMusicContainer;
   }
 
+  //default my music
+  protected createDefaultMyMusic() {
+    this._myMusicContainer = document.createElement('div');
+    this._myMusicContainer.classList.add("ch5-legacy-media-player-my-music-default");
+    const defaultHeaderContainer = document.createElement('div');
+    defaultHeaderContainer.classList.add('default-header-container');
+    const defaultBackIcon = new Ch5LegacyMediaPlayerIconButton();
+		defaultBackIcon.setAttribute('iconClass', "mp-icon mp-chevron-left");
+    const headerTitleNone = document.createElement('div');
+    headerTitleNone.classList.add('header-title-none');
+    headerTitleNone.textContent = '— —';
+    const defaultMusicIcon = new Ch5LegacyMediaPlayerIconButton();
+		defaultMusicIcon.setAttribute('iconClass', "mp-logo mp-animated-bar");
+    defaultHeaderContainer.append(defaultBackIcon, headerTitleNone, defaultMusicIcon);
+    const defaultItemsContainer = document.createElement("div");
+    defaultItemsContainer.classList.add('default-item-container');
+    const defaultItem = document.createElement('div');
+    defaultItem.classList.add('default-item');
+    defaultItem.textContent = 'No Content';
+    defaultItemsContainer.append(defaultItem);
+    const defaultFooterContainer = document.createElement('div');
+    defaultFooterContainer.classList.add('default-footer-container');
+    const defaultCreateIcon = new Ch5LegacyMediaPlayerIconButton();
+		defaultCreateIcon.setAttribute('iconClass', "mp-icon mp-plus-circle");
+		const defaultFindIcon = new Ch5LegacyMediaPlayerIconButton();
+		defaultFindIcon.setAttribute('iconClass', "mp-icon mp-search-lg");
+    defaultFooterContainer.append(defaultCreateIcon, defaultFindIcon);
+    this._myMusicContainer.append(defaultHeaderContainer, defaultItemsContainer, defaultFooterContainer);
+  }
+
   protected createMyMusic() {
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();

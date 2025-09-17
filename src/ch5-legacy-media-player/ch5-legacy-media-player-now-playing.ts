@@ -296,8 +296,8 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		return this._nowPlayingContainer;
 	}
 
+	//default now playing 
 	protected createDefaultNowPlaying() {
-		// if(this.nowPlayingData && Object.keys(this.nowPlayingData).length > 0) {}
 		this._nowPlayingContainer = document.createElement('div');
 		this._nowPlayingContainer.classList.add("ch5-legacy-media-player-now-playing-default");
 		const defaultProviderContainer = document.createElement('div');
