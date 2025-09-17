@@ -1,5 +1,5 @@
 {
-  "version": "2.15.0",
+  "version": "2.13.0",
   "componentsVersion": "2.16.0",
   "htmlElements": {
     "common": {
@@ -27333,42 +27333,7 @@
             ]
           }
         ],
-        "childElements": [
-          {
-            "tagName": "ch5-legacy-media-player-now-playing",
-            "optional": true,
-            "childElements": [
-              {
-                "tagName": "ch5-legacy-media-player-icon-button",
-                "optional": true,
-                "childElements": [
-                  {
-                    "tagName": "template",
-                    "optional": false,
-                    "childElements": []
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "tagName": "ch5-legacy-media-player-my-music",
-            "optional": true,
-            "childElements": [
-              {
-                "tagName": "ch5-legacy-media-player-icon-button",
-                "optional": true,
-                "childElements": [
-                  {
-                    "tagName": "template",
-                    "optional": false,
-                    "childElements": []
-                  }
-                ]
-              }
-            ]
-          }
-        ],
+        "childElements": [],
         "description": "Legacy Media Player provides a standard music playback solution (an audio-only solution). The component is an HTML5 implementation of the legacy VTPro version and is based on CRPC.  Legacy Media Player should support legacy devices like Autonomic, Sonos, BlueSound, etc. along with the new look and feel for UI component. Legacy Media Player should be able to communicate with the NAX hardware..",
         "name": "Ch5 Legacy Media Player",
         "tagName": "ch5-legacy-media-player",

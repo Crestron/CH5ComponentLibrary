@@ -148,7 +148,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   private _elMask: HTMLElement = {} as HTMLElement;
   private _elGenericDialogContent: HTMLElement = {} as HTMLElement;
-
+  private _elMaskdialogTitle: HTMLElement = {} as HTMLElement;
+  private _dialogFooter: HTMLElement = {} as HTMLElement;
   private _loadingIndicator: HTMLElement = {} as HTMLElement;
 
   //private _isShowPopup: boolean = false;
@@ -312,17 +313,28 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
     subscribeState('o', 'busyChanged', ((data: any) => {
       this.busyChanged = data;
-      if(this.busyChanged.on) {
-        this.startMPLoading();
-      } else {
-        this.stopMPLoading();
-      }
+      // if (this.busyChanged.on) {
+      //   this.startMPLoading();
+      // } else {
+      //   this.stopMPLoading();
+      // }
       console.log('busyChanged', this.busyChanged);
     }));
 
     subscribeState('o', 'StatusMsgMenuChanged', ((data: any) => {
       this.popUpData = data;
       console.log("Popup Data", this.popUpData);
+      if (this._elMask && this._elMask.parentNode) {
+        this._elMask.parentNode.removeChild(this._elMask);
+      }
+      if (this.popUpData.show) {
+        this.keyboardInputDialog(this.popUpData.userInputRequired, this.popUpData.text, this.popUpData.textForItems, this.popUpData.initialUserInput);
+      }
+      else {
+        if (this._elMask && this._elMask.parentNode) {
+          this._elMask.parentNode.removeChild(this._elMask);
+        }
+      }
     }));
   }
 
@@ -377,9 +389,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     customElements.whenDefined('ch5-legacy-media-player').then(() => {
       this.componentLoadedEvent(Ch5LegacyMediaPlayer.ELEMENT_NAME, this.id);
     });
-    setTimeout(() => {
-      this.stopMPLoading();
-    }, 2000);
+    // setTimeout(() => {   //to show loader in showcase
+    //   this.stopMPLoading();
+    // }, 2000);
     this.logger.stop();
   }
 
@@ -398,15 +410,18 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
     this._elContainer = document.createElement('div');
-    const nowPlaying = new Ch5LegacyMediaPlayerNowPlaying(this.musicPlayerLibInstance);
+    const nowPlaying = new Ch5LegacyMediaPlayerNowPlaying(this.musicPlayerLibInstance, this);
     this._elContainer.appendChild(nowPlaying.createInternalHtml());
-    const myMusic = new Ch5LegacyMediaPlayerMyMusic(this.musicPlayerLibInstance);
+    const myMusic = new Ch5LegacyMediaPlayerMyMusic(this.musicPlayerLibInstance, this);
     this._elContainer.appendChild(myMusic.createInternalHtml());
-    this.startMPLoading();
+    // this.startMPLoading();
     this.logger.stop();
   }
 
   private startMPLoading() {
+    if (this._loadingIndicator && this._loadingIndicator.parentNode) {
+      this._loadingIndicator.parentNode.removeChild(this._loadingIndicator);
+    }
     this._loadingIndicator = document.createElement('div');
     this._loadingIndicator.classList.add('mp-loading-indicator');
 
@@ -423,87 +438,44 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   private stopMPLoading() {
-    this._loadingIndicator.remove();
+    if (this._loadingIndicator && this._loadingIndicator.parentNode) {
+      this._loadingIndicator.parentNode.removeChild(this._loadingIndicator);
+    }
   }
 
   //Generic Dialog
-  protected genericDialog(dialogType: string, dialogHeading: string) {
+  protected genericDialog(dialogType: number, dialogHeading: string, dialogArray: Array<string>) {
     console.log(dialogType);
     if (this._elMask) this._elMask.innerHTML = "";
     //dialog heading
     this.getDialogHeading(dialogHeading);
     //dialog footer buttons
-    this.getDialogFooter("generic");
-
+    this.getDialogFooter(dialogArray);
     this._elMask.appendChild(this._elGenericDialogContent);
   }
 
   //Keyboard Input Dialog
-  protected keyboardInputDialog(dialogType: string, dialogHeading: string, dialogFor: string) {
+  protected keyboardInputDialog(dialogType: string, dialogHeading: string, dialogArray: Array<string>, dialogInput: string) {
     console.log(dialogType);
     if (this._elMask) this._elMask.innerHTML = "";
-    //dialog heading
+
+    // Set dialog heading
     this.getDialogHeading(dialogHeading);
-    //dialog input box
-    const dialogContent = document.createElement('div');
-    dialogContent.classList.add("dialog-content");
+
     const dialogContentInput = document.createElement("input");
-    dialogContentInput.classList.add('dialog-content-input');
-    dialogContent.appendChild(dialogContentInput);
-    this._elGenericDialogContent.appendChild(dialogContent);
-    //dialog footer buttons
-    this.getDialogFooter(dialogFor);
-
-    //disable primary button in input empty
-    dialogContentInput.addEventListener('input', () => {
-      const primaryButton = this._elGenericDialogContent.getElementsByClassName('primary-dialog-button')[0] as HTMLButtonElement;
-      if (dialogContentInput.value.trim() === '') {
-        primaryButton?.setAttribute('disabled', 'true');
-        primaryButton?.classList.add('disabled');
-      } else {
-        primaryButton?.removeAttribute('disabled');
-        primaryButton?.classList.remove('disabled');
-      }
-    });
+    // Create input box 
+    if (dialogType === "alphanumeric") {
+      const dialogContent = document.createElement('div');
+      dialogContent.classList.add("dialog-content");
+      dialogContentInput.classList.add('dialog-content-input');
+      dialogContentInput.value = dialogInput;
+      dialogContent.appendChild(dialogContentInput);
+      this._elGenericDialogContent.appendChild(dialogContent);
+    }
+    this.getDialogFooter(dialogArray, dialogContentInput);
 
     this._elMask.appendChild(this._elGenericDialogContent);
-  }
-
-  //Action Group Dialog
-  protected actionGroupDialog(dialogType: string, dialogHeading: string) {
-    console.log(dialogType);
-    if (this._elMask) this._elMask.innerHTML = "";
-    //dialog heading
-    this.getDialogHeading(dialogHeading);
-    //dialog action buttons
-    const dialogFooter = document.createElement('div');
-    dialogFooter.classList.add('action-group-dialog-footer');
-    const dialogFooterPrimaryButtonRename = document.createElement('div');
-    dialogFooterPrimaryButtonRename.classList.add('action-group-dialog-button', 'primary-dialog-button');
-    dialogFooterPrimaryButtonRename.textContent = "Rename Favorite";
-    dialogFooterPrimaryButtonRename.onclick = () => {
-      console.log("Rename button click");
-      this._elMask.remove();
-    }
-    dialogFooter.appendChild(dialogFooterPrimaryButtonRename);
-
-    const dialogFooterPrimaryButtonDelete = document.createElement('div');
-    dialogFooterPrimaryButtonDelete.classList.add('action-group-dialog-button', 'primary-dialog-button');
-    dialogFooterPrimaryButtonDelete.textContent = "Delete Favorite";
-    dialogFooterPrimaryButtonDelete.onclick = () => {
-      console.log("Delete button click");
-      this._elMask.remove();
-    }
-    dialogFooter.appendChild(dialogFooterPrimaryButtonDelete);
-
-    const dialogFooterSecondayButtonCancel = document.createElement('div');
-    dialogFooterSecondayButtonCancel.classList.add('action-group-dialog-button', 'secondary-dialog-button');
-    dialogFooterSecondayButtonCancel.textContent = 'Cancel';
-    dialogFooterSecondayButtonCancel.onclick = () => this._elMask.remove();
-    dialogFooter.appendChild(dialogFooterSecondayButtonCancel);
-    this._elGenericDialogContent.appendChild(dialogFooter);
-
-    this._elMask.appendChild(this._elGenericDialogContent);
+    this._elContainer.appendChild(this._elMask);
   }
 
   //Dialog Heading
@@ -513,47 +485,34 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this._elContainer.appendChild(this._elMask);
     this._elGenericDialogContent = document.createElement('div');
     this._elGenericDialogContent.classList.add('ch5-legacy-media-player-mask-content-generic');
-    const dialogTitle = document.createElement('div');
-    dialogTitle.classList.add('generic-dialog-title');
-    dialogTitle.textContent = dialogHeading;
-    this._elGenericDialogContent.appendChild(dialogTitle);
-
-    //Remove dialog box on click of overlay
-    this._elMask.addEventListener('click', (event: MouseEvent) => {
-      if (this._elMask) {
-        if (!this._elGenericDialogContent.contains(event.target as HTMLElement)) {
-          this._elMask.remove();
-        }
-      }
-    });
+    this._elMaskdialogTitle = document.createElement('div');
+    this._elMaskdialogTitle.classList.add('generic-dialog-title');
+    this._elMaskdialogTitle.textContent = dialogHeading;
+    this._elGenericDialogContent.appendChild(this._elMaskdialogTitle);
   }
 
   //Dialog Footer Buttons
-  protected getDialogFooter(dialogFor: string) {
-    const dialogFooter = document.createElement('div');
-    dialogFooter.classList.add('generic-dialog-footer');
+  protected getDialogFooter(dialogArray: Array<string>, inputEle?: HTMLInputElement) {
 
-    const dialogFooterSecondayButton = document.createElement('button');
-    dialogFooterSecondayButton.classList.add('generic-dialog-button', 'secondary-dialog-button');
-    dialogFooterSecondayButton.textContent = dialogFor === 'generic' ? 'Secondary' : 'Cancel';
-    dialogFooterSecondayButton.onclick = () => this._elMask.remove();
-    dialogFooter.appendChild(dialogFooterSecondayButton);
-
-    const dialogFooterPrimaryButton = document.createElement('button');
-    dialogFooterPrimaryButton.classList.add('generic-dialog-button', 'primary-dialog-button');
-    dialogFooterPrimaryButton.textContent = dialogFor === 'generic' ? 'Primary' : dialogFor === 'favorite' ? 'Ok' : 'Search';
-    if (dialogFor != 'generic') {
-      dialogFooterPrimaryButton.setAttribute('disabled', 'true');
-      dialogFooterPrimaryButton.classList.add('disabled');
+    this._dialogFooter = document.createElement('div');
+    this._dialogFooter.classList.add('generic-dialog-footer');
+    const dialogType = dialogArray.length;
+    for (let i = 0; i < dialogType; i++) {
+      const button = document.createElement('button');
+      button.classList.add('generic-dialog-button');
+      button.addEventListener("click", () => {
+        console.log("Button Confirmation Id:", i + 1);
+        console.log("Input Value:", inputEle?.value);
+        this.musicPlayerLibInstance.popUpAction(inputEle?.value, i + 1);
+      });
+      button.textContent = dialogArray[i];
+      this._dialogFooter.appendChild(button);
     }
-    dialogFooterPrimaryButton.onclick = () => {
-      console.log("Primary button click");
-      this._elMask.remove();
-      //needs to be updated based on the proper functionality
-    }
-    dialogFooter.appendChild(dialogFooterPrimaryButton);
-    this._elGenericDialogContent.appendChild(dialogFooter);
+    if (dialogType > 2) { this._dialogFooter.style.flexDirection = "column"; }
+    else { this._dialogFooter.style.flexDirection = "row"; }
+    this._elGenericDialogContent.appendChild(this._dialogFooter);
   }
+
 
 
   protected addMusicTransition() {
@@ -578,30 +537,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   protected attachEventListeners() {
     super.attachEventListeners();
     resizeObserver(this._elContainer, this.handleResizeObserver);
-
-    this._elContainer.addEventListener('show-favorite-dialog', () => {
-      if (this._elMask) {
-        this.keyboardInputDialog("keyboardInput", "What would you like to call this favorite?", "favorite");
-      }
-    });
-
-    this._elContainer.addEventListener('show-search-dialog', () => {
-      if (this._elMask) {
-        this.keyboardInputDialog("keyboardInput", "Album Search", 'album');
-      }
-    });
-
-    this._elContainer.addEventListener('show-change-favorite', () => {
-      if (this._elMask) {
-        this.actionGroupDialog('actionGroup', "What would you like to do?");
-      }
-    });
-
-    this._elContainer.addEventListener('show-generic-dialog', () => {
-      if (this._elMask) {
-        this.genericDialog('generic', "This is a long dialog's title that expands on 2 lines.");
-      }
-    });
   }
 
   private handleResizeObserver = () => {

@@ -68,6 +68,7 @@ export interface MyMpObject {
     ResetId: number;
     PlayId: number;
     PauseId: number;
+    SeekId: number;
 
     instanceName: string;
     menuInstanceName: string;
@@ -82,7 +83,7 @@ export interface CommonRequest {
 
 export interface CommonEventRequest {
     jsonrpc: string;
-    params: { ev: string, handle: string } | { 'item': number } | null;
+    params: { ev: string, handle: string } | { 'item': number } | { 'time': string } | null;
     method: string;
     id: number
 }
@@ -90,6 +91,17 @@ export interface CommonEventRequest {
 export interface CommonRequestPropName {
     jsonrpc: string;
     params: { propName: string };
+    method: string;
+    id: number
+}
+export interface CommonRequestForPopup {
+    jsonrpc: string;
+    params: {
+        localExit: boolean,
+        state: 1,
+        id: number,
+        userInput: string
+    };
     method: string;
     id: number
 }

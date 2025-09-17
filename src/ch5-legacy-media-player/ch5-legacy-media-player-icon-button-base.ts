@@ -136,10 +136,6 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Log {
 		this.clearComponentContent();
 		this.classList.add('ch5-legacy-media-player-individual-icon-button-container');
 		this._elButton = document.createElement('button');
-
-		this.setAttribute('iconClass', this.iconClass);
-		this._icon = document.createElement('i');
-		this._elButton.appendChild(this._icon);
 		this.logger.stop();
 	}
 
@@ -179,8 +175,16 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Log {
 
 
 	private handleIconClass(value: string) {
+		if (this._icon.parentNode && this._icon)
+			this._icon.parentNode.removeChild(this._icon);
 		if (value) {
-			this._icon.classList.remove(...Array.from(this._icon.classList));
+			if (this.iconClass.split(" ")[0] === "mp-icon") {
+				this._icon = document.createElement('i');
+			}
+			else {
+				this._icon = document.createElement('div');
+			}
+			this._elButton.appendChild(this._icon);
 			this._icon.classList.add(...value.split(' '));
 		}
 
