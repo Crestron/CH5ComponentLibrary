@@ -14,6 +14,8 @@ export class MusicPlayerLib {
 
     private mpMsgId = 0; // Increment our message id. ToDo: Need a max value check and reset to 0.
 
+    private itemValue = 1; // Used in infinite scroll feature.
+    
     // Generate a constant UUID once per application start.
     private generateStrongCustomId = (): string => {
         // Generate timestamp component (base36 for compactness)
@@ -567,9 +569,15 @@ export class MusicPlayerLib {
         this.sendRPCRequest(myRPCJSON);
     }
 
-    private getItemData() {
+    public getItemData(infiniteScroll = false) {
+        if(!infiniteScroll) { this.itemValue = 1, this.myMusicData['MenuData'] = [] };
+
+        const count = (this.myMusicData['ItemCnt'] < this.myMusicData['MaxReqItems']) ? this.myMusicData['ItemCnt']:
+                        this.myMusicData['MaxReqItems'];
+        this.myMusicData['ItemCnt'] = this.myMusicData['ItemCnt'] - count;
+        console.log("ITEM DATA VALUES", this.itemValue, count)
         const myRPC: any = {
-            params: { "count": this.myMusicData['ItemCnt'], "item": '1' },//"item": //this.myMusicData['Level']
+            params: { item: this.itemValue, count },//"item": //this.myMusicData['Level']
             jsonrpc: '2.0',
             id: this.getMessageId(),
             method: this.myMP.menuInstanceName + '.GetData'
@@ -577,8 +585,8 @@ export class MusicPlayerLib {
         };
         this.myMP.ItemDataId = myRPC.id; // Keep track of the message id.
         this.sendRPCRequest(JSON.stringify(myRPC));
+        this.itemValue = this.itemValue + this.myMusicData['MaxReqItems']
     }
-
 
     private sendRPCRequest(data: any) {
         console.log('CRPC send join:' + this.mpSigRPCOut + " " + data);
@@ -734,7 +742,7 @@ export class MusicPlayerLib {
             } else if (myMsgId == this.myMP.IsMenuAvailableId) {
                 this.tempMyMusicData['IsMenuAvailable'] = responseData.result.IsMenuAvailable;
             } else if (myMsgId === this.myMP.ItemDataId) {
-                this.tempMyMusicData['MenuData'] = responseData.result;
+                this.tempMyMusicData['MenuData'] = [...this.tempMyMusicData['MenuData'], ...responseData.result];
             }
         }
         if (!(busyChanged && busyChanged['on'] === true)) {
@@ -833,7 +841,6 @@ export class MusicPlayerLib {
         };
         // this.myMP[item + "Id"] = myRPC.id;
         this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
-        this.getItemData();
     };
 
 

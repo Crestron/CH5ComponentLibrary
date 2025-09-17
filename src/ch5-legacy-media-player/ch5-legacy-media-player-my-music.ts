@@ -132,8 +132,9 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
       this.createLine(`Text Line ${i}`, `Sub Line ${i}`, `item ${i}`, i + 1);
     }
 
-    this._myMusicContentSection.onscroll = () => {
-      console.log("Items are scrolling");
+    this._myMusicContentSection.onscrollend = () => {
+      console.log("Scroll End");
+      this.musicPlayerLibInstance.getItemData(true);
     }
 
     this._myMusicFooterSection = document.createElement("div");
