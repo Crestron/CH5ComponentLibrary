@@ -65,7 +65,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     subscribeState('o', 'myMusicData', ((data: any) => {
       this.myMusicData = data;
       console.log('My Music Data', this.myMusicData);
-      if (this.myMusicData && Object.keys(this.myMusicData).length > 0)this.apiChanges();
+      if (this.myMusicData && Object.keys(this.myMusicData).length > 0) this.apiChanges();
     }));
   }
 
@@ -123,7 +123,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
     this._myMusicHeaderSection = document.createElement("div");
     this._myMusicHeaderSection.className = 'my-music-header';
-    this.myMusicHeader(true,"HEADER TEXT","SUBTITLE");
+    this.myMusicHeader(true, "HEADER TEXT", "SUBTITLE");
 
 
     this._myMusicContentSection = document.createElement("div");
@@ -193,7 +193,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicContentSection.appendChild(this._myMusicContentItem);
   }
 
-  protected myMusicHeader(backButton:boolean, myMusicHeaderTitleText: string, myMusicheaderSubtitle: string  ){
+  protected myMusicHeader(backButton: boolean, myMusicHeaderTitleText: string, myMusicheaderSubtitle: string) {
     if (backButton) {
       this._myMusicHeaderBackButton = new Ch5LegacyMediaPlayerIconButton();
       this._myMusicHeaderBackButton.setAttribute('iconClass', "mp-icon mp-chevron-left");
@@ -226,7 +226,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicHeaderSection.append(this._myMusicHeaderTitle, this._myMusicHeaderNowPlayingButton);
   }
 
-  protected myMusicMenuIconSection(myMusicMenuIconArray:Array<string>){
+  protected myMusicMenuIconSection(myMusicMenuIconArray: Array<string>) {
     const actions = [
       { class: 'mp-icon mp-plus-circle', name: 'Create' },
       { class: 'mp-icon mp-search-lg', name: 'Find' },
@@ -260,7 +260,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     Array.from(this._myMusicContentSection.childNodes).forEach((child) => child.remove());
     Array.from(this._myMusicFooterSection.childNodes).forEach((child) => child.remove());
 
-    this.myMusicHeader(this.myMusicData.IsMenuAvailable, this.myMusicData.Title,this.myMusicData.Subtitle);
+    this.myMusicHeader(this.myMusicData.IsMenuAvailable, this.myMusicData.Title, this.myMusicData.Subtitle);
 
     if (this.myMusicData && this.myMusicData.MenuData) {
       const length = Object.keys(this.myMusicData.MenuData).length;

@@ -11,11 +11,12 @@ export class MusicPlayerLib {
 
     private mpRPCPrefix: string = '';
     private mpRPCDataIn: string = '';
+    private menuStateChanged: any = {};
 
     private mpMsgId = 0; // Increment our message id. ToDo: Need a max value check and reset to 0.
 
     private itemValue = 1; // Used in infinite scroll feature.
-    
+
     // Generate a constant UUID once per application start.
     private generateStrongCustomId = (): string => {
         // Generate timestamp component (base36 for compactness)
@@ -570,14 +571,14 @@ export class MusicPlayerLib {
     }
 
     public getItemData(infiniteScroll = false) {
-        if(!infiniteScroll) { this.itemValue = 1, this.myMusicData['MenuData'] = [] };
+        if (!infiniteScroll) { this.itemValue = 1, this.tempMyMusicData['MenuData'] = [] };
 
-        const count = (this.myMusicData['ItemCnt'] < this.myMusicData['MaxReqItems']) ? this.myMusicData['ItemCnt']:
-                        this.myMusicData['MaxReqItems'];
-        this.myMusicData['ItemCnt'] = this.myMusicData['ItemCnt'] - count;
+        const count = (this.tempMyMusicData['ItemCnt'] < this.tempMyMusicData['MaxReqItems']) ? this.tempMyMusicData['ItemCnt'] :
+            this.tempMyMusicData['MaxReqItems'];
+        this.tempMyMusicData['ItemCnt'] = this.tempMyMusicData['ItemCnt'] - count;
         console.log("ITEM DATA VALUES", this.itemValue, count)
         const myRPC: any = {
-            params: { item: this.itemValue, count },//"item": //this.myMusicData['Level']
+            params: { item: this.itemValue, count },//"item": //this.tempMyMusicData['Level']
             jsonrpc: '2.0',
             id: this.getMessageId(),
             method: this.myMP.menuInstanceName + '.GetData'
@@ -585,7 +586,7 @@ export class MusicPlayerLib {
         };
         this.myMP.ItemDataId = myRPC.id; // Keep track of the message id.
         this.sendRPCRequest(JSON.stringify(myRPC));
-        this.itemValue = this.itemValue + this.myMusicData['MaxReqItems']
+        this.itemValue = this.itemValue + this.tempMyMusicData['MaxReqItems']
     }
 
     private sendRPCRequest(data: any) {
@@ -637,8 +638,11 @@ export class MusicPlayerLib {
             for (const item in responseData.params?.parameters) {
                 this.tempMyMusicData[item] = responseData.params?.parameters[item];
             }
-            if (responseData.params?.parameters.hasOwnProperty('Title')) {
-                this.updatedMenuData(); // we need to call only when statechanged event has parameters object include key has Title
+            if (!this.deepEqual(this.menuStateChanged, responseData.params?.parameters)) {
+                this.menuStateChanged = responseData.params?.parameters;
+                if (responseData.params?.parameters.hasOwnProperty('Title')) {
+                    this.updatedMenuData(); // we need to call only when statechanged event has parameters object include key has Title
+                }
             }
         } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StatusMsgMenuChanged' && responseData.params?.parameters) { // My music  StatusMsgMenuChanged 
             publishEvent('o', 'StatusMsgMenuChanged', responseData.params?.parameters ? responseData.params.parameters : {});
@@ -660,9 +664,9 @@ export class MusicPlayerLib {
                 this.processPropertiesSupportedResponse(responseData);
             } else if (myMsgId == this.myMP.MenuId) {
                 this.processMenuResponse(responseData);
-            } else if (myMsgId == this.myMP.TextLinesId) {
+            } /* else if (myMsgId == this.myMP.TextLinesId) {
                 this.tempNowPlayingData['TextLines'] = responseData.result.TextLines;
-            } else if (myMsgId == this.myMP.ActionsSupportedId) {
+            } */ else if (myMsgId == this.myMP.ActionsSupportedId) {
                 this.tempNowPlayingData['ActionsSupported'] = responseData.result.ActionsSupported;
             } else if (myMsgId == this.myMP.ActionsAvailableId) {
                 this.tempNowPlayingData['ActionsAvailable'] = responseData.result.ActionsAvailable;
@@ -682,9 +686,9 @@ export class MusicPlayerLib {
                 this.tempNowPlayingData['PlayerName'] = responseData.result.PlayerName;
             } else if (myMsgId == this.myMP.StreamStateId) {
                 this.tempNowPlayingData['StreamState'] = responseData.result.StreamState;
-            } else if (myMsgId == this.myMP.MediaTypeId) {
+            } /* else if (myMsgId == this.myMP.MediaTypeId) {
                 this.tempNowPlayingData['MediaType'] = responseData.result.MediaType;
-            } else if (myMsgId == this.myMP.AlbumId) {
+            }  */else if (myMsgId == this.myMP.AlbumId) {
                 this.tempNowPlayingData['Album'] = responseData.result.Album;
             } else if (myMsgId == this.myMP.AlbumArtId) {
                 this.tempNowPlayingData['AlbumArt'] = responseData.result.AlbumArt;
@@ -712,7 +716,7 @@ export class MusicPlayerLib {
                 this.tempNowPlayingData['ShuffleState'] = responseData.result.ShuffleState;
             } else if (myMsgId == this.myMP.RepeatStateId) {
                 this.tempNowPlayingData['RepeatState'] = responseData.result.RepeatState;
-            } else if (myMsgId == this.myMP.MediaReadyId) {
+            } /* else if (myMsgId == this.myMP.MediaReadyId) {
                 this.tempNowPlayingData['MediaReady'] = responseData.result.MediaReady;
             } else if (myMsgId == this.myMP.BusyId) {
                 this.tempNowPlayingData['Busy'] = responseData.result.Busy;
@@ -720,7 +724,7 @@ export class MusicPlayerLib {
                 this.tempNowPlayingData['Rating'] = responseData.result.Rating;
             } else if (myMsgId == this.myMP.SelectedId) {
                 this.tempNowPlayingData['SelectedId'] = responseData.result.SelectedId;
-            } else if (myMsgId == this.myMP.ElapsedSecId) {
+            } */ else if (myMsgId == this.myMP.ElapsedSecId) {
                 this.tempNowPlayingData['ElapsedSec'] = responseData.result.ElapsedSec;
             } else if (myMsgId == this.myMP.TrackSecId) {
                 this.tempNowPlayingData['TrackSec'] = responseData.result.TrackSec;
@@ -730,12 +734,11 @@ export class MusicPlayerLib {
                 this.tempMyMusicData['Subtitle'] = responseData.result.Subtitle;
             } else if (myMsgId == this.myMP.ListSpecificFunctionsId) {
                 this.tempMyMusicData['ListSpecificFunctions'] = responseData.result.ListSpecificFunctions;
-            } else if (myMsgId == this.myMP.LevelId) {
+            } /* else if (myMsgId == this.myMP.LevelId) {
                 this.tempMyMusicData['Level'] = responseData.result.Level;
                 // this.getItemData(); this api will call after getting both responses of level and item count.
-            } else if (myMsgId == this.myMP.ItemCntId) {
+            } */ else if (myMsgId == this.myMP.ItemCntId) {
                 this.tempMyMusicData['ItemCnt'] = responseData.result.ItemCnt;
-                this.myMusicData['ItemCnt'] = responseData.result.ItemCnt;
                 this.getItemData();
             } else if (myMsgId == this.myMP.MaxReqItemsId) {
                 this.tempMyMusicData['MaxReqItems'] = responseData.result.MaxReqItems;
