@@ -3,7 +3,6 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Log } from "../ch5-common/ch5-log";
 import { Ch5LegacyMediaPlayerIconButton } from "./ch5-legacy-media-player-icon-button-base.ts";
-// import { TCh5LegacyMediaPlayerMyMusicContentItem } from "./interfaces/t-ch5-legacy-media-player.ts";
 import { MusicPlayerLib, subscribeState } from "../ch5-core/index.ts";
 
 export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
@@ -34,6 +33,76 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
   private myMusicData: any;
   private musicPlayerLibInstance: MusicPlayerLib;
 
+
+  private myMusicDemoData = {
+    "MaxReqItems": 100,
+    "Level": 5,
+    "ItemCnt": 489,
+    "Title": "HEADER TEXT",
+    "Subtitle": "SUBTITLE",
+    "IsMenuAvailable": true,
+    "ListItemIcons": true,
+    "ListSpecificFunctions": [
+      "Create",
+      "Find",
+      "QuickList",
+      "Advanced",
+      "BackToTop",
+      "Favorites"
+    ],
+    "Sorted": "none",
+    "MenuData": [
+      {
+        "L1": "Text Line 1",
+        "L2": "Sub Line 1",
+        "URL": "",
+        "URLNAT": "",
+        "Id": {
+          "browseKey": {
+            "playlistURL": "",
+            "trackId": ""
+          }
+        }
+      },
+      {
+        "L1": "Text Line 2",
+        "L2": "",
+        "URL": "",
+        "URLNAT": "",
+        "Id": {
+          "browseKey": {
+            "playlistURL": "",
+            "trackId": ""
+          }
+        }
+      },
+      {
+        "L1": "Text Line 3",
+        "L2": "Sub Line 3",
+        "URL": "",
+        "URLNAT": "",
+        "Id": {
+          "browseKey": {
+            "playlistURL": "",
+            "trackId": ""
+          }
+        }
+      },
+      {
+        "L1": "Text Line 4",
+        "L2": "",
+        "URL": "",
+        "URLNAT": "",
+        "Id": {
+          "browseKey": {
+            "playlistURL": "",
+            "trackId": ""
+          }
+        }
+      }
+    ]
+  }
+
   //#endregion
 
   //#region Static Methods
@@ -55,7 +124,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
   //#region Component Lifecycle
 
-  public constructor(musicPlayerLib: MusicPlayerLib) {
+  public constructor(musicPlayerLib: MusicPlayerLib, ref: any) {
     super();
     this.musicPlayerLibInstance = musicPlayerLib;
     this.logger.start('constructor()', Ch5LegacyMediaPlayerMyMusic.ELEMENT_NAME);
@@ -63,9 +132,17 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this.createMyMusic();
     this.updateCssClass();
     subscribeState('o', 'myMusicData', ((data: any) => {
-      this.myMusicData = data;
-      console.log('My Music Data', this.myMusicData);
-      if (this.myMusicData && Object.keys(this.myMusicData).length > 0)this.apiChanges();
+      setTimeout(() => {
+        if (ref.demoMode) {
+          this.myMusicData = this.myMusicDemoData;
+          if (this.myMusicData && Object.keys(this.myMusicData).length > 0) this.apiChanges();
+        }
+        else {
+          this.myMusicData = data;
+          console.log('My Music Data', this.myMusicData);
+          if (this.myMusicData && Object.keys(this.myMusicData).length > 0) this.apiChanges();
+        }
+      }, 100);
     }));
   }
 
@@ -153,14 +230,14 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
     this._myMusicHeaderSection = document.createElement("div");
     this._myMusicHeaderSection.className = 'my-music-header';
-    this.myMusicHeader(true,"HEADER TEXT","SUBTITLE");
+    // this.myMusicHeader(true, "HEADER TEXT", "SUBTITLE");
 
 
     this._myMusicContentSection = document.createElement("div");
     this._myMusicContentSection.className = 'my-music-content';
-    for (let i = 1; i <= 6; i++) {
-      this.createLine(`Text Line ${i}`, `Sub Line ${i}`, `item ${i}`, i + 1);
-    }
+    // for (let i = 1; i <= 6; i++) {
+    //   this.createLine(`Text Line ${i}`, `Sub Line ${i}`, `item ${i}`, i + 1);
+    // }
 
     this._myMusicContentSection.onscrollend = () => {
       console.log("Scroll End");
@@ -169,7 +246,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
     this._myMusicFooterSection = document.createElement("div");
     this._myMusicFooterSection.className = 'my-music-footer';
-    this.myMusicMenuIconSection(["Create", "Find", "QuickList", "Advanced", "BackToTop", "Favorites"])
+    // this.myMusicMenuIconSection(["Create", "Find", "QuickList", "Advanced", "BackToTop", "Favorites"])
 
     this._myMusicContainer.append(this._myMusicHeaderSection, this._myMusicContentSection, this._myMusicFooterSection);
     this.logger.stop();
@@ -186,7 +263,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicContentItemSubtitle = document.createElement('div');
     this._myMusicContentItemSubtitle.className = 'my-music-content-item-subtitle';
     this._myMusicContentItemSubtitle.textContent = subText;
-    this._myMusicContentItemSubtitle.style.visibility = subText ? 'visible' : 'hidden';
+    // this._myMusicContentItemSubtitle.style.visibility = subText ? 'visible' : 'hidden';
 
     if (this._myMusicHeaderTitleText.innerText === 'Favorites') {
       let holdTimer: number | null = null;
@@ -223,7 +300,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicContentSection.appendChild(this._myMusicContentItem);
   }
 
-  protected myMusicHeader(backButton:boolean, myMusicHeaderTitleText: string, myMusicheaderSubtitle: string  ){
+  protected myMusicHeader(backButton: boolean, myMusicHeaderTitleText: string, myMusicheaderSubtitle: string) {
     if (backButton) {
       this._myMusicHeaderBackButton = new Ch5LegacyMediaPlayerIconButton();
       this._myMusicHeaderBackButton.setAttribute('iconClass', "mp-icon mp-chevron-left");
@@ -256,7 +333,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicHeaderSection.append(this._myMusicHeaderTitle, this._myMusicHeaderNowPlayingButton);
   }
 
-  protected myMusicMenuIconSection(myMusicMenuIconArray:Array<string>){
+  protected myMusicMenuIconSection(myMusicMenuIconArray: Array<string>) {
     const actions = [
       { class: 'mp-icon mp-plus-circle', name: 'Create' },
       { class: 'mp-icon mp-search-lg', name: 'Find' },
@@ -290,7 +367,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     Array.from(this._myMusicContentSection.childNodes).forEach((child) => child.remove());
     Array.from(this._myMusicFooterSection.childNodes).forEach((child) => child.remove());
 
-    this.myMusicHeader(this.myMusicData.IsMenuAvailable, this.myMusicData.Title,this.myMusicData.Subtitle);
+    this.myMusicHeader(this.myMusicData.IsMenuAvailable, this.myMusicData.Title, this.myMusicData.Subtitle);
 
     if (this.myMusicData && this.myMusicData.MenuData) {
       const length = Object.keys(this.myMusicData.MenuData).length;
