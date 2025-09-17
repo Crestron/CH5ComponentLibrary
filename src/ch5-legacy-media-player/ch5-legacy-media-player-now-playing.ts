@@ -482,13 +482,11 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 					button.setAttribute('iconClass', actionIconMap[action].class);
 					if (action === "Play") {
 						button.onclick = () => {
-							console.log(action);
 							this.musicPlayerLibInstance.nowPlayingvent(action);
 						};
 					}
 					else {
 						button.onclick = () => {
-							console.log(action);
 							this.musicPlayerLibInstance.nowPlayingvent(action);
 						};
 					}
@@ -501,7 +499,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 					const button = new Ch5LegacyMediaPlayerIconButton();
 					button.setAttribute('iconClass', actionIconMap[action].class);
 					button.onclick = () => {
-						console.log(action)
 						this.musicPlayerLibInstance.nowPlayingvent(action);
 					};
 					this._actionButtonsContainer.appendChild(button);
@@ -509,7 +506,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 					const button = new Ch5LegacyMediaPlayerIconButton();
 					button.setAttribute('iconClass', actionIconMap[action].class);
 					button.onclick = () => {
-						console.log(action)
 						this.musicPlayerLibInstance.nowPlayingvent(action);
 					};
 					button.style.visibility = "hidden";
@@ -536,19 +532,18 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			"UserNote": { class: 'mp-icon mp-image-user-plus' },
 		};
 
-		// const supportedActions = Array.isArray(this.nowPlayingData?.ActionsSupported)? this.nowPlayingData.ActionsSupported: [];
-
-		Object.keys(moreActionIconMap).forEach((action: string) => {
-			if (availableActions.includes(action)) {
-				const button = new Ch5LegacyMediaPlayerIconButton();
-				button.setAttribute('iconClass', moreActionIconMap[action].class);
-				button.onclick = () => {
-					console.log(action);
-					this.musicPlayerLibInstance.nowPlayingvent(action);
-				};
-				this._moreActionButtonsContainer.appendChild(button);
-			}
-		});
+		if (Array.isArray(availableActions)) {
+			Object.keys(moreActionIconMap).forEach((action: string) => {
+				if (availableActions.includes(action)) {
+					const button = new Ch5LegacyMediaPlayerIconButton();
+					button.setAttribute('iconClass', moreActionIconMap[action].class);
+					button.onclick = () => {
+						this.musicPlayerLibInstance.nowPlayingvent(action);
+					}
+					this._moreActionButtonsContainer.appendChild(button);
+				}
+				});
+			} 
 			this._transportControls.appendChild(this._moreActionButtonsContainer);
 		}
 
