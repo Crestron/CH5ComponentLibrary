@@ -229,23 +229,28 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		super();
 		this.musicPlayerLibInstance = musicPlayerLib;
 		this.logger.start('constructor()', Ch5LegacyMediaPlayerNowPlaying.ELEMENT_NAME);
-		this.createNowPlaying();
+		this.clearComponentContent();
+		this._nowPlayingContainer = document.createElement('div');
+		this.createDefaultNowPlaying();
 		this._ch5Properties = new Ch5Properties(this, Ch5LegacyMediaPlayerNowPlaying.COMPONENT_PROPERTIES);
 		this.updateCssClass();
 		subscribeState('o', 'nowPlayingData', ((data: any) => {
 			setTimeout(() => {
-
 				if (ref.demoMode) {
+					this.createNowPlaying();
 					this.nowPlayingData = this.nowPlayingDemoData;
 					if (this.nowPlayingData && Object.keys(this.nowPlayingData).length > 0) this.updatedNowPlayingContent();
 				}
-				else {
+				else if(data && Object.keys(data).length > 0) {
 					this.nowPlayingData = data;
+					this.createNowPlaying();
 					if (this.nowPlayingData && Object.keys(this.nowPlayingData).length > 0) this.updatedNowPlayingContent();
 					console.log('Now Playing Data', this.nowPlayingData);
+				} else {
+					this.createDefaultNowPlaying();
 				}
+				this.updateCssClass();
 			}, 100);
-
 		}));
 	}
 
@@ -382,7 +387,10 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	//default now playing 
 	protected createDefaultNowPlaying() {
-		this._nowPlayingContainer = document.createElement('div');
+		if (this._nowPlayingContainer) {
+			this._nowPlayingContainer.className = "";
+			this._nowPlayingContainer.innerHTML = "";
+		}
 		this._nowPlayingContainer.classList.add("ch5-legacy-media-player-now-playing-default");
 		const defaultProviderContainer = document.createElement('div');
 		defaultProviderContainer.classList.add('default-provider-container');
@@ -419,9 +427,12 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	}
 
 	protected createNowPlaying() {
+		if (this._nowPlayingContainer) {
+			this._nowPlayingContainer.className = "";
+			this._nowPlayingContainer.innerHTML = "";
+		}
 		this.logger.start('createInternalHtml()');
 		this.clearComponentContent();
-		this._nowPlayingContainer = document.createElement('div');
 		this._nowPlayingContainer.classList.add("ch5-legacy-media-player-now-playing");
 		this.renderProviderOrPlayer();
 		this.renderAlbumArt();

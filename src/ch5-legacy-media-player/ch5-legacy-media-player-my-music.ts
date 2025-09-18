@@ -129,18 +129,24 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this.musicPlayerLibInstance = musicPlayerLib;
     this.logger.start('constructor()', Ch5LegacyMediaPlayerMyMusic.ELEMENT_NAME);
     this._ch5Properties = new Ch5Properties(this, Ch5LegacyMediaPlayerMyMusic.COMPONENT_PROPERTIES);
-    this.createMyMusic();
+    this._myMusicContainer = document.createElement('div');
+    this.createDefaultMyMusic();
     this.updateCssClass();
     subscribeState('o', 'myMusicData', ((data: any) => {
       setTimeout(() => {
         if (ref.demoMode) {
+          this.createMyMusic();
           this.myMusicData = this.myMusicDemoData;
           if (this.myMusicData && Object.keys(this.myMusicData).length > 0) this.apiChanges();
-        } else {
+        } else if(data && Object.keys(data).length > 0) {
+          this.createMyMusic();
           this.myMusicData = data;
           console.log('My Music Data', this.myMusicData);
           if (this.myMusicData && Object.keys(this.myMusicData).length > 0) this.apiChanges();
+        } else {
+          this.createDefaultMyMusic();
         }
+        this.updateCssClass();
       }, 100);
     }));
   }
@@ -193,7 +199,11 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
   //default my music
   protected createDefaultMyMusic() {
-    this._myMusicContainer = document.createElement('div');
+    if (this._myMusicContainer) {
+			this._myMusicContainer.className = "";
+			this._myMusicContainer.innerHTML = "";
+		}
+    //this._myMusicContainer = document.createElement('div');
     this._myMusicContainer.classList.add("ch5-legacy-media-player-my-music-default");
     const defaultHeaderContainer = document.createElement('div');
     defaultHeaderContainer.classList.add('default-header-container');
@@ -222,9 +232,12 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
   }
 
   protected createMyMusic() {
+    if (this._myMusicContainer) {
+			this._myMusicContainer.className = "";
+			this._myMusicContainer.innerHTML = "";
+		}
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
-    this._myMusicContainer = document.createElement('div');
     this._myMusicContainer.classList.add("ch5-legacy-media-player-my-music");
 
     this._myMusicHeaderSection = document.createElement("div");
