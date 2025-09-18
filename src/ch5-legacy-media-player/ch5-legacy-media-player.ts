@@ -515,7 +515,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
 
 
-  protected addMusicTransition() {
+  public addMusicTransition() {
     this.querySelector(".now-playing-player-music-note-button")?.addEventListener("click", () => {
       this.querySelector(".ch5-legacy-media-player-my-music")?.classList.add("my-music-transition");
     });
