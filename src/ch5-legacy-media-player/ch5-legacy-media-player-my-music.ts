@@ -138,7 +138,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
           if (this.myMusicData && Object.keys(this.myMusicData).length > 0) this.apiChanges();
         } else {
           this.myMusicData = data;
-          console.log('My Music Data', this.myMusicData);
+          this.logger.log('My Music Data', this.myMusicData);
           if (this.myMusicData && Object.keys(this.myMusicData).length > 0) this.apiChanges();
         }
       }, 100);
@@ -239,7 +239,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     // }
 
     this._myMusicContentSection.onscrollend = () => {
-      console.log("Scroll End");
+      this.logger.log("Scroll End");
       this.musicPlayerLibInstance.getItemData(true);
     }
 

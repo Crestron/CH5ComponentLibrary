@@ -242,7 +242,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 				else {
 					this.nowPlayingData = data;
 					if (this.nowPlayingData && Object.keys(this.nowPlayingData).length > 0) this.updatedNowPlayingContent();
-					console.log('Now Playing Data', this.nowPlayingData);
+					this.logger.log('Now Playing Data', this.nowPlayingData);
 				}
 			}, 100);
 
@@ -570,7 +570,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this._progressBarInput.style.backgroundSize = ((parseInt(this._progressBarInput.value) / parseInt(this._progressBarInput.max)) * 100) + "% 100%";
 			this._currentTime.textContent = this.formatTime(parseInt(this._progressBarInput.value));
 			this._duration.textContent = this.formatTime(parseInt(this._progressBarInput.max) - parseInt(this._progressBarInput.value));
-			console.log('_currentTime==', this._progressBarInput.value);
+			this.logger.log('_currentTime==', this._progressBarInput.value);
 			this.seekApiCall();
 		});
 
@@ -715,11 +715,11 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	}
 
 	private onPreviousSong = () => {
-		console.log("Previous Song button click")
+		this.logger.log("Previous Song button click")
 	}
 
 	private onNextSong = () => {
-		console.log("Next Song button click")
+		this.logger.log("Next Song button click")
 	}
 
 	// Utility: format time

@@ -198,6 +198,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   public set receiveStateMessage(value: string) {
     this._ch5Properties.set("receiveStateMessage", value, null, (newValue: string) => {
+      this.logger.log('Source and Tag value', newValue);
       publishEvent('s', "mpSigMessageIn", newValue);
       //this.handleReceiveStateMessage();
     });
@@ -318,12 +319,12 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       // } else {
       //   this.stopMPLoading();
       // }
-      console.log('busyChanged', this.busyChanged);
+      this.logger.log('busyChanged', this.busyChanged);
     }));
 
     subscribeState('o', 'StatusMsgMenuChanged', ((data: any) => {
       this.popUpData = data;
-      console.log("Popup Data", this.popUpData);
+      this.logger.log("Popup Data", this.popUpData);
       if (this._elMask && this._elMask.parentNode) {
         this._elMask.parentNode.removeChild(this._elMask);
       }
@@ -445,7 +446,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   //Generic Dialog
   protected genericDialog(dialogType: number, dialogHeading: string, dialogArray: Array<string>) {
-    console.log(dialogType);
+    this.logger.log(dialogType);
     if (this._elMask) this._elMask.innerHTML = "";
     //dialog heading
     this.getDialogHeading(dialogHeading);
@@ -456,7 +457,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   //Keyboard Input Dialog
   protected keyboardInputDialog(dialogType: string, dialogHeading: string, dialogArray: Array<string>, dialogInput: string) {
-    console.log(dialogType);
+    this.logger.log(dialogType);
     if (this._elMask) this._elMask.innerHTML = "";
 
     // Set dialog heading
@@ -501,8 +502,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       const button = document.createElement('button');
       button.classList.add('generic-dialog-button');
       button.addEventListener("click", () => {
-        console.log("Button Confirmation Id:", i + 1);
-        console.log("Input Value:", inputEle?.value);
+        this.logger.log("Button Confirmation Id:", i + 1);
+        this.logger.log("Input Value:", inputEle?.value);
         this.musicPlayerLibInstance.popUpAction(inputEle?.value, i + 1);
       });
       button.textContent = dialogArray[i];
