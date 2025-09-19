@@ -229,23 +229,30 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		super();
 		this.musicPlayerLibInstance = musicPlayerLib;
 		this.logger.start('constructor()', Ch5LegacyMediaPlayerNowPlaying.ELEMENT_NAME);
-		this.createNowPlaying();
+		this.clearComponentContent();
+		this._nowPlayingContainer = document.createElement('div');
+		this.createDefaultNowPlaying();
 		this._ch5Properties = new Ch5Properties(this, Ch5LegacyMediaPlayerNowPlaying.COMPONENT_PROPERTIES);
 		this.updateCssClass();
 		subscribeState('o', 'nowPlayingData', ((data: any) => {
 			setTimeout(() => {
-
 				if (ref.demoMode) {
+					this.createNowPlaying();
 					this.nowPlayingData = this.nowPlayingDemoData;
 					if (this.nowPlayingData && Object.keys(this.nowPlayingData).length > 0) this.updatedNowPlayingContent();
+					ref.addMusicTransition();
 				}
-				else {
+				else if (data && Object.keys(data).length > 0) {
 					this.nowPlayingData = data;
-					if (this.nowPlayingData && Object.keys(this.nowPlayingData).length > 0) this.updatedNowPlayingContent();
+					this.createNowPlaying();
 					this.logger.log('Now Playing Data', this.nowPlayingData);
+					if (this.nowPlayingData && Object.keys(this.nowPlayingData).length > 0) this.updatedNowPlayingContent();
+					ref.addMusicTransition();
+				} else {
+					this.createDefaultNowPlaying();
 				}
+				this.updateCssClass();
 			}, 100);
-
 		}));
 	}
 
@@ -263,13 +270,13 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this._nowPlayingImageParent.classList.add("mp-fallback-album-art");
 			this._nowPlayingImageParent.classList.add("now-playing-image");
 		}
-		this._nowPlayingSongTitle.textContent = this.nowPlayingData.Title;
-		this._nowPlayingSongTitle.classList.remove('marquee');
-		setTimeout(() => {
-			if (this._nowPlayingSongTitle.scrollWidth > this._nowPlayingSongTitle.clientWidth) {
-				this._nowPlayingSongTitle.classList.add('marquee');
-			}
-		}, 0);
+		this._nowPlayingSongTitle.children[0].textContent = this.nowPlayingData.Title;
+		if ((this._nowPlayingSongTitle.children[0] as HTMLSpanElement).offsetWidth > this._nowPlayingSongTitle.offsetWidth) {
+			this._nowPlayingSongTitle.classList.add('marquee-item');
+		}
+		else {
+			this._nowPlayingSongTitle.classList.remove('marquee-item');
+		}
 
 		this._nowPlayingArtist.textContent = this.nowPlayingData.Artist;
 		this._nowPlayingAlbum.textContent = this.nowPlayingData.Album;
@@ -382,7 +389,10 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	//default now playing 
 	protected createDefaultNowPlaying() {
-		this._nowPlayingContainer = document.createElement('div');
+		if (this._nowPlayingContainer) {
+			this._nowPlayingContainer.className = "";
+			this._nowPlayingContainer.innerHTML = "";
+		}
 		this._nowPlayingContainer.classList.add("ch5-legacy-media-player-now-playing-default");
 		const defaultProviderContainer = document.createElement('div');
 		defaultProviderContainer.classList.add('default-provider-container');
@@ -419,9 +429,12 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	}
 
 	protected createNowPlaying() {
+		if (this._nowPlayingContainer) {
+			this._nowPlayingContainer.className = "";
+			this._nowPlayingContainer.innerHTML = "";
+		}
 		this.logger.start('createInternalHtml()');
 		this.clearComponentContent();
-		this._nowPlayingContainer = document.createElement('div');
 		this._nowPlayingContainer.classList.add("ch5-legacy-media-player-now-playing");
 		this.renderProviderOrPlayer();
 		this.renderAlbumArt();
@@ -476,8 +489,10 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingTrackInfo.classList.add("now-playing-track-info");
 		//Now Playing Song Title
 		this._nowPlayingSongTitle = document.createElement("div");
+		const songTitleMarqueeSpan = document.createElement("span");
+		this._nowPlayingSongTitle.appendChild(songTitleMarqueeSpan);
 		this._nowPlayingSongTitle.classList.add("now-playing-song-title");
-		this._nowPlayingSongTitle.textContent = "";
+		this._nowPlayingSongTitle.children[0].textContent = "";
 		//Now Playing Song Artist and Album
 		this._nowPlayingArtistAlbum = document.createElement("div");
 		this._nowPlayingArtistAlbum.classList.add("now-playing-artist-album");
