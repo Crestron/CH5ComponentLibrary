@@ -58,7 +58,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	private _progressBarTrackSec: number = 0;
 
 	private nowPlayingDemoData = {
-		"ActionsAvailable": [
+		ActionsAvailable: [
 			"GetMenu",
 			"StatusMsgResponse",
 			"MusicNote",
@@ -75,7 +75,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			"ThumbsDown",
 			"ThumbsUp"
 		],
-		"ActionsSupported": [
+		ActionsSupported: [
 			"Play",
 			"Pause",
 			"NextTrack",
@@ -93,42 +93,42 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			"GetMenu",
 			"StatusMsgResponse"
 		],
-		"Album": "Album Name",
-		"AlbumArt": true,
-		"AlbumArtUrl": "",
-		"AlbumArtUrlNAT": "",
-		"Artist": "Artist Name",
-		"Busy": {
-			"on": false,
-			"timeoutSec": 10
+		Album: "Album Name",
+		AlbumArt: true,
+		AlbumArtUrl: "",
+		AlbumArtUrlNAT: "",
+		Artist: "Artist Name",
+		Busy: {
+			on: false,
+			timeoutSec: 10
 		},
-		"ElapsedSec": 120,
-		"FfwdSpeed": 1,
-		"Genre": "Genre",
-		"MediaReady": true,
-		"MediaType": "",
-		"NextTitle": "Song Name Here",
-		"PlayerIcon": 10,
-		"PlayerIconURL": "",
-		"PlayerName": "Player Name",
-		"PlayerState": "paused",
-		"ProgressBar": true,
-		"ProviderName": "",
-		"Rating": {
-			"current": 0,
-			"max": 0,
-			"system": 0
+		ElapsedSec: 120,
+		FfwdSpeed: 1,
+		Genre: "Genre",
+		MediaReady: true,
+		MediaType: "",
+		NextTitle: "Song Name Here",
+		PlayerIcon: 10,
+		PlayerIconURL: "",
+		PlayerName: "Player Name",
+		PlayerState: "paused",
+		ProgressBar: true,
+		ProviderName: "",
+		Rating: {
+			current: 0,
+			max: 0,
+			system: 0
 		},
-		"RepeatState": 0,
-		"RewindSpeed": 1,
-		"ShuffleState": 0,
-		"StationName": " ",
-		"StreamState": "StreamState",
-		"TextLines": [],
-		"Title": "Song Title",
-		"TrackCnt": 5,
-		"TrackNum": 2,
-		"TrackSec": 280
+		RepeatState: 0,
+		RewindSpeed: 1,
+		ShuffleState: 0,
+		StationName: "Song Title",
+		StreamState: "StreamState",
+		TextLines: [],
+		Title: "Song Title",
+		TrackCnt: 5,
+		TrackNum: 2,
+		TrackSec: 280
 	}
 
 	// Returns a function, that, as long as it continues to be invoked, will not be triggered. 
@@ -147,63 +147,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		};
 	};
 
-
-	private readonly DEMO_MODE_DATA = {
-		nowPlaying: {
-			classes: [
-				"ch5-legacy-media-player-now-playing"
-			]
-		},
-		albumArt: {
-			classes: [
-				"album-art"
-			],
-			alt: "Album Art",
-			src: "https://i.ytimg.com/vi/ZUfWe-CkgBE/maxresdefault.jpg"
-		},
-		info: {
-			classes: [
-				"info"
-			],
-			titleElement: {
-				classes: [
-					"song-title"
-				],
-				textContent: "Song Title"
-			},
-			artistAlbum: {
-				classes: [
-					"artist-album"
-				],
-				textContent: "Song Title"
-			},
-			artistElement: {
-				classes: [
-					""
-				],
-				textContent: ""
-			},
-			longDash: {
-				classes: [
-					""
-				],
-				textContent: ""
-			}
-		},
-		sourceElement: {
-			// options: [
-			// 	{ value: 'pandora', text: 'Pandora' },
-			// 	{ value: 'spotify', text: 'Spotify' },
-			// 	{ value: 'tidal', text: 'Tidal' },
-			// 	{ value: 'podcast', text: 'Podcast' }
-			// ],
-			musicButton: {
-				icon: "mp-icon mp-music-note-dbl",
-				class: "music-button"
-			}
-		},
-		transportControls: {}
-	};
 	//#endregion
 
 	//#region Static Methods
@@ -270,7 +213,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this._nowPlayingImageParent.classList.add("mp-fallback-album-art");
 			this._nowPlayingImageParent.classList.add("now-playing-image");
 		}
-		this._nowPlayingSongTitle.children[0].textContent = this.nowPlayingData.StationName;
+		this._nowPlayingSongTitle.children[0].textContent = this.nowPlayingData.Title;
 		if ((this._nowPlayingSongTitle.children[0] as HTMLSpanElement).offsetWidth > this._nowPlayingSongTitle.offsetWidth) {
 			this._nowPlayingSongTitle.classList.add('marquee-item');
 		}
