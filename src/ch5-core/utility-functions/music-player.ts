@@ -9,7 +9,7 @@ export class MusicPlayerLib {
     private mpSigRPCOut: string = "";
     /*  private mpSigMessageOut = 2; */
 
-    private mpRPCPrefix: string = '';
+    // private mpRPCPrefix: string = '';
     private mpRPCDataIn: string = '';
     private menuStateChanged: any = {};
 
@@ -115,7 +115,7 @@ export class MusicPlayerLib {
     //public progressBarData: any = {};
 
     static getInstance() {
-        console.log('getInstance');
+        // console.log('getInstance');
         if (this.instance) {
             return this.instance;
         }
@@ -126,7 +126,7 @@ export class MusicPlayerLib {
     constructor() {
         //refreshMediaPlayer
         subscribeState('b', 'mpSigRefresh', (value: any) => {
-            // console.log('mpSigRefresh: ' + value);
+            console.log('mpSigRefresh: ' + value);
             if (value == 1) {
                 this.refreshMediaPlayer();
             }
@@ -134,7 +134,7 @@ export class MusicPlayerLib {
 
         // device offline
         subscribeState('b', 'mpSigOffline', (value: any) => {
-            // console.log('mpSigOffline: ' + value);
+            console.log('mpSigOffline: ' + value);
             if (value == 1) {
                 this.deviceIsOffline();
             } else {
@@ -149,49 +149,68 @@ export class MusicPlayerLib {
 
         // Controle System status offline / online
         subscribeState('b', 'mpSigCtrlSysOffline', (value: any) => {
-            // console.log('mpSigCtrlSysOffline: ' + value);
+            console.log('mpSigCtrlSysOffline: ' + value);
             if (value == 1) {
-                console.log('Control system is offline.');
+                //console.log('Control system is offline.');
             } else {
-                console.log('Control system is online.');
+                // console.log('Control system is online.');
                 this.mpIgnoreCRPCIn = true;
             }
         });
 
         // mpSigRPCIn from CS
         subscribeState('s', 'mpSigRPCIn', (value: any) => {
-            // Check for length and if the data is a result of an update request.
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
+            console.log('RPCIn from', value);
             if (value.length > 0) {
 
                 // If the update request has just come in, ignore the data.
-                if (this.mpIgnoreCRPCIn) {
-                    this.mpIgnoreCRPCIn = false;
-                } else {
-                    this.mpRPCPrefix = value.substring(0, 8); // First 8 bytes is the RPC prefix.
+                /*   if (this.mpIgnoreCRPCIn) {
+                      this.mpIgnoreCRPCIn = false;
+                  } else { */
+                const mpRPCPrefix = value.substring(0, 8).trim(); // First 8 bytes is the RPC prefix.
+                console.log('Without prefix Data', value.substring(8));
+                // Check byte 3 to determine if this is a single or partial message.
+                // c = partial message
+                // e = single or final message when a partial message was received.
+                console.log('------------', mpRPCPrefix[3], "*-" + this.mpRPCDataIn + "-*");
+                if (mpRPCPrefix[3] === 'c') {
                     this.mpRPCDataIn = this.mpRPCDataIn + value.substring(8); // Gather the CRPC data.
-                    // Check byte 3 to determine if this is a single or partial message.
-                    // c = partial message
-                    // e = single or final message when a partial message was received.
-                    if (this.mpRPCPrefix[3] == 'c') {
-                        console.log('Found c in prefix.');
-                    } else if (this.mpRPCPrefix[3] == 'e') {
-                        console.log('Found e in prefix.');
-                        console.log('CRPC receive join:1  Full Response -> ' + this.mpRPCDataIn);
+                    /*  const data = mpRPCPrefix;
+                     console.log('partial message',data ); */
+                    // console.log('Found c in prefix.');
+                } else if (mpRPCPrefix[3] === 'e') {
+                    // console.log('Found e in prefix.');
+                    // console.log('CRPC receive join:1  Full Response -> ' + this.mpRPCDataIn);
+                    if (this.mpRPCDataIn.trim() === '') {
 
-                        // check error
-                        let errorData: any = ''
-                        errorData = JSON.parse(this.mpRPCDataIn);
-                        if (errorData.error) {
-                            this.handleError(errorData.error);
-                            this.mpRPCDataIn = '';
-                            return;
-                        }
-                        this.processCRPCResponse(this.mpRPCDataIn); // Process the entire payload then clear the var.
-                        this.mpRPCDataIn = ''; // Clear the var now that we have the entire message.
+                        this.mpRPCDataIn = value.substring(8); // Gather the CRPC data.
+                    } else {
+                        this.mpRPCDataIn = this.mpRPCDataIn + value.substring(8); // Gather the CRPC data.
                     }
+
+                    // check error
+                    let parsedData: any = '';
+                    //console.log('-->', this.mpRPCDataIn);
+                    try {
+                        parsedData = JSON.parse(this.mpRPCDataIn);
+                        if (parsedData.error) {
+                            console.log('handle Error>', parsedData.error);
+                            this.handleError(parsedData.error);
+
+                        } else {
+                            this.processCRPCResponse(parsedData); // Process the entire payload then clear the var.
+                        }
+
+                    } catch (e) {
+                        console.log("e", e);
+                        // this.handleError(parsedData.error);                   
+                    }
+
+                    this.mpRPCDataIn = ''; // Clear the var now that we have the entire message.
                 }
+                //   }
             }
         });
 
@@ -223,7 +242,7 @@ export class MusicPlayerLib {
         }
         // Register with the new device. ToDo: Add checks for online & tag values.
         if (this.myMP.tag && this.myMP.connectionActive) {
-            console.log('Register Device');
+            // console.log('Register Device');
             this.registerWithDevice();
         }
     }
@@ -234,7 +253,7 @@ export class MusicPlayerLib {
         // as well as the Media player Menu instance.
 
         if (this.myMP.instanceName && this.myMP.menuInstanceName) {
-            console.log('Deregister Device');
+            //console.log('Deregister Device');
             ['BusyChanged', 'StatusMsgChanged', 'StateChangedByBrowseContext', 'StateChanged'].forEach((item: any) => {
                 const myRPC: CommonEventRequest = {
                     params: { "ev": item, "handle": "sg" },
@@ -336,10 +355,10 @@ export class MusicPlayerLib {
     // Note: On an update request from the control system, the last data to be sent
     // will be the message string.
     private processMessage(data: any) {
-
+        // console.log('Data-->', data);
         const myObj = JSON.parse(data);
         if (myObj.hasOwnProperty("tag")) {
-            console.log('Found tag value: ' + this.myMP.tag);
+            // console.log('Found tag value: ' + this.myMP.tag);
             // ToDo: Need to check if the tag matches in case the device
             // is sending us the wrong data. The dealer could have the router
             // module in SIMPL incorrectly configured.
@@ -347,11 +366,11 @@ export class MusicPlayerLib {
         }
 
         if (myObj.hasOwnProperty("src")) {
-            console.log('Found src value: ' + this.myMP.source);
+            // console.log('Found src value: ' + this.myMP.source);
             // If this is a different source, we need to refresh the media player.
             // This will also happen on an update request since no source value has been set yet.
             if (this.myMP.source != myObj.src) {
-                console.log('Source has changed.');
+                //  console.log('Source has changed.');
                 this.refreshMediaPlayer();
             }
             this.myMP.source = myObj.src;
@@ -367,7 +386,7 @@ export class MusicPlayerLib {
 
             // What RPC version is this?
             if (regResponse.jsonrpc == '1.0') {
-                console.log('RPC version = 1.0.');
+                //console.log('RPC version = 1.0.');
                 /*   if (regResponse.result.connections) {
                       console.log('Found connections list.');
                       const myDirectConnectionInfo = regResponse.result.connections.cip;
@@ -378,8 +397,8 @@ export class MusicPlayerLib {
                 // Do we have the connection list?
                 if (regResponse.result.connectionslist) {
                     // console.log('Found connections list.');
-                    const myDirectConnectionInfo: any = this.getDirectConnectionInfoFromArray(regResponse.result.connectionslist);
-                    console.log('myDirectConnectionInfo Ip: ' + myDirectConnectionInfo.ip);
+                    //const myDirectConnectionInfo: any = this.getDirectConnectionInfoFromArray(regResponse.result.connectionslist);
+                    // console.log('myDirectConnectionInfo Ip: ' + myDirectConnectionInfo.ip);
                 }
             }
         }
@@ -395,6 +414,8 @@ export class MusicPlayerLib {
                 this.myMP.menuInstanceName = item.instancename;
             }
         });
+        console.log('instance', this.myMP.instancename);
+        console.log('menuInstanceName', this.myMP.menuInstanceName);
 
         this.registerEvent();
         this.getPropertiesSupported(this.myMP.instanceName);
@@ -433,8 +454,9 @@ export class MusicPlayerLib {
     }
 
     private processMenuResponse(getMenuResponse: GetMenuResponse) {
-        console.log("MenuResponse---->", getMenuResponse);
+        //console.log("MenuResponse---->", getMenuResponse);
         this.myMP.menuInstanceName = getMenuResponse.result.instanceName;
+        console.log('menuInstanceName 2', this.myMP.menuInstanceName);
 
         ['Reset', 'BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'].forEach((item: any) => {
             const myRPC: CommonEventRequest = {
@@ -576,7 +598,7 @@ export class MusicPlayerLib {
         const count = (this.tempMyMusicData['ItemCnt'] < this.tempMyMusicData['MaxReqItems']) ? this.tempMyMusicData['ItemCnt'] :
             this.tempMyMusicData['MaxReqItems'];
         this.tempMyMusicData['ItemCnt'] = this.tempMyMusicData['ItemCnt'] - count;
-        console.log("ITEM DATA VALUES", this.itemValue, count)
+        // console.log("ITEM DATA VALUES", this.itemValue, count)
         const myRPC: any = {
             params: { item: this.itemValue, count },//"item": //this.tempMyMusicData['Level']
             jsonrpc: '2.0',
@@ -608,7 +630,7 @@ export class MusicPlayerLib {
 
     // Process CRPC data from the control system.
     private processCRPCResponse(data: any) {
-        const responseData = JSON.parse(data);
+        const responseData = data;
 
 
         // ToDO: Just because the message ID was found, doesn't mean
@@ -649,8 +671,9 @@ export class MusicPlayerLib {
         } else if (myMsgId === this.myMP.PlayId || myMsgId === this.myMP.PauseId || myMsgId === this.myMP.SeekId) { // Play or pause clicked
             this.callTrackTime();
         } else {
+            console.log('this.myMP.RegistrationId----', this.myMP.RegistrationId)
             if (myMsgId == this.myMP.RegistrationId) {
-                console.log('Successful registration.');
+                //console.log('Successful registration.');
                 this.processRegistrationResponse(responseData);
 
                 // If we are not using a direct connection yet, go ahead and get objects.
@@ -787,7 +810,7 @@ export class MusicPlayerLib {
 
 
     public myMusicEvent(action: string, itemIndex: number = 0) {
-        console.log(action);
+        // console.log(action);
         const param = itemIndex == 0 ? null : { 'item': itemIndex };
         const myRPC: CommonEventRequest = {
             params: param,
