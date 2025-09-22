@@ -35,14 +35,14 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
 
   private myMusicDemoData = {
-    "MaxReqItems": 100,
-    "Level": 5,
-    "ItemCnt": 489,
-    "Title": "HEADER TEXT",
-    "Subtitle": "SUBTITLE",
-    "IsMenuAvailable": true,
-    "ListItemIcons": true,
-    "ListSpecificFunctions": [
+    MaxReqItems: 100,
+    Level: 5,
+    ItemCnt: 489,
+    Title: "HEADER TEXT",
+    Subtitle: "SUBTITLE",
+    IsMenuAvailable: true,
+    ListItemIcons: true,
+    ListSpecificFunctions: [
       "Create",
       "Find",
       "QuickList",
@@ -50,53 +50,53 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
       "BackToTop",
       "Favorites"
     ],
-    "Sorted": "none",
-    "MenuData": [
+    Sorted: "none",
+    MenuData: [
       {
-        "L1": "Text Line 1",
-        "L2": "Sub Line 1",
-        "URL": "",
-        "URLNAT": "",
-        "Id": {
-          "browseKey": {
-            "playlistURL": "",
-            "trackId": ""
+        L1: "Text Line 1",
+        L2: "Sub Line 1",
+        URL: "",
+        URLNAT: "",
+        Id: {
+          browseKey: {
+            playlistURL: "",
+            trackId: ""
           }
         }
       },
       {
-        "L1": "Text Line 2",
-        "L2": "",
-        "URL": "",
-        "URLNAT": "",
-        "Id": {
-          "browseKey": {
-            "playlistURL": "",
-            "trackId": ""
+        L1: "Text Line 2",
+        L2: "",
+        URL: "",
+        URLNAT: "",
+        Id: {
+          browseKey: {
+            playlistURL: "",
+            trackId: ""
           }
         }
       },
       {
-        "L1": "Text Line 3",
-        "L2": "Sub Line 3",
-        "URL": "",
-        "URLNAT": "",
-        "Id": {
-          "browseKey": {
-            "playlistURL": "",
-            "trackId": ""
+        L1: "Text Line 3",
+        L2: "Sub Line 3",
+        URL: "",
+        URLNAT: "",
+        Id: {
+          browseKey: {
+            playlistURL: "",
+            trackId: ""
           }
         }
       },
       {
-        "L1": "Text Line 4",
-        "L2": "",
-        "URL": "",
-        "URLNAT": "",
-        "Id": {
-          "browseKey": {
-            "playlistURL": "",
-            "trackId": ""
+        L1: "Text Line 4",
+        L2: "",
+        URL: "",
+        URLNAT: "",
+        Id: {
+          browseKey: {
+            playlistURL: "",
+            trackId: ""
           }
         }
       }
@@ -138,7 +138,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
           this.createMyMusic();
           this.myMusicData = this.myMusicDemoData;
           if (this.myMusicData && Object.keys(this.myMusicData).length > 0) this.apiChanges();
-        } else if(data && Object.keys(data).length > 0) {
+        } else if (data && Object.keys(data).length > 0) {
           this.createMyMusic();
           this.myMusicData = data;
           this.logger.log('My Music Data', this.myMusicData);
@@ -200,9 +200,9 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
   //default my music
   protected createDefaultMyMusic() {
     if (this._myMusicContainer) {
-			this._myMusicContainer.className = "";
-			this._myMusicContainer.innerHTML = "";
-		}
+      this._myMusicContainer.className = "";
+      this._myMusicContainer.innerHTML = "";
+    }
     //this._myMusicContainer = document.createElement('div');
     this._myMusicContainer.classList.add("ch5-legacy-media-player-my-music-default");
     const defaultHeaderContainer = document.createElement('div');
@@ -233,9 +233,9 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
   protected createMyMusic() {
     if (this._myMusicContainer) {
-			this._myMusicContainer.className = "";
-			this._myMusicContainer.innerHTML = "";
-		}
+      this._myMusicContainer.className = "";
+      this._myMusicContainer.innerHTML = "";
+    }
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
     this._myMusicContainer.classList.add("ch5-legacy-media-player-my-music");
