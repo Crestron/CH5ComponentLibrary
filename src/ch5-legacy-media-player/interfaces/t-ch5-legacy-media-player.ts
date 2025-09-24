@@ -18,3 +18,10 @@ export enum TCh5LegacyMediaPlayerSourcePlayerIcons {
 	"mp-logo mp-logo-spotify",
 	"mp-logo mp-logo-jukebox"
 }
+
+export type TCh5LegacyMediaPlayerProgressbarData = {
+	StreamState: string;
+	TrackSec: number;
+	ElapsedSec: number;
+	ProgressBar: boolean;
+}
