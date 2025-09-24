@@ -84,7 +84,8 @@ export class MusicPlayerLib {
     public myMusicData: any = {};
     public tempNowPlayingData: any = {};
     public tempMyMusicData: any = {};
-    //public progressBarData: any = {};
+    public progressBarData: any = {};
+    public tempProgressBarData: any = {};
 
     constructor() {
         subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: any) => {
@@ -213,9 +214,10 @@ export class MusicPlayerLib {
             });
             this.myMusicData = {};
             this.nowPlayingData = {};
-            //this.progressBarData = {};
+            this.progressBarData = {};
             publishEvent('o', 'myMusicData', this.myMusicData);
             publishEvent('o', 'nowPlayingData', this.nowPlayingData);
+            publishEvent('o', 'progressBarData', this.progressBarData);
             this.myMP.instanceName = '';
             this.myMP.menuInstanceName = '';
         }
@@ -575,7 +577,11 @@ export class MusicPlayerLib {
             publishEvent('o', 'busyChanged', busyChanged);
         } else if (playerInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // Now music statechanged 
             for (const item in responseData.params.parameters) {
-                this.tempNowPlayingData[item] = responseData.params?.parameters[item];
+                if (item === 'ElapsedSec' || item === 'TrackSec' || item === 'StreamState' || item === 'ProgressBar') {
+                    this.tempProgressBarData[item] = responseData.params?.parameters[item];
+                } else {
+                    this.tempNowPlayingData[item] = responseData.params?.parameters[item];
+                }
             }
         } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // My music  statechanged 
             for (const item in responseData.params?.parameters) {
@@ -625,7 +631,7 @@ export class MusicPlayerLib {
             } else if (myMsgId == this.myMP.PlayerNameId) {
                 this.tempNowPlayingData['PlayerName'] = responseData.result.PlayerName;
             } else if (myMsgId == this.myMP.StreamStateId) {
-                this.tempNowPlayingData['StreamState'] = responseData.result.StreamState;
+                this.tempProgressBarData['StreamState'] = responseData.result.StreamState;
             } else if (myMsgId == this.myMP.AlbumId) {
                 this.tempNowPlayingData['Album'] = responseData.result.Album;
             } else if (myMsgId == this.myMP.AlbumArtId) {
@@ -643,7 +649,7 @@ export class MusicPlayerLib {
             } else if (myMsgId == this.myMP.TitleId) {
                 this.tempNowPlayingData['Title'] = responseData.result.Title;
             } else if (myMsgId == this.myMP.ProgressBarId) {
-                this.tempNowPlayingData['ProgressBar'] = responseData.result.ProgressBar;
+                this.tempProgressBarData['ProgressBar'] = responseData.result.ProgressBar;
             } else if (myMsgId == this.myMP.TrackNumId) {
                 this.tempNowPlayingData['TrackNum'] = responseData.result.TrackNum;
             } else if (myMsgId == this.myMP.TrackCntId) {
@@ -655,9 +661,9 @@ export class MusicPlayerLib {
             } else if (myMsgId == this.myMP.RepeatStateId) {
                 this.tempNowPlayingData['RepeatState'] = responseData.result.RepeatState;
             } else if (myMsgId == this.myMP.ElapsedSecId) {
-                this.tempNowPlayingData['ElapsedSec'] = responseData.result.ElapsedSec;
+                this.tempProgressBarData['ElapsedSec'] = responseData.result.ElapsedSec;
             } else if (myMsgId == this.myMP.TrackSecId) {
-                this.tempNowPlayingData['TrackSec'] = responseData.result.TrackSec;
+                this.tempProgressBarData['TrackSec'] = responseData.result.TrackSec;
             } else if (myMsgId == this.myMP.TitleMenuId) { // Menu DFata
                 this.tempMyMusicData['Title'] = responseData.result.Title;
             } else if (myMsgId == this.myMP.SubtitleId) {
@@ -683,6 +689,10 @@ export class MusicPlayerLib {
             if (!_.isEqual(this.myMusicData, this.tempMyMusicData)) {
                 this.myMusicData = { ...this.tempMyMusicData };
                 publishEvent('o', 'myMusicData', this.myMusicData); // right section
+            }
+            if (!_.isEqual(this.progressBarData, this.tempProgressBarData)) {
+                this.progressBarData = { ...this.tempProgressBarData };
+                publishEvent('o', 'progressBarData', this.progressBarData);
             }
         }
     }

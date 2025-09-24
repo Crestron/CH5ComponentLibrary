@@ -46,6 +46,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	private _transportControls: HTMLElement = {} as HTMLElement;
 	private musicPlayerLibInstance: MusicPlayerLib;
 	private nowPlayingData: any;
+	private progressBarData: any;
 
 	private _nowPlayingPlayerName: HTMLElement = {} as HTMLElement
 	private _nowPlayingPlayerImage: HTMLImageElement = {} as HTMLImageElement;
@@ -56,6 +57,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	private _progressBarTimer: number | null = null;
 	private _progressBarElapsedSec: number = 0;
 	private _progressBarTrackSec: number = 0;
+	private _progressStreamState: string = '';
 
 	private nowPlayingDemoData = {
 		ActionsAvailable: [
@@ -197,6 +199,51 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 				this.updateCssClass();
 			}, 100);
 		}));
+
+		subscribeState('o', 'progressBarData', (data: any) => {
+			setTimeout(() => {
+				console.log("Progressbar data: ", data);
+				if (this._progressBarTimer) {
+					clearInterval(this._progressBarTimer);
+					this._progressBarTimer = null;
+				}
+				if(data && Object.keys(data).length > 0) {
+					this.progressBarData = data;
+					if(this.progressBarData && Object.keys(this.progressBarData).length > 0) {
+						if (!this.progressBarData.ProgressBar) {
+							this._progressBarContainer.style.display = "none";
+							return;
+						}
+						this._progressBarContainer.style.display = "flex";
+						this._progressStreamState = this.progressBarData.StreamState;
+						this._streamState.textContent = this._progressStreamState;
+						this._progressBarTrackSec = this.progressBarData.TrackSec;
+						this._progressBarElapsedSec = this.progressBarData.ElapsedSec;
+						this._progressBarInput.max = this._progressBarTrackSec?.toString();
+						this._progressBarInput.value = this._progressBarElapsedSec?.toString();
+						this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
+						this._currentTime.textContent = this.formatTime(this._progressBarElapsedSec);
+						this._duration.textContent = this.formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
+
+						if (this.progressBarData.StreamState === 'streaming') {
+							this._progressBarTimer = window.setInterval(() => {
+								if (this._progressBarElapsedSec < this._progressBarTrackSec) {
+									this._progressBarElapsedSec += 1;
+									const percent = (this._progressBarElapsedSec / this._progressBarTrackSec) * 100;
+									this._progressBarInput.value = this._progressBarElapsedSec.toString();
+									this._progressBarInput.style.backgroundSize = percent + "% 100%";
+									this._currentTime.textContent = this.formatTime(this._progressBarElapsedSec);
+									this._duration.textContent = this.formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
+								} else {
+									clearInterval(this._progressBarTimer!);
+									this._progressBarTimer = null;
+								}
+							}, 1000);
+						}
+					}
+				}
+			}, 100);
+		});
 	}
 
 	private updatedNowPlayingContent() {
@@ -248,39 +295,10 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this.renderMoreActionButtons(this.nowPlayingData.ActionsAvailable, this.nowPlayingData.RepeatState, this.nowPlayingData.ShuffleState);
 		this._nowPlayingContainer.appendChild(this._transportControls);
 		this.renderNextAndPreviousSong(this.nowPlayingData.NextTitle);
-		this._streamState.textContent = this.nowPlayingData.StreamState;
-
-		if (this._progressBarTimer) {
-			clearInterval(this._progressBarTimer);
-			this._progressBarTimer = null;
-		}
-		if (!this.nowPlayingData.ProgressBar) {
+		if (!this.progressBarData.ProgressBar) {
 			this._progressBarContainer.style.display = "none";
-			return;
-		}
-		this._progressBarContainer.style.display = "flex";
-		this._progressBarTrackSec = this.nowPlayingData.TrackSec;
-		this._progressBarElapsedSec = this.nowPlayingData.ElapsedSec;
-		this._progressBarInput.max = this._progressBarTrackSec?.toString();
-		this._progressBarInput.value = this._progressBarElapsedSec?.toString();
-		this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
-		this._currentTime.textContent = this.formatTime(this._progressBarElapsedSec);
-		this._duration.textContent = this.formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
-
-		if (this.nowPlayingData.StreamState === 'playing') {
-			this._progressBarTimer = window.setInterval(() => {
-				if (this._progressBarElapsedSec < this._progressBarTrackSec) {
-					this._progressBarElapsedSec += 1;
-					const percent = (this._progressBarElapsedSec / this._progressBarTrackSec) * 100;
-					this._progressBarInput.value = this._progressBarElapsedSec.toString();
-					this._progressBarInput.style.backgroundSize = percent + "% 100%";
-					this._currentTime.textContent = this.formatTime(this._progressBarElapsedSec);
-					this._duration.textContent = this.formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
-				} else {
-					clearInterval(this._progressBarTimer!);
-					this._progressBarTimer = null;
-				}
-			}, 1000);
+		} else { 
+			this._progressBarContainer.style.display = "flex";
 		}
 	}
 
@@ -496,9 +514,9 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._progressBarInput = document.createElement('input');
 		this._progressBarInput.type = 'range';
 		this._progressBarInput.min = '0';
-		this._progressBarInput.max = '0';
-		this._progressBarInput.value = "0";
-		this._progressBarInput.style.backgroundSize = "0% 100%";
+		this._progressBarInput.max = this._progressBarTrackSec.toString();
+		this._progressBarInput.value = this._progressBarElapsedSec.toString();
+		this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
 		this._progressBarInput.classList.add('now-playing-progressbar-input');
 		this._progressBarContainer.appendChild(this._progressBarInput);
 
@@ -508,12 +526,12 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		// Current time
 		this._currentTime = document.createElement('span');
 		this._currentTime.classList.add('now-playing-progressbar-current-time');
-		this._currentTime.textContent = "";
+		this._currentTime.textContent = this.formatTime(this._progressBarElapsedSec);
 		progressBarCurrentTimeDurationContainer.appendChild(this._currentTime);
 		// Player State
 		this._streamState = document.createElement('span');
 		this._streamState.classList.add('now-playing-progressbar-stream-state');
-		this._streamState.textContent = '';
+		this._streamState.textContent = this._progressStreamState;
 
 		progressBarCurrentTimeDurationContainer.appendChild(this._streamState);
 		// Duration
@@ -528,6 +546,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this._progressBarInput.style.backgroundSize = ((parseInt(this._progressBarInput.value) / parseInt(this._progressBarInput.max)) * 100) + "% 100%";
 			this._currentTime.textContent = this.formatTime(parseInt(this._progressBarInput.value));
 			this._duration.textContent = this.formatTime(parseInt(this._progressBarInput.max) - parseInt(this._progressBarInput.value));
+			this._progressBarElapsedSec = parseInt(this._progressBarInput.value);
 			this.logger.log('_currentTime==', this._progressBarInput.value);
 			this.seekApiCall();
 		});
