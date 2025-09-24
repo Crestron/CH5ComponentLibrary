@@ -10,6 +10,7 @@ export class MusicPlayerLib {
     private menuStateChanged: any = {};
     private mpMsgId: number = 0; // Increment our message id. ToDo: Need a max value check and reset to 0.
     private itemValue: number = 1; // Used in infinite scroll feature.
+    private resendRegistrationTimeId: any = '';
 
     // Generate a constant UUID once per application start.
     private generateStrongCustomId = (): string => {
@@ -147,6 +148,7 @@ export class MusicPlayerLib {
 
         //receiveStateMessageResp from CS (ver tag src)
         subscribeState('s', 'receiveStateMessageResp', (value: any) => {
+            console.log('Source and Tag value', value);
             if (value.length > 0) {
                 this.processMessage(value);
             }
@@ -257,8 +259,11 @@ export class MusicPlayerLib {
         return hexLength.padStart(4, '0');
     }
 
-    // let resendRegistrationTimeId = '';
     private startRegistrationResendTimer() {
+        this.resendRegistrationTimeId = setInterval(() => {
+            console.log('Timer.......')
+            this.registerWithDevice();
+        }, 10000);
         //resendRegistrationTimeId = setTimeout(function, 30000);
     }
 
@@ -331,6 +336,8 @@ export class MusicPlayerLib {
                     // console.log('myDirectConnectionInfo Ip: ' + myDirectConnectionInfo.ip);
                 }
             }
+            console.log('clear timer');
+            clearInterval(this.resendRegistrationTimeId);
         }
     }
 
@@ -358,9 +365,10 @@ export class MusicPlayerLib {
                 method: this.myMP.instanceName + '.RegisterEvent'
 
             };
-            const myRPCJSON = JSON.stringify(myRPC);
             this.myMP[item + 'Id'] = myRPC.id;// Keep track of the message id.
-            this.sendRPCRequest(myRPCJSON);// Send the message.
+            if (this.myMP.instanceName) {
+                this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
+            }
         });
     }
 
@@ -375,7 +383,9 @@ export class MusicPlayerLib {
                     method: this.myMP.instanceName + '.GetProperty'
                 };
                 this.myMP[item + "Id"] = myRPC.id; // Keep track of the message id.
-                this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
+                if (this.myMP.instanceName) {
+                    this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
+                }
             }
         });
     }
@@ -401,7 +411,9 @@ export class MusicPlayerLib {
             } else {
                 this.myMP[item + 'Id'] = myRPC.id;// Keep track of the message id.
             }
-            this.sendRPCRequest(JSON.stringify(myRPC));
+            if (this.myMP.menuInstanceName) {
+                this.sendRPCRequest(JSON.stringify(myRPC));
+            }
         });
 
         ['Version', 'MaxReqItems', 'Level', 'ItemCnt', 'Title', 'Subtitle', 'ListSpecificFunctions', 'IsMenuAvailable', 'StatusMsgMenu', 'Instance'].forEach((item: any) => {
@@ -416,7 +428,9 @@ export class MusicPlayerLib {
             } else {
                 this.myMP[item + 'Id'] = myRPC.id;// Keep track of the message id.
             }
-            this.sendRPCRequest(JSON.stringify(myRPC));
+            if (this.myMP.menuInstanceName) {
+                this.sendRPCRequest(JSON.stringify(myRPC));
+            }
         });
     }
 
@@ -449,7 +463,10 @@ export class MusicPlayerLib {
         this.sendRPCRequest(JSON.stringify(myRPC));
 
         // Start the re-send time.
-        this.startRegistrationResendTimer();
+        if (!this.resendRegistrationTimeId) {
+            console.log('start timer');
+            this.startRegistrationResendTimer();
+        }
     }
 
     // Get all of the media player objects from the device.
@@ -495,7 +512,9 @@ export class MusicPlayerLib {
             method: instanceName + '.GetMenu'
         };
         this.myMP.MenuId = myRPC.id;// Keep track of the message id.
-        this.sendRPCRequest(JSON.stringify(myRPC));
+        if (instanceName) {
+            this.sendRPCRequest(JSON.stringify(myRPC));
+        }
     }
 
     public getItemData(infiniteScroll = false) {
@@ -513,7 +532,9 @@ export class MusicPlayerLib {
 
         };
         this.myMP.ItemDataId = myRPC.id; // Keep track of the message id.
-        this.sendRPCRequest(JSON.stringify(myRPC));
+        if (this.myMP.menuInstanceName) {
+            this.sendRPCRequest(JSON.stringify(myRPC));
+        }
         this.itemValue = this.itemValue + this.tempMyMusicData['MaxReqItems']
     }
 
@@ -705,7 +726,9 @@ export class MusicPlayerLib {
                 method: this.myMP.instanceName + '.GetProperty'
             };
             this.myMP[item + "Id"] = myRPC.id;
-            this.sendRPCRequest(JSON.stringify(myRPC));
+            if (this.myMP.instanceName) {
+                this.sendRPCRequest(JSON.stringify(myRPC));
+            }
         });
     };
 
@@ -715,10 +738,12 @@ export class MusicPlayerLib {
                 params: { "propName": item },
                 jsonrpc: '2.0',
                 id: this.getMessageId(),
-                method: this.myMP.instanceName + '.GetProperty'
+                method: this.myMP.menuInstanceName + '.GetProperty'
             };
             this.myMP[item + "Id"] = myRPC.id;
-            this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
+            if (this.myMP.menuInstanceName) {
+                this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
+            }
         });
         this.getItemData();
     };
@@ -735,6 +760,8 @@ export class MusicPlayerLib {
             id: this.getMessageId(),
             method: this.myMP.menuInstanceName + '.StatusMsgResponseMenu'
         };
-        this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
+        if (this.myMP.menuInstanceName) {
+            this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
+        }
     };
 }
