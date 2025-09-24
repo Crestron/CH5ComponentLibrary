@@ -1,21 +1,15 @@
 import { publishEvent, subscribeState } from "..";
+import _ from 'lodash';
 import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest, RegisterwithDeviceResponse } from "./commonInterface";
 
 export class MusicPlayerLib {
 
-    private static instance: MusicPlayerLib;
-
     // Serial signals to the control system.
     private mpSigRPCOut: string = "";
-    /*  private mpSigMessageOut = 2; */
-
-    // private mpRPCPrefix: string = '';
     private mpRPCDataIn: string = '';
     private menuStateChanged: any = {};
-
-    private mpMsgId = 0; // Increment our message id. ToDo: Need a max value check and reset to 0.
-
-    private itemValue = 1; // Used in infinite scroll feature.
+    private mpMsgId: number = 0; // Increment our message id. ToDo: Need a max value check and reset to 0.
+    private itemValue: number = 1; // Used in infinite scroll feature.
 
     // Generate a constant UUID once per application start.
     private generateStrongCustomId = (): string => {
@@ -32,8 +26,6 @@ export class MusicPlayerLib {
         return `${timestamp}-${random}`;
     };
 
-    private mpIgnoreCRPCIn: boolean = false;
-
     public myMP: MyMpObject = {
         "tag": "",
         "source": 0,
@@ -46,13 +38,6 @@ export class MusicPlayerLib {
         "RegisterEventId": 0,
         "PropertiesSupportedId": 0,
         "MenuId": 0,
-        "BusyChangedId": 0,
-        "BusyChangedMenuId": 0,
-        "StatusMsgChangedId": 0,
-        "StateChangedByBrowseContextId": 0,
-        "StateChangedId": 0,
-        "StateChangedMenuId": 0,
-        "TextLinesId": 0,
         "ActionsSupportedId": 0,
         "ProgressBarId": 0,
         "ElapsedSecId": 0,
@@ -64,8 +49,6 @@ export class MusicPlayerLib {
         "PlayerIconId": 0,
         "PlayerNameId": 0,
         "PlayerIconURLId": 0,
-        "MediaTypeId": 0,
-        "InstanceId": 0,
         "AlbumArtId": 0,
         "AlbumArtUrlId": 0,
         "AlbumArtUrlNATId": 0,
@@ -75,32 +58,20 @@ export class MusicPlayerLib {
         "ArtistId": 0,
         "TitleId": 0,
         "TitleMenuId": 0,
-        "LanguageId": 0,
         "RewindSpeedId": 0,
         "ProviderNameId": 0,
         "FfwdSpeedId": 0,
         "NextTitleId": 0,
-        "MediaReadyId": 0,
         "ShuffleStateId": 0,
         "RepeatStateId": 0,
-        "StatusMsgId": 0,
-        "BusyId": 0,
-        "RatingId": 0,
-        "SelectedId": 0,
-        "VersionId": 0,
-        "LevelId": 0,
         "ItemCntId": 0,
         "SubtitleId": 0,
         "IsMenuAvailableId": 0,
-        "StatusMsgMenuId": 0,
         "ListSpecificFunctionsId": 0,
         "MaxReqItemsId": 0,
         "ItemDataId": 0,
         "ActionsAvailableId": 0,
-        "ClearChangedId": 0,
         "ListChangedId": 0,
-        "StatusMsgMenuChangedId": 0,
-        "ResetId": 0,
         "PlayId": 0,
         "PauseId": 0,
         "SeekId": 0,
@@ -115,77 +86,41 @@ export class MusicPlayerLib {
     public progressBarData: any = {};
     public tempProgressBarData: any = {};
 
-    static getInstance() {
-        // console.log('getInstance');
-        if (this.instance) {
-            return this.instance;
-        }
-        this.instance = new MusicPlayerLib();
-        return this.instance;
-    }
-
     constructor() {
-        //refreshMediaPlayer
-        subscribeState('b', 'mpSigRefresh', (value: any) => {
-            console.log('mpSigRefresh: ' + value);
-            if (value == 1) {
+        subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: any) => {
+            console.log('receiveStateRefreshMediaPlayerResp: ' + value);
+            if (value) {
                 this.refreshMediaPlayer();
             }
         });
 
-        // device offline
-        subscribeState('b', 'mpSigOffline', (value: any) => {
-            console.log('mpSigOffline: ' + value);
-            if (value == 1) {
+        subscribeState('b', 'receiveStateDeviceOfflineResp', (value: any) => {
+            console.log('receiveStateDeviceOfflineResp: ' + value);
+            if (value) {
                 this.deviceIsOffline();
             } else {
                 this.deviceIsOnline();
             }
         });
 
-        //digital message from CS
-        subscribeState('b', 'mpSigUseMessage', (value: any) => {
-            console.log('mpSigUseMessage: ' + value);
-        });
-
-        // Controle System status offline / online
-        subscribeState('b', 'mpSigCtrlSysOffline', (value: any) => {
-            console.log('mpSigCtrlSysOffline: ' + value);
-            if (value == 1) {
-                //console.log('Control system is offline.');
-            } else {
-                // console.log('Control system is online.');
-                this.mpIgnoreCRPCIn = true;
-            }
-        });
-
-        // mpSigRPCIn from CS
-        subscribeState('s', 'mpSigRPCIn', (value: any) => {
+        subscribeState('s', 'receiveStateCRPCResp', (value: any) => {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
             console.log('RPCIn from', value);
             if (value.length > 0) {
 
-                // If the update request has just come in, ignore the data.
-                /*   if (this.mpIgnoreCRPCIn) {
-                      this.mpIgnoreCRPCIn = false;
-                  } else { */
                 const mpRPCPrefix = value.substring(0, 8).trim(); // First 8 bytes is the RPC prefix.
                 console.log('Without prefix Data', value.substring(8));
                 // Check byte 3 to determine if this is a single or partial message.
                 // c = partial message
                 // e = single or final message when a partial message was received.
-                console.log('------------', mpRPCPrefix[3], "*-" + this.mpRPCDataIn + "-*");
+                //console.log('------------', mpRPCPrefix[3], "*-" + this.mpRPCDataIn + "-*");
                 if (mpRPCPrefix[3] === 'c') {
                     this.mpRPCDataIn = this.mpRPCDataIn + value.substring(8); // Gather the CRPC data.
-                    /*  const data = mpRPCPrefix;
-                     console.log('partial message',data ); */
                     // console.log('Found c in prefix.');
                 } else if (mpRPCPrefix[3] === 'e') {
                     // console.log('Found e in prefix.');
-                    // console.log('CRPC receive join:1  Full Response -> ' + this.mpRPCDataIn);
                     if (this.mpRPCDataIn.trim() === '') {
-
                         this.mpRPCDataIn = value.substring(8); // Gather the CRPC data.
                     } else {
                         this.mpRPCDataIn = this.mpRPCDataIn + value.substring(8); // Gather the CRPC data.
@@ -193,37 +128,33 @@ export class MusicPlayerLib {
 
                     // check error
                     let parsedData: any = '';
-                    //console.log('-->', this.mpRPCDataIn);
                     try {
                         parsedData = JSON.parse(this.mpRPCDataIn);
                         if (parsedData.error) {
                             console.log('handle Error>', parsedData.error);
                             this.handleError(parsedData.error);
-
                         } else {
                             this.processCRPCResponse(parsedData); // Process the entire payload then clear the var.
                         }
 
                     } catch (e) {
                         console.log("e", e);
-                        // this.handleError(parsedData.error);                   
                     }
 
                     this.mpRPCDataIn = ''; // Clear the var now that we have the entire message.
                 }
-                //   }
             }
         });
 
-        //mpSigMessageIn from CS (ver tag src)
-        subscribeState('s', 'mpSigMessageIn', (value: any) => {
+        //receiveStateMessageResp from CS (ver tag src)
+        subscribeState('s', 'receiveStateMessageResp', (value: any) => {
             if (value.length > 0) {
                 this.processMessage(value);
             }
         });
 
-        //To get join name from the app
-        subscribeState('s', 'mpSigRPCOut', (value: any) => {
+        //To get join name from the component
+        subscribeState('s', 'sendEventCRPCJoinNo', (value: any) => {
             this.mpSigRPCOut = value;
         });
     }
@@ -349,7 +280,6 @@ export class MusicPlayerLib {
                 myConnectionData.port = item.port;
             }
         }
-
         return myConnectionData;
     }
 
@@ -387,7 +317,7 @@ export class MusicPlayerLib {
             this.myMP.connectionActive = true;
 
             // What RPC version is this?
-            if (regResponse.jsonrpc == '1.0') {
+            if (regResponse.jsonrpc === '1.0') {
                 //console.log('RPC version = 1.0.');
                 /*   if (regResponse.result.connections) {
                       console.log('Found connections list.');
@@ -409,10 +339,10 @@ export class MusicPlayerLib {
     private processGetObjectsResponse(getObjectResponse: GetObjectsResponse) {
         const myInstances = getObjectResponse.result.objects.object;
         myInstances.forEach((item: any) => {
-            if (item.name == 'MediaPlayer') {
+            if (item.name === 'MediaPlayer') {
                 this.myMP.instanceName = item.instancename
             }
-            else if (item.name == 'MediaPlayerMenu') {
+            else if (item.name === 'MediaPlayerMenu') {
                 this.myMP.menuInstanceName = item.instancename;
             }
         });
@@ -445,12 +375,9 @@ export class MusicPlayerLib {
                     jsonrpc: '2.0',
                     id: this.getMessageId(),
                     method: this.myMP.instanceName + '.GetProperty'
-
                 };
-                const myRPCJSON = JSON.stringify(myRPC);
                 this.myMP[item + "Id"] = myRPC.id; // Keep track of the message id.
-                //console.log(myRPCJSON);
-                this.sendRPCRequest(myRPCJSON);// Send the message.
+                this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
             }
         });
     }
@@ -471,13 +398,12 @@ export class MusicPlayerLib {
                 myRPC.params = null;
                 myRPC.method = this.myMP.menuInstanceName + '.Reset'
             };
-            const myRPCJSON = JSON.stringify(myRPC);
             if (item === 'BusyChanged' || item === 'StateChanged') {
                 this.myMP[item + 'MenuId'] = myRPC.id;// Keep track of the message id.
             } else {
                 this.myMP[item + 'Id'] = myRPC.id;// Keep track of the message id.
             }
-            this.sendRPCRequest(myRPCJSON);
+            this.sendRPCRequest(JSON.stringify(myRPC));
         });
 
         ['Version', 'MaxReqItems', 'Level', 'ItemCnt', 'Title', 'Subtitle', 'ListSpecificFunctions', 'IsMenuAvailable', 'StatusMsgMenu', 'Instance'].forEach((item: any) => {
@@ -487,18 +413,14 @@ export class MusicPlayerLib {
                 id: this.getMessageId(),
                 method: this.myMP.menuInstanceName + '.GetProperty'
             };
-            const myRPCJSON = JSON.stringify(myRPC);
             if (item === 'Title') {
                 this.myMP[item + 'MenuId'] = myRPC.id;// Keep track of the message id.
             } else {
                 this.myMP[item + 'Id'] = myRPC.id;// Keep track of the message id.
             }
-            this.sendRPCRequest(myRPCJSON);
+            this.sendRPCRequest(JSON.stringify(myRPC));
         });
-
     }
-
-
 
     // Register with a media player device.
     // 1. The initial registration is always via serial join.
@@ -506,7 +428,6 @@ export class MusicPlayerLib {
     //    Note: Retry every 30 seconds for 5 min. Then once per minute.
     // 3. After successful registrcion via serial join, check if a direct connection to teh device can be made.
     private registerWithDevice() {
-
         // Params for registration
         const myRPCParams: Params = {
             encoding: 'UTF-8',
@@ -526,9 +447,8 @@ export class MusicPlayerLib {
             params: myRPCParams
         };
 
-        const myRPCJSON = JSON.stringify(myRPC);
         this.myMP.RegistrationId = myRPC.id;// Keep track of the message id.
-        this.sendRPCRequest(myRPCJSON);
+        this.sendRPCRequest(JSON.stringify(myRPC));
 
         // Start the re-send time.
         this.startRegistrationResendTimer();
@@ -541,42 +461,31 @@ export class MusicPlayerLib {
             jsonrpc: '2.0',
             id: this.getMessageId(),
             method: 'Crpc.GetObjects'
-
         };
-        const myRPCJSON = JSON.stringify(myRPC);
         this.myMP.ObjectsId = myRPC.id;// Keep track of the message id.
-        this.sendRPCRequest(myRPCJSON);// Send the message.
+        this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
     }
 
     private registerEvent() {
-
         const myRPC: CommonEventRequest = {
             jsonrpc: '2.0',
             id: this.getMessageId(),
             method: 'Crpc.RegisterEvent',
             params: { "ev": "ObjectDirectoryChanged", "handle": "sg" },
-
         };
-        const myRPCJSON = JSON.stringify(myRPC);
         this.myMP.RegisterEventId = myRPC.id; // Keep track of the message id.
-
-
-        this.sendRPCRequest(myRPCJSON); // Send the message.
+        this.sendRPCRequest(JSON.stringify(myRPC)); // Send the message.
     }
 
     private getPropertiesSupported(instanceName: string) {
-
         const myRPC: GetPropertiesSupportedRequest = {
             params: { "propName": "PropertiesSupported" },
             jsonrpc: '2.0',
             id: this.getMessageId(),
             method: instanceName + '.GetProperty'
-
         };
-        const myRPCJSON = JSON.stringify(myRPC);
         this.myMP.PropertiesSupportedId = myRPC.id;// Keep track of the message id.
-
-        this.sendRPCRequest(myRPCJSON);
+        this.sendRPCRequest(JSON.stringify(myRPC));
     }
 
     //Get the Menu (Should check an Autonomic device and see what data is returned) 
@@ -586,12 +495,9 @@ export class MusicPlayerLib {
             jsonrpc: '2.0',
             id: this.getMessageId(),
             method: instanceName + '.GetMenu'
-
         };
-        const myRPCJSON = JSON.stringify(myRPC);
         this.myMP.MenuId = myRPC.id;// Keep track of the message id.
-
-        this.sendRPCRequest(myRPCJSON);
+        this.sendRPCRequest(JSON.stringify(myRPC));
     }
 
     public getItemData(infiniteScroll = false) {
@@ -633,8 +539,6 @@ export class MusicPlayerLib {
     // Process CRPC data from the control system.
     private processCRPCResponse(data: any) {
         const responseData = data;
-
-
         // ToDO: Just because the message ID was found, doesn't mean
         /// there were no errors. Add error checking to the response
         // ID handler.
@@ -662,7 +566,7 @@ export class MusicPlayerLib {
             for (const item in responseData.params?.parameters) {
                 this.tempMyMusicData[item] = responseData.params?.parameters[item];
             }
-            if (!this.deepEqual(this.menuStateChanged, responseData.params?.parameters)) {
+            if (!_.isEqual(this.menuStateChanged, responseData.params?.parameters)) {
                 this.menuStateChanged = responseData.params?.parameters;
                 if (responseData.params?.parameters.hasOwnProperty('Title')) {
                     this.updatedMenuData(); // we need to call only when statechanged event has parameters object include key has Title
@@ -673,9 +577,7 @@ export class MusicPlayerLib {
         } else if (myMsgId === this.myMP.PlayId || myMsgId === this.myMP.PauseId || myMsgId === this.myMP.SeekId) { // Play or pause clicked
             this.callTrackTime();
         } else {
-            console.log('this.myMP.RegistrationId----', this.myMP.RegistrationId)
             if (myMsgId == this.myMP.RegistrationId) {
-                //console.log('Successful registration.');
                 this.processRegistrationResponse(responseData);
 
                 // If we are not using a direct connection yet, go ahead and get objects.
@@ -689,9 +591,7 @@ export class MusicPlayerLib {
                 this.processPropertiesSupportedResponse(responseData);
             } else if (myMsgId == this.myMP.MenuId) {
                 this.processMenuResponse(responseData);
-            } /* else if (myMsgId == this.myMP.TextLinesId) {
-                this.tempNowPlayingData['TextLines'] = responseData.result.TextLines;
-            } */ else if (myMsgId == this.myMP.ActionsSupportedId) {
+            } else if (myMsgId == this.myMP.ActionsSupportedId) {
                 this.tempNowPlayingData['ActionsSupported'] = responseData.result.ActionsSupported;
             } else if (myMsgId == this.myMP.ActionsAvailableId) {
                 this.tempNowPlayingData['ActionsAvailable'] = responseData.result.ActionsAvailable;
@@ -711,9 +611,7 @@ export class MusicPlayerLib {
                 this.tempNowPlayingData['PlayerName'] = responseData.result.PlayerName;
             } else if (myMsgId == this.myMP.StreamStateId) {
                 this.tempProgressBarData['StreamState'] = responseData.result.StreamState;
-            } /* else if (myMsgId == this.myMP.MediaTypeId) {
-                this.tempNowPlayingData['MediaType'] = responseData.result.MediaType;
-            }  */else if (myMsgId == this.myMP.AlbumId) {
+            } else if (myMsgId == this.myMP.AlbumId) {
                 this.tempNowPlayingData['Album'] = responseData.result.Album;
             } else if (myMsgId == this.myMP.AlbumArtId) {
                 this.tempNowPlayingData['AlbumArt'] = responseData.result.AlbumArt;
@@ -741,15 +639,7 @@ export class MusicPlayerLib {
                 this.tempNowPlayingData['ShuffleState'] = responseData.result.ShuffleState;
             } else if (myMsgId == this.myMP.RepeatStateId) {
                 this.tempNowPlayingData['RepeatState'] = responseData.result.RepeatState;
-            } /* else if (myMsgId == this.myMP.MediaReadyId) {
-                this.tempNowPlayingData['MediaReady'] = responseData.result.MediaReady;
-            } else if (myMsgId == this.myMP.BusyId) {
-                this.tempNowPlayingData['Busy'] = responseData.result.Busy;
-            } else if (myMsgId == this.myMP.RatingId) {
-                this.tempNowPlayingData['Rating'] = responseData.result.Rating;
-            } else if (myMsgId == this.myMP.SelectedId) {
-                this.tempNowPlayingData['SelectedId'] = responseData.result.SelectedId;
-            } */ else if (myMsgId == this.myMP.ElapsedSecId) {
+            } else if (myMsgId == this.myMP.ElapsedSecId) {
                 this.tempProgressBarData['ElapsedSec'] = responseData.result.ElapsedSec;
             } else if (myMsgId == this.myMP.TrackSecId) {
                 this.tempProgressBarData['TrackSec'] = responseData.result.TrackSec;
@@ -759,10 +649,7 @@ export class MusicPlayerLib {
                 this.tempMyMusicData['Subtitle'] = responseData.result.Subtitle;
             } else if (myMsgId == this.myMP.ListSpecificFunctionsId) {
                 this.tempMyMusicData['ListSpecificFunctions'] = responseData.result.ListSpecificFunctions;
-            } /* else if (myMsgId == this.myMP.LevelId) {
-                this.tempMyMusicData['Level'] = responseData.result.Level;
-                // this.getItemData(); this api will call after getting both responses of level and item count.
-            } */ else if (myMsgId == this.myMP.ItemCntId) {
+            } else if (myMsgId == this.myMP.ItemCntId) {
                 this.tempMyMusicData['ItemCnt'] = responseData.result.ItemCnt;
                 this.getItemData();
             } else if (myMsgId == this.myMP.MaxReqItemsId) {
@@ -774,23 +661,20 @@ export class MusicPlayerLib {
             }
         }
         if (!(busyChanged && busyChanged['on'] === true)) {
-            if (!this.deepEqual(this.nowPlayingData, this.tempNowPlayingData)) {
+            if (!_.isEqual(this.nowPlayingData, this.tempNowPlayingData)) {
                 this.nowPlayingData = { ...this.tempNowPlayingData };
                 publishEvent('o', 'nowPlayingData', this.nowPlayingData); // left section
             }
-            if (!this.deepEqual(this.myMusicData, this.tempMyMusicData)) {
+            if (!_.isEqual(this.myMusicData, this.tempMyMusicData)) {
                 this.myMusicData = { ...this.tempMyMusicData };
                 publishEvent('o', 'myMusicData', this.myMusicData); // right section
             }
-            if (!this.deepEqual(this.progressBarData, this.tempProgressBarData)) {
+            if (!_.isEqual(this.progressBarData, this.tempProgressBarData)) {
                 this.progressBarData = { ...this.tempProgressBarData };
                 publishEvent('o', 'progressBarData', this.progressBarData);
             }
         }
-
-        // Check if an error was returned?
     }
-
 
     // error-handler.ts
     private handleError(error: ErrorResponseObject) {
@@ -808,15 +692,11 @@ export class MusicPlayerLib {
             method: this.myMP.instanceName + '.' + action
         };
         this.myMP[action + 'Id'] = myRPC.id;
-
-        //this.myMP.ItemDataId = myRPC.id; // Keep track of the message id.
         this.sendRPCRequest(JSON.stringify(myRPC));
     }
 
-
     public myMusicEvent(action: string, itemIndex: number = 0) {
-        // console.log(action);
-        const param = itemIndex == 0 ? null : { 'item': itemIndex };
+        const param = itemIndex === 0 ? null : { 'item': itemIndex };
         const myRPC: CommonEventRequest = {
             params: param,
             jsonrpc: '2.0',
@@ -833,13 +713,11 @@ export class MusicPlayerLib {
                 jsonrpc: '2.0',
                 id: this.getMessageId(),
                 method: this.myMP.instanceName + '.GetProperty'
-
             };
             this.myMP[item + "Id"] = myRPC.id;
             this.sendRPCRequest(JSON.stringify(myRPC));
         });
     };
-
 
     public updatedMenuData() {
         ['ListSpecificFunctions', 'StatusMsgMenu', 'Instance', 'TransactionId'].forEach((item: any) => {
@@ -848,7 +726,6 @@ export class MusicPlayerLib {
                 jsonrpc: '2.0',
                 id: this.getMessageId(),
                 method: this.myMP.instanceName + '.GetProperty'
-
             };
             this.myMP[item + "Id"] = myRPC.id;
             this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
@@ -865,52 +742,9 @@ export class MusicPlayerLib {
                 "userInput": inputValue
             },
             jsonrpc: '2.0',
-
             id: this.getMessageId(),
             method: this.myMP.menuInstanceName + '.StatusMsgResponseMenu'
-
         };
-        // this.myMP[item + "Id"] = myRPC.id;
         this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
     };
-
-
-    private deepEqual(a: any, b: any): boolean {
-        if (a === b) return true;
-
-        if (a && b && typeof a === 'object' && typeof b === 'object') {
-            if (Array.isArray(a) !== Array.isArray(b)) return false;
-
-            if (Array.isArray(a)) {
-                if (a.length !== b.length) return false;
-                for (let i = 0; i < a.length; i++) {
-                    if (!this.deepEqual(a[i], b[i])) return false;
-                }
-                return true;
-            }
-
-            /* if (a instanceof Date && b instanceof Date) {
-                return a.getTime() === b.getTime();
-            }
- */
-            const keysA = Object.keys(a);
-            const keysB = Object.keys(b);
-
-            if (keysA.length !== keysB.length) return false;
-
-            for (const key of keysA) {
-                if (!keysB.includes(key)) return false;
-                if (!this.deepEqual(a[key], b[key])) return false;
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
 }
-
-export function getInstanceOfMP(): void {
-    MusicPlayerLib.getInstance();
-};

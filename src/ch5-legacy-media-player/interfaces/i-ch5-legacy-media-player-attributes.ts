@@ -67,18 +67,6 @@ export interface ICh5LegacyMediaPlayerAttributes extends ICh5CommonAttributesLeg
 	/**
 	 * @documentation
 	 * [
-	 * "`sendEventMessage` attribute",
-	 * "***",
-	 * "Connected to the Media Server Object Router SIMPL module and contains any direct-connect data from the selected device. This Signal is not used in Ara’s sample project. Need to check with Ara whether it's required or not."
-	 * ]
-	 * @name sendeventmessage
-	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
-	 * @attributeType "Join"
-	 */
-	sendEventMessage: string;
-	/**
-	 * @documentation
-	 * [
 	 * "`receiveStateRefreshMediaPlayer` attribute",
 	 * "***",
 	 * "To refresh the media player. Connected to the Media Server Object Router SIMPL module and triggered when the SmartGraphics Media Player component needs to refresh its data. To refresh the player, what steps will be required?"
@@ -103,38 +91,14 @@ export interface ICh5LegacyMediaPlayerAttributes extends ICh5CommonAttributesLeg
 	/**
 	 * @documentation
 	 * [
-	 * "`receiveStateUseMessage` attribute",
-	 * "***",
-	 * "The value is coming true. Connected to the Media Server Object Router SIMPL module, and is high when the selected device supports the “Message_FB” serial input on the GUI extender. We need to understand its usage."
-	 * ]
-	 * @name receivestateusemessage
-	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
-	 * @attributeType "Join"
-	 */
-	receiveStateUseMessage: string;
-	/**
-	 * @documentation
-	 * [
-	 * "`receiveStateControlSystemOffline` attribute",
-	 * "***",
-	 * "The value is coming as false. If the control system is offline, we don’t receive any value, we need to check with Ara. "
-	 * ]
-	 * @name receivestatecontrolsystemoffline
-	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
-	 * @attributeType "Join"
-	 */
-	receiveStateControlSystemOffline: string;
-	/**
-	 * @documentation
-	 * [
-	 * "`sendEventPlayerName` attribute",
+	 * "`receiveStatePlayerName` attribute",
 	 * "***",
 	 * "An optional string input used to show the name of the device. Dealers custom-program this string."
 	 * ]
-	 * @name sendeventplayername
+	 * @name receiveStatePlayerName
 	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
 	 * @attributeType "Join"
 	 */
-	sendEventPlayerName: string;
+	receiveStatePlayerName: string;
 
 }
