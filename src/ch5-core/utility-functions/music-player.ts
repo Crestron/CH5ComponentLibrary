@@ -32,8 +32,6 @@ export class MusicPlayerLib {
         return `${timestamp}-${random}`;
     };
 
-    private mpIgnoreCRPCIn: boolean = false;
-
     public myMP: MyMpObject = {
         "tag": "",
         "source": 0,
@@ -125,50 +123,33 @@ export class MusicPlayerLib {
 
     constructor() {
         //refreshMediaPlayer
-        subscribeState('b', 'mpSigRefresh', (value: any) => {
-            console.log('mpSigRefresh: ' + value);
-            if (value == 1) {
+        subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: any) => {
+            console.log('receiveStateRefreshMediaPlayerResp: ' + value);
+            if (value) {
                 this.refreshMediaPlayer();
             }
         });
 
         // device offline
-        subscribeState('b', 'mpSigOffline', (value: any) => {
-            console.log('mpSigOffline: ' + value);
-            if (value == 1) {
+        subscribeState('b', 'receiveStateDeviceOfflineResp', (value: any) => {
+            console.log('receiveStateDeviceOfflineResp: ' + value);
+            if (value) {
                 this.deviceIsOffline();
             } else {
                 this.deviceIsOnline();
             }
         });
 
-        //digital message from CS
-        subscribeState('b', 'mpSigUseMessage', (value: any) => {
-            console.log('mpSigUseMessage: ' + value);
-        });
 
-        // Controle System status offline / online
-        subscribeState('b', 'mpSigCtrlSysOffline', (value: any) => {
-            console.log('mpSigCtrlSysOffline: ' + value);
-            if (value == 1) {
-                //console.log('Control system is offline.');
-            } else {
-                // console.log('Control system is online.');
-                this.mpIgnoreCRPCIn = true;
-            }
-        });
-
-        // mpSigRPCIn from CS
-        subscribeState('s', 'mpSigRPCIn', (value: any) => {
+        // receiveStateCRPCResp from CS
+        subscribeState('s', 'receiveStateCRPCResp', (value: any) => {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
             console.log('RPCIn from', value);
             if (value.length > 0) {
 
                 // If the update request has just come in, ignore the data.
-                /*   if (this.mpIgnoreCRPCIn) {
-                      this.mpIgnoreCRPCIn = false;
-                  } else { */
+
                 const mpRPCPrefix = value.substring(0, 8).trim(); // First 8 bytes is the RPC prefix.
                 console.log('Without prefix Data', value.substring(8));
                 // Check byte 3 to determine if this is a single or partial message.
@@ -210,19 +191,18 @@ export class MusicPlayerLib {
 
                     this.mpRPCDataIn = ''; // Clear the var now that we have the entire message.
                 }
-                //   }
             }
         });
 
-        //mpSigMessageIn from CS (ver tag src)
-        subscribeState('s', 'mpSigMessageIn', (value: any) => {
+        //receiveStateMessageResp from CS (ver tag src)
+        subscribeState('s', 'receiveStateMessageResp', (value: any) => {
             if (value.length > 0) {
                 this.processMessage(value);
             }
         });
 
         //To get join name from the app
-        subscribeState('s', 'mpSigRPCOut', (value: any) => {
+        subscribeState('s', 'sendEventCRPCJoinNo', (value: any) => {
             this.mpSigRPCOut = value;
         });
     }
@@ -385,7 +365,7 @@ export class MusicPlayerLib {
             this.myMP.connectionActive = true;
 
             // What RPC version is this?
-            if (regResponse.jsonrpc == '1.0') {
+            if (regResponse.jsonrpc === '1.0') {
                 //console.log('RPC version = 1.0.');
                 /*   if (regResponse.result.connections) {
                       console.log('Found connections list.');
@@ -407,10 +387,10 @@ export class MusicPlayerLib {
     private processGetObjectsResponse(getObjectResponse: GetObjectsResponse) {
         const myInstances = getObjectResponse.result.objects.object;
         myInstances.forEach((item: any) => {
-            if (item.name == 'MediaPlayer') {
+            if (item.name === 'MediaPlayer') {
                 this.myMP.instanceName = item.instancename
             }
-            else if (item.name == 'MediaPlayerMenu') {
+            else if (item.name === 'MediaPlayerMenu') {
                 this.myMP.menuInstanceName = item.instancename;
             }
         });
@@ -811,7 +791,7 @@ export class MusicPlayerLib {
 
     public myMusicEvent(action: string, itemIndex: number = 0) {
         // console.log(action);
-        const param = itemIndex == 0 ? null : { 'item': itemIndex };
+        const param = itemIndex === 0 ? null : { 'item': itemIndex };
         const myRPC: CommonEventRequest = {
             params: param,
             jsonrpc: '2.0',

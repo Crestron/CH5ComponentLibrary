@@ -11,27 +11,27 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-legacy-media-player-sendEventMessage-attributes">
+  <test-fixture id="ch5-legacy-media-player-receiveStatePlayerName-attributes">
     <template>
-      <ch5-legacy-media-player sendEventMessage="trigger_event_listener"></ch5-legacy-media-player>
+      <ch5-legacy-media-player receiveStatePlayerName="trigger_event_listener"></ch5-legacy-media-player>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-legacy-media-player-sendEventMessage-attributes-value', () => {
+    suite('ch5-legacy-media-player-receiveStatePlayerName-attributes-value', () => {
       let ch5LegacyMediaPlayer;
 
       setup(async () => {
-        const emulatorJson = await fetch('./emulator/sendeventmessage.json').then((response) => response.json());
+        const emulatorJson = await fetch('./emulator/receiveStatePlayerName.json').then((response) => response.json());
         const emulator = CrComLib.Ch5Emulator.getInstance();
         emulator.loadScenario(emulatorJson);
-        ch5LegacyMediaPlayer = fixture('ch5-legacy-media-player-sendEventMessage-attributes');
+        ch5LegacyMediaPlayer = fixture('ch5-legacy-media-player-receiveStatePlayerName-attributes');
       });
         
-        test('sendEventMessage', (done) => {
+        test('receiveStatePlayerName', (done) => {
           CrComLib.publishEvent('b', 'trigger_event',true );
           flush(() => {
               setTimeout(() => {
-                  expect(ch5LegacyMediaPlayer.getAttribute('sendEventMessage')).to.be.equal('String Signal');
+                  expect(ch5LegacyMediaPlayer.getAttribute('receiveStatePlayerName')).to.be.equal('String Signal');
                   done();
               }, 100);
           });

@@ -34,15 +34,12 @@ import { ICh5LegacyMediaPlayerAttributes } from "./i-ch5-legacy-media-player-att
  *     "body": [
  *       "<ch5-legacy-media-player id=\"ch5-legacy-media-player_${1:id}\"",
  *       "\tcontractName=\"${2:}\"",
- *       "\treceiveStateControlSystemOffline=\"${3:}\"",
- *       "\treceiveStateCRPC=\"${4:}\"",
- *       "\tsendEventCRPC=\"${5:}\"",
- *       "\treceiveStateMessage=\"${6:}\"",
- *       "\tsendEventMessage=\"${7:}\"",
- *       "\treceiveStateRefreshMediaPlayer=\"${8:}\"",
- *       "\treceiveStateDeviceOffline=\"${9:}\"",
- *       "\treceiveStateUseMessage=\"${10:}\"",
- *       "\tsendEventPlayerName=\"${11:}\">",
+ *       "\treceiveStateCRPC=\"${3:}\"",
+ *       "\tsendEventCRPC=\"${4:}\"",
+ *       "\treceiveStateMessage=\"${5:}\"",
+ *       "\treceiveStateRefreshMediaPlayer=\"${6:}\"",
+ *       "\treceiveStateDeviceOffline=\"${7:}\"",
+ *       "\treceiveStatePlayerName=\"${8:}\">",
  *       "</ch5-legacy-media-player>$0"
  *       ]
  *    },
