@@ -207,13 +207,18 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 		subscribeState('o', 'progressBarData', (data: any) => {
 			setTimeout(() => {
-				console.log("Progressbar data: ", data);
+				if(ref.demoMode) {
+					this.progressBarData.ProgressBar = true;
+					this._progressBarContainer.style.display = "flex";
+					return;
+				}
 				if (this._progressBarTimer) {
 					clearInterval(this._progressBarTimer);
 					this._progressBarTimer = null;
 				}
 				if(data && Object.keys(data).length > 0) {
 					this.progressBarData = data;
+					this.logger.log("Progressbar data: ", data);
 					if(this.progressBarData && Object.keys(this.progressBarData).length > 0) {
 						if (!this.progressBarData.ProgressBar) {
 							this._progressBarContainer.style.display = "none";
