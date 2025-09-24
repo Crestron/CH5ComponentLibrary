@@ -1,17 +1,15 @@
 import { publishEvent, subscribeState } from "..";
+import _ from 'lodash';
 import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest, RegisterwithDeviceResponse } from "./commonInterface";
 
 export class MusicPlayerLib {
 
     // Serial signals to the control system.
     private mpSigRPCOut: string = "";
-
     private mpRPCDataIn: string = '';
     private menuStateChanged: any = {};
-
-    private mpMsgId = 0; // Increment our message id. ToDo: Need a max value check and reset to 0.
-
-    private itemValue = 1; // Used in infinite scroll feature.
+    private mpMsgId: number = 0; // Increment our message id. ToDo: Need a max value check and reset to 0.
+    private itemValue: number = 1; // Used in infinite scroll feature.
 
     // Generate a constant UUID once per application start.
     private generateStrongCustomId = (): string => {
@@ -562,7 +560,7 @@ export class MusicPlayerLib {
             for (const item in responseData.params?.parameters) {
                 this.tempMyMusicData[item] = responseData.params?.parameters[item];
             }
-            if (!this.deepEqual(this.menuStateChanged, responseData.params?.parameters)) {
+            if (!_.isEqual(this.menuStateChanged, responseData.params?.parameters)) {
                 this.menuStateChanged = responseData.params?.parameters;
                 if (responseData.params?.parameters.hasOwnProperty('Title')) {
                     this.updatedMenuData(); // we need to call only when statechanged event has parameters object include key has Title
@@ -657,17 +655,15 @@ export class MusicPlayerLib {
             }
         }
         if (!(busyChanged && busyChanged['on'] === true)) {
-            if (!this.deepEqual(this.nowPlayingData, this.tempNowPlayingData)) {
+            if (!_.isEqual(this.nowPlayingData, this.tempNowPlayingData)) {
                 this.nowPlayingData = { ...this.tempNowPlayingData };
                 publishEvent('o', 'nowPlayingData', this.nowPlayingData); // left section
             }
-            if (!this.deepEqual(this.myMusicData, this.tempMyMusicData)) {
+            if (!_.isEqual(this.myMusicData, this.tempMyMusicData)) {
                 this.myMusicData = { ...this.tempMyMusicData };
                 publishEvent('o', 'myMusicData', this.myMusicData); // right section
             }
         }
-
-        // Check if an error was returned?
     }
 
     // error-handler.ts
@@ -741,35 +737,4 @@ export class MusicPlayerLib {
         };
         this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
     };
-
-    private deepEqual(a: any, b: any): boolean {
-        if (a === b) return true;
-        if (a && b && typeof a === 'object' && typeof b === 'object') {
-            if (Array.isArray(a) !== Array.isArray(b)) return false;
-
-            if (Array.isArray(a)) {
-                if (a.length !== b.length) return false;
-                for (let i = 0; i < a.length; i++) {
-                    if (!this.deepEqual(a[i], b[i])) return false;
-                }
-                return true;
-            }
-
-            /* if (a instanceof Date && b instanceof Date) {
-                return a.getTime() === b.getTime();
-            }
- */
-            const keysA = Object.keys(a);
-            const keysB = Object.keys(b);
-
-            if (keysA.length !== keysB.length) return false;
-
-            for (const key of keysA) {
-                if (!keysB.includes(key)) return false;
-                if (!this.deepEqual(a[key], b[key])) return false;
-            }
-            return true;
-        }
-        return false;
-    }
 }
