@@ -111,7 +111,7 @@ export class MusicPlayerLib {
             if (value.length > 0) {
 
                 const mpRPCPrefix = value.substring(0, 8).trim(); // First 8 bytes is the RPC prefix.
-                console.log('Without prefix Data', value.substring(8));
+                // console.log('Without prefix Data', value.substring(8));
                 // Check byte 3 to determine if this is a single or partial message.
                 // c = partial message
                 // e = single or final message when a partial message was received.
@@ -252,6 +252,10 @@ export class MusicPlayerLib {
     // Byte 7: JSON payload length nibble 0 
     private generateRPCPrefix(str: any) {
         const myPrefix = '2' + this.myMP.tag + 'e' + this.getStringLengthInHexFixed(str);
+        return myPrefix;
+    }
+    private generateRPCPrefixwithChenks(str: any) {
+        const myPrefix = '2' + this.myMP.tag + 'c' + this.getStringLengthInHexFixed(str);
         return myPrefix;
     }
 
@@ -541,18 +545,29 @@ export class MusicPlayerLib {
     }
 
     private sendRPCRequest(data: any) {
-        console.log('CRPC send join:' + this.mpSigRPCOut + " " + data);
 
         let myPrefix = '';
+        let temp = '';
+        const numberOfChar = 100;
         // Add prefix if the connection is not direct.
         if (!this.myMP.connectionIsDirect) {
-            //console.log('Connection is not direct. Need to generate a JSON prefix.')
-            myPrefix = this.generateRPCPrefix(data);
-        }
-
-        data = myPrefix + data;
-        if (this.mpSigRPCOut) {
-            publishEvent('s', this.mpSigRPCOut, data);
+            const chuncknCount = Math.ceil(data.length / numberOfChar);
+            console.log(chuncknCount);
+            for (let i = 0; i < chuncknCount; i++) {
+                if (i === (chuncknCount - 1)) {
+                    temp = data.substring(numberOfChar * i);
+                    myPrefix = this.generateRPCPrefix(temp);
+                    temp = myPrefix + temp;
+                } else {
+                    temp = data.substring((numberOfChar * i), (numberOfChar * i) + numberOfChar);
+                    myPrefix = this.generateRPCPrefixwithChenks(temp);
+                    temp = myPrefix + temp;
+                }
+                if (this.mpSigRPCOut) {
+                    console.log('CRPC send join:' + this.mpSigRPCOut + " " + temp);
+                    publishEvent('s', this.mpSigRPCOut, temp);
+                }
+            }
         }
     }
 
