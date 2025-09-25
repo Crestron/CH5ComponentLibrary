@@ -5,7 +5,7 @@ import { Ch5Log } from "../ch5-common/ch5-log";
 import { Ch5LegacyMediaPlayerIconButton } from "./ch5-legacy-media-player-icon-button-base.ts";
 import { MusicPlayerLib } from "../ch5-core/utility-functions/music-player.ts";
 import { subscribeState } from "../ch5-core/index.ts";
-import { TCh5LegacyMediaPlayerSourcePlayerIcons } from "./interfaces/t-ch5-legacy-media-player.ts";
+import { TCh5LegacyMediaPlayerProgressbarData, TCh5LegacyMediaPlayerSourcePlayerIcons } from "./interfaces/t-ch5-legacy-media-player.ts";
 
 export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
@@ -46,7 +46,12 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 	private _transportControls: HTMLElement = {} as HTMLElement;
 	private musicPlayerLibInstance: MusicPlayerLib;
 	private nowPlayingData: any;
-	private progressBarData: any;
+	private progressBarData: TCh5LegacyMediaPlayerProgressbarData = {
+		StreamState: '',
+		TrackSec: 0,
+		ElapsedSec: 0,
+		ProgressBar: false
+	};
 
 	private _nowPlayingPlayerName: HTMLElement = {} as HTMLElement
 	private _nowPlayingPlayerImage: HTMLImageElement = {} as HTMLImageElement;
@@ -202,13 +207,18 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 		subscribeState('o', 'progressBarData', (data: any) => {
 			setTimeout(() => {
-				console.log("Progressbar data: ", data);
+				if(ref.demoMode) {
+					this.progressBarData.ProgressBar = true;
+					this._progressBarContainer.style.display = "flex";
+					return;
+				}
 				if (this._progressBarTimer) {
 					clearInterval(this._progressBarTimer);
 					this._progressBarTimer = null;
 				}
 				if(data && Object.keys(data).length > 0) {
 					this.progressBarData = data;
+					this.logger.log("Progressbar data: ", data);
 					if(this.progressBarData && Object.keys(this.progressBarData).length > 0) {
 						if (!this.progressBarData.ProgressBar) {
 							this._progressBarContainer.style.display = "none";
