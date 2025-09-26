@@ -523,25 +523,30 @@ export class MusicPlayerLib {
         }
     }
 
+    private itemCount = this.tempMyMusicData['ItemCnt']; // 489
     public getItemData(infiniteScroll = false) {
         if (!infiniteScroll) { this.itemValue = 1, this.tempMyMusicData['MenuData'] = [] };
 
-        const count = (this.tempMyMusicData['ItemCnt'] < this.tempMyMusicData['MaxReqItems']) ? this.tempMyMusicData['ItemCnt'] :
-            this.tempMyMusicData['MaxReqItems'];
-        this.tempMyMusicData['ItemCnt'] = this.tempMyMusicData['ItemCnt'] - count;
-        // console.log("ITEM DATA VALUES", this.itemValue, count)
-        const myRPC: any = {
-            params: { item: this.itemValue, count },//"item": //this.tempMyMusicData['Level']
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.menuInstanceName + '.GetData'
-
-        };
-        this.myMP.ItemDataId = myRPC.id; // Keep track of the message id.
-        if (this.myMP.menuInstanceName) {
-            this.sendRPCRequest(JSON.stringify(myRPC));
+        // const maxReqItems = this.tempMyMusicData['MaxReqItems'];
+        const maxReqItems = 25;
+        
+        const count = (this.itemCount < maxReqItems) ? this.itemCount : maxReqItems; // 100
+        this.itemCount = this.itemCount - count; // 389
+        console.log("ITEM DATA VALUES", this.itemValue, count)
+        if(count > 0){
+            const myRPC: any = {
+                params: { item: this.itemValue, count },//"item": //this.tempMyMusicData['Level']
+                jsonrpc: '2.0',
+                id: this.getMessageId(),
+                method: this.myMP.menuInstanceName + '.GetData'
+    
+            };
+            this.myMP.ItemDataId = myRPC.id; // Keep track of the message id.
+            if (this.myMP.menuInstanceName) {
+                this.sendRPCRequest(JSON.stringify(myRPC));
+            }
+            this.itemValue = this.itemValue + maxReqItems;
         }
-        this.itemValue = this.itemValue + this.tempMyMusicData['MaxReqItems']
     }
 
     private sendRPCRequest(data: any) {

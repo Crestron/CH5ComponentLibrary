@@ -195,7 +195,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 				else if (data && Object.keys(data).length > 0) {
 					this.nowPlayingData = data;
 					this.createNowPlaying();
-					this.logger.log('Now Playing Data', this.nowPlayingData);
+					console.log('Now Playing Data', this.nowPlayingData);
 					if (this.nowPlayingData && Object.keys(this.nowPlayingData).length > 0) this.updatedNowPlayingContent();
 					ref.addMusicTransition();
 				} else {
