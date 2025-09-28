@@ -33,9 +33,8 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
   private myMusicData: any;
   private musicPlayerLibInstance: MusicPlayerLib;
 
-  private maxItemsToDisplay = 20;
-  private loadItemsCount = this.maxItemsToDisplay;
-  private startingIndex = 0;
+  private maxItemsToDisplay = 30;
+  private loadItemsCount = 0;
 
   private myMusicDemoData = {
     MaxReqItems: 100,
@@ -1087,9 +1086,9 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicContainer = document.createElement('div');
     this.createDefaultMyMusic();
     this.updateCssClass();
-    this.startingIndex = 0;
     subscribeState('o', 'myMusicData', ((data: any) => {
       setTimeout(() => {
+        this.loadItemsCount = this.maxItemsToDisplay;
         if (ref.demoMode) {
           this.createMyMusic();
           this.myMusicData = this.myMusicDemoData;
@@ -1406,6 +1405,10 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
     this.myMusicHeader(this.myMusicData.IsMenuAvailable, this.myMusicData.Title, this.myMusicData.Subtitle);
     this.displayVisibleOnlyItems();
+    if(this.myMusicData['MenuData'].length > this.maxItemsToDisplay){
+      const scrollHeight: number = this._myMusicContentSection.scrollHeight;
+      this._myMusicContentSection.scrollTop = scrollHeight - 50;
+    }
     this.myMusicMenuIconSection(this.myMusicData.ListSpecificFunctions);
   }
 
