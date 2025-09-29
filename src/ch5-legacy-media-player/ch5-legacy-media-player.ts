@@ -473,8 +473,23 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   private handleResizeObserver = () => {
     const { width } = this._elContainer.getBoundingClientRect();
-    if (width > 800) {
+    const { height } = this._elContainer.getBoundingClientRect();
+
+    if (width < 800) {
+      this._elContainer.classList.add("portrait-mode-active");
+    } else {
       this.querySelector(".ch5-legacy-media-player-my-music")?.classList.remove("my-music-transition");
+      this._elContainer.classList.remove("portrait-mode-active");
+    } 
+    if (width >= 1200) {
+      this._elContainer.classList.add("now-playing-max-width-1200");
+    } else {
+      this._elContainer.classList.remove("now-playing-max-width-1200");
+    }
+    if (height < 500) {
+      this._elContainer.classList.add("now-playing-image-shape-circular");
+    } else {
+      this._elContainer.classList.remove("now-playing-image-shape-circular");
     }
   }
 
