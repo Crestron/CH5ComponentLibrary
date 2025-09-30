@@ -112,19 +112,22 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
   public musicPlayerLibInstance: MusicPlayerLib;
+  private nowPlaying:any;
+  private myMusic:any;
 
   private _elMask: HTMLElement = {} as HTMLElement;
   private _elGenericDialogContent: HTMLElement = {} as HTMLElement;
   private _elMaskdialogTitle: HTMLElement = {} as HTMLElement;
   private _dialogFooter: HTMLElement = {} as HTMLElement;
   private _loadingIndicator: HTMLElement = {} as HTMLElement;
-
+  
   //private _isShowPopup: boolean = false;
   //#endregion
 
   //#region Getters and Setters
 
   public set demoMode(value: boolean) {
+    console.log('demomode:',this.handleDemoMode);
     this._ch5Properties.set<boolean>("demoMode", value, () => {
       this.handleDemoMode();
     });
@@ -302,9 +305,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()', Ch5LegacyMediaPlayer.ELEMENT_NAME);
-
-    this.show
-
     // WAI-ARIA Attributes
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5LegacyMediaPlayer);
@@ -342,10 +342,10 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
     this._elContainer = document.createElement('div');
-    const nowPlaying = new Ch5LegacyMediaPlayerNowPlaying(this.musicPlayerLibInstance, this);
-    this._elContainer.appendChild(nowPlaying.createInternalHtml());
-    const myMusic = new Ch5LegacyMediaPlayerMyMusic(this.musicPlayerLibInstance, this);
-    this._elContainer.appendChild(myMusic.createInternalHtml());
+    this.nowPlaying = new Ch5LegacyMediaPlayerNowPlaying(this.musicPlayerLibInstance);
+    this._elContainer.appendChild(this.nowPlaying.createInternalHtml());
+    this.myMusic = new Ch5LegacyMediaPlayerMyMusic(this.musicPlayerLibInstance);
+    this._elContainer.appendChild(this.myMusic.createInternalHtml());
     // this.startMPLoading();
     this.logger.stop();
   }
@@ -496,9 +496,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       container.remove();
     });
   }
-
   private handleDemoMode() {
-    // Enter your Code here
+    publishEvent('b','demoMode',this.demoMode);
   }
   private handleContractName() {
     // Enter your Code here

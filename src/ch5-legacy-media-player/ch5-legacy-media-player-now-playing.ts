@@ -138,6 +138,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		TrackSec: 280
 	}
 
+
 	// Returns a function, that, as long as it continues to be invoked, will not be triggered. 
 	// The function will be called after it stops being called for `wait` milliseconds.
 	public debounce = (func: any, wait: number) => {
@@ -175,7 +176,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	//#region Component Lifecycle
 
-	public constructor(musicPlayerLib: MusicPlayerLib, ref: any) {
+	public constructor(musicPlayerLib: MusicPlayerLib) {
 		super();
 		this.musicPlayerLibInstance = musicPlayerLib;
 		this.logger.start('constructor()', Ch5LegacyMediaPlayerNowPlaying.ELEMENT_NAME);
@@ -184,42 +185,37 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this.createDefaultNowPlaying();
 		this._ch5Properties = new Ch5Properties(this, Ch5LegacyMediaPlayerNowPlaying.COMPONENT_PROPERTIES);
 		this.updateCssClass();
-		subscribeState('o', 'nowPlayingData', ((data: any) => {
-			setTimeout(() => {
-				if (ref.demoMode) {
+		subscribeState('b', 'demoMode', ((value: boolean) => {
+			subscribeState('o', 'nowPlayingData', ((data: any) => {
+				if (value) {
 					this.createNowPlaying();
 					this.nowPlayingData = this.nowPlayingDemoData;
 					if (this.nowPlayingData && Object.keys(this.nowPlayingData).length > 0) this.updatedNowPlayingContent();
-					ref.addMusicTransition();
-				}
-				else if (data && Object.keys(data).length > 0) {
+				} else if (data && Object.keys(data).length > 0) {
 					this.nowPlayingData = data;
 					this.createNowPlaying();
 					this.logger.log('Now Playing Data', this.nowPlayingData);
 					if (this.nowPlayingData && Object.keys(this.nowPlayingData).length > 0) this.updatedNowPlayingContent();
-					ref.addMusicTransition();
 				} else {
 					this.createDefaultNowPlaying();
 				}
 				this.updateCssClass();
-			}, 100);
-		}));
-
-		subscribeState('o', 'progressBarData', (data: any) => {
-			setTimeout(() => {
-				if(ref.demoMode) {
-					this.progressBarData.ProgressBar = true;
-					this._progressBarContainer.style.display = "flex";
-					return;
-				}
+			}));
+			subscribeState('o', 'progressBarData', ((data: any) => {
 				if (this._progressBarTimer) {
 					clearInterval(this._progressBarTimer);
 					this._progressBarTimer = null;
 				}
-				if(data && Object.keys(data).length > 0) {
+				if (value) {
+					this.progressBarData.ProgressBar = true;
+					this._progressBarContainer.style.display = "flex";
+					this._progressBarElapsedSec=0;
+					this._progressBarTrackSec=0;
+				} 
+				else {
 					this.progressBarData = data;
 					this.logger.log("Progressbar data: ", data);
-					if(this.progressBarData && Object.keys(this.progressBarData).length > 0) {
+					if (!value && this.progressBarData && Object.keys(this.progressBarData).length > 0) {
 						if (!this.progressBarData.ProgressBar) {
 							this._progressBarContainer.style.display = "none";
 							return;
@@ -235,7 +231,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 						this._currentTime.textContent = this.formatTime(this._progressBarElapsedSec);
 						this._duration.textContent = this.formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
 
-						if (this.progressBarData.StreamState === 'streaming') {
+						if (this.progressBarData.StreamState === 'streaming' && !value) {
 							this._progressBarTimer = window.setInterval(() => {
 								if (this._progressBarElapsedSec < this._progressBarTrackSec) {
 									this._progressBarElapsedSec += 1;
@@ -252,8 +248,9 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 						}
 					}
 				}
-			}, 100);
-		});
+			}));
+		}));
+
 	}
 
 	private updatedNowPlayingContent() {
@@ -307,7 +304,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this.renderNextAndPreviousSong(this.nowPlayingData.NextTitle);
 		if (!this.progressBarData.ProgressBar) {
 			this._progressBarContainer.style.display = "none";
-		} else { 
+		} else {
 			this._progressBarContainer.style.display = "flex";
 		}
 	}
