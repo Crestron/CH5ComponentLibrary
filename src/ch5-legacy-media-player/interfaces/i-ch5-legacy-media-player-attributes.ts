@@ -69,7 +69,7 @@ export interface ICh5LegacyMediaPlayerAttributes extends ICh5CommonAttributesLeg
 	 * [
 	 * "`receiveStateRefreshMediaPlayer` attribute",
 	 * "***",
-	 * "To refresh the media player. Connected to the Media Server Object Router SIMPL module and triggered when the SmartGraphics Media Player component needs to refresh its data. To refresh the player, what steps will be required?"
+	 * "To refresh the media player. Connected to the Media Server Object Router SIMPL module and triggered when the SmartGraphics Media Player component needs to refresh its data. When CS program restarts this signal will get a high value."
 	 * ]
 	 * @name receivestaterefreshmediaplayer
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
@@ -81,7 +81,7 @@ export interface ICh5LegacyMediaPlayerAttributes extends ICh5CommonAttributesLeg
 	 * [
 	 * "`receiveStateDeviceOffline` attribute",
 	 * "***",
-	 * "The value is coming as false. Connected to the Media Server Object Router SIMPL module, and is high when the selected device is offline and low when the selected device is online. We need to check when it will come true. "
+	 * "The value is coming as false. Connected to the Media Server Object Router SIMPL module, and is high when the selected device is offline and low when the selected device is online. When we remove an entry Nax IP from ip table, the signal value comes as high."
 	 * ]
 	 * @name receivestatedeviceoffline
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
