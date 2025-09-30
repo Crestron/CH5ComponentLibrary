@@ -250,11 +250,11 @@ export class MusicPlayerLib {
     // Byte 5: JSON payload length nibble 2
     // Byte 6: JSON payload length nibble 1
     // Byte 7: JSON payload length nibble 0 
-    private generateRPCPrefix(str: any) {
+    private generateRPCPrefixForFinalMessage(str: any) {
         const myPrefix = '2' + this.myMP.tag + 'e' + this.getStringLengthInHexFixed(str);
         return myPrefix;
     }
-    private generateRPCPrefixwithChenks(str: any) {
+    private generateRPCPrefixForPartialMessage(str: any) {
         const myPrefix = '2' + this.myMP.tag + 'c' + this.getStringLengthInHexFixed(str);
         return myPrefix;
     }
@@ -552,15 +552,14 @@ export class MusicPlayerLib {
         // Add prefix if the connection is not direct.
         if (!this.myMP.connectionIsDirect) {
             const chuncknCount = Math.ceil(data.length / numberOfChar);
-            console.log(chuncknCount);
             for (let i = 0; i < chuncknCount; i++) {
                 if (i === (chuncknCount - 1)) {
                     temp = data.substring(numberOfChar * i);
-                    myPrefix = this.generateRPCPrefix(temp);
+                    myPrefix = this.generateRPCPrefixForFinalMessage(temp);
                     temp = myPrefix + temp;
                 } else {
                     temp = data.substring((numberOfChar * i), (numberOfChar * i) + numberOfChar);
-                    myPrefix = this.generateRPCPrefixwithChenks(temp);
+                    myPrefix = this.generateRPCPrefixForPartialMessage(temp);
                     temp = myPrefix + temp;
                 }
                 if (this.mpSigRPCOut) {
