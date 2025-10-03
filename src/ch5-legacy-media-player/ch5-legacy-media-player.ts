@@ -119,7 +119,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   private _dialogFooter: HTMLElement = {} as HTMLElement;
   private _loadingIndicator: HTMLElement = {} as HTMLElement;
 
-  //private _isShowPopup: boolean = false;
   //#endregion
 
   //#region Getters and Setters
@@ -196,17 +195,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     return this._ch5Properties.get<string>('receiveStatePlayerName');
   }
 
-
-  // set showPopup(value: boolean) {
-  //   this._isShowPopup = value;
-  //   if (this._elMask) {
-  //     this._elMask.style.display = value ? '' : 'none';
-  //   }
-  // }
-  // get showPopup() {
-  //   return this._isShowPopup;
-  // }
-
   //#endregion
 
   //#region Static Methods
@@ -235,7 +223,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this.musicPlayerLibInstance = new MusicPlayerLib();
 
     this.ignoreAttributes = ["appendclasswheninviewport", "receivestateshowpulse", "receivestatehidepulse", "sendeventonshow"];
-    //this._isShowPopup = false;
     if (!this._wasInstatiated) {
       this.createInternalHtml();
     }
