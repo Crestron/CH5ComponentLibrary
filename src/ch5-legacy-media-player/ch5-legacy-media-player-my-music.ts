@@ -35,9 +35,6 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
 
   private myMusicDemoData = {
-    MaxReqItems: 100,
-    Level: 5,
-    ItemCnt: 489,
     Title: "HEADER TEXT",
     Subtitle: "SUBTITLE",
     IsMenuAvailable: true,
@@ -55,50 +52,18 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
       {
         L1: "Text Line 1",
         L2: "Sub Line 1",
-        URL: "",
-        URLNAT: "",
-        Id: {
-          browseKey: {
-            playlistURL: "",
-            trackId: ""
-          }
-        }
       },
       {
         L1: "Text Line 2",
         L2: "",
-        URL: "",
-        URLNAT: "",
-        Id: {
-          browseKey: {
-            playlistURL: "",
-            trackId: ""
-          }
-        }
       },
       {
         L1: "Text Line 3",
         L2: "Sub Line 3",
-        URL: "",
-        URLNAT: "",
-        Id: {
-          browseKey: {
-            playlistURL: "",
-            trackId: ""
-          }
-        }
       },
       {
         L1: "Text Line 4",
         L2: "",
-        URL: "",
-        URLNAT: "",
-        Id: {
-          browseKey: {
-            playlistURL: "",
-            trackId: ""
-          }
-        }
       }
     ]
   }
@@ -124,7 +89,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
   //#region Component Lifecycle
 
-  public constructor(musicPlayerLib: MusicPlayerLib, ref: any) {
+  public constructor(musicPlayerLib: MusicPlayerLib) {
     super();
     this.musicPlayerLibInstance = musicPlayerLib;
     this.logger.start('constructor()', Ch5LegacyMediaPlayerMyMusic.ELEMENT_NAME);
@@ -132,9 +97,9 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this._myMusicContainer = document.createElement('div');
     this.createDefaultMyMusic();
     this.updateCssClass();
-    subscribeState('o', 'myMusicData', ((data: any) => {
-      setTimeout(() => {
-        if (ref.demoMode) {
+    subscribeState('b', 'demoMode', ((value: boolean) => {
+      subscribeState('o', 'myMusicData', ((data: any) => {
+        if (value) {
           this.createMyMusic();
           this.myMusicData = this.myMusicDemoData;
           if (this.myMusicData && Object.keys(this.myMusicData).length > 0) this.apiChanges();
@@ -147,7 +112,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
           this.createDefaultMyMusic();
         }
         this.updateCssClass();
-      }, 100);
+      }))
     }));
   }
 
