@@ -86,7 +86,8 @@ export class MusicPlayerLib {
     public tempMyMusicData: any = {};
     public progressBarData: any = {};
     public tempProgressBarData: any = {};
-
+    public maxReqItems = 35;
+    
     constructor() {
         subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: any) => {
             console.log('receiveStateRefreshMediaPlayerResp: ' + value);
@@ -107,7 +108,7 @@ export class MusicPlayerLib {
         subscribeState('s', 'receiveStateCRPCResp', (value: any) => {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
-            console.log('RPCIn from', value);
+            // console.log('RPCIn from', value);
             if (value.length > 0) {
 
                 const mpRPCPrefix = value.substring(0, 8).trim(); // First 8 bytes is the RPC prefix.
@@ -523,19 +524,21 @@ export class MusicPlayerLib {
         }
     }
 
-    private itemCount = this.tempMyMusicData['ItemCnt']; // 489
+    private itemCount = this.tempMyMusicData['ItemCnt'];
     public getItemData(infiniteScroll = false) {
-        if (!infiniteScroll) { this.itemValue = 1, this.tempMyMusicData['MenuData'] = [] };
+        if (!infiniteScroll) { 
+            this.itemValue = 1;
+            this.tempMyMusicData['MenuData'] = [];
+        }
 
         // const maxReqItems = this.tempMyMusicData['MaxReqItems'];
-        const maxReqItems = 25;
         
-        const count = (this.itemCount < maxReqItems) ? this.itemCount : maxReqItems; // 100
-        this.itemCount = this.itemCount - count; // 389
+        const count = (this.itemCount < this.maxReqItems) ? this.itemCount : this.maxReqItems; 
+        this.itemCount = this.itemCount - count; 
         console.log("ITEM DATA VALUES", this.itemValue, count)
         if(count > 0){
             const myRPC: any = {
-                params: { item: this.itemValue, count },//"item": //this.tempMyMusicData['Level']
+                params: { item: this.itemValue, count },
                 jsonrpc: '2.0',
                 id: this.getMessageId(),
                 method: this.myMP.menuInstanceName + '.GetData'
@@ -545,7 +548,7 @@ export class MusicPlayerLib {
             if (this.myMP.menuInstanceName) {
                 this.sendRPCRequest(JSON.stringify(myRPC));
             }
-            this.itemValue = this.itemValue + maxReqItems;
+            this.itemValue = this.itemValue + this.maxReqItems;
         }
     }
 
@@ -690,7 +693,7 @@ export class MusicPlayerLib {
             } else if (myMsgId == this.myMP.ListSpecificFunctionsId) {
                 this.tempMyMusicData['ListSpecificFunctions'] = responseData.result.ListSpecificFunctions;
             } else if (myMsgId == this.myMP.ItemCntId) {
-                this.tempMyMusicData['ItemCnt'] = responseData.result.ItemCnt;
+                this.tempMyMusicData['ItemCnt'] = responseData.result.ItemCnt;    
                 this.getItemData();
             } else if (myMsgId == this.myMP.MaxReqItemsId) {
                 this.tempMyMusicData['MaxReqItems'] = responseData.result.MaxReqItems;

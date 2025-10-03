@@ -35,6 +35,9 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
   private maxItemsToDisplay = 30;
   private loadItemsCount = 0;
+  private itemData:any[]= [];
+  private printedIndex = 0;
+  private scrollPosition = 80;
 
   private myMusicDemoData = {
     MaxReqItems: 100,
@@ -1094,8 +1097,12 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
           this.myMusicData = this.myMusicDemoData;
           if (this.myMusicData && Object.keys(this.myMusicData).length > 0) this.apiChanges();
         } else if (data && Object.keys(data).length > 0) {
-          this.createMyMusic();
-          this.myMusicData = data
+          this.myMusicData = data;
+          if(this.myMusicData && this.myMusicData['MenuData'] && this.myMusicData['MenuData'].length <= this.musicPlayerLibInstance.maxReqItems){
+            this.createMyMusic();
+            this.printedIndex =0;
+          }
+          this.itemData = data['MenuData'] ? [...data['MenuData']] : [];
           console.log('My Music Data', this.myMusicData);
           if (this.myMusicData && Object.keys(this.myMusicData).length > 0 && this.myMusicData['MenuData'] && Object.keys(this.myMusicData['MenuData']).length > 0) this.apiChanges();
         } else {
@@ -1214,8 +1221,8 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
       const distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
 
       if (scrollTop > lastScrollTop && this.myMusicData['MenuData'].length > this.loadItemsCount) {
-        if (distanceFromBottom <= 50) {
-          console.log("50px away from bottom")
+        if (distanceFromBottom <= this.scrollPosition) {
+          
           // delete 1st element and push element in the end
           const list = this._myMusicContentSection;
           const childrenArray = Array.from(list.children);
@@ -1228,9 +1235,8 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
           this.loadItemsCount = this.loadItemsCount + 1;
         }
       } else if (scrollTop < lastScrollTop && this.loadItemsCount > this.maxItemsToDisplay) {
-        console.log("Scrolling up");
-        if (scrollTop <= 50) {
-          console.log("50px away from top");
+        if (scrollTop <= this.scrollPosition) {
+          
           // delete 1st element and push element in the end
           const list = this._myMusicContentSection;
           const childrenArray = Array.from(list.children);
@@ -1256,10 +1262,11 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
 
   protected createLine(index: number, position='end') {
-    console.log("creating line for index", index, this.myMusicData['MenuData'], this.myMusicData['MenuData'].length)
+    console.log("creating line for index", index, this.myMusicData['MenuData'], this.myMusicData['MenuData'].length);
     if(index+1 >= this.myMusicData['MenuData'].length){
       this.musicPlayerLibInstance.getItemData(true);
     }
+    if(index > 0 && this.printedIndex === index) return;
     this.printedIndex = index;
     
     if(!this.myMusicData['MenuData'] || !this.myMusicData['MenuData'][index]) return;
@@ -1311,7 +1318,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
     this._myMusicContentItem.appendChild(this._myMusicContentItemTitle);
     this._myMusicContentItem.appendChild(this._myMusicContentItemSubtitle);
-    // this._myMusicContentSection.appendChild(this._myMusicContentItem);
+    this._myMusicContentSection.appendChild(this._myMusicContentItem);
     
     const list = this._myMusicContentSection;
     if (position === 'start') {
@@ -1383,18 +1390,21 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     }
   }
 
-  private printedIndex =0;
   private displayVisibleOnlyItems() {
     if(this.myMusicData['ItemCnt'] == this.myMusicData['MenuData'].length) {
       this.loadItemsCount = this.myMusicData['MenuData'].length;
     }
     console.log("displayVisibleOnlyItems");
     console.log("loadItemsCount -------->>>", this.loadItemsCount);
-        
-    if (this.myMusicData && this.myMusicData.MenuData) {
+    console.log('this.itemData-------->>>>', this.itemData);
+
+    if (this.myMusicData && this.myMusicData.MenuData && this.myMusicData['MenuData'].length <= this.musicPlayerLibInstance.maxReqItems) {
       for (let index = 0; index < this.loadItemsCount; index++) {
         this.createLine(index);
       }
+    } else {
+      this.createLine(this.printedIndex);
+      this.loadItemsCount = this.printedIndex;
     }
   }
   
@@ -1405,9 +1415,9 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
     this.myMusicHeader(this.myMusicData.IsMenuAvailable, this.myMusicData.Title, this.myMusicData.Subtitle);
     this.displayVisibleOnlyItems();
-    if(this.myMusicData['MenuData'].length > this.maxItemsToDisplay){
-      const scrollHeight: number = this._myMusicContentSection.scrollHeight;
-      this._myMusicContentSection.scrollTop = scrollHeight - 50;
+    if(this.myMusicData['MenuData'].length > this.maxItemsToDisplay && this.myMusicData['MenuData'].length > this.musicPlayerLibInstance.maxReqItems){
+      // const scrollHeight: number = this._myMusicContentSection.scrollHeight;
+      this._myMusicContentSection.scrollTop = this._myMusicContentSection.scrollTop - this.scrollPosition;
     }
     this.myMusicMenuIconSection(this.myMusicData.ListSpecificFunctions);
   }
