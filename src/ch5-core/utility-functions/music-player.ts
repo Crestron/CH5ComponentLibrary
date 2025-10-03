@@ -36,7 +36,6 @@ export class MusicPlayerLib {
 
         "RegistrationId": 0,
         "ObjectsId": 0,
-        "RegisterEventId": 0,
         "PropertiesSupportedId": 0,
         "MenuId": 0,
         "ActionsSupportedId": 0,
@@ -72,7 +71,6 @@ export class MusicPlayerLib {
         "MaxReqItemsId": 0,
         "ItemDataId": 0,
         "ActionsAvailableId": 0,
-        "ListChangedId": 0,
         "PlayId": 0,
         "PauseId": 0,
         "SeekId": 0,
@@ -268,7 +266,6 @@ export class MusicPlayerLib {
 
     private startRegistrationResendTimer() {
         this.resendRegistrationTimeId = setInterval(() => {
-            console.log('Timer.......')
             this.registerWithDevice();
         }, 10000);
         //resendRegistrationTimeId = setTimeout(function, 30000);
@@ -297,7 +294,6 @@ export class MusicPlayerLib {
     // Note: On an update request from the control system, the last data to be sent
     // will be the message string.
     private processMessage(data: any) {
-        // console.log('Data-->', data);
         const myObj = JSON.parse(data);
         if (myObj.hasOwnProperty("tag")) {
             // console.log('Found tag value: ' + this.myMP.tag);
@@ -398,7 +394,6 @@ export class MusicPlayerLib {
     }
 
     private processMenuResponse(getMenuResponse: GetMenuResponse) {
-        //console.log("MenuResponse---->", getMenuResponse);
         this.myMP.menuInstanceName = getMenuResponse.result.instanceName;
         console.log('menuInstanceName 2', this.myMP.menuInstanceName);
 

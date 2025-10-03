@@ -8,7 +8,6 @@ export interface MyMpObject {
 
     RegistrationId: number;
     ObjectsId: number;
-    RegisterEventId: number;
     PropertiesSupportedId: number;
     MenuId: number;
     ActionsSupportedId: number;
@@ -44,7 +43,6 @@ export interface MyMpObject {
     MaxReqItemsId: number;
     ItemDataId: number;
     ActionsAvailableId: number;
-    ListChangedId: number;
     PlayId: number;
     PauseId: number;
     SeekId: number;

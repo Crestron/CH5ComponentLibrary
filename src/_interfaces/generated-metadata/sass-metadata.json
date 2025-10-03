@@ -7647,6 +7647,34 @@
                     "relatedThemeVariable": "--theme-ch5-legacy-media-player--border-width"
                 },
                 {
+                    "name": "--ch5-legacy-media-player--default-album-art-placeholder-color",
+                    "value": "var(--theme-ch5-legacy-media-player--default-album-art-placeholder-color)",
+                    "description": "Sets the default album art placeholder div background",
+                    "type": "color",
+                    "possibleValues": [
+                        "rgb(35,35,35)",
+                        "#1a1a1a",
+                        "red"
+                    ],
+                    "showThemeEditor": true,
+                    "example": "radial-gradient(50% 50% at 50% 50%, #EEF1F5 0%, #E6E9F0 100%)",
+                    "relatedThemeVariable": "--theme-ch5-legacy-media-player--default-album-art-placeholder-color"
+                },
+                {
+                    "name": "--ch5-legacy-media-player--default-border-color",
+                    "value": "var(--theme-ch5-legacy-media-player--default-border-color)",
+                    "description": "Sets the default screen border color",
+                    "type": "color",
+                    "possibleValues": [
+                        "rgb(35,35,35)",
+                        "#1a1a1a",
+                        "red"
+                    ],
+                    "showThemeEditor": true,
+                    "example": "#dadade",
+                    "relatedThemeVariable": "--theme-ch5-legacy-media-player--default-border-color"
+                },
+                {
                     "name": "--ch5-legacy-media-player--default-border-radius",
                     "value": "var(--theme-ch5-legacy-media-player--default-border-radius)",
                     "description": "Sets the border radius for the elements",
@@ -7657,6 +7685,104 @@
                     "showThemeEditor": true,
                     "example": "16px",
                     "relatedThemeVariable": "--theme-ch5-legacy-media-player--default-border-radius"
+                },
+                {
+                    "name": "--ch5-legacy-media-player--default-header-text-color",
+                    "value": "var(--theme-ch5-legacy-media-player--default-header-text-color)",
+                    "description": "Sets the default my music header title text color",
+                    "type": "color",
+                    "possibleValues": [
+                        "rgb(35,35,35)",
+                        "#1a1a1a",
+                        "red"
+                    ],
+                    "showThemeEditor": true,
+                    "example": "#8d8d8e",
+                    "relatedThemeVariable": "--theme-ch5-legacy-media-player--default-header-text-color"
+                },
+                {
+                    "name": "--ch5-legacy-media-player--default-icon-color",
+                    "value": "var(--theme-ch5-legacy-media-player--default-icon-color)",
+                    "description": "Sets the default mp action icon color",
+                    "type": "color",
+                    "possibleValues": [
+                        "rgb(35,35,35)",
+                        "#1a1a1a",
+                        "red"
+                    ],
+                    "showThemeEditor": true,
+                    "example": "#d2d2d2",
+                    "relatedThemeVariable": "--theme-ch5-legacy-media-player--default-icon-color"
+                },
+                {
+                    "name": "--ch5-legacy-media-player--default-mp-back-icon-color",
+                    "value": "var(--theme-ch5-legacy-media-player--default-mp-back-icon-color)",
+                    "description": "Sets the default mp back icon color",
+                    "type": "color",
+                    "possibleValues": [
+                        "rgb(35,35,35)",
+                        "#1a1a1a",
+                        "red"
+                    ],
+                    "showThemeEditor": true,
+                    "example": "#e8e8e8",
+                    "relatedThemeVariable": "--theme-ch5-legacy-media-player--default-mp-back-icon-color"
+                },
+                {
+                    "name": "--ch5-legacy-media-player--default-progressbar-color",
+                    "value": "var(--theme-ch5-legacy-media-player--default-progressbar-color)",
+                    "description": "Sets the default progressbar background color",
+                    "type": "color",
+                    "possibleValues": [
+                        "rgb(35,35,35)",
+                        "#1a1a1a",
+                        "red"
+                    ],
+                    "showThemeEditor": true,
+                    "example": "#ebebeb",
+                    "relatedThemeVariable": "--theme-ch5-legacy-media-player--default-progressbar-color"
+                },
+                {
+                    "name": "--ch5-legacy-media-player--default-progressbar-time-color",
+                    "value": "var(--theme-ch5-legacy-media-player--default-progressbar-time-color)",
+                    "description": "Sets the default progressbar time color",
+                    "type": "color",
+                    "possibleValues": [
+                        "rgb(35,35,35)",
+                        "#1a1a1a",
+                        "red"
+                    ],
+                    "showThemeEditor": true,
+                    "example": "#9f9f9f",
+                    "relatedThemeVariable": "--theme-ch5-legacy-media-player--default-progressbar-time-color"
+                },
+                {
+                    "name": "--ch5-legacy-media-player--default-provider-text-color",
+                    "value": "var(--theme-ch5-legacy-media-player--default-provider-text-color)",
+                    "description": "Sets the default screen provider text color",
+                    "type": "color",
+                    "possibleValues": [
+                        "rgb(35,35,35)",
+                        "#1a1a1a",
+                        "red"
+                    ],
+                    "showThemeEditor": true,
+                    "example": "#1c1c1e",
+                    "relatedThemeVariable": "--theme-ch5-legacy-media-player--default-provider-text-color"
+                },
+                {
+                    "name": "--ch5-legacy-media-player--default-track-info-text-color",
+                    "value": "var(--theme-ch5-legacy-media-player--default-track-info-text-color)",
+                    "description": "Sets the default track info text color",
+                    "type": "color",
+                    "possibleValues": [
+                        "rgb(35,35,35)",
+                        "#1a1a1a",
+                        "red"
+                    ],
+                    "showThemeEditor": true,
+                    "example": "#9c9c9d",
+                    "relatedThemeVariable": "--theme-ch5-legacy-media-player--default-track-info-text-color"
                 },
                 {
                     "name": "--ch5-legacy-media-player--height",
@@ -20713,6 +20839,32 @@
                             ]
                         },
                         {
+                            "name": "--theme-ch5-legacy-media-player--default-album-art-placeholder-color",
+                            "value": "linear-gradient(90deg, #29323C 0%, #485563 100%)",
+                            "description": "Sets the default album art placeholder div background at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "radial-gradient(50% 50% at 50% 50%, #EEF1F5 0%, #E6E9F0 100%)",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-border-color",
+                            "value": "#2c2c2e",
+                            "description": "Sets the default screen border color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#dadade",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--default-border-radius",
                             "value": "16px",
                             "description": "Sets the border radius for the elements at theme level",
@@ -20721,6 +20873,97 @@
                             "example": "16px",
                             "possibleValues": [
                                 "px"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-header-text-color",
+                            "value": "#818185",
+                            "description": "Sets the default my music header title text color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#8d8d8e",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-icon-color",
+                            "value": "#404041",
+                            "description": "Sets the default mp action icon color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#d2d2d2",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-mp-back-icon-color",
+                            "value": "#28282a",
+                            "description": "Sets the default mp back icon color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#e8e8e8",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-progressbar-color",
+                            "value": "#2c2c2e",
+                            "description": "Sets the default progressbar background color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#ebebeb",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-progressbar-time-color",
+                            "value": "#9f9fa0",
+                            "description": "Sets the default progressbar time color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#9f9f9f",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-provider-text-color",
+                            "value": "#f2f2f7",
+                            "description": "Sets the default screen provider text color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#1c1c1e",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-track-info-text-color",
+                            "value": "#717174",
+                            "description": "Sets the default track info text color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#9c9c9d",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
                             ]
                         },
                         {
@@ -34606,6 +34849,32 @@
                             ]
                         },
                         {
+                            "name": "--theme-ch5-legacy-media-player--default-album-art-placeholder-color",
+                            "value": "radial-gradient(50% 50% at 50% 50%, #eef1f5 0%, #e6e9f0 100%)",
+                            "description": "Sets the default album art placeholder div background at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "radial-gradient(50% 50% at 50% 50%, #EEF1F5 0%, #E6E9F0 100%)",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-border-color",
+                            "value": "#dadade",
+                            "description": "Sets the default screen border color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#dadade",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--default-border-radius",
                             "value": "16px",
                             "description": "Sets the border radius for the elements at theme level",
@@ -34614,6 +34883,97 @@
                             "example": "16px",
                             "possibleValues": [
                                 "px"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-header-text-color",
+                            "value": "#8d8d8e",
+                            "description": "Sets the default my music header title text color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#8d8d8e",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-icon-color",
+                            "value": "#d2d2d2",
+                            "description": "Sets the default mp action icon color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#d2d2d2",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-mp-back-icon-color",
+                            "value": "#e8e8e8",
+                            "description": "Sets the default mp back icon color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#e8e8e8",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-progressbar-color",
+                            "value": "#ebebeb",
+                            "description": "Sets the default progressbar background color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#ebebeb",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-progressbar-time-color",
+                            "value": "#9f9f9f",
+                            "description": "Sets the default progressbar time color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#9f9f9f",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-provider-text-color",
+                            "value": "#1c1c1e",
+                            "description": "Sets the default screen provider text color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#1c1c1e",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-track-info-text-color",
+                            "value": "#9c9c9d",
+                            "description": "Sets the default track info text color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#9c9c9d",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
                             ]
                         },
                         {
@@ -48457,7 +48817,7 @@
                         },
                         {
                             "name": "--theme-ch5-legacy-media-player--border-color",
-                            "value": "#ebebeb",
+                            "value": "#b3b3b3",
                             "description": "Sets the border color for the component at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -48499,6 +48859,32 @@
                             ]
                         },
                         {
+                            "name": "--theme-ch5-legacy-media-player--default-album-art-placeholder-color",
+                            "value": "radial-gradient(50% 50% at 50% 50%, #eef1f5 0%, #e6e9f0 100%)",
+                            "description": "Sets the default album art placeholder div background at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "radial-gradient(50% 50% at 50% 50%, #EEF1F5 0%, #E6E9F0 100%)",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-border-color",
+                            "value": "#dadade",
+                            "description": "Sets the default screen border color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#dadade",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--default-border-radius",
                             "value": "16px",
                             "description": "Sets the border radius for the elements at theme level",
@@ -48507,6 +48893,97 @@
                             "example": "16px",
                             "possibleValues": [
                                 "px"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-header-text-color",
+                            "value": "#8d8d8e",
+                            "description": "Sets the default my music header title text color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#8d8d8e",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-icon-color",
+                            "value": "#d2d2d2",
+                            "description": "Sets the default mp action icon color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#d2d2d2",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-mp-back-icon-color",
+                            "value": "#e8e8e8",
+                            "description": "Sets the default mp back icon color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#e8e8e8",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-progressbar-color",
+                            "value": "#ebebeb",
+                            "description": "Sets the default progressbar background color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#ebebeb",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-progressbar-time-color",
+                            "value": "#9f9f9f",
+                            "description": "Sets the default progressbar time color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#9f9f9f",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-provider-text-color",
+                            "value": "#1c1c1e",
+                            "description": "Sets the default screen provider text color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#1c1c1e",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-track-info-text-color",
+                            "value": "#9c9c9d",
+                            "description": "Sets the default track info text color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#9c9c9d",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
                             ]
                         },
                         {
@@ -62392,6 +62869,32 @@
                             ]
                         },
                         {
+                            "name": "--theme-ch5-legacy-media-player--default-album-art-placeholder-color",
+                            "value": "linear-gradient(90deg, #29323C 0%, #485563 100%)",
+                            "description": "Sets the default album art placeholder div background at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "radial-gradient(50% 50% at 50% 50%, #EEF1F5 0%, #E6E9F0 100%)",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-border-color",
+                            "value": "#2c2c2e",
+                            "description": "Sets the default screen border color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#dadade",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--default-border-radius",
                             "value": "16px",
                             "description": "Sets the border radius for the elements at theme level",
@@ -62400,6 +62903,97 @@
                             "example": "16px",
                             "possibleValues": [
                                 "px"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-header-text-color",
+                            "value": "#818185",
+                            "description": "Sets the default my music header title text color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#8d8d8e",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-icon-color",
+                            "value": "#404041",
+                            "description": "Sets the default mp action icon color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#d2d2d2",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-mp-back-icon-color",
+                            "value": "#28282a",
+                            "description": "Sets the default mp back icon color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#e8e8e8",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-progressbar-color",
+                            "value": "#2c2c2e",
+                            "description": "Sets the default progressbar background color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#ebebeb",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-progressbar-time-color",
+                            "value": "#9f9fa0",
+                            "description": "Sets the default progressbar time color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#9f9f9f",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-provider-text-color",
+                            "value": "#f2f2f7",
+                            "description": "Sets the default screen provider text color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#1c1c1e",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-track-info-text-color",
+                            "value": "#717174",
+                            "description": "Sets the default track info text color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#9c9c9d",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
                             ]
                         },
                         {
@@ -76243,7 +76837,7 @@
                         },
                         {
                             "name": "--theme-ch5-legacy-media-player--border-color",
-                            "value": "#ebebeb",
+                            "value": "#b3b3b3",
                             "description": "Sets the border color for the component at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -76285,6 +76879,32 @@
                             ]
                         },
                         {
+                            "name": "--theme-ch5-legacy-media-player--default-album-art-placeholder-color",
+                            "value": "radial-gradient(50% 50% at 50% 50%, #eef1f5 0%, #e6e9f0 100%)",
+                            "description": "Sets the default album art placeholder div background at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "radial-gradient(50% 50% at 50% 50%, #EEF1F5 0%, #E6E9F0 100%)",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-border-color",
+                            "value": "#dadade",
+                            "description": "Sets the default screen border color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#dadade",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
                             "name": "--theme-ch5-legacy-media-player--default-border-radius",
                             "value": "16px",
                             "description": "Sets the border radius for the elements at theme level",
@@ -76293,6 +76913,97 @@
                             "example": "16px",
                             "possibleValues": [
                                 "px"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-header-text-color",
+                            "value": "#8d8d8e",
+                            "description": "Sets the default my music header title text color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#8d8d8e",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-icon-color",
+                            "value": "#d2d2d2",
+                            "description": "Sets the default mp action icon color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#d2d2d2",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-mp-back-icon-color",
+                            "value": "#e8e8e8",
+                            "description": "Sets the default mp back icon color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#e8e8e8",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-progressbar-color",
+                            "value": "#ebebeb",
+                            "description": "Sets the default progressbar background color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#ebebeb",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-progressbar-time-color",
+                            "value": "#9f9f9f",
+                            "description": "Sets the default progressbar time color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#9f9f9f",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-provider-text-color",
+                            "value": "#1c1c1e",
+                            "description": "Sets the default screen provider text color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#1c1c1e",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--default-track-info-text-color",
+                            "value": "#9c9c9d",
+                            "description": "Sets the default track info text color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#9c9c9d",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
                             ]
                         },
                         {
