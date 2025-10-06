@@ -32,7 +32,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       name: "demoMode",
       removeAttributeOnNull: true,
       type: "boolean",
-      valueOnAttributeEmpty: false,
+      valueOnAttributeEmpty: true,
       isObservableProperty: true,
     },
     {
@@ -112,9 +112,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
   public musicPlayerLibInstance: MusicPlayerLib;
-  private nowPlaying:any;
-  private myMusic:any;
-
+  private nowPlaying: any;
+  private myMusic: any;
   private _elMask: HTMLElement = {} as HTMLElement;
   private _elGenericDialogContent: HTMLElement = {} as HTMLElement;
   private _elMaskdialogTitle: HTMLElement = {} as HTMLElement;
@@ -125,7 +124,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   //#region Getters and Setters
 
   public set demoMode(value: boolean) {
-    console.log('demomode:',this.handleDemoMode);
     this._ch5Properties.set<boolean>("demoMode", value, () => {
       this.handleDemoMode();
     });
@@ -221,9 +219,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   public constructor() {
     super();
     this.logger.start('constructor()', Ch5LegacyMediaPlayer.ELEMENT_NAME);
-    //MusicPlayerLib.getInstance();
     this.musicPlayerLibInstance = new MusicPlayerLib();
-
     this.ignoreAttributes = ["appendclasswheninviewport", "receivestateshowpulse", "receivestatehidepulse", "sendeventonshow"];
     if (!this._wasInstatiated) {
       this.createInternalHtml();
@@ -250,8 +246,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       }
       if (this.popUpData.show) {
         this.keyboardInputDialog(this.popUpData.userInputRequired, this.popUpData.text, this.popUpData.textForItems, this.popUpData.initialUserInput);
-      }
-      else {
+      } else {
         if (this._elMask && this._elMask.parentNode) {
           this._elMask.parentNode.removeChild(this._elMask);
         }
@@ -327,7 +322,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   protected createInternalHtml() {
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
-    this._elContainer = document.createElement('div');
+    this._elContainer = this.createElement('div');
     this.nowPlaying = new Ch5LegacyMediaPlayerNowPlaying(this.musicPlayerLibInstance);
     this._elContainer.appendChild(this.nowPlaying.createInternalHtml());
     this.myMusic = new Ch5LegacyMediaPlayerMyMusic(this.musicPlayerLibInstance);
@@ -340,18 +335,11 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     if (this._loadingIndicator && this._loadingIndicator.parentNode) {
       this._loadingIndicator.parentNode.removeChild(this._loadingIndicator);
     }
-    this._loadingIndicator = document.createElement('div');
-    this._loadingIndicator.classList.add('mp-loading-indicator');
-
-    const loadingIndicatorText = document.createElement('span');
-    loadingIndicatorText.classList.add('mp-loading-indicator-text');
-    const loadingIndicatorTextIcon = document.createElement('i');
-    loadingIndicatorTextIcon.classList.add('fa-solid', 'fa-circle-notch', 'fa-spin', 'mp-loader-icon-size');
-
+    this._loadingIndicator = this.createElement('div', ['mp-loading-indicator']);
+    const loadingIndicatorText = this.createElement('span', ['mp-loading-indicator-text']);
+    const loadingIndicatorTextIcon = this.createElement('i', ['fa-solid', 'fa-circle-notch', 'fa-spin', 'mp-loader-icon-size']);
     loadingIndicatorText.appendChild(loadingIndicatorTextIcon);
-
     this._loadingIndicator.appendChild(loadingIndicatorText);
-
     this._elContainer.appendChild(this._loadingIndicator);
   }
 
@@ -365,10 +353,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   protected genericDialog(dialogType: number, dialogHeading: string, dialogArray: Array<string>) {
     this.logger.log(dialogType);
     if (this._elMask) this._elMask.innerHTML = "";
-    //dialog heading
-    this.getDialogHeading(dialogHeading);
-    //dialog footer buttons
-    this.getDialogFooter(dialogArray);
+    this.getDialogHeading(dialogHeading);// dialog heading
+    this.getDialogFooter(dialogArray);// dialog footer buttons
     this._elMask.appendChild(this._elGenericDialogContent);
   }
 
@@ -379,45 +365,35 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
     // Set dialog heading
     this.getDialogHeading(dialogHeading);
-
     const dialogContentInput = document.createElement("input");
     // Create input box 
     if (dialogType === "alphanumeric") {
-      const dialogContent = document.createElement('div');
-      dialogContent.classList.add("dialog-content");
+      const dialogContent = this.createElement('div', ["dialog-content"]);
       dialogContentInput.classList.add('dialog-content-input');
       dialogContentInput.value = dialogInput;
       dialogContent.appendChild(dialogContentInput);
       this._elGenericDialogContent.appendChild(dialogContent);
     }
     this.getDialogFooter(dialogArray, dialogContentInput);
-
     this._elMask.appendChild(this._elGenericDialogContent);
     this._elContainer.appendChild(this._elMask);
   }
 
   //Dialog Heading
   protected getDialogHeading(dialogHeading: string) {
-    this._elMask = document.createElement('div');
-    this._elMask.classList.add('ch5-legacy-media-player-mask');
+    this._elMask = this.createElement('div', ['ch5-legacy-media-player-mask']);
     this._elContainer.appendChild(this._elMask);
-    this._elGenericDialogContent = document.createElement('div');
-    this._elGenericDialogContent.classList.add('ch5-legacy-media-player-mask-content-generic');
-    this._elMaskdialogTitle = document.createElement('div');
-    this._elMaskdialogTitle.classList.add('generic-dialog-title');
-    this._elMaskdialogTitle.textContent = dialogHeading;
+    this._elGenericDialogContent = this.createElement('div', ['ch5-legacy-media-player-mask-content-generic']);
+    this._elMaskdialogTitle = this.createElement('div', ['generic-dialog-title'], dialogHeading);
     this._elGenericDialogContent.appendChild(this._elMaskdialogTitle);
   }
 
   //Dialog Footer Buttons
   protected getDialogFooter(dialogArray: Array<string>, inputEle?: HTMLInputElement) {
-
-    this._dialogFooter = document.createElement('div');
-    this._dialogFooter.classList.add('generic-dialog-footer');
+    this._dialogFooter = this.createElement('div', ['generic-dialog-footer']);
     const dialogType = dialogArray.length;
     for (let i = 0; i < dialogType; i++) {
-      const button = document.createElement('button');
-      button.classList.add('generic-dialog-button');
+      const button = this.createElement('button', ['generic-dialog-button']);
       button.addEventListener("click", () => {
         this.logger.log("Button Confirmation Id:", i + 1);
         this.logger.log("Input Value:", inputEle?.value);
@@ -430,8 +406,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     else { this._dialogFooter.style.flexDirection = "row"; }
     this._elGenericDialogContent.appendChild(this._dialogFooter);
   }
-
-
 
   public addMusicTransition() {
     this.querySelector(".now-playing-player-music-note-button")?.addEventListener("click", () => {
@@ -483,7 +457,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     });
   }
   private handleDemoMode() {
-    publishEvent('b','demoMode',this.demoMode);
+    publishEvent('b', 'demoMode', this.demoMode);
   }
   private handleContractName() {
     // Enter your Code here
@@ -505,6 +479,13 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   public getCssClassDisabled() {
     return this.primaryCssClass + '--disabled';
+  }
+
+  private createElement(tagName: string, clsName: string[] = [], textContent: string = '') {
+    const element = document.createElement(tagName);
+    if (clsName.length !== 0) { clsName.forEach((cs: string) => element.classList.add(cs)) }
+    if (textContent !== '') { element.textContent = textContent; }
+    return element;
   }
 
   //#endregion
