@@ -84,7 +84,8 @@ export class MusicPlayerLib {
     public tempMyMusicData: any = {};
     public progressBarData: any = {};
     public tempProgressBarData: any = {};
-
+    public maxReqItems = 35;
+    
     constructor() {
         subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: any) => {
             console.log('receiveStateRefreshMediaPlayerResp: ' + value);
@@ -105,7 +106,7 @@ export class MusicPlayerLib {
         subscribeState('s', 'receiveStateCRPCResp', (value: any) => {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
-            console.log('RPCIn from', value);
+            // console.log('RPCIn from', value);
             if (value.length > 0) {
 
                 const mpRPCPrefix = value.substring(0, 8).trim(); // First 8 bytes is the RPC prefix.
@@ -518,25 +519,32 @@ export class MusicPlayerLib {
         }
     }
 
+    private itemCount = this.tempMyMusicData['ItemCnt'];
     public getItemData(infiniteScroll = false) {
-        if (!infiniteScroll) { this.itemValue = 1, this.tempMyMusicData['MenuData'] = [] };
-
-        const count = (this.tempMyMusicData['ItemCnt'] < this.tempMyMusicData['MaxReqItems']) ? this.tempMyMusicData['ItemCnt'] :
-            this.tempMyMusicData['MaxReqItems'];
-        this.tempMyMusicData['ItemCnt'] = this.tempMyMusicData['ItemCnt'] - count;
-        // console.log("ITEM DATA VALUES", this.itemValue, count)
-        const myRPC: any = {
-            params: { item: this.itemValue, count },//"item": //this.tempMyMusicData['Level']
-            jsonrpc: '2.0',
-            id: this.getMessageId(),
-            method: this.myMP.menuInstanceName + '.GetData'
-
-        };
-        this.myMP.ItemDataId = myRPC.id; // Keep track of the message id.
-        if (this.myMP.menuInstanceName) {
-            this.sendRPCRequest(JSON.stringify(myRPC));
+        if (!infiniteScroll) { 
+            this.itemValue = 1;
+            this.tempMyMusicData['MenuData'] = [];
         }
-        this.itemValue = this.itemValue + this.tempMyMusicData['MaxReqItems']
+
+        // const maxReqItems = this.tempMyMusicData['MaxReqItems'];
+        
+        const count = (this.itemCount < this.maxReqItems) ? this.itemCount : this.maxReqItems; 
+        this.itemCount = this.itemCount - count; 
+        console.log("ITEM DATA VALUES", this.itemValue, count)
+        if(count > 0){
+            const myRPC: any = {
+                params: { item: this.itemValue, count },
+                jsonrpc: '2.0',
+                id: this.getMessageId(),
+                method: this.myMP.menuInstanceName + '.GetData'
+    
+            };
+            this.myMP.ItemDataId = myRPC.id; // Keep track of the message id.
+            if (this.myMP.menuInstanceName) {
+                this.sendRPCRequest(JSON.stringify(myRPC));
+            }
+            this.itemValue = this.itemValue + this.maxReqItems;
+        }
     }
 
     private sendRPCRequest(data: any) {
@@ -680,7 +688,7 @@ export class MusicPlayerLib {
             } else if (myMsgId == this.myMP.ListSpecificFunctionsId) {
                 this.tempMyMusicData['ListSpecificFunctions'] = responseData.result.ListSpecificFunctions;
             } else if (myMsgId == this.myMP.ItemCntId) {
-                this.tempMyMusicData['ItemCnt'] = responseData.result.ItemCnt;
+                this.tempMyMusicData['ItemCnt'] = responseData.result.ItemCnt;    
                 this.getItemData();
             } else if (myMsgId == this.myMP.MaxReqItemsId) {
                 this.tempMyMusicData['MaxReqItems'] = responseData.result.MaxReqItems;
