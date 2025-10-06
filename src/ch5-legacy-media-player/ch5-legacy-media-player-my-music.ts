@@ -37,7 +37,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
   private loadItemsCount = 30;
   private itemData:any[]= [];
   private printedIndex = 0;
-  private scrollPosition = 50;
+  private scrollPosition = 100;
 
   private myMusicDemoData = {
     Title: "HEADER TEXT",
@@ -263,6 +263,14 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
         }
       }
       lastScrollTop = Math.max(scrollTop, 0);     
+
+      if(this.myMusicData['MenuData'].length - 1 > this.musicPlayerLibInstance.maxReqItems){
+        if(this.myMusicData['MenuData'].length - 1 > this.printedIndex && distanceFromBottom == 0){
+          this._myMusicContentSection.scrollTop = this._myMusicContentSection.scrollTop - this.scrollPosition;
+        } else if(scrollTop == 0 && this.printedIndex !== 0){
+          this._myMusicContentSection.scrollTop = this.scrollPosition;
+        }
+      }
     };
 
     this._myMusicFooterSection = document.createElement("div");
