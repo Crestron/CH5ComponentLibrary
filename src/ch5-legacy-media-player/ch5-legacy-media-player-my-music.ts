@@ -104,6 +104,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this.updateCssClass();
     subscribeState('b', 'demoMode', ((value: boolean) => {
       subscribeState('o', 'myMusicData', ((data: any) => {
+        this.loadItemsCount = this.maxItemsToDisplay;
         if (value) {
           this.createMyMusic();
           this.myMusicData = this.myMusicDemoData;
