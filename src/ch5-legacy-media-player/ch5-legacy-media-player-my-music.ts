@@ -250,7 +250,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
       } else if (scrollTop < lastScrollTop && this.loadItemsCount > this.maxItemsToDisplay) {
         if (scrollTop <= this.scrollPosition) {
           
-          // delete 1st element and push element in the end
+          // delete last element and push element in the start of the list
           const list = this._myMusicContentSection;
           const childrenArray = Array.from(list.children);
 
@@ -262,7 +262,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
           this.createLine(this.loadItemsCount - this.maxItemsToDisplay, 'start');
         }
       }
-      lastScrollTop = Math.max(scrollTop, 0);      
+      lastScrollTop = Math.max(scrollTop, 0);     
     };
 
     this._myMusicFooterSection = document.createElement("div");
