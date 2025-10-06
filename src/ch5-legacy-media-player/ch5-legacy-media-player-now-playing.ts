@@ -4,7 +4,7 @@ import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Log } from "../ch5-common/ch5-log";
 import { Ch5LegacyMediaPlayerIconButton } from "./ch5-legacy-media-player-icon-button-base.ts";
 import { MusicPlayerLib } from "../ch5-core/utility-functions/music-player.ts";
-import { subscribeState } from "../ch5-core/index.ts";
+import { publishEvent, subscribeState } from "../ch5-core/index.ts";
 import { TCh5LegacyMediaPlayerProgressbarData, TCh5LegacyMediaPlayerSourcePlayerIcons } from "./interfaces/t-ch5-legacy-media-player.ts";
 
 export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
@@ -209,9 +209,9 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 				if (value) {
 					this.progressBarData.ProgressBar = true;
 					this._progressBarContainer.style.display = "flex";
-					this._progressBarElapsedSec=0;
-					this._progressBarTrackSec=0;
-				} 
+					this._progressBarElapsedSec = 0;
+					this._progressBarTrackSec = 0;
+				}
 				else {
 					this.progressBarData = data;
 					this.logger.log("Progressbar data: ", data);
@@ -250,7 +250,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 				}
 			}));
 		}));
-
 	}
 
 	private updatedNowPlayingContent() {
@@ -434,6 +433,9 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		const nowPlayingPlayerMusicNoteButton = new Ch5LegacyMediaPlayerIconButton();
 		nowPlayingPlayerMusicNoteButton.setAttribute('iconClass', "mp-icon mp-music-note-dbl");
 		nowPlayingPlayerMusicNoteButton.classList.add("now-playing-player-music-note-button");
+		nowPlayingPlayerMusicNoteButton.addEventListener('click', () => {
+			publishEvent('b','showMyMusicComponent',true);
+		});
 		this._nowPlayingPlayerContainer.appendChild(nowPlayingPlayerMusicNoteButton);
 
 		this._nowPlayingContainer.appendChild(this._nowPlayingPlayerContainer);

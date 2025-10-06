@@ -125,7 +125,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   //#region Getters and Setters
 
   public set demoMode(value: boolean) {
-    console.log('demomode:',this.handleDemoMode);
     this._ch5Properties.set<boolean>("demoMode", value, () => {
       this.handleDemoMode();
     });
