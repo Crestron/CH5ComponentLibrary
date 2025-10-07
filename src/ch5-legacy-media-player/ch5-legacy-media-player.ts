@@ -246,7 +246,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
         this._elMask.parentNode.removeChild(this._elMask);
       }
       if (this.popUpData.show) {
-        this.keyboardInputDialog(this.popUpData.userInputRequired, this.popUpData.text, this.popUpData.textForItems, this.popUpData.initialUserInput);
+        this.keyboardInputDialog(this.popUpData.userInputRequired, this.popUpData.text, this.popUpData.textForItems, this.popUpData.initialUserInput, this.popUpData.timeoutSec);
       } else {
         if (this._elMask && this._elMask.parentNode) {
           this._elMask.parentNode.removeChild(this._elMask);
@@ -360,7 +360,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   //Keyboard Input Dialog
-  protected keyboardInputDialog(dialogType: string, dialogHeading: string, dialogArray: Array<string>, dialogInput: string) {
+  protected keyboardInputDialog(dialogType: string, dialogHeading: string, dialogArray: Array<string>, dialogInput: string, timeoutSec: number) {
     this.logger.log(dialogType);
     if (this._elMask) this._elMask.innerHTML = "";
 
@@ -388,7 +388,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
         this._elMask.parentNode.removeChild(this._elMask);
       }
       this._dialogAutoCloseTimeout = null;
-    }, 10000);
+    }, timeoutSec);
 
     dialogContentInput.addEventListener('input', () => {
       if (this._dialogAutoCloseTimeout) {
