@@ -95,8 +95,8 @@ export interface ICh5LegacyMediaPlayerAttributes extends ICh5CommonAttributesLeg
 	 * "***",
 	 * "An optional string input used to show the name of the device. Dealers custom-program this string."
 	 * ]
-	 * @name receiveStatePlayerName
-	 * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+	 * @name receivestateplayername
+	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
 	 * @attributeType "Join"
 	 */
 	receiveStatePlayerName: string;

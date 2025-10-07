@@ -23,7 +23,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     receivestatemessage: { direction: "state", stringJoin: 1, contractName: true },
     receivestaterefreshmediaplayer: { direction: "state", booleanJoin: 1, contractName: true },
     receivestatedeviceoffline: { direction: "state", booleanJoin: 1, contractName: true },
-    receivestateplayername: { direction: "event", stringJoin: 1, contractName: true },
+    receivestateplayername: { direction: "state", stringJoin: 1, contractName: true },
   };
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
