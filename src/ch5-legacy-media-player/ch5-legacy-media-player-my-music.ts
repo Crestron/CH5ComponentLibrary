@@ -27,6 +27,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
   private _myMusicHeaderNowPlayingButton: HTMLElement = {} as HTMLElement;
   private myMusicData: any;
   private musicPlayerLibInstance: MusicPlayerLib;
+  private demoModeValue: boolean= false;
 
   private maxItemsToDisplay = 15;
   private loadItemsCount = 15;
@@ -97,9 +98,10 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this.createDefaultMyMusic();
     this.updateCssClass();
     subscribeState('b', 'demoMode', ((value: boolean) => {
+      this.demoModeValue=value;
       subscribeState('o', 'myMusicData', ((data: any) => {
         this.loadItemsCount = this.maxItemsToDisplay;
-        if (value) {
+        if (this.demoModeValue) {
           this.createMyMusic();
           this.myMusicData = this.myMusicDemoData;
           if (this.myMusicData && Object.keys(this.myMusicData).length > 0) this.apiChanges();

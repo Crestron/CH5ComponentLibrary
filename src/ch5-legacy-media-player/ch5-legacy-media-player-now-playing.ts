@@ -49,6 +49,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		ProgressBar: false
 	};
 
+	private demoModeValue: boolean= false;
 	private _nowPlayingPlayerName: HTMLElement = {} as HTMLElement
 	private _nowPlayingPlayerImage: HTMLImageElement = {} as HTMLImageElement;
 
@@ -148,8 +149,9 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._ch5Properties = new Ch5Properties(this, Ch5LegacyMediaPlayerNowPlaying.COMPONENT_PROPERTIES);
 		this.updateCssClass();
 		subscribeState('b', 'demoMode', ((value: boolean) => {
+			this.demoModeValue=value;
 			subscribeState('o', 'nowPlayingData', ((data: any) => {
-				if (value) {
+				if (this.demoModeValue) {
 					this.createNowPlaying();
 					this.nowPlayingData = this.nowPlayingDemoData;
 					if (this.nowPlayingData && Object.keys(this.nowPlayingData).length > 0) this.updatedNowPlayingContent();
@@ -168,16 +170,20 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 					clearInterval(this._progressBarTimer);
 					this._progressBarTimer = null;
 				}
-				if (value) {
+				if (this.demoModeValue) {
 					this.progressBarData.ProgressBar = true;
 					this._progressBarContainer.style.display = "flex";
 					this._progressBarElapsedSec = 0;
 					this._progressBarTrackSec = 0;
+					this._currentTime.textContent = this.formatTime(this._progressBarElapsedSec);
+					this._duration.textContent = this.formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
+					this._progressBarInput.style.backgroundSize = "0% 100%";
+					this._progressBarInput.value = this._progressBarElapsedSec?.toString();
 				} else {
 					this.progressBarData = data;
 					this.logger.log("Progressbar data: ", data);
-					if (!value && this.progressBarData && Object.keys(this.progressBarData).length > 0) {
-						if (!this.progressBarData.ProgressBar) {
+					if (!this.demoModeValue && this.progressBarData && Object.keys(this.progressBarData).length > 0) {
+						if (!this.progressBarData.ProgressBar && this._progressBarContainer) {
 							this._progressBarContainer.style.display = "none";
 							return;
 						}
@@ -192,7 +198,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 						this._currentTime.textContent = this.formatTime(this._progressBarElapsedSec);
 						this._duration.textContent = this.formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
 
-						if (this.progressBarData.StreamState === 'streaming' && !value) {
+						if (this.progressBarData.StreamState === 'streaming' && !this.demoModeValue) {
 							this._progressBarTimer = window.setInterval(() => {
 								if (this._progressBarElapsedSec < this._progressBarTrackSec) {
 									this._progressBarElapsedSec += 1;
