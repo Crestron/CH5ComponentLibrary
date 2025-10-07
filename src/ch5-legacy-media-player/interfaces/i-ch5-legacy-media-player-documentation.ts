@@ -48,7 +48,12 @@ import { ICh5LegacyMediaPlayerAttributes } from "./i-ch5-legacy-media-player-att
  *     "description": "Crestron legacy media player (default)",
  *     "body": [
  *       "<ch5-legacy-media-player id=\"ch5-legacy-media-player_${1:id}\"",
- *       "\tcontractName=\"${2:}\">",           
+ *       "\treceiveStateCRPC=\"${2:}\"",
+ *       "\tsendEventCRPC=\"${3:}\"",
+ *       "\treceiveStateMessage=\"${4:}\"",
+ *       "\treceiveStateRefreshMediaPlayer=\"${5:}\"",
+ *       "\treceiveStatePlayerName=\"${6:}\"",
+ *       "\treceiveStateDeviceOffline=\"${7:}\">",
  *       "</ch5-legacy-media-player>$0"
  *       ]
  *    }
