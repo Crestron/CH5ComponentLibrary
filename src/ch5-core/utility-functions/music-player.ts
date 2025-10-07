@@ -733,4 +733,9 @@ export class MusicPlayerLib {
             this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
         }
     };
+    //To replace language specific charactars
+    public replaceLanguageChars(textValue: string) {
+        if(textValue === undefined || textValue === null || textValue === '') return '';
+        return textValue.replace(/\/[^/]+/g, '').replace(/[^\u0020-\u007E]/g, '').replace(/\s{2,}/g, ' ').trim();
+    }
 }
