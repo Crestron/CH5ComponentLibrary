@@ -226,6 +226,11 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this._nowPlayingImage.classList.remove("ch5-hide-dis");
 			this._nowPlayingImage.classList.add("now-playing-image");
 			this._nowPlayingImageParent.classList.remove(...Array.from(this._nowPlayingImageParent.classList));
+		} else if (this.nowPlayingData.AlbumArtUrlNAT?.trim() !== "") {
+			this._nowPlayingImage.src = this.nowPlayingData.AlbumArtUrlNAT;
+			this._nowPlayingImage.classList.remove("ch5-hide-dis");
+			this._nowPlayingImage.classList.add("now-playing-image");
+			this._nowPlayingImageParent.classList.remove(...Array.from(this._nowPlayingImageParent.classList));
 		} else {
 			this._nowPlayingImage.classList.remove("now-playing-image");
 			this._nowPlayingImage.classList.add("ch5-hide-dis");
