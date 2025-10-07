@@ -27,10 +27,10 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
   private _myMusicHeaderNowPlayingButton: HTMLElement = {} as HTMLElement;
   private myMusicData: any;
   private musicPlayerLibInstance: MusicPlayerLib;
+  private demoModeValue: boolean= false;
 
-  private maxItemsToDisplay = 30;
-  private loadItemsCount = 30;
-  private itemData: any[] = [];
+  private maxItemsToDisplay = 15;
+  private loadItemsCount = 15;
   private printedIndex = 0;
   private scrollPosition = 100;
 
@@ -98,9 +98,10 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     this.createDefaultMyMusic();
     this.updateCssClass();
     subscribeState('b', 'demoMode', ((value: boolean) => {
+      this.demoModeValue=value;
       subscribeState('o', 'myMusicData', ((data: any) => {
         this.loadItemsCount = this.maxItemsToDisplay;
-        if (value) {
+        if (this.demoModeValue) {
           this.createMyMusic();
           this.myMusicData = this.myMusicDemoData;
           if (this.myMusicData && Object.keys(this.myMusicData).length > 0) this.apiChanges();
@@ -110,7 +111,6 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
             this.createMyMusic();
             this.printedIndex = 0;
           }
-          this.itemData = data['MenuData'] ? [...data['MenuData']] : [];
           console.log('My Music Data', this.myMusicData);
           if (this.myMusicData && Object.keys(this.myMusicData).length > 0 && this.myMusicData['MenuData'] && Object.keys(this.myMusicData['MenuData']).length > 0) this.apiChanges();
         } else {
@@ -271,7 +271,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
 
   protected createLine(index: number, position = 'end') {
-    console.log("creating line for index", index, this.myMusicData['MenuData'], this.myMusicData['MenuData'].length);
+    // console.log("creating line for index", index, this.myMusicData['MenuData'], this.myMusicData['MenuData'].length);
     if (index + 1 >= this.myMusicData['MenuData'].length) {
       this.musicPlayerLibInstance.getItemData(true);
     }
@@ -392,9 +392,6 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     if (this.myMusicData['ItemCnt'] == this.myMusicData['MenuData'].length) {
       this.loadItemsCount = this.myMusicData['MenuData'].length;
     }
-    console.log("displayVisibleOnlyItems");
-    console.log("loadItemsCount -------->>>", this.loadItemsCount);
-    console.log('this.itemData-------->>>>', this.itemData);
 
     if (this.myMusicData && this.myMusicData.MenuData && this.myMusicData['MenuData'].length <= this.musicPlayerLibInstance.maxReqItems) {
       for (let index = 0; index < this.loadItemsCount; index++) {
@@ -408,13 +405,12 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
   protected apiChanges() {
     Array.from(this._myMusicHeaderSection.childNodes).forEach((child) => child.remove());
-    // Array.from(this._myMusicContentSection.childNodes).forEach((child) => child.remove());
+    // Array.from(this._myMusicContentSection.childNodes).forEach((child) => child.remove()); // this will rerender the dom when the next set of items are fetched from the service
     Array.from(this._myMusicFooterSection.childNodes).forEach((child) => child.remove());
 
     this.myMusicHeader(this.myMusicData.IsMenuAvailable, this.myMusicData.Title, this.myMusicData.Subtitle);
     this.displayVisibleOnlyItems();
     if (this.myMusicData['MenuData'].length > this.maxItemsToDisplay && this.myMusicData['MenuData'].length > this.musicPlayerLibInstance.maxReqItems) {
-      // const scrollHeight: number = this._myMusicContentSection.scrollHeight;
       this._myMusicContentSection.scrollTop = this._myMusicContentSection.scrollTop - this.scrollPosition;
     }
     this.myMusicMenuIconSection(this.myMusicData.ListSpecificFunctions);

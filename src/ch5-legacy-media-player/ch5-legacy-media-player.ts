@@ -119,6 +119,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   private _elMaskdialogTitle: HTMLElement = {} as HTMLElement;
   private _dialogFooter: HTMLElement = {} as HTMLElement;
   private _loadingIndicator: HTMLElement = {} as HTMLElement;
+  private _dialogAutoCloseTimeout: number | null = null;
   //#endregion
 
   //#region Getters and Setters
@@ -377,6 +378,24 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this.getDialogFooter(dialogArray, dialogContentInput);
     this._elMask.appendChild(this._elGenericDialogContent);
     this._elContainer.appendChild(this._elMask);
+
+    //Auto close dialog if user don't take any action for 10 seconds
+    if (this._dialogAutoCloseTimeout) {
+      clearTimeout(this._dialogAutoCloseTimeout);
+    }
+    this._dialogAutoCloseTimeout = window.setTimeout(() => {
+      if (this._elMask && this._elMask.parentNode) {
+        this._elMask.parentNode.removeChild(this._elMask);
+      }
+      this._dialogAutoCloseTimeout = null;
+    }, 10000);
+
+    dialogContentInput.addEventListener('input', () => {
+      if (this._dialogAutoCloseTimeout) {
+        clearTimeout(this._dialogAutoCloseTimeout);
+        this._dialogAutoCloseTimeout = null;
+      }
+    });
   }
 
   //Dialog Heading
@@ -395,6 +414,11 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     for (let i = 0; i < dialogType; i++) {
       const button = this.createElement('button', ['generic-dialog-button']);
       button.addEventListener("click", () => {
+        //clear auto close timeout on footer button click
+        if (this._dialogAutoCloseTimeout) {
+          clearTimeout(this._dialogAutoCloseTimeout);
+          this._dialogAutoCloseTimeout = null;
+        }
         this.logger.log("Button Confirmation Id:", i + 1);
         this.logger.log("Input Value:", inputEle?.value);
         this.musicPlayerLibInstance.popUpAction(inputEle?.value, i + 1);
@@ -433,8 +457,23 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   private handleResizeObserver = () => {
     const { width } = this._elContainer.getBoundingClientRect();
-    if (width > 800) {
+    const { height } = this._elContainer.getBoundingClientRect();
+
+    if (width < 800) {
+      this._elContainer.classList.add("portrait-mode-active");
+    } else {
       this.querySelector(".ch5-legacy-media-player-my-music")?.classList.remove("my-music-transition");
+      this._elContainer.classList.remove("portrait-mode-active");
+    } 
+    if (width >= 1200) {
+      this._elContainer.classList.add("now-playing-max-width-1200");
+    } else {
+      this._elContainer.classList.remove("now-playing-max-width-1200");
+    }
+    if (height < 500) {
+      this._elContainer.classList.add("now-playing-image-shape-circular");
+    } else {
+      this._elContainer.classList.remove("now-playing-image-shape-circular");
     }
   }
 
