@@ -1,6 +1,6 @@
 import { publishEvent, subscribeState } from "..";
 import _ from 'lodash';
-import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest, RegisterwithDeviceResponse } from "./commonInterface";
+import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest } from "./commonInterface";
 
 export class MusicPlayerLib {
 
@@ -31,8 +31,6 @@ export class MusicPlayerLib {
         "tag": "",
         "source": 0,
         "connectionActive": false,
-        "connectionIsDirect": false,
-        "waitingForRegistration": false,
 
         "RegistrationId": 0,
         "ObjectsId": 0,
@@ -95,9 +93,9 @@ export class MusicPlayerLib {
 
         subscribeState('b', 'receiveStateDeviceOfflineResp', (value: any) => {
             if (value) {
-                this.deviceIsOffline();
+                this.myMP.connectionActive = false;
             } else {
-                this.deviceIsOnline();
+                this.myMP.connectionActive = true;
             }
         });
 
@@ -221,15 +219,7 @@ export class MusicPlayerLib {
         return this.mpMsgId;
     }
 
-    private deviceIsOnline() {
-        this.myMP.connectionActive = true;
-    }
 
-    private deviceIsOffline() {
-        this.myMP.connectionActive = false; // ToDo: This needs work since a direct connection with the device does not have a join from the control system.
-        this.myMP.connectionIsDirect = false;
-        this.myMP.waitingForRegistration = false;
-    }
 
     // This function generates the RPC prefix for join-based CRPC communication.
     // Note: This prefix is NOT needed for direct communication with the device.
@@ -306,32 +296,6 @@ export class MusicPlayerLib {
         }
     }
 
-    private processRegistrationResponse(regResponse: RegisterwithDeviceResponse) {
-
-        // Make sure we have a result.
-        if (regResponse.result) {
-            // We have a response, so our connnecton is active.
-            this.myMP.connectionActive = true;
-
-            // What RPC version is this?
-            if (regResponse.jsonrpc === '1.0') {
-                //console.log('RPC version = 1.0.');
-                /*   if (regResponse.result.connections) {
-                      const myDirectConnectionInfo = regResponse.result.connections.cip;
-                      console.log('myDirectConnectionInfo Ip: ' + myDirectConnectionInfo.ip);
-                  } */
-            } else {
-                //console.log('RPC version = 2.0.');
-                // Do we have the connection list?
-                if (regResponse.result.connectionslist) {
-                    //const myDirectConnectionInfo: any = this.getDirectConnectionInfoFromArray(regResponse.result.connectionslist);
-                    // console.log('myDirectConnectionInfo Ip: ' + myDirectConnectionInfo.ip);
-                }
-            }
-            clearInterval(this.resendRegistrationTimeId);
-        }
-    }
-
     private processGetObjectsResponse(getObjectResponse: GetObjectsResponse) {
         const myInstances = getObjectResponse.result.objects.object;
         myInstances.forEach((item: any) => {
@@ -342,8 +306,8 @@ export class MusicPlayerLib {
                 this.myMP.menuInstanceName = item.instancename;
             }
         });
-       /*  console.log('instance', this.myMP.instancename);
-        console.log('menuInstanceName', this.myMP.menuInstanceName); */
+        /*  console.log('instance', this.myMP.instancename);
+         console.log('menuInstanceName', this.myMP.menuInstanceName); */
 
         this.registerEvent();
         this.getPropertiesSupported(this.myMP.instanceName);
@@ -536,22 +500,20 @@ export class MusicPlayerLib {
         let temp = '';
         const numberOfChar = 100;
         // Add prefix if the connection is not direct.
-        if (!this.myMP.connectionIsDirect) {
-            const chuncknCount = Math.ceil(data.length / numberOfChar);
-            for (let i = 0; i < chuncknCount; i++) {
-                if (i === (chuncknCount - 1)) {
-                    temp = data.substring(numberOfChar * i);
-                    myPrefix = this.generateRPCPrefixForFinalMessage(temp);
-                    temp = myPrefix + temp;
-                } else {
-                    temp = data.substring((numberOfChar * i), (numberOfChar * i) + numberOfChar);
-                    myPrefix = this.generateRPCPrefixForPartialMessage(temp);
-                    temp = myPrefix + temp;
-                }
-                if (this.mpSigRPCOut) {
-                    console.log('CRPC send join:' + this.mpSigRPCOut + " " + temp);
-                    publishEvent('s', this.mpSigRPCOut, temp);
-                }
+        const chuncknCount = Math.ceil(data.length / numberOfChar);
+        for (let i = 0; i < chuncknCount; i++) {
+            if (i === (chuncknCount - 1)) {
+                temp = data.substring(numberOfChar * i);
+                myPrefix = this.generateRPCPrefixForFinalMessage(temp);
+                temp = myPrefix + temp;
+            } else {
+                temp = data.substring((numberOfChar * i), (numberOfChar * i) + numberOfChar);
+                myPrefix = this.generateRPCPrefixForPartialMessage(temp);
+                temp = myPrefix + temp;
+            }
+            if (this.mpSigRPCOut) {
+                console.log('CRPC send join:' + this.mpSigRPCOut + " " + temp);
+                publishEvent('s', this.mpSigRPCOut, temp);
             }
         }
     }
@@ -598,13 +560,11 @@ export class MusicPlayerLib {
             this.callTrackTime();
         } else {
             if (myMsgId == this.myMP.RegistrationId) {
-                this.processRegistrationResponse(responseData);
-
-                // If we are not using a direct connection yet, go ahead and get objects.
-                if (!this.myMP.connectionIsDirect) {
-                    // While objects are being returned, switch the connection to direct (if possible).
-                    this.getObjects();
-                }
+                // When we perform the CS to Nax registration, the response data will contain Nax-related information, including IP, IP subnet, name, and other details, which we may use in the future if required.
+                clearInterval(this.resendRegistrationTimeId);
+                this.myMP.connectionActive = true;
+                // While objects are being returned, switch the connection to direct (if possible).
+                this.getObjects();
             } else if (myMsgId == this.myMP.ObjectsId) {
                 this.processGetObjectsResponse(responseData);
             } else if (myMsgId == this.myMP.PropertiesSupportedId) {
