@@ -286,8 +286,8 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
 
     this._myMusicContentItem = this.createElement('div', ['my-music-content-item']);
     this._myMusicContentItem.id = itemId;
-    this._myMusicContentItemTitle = this.createElement('div', ['my-music-content-item-title'], text);
-    this._myMusicContentItemSubtitle = this.createElement('div', ['my-music-content-item-subtitle'], subText);
+    this._myMusicContentItemTitle = this.createElement('div', ['my-music-content-item-title'], this.musicPlayerLibInstance.replaceLanguageChars(text));
+    this._myMusicContentItemSubtitle = this.createElement('div', ['my-music-content-item-subtitle'], this.musicPlayerLibInstance.replaceLanguageChars(subText));
 
     if (this._myMusicHeaderTitleText.innerText === 'Favorites') {
       let holdTimer: number | null = null;
@@ -344,10 +344,9 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
     }
 
     this._myMusicHeaderTitle = this.createElement("div", ['my-music-header-title']);
-
-    this._myMusicHeaderTitleText = this.createElement("div", ['my-music-header-title-text'], myMusicHeaderTitleText);
-    this._myMusicheaderSubtitle = this.createElement("div", ['my-music-header-subtitle'], myMusicheaderSubtitle);
-    this._myMusicheaderSubtitle.style.visibility = myMusicheaderSubtitle ? 'visible' : 'hidden';
+    this._myMusicHeaderTitleText = this.createElement("div", ['my-music-header-title-text'], this.musicPlayerLibInstance.replaceLanguageChars(myMusicHeaderTitleText));
+    this._myMusicheaderSubtitle = this.createElement("div", ['my-music-header-subtitle'], this.musicPlayerLibInstance.replaceLanguageChars(myMusicheaderSubtitle));
+    this._myMusicheaderSubtitle.style.visibility = this.musicPlayerLibInstance.replaceLanguageChars(myMusicheaderSubtitle) ? 'visible' : 'hidden';
 
     this._myMusicHeaderTitle.append(this._myMusicHeaderTitleText, this._myMusicheaderSubtitle);
 

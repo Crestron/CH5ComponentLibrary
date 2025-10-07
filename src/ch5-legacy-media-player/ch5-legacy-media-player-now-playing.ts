@@ -240,7 +240,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this._nowPlayingImageParent.classList.add("mp-fallback-album-art");
 			this._nowPlayingImageParent.classList.add("now-playing-image");
 		}
-		this._nowPlayingSongTitle.children[0].textContent = this.nowPlayingData.Title;
+		this._nowPlayingSongTitle.children[0].textContent = this.musicPlayerLibInstance.replaceLanguageChars(this.nowPlayingData.Title);
 		if ((this._nowPlayingSongTitle.children[0] as HTMLSpanElement).offsetWidth > this._nowPlayingSongTitle.offsetWidth) {
 			this._nowPlayingSongTitle.classList.add('marquee-item');
 		} else {
