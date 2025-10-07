@@ -84,7 +84,7 @@ export class MusicPlayerLib {
     public tempMyMusicData: any = {};
     public progressBarData: any = {};
     public tempProgressBarData: any = {};
-    public maxReqItems = 35;
+    public maxReqItems = 20;
     
     constructor() {
         subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: any) => {
@@ -519,18 +519,17 @@ export class MusicPlayerLib {
         }
     }
 
-    private itemCount = this.tempMyMusicData['ItemCnt'];
     public getItemData(infiniteScroll = false) {
         if (!infiniteScroll) { 
             this.itemValue = 1;
             this.tempMyMusicData['MenuData'] = [];
         }
 
-        // const maxReqItems = this.tempMyMusicData['MaxReqItems'];
+        let itemCount = this.tempMyMusicData['ItemCnt'];        
+        const count = (itemCount < this.maxReqItems) ? itemCount : this.maxReqItems; 
+
+        itemCount = itemCount - count; 
         
-        const count = (this.itemCount < this.maxReqItems) ? this.itemCount : this.maxReqItems; 
-        this.itemCount = this.itemCount - count; 
-        console.log("ITEM DATA VALUES", this.itemValue, count)
         if(count > 0){
             const myRPC: any = {
                 params: { item: this.itemValue, count },
