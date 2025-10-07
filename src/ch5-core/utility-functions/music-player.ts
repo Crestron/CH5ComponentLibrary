@@ -85,17 +85,15 @@ export class MusicPlayerLib {
     public progressBarData: any = {};
     public tempProgressBarData: any = {};
     public maxReqItems = 20;
-    
+
     constructor() {
         subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: any) => {
-            console.log('receiveStateRefreshMediaPlayerResp: ' + value);
             if (value) {
                 this.refreshMediaPlayer();
             }
         });
 
         subscribeState('b', 'receiveStateDeviceOfflineResp', (value: any) => {
-            console.log('receiveStateDeviceOfflineResp: ' + value);
             if (value) {
                 this.deviceIsOffline();
             } else {
@@ -106,15 +104,12 @@ export class MusicPlayerLib {
         subscribeState('s', 'receiveStateCRPCResp', (value: any) => {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
-            // console.log('RPCIn from', value);
             if (value.length > 0) {
 
                 const mpRPCPrefix = value.substring(0, 8).trim(); // First 8 bytes is the RPC prefix.
-                // console.log('Without prefix Data', value.substring(8));
                 // Check byte 3 to determine if this is a single or partial message.
                 // c = partial message
                 // e = single or final message when a partial message was received.
-                //console.log('------------', mpRPCPrefix[3], "*-" + this.mpRPCDataIn + "-*");
                 if (mpRPCPrefix[3] === 'c') {
                     this.mpRPCDataIn = this.mpRPCDataIn + value.substring(8); // Gather the CRPC data.
                     // console.log('Found c in prefix.');
@@ -131,7 +126,7 @@ export class MusicPlayerLib {
                     try {
                         parsedData = JSON.parse(this.mpRPCDataIn);
                         if (parsedData.error) {
-                            console.log('handle Error>', parsedData.error);
+                            console.log('handle Error >', parsedData.error);
                             this.handleError(parsedData.error);
                         } else {
                             this.processCRPCResponse(parsedData); // Process the entire payload then clear the var.
@@ -175,7 +170,6 @@ export class MusicPlayerLib {
         }
         // Register with the new device. ToDo: Add checks for online & tag values.
         if (this.myMP.tag && this.myMP.connectionActive) {
-            // console.log('Register Device');
             this.registerWithDevice();
         }
     }
@@ -186,7 +180,6 @@ export class MusicPlayerLib {
         // as well as the Media player Menu instance.
 
         if (this.myMP.instanceName && this.myMP.menuInstanceName) {
-            //console.log('Deregister Device');
             ['BusyChanged', 'StatusMsgChanged', 'StateChangedByBrowseContext', 'StateChanged'].forEach((item: any) => {
                 const myRPC: CommonEventRequest = {
                     params: { "ev": item, "handle": "sg" },
@@ -296,7 +289,6 @@ export class MusicPlayerLib {
     private processMessage(data: any) {
         const myObj = JSON.parse(data);
         if (myObj.hasOwnProperty("tag")) {
-            // console.log('Found tag value: ' + this.myMP.tag);
             // ToDo: Need to check if the tag matches in case the device
             // is sending us the wrong data. The dealer could have the router
             // module in SIMPL incorrectly configured.
@@ -304,7 +296,6 @@ export class MusicPlayerLib {
         }
 
         if (myObj.hasOwnProperty("src")) {
-            // console.log('Found src value: ' + this.myMP.source);
             // If this is a different source, we need to refresh the media player.
             // This will also happen on an update request since no source value has been set yet.
             if (this.myMP.source != myObj.src) {
@@ -326,7 +317,6 @@ export class MusicPlayerLib {
             if (regResponse.jsonrpc === '1.0') {
                 //console.log('RPC version = 1.0.');
                 /*   if (regResponse.result.connections) {
-                      console.log('Found connections list.');
                       const myDirectConnectionInfo = regResponse.result.connections.cip;
                       console.log('myDirectConnectionInfo Ip: ' + myDirectConnectionInfo.ip);
                   } */
@@ -334,12 +324,10 @@ export class MusicPlayerLib {
                 //console.log('RPC version = 2.0.');
                 // Do we have the connection list?
                 if (regResponse.result.connectionslist) {
-                    // console.log('Found connections list.');
                     //const myDirectConnectionInfo: any = this.getDirectConnectionInfoFromArray(regResponse.result.connectionslist);
                     // console.log('myDirectConnectionInfo Ip: ' + myDirectConnectionInfo.ip);
                 }
             }
-            console.log('clear timer');
             clearInterval(this.resendRegistrationTimeId);
         }
     }
@@ -354,8 +342,8 @@ export class MusicPlayerLib {
                 this.myMP.menuInstanceName = item.instancename;
             }
         });
-        console.log('instance', this.myMP.instancename);
-        console.log('menuInstanceName', this.myMP.menuInstanceName);
+       /*  console.log('instance', this.myMP.instancename);
+        console.log('menuInstanceName', this.myMP.menuInstanceName); */
 
         this.registerEvent();
         this.getPropertiesSupported(this.myMP.instanceName);
@@ -395,7 +383,6 @@ export class MusicPlayerLib {
 
     private processMenuResponse(getMenuResponse: GetMenuResponse) {
         this.myMP.menuInstanceName = getMenuResponse.result.instanceName;
-        console.log('menuInstanceName 2', this.myMP.menuInstanceName);
 
         ['Reset', 'BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'].forEach((item: any) => {
             const myRPC: CommonEventRequest = {
@@ -466,7 +453,6 @@ export class MusicPlayerLib {
 
         // Start the re-send time.
         if (!this.resendRegistrationTimeId) {
-            console.log('start timer');
             this.startRegistrationResendTimer();
         }
     }
@@ -520,23 +506,21 @@ export class MusicPlayerLib {
     }
 
     public getItemData(infiniteScroll = false) {
-        if (!infiniteScroll) { 
+        if (!infiniteScroll) {
             this.itemValue = 1;
             this.tempMyMusicData['MenuData'] = [];
         }
 
-        let itemCount = this.tempMyMusicData['ItemCnt'];        
-        const count = (itemCount < this.maxReqItems) ? itemCount : this.maxReqItems; 
+        let itemCount = this.tempMyMusicData['ItemCnt'];
+        const count = (itemCount < this.maxReqItems) ? itemCount : this.maxReqItems;
+        itemCount = itemCount - count;
 
-        itemCount = itemCount - count; 
-        
-        if(count > 0){
+        if (count > 0) {
             const myRPC: any = {
                 params: { item: this.itemValue, count },
                 jsonrpc: '2.0',
                 id: this.getMessageId(),
                 method: this.myMP.menuInstanceName + '.GetData'
-    
             };
             this.myMP.ItemDataId = myRPC.id; // Keep track of the message id.
             if (this.myMP.menuInstanceName) {
@@ -571,7 +555,6 @@ export class MusicPlayerLib {
             }
         }
     }
-
 
     // Process CRPC data from the control system.
     private processCRPCResponse(data: any) {
@@ -687,7 +670,7 @@ export class MusicPlayerLib {
             } else if (myMsgId == this.myMP.ListSpecificFunctionsId) {
                 this.tempMyMusicData['ListSpecificFunctions'] = responseData.result.ListSpecificFunctions;
             } else if (myMsgId == this.myMP.ItemCntId) {
-                this.tempMyMusicData['ItemCnt'] = responseData.result.ItemCnt;    
+                this.tempMyMusicData['ItemCnt'] = responseData.result.ItemCnt;
                 this.getItemData();
             } else if (myMsgId == this.myMP.MaxReqItemsId) {
                 this.tempMyMusicData['MaxReqItems'] = responseData.result.MaxReqItems;
