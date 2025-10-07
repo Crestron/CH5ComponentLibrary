@@ -320,7 +320,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		}
 		this._nowPlayingContainer.classList.add("ch5-legacy-media-player-now-playing-default");
 		const defaultProviderContainer = this.createElement('div', ['default-provider-container'], 'No Content Provider');
-		const defaultAlbumArtContainer = this.createElement('div', ["default-album-art-container"],);
+		const defaultAlbumArtContainer = this.createElement('div', ["default-album-art-container"]);
 		const defaultTrackInfoContainer = this.createElement('div', ['default-track-info-container']);
 		const trackInfoNotPlaying = this.createElement('div', [], 'Not Playing');
 		const trackInfoNone = this.createElement('div', [], '— —');
