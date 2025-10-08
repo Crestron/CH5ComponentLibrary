@@ -56,6 +56,28 @@ import { ICh5LegacyMediaPlayerAttributes } from "./i-ch5-legacy-media-player-att
  *       "\treceiveStateDeviceOffline=\"${7:}\">",
  *       "</ch5-legacy-media-player>$0"
  *       ]
+ *    },
+ *    {
+ *      "prefix": "ch5-legacy-media-player:contractbased",
+ *      "description": "Crestron legacy media player(contractbased)",
+ *      "body": [
+ *        "<ch5-legacy-media-player id=\"ch5-legacy-media-player_${1:id}\"",
+ *        "\tcontractName=\"${2:}\">",
+ *        "</ch5-legacy-media-player>$0"
+ *        ]
+ *    },
+ *    {
+ *      "prefix": "ch5-legacy-media-player:contractbased-attributes",
+ *      "description": "Crestron legacy media player(contractbased-attributes)",
+ *      "body": [
+ *        "<ch5-legacy-media-player id=\"ch5-legacy-media-player_${1:id}\"",
+ *        "\tcontractName=\"${2:}\"",
+ *        "\tuseContractForEnable=\"${3:false}\"",
+ *        "\tuseContractForShow=\"${4:false}\"",
+ *        "\tuseContractForCustomStyle=\"${5:false}\"",
+ *        "\tuseContractForCustomClass=\"${6:false}\">",
+ *        "</ch5-legacy-media-player>$0"
+ *        ]
  *    }
  *  ]
  */
