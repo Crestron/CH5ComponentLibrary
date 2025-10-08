@@ -155,9 +155,10 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   public primaryCssClass = 'ch5-legacy-media-player';
 
+  public musicPlayerLibInstance: MusicPlayerLib;
+
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
-  public musicPlayerLibInstance: MusicPlayerLib;
   private nowPlaying: any;
   private myMusic: any;
   private _elMask: HTMLElement = {} as HTMLElement;
@@ -166,6 +167,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   private _dialogFooter: HTMLElement = {} as HTMLElement;
   private _loadingIndicator: HTMLElement = {} as HTMLElement;
   private _dialogAutoCloseTimeout: number | null = null;
+
   //#endregion
 
   //#region Getters and Setters
@@ -483,9 +485,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   //Dialog Heading
   protected getDialogHeading(dialogHeading: string) {
-    this._elMask = this.createElement('div', ['ch5-legacy-media-player-mask']);
+    this._elMask = this.createElement('div', ['ch5-legacy-media-player--mask']);
     this._elContainer.appendChild(this._elMask);
-    this._elGenericDialogContent = this.createElement('div', ['ch5-legacy-media-player-mask-content-generic']);
+    this._elGenericDialogContent = this.createElement('div', ['ch5-legacy-media-player--mask-content-generic']);
     this._elMaskdialogTitle = this.createElement('div', ['generic-dialog-title'], dialogHeading);
     this._elGenericDialogContent.appendChild(this._elMaskdialogTitle);
   }
@@ -516,7 +518,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   public addMusicTransition() {
     this.querySelector(".now-playing-player-music-note-button")?.addEventListener("click", () => {
-      this.querySelector(".ch5-legacy-media-player-my-music")?.classList.add("my-music-transition");
+      this.querySelector(".ch5-legacy-media-player--my-music")?.classList.add("my-music-transition");
     });
   }
 
@@ -540,24 +542,25 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   private handleResizeObserver = () => {
     const { width } = this._elContainer.getBoundingClientRect();
-    const { height } = this._elContainer.getBoundingClientRect();
 
-    if (width < 800) {
-      this._elContainer.classList.add("portrait-mode-active");
+    if (width < 640) {
+      if (!this._elContainer.classList.contains("portrait-mode-active")) {
+        this._elContainer.classList.add("portrait-mode-active");
+      }
     } else {
-      this.querySelector(".ch5-legacy-media-player-my-music")?.classList.remove("my-music-transition");
+      this.querySelector(".ch5-legacy-media-player--my-music")?.classList.remove("my-music-transition"); // ?
       this._elContainer.classList.remove("portrait-mode-active");
     }
-    if (width >= 1200) {
-      this._elContainer.classList.add("now-playing-max-width-1200");
-    } else {
-      this._elContainer.classList.remove("now-playing-max-width-1200");
-    }
-    if (height < 500) {
-      this._elContainer.classList.add("now-playing-image-shape-circular");
-    } else {
-      this._elContainer.classList.remove("now-playing-image-shape-circular");
-    }
+    // if (width >= 1200) {
+    //   this._elContainer.classList.add("now-playing-max-width-1200");
+    // } else {
+    //   this._elContainer.classList.remove("now-playing-max-width-1200");
+    // }
+    // if (height < 500) {
+    //   this._elContainer.classList.add("now-playing-image-shape-circular");
+    // } else {
+    //   this._elContainer.classList.remove("now-playing-image-shape-circular");
+    // }
   }
 
   protected removeEventListeners() {
@@ -579,7 +582,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     });
   }
   private handleDemoMode() {
-    publishEvent('b', 'demoMode', this.demoMode);
+    publishEvent('b', 'demoMode', this.demoMode); // TODO - why are we publishing this
   }
 
   private handleContractName() {

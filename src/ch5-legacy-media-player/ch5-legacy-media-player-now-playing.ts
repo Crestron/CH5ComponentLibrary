@@ -13,8 +13,8 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {};
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [];
-	public static readonly ELEMENT_NAME = 'ch5-legacy-media-player-now-playing';
-	public primaryCssClass = 'ch5-legacy-media-player-now-playing';
+	public static readonly ELEMENT_NAME = 'ch5-legacy-media-player--now-playing';
+	public primaryCssClass = 'ch5-legacy-media-player--now-playing';
 	private _ch5Properties: Ch5Properties;
 	private _nowPlayingContainer: HTMLElement = {} as HTMLElement;
 	private _nowPlayingPlayerContainer: HTMLElement = {} as HTMLElement;
@@ -332,7 +332,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this._nowPlayingContainer.className = "";
 			this._nowPlayingContainer.innerHTML = "";
 		}
-		this._nowPlayingContainer.classList.add("ch5-legacy-media-player-now-playing-default");
+		this._nowPlayingContainer.classList.add("ch5-legacy-media-player--now-playing-default");
 		const defaultProviderContainer = this.createElement('div', ['default-provider-container'], 'No Content Provider');
 		const defaultAlbumArtContainer = this.createElement('div', ["default-album-art-container"]);
 		const defaultTrackInfoContainer = this.createElement('div', ['default-track-info-container']);
@@ -363,7 +363,7 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		}
 		this.logger.start('createInternalHtml()');
 		this.clearComponentContent();
-		this._nowPlayingContainer.classList.add("ch5-legacy-media-player-now-playing");
+		this._nowPlayingContainer.classList.add("ch5-legacy-media-player--now-playing");
 		this.renderProviderOrPlayer();
 		this.renderAlbumArt();
 		this.renderTrackInfo();

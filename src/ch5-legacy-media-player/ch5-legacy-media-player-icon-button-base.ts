@@ -27,7 +27,7 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Log {
 
 	public static readonly ELEMENT_NAME = 'ch5-legacy-media-player-icon-button';
 
-	public primaryCssClass = 'ch5-legacy-media-player-icon-button';
+	public primaryCssClass = 'ch5-legacy-media-player--icon-button';
 
 	private _ch5Properties: Ch5Properties;
 	private _icon: HTMLElement = {} as HTMLElement;
@@ -112,7 +112,7 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Log {
 	public connectedCallback() {
 		this.logger.start('connectedCallback()', Ch5LegacyMediaPlayerIconButton.ELEMENT_NAME);
 		// if (this._elButton.parentElement !== this) {
-		this._elButton.classList.add('ch5-legacy-media-player-individual-icon-button');
+		this._elButton.classList.add('ch5-legacy-media-player--individual-icon-button');
 		this.appendChild(this._elButton);
 		// }
 		this.attachEventListeners();
@@ -134,7 +134,7 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Log {
 	protected createInternalHtml() {
 		this.logger.start('createInternalHtml()');
 		this.clearComponentContent();
-		this.classList.add('ch5-legacy-media-player-individual-icon-button-container');
+		this.classList.add('ch5-legacy-media-player--individual-icon-button-container');
 		this._elButton = document.createElement('button');
 		this.logger.stop();
 	}
