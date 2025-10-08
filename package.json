@@ -56,10 +56,7 @@
         "test:mocha": "npm-run-all clean:compiled && tsc -p tsconfig.umd.json --target ES6 && nyc mocha --reporter mochawesome --exit",
         "test:wct": "ws -o",
         "wct:xml-report": "./node_modules/.bin/wct ./wct_tests/run-all.html",
-        "eslint": "eslint . --ext .ts",
-        "start": "npm run build:dev && npm run copy:showcase && npm run start:showcase",
-        "copy:showcase": "copyfiles -u 1 build_bundles/**/* ../CH5ShowcaseApp/node_modules/@crestron/ch5-crcomlib/build_bundles/",
-        "start:showcase": "cd .. && cd CH5ShowcaseApp && npm run start"
+        "eslint": "eslint . --ext .ts"
     },
     "author": "Crestron",
     "license": "SEE LICENSE IN LICENSE.txt",

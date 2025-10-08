@@ -591,32 +591,9 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this._nextSongText = this.createElement('span', ['now-playing-next-song-text'], nextSong);
 			nextSongSection.appendChild(this._nextSongText);
 			this._nextAndPreviousSongContainer.appendChild(nextSongSection);
-			// Next and Previous Arrows
-			const arrowsContainer = this.createElement('div', ['now-playing-arrows-container']);
-
-			const previousButton = new Ch5LegacyMediaPlayerIconButton();
-			previousButton.setAttribute('iconClass', "mp-icon mp-chevron-left");
-			previousButton.classList.add("now-playing-arrow-left-button");
-			previousButton.onclick = this.onPreviousSong;
-			arrowsContainer.appendChild(previousButton);
-
-			const nextButton = new Ch5LegacyMediaPlayerIconButton();
-			nextButton.setAttribute('iconClass', "mp-icon mp-chevron-right");
-			nextButton.classList.add("now-playing-arrow-right-button");
-			nextButton.onclick = this.onNextSong;
-			arrowsContainer.appendChild(nextButton);
-			this._nextAndPreviousSongContainer.appendChild(arrowsContainer);
 
 			this._nowPlayingContainer.appendChild(this._nextAndPreviousSongContainer);
 		}
-	}
-
-	private onPreviousSong = () => {
-		this.logger.log("Previous Song button click")
-	}
-
-	private onNextSong = () => {
-		this.logger.log("Next Song button click")
 	}
 
 	// Utility: format time
