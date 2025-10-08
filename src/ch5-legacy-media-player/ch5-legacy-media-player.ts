@@ -382,7 +382,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
-
+    this.handleDemoMode();//it is needed when attribute is set to true and then removed from the component
     customElements.whenDefined('ch5-legacy-media-player').then(() => {
       this.componentLoadedEvent(Ch5LegacyMediaPlayer.ELEMENT_NAME, this.id);
     });
