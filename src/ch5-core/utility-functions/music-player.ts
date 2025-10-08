@@ -334,7 +334,7 @@ export class MusicPlayerLib {
         const myRPCParams: Params = {
             encoding: 'UTF-8',
             uuid: this.generateStrongCustomId(),
-            ver: '1.0',
+            ver: '2.0',
             maxPacketSize: 65535,
             type: 'symbol/json-rpc',
             format: 'JSON',
@@ -578,7 +578,6 @@ export class MusicPlayerLib {
                 id: this.getMessageId(),
                 method: this.myMP.instanceName + '.GetProperty'
             };
-            this.myMP[item + "Id"] = myRPC.id;
             if (this.myMP.instanceName) {
                 this.sendRPCRequest(JSON.stringify(myRPC));
             }
@@ -593,7 +592,6 @@ export class MusicPlayerLib {
                 id: this.getMessageId(),
                 method: this.myMP.menuInstanceName + '.GetProperty'
             };
-            this.myMP[item + "Id"] = myRPC.id;
             if (this.myMP.menuInstanceName) {
                 this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
             }
