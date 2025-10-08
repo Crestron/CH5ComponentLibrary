@@ -15,7 +15,7 @@ export interface ICh5LegacyMediaPlayerAttributes extends ICh5CommonAttributesLeg
    * @default false
    * @attributeType "Boolean"
    */
- demoMode: boolean;
+  demoMode: boolean;
   /**
    * @documentation
    * [
@@ -27,7 +27,7 @@ export interface ICh5LegacyMediaPlayerAttributes extends ICh5CommonAttributesLeg
    * @default 
    * @attributeType "String"
    */
- contractName: string;
+  contractName: string;
   /**
    * @documentation
    * [
@@ -39,7 +39,7 @@ export interface ICh5LegacyMediaPlayerAttributes extends ICh5CommonAttributesLeg
    * @default false
    * @attributeType "Boolean"
    */
-useContractForEnable: boolean;
+  useContractForEnable: boolean;
   /**
    * @documentation
    * [
@@ -51,7 +51,7 @@ useContractForEnable: boolean;
    * @default false
    * @attributeType "Boolean"
    */
-useContractForShow: boolean;
+  useContractForShow: boolean;
   /**
    * @documentation
    * [
@@ -63,7 +63,7 @@ useContractForShow: boolean;
    * @default false
    * @attributeType "Boolean"
    */
-useContractForCustomStyle: boolean;
+  useContractForCustomStyle: boolean;
   /**
    * @documentation
    * [
@@ -75,7 +75,7 @@ useContractForCustomStyle: boolean;
    * @default false
    * @attributeType "Boolean"
    */
-useContractForCustomClass: boolean;
+  useContractForCustomClass: boolean;
   /**
    * @documentation
    * [
@@ -87,7 +87,7 @@ useContractForCustomClass: boolean;
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    * @attributeType "Join"
    */
-receiveStateCRPC: string;
+  receiveStateCRPC: string;
   /**
    * @documentation
    * [
@@ -99,7 +99,7 @@ receiveStateCRPC: string;
    * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
    * @attributeType "Join"
    */
-sendEventCRPC: string;
+  sendEventCRPC: string;
   /**
    * @documentation
    * [
@@ -111,7 +111,7 @@ sendEventCRPC: string;
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    * @attributeType "Join"
    */
-receiveStateMessage: string;
+  receiveStateMessage: string;
   /**
    * @documentation
    * [
@@ -120,10 +120,10 @@ receiveStateMessage: string;
    * "To refresh the media player. Connected to the Media Server Object Router SIMPL module and triggered when the SmartGraphics Media Player component needs to refresh its data. When CS program restarts this signal will get a high value."
    * ]
    * @name receivestaterefreshmediaplayer
-   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    * @attributeType "Join"
    */
-receiveStateRefreshMediaPlayer: string;
+  receiveStateRefreshMediaPlayer: string;
   /**
    * @documentation
    * [
@@ -132,10 +132,10 @@ receiveStateRefreshMediaPlayer: string;
    * "The value is coming as false. Connected to the Media Server Object Router SIMPL module, and is high when the selected device is offline and low when the selected device is online. When we remove an entry Nax IP from ip table, the signal value comes as high."
    * ]
    * @name receivestatedeviceoffline
-   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    * @attributeType "Join"
    */
-receiveStateDeviceOffline: string;
+  receiveStateDeviceOffline: string;
   /**
    * @documentation
    * [
@@ -147,6 +147,6 @@ receiveStateDeviceOffline: string;
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    * @attributeType "Join"
    */
-receiveStatePlayerName: string;
+  receiveStatePlayerName: string;
 
 }
