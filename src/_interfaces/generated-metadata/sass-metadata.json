@@ -7649,7 +7649,7 @@
                 {
                     "name": "--ch5-legacy-media-player--default-album-art-placeholder-color",
                     "value": "var(--theme-ch5-legacy-media-player--default-album-art-placeholder-color)",
-                    "description": "Sets the default album art placeholder div background",
+                    "description": "Sets the default album art placeholder container background",
                     "type": "color",
                     "possibleValues": [
                         "rgb(35,35,35)",
@@ -7703,7 +7703,7 @@
                 {
                     "name": "--ch5-legacy-media-player--default-icon-color",
                     "value": "var(--theme-ch5-legacy-media-player--default-icon-color)",
-                    "description": "Sets the default mp action icon color",
+                    "description": "Sets the default mp icon color",
                     "type": "color",
                     "possibleValues": [
                         "rgb(35,35,35)",
@@ -7799,7 +7799,7 @@
                 {
                     "name": "--ch5-legacy-media-player--icon-background-color",
                     "value": "var(--theme-ch5-legacy-media-player--icon-background-color)",
-                    "description": "Icon Background color for Legacy Media PLayer",
+                    "description": "Icon Background color for Legacy Media Player",
                     "type": "color",
                     "possibleValues": [
                         "rgb(35,35,35)",
@@ -7813,7 +7813,7 @@
                 {
                     "name": "--ch5-legacy-media-player--mask-bg-color",
                     "value": "var(--theme-ch5-legacy-media-player--mask-bg-color)",
-                    "description": "Modal Dialog Background color for Legacy Media PLayer",
+                    "description": "Modal Dialog Background color for Legacy Media Player",
                     "type": "color",
                     "possibleValues": [
                         "rgb(35,35,35)",
@@ -7877,18 +7877,6 @@
                     "relatedThemeVariable": "--theme-ch5-legacy-media-player--now-playing-icon-size"
                 },
                 {
-                    "name": "--ch5-legacy-media-player--oval-border-radius",
-                    "value": "var(--theme-ch5-legacy-media-player--oval-border-radius)",
-                    "description": "Sets the oval shaped border radius for the elements",
-                    "type": "unit",
-                    "possibleValues": [
-                        "%"
-                    ],
-                    "showThemeEditor": true,
-                    "example": "50%",
-                    "relatedThemeVariable": "--theme-ch5-legacy-media-player--oval-border-radius"
-                },
-                {
                     "name": "--ch5-legacy-media-player--padding",
                     "value": "var(--theme-ch5-legacy-media-player--padding)",
                     "description": "Sets the padding for the component",
@@ -7913,6 +7901,20 @@
                     "showThemeEditor": true,
                     "example": "#000",
                     "relatedThemeVariable": "--theme-ch5-legacy-media-player--primary-font-color"
+                },
+                {
+                    "name": "--ch5-legacy-media-player--progressbar-background-color",
+                    "value": "var(--theme-ch5-legacy-media-player--progressbar-background-color)",
+                    "description": "Sets Media Player progressbar background color",
+                    "type": "color",
+                    "possibleValues": [
+                        "rgb(35,35,35)",
+                        "#1a1a1a",
+                        "red"
+                    ],
+                    "showThemeEditor": true,
+                    "example": "#e91e63",
+                    "relatedThemeVariable": "--theme-ch5-legacy-media-player--progressbar-background-color"
                 },
                 {
                     "name": "--ch5-legacy-media-player--secondary-font-color",
@@ -20841,7 +20843,7 @@
                         {
                             "name": "--theme-ch5-legacy-media-player--default-album-art-placeholder-color",
                             "value": "linear-gradient(90deg, #29323C 0%, #485563 100%)",
-                            "description": "Sets the default album art placeholder div background at theme level",
+                            "description": "Sets the default album art placeholder container background at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "radial-gradient(50% 50% at 50% 50%, #EEF1F5 0%, #E6E9F0 100%)",
@@ -20891,7 +20893,7 @@
                         {
                             "name": "--theme-ch5-legacy-media-player--default-icon-color",
                             "value": "#404041",
-                            "description": "Sets the default mp action icon color at theme level",
+                            "description": "Sets the default mp icon color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "#d2d2d2",
@@ -20980,7 +20982,7 @@
                         {
                             "name": "--theme-ch5-legacy-media-player--icon-background-color",
                             "value": "#2c2c2e",
-                            "description": "Icon Background color for Legacy Media PLayer at theme level",
+                            "description": "Icon Background color for Legacy Media Player at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "#0091ea",
@@ -20993,7 +20995,7 @@
                         {
                             "name": "--theme-ch5-legacy-media-player--mask-bg-color",
                             "value": "rgba(72, 72, 72, 0.7)",
-                            "description": "Modal Dialog Background color for Legacy Media PLayer at theme level",
+                            "description": "Modal Dialog Background color for Legacy Media Player at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "rgba(72, 72, 72, 0.7)",
@@ -21052,17 +21054,6 @@
                             ]
                         },
                         {
-                            "name": "--theme-ch5-legacy-media-player--oval-border-radius",
-                            "value": "50%",
-                            "description": "Sets the oval shaped border radius for the elements at theme level",
-                            "type": "unit",
-                            "showThemeEditor": true,
-                            "example": "50%",
-                            "possibleValues": [
-                                "%"
-                            ]
-                        },
-                        {
                             "name": "--theme-ch5-legacy-media-player--padding",
                             "value": "16px",
                             "description": "Sets the padding for the component at theme level",
@@ -21075,11 +21066,24 @@
                         },
                         {
                             "name": "--theme-ch5-legacy-media-player--primary-font-color",
-                            "value": "var(--theme-colors--theme-body-font-color)",
+                            "value": "#fff",
                             "description": "Music Player Now Playing font color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "#000",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--progressbar-background-color",
+                            "value": "#e91e63",
+                            "description": "Sets Media Player progressbar background color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#e91e63",
                             "possibleValues": [
                                 "rgb(35,35,35)",
                                 "#1a1a1a",
@@ -34851,7 +34855,7 @@
                         {
                             "name": "--theme-ch5-legacy-media-player--default-album-art-placeholder-color",
                             "value": "radial-gradient(50% 50% at 50% 50%, #eef1f5 0%, #e6e9f0 100%)",
-                            "description": "Sets the default album art placeholder div background at theme level",
+                            "description": "Sets the default album art placeholder container background at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "radial-gradient(50% 50% at 50% 50%, #EEF1F5 0%, #E6E9F0 100%)",
@@ -34901,7 +34905,7 @@
                         {
                             "name": "--theme-ch5-legacy-media-player--default-icon-color",
                             "value": "#d2d2d2",
-                            "description": "Sets the default mp action icon color at theme level",
+                            "description": "Sets the default mp icon color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "#d2d2d2",
@@ -34990,7 +34994,7 @@
                         {
                             "name": "--theme-ch5-legacy-media-player--icon-background-color",
                             "value": "#f2f2f7",
-                            "description": "Icon Background color for Legacy Media PLayer at theme level",
+                            "description": "Icon Background color for Legacy Media Player at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "#0091ea",
@@ -35002,8 +35006,8 @@
                         },
                         {
                             "name": "--theme-ch5-legacy-media-player--mask-bg-color",
-                            "value": "var(--theme-ch5-modal-dialog--mask-bg-color)",
-                            "description": "Modal Dialog Background color for Legacy Media PLayer at theme level",
+                            "value": "rgba(150, 150, 150, 0.3)",
+                            "description": "Modal Dialog Background color for Legacy Media Player at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "rgba(72, 72, 72, 0.7)",
@@ -35062,17 +35066,6 @@
                             ]
                         },
                         {
-                            "name": "--theme-ch5-legacy-media-player--oval-border-radius",
-                            "value": "50%",
-                            "description": "Sets the oval shaped border radius for the elements at theme level",
-                            "type": "unit",
-                            "showThemeEditor": true,
-                            "example": "50%",
-                            "possibleValues": [
-                                "%"
-                            ]
-                        },
-                        {
                             "name": "--theme-ch5-legacy-media-player--padding",
                             "value": "16px",
                             "description": "Sets the padding for the component at theme level",
@@ -35085,11 +35078,24 @@
                         },
                         {
                             "name": "--theme-ch5-legacy-media-player--primary-font-color",
-                            "value": "var(--theme-colors--theme-body-font-color)",
+                            "value": "#001351",
                             "description": "Music Player Now Playing font color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "#000",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--progressbar-background-color",
+                            "value": "#e91e63",
+                            "description": "Sets Media Player progressbar background color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#e91e63",
                             "possibleValues": [
                                 "rgb(35,35,35)",
                                 "#1a1a1a",
@@ -48861,7 +48867,7 @@
                         {
                             "name": "--theme-ch5-legacy-media-player--default-album-art-placeholder-color",
                             "value": "radial-gradient(50% 50% at 50% 50%, #eef1f5 0%, #e6e9f0 100%)",
-                            "description": "Sets the default album art placeholder div background at theme level",
+                            "description": "Sets the default album art placeholder container background at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "radial-gradient(50% 50% at 50% 50%, #EEF1F5 0%, #E6E9F0 100%)",
@@ -48911,7 +48917,7 @@
                         {
                             "name": "--theme-ch5-legacy-media-player--default-icon-color",
                             "value": "#d2d2d2",
-                            "description": "Sets the default mp action icon color at theme level",
+                            "description": "Sets the default mp icon color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "#d2d2d2",
@@ -49000,7 +49006,7 @@
                         {
                             "name": "--theme-ch5-legacy-media-player--icon-background-color",
                             "value": "#f2f2f7",
-                            "description": "Icon Background color for Legacy Media PLayer at theme level",
+                            "description": "Icon Background color for Legacy Media Player at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "#0091ea",
@@ -49012,8 +49018,8 @@
                         },
                         {
                             "name": "--theme-ch5-legacy-media-player--mask-bg-color",
-                            "value": "var(--theme-ch5-modal-dialog--mask-bg-color)",
-                            "description": "Modal Dialog Background color for Legacy Media PLayer at theme level",
+                            "value": "rgba(150, 150, 150, 0.3)",
+                            "description": "Modal Dialog Background color for Legacy Media Player at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "rgba(72, 72, 72, 0.7)",
@@ -49072,17 +49078,6 @@
                             ]
                         },
                         {
-                            "name": "--theme-ch5-legacy-media-player--oval-border-radius",
-                            "value": "50%",
-                            "description": "Sets the oval shaped border radius for the elements at theme level",
-                            "type": "unit",
-                            "showThemeEditor": true,
-                            "example": "50%",
-                            "possibleValues": [
-                                "%"
-                            ]
-                        },
-                        {
                             "name": "--theme-ch5-legacy-media-player--padding",
                             "value": "16px",
                             "description": "Sets the padding for the component at theme level",
@@ -49095,11 +49090,24 @@
                         },
                         {
                             "name": "--theme-ch5-legacy-media-player--primary-font-color",
-                            "value": "var(--theme-colors--theme-body-font-color)",
+                            "value": "#000",
                             "description": "Music Player Now Playing font color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "#000",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--progressbar-background-color",
+                            "value": "#e91e63",
+                            "description": "Sets Media Player progressbar background color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#e91e63",
                             "possibleValues": [
                                 "rgb(35,35,35)",
                                 "#1a1a1a",
@@ -62871,7 +62879,7 @@
                         {
                             "name": "--theme-ch5-legacy-media-player--default-album-art-placeholder-color",
                             "value": "linear-gradient(90deg, #29323C 0%, #485563 100%)",
-                            "description": "Sets the default album art placeholder div background at theme level",
+                            "description": "Sets the default album art placeholder container background at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "radial-gradient(50% 50% at 50% 50%, #EEF1F5 0%, #E6E9F0 100%)",
@@ -62921,7 +62929,7 @@
                         {
                             "name": "--theme-ch5-legacy-media-player--default-icon-color",
                             "value": "#404041",
-                            "description": "Sets the default mp action icon color at theme level",
+                            "description": "Sets the default mp icon color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "#d2d2d2",
@@ -63010,7 +63018,7 @@
                         {
                             "name": "--theme-ch5-legacy-media-player--icon-background-color",
                             "value": "#2c2c2e",
-                            "description": "Icon Background color for Legacy Media PLayer at theme level",
+                            "description": "Icon Background color for Legacy Media Player at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "#0091ea",
@@ -63022,8 +63030,8 @@
                         },
                         {
                             "name": "--theme-ch5-legacy-media-player--mask-bg-color",
-                            "value": "var(--theme-ch5-modal-dialog--mask-bg-color)",
-                            "description": "Modal Dialog Background color for Legacy Media PLayer at theme level",
+                            "value": "rgba(72, 72, 72, 0.7)",
+                            "description": "Modal Dialog Background color for Legacy Media Player at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "rgba(72, 72, 72, 0.7)",
@@ -63082,17 +63090,6 @@
                             ]
                         },
                         {
-                            "name": "--theme-ch5-legacy-media-player--oval-border-radius",
-                            "value": "50%",
-                            "description": "Sets the oval shaped border radius for the elements at theme level",
-                            "type": "unit",
-                            "showThemeEditor": true,
-                            "example": "50%",
-                            "possibleValues": [
-                                "%"
-                            ]
-                        },
-                        {
                             "name": "--theme-ch5-legacy-media-player--padding",
                             "value": "16px",
                             "description": "Sets the padding for the component at theme level",
@@ -63105,11 +63102,24 @@
                         },
                         {
                             "name": "--theme-ch5-legacy-media-player--primary-font-color",
-                            "value": "var(--theme-colors--theme-body-font-color)",
+                            "value": "#fff",
                             "description": "Music Player Now Playing font color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "#000",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--progressbar-background-color",
+                            "value": "#e91e63",
+                            "description": "Sets Media Player progressbar background color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#e91e63",
                             "possibleValues": [
                                 "rgb(35,35,35)",
                                 "#1a1a1a",
@@ -76881,7 +76891,7 @@
                         {
                             "name": "--theme-ch5-legacy-media-player--default-album-art-placeholder-color",
                             "value": "radial-gradient(50% 50% at 50% 50%, #eef1f5 0%, #e6e9f0 100%)",
-                            "description": "Sets the default album art placeholder div background at theme level",
+                            "description": "Sets the default album art placeholder container background at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "radial-gradient(50% 50% at 50% 50%, #EEF1F5 0%, #E6E9F0 100%)",
@@ -76931,7 +76941,7 @@
                         {
                             "name": "--theme-ch5-legacy-media-player--default-icon-color",
                             "value": "#d2d2d2",
-                            "description": "Sets the default mp action icon color at theme level",
+                            "description": "Sets the default mp icon color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "#d2d2d2",
@@ -77020,7 +77030,7 @@
                         {
                             "name": "--theme-ch5-legacy-media-player--icon-background-color",
                             "value": "#f2f2f7",
-                            "description": "Icon Background color for Legacy Media PLayer at theme level",
+                            "description": "Icon Background color for Legacy Media Player at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "#0091ea",
@@ -77032,8 +77042,8 @@
                         },
                         {
                             "name": "--theme-ch5-legacy-media-player--mask-bg-color",
-                            "value": "var(--theme-ch5-modal-dialog--mask-bg-color)",
-                            "description": "Modal Dialog Background color for Legacy Media PLayer at theme level",
+                            "value": "rgba(150, 150, 150, 0.3)",
+                            "description": "Modal Dialog Background color for Legacy Media Player at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "rgba(72, 72, 72, 0.7)",
@@ -77092,17 +77102,6 @@
                             ]
                         },
                         {
-                            "name": "--theme-ch5-legacy-media-player--oval-border-radius",
-                            "value": "50%",
-                            "description": "Sets the oval shaped border radius for the elements at theme level",
-                            "type": "unit",
-                            "showThemeEditor": true,
-                            "example": "50%",
-                            "possibleValues": [
-                                "%"
-                            ]
-                        },
-                        {
                             "name": "--theme-ch5-legacy-media-player--padding",
                             "value": "16px",
                             "description": "Sets the padding for the component at theme level",
@@ -77115,11 +77114,24 @@
                         },
                         {
                             "name": "--theme-ch5-legacy-media-player--primary-font-color",
-                            "value": "var(--theme-colors--theme-body-font-color)",
+                            "value": "#000",
                             "description": "Music Player Now Playing font color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
                             "example": "#000",
+                            "possibleValues": [
+                                "rgb(35,35,35)",
+                                "#1a1a1a",
+                                "red"
+                            ]
+                        },
+                        {
+                            "name": "--theme-ch5-legacy-media-player--progressbar-background-color",
+                            "value": "#e91e63",
+                            "description": "Sets Media Player progressbar background color at theme level",
+                            "type": "color",
+                            "showThemeEditor": true,
+                            "example": "#e91e63",
                             "possibleValues": [
                                 "rgb(35,35,35)",
                                 "#1a1a1a",
