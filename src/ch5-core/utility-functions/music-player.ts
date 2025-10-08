@@ -27,7 +27,7 @@ export class MusicPlayerLib {
         return `${timestamp}-${random}`;
     };
 
-    public myMP: MyMpObject = {
+    private myMP: MyMpObject = {
         "tag": "",
         "source": 0,
         "connectionActive": false,
@@ -36,39 +36,8 @@ export class MusicPlayerLib {
         "ObjectsId": 0,
         "PropertiesSupportedId": 0,
         "MenuId": 0,
-        "ActionsSupportedId": 0,
-        "ProgressBarId": 0,
-        "ElapsedSecId": 0,
-        "TrackSecId": 0,
-        "StreamStateId": 0,
-        "TrackNumId": 0,
-        "TrackCntId": 0,
-        "PlayerStateId": 0,
-        "PlayerIconId": 0,
-        "PlayerNameId": 0,
-        "PlayerIconURLId": 0,
-        "AlbumArtId": 0,
-        "AlbumArtUrlId": 0,
-        "AlbumArtUrlNATId": 0,
-        "StationNameId": 0,
-        "AlbumId": 0,
-        "GenreId": 0,
-        "ArtistId": 0,
-        "TitleId": 0,
         "TitleMenuId": 0,
-        "RewindSpeedId": 0,
-        "ProviderNameId": 0,
-        "FfwdSpeedId": 0,
-        "NextTitleId": 0,
-        "ShuffleStateId": 0,
-        "RepeatStateId": 0,
-        "ItemCntId": 0,
-        "SubtitleId": 0,
-        "IsMenuAvailableId": 0,
-        "ListSpecificFunctionsId": 0,
-        "MaxReqItemsId": 0,
         "ItemDataId": 0,
-        "ActionsAvailableId": 0,
         "PlayId": 0,
         "PauseId": 0,
         "SeekId": 0,
@@ -76,13 +45,20 @@ export class MusicPlayerLib {
         "instanceName": '',
         "menuInstanceName": '',
     };
-    public nowPlayingData: any = {};
-    public myMusicData: any = {};
-    public tempNowPlayingData: any = {};
-    public tempMyMusicData: any = {};
-    public progressBarData: any = {};
-    public tempProgressBarData: any = {};
+    private nowPlayingPublishData: any = {};
+    private myMusicPublishData: any = {};
+    private progressBarPublishData: any = {};
     public maxReqItems = 20;
+
+    private nowPlayingData: any = {'ActionsSupported':'', 'ActionsAvailable':'', 'RewindSpeed':'',
+        'FfwdSpeed':'', 'ProviderName':'', 'PlayerState':'', 'PlayerIcon':'', 'PlayerIconURL':'', 'PlayerName':'',
+        'Album':'', 'AlbumArt':'', 'AlbumArtUrl':'', 'AlbumArtUrlNAT':'', 'StationName':'', 'Genre':'', 'Artist':'',
+        'Title':'', 'TrackNum':'', 'TrackCnt':'', 'NextTitle':'', 'ShuffleState':'', 'RepeatState':''
+    };
+
+    private progressBarData: any = {'StreamState':'', 'ProgressBar':'', 'ElapsedSec':'', 'TrackSec':''};
+
+    private myMusicData : any= {'Title': '', 'Subtitle': '', 'ListSpecificFunctions': '', 'ItemCnt':0, 'MaxReqItems': '', 'IsMenuAvailable': '', 'MenuData': []}
 
     constructor() {
         subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: any) => {
@@ -202,12 +178,12 @@ export class MusicPlayerLib {
                 this.myMP[item + 'Id'] = myRPC.id;
                 this.sendRPCRequest(myRPCJSON);
             });
-            this.myMusicData = {};
-            this.nowPlayingData = {};
-            this.progressBarData = {};
-            publishEvent('o', 'myMusicData', this.myMusicData);
-            publishEvent('o', 'nowPlayingData', this.nowPlayingData);
-            publishEvent('o', 'progressBarData', this.progressBarData);
+            this.myMusicPublishData = {};
+            this.nowPlayingPublishData = {};
+            this.progressBarPublishData = {};
+            publishEvent('o', 'myMusicData', this.myMusicPublishData);
+            publishEvent('o', 'nowPlayingData', this.nowPlayingPublishData);
+            publishEvent('o', 'progressBarData', this.progressBarPublishData);
             this.myMP.instanceName = '';
             this.myMP.menuInstanceName = '';
         }
@@ -472,10 +448,10 @@ export class MusicPlayerLib {
     public getItemData(infiniteScroll = false) {
         if (!infiniteScroll) {
             this.itemValue = 1;
-            this.tempMyMusicData['MenuData'] = [];
+            this.myMusicData['MenuData'] = [];
         }
 
-        let itemCount = this.tempMyMusicData['ItemCnt'];
+        let itemCount = this.myMusicData['ItemCnt'];
         const count = (itemCount < this.maxReqItems) ? itemCount : this.maxReqItems;
         itemCount = itemCount - count;
 
@@ -539,14 +515,14 @@ export class MusicPlayerLib {
         } else if (playerInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // Now music statechanged 
             for (const item in responseData.params.parameters) {
                 if (item === 'ElapsedSec' || item === 'TrackSec' || item === 'StreamState' || item === 'ProgressBar') {
-                    this.tempProgressBarData[item] = responseData.params?.parameters[item];
+                    this.progressBarData[item] = responseData.params?.parameters[item];
                 } else {
-                    this.tempNowPlayingData[item] = responseData.params?.parameters[item];
+                    this.nowPlayingData[item] = responseData.params?.parameters[item];
                 }
             }
         } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // My music  statechanged 
             for (const item in responseData.params?.parameters) {
-                this.tempMyMusicData[item] = responseData.params?.parameters[item];
+                this.myMusicData[item] = responseData.params?.parameters[item];
             }
             if (!_.isEqual(this.menuStateChanged, responseData.params?.parameters)) {
                 this.menuStateChanged = responseData.params?.parameters;
@@ -571,87 +547,37 @@ export class MusicPlayerLib {
                 this.processPropertiesSupportedResponse(responseData);
             } else if (myMsgId == this.myMP.MenuId) {
                 this.processMenuResponse(responseData);
-            } else if (myMsgId == this.myMP.ActionsSupportedId) {
-                this.tempNowPlayingData['ActionsSupported'] = responseData.result.ActionsSupported;
-            } else if (myMsgId == this.myMP.ActionsAvailableId) {
-                this.tempNowPlayingData['ActionsAvailable'] = responseData.result.ActionsAvailable;
-            } else if (myMsgId == this.myMP.RewindSpeedId) {
-                this.tempNowPlayingData['RewindSpeed'] = responseData.result.RewindSpeed;
-            } else if (myMsgId == this.myMP.FfwdSpeedId) {
-                this.tempNowPlayingData['FfwdSpeed'] = responseData.result.FfwdSpeed;
-            } else if (myMsgId == this.myMP.ProviderNameId) {
-                this.tempNowPlayingData['ProviderName'] = responseData.result.ProviderName;
-            } else if (myMsgId == this.myMP.PlayerStateId) {
-                this.tempNowPlayingData['PlayerState'] = responseData.result.PlayerState;
-            } else if (myMsgId == this.myMP.PlayerIconId) {
-                this.tempNowPlayingData['PlayerIcon'] = responseData.result.PlayerIcon;
-            } else if (myMsgId == this.myMP.PlayerIconURLId) {
-                this.tempNowPlayingData['PlayerIconURL'] = responseData.result.PlayerIconURL;
-            } else if (myMsgId == this.myMP.PlayerNameId) {
-                this.tempNowPlayingData['PlayerName'] = responseData.result.PlayerName;
-            } else if (myMsgId == this.myMP.StreamStateId) {
-                this.tempProgressBarData['StreamState'] = responseData.result.StreamState;
-            } else if (myMsgId == this.myMP.AlbumId) {
-                this.tempNowPlayingData['Album'] = responseData.result.Album;
-            } else if (myMsgId == this.myMP.AlbumArtId) {
-                this.tempNowPlayingData['AlbumArt'] = responseData.result.AlbumArt;
-            } else if (myMsgId == this.myMP.AlbumArtUrlId) {
-                this.tempNowPlayingData['AlbumArtUrl'] = responseData.result.AlbumArtUrl;
-            } else if (myMsgId == this.myMP.AlbumArtUrlNATId) {
-                this.tempNowPlayingData['AlbumArtUrlNAT'] = responseData.result.AlbumArtUrlNAT;
-            } else if (myMsgId == this.myMP.StationNameId) {
-                this.tempNowPlayingData['StationName'] = responseData.result.StationName;
-            } else if (myMsgId == this.myMP.GenreId) {
-                this.tempNowPlayingData['Genre'] = responseData.result.Genre;
-            } else if (myMsgId == this.myMP.ArtistId) {
-                this.tempNowPlayingData['Artist'] = responseData.result.Artist;
-            } else if (myMsgId == this.myMP.TitleId) {
-                this.tempNowPlayingData['Title'] = responseData.result.Title;
-            } else if (myMsgId == this.myMP.ProgressBarId) {
-                this.tempProgressBarData['ProgressBar'] = responseData.result.ProgressBar;
-            } else if (myMsgId == this.myMP.TrackNumId) {
-                this.tempNowPlayingData['TrackNum'] = responseData.result.TrackNum;
-            } else if (myMsgId == this.myMP.TrackCntId) {
-                this.tempNowPlayingData['TrackCnt'] = responseData.result.TrackCnt;
-            } else if (myMsgId == this.myMP.NextTitleId) {
-                this.tempNowPlayingData['NextTitle'] = responseData.result.NextTitle;
-            } else if (myMsgId == this.myMP.ShuffleStateId) {
-                this.tempNowPlayingData['ShuffleState'] = responseData.result.ShuffleState;
-            } else if (myMsgId == this.myMP.RepeatStateId) {
-                this.tempNowPlayingData['RepeatState'] = responseData.result.RepeatState;
-            } else if (myMsgId == this.myMP.ElapsedSecId) {
-                this.tempProgressBarData['ElapsedSec'] = responseData.result.ElapsedSec;
-            } else if (myMsgId == this.myMP.TrackSecId) {
-                this.tempProgressBarData['TrackSec'] = responseData.result.TrackSec;
-            } else if (myMsgId == this.myMP.TitleMenuId) { // Menu DFata
-                this.tempMyMusicData['Title'] = responseData.result.Title;
-            } else if (myMsgId == this.myMP.SubtitleId) {
-                this.tempMyMusicData['Subtitle'] = responseData.result.Subtitle;
-            } else if (myMsgId == this.myMP.ListSpecificFunctionsId) {
-                this.tempMyMusicData['ListSpecificFunctions'] = responseData.result.ListSpecificFunctions;
-            } else if (myMsgId == this.myMP.ItemCntId) {
-                this.tempMyMusicData['ItemCnt'] = responseData.result.ItemCnt;
-                this.getItemData();
-            } else if (myMsgId == this.myMP.MaxReqItemsId) {
-                this.tempMyMusicData['MaxReqItems'] = responseData.result.MaxReqItems;
-            } else if (myMsgId == this.myMP.IsMenuAvailableId) {
-                this.tempMyMusicData['IsMenuAvailable'] = responseData.result.IsMenuAvailable;
             } else if (myMsgId === this.myMP.ItemDataId) {
-                this.tempMyMusicData['MenuData'] = [...this.tempMyMusicData['MenuData'], ...responseData.result];
-            }
+                this.myMusicData['MenuData'] = [...this.myMusicData['MenuData'], ...responseData.result];
+            } else if (responseData.result && Object.keys(responseData.result)?.length === 1) {
+                const responseValue = Object.values(responseData.result)[0];
+                const responseKey = Object.keys(responseData.result)[0];
+                if (myMsgId === this.myMP.TitleMenuId) { // we have two titles, to get only the menu instance title we have this condition
+                    this.myMusicData[responseKey] = responseValue;
+                } else if (this.nowPlayingData.hasOwnProperty(responseKey)) {
+                    this.nowPlayingData[responseKey] = responseValue;
+                } else if (this.progressBarData.hasOwnProperty(responseKey)) {
+                    this.progressBarData[responseKey] = responseValue;
+                } else if (this.myMusicData.hasOwnProperty(responseKey)) {
+                    this.myMusicData[responseKey] = responseValue;
+                    if (responseKey === 'ItemCnt') {
+                        this.getItemData();
+                    }
+                } 
+            }            
         }
         if (!(busyChanged && busyChanged['on'] === true)) {
-            if (!_.isEqual(this.nowPlayingData, this.tempNowPlayingData)) {
-                this.nowPlayingData = { ...this.tempNowPlayingData };
-                publishEvent('o', 'nowPlayingData', this.nowPlayingData); // left section
+            if (!_.isEqual(this.nowPlayingPublishData, this.nowPlayingData)) {
+                this.nowPlayingPublishData = { ...this.nowPlayingData };
+                publishEvent('o', 'nowPlayingData', this.nowPlayingPublishData); // left section
             }
-            if (!_.isEqual(this.myMusicData, this.tempMyMusicData)) {
-                this.myMusicData = { ...this.tempMyMusicData };
-                publishEvent('o', 'myMusicData', this.myMusicData); // right section
+            if (!_.isEqual(this.myMusicPublishData, this.myMusicData)) {
+                this.myMusicPublishData = { ...this.myMusicData };
+                publishEvent('o', 'myMusicData', this.myMusicPublishData); // right section
             }
-            if (!_.isEqual(this.progressBarData, this.tempProgressBarData)) {
-                this.progressBarData = { ...this.tempProgressBarData };
-                publishEvent('o', 'progressBarData', this.progressBarData);
+            if (!_.isEqual(this.progressBarPublishData, this.progressBarData)) {
+                this.progressBarPublishData = { ...this.progressBarData };
+                publishEvent('o', 'progressBarData', this.progressBarPublishData);
             }
         }
     }
@@ -664,6 +590,7 @@ export class MusicPlayerLib {
         return;
     }
 
+    // NowPlaying component action
     public nowPlayingvent(action: string, time: string = '') {
         const myRPC: CommonEventRequest = {
             params: action === 'Seek' ? { 'time': time } : null,
@@ -675,6 +602,7 @@ export class MusicPlayerLib {
         this.sendRPCRequest(JSON.stringify(myRPC));
     }
 
+    // MyMusic component action
     public myMusicEvent(action: string, itemIndex: number = 0) {
         const param = itemIndex === 0 ? null : { 'item': itemIndex };
         const myRPC: CommonEventRequest = {
@@ -686,7 +614,7 @@ export class MusicPlayerLib {
         this.sendRPCRequest(JSON.stringify(myRPC));
     }
 
-    public callTrackTime() {
+    private callTrackTime() {
         ['ElapsedSec', 'TrackSec'].forEach((item: any) => {
             const myRPC: CommonRequestPropName = {
                 params: { "propName": item },
@@ -701,7 +629,7 @@ export class MusicPlayerLib {
         });
     };
 
-    public updatedMenuData() {
+    private updatedMenuData() {
         ['ListSpecificFunctions', 'StatusMsgMenu', 'Instance', 'TransactionId'].forEach((item: any) => {
             const myRPC: CommonRequestPropName = {
                 params: { "propName": item },
@@ -717,6 +645,7 @@ export class MusicPlayerLib {
         this.getItemData();
     };
 
+    // Component level popup action
     public popUpAction(inputValue: string = "", id: number = 0) {
         const myRPC: CommonRequestForPopup = {
             params: {
@@ -733,9 +662,10 @@ export class MusicPlayerLib {
             this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
         }
     };
+
     //To replace language specific charactars
     public replaceLanguageChars(textValue: string) {
-        if(textValue === undefined || textValue === null || textValue === '') return '';
+        if (textValue === undefined || textValue === null || textValue === '') return '';
         return textValue.replace(/\/[^/]+/g, '').replace(/[^\u0020-\u007E]/g, '').replace(/\s{2,}/g, ' ').trim();
     }
 }
