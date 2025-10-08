@@ -27042,6 +27042,74 @@
           },
           {
             "documentation": [
+              "`useContractForEnable` attribute",
+              "***",
+              "When true, the contract 'Enable' state determines if the Legacy Media Player is enabled. When false, the 'receiveStateEnable' join may be applied. Consistent with other components, if the 'receiveStateEnable' join is provide, the value of that join determines if the component is enabled. "
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "usecontractforenable",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`useContractForShow` attribute",
+              "***",
+              " When true, the contract 'Show' state determines if the Legacy Media Player is enabled. When false, the 'receiveStateShow' join may be applied. Consistent with other components, if the 'receiveStateShow' join is provide, the value of that join determines if the component is visible. "
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "usecontractforshow",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`useContractForCustomStyle` attribute",
+              "***",
+              "contract for custom style "
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "usecontractforcustomstyle",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`useContractForCustomClass` attribute",
+              "***",
+              "contract for custom class"
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "usecontractforcustomclass",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
               "`receiveStateCRPC` attribute",
               "***",
               "All api responses we get through this signal. Connected to the Media Server Object Router SIMPL module and contains the CRPC data from the SmartGaphics Media Player object going to the selected device. Connected to the Media Server Object Router SIMPL module and contains the CRPC data from the selected device."
@@ -27274,6 +27342,28 @@
               "\treceiveStateRefreshMediaPlayer=\"${5:}\"",
               "\treceiveStatePlayerName=\"${6:}\"",
               "\treceiveStateDeviceOffline=\"${7:}\">",
+              "</ch5-legacy-media-player>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-legacy-media-player:contractbased",
+            "description": "Crestron legacy media player(contractbased)",
+            "body": [
+              "<ch5-legacy-media-player id=\"ch5-legacy-media-player_${1:id}\"",
+              "\tcontractName=\"${2:}\">",
+              "</ch5-legacy-media-player>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-legacy-media-player:contractbased-attributes",
+            "description": "Crestron legacy media player(contractbased-attributes)",
+            "body": [
+              "<ch5-legacy-media-player id=\"ch5-legacy-media-player_${1:id}\"",
+              "\tcontractName=\"${2:}\"",
+              "\tuseContractForEnable=\"${3:false}\"",
+              "\tuseContractForShow=\"${4:false}\"",
+              "\tuseContractForCustomStyle=\"${5:false}\"",
+              "\tuseContractForCustomClass=\"${6:false}\">",
               "</ch5-legacy-media-player>$0"
             ]
           }

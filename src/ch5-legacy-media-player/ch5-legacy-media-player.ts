@@ -16,6 +16,20 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   private busyChanged: any;
   private popUpData: any;
 
+  private signalNameOnContract = {
+    contractName: "",
+    receiveStateEnable: "",
+    receiveStateShow: "",
+    receiveStateCustomClass: "",
+    receiveStateCustomStyle: "",
+    receiveStateCRPC: "",
+    sendEventCRPC: "",
+    receiveStateMessage: "",
+    receiveStateRefreshMediaPlayer: "",
+    receiveStateDeviceOffline: "",
+    receiveStatePlayerName: ""
+  }
+
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
     receivestatecrpc: { direction: "state", stringJoin: 1, contractName: true },
@@ -103,6 +117,38 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
+    {
+      default: false,
+      name: "useContractForShow",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForEnable",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForCustomStyle",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
+      name: "useContractForCustomClass",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    }
   ];
 
   public static readonly ELEMENT_NAME = 'ch5-legacy-media-player';
@@ -141,6 +187,43 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   public get contractName(): string {
     return this._ch5Properties.get<string>("contractName");
   }
+
+  public set useContractForEnable(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForEnable", value, () => {
+      this.contractDefaultHelper();
+    });
+  }
+  public get useContractForEnable(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForEnable");
+  }
+
+  public set useContractForShow(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForShow", value, () => {
+      this.contractDefaultHelper();
+    });
+  }
+  public get useContractForShow(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForShow");
+  }
+
+  public set useContractForCustomStyle(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForCustomStyle", value, () => {
+      this.contractDefaultHelper();
+    });
+  }
+  public get useContractForCustomStyle(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForCustomStyle");
+  }
+
+  public set useContractForCustomClass(value: boolean) {
+    this._ch5Properties.set<boolean>("useContractForCustomClass", value, () => {
+      this.contractDefaultHelper();
+    });
+  }
+  public get useContractForCustomClass(): boolean {
+    return this._ch5Properties.get<boolean>("useContractForCustomClass");
+  }
+
 
   public set receiveStateCRPC(value: string) {
     this._ch5Properties.set("receiveStateCRPC", value, null, (newValue: string) => {
@@ -464,7 +547,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     } else {
       this.querySelector(".ch5-legacy-media-player-my-music")?.classList.remove("my-music-transition");
       this._elContainer.classList.remove("portrait-mode-active");
-    } 
+    }
     if (width >= 1200) {
       this._elContainer.classList.add("now-playing-max-width-1200");
     } else {
@@ -498,8 +581,64 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   private handleDemoMode() {
     publishEvent('b', 'demoMode', this.demoMode);
   }
+
   private handleContractName() {
-    // Enter your Code here
+    if (this.contractName.length === 0) {
+      this.signalNameOnContract.contractName = "";
+      this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
+      this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;
+      this.receiveStateCustomClass = this.signalNameOnContract.receiveStateCustomClass;
+      this.receiveStateCustomStyle = this.signalNameOnContract.receiveStateCustomStyle;
+      this.receiveStateCRPC = this.signalNameOnContract.receiveStateCRPC;
+      this.sendEventCRPC = this.signalNameOnContract.sendEventCRPC;
+      this.receiveStateMessage = this.signalNameOnContract.receiveStateMessage;
+      this.receiveStateRefreshMediaPlayer = this.signalNameOnContract.receiveStateRefreshMediaPlayer;
+      this.receiveStateDeviceOffline = this.signalNameOnContract.receiveStateDeviceOffline;
+      this.receiveStatePlayerName = this.signalNameOnContract.receiveStatePlayerName;
+    } else if (this.signalNameOnContract.contractName === "") {
+      this.signalNameOnContract.contractName = this.contractName;
+      this.signalNameOnContract.receiveStateShow = this.receiveStateShow;
+      this.signalNameOnContract.receiveStateEnable = this.receiveStateEnable;
+      this.signalNameOnContract.receiveStateCustomClass = this.receiveStateCustomClass;
+      this.signalNameOnContract.receiveStateCustomStyle = this.receiveStateCustomStyle;
+      this.signalNameOnContract.receiveStateCRPC = this.receiveStateCRPC;
+      this.signalNameOnContract.sendEventCRPC = this.sendEventCRPC;
+      this.signalNameOnContract.receiveStateMessage = this.receiveStateMessage;
+      this.signalNameOnContract.receiveStateRefreshMediaPlayer = this.receiveStateRefreshMediaPlayer;
+      this.signalNameOnContract.receiveStateDeviceOffline = this.receiveStateDeviceOffline;
+      this.signalNameOnContract.receiveStatePlayerName = this.receiveStatePlayerName;
+    }
+    this.contractDefaultHelper();
+  }
+  private contractDefaultHelper() {
+    if (this.contractName !== "" && this.contractName !== null && this.contractName !== undefined) {
+      this.receiveStateCRPC = this.contractName + '.CRPC_FB';
+      this.sendEventCRPC = this.contractName + '.CRPC';
+      this.receiveStateMessage = this.contractName + '.Message_FB';
+      this.receiveStateRefreshMediaPlayer = this.contractName + '.Refresh';
+      this.receiveStateDeviceOffline = this.contractName + '.Offline';
+      this.receiveStatePlayerName = this.contractName + '.Player_Name';
+      if (this.useContractForShow === true) {
+        this.receiveStateShow = this.contractName + 'Visible';
+      } else {
+        this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
+      }
+      if (this.useContractForEnable === true) {
+        this.receiveStateEnable = this.contractName + 'Enabled';
+      } else {
+        this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;
+      }
+      if (this.useContractForCustomClass === true) {
+        this.receiveStateCustomClass = this.contractName + 'CustomClass';
+      } else {
+        this.receiveStateCustomClass = this.signalNameOnContract.receiveStateCustomClass;
+      }
+      if (this.useContractForCustomStyle === true) {
+        this.receiveStateCustomStyle = this.contractName + 'CustomStyle';
+      } else {
+        this.receiveStateCustomStyle = this.signalNameOnContract.receiveStateCustomStyle;
+      }
+    }
   }
 
   private handleReceiveStatePlayerName() {
