@@ -466,9 +466,11 @@ export class MusicPlayerLib {
         const myMsgId = responseData.id;
         let busyChanged: any = {};
         /* console.log('Message id: ' + myMsgId); */
-        const playerInstanceMethod = this.myMP?.instanceName + '.Event';
-        const menuInstanceMethod = this.myMP?.menuInstanceName + '.Event';
-        if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method) && responseData.params.ev === 'BusyChanged' && responseData.params?.parameters) {// Busychanged event
+        const playerInstanceMethod = this.myMP?.instanceName + '.Event'; // mediaplayer instance method event
+        const menuInstanceMethod = this.myMP?.menuInstanceName + '.Event'; // mediaplayermenu instance method event
+
+        if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method) 
+            && responseData.params.ev === 'BusyChanged' && responseData.params?.parameters) {// Busychanged event
             busyChanged = { 'timeoutSec': responseData.params?.parameters?.timeoutSec, 'on': responseData.params?.parameters?.on }
             publishEvent('o', 'busyChanged', busyChanged);
         } else if (playerInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // Now music statechanged 
@@ -486,7 +488,7 @@ export class MusicPlayerLib {
             if (responseData.params?.parameters.hasOwnProperty('Title')) {
                 this.updatedMenuData(); // we need to call only when statechanged event has parameters object include key has Title
             }
-        } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StatusMsgMenuChanged' && responseData.params?.parameters) { // My music  StatusMsgMenuChanged 
+        } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StatusMsgMenuChanged' && responseData.params?.parameters) { // My music  StatusMsgMenuChanged: Used for popup data
             publishEvent('o', 'StatusMsgMenuChanged', responseData.params?.parameters ? responseData.params.parameters : {});
         } else if (myMsgId === this.myMP.PlayId || myMsgId === this.myMP.PauseId || myMsgId === this.myMP.SeekId) { // Play or pause clicked
             this.callTrackTime();
@@ -522,7 +524,10 @@ export class MusicPlayerLib {
                 } 
             }            
         }
+
+        // Publishing response data to the respective components
         if (!(busyChanged && busyChanged['on'] === true)) {
+            // TODO: remove isEqual if not required
             if (!_.isEqual(this.nowPlayingPublishData, this.nowPlayingData)) {
                 this.nowPlayingPublishData = { ...this.nowPlayingData };
                 publishEvent('o', 'nowPlayingData', this.nowPlayingPublishData); // left section
