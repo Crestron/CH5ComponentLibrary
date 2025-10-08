@@ -7,7 +7,6 @@ export class MusicPlayerLib {
     // Serial signals to the control system.
     private mpSigRPCOut: string = "";
     private mpRPCDataIn: string = '';
-    private menuStateChanged: any = {};
     private mpMsgId: number = 0; // Increment our message id. ToDo: Need a max value check and reset to 0.
     private itemValue: number = 1; // Used in infinite scroll feature.
     private resendRegistrationTimeId: any = '';
@@ -67,11 +66,7 @@ export class MusicPlayerLib {
         });
 
         subscribeState('b', 'receiveStateDeviceOfflineResp', (value: any) => {
-            if (value) {
-                this.myMP.connectionActive = false;
-            } else {
-                this.myMP.connectionActive = true;
-            }
+            this.myMP.connectionActive = !value;
         });
 
         subscribeState('s', 'receiveStateCRPCResp', (value: any) => {
@@ -283,8 +278,6 @@ export class MusicPlayerLib {
             };
             if (item === 'Title') {
                 this.myMP[item + 'MenuId'] = myRPC.id;// Keep track of the message id.
-            } else {
-                this.myMP[item + 'Id'] = myRPC.id;// Keep track of the message id.
             }
             if (this.myMP.menuInstanceName) {
                 this.sendRPCRequest(JSON.stringify(myRPC));
@@ -490,11 +483,8 @@ export class MusicPlayerLib {
             for (const item in responseData.params?.parameters) {
                 this.myMusicData[item] = responseData.params?.parameters[item];
             }
-            if (!_.isEqual(this.menuStateChanged, responseData.params?.parameters)) {
-                this.menuStateChanged = responseData.params?.parameters;
-                if (responseData.params?.parameters.hasOwnProperty('Title')) {
-                    this.updatedMenuData(); // we need to call only when statechanged event has parameters object include key has Title
-                }
+            if (responseData.params?.parameters.hasOwnProperty('Title')) {
+                this.updatedMenuData(); // we need to call only when statechanged event has parameters object include key has Title
             }
         } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StatusMsgMenuChanged' && responseData.params?.parameters) { // My music  StatusMsgMenuChanged 
             publishEvent('o', 'StatusMsgMenuChanged', responseData.params?.parameters ? responseData.params.parameters : {});
