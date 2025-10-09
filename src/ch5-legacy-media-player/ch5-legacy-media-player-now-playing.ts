@@ -4,6 +4,7 @@ import { publishEvent, subscribeState } from "../ch5-core/index.ts";
 import { TCh5LegacyMediaPlayerProgressbarData } from "./interfaces/t-ch5-legacy-media-player.ts";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log.ts";
 import { debounce } from "../ch5-common/utils/common-functions.ts";
+import { createElement, formatTime } from "./ch5-legacy-media-player-common.ts";
 
 export class Ch5LegacyMediaPlayerNowPlaying {
 
@@ -12,7 +13,6 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 	private _nowPlayingContainer: HTMLElement = {} as HTMLElement;
 	private _nowPlayingPlayerContainer: HTMLElement = {} as HTMLElement;
 	private _nowPlayingImageParent: HTMLElement = {} as HTMLElement;
-	private _nowPlayingImage: HTMLImageElement = {} as HTMLImageElement;
 	private _nowPlayingTrackInfo: HTMLElement = {} as HTMLElement;
 	private _nowPlayingSongTitle: HTMLElement = {} as HTMLElement;
 	private _nowPlayingArtist: HTMLElement = {} as HTMLElement;
@@ -70,7 +70,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 
 	private logger: Ch5CommonLog;
 
-	private readonly	 NOW_PLAYING_DEMO_DATA = {
+	private readonly NOW_PLAYING_DEMO_DATA = {
 		ActionsAvailable: [
 			"Shuffle",
 			"Repeat",
@@ -119,102 +119,94 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this.logger = new Ch5CommonLog(false, false, "LEGACY_MEDIA_PLAYER:NOW_PLAYING");
 		this.musicPlayerLibInstance = musicPlayerLib;
 		this.logger.start('constructor()', "ch5-legacy-media-player:now-playing");
-		this._nowPlayingContainer = this.createElement('div');
+		this._nowPlayingContainer = createElement('div');
 		this.createDefaultNowPlaying();
-		this.updateCssClass();
-		subscribeState('b', 'demoMode', ((value: boolean) => {
-			this.demoModeValue = value;
-			subscribeState('o', 'nowPlayingData', ((data: any) => {
-				if (this.demoModeValue) {
-					this.createNowPlaying();
-					this.nowPlayingData = this.NOW_PLAYING_DEMO_DATA;
-					this.updatedNowPlayingContent();
-				} else if (data && Object.keys(data).length > 0) {
+
+		subscribeState('o', 'nowPlayingData', ((data: any) => {
+			if (this.demoModeValue === false) {
+				if (data && Object.keys(data).length > 0) {
 					this.nowPlayingData = data;
 					this.createNowPlaying();
 					this.updatedNowPlayingContent();
 				} else {
 					this.createDefaultNowPlaying();
 				}
-				this.updateCssClass();
-			}));
-			subscribeState('o', 'progressBarData', ((data: any) => {
-				if (this._progressBarTimer) {
-					clearInterval(this._progressBarTimer);
-					this._progressBarTimer = null;
-				}
-				if (this.demoModeValue) {
-					this.progressBarData.ProgressBar = true;
-					this._progressBarContainer.style.display = "flex";
-					this._progressBarElapsedSec = 0;
-					this._progressBarTrackSec = 0;
-					this._currentTime.textContent = this.formatTime(this._progressBarElapsedSec);
-					this._duration.textContent = this.formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
-					this._progressBarInput.style.backgroundSize = "0% 100%";
-					this._progressBarInput.value = this._progressBarElapsedSec?.toString();
-				} else {
-					this.progressBarData = data;
-					this.logger.log("Progressbar data: ", data);
-					if (!this.demoModeValue && this.progressBarData && Object.keys(this.progressBarData).length > 0) {
-						if (!this.progressBarData.ProgressBar && this._progressBarContainer) {
-							this._progressBarContainer.style.display = "none";
-							return;
-						}
-						this._progressBarContainer.style.display = "flex";
-						this._progressStreamState = this.progressBarData.StreamState;
-						this._streamState.textContent = this._progressStreamState;
-						this._progressBarTrackSec = this.progressBarData.TrackSec;
-						this._progressBarElapsedSec = this.progressBarData.ElapsedSec;
-						this._progressBarInput.max = this._progressBarTrackSec?.toString();
-						this._progressBarInput.value = this._progressBarElapsedSec?.toString();
-						this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
-						this._currentTime.textContent = this.formatTime(this._progressBarElapsedSec);
-						this._duration.textContent = this.formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
+			}
+		}));
 
-						if (this.progressBarData.StreamState === 'streaming' && !this.demoModeValue) {
-							this._progressBarTimer = window.setInterval(() => {
-								if (this._progressBarElapsedSec < this._progressBarTrackSec) {
-									this._progressBarElapsedSec += 1;
-									const percent = (this._progressBarElapsedSec / this._progressBarTrackSec) * 100;
-									this._progressBarInput.value = this._progressBarElapsedSec.toString();
-									this._progressBarInput.style.backgroundSize = percent + "% 100%";
-									this._currentTime.textContent = this.formatTime(this._progressBarElapsedSec);
-									this._duration.textContent = this.formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
-								} else {
-									clearInterval(this._progressBarTimer!);
-									this._progressBarTimer = null;
-								}
-							}, 1000);
-						}
+		subscribeState('o', 'progressBarData', ((data: any) => {
+			if (this._progressBarTimer) {
+				clearInterval(this._progressBarTimer);
+				this._progressBarTimer = null;
+			}
+			if (this.demoModeValue) {
+				// TODO
+				this.progressBarData.ProgressBar = true;
+				this._progressBarContainer.style.display = "flex";
+				this._progressBarElapsedSec = 0;
+				this._progressBarTrackSec = 0;
+				this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
+				this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
+				this._progressBarInput.style.backgroundSize = "0% 100%";
+				this._progressBarInput.value = this._progressBarElapsedSec?.toString();
+			} else {
+				this.progressBarData = data;
+				this.logger.log("Progressbar data: ", data);
+				if (!this.demoModeValue && this.progressBarData && Object.keys(this.progressBarData).length > 0) {
+					if (!this.progressBarData.ProgressBar && this._progressBarContainer) {
+						this._progressBarContainer.style.display = "none";
+						return;
+					}
+					this._progressBarContainer.style.display = "flex";
+					this._progressStreamState = this.progressBarData.StreamState;
+					this._streamState.textContent = this._progressStreamState;
+					this._progressBarTrackSec = this.progressBarData.TrackSec;
+					this._progressBarElapsedSec = this.progressBarData.ElapsedSec;
+					this._progressBarInput.max = this._progressBarTrackSec?.toString();
+					this._progressBarInput.value = this._progressBarElapsedSec?.toString();
+					this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
+					this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
+					this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
+
+					if (this.progressBarData.StreamState === 'streaming' && !this.demoModeValue) {
+						this._progressBarTimer = window.setInterval(() => {
+							if (this._progressBarElapsedSec < this._progressBarTrackSec) {
+								this._progressBarElapsedSec += 1;
+								const percent = (this._progressBarElapsedSec / this._progressBarTrackSec) * 100;
+								this._progressBarInput.value = this._progressBarElapsedSec.toString();
+								this._progressBarInput.style.backgroundSize = percent + "% 100%";
+								this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
+								this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
+							} else {
+								clearInterval(this._progressBarTimer!);
+								this._progressBarTimer = null;
+							}
+						}, 1000);
 					}
 				}
-			}));
+			}
 		}));
+		// }));
+	}
+
+	public handleDemoMode(demoMode: boolean) {
+		if (demoMode) {
+			this.createNowPlaying();
+			this.nowPlayingData = this.NOW_PLAYING_DEMO_DATA;
+			this.updatedNowPlayingContent();
+		}
 	}
 
 	private updatedNowPlayingContent() {
 		this._nowPlayingPlayerName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
+		this._nowPlayingImageParent.classList.add("now-playing-image-container");
+		this._nowPlayingImageParent.classList.add("mp-fallback-album-art");
 		if (this.nowPlayingData.AlbumArt && this.nowPlayingData.AlbumArtUrl?.trim() !== "") {
-			// this._nowPlayingImage.src = this.nowPlayingData.AlbumArtUrl;
 			this._nowPlayingImageParent.style.backgroundImage = "url('" + this.nowPlayingData.AlbumArtUrl + "')";
-			// this._nowPlayingImage.classList.remove("ch5-hide-dis");
-			// this._nowPlayingImage.classList.add("now-playing-image");
-			// this._nowPlayingImageParent.classList.remove(...Array.from(this._nowPlayingImageParent.classList));
-			this._nowPlayingImageParent.classList.add("now-playing-image-container");
 		} else if (this.nowPlayingData.AlbumArtUrlNAT?.trim() !== "") {
 			this._nowPlayingImageParent.style.backgroundImage = "url('" + this.nowPlayingData.AlbumArtUrlNAT + "')";
-			// this._nowPlayingImage.src = this.nowPlayingData.AlbumArtUrlNAT;
-			// this._nowPlayingImage.classList.remove("ch5-hide-dis");
-			// this._nowPlayingImage.classList.add("now-playing-image");
-			// this._nowPlayingImageParent.classList.remove(...Array.from(this._nowPlayingImageParent.classList));
-			this._nowPlayingImageParent.classList.add("now-playing-image-container");
 		} else {
 			this._nowPlayingImageParent.style.removeProperty("backgroundImage");
-			this._nowPlayingImageParent.classList.remove("now-playing-image-container");
-			this._nowPlayingImage.classList.remove("now-playing-image");
-			this._nowPlayingImage.classList.add("ch5-hide-dis");
-			this._nowPlayingImageParent.classList.add("mp-fallback-album-art");
-			this._nowPlayingImageParent.classList.add("now-playing-image");
 		}
 		this._nowPlayingSongTitle.children[0].textContent = this.musicPlayerLibInstance.replaceLanguageChars(this.nowPlayingData.Title);
 		if ((this._nowPlayingSongTitle.children[0] as HTMLSpanElement).offsetWidth > this._nowPlayingSongTitle.offsetWidth) {
@@ -267,19 +259,19 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 			this._nowPlayingContainer.innerHTML = "";
 		}
 		this._nowPlayingContainer.classList.add("ch5-legacy-media-player--now-playing-default");
-		const defaultProviderContainer = this.createElement('div', ['default-provider-container'], 'No Content Provider');
-		const defaultAlbumArtContainer = this.createElement('div', ["default-album-art-container"]);
-		const defaultTrackInfoContainer = this.createElement('div', ['default-track-info-container']);
-		const trackInfoNotPlaying = this.createElement('div', [], 'Not Playing');
-		const trackInfoNone = this.createElement('div', [], '— —');
+		const defaultProviderContainer = createElement('div', ['default-provider-container'], 'No Content Provider');
+		const defaultAlbumArtContainer = createElement('div', ["default-album-art-container"]);
+		const defaultTrackInfoContainer = createElement('div', ['default-track-info-container']);
+		const trackInfoNotPlaying = createElement('div', [], 'Not Playing');
+		const trackInfoNone = createElement('div', [], '— —');
 		defaultTrackInfoContainer.append(trackInfoNotPlaying, trackInfoNone);
-		const defaultProgressbarContainer = this.createElement('div', ['default-progressbar-container']);
-		const progressbarDefault = this.createElement('div', ['progressbar-default']);
-		const progressbarDefaultTime = this.createElement('div', ['progressbar-default-time']);
-		const progressbarTimeNone = this.createElement('div', [], '— : — —');
+		const defaultProgressbarContainer = createElement('div', ['default-progressbar-container']);
+		const progressbarDefault = createElement('div', ['progressbar-default']);
+		const progressbarDefaultTime = createElement('div', ['progressbar-default-time']);
+		const progressbarTimeNone = createElement('div', [], '— : — —');
 		progressbarDefaultTime.append(progressbarTimeNone, progressbarTimeNone.cloneNode(true));
 		defaultProgressbarContainer.append(progressbarDefault, progressbarDefaultTime);
-		const defaultActionsContainer = this.createElement('div', ['default-actions-container']);
+		const defaultActionsContainer = createElement('div', ['default-actions-container']);
 		const defaultBackwardIcon = new Ch5LegacyMediaPlayerIconButton();
 		defaultBackwardIcon.setAttribute('iconClass', "mp-icon mp-fast-backward");
 		const defaultPlayIcon = new Ch5LegacyMediaPlayerIconButton();
@@ -300,7 +292,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this.renderProviderOrPlayer();
 		this.renderAlbumArt();
 		this.renderTrackInfo();
-		this._transportControls = this.createElement('div', ["now-playing-controls-container"]);
+		this._transportControls = createElement('div', ["now-playing-controls-container"]);
 		this.renderProgressBar();
 		this.renderActionButtons([], true);
 		this.renderMoreActionButtons([]);
@@ -311,9 +303,9 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 
 	protected renderProviderOrPlayer() {
 		//Now playing player
-		this._nowPlayingPlayerContainer = this.createElement("div", ["now-playing-player-container"]);
-		const nowPlayingPlayerLabel = this.createElement('div', ['now-playing-player-label']);
-		this._nowPlayingPlayerName = this.createElement('label', ["now-playing-player-name"], '');
+		this._nowPlayingPlayerContainer = createElement("div", ["now-playing-player-container"]);
+		const nowPlayingPlayerLabel = createElement('div', ['now-playing-player-label']);
+		this._nowPlayingPlayerName = createElement('label', ["now-playing-player-name"], '');
 		nowPlayingPlayerLabel.appendChild(this._nowPlayingPlayerName);
 		this._nowPlayingPlayerContainer.appendChild(nowPlayingPlayerLabel);
 		//Now Playing Player Music Note
@@ -329,34 +321,31 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 
 	protected renderAlbumArt() {
 		//Now Playing Image
-		this._nowPlayingImage = document.createElement("img");
-		this._nowPlayingImage.classList.add("ch5-hide-dis");
-		this._nowPlayingImageParent = this.createElement("div", ["mp-fallback-album-art", "now-playing-image"]);
-		this._nowPlayingImageParent.appendChild(this._nowPlayingImage);
+		this._nowPlayingImageParent = createElement("div", ["mp-fallback-album-art", "now-playing-image"]);
 		this._nowPlayingContainer.appendChild(this._nowPlayingImageParent);
 	}
 
 	protected renderTrackInfo() {
-		this._nowPlayingTrackInfo = this.createElement("div", ["now-playing-track-info"]); // Now Playing Track Information
-		this._nowPlayingSongTitle = this.createElement("div", ["now-playing-song-title"]); //Now Playing Song Title
-		const songTitleMarqueeSpan = this.createElement("span", [], '');
+		this._nowPlayingTrackInfo = createElement("div", ["now-playing-track-info"]); // Now Playing Track Information
+		this._nowPlayingSongTitle = createElement("div", ["now-playing-song-title"]); //Now Playing Song Title
+		const songTitleMarqueeSpan = createElement("span", [], '');
 		this._nowPlayingSongTitle.appendChild(songTitleMarqueeSpan);
 		//Now Playing Song Artist and Album
-		this._nowPlayingArtistAlbum = this.createElement("div", ["now-playing-artist-album"]);
-		this._nowPlayingArtist = this.createElement("span", ["now-playing-artist-name"], '');
-		this._nowPlayingAlbum = this.createElement("span", ["now-playing-album-name"], '');
-		this._longDash = this.createElement("span", ['long-dash'], '');
+		this._nowPlayingArtistAlbum = createElement("div", ["now-playing-artist-album"]);
+		this._nowPlayingArtist = createElement("span", ["now-playing-artist-name"], '');
+		this._nowPlayingAlbum = createElement("span", ["now-playing-album-name"], '');
+		this._longDash = createElement("span", ['long-dash'], '');
 
 		this._longDash.textContent = ' — ';
 		this._nowPlayingArtistAlbum.appendChild(this._nowPlayingArtist);
 		this._nowPlayingArtistAlbum.appendChild(this._longDash);
 		this._nowPlayingArtistAlbum.appendChild(this._nowPlayingAlbum);
 		//Now Playing Song Additional Information
-		this._nowPlayingSongAdditionalInfo = this.createElement("div", ["now-playing-song-additional-info"], '');
+		this._nowPlayingSongAdditionalInfo = createElement("div", ["now-playing-song-additional-info"], '');
 		//Now Playing Player Icon Image and Name Container
-		this._nowPlayingPlayerIconContainer = this.createElement('div', ["now-playing-player-icon-container"]);
+		this._nowPlayingPlayerIconContainer = createElement('div', ["now-playing-player-icon-container"]);
 		//Now Playing Player Icon Image
-		this._nowPlayingPlayerIconImage = this.createElement('div', ["now-playing-player-icon-image"]);
+		this._nowPlayingPlayerIconImage = createElement('div', ["now-playing-player-icon-image"]);
 		if (this.NOW_PLAYING_ICONS[0]) {
 			this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[0].split(' '));
 		}
@@ -364,7 +353,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this._nowPlayingPlayerImage.classList.add("ch5-hide-dis");
 		this._nowPlayingPlayerIconImage.appendChild(this._nowPlayingPlayerImage);
 		//Now Playing Player Icon Name
-		this._nowPlayingPlayerIconName = this.createElement('div', ["now-playing-player-icon-name"], '');
+		this._nowPlayingPlayerIconName = createElement('div', ["now-playing-player-icon-name"], '');
 		this._nowPlayingPlayerIconContainer.appendChild(this._nowPlayingPlayerIconImage);
 		this._nowPlayingPlayerIconContainer.appendChild(this._nowPlayingPlayerIconName);
 
@@ -382,7 +371,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 
 	protected renderProgressBar() {
 		// Progress bar section
-		this._progressBarContainer = this.createElement('div', ['now-playing-progressbar-container']);
+		this._progressBarContainer = createElement('div', ['now-playing-progressbar-container']);
 		// Progress bar input
 		this._progressBarInput = document.createElement('input');
 		this._progressBarInput.type = 'range';
@@ -394,23 +383,23 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this._progressBarContainer.appendChild(this._progressBarInput);
 
 		// Current time and duration container
-		const progressBarCurrentTimeDurationContainer = this.createElement('div', ['now-playing-progressbar-current-time-duration-container']);
-		this._currentTime = this.createElement('span', ['now-playing-progressbar-current-time']);
-		this._currentTime.textContent = this.formatTime(this._progressBarElapsedSec);
+		const progressBarCurrentTimeDurationContainer = createElement('div', ['now-playing-progressbar-current-time-duration-container']);
+		this._currentTime = createElement('span', ['now-playing-progressbar-current-time']);
+		this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
 		progressBarCurrentTimeDurationContainer.appendChild(this._currentTime);
-		this._streamState = this.createElement('span', ['now-playing-progressbar-stream-state']);
+		this._streamState = createElement('span', ['now-playing-progressbar-stream-state']);
 		this._streamState.textContent = this._progressStreamState;
 		progressBarCurrentTimeDurationContainer.appendChild(this._streamState);
-		this._duration = this.createElement('span', ['now-playing-progressbar-duration']);
-		this._duration.textContent = this.formatTime(parseInt(this._progressBarInput.max) - parseInt(this._progressBarInput.value));
+		this._duration = createElement('span', ['now-playing-progressbar-duration']);
+		this._duration.textContent = formatTime(parseInt(this._progressBarInput.max) - parseInt(this._progressBarInput.value));
 		progressBarCurrentTimeDurationContainer.appendChild(this._duration);
 		this._progressBarContainer.appendChild(progressBarCurrentTimeDurationContainer);
 
 		//Seek
 		this._progressBarInput.addEventListener("input", () => {
 			this._progressBarInput.style.backgroundSize = ((parseInt(this._progressBarInput.value) / parseInt(this._progressBarInput.max)) * 100) + "% 100%";
-			this._currentTime.textContent = this.formatTime(parseInt(this._progressBarInput.value));
-			this._duration.textContent = this.formatTime(parseInt(this._progressBarInput.max) - parseInt(this._progressBarInput.value));
+			this._currentTime.textContent = formatTime(parseInt(this._progressBarInput.value));
+			this._duration.textContent = formatTime(parseInt(this._progressBarInput.max) - parseInt(this._progressBarInput.value));
 			this._progressBarElapsedSec = parseInt(this._progressBarInput.value);
 			this.logger.log('_currentTime==', this._progressBarInput.value);
 			this.seekApiCall();
@@ -423,7 +412,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		if (this._actionButtonsContainer && this._actionButtonsContainer.parentNode) {
 			this._actionButtonsContainer.parentNode.removeChild(this._actionButtonsContainer);
 		}
-		this._actionButtonsContainer = this.createElement('div', ['now-playing-action-buttons-container']);
+		this._actionButtonsContainer = createElement('div', ['now-playing-action-buttons-container']);
 
 		const actionIconMap: { [key: string]: { class: string, style?: string } } = {
 			"ThumbsDown": { class: 'mp-icon mp-thumbs-down' },
@@ -481,7 +470,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		if (this._moreActionButtonsContainer && this._moreActionButtonsContainer.parentNode) {
 			this._moreActionButtonsContainer.parentNode.removeChild(this._moreActionButtonsContainer);
 		}
-		this._moreActionButtonsContainer = this.createElement('div', ['now-playing-more-action-buttons-container']);
+		this._moreActionButtonsContainer = createElement('div', ['now-playing-more-action-buttons-container']);
 
 		this._moreActionButtonsContainer.innerHTML = "";
 		const moreActionIconMap: { [key: string]: { class: string, style?: string } } = {
@@ -512,14 +501,14 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 			this._nextAndPreviousSongContainer.parentNode.removeChild(this._nextAndPreviousSongContainer);
 		}
 		if (nextSong) {
-			this._nextAndPreviousSongContainer = this.createElement('div', ['now-playing-next-and-previous-song-container']);
+			this._nextAndPreviousSongContainer = createElement('div', ['now-playing-next-and-previous-song-container']);
 			// Next Song Section
-			const nextSongSection = this.createElement('div', ['now-playing-next-song-container']);
+			const nextSongSection = createElement('div', ['now-playing-next-song-container']);
 			//Next Song Label
-			this._nextSongLabel = this.createElement('span', ['now-playing-next-song-label'], 'Next up');
+			this._nextSongLabel = createElement('span', ['now-playing-next-song-label'], 'Next up');
 			nextSongSection.appendChild(this._nextSongLabel);
 			//Next Song Text
-			this._nextSongText = this.createElement('span', ['now-playing-next-song-text'], nextSong);
+			this._nextSongText = createElement('span', ['now-playing-next-song-text'], nextSong);
 			nextSongSection.appendChild(this._nextSongText);
 			this._nextAndPreviousSongContainer.appendChild(nextSongSection);
 
@@ -527,28 +516,6 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		}
 	}
 
-	// Utility: format time
-	protected formatTime = (seconds: number = 0): string => {
-		const min = Math.floor(seconds / 60);
-		const sec = Math.floor(seconds % 60);
-		return `${min}:${sec < 10 ? '0' : ''}${sec}`;
-	}
-
 	//#endregion
 
-	//#region Protected / Private Methods
-
-	private updateCssClass() {
-		this.logger.start('UpdateCssClass');
-		this.logger.stop();
-	}
-
-	private createElement(tagName: string, clsName: string[] = [], textContent: string = '') {
-		const element = document.createElement(tagName);
-		if (clsName.length !== 0) { clsName.forEach((cs: string) => element.classList.add(cs)) }
-		if (textContent !== '') { element.textContent = textContent; }
-		return element;
-	}
-
-	//#endregion
 }

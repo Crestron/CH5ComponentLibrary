@@ -72,15 +72,10 @@ export class Ch5LegacyMediaPlayerMyMusic {
     this._myMusicContainer = this.createElement('div');
     this.createDefaultMyMusic();
 
-    subscribeState('b', 'demoMode', ((value: boolean) => {
-      this.demoModeValue = value;
-      subscribeState('o', 'myMusicData', ((data: any) => {
+    subscribeState('o', 'myMusicData', ((data: any) => {
+      if (!this.demoModeValue) {
         this.loadItemsCount = this.MAXIMUM_ROWS_TO_SHOW;
-        if (this.demoModeValue) {
-          this.createMyMusic();
-          this.myMusicData = this.MY_MUSIC_DEMO_DATA;
-          this.apiChanges();
-        } else if (data && Object.keys(data).length > 0) {
+        if (data && Object.keys(data).length > 0) {
           this.myMusicData = data;
           if (this.myMusicData && this.myMusicData['MenuData'] && this.myMusicData['MenuData'].length <= this.musicPlayerLibInstance.maxReqItems) {
             this.createMyMusic();
@@ -91,8 +86,9 @@ export class Ch5LegacyMediaPlayerMyMusic {
         } else {
           this.createDefaultMyMusic();
         }
-      }))
+      }
     }));
+    
     subscribeState('b', 'showMyMusicComponent', ((value: boolean) => {
       if (value) {
         this._myMusicContainer.classList.add("my-music-transition");
@@ -106,6 +102,14 @@ export class Ch5LegacyMediaPlayerMyMusic {
 
   public createInternalHtml() {
     return this._myMusicContainer;
+  }
+
+  public handleDemoMode(demoMode: boolean) {
+    if (demoMode) {
+      this.createMyMusic();
+      this.myMusicData = this.MY_MUSIC_DEMO_DATA;
+      this.apiChanges();
+    }
   }
 
   //default my music

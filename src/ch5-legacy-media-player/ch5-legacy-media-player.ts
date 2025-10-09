@@ -8,6 +8,7 @@ import { Ch5LegacyMediaPlayerNowPlaying } from "./ch5-legacy-media-player-now-pl
 import { Ch5LegacyMediaPlayerMyMusic } from "./ch5-legacy-media-player-my-music";
 import { MusicPlayerLib, publishEvent, subscribeState } from "../ch5-core";
 import { resizeObserver } from "../ch5-core/resize-observer";
+import { createElement } from "./ch5-legacy-media-player-common";
 
 export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPlayerAttributes {
 
@@ -159,8 +160,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
-  private nowPlaying: any;
-  private myMusic: any;
+  private nowPlaying: Ch5LegacyMediaPlayerNowPlaying | null = null;
+  private myMusic: Ch5LegacyMediaPlayerMyMusic | null = null;
   private _elMask: HTMLElement = {} as HTMLElement;
   private _elGenericDialogContent: HTMLElement = {} as HTMLElement;
   private _elMaskdialogTitle: HTMLElement = {} as HTMLElement;
@@ -384,7 +385,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
-    this.handleDemoMode();//it is needed when attribute is set to true and then removed from the component
+    this.handleDemoMode(); // it is needed when attribute is set to true and then removed from the component
     customElements.whenDefined('ch5-legacy-media-player').then(() => {
       this.componentLoadedEvent(Ch5LegacyMediaPlayer.ELEMENT_NAME, this.id);
     });
@@ -408,7 +409,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   protected createInternalHtml() {
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
-    this._elContainer = this.createElement('div');
+    this._elContainer = createElement('div');
     this.nowPlaying = new Ch5LegacyMediaPlayerNowPlaying(this.musicPlayerLibInstance);
     this._elContainer.appendChild(this.nowPlaying.createInternalHtml());
     this.myMusic = new Ch5LegacyMediaPlayerMyMusic(this.musicPlayerLibInstance);
@@ -421,9 +422,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     if (this._loadingIndicator && this._loadingIndicator.parentNode) {
       this._loadingIndicator.parentNode.removeChild(this._loadingIndicator);
     }
-    this._loadingIndicator = this.createElement('div', ['mp-loading-indicator']);
-    const loadingIndicatorText = this.createElement('span', ['mp-loading-indicator-text']);
-    const loadingIndicatorTextIcon = this.createElement('i', ['fa-solid', 'fa-circle-notch', 'fa-spin', 'mp-loader-icon-size']);
+    this._loadingIndicator = createElement('div', ['mp-loading-indicator']);
+    const loadingIndicatorText = createElement('span', ['mp-loading-indicator-text']);
+    const loadingIndicatorTextIcon = createElement('i', ['fa-solid', 'fa-circle-notch', 'fa-spin', 'mp-loader-icon-size']);
     loadingIndicatorText.appendChild(loadingIndicatorTextIcon);
     this._loadingIndicator.appendChild(loadingIndicatorText);
     this._elContainer.appendChild(this._loadingIndicator);
@@ -454,7 +455,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     const dialogContentInput = document.createElement("input");
     // Create input box 
     if (dialogType === "alphanumeric") {
-      const dialogContent = this.createElement('div', ["dialog-content"]);
+      const dialogContent = createElement('div', ["dialog-content"]);
       dialogContentInput.classList.add('dialog-content-input');
       dialogContentInput.value = dialogInput;
       dialogContent.appendChild(dialogContentInput);
@@ -485,19 +486,19 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   //Dialog Heading
   protected getDialogHeading(dialogHeading: string) {
-    this._elMask = this.createElement('div', ['ch5-legacy-media-player--mask']);
+    this._elMask = createElement('div', ['ch5-legacy-media-player--mask']);
     this._elContainer.appendChild(this._elMask);
-    this._elGenericDialogContent = this.createElement('div', ['ch5-legacy-media-player--mask-content-generic']);
-    this._elMaskdialogTitle = this.createElement('div', ['generic-dialog-title'], dialogHeading);
+    this._elGenericDialogContent = createElement('div', ['ch5-legacy-media-player--mask-content-generic']);
+    this._elMaskdialogTitle = createElement('div', ['generic-dialog-title'], dialogHeading);
     this._elGenericDialogContent.appendChild(this._elMaskdialogTitle);
   }
 
   //Dialog Footer Buttons
   protected getDialogFooter(dialogArray: Array<string>, inputEle?: HTMLInputElement) {
-    this._dialogFooter = this.createElement('div', ['generic-dialog-footer']);
+    this._dialogFooter = createElement('div', ['generic-dialog-footer']);
     const dialogType = dialogArray.length;
     for (let i = 0; i < dialogType; i++) {
-      const button = this.createElement('button', ['generic-dialog-button']);
+      const button = createElement('button', ['generic-dialog-button']);
       button.addEventListener("click", () => {
         //clear auto close timeout on footer button click
         if (this._dialogAutoCloseTimeout) {
@@ -582,7 +583,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     });
   }
   private handleDemoMode() {
-    publishEvent('b', 'demoMode', this.demoMode); // TODO - why are we publishing this
+    this.nowPlaying?.handleDemoMode(this.demoMode);
+    this.myMusic?.handleDemoMode(this.demoMode);
+    // publishEvent('b', 'demoMode', this.demoMode); // TODO - why are we publishing this
   }
 
   private handleContractName() {
@@ -613,6 +616,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     }
     this.contractDefaultHelper();
   }
+
   private contractDefaultHelper() {
     if (this.contractName !== "" && this.contractName !== null && this.contractName !== undefined) {
       this.receiveStateCRPC = this.contractName + '.CRPC_FB';
@@ -660,13 +664,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   public getCssClassDisabled() {
     return this.primaryCssClass + '--disabled';
-  }
-
-  private createElement(tagName: string, clsName: string[] = [], textContent: string = '') {
-    const element = document.createElement(tagName);
-    if (clsName.length !== 0) { clsName.forEach((cs: string) => element.classList.add(cs)) }
-    if (textContent !== '') { element.textContent = textContent; }
-    return element;
   }
 
   //#endregion
