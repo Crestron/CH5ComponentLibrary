@@ -1,21 +1,17 @@
-import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
-import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
-import { Ch5Log } from "../ch5-common/ch5-log";
 import { Ch5LegacyMediaPlayerIconButton } from "./ch5-legacy-media-player-icon-button-base.ts";
 import { MusicPlayerLib } from "../ch5-core/utility-functions/music-player.ts";
 import { publishEvent, subscribeState } from "../ch5-core/index.ts";
-import { TCh5LegacyMediaPlayerProgressbarData, TCh5LegacyMediaPlayerSourcePlayerIcons } from "./interfaces/t-ch5-legacy-media-player.ts";
+import { TCh5LegacyMediaPlayerProgressbarData } from "./interfaces/t-ch5-legacy-media-player.ts";
+import { Ch5CommonLog } from "../ch5-common/ch5-common-log.ts";
+import { debounce } from "../ch5-common/utils/common-functions.ts";
 
-export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
+export class Ch5LegacyMediaPlayerNowPlaying {
 
 	//#region Variables
 
-	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {};
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [];
-	public static readonly ELEMENT_NAME = 'ch5-legacy-media-player--now-playing';
 	public primaryCssClass = 'ch5-legacy-media-player--now-playing';
-	private _ch5Properties: Ch5Properties;
 	private _nowPlayingContainer: HTMLElement = {} as HTMLElement;
 	private _nowPlayingPlayerContainer: HTMLElement = {} as HTMLElement;
 	private _nowPlayingImageParent: HTMLElement = {} as HTMLElement;
@@ -49,17 +45,33 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		ProgressBar: false
 	};
 
-	private demoModeValue: boolean= false;
+	private demoModeValue: boolean = false;
 	private _nowPlayingPlayerName: HTMLElement = {} as HTMLElement
 	private _nowPlayingPlayerImage: HTMLImageElement = {} as HTMLImageElement;
 
-	private _nowPlayingPlayerIconClass = TCh5LegacyMediaPlayerSourcePlayerIcons;
+	private readonly NOW_PLAYING_ICONS: any = [
+		"mp-logo mp-logo-unknown",
+		"mp-logo mp-logo-xm-group",
+		"mp-logo mp-logo-sirius-xm-group",
+		"mp-logo mp-logo-am-fm-tuner",
+		"mp-logo mp-logo-crestron",
+		"mp-logo mp-logo-ipod",
+		"mp-logo mp-logo-internet-radio",
+		"mp-logo mp-logo-satelite",
+		"mp-logo mp-logo-pandora",
+		"mp-logo mp-logo-librivox",
+		"mp-logo mp-logo-spotify",
+		"mp-logo mp-logo-jukebox"
+	];
+
 	private _longDash: HTMLElement = {} as HTMLElement;
 
 	private _progressBarTimer: number | null = null;
 	private _progressBarElapsedSec: number = 0;
 	private _progressBarTrackSec: number = 0;
 	private _progressStreamState: string = '';
+
+	private logger: Ch5CommonLog;
 
 	private nowPlayingDemoData = {
 		ActionsAvailable: [
@@ -102,54 +114,20 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		TrackSec: 280
 	}
 
-	// Returns a function, that, as long as it continues to be invoked, will not be triggered. 
-	// The function will be called after it stops being called for `wait` milliseconds.
-	public debounce = (func: any, wait: number) => {
-		let timeout: any;
-		return function executedFunction(...args: any[]) {
-			const later = () => {
-				window.clearTimeout(timeout);
-				func(...args);
-			};
-			// if (timeout) {
-			window.clearTimeout(timeout);
-			// }
-			timeout = window.setTimeout(later, wait);
-		};
-	};
-
-	//#endregion
-
-	//#region Static Methods
-
-	public static registerSignalAttributeTypes() {
-		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5LegacyMediaPlayerNowPlaying.ELEMENT_NAME, Ch5LegacyMediaPlayerNowPlaying.SIGNAL_ATTRIBUTE_TYPES);
-	}
-
-	public static registerCustomElement() {
-		if (typeof window === "object"
-			&& typeof window.customElements === "object"
-			&& typeof window.customElements.define === "function"
-			&& window.customElements.get(Ch5LegacyMediaPlayerNowPlaying.ELEMENT_NAME) === undefined) {
-			window.customElements.define(Ch5LegacyMediaPlayerNowPlaying.ELEMENT_NAME, Ch5LegacyMediaPlayerNowPlaying);
-		}
-	}
-
 	//#endregion
 
 	//#region Component Lifecycle
 
 	public constructor(musicPlayerLib: MusicPlayerLib) {
-		super();
+		// super();
+		this.logger = new Ch5CommonLog(false, false, "NOW_PLAYING");
 		this.musicPlayerLibInstance = musicPlayerLib;
-		this.logger.start('constructor()', Ch5LegacyMediaPlayerNowPlaying.ELEMENT_NAME);
-		this.clearComponentContent();
+		this.logger.start('constructor()', "ch5-legacy-media-player:now-playing");
 		this._nowPlayingContainer = this.createElement('div');
 		this.createDefaultNowPlaying();
-		this._ch5Properties = new Ch5Properties(this, Ch5LegacyMediaPlayerNowPlaying.COMPONENT_PROPERTIES);
 		this.updateCssClass();
 		subscribeState('b', 'demoMode', ((value: boolean) => {
-			this.demoModeValue=value;
+			this.demoModeValue = value;
 			subscribeState('o', 'nowPlayingData', ((data: any) => {
 				if (this.demoModeValue) {
 					this.createNowPlaying();
@@ -158,7 +136,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 				} else if (data && Object.keys(data).length > 0) {
 					this.nowPlayingData = data;
 					this.createNowPlaying();
-					console.log('Now Playing Data', this.nowPlayingData);
 					if (this.nowPlayingData && Object.keys(this.nowPlayingData).length > 0) this.updatedNowPlayingContent();
 				} else {
 					this.createDefaultNowPlaying();
@@ -264,8 +241,8 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this._nowPlayingPlayerImage.classList.add("ch5-hide-dis");
 			this._nowPlayingPlayerImage.classList.remove("now-playing-player-icon-image");
 			this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
-			if (this._nowPlayingPlayerIconClass[this.nowPlayingData.PlayerIcon]) {
-				this._nowPlayingPlayerIconImage.classList.add(...this._nowPlayingPlayerIconClass[this.nowPlayingData.PlayerIcon].split(' '));
+			if (this.NOW_PLAYING_ICONS[this.nowPlayingData.PlayerIcon]) {
+				this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[this.nowPlayingData.PlayerIcon].split(' '));
 			}
 		}
 		this._nowPlayingPlayerIconName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
@@ -278,48 +255,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		} else {
 			this._progressBarContainer.style.display = "flex";
 		}
-	}
-
-	public static get observedAttributes(): string[] {
-		const inheritedObsAttrs = Ch5Log.observedAttributes;
-		const newObsAttrs: string[] = [];
-		for (let i: number = 0; i < Ch5LegacyMediaPlayerNowPlaying.COMPONENT_PROPERTIES.length; i++) {
-			if (Ch5LegacyMediaPlayerNowPlaying.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-				newObsAttrs.push(Ch5LegacyMediaPlayerNowPlaying.COMPONENT_PROPERTIES[i].name.toLowerCase());
-			}
-		}
-		return inheritedObsAttrs.concat(newObsAttrs);
-	}
-
-	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
-		this.logger.start("attributeChangedCallback", this.primaryCssClass);
-		if (oldValue !== newValue) {
-			this.logger.log('ch5-legacy-media-player-now-playing attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
-			const attributeChangedProperty = Ch5LegacyMediaPlayerNowPlaying.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
-			if (attributeChangedProperty) {
-				const thisRef: any = this;
-				const key = attributeChangedProperty.name;
-				thisRef[key] = newValue;
-			} else {
-				super.attributeChangedCallback(attr, oldValue, newValue);
-			}
-		}
-		this.logger.stop();
-	}
-
-	/**
-	 * Called when the Ch5LegacyMediaPlayerNowPlaying component is first connected to the DOM
-	 */
-	public connectedCallback() {
-		this.logger.start('connectedCallback()', Ch5LegacyMediaPlayerNowPlaying.ELEMENT_NAME);
-		this.initAttributes();
-		this.logger.stop();
-	}
-
-	public disconnectedCallback() {
-		this.logger.start('disconnectedCallback()');
-		this.unsubscribeFromSignals();
-		this.logger.stop();
 	}
 
 	public createInternalHtml() {
@@ -362,7 +297,6 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 			this._nowPlayingContainer.innerHTML = "";
 		}
 		this.logger.start('createInternalHtml()');
-		this.clearComponentContent();
 		this._nowPlayingContainer.classList.add("ch5-legacy-media-player--now-playing");
 		this.renderProviderOrPlayer();
 		this.renderAlbumArt();
@@ -424,8 +358,8 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingPlayerIconContainer = this.createElement('div', ["now-playing-player-icon-container"]);
 		//Now Playing Player Icon Image
 		this._nowPlayingPlayerIconImage = this.createElement('div', ["now-playing-player-icon-image"]);
-		if (this._nowPlayingPlayerIconClass[0]) {
-			this._nowPlayingPlayerIconImage.classList.add(...this._nowPlayingPlayerIconClass[0].split(' '));
+		if (this.NOW_PLAYING_ICONS[0]) {
+			this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[0].split(' '));
 		}
 		this._nowPlayingPlayerImage = document.createElement('img');
 		this._nowPlayingPlayerImage.classList.add("ch5-hide-dis");
@@ -443,11 +377,9 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 		this._nowPlayingContainer.appendChild(this._nowPlayingTrackInfo);
 	}
 
-	public seekApiCall = this.debounce(() => {
+	public seekApiCall = debounce(() => {
 		this.musicPlayerLibInstance.nowPlayingvent('Seek', this._progressBarInput.value);
 	}, 150);
-
-
 
 	protected renderProgressBar() {
 		// Progress bar section
@@ -607,40 +539,9 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	//#region Protected / Private Methods
 
-	protected initAttributes() {
-		super.initAttributes();
-		const thisRef: any = this;
-		for (let i: number = 0; i < Ch5LegacyMediaPlayerNowPlaying.COMPONENT_PROPERTIES.length; i++) {
-			if (Ch5LegacyMediaPlayerNowPlaying.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-				if (this.hasAttribute(Ch5LegacyMediaPlayerNowPlaying.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
-					const key = Ch5LegacyMediaPlayerNowPlaying.COMPONENT_PROPERTIES[i].name;
-					thisRef[key] = this.getAttribute(key);
-				}
-			}
-		}
-	}
-
-	protected unsubscribeFromSignals() {
-		this._ch5Properties.unsubscribe();
-	}
-
-	/**
-	 * Clear the content of component in order to avoid duplication of elements
-	 */
-	private clearComponentContent() {
-		const containers = this.getElementsByTagName("div");
-		Array.from(containers).forEach((container) => {
-			container.remove();
-		});
-	}
-
 	private updateCssClass() {
 		this.logger.start('UpdateCssClass');
 		this.logger.stop();
-	}
-
-	public getCssClassDisabled() {
-		return this.primaryCssClass + '--disabled';
 	}
 
 	private createElement(tagName: string, clsName: string[] = [], textContent: string = '') {
@@ -652,6 +553,3 @@ export class Ch5LegacyMediaPlayerNowPlaying extends Ch5Log {
 
 	//#endregion
 }
-
-Ch5LegacyMediaPlayerNowPlaying.registerCustomElement();
-Ch5LegacyMediaPlayerNowPlaying.registerSignalAttributeTypes();
