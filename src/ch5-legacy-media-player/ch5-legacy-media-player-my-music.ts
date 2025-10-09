@@ -10,8 +10,8 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
   //#region Variables
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {};
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [];
-  public static readonly ELEMENT_NAME = 'ch5-legacy-media-player-my-music';
-  public primaryCssClass = 'ch5-legacy-media-player-my-music';
+  public static readonly ELEMENT_NAME = 'ch5-legacy-media-player--my-music';
+  public primaryCssClass = 'ch5-legacy-media-player--my-music';
   private _ch5Properties: Ch5Properties;
   private _myMusicContainer: HTMLElement = {} as HTMLElement;
   private _myMusicHeaderSection: HTMLElement = {} as HTMLElement;
@@ -183,7 +183,7 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
       this._myMusicContainer.className = "";
       this._myMusicContainer.innerHTML = "";
     }
-    this._myMusicContainer.classList.add("ch5-legacy-media-player-my-music-default");
+    this._myMusicContainer.classList.add("ch5-legacy-media-player--my-music-default");
     const defaultHeaderContainer = this.createElement('div', ['default-header-container']);
     const defaultBackIcon = new Ch5LegacyMediaPlayerIconButton();
     defaultBackIcon.setAttribute('iconClass', "mp-icon mp-chevron-left");
@@ -206,13 +206,13 @@ export class Ch5LegacyMediaPlayerMyMusic extends Ch5Log {
   protected createMyMusic() {
     if (this._myMusicContainer) {
       Array.from(this._myMusicContainer.childNodes).forEach((child) => child.remove());
-      if (this._myMusicContainer.classList.contains("ch5-legacy-media-player-my-music-default"))
-        this._myMusicContainer.classList.remove('ch5-legacy-media-player-my-music-default');
+      if (this._myMusicContainer.classList.contains("ch5-legacy-media-player--my-music-default"))
+        this._myMusicContainer.classList.remove('ch5-legacy-media-player--my-music-default');
 
     }
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
-    this._myMusicContainer.classList.add("ch5-legacy-media-player-my-music");
+    this._myMusicContainer.classList.add("ch5-legacy-media-player--my-music");
 
     this._myMusicHeaderSection = this.createElement("div", ['my-music-header']);
     this._myMusicContentSection = this.createElement("div", ['my-music-content']);
