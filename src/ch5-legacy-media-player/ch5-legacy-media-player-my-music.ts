@@ -21,7 +21,7 @@ export class Ch5LegacyMediaPlayerMyMusic {
   private musicPlayerLibInstance: MusicPlayerLib;
   private demoModeValue: boolean = false;
 
-  private maxItemsToDisplay = 15;
+  private readonly MAXIMUM_ROWS_TO_SHOW = 15;
   private loadItemsCount = 15;
   private printedIndex = 0;
   private scrollPosition = 100;
@@ -75,11 +75,11 @@ export class Ch5LegacyMediaPlayerMyMusic {
     subscribeState('b', 'demoMode', ((value: boolean) => {
       this.demoModeValue = value;
       subscribeState('o', 'myMusicData', ((data: any) => {
-        this.loadItemsCount = this.maxItemsToDisplay;
+        this.loadItemsCount = this.MAXIMUM_ROWS_TO_SHOW;
         if (this.demoModeValue) {
           this.createMyMusic();
           this.myMusicData = this.MY_MUSIC_DEMO_DATA;
-          if (this.myMusicData && Object.keys(this.myMusicData).length > 0) this.apiChanges();
+          this.apiChanges();
         } else if (data && Object.keys(data).length > 0) {
           this.myMusicData = data;
           if (this.myMusicData && this.myMusicData['MenuData'] && this.myMusicData['MenuData'].length <= this.musicPlayerLibInstance.maxReqItems) {
@@ -87,7 +87,7 @@ export class Ch5LegacyMediaPlayerMyMusic {
             this.printedIndex = 0;
           }
           this.logger.log('My Music Data', this.myMusicData);
-          if (this.myMusicData && Object.keys(this.myMusicData).length > 0 && this.myMusicData['MenuData'] && Object.keys(this.myMusicData['MenuData']).length > 0) this.apiChanges();
+          if (this.myMusicData['MenuData'] && Object.keys(this.myMusicData['MenuData']).length > 0) this.apiChanges();
         } else {
           this.createDefaultMyMusic();
         }
@@ -96,8 +96,7 @@ export class Ch5LegacyMediaPlayerMyMusic {
     subscribeState('b', 'showMyMusicComponent', ((value: boolean) => {
       if (value) {
         this._myMusicContainer.classList.add("my-music-transition");
-      }
-      else {
+      } else {
         if (this._myMusicContainer && this._myMusicContainer.classList.contains("my-music-transition")) {
           this._myMusicContainer.classList.remove("my-music-transition");
         }
@@ -169,19 +168,19 @@ export class Ch5LegacyMediaPlayerMyMusic {
           this.createLine(this.loadItemsCount, 'end')
           this.loadItemsCount = this.loadItemsCount + 1;
         }
-      } else if (scrollTop < lastScrollTop && this.loadItemsCount > this.maxItemsToDisplay) {
+      } else if (scrollTop < lastScrollTop && this.loadItemsCount > this.MAXIMUM_ROWS_TO_SHOW) {
         if (scrollTop <= this.scrollPosition) {
 
           // delete last element and push element in the start of the list
           const list = this._myMusicContentSection;
           const childrenArray = Array.from(list.children);
 
-          if (childrenArray.length >= this.maxItemsToDisplay) {
+          if (childrenArray.length >= this.MAXIMUM_ROWS_TO_SHOW) {
             list.removeChild(childrenArray[childrenArray.length - 1]);
           }
 
           this.loadItemsCount -= 1;
-          this.createLine(this.loadItemsCount - this.maxItemsToDisplay, 'start');
+          this.createLine(this.loadItemsCount - this.MAXIMUM_ROWS_TO_SHOW, 'start');
         }
       }
       lastScrollTop = Math.max(scrollTop, 0);
@@ -337,7 +336,7 @@ export class Ch5LegacyMediaPlayerMyMusic {
 
     this.myMusicHeader(this.myMusicData.IsMenuAvailable, this.myMusicData.Title, this.myMusicData.Subtitle);
     this.displayVisibleOnlyItems();
-    if (this.myMusicData['MenuData'].length > this.maxItemsToDisplay && this.myMusicData['MenuData'].length > this.musicPlayerLibInstance.maxReqItems) {
+    if (this.myMusicData['MenuData'].length > this.MAXIMUM_ROWS_TO_SHOW && this.myMusicData['MenuData'].length > this.musicPlayerLibInstance.maxReqItems) {
       this._myMusicContentSection.scrollTop = this._myMusicContentSection.scrollTop - this.scrollPosition;
     }
     this.myMusicMenuIconSection(this.myMusicData.ListSpecificFunctions);

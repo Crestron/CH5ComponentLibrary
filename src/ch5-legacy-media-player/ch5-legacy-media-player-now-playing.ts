@@ -195,18 +195,21 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 	private updatedNowPlayingContent() {
 		this._nowPlayingPlayerName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
 		if (this.nowPlayingData.AlbumArt && this.nowPlayingData.AlbumArtUrl?.trim() !== "") {
-			this._nowPlayingImage.src = this.nowPlayingData.AlbumArtUrl;
-			this._nowPlayingImage.classList.remove("ch5-hide-dis");
-			this._nowPlayingImage.classList.add("now-playing-image");
-			this._nowPlayingImageParent.classList.remove(...Array.from(this._nowPlayingImageParent.classList));
+			// this._nowPlayingImage.src = this.nowPlayingData.AlbumArtUrl;
+			this._nowPlayingImageParent.style.backgroundImage = "url('" + this.nowPlayingData.AlbumArtUrl + "')";
+			// this._nowPlayingImage.classList.remove("ch5-hide-dis");
+			// this._nowPlayingImage.classList.add("now-playing-image");
+			// this._nowPlayingImageParent.classList.remove(...Array.from(this._nowPlayingImageParent.classList));
 			this._nowPlayingImageParent.classList.add("now-playing-image-container");
 		} else if (this.nowPlayingData.AlbumArtUrlNAT?.trim() !== "") {
-			this._nowPlayingImage.src = this.nowPlayingData.AlbumArtUrlNAT;
-			this._nowPlayingImage.classList.remove("ch5-hide-dis");
-			this._nowPlayingImage.classList.add("now-playing-image");
-			this._nowPlayingImageParent.classList.remove(...Array.from(this._nowPlayingImageParent.classList));
+			this._nowPlayingImageParent.style.backgroundImage = "url('" + this.nowPlayingData.AlbumArtUrlNAT + "')";
+			// this._nowPlayingImage.src = this.nowPlayingData.AlbumArtUrlNAT;
+			// this._nowPlayingImage.classList.remove("ch5-hide-dis");
+			// this._nowPlayingImage.classList.add("now-playing-image");
+			// this._nowPlayingImageParent.classList.remove(...Array.from(this._nowPlayingImageParent.classList));
 			this._nowPlayingImageParent.classList.add("now-playing-image-container");
 		} else {
+			this._nowPlayingImageParent.style.removeProperty("backgroundImage");
 			this._nowPlayingImageParent.classList.remove("now-playing-image-container");
 			this._nowPlayingImage.classList.remove("now-playing-image");
 			this._nowPlayingImage.classList.add("ch5-hide-dis");
