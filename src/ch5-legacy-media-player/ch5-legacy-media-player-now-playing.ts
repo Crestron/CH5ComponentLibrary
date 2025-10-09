@@ -191,6 +191,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 
 	public handleDemoMode(demoMode: boolean) {
 		if (demoMode) {
+			this.progressBarData.ProgressBar = true;
 			this.createNowPlaying();
 			this.nowPlayingData = this.NOW_PLAYING_DEMO_DATA;
 			this.updatedNowPlayingContent();

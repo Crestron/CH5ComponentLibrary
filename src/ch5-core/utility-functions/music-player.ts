@@ -1,4 +1,4 @@
-import { publishEvent, subscribeState } from "..";
+import { publishEvent, subscribeState, unsubscribeState } from "..";
 import _ from 'lodash';
 import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest } from "./commonInterface";
 
@@ -10,6 +10,12 @@ export class MusicPlayerLib {
     private mpMsgId: number = 0; // Increment our message id. ToDo: Need a max value check and reset to 0.
     private itemValue: number = 1; // Used in infinite scroll feature.
     private resendRegistrationTimeId: any = '';
+
+    private subReceiveStateRefreshMediaPlayerResp: any;
+    private subreceiveStateDeviceOfflineResp: any;
+    private subreceiveStateCRPCResp: any;
+    private subreceiveStateMessageResp: any;
+    private subsendEventCRPCJoinNo: any;
 
     // Generate a constant UUID once per application start.
     private generateStrongCustomId = (): string => {
@@ -54,22 +60,22 @@ export class MusicPlayerLib {
         'Title': '', 'TrackNum': '', 'TrackCnt': '', 'NextTitle': '', 'ShuffleState': '', 'RepeatState': ''
     };
 
-    private progressBarData: any = {'StreamState':'', 'ProgressBar':'', 'ElapsedSec':'', 'TrackSec':''};
+    private progressBarData: any = { 'StreamState': '', 'ProgressBar': '', 'ElapsedSec': '', 'TrackSec': '' };
 
-    private myMusicData : any= {'Title': '', 'Subtitle': '', 'ListSpecificFunctions': '', 'ItemCnt':0, 'MaxReqItems': '', 'IsMenuAvailable': '', 'MenuData': []}
+    private myMusicData: any = { 'Title': '', 'Subtitle': '', 'ListSpecificFunctions': '', 'ItemCnt': 0, 'MaxReqItems': '', 'IsMenuAvailable': '', 'MenuData': [] }
 
     constructor() {
-        subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: any) => {
+        this.subReceiveStateRefreshMediaPlayerResp = subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: any) => {
             if (value) {
                 this.refreshMediaPlayer();
             }
         });
 
-        subscribeState('b', 'receiveStateDeviceOfflineResp', (value: any) => {
+        this.subreceiveStateDeviceOfflineResp = subscribeState('b', 'receiveStateDeviceOfflineResp', (value: any) => {
             this.myMP.connectionActive = !value;
         });
 
-        subscribeState('s', 'receiveStateCRPCResp', (value: any) => {
+        this.subreceiveStateCRPCResp = subscribeState('s', 'receiveStateCRPCResp', (value: any) => {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
             if (value.length > 0) {
@@ -110,7 +116,7 @@ export class MusicPlayerLib {
         });
 
         //receiveStateMessageResp from CS (ver tag src)
-        subscribeState('s', 'receiveStateMessageResp', (value: any) => {
+        this.subreceiveStateMessageResp = subscribeState('s', 'receiveStateMessageResp', (value: any) => {
             console.log('Source and Tag value', value);
             if (value.length > 0) {
                 this.processMessage(value);
@@ -118,7 +124,7 @@ export class MusicPlayerLib {
         });
 
         //To get join name from the component
-        subscribeState('s', 'sendEventCRPCJoinNo', (value: any) => {
+        this.subsendEventCRPCJoinNo = subscribeState('s', 'sendEventCRPCJoinNo', (value: any) => {
             this.mpSigRPCOut = value;
         });
     }
@@ -319,8 +325,7 @@ export class MusicPlayerLib {
             publishEvent('o', 'nowPlayingData', this.nowPlayingPublishData);
             publishEvent('o', 'progressBarData', this.progressBarPublishData);
 
-            this.myMP.instanceName = '';
-            this.myMP.menuInstanceName = '';
+            this.resetMp();
         }
     }
 
@@ -469,7 +474,7 @@ export class MusicPlayerLib {
         const playerInstanceMethod = this.myMP?.instanceName + '.Event'; // mediaplayer instance method event
         const menuInstanceMethod = this.myMP?.menuInstanceName + '.Event'; // mediaplayermenu instance method event
 
-        if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method) 
+        if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method)
             && responseData.params.ev === 'BusyChanged' && responseData.params?.parameters) {// Busychanged event
             busyChanged = { 'timeoutSec': responseData.params?.parameters?.timeoutSec, 'on': responseData.params?.parameters?.on }
             publishEvent('o', 'busyChanged', busyChanged);
@@ -521,8 +526,8 @@ export class MusicPlayerLib {
                     if (responseKey === 'ItemCnt') {
                         this.getItemData();
                     }
-                } 
-            }            
+                }
+            }
         }
 
         // Publishing response data to the respective components
@@ -626,5 +631,44 @@ export class MusicPlayerLib {
     public replaceLanguageChars(textValue: string) {
         if (textValue === undefined || textValue === null || textValue === '') return '';
         return textValue.replace(/\/[^/]+/g, '').replace(/[^\u0020-\u007E]/g, '').replace(/\s{2,}/g, ' ').trim();
+    }
+
+    public unsubscribeLibrarySignals() {
+        unsubscribeState('b', 'receiveStateRefreshMediaPlayerResp', this.subReceiveStateRefreshMediaPlayerResp);
+        unsubscribeState('b', 'receiveStateDeviceOfflineResp', this.subreceiveStateDeviceOfflineResp);
+        unsubscribeState('s', 'receiveStateCRPCResp', this.subreceiveStateCRPCResp);
+        unsubscribeState('s', 'receiveStateMessageResp', this.subreceiveStateMessageResp);
+        unsubscribeState('s', 'sendEventCRPCJoinNo', this.subsendEventCRPCJoinNo);
+    }
+
+    public resetMp() {
+
+        this.myMP = {
+            "tag": "",
+            "source": 0,
+            "connectionActive": true,
+            "RegistrationId": 0,
+            "ObjectsId": 0,
+            "PropertiesSupportedId": 0,
+            "MenuId": 0,
+            "TitleMenuId": 0,
+            "ItemDataId": 0,
+            "PlayId": 0,
+            "PauseId": 0,
+            "SeekId": 0,
+            "instanceName": '',
+            "menuInstanceName": '',
+        };
+
+        this.nowPlayingData = {
+            'ActionsSupported': '', 'ActionsAvailable': '', 'RewindSpeed': '',
+            'FfwdSpeed': '', 'ProviderName': '', 'PlayerState': '', 'PlayerIcon': '', 'PlayerIconURL': '', 'PlayerName': '',
+            'Album': '', 'AlbumArt': '', 'AlbumArtUrl': '', 'AlbumArtUrlNAT': '', 'StationName': '', 'Genre': '', 'Artist': '',
+            'Title': '', 'TrackNum': '', 'TrackCnt': '', 'NextTitle': '', 'ShuffleState': '', 'RepeatState': ''
+        };
+
+        this.progressBarData = { 'StreamState': '', 'ProgressBar': '', 'ElapsedSec': '', 'TrackSec': '' };
+
+        this.myMusicData = { 'Title': '', 'Subtitle': '', 'ListSpecificFunctions': '', 'ItemCnt': 0, 'MaxReqItems': '', 'IsMenuAvailable': '', 'MenuData': [] }
     }
 }

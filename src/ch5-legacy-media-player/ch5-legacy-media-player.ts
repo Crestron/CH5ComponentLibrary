@@ -6,7 +6,7 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5LegacyMediaPlayerNowPlaying } from "./ch5-legacy-media-player-now-playing";
 import { Ch5LegacyMediaPlayerMyMusic } from "./ch5-legacy-media-player-my-music";
-import { MusicPlayerLib, publishEvent, subscribeState, TSignalNonStandardTypeName, TSignalValue } from "../ch5-core";
+import { MusicPlayerLib, publishEvent, subscribeState, TSignalNonStandardTypeName, TSignalValue, unsubscribeState } from "../ch5-core";
 import { resizeObserver } from "../ch5-core/resize-observer";
 import { createElement } from "./ch5-legacy-media-player-common";
 
@@ -399,6 +399,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this.logger.start('disconnectedCallback()');
     this.removeEventListeners();
     this.unsubscribeFromSignals();
+    this.musicPlayerLibInstance.unsubscribeLibrarySignals();// unsubscribeLibrarySignals
     this.logger.stop();
   }
 
@@ -585,7 +586,11 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   private handleDemoMode() {
     this.nowPlaying?.handleDemoMode(this.demoMode);
     this.myMusic?.handleDemoMode(this.demoMode);
-    // this.publishMPEvent('b', 'demoMode', this.demoMode); // TODO - why are we publishing this
+    if (!this.demoMode) {
+      this.publishAllSignals();
+    } else {
+      this.musicPlayerLibInstance.resetMp();//Not deregister the player, its just clear values
+    }
   }
 
   private handleContractName() {
@@ -670,6 +675,33 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     if (this.demoMode === false) {
       publishEvent(signalType, signalName, value);
     }
+  }
+
+  private publishAllSignals() {
+
+    publishEvent('s', 'sendEventCRPCJoinNo', this.sendEventCRPC);
+
+    const subReceiveStateMessage = subscribeState('s', this.receiveStateMessage, ((value: any) => {
+      publishEvent('s', "receiveStateMessageResp", value);
+      setTimeout(() => {
+        unsubscribeState('s', 'receiveStateMessage', subReceiveStateMessage);
+      })
+    }));
+
+    const subReceiveStateRefreshMediaPlayer = subscribeState('b', this.receiveStateRefreshMediaPlayer, ((value: any) => {
+      publishEvent('b', "receiveStateRefreshMediaPlayerResp", value);
+      setTimeout(() => {
+        unsubscribeState('b', 'receiveStateRefreshMediaPlayer', subReceiveStateRefreshMediaPlayer);
+      })
+    }));
+
+    const subReceiveStateDeviceOffline = subscribeState('b', this.receiveStateDeviceOffline, ((value: any) => {
+      publishEvent('b', "receiveStateDeviceOfflineResp", value);
+      setTimeout(() => {
+        unsubscribeState('s', 'receiveStateDeviceOffline', subReceiveStateDeviceOffline);
+      })
+    }));
+
   }
 
   //#endregion
