@@ -473,7 +473,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
         this._elMask.parentNode.removeChild(this._elMask);
       }
       this._dialogAutoCloseTimeout = null;
-    }, timeoutSec);
+    }, timeoutSec * 1000);
 
     dialogContentInput.addEventListener('input', () => {
       if (this._dialogAutoCloseTimeout) {
