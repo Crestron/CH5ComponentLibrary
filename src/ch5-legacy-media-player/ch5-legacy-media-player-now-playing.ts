@@ -1,4 +1,3 @@
-import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5LegacyMediaPlayerIconButton } from "./ch5-legacy-media-player-icon-button-base.ts";
 import { MusicPlayerLib } from "../ch5-core/utility-functions/music-player.ts";
 import { publishEvent, subscribeState } from "../ch5-core/index.ts";
@@ -10,8 +9,6 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 
 	//#region Variables
 
-	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [];
-	public primaryCssClass = 'ch5-legacy-media-player--now-playing';
 	private _nowPlayingContainer: HTMLElement = {} as HTMLElement;
 	private _nowPlayingPlayerContainer: HTMLElement = {} as HTMLElement;
 	private _nowPlayingImageParent: HTMLElement = {} as HTMLElement;
@@ -73,7 +70,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 
 	private logger: Ch5CommonLog;
 
-	private nowPlayingDemoData = {
+	private readonly	 NOW_PLAYING_DEMO_DATA = {
 		ActionsAvailable: [
 			"Shuffle",
 			"Repeat",
@@ -119,8 +116,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 	//#region Component Lifecycle
 
 	public constructor(musicPlayerLib: MusicPlayerLib) {
-		// super();
-		this.logger = new Ch5CommonLog(false, false, "NOW_PLAYING");
+		this.logger = new Ch5CommonLog(false, false, "LEGACY_MEDIA_PLAYER:NOW_PLAYING");
 		this.musicPlayerLibInstance = musicPlayerLib;
 		this.logger.start('constructor()', "ch5-legacy-media-player:now-playing");
 		this._nowPlayingContainer = this.createElement('div');
@@ -131,12 +127,12 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 			subscribeState('o', 'nowPlayingData', ((data: any) => {
 				if (this.demoModeValue) {
 					this.createNowPlaying();
-					this.nowPlayingData = this.nowPlayingDemoData;
-					if (this.nowPlayingData && Object.keys(this.nowPlayingData).length > 0) this.updatedNowPlayingContent();
+					this.nowPlayingData = this.NOW_PLAYING_DEMO_DATA;
+					this.updatedNowPlayingContent();
 				} else if (data && Object.keys(data).length > 0) {
 					this.nowPlayingData = data;
 					this.createNowPlaying();
-					if (this.nowPlayingData && Object.keys(this.nowPlayingData).length > 0) this.updatedNowPlayingContent();
+					this.updatedNowPlayingContent();
 				} else {
 					this.createDefaultNowPlaying();
 				}
