@@ -109,6 +109,9 @@ export class Ch5LegacyMediaPlayerMyMusic {
       this.createMyMusic();
       this.myMusicData = this.MY_MUSIC_DEMO_DATA;
       this.apiChanges();
+    } else {
+      this.myMusicData = "";
+      this.createDefaultMyMusic();
     }
   }
 
@@ -279,11 +282,9 @@ export class Ch5LegacyMediaPlayerMyMusic {
     this._myMusicheaderSubtitle = this.createElement("div", ['my-music-header-subtitle'], this.musicPlayerLibInstance.replaceLanguageChars(myMusicheaderSubtitle));
     //this._myMusicheaderSubtitle.style.visibility = this.musicPlayerLibInstance.replaceLanguageChars(myMusicheaderSubtitle) ? 'visible' : 'hidden';
     if (myMusicheaderSubtitle) {
-      this._myMusicheaderSubtitle.classList.remove('ch5-hide-vis');
-      this._myMusicheaderSubtitle.classList.add('ch5-visible-vis');
+      this._myMusicheaderSubtitle.classList?.remove('ch5-hide-vis');
     } else {
-      this._myMusicheaderSubtitle.classList.remove('ch5-visible-vis');
-      this._myMusicheaderSubtitle.classList.add('ch5-hide-vis');
+      this._myMusicheaderSubtitle.classList?.add('ch5-hide-vis');
     }
     this._myMusicHeaderTitle.append(this._myMusicHeaderTitleText, this._myMusicheaderSubtitle);
 
