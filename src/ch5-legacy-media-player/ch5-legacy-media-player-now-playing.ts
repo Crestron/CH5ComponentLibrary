@@ -210,11 +210,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 			this._nowPlayingImageParent.style.removeProperty("backgroundImage");
 		}
 		this._nowPlayingSongTitle.children[0].textContent = this.musicPlayerLibInstance.replaceLanguageChars(this.nowPlayingData.Title);
-		if ((this._nowPlayingSongTitle.children[0] as HTMLSpanElement).offsetWidth > this._nowPlayingSongTitle.offsetWidth) {
-			this._nowPlayingSongTitle.classList.add('marquee-item');
-		} else {
-			this._nowPlayingSongTitle.classList.remove('marquee-item');
-		}
+		this.updateMarquee();
 
 		this._nowPlayingArtist.textContent = this.nowPlayingData.Artist;
 		this._nowPlayingAlbum.textContent = this.nowPlayingData.Album;
@@ -246,6 +242,14 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 			this._progressBarContainer.style.display = "none";
 		} else {
 			this._progressBarContainer.style.display = "flex";
+		}
+	}
+
+	public updateMarquee() {
+		if ((this._nowPlayingSongTitle.children[0] as HTMLSpanElement).offsetWidth > this._nowPlayingSongTitle.offsetWidth) {
+			this._nowPlayingSongTitle.classList.add('marquee-item');
+		} else {
+			this._nowPlayingSongTitle.classList.remove('marquee-item');
 		}
 	}
 
