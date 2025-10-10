@@ -1,6 +1,7 @@
 import { Ch5LegacyMediaPlayerIconButton } from "./ch5-legacy-media-player-icon-button-base.ts";
 import { MusicPlayerLib, publishEvent, subscribeState } from "../ch5-core/index.ts";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log.ts";
+import { createElement } from "./ch5-legacy-media-player-common.ts";
 
 export class Ch5LegacyMediaPlayerMyMusic {
 
@@ -69,18 +70,13 @@ export class Ch5LegacyMediaPlayerMyMusic {
     this.logger = new Ch5CommonLog(false, false, "LEGACY_MEDIA_PLAYER:MY_MUSIC");
     this.logger.start('constructor()', "LEGACY_MEDIA_PLAYER:MY_MUSIC");
     this.musicPlayerLibInstance = musicPlayerLib;
-    this._myMusicContainer = this.createElement('div');
+    this._myMusicContainer = createElement('div');
     this.createDefaultMyMusic();
 
-    subscribeState('b', 'demoMode', ((value: boolean) => {
-      this.demoModeValue = value;
-      subscribeState('o', 'myMusicData', ((data: any) => {
+    subscribeState('o', 'myMusicData', ((data: any) => {
+      if (!this.demoModeValue) {
         this.loadItemsCount = this.MAXIMUM_ROWS_TO_SHOW;
-        if (this.demoModeValue) {
-          this.createMyMusic();
-          this.myMusicData = this.MY_MUSIC_DEMO_DATA;
-          this.apiChanges();
-        } else if (data && Object.keys(data).length > 0) {
+        if (data && Object.keys(data).length > 0) {
           this.myMusicData = data;
           if (this.myMusicData && this.myMusicData['MenuData'] && this.myMusicData['MenuData'].length <= this.musicPlayerLibInstance.maxReqItems) {
             this.createMyMusic();
@@ -91,8 +87,9 @@ export class Ch5LegacyMediaPlayerMyMusic {
         } else {
           this.createDefaultMyMusic();
         }
-      }))
+      }
     }));
+
     subscribeState('b', 'showMyMusicComponent', ((value: boolean) => {
       if (value) {
         this._myMusicContainer.classList.add("my-music-transition");
@@ -108,6 +105,17 @@ export class Ch5LegacyMediaPlayerMyMusic {
     return this._myMusicContainer;
   }
 
+  public handleDemoMode(demoMode: boolean) {
+    if (demoMode) {
+      this.createMyMusic();
+      this.myMusicData = this.MY_MUSIC_DEMO_DATA;
+      this.apiChanges();
+    } else {
+      this.myMusicData = "";
+      this.createDefaultMyMusic();
+    }
+  }
+
   //default my music
   protected createDefaultMyMusic() {
     if (this._myMusicContainer) {
@@ -115,17 +123,17 @@ export class Ch5LegacyMediaPlayerMyMusic {
       this._myMusicContainer.innerHTML = "";
     }
     this._myMusicContainer.classList.add("ch5-legacy-media-player--my-music-default");
-    const defaultHeaderContainer = this.createElement('div', ['default-header-container']);
+    const defaultHeaderContainer = createElement('div', ['default-header-container']);
     const defaultBackIcon = new Ch5LegacyMediaPlayerIconButton();
     defaultBackIcon.setAttribute('iconClass', "mp-icon mp-chevron-left");
-    const headerTitleNone = this.createElement('div', ['header-title-none'], '— —');
+    const headerTitleNone = createElement('div', ['header-title-none'], '— —');
     const defaultMusicIcon = new Ch5LegacyMediaPlayerIconButton();
     defaultMusicIcon.setAttribute('iconClass', "mp-logo mp-animated-bar");
     defaultHeaderContainer.append(defaultBackIcon, headerTitleNone, defaultMusicIcon);
-    const defaultItemsContainer = this.createElement("div", ['default-item-container']);
-    const defaultItem = this.createElement('div', ['default-item'], 'No Content');
+    const defaultItemsContainer = createElement("div", ['default-item-container']);
+    const defaultItem = createElement('div', ['default-item'], 'No Content');
     defaultItemsContainer.append(defaultItem);
-    const defaultFooterContainer = this.createElement('div', ['default-footer-container']);
+    const defaultFooterContainer = createElement('div', ['default-footer-container']);
     const defaultCreateIcon = new Ch5LegacyMediaPlayerIconButton();
     defaultCreateIcon.setAttribute('iconClass', "mp-icon mp-plus-circle");
     const defaultFindIcon = new Ch5LegacyMediaPlayerIconButton();
@@ -144,8 +152,8 @@ export class Ch5LegacyMediaPlayerMyMusic {
     this.logger.start('createInternalHtml()');
     this._myMusicContainer.classList.add("ch5-legacy-media-player--my-music");
 
-    this._myMusicHeaderSection = this.createElement("div", ['my-music-header']);
-    this._myMusicContentSection = this.createElement("div", ['my-music-content']);
+    this._myMusicHeaderSection = createElement("div", ['my-music-header']);
+    this._myMusicContentSection = createElement("div", ['my-music-content']);
 
     let lastScrollTop = 0;
     this._myMusicContentSection.onscroll = () => {
@@ -194,7 +202,7 @@ export class Ch5LegacyMediaPlayerMyMusic {
       }
     };
 
-    this._myMusicFooterSection = this.createElement("div", ['my-music-footer']);
+    this._myMusicFooterSection = createElement("div", ['my-music-footer']);
     this._myMusicContainer.append(this._myMusicHeaderSection, this._myMusicContentSection, this._myMusicFooterSection);
     this.logger.stop();
   }
@@ -212,10 +220,10 @@ export class Ch5LegacyMediaPlayerMyMusic {
     const subText = this.myMusicData['MenuData'][index]['L2'];
     const itemId = this.myMusicData['MenuData'][index]['Id'];
 
-    this._myMusicContentItem = this.createElement('div', ['my-music-content-item']);
+    this._myMusicContentItem = createElement('div', ['my-music-content-item']);
     this._myMusicContentItem.id = itemId;
-    this._myMusicContentItemTitle = this.createElement('div', ['my-music-content-item-title'], this.musicPlayerLibInstance.replaceLanguageChars(text));
-    this._myMusicContentItemSubtitle = this.createElement('div', ['my-music-content-item-subtitle'], this.musicPlayerLibInstance.replaceLanguageChars(subText));
+    this._myMusicContentItemTitle = createElement('div', ['my-music-content-item-title'], this.musicPlayerLibInstance.replaceLanguageChars(text));
+    this._myMusicContentItemSubtitle = createElement('div', ['my-music-content-item-subtitle'], this.musicPlayerLibInstance.replaceLanguageChars(subText));
 
     if (this._myMusicHeaderTitleText.innerText === 'Favorites') {
       let holdTimer: number | null = null;
@@ -270,11 +278,15 @@ export class Ch5LegacyMediaPlayerMyMusic {
       this._myMusicHeaderSection.prepend(this._myMusicHeaderBackButton);
     }
 
-    this._myMusicHeaderTitle = this.createElement("div", ['my-music-header-title']);
-    this._myMusicHeaderTitleText = this.createElement("div", ['my-music-header-title-text'], this.musicPlayerLibInstance.replaceLanguageChars(myMusicHeaderTitleText));
-    this._myMusicheaderSubtitle = this.createElement("div", ['my-music-header-subtitle'], this.musicPlayerLibInstance.replaceLanguageChars(myMusicheaderSubtitle));
-    this._myMusicheaderSubtitle.style.visibility = this.musicPlayerLibInstance.replaceLanguageChars(myMusicheaderSubtitle) ? 'visible' : 'hidden';
-
+    this._myMusicHeaderTitle = createElement("div", ['my-music-header-title']);
+    this._myMusicHeaderTitleText = createElement("div", ['my-music-header-title-text'], this.musicPlayerLibInstance.replaceLanguageChars(myMusicHeaderTitleText));
+    this._myMusicheaderSubtitle = createElement("div", ['my-music-header-subtitle'], this.musicPlayerLibInstance.replaceLanguageChars(myMusicheaderSubtitle));
+    //this._myMusicheaderSubtitle.style.visibility = this.musicPlayerLibInstance.replaceLanguageChars(myMusicheaderSubtitle) ? 'visible' : 'hidden';
+    if (myMusicheaderSubtitle) {
+      this._myMusicheaderSubtitle.classList?.remove('ch5-hide-vis');
+    } else {
+      this._myMusicheaderSubtitle.classList?.add('ch5-hide-vis');
+    }
     this._myMusicHeaderTitle.append(this._myMusicHeaderTitleText, this._myMusicheaderSubtitle);
 
     this._myMusicHeaderNowPlayingButton = new Ch5LegacyMediaPlayerIconButton();
@@ -344,14 +356,4 @@ export class Ch5LegacyMediaPlayerMyMusic {
 
   //#endregion
 
-  //#region Protected / Private Methods
-
-  private createElement(tagName: string, clsName: string[] = [], textContent: string = '') {
-    const element = document.createElement(tagName);
-    if (clsName.length !== 0) { clsName.forEach((cs: string) => element.classList.add(cs)) }
-    if (textContent !== '') { element.textContent = textContent; }
-    return element;
-  }
-
-  //#endregion
 }

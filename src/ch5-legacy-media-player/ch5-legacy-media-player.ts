@@ -6,8 +6,9 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5LegacyMediaPlayerNowPlaying } from "./ch5-legacy-media-player-now-playing";
 import { Ch5LegacyMediaPlayerMyMusic } from "./ch5-legacy-media-player-my-music";
-import { MusicPlayerLib, publishEvent, subscribeState } from "../ch5-core";
+import { MusicPlayerLib, publishEvent, subscribeState, TSignalNonStandardTypeName, TSignalValue, unsubscribeState } from "../ch5-core";
 import { resizeObserver } from "../ch5-core/resize-observer";
+import { createElement } from "./ch5-legacy-media-player-common";
 
 export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPlayerAttributes {
 
@@ -159,8 +160,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
-  private nowPlaying: any;
-  private myMusic: any;
+  private nowPlaying: Ch5LegacyMediaPlayerNowPlaying | null = null;
+  private myMusic: Ch5LegacyMediaPlayerMyMusic | null = null;
   private _elMask: HTMLElement = {} as HTMLElement;
   private _elGenericDialogContent: HTMLElement = {} as HTMLElement;
   private _elMaskdialogTitle: HTMLElement = {} as HTMLElement;
@@ -229,7 +230,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   public set receiveStateCRPC(value: string) {
     this._ch5Properties.set("receiveStateCRPC", value, null, (newValue: string) => {
-      publishEvent('s', "receiveStateCRPCResp", newValue);
+      this.publishMPEvent('s', "receiveStateCRPCResp", newValue);
     });
   }
   public get receiveStateCRPC(): string {
@@ -238,7 +239,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   public set sendEventCRPC(value: string) {
     this._ch5Properties.set("sendEventCRPC", value);
-    publishEvent('s', 'sendEventCRPCJoinNo', this.sendEventCRPC);
+    this.publishMPEvent('s', 'sendEventCRPCJoinNo', this.sendEventCRPC);
   }
   public get sendEventCRPC(): string {
     return this._ch5Properties.get<string>('sendEventCRPC');
@@ -247,7 +248,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   public set receiveStateMessage(value: string) {
     this._ch5Properties.set("receiveStateMessage", value, null, (newValue: string) => {
       this.logger.log('Source and Tag value', newValue);
-      publishEvent('s', "receiveStateMessageResp", newValue);
+      this.publishMPEvent('s', "receiveStateMessageResp", newValue);
     });
   }
   public get receiveStateMessage(): string {
@@ -256,7 +257,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   public set receiveStateRefreshMediaPlayer(value: string) {
     this._ch5Properties.set("receiveStateRefreshMediaPlayer", value, null, (newValue: boolean) => {
-      publishEvent('b', "receiveStateRefreshMediaPlayerResp", newValue);
+      this.publishMPEvent('b', "receiveStateRefreshMediaPlayerResp", newValue);
     });
   }
   public get receiveStateRefreshMediaPlayer(): string {
@@ -265,7 +266,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   public set receiveStateDeviceOffline(value: string) {
     this._ch5Properties.set("receiveStateDeviceOffline", value, null, (newValue: boolean) => {
-      publishEvent('b', "receiveStateDeviceOfflineResp", newValue);
+      this.publishMPEvent('b', "receiveStateDeviceOfflineResp", newValue);
     });
   }
   public get receiveStateDeviceOffline(): string {
@@ -384,7 +385,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
-    this.handleDemoMode();//it is needed when attribute is set to true and then removed from the component
+    this.handleDemoMode(); // it is needed when attribute is set to true and then removed from the component
     customElements.whenDefined('ch5-legacy-media-player').then(() => {
       this.componentLoadedEvent(Ch5LegacyMediaPlayer.ELEMENT_NAME, this.id);
     });
@@ -398,6 +399,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this.logger.start('disconnectedCallback()');
     this.removeEventListeners();
     this.unsubscribeFromSignals();
+    this.musicPlayerLibInstance.unsubscribeLibrarySignals();// unsubscribeLibrarySignals
     this.logger.stop();
   }
 
@@ -408,7 +410,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   protected createInternalHtml() {
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
-    this._elContainer = this.createElement('div');
+    this._elContainer = createElement('div');
     this.nowPlaying = new Ch5LegacyMediaPlayerNowPlaying(this.musicPlayerLibInstance);
     this._elContainer.appendChild(this.nowPlaying.createInternalHtml());
     this.myMusic = new Ch5LegacyMediaPlayerMyMusic(this.musicPlayerLibInstance);
@@ -421,9 +423,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     if (this._loadingIndicator && this._loadingIndicator.parentNode) {
       this._loadingIndicator.parentNode.removeChild(this._loadingIndicator);
     }
-    this._loadingIndicator = this.createElement('div', ['mp-loading-indicator']);
-    const loadingIndicatorText = this.createElement('span', ['mp-loading-indicator-text']);
-    const loadingIndicatorTextIcon = this.createElement('i', ['fa-solid', 'fa-circle-notch', 'fa-spin', 'mp-loader-icon-size']);
+    this._loadingIndicator = createElement('div', ['mp-loading-indicator']);
+    const loadingIndicatorText = createElement('span', ['mp-loading-indicator-text']);
+    const loadingIndicatorTextIcon = createElement('i', ['fa-solid', 'fa-circle-notch', 'fa-spin', 'mp-loader-icon-size']);
     loadingIndicatorText.appendChild(loadingIndicatorTextIcon);
     this._loadingIndicator.appendChild(loadingIndicatorText);
     this._elContainer.appendChild(this._loadingIndicator);
@@ -454,7 +456,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     const dialogContentInput = document.createElement("input");
     // Create input box 
     if (dialogType === "alphanumeric") {
-      const dialogContent = this.createElement('div', ["dialog-content"]);
+      const dialogContent = createElement('div', ["dialog-content"]);
       dialogContentInput.classList.add('dialog-content-input');
       dialogContentInput.value = dialogInput;
       dialogContent.appendChild(dialogContentInput);
@@ -473,7 +475,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
         this._elMask.parentNode.removeChild(this._elMask);
       }
       this._dialogAutoCloseTimeout = null;
-    }, timeoutSec);
+    }, timeoutSec * 1000);
 
     dialogContentInput.addEventListener('input', () => {
       if (this._dialogAutoCloseTimeout) {
@@ -485,19 +487,19 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   //Dialog Heading
   protected getDialogHeading(dialogHeading: string) {
-    this._elMask = this.createElement('div', ['ch5-legacy-media-player--mask']);
+    this._elMask = createElement('div', ['ch5-legacy-media-player--mask']);
     this._elContainer.appendChild(this._elMask);
-    this._elGenericDialogContent = this.createElement('div', ['ch5-legacy-media-player--mask-content-generic']);
-    this._elMaskdialogTitle = this.createElement('div', ['generic-dialog-title'], dialogHeading);
+    this._elGenericDialogContent = createElement('div', ['ch5-legacy-media-player--mask-content-generic']);
+    this._elMaskdialogTitle = createElement('div', ['generic-dialog-title'], dialogHeading);
     this._elGenericDialogContent.appendChild(this._elMaskdialogTitle);
   }
 
   //Dialog Footer Buttons
   protected getDialogFooter(dialogArray: Array<string>, inputEle?: HTMLInputElement) {
-    this._dialogFooter = this.createElement('div', ['generic-dialog-footer']);
+    this._dialogFooter = createElement('div', ['generic-dialog-footer']);
     const dialogType = dialogArray.length;
     for (let i = 0; i < dialogType; i++) {
-      const button = this.createElement('button', ['generic-dialog-button']);
+      const button = createElement('button', ['generic-dialog-button']);
       button.addEventListener("click", () => {
         //clear auto close timeout on footer button click
         if (this._dialogAutoCloseTimeout) {
@@ -511,8 +513,13 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       button.textContent = dialogArray[i];
       this._dialogFooter.appendChild(button);
     }
-    if (dialogType > 2) { this._dialogFooter.style.flexDirection = "column"; }
-    else { this._dialogFooter.style.flexDirection = "row"; }
+    if (dialogType > 2) {
+      this._dialogFooter.classList.remove('generic-dialog-footer--row');
+      this._dialogFooter.classList.add('generic-dialog-footer--column');
+    } else {
+      this._dialogFooter.classList.remove('generic-dialog-footer--column');
+      this._dialogFooter.classList.add('generic-dialog-footer--row');
+    }
     this._elGenericDialogContent.appendChild(this._dialogFooter);
   }
 
@@ -537,11 +544,12 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   protected attachEventListeners() {
     super.attachEventListeners();
-    resizeObserver(this._elContainer, this.handleResizeObserver);
+    resizeObserver(this._elContainer, this.handleResizeObserver); // TODO - use debounce
   }
 
   private handleResizeObserver = () => {
-    const { width } = this._elContainer.getBoundingClientRect();
+    const { width, height } = this._elContainer.getBoundingClientRect();
+    this.nowPlaying?.updateMarquee();
 
     if (width < 640) {
       if (!this._elContainer.classList.contains("portrait-mode-active")) {
@@ -551,6 +559,51 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       this.querySelector(".ch5-legacy-media-player--my-music")?.classList.remove("my-music-transition"); // ?
       this._elContainer.classList.remove("portrait-mode-active");
     }
+
+    const breakpoints: any = [{
+      key: "xs",
+      value: 0
+    }, {
+      key: "sm",
+      value: 384
+    }, {
+      key: "md",
+      value: 768
+    }, {
+      key: "lg",
+      value: 1024
+    }, {
+      key: "xl",
+      value: 1280
+    }];
+
+    const prefixWidth = "ch5-legacy-media-player--width-";
+    const prefixHeight = "ch5-legacy-media-player--height-";
+    for (let i = 0; i < breakpoints.length; i++) {
+      this._elContainer.classList.remove(prefixWidth + breakpoints[i].key);
+      this._elContainer.classList.remove(prefixHeight + breakpoints[i].key);
+    }
+    for (let i = 0; i < breakpoints.length; i++) {
+      if (width > breakpoints[i].value) {
+        if (i === breakpoints.length - 1) {
+          this._elContainer.classList.add(prefixWidth + breakpoints[i].key);
+        } else {
+          if (width <= breakpoints[i + 1].value) {
+            this._elContainer.classList.add(prefixWidth + breakpoints[i].key);
+          }
+        }
+      }
+      if (height > breakpoints[i].value) {
+        if (i === breakpoints.length - 1) {
+          this._elContainer.classList.add(prefixHeight + breakpoints[i].key);
+        } else {
+          if (height <= breakpoints[i + 1].value) {
+            this._elContainer.classList.add(prefixHeight + breakpoints[i].key);
+          }
+        }
+      }
+    }
+
     // if (width >= 1200) {
     //   this._elContainer.classList.add("now-playing-max-width-1200");
     // } else {
@@ -582,7 +635,13 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     });
   }
   private handleDemoMode() {
-    publishEvent('b', 'demoMode', this.demoMode); // TODO - why are we publishing this
+    this.nowPlaying?.handleDemoMode(this.demoMode);
+    this.myMusic?.handleDemoMode(this.demoMode);
+    if (!this.demoMode) {
+      this.publishAllSignals();
+    } else {
+      this.musicPlayerLibInstance.resetMp();//Not deregister the player, its just clear values
+    }
   }
 
   private handleContractName() {
@@ -613,6 +672,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     }
     this.contractDefaultHelper();
   }
+
   private contractDefaultHelper() {
     if (this.contractName !== "" && this.contractName !== null && this.contractName !== undefined) {
       this.receiveStateCRPC = this.contractName + '.CRPC_FB';
@@ -662,11 +722,37 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     return this.primaryCssClass + '--disabled';
   }
 
-  private createElement(tagName: string, clsName: string[] = [], textContent: string = '') {
-    const element = document.createElement(tagName);
-    if (clsName.length !== 0) { clsName.forEach((cs: string) => element.classList.add(cs)) }
-    if (textContent !== '') { element.textContent = textContent; }
-    return element;
+  private publishMPEvent(signalType: TSignalNonStandardTypeName, signalName: string, value: TSignalValue): void {
+    if (this.demoMode === false) {
+      publishEvent(signalType, signalName, value);
+    }
+  }
+
+  private publishAllSignals() {
+
+    publishEvent('s', 'sendEventCRPCJoinNo', this.sendEventCRPC);
+
+    const subReceiveStateMessage = subscribeState('s', this.receiveStateMessage, ((value: any) => {
+      publishEvent('s', "receiveStateMessageResp", value);
+      setTimeout(() => {
+        unsubscribeState('s', 'receiveStateMessage', subReceiveStateMessage);
+      })
+    }));
+
+    const subReceiveStateRefreshMediaPlayer = subscribeState('b', this.receiveStateRefreshMediaPlayer, ((value: any) => {
+      publishEvent('b', "receiveStateRefreshMediaPlayerResp", value);
+      setTimeout(() => {
+        unsubscribeState('b', 'receiveStateRefreshMediaPlayer', subReceiveStateRefreshMediaPlayer);
+      })
+    }));
+
+    const subReceiveStateDeviceOffline = subscribeState('b', this.receiveStateDeviceOffline, ((value: any) => {
+      publishEvent('b', "receiveStateDeviceOfflineResp", value);
+      setTimeout(() => {
+        unsubscribeState('s', 'receiveStateDeviceOffline', subReceiveStateDeviceOffline);
+      })
+    }));
+
   }
 
   //#endregion
