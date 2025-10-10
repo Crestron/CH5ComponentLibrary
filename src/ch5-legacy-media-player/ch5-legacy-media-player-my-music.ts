@@ -88,7 +88,7 @@ export class Ch5LegacyMediaPlayerMyMusic {
         }
       }
     }));
-    
+
     subscribeState('b', 'showMyMusicComponent', ((value: boolean) => {
       if (value) {
         this._myMusicContainer.classList.add("my-music-transition");
@@ -277,8 +277,14 @@ export class Ch5LegacyMediaPlayerMyMusic {
     this._myMusicHeaderTitle = this.createElement("div", ['my-music-header-title']);
     this._myMusicHeaderTitleText = this.createElement("div", ['my-music-header-title-text'], this.musicPlayerLibInstance.replaceLanguageChars(myMusicHeaderTitleText));
     this._myMusicheaderSubtitle = this.createElement("div", ['my-music-header-subtitle'], this.musicPlayerLibInstance.replaceLanguageChars(myMusicheaderSubtitle));
-    this._myMusicheaderSubtitle.style.visibility = this.musicPlayerLibInstance.replaceLanguageChars(myMusicheaderSubtitle) ? 'visible' : 'hidden';
-
+    //this._myMusicheaderSubtitle.style.visibility = this.musicPlayerLibInstance.replaceLanguageChars(myMusicheaderSubtitle) ? 'visible' : 'hidden';
+    if (myMusicheaderSubtitle) {
+      this._myMusicheaderSubtitle.classList.remove('ch5-hide-vis');
+      this._myMusicheaderSubtitle.classList.add('ch5-visible-vis');
+    } else {
+      this._myMusicheaderSubtitle.classList.remove('ch5-visible-vis');
+      this._myMusicheaderSubtitle.classList.add('ch5-hide-vis');
+    }
     this._myMusicHeaderTitle.append(this._myMusicHeaderTitleText, this._myMusicheaderSubtitle);
 
     this._myMusicHeaderNowPlayingButton = new Ch5LegacyMediaPlayerIconButton();

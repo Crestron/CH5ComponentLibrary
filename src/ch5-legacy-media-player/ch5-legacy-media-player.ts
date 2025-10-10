@@ -513,8 +513,13 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       button.textContent = dialogArray[i];
       this._dialogFooter.appendChild(button);
     }
-    if (dialogType > 2) { this._dialogFooter.style.flexDirection = "column"; }
-    else { this._dialogFooter.style.flexDirection = "row"; }
+    if (dialogType > 2) {
+      this._dialogFooter.classList.remove('generic-dialog-footer--row');
+      this._dialogFooter.classList.add('generic-dialog-footer--column');
+    } else {
+      this._dialogFooter.classList.remove('generic-dialog-footer--column');
+      this._dialogFooter.classList.add('generic-dialog-footer--row');
+    }
     this._elGenericDialogContent.appendChild(this._dialogFooter);
   }
 
