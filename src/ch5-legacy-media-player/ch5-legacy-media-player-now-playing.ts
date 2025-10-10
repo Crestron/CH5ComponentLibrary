@@ -142,8 +142,8 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 			if (this.demoModeValue) {
 				// TODO
 				this.progressBarData.ProgressBar = true;
-				this._progressBarContainer.classList.remove('now-playing-progressbar-container--hide');
-				this._progressBarContainer.classList.add('now-playing-progressbar-container--show');
+				this._progressBarContainer.classList?.remove('now-playing-progressbar-container--hide');
+				this._progressBarContainer.classList?.add('now-playing-progressbar-container--show');
 				this._progressBarElapsedSec = 0;
 				this._progressBarTrackSec = 0;
 				this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
@@ -155,19 +155,21 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 				this.logger.log("Progressbar data: ", data);
 				if (!this.demoModeValue && this.progressBarData && Object.keys(this.progressBarData).length > 0) {
 					if (!this.progressBarData.ProgressBar && this._progressBarContainer) {
-						this._progressBarContainer.classList.remove('now-playing-progressbar-container--show');
-						this._progressBarContainer.classList.add('now-playing-progressbar-container--hide');
+						this._progressBarContainer.classList?.remove('now-playing-progressbar-container--show');
+						this._progressBarContainer.classList?.add('now-playing-progressbar-container--hide');
 						return;
 					}
-					this._progressBarContainer.classList.remove('now-playing-progressbar-container--hide');
-					this._progressBarContainer.classList.add('now-playing-progressbar-container--show');
+					this._progressBarContainer.classList?.remove('now-playing-progressbar-container--hide');
+					this._progressBarContainer.classList?.add('now-playing-progressbar-container--show');
 					this._progressStreamState = this.progressBarData.StreamState;
 					this._streamState.textContent = this._progressStreamState;
 					this._progressBarTrackSec = this.progressBarData.TrackSec;
 					this._progressBarElapsedSec = this.progressBarData.ElapsedSec;
 					this._progressBarInput.max = this._progressBarTrackSec?.toString();
 					this._progressBarInput.value = this._progressBarElapsedSec?.toString();
-					this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
+					if (this._progressBarElapsedSec && this._progressBarTrackSec) {
+						this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
+					}
 					this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
 					this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
 
@@ -176,7 +178,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 							if (this._progressBarElapsedSec < this._progressBarTrackSec) {
 								this._progressBarElapsedSec += 1;
 								const percent = (this._progressBarElapsedSec / this._progressBarTrackSec) * 100;
-								this._progressBarInput.value = this._progressBarElapsedSec.toString();
+								this._progressBarInput.value = this._progressBarElapsedSec?.toString();
 								this._progressBarInput.style.backgroundSize = percent + "% 100%";
 								this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
 								this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
@@ -218,15 +220,15 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this._nowPlayingArtist.textContent = this.nowPlayingData.Artist;
 		this._nowPlayingAlbum.textContent = this.nowPlayingData.Album;
 		if (!this.nowPlayingData.Album?.trim() || !this.nowPlayingData.Artist?.trim()) {
-			this._separator.classList.remove('separator--show');
-			this._separator.classList.add('separator--hide');
+			this._separator.classList?.remove('separator--show');
+			this._separator.classList?.add('separator--hide');
 		} else {
-			this._separator.classList.remove('separator--hide');
-			this._separator.classList.add('separator--show');
+			this._separator.classList?.remove('separator--hide');
+			this._separator.classList?.add('separator--show');
 		}
 		this._nowPlayingSongAdditionalInfo.textContent = this.nowPlayingData.TrackCnt > 0 ? `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}` : '';
 		if (this.nowPlayingData.PlayerIconURL) {
-			this._nowPlayingPlayerIconImage.classList.remove(...Array.from(this._nowPlayingPlayerIconImage.classList));
+			this._nowPlayingPlayerIconImage.classList?.remove(...Array.from(this._nowPlayingPlayerIconImage.classList));
 			this._nowPlayingPlayerImage.classList.add("now-playing-player-icon-image");
 			this._nowPlayingPlayerImage.src = this.nowPlayingData.PlayerIconURL;
 			this._nowPlayingPlayerImage.classList.remove("ch5-hide-dis");
@@ -244,19 +246,19 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this._nowPlayingContainer.appendChild(this._transportControls);
 		this.renderNextAndPreviousSong(this.nowPlayingData.NextTitle);
 		if (!this.progressBarData.ProgressBar) {
-			this._progressBarContainer.classList.remove('now-playing-progressbar-container--show');
-			this._progressBarContainer.classList.add('now-playing-progressbar-container--hide');
+			this._progressBarContainer.classList?.remove('now-playing-progressbar-container--show');
+			this._progressBarContainer.classList?.add('now-playing-progressbar-container--hide');
 		} else {
-			this._progressBarContainer.classList.remove('now-playing-progressbar-container--hide');
-			this._progressBarContainer.classList.add('now-playing-progressbar-container--show');
+			this._progressBarContainer.classList?.remove('now-playing-progressbar-container--hide');
+			this._progressBarContainer.classList?.add('now-playing-progressbar-container--show');
 		}
 	}
 
 	public updateMarquee() {
-		if ((this._nowPlayingSongTitle.children[0] as HTMLSpanElement).offsetWidth > this._nowPlayingSongTitle.offsetWidth) {
-			this._nowPlayingSongTitle.classList.add('marquee-item');
+		if ((this._nowPlayingSongTitle.children && this._nowPlayingSongTitle.children[0] as HTMLSpanElement)?.offsetWidth > this._nowPlayingSongTitle.offsetWidth) {
+			this._nowPlayingSongTitle.classList?.add('marquee-item');
 		} else {
-			this._nowPlayingSongTitle.classList.remove('marquee-item');
+			this._nowPlayingSongTitle.classList?.remove('marquee-item');
 		}
 	}
 
@@ -330,7 +332,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this._nowPlayingPlayerContainer.appendChild(nowPlayingPlayerMusicNoteButton);
 		this._nowPlayingContainer.appendChild(this._nowPlayingPlayerContainer);
 	}
-	
+
 	protected renderAlbumArt() {
 		//Now Playing Image
 		this._nowPlayingImageParent = createElement("div", ["mp-fallback-album-art", "now-playing-image"]);
@@ -387,9 +389,11 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this._progressBarInput = document.createElement('input');
 		this._progressBarInput.type = 'range';
 		this._progressBarInput.min = '0';
-		this._progressBarInput.max = this._progressBarTrackSec.toString();
-		this._progressBarInput.value = this._progressBarElapsedSec.toString();
-		this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
+		this._progressBarInput.max = this._progressBarTrackSec?.toString();
+		this._progressBarInput.value = this._progressBarElapsedSec?.toString();
+		if (this._progressBarElapsedSec && this._progressBarTrackSec) {
+			this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
+		}
 		this._progressBarInput.classList.add('now-playing-progressbar-input');
 		this._progressBarContainer.appendChild(this._progressBarInput);
 
