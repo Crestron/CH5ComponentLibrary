@@ -342,15 +342,15 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this._nowPlayingSongTitle.appendChild(songTitleMarqueeSpan);
 		//Now Playing Song Artist and Album
 		this._nowPlayingArtistAlbum = createElement("div", ["now-playing-artist-album"]);
-		this._nowPlayingArtist = createElement("span", ["now-playing-artist-name"], '');
-		this._nowPlayingAlbum = createElement("span", ["now-playing-album-name"], '');
+		this._nowPlayingArtist = createElement("span", ["now-playing-artist-name"]);
+		this._nowPlayingAlbum = createElement("span", ["now-playing-album-name"]);
 		this._separator = createElement("span", [], ' — ');
 
 		this._nowPlayingArtistAlbum.appendChild(this._nowPlayingArtist);
 		this._nowPlayingArtistAlbum.appendChild(this._separator);
 		this._nowPlayingArtistAlbum.appendChild(this._nowPlayingAlbum);
 		//Now Playing Song Additional Information
-		this._nowPlayingSongAdditionalInfo = createElement("div", ["now-playing-song-additional-info"], '');
+		this._nowPlayingSongAdditionalInfo = createElement("div", ["now-playing-song-additional-info"]);
 		//Now Playing Player Icon Image and Name Container
 		this._nowPlayingPlayerIconContainer = createElement('div', ["now-playing-player-icon-container"]);
 		//Now Playing Player Icon Image
@@ -362,7 +362,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this._nowPlayingPlayerImage.classList.add("ch5-hide-dis");
 		this._nowPlayingPlayerIconImage.appendChild(this._nowPlayingPlayerImage);
 		//Now Playing Player Icon Name
-		this._nowPlayingPlayerIconName = createElement('div', ["now-playing-player-icon-name"], '');
+		this._nowPlayingPlayerIconName = createElement('div', ["now-playing-player-icon-name"]);
 		this._nowPlayingPlayerIconContainer.appendChild(this._nowPlayingPlayerIconImage);
 		this._nowPlayingPlayerIconContainer.appendChild(this._nowPlayingPlayerIconName);
 
@@ -385,7 +385,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this._progressBarInput = document.createElement('input');
 		this._progressBarInput.type = 'range';
 		this._progressBarInput.min = '0';
-		this._progressBarInput.max = this._progressBarTrackSec?.toString();
+		this._progressBarInput.max = this._progressBarTrackSec ? this._progressBarTrackSec.toString() : '0';
 		this._progressBarInput.value = this._progressBarElapsedSec?.toString();
 		if (this._progressBarElapsedSec && this._progressBarTrackSec) {
 			this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
@@ -395,13 +395,13 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 
 		// Current time and duration container
 		const progressBarCurrentTimeDurationContainer = createElement('div', ['now-playing-progressbar-current-time-duration-container']);
-		this._currentTime = createElement('span', ['now-playing-progressbar-current-time']);
+		this._currentTime = createElement('span');
 		this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
 		progressBarCurrentTimeDurationContainer.appendChild(this._currentTime);
-		this._streamState = createElement('span', ['now-playing-progressbar-stream-state']);
+		this._streamState = createElement('span');
 		this._streamState.textContent = this._progressStreamState;
 		progressBarCurrentTimeDurationContainer.appendChild(this._streamState);
-		this._duration = createElement('span', ['now-playing-progressbar-duration']);
+		this._duration = createElement('span');
 		this._duration.textContent = formatTime(parseInt(this._progressBarInput.max) - parseInt(this._progressBarInput.value));
 		progressBarCurrentTimeDurationContainer.appendChild(this._duration);
 		this._progressBarContainer.appendChild(progressBarCurrentTimeDurationContainer);
