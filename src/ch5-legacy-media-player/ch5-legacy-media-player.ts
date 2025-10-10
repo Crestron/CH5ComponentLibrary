@@ -549,6 +549,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   private handleResizeObserver = () => {
     const { width } = this._elContainer.getBoundingClientRect();
+    this.nowPlaying?.updateMarquee();
 
     if (width < 640) {
       if (!this._elContainer.classList.contains("portrait-mode-active")) {
