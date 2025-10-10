@@ -544,11 +544,11 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   protected attachEventListeners() {
     super.attachEventListeners();
-    resizeObserver(this._elContainer, this.handleResizeObserver);
+    resizeObserver(this._elContainer, this.handleResizeObserver); // TODO - use debounce
   }
 
   private handleResizeObserver = () => {
-    const { width } = this._elContainer.getBoundingClientRect();
+    const { width, height } = this._elContainer.getBoundingClientRect();
     this.nowPlaying?.updateMarquee();
 
     if (width < 640) {
@@ -559,6 +559,51 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       this.querySelector(".ch5-legacy-media-player--my-music")?.classList.remove("my-music-transition"); // ?
       this._elContainer.classList.remove("portrait-mode-active");
     }
+
+    const breakpoints: any = [{
+      key: "xs",
+      value: 0
+    }, {
+      key: "sm",
+      value: 384
+    }, {
+      key: "md",
+      value: 768
+    }, {
+      key: "lg",
+      value: 1024
+    }, {
+      key: "xl",
+      value: 1280
+    }];
+
+    const prefixWidth = "ch5-legacy-media-player--width-";
+    const prefixHeight = "ch5-legacy-media-player--height-";
+    for (let i = 0; i < breakpoints.length; i++) {
+      this._elContainer.classList.remove(prefixWidth + breakpoints[i].key);
+      this._elContainer.classList.remove(prefixHeight + breakpoints[i].key);
+    }
+    for (let i = 0; i < breakpoints.length; i++) {
+      if (width > breakpoints[i].value) {
+        if (i === breakpoints.length - 1) {
+          this._elContainer.classList.add(prefixWidth + breakpoints[i].key);
+        } else {
+          if (width <= breakpoints[i + 1].value) {
+            this._elContainer.classList.add(prefixWidth + breakpoints[i].key);
+          }
+        }
+      }
+      if (height > breakpoints[i].value) {
+        if (i === breakpoints.length - 1) {
+          this._elContainer.classList.add(prefixHeight + breakpoints[i].key);
+        } else {
+          if (height <= breakpoints[i + 1].value) {
+            this._elContainer.classList.add(prefixHeight + breakpoints[i].key);
+          }
+        }
+      }
+    }
+
     // if (width >= 1200) {
     //   this._elContainer.classList.add("now-playing-max-width-1200");
     // } else {
