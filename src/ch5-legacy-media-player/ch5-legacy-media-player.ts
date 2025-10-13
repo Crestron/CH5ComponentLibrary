@@ -729,7 +729,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   private publishAllSignals() {
-
+    this.musicPlayerLibInstance.resetMp();
     publishEvent('s', 'sendEventCRPCJoinNo', this.sendEventCRPC);
 
     const subReceiveStateMessage = subscribeState('s', this.receiveStateMessage, ((value: any) => {
