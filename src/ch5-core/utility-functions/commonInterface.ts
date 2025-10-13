@@ -8,6 +8,7 @@ export interface MyMpObject {
     PropertiesSupportedId: number;
     MenuId: number;
     TitleMenuId: number;
+    TitleId: number;
     ItemDataId: number;
     PlayId: number;
     PauseId: number;

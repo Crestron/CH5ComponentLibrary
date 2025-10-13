@@ -1,6 +1,7 @@
 import { publishEvent, subscribeState, unsubscribeState } from "..";
 import _ from 'lodash';
 import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest } from "./commonInterface";
+import { debounce } from "../../ch5-common/utils/common-functions";
 
 export class MusicPlayerLib {
 
@@ -41,6 +42,7 @@ export class MusicPlayerLib {
         "PropertiesSupportedId": 0,
         "MenuId": 0,
         "TitleMenuId": 0,
+        "TitleId": 0,
         "ItemDataId": 0,
         "PlayId": 0,
         "PauseId": 0,
@@ -517,11 +519,13 @@ export class MusicPlayerLib {
                 const responseKey = Object.keys(responseData.result)[0];
                 if (myMsgId === this.myMP.TitleMenuId) { // we have two titles, to get only the menu instance title we have this condition
                     this.myMusicData[responseKey] = responseValue;
-                } else if (this.nowPlayingData.hasOwnProperty(responseKey)) {
+                } else if (myMsgId === this.myMP.TitleId) { // we have two titles, to get only the player instance title we have this condition
+                    this.nowPlayingData[responseKey] = responseValue;
+                } else if ((responseKey !== "Title") && (this.nowPlayingData.hasOwnProperty(responseKey))) {
                     this.nowPlayingData[responseKey] = responseValue;
                 } else if (this.progressBarData.hasOwnProperty(responseKey)) {
                     this.progressBarData[responseKey] = responseValue;
-                } else if (this.myMusicData.hasOwnProperty(responseKey)) {
+                } else if ((responseKey !== "Title") && this.myMusicData.hasOwnProperty(responseKey)) {
                     this.myMusicData[responseKey] = responseValue;
                     if (responseKey === 'ItemCnt') {
                         this.getItemData();
@@ -529,7 +533,6 @@ export class MusicPlayerLib {
                 }
             }
         }
-
         // Publishing response data to the respective components
         if (!(busyChanged && busyChanged['on'] === true)) {
             // TODO: remove isEqual if not required
@@ -539,7 +542,7 @@ export class MusicPlayerLib {
             }
             if (!_.isEqual(this.myMusicPublishData, this.myMusicData)) {
                 this.myMusicPublishData = { ...this.myMusicData };
-                publishEvent('o', 'myMusicData', this.myMusicPublishData); // right section
+                this.publishMyMusicData(); // right section
             }
             if (!_.isEqual(this.progressBarPublishData, this.progressBarData)) {
                 this.progressBarPublishData = { ...this.progressBarData };
@@ -547,6 +550,10 @@ export class MusicPlayerLib {
             }
         }
     }
+
+    public publishMyMusicData = debounce(() => {
+            publishEvent('o', 'myMusicData', this.myMusicPublishData);
+        }, 150);
 
     // error-handler.ts
     private handleError(error: ErrorResponseObject) {
@@ -652,6 +659,7 @@ export class MusicPlayerLib {
             "PropertiesSupportedId": 0,
             "MenuId": 0,
             "TitleMenuId": 0,
+            "TitleId": 0,
             "ItemDataId": 0,
             "PlayId": 0,
             "PauseId": 0,
