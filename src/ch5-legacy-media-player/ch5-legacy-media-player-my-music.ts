@@ -74,6 +74,7 @@ export class Ch5LegacyMediaPlayerMyMusic {
     this.createDefaultMyMusic();
 
     subscribeState('o', 'myMusicData', ((data: any) => {
+      console.log('MyMusicData----', data);
       if (!this.demoModeValue) {
         this.loadItemsCount = this.MAXIMUM_ROWS_TO_SHOW;
         if (data && Object.keys(data).length > 0) {
@@ -83,7 +84,7 @@ export class Ch5LegacyMediaPlayerMyMusic {
             this.printedIndex = 0;
           }
           this.logger.log('My Music Data', this.myMusicData);
-          if (this.myMusicData['MenuData'] && Object.keys(this.myMusicData['MenuData']).length > 0) this.apiChanges();
+          this.apiChanges();
         } else {
           this.createDefaultMyMusic();
         }
@@ -208,7 +209,7 @@ export class Ch5LegacyMediaPlayerMyMusic {
   }
 
   protected createLine(index: number, position = 'end') {
-    if (index + 1 >= this.myMusicData['MenuData'].length) {
+    if ((index + 1 >= this.myMusicData['MenuData'].length) && (index + 1 >= this.musicPlayerLibInstance.maxReqItems)) {
       this.musicPlayerLibInstance.getItemData(true);
     }
     if (index > 0 && this.printedIndex === index) return;

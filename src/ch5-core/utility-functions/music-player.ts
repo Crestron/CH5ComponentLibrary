@@ -81,6 +81,7 @@ export class MusicPlayerLib {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
             if (value.length > 0) {
+                console.log('CRPC IN-->', value);
 
                 const mpRPCPrefix = value.substring(0, 8).trim(); // First 8 bytes is the RPC prefix.
                 // Check byte 3 to determine if this is a single or partial message.
@@ -540,9 +541,9 @@ export class MusicPlayerLib {
                 this.nowPlayingPublishData = { ...this.nowPlayingData };
                 publishEvent('o', 'nowPlayingData', this.nowPlayingPublishData); // left section
             }
-            if (!_.isEqual(this.myMusicPublishData, this.myMusicData)) {
-                this.myMusicPublishData = { ...this.myMusicData };
-                this.publishMyMusicData(); // right section
+             if (!_.isEqual(this.myMusicPublishData, this.myMusicData)) {
+            this.myMusicPublishData = { ...this.myMusicData };
+            this.publishMyMusicData(); // right section
             }
             if (!_.isEqual(this.progressBarPublishData, this.progressBarData)) {
                 this.progressBarPublishData = { ...this.progressBarData };
@@ -552,8 +553,8 @@ export class MusicPlayerLib {
     }
 
     public publishMyMusicData = debounce(() => {
-            publishEvent('o', 'myMusicData', this.myMusicPublishData);
-        }, 150);
+        publishEvent('o', 'myMusicData', this.myMusicPublishData);
+    }, 150);
 
     // error-handler.ts
     private handleError(error: ErrorResponseObject) {

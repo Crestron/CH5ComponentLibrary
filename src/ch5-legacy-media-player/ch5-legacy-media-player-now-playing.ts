@@ -123,6 +123,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this.createDefaultNowPlaying();
 
 		subscribeState('o', 'nowPlayingData', ((data: any) => {
+			console.log('NowPlayingData----', data);
 			if (this.demoModeValue === false) {
 				if (data && Object.keys(data).length > 0) {
 					this.nowPlayingData = data;
