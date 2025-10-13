@@ -141,14 +141,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 			}
 			if (this.demoModeValue) {
 				// TODO
-				this.progressBarData.ProgressBar = true;
-				this._progressBarContainer.classList?.remove('ch5-hide-dis');
-				this._progressBarElapsedSec = 0;
-				this._progressBarTrackSec = 0;
-				this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
-				this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
-				this._progressBarInput.style.backgroundSize = "0% 100%";
-				this._progressBarInput.value = this._progressBarElapsedSec?.toString();
+				this.updateProgressBarDemoData();
 			} else {
 				this.progressBarData = data;
 				this.logger.log("Progressbar data: ", data);
@@ -191,12 +184,29 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		// }));
 	}
 
+	private updateProgressBarDemoData() {
+		this.progressBarData.ProgressBar = true;
+		this._progressBarContainer.classList?.remove('ch5-hide-dis');
+		this._progressBarElapsedSec = this.NOW_PLAYING_DEMO_DATA.ElapsedSec;
+		this._progressBarTrackSec = this.NOW_PLAYING_DEMO_DATA.TrackSec;
+		this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
+		this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
+		const percent = (this._progressBarElapsedSec/this._progressBarTrackSec)*100;
+		this._progressBarInput.style.backgroundSize = percent +"% 100%";
+		this._progressBarInput.max = this._progressBarTrackSec?.toString();
+		this._progressBarInput.value = this._progressBarElapsedSec?.toString();
+	}
+
 	public handleDemoMode(demoMode: boolean) {
 		if (demoMode) {
-			this.progressBarData.ProgressBar = true;
+			if (this._progressBarTimer) {
+				clearInterval(this._progressBarTimer);
+				this._progressBarTimer = null;
+			}
 			this.createNowPlaying();
 			this.nowPlayingData = this.NOW_PLAYING_DEMO_DATA;
 			this.updatedNowPlayingContent();
+			this.updateProgressBarDemoData();
 		} else {
 			this.nowPlayingData = '';
 			this.createDefaultNowPlaying();
