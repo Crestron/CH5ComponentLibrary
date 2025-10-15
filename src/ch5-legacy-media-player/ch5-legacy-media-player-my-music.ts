@@ -42,6 +42,7 @@ export class Ch5LegacyMediaPlayerMyMusic {
       "Favorites"
     ],
     Sorted: "none",
+    ItemCnt: 4
   }
 
   private MY_MUSIC_MENU_DEMO_DATA = {
