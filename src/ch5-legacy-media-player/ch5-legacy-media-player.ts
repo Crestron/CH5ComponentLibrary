@@ -317,11 +317,11 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
     subscribeState('o', 'busyChanged', ((data: any) => {
       this.busyChanged = data;
-      // if (this.busyChanged.on) {
-      //   this.startMPLoading();
-      // } else {
-      //   this.stopMPLoading();
-      // }
+      if (this.busyChanged.on) {
+        this.startMPLoading();
+      } else {
+        this.stopMPLoading();
+      }
       this.logger.log('busyChanged', this.busyChanged);
     }));
 

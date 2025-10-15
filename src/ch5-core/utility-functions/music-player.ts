@@ -1,7 +1,6 @@
 import { publishEvent, subscribeState, unsubscribeState } from "..";
 import _ from 'lodash';
 import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest } from "./commonInterface";
-import { debounce } from "../../ch5-common/utils/common-functions";
 
 export class MusicPlayerLib {
 
@@ -53,6 +52,7 @@ export class MusicPlayerLib {
     private nowPlayingPublishData: any = {};
     private myMusicPublishData: any = {};
     private progressBarPublishData: any = {};
+    private menuListPublishData: any = {};
     public maxReqItems = 20;
 
     private nowPlayingData: any = {
@@ -64,7 +64,9 @@ export class MusicPlayerLib {
 
     private progressBarData: any = { 'StreamState': '', 'ProgressBar': '', 'ElapsedSec': '', 'TrackSec': '' };
 
-    private myMusicData: any = { 'Title': '', 'Subtitle': '', 'ListSpecificFunctions': '', 'ItemCnt': 0, 'MaxReqItems': '', 'IsMenuAvailable': '', 'MenuData': [] }
+    private myMusicData: any = { 'Title': '', 'Subtitle': '', 'ListSpecificFunctions': '', 'ItemCnt': 0, 'MaxReqItems': '', 'IsMenuAvailable': '' };
+
+    private menuListData: any = { 'MenuData': [] };
 
     constructor() {
         this.subReceiveStateRefreshMediaPlayerResp = subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: any) => {
@@ -323,11 +325,12 @@ export class MusicPlayerLib {
             this.myMusicPublishData = {};
             this.nowPlayingPublishData = {};
             this.progressBarPublishData = {};
+            this.menuListPublishData = {};
 
             publishEvent('o', 'myMusicData', this.myMusicPublishData);
             publishEvent('o', 'nowPlayingData', this.nowPlayingPublishData);
             publishEvent('o', 'progressBarData', this.progressBarPublishData);
-
+            publishEvent('o', 'menuListData', this.menuListPublishData);
             this.resetMp();
         }
     }
@@ -416,7 +419,7 @@ export class MusicPlayerLib {
     public getItemData(infiniteScroll = false) {
         if (!infiniteScroll) {
             this.itemValue = 1;
-            this.myMusicData['MenuData'] = [];
+            this.menuListData['MenuData'] = [];
         }
 
         let itemCount = this.myMusicData['ItemCnt'];
@@ -514,7 +517,7 @@ export class MusicPlayerLib {
             } else if (myMsgId == this.myMP.MenuId) {
                 this.processMenuResponse(responseData);
             } else if (myMsgId === this.myMP.ItemDataId) {
-                this.myMusicData['MenuData'] = [...this.myMusicData['MenuData'], ...responseData.result];
+                this.menuListData['MenuData'] = [...this.menuListData['MenuData'], ...responseData.result];
             } else if (responseData.result && Object.keys(responseData.result)?.length === 1) {
                 const responseValue = Object.values(responseData.result)[0];
                 const responseKey = Object.keys(responseData.result)[0];
@@ -541,20 +544,22 @@ export class MusicPlayerLib {
                 this.nowPlayingPublishData = { ...this.nowPlayingData };
                 publishEvent('o', 'nowPlayingData', this.nowPlayingPublishData); // left section
             }
-             if (!_.isEqual(this.myMusicPublishData, this.myMusicData)) {
-            this.myMusicPublishData = { ...this.myMusicData };
-            this.publishMyMusicData(); // right section
+            if (!_.isEqual(this.myMusicPublishData, this.myMusicData)) {
+                this.myMusicPublishData = { ...this.myMusicData };
+                publishEvent('o', 'myMusicData', this.myMusicPublishData); // right section
             }
             if (!_.isEqual(this.progressBarPublishData, this.progressBarData)) {
                 this.progressBarPublishData = { ...this.progressBarData };
                 publishEvent('o', 'progressBarData', this.progressBarPublishData);
             }
+            if (!_.isEqual(this.menuListPublishData, this.menuListData)) {
+                if(this.menuListData && this.menuListData['MenuData'].length > 0){
+                    this.menuListPublishData = { ...this.menuListData }; 
+                    publishEvent('o', 'menuListData', this.menuListPublishData);
+                }
+            }
         }
     }
-
-    public publishMyMusicData = debounce(() => {
-        publishEvent('o', 'myMusicData', this.myMusicPublishData);
-    }, 150);
 
     // error-handler.ts
     private handleError(error: ErrorResponseObject) {
@@ -638,7 +643,7 @@ export class MusicPlayerLib {
     //To replace language specific charactars
     public replaceLanguageChars(textValue: string) {
         if (textValue === undefined || textValue === null || textValue === '') return '';
-        return textValue.replace(/\/[^/]+/g, '').replace(/[^\u0020-\u007E]/g, '').replace(/\s{2,}/g, ' ').trim();
+        return textValue.replace(/[^\u0020-\u007E]/g, '').replace(/\s{2,}/g, ' ').trim();
     }
 
     public unsubscribeLibrarySignals() {
@@ -678,6 +683,8 @@ export class MusicPlayerLib {
 
         this.progressBarData = { 'StreamState': '', 'ProgressBar': '', 'ElapsedSec': '', 'TrackSec': '' };
 
-        this.myMusicData = { 'Title': '', 'Subtitle': '', 'ListSpecificFunctions': '', 'ItemCnt': 0, 'MaxReqItems': '', 'IsMenuAvailable': '', 'MenuData': [] }
+        this.myMusicData = { 'Title': '', 'Subtitle': '', 'ListSpecificFunctions': '', 'ItemCnt': 0, 'MaxReqItems': '', 'IsMenuAvailable': '' }
+
+        this.menuListData = { 'MenuData': [] };
     }
 }
