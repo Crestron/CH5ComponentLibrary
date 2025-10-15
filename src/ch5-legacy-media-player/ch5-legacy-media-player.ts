@@ -529,6 +529,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
         }
       });
       button.textContent = dialogArray[i];
+      if(dialogArray[i] !== "Cancel") {
+        button.classList.add('primary-dialog-button');
+      }
       this._dialogFooter.appendChild(button);
     }
     if (dialogType > 2) {
