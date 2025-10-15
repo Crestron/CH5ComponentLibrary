@@ -438,11 +438,23 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   //Generic Dialog
-  protected genericDialog(dialogType: number, dialogHeading: string, dialogArray: Array<string>) {
+  protected genericDialog(dialogType: number, dialogHeading: string, dialogArray: Array<string>, timeoutSec: number) {
     this.logger.log(dialogType);
     if (this._elMask) this._elMask.innerHTML = "";
     this.getDialogHeading(dialogHeading);// dialog heading
     this.getDialogFooter(dialogArray);// dialog footer buttons
+
+    //Auto close dialog if user don't take any action for 10 seconds
+    if (this._dialogAutoCloseTimeout) {
+      clearTimeout(this._dialogAutoCloseTimeout);
+    }
+    this._dialogAutoCloseTimeout = window.setTimeout(() => {
+      if (this._elMask && this._elMask.parentNode) {
+        this._elMask.parentNode.removeChild(this._elMask);
+      }
+      this._dialogAutoCloseTimeout = null;
+    }, timeoutSec * 1000);
+
     this._elMask.appendChild(this._elGenericDialogContent);
   }
 
@@ -508,7 +520,13 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
         }
         this.logger.log("Button Confirmation Id:", i + 1);
         this.logger.log("Input Value:", inputEle?.value);
-        this.musicPlayerLibInstance.popUpAction(inputEle?.value, i + 1);
+        if(this.demoMode) {
+          if (this._elMask && this._elMask.parentNode) {
+            this._elMask.parentNode.removeChild(this._elMask);
+          }
+        } else {
+          this.musicPlayerLibInstance.popUpAction(inputEle?.value, i + 1);
+        }
       });
       button.textContent = dialogArray[i];
       this._dialogFooter.appendChild(button);
@@ -637,6 +655,12 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   private handleDemoMode() {
     this.nowPlaying?.handleDemoMode(this.demoMode);
     this.myMusic?.handleDemoMode(this.demoMode);
+    document.getElementsByClassName('mp-plus-circle')[0].addEventListener('click', () => {
+      this.keyboardInputDialog("alphanumeric", "What would you like to call this favorite?", ["Cancel", "Ok"], "", 10);
+    });
+    document.getElementsByClassName('mp-music-list-favorites')[0].addEventListener('click', () => {
+      this.genericDialog(2, "What would you like to do?", ["Rename Favorite", "Delete favorite", "Cancel"], 10);
+    });
     if (!this.demoMode) {
       this.publishAllSignals();
     } else {

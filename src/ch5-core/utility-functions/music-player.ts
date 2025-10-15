@@ -553,8 +553,8 @@ export class MusicPlayerLib {
                 publishEvent('o', 'progressBarData', this.progressBarPublishData);
             }
             if (!_.isEqual(this.menuListPublishData, this.menuListData)) {
-                if(this.menuListData && this.menuListData['MenuData'].length > 0){
-                    this.menuListPublishData = { ...this.menuListData }; 
+                if (this.menuListData && this.menuListData['MenuData'].length > 0) {
+                    this.menuListPublishData = { ...this.menuListData };
                     publishEvent('o', 'menuListData', this.menuListPublishData);
                 }
             }
@@ -643,7 +643,12 @@ export class MusicPlayerLib {
     //To replace language specific charactars
     public replaceLanguageChars(textValue: string) {
         if (textValue === undefined || textValue === null || textValue === '') return '';
-        return textValue.replace(/[^\u0020-\u007E]/g, '').replace(/\s{2,}/g, ' ').trim();
+        const bytes = textValue.replace(/\\x([0-9A-Fa-f]{2})/g, (_, hex) =>
+            String.fromCharCode(parseInt(hex, 16))
+        );
+        const utf8Bytes = new Uint8Array([...bytes].map(char => char.charCodeAt(0)));
+        const decoded = new TextDecoder('utf-8').decode(utf8Bytes);
+        return decoded;
     }
 
     public unsubscribeLibrarySignals() {
