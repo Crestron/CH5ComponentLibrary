@@ -123,6 +123,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this.createDefaultNowPlaying();
 
 		subscribeState('o', 'nowPlayingData', ((data: any) => {
+			console.log('NowPlayingData----', data);
 			if (this.demoModeValue === false) {
 				if (data && Object.keys(data).length > 0) {
 					this.nowPlayingData = data;
@@ -141,14 +142,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 			}
 			if (this.demoModeValue) {
 				// TODO
-				this.progressBarData.ProgressBar = true;
-				this._progressBarContainer.classList?.remove('ch5-hide-dis');
-				this._progressBarElapsedSec = 0;
-				this._progressBarTrackSec = 0;
-				this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
-				this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
-				this._progressBarInput.style.backgroundSize = "0% 100%";
-				this._progressBarInput.value = this._progressBarElapsedSec?.toString();
+				this.updateProgressBarDemoData();
 			} else {
 				this.progressBarData = data;
 				this.logger.log("Progressbar data: ", data);
@@ -191,12 +185,29 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		// }));
 	}
 
+	private updateProgressBarDemoData() {
+		this.progressBarData.ProgressBar = true;
+		this._progressBarContainer.classList?.remove('ch5-hide-dis');
+		this._progressBarElapsedSec = this.NOW_PLAYING_DEMO_DATA.ElapsedSec;
+		this._progressBarTrackSec = this.NOW_PLAYING_DEMO_DATA.TrackSec;
+		this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
+		this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
+		const percent = (this._progressBarElapsedSec/this._progressBarTrackSec)*100;
+		this._progressBarInput.style.backgroundSize = percent +"% 100%";
+		this._progressBarInput.max = this._progressBarTrackSec?.toString();
+		this._progressBarInput.value = this._progressBarElapsedSec?.toString();
+	}
+
 	public handleDemoMode(demoMode: boolean) {
 		if (demoMode) {
-			this.progressBarData.ProgressBar = true;
+			if (this._progressBarTimer) {
+				clearInterval(this._progressBarTimer);
+				this._progressBarTimer = null;
+			}
 			this.createNowPlaying();
 			this.nowPlayingData = this.NOW_PLAYING_DEMO_DATA;
 			this.updatedNowPlayingContent();
+			this.updateProgressBarDemoData();
 		} else {
 			this.nowPlayingData = '';
 			this.createDefaultNowPlaying();
@@ -284,10 +295,13 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		const defaultActionsContainer = createElement('div', ['default-actions-container']);
 		const defaultBackwardIcon = new Ch5LegacyMediaPlayerIconButton();
 		defaultBackwardIcon.setAttribute('iconClass', "mp-icon mp-fast-backward");
+		defaultBackwardIcon.title="Default Backward ";
 		const defaultPlayIcon = new Ch5LegacyMediaPlayerIconButton();
 		defaultPlayIcon.setAttribute('iconClass', "mp-icon mp-play");
+		defaultPlayIcon.title="Default Play";
 		const defaultforwardIcon = new Ch5LegacyMediaPlayerIconButton();
 		defaultforwardIcon.setAttribute('iconClass', "mp-icon mp-fast-forward");
+		defaultforwardIcon.title="Default Forward";
 		defaultActionsContainer.append(defaultBackwardIcon, defaultPlayIcon, defaultforwardIcon);
 		this._nowPlayingContainer.append(defaultProviderContainer, defaultAlbumArtContainer, defaultTrackInfoContainer, defaultProgressbarContainer, defaultActionsContainer);
 	}
@@ -321,6 +335,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		//Now Playing Player Music Note
 		const nowPlayingPlayerMusicNoteButton = new Ch5LegacyMediaPlayerIconButton();
 		nowPlayingPlayerMusicNoteButton.setAttribute('iconClass', "mp-icon mp-music-note-dbl");
+		nowPlayingPlayerMusicNoteButton.title="My Music Section";
 		nowPlayingPlayerMusicNoteButton.classList.add("now-playing-player-music-note-button");
 		nowPlayingPlayerMusicNoteButton.addEventListener('click', () => {
 			publishEvent('b', 'showMyMusicComponent', true);
@@ -442,6 +457,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 				if (action === "Play" || action === "Pause") {
 					const button = new Ch5LegacyMediaPlayerIconButton();
 					button.setAttribute('iconClass', actionIconMap[action].class);
+					button.title=action;
 					if (action === "Play") {
 						button.onclick = () => {
 							this.musicPlayerLibInstance.nowPlayingvent(action);
@@ -458,7 +474,8 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 				} else if (availableActions.includes(action)) {
 					// Render other actions only if present
 					const button = new Ch5LegacyMediaPlayerIconButton();
-					button.setAttribute('iconClass', actionIconMap[action].class);
+					button.setAttribute('iconClass', actionIconMap[action].class);					
+					button.title=action;
 					button.onclick = () => {
 						this.musicPlayerLibInstance.nowPlayingvent(action);
 					};
@@ -466,6 +483,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 				} else {
 					const button = new Ch5LegacyMediaPlayerIconButton();
 					button.setAttribute('iconClass', actionIconMap[action].class);
+					button.title=action;
 					button.onclick = () => {
 						this.musicPlayerLibInstance.nowPlayingvent(action);
 					};
@@ -497,6 +515,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 				if (availableActions?.includes(action)) {
 					const button = new Ch5LegacyMediaPlayerIconButton();
 					button.setAttribute('iconClass', moreActionIconMap[action].class);
+					button.title=action;
 					button.onclick = () => {
 						this.musicPlayerLibInstance.nowPlayingvent(action);
 					}

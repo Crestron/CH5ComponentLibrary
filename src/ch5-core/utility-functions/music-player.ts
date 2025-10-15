@@ -41,6 +41,7 @@ export class MusicPlayerLib {
         "PropertiesSupportedId": 0,
         "MenuId": 0,
         "TitleMenuId": 0,
+        "TitleId": 0,
         "ItemDataId": 0,
         "PlayId": 0,
         "PauseId": 0,
@@ -51,6 +52,7 @@ export class MusicPlayerLib {
     private nowPlayingPublishData: any = {};
     private myMusicPublishData: any = {};
     private progressBarPublishData: any = {};
+    private menuListPublishData: any = {};
     public maxReqItems = 20;
 
     private nowPlayingData: any = {
@@ -62,7 +64,9 @@ export class MusicPlayerLib {
 
     private progressBarData: any = { 'StreamState': '', 'ProgressBar': '', 'ElapsedSec': '', 'TrackSec': '' };
 
-    private myMusicData: any = { 'Title': '', 'Subtitle': '', 'ListSpecificFunctions': '', 'ItemCnt': 0, 'MaxReqItems': '', 'IsMenuAvailable': '', 'MenuData': [] }
+    private myMusicData: any = { 'Title': '', 'Subtitle': '', 'ListSpecificFunctions': '', 'ItemCnt': 0, 'MaxReqItems': '', 'IsMenuAvailable': '' };
+
+    private menuListData: any = { 'MenuData': [] };
 
     constructor() {
         this.subReceiveStateRefreshMediaPlayerResp = subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: any) => {
@@ -79,6 +83,7 @@ export class MusicPlayerLib {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
             if (value.length > 0) {
+                console.log('CRPC IN-->', value);
 
                 const mpRPCPrefix = value.substring(0, 8).trim(); // First 8 bytes is the RPC prefix.
                 // Check byte 3 to determine if this is a single or partial message.
@@ -320,11 +325,12 @@ export class MusicPlayerLib {
             this.myMusicPublishData = {};
             this.nowPlayingPublishData = {};
             this.progressBarPublishData = {};
+            this.menuListPublishData = {};
 
             publishEvent('o', 'myMusicData', this.myMusicPublishData);
             publishEvent('o', 'nowPlayingData', this.nowPlayingPublishData);
             publishEvent('o', 'progressBarData', this.progressBarPublishData);
-
+            publishEvent('o', 'menuListData', this.menuListPublishData);
             this.resetMp();
         }
     }
@@ -413,7 +419,7 @@ export class MusicPlayerLib {
     public getItemData(infiniteScroll = false) {
         if (!infiniteScroll) {
             this.itemValue = 1;
-            this.myMusicData['MenuData'] = [];
+            this.menuListData['MenuData'] = [];
         }
 
         let itemCount = this.myMusicData['ItemCnt'];
@@ -511,17 +517,19 @@ export class MusicPlayerLib {
             } else if (myMsgId == this.myMP.MenuId) {
                 this.processMenuResponse(responseData);
             } else if (myMsgId === this.myMP.ItemDataId) {
-                this.myMusicData['MenuData'] = [...this.myMusicData['MenuData'], ...responseData.result];
+                this.menuListData['MenuData'] = [...this.menuListData['MenuData'], ...responseData.result];
             } else if (responseData.result && Object.keys(responseData.result)?.length === 1) {
                 const responseValue = Object.values(responseData.result)[0];
                 const responseKey = Object.keys(responseData.result)[0];
                 if (myMsgId === this.myMP.TitleMenuId) { // we have two titles, to get only the menu instance title we have this condition
                     this.myMusicData[responseKey] = responseValue;
-                } else if (this.nowPlayingData.hasOwnProperty(responseKey)) {
+                } else if (myMsgId === this.myMP.TitleId) { // we have two titles, to get only the player instance title we have this condition
+                    this.nowPlayingData[responseKey] = responseValue;
+                } else if ((responseKey !== "Title") && (this.nowPlayingData.hasOwnProperty(responseKey))) {
                     this.nowPlayingData[responseKey] = responseValue;
                 } else if (this.progressBarData.hasOwnProperty(responseKey)) {
                     this.progressBarData[responseKey] = responseValue;
-                } else if (this.myMusicData.hasOwnProperty(responseKey)) {
+                } else if ((responseKey !== "Title") && this.myMusicData.hasOwnProperty(responseKey)) {
                     this.myMusicData[responseKey] = responseValue;
                     if (responseKey === 'ItemCnt') {
                         this.getItemData();
@@ -529,7 +537,6 @@ export class MusicPlayerLib {
                 }
             }
         }
-
         // Publishing response data to the respective components
         if (!(busyChanged && busyChanged['on'] === true)) {
             // TODO: remove isEqual if not required
@@ -544,6 +551,12 @@ export class MusicPlayerLib {
             if (!_.isEqual(this.progressBarPublishData, this.progressBarData)) {
                 this.progressBarPublishData = { ...this.progressBarData };
                 publishEvent('o', 'progressBarData', this.progressBarPublishData);
+            }
+            if (!_.isEqual(this.menuListPublishData, this.menuListData)) {
+                if (this.menuListData && this.menuListData['MenuData'].length > 0) {
+                    this.menuListPublishData = { ...this.menuListData };
+                    publishEvent('o', 'menuListData', this.menuListPublishData);
+                }
             }
         }
     }
@@ -630,7 +643,12 @@ export class MusicPlayerLib {
     //To replace language specific charactars
     public replaceLanguageChars(textValue: string) {
         if (textValue === undefined || textValue === null || textValue === '') return '';
-        return textValue.replace(/\/[^/]+/g, '').replace(/[^\u0020-\u007E]/g, '').replace(/\s{2,}/g, ' ').trim();
+        const bytes = textValue.replace(/\\x([0-9A-Fa-f]{2})/g, (_, hex) =>
+            String.fromCharCode(parseInt(hex, 16))
+        );
+        const utf8Bytes = new Uint8Array([...bytes].map(char => char.charCodeAt(0)));
+        const decoded = new TextDecoder('utf-8').decode(utf8Bytes);
+        return decoded;
     }
 
     public unsubscribeLibrarySignals() {
@@ -652,6 +670,7 @@ export class MusicPlayerLib {
             "PropertiesSupportedId": 0,
             "MenuId": 0,
             "TitleMenuId": 0,
+            "TitleId": 0,
             "ItemDataId": 0,
             "PlayId": 0,
             "PauseId": 0,
@@ -669,6 +688,8 @@ export class MusicPlayerLib {
 
         this.progressBarData = { 'StreamState': '', 'ProgressBar': '', 'ElapsedSec': '', 'TrackSec': '' };
 
-        this.myMusicData = { 'Title': '', 'Subtitle': '', 'ListSpecificFunctions': '', 'ItemCnt': 0, 'MaxReqItems': '', 'IsMenuAvailable': '', 'MenuData': [] }
+        this.myMusicData = { 'Title': '', 'Subtitle': '', 'ListSpecificFunctions': '', 'ItemCnt': 0, 'MaxReqItems': '', 'IsMenuAvailable': '' }
+
+        this.menuListData = { 'MenuData': [] };
     }
 }
