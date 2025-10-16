@@ -470,7 +470,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     if (dialogType === "alphanumeric") {
       const dialogContent = createElement('div', ["dialog-content"]);
       dialogContentInput.classList.add('dialog-content-input');
-      dialogContentInput.value = dialogInput;
+      dialogContentInput.value = this.musicPlayerLibInstance.replaceLanguageChars(dialogInput);
       dialogContent.appendChild(dialogContentInput);
       this._elGenericDialogContent.appendChild(dialogContent);
     }
@@ -658,12 +658,14 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   private handleDemoMode() {
     this.nowPlaying?.handleDemoMode(this.demoMode);
     this.myMusic?.handleDemoMode(this.demoMode);
-    document.getElementsByClassName('mp-plus-circle')[0].addEventListener('click', () => {
-      this.keyboardInputDialog("alphanumeric", "What would you like to call this favorite?", ["Cancel", "Ok"], "", 10);
-    });
-    document.getElementsByClassName('mp-music-list-favorites')[0].addEventListener('click', () => {
-      this.genericDialog(2, "What would you like to do?", ["Rename Favorite", "Delete favorite", "Cancel"], 10);
-    });
+    if(this.demoMode) {
+      document.getElementsByClassName('mp-plus-circle')[0].addEventListener('click', () => {
+        this.keyboardInputDialog("alphanumeric", "What would you like to call this favorite?", ["Cancel", "Ok"], "", 10);
+      });
+      document.getElementsByClassName('mp-music-list-favorites')[0].addEventListener('click', () => {
+        this.genericDialog(2, "What would you like to do?", ["Rename Favorite", "Delete favorite", "Cancel"], 10);
+      });
+    }
     if (!this.demoMode) {
       this.publishAllSignals();
     } else {
