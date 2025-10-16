@@ -502,7 +502,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this._elMask = createElement('div', ['ch5-legacy-media-player--mask']);
     this._elContainer.appendChild(this._elMask);
     this._elGenericDialogContent = createElement('div', ['ch5-legacy-media-player--mask-content-generic']);
-    this._elMaskdialogTitle = createElement('div', ['generic-dialog-title'], dialogHeading);
+    this._elMaskdialogTitle = createElement('div', ['generic-dialog-title'], this.musicPlayerLibInstance.replaceLanguageChars(dialogHeading));
     this._elGenericDialogContent.appendChild(this._elMaskdialogTitle);
   }
 
