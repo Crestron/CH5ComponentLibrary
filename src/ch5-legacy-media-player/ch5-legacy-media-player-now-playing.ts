@@ -4,7 +4,7 @@ import { publishEvent, subscribeState } from "../ch5-core/index.ts";
 import { TCh5LegacyMediaPlayerProgressbarData } from "./interfaces/t-ch5-legacy-media-player.ts";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log.ts";
 import { debounce } from "../ch5-common/utils/common-functions.ts";
-import { createElement, formatTime } from "./ch5-legacy-media-player-common.ts";
+import { createElement, decodeString, formatTime } from "./ch5-legacy-media-player-common.ts";
 
 export class Ch5LegacyMediaPlayerNowPlaying {
 
@@ -226,7 +226,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		} else {
 			this._nowPlayingImageParent.style.removeProperty("backgroundImage");
 		}
-		this._nowPlayingSongTitle.children[0].textContent = this.musicPlayerLibInstance.replaceLanguageChars(this.nowPlayingData.Title);
+		this._nowPlayingSongTitle.children[0].textContent = decodeString(this.nowPlayingData.Title);
 		this.updateMarquee();
 
 		this._nowPlayingArtist.textContent = this.nowPlayingData.Artist;

@@ -1,7 +1,7 @@
 import { Ch5LegacyMediaPlayerIconButton } from "./ch5-legacy-media-player-icon-button-base.ts";
 import { MusicPlayerLib, publishEvent, subscribeState } from "../ch5-core/index.ts";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log.ts";
-import { createElement } from "./ch5-legacy-media-player-common.ts";
+import { createElement, decodeString } from "./ch5-legacy-media-player-common.ts";
 
 export class Ch5LegacyMediaPlayerMyMusic {
 
@@ -240,8 +240,8 @@ export class Ch5LegacyMediaPlayerMyMusic {
 
     this._myMusicContentItem = createElement('div', ['my-music-content-item']);
     this._myMusicContentItem.id = itemId;
-    this._myMusicContentItemTitle = createElement('div', ['my-music-content-item-title'], this.musicPlayerLibInstance.replaceLanguageChars(text));
-    this._myMusicContentItemSubtitle = createElement('div', ['my-music-content-item-subtitle'], this.musicPlayerLibInstance.replaceLanguageChars(subText));
+    this._myMusicContentItemTitle = createElement('div', ['my-music-content-item-title'], decodeString(text));
+    this._myMusicContentItemSubtitle = createElement('div', ['my-music-content-item-subtitle'], decodeString(subText));
 
     if (this._myMusicHeaderTitleText.innerText === 'Favorites') {
       let holdTimer: number | null = null;
@@ -298,8 +298,8 @@ export class Ch5LegacyMediaPlayerMyMusic {
     }
 
     this._myMusicHeaderTitle = createElement("div", ['my-music-header-title']);
-    this._myMusicHeaderTitleText = createElement("div", ['my-music-header-title-text'], this.musicPlayerLibInstance.replaceLanguageChars(myMusicHeaderTitleText));
-    this._myMusicheaderSubtitle = createElement("div", ['my-music-header-subtitle'], this.musicPlayerLibInstance.replaceLanguageChars(myMusicheaderSubtitle));
+    this._myMusicHeaderTitleText = createElement("div", ['my-music-header-title-text'], decodeString(myMusicHeaderTitleText));
+    this._myMusicheaderSubtitle = createElement("div", ['my-music-header-subtitle'], decodeString(myMusicheaderSubtitle));
     //this._myMusicheaderSubtitle.style.visibility = this.musicPlayerLibInstance.replaceLanguageChars(myMusicheaderSubtitle) ? 'visible' : 'hidden';
     if (myMusicheaderSubtitle) {
       this._myMusicheaderSubtitle.classList?.remove('ch5-hide-vis');

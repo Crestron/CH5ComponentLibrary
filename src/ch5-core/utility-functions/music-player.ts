@@ -1,6 +1,7 @@
 import { publishEvent, subscribeState, unsubscribeState } from "..";
 import _ from 'lodash';
 import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest } from "./commonInterface";
+import { encodeString } from "../../ch5-legacy-media-player/ch5-legacy-media-player-common";
 
 export class MusicPlayerLib {
 
@@ -629,7 +630,7 @@ export class MusicPlayerLib {
                 "localExit": false,
                 "state": 1,
                 "id": id,
-                "userInput": inputValue
+                "userInput": encodeString(inputValue)
             },
             jsonrpc: '2.0',
             id: this.getMessageId(),
@@ -639,17 +640,6 @@ export class MusicPlayerLib {
             this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
         }
     };
-
-    //To replace language specific charactars
-    public replaceLanguageChars(textValue: string) {
-        if (textValue === undefined || textValue === null || textValue === '') return '';
-        const bytes = textValue.replace(/\\x([0-9A-Fa-f]{2})/g, (_, hex) =>
-            String.fromCharCode(parseInt(hex, 16))
-        );
-        const utf8Bytes = new Uint8Array([...bytes].map(char => char.charCodeAt(0)));
-        const decoded = new TextDecoder('utf-8').decode(utf8Bytes);
-        return decoded;
-    }
 
     public unsubscribeLibrarySignals() {
         unsubscribeState('b', 'receiveStateRefreshMediaPlayerResp', this.subReceiveStateRefreshMediaPlayerResp);

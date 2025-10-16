@@ -8,7 +8,7 @@ import { Ch5LegacyMediaPlayerNowPlaying } from "./ch5-legacy-media-player-now-pl
 import { Ch5LegacyMediaPlayerMyMusic } from "./ch5-legacy-media-player-my-music";
 import { MusicPlayerLib, publishEvent, subscribeState, TSignalNonStandardTypeName, TSignalValue, unsubscribeState } from "../ch5-core";
 import { resizeObserver } from "../ch5-core/resize-observer";
-import { createElement } from "./ch5-legacy-media-player-common";
+import { createElement, decodeString } from "./ch5-legacy-media-player-common";
 
 export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPlayerAttributes {
 
@@ -470,7 +470,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     if (dialogType === "alphanumeric") {
       const dialogContent = createElement('div', ["dialog-content"]);
       dialogContentInput.classList.add('dialog-content-input');
-      dialogContentInput.value = this.musicPlayerLibInstance.replaceLanguageChars(dialogInput);
+      dialogContentInput.value = decodeString(dialogInput);
       dialogContent.appendChild(dialogContentInput);
       this._elGenericDialogContent.appendChild(dialogContent);
     }
@@ -502,7 +502,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this._elMask = createElement('div', ['ch5-legacy-media-player--mask']);
     this._elContainer.appendChild(this._elMask);
     this._elGenericDialogContent = createElement('div', ['ch5-legacy-media-player--mask-content-generic']);
-    this._elMaskdialogTitle = createElement('div', ['generic-dialog-title'], this.musicPlayerLibInstance.replaceLanguageChars(dialogHeading));
+    this._elMaskdialogTitle = createElement('div', ['generic-dialog-title'], decodeString(dialogHeading));
     this._elGenericDialogContent.appendChild(this._elMaskdialogTitle);
   }
 
