@@ -12,6 +12,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 
 	private _nowPlayingContainer: HTMLElement = {} as HTMLElement;
 	private _nowPlayingPlayerContainer: HTMLElement = {} as HTMLElement;
+	private _nowPlayingPlayerLabel: HTMLElement = {} as HTMLElement;
 	private _nowPlayingImageParent: HTMLElement = {} as HTMLElement;
 	private _nowPlayingTrackInfo: HTMLElement = {} as HTMLElement;
 	private _nowPlayingSongTitle: HTMLElement = {} as HTMLElement;
@@ -215,7 +216,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 	}
 
 	private updatedNowPlayingContent() {
-		this._nowPlayingPlayerName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
+		this._nowPlayingPlayerLabel.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
 		this._nowPlayingImageParent.classList.add("now-playing-image-container");
 		this._nowPlayingImageParent.classList.add("mp-fallback-album-art");
 		if (this.nowPlayingData.AlbumArt && this.nowPlayingData.AlbumArtUrl?.trim() !== "") {
@@ -328,10 +329,8 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 	protected renderProviderOrPlayer() {
 		//Now playing player
 		this._nowPlayingPlayerContainer = createElement("div", ["now-playing-player-container"]);
-		const nowPlayingPlayerLabel = createElement('div', ['now-playing-player-label']);
-		this._nowPlayingPlayerName = createElement('label', ["now-playing-player-name"], '');
-		nowPlayingPlayerLabel.appendChild(this._nowPlayingPlayerName);
-		this._nowPlayingPlayerContainer.appendChild(nowPlayingPlayerLabel);
+		this._nowPlayingPlayerLabel = createElement('div', ['now-playing-player-label']);
+		this._nowPlayingPlayerContainer.appendChild(this._nowPlayingPlayerLabel);
 		//Now Playing Player Music Note
 		const nowPlayingPlayerMusicNoteButton = new Ch5LegacyMediaPlayerIconButton();
 		nowPlayingPlayerMusicNoteButton.setAttribute('iconClass', "mp-icon mp-music-note-dbl");
