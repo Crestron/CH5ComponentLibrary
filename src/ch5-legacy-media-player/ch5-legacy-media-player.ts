@@ -318,9 +318,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     subscribeState('o', 'busyChanged', ((data: any) => {
       this.busyChanged = data;
       if (this.busyChanged.on) {
-        this.startMPLoading();
+        this._loadingIndicator.classList.remove('hide-loading-indicator');
       } else {
-        this.stopMPLoading();
+        this._loadingIndicator.classList.add('hide-loading-indicator');
       }
       this.logger.log('busyChanged', this.busyChanged);
     }));
@@ -389,9 +389,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     customElements.whenDefined('ch5-legacy-media-player').then(() => {
       this.componentLoadedEvent(Ch5LegacyMediaPlayer.ELEMENT_NAME, this.id);
     });
-    // setTimeout(() => {   //to show loader in showcase
-    //   this.stopMPLoading();
-    // }, 2000);
     this.logger.stop();
   }
 
@@ -415,11 +412,11 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this._elContainer.appendChild(this.nowPlaying.createInternalHtml());
     this.myMusic = new Ch5LegacyMediaPlayerMyMusic(this.musicPlayerLibInstance);
     this._elContainer.appendChild(this.myMusic.createInternalHtml());
-    // this.startMPLoading();
+    this.loadingIndicator();
     this.logger.stop();
   }
 
-  private startMPLoading() {
+  private loadingIndicator() {
     if (this._loadingIndicator && this._loadingIndicator.parentNode) {
       this._loadingIndicator.parentNode.removeChild(this._loadingIndicator);
     }
@@ -429,12 +426,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     loadingIndicatorText.appendChild(loadingIndicatorTextIcon);
     this._loadingIndicator.appendChild(loadingIndicatorText);
     this._elContainer.appendChild(this._loadingIndicator);
-  }
-
-  private stopMPLoading() {
-    if (this._loadingIndicator && this._loadingIndicator.parentNode) {
-      this._loadingIndicator.parentNode.removeChild(this._loadingIndicator);
-    }
   }
 
   //Generic Dialog
@@ -499,9 +490,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   //Dialog Heading
   protected getDialogHeading(dialogHeading: string) {
-    this._elMask = createElement('div', ['ch5-legacy-media-player--mask']);
+    this._elMask = createElement('div', ['ch5-legacy-media-player--popup-overlay']);
     this._elContainer.appendChild(this._elMask);
-    this._elGenericDialogContent = createElement('div', ['ch5-legacy-media-player--mask-content-generic']);
+    this._elGenericDialogContent = createElement('div', ['ch5-legacy-media-player--popup-content-generic']);
     this._elMaskdialogTitle = createElement('div', ['generic-dialog-title'], decodeString(dialogHeading));
     this._elGenericDialogContent.appendChild(this._elMaskdialogTitle);
   }
