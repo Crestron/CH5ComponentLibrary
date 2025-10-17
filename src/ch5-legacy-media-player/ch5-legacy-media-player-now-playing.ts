@@ -1,10 +1,10 @@
 import { Ch5LegacyMediaPlayerIconButton } from "./ch5-legacy-media-player-icon-button-base.ts";
-import { MusicPlayerLib } from "../ch5-core/utility-functions/music-player.ts";
+import { MusicPlayerLib } from "./music-player.ts";
 import { publishEvent, subscribeState } from "../ch5-core/index.ts";
 import { TCh5LegacyMediaPlayerProgressbarData } from "./interfaces/t-ch5-legacy-media-player.ts";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log.ts";
 import { debounce } from "../ch5-common/utils/common-functions.ts";
-import { createElement, formatTime } from "./ch5-legacy-media-player-common.ts";
+import { createElement, decodeString, formatTime } from "./ch5-legacy-media-player-common.ts";
 
 export class Ch5LegacyMediaPlayerNowPlaying {
 
@@ -124,7 +124,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this.createDefaultNowPlaying();
 
 		subscribeState('o', 'nowPlayingData', ((data: any) => {
-			console.log('NowPlayingData----', data);
+			this.logger.log('NowPlayingData----', data);
 			if (this.demoModeValue === false) {
 				if (data && Object.keys(data).length > 0) {
 					this.nowPlayingData = data;
@@ -191,6 +191,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this._progressBarContainer.classList?.remove('ch5-hide-dis');
 		this._progressBarElapsedSec = this.NOW_PLAYING_DEMO_DATA.ElapsedSec;
 		this._progressBarTrackSec = this.NOW_PLAYING_DEMO_DATA.TrackSec;
+		this._streamState.textContent = this.NOW_PLAYING_DEMO_DATA.StreamState;
 		this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
 		this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
 		const percent = (this._progressBarElapsedSec/this._progressBarTrackSec)*100;
@@ -226,7 +227,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		} else {
 			this._nowPlayingImageParent.style.removeProperty("backgroundImage");
 		}
-		this._nowPlayingSongTitle.children[0].textContent = this.musicPlayerLibInstance.replaceLanguageChars(this.nowPlayingData.Title);
+		this._nowPlayingSongTitle.children[0].textContent = decodeString(this.nowPlayingData.Title);
 		this.updateMarquee();
 
 		this._nowPlayingArtist.textContent = this.nowPlayingData.Artist;

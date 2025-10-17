@@ -37,4 +37,3 @@ export * from './ch5-platform';
 export * from './utility-functions/is-ios-device';
 export * from './ch5-component';
 export * from './utility-functions/animate';
-export * from './utility-functions/music-player';

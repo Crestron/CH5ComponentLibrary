@@ -11,3 +11,17 @@ export const formatTime = (seconds: number = 0): string => {
   const sec = Math.floor(seconds % 60);
   return `${min}:${sec < 10 ? '0' : ''}${sec}`;
 };
+
+
+//To Decode
+export const decodeString = (textValue: string): string => {
+  if (textValue === undefined || textValue === null || textValue === '') return '';
+  const byteArray = Uint8Array.from([...textValue].map(char => char.charCodeAt(0)));
+  return new TextDecoder('utf-8').decode(byteArray);
+}
+
+//To Decode
+export const encodeString = (input: string): string => {
+  const utf8Bytes = new TextEncoder().encode(input);
+  return [...utf8Bytes].map(byte => String.fromCharCode(byte)).join('');
+}
