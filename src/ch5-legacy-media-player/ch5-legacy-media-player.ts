@@ -6,9 +6,10 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5LegacyMediaPlayerNowPlaying } from "./ch5-legacy-media-player-now-playing";
 import { Ch5LegacyMediaPlayerMyMusic } from "./ch5-legacy-media-player-my-music";
-import { MusicPlayerLib, publishEvent, subscribeState, TSignalNonStandardTypeName, TSignalValue, unsubscribeState } from "../ch5-core";
+import { publishEvent, subscribeState, TSignalNonStandardTypeName, TSignalValue, unsubscribeState } from "../ch5-core";
 import { resizeObserver } from "../ch5-core/resize-observer";
 import { createElement, decodeString } from "./ch5-legacy-media-player-common";
+import { MusicPlayerLib } from "./music-player";
 
 export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPlayerAttributes {
 

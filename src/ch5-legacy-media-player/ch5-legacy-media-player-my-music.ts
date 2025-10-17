@@ -1,7 +1,8 @@
 import { Ch5LegacyMediaPlayerIconButton } from "./ch5-legacy-media-player-icon-button-base.ts";
-import { MusicPlayerLib, publishEvent, subscribeState } from "../ch5-core/index.ts";
+import { publishEvent, subscribeState } from "../ch5-core/index.ts";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log.ts";
 import { createElement, decodeString } from "./ch5-legacy-media-player-common.ts";
+import { MusicPlayerLib } from "./music-player.ts";
 
 export class Ch5LegacyMediaPlayerMyMusic {
 
@@ -79,7 +80,7 @@ export class Ch5LegacyMediaPlayerMyMusic {
     this.createDefaultMyMusic();
 
     subscribeState('o', 'myMusicData', ((data: any) => {
-      console.log('MyMusicData----', data);
+      this.logger.log('MyMusicData----', data);
       this.createMyMusic();
       if (!this.demoModeValue) {
         this.loadItemsCount = this.MAXIMUM_ROWS_TO_SHOW;
@@ -95,7 +96,7 @@ export class Ch5LegacyMediaPlayerMyMusic {
 
     subscribeState('o', 'menuListData', ((data: any) => {
       this.menuListData = data;
-      console.log("My Music MenuData: ", this.menuListData);
+      this.logger.log("My Music MenuData: ", this.menuListData);
       if (this.menuListData && this.menuListData['MenuData'] && this.menuListData['MenuData'].length <= this.musicPlayerLibInstance.maxReqItems) {
         this.printedIndex = 0;
       }

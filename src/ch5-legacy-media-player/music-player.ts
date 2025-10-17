@@ -1,7 +1,7 @@
-import { publishEvent, subscribeState, unsubscribeState } from "..";
+import { publishEvent, subscribeState, unsubscribeState } from "../ch5-core";
 import _ from 'lodash';
 import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest } from "./commonInterface";
-import { encodeString } from "../../ch5-legacy-media-player/ch5-legacy-media-player-common";
+import { encodeString } from "./ch5-legacy-media-player-common";
 
 export class MusicPlayerLib {
 
@@ -84,7 +84,7 @@ export class MusicPlayerLib {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
             if (value.length > 0) {
-                console.log('CRPC IN-->', value);
+                //console.log('CRPC IN-->', value);
 
                 const mpRPCPrefix = value.substring(0, 8).trim(); // First 8 bytes is the RPC prefix.
                 // Check byte 3 to determine if this is a single or partial message.

@@ -1,5 +1,5 @@
 import { Ch5LegacyMediaPlayerIconButton } from "./ch5-legacy-media-player-icon-button-base.ts";
-import { MusicPlayerLib } from "../ch5-core/utility-functions/music-player.ts";
+import { MusicPlayerLib } from "./music-player.ts";
 import { publishEvent, subscribeState } from "../ch5-core/index.ts";
 import { TCh5LegacyMediaPlayerProgressbarData } from "./interfaces/t-ch5-legacy-media-player.ts";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log.ts";
@@ -124,7 +124,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this.createDefaultNowPlaying();
 
 		subscribeState('o', 'nowPlayingData', ((data: any) => {
-			console.log('NowPlayingData----', data);
+			this.logger.log('NowPlayingData----', data);
 			if (this.demoModeValue === false) {
 				if (data && Object.keys(data).length > 0) {
 					this.nowPlayingData = data;
