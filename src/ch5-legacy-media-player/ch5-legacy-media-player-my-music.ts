@@ -141,11 +141,11 @@ export class Ch5LegacyMediaPlayerMyMusic {
     const defaultHeaderContainer = createElement('div', ['default-header-container']);
     const defaultBackIcon = new Ch5LegacyMediaPlayerIconButton();
     defaultBackIcon.setAttribute('iconClass', "mp-icon mp-chevron-left");
-    defaultBackIcon.title="Default Back";
+    defaultBackIcon.title = "Default Back";
     const headerTitleNone = createElement('div', ['header-title-none'], '— —');
     const defaultMusicIcon = new Ch5LegacyMediaPlayerIconButton();
     defaultMusicIcon.setAttribute('iconClass', "mp-logo mp-animated-bar");
-    defaultMusicIcon.title="Default Music";
+    defaultMusicIcon.title = "Default Music";
     defaultHeaderContainer.append(defaultBackIcon, headerTitleNone, defaultMusicIcon);
     const defaultItemsContainer = createElement("div", ['default-item-container']);
     const defaultItem = createElement('div', ['default-item'], 'No Content');
@@ -153,10 +153,10 @@ export class Ch5LegacyMediaPlayerMyMusic {
     const defaultFooterContainer = createElement('div', ['default-footer-container']);
     const defaultCreateIcon = new Ch5LegacyMediaPlayerIconButton();
     defaultCreateIcon.setAttribute('iconClass', "mp-icon mp-plus-circle");
-    defaultCreateIcon.title="Default Create";
+    defaultCreateIcon.title = "Default Create";
     const defaultFindIcon = new Ch5LegacyMediaPlayerIconButton();
     defaultFindIcon.setAttribute('iconClass', "mp-icon mp-search-lg");
-    defaultFindIcon.title="Default Find";
+    defaultFindIcon.title = "Default Find";
     defaultFooterContainer.append(defaultCreateIcon, defaultFindIcon);
     this._myMusicContainer.append(defaultHeaderContainer, defaultItemsContainer, defaultFooterContainer);
   }
@@ -287,16 +287,15 @@ export class Ch5LegacyMediaPlayerMyMusic {
   }
 
   protected myMusicHeader(backButton: boolean, myMusicHeaderTitleText: string, myMusicheaderSubtitle: string) {
-    if (backButton) {
-      this._myMusicHeaderBackButton = new Ch5LegacyMediaPlayerIconButton();
-      this._myMusicHeaderBackButton.setAttribute('iconClass', "mp-icon mp-chevron-left");
-      this._myMusicHeaderBackButton.title="Previous Section";
-      this._myMusicHeaderBackButton.classList.add('my-music-header-back-button');
-      this._myMusicHeaderBackButton.onclick = () => {
-        this.musicPlayerLibInstance.myMusicEvent('Back');
-      }
-      this._myMusicHeaderSection.prepend(this._myMusicHeaderBackButton);
+    this._myMusicHeaderBackButton = new Ch5LegacyMediaPlayerIconButton();
+    this._myMusicHeaderBackButton.setAttribute('iconClass', "mp-icon mp-chevron-left");
+    this._myMusicHeaderBackButton.title = "Previous Section";
+    this._myMusicHeaderBackButton.classList.add('my-music-header-back-button');
+    this._myMusicHeaderBackButton.onclick = () => {
+      this.musicPlayerLibInstance.myMusicEvent('Back');
     }
+    if (backButton) this._myMusicHeaderBackButton.classList.add('back-button-visibility');
+    this._myMusicHeaderSection.prepend(this._myMusicHeaderBackButton);
 
     this._myMusicHeaderTitle = createElement("div", ['my-music-header-title']);
     this._myMusicHeaderTitleText = createElement("div", ['my-music-header-title-text'], decodeString(myMusicHeaderTitleText));
@@ -311,7 +310,7 @@ export class Ch5LegacyMediaPlayerMyMusic {
 
     this._myMusicHeaderNowPlayingButton = new Ch5LegacyMediaPlayerIconButton();
     this._myMusicHeaderNowPlayingButton.setAttribute('iconClass', "mp-logo mp-animated-bar");
-    this._myMusicHeaderNowPlayingButton.title="Back to Now Playing";
+    this._myMusicHeaderNowPlayingButton.title = "Back to Now Playing";
     this._myMusicHeaderNowPlayingButton.classList.add("my-music-header-now-playing-button");
     this._myMusicHeaderNowPlayingButton.addEventListener('click', () => {
       publishEvent('b', 'showMyMusicComponent', false);
@@ -336,7 +335,7 @@ export class Ch5LegacyMediaPlayerMyMusic {
           if (item === action.name) {
             const button = new Ch5LegacyMediaPlayerIconButton();
             button.setAttribute('iconClass', action.class);
-            button.title=action.name;
+            button.title = action.name;
             button.id = item;
             button.onclick = () => {
               this.musicPlayerLibInstance.myMusicEvent(item);

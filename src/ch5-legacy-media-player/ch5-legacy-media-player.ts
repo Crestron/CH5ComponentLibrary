@@ -657,6 +657,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       document.getElementsByClassName('mp-music-list-favorites')[0].addEventListener('click', () => {
         this.genericDialog(2, "What would you like to do?", ["Rename Favorite", "Delete favorite", "Cancel"], 10);
       });
+      document.getElementsByClassName('my-music-header-back-button')[0].classList.add('back-button-visibility');
     }
     if (!this.demoMode) {
       this.publishAllSignals();

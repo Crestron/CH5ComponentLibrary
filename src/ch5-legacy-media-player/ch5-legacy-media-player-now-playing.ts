@@ -191,6 +191,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this._progressBarContainer.classList?.remove('ch5-hide-dis');
 		this._progressBarElapsedSec = this.NOW_PLAYING_DEMO_DATA.ElapsedSec;
 		this._progressBarTrackSec = this.NOW_PLAYING_DEMO_DATA.TrackSec;
+		this._streamState.textContent = this.NOW_PLAYING_DEMO_DATA.StreamState;
 		this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
 		this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
 		const percent = (this._progressBarElapsedSec/this._progressBarTrackSec)*100;
