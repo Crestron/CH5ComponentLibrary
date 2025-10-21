@@ -489,10 +489,6 @@ export class MusicPlayerLib {
     // Process CRPC data from the control system.
     private processCRPCResponse(data: any) {
         const responseData = data;
-        // ToDO: Just because the message ID was found, doesn't mean
-        /// there were no errors. Add error checking to the response
-        // ID handler.
-
         // Get the messge id.
         // This can be used to determine if a valid response was received
         // for a specific API call we just made.
