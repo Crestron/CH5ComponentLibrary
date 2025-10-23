@@ -194,8 +194,8 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this._streamState.textContent = this.NOW_PLAYING_DEMO_DATA.StreamState;
 		this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
 		this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
-		const percent = (this._progressBarElapsedSec/this._progressBarTrackSec)*100;
-		this._progressBarInput.style.backgroundSize = percent +"% 100%";
+		const percent = (this._progressBarElapsedSec / this._progressBarTrackSec) * 100;
+		this._progressBarInput.style.backgroundSize = percent + "% 100%";
 		this._progressBarInput.max = this._progressBarTrackSec?.toString();
 		this._progressBarInput.value = this._progressBarElapsedSec?.toString();
 	}
@@ -221,7 +221,16 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this._nowPlayingImageParent.classList.add("now-playing-image-container");
 		this._nowPlayingImageParent.classList.add("mp-fallback-album-art");
 		if (this.nowPlayingData.AlbumArt && this.nowPlayingData.AlbumArtUrl?.trim() !== "") {
-			this._nowPlayingImageParent.style.backgroundImage = "url('" + this.nowPlayingData.AlbumArtUrl + "')";
+
+			const imageUrl = this.nowPlayingData.AlbumArtUrl;
+			const img = new Image();
+			img.addEventListener('onload', (() => {
+				this._nowPlayingImageParent.style.backgroundImage = "url('" + this.nowPlayingData.AlbumArtUrl + "')";
+			}));
+			img.addEventListener('onerror', (() => {
+				this._nowPlayingImageParent.style.removeProperty("backgroundImage");
+			}));
+			img.src = imageUrl;
 		} else if (this.nowPlayingData.AlbumArtUrlNAT?.trim() !== "") {
 			this._nowPlayingImageParent.style.backgroundImage = "url('" + this.nowPlayingData.AlbumArtUrlNAT + "')";
 		} else {
@@ -297,13 +306,13 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		const defaultActionsContainer = createElement('div', ['default-actions-container']);
 		const defaultBackwardIcon = new Ch5LegacyMediaPlayerIconButton();
 		defaultBackwardIcon.setAttribute('iconClass', "mp-icon mp-fast-backward");
-		defaultBackwardIcon.title="Default Backward ";
+		defaultBackwardIcon.title = "Default Backward ";
 		const defaultPlayIcon = new Ch5LegacyMediaPlayerIconButton();
 		defaultPlayIcon.setAttribute('iconClass', "mp-icon mp-play");
-		defaultPlayIcon.title="Default Play";
+		defaultPlayIcon.title = "Default Play";
 		const defaultforwardIcon = new Ch5LegacyMediaPlayerIconButton();
 		defaultforwardIcon.setAttribute('iconClass', "mp-icon mp-fast-forward");
-		defaultforwardIcon.title="Default Forward";
+		defaultforwardIcon.title = "Default Forward";
 		defaultActionsContainer.append(defaultBackwardIcon, defaultPlayIcon, defaultforwardIcon);
 		this._nowPlayingContainer.append(defaultProviderContainer, defaultAlbumArtContainer, defaultTrackInfoContainer, defaultProgressbarContainer, defaultActionsContainer);
 	}
@@ -335,7 +344,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		//Now Playing Player Music Note
 		const nowPlayingPlayerMusicNoteButton = new Ch5LegacyMediaPlayerIconButton();
 		nowPlayingPlayerMusicNoteButton.setAttribute('iconClass', "mp-icon mp-music-note-dbl");
-		nowPlayingPlayerMusicNoteButton.title="My Music Section";
+		nowPlayingPlayerMusicNoteButton.title = "My Music Section";
 		nowPlayingPlayerMusicNoteButton.classList.add("now-playing-player-music-note-button");
 		nowPlayingPlayerMusicNoteButton.addEventListener('click', () => {
 			publishEvent('b', 'showMyMusicComponent', true);
@@ -457,7 +466,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 				if (action === "Play" || action === "Pause") {
 					const button = new Ch5LegacyMediaPlayerIconButton();
 					button.setAttribute('iconClass', actionIconMap[action].class);
-					button.title=action;
+					button.title = action;
 					if (action === "Play") {
 						button.onclick = () => {
 							this.musicPlayerLibInstance.nowPlayingvent(action);
@@ -474,8 +483,8 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 				} else if (availableActions.includes(action)) {
 					// Render other actions only if present
 					const button = new Ch5LegacyMediaPlayerIconButton();
-					button.setAttribute('iconClass', actionIconMap[action].class);					
-					button.title=action;
+					button.setAttribute('iconClass', actionIconMap[action].class);
+					button.title = action;
 					button.onclick = () => {
 						this.musicPlayerLibInstance.nowPlayingvent(action);
 					};
@@ -483,7 +492,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 				} else {
 					const button = new Ch5LegacyMediaPlayerIconButton();
 					button.setAttribute('iconClass', actionIconMap[action].class);
-					button.title=action;
+					button.title = action;
 					button.onclick = () => {
 						this.musicPlayerLibInstance.nowPlayingvent(action);
 					};
@@ -515,7 +524,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 				if (availableActions?.includes(action)) {
 					const button = new Ch5LegacyMediaPlayerIconButton();
 					button.setAttribute('iconClass', moreActionIconMap[action].class);
-					button.title=action;
+					button.title = action;
 					button.onclick = () => {
 						this.musicPlayerLibInstance.nowPlayingvent(action);
 					}
