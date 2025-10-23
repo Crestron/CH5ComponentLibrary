@@ -353,9 +353,6 @@ export class Ch5LegacyMediaPlayerMyMusic {
       for (let index = 0; index < this.loadItemsCount; index++) {
         this.createLine(index);
       }
-    } else {
-      this.createLine(this.printedIndex);
-      this.loadItemsCount = this.printedIndex;
     }
   }
 
