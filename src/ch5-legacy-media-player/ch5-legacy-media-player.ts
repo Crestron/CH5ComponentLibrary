@@ -705,22 +705,22 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       this.receiveStateDeviceOffline = this.contractName + '.Offline';
       this.receiveStatePlayerName = this.contractName + '.Player_Name';
       if (this.useContractForShow === true) {
-        this.receiveStateShow = this.contractName + 'Visible';
+        this.receiveStateShow = this.contractName + '.Visible';
       } else {
         this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
       }
       if (this.useContractForEnable === true) {
-        this.receiveStateEnable = this.contractName + 'Enabled';
+        this.receiveStateEnable = this.contractName + '.Enabled';
       } else {
         this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;
       }
       if (this.useContractForCustomClass === true) {
-        this.receiveStateCustomClass = this.contractName + 'CustomClass';
+        this.receiveStateCustomClass = this.contractName + '.CustomClass';
       } else {
         this.receiveStateCustomClass = this.signalNameOnContract.receiveStateCustomClass;
       }
       if (this.useContractForCustomStyle === true) {
-        this.receiveStateCustomStyle = this.contractName + 'CustomStyle';
+        this.receiveStateCustomStyle = this.contractName + '.CustomStyle';
       } else {
         this.receiveStateCustomStyle = this.signalNameOnContract.receiveStateCustomStyle;
       }
