@@ -2,6 +2,7 @@ import { publishEvent, subscribeState, unsubscribeState } from "../ch5-core";
 import _ from 'lodash';
 import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest } from "./commonInterface";
 import { encodeString } from "./ch5-legacy-media-player-common";
+import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 
 export class MusicPlayerLib {
 
@@ -78,6 +79,17 @@ export class MusicPlayerLib {
 
         this.subreceiveStateDeviceOfflineResp = subscribeState('b', 'receiveStateDeviceOfflineResp', (value: any) => {
             this.myMP.connectionActive = !value;
+            const data = { 'userInputRequired': "", "text": "No Communication. Please check power and connection.", "textForItems": [], "initialUserInput": "", "timeoutSec": 10000, "show": true }
+            if (value) {
+                this.unregisterWithDevice(true);
+            } else {
+                data.text = "";
+                data.show = false;
+                if (this.myMP.source && this.myMP.tag) {
+                    this.registerWithDevice();
+                }
+            }
+            publishEvent('o', 'StatusMsgMenuChanged', data);
         });
 
         this.subreceiveStateCRPCResp = subscribeState('s', 'receiveStateCRPCResp', (value: any) => {
@@ -297,7 +309,7 @@ export class MusicPlayerLib {
         });
     }
 
-    private unregisterWithDevice() {
+    private unregisterWithDevice(deviceOffLine: boolean = false) {
         // We need to unregister with both the Media Player instance
         // as well as the Media player Menu instance.
 
@@ -332,7 +344,7 @@ export class MusicPlayerLib {
             publishEvent('o', 'nowPlayingData', this.nowPlayingPublishData);
             publishEvent('o', 'progressBarData', this.progressBarPublishData);
             publishEvent('o', 'menuListData', this.menuListPublishData);
-            this.resetMp();
+            this.resetMp(deviceOffLine);
         }
     }
 
@@ -391,7 +403,6 @@ export class MusicPlayerLib {
         };
         this.sendRPCRequest(JSON.stringify(myRPC)); // Send the message.
     }
-
     private getPropertiesSupported(instanceName: string) {
         const myRPC: GetPropertiesSupportedRequest = {
             params: { "propName": "PropertiesSupported" },
@@ -446,21 +457,31 @@ export class MusicPlayerLib {
         let myPrefix = '';
         let requestedData = '';
         const numberOfChar = 100;
-        // Add prefix if the connection is not direct.
-        const chuncknCount = Math.ceil(data.length / numberOfChar);
-        for (let i = 0; i < chuncknCount; i++) {
-            if (i === (chuncknCount - 1)) {
-                requestedData = data.substring(numberOfChar * i);
-                myPrefix = this.generateRPCPrefixForFinalMessage(requestedData);
-                requestedData = myPrefix + requestedData;
-            } else {
-                requestedData = data.substring((numberOfChar * i), (numberOfChar * i) + numberOfChar);
-                myPrefix = this.generateRPCPrefixForPartialMessage(requestedData);
-                requestedData = myPrefix + requestedData;
-            }
+
+        if (isSafariMobile()) {// for crestron one
+            myPrefix = this.generateRPCPrefixForFinalMessage(data);
+            requestedData = myPrefix + data;
             if (this.mpSigRPCOut) {
                 console.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
                 publishEvent('s', this.mpSigRPCOut, requestedData);
+            }
+        } else {
+            // Add prefix if the connection is not direct.
+            const chuncknCount = Math.ceil(data.length / numberOfChar);
+            for (let i = 0; i < chuncknCount; i++) {
+                if (i === (chuncknCount - 1)) {
+                    requestedData = data.substring(numberOfChar * i);
+                    myPrefix = this.generateRPCPrefixForFinalMessage(requestedData);
+                    requestedData = myPrefix + requestedData;
+                } else {
+                    requestedData = data.substring((numberOfChar * i), (numberOfChar * i) + numberOfChar);
+                    myPrefix = this.generateRPCPrefixForPartialMessage(requestedData);
+                    requestedData = myPrefix + requestedData;
+                }
+                if (this.mpSigRPCOut) {
+                    console.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
+                    publishEvent('s', this.mpSigRPCOut, requestedData);
+                }
             }
         }
     }
@@ -468,10 +489,6 @@ export class MusicPlayerLib {
     // Process CRPC data from the control system.
     private processCRPCResponse(data: any) {
         const responseData = data;
-        // ToDO: Just because the message ID was found, doesn't mean
-        /// there were no errors. Add error checking to the response
-        // ID handler.
-
         // Get the messge id.
         // This can be used to determine if a valid response was received
         // for a specific API call we just made.
@@ -649,25 +666,45 @@ export class MusicPlayerLib {
         unsubscribeState('s', 'sendEventCRPCJoinNo', this.subsendEventCRPCJoinNo);
     }
 
-    public resetMp() {
+    public resetMp(param: boolean = false) {
+        if (param) {
+            this.myMP = {
+                "tag": this.myMP.tag,
+                "source": this.myMP.source,
+                "connectionActive": false,
+                "RegistrationId": 0,
+                "ObjectsId": 0,
+                "PropertiesSupportedId": 0,
+                "MenuId": 0,
+                "TitleMenuId": 0,
+                "TitleId": 0,
+                "ItemDataId": 0,
+                "PlayId": 0,
+                "PauseId": 0,
+                "SeekId": 0,
+                "instanceName": '',
+                "menuInstanceName": '',
+            };
+        } else {
+            this.myMP = {
+                "tag": "",
+                "source": 0,
+                "connectionActive": true,
+                "RegistrationId": 0,
+                "ObjectsId": 0,
+                "PropertiesSupportedId": 0,
+                "MenuId": 0,
+                "TitleMenuId": 0,
+                "TitleId": 0,
+                "ItemDataId": 0,
+                "PlayId": 0,
+                "PauseId": 0,
+                "SeekId": 0,
+                "instanceName": '',
+                "menuInstanceName": '',
+            };
+        }
 
-        this.myMP = {
-            "tag": "",
-            "source": 0,
-            "connectionActive": true,
-            "RegistrationId": 0,
-            "ObjectsId": 0,
-            "PropertiesSupportedId": 0,
-            "MenuId": 0,
-            "TitleMenuId": 0,
-            "TitleId": 0,
-            "ItemDataId": 0,
-            "PlayId": 0,
-            "PauseId": 0,
-            "SeekId": 0,
-            "instanceName": '',
-            "menuInstanceName": '',
-        };
 
         this.nowPlayingData = {
             'ActionsSupported': '', 'ActionsAvailable': '', 'RewindSpeed': '',

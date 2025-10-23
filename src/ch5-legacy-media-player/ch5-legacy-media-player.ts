@@ -228,9 +228,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     return this._ch5Properties.get<boolean>("useContractForCustomClass");
   }
 
-
   public set receiveStateCRPC(value: string) {
     this._ch5Properties.set("receiveStateCRPC", value, null, (newValue: string) => {
+      this.logger.log('CRCP In join ' + this.receiveStateCRPC, newValue);
       this.publishMPEvent('s', "receiveStateCRPCResp", newValue);
     });
   }
@@ -512,7 +512,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
         }
         this.logger.log("Button Confirmation Id:", i + 1);
         this.logger.log("Input Value:", inputEle?.value);
-        if(this.demoMode) {
+        if (this.demoMode) {
           if (this._elMask && this._elMask.parentNode) {
             this._elMask.parentNode.removeChild(this._elMask);
           }
@@ -521,7 +521,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
         }
       });
       button.textContent = dialogArray[i];
-      if(dialogArray[i] !== "Cancel") {
+      if (dialogArray[i] !== "Cancel") {
         button.classList.add('primary-dialog-button');
       }
       this._dialogFooter.appendChild(button);
@@ -569,7 +569,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
         this._elContainer.classList.add("portrait-mode-active");
       }
     } else {
-      this.querySelector(".ch5-legacy-media-player--my-music")?.classList.remove("my-music-transition"); // ?
+      this.querySelector(".ch5-legacy-media-player--my-music")?.classList.remove("my-music-transition");
       this._elContainer.classList.remove("portrait-mode-active");
     }
 
@@ -616,17 +616,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
         }
       }
     }
-
-    // if (width >= 1200) {
-    //   this._elContainer.classList.add("now-playing-max-width-1200");
-    // } else {
-    //   this._elContainer.classList.remove("now-playing-max-width-1200");
-    // }
-    // if (height < 500) {
-    //   this._elContainer.classList.add("now-playing-image-shape-circular");
-    // } else {
-    //   this._elContainer.classList.remove("now-playing-image-shape-circular");
-    // }
   }
 
   protected removeEventListeners() {
@@ -647,10 +636,11 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       container.remove();
     });
   }
+
   private handleDemoMode() {
     this.nowPlaying?.handleDemoMode(this.demoMode);
     this.myMusic?.handleDemoMode(this.demoMode);
-    if(this.demoMode) {
+    if (this.demoMode) {
       document.getElementsByClassName('mp-plus-circle')[0].addEventListener('click', () => {
         this.keyboardInputDialog("alphanumeric", "What would you like to call this favorite?", ["Cancel", "Ok"], "", 10);
       });
@@ -704,22 +694,22 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       this.receiveStateDeviceOffline = this.contractName + '.Offline';
       this.receiveStatePlayerName = this.contractName + '.Player_Name';
       if (this.useContractForShow === true) {
-        this.receiveStateShow = this.contractName + 'Visible';
+        this.receiveStateShow = this.contractName + '.Visible';
       } else {
         this.receiveStateShow = this.signalNameOnContract.receiveStateShow;
       }
       if (this.useContractForEnable === true) {
-        this.receiveStateEnable = this.contractName + 'Enabled';
+        this.receiveStateEnable = this.contractName + '.Enabled';
       } else {
         this.receiveStateEnable = this.signalNameOnContract.receiveStateEnable;
       }
       if (this.useContractForCustomClass === true) {
-        this.receiveStateCustomClass = this.contractName + 'CustomClass';
+        this.receiveStateCustomClass = this.contractName + '.CustomClass';
       } else {
         this.receiveStateCustomClass = this.signalNameOnContract.receiveStateCustomClass;
       }
       if (this.useContractForCustomStyle === true) {
-        this.receiveStateCustomStyle = this.contractName + 'CustomStyle';
+        this.receiveStateCustomStyle = this.contractName + '.CustomStyle';
       } else {
         this.receiveStateCustomStyle = this.signalNameOnContract.receiveStateCustomStyle;
       }
@@ -774,7 +764,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
         unsubscribeState('s', 'receiveStateDeviceOffline', subReceiveStateDeviceOffline);
       })
     }));
-
   }
 
   //#endregion
