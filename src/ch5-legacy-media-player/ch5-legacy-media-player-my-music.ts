@@ -353,9 +353,6 @@ export class Ch5LegacyMediaPlayerMyMusic {
       for (let index = 0; index < this.loadItemsCount; index++) {
         this.createLine(index);
       }
-    } else {
-      this.createLine(this.printedIndex);
-      this.loadItemsCount = this.printedIndex;
     }
   }
 
@@ -369,6 +366,9 @@ export class Ch5LegacyMediaPlayerMyMusic {
   }
 
   protected menuApiChanges() {
+    if (this.menuListData['MenuData']?.length === 0) {
+      Array.from(this._myMusicContentSection.childNodes).forEach((child) => child.remove());
+    }
     this.displayVisibleOnlyItems();
     if (this.menuListData['MenuData']?.length > this.MAXIMUM_ROWS_TO_SHOW && this.menuListData['MenuData']?.length > this.musicPlayerLibInstance.maxReqItems) {
       this._myMusicContentSection.scrollTop = this._myMusicContentSection.scrollTop - this.scrollPosition;
