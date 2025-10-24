@@ -221,23 +221,22 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this._nowPlayingImageParent.classList.add("mp-fallback-album-art");
 		const img = new Image();
 		if (this.nowPlayingData.AlbumArt && this.nowPlayingData.AlbumArtUrl?.trim() !== "") {
-
 			const imageUrl = this.nowPlayingData.AlbumArtUrl;
-			img.addEventListener('onload', (() => {
+			img.addEventListener('load', () => {
 				this._nowPlayingImageParent.style.backgroundImage = "url('" + this.nowPlayingData.AlbumArtUrl + "')";
-			}));
-			img.addEventListener('onerror', (() => {
+			});
+			img.addEventListener('error', () => {
 				this._nowPlayingImageParent.style.removeProperty("backgroundImage");
-			}));
+			});
 			img.src = imageUrl;
 		} else if (this.nowPlayingData.AlbumArtUrlNAT?.trim() !== "") {
 			const imageUrl = this.nowPlayingData.AlbumArtUrlNAT;
-			img.addEventListener('onload', (() => {
+			img.addEventListener('load', () => {
 				this._nowPlayingImageParent.style.backgroundImage = "url('" + this.nowPlayingData.AlbumArtUrlNAT + "')";
-			}));
-			img.addEventListener('onerror', (() => {
+			});
+			img.addEventListener('error', () => {
 				this._nowPlayingImageParent.style.removeProperty("backgroundImage");
-			}));
+			});
 			img.src = imageUrl;
 		} else {
 			this._nowPlayingImageParent.style.removeProperty("backgroundImage");
