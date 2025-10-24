@@ -56,6 +56,7 @@ export class MusicPlayerLib {
     private progressBarPublishData: any = {};
     private menuListPublishData: any = {};
     public maxReqItems = 20;
+    private isItemCountNew = true;
 
     private nowPlayingData: any = {
         'ActionsSupported': '', 'ActionsAvailable': '', 'RewindSpeed': '',
@@ -511,11 +512,14 @@ export class MusicPlayerLib {
                 }
             }
         } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // My music  statechanged 
+            // Added a title check to handle multiple instance scenario. In the current instance the isItemCountNew value will be false, when there is any action in other instance, we need to get the updated menudata
+            if (responseData.params?.parameters.hasOwnProperty('Title') && (this.isItemCountNew || responseData.params?.parameters['Title'] !== this.myMusicData['Title'])) {
+                this.isItemCountNew = false;
+                this.myMusicData['ItemCnt'] = responseData.params?.parameters['ItemCnt'];
+                this.updatedMenuData(); // we need to call only when statechanged event has parameters object include key has Title
+            }
             for (const item in responseData.params?.parameters) {
                 this.myMusicData[item] = responseData.params?.parameters[item];
-            }
-            if (responseData.params?.parameters.hasOwnProperty('Title')) {
-                this.updatedMenuData(); // we need to call only when statechanged event has parameters object include key has Title
             }
         } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StatusMsgMenuChanged' && responseData.params?.parameters) { // My music  StatusMsgMenuChanged: Used for popup data
             publishEvent('o', 'StatusMsgMenuChanged', responseData.params?.parameters ? responseData.params.parameters : {});
@@ -550,6 +554,7 @@ export class MusicPlayerLib {
                 } else if ((responseKey !== "Title") && this.myMusicData.hasOwnProperty(responseKey)) {
                     this.myMusicData[responseKey] = responseValue;
                     if (responseKey === 'ItemCnt') {
+                        this.isItemCountNew = true; // when we receive a new value in itemcnt we need to trigger the getItemData, so setting this flag as true
                         this.getItemData();
                     }
                 }
@@ -571,10 +576,8 @@ export class MusicPlayerLib {
                 publishEvent('o', 'progressBarData', this.progressBarPublishData);
             }
             if (!_.isEqual(this.menuListPublishData, this.menuListData)) {
-                if (this.menuListData && this.menuListData['MenuData'].length > 0) {
-                    this.menuListPublishData = { ...this.menuListData };
-                    publishEvent('o', 'menuListData', this.menuListPublishData);
-                }
+                this.menuListPublishData = { ...this.menuListData };
+                publishEvent('o', 'menuListData', this.menuListPublishData);
             }
         }
     }
@@ -609,6 +612,7 @@ export class MusicPlayerLib {
             method: this.myMP.menuInstanceName + '.' + action
         };
         this.sendRPCRequest(JSON.stringify(myRPC));
+        this.isItemCountNew = true;
     }
 
     private callTrackTime() {

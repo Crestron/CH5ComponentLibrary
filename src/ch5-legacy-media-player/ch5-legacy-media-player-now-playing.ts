@@ -183,7 +183,6 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 				}
 			}
 		}));
-		// }));
 	}
 
 	private updateProgressBarDemoData() {
@@ -222,23 +221,22 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this._nowPlayingImageParent.classList.add("mp-fallback-album-art");
 		const img = new Image();
 		if (this.nowPlayingData.AlbumArt && this.nowPlayingData.AlbumArtUrl?.trim() !== "") {
-
 			const imageUrl = this.nowPlayingData.AlbumArtUrl;
-			img.addEventListener('onload', (() => {
+			img.addEventListener('load', () => {
 				this._nowPlayingImageParent.style.backgroundImage = "url('" + this.nowPlayingData.AlbumArtUrl + "')";
-			}));
-			img.addEventListener('onerror', (() => {
+			});
+			img.addEventListener('error', () => {
 				this._nowPlayingImageParent.style.removeProperty("backgroundImage");
-			}));
+			});
 			img.src = imageUrl;
 		} else if (this.nowPlayingData.AlbumArtUrlNAT?.trim() !== "") {
 			const imageUrl = this.nowPlayingData.AlbumArtUrlNAT;
-			img.addEventListener('onload', (() => {
+			img.addEventListener('load', () => {
 				this._nowPlayingImageParent.style.backgroundImage = "url('" + this.nowPlayingData.AlbumArtUrlNAT + "')";
-			}));
-			img.addEventListener('onerror', (() => {
+			});
+			img.addEventListener('error', () => {
 				this._nowPlayingImageParent.style.removeProperty("backgroundImage");
-			}));
+			});
 			img.src = imageUrl;
 		} else {
 			this._nowPlayingImageParent.style.removeProperty("backgroundImage");
@@ -268,6 +266,13 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 			}
 		}
 		this._nowPlayingPlayerIconName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
+		if(!this.nowPlayingData.ActionsAvailable.includes('Seek')) {
+			this._progressBarInput.classList.add('hide-progressbar-thumb');
+			this._progressBarInput.removeEventListener('input', this.handleProgressbarInput);
+		} else {
+			this._progressBarInput.classList.remove('hide-progressbar-thumb');
+			this._progressBarInput.addEventListener('input', this.handleProgressbarInput);
+		}
 		this.renderActionButtons(this.nowPlayingData.ActionsAvailable);
 		this.renderMoreActionButtons(this.nowPlayingData.ActionsAvailable, this.nowPlayingData.RepeatState, this.nowPlayingData.ShuffleState);
 		this._nowPlayingContainer.appendChild(this._transportControls);
@@ -438,16 +443,18 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this._progressBarContainer.appendChild(progressBarCurrentTimeDurationContainer);
 
 		//Seek
-		this._progressBarInput.addEventListener("input", () => {
-			this._progressBarInput.style.backgroundSize = ((parseInt(this._progressBarInput.value) / parseInt(this._progressBarInput.max)) * 100) + "% 100%";
-			this._currentTime.textContent = formatTime(parseInt(this._progressBarInput.value));
-			this._duration.textContent = formatTime(parseInt(this._progressBarInput.max) - parseInt(this._progressBarInput.value));
-			this._progressBarElapsedSec = parseInt(this._progressBarInput.value);
-			this.logger.log('_currentTime==', this._progressBarInput.value);
-			this.seekApiCall();
-		});
+		this._progressBarInput.addEventListener("input", this.handleProgressbarInput);
 		// Append the progress bar container to the main container
 		this._transportControls.appendChild(this._progressBarContainer);
+	}
+
+	protected handleProgressbarInput = () => {
+		this._progressBarInput.style.backgroundSize = ((parseInt(this._progressBarInput.value) / parseInt(this._progressBarInput.max)) * 100) + "% 100%";
+		this._currentTime.textContent = formatTime(parseInt(this._progressBarInput.value));
+		this._duration.textContent = formatTime(parseInt(this._progressBarInput.max) - parseInt(this._progressBarInput.value));
+		this._progressBarElapsedSec = parseInt(this._progressBarInput.value);
+		this.logger.log('_currentTime==', this._progressBarInput.value);
+		this.seekApiCall();
 	}
 
 	protected renderActionButtons(availableActions: string[], isShowCase: boolean = false) {

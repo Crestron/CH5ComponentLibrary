@@ -228,7 +228,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     return this._ch5Properties.get<boolean>("useContractForCustomClass");
   }
 
-
   public set receiveStateCRPC(value: string) {
     this._ch5Properties.set("receiveStateCRPC", value, null, (newValue: string) => {
       this.logger.log('CRCP In join ' + this.receiveStateCRPC, newValue);
@@ -570,7 +569,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
         this._elContainer.classList.add("portrait-mode-active");
       }
     } else {
-      this.querySelector(".ch5-legacy-media-player--my-music")?.classList.remove("my-music-transition"); // ?
+      this.querySelector(".ch5-legacy-media-player--my-music")?.classList.remove("my-music-transition");
       this._elContainer.classList.remove("portrait-mode-active");
     }
 
@@ -617,17 +616,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
         }
       }
     }
-
-    // if (width >= 1200) {
-    //   this._elContainer.classList.add("now-playing-max-width-1200");
-    // } else {
-    //   this._elContainer.classList.remove("now-playing-max-width-1200");
-    // }
-    // if (height < 500) {
-    //   this._elContainer.classList.add("now-playing-image-shape-circular");
-    // } else {
-    //   this._elContainer.classList.remove("now-playing-image-shape-circular");
-    // }
   }
 
   protected removeEventListeners() {
@@ -648,6 +636,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       container.remove();
     });
   }
+
   private handleDemoMode() {
     this.nowPlaying?.handleDemoMode(this.demoMode);
     this.myMusic?.handleDemoMode(this.demoMode);
@@ -775,7 +764,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
         unsubscribeState('s', 'receiveStateDeviceOffline', subReceiveStateDeviceOffline);
       })
     }));
-
   }
 
   //#endregion
