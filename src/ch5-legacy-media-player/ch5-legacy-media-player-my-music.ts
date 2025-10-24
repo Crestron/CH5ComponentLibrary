@@ -183,7 +183,6 @@ export class Ch5LegacyMediaPlayerMyMusic {
 
       if (scrollTop > lastScrollTop && this.menuListData['MenuData']?.length > this.loadItemsCount) {
         if (distanceFromBottom <= this.scrollPosition) {
-
           // delete 1st element and push element in the end
           const list = this._myMusicContentSection;
           const childrenArray = Array.from(list.children);
@@ -197,7 +196,6 @@ export class Ch5LegacyMediaPlayerMyMusic {
         }
       } else if (scrollTop < lastScrollTop && this.loadItemsCount > this.MAXIMUM_ROWS_TO_SHOW) {
         if (scrollTop <= this.scrollPosition) {
-
           // delete last element and push element in the start of the list
           const list = this._myMusicContentSection;
           const childrenArray = Array.from(list.children);
@@ -253,7 +251,7 @@ export class Ch5LegacyMediaPlayerMyMusic {
         holdTimer = window.setTimeout(() => {
           isHeld = true;
           this.musicPlayerLibInstance.myMusicEvent('PressAndHold', index + 1); // PressAndHold action
-        }, 2000); // 2 seconds
+        }, 2000);
       });
 
       this._myMusicContentItem.addEventListener('pointerup', () => {
@@ -263,7 +261,7 @@ export class Ch5LegacyMediaPlayerMyMusic {
         }
       });
 
-      this._myMusicContentItem.addEventListener('click', () => { // Click Action
+      this._myMusicContentItem.addEventListener('click', () => {
         if (!isHeld) {
           this.musicPlayerLibInstance.myMusicEvent('Select', index + 1);
         }
@@ -300,7 +298,6 @@ export class Ch5LegacyMediaPlayerMyMusic {
     this._myMusicHeaderTitle = createElement("div", ['my-music-header-title']);
     this._myMusicHeaderTitleText = createElement("div", ['my-music-header-title-text'], decodeString(myMusicHeaderTitleText));
     this._myMusicheaderSubtitle = createElement("div", ['my-music-header-subtitle'], decodeString(myMusicheaderSubtitle));
-    //this._myMusicheaderSubtitle.style.visibility = this.musicPlayerLibInstance.replaceLanguageChars(myMusicheaderSubtitle) ? 'visible' : 'hidden';
     if (myMusicheaderSubtitle) {
       this._myMusicheaderSubtitle.classList?.remove('ch5-hide-vis');
     } else {
@@ -356,9 +353,6 @@ export class Ch5LegacyMediaPlayerMyMusic {
       for (let index = 0; index < this.loadItemsCount; index++) {
         this.createLine(index);
       }
-    } else {
-      this.createLine(this.printedIndex);
-      this.loadItemsCount = this.printedIndex;
     }
   }
 
@@ -372,6 +366,9 @@ export class Ch5LegacyMediaPlayerMyMusic {
   }
 
   protected menuApiChanges() {
+    if (this.menuListData['MenuData']?.length === 0) {
+      Array.from(this._myMusicContentSection.childNodes).forEach((child) => child.remove());
+    }
     this.displayVisibleOnlyItems();
     if (this.menuListData['MenuData']?.length > this.MAXIMUM_ROWS_TO_SHOW && this.menuListData['MenuData']?.length > this.musicPlayerLibInstance.maxReqItems) {
       this._myMusicContentSection.scrollTop = this._myMusicContentSection.scrollTop - this.scrollPosition;
