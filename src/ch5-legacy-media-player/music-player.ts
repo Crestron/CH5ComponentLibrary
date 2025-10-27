@@ -9,7 +9,6 @@ export class MusicPlayerLib {
     // Serial signals to the control system.
     private mpSigRPCOut: string = "";
     private mpRPCDataIn: string = '';
-    private mpMsgId: number = 0; // Increment our message id. ToDo: Need a max value check and reset to 0.
     private itemValue: number = 1; // Used in infinite scroll feature.
     private resendRegistrationTimeId: any = '';
 
