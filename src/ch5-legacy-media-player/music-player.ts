@@ -167,10 +167,10 @@ export class MusicPlayerLib {
         }
     }
 
-    // Increment our message id. ToDo: Need a max value check and reset to 0.
-    private getMessageId() {
-        this.mpMsgId++;
-        return this.mpMsgId;
+    private generateUniqueMeddageId(): number {
+        const timePart = new Date().getTime().toString().slice(-3); // Last 3 digits of timestamp
+        const randomPart = Math.floor(Math.random() * 100).toString().padStart(3, '0'); // 3-digit random number
+        return Number(`${timePart}${randomPart}`); // 6-digit number
     }
 
     // This function generates the RPC prefix for join-based CRPC communication.
@@ -246,7 +246,7 @@ export class MusicPlayerLib {
             const myRPC: CommonEventRequest = {
                 params: { "ev": item, "handle": "sg" },
                 jsonrpc: '2.0',
-                id: this.getMessageId(),
+                id: this.generateUniqueMeddageId(),
                 method: this.myMP.instanceName + '.RegisterEvent'
             };
             this.myMP[item + 'Id'] = myRPC.id; // Keep track of the message id.
@@ -263,7 +263,7 @@ export class MusicPlayerLib {
                 const myRPC: CommonRequestPropName = {
                     params: { "propName": item },
                     jsonrpc: '2.0',
-                    id: this.getMessageId(),
+                    id: this.generateUniqueMeddageId(),
                     method: this.myMP.instanceName + '.GetProperty'
                 };
                 this.myMP[item + "Id"] = myRPC.id; // Keep track of the message id.
@@ -281,7 +281,7 @@ export class MusicPlayerLib {
             const myRPC: CommonEventRequest = {
                 params: { "ev": item, "handle": "sg" },
                 jsonrpc: '2.0',
-                id: this.getMessageId(),
+                id: this.generateUniqueMeddageId(),
                 method: this.myMP.menuInstanceName + '.RegisterEvent'
             };
             if (item === 'Reset') {
@@ -298,7 +298,7 @@ export class MusicPlayerLib {
             const myRPC: CommonRequestPropName = {
                 params: { "propName": item },
                 jsonrpc: '2.0',
-                id: this.getMessageId(),
+                id: this.generateUniqueMeddageId(),
                 method: this.myMP.menuInstanceName + '.GetProperty'
             };
             if (item === 'Title') {
@@ -319,7 +319,7 @@ export class MusicPlayerLib {
                 const myRPC: CommonEventRequest = {
                     params: { "ev": item, "handle": "sg" },
                     jsonrpc: '2.0',
-                    id: this.getMessageId(),
+                    id: this.generateUniqueMeddageId(),
                     method: this.myMP.instanceName + '.DeregisterEvent'
 
                 };
@@ -329,7 +329,7 @@ export class MusicPlayerLib {
                 const myRPC: CommonEventRequest = {
                     params: { "ev": item, "handle": "sg" },
                     jsonrpc: '2.0',
-                    id: this.getMessageId(),
+                    id: this.generateUniqueMeddageId(),
                     method: this.myMP.menuInstanceName + '.DeregisterEvent'
 
                 };
@@ -369,14 +369,13 @@ export class MusicPlayerLib {
 
         const myRPC: RegisterwithDeviceRequest = {
             jsonrpc: '2.0',
-            id: this.getMessageId(),
+            id: this.generateUniqueMeddageId(),
             method: 'Crpc.Register',
             params: myRPCParams
         };
 
         this.myMP.RegistrationId = myRPC.id; // Keep track of the message id.
         this.sendRPCRequest(JSON.stringify(myRPC));
-
         // Start the re-send time.
         if (!this.resendRegistrationTimeId) {
             this.startRegistrationResendTimer();
@@ -388,7 +387,7 @@ export class MusicPlayerLib {
     private getObjects() {
         const myRPC: GetObjectsRequest = {
             jsonrpc: '2.0',
-            id: this.getMessageId(),
+            id: this.generateUniqueMeddageId(),
             method: 'Crpc.GetObjects'
         };
         this.myMP.ObjectsId = myRPC.id;// Keep track of the message id.
@@ -398,7 +397,7 @@ export class MusicPlayerLib {
     private registerEvent() {
         const myRPC: CommonEventRequest = {
             jsonrpc: '2.0',
-            id: this.getMessageId(),
+            id: this.generateUniqueMeddageId(),
             method: 'Crpc.RegisterEvent',
             params: { "ev": "ObjectDirectoryChanged", "handle": "sg" },
         };
@@ -408,7 +407,7 @@ export class MusicPlayerLib {
         const myRPC: GetPropertiesSupportedRequest = {
             params: { "propName": "PropertiesSupported" },
             jsonrpc: '2.0',
-            id: this.getMessageId(),
+            id: this.generateUniqueMeddageId(),
             method: instanceName + '.GetProperty'
         };
         this.myMP.PropertiesSupportedId = myRPC.id;// Keep track of the message id.
@@ -420,7 +419,7 @@ export class MusicPlayerLib {
         const myRPC: GetMenuRequest = {
             params: { "uuid": this.generateStrongCustomId() },
             jsonrpc: '2.0',
-            id: this.getMessageId(),
+            id: this.generateUniqueMeddageId(),
             method: instanceName + '.GetMenu'
         };
         this.myMP.MenuId = myRPC.id;// Keep track of the message id.
@@ -443,7 +442,7 @@ export class MusicPlayerLib {
             const myRPC: any = {
                 params: { item: this.itemValue, count },
                 jsonrpc: '2.0',
-                id: this.getMessageId(),
+                id: this.generateUniqueMeddageId(),
                 method: this.myMP.menuInstanceName + '.GetData'
             };
             this.myMP.ItemDataId = myRPC.id; // Keep track of the message id.
@@ -595,7 +594,7 @@ export class MusicPlayerLib {
         const myRPC: CommonEventRequest = {
             params: action === 'Seek' ? { 'time': time } : null,
             jsonrpc: '2.0',
-            id: this.getMessageId(),
+            id: this.generateUniqueMeddageId(),
             method: this.myMP.instanceName + '.' + action
         };
         this.myMP[action + 'Id'] = myRPC.id;
@@ -608,7 +607,7 @@ export class MusicPlayerLib {
         const myRPC: CommonEventRequest = {
             params: param,
             jsonrpc: '2.0',
-            id: this.getMessageId(),
+            id: this.generateUniqueMeddageId(),
             method: this.myMP.menuInstanceName + '.' + action
         };
         this.sendRPCRequest(JSON.stringify(myRPC));
@@ -620,7 +619,7 @@ export class MusicPlayerLib {
             const myRPC: CommonRequestPropName = {
                 params: { "propName": item },
                 jsonrpc: '2.0',
-                id: this.getMessageId(),
+                id: this.generateUniqueMeddageId(),
                 method: this.myMP.instanceName + '.GetProperty'
             };
             if (this.myMP.instanceName) {
@@ -634,7 +633,7 @@ export class MusicPlayerLib {
             const myRPC: CommonRequestPropName = {
                 params: { "propName": item },
                 jsonrpc: '2.0',
-                id: this.getMessageId(),
+                id: this.generateUniqueMeddageId(),
                 method: this.myMP.menuInstanceName + '.GetProperty'
             };
             if (this.myMP.menuInstanceName) {
@@ -654,7 +653,7 @@ export class MusicPlayerLib {
                 "userInput": encodeString(inputValue)
             },
             jsonrpc: '2.0',
-            id: this.getMessageId(),
+            id: this.generateUniqueMeddageId(),
             method: this.myMP.menuInstanceName + '.StatusMsgResponseMenu'
         };
         if (this.myMP.menuInstanceName) {
