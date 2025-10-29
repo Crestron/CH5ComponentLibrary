@@ -96,7 +96,7 @@ export class Ch5LegacyMediaPlayerMyMusic {
 
     subscribeState('o', 'menuListData', ((data: any) => {
       this.menuListData = data;
-      this.logger.log("My Music MenuData: ", this.menuListData);
+      this.logger.log("My Music Menu list Data: ", this.menuListData);
       if (this.menuListData && this.menuListData['MenuData'] && this.menuListData['MenuData'].length <= this.musicPlayerLibInstance.maxReqItems) {
         this.printedIndex = 0;
       }
