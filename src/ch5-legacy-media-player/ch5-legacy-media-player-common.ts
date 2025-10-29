@@ -7,9 +7,12 @@ export const createElement = (tagName: string, clsName: string[] = [], textConte
 
 // Utility: format time
 export const formatTime = (seconds: number = 0): string => {
-  const min = Math.floor(seconds / 60);
-  const sec = Math.floor(seconds % 60);
-  return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+  const secs = Math.max(0, Math.floor(Number(seconds) || 0));
+  const hr = Math.floor(secs / 3600);
+  const min = Math.floor((secs % 3600) / 60);
+  const sec = secs % 60;
+  const toTwoDigits = (n: number) => (n < 10 ? '0' + n : String(n));
+  return hr > 0 ? `${toTwoDigits(hr)}:${toTwoDigits(min)}:${toTwoDigits(sec)}` : `${toTwoDigits(min)}:${toTwoDigits(sec)}`;
 };
 
 
