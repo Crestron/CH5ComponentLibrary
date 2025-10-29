@@ -71,6 +71,10 @@ export class MusicPlayerLib {
     private menuListData: any = { 'MenuData': [] };
 
     constructor() {
+    }
+
+
+    public subscribeLibrarySignals() {
         this.subReceiveStateRefreshMediaPlayerResp = subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: any) => {
             if (value) {
                 this.refreshMediaPlayer();
