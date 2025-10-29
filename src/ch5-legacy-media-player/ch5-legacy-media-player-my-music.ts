@@ -125,6 +125,8 @@ export class Ch5LegacyMediaPlayerMyMusic {
       this.menuListData = this.MY_MUSIC_MENU_DEMO_DATA;
       this.apiChanges();
       this.menuApiChanges();
+      this._myMusicContentSection?.children[0]?.classList.add('active');
+      this._myMusicFooterSection?.children[1]?.classList.add('active');
     } else {
       this.myMusicData = "";
       this.createDefaultMyMusic();
