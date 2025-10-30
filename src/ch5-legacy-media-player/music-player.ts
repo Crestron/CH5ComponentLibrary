@@ -539,9 +539,11 @@ export class MusicPlayerLib {
                 this.processMenuResponse(responseData);
             } else if (myMsgId === this.myMP.ItemDataId) {
                 this.menuListData['MenuData'] = [...this.menuListData['MenuData'], ...responseData.result];
-                if (!_.isEqual(this.menuListPublishData, this.menuListData)) {
-                    this.menuListPublishData = { ...this.menuListData };
-                    publishEvent('o', 'menuListData', this.menuListPublishData);
+                if (!(busyChanged && busyChanged['on'] === true)) {
+                    if (!_.isEqual(this.menuListPublishData, this.menuListData)) {
+                        this.menuListPublishData = { ...this.menuListData };
+                        publishEvent('o', 'menuListData', this.menuListPublishData);
+                    }
                 }
             } else if (responseData.result && Object.keys(responseData.result)?.length === 1) {
                 const responseValue = Object.values(responseData.result)[0];
