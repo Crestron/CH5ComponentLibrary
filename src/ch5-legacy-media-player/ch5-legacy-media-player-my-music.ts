@@ -163,74 +163,88 @@ export class Ch5LegacyMediaPlayerMyMusic {
     this._myMusicContainer.append(defaultHeaderContainer, defaultItemsContainer, defaultFooterContainer);
   }
 
-  protected createMyMusic() {
-    if (this._myMusicContainer) {
-      Array.from(this._myMusicContainer.childNodes).forEach((child) => child.remove());
-      if (this._myMusicContainer.classList.contains("ch5-legacy-media-player--my-music-default"))
-        this._myMusicContainer.classList.remove('ch5-legacy-media-player--my-music-default');
-
+protected createMyMusic() {
+  if (this._myMusicContainer) {
+    // clear children efficiently
+    while (this._myMusicContainer.firstChild) {
+      this._myMusicContainer.removeChild(this._myMusicContainer.firstChild);
     }
-    this.logger.start('createInternalHtml()');
-    this._myMusicContainer.classList.add("ch5-legacy-media-player--my-music");
-
-    this._myMusicHeaderSection = createElement("div", ['my-music-header']);
-    this._myMusicContentSection = createElement("div", ['my-music-content']);
-
-    let lastScrollTop = 0;
-    this._myMusicContentSection.onscroll = () => {
-      const scrollTop = window.pageYOffset || this._myMusicContentSection.scrollTop;;
-      const scrollHeight: number = this._myMusicContentSection.scrollHeight;
-      const clientHeight = this._myMusicContentSection.clientHeight || window.innerHeight;
-      const distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
-
-      if (scrollTop > lastScrollTop && this.menuListData['MenuData']?.length > this.loadItemsCount) {
-        if (distanceFromBottom <= this.scrollPosition) {
-          // delete 1st element and push element in the end
-          const list = this._myMusicContentSection;
-          const childrenArray = Array.from(list.children);
-          const firstChild = childrenArray[0];
-          if (firstChild) {
-            list.removeChild(firstChild);
-          }
-
-          this.createLine(this.loadItemsCount, 'end')
-          this.loadItemsCount = this.loadItemsCount + 1;
-        }
-      } else if (scrollTop < lastScrollTop && this.loadItemsCount > this.MAXIMUM_ROWS_TO_SHOW) {
-        if (scrollTop <= this.scrollPosition) {
-          // delete last element and push element in the start of the list
-          const list = this._myMusicContentSection;
-          const childrenArray = Array.from(list.children);
-
-          if (childrenArray.length >= this.MAXIMUM_ROWS_TO_SHOW) {
-            list.removeChild(childrenArray[childrenArray.length - 1]);
-          }
-
-          this.loadItemsCount -= 1;
-          this.createLine(this.loadItemsCount - this.MAXIMUM_ROWS_TO_SHOW, 'start');
-        }
-      }
-      lastScrollTop = Math.max(scrollTop, 0);
-
-      if (this.menuListData['MenuData'].length - 1 > this.musicPlayerLibInstance.maxReqItems) {
-        if (this.menuListData['MenuData'].length - 1 > this.printedIndex && distanceFromBottom == 0) {
-          this._myMusicContentSection.scrollTop = this._myMusicContentSection.scrollTop - this.scrollPosition;
-        } else if (scrollTop == 0 && this.printedIndex !== 0) {
-          this._myMusicContentSection.scrollTop = this.scrollPosition;
-        }
-      }
-    };
-
-    this._myMusicFooterSection = createElement("div", ['my-music-footer']);
-    this._myMusicContainer.append(this._myMusicHeaderSection, this._myMusicContentSection, this._myMusicFooterSection);
-    this.logger.stop();
+    if (this._myMusicContainer.classList.contains("ch5-legacy-media-player--my-music-default")) {
+      this._myMusicContainer.classList.remove('ch5-legacy-media-player--my-music-default');
+    }
   }
+
+  this.logger.start('createInternalHtml()');
+  this._myMusicContainer.classList.add("ch5-legacy-media-player--my-music");
+
+  this._myMusicHeaderSection = createElement("div", ['my-music-header']);
+  this._myMusicContentSection = createElement("div", ['my-music-content']);
+
+  let lastScrollTop = 0;
+  let ticking = false;
+
+  const getMenuLength = () => this.menuListData?.MenuData?.length || 0;
+  const getMaxReqItems = () => this.musicPlayerLibInstance?.maxReqItems || 0;
+
+  const onScrollRaf = () => {
+    const scrollTop = this._myMusicContentSection.scrollTop || 0;
+    const scrollHeight = this._myMusicContentSection.scrollHeight || 0;
+    const clientHeight = this._myMusicContentSection.clientHeight || window.innerHeight;
+    const distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
+
+    const menuLength = getMenuLength();
+    const maxReqItems = getMaxReqItems();
+
+    if (scrollTop > lastScrollTop && menuLength > this.loadItemsCount) {
+      if (distanceFromBottom <= this.scrollPosition) {
+        const first = this._myMusicContentSection.firstElementChild as HTMLElement | null;
+        if (first) { this._myMusicContentSection.removeChild(first); }
+        this.createLine(this.loadItemsCount, 'end');
+        this.loadItemsCount += 1;
+      }
+    } else if (scrollTop < lastScrollTop && this.loadItemsCount > this.MAXIMUM_ROWS_TO_SHOW) {
+      if (scrollTop <= this.scrollPosition) {
+        const childrenCount = this._myMusicContentSection.children.length;
+        if (childrenCount >= this.MAXIMUM_ROWS_TO_SHOW) {
+          this._myMusicContentSection.removeChild(this._myMusicContentSection.children[childrenCount - 1]);
+        }
+        this.loadItemsCount -= 1;
+        this.createLine(this.loadItemsCount - this.MAXIMUM_ROWS_TO_SHOW, 'start');
+      }
+    }
+
+    lastScrollTop = Math.max(scrollTop, 0);
+
+    if (menuLength - 1 > maxReqItems) {
+      if (menuLength - 1 > this.printedIndex && distanceFromBottom === 0) {
+        this._myMusicContentSection.scrollTop = Math.max(this._myMusicContentSection.scrollTop - this.scrollPosition, 0);
+      } else if (scrollTop === 0 && this.printedIndex !== 0) {
+        this._myMusicContentSection.scrollTop = this.scrollPosition;
+      }
+    }
+
+    ticking = false;
+  };
+
+  const handleScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    // The requestAnimationFrame() method is a browser API used in JavaScript to schedule a function to be called before the next repaint of the browser window. It's commonly used for creating smooth animations
+    requestAnimationFrame(onScrollRaf);
+  };
+
+  this._myMusicContentSection.onscroll = handleScroll;
+
+  this._myMusicFooterSection = createElement("div", ['my-music-footer']);
+  this._myMusicContainer.append(this._myMusicHeaderSection, this._myMusicContentSection, this._myMusicFooterSection);
+  this.logger.stop();
+}
 
   protected createLine(index: number, position = 'end') {
     if ((index + 1 >= this.menuListData['MenuData']?.length) && (index + 1 >= this.musicPlayerLibInstance.maxReqItems)) {
       this.musicPlayerLibInstance.getItemData(true);
     }
-    if (index > 0 && this.printedIndex === index) return;
+    // if (index > 0 && this.printedIndex === index) return;
     this.printedIndex = index;
 
     if (!this.menuListData['MenuData'] || !this.menuListData['MenuData'][index]) return;
@@ -346,17 +360,6 @@ export class Ch5LegacyMediaPlayerMyMusic {
     }
   }
 
-  private displayVisibleOnlyItems() {
-    if (this.myMusicData && this.menuListData && this.myMusicData['ItemCnt'] === this.menuListData['MenuData']?.length) {
-      this.loadItemsCount = this.menuListData['MenuData'].length;
-    }
-
-    if (this.menuListData && this.menuListData.MenuData && this.menuListData['MenuData']?.length <= this.musicPlayerLibInstance.maxReqItems) {
-      for (let index = 0; index < this.loadItemsCount; index++) {
-        this.createLine(index);
-      }
-    }
-  }
 
   protected apiChanges() {
     Array.from(this._myMusicHeaderSection.childNodes).forEach((child) => child.remove());
@@ -371,7 +374,16 @@ export class Ch5LegacyMediaPlayerMyMusic {
     if (this.menuListData['MenuData']?.length === 0) {
       Array.from(this._myMusicContentSection.childNodes).forEach((child) => child.remove());
     }
-    this.displayVisibleOnlyItems();
+
+    if (this.myMusicData && this.menuListData && this.myMusicData['ItemCnt'] === this.menuListData['MenuData']?.length) {
+      this.loadItemsCount = this.menuListData['MenuData'].length;
+    }
+
+    if (this.menuListData && this.menuListData.MenuData && this.menuListData['MenuData']?.length <= this.musicPlayerLibInstance.maxReqItems) {
+      for (let index = 0; index < this.loadItemsCount; index++) {
+        this.createLine(index);
+      }
+    }
     if (this.menuListData['MenuData']?.length > this.MAXIMUM_ROWS_TO_SHOW && this.menuListData['MenuData']?.length > this.musicPlayerLibInstance.maxReqItems) {
       this._myMusicContentSection.scrollTop = this._myMusicContentSection.scrollTop - this.scrollPosition;
     }
