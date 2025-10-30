@@ -53,7 +53,7 @@ export class MusicPlayerLib {
     private nowPlayingPublishData: any = {};
     private myMusicPublishData: any = {};
     private progressBarPublishData: any = {};
-    private menuListPublishData: any = {};
+    private menuListPublishData: any = { 'MenuData': [] };
     public maxReqItems = 20;
     private isItemCountNew = true;
 
@@ -61,7 +61,7 @@ export class MusicPlayerLib {
         'ActionsSupported': '', 'ActionsAvailable': '', 'RewindSpeed': '',
         'FfwdSpeed': '', 'ProviderName': '', 'PlayerState': '', 'PlayerIcon': '', 'PlayerIconURL': '', 'PlayerName': '',
         'Album': '', 'AlbumArt': '', 'AlbumArtUrl': '', 'AlbumArtUrlNAT': '', 'StationName': '', 'Genre': '', 'Artist': '',
-        'Title': '', 'TrackNum': '', 'TrackCnt': '', 'NextTitle': '', 'ShuffleState': '', 'RepeatState': ''
+        'Title': '', 'TrackNum': '', 'TrackCnt': '', 'NextTitle': '', 'ShuffleState': '', 'RepeatState': '', 'Rating': {}
     };
 
     private progressBarData: any = { 'StreamState': '', 'ProgressBar': '', 'ElapsedSec': '', 'TrackSec': '' };
@@ -70,9 +70,7 @@ export class MusicPlayerLib {
 
     private menuListData: any = { 'MenuData': [] };
 
-    constructor() {
-    }
-
+    constructor() { }
 
     public subscribeLibrarySignals() {
         this.subReceiveStateRefreshMediaPlayerResp = subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: any) => {
@@ -93,15 +91,13 @@ export class MusicPlayerLib {
                     this.registerWithDevice();
                 }
             }
-            publishEvent('o', 'StatusMsgMenuChanged', data);
+            publishEvent('o', 'PopUpMessageData', data);
         });
 
         this.subreceiveStateCRPCResp = subscribeState('s', 'receiveStateCRPCResp', (value: any) => {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
             if (value.length > 0) {
-                //console.log('CRPC IN-->', value);
-
                 const mpRPCPrefix = value.substring(0, 8).trim(); // First 8 bytes is the RPC prefix.
                 // Check byte 3 to determine if this is a single or partial message.
                 // c = partial message
@@ -122,14 +118,14 @@ export class MusicPlayerLib {
                     try {
                         parsedData = JSON.parse(this.mpRPCDataIn);
                         if (parsedData.error) {
-                            console.log('handle Error >', parsedData.error);
+                            //console.info('handle Error >', parsedData.error);
                             this.handleError(parsedData.error);
                         } else {
                             this.processCRPCResponse(parsedData); // Process the entire payload then clear the var.
                         }
 
                     } catch (e) {
-                        console.log("e", e);
+                        console.warn("e", e);
                     }
 
                     this.mpRPCDataIn = ''; // Clear the var now that we have the entire message.
@@ -139,7 +135,6 @@ export class MusicPlayerLib {
 
         //receiveStateMessageResp from CS (ver tag src)
         this.subreceiveStateMessageResp = subscribeState('s', 'receiveStateMessageResp', (value: any) => {
-            console.log('Source and Tag value', value);
             if (value.length > 0) {
                 this.processMessage(value);
             }
@@ -224,7 +219,6 @@ export class MusicPlayerLib {
             // If this is a different source, we need to refresh the media player.
             // This will also happen on an update request since no source value has been set yet.
             if (this.myMP.source != myObj.src) {
-                //  console.log('Source has changed.');
                 this.refreshMediaPlayer();
             }
             this.myMP.source = myObj.src;
@@ -343,6 +337,8 @@ export class MusicPlayerLib {
             this.nowPlayingPublishData = {};
             this.progressBarPublishData = {};
             this.menuListPublishData = {};
+            this.resendRegistrationTimeId = "";
+            this.itemValue = 1;
 
             publishEvent('o', 'myMusicData', this.myMusicPublishData);
             publishEvent('o', 'nowPlayingData', this.nowPlayingPublishData);
@@ -465,7 +461,7 @@ export class MusicPlayerLib {
             myPrefix = this.generateRPCPrefixForFinalMessage(data);
             requestedData = myPrefix + data;
             if (this.mpSigRPCOut) {
-                console.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
+                console.log('CRPC send join: ' + this.mpSigRPCOut + " " + requestedData);
                 publishEvent('s', this.mpSigRPCOut, requestedData);
             }
         } else {
@@ -497,7 +493,6 @@ export class MusicPlayerLib {
         // for a specific API call we just made.
         const myMsgId = responseData.id;
         let busyChanged: any = {};
-        /* console.log('Message id: ' + myMsgId); */
         const playerInstanceMethod = this.myMP?.instanceName + '.Event'; // mediaplayer instance method event
         const menuInstanceMethod = this.myMP?.menuInstanceName + '.Event'; // mediaplayermenu instance method event
 
@@ -523,8 +518,10 @@ export class MusicPlayerLib {
             for (const item in responseData.params?.parameters) {
                 this.myMusicData[item] = responseData.params?.parameters[item];
             }
-        } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StatusMsgMenuChanged' && responseData.params?.parameters) { // My music  StatusMsgMenuChanged: Used for popup data
-            publishEvent('o', 'StatusMsgMenuChanged', responseData.params?.parameters ? responseData.params.parameters : {});
+        } else if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method) &&
+            (responseData?.params?.ev === 'StatusMsgMenuChanged' || responseData?.params?.ev === 'StatusMsgChanged') &&
+            responseData.params?.parameters) { // My music and Now Playing  Popup data
+            publishEvent('o', 'PopUpMessageData', responseData.params?.parameters ? responseData.params.parameters : {});
         } else if (myMsgId === this.myMP.PlayId || myMsgId === this.myMP.PauseId || myMsgId === this.myMP.SeekId) { // Play or pause clicked
             this.callTrackTime();
         } else {
@@ -542,6 +539,12 @@ export class MusicPlayerLib {
                 this.processMenuResponse(responseData);
             } else if (myMsgId === this.myMP.ItemDataId) {
                 this.menuListData['MenuData'] = [...this.menuListData['MenuData'], ...responseData.result];
+                if (!(busyChanged && busyChanged['on'] === true)) {
+                    if (!_.isEqual(this.menuListPublishData, this.menuListData)) {
+                        this.menuListPublishData = { ...this.menuListData };
+                        publishEvent('o', 'menuListData', this.menuListPublishData);
+                    }
+                }
             } else if (responseData.result && Object.keys(responseData.result)?.length === 1) {
                 const responseValue = Object.values(responseData.result)[0];
                 const responseKey = Object.keys(responseData.result)[0];
@@ -577,18 +580,14 @@ export class MusicPlayerLib {
                 this.progressBarPublishData = { ...this.progressBarData };
                 publishEvent('o', 'progressBarData', this.progressBarPublishData);
             }
-            if (!_.isEqual(this.menuListPublishData, this.menuListData)) {
-                this.menuListPublishData = { ...this.menuListData };
-                publishEvent('o', 'menuListData', this.menuListPublishData);
-            }
         }
     }
 
     // error-handler.ts
     private handleError(error: ErrorResponseObject) {
-        console.info('Error Code:----  ', error.code);
-        console.info('Error message:----  ', error.message);
-        console.info('Error Data:----  ', error.data);
+        console.error('Error Code:----  ', error.code);
+        console.error('Error message:----  ', error.message);
+        console.error('Error Data:----  ', error.data);
         return;
     }
 
@@ -716,7 +715,7 @@ export class MusicPlayerLib {
             'ActionsSupported': '', 'ActionsAvailable': '', 'RewindSpeed': '',
             'FfwdSpeed': '', 'ProviderName': '', 'PlayerState': '', 'PlayerIcon': '', 'PlayerIconURL': '', 'PlayerName': '',
             'Album': '', 'AlbumArt': '', 'AlbumArtUrl': '', 'AlbumArtUrlNAT': '', 'StationName': '', 'Genre': '', 'Artist': '',
-            'Title': '', 'TrackNum': '', 'TrackCnt': '', 'NextTitle': '', 'ShuffleState': '', 'RepeatState': ''
+            'Title': '', 'TrackNum': '', 'TrackCnt': '', 'NextTitle': '', 'ShuffleState': '', 'RepeatState': '', 'Rating': {}
         };
 
         this.progressBarData = { 'StreamState': '', 'ProgressBar': '', 'ElapsedSec': '', 'TrackSec': '' };

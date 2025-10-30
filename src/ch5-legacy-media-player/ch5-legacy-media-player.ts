@@ -236,7 +236,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   public set receiveStateCRPC(value: string) {
     this._ch5Properties.set("receiveStateCRPC", value, null, (newValue: string) => {
-      this.logger.log('CRCP In join ' + this.receiveStateCRPC, newValue);
+      this.logger.log('CRCP In join: ' + this.receiveStateCRPC + ' ' + newValue);
       this.publishMPEvent('s', "receiveStateCRPCResp", newValue);
     });
   }
@@ -332,7 +332,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       this.logger.log('busyChanged', this.busyChanged);
     }));
 
-    subscribeState('o', 'StatusMsgMenuChanged', ((data: any) => {
+    subscribeState('o', 'PopUpMessageData', ((data: any) => {
       this.popUpData = data;
       this.logger.log("Popup Data", this.popUpData);
       if (this._elMask && this._elMask.parentNode) {
