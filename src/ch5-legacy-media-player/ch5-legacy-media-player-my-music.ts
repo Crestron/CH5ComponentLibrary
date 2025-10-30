@@ -371,21 +371,30 @@ protected createMyMusic() {
   }
 
   protected menuApiChanges() {
-    if (this.menuListData['MenuData']?.length === 0) {
-      Array.from(this._myMusicContentSection.childNodes).forEach((child) => child.remove());
+    const menuData = this.menuListData?.MenuData ?? [];
+    const menuLength = menuData.length;
+
+    // Clear content section if no menu data
+    if (menuLength === 0) {
+      Array.from(this._myMusicContentSection.childNodes).forEach(child => child.remove());
+      return; // Early exit since no further processing is needed
     }
 
-    if (this.myMusicData && this.menuListData && this.myMusicData['ItemCnt'] === this.menuListData['MenuData']?.length) {
-      this.loadItemsCount = this.menuListData['MenuData'].length;
+    // Sync item count if data matches
+    if (this.myMusicData?.ItemCnt === menuLength) {
+      this.loadItemsCount = menuLength;
     }
 
-    if (this.menuListData && this.menuListData.MenuData && this.menuListData['MenuData']?.length <= this.musicPlayerLibInstance.maxReqItems) {
+    // Create lines if within max request limit
+    if (menuLength <= this.musicPlayerLibInstance.maxReqItems) {
       for (let index = 0; index < this.loadItemsCount; index++) {
         this.createLine(index);
       }
     }
-    if (this.menuListData['MenuData']?.length > this.MAXIMUM_ROWS_TO_SHOW && this.menuListData['MenuData']?.length > this.musicPlayerLibInstance.maxReqItems) {
-      this._myMusicContentSection.scrollTop = this._myMusicContentSection.scrollTop - this.scrollPosition;
+
+    // Adjust scroll if menu exceeds both limits
+    if (menuLength > this.MAXIMUM_ROWS_TO_SHOW && menuLength > this.musicPlayerLibInstance.maxReqItems) {
+      this._myMusicContentSection.scrollTop -= this.scrollPosition;
     }
   }
 
