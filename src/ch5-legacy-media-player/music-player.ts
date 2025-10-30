@@ -53,7 +53,7 @@ export class MusicPlayerLib {
     private nowPlayingPublishData: any = {};
     private myMusicPublishData: any = {};
     private progressBarPublishData: any = {};
-    private menuListPublishData: any = {};
+    private menuListPublishData: any = { 'MenuData': [] };
     public maxReqItems = 20;
     private isItemCountNew = true;
 
@@ -98,7 +98,7 @@ export class MusicPlayerLib {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
             if (value.length > 0) {
-                console.log('CRCP In',  value);
+                console.log('CRPC In', value);
                 const mpRPCPrefix = value.substring(0, 8).trim(); // First 8 bytes is the RPC prefix.
                 // Check byte 3 to determine if this is a single or partial message.
                 // c = partial message
@@ -519,9 +519,9 @@ export class MusicPlayerLib {
             for (const item in responseData.params?.parameters) {
                 this.myMusicData[item] = responseData.params?.parameters[item];
             }
-        } else if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method) && 
-                   (responseData?.params?.ev === 'StatusMsgMenuChanged' || responseData?.params?.ev === 'StatusMsgChanged') &&
-                    responseData.params?.parameters) { // My music and Now Playing  Popup data
+        } else if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method) &&
+            (responseData?.params?.ev === 'StatusMsgMenuChanged' || responseData?.params?.ev === 'StatusMsgChanged') &&
+            responseData.params?.parameters) { // My music and Now Playing  Popup data
             publishEvent('o', 'PopUpMessageData', responseData.params?.parameters ? responseData.params.parameters : {});
         } else if (myMsgId === this.myMP.PlayId || myMsgId === this.myMP.PauseId || myMsgId === this.myMP.SeekId) { // Play or pause clicked
             this.callTrackTime();
@@ -540,6 +540,11 @@ export class MusicPlayerLib {
                 this.processMenuResponse(responseData);
             } else if (myMsgId === this.myMP.ItemDataId) {
                 this.menuListData['MenuData'] = [...this.menuListData['MenuData'], ...responseData.result];
+                if (!_.isEqual(this.menuListPublishData, this.menuListData)) {
+                    this.menuListPublishData = { ...this.menuListData };
+                    console.log('Menu list published', this.menuListPublishData);
+                    publishEvent('o', 'menuListData', this.menuListPublishData);
+                }
             } else if (responseData.result && Object.keys(responseData.result)?.length === 1) {
                 const responseValue = Object.values(responseData.result)[0];
                 const responseKey = Object.keys(responseData.result)[0];
@@ -574,10 +579,6 @@ export class MusicPlayerLib {
             if (!_.isEqual(this.progressBarPublishData, this.progressBarData)) {
                 this.progressBarPublishData = { ...this.progressBarData };
                 publishEvent('o', 'progressBarData', this.progressBarPublishData);
-            }
-            if (!_.isEqual(this.menuListPublishData, this.menuListData)) {
-                this.menuListPublishData = { ...this.menuListData };
-                publishEvent('o', 'menuListData', this.menuListPublishData);
             }
         }
     }
