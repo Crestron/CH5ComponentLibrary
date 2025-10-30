@@ -230,7 +230,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   public set receiveStateCRPC(value: string) {
     this._ch5Properties.set("receiveStateCRPC", value, null, (newValue: string) => {
-      this.logger.log('CRCP In join ' + this.receiveStateCRPC, newValue);
+      this.logger.log('CRCP In join: ' + this.receiveStateCRPC + ' ' + newValue);
       this.publishMPEvent('s', "receiveStateCRPCResp", newValue);
     });
   }

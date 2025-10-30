@@ -70,9 +70,7 @@ export class MusicPlayerLib {
 
     private menuListData: any = { 'MenuData': [] };
 
-    constructor() {
-    }
-
+    constructor() { }
 
     public subscribeLibrarySignals() {
         this.subReceiveStateRefreshMediaPlayerResp = subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: any) => {
@@ -100,8 +98,6 @@ export class MusicPlayerLib {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
             if (value.length > 0) {
-                //console.log('CRPC IN-->', value);
-
                 const mpRPCPrefix = value.substring(0, 8).trim(); // First 8 bytes is the RPC prefix.
                 // Check byte 3 to determine if this is a single or partial message.
                 // c = partial message
@@ -122,14 +118,14 @@ export class MusicPlayerLib {
                     try {
                         parsedData = JSON.parse(this.mpRPCDataIn);
                         if (parsedData.error) {
-                            console.log('handle Error >', parsedData.error);
+                            console.info('handle Error >', parsedData.error);
                             this.handleError(parsedData.error);
                         } else {
                             this.processCRPCResponse(parsedData); // Process the entire payload then clear the var.
                         }
 
                     } catch (e) {
-                        console.log("e", e);
+                        console.info("e", e);
                     }
 
                     this.mpRPCDataIn = ''; // Clear the var now that we have the entire message.
@@ -139,7 +135,6 @@ export class MusicPlayerLib {
 
         //receiveStateMessageResp from CS (ver tag src)
         this.subreceiveStateMessageResp = subscribeState('s', 'receiveStateMessageResp', (value: any) => {
-            console.log('Source and Tag value', value);
             if (value.length > 0) {
                 this.processMessage(value);
             }
@@ -224,7 +219,6 @@ export class MusicPlayerLib {
             // If this is a different source, we need to refresh the media player.
             // This will also happen on an update request since no source value has been set yet.
             if (this.myMP.source != myObj.src) {
-                //  console.log('Source has changed.');
                 this.refreshMediaPlayer();
             }
             this.myMP.source = myObj.src;
@@ -343,6 +337,8 @@ export class MusicPlayerLib {
             this.nowPlayingPublishData = {};
             this.progressBarPublishData = {};
             this.menuListPublishData = {};
+            this.resendRegistrationTimeId = "";
+            this.itemValue = 1;
 
             publishEvent('o', 'myMusicData', this.myMusicPublishData);
             publishEvent('o', 'nowPlayingData', this.nowPlayingPublishData);
@@ -465,7 +461,7 @@ export class MusicPlayerLib {
             myPrefix = this.generateRPCPrefixForFinalMessage(data);
             requestedData = myPrefix + data;
             if (this.mpSigRPCOut) {
-                console.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
+                console.log('CRPC send join: ' + this.mpSigRPCOut + " " + requestedData);
                 publishEvent('s', this.mpSigRPCOut, requestedData);
             }
         } else {
@@ -497,7 +493,6 @@ export class MusicPlayerLib {
         // for a specific API call we just made.
         const myMsgId = responseData.id;
         let busyChanged: any = {};
-        /* console.log('Message id: ' + myMsgId); */
         const playerInstanceMethod = this.myMP?.instanceName + '.Event'; // mediaplayer instance method event
         const menuInstanceMethod = this.myMP?.menuInstanceName + '.Event'; // mediaplayermenu instance method event
 
