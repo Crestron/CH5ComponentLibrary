@@ -170,6 +170,12 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   private _loadingIndicator: HTMLElement = {} as HTMLElement;
   private _dialogAutoCloseTimeout: number | null = null;
 
+  //for demomode dialog only
+  private _demoPlusEl: HTMLElement | null = null;
+  private _demoPlusHandler: EventListener | null = null;
+  private _demoFavoritesEl: HTMLElement | null = null;
+  private _demoFavoritesHandler: EventListener | null = null;
+
   //#endregion
 
   //#region Getters and Setters
@@ -333,7 +339,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
         this._elMask.parentNode.removeChild(this._elMask);
       }
       if (this.popUpData.show) {
-        this.keyboardInputDialog(this.popUpData.userInputRequired, this.popUpData.text, this.popUpData.textForItems, this.popUpData.initialUserInput, this.popUpData.timeoutSec);
+        this.genericDialog(this.popUpData.userInputRequired, this.popUpData.text, this.popUpData.textForItems, this.popUpData.initialUserInput, this.popUpData.timeoutSec);
       } else {
         if (this._elMask && this._elMask.parentNode) {
           this._elMask.parentNode.removeChild(this._elMask);
@@ -431,28 +437,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   //Generic Dialog
-  protected genericDialog(dialogType: number, dialogHeading: string, dialogArray: Array<string>, timeoutSec: number) {
-    this.logger.log(dialogType);
-    if (this._elMask) this._elMask.innerHTML = "";
-    this.getDialogHeading(dialogHeading);// dialog heading
-    this.getDialogFooter(dialogArray);// dialog footer buttons
-
-    //Auto close dialog if user don't take any action for 10 seconds
-    if (this._dialogAutoCloseTimeout) {
-      clearTimeout(this._dialogAutoCloseTimeout);
-    }
-    this._dialogAutoCloseTimeout = window.setTimeout(() => {
-      if (this._elMask && this._elMask.parentNode) {
-        this._elMask.parentNode.removeChild(this._elMask);
-      }
-      this._dialogAutoCloseTimeout = null;
-    }, timeoutSec * 1000);
-
-    this._elMask.appendChild(this._elGenericDialogContent);
-  }
-
-  //Keyboard Input Dialog
-  protected keyboardInputDialog(dialogType: string, dialogHeading: string, dialogArray: Array<string>, dialogInput: string, timeoutSec: number) {
+  protected genericDialog(dialogType: string, dialogHeading: string, dialogArray: Array<string>, dialogInput: string, timeoutSec: number) {
     this.logger.log(dialogType);
     if (this._elMask) this._elMask.innerHTML = "";
 
@@ -621,6 +606,17 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   protected removeEventListeners() {
     super.removeEventListeners();
+    // clean up demo handlers if still present
+    if (this._demoPlusEl && this._demoPlusHandler) {
+      this._demoPlusEl.removeEventListener('click', this._demoPlusHandler);
+      this._demoPlusEl = null;
+      this._demoPlusHandler = null;
+    }
+    if (this._demoFavoritesEl && this._demoFavoritesHandler) {
+      this._demoFavoritesEl.removeEventListener('click', this._demoFavoritesHandler);
+      this._demoFavoritesEl = null;
+      this._demoFavoritesHandler = null;
+    }
   }
 
   protected unsubscribeFromSignals() {
@@ -641,14 +637,43 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   private handleDemoMode() {
     this.nowPlaying?.handleDemoMode(this.demoMode);
     this.myMusic?.handleDemoMode(this.demoMode);
+    // cleanup previous handlers first for dialog
+    if (this._demoPlusEl && this._demoPlusHandler) {
+      this._demoPlusEl.removeEventListener('click', this._demoPlusHandler);
+      this._demoPlusEl = null;
+      this._demoPlusHandler = null;
+    }
+    if (this._demoFavoritesEl && this._demoFavoritesHandler) {
+      this._demoFavoritesEl.removeEventListener('click', this._demoFavoritesHandler);
+      this._demoFavoritesEl = null;
+      this._demoFavoritesHandler = null;
+    }
+
     if (this.demoMode) {
-      document.getElementsByClassName('mp-plus-circle')[0].addEventListener('click', () => {
-        this.keyboardInputDialog("alphanumeric", "What would you like to call this favorite?", ["Cancel", "Ok"], "", 10);
-      });
-      document.getElementsByClassName('mp-music-list-favorites')[0].addEventListener('click', () => {
-        this.genericDialog(2, "What would you like to do?", ["Rename Favorite", "Delete favorite", "Cancel"], 10);
-      });
-      document.getElementsByClassName('my-music-header-back-button')[0].classList.add('back-button-visibility');
+      const plus = this._elContainer.querySelector('.mp-plus-circle') as HTMLElement | null;
+      if (plus) {
+        this._demoPlusEl = plus;
+        this._demoPlusHandler = (ev: Event) => {
+          ev.stopPropagation();
+          this.genericDialog("alphanumeric", "What would you like to call this favorite?", ["Cancel", "Ok"], "", 10);
+        };
+        this._demoPlusEl.addEventListener('click', this._demoPlusHandler);
+      }
+
+      const fav = this._elContainer.querySelector('.mp-music-list-favorites') as HTMLElement | null;
+      if (fav) {
+        this._demoFavoritesEl = fav;
+        this._demoFavoritesHandler = (ev: Event) => {
+          ev.stopPropagation();
+          this.genericDialog("", "What would you like to do?", ["Rename Favorite", "Delete favorite", "Cancel"], "", 10);
+        };
+        this._demoFavoritesEl.addEventListener('click', this._demoFavoritesHandler);
+      }
+
+      const backBtn = this._elContainer.querySelector('.my-music-header-back-button') as HTMLElement | null;
+      if (backBtn) {
+        backBtn.classList.add('back-button-visibility');
+      }
     }
     if (!this.demoMode) {
       this.publishAllSignals();
