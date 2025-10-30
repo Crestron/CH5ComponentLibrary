@@ -98,7 +98,6 @@ export class MusicPlayerLib {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
             if (value.length > 0) {
-                console.log('CRPC In', value);
                 const mpRPCPrefix = value.substring(0, 8).trim(); // First 8 bytes is the RPC prefix.
                 // Check byte 3 to determine if this is a single or partial message.
                 // c = partial message
@@ -119,14 +118,14 @@ export class MusicPlayerLib {
                     try {
                         parsedData = JSON.parse(this.mpRPCDataIn);
                         if (parsedData.error) {
-                            console.info('handle Error >', parsedData.error);
+                            //console.info('handle Error >', parsedData.error);
                             this.handleError(parsedData.error);
                         } else {
                             this.processCRPCResponse(parsedData); // Process the entire payload then clear the var.
                         }
 
                     } catch (e) {
-                        console.info("e", e);
+                        console.warn("e", e);
                     }
 
                     this.mpRPCDataIn = ''; // Clear the var now that we have the entire message.
@@ -542,7 +541,6 @@ export class MusicPlayerLib {
                 this.menuListData['MenuData'] = [...this.menuListData['MenuData'], ...responseData.result];
                 if (!_.isEqual(this.menuListPublishData, this.menuListData)) {
                     this.menuListPublishData = { ...this.menuListData };
-                    console.log('Menu list published', this.menuListPublishData);
                     publishEvent('o', 'menuListData', this.menuListPublishData);
                 }
             } else if (responseData.result && Object.keys(responseData.result)?.length === 1) {
@@ -585,9 +583,9 @@ export class MusicPlayerLib {
 
     // error-handler.ts
     private handleError(error: ErrorResponseObject) {
-        console.info('Error Code:----  ', error.code);
-        console.info('Error message:----  ', error.message);
-        console.info('Error Data:----  ', error.data);
+        console.error('Error Code:----  ', error.code);
+        console.error('Error message:----  ', error.message);
+        console.error('Error Data:----  ', error.data);
         return;
     }
 
