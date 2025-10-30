@@ -326,7 +326,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       this.logger.log('busyChanged', this.busyChanged);
     }));
 
-    subscribeState('o', 'StatusMsgMenuChanged', ((data: any) => {
+    subscribeState('o', 'PopUpMessageData', ((data: any) => {
       this.popUpData = data;
       this.logger.log("Popup Data", this.popUpData);
       if (this._elMask && this._elMask.parentNode) {

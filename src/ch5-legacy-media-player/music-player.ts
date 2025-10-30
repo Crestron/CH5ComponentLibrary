@@ -61,7 +61,7 @@ export class MusicPlayerLib {
         'ActionsSupported': '', 'ActionsAvailable': '', 'RewindSpeed': '',
         'FfwdSpeed': '', 'ProviderName': '', 'PlayerState': '', 'PlayerIcon': '', 'PlayerIconURL': '', 'PlayerName': '',
         'Album': '', 'AlbumArt': '', 'AlbumArtUrl': '', 'AlbumArtUrlNAT': '', 'StationName': '', 'Genre': '', 'Artist': '',
-        'Title': '', 'TrackNum': '', 'TrackCnt': '', 'NextTitle': '', 'ShuffleState': '', 'RepeatState': ''
+        'Title': '', 'TrackNum': '', 'TrackCnt': '', 'NextTitle': '', 'ShuffleState': '', 'RepeatState': '', 'Rating': {}
     };
 
     private progressBarData: any = { 'StreamState': '', 'ProgressBar': '', 'ElapsedSec': '', 'TrackSec': '' };
@@ -91,13 +91,14 @@ export class MusicPlayerLib {
                     this.registerWithDevice();
                 }
             }
-            publishEvent('o', 'StatusMsgMenuChanged', data);
+            publishEvent('o', 'PopUpMessageData', data);
         });
 
         this.subreceiveStateCRPCResp = subscribeState('s', 'receiveStateCRPCResp', (value: any) => {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
             if (value.length > 0) {
+                console.log('CRCP In',  value);
                 const mpRPCPrefix = value.substring(0, 8).trim(); // First 8 bytes is the RPC prefix.
                 // Check byte 3 to determine if this is a single or partial message.
                 // c = partial message
@@ -518,8 +519,10 @@ export class MusicPlayerLib {
             for (const item in responseData.params?.parameters) {
                 this.myMusicData[item] = responseData.params?.parameters[item];
             }
-        } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StatusMsgMenuChanged' && responseData.params?.parameters) { // My music  StatusMsgMenuChanged: Used for popup data
-            publishEvent('o', 'StatusMsgMenuChanged', responseData.params?.parameters ? responseData.params.parameters : {});
+        } else if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method) && 
+                   (responseData?.params?.ev === 'StatusMsgMenuChanged' || responseData?.params?.ev === 'StatusMsgChanged') &&
+                    responseData.params?.parameters) { // My music and Now Playing  Popup data
+            publishEvent('o', 'PopUpMessageData', responseData.params?.parameters ? responseData.params.parameters : {});
         } else if (myMsgId === this.myMP.PlayId || myMsgId === this.myMP.PauseId || myMsgId === this.myMP.SeekId) { // Play or pause clicked
             this.callTrackTime();
         } else {
@@ -711,7 +714,7 @@ export class MusicPlayerLib {
             'ActionsSupported': '', 'ActionsAvailable': '', 'RewindSpeed': '',
             'FfwdSpeed': '', 'ProviderName': '', 'PlayerState': '', 'PlayerIcon': '', 'PlayerIconURL': '', 'PlayerName': '',
             'Album': '', 'AlbumArt': '', 'AlbumArtUrl': '', 'AlbumArtUrlNAT': '', 'StationName': '', 'Genre': '', 'Artist': '',
-            'Title': '', 'TrackNum': '', 'TrackCnt': '', 'NextTitle': '', 'ShuffleState': '', 'RepeatState': ''
+            'Title': '', 'TrackNum': '', 'TrackCnt': '', 'NextTitle': '', 'ShuffleState': '', 'RepeatState': '', 'Rating': {}
         };
 
         this.progressBarData = { 'StreamState': '', 'ProgressBar': '', 'ElapsedSec': '', 'TrackSec': '' };

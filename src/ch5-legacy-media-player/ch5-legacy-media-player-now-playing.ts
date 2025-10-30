@@ -498,6 +498,15 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 					// Render other actions only if present
 					const button = new Ch5LegacyMediaPlayerIconButton();
 					button.setAttribute('iconClass', actionIconMap[action].class);
+					if(action === "ThumbsDown" || action === "ThumbsUp"){
+						if(this.nowPlayingData['Rating']?.current === -1 && action === "ThumbsDown"){
+							button.classList.add('active');
+						}else if(this.nowPlayingData['Rating']?.current === 1 && action === "ThumbsUp"){
+							button.classList.add('active');
+						}else{
+							button.classList.remove('active');
+						}
+					}
 					button.title = action;
 					button.onclick = () => {
 						this.musicPlayerLibInstance.nowPlayingvent(action);
