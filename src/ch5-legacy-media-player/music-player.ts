@@ -54,7 +54,7 @@ export class MusicPlayerLib {
     private myMusicPublishData: any = {};
     private progressBarPublishData: any = {};
     private menuListPublishData: any = { 'MenuData': [] };
-    public maxReqItems = 20;
+    public maxReqItems = 40;
     private isItemCountNew = true;
 
     private nowPlayingData: any = {
