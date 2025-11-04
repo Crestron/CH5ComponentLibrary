@@ -24,8 +24,8 @@ export class Ch5LegacyMediaPlayerMyMusic {
   private musicPlayerLibInstance: MusicPlayerLib;
   private demoModeValue: boolean = false;
 
-  private readonly MAXIMUM_ROWS_TO_SHOW = 15;
-  private loadItemsCount = 15;
+  private readonly MAXIMUM_ROWS_TO_SHOW = 40;
+  private loadItemsCount = 40;
   private printedIndex = 0;
   private scrollPosition = 100;
 
@@ -378,11 +378,6 @@ protected createMyMusic() {
     if (menuLength === 0) {
       Array.from(this._myMusicContentSection.childNodes).forEach(child => child.remove());
       return; // Early exit since no further processing is needed
-    }
-
-    // Sync item count if data matches
-    if (this.myMusicData?.ItemCnt === menuLength) {
-      this.loadItemsCount = menuLength;
     }
 
     // Create lines if within max request limit
