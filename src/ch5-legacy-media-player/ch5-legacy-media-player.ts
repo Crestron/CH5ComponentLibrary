@@ -480,7 +480,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this._elMask = createElement('div', ['ch5-legacy-media-player--popup-overlay']);
     this._elContainer.appendChild(this._elMask);
     this._elGenericDialogContent = createElement('div', ['ch5-legacy-media-player--popup-content-generic']);
-    this._elMaskdialogTitle = createElement('div', ['generic-dialog-title'], decodeString(dialogHeading));
+    this._elMaskdialogTitle = createElement('div', ['generic-dialog-title']);
+    this._elMaskdialogTitle.innerHTML = decodeString(dialogHeading);
     this._elGenericDialogContent.appendChild(this._elMaskdialogTitle);
   }
 
