@@ -106,7 +106,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		RewindSpeed: 1,
 		ShuffleState: 0,
 		StationName: "Song Title",
-		StreamState: "StreamState",
+		StreamState: "idle",
 		Title: "Song Title",
 		TrackCnt: 5,
 		TrackNum: 2,
@@ -271,14 +271,14 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 			}
 		}
 		this._nowPlayingPlayerIconName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
-		if(!this.nowPlayingData.ActionsAvailable.includes('Seek')) {
+		if (!this.nowPlayingData.ActionsAvailable.includes('Seek')) {
 			this._progressBarInput.classList.add('hide-progressbar-thumb');
 			this._progressBarInput.removeEventListener('input', this.handleProgressbarInput);
 		} else {
 			this._progressBarInput.classList.remove('hide-progressbar-thumb');
 			this._progressBarInput.addEventListener('input', this.handleProgressbarInput);
 		}
-		this.renderActionButtons(this.nowPlayingData.ActionsAvailable);
+		this.renderActionButtons(this.nowPlayingData.ActionsAvailable, this._progressStreamState);
 		this.renderMoreActionButtons(this.nowPlayingData.ActionsAvailable, this.nowPlayingData.RepeatState, this.nowPlayingData.ShuffleState);
 		this._nowPlayingContainer.appendChild(this._transportControls);
 		this.renderNextAndPreviousSong(this.nowPlayingData.NextTitle);
@@ -351,7 +351,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this.renderTrackInfo();
 		this._transportControls = createElement('div', ["now-playing-controls-container"]);
 		this.renderProgressBar();
-		this.renderActionButtons([], true);
+		this.renderActionButtons([], "idle");
 		this.renderMoreActionButtons([]);
 		this._nowPlayingContainer.appendChild(this._transportControls);
 		this.renderNextAndPreviousSong("");
@@ -467,7 +467,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this.seekApiCall();
 	}
 
-	protected renderActionButtons(availableActions: string[], isShowCase: boolean = false) {
+	protected renderActionButtons(availableActions: string[], streamingState: string) {
 		if (this._actionButtonsContainer && this._actionButtonsContainer.parentNode) {
 			this._actionButtonsContainer.parentNode.removeChild(this._actionButtonsContainer);
 		}
@@ -478,62 +478,57 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 			"PreviousTrack": { class: 'mp-icon mp-skip-back' },
 			"Rewind": { class: 'mp-icon mp-fast-backward' },
 			"Play": { class: 'mp-icon mp-play' },
-			"Pause": { class: 'mp-icon mp-pause', style: 'display:none;' },
 			"Ffwd": { class: 'mp-icon mp-fast-forward' },
 			"NextTrack": { class: 'mp-icon mp-skip-forward' },
 			"ThumbsUp": { class: 'mp-icon mp-thumbs-up' }
 		};
 
-		if (Array.isArray(availableActions)) {
-			Object.keys(actionIconMap).forEach((action) => {
-				// Always render Play and Pause, but hide if not available
-				if (action === "Play" || action === "Pause") {
-					const button = new Ch5LegacyMediaPlayerIconButton();
+		Object.keys(actionIconMap).forEach(action => {
+			const button = new Ch5LegacyMediaPlayerIconButton();
+			button.title = action;
+			if (action === "Play" && (availableActions.includes("Pause") || availableActions.includes("Play"))) {
+				if (availableActions.includes("Play") && streamingState !== 'streaming' && streamingState !== 'buffering') {
 					button.setAttribute('iconClass', actionIconMap[action].class);
-					button.title = action;
-					if (action === "Play") {
-						button.onclick = () => {
-							this.musicPlayerLibInstance.nowPlayingvent(action);
-						};
-					} else {
-						button.onclick = () => {
-							this.musicPlayerLibInstance.nowPlayingvent(action);
-						};
-					}
-					button.style.display = availableActions.includes(action) ? '' : 'none';  //to hide based on api response
-					if (isShowCase && action === "Pause") button.style.display = 'none'; //for pause to hide in showcase
-					this._actionButtonsContainer.appendChild(button);
-
-				} else if (availableActions.includes(action)) {
-					// Render other actions only if present
-					const button = new Ch5LegacyMediaPlayerIconButton();
-					button.setAttribute('iconClass', actionIconMap[action].class);
-					if(action === "ThumbsDown" || action === "ThumbsUp"){
-						if(this.nowPlayingData['Rating']?.current === -1 && action === "ThumbsDown"){
-							button.classList.add('active');
-						}else if(this.nowPlayingData['Rating']?.current === 1 && action === "ThumbsUp"){
-							button.classList.add('active');
-						}else{
-							button.classList.remove('active');
-						}
-					}
-					button.title = action;
 					button.onclick = () => {
 						this.musicPlayerLibInstance.nowPlayingvent(action);
 					};
-					this._actionButtonsContainer.appendChild(button);
 				} else {
-					const button = new Ch5LegacyMediaPlayerIconButton();
-					button.setAttribute('iconClass', actionIconMap[action].class);
-					button.title = action;
+					button.setAttribute('iconClass', "mp-icon mp-pause");
 					button.onclick = () => {
-						this.musicPlayerLibInstance.nowPlayingvent(action);
+						this.musicPlayerLibInstance.nowPlayingvent("Pause");
 					};
-					button.style.visibility = "hidden";
-					this._actionButtonsContainer.appendChild(button);
 				}
-			});
-		}
+			} else {
+				button.setAttribute('iconClass', actionIconMap[action].class);
+				button.onclick = () => {
+					this.musicPlayerLibInstance.nowPlayingvent(action);
+				};
+			}
+
+			if (availableActions.includes(action)) {
+				button.style.visibility = "visible";
+				if (action === "Play") button.firstElementChild?.removeAttribute('disabled');
+				if (action === "ThumbsDown" || action === "ThumbsUp") {
+					if (this.nowPlayingData['Rating']?.current === -1 && action === "ThumbsDown") {
+						button.classList.add('active');
+					} else if (this.nowPlayingData['Rating']?.current === 1 && action === "ThumbsUp") {
+						button.classList.add('active');
+					} else {
+						button.classList.remove('active');
+					}
+				}
+			} else {
+				if (action === "Play") {
+					button.style.visibility = "visible";
+					button.firstElementChild?.setAttribute('disabled', "true");
+				} else {
+					button.style.visibility = "hidden";
+				}
+			}
+
+			this._actionButtonsContainer.appendChild(button);
+		});
+
 		this._transportControls.appendChild(this._actionButtonsContainer);
 	}
 
