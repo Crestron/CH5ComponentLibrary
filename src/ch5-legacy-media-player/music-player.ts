@@ -2,7 +2,7 @@ import { publishEvent, subscribeState, unsubscribeState } from "../ch5-core";
 import _ from 'lodash';
 import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest } from "./commonInterface";
 import { encodeString } from "./ch5-legacy-media-player-common";
-import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
+// import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 
 export class MusicPlayerLib {
 
@@ -457,30 +457,30 @@ export class MusicPlayerLib {
         let requestedData = '';
         const numberOfChar = 100;
 
-        if (isSafariMobile()) {// for crestron one
-            myPrefix = this.generateRPCPrefixForFinalMessage(data);
-            requestedData = myPrefix + data;
-            if (this.mpSigRPCOut) {
-                console.log('CRPC send join: ' + this.mpSigRPCOut + " " + requestedData);
-                publishEvent('s', this.mpSigRPCOut, requestedData);
+        /*  if (isSafariMobile()) {// for crestron one
+             myPrefix = this.generateRPCPrefixForFinalMessage(data);
+             requestedData = myPrefix + data;
+             if (this.mpSigRPCOut) {
+                 console.log('CRPC send join: ' + this.mpSigRPCOut + " " + requestedData);
+                 publishEvent('s', this.mpSigRPCOut, requestedData);
+             }
+         } else { */
+        // Add prefix if the connection is not direct.
+
+        const chuncknCount = Math.ceil(data.length / numberOfChar);
+        for (let i = 0; i < chuncknCount; i++) {
+            if (i === (chuncknCount - 1)) {
+                requestedData = data.substring(numberOfChar * i);
+                myPrefix = this.generateRPCPrefixForFinalMessage(requestedData);
+                requestedData = myPrefix + requestedData;
+            } else {
+                requestedData = data.substring((numberOfChar * i), (numberOfChar * i) + numberOfChar);
+                myPrefix = this.generateRPCPrefixForPartialMessage(requestedData);
+                requestedData = myPrefix + requestedData;
             }
-        } else {
-            // Add prefix if the connection is not direct.
-            const chuncknCount = Math.ceil(data.length / numberOfChar);
-            for (let i = 0; i < chuncknCount; i++) {
-                if (i === (chuncknCount - 1)) {
-                    requestedData = data.substring(numberOfChar * i);
-                    myPrefix = this.generateRPCPrefixForFinalMessage(requestedData);
-                    requestedData = myPrefix + requestedData;
-                } else {
-                    requestedData = data.substring((numberOfChar * i), (numberOfChar * i) + numberOfChar);
-                    myPrefix = this.generateRPCPrefixForPartialMessage(requestedData);
-                    requestedData = myPrefix + requestedData;
-                }
-                if (this.mpSigRPCOut) {
-                    console.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
-                    publishEvent('s', this.mpSigRPCOut, requestedData);
-                }
+            if (this.mpSigRPCOut) {
+                console.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
+                publishEvent('s', this.mpSigRPCOut, requestedData);
             }
         }
     }
