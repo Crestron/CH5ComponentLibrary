@@ -46,6 +46,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 	private demoModeValue: boolean = false;
 	private _nowPlayingPlayerName: HTMLElement = {} as HTMLElement
 	private _nowPlayingPlayerImage: HTMLImageElement = {} as HTMLImageElement;
+	private playerName:string = '';
 
 	private readonly NOW_PLAYING_ICONS: any = [
 		"mp-logo mp-logo-unknown",
@@ -183,6 +184,10 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 				}
 			}
 		}));
+
+		subscribeState('s', 'receiveStatePlayerNameResp', (value:string) => {
+			this.updatePlayerName(value)
+		});
 	}
 
 	private updateProgressBarDemoData() {
@@ -216,7 +221,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 	}
 
 	private updatedNowPlayingContent() {
-		this._nowPlayingPlayerLabel.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
+		this._nowPlayingPlayerLabel.textContent = this.playerName;
 		this._nowPlayingImageParent.classList.add("now-playing-image-container");
 		this._nowPlayingImageParent.classList.add("mp-fallback-album-art");
 		const img = new Image();
@@ -282,6 +287,11 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		} else {
 			this._progressBarContainer.classList?.remove('ch5-hide-dis');
 		}
+	}
+
+	public updatePlayerName(value:string) {
+		this.playerName = value;
+		this._nowPlayingPlayerLabel.textContent = value;
 	}
 
 	public updateMarquee() {

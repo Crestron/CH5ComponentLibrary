@@ -281,8 +281,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   public set receiveStatePlayerName(value: string) {
-    this._ch5Properties.set("receiveStatePlayerName", value, null, () => {
-      this.handleReceiveStatePlayerName();
+    this._ch5Properties.set("receiveStatePlayerName", value, null, (newValue: string) => {      
+      this.publishMPEvent('s', "receiveStatePlayerNameResp", newValue);
     });
   }
   public get receiveStatePlayerName(): string {
@@ -740,10 +740,6 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
         this.receiveStateCustomStyle = this.signalNameOnContract.receiveStateCustomStyle;
       }
     }
-  }
-
-  private handleReceiveStatePlayerName() {
-    // Enter your Code here
   }
 
   private updateCssClass() {
