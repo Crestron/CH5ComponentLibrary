@@ -44,6 +44,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 	};
 
 	private demoModeValue: boolean = false;
+	private previousAlbumArtUrl: any;
 	private _nowPlayingPlayerNameContainer: HTMLElement = {} as HTMLElement
 	private _nowPlayingPlayerImage: HTMLImageElement = {} as HTMLImageElement;
 	private playerName:string = '';
@@ -225,28 +226,44 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 	private updatedNowPlayingContent() {
 		this._nowPlayingPlayerLabel.textContent = this.playerName;
 		this._nowPlayingImageParent.classList.add("now-playing-image-container");
-		this._nowPlayingImageParent.classList.add("mp-fallback-album-art");
+		this._nowPlayingImageParent.classList.add('mp-fallback-album-art');
 		const img = new Image();
-		if (this.nowPlayingData.AlbumArt && this.nowPlayingData.AlbumArtUrl?.trim() !== "") {
-			const imageUrl = this.nowPlayingData.AlbumArtUrl;
+		const currentAlbumArtUrl = this.nowPlayingData.AlbumArtUrl?.trim() ?? "";
+		const currentAlbumArtUrlNat = this.nowPlayingData.AlbumArtUrlNAT?.trim() ?? "";
+
+		if (currentAlbumArtUrl && currentAlbumArtUrl !== this.previousAlbumArtUrl) {
+			const imageUrl = currentAlbumArtUrl;
 			img.addEventListener('load', () => {
-				this._nowPlayingImageParent.style.backgroundImage = "url('" + this.nowPlayingData.AlbumArtUrl + "')";
+				this._nowPlayingImageParent.style.backgroundImage = `url('${imageUrl}')`;
+				this.previousAlbumArtUrl = imageUrl;
 			});
 			img.addEventListener('error', () => {
-				this._nowPlayingImageParent.style.removeProperty("backgroundImage");
+				if (!this.previousAlbumArtUrl || this.previousAlbumArtUrl === imageUrl) {
+					this._nowPlayingImageParent.style.removeProperty("backgroundImage");
+					this.previousAlbumArtUrl = null;
+				}
 			});
 			img.src = imageUrl;
-		} else if (this.nowPlayingData.AlbumArtUrlNAT?.trim() !== "") {
-			const imageUrl = this.nowPlayingData.AlbumArtUrlNAT;
+		} else if (currentAlbumArtUrlNat && currentAlbumArtUrlNat !== this.previousAlbumArtUrl) {
+			const imageUrl = currentAlbumArtUrlNat;
 			img.addEventListener('load', () => {
-				this._nowPlayingImageParent.style.backgroundImage = "url('" + this.nowPlayingData.AlbumArtUrlNAT + "')";
+				this._nowPlayingImageParent.style.backgroundImage = `url('${imageUrl}')`;
+				this.previousAlbumArtUrl = imageUrl;
 			});
 			img.addEventListener('error', () => {
-				this._nowPlayingImageParent.style.removeProperty("backgroundImage");
+				if (!this.previousAlbumArtUrl || this.previousAlbumArtUrl === imageUrl) {
+					this._nowPlayingImageParent.style.removeProperty("backgroundImage");
+					this.previousAlbumArtUrl = null;
+				}
 			});
 			img.src = imageUrl;
-		} else {
+		} else if (!currentAlbumArtUrl && !currentAlbumArtUrlNat) {
 			this._nowPlayingImageParent.style.removeProperty("backgroundImage");
+			this.previousAlbumArtUrl = null;
+		} else {
+			if (this.previousAlbumArtUrl && (!this._nowPlayingImageParent.style.backgroundImage || this._nowPlayingImageParent.style.backgroundImage === '')) {
+				this._nowPlayingImageParent.style.backgroundImage = `url('${this.previousAlbumArtUrl}')`;
+			}
 		}
 		this._nowPlayingSongTitle.children[0].textContent = decodeString(this.nowPlayingData.Title);
 		this.updateMarquee();
