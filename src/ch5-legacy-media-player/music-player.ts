@@ -669,6 +669,11 @@ export class MusicPlayerLib {
         unsubscribeState('s', 'receiveStateCRPCResp', this.subreceiveStateCRPCResp);
         unsubscribeState('s', 'receiveStateMessageResp', this.subreceiveStateMessageResp);
         unsubscribeState('s', 'sendEventCRPCJoinNo', this.subsendEventCRPCJoinNo);
+        this.menuListPublishData= { 'MenuData': [] };
+        this.nowPlayingPublishData = {};
+        this.myMusicPublishData = {};
+        this.progressBarPublishData = {};
+        this.resetMp();
     }
 
     public resetMp(param: boolean = false) {
