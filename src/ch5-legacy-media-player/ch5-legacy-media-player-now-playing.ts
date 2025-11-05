@@ -44,7 +44,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 	};
 
 	private demoModeValue: boolean = false;
-	private _nowPlayingPlayerName: HTMLElement = {} as HTMLElement
+	private _nowPlayingPlayerNameContainer: HTMLElement = {} as HTMLElement
 	private _nowPlayingPlayerImage: HTMLImageElement = {} as HTMLImageElement;
 	private playerName:string = '';
 
@@ -129,6 +129,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 			if (this.demoModeValue === false) {
 				if (data && Object.keys(data).length > 0) {
 					this.nowPlayingData = data;
+					this.updatePlayerName(this.nowPlayingData.PlayerName);
 					this.createNowPlaying();
 					this.updatedNowPlayingContent();
 				} else {
@@ -212,6 +213,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 			}
 			this.createNowPlaying();
 			this.nowPlayingData = this.NOW_PLAYING_DEMO_DATA;
+			this.updatePlayerName(this.nowPlayingData.PlayerName);
 			this.updatedNowPlayingContent();
 			this.updateProgressBarDemoData();
 		} else {
@@ -361,8 +363,11 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 	protected renderProviderOrPlayer() {
 		//Now playing player
 		this._nowPlayingPlayerContainer = createElement("div", ["now-playing-player-container"]);
+		this._nowPlayingPlayerNameContainer = createElement('div', ['now-playing-player-name-container']);
 		this._nowPlayingPlayerLabel = createElement('div', ['now-playing-player-label']);
-		this._nowPlayingPlayerContainer.appendChild(this._nowPlayingPlayerLabel);
+		this._nowPlayingPlayerNameContainer.appendChild(this._nowPlayingPlayerLabel);
+		this._nowPlayingPlayerContainer.appendChild(this._nowPlayingPlayerNameContainer);
+
 		//Now Playing Player Music Note
 		const nowPlayingPlayerMusicNoteButton = new Ch5LegacyMediaPlayerIconButton();
 		nowPlayingPlayerMusicNoteButton.setAttribute('iconClass', "mp-icon mp-music-note-dbl");
