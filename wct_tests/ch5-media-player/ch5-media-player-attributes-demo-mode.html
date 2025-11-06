@@ -11,25 +11,25 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-legacy-media-player-demoMode-attributes">
+  <test-fixture id="ch5-media-player-demoMode-attributes">
     <template>
-      <ch5-legacy-media-player></ch5-legacy-media-player>
+      <ch5-media-player></ch5-media-player>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-legacy-media-player-demoMode-attributes-value', () => {
-      let ch5LegacyMediaPlayer;
+    suite('ch5-media-player-demoMode-attributes-value', () => {
+      let ch5MediaPlayer;
 
       setup(async () => {
-        ch5LegacyMediaPlayer = fixture('ch5-legacy-media-player-demoMode-attributes');
+        ch5MediaPlayer = fixture('ch5-media-player-demoMode-attributes');
       });
         
         let testCases = ['a', '', ' ', 'number', true,false];
         let expectedResult = ['false', 'false', 'false', 'false', 'true','false'];
         testCases.forEach((ele, i) => {
               test('Check Value "demoMode"', () => {
-                  ch5LegacyMediaPlayer.setAttribute('demoMode', ele);
-                  expect(ch5LegacyMediaPlayer.getAttribute('demoMode')).to.be.equal(expectedResult[i]);
+                  ch5MediaPlayer.setAttribute('demoMode', ele);
+                  expect(ch5MediaPlayer.getAttribute('demoMode')).to.be.equal(expectedResult[i]);
               });
           });
         

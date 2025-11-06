@@ -1,12 +1,12 @@
-import { Ch5LegacyMediaPlayerIconButton } from "./ch5-legacy-media-player-icon-button-base.ts";
+import { Ch5MediaPlayerIconButton } from "./ch5-media-player-icon-button-base.ts";
 import { MusicPlayerLib } from "./music-player.ts";
 import { publishEvent, subscribeState } from "../ch5-core/index.ts";
-import { TCh5LegacyMediaPlayerProgressbarData } from "./interfaces/t-ch5-legacy-media-player.ts";
+import { TCh5MediaPlayerProgressbarData } from "./interfaces/t-ch5-media-player.ts";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log.ts";
 import { debounce } from "../ch5-common/utils/common-functions.ts";
-import { createElement, decodeString, formatTime } from "./ch5-legacy-media-player-common.ts";
+import { createElement, decodeString, formatTime } from "./ch5-media-player-common.ts";
 
-export class Ch5LegacyMediaPlayerNowPlaying {
+export class Ch5MediaPlayerNowPlaying {
 
 	//#region Variables
 
@@ -36,7 +36,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 	private _transportControls: HTMLElement = {} as HTMLElement;
 	private musicPlayerLibInstance: MusicPlayerLib;
 	private nowPlayingData: any;
-	private progressBarData: TCh5LegacyMediaPlayerProgressbarData = {
+	private progressBarData: TCh5MediaPlayerProgressbarData = {
 		StreamState: '',
 		TrackSec: 0,
 		ElapsedSec: 0,
@@ -119,9 +119,9 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 	//#region Component Lifecycle
 
 	public constructor(musicPlayerLib: MusicPlayerLib) {
-		this.logger = new Ch5CommonLog(false, false, "LEGACY_MEDIA_PLAYER:NOW_PLAYING");
+		this.logger = new Ch5CommonLog(false, false, "MEDIA_PLAYER:NOW_PLAYING");
 		this.musicPlayerLibInstance = musicPlayerLib;
-		this.logger.start('constructor()', "ch5-legacy-media-player:now-playing");
+		this.logger.start('constructor()', "ch5-media-player:now-playing");
 		this._nowPlayingContainer = createElement('div');
 		this.createDefaultNowPlaying();
 
@@ -331,7 +331,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 			this._nowPlayingContainer.className = "";
 			this._nowPlayingContainer.innerHTML = "";
 		}
-		this._nowPlayingContainer.classList.add("ch5-legacy-media-player--now-playing-default");
+		this._nowPlayingContainer.classList.add("ch5-media-player--now-playing-default");
 		const defaultProviderContainer = createElement('div', ['default-provider-container'], 'No Content Provider');
 		const defaultAlbumArtContainer = createElement('div', ["default-album-art-container"]);
 		const defaultTrackInfoContainer = createElement('div', ['default-track-info-container']);
@@ -345,13 +345,13 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		progressbarDefaultTime.append(progressbarTimeNone, progressbarTimeNone.cloneNode(true));
 		defaultProgressbarContainer.append(progressbarDefault, progressbarDefaultTime);
 		const defaultActionsContainer = createElement('div', ['default-actions-container']);
-		const defaultBackwardIcon = new Ch5LegacyMediaPlayerIconButton();
+		const defaultBackwardIcon = new Ch5MediaPlayerIconButton();
 		defaultBackwardIcon.setAttribute('iconClass', "mp-icon mp-fast-backward");
 		defaultBackwardIcon.title = "Default Backward ";
-		const defaultPlayIcon = new Ch5LegacyMediaPlayerIconButton();
+		const defaultPlayIcon = new Ch5MediaPlayerIconButton();
 		defaultPlayIcon.setAttribute('iconClass', "mp-icon mp-play");
 		defaultPlayIcon.title = "Default Play";
-		const defaultforwardIcon = new Ch5LegacyMediaPlayerIconButton();
+		const defaultforwardIcon = new Ch5MediaPlayerIconButton();
 		defaultforwardIcon.setAttribute('iconClass', "mp-icon mp-fast-forward");
 		defaultforwardIcon.title = "Default Forward";
 		defaultActionsContainer.append(defaultBackwardIcon, defaultPlayIcon, defaultforwardIcon);
@@ -364,7 +364,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 			this._nowPlayingContainer.innerHTML = "";
 		}
 		this.logger.start('createInternalHtml()');
-		this._nowPlayingContainer.classList.add("ch5-legacy-media-player--now-playing");
+		this._nowPlayingContainer.classList.add("ch5-media-player--now-playing");
 		this.renderProviderOrPlayer();
 		this.renderAlbumArt();
 		this.renderTrackInfo();
@@ -386,7 +386,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		this._nowPlayingPlayerContainer.appendChild(this._nowPlayingPlayerNameContainer);
 
 		//Now Playing Player Music Note
-		const nowPlayingPlayerMusicNoteButton = new Ch5LegacyMediaPlayerIconButton();
+		const nowPlayingPlayerMusicNoteButton = new Ch5MediaPlayerIconButton();
 		nowPlayingPlayerMusicNoteButton.setAttribute('iconClass', "mp-icon mp-music-note-dbl");
 		nowPlayingPlayerMusicNoteButton.title = "My Music Section";
 		nowPlayingPlayerMusicNoteButton.classList.add("now-playing-player-music-note-button");
@@ -506,7 +506,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		};
 
 		Object.keys(actionIconMap).forEach(action => {
-			const button = new Ch5LegacyMediaPlayerIconButton();
+			const button = new Ch5MediaPlayerIconButton();
 			button.title = action;
 			if (action === "Play" && (availableActions.includes("Pause") || availableActions.includes("Play"))) {
 				if (availableActions.includes("Play") && streamingState !== 'streaming' && streamingState !== 'buffering') {
@@ -572,7 +572,7 @@ export class Ch5LegacyMediaPlayerNowPlaying {
 		if (Array.isArray(availableActions)) {
 			Object.keys(moreActionIconMap).forEach((action: string) => {
 				if (availableActions?.includes(action)) {
-					const button = new Ch5LegacyMediaPlayerIconButton();
+					const button = new Ch5MediaPlayerIconButton();
 					button.setAttribute('iconClass', moreActionIconMap[action].class);
 					button.title = action;
 					button.onclick = () => {

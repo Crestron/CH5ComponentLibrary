@@ -2,7 +2,7 @@ import { Ch5Properties } from '../ch5-core/ch5-properties';
 import { Ch5Log } from '../ch5-common/ch5-log';
 import { ICh5PropertySettings } from '../ch5-core/ch5-property';
 
-export class Ch5LegacyMediaPlayerIconButton extends Ch5Log {
+export class Ch5MediaPlayerIconButton extends Ch5Log {
 
 	//#region Variables
 
@@ -25,9 +25,9 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Log {
 		}
 	];
 
-	public static readonly ELEMENT_NAME = 'ch5-legacy-media-player-icon-button';
+	public static readonly ELEMENT_NAME = 'ch5-media-player-icon-button';
 
-	public primaryCssClass = 'ch5-legacy-media-player--icon-button';
+	public primaryCssClass = 'ch5-media-player--icon-button';
 
 	private _ch5Properties: Ch5Properties;
 	private _icon: HTMLElement = {} as HTMLElement;
@@ -63,8 +63,8 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Log {
 		if (typeof window === "object"
 			&& typeof window.customElements === "object"
 			&& typeof window.customElements.define === "function"
-			&& window.customElements.get(Ch5LegacyMediaPlayerIconButton.ELEMENT_NAME) === undefined) {
-			window.customElements.define(Ch5LegacyMediaPlayerIconButton.ELEMENT_NAME, Ch5LegacyMediaPlayerIconButton);
+			&& window.customElements.get(Ch5MediaPlayerIconButton.ELEMENT_NAME) === undefined) {
+			window.customElements.define(Ch5MediaPlayerIconButton.ELEMENT_NAME, Ch5MediaPlayerIconButton);
 		}
 	}
 	//#endregion
@@ -73,8 +73,8 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Log {
 
 	public constructor() {
 		super();
-		this.logger.start('constructor()', Ch5LegacyMediaPlayerIconButton.ELEMENT_NAME);
-		this._ch5Properties = new Ch5Properties(this, Ch5LegacyMediaPlayerIconButton.COMPONENT_PROPERTIES);
+		this.logger.start('constructor()', Ch5MediaPlayerIconButton.ELEMENT_NAME);
+		this._ch5Properties = new Ch5Properties(this, Ch5MediaPlayerIconButton.COMPONENT_PROPERTIES);
 		this.createInternalHtml();
 		this.updateCssClass();
 	}
@@ -82,9 +82,9 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Log {
 	public static get observedAttributes(): string[] {
 		const inheritedObsAttrs = Ch5Log.observedAttributes;
 		const newObsAttrs: string[] = [];
-		for (let i: number = 0; i < Ch5LegacyMediaPlayerIconButton.COMPONENT_PROPERTIES.length; i++) {
-			if (Ch5LegacyMediaPlayerIconButton.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-				newObsAttrs.push(Ch5LegacyMediaPlayerIconButton.COMPONENT_PROPERTIES[i].name.toLowerCase());
+		for (let i: number = 0; i < Ch5MediaPlayerIconButton.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5MediaPlayerIconButton.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				newObsAttrs.push(Ch5MediaPlayerIconButton.COMPONENT_PROPERTIES[i].name.toLowerCase());
 			}
 		}
 		return inheritedObsAttrs.concat(newObsAttrs);
@@ -93,8 +93,8 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Log {
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
 		this.logger.start("attributeChangedCallback", this.primaryCssClass);
 		if (oldValue !== newValue) {
-			this.logger.log('ch5-legacy-media-player-icon-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
-			const attributeChangedProperty = Ch5LegacyMediaPlayerIconButton.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
+			this.logger.log('ch5-media-player-icon-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+			const attributeChangedProperty = Ch5MediaPlayerIconButton.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
 			if (attributeChangedProperty) {
 				const thisRef: any = this;
 				const key = attributeChangedProperty.name;
@@ -107,12 +107,12 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Log {
 	}
 
 	/**
-	 * Called when the Ch5LegacyMediaPlayerIconButton component is first connected to the DOM
+	 * Called when the Ch5MediaPlayerIconButton component is first connected to the DOM
 	 */
 	public connectedCallback() {
-		this.logger.start('connectedCallback()', Ch5LegacyMediaPlayerIconButton.ELEMENT_NAME);
+		this.logger.start('connectedCallback()', Ch5MediaPlayerIconButton.ELEMENT_NAME);
 		// if (this._elButton.parentElement !== this) {
-		this._elButton.classList.add('ch5-legacy-media-player--individual-icon-button');
+		this._elButton.classList.add('ch5-media-player--individual-icon-button');
 		this.appendChild(this._elButton);
 		// }
 		this.attachEventListeners();
@@ -134,17 +134,17 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Log {
 	protected createInternalHtml() {
 		this.logger.start('createInternalHtml()');
 		this.clearComponentContent();
-		this.classList.add('ch5-legacy-media-player--individual-icon-button-container');
+		this.classList.add('ch5-media-player--individual-icon-button-container');
 		this._elButton = document.createElement('button');
 		this.logger.stop();
 	}
 
 	protected initAttributes() {
 		const thisRef: any = this;
-		for (let i: number = 0; i < Ch5LegacyMediaPlayerIconButton.COMPONENT_PROPERTIES.length; i++) {
-			if (Ch5LegacyMediaPlayerIconButton.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-				if (this.hasAttribute(Ch5LegacyMediaPlayerIconButton.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
-					const key = Ch5LegacyMediaPlayerIconButton.COMPONENT_PROPERTIES[i].name;
+		for (let i: number = 0; i < Ch5MediaPlayerIconButton.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5MediaPlayerIconButton.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				if (this.hasAttribute(Ch5MediaPlayerIconButton.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
+					const key = Ch5MediaPlayerIconButton.COMPONENT_PROPERTIES[i].name;
 					thisRef[key] = this.getAttribute(key);
 				}
 			}
@@ -208,4 +208,4 @@ export class Ch5LegacyMediaPlayerIconButton extends Ch5Log {
 
 }
 
-Ch5LegacyMediaPlayerIconButton.registerCustomElement();
+Ch5MediaPlayerIconButton.registerCustomElement();

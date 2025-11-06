@@ -11,17 +11,17 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-legacy-media-player-default-attributes">
+  <test-fixture id="ch5-media-player-default-attributes">
     <template>
-      <ch5-legacy-media-player></ch5-legacy-media-player>
+      <ch5-media-player></ch5-media-player>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-legacy-media-player-default-attributes-value', () => {
-      let ch5LegacyMediaPlayer;
-      const signalTypes = CrComLib.Ch5LegacyMediaPlayer.SIGNAL_ATTRIBUTE_TYPES;
+    suite('ch5-media-player-default-attributes-value', () => {
+      let ch5MediaPlayer;
+      const signalTypes = CrComLib.Ch5MediaPlayer.SIGNAL_ATTRIBUTE_TYPES;
       setup(async () => {
-        ch5LegacyMediaPlayer = fixture('ch5-legacy-media-player-default-attributes');
+        ch5MediaPlayer = fixture('ch5-media-player-default-attributes');
       });
         
       test('Check signal types', () => {

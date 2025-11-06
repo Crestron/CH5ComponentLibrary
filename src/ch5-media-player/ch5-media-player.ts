@@ -1,17 +1,17 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
-import { ICh5LegacyMediaPlayerAttributes } from './interfaces/i-ch5-legacy-media-player-attributes';
+import { ICh5MediaPlayerAttributes } from './interfaces/i-ch5-media-player-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
-import { Ch5LegacyMediaPlayerNowPlaying } from "./ch5-legacy-media-player-now-playing";
-import { Ch5LegacyMediaPlayerMyMusic } from "./ch5-legacy-media-player-my-music";
+import { Ch5MediaPlayerNowPlaying } from "./ch5-media-player-now-playing";
+import { Ch5MediaPlayerMyMusic } from "./ch5-media-player-my-music";
 import { publishEvent, subscribeState, TSignalNonStandardTypeName, TSignalValue, unsubscribeState } from "../ch5-core";
 import { resizeObserver } from "../ch5-core/resize-observer";
-import { createElement, decodeString } from "./ch5-legacy-media-player-common";
+import { createElement, decodeString } from "./ch5-media-player-common";
 import { MusicPlayerLib } from "./music-player";
 
-export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPlayerAttributes {
+export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttributes {
 
   //#region Variables
 
@@ -153,16 +153,16 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     }
   ];
 
-  public static readonly ELEMENT_NAME = 'ch5-legacy-media-player';
+  public static readonly ELEMENT_NAME = 'ch5-media-player';
 
-  public primaryCssClass = 'ch5-legacy-media-player';
+  public primaryCssClass = 'ch5-media-player';
 
   public musicPlayerLibInstance: MusicPlayerLib;
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
-  private nowPlaying: Ch5LegacyMediaPlayerNowPlaying | null = null;
-  private myMusic: Ch5LegacyMediaPlayerMyMusic | null = null;
+  private nowPlaying: Ch5MediaPlayerNowPlaying | null = null;
+  private myMusic: Ch5MediaPlayerMyMusic | null = null;
   private _elMask: HTMLElement = {} as HTMLElement;
   private _elGenericDialogContent: HTMLElement = {} as HTMLElement;
   private _elMaskdialogTitle: HTMLElement = {} as HTMLElement;
@@ -294,15 +294,15 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   //#region Static Methods
 
   public static registerSignalAttributeTypes() {
-    Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5LegacyMediaPlayer.ELEMENT_NAME, Ch5LegacyMediaPlayer.SIGNAL_ATTRIBUTE_TYPES);
+    Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5MediaPlayer.ELEMENT_NAME, Ch5MediaPlayer.SIGNAL_ATTRIBUTE_TYPES);
   }
 
   public static registerCustomElement() {
     if (typeof window === "object"
       && typeof window.customElements === "object"
       && typeof window.customElements.define === "function"
-      && window.customElements.get(Ch5LegacyMediaPlayer.ELEMENT_NAME) === undefined) {
-      window.customElements.define(Ch5LegacyMediaPlayer.ELEMENT_NAME, Ch5LegacyMediaPlayer);
+      && window.customElements.get(Ch5MediaPlayer.ELEMENT_NAME) === undefined) {
+      window.customElements.define(Ch5MediaPlayer.ELEMENT_NAME, Ch5MediaPlayer);
     }
   }
 
@@ -312,14 +312,14 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   public constructor() {
     super();
-    this.logger.start('constructor()', Ch5LegacyMediaPlayer.ELEMENT_NAME);
+    this.logger.start('constructor()', Ch5MediaPlayer.ELEMENT_NAME);
     this.musicPlayerLibInstance = new MusicPlayerLib();
     this.ignoreAttributes = ["appendclasswheninviewport", "receivestateshowpulse", "receivestatehidepulse", "sendeventonshow"];
     if (!this._wasInstatiated) {
       this.createInternalHtml();
     }
     this._wasInstatiated = true;
-    this._ch5Properties = new Ch5Properties(this, Ch5LegacyMediaPlayer.COMPONENT_PROPERTIES);
+    this._ch5Properties = new Ch5Properties(this, Ch5MediaPlayer.COMPONENT_PROPERTIES);
     this.updateCssClass();
 
     subscribeState('o', 'busyChanged', ((data: any) => {
@@ -351,9 +351,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   public static get observedAttributes(): string[] {
     const inheritedObsAttrs = Ch5Common.observedAttributes;
     const newObsAttrs: string[] = [];
-    for (let i: number = 0; i < Ch5LegacyMediaPlayer.COMPONENT_PROPERTIES.length; i++) {
-      if (Ch5LegacyMediaPlayer.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-        newObsAttrs.push(Ch5LegacyMediaPlayer.COMPONENT_PROPERTIES[i].name.toLowerCase());
+    for (let i: number = 0; i < Ch5MediaPlayer.COMPONENT_PROPERTIES.length; i++) {
+      if (Ch5MediaPlayer.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+        newObsAttrs.push(Ch5MediaPlayer.COMPONENT_PROPERTIES[i].name.toLowerCase());
       }
     }
     return inheritedObsAttrs.concat(newObsAttrs);
@@ -362,8 +362,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
     this.logger.start("attributeChangedCallback", this.primaryCssClass);
     if (oldValue !== newValue) {
-      this.logger.log('ch5-legacy-media-player attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
-      const attributeChangedProperty = Ch5LegacyMediaPlayer.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
+      this.logger.log('ch5-media-player attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+      const attributeChangedProperty = Ch5MediaPlayer.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
       if (attributeChangedProperty) {
         const thisRef: any = this;
         const key = attributeChangedProperty.name;
@@ -376,16 +376,16 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   }
 
   /**
-   * Called when the Ch5LegacyMediaPlayer component is first connected to the DOM
+   * Called when the Ch5MediaPlayer component is first connected to the DOM
    */
   public connectedCallback() {
-    this.logger.start('connectedCallback()', Ch5LegacyMediaPlayer.ELEMENT_NAME);
+    this.logger.start('connectedCallback()', Ch5MediaPlayer.ELEMENT_NAME);
     // WAI-ARIA Attributes
     if (!this.hasAttribute('role')) {
-      this.setAttribute('role', Ch5RoleAttributeMapping.ch5LegacyMediaPlayer);
+      this.setAttribute('role', Ch5RoleAttributeMapping.ch5MediaPlayer);
     }
     if (this._elContainer.parentElement !== this) {
-      this._elContainer.classList.add('ch5-legacy-media-player');
+      this._elContainer.classList.add('ch5-media-player');
       this.appendChild(this._elContainer);
     }
     this.addMusicTransition();
@@ -393,9 +393,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this.initAttributes();
     this.initCommonMutationObserver(this);
     this.handleDemoMode(); // it is needed when attribute is set to true and then removed from the component
-    customElements.whenDefined('ch5-legacy-media-player').then(() => {
+    customElements.whenDefined('ch5-media-player').then(() => {
       this.musicPlayerLibInstance.subscribeLibrarySignals();
-      this.componentLoadedEvent(Ch5LegacyMediaPlayer.ELEMENT_NAME, this.id);
+      this.componentLoadedEvent(Ch5MediaPlayer.ELEMENT_NAME, this.id);
     });
     this.logger.stop();
   }
@@ -416,9 +416,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
     this._elContainer = createElement('div');
-    this.nowPlaying = new Ch5LegacyMediaPlayerNowPlaying(this.musicPlayerLibInstance);
+    this.nowPlaying = new Ch5MediaPlayerNowPlaying(this.musicPlayerLibInstance);
     this._elContainer.appendChild(this.nowPlaying.createInternalHtml());
-    this.myMusic = new Ch5LegacyMediaPlayerMyMusic(this.musicPlayerLibInstance);
+    this.myMusic = new Ch5MediaPlayerMyMusic(this.musicPlayerLibInstance);
     this._elContainer.appendChild(this.myMusic.createInternalHtml());
     this.loadingIndicator();
     this.logger.stop();
@@ -477,9 +477,9 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   //Dialog Heading
   protected getDialogHeading(dialogHeading: string) {
-    this._elMask = createElement('div', ['ch5-legacy-media-player--popup-overlay']);
+    this._elMask = createElement('div', ['ch5-media-player--popup-overlay']);
     this._elContainer.appendChild(this._elMask);
-    this._elGenericDialogContent = createElement('div', ['ch5-legacy-media-player--popup-content-generic']);
+    this._elGenericDialogContent = createElement('div', ['ch5-media-player--popup-content-generic']);
     this._elMaskdialogTitle = createElement('div', ['generic-dialog-title']);
     this._elMaskdialogTitle.innerHTML = decodeString(dialogHeading);
     this._elGenericDialogContent.appendChild(this._elMaskdialogTitle);
@@ -525,17 +525,17 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
 
   public addMusicTransition() {
     this.querySelector(".now-playing-player-music-note-button")?.addEventListener("click", () => {
-      this.querySelector(".ch5-legacy-media-player--my-music")?.classList.add("my-music-transition");
+      this.querySelector(".ch5-media-player--my-music")?.classList.add("my-music-transition");
     });
   }
 
   protected initAttributes() {
     super.initAttributes();
     const thisRef: any = this;
-    for (let i: number = 0; i < Ch5LegacyMediaPlayer.COMPONENT_PROPERTIES.length; i++) {
-      if (Ch5LegacyMediaPlayer.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-        if (this.hasAttribute(Ch5LegacyMediaPlayer.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
-          const key = Ch5LegacyMediaPlayer.COMPONENT_PROPERTIES[i].name;
+    for (let i: number = 0; i < Ch5MediaPlayer.COMPONENT_PROPERTIES.length; i++) {
+      if (Ch5MediaPlayer.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+        if (this.hasAttribute(Ch5MediaPlayer.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
+          const key = Ch5MediaPlayer.COMPONENT_PROPERTIES[i].name;
           thisRef[key] = this.getAttribute(key);
         }
       }
@@ -556,7 +556,7 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
         this._elContainer.classList.add("portrait-mode-active");
       }
     } else {
-      this.querySelector(".ch5-legacy-media-player--my-music")?.classList.remove("my-music-transition");
+      this.querySelector(".ch5-media-player--my-music")?.classList.remove("my-music-transition");
       this._elContainer.classList.remove("portrait-mode-active");
     }
 
@@ -577,8 +577,8 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
       value: 1280
     }];
 
-    const prefixWidth = "ch5-legacy-media-player--width-";
-    const prefixHeight = "ch5-legacy-media-player--height-";
+    const prefixWidth = "ch5-media-player--width-";
+    const prefixHeight = "ch5-media-player--height-";
     for (let i = 0; i < breakpoints.length; i++) {
       this._elContainer.classList.remove(prefixWidth + breakpoints[i].key);
       this._elContainer.classList.remove(prefixHeight + breakpoints[i].key);
@@ -792,5 +792,5 @@ export class Ch5LegacyMediaPlayer extends Ch5Common implements ICh5LegacyMediaPl
   //#endregion
 }
 
-Ch5LegacyMediaPlayer.registerCustomElement();
-Ch5LegacyMediaPlayer.registerSignalAttributeTypes();
+Ch5MediaPlayer.registerCustomElement();
+Ch5MediaPlayer.registerSignalAttributeTypes();
