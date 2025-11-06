@@ -81,7 +81,7 @@ export interface ICh5MediaPlayerAttributes extends ICh5CommonAttributesMediaPlay
    * [
    * "`receiveStateCRPC` attribute",
    * "***",
-   * "All api responses we get through this signal. Connected to the Media Server Object Router SIMPL module and contains the CRPC data from the SmartGaphics Media Player object going to the selected device. Connected to the Media Server Object Router SIMPL module and contains the CRPC data from the selected device."
+   * "All api responses we get through this signal. Connected to the Media Server Object Router SIMPL module and contains the CRPC data from the Media Player object going to the selected device. Connected to the Media Server Object Router SIMPL module and contains the CRPC data from the selected device."
    * ]
    * @name receivestatecrpc
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
@@ -105,7 +105,7 @@ export interface ICh5MediaPlayerAttributes extends ICh5CommonAttributesMediaPlay
    * [
    * "`receiveStateMessage` attribute",
    * "***",
-   * "Connected to the Media Server Object Router SIMPL module and contains the message data from the SmartGraphics Media Player object going to the selected device. We will receive a message from CS for the tag and src value."
+   * "Connected to the Media Server Object Router SIMPL module and contains the message data from the Media Player object going to the selected device. We will receive a message from CS for the tag and src value."
    * ]
    * @name receivestatemessage
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
@@ -117,7 +117,7 @@ export interface ICh5MediaPlayerAttributes extends ICh5CommonAttributesMediaPlay
    * [
    * "`receiveStateRefreshMediaPlayer` attribute",
    * "***",
-   * "To refresh the media player. Connected to the Media Server Object Router SIMPL module and triggered when the SmartGraphics Media Player component needs to refresh its data. When CS program restarts this signal will get a high value."
+   * "To refresh the media player. Connected to the Media Server Object Router SIMPL module and triggered when the Media Player component needs to refresh its data. When CS program restarts this signal will get a high value."
    * ]
    * @name receivestaterefreshmediaplayer
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
