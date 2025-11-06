@@ -245,6 +245,7 @@ export class Ch5MediaPlayerMyMusic {
     if ((index + 1 >= this.menuListData['MenuData']?.length) && (index + 1 >= this.musicPlayerLibInstance.maxReqItems)) {
       this.musicPlayerLibInstance.getItemData(true);
     }
+
     // if (index > 0 && this.printedIndex === index) return;
     this.printedIndex = index;
 
@@ -377,13 +378,15 @@ export class Ch5MediaPlayerMyMusic {
 
     // Clear content section if no menu data
     //if (menuLength === 0) {
-    Array.from(this._myMusicContentSection.childNodes).forEach(child => child.remove());
+    // Array.from(this._myMusicContentSection.childNodes).forEach(child => child.remove());
     //return; // Early exit since no further processing is needed
     // }
 
     // Create lines if within max request limit
+    // control will go in this if condition only on the first load of data. When the new data is fetched the item creation will work from the scroll event
     if (menuLength <= this.musicPlayerLibInstance.maxReqItems) {
-      for (let index = 0; index < this.loadItemsCount; index++) {
+      Array.from(this._myMusicContentSection.childNodes).forEach(child => child.remove());
+      for (let index = 0; index < menuLength; index++) {
         this.createLine(index);
       }
     }
