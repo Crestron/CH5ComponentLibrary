@@ -29468,5 +29468,99 @@
             "name": "Volume",
             "value": ".sg .sg-media-transports-dark .sg-volume"
         }
+    ],
+    "mpIcons": [
+        {
+            "name": "MP-ANIMATED-BAR",
+            "value": ".mp .mp-size .mp-animated-bar"
+        },
+        {
+            "name": "MP-ARROW-TRIANGLE-DOWN",
+            "value": ".mp .mp-size .mp-arrow-triangle-down"
+        },
+        {
+            "name": "MP-CHEVRON-LEFT",
+            "value": ".mp .mp-size .mp-chevron-left"
+        },
+        {
+            "name": "MP-CHEVRON-RIGHT",
+            "value": ".mp .mp-size .mp-chevron-right"
+        },
+        {
+            "name": "MP-DOTS-HORIZONTAL",
+            "value": ".mp .mp-size .mp-dots-horizontal"
+        },
+        {
+            "name": "MP-FAST-BACKWARD",
+            "value": ".mp .mp-size .mp-fast-backward"
+        },
+        {
+            "name": "MP-FAST-FORWARD",
+            "value": ".mp .mp-size .mp-fast-forward"
+        },
+        {
+            "name": "MP-IMAGE-USER-PLUS",
+            "value": ".mp .mp-size .mp-image-user-plus"
+        },
+        {
+            "name": "MP-MUSIC-LIST-QUICK",
+            "value": ".mp .mp-size .mp-music-list-quick"
+        },
+        {
+            "name": "MP-MUSIC-LIST",
+            "value": ".mp .mp-size .mp-music-list"
+        },
+        {
+            "name": "MP-MUSIC-NOTE-PLUS",
+            "value": ".mp .mp-size .mp-music-note-plus"
+        },
+        {
+            "name": "MP-MUSIC-NOTE",
+            "value": ".mp .mp-size .mp-music-note"
+        },
+        {
+            "name": "MP-PLAY-MULTI-SQUARE",
+            "value": ".mp .mp-size .mp-play-multi-square"
+        },
+        {
+            "name": "MP-PLAY",
+            "value": ".mp .mp-size .mp-play"
+        },
+        {
+            "name": "MP-PLUS-CIRCLE",
+            "value": ".mp .mp-size .mp-plus-circle"
+        },
+        {
+            "name": "MP-REPEAT",
+            "value": ".mp .mp-size .mp-repeat"
+        },
+        {
+            "name": "MP-SEARCH-LG",
+            "value": ".mp .mp-size .mp-search-lg"
+        },
+        {
+            "name": "MP-SETTINGS",
+            "value": ".mp .mp-size .mp-settings"
+        },
+        {
+            "name": "MP-SHUFFLE",
+            "value": ".mp .mp-size .mp-shuffle"
+        },
+        {
+            "name": "MP-SKIP-BACK",
+            "value": ".mp .mp-size .mp-skip-back"
+        },
+        {
+            "name": "MP-SKIP-FORWARD",
+            "value": ".mp .mp-size .mp-skip-forward"
+        },
+        {
+            "name": "MP-THUMBS-DOWN",
+            "value": ".mp .mp-size .mp-thumbs-down"
+        },
+        {
+            "name": "MP-THUMBS-UP",
+            "value": ".mp .mp-size .mp-thumbs-up"
+        }
     ]
 }

@@ -1,0 +1,536 @@
+{
+  "animated": {
+    "bounce": {
+      "description": "Bounce effect",
+      "styles": [
+        "others"
+      ]
+    },
+    "flash": {
+      "description": "Flash effect",
+      "styles": [
+        "others"
+      ]
+    },
+    "pulse": {
+      "description": "Pulse effect",
+      "styles": [
+        "others"
+      ]
+    },
+    "rubberBand": {
+      "description": "Rubberband effect",
+      "styles": [
+        "others"
+      ]
+    },
+    "shake": {
+      "description": "Shake effect",
+      "styles": [
+        "others"
+      ]
+    },
+    "headShake": {
+      "description": "Headshake effect",
+      "styles": [
+        "others"
+      ]
+    },
+    "swing": {
+      "description": "Swing effect",
+      "styles": [
+        "others"
+      ]
+    },
+    "tada": {
+      "description": "Tada effect",
+      "styles": [
+        "others"
+      ]
+    },
+    "wobble": {
+      "description": "Wobble effect",
+      "styles": [
+        "others"
+      ]
+    },
+    "jello": {
+      "description": "Jello effect",
+      "styles": [
+        "others"
+      ]
+    },
+    "heartBeat": {
+      "description": "Heartbeat effect",
+      "styles": [
+        "others"
+      ]
+    },
+    "bounceIn": {
+      "description": "Bounce-In effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "bounceInDown": {
+      "description": "Bounce-In-Down effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "bounceInLeft": {
+      "description": "Bounce-In-Left effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "bounceInRight": {
+      "description": "Bounce-In-Right effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "bounceInUp": {
+      "description": "Bounce-In-Up effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "bounceOut": {
+      "description": "Bounce-Out effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "bounceOutDown": {
+      "description": "Bounce-Out-Down effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "bounceOutLeft": {
+      "description": "Bounce-Out-Left effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "bounceOutRight": {
+      "description": "Bounce-Out-Right effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "bounceOutUp": {
+      "description": "Bounce-Out-Up effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "fadeIn": {
+      "description": "Fade-In effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "fadeInDown": {
+      "description": "Fade-In-Down effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "fadeInDownBig": {
+      "description": "Fade-In-Down-Big effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "fadeInLeft": {
+      "description": "Fade-In-Left effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "fadeInLeftBig": {
+      "description": "Fade-In-Left-Big effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "fadeInRight": {
+      "description": "Fade-In-Right effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "fadeInRightBig": {
+      "description": "Fade-In-Right-Big effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "fadeInUp": {
+      "description": "Fade-In-Up effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "fadeInUpBig": {
+      "description": "Fade-In-Up-Big effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "fadeOut": {
+      "description": "Fade-Out effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "fadeOutDown": {
+      "description": "Fade-Out-Down effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "fadeOutDownBig": {
+      "description": "Fade-Out-Down-Big effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "fadeOutLeft": {
+      "description": "Fade-Out-Left effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "fadeOutLeftBig": {
+      "description": "Fade-Out-Left-Big effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "fadeOutRight": {
+      "description": "Fade-Out-Right effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "fadeOutRightBig": {
+      "description": "Fade-Out-Right-Big effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "fadeOutUp": {
+      "description": "Fade-Out-Up effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "fadeOutUpBig": {
+      "description": "Fade-Out-Up-Big effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "flip": {
+      "description": "Flip effect",
+      "styles": [
+        "others"
+      ]
+    },
+    "flipInX": {
+      "description": "Flip-In-X effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "flipInY": {
+      "description": "Flip-In-Y effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "flipOutX": {
+      "description": "Flip-Out-X effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "flipOutY": {
+      "description": "Flip-Out-Y effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "lightSpeedIn": {
+      "description": "Light-Speed-In effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "lightSpeedOut": {
+      "description": "Light-Speed-Out effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "rotateIn": {
+      "description": "Rotate-In effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "rotateInDownLeft": {
+      "description": "Rotate-In-Down-Left effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "rotateInDownRight": {
+      "description": "Rotate-In-Down-Right effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "rotateInUpLeft": {
+      "description": "Rotate-In-Up-Left effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "rotateInUpRight": {
+      "description": "Rotate-In-Up-Right effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "rotateOut": {
+      "description": "Rotate-Out effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "rotateOutDownLeft": {
+      "description": "Rotate-Out-Down-Left effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "rotateOutDownRight": {
+      "description": "Rotate-Out-Down-Right effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "rotateOutUpLeft": {
+      "description": "Rotate-Out-Up-Left effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "rotateOutUpRight": {
+      "description": "Rotate-Out-Up-Right effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "hinge": {
+      "description": "Hinge effect",
+      "styles": [
+        "others"
+      ]
+    },
+    "jackInTheBox": {
+      "description": "Jack-In-The-Box effect",
+      "styles": [
+        "others"
+      ]
+    },
+    "rollIn": {
+      "description": "Roll-In effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "rollOut": {
+      "description": "Roll-Out effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "zoomIn": {
+      "description": "Zoom-In effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "zoomInDown": {
+      "description": "Zoom-In-Down effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "zoomInLeft": {
+      "description": "Zoom-In-Left effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "zoomInRight": {
+      "description": "Zoom-In-Right effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "zoomInUp": {
+      "description": "Zoom-In-Up effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "zoomOut": {
+      "description": "Zoom-Out effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "zoomOutDown": {
+      "description": "Zoom-Out-Down effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "zoomOutLeft": {
+      "description": "Zoom-Out-Left effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "zoomOutRight": {
+      "description": "Zoom-Out-Right effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "zoomOutUp": {
+      "description": "Zoom-Out-Up effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "slideInDown": {
+      "description": "Slide-In-Down effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "slideInLeft": {
+      "description": "Slide-In-Left effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "slideInRight": {
+      "description": "Slide-In-Right effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "slideInUp": {
+      "description": "Slide-In-Up effect",
+      "styles": [
+        "entry",
+        "others"
+      ]
+    },
+    "slideOutDown": {
+      "description": "Slide-Out-Down effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "slideOutLeft": {
+      "description": "Slide-Out-Left effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "slideOutRight": {
+      "description": "Slide-Out-Right effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    },
+    "slideOutUp": {
+      "description": "Slide-Out-Up effect",
+      "styles": [
+        "exit",
+        "others"
+      ]
+    }
+  }
+}
