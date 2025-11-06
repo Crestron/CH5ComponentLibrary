@@ -163,82 +163,83 @@ export class Ch5MediaPlayerMyMusic {
     this._myMusicContainer.append(defaultHeaderContainer, defaultItemsContainer, defaultFooterContainer);
   }
 
-protected createMyMusic() {
-  if (this._myMusicContainer) {
-    // clear children efficiently
-    while (this._myMusicContainer.firstChild) {
-      this._myMusicContainer.removeChild(this._myMusicContainer.firstChild);
-    }
-    if (this._myMusicContainer.classList.contains("ch5-media-player--my-music-default")) {
-      this._myMusicContainer.classList.remove('ch5-media-player--my-music-default');
+  protected createMyMusic() {
+    if (this._myMusicContainer && this._myMusicContainer.classList.contains("ch5-media-player--my-music-default")) {//:TO-DO
+      // clear children efficiently
+      while (this._myMusicContainer.firstChild) {
+        this._myMusicContainer.removeChild(this._myMusicContainer.firstChild);
+      }
+      if (this._myMusicContainer.classList.contains("ch5-media-player--my-music-default")) {
+        this._myMusicContainer.classList.remove('ch5-media-player--my-music-default');
+      }
+
+
+      this.logger.start('createInternalHtml()');
+      this._myMusicContainer.classList.add("ch5-media-player--my-music");
+
+      this._myMusicHeaderSection = createElement("div", ['my-music-header']);
+      this._myMusicContentSection = createElement("div", ['my-music-content']);
+
+      let lastScrollTop = 0;
+      let ticking = false;
+
+      const getMenuLength = () => this.menuListData?.MenuData?.length || 0;
+      const getMaxReqItems = () => this.musicPlayerLibInstance?.maxReqItems || 0;
+
+      const onScrollRaf = () => {
+        const scrollTop = this._myMusicContentSection.scrollTop || 0;
+        const scrollHeight = this._myMusicContentSection.scrollHeight || 0;
+        const clientHeight = this._myMusicContentSection.clientHeight || window.innerHeight;
+        const distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
+
+        const menuLength = getMenuLength();
+        const maxReqItems = getMaxReqItems();
+
+        if (scrollTop > lastScrollTop && menuLength > this.loadItemsCount) {
+          if (distanceFromBottom <= this.scrollPosition) {
+            const first = this._myMusicContentSection.firstElementChild as HTMLElement | null;
+            if (first) { this._myMusicContentSection.removeChild(first); }
+            this.createLine(this.loadItemsCount, 'end');
+            this.loadItemsCount += 1;
+          }
+        } else if (scrollTop < lastScrollTop && this.loadItemsCount > this.MAXIMUM_ROWS_TO_SHOW) {
+          if (scrollTop <= this.scrollPosition) {
+            const childrenCount = this._myMusicContentSection.children.length;
+            if (childrenCount >= this.MAXIMUM_ROWS_TO_SHOW) {
+              this._myMusicContentSection.removeChild(this._myMusicContentSection.children[childrenCount - 1]);
+            }
+            this.loadItemsCount -= 1;
+            this.createLine(this.loadItemsCount - this.MAXIMUM_ROWS_TO_SHOW, 'start');
+          }
+        }
+
+        lastScrollTop = Math.max(scrollTop, 0);
+
+        if (menuLength - 1 > maxReqItems) {
+          if (menuLength - 1 > this.printedIndex && distanceFromBottom === 0) {
+            this._myMusicContentSection.scrollTop = Math.max(this._myMusicContentSection.scrollTop - this.scrollPosition, 0);
+          } else if (scrollTop === 0 && this.printedIndex !== 0) {
+            this._myMusicContentSection.scrollTop = this.scrollPosition;
+          }
+        }
+
+        ticking = false;
+      };
+
+      const handleScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        // The requestAnimationFrame() method is a browser API used in JavaScript to schedule a function to be called before the next repaint of the browser window. It's commonly used for creating smooth animations
+        requestAnimationFrame(onScrollRaf);
+      };
+
+      this._myMusicContentSection.onscroll = handleScroll;
+
+      this._myMusicFooterSection = createElement("div", ['my-music-footer']);
+      this._myMusicContainer.append(this._myMusicHeaderSection, this._myMusicContentSection, this._myMusicFooterSection);
+      this.logger.stop();
     }
   }
-
-  this.logger.start('createInternalHtml()');
-  this._myMusicContainer.classList.add("ch5-media-player--my-music");
-
-  this._myMusicHeaderSection = createElement("div", ['my-music-header']);
-  this._myMusicContentSection = createElement("div", ['my-music-content']);
-
-  let lastScrollTop = 0;
-  let ticking = false;
-
-  const getMenuLength = () => this.menuListData?.MenuData?.length || 0;
-  const getMaxReqItems = () => this.musicPlayerLibInstance?.maxReqItems || 0;
-
-  const onScrollRaf = () => {
-    const scrollTop = this._myMusicContentSection.scrollTop || 0;
-    const scrollHeight = this._myMusicContentSection.scrollHeight || 0;
-    const clientHeight = this._myMusicContentSection.clientHeight || window.innerHeight;
-    const distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
-
-    const menuLength = getMenuLength();
-    const maxReqItems = getMaxReqItems();
-
-    if (scrollTop > lastScrollTop && menuLength > this.loadItemsCount) {
-      if (distanceFromBottom <= this.scrollPosition) {
-        const first = this._myMusicContentSection.firstElementChild as HTMLElement | null;
-        if (first) { this._myMusicContentSection.removeChild(first); }
-        this.createLine(this.loadItemsCount, 'end');
-        this.loadItemsCount += 1;
-      }
-    } else if (scrollTop < lastScrollTop && this.loadItemsCount > this.MAXIMUM_ROWS_TO_SHOW) {
-      if (scrollTop <= this.scrollPosition) {
-        const childrenCount = this._myMusicContentSection.children.length;
-        if (childrenCount >= this.MAXIMUM_ROWS_TO_SHOW) {
-          this._myMusicContentSection.removeChild(this._myMusicContentSection.children[childrenCount - 1]);
-        }
-        this.loadItemsCount -= 1;
-        this.createLine(this.loadItemsCount - this.MAXIMUM_ROWS_TO_SHOW, 'start');
-      }
-    }
-
-    lastScrollTop = Math.max(scrollTop, 0);
-
-    if (menuLength - 1 > maxReqItems) {
-      if (menuLength - 1 > this.printedIndex && distanceFromBottom === 0) {
-        this._myMusicContentSection.scrollTop = Math.max(this._myMusicContentSection.scrollTop - this.scrollPosition, 0);
-      } else if (scrollTop === 0 && this.printedIndex !== 0) {
-        this._myMusicContentSection.scrollTop = this.scrollPosition;
-      }
-    }
-
-    ticking = false;
-  };
-
-  const handleScroll = () => {
-    if (ticking) return;
-    ticking = true;
-    // The requestAnimationFrame() method is a browser API used in JavaScript to schedule a function to be called before the next repaint of the browser window. It's commonly used for creating smooth animations
-    requestAnimationFrame(onScrollRaf);
-  };
-
-  this._myMusicContentSection.onscroll = handleScroll;
-
-  this._myMusicFooterSection = createElement("div", ['my-music-footer']);
-  this._myMusicContainer.append(this._myMusicHeaderSection, this._myMusicContentSection, this._myMusicFooterSection);
-  this.logger.stop();
-}
 
   protected createLine(index: number, position = 'end') {
     if ((index + 1 >= this.menuListData['MenuData']?.length) && (index + 1 >= this.musicPlayerLibInstance.maxReqItems)) {
@@ -375,10 +376,10 @@ protected createMyMusic() {
     const menuLength = menuData.length;
 
     // Clear content section if no menu data
-    if (menuLength === 0) {
-      Array.from(this._myMusicContentSection.childNodes).forEach(child => child.remove());
-      return; // Early exit since no further processing is needed
-    }
+    //if (menuLength === 0) {
+    Array.from(this._myMusicContentSection.childNodes).forEach(child => child.remove());
+    //return; // Early exit since no further processing is needed
+    // }
 
     // Create lines if within max request limit
     if (menuLength <= this.musicPlayerLibInstance.maxReqItems) {

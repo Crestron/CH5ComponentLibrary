@@ -516,7 +516,9 @@ export class MusicPlayerLib {
                 this.updatedMenuData(); // we need to call only when statechanged event has parameters object include key has Title
             }
             for (const item in responseData.params?.parameters) {
-                this.myMusicData[item] = responseData.params?.parameters[item];
+                if (this.myMusicData.hasOwnProperty(item)) {
+                    this.myMusicData[item] = responseData.params?.parameters[item];
+                }
             }
         } else if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method) &&
             (responseData?.params?.ev === 'StatusMsgMenuChanged' || responseData?.params?.ev === 'StatusMsgChanged') &&
@@ -669,7 +671,7 @@ export class MusicPlayerLib {
         unsubscribeState('s', 'receiveStateCRPCResp', this.subreceiveStateCRPCResp);
         unsubscribeState('s', 'receiveStateMessageResp', this.subreceiveStateMessageResp);
         unsubscribeState('s', 'sendEventCRPCJoinNo', this.subsendEventCRPCJoinNo);
-        this.menuListPublishData= { 'MenuData': [] };
+        this.menuListPublishData = { 'MenuData': [] };
         this.nowPlayingPublishData = {};
         this.myMusicPublishData = {};
         this.progressBarPublishData = {};
