@@ -26,6 +26,7 @@ export * from './ch5-jointotext-string/index';
 export * from './ch5-keypad/index';
 export * from './ch5-label/index';
 export * from './ch5-list/index';
+export * from './ch5-media-player';
 export * from './ch5-modal-dialog/index';
 export * from './ch5-overlay-panel/index';
 export * from './ch5-qrcode/index';
@@ -49,4 +50,3 @@ export * from './ch5-video/index';
 export * from './ch5-video-switcher/index';
 export * from './ch5-wifi-signal-level-gauge';
 export * from './utility-models/index'; // Use CrComLib.Ch5RoleAttributeMapping to access
-export * from './ch5-legacy-media-player';

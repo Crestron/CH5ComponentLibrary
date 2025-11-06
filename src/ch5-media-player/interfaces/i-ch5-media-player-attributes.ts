@@ -1,9 +1,9 @@
-import { ICh5CommonAttributesLegacyMediaPlayer } from "../../ch5-common/interfaces/i-ch5-common-attributes-legacy-media-player";
+import { ICh5CommonAttributesMediaPlayer } from "../../ch5-common/interfaces/i-ch5-common-attributes-media-player";
 
 /**
  * @ignore
  */
-export interface ICh5LegacyMediaPlayerAttributes extends ICh5CommonAttributesLegacyMediaPlayer {
+export interface ICh5MediaPlayerAttributes extends ICh5CommonAttributesMediaPlayer {
   /**
    * @documentation
    * [
@@ -33,7 +33,7 @@ export interface ICh5LegacyMediaPlayerAttributes extends ICh5CommonAttributesLeg
    * [
    * "`useContractForEnable` attribute",
    * "***",
-   * "When true, the contract 'Enable' state determines if the Legacy Media Player is enabled. When false, the 'receiveStateEnable' join may be applied. Consistent with other components, if the 'receiveStateEnable' join is provide, the value of that join determines if the component is enabled. "
+   * "When true, the contract 'Enable' state determines if the Media Player is enabled. When false, the 'receiveStateEnable' join may be applied. Consistent with other components, if the 'receiveStateEnable' join is provide, the value of that join determines if the component is enabled. "
    * ]
    * @name usecontractforenable
    * @default false
@@ -45,7 +45,7 @@ export interface ICh5LegacyMediaPlayerAttributes extends ICh5CommonAttributesLeg
    * [
    * "`useContractForShow` attribute",
    * "***",
-   * " When true, the contract 'Show' state determines if the Legacy Media Player is enabled. When false, the 'receiveStateShow' join may be applied. Consistent with other components, if the 'receiveStateShow' join is provide, the value of that join determines if the component is visible. "
+   * " When true, the contract 'Show' state determines if the Media Player is enabled. When false, the 'receiveStateShow' join may be applied. Consistent with other components, if the 'receiveStateShow' join is provide, the value of that join determines if the component is visible. "
    * ]
    * @name usecontractforshow
    * @default false

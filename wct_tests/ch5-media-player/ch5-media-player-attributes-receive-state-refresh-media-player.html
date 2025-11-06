@@ -11,31 +11,31 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-legacy-media-player-receiveStatePlayerName-attributes">
+  <test-fixture id="ch5-media-player-receiveStateRefreshMediaPlayer-attributes">
     <template>
-      <ch5-legacy-media-player receiveStatePlayerName="trigger_event_listener"></ch5-legacy-media-player>
+      <ch5-media-player receiveStateRefreshMediaPlayer="trigger_event_listener"></ch5-media-player>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-legacy-media-player-receiveStatePlayerName-attributes-value', () => {
-      let ch5LegacyMediaPlayer;
+    suite('ch5-media-player-receiveStateRefreshMediaPlayer-attributes-value', () => {
+      let ch5MediaPlayer;
 
       setup(async () => {
-        const emulatorJson = await fetch('./emulator/receiveStatePlayerName.json').then((response) => response.json());
+        const emulatorJson = await fetch('./emulator/receivestaterefreshmediaplayer.json').then((response) => response.json());
         const emulator = CrComLib.Ch5Emulator.getInstance();
         emulator.loadScenario(emulatorJson);
-        ch5LegacyMediaPlayer = fixture('ch5-legacy-media-player-receiveStatePlayerName-attributes');
+        ch5MediaPlayer = fixture('ch5-media-player-receiveStateRefreshMediaPlayer-attributes');
       });
         
-        test('receiveStatePlayerName', (done) => {
+          test('receiveStateRefreshMediaPlayer', (done) => {
           CrComLib.publishEvent('b', 'trigger_event',true );
           flush(() => {
               setTimeout(() => {
-                  expect(ch5LegacyMediaPlayer.getAttribute('receiveStatePlayerName')).to.be.equal('String Signal');
+                  expect(ch5MediaPlayer.getAttribute('receiveStateRefreshMediaPlayer')).to.be.equal('true');
                   done();
               }, 100);
           });
-        }); 
+        });
     });
   </script>
 </body>

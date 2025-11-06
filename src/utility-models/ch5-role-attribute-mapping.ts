@@ -29,6 +29,7 @@ export class Ch5RoleAttributeMapping {
     public static readonly ch5Form = 'form';
     public static readonly ch5Image = 'img';
     public static readonly ch5ImportHtmlSnippet = 'template';
+    public static readonly ch5MediaPlayer = 'media-player';
     public static readonly ch5ModalDialog = 'dialog';
     public static readonly ch5OverlayPanel = 'dialog';
     public static readonly ch5QrCode = 'QR code';
@@ -55,7 +56,4 @@ export class Ch5RoleAttributeMapping {
     public static readonly ch5VideoSwitcherSource = 'video-switcher-source';
     public static readonly ch5VideoSwitcherSourceLabel = 'video-switcher-source-label';
     public static readonly ch5WifiSignalLevelGauge = 'wifi-signal-level-gauge';
-    public static readonly ch5LegacyMediaPlayerNowPlaying = 'legacy-media-player-now-playing';
-    public static readonly ch5LegacyMediaPlayerMyMusic = 'legacy-media-player-my-music';
-    public static readonly ch5LegacyMediaPlayer = 'legacy-media-player';
 }

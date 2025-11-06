@@ -1,10 +1,10 @@
-import { Ch5LegacyMediaPlayerIconButton } from "./ch5-legacy-media-player-icon-button-base.ts";
+import { Ch5MediaPlayerIconButton } from "./ch5-media-player-icon-button-base.ts";
 import { publishEvent, subscribeState } from "../ch5-core/index.ts";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log.ts";
-import { createElement, decodeString } from "./ch5-legacy-media-player-common.ts";
+import { createElement, decodeString } from "./ch5-media-player-common.ts";
 import { MusicPlayerLib } from "./music-player.ts";
 
-export class Ch5LegacyMediaPlayerMyMusic {
+export class Ch5MediaPlayerMyMusic {
 
   //#region Variables
   private _myMusicContainer: HTMLElement = {} as HTMLElement;
@@ -73,8 +73,8 @@ export class Ch5LegacyMediaPlayerMyMusic {
   //#region Component Lifecycle
 
   public constructor(musicPlayerLib: MusicPlayerLib) {
-    this.logger = new Ch5CommonLog(false, false, "LEGACY_MEDIA_PLAYER:MY_MUSIC");
-    this.logger.start('constructor()', "LEGACY_MEDIA_PLAYER:MY_MUSIC");
+    this.logger = new Ch5CommonLog(false, false, "MEDIA_PLAYER:MY_MUSIC");
+    this.logger.start('constructor()', "MEDIA_PLAYER:MY_MUSIC");
     this.musicPlayerLibInstance = musicPlayerLib;
     this._myMusicContainer = createElement('div');
     this.createDefaultMyMusic();
@@ -139,13 +139,13 @@ export class Ch5LegacyMediaPlayerMyMusic {
       this._myMusicContainer.className = "";
       this._myMusicContainer.innerHTML = "";
     }
-    this._myMusicContainer.classList.add("ch5-legacy-media-player--my-music-default");
+    this._myMusicContainer.classList.add("ch5-media-player--my-music-default");
     const defaultHeaderContainer = createElement('div', ['default-header-container']);
-    const defaultBackIcon = new Ch5LegacyMediaPlayerIconButton();
+    const defaultBackIcon = new Ch5MediaPlayerIconButton();
     defaultBackIcon.setAttribute('iconClass', "mp-icon mp-chevron-left");
     defaultBackIcon.title = "Default Back";
     const headerTitleNone = createElement('div', ['header-title-none'], '— —');
-    const defaultMusicIcon = new Ch5LegacyMediaPlayerIconButton();
+    const defaultMusicIcon = new Ch5MediaPlayerIconButton();
     defaultMusicIcon.setAttribute('iconClass', "mp-logo mp-animated-bar");
     defaultMusicIcon.title = "Default Music";
     defaultHeaderContainer.append(defaultBackIcon, headerTitleNone, defaultMusicIcon);
@@ -153,10 +153,10 @@ export class Ch5LegacyMediaPlayerMyMusic {
     const defaultItem = createElement('div', ['default-item'], 'No Content');
     defaultItemsContainer.append(defaultItem);
     const defaultFooterContainer = createElement('div', ['default-footer-container']);
-    const defaultCreateIcon = new Ch5LegacyMediaPlayerIconButton();
+    const defaultCreateIcon = new Ch5MediaPlayerIconButton();
     defaultCreateIcon.setAttribute('iconClass', "mp-icon mp-plus-circle");
     defaultCreateIcon.title = "Default Create";
-    const defaultFindIcon = new Ch5LegacyMediaPlayerIconButton();
+    const defaultFindIcon = new Ch5MediaPlayerIconButton();
     defaultFindIcon.setAttribute('iconClass', "mp-icon mp-search-lg");
     defaultFindIcon.title = "Default Find";
     defaultFooterContainer.append(defaultCreateIcon, defaultFindIcon);
@@ -169,13 +169,13 @@ protected createMyMusic() {
     while (this._myMusicContainer.firstChild) {
       this._myMusicContainer.removeChild(this._myMusicContainer.firstChild);
     }
-    if (this._myMusicContainer.classList.contains("ch5-legacy-media-player--my-music-default")) {
-      this._myMusicContainer.classList.remove('ch5-legacy-media-player--my-music-default');
+    if (this._myMusicContainer.classList.contains("ch5-media-player--my-music-default")) {
+      this._myMusicContainer.classList.remove('ch5-media-player--my-music-default');
     }
   }
 
   this.logger.start('createInternalHtml()');
-  this._myMusicContainer.classList.add("ch5-legacy-media-player--my-music");
+  this._myMusicContainer.classList.add("ch5-media-player--my-music");
 
   this._myMusicHeaderSection = createElement("div", ['my-music-header']);
   this._myMusicContentSection = createElement("div", ['my-music-content']);
@@ -301,7 +301,7 @@ protected createMyMusic() {
   }
 
   protected myMusicHeader(backButton: boolean, myMusicHeaderTitleText: string, myMusicheaderSubtitle: string) {
-    this._myMusicHeaderBackButton = new Ch5LegacyMediaPlayerIconButton();
+    this._myMusicHeaderBackButton = new Ch5MediaPlayerIconButton();
     this._myMusicHeaderBackButton.setAttribute('iconClass', "mp-icon mp-chevron-left");
     this._myMusicHeaderBackButton.title = "Previous Section";
     this._myMusicHeaderBackButton.classList.add('my-music-header-back-button');
@@ -321,7 +321,7 @@ protected createMyMusic() {
     }
     this._myMusicHeaderTitle.append(this._myMusicHeaderTitleText, this._myMusicheaderSubtitle);
 
-    this._myMusicHeaderNowPlayingButton = new Ch5LegacyMediaPlayerIconButton();
+    this._myMusicHeaderNowPlayingButton = new Ch5MediaPlayerIconButton();
     this._myMusicHeaderNowPlayingButton.setAttribute('iconClass', "mp-logo mp-animated-bar");
     this._myMusicHeaderNowPlayingButton.title = "Back to Now Playing";
     this._myMusicHeaderNowPlayingButton.classList.add("my-music-header-now-playing-button");
@@ -346,7 +346,7 @@ protected createMyMusic() {
         for (let i = 0; i < myMusicMenuIconArray.length; i++) {
           const item = myMusicMenuIconArray[i];
           if (item === action.name) {
-            const button = new Ch5LegacyMediaPlayerIconButton();
+            const button = new Ch5MediaPlayerIconButton();
             button.setAttribute('iconClass', action.class);
             button.title = action.name;
             button.id = item;

@@ -19,7 +19,7 @@ import { ICh5CommonAttributesForShow } from "./common/i-ch5-common-attributes-sh
 /**
  * @ignore
  */
-export interface ICh5CommonAttributesLegacyMediaPlayer extends ICh5CommonAttributesForDir,
+export interface ICh5CommonAttributesMediaPlayer extends ICh5CommonAttributesForDir,
 	ICh5CommonAttributesForShow,
 	ICh5CommonAttributesForReceiveStateEnable,
 	ICh5CommonAttributesForReceiveStateShow,

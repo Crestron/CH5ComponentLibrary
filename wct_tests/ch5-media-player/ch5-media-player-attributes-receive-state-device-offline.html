@@ -11,27 +11,27 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-legacy-media-player-receiveStateDeviceOffline-attributes">
+  <test-fixture id="ch5-media-player-receiveStateDeviceOffline-attributes">
     <template>
-      <ch5-legacy-media-player receiveStateDeviceOffline="trigger_event_listener"></ch5-legacy-media-player>
+      <ch5-media-player receiveStateDeviceOffline="trigger_event_listener"></ch5-media-player>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-legacy-media-player-receiveStateDeviceOffline-attributes-value', () => {
-      let ch5LegacyMediaPlayer;
+    suite('ch5-media-player-receiveStateDeviceOffline-attributes-value', () => {
+      let ch5MediaPlayer;
 
       setup(async () => {
         const emulatorJson = await fetch('./emulator/receivestatedeviceoffline.json').then((response) => response.json());
         const emulator = CrComLib.Ch5Emulator.getInstance();
         emulator.loadScenario(emulatorJson);
-        ch5LegacyMediaPlayer = fixture('ch5-legacy-media-player-receiveStateDeviceOffline-attributes');
+        ch5MediaPlayer = fixture('ch5-media-player-receiveStateDeviceOffline-attributes');
       });
         
           test('receiveStateDeviceOffline', (done) => {
           CrComLib.publishEvent('b', 'trigger_event',true );
           flush(() => {
               setTimeout(() => {
-                  expect(ch5LegacyMediaPlayer.getAttribute('receiveStateDeviceOffline')).to.be.equal('true');
+                  expect(ch5MediaPlayer.getAttribute('receiveStateDeviceOffline')).to.be.equal('true');
                   done();
               }, 100);
           });
