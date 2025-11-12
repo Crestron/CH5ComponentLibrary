@@ -311,10 +311,10 @@ export class Ch5MediaPlayerMyMusic {
       this.musicPlayerLibInstance.myMusicEvent('Back');
     }
     if (!backButton) {
-      this._myMusicHeaderBackButton.style.visibility = "hidden";
+      this._myMusicHeaderBackButton.classList.add('button-visibility');
     }
     else {
-      this._myMusicHeaderBackButton.style.removeProperty('visibility');
+      this._myMusicHeaderBackButton.classList.remove('button-visibility');
     }
     this._myMusicHeaderSection.prepend(this._myMusicHeaderBackButton);
 
