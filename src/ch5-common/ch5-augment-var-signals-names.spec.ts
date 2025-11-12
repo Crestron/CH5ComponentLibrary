@@ -26,7 +26,7 @@ describe('Ch5AugmentVarSignalsNames', () => {
         Ch5AttrsAppendclass.registerSignalAttributeTypes();
         Ch5Button.registerSignalAttributeTypes();
         Ch5Template.registerSignalAttributeTypes();
-        Ch5Template.registerSignalAttributeDefaults();
+        Ch5Template.registerSignalAttributeDefaults(Ch5Template.ELEMENT_NAME);
     })
 
     beforeEach(() => {

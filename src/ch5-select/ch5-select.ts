@@ -275,15 +275,6 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 
 	}
 
-	public static registerSignalAttributeDefaults() {
-		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5Select.ELEMENT_NAME, {
-			contractName: { attributes: ["contractname"], defaultValue: "" },
-			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
-			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
-			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
-		});
-	}
-
 	public set ondirtyCallback(callback: HtmlCallback | {}) {
 		if (callback === undefined || callback === null) {
 			callback = {} as HtmlCallback;
@@ -2156,4 +2147,4 @@ if (typeof window === "object" && typeof window.customElements === "object"
 }
 
 Ch5Select.registerSignalAttributeTypes();
-Ch5Select.registerSignalAttributeDefaults();
+Ch5Select.registerSignalAttributeDefaults(Ch5Select.ELEMENT_NAME);
