@@ -651,7 +651,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     }
 
     if (this.demoMode) {
-      const plus = this._elContainer.querySelector('.mp-plus-circle') as HTMLElement | null;
+      const plus = this._elContainer.querySelector('[iconclass="mp-icon mp-plus-circle"]') as HTMLElement | null;
       if (plus) {
         this._demoPlusEl = plus;
         this._demoPlusHandler = (ev: Event) => {
@@ -661,7 +661,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
         this._demoPlusEl.addEventListener('click', this._demoPlusHandler);
       }
 
-      const fav = this._elContainer.querySelector('.mp-music-list-favorites') as HTMLElement | null;
+      const fav = this._elContainer.querySelector('[iconclass="mp-icon mp-music-list-favorites"]') as HTMLElement | null;
       if (fav) {
         this._demoFavoritesEl = fav;
         this._demoFavoritesHandler = (ev: Event) => {

@@ -20,23 +20,17 @@ export class MusicPlayerLib {
 
     // Generate a constant UUID once per application start.
     private generateStrongCustomId = (): string => {
-        // // Generate timestamp component (base36 for compactness)
-        // const timestamp = Date.now().toString(36);
+        // Generate timestamp component (base36 for compactness)
+        const timestamp = Date.now().toString(36);
 
-        // // Generate random component (4 groups of 8 hex digits)
-        // const random = Array.from({ length: 4 }, () =>
-        //     Math.floor(Math.random() * 0xffffffff)
-        //         .toString(16)
-        //         .padStart(8, '0'),
-        // ).join('-');
+        // Generate random component (4 groups of 8 hex digits)
+        const random = Array.from({ length: 4 }, () =>
+            Math.floor(Math.random() * 0xffffffff)
+                .toString(16)
+                .padStart(8, '0'),
+        ).join('-');
 
-        // return `${timestamp}-${random}`;
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            const r = Math.random() * 16 | 0;
-            const v = c === 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
-
+        return `${timestamp}-${random}`;
     };
 
     private myMP: MyMpObject = {

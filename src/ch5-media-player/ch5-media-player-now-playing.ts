@@ -268,8 +268,8 @@ export class Ch5MediaPlayerNowPlaying {
 		this._nowPlayingSongTitle.children[0].textContent = decodeString(this.nowPlayingData.Title);
 		this.updateMarquee();
 
-		this._nowPlayingArtist.textContent = this.nowPlayingData.Artist;
-		this._nowPlayingAlbum.textContent = this.nowPlayingData.Album;
+		this._nowPlayingArtist.textContent = decodeString(this.nowPlayingData.Artist);
+		this._nowPlayingAlbum.textContent = decodeString(this.nowPlayingData.Album);
 		if (!this.nowPlayingData.Album?.trim() || !this.nowPlayingData.Artist?.trim()) {
 			this._separator.classList?.add('ch5-hide-dis');
 		} else {
