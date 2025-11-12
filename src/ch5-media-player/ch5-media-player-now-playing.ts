@@ -528,7 +528,7 @@ export class Ch5MediaPlayerNowPlaying {
 			}
 
 			if (availableActions.includes(action)) {
-				button.style.visibility = "visible";
+				button.classList.remove('button-visibility');
 				if (action === "Play") button.firstElementChild?.removeAttribute('disabled');
 				if (action === "ThumbsDown" || action === "ThumbsUp") {
 					if (this.nowPlayingData['Rating']?.current === -1 && action === "ThumbsDown") {
@@ -541,10 +541,10 @@ export class Ch5MediaPlayerNowPlaying {
 				}
 			} else {
 				if (action === "Play") {
-					button.style.visibility = "visible";
+					button.classList.remove('button-visibility');
 					button.firstElementChild?.setAttribute('disabled', "true");
 				} else {
-					button.style.visibility = "hidden";
+					button.classList.add('button-visibility');
 				}
 			}
 
