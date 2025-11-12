@@ -228,12 +228,13 @@ export class MusicPlayerLib {
     private processGetObjectsResponse(getObjectResponse: GetObjectsResponse) {
         const myInstances = getObjectResponse.result.objects.object;
         myInstances.forEach((item: any) => {
-            if (item.name === 'MediaPlayer') {
-                this.myMP.instanceName = item.instancename
+            // item.instancename = item.instancename ? item.instancename : item.instanceName
+            if (item.interfaces.includes("IMediaPlayer")) {
+                this.myMP.instanceName = item.instancename ? item.instancename : item.instanceName;
             }
-            else if (item.name === 'MediaPlayerMenu') {
-                this.myMP.menuInstanceName = item.instancename;
-            }
+            // else if (item.name === 'MediaPlayerMenu' || item.name === 'Menu') {
+            //     this.myMP.menuInstanceName = item.instancename;
+            // }
         });
 
         this.registerEvent();
@@ -254,6 +255,7 @@ export class MusicPlayerLib {
     }
 
     private processPropertiesSupportedResponse(getPropertiesSupportedResponse: GetPropertiesSupportedResponse) {
+        console.log("getPropertiesSupportedResponse", getPropertiesSupportedResponse.result.PropertiesSupported)
         const properties = getPropertiesSupportedResponse.result.PropertiesSupported;
         properties.forEach((item: any) => {
             if (item !== 'PropertiesSupported') { // in response geetting one of item as "PropertiesSupported", to avoid loop adding this condtion
@@ -358,12 +360,11 @@ export class MusicPlayerLib {
         const myRPCParams: Params = {
             encoding: 'UTF-8',
             uuid: this.generateStrongCustomId(),
-            ver: '2.0',
+            ver: '1.0',
             maxPacketSize: 65535,
             type: 'symbol/json-rpc',
             format: 'JSON',
             name: 'CH5_v2.15', // ToDo: This should be dynamic based on the CH5 version.
-            jsonrpc: '2.0'
         };
 
         const myRPC: RegisterwithDeviceRequest = {
@@ -434,7 +435,11 @@ export class MusicPlayerLib {
         }
 
         let itemCount = this.myMusicData['ItemCnt'];
-        const count = (itemCount < this.maxReqItems) ? itemCount : this.maxReqItems;
+        // Recheck why undefined
+        let count =0
+        if(itemCount){
+            count = (itemCount < this.maxReqItems) ? itemCount : this.maxReqItems;
+        }
         itemCount = itemCount - count;
 
         if (count > 0) {
@@ -499,6 +504,7 @@ export class MusicPlayerLib {
         if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method)
             && responseData.params.ev === 'BusyChanged' && responseData.params?.parameters) {// Busychanged event
             busyChanged = { 'timeoutSec': responseData.params?.parameters?.timeoutSec, 'on': responseData.params?.parameters?.on }
+            console.log('publishing busychanged', busyChanged)
             publishEvent('o', 'busyChanged', busyChanged);
         } else if (playerInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // Now music statechanged 
             for (const item in responseData.params.parameters) {
@@ -521,7 +527,7 @@ export class MusicPlayerLib {
                 }
             }
         } else if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method) &&
-            (responseData?.params?.ev === 'StatusMsgMenuChanged' || responseData?.params?.ev === 'StatusMsgChanged') &&
+            (responseData?.params?.ev === 'StatusMsgMenuChanged' || responseData?.params?.ev === 'StatusMsgChanged' || responseData?.params?.ev === 'StatusMsgMenu') &&
             responseData.params?.parameters) { // My music and Now Playing  Popup data
             publishEvent('o', 'PopUpMessageData', responseData.params?.parameters ? responseData.params.parameters : {});
         } else if (myMsgId === this.myMP.PlayId || myMsgId === this.myMP.PauseId || myMsgId === this.myMP.SeekId) { // Play or pause clicked
@@ -541,6 +547,7 @@ export class MusicPlayerLib {
                 this.processMenuResponse(responseData);
             } else if (myMsgId === this.myMP.ItemDataId) {
                 this.menuListData['MenuData'] = [...this.menuListData['MenuData'], ...responseData.result];
+                
                 if (!(busyChanged && busyChanged['on'] === true)) {
                     if (!_.isEqual(this.menuListPublishData, this.menuListData)) {
                         this.menuListPublishData = { ...this.menuListData };
@@ -633,7 +640,7 @@ export class MusicPlayerLib {
     };
 
     private updatedMenuData() {
-        ['ListSpecificFunctions', 'StatusMsgMenu', 'Instance', 'TransactionId'].forEach((item: any) => {
+        ['ListSpecificFunctions', 'StatusMsgMenu', 'Instance', 'TransactionId', 'ItemCnt'].forEach((item: any) => {
             const myRPC: CommonRequestPropName = {
                 params: { "propName": item },
                 jsonrpc: '2.0',
@@ -644,7 +651,7 @@ export class MusicPlayerLib {
                 this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
             }
         });
-        this.getItemData();
+        // this.getItemData();
     };
 
     // Component level popup action
@@ -654,7 +661,7 @@ export class MusicPlayerLib {
                 "localExit": false,
                 "state": 1,
                 "id": id,
-                "userInput": encodeString(inputValue)
+                "userInput": inputValue ? encodeString(inputValue) : "1"
             },
             jsonrpc: '2.0',
             id: this.generateUniqueMessageId(),

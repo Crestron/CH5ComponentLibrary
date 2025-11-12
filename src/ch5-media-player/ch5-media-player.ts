@@ -237,6 +237,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
   public set receiveStateCRPC(value: string) {
     this._ch5Properties.set("receiveStateCRPC", value, null, (newValue: string) => {
       this.logger.log('CRCP In join: ' + this.receiveStateCRPC + ' ' + newValue);
+      console.log('CRCP In join: ' + this.receiveStateCRPC + ' ' + newValue);
       this.publishMPEvent('s', "receiveStateCRPCResp", newValue);
     });
   }
@@ -460,12 +461,14 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     if (this._dialogAutoCloseTimeout) {
       clearTimeout(this._dialogAutoCloseTimeout);
     }
-    this._dialogAutoCloseTimeout = window.setTimeout(() => {
-      if (this._elMask && this._elMask.parentNode) {
-        this._elMask.parentNode.removeChild(this._elMask);
-      }
-      this._dialogAutoCloseTimeout = null;
-    }, timeoutSec * 1000);
+    if(timeoutSec > 0) { // we don't have to auto close the popup if the timer is 0 sec
+      this._dialogAutoCloseTimeout = window.setTimeout(() => {
+        if (this._elMask && this._elMask.parentNode) {
+          this._elMask.parentNode.removeChild(this._elMask);
+        }
+        this._dialogAutoCloseTimeout = null;
+      }, timeoutSec * 1000);
+    }
 
     dialogContentInput.addEventListener('input', () => {
       if (this._dialogAutoCloseTimeout) {
@@ -505,6 +508,11 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
           }
         } else {
           this.musicPlayerLibInstance.popUpAction(inputEle?.value, i + 1);
+          if (this.popUpData.timeoutSec === 0) {
+            if (this._elMask && this._elMask.parentNode) {
+              this._elMask.parentNode.removeChild(this._elMask);
+            }
+          }
         }
       });
       button.textContent = dialogArray[i];
