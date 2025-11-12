@@ -310,7 +310,12 @@ export class Ch5MediaPlayerMyMusic {
     this._myMusicHeaderBackButton.onclick = () => {
       this.musicPlayerLibInstance.myMusicEvent('Back');
     }
-    if (backButton) this._myMusicHeaderBackButton.classList.add('back-button-visibility');
+    if (!backButton) {
+      this._myMusicHeaderBackButton.style.visibility = "hidden";
+    }
+    else {
+      this._myMusicHeaderBackButton.style.removeProperty('visibility');
+    }
     this._myMusicHeaderSection.prepend(this._myMusicHeaderBackButton);
 
     this._myMusicHeaderTitle = createElement("div", ['my-music-header-title']);

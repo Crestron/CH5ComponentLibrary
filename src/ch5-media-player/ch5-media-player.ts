@@ -670,11 +670,6 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
         };
         this._demoFavoritesEl.addEventListener('click', this._demoFavoritesHandler);
       }
-
-      const backBtn = this._elContainer.querySelector('.my-music-header-back-button') as HTMLElement | null;
-      if (backBtn) {
-        backBtn.classList.add('back-button-visibility');
-      }
     }
     if (!this.demoMode) {
       this.publishAllSignals();
