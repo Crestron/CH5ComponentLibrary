@@ -130,7 +130,6 @@ export class Ch5MediaPlayerNowPlaying {
 			if (this.demoModeValue === false) {
 				if (data && Object.keys(data).length > 0) {
 					this.nowPlayingData = data;
-					this.updatePlayerName(this.nowPlayingData.PlayerName);
 					this.createNowPlaying();
 					this.updatedNowPlayingContent();
 				} else {
@@ -224,7 +223,12 @@ export class Ch5MediaPlayerNowPlaying {
 	}
 
 	private updatedNowPlayingContent() {
-		this._nowPlayingPlayerLabel.textContent = this.playerName;
+		this._nowPlayingPlayerLabel.innerHTML = this.playerName === "" ? '&nbsp;' : this.playerName;
+		if(this.playerName === "") {
+			this._nowPlayingPlayerLabel.classList.add('button-visibility');
+		} else {
+			this._nowPlayingPlayerLabel.classList.remove('button-visibility');
+		}
 		this._nowPlayingImageParent.classList.add("now-playing-image-container");
 		this._nowPlayingImageParent.classList.add('mp-fallback-album-art');
 		const img = new Image();
