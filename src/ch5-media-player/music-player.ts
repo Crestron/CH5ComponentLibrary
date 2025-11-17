@@ -2,7 +2,7 @@ import { publishEvent, subscribeState, unsubscribeState } from "../ch5-core";
 import _ from 'lodash';
 import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest } from "./commonInterface";
 import { encodeString } from "./ch5-media-player-common";
-import { ignoreActionsForLoader } from "./interfaces/t-ch5-media-player";
+import { IgnoreActionsForLoader } from "./interfaces/t-ch5-media-player";
 // import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 
 export class MusicPlayerLib {
@@ -57,7 +57,7 @@ export class MusicPlayerLib {
     private menuListPublishData: any = { 'MenuData': [] };
     public maxReqItems = 40;
     private isItemCountNew = true;
-    public lastPerformedAction: ignoreActionsForLoader | null = null;
+    public lastPerformedAction: IgnoreActionsForLoader | null = null;
 
     private nowPlayingData: any = {
         'ActionsSupported': '', 'ActionsAvailable': '', 'RewindSpeed': '',
@@ -598,8 +598,8 @@ export class MusicPlayerLib {
     }
 
     // NowPlaying component action
-    public nowPlayingvent(action: string, time: string = '') {
-        this.lastPerformedAction = action as ignoreActionsForLoader;
+    public nowPlayingvent(action: IgnoreActionsForLoader, time: string = '') {
+        this.lastPerformedAction = action;
         const myRPC: CommonEventRequest = {
             params: action === 'Seek' ? { 'time': time } : null,
             jsonrpc: '2.0',
