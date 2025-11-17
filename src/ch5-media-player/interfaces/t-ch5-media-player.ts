@@ -10,3 +10,5 @@ export type TCh5MediaPlayerProgressbarData = {
 	ElapsedSec: number;
 	ProgressBar: boolean;
 }
+
+export type ignoreActionsForLoader = "Shuffle" | "Repeat" | "PlayAll" | "NextTrack" | "PreviousTrack" | "Seek" | "Ffwd" | "Rewind" | "Play" | "Pause" | "ThumbsDown" | "ThumbsUp";
