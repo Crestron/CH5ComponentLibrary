@@ -57,7 +57,7 @@ export class MusicPlayerLib {
     private menuListPublishData: any = { 'MenuData': [] };
     public maxReqItems = 40;
     private isItemCountNew = true;
-    public lastPerformedAction: IgnoreActionsForLoader | null = null;
+    public lastPerformedAction: string | null = null;
 
     private nowPlayingData: any = {
         'ActionsSupported': '', 'ActionsAvailable': '', 'RewindSpeed': '',
@@ -598,10 +598,10 @@ export class MusicPlayerLib {
     }
 
     // NowPlaying component action
-    public nowPlayingvent(action: IgnoreActionsForLoader, time: string = '') {
+    public nowPlayingvent(action: string, time: string = '') {
         this.lastPerformedAction = action;
         const myRPC: CommonEventRequest = {
-            params: action === 'Seek' ? { 'time': time } : null,
+            params: action === IgnoreActionsForLoader[5] ? { 'time': time } : null,
             jsonrpc: '2.0',
             id: this.generateUniqueMessageId(),
             method: this.myMP.instanceName + '.' + action
