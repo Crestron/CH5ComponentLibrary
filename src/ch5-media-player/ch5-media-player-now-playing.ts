@@ -533,7 +533,7 @@ export class Ch5MediaPlayerNowPlaying {
 
 			if (availableActions.includes(action)) {
 				button.classList.remove('button-visibility');
-				if (action === "Play") button.firstElementChild?.removeAttribute('disabled');
+				if (action === "Play") button.classList.remove('disable-icon-button');
 				if (action === "ThumbsDown" || action === "ThumbsUp") {
 					if (this.nowPlayingData['Rating']?.current === -1 && action === "ThumbsDown") {
 						button.classList.add('active');
@@ -546,7 +546,7 @@ export class Ch5MediaPlayerNowPlaying {
 			} else {
 				if (action === "Play") {
 					button.classList.remove('button-visibility');
-					button.firstElementChild?.setAttribute('disabled', "true");
+					if(!availableActions.includes("Pause")) button.classList.add('disable-icon-button');
 				} else {
 					button.classList.add('button-visibility');
 				}

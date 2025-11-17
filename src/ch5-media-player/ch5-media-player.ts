@@ -656,7 +656,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
         this._demoPlusEl = plus;
         this._demoPlusHandler = (ev: Event) => {
           ev.stopPropagation();
-          this.genericDialog("alphanumeric", "What would you like to call this favorite?", ["Cancel", "Ok"], "", 10);
+          this.genericDialog("alphanumeric", "What would you like to call this favorite?", ["OK", "Cancel"], "", 10);
         };
         this._demoPlusEl.addEventListener('click', this._demoPlusHandler);
       }
