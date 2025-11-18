@@ -449,6 +449,10 @@ export class MusicPlayerLib {
                 this.sendRPCRequest(JSON.stringify(myRPC));
             }
             this.itemValue = this.itemValue + this.maxReqItems;
+        } else { // whenever itemcount is 0, no need to do Api request, pass empty data. Same as VTpro
+            this.menuListData['MenuData'] = [];
+            this.menuListPublishData = { ...this.menuListData };
+            publishEvent('o', 'menuListData', this.menuListPublishData);
         }
     }
 
