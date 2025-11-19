@@ -81,7 +81,7 @@ export interface ICh5MediaPlayerAttributes extends ICh5CommonAttributesMediaPlay
    * [
    * "`receiveStateCRPC` attribute",
    * "***",
-   * "All api responses we get through this signal. Connected to the Media Server Object Router SIMPL module and contains the CRPC data from the Media Player object going to the selected device. Connected to the Media Server Object Router SIMPL module and contains the CRPC data from the selected device."
+   * "All api responses we get through this signal.  Connected to the Media Server Object Router SIMPL module and contains the CRPC data from the selected device."
    * ]
    * @name receivestatecrpc
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
@@ -93,7 +93,7 @@ export interface ICh5MediaPlayerAttributes extends ICh5CommonAttributesMediaPlay
    * [
    * "`sendEventCRPC` attribute",
    * "***",
-   * "This signal will be used to request all APIs from the Control System. Connected to the Media Server Object Router SIMPL module and contains the CRPC data from the selected device."
+   * "This signal will be used to request all APIs from the Control System. Connected to the Media Server Object Router SIMPL module and contains the CRPC data to the selected device."
    * ]
    * @name sendeventcrpc
    * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
@@ -105,7 +105,7 @@ export interface ICh5MediaPlayerAttributes extends ICh5CommonAttributesMediaPlay
    * [
    * "`receiveStateMessage` attribute",
    * "***",
-   * "Connected to the Media Server Object Router SIMPL module and contains the message data from the Media Player object going to the selected device. We will receive a message from CS for the tag and src value."
+   * "Connected to the Media Server Object Router SIMPL module and contains the message data going to the media player object. We will receive a message from CS for the tag and src value."
    * ]
    * @name receivestatemessage
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
@@ -117,7 +117,7 @@ export interface ICh5MediaPlayerAttributes extends ICh5CommonAttributesMediaPlay
    * [
    * "`receiveStateRefreshMediaPlayer` attribute",
    * "***",
-   * "To refresh the media player. Connected to the Media Server Object Router SIMPL module and triggered when the Media Player component needs to refresh its data. When CS program restarts this signal will get a high value."
+   * "To refresh the media player. Connected to the Media Server Object Router SIMPL module and triggered when the Media Player component needs to refresh its data."
    * ]
    * @name receivestaterefreshmediaplayer
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
@@ -129,7 +129,7 @@ export interface ICh5MediaPlayerAttributes extends ICh5CommonAttributesMediaPlay
    * [
    * "`receiveStateDeviceOffline` attribute",
    * "***",
-   * "The value is coming as false. Connected to the Media Server Object Router SIMPL module, and is high when the selected device is offline and low when the selected device is online. When we remove an entry Nax IP from ip table, the signal value comes as high."
+   * "Connected to the Media Server Object Router SIMPL module, and is high when the selected device is offline and low when the selected device is online. "
    * ]
    * @name receivestatedeviceoffline
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
