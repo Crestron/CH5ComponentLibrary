@@ -301,7 +301,7 @@ export class Ch5MediaPlayerNowPlaying {
 			this._progressBarInput.classList.remove('hide-progressbar-thumb');
 			this._progressBarInput.addEventListener('input', this.handleProgressbarInput);
 		}
-		this.renderActionButtons(this.nowPlayingData.ActionsAvailable, this._progressStreamState);
+		this.renderActionButtons(this.nowPlayingData.ActionsAvailable, this.nowPlayingData.PlayerState);
 		this.renderMoreActionButtons(this.nowPlayingData.ActionsAvailable, this.nowPlayingData.RepeatState, this.nowPlayingData.ShuffleState);
 		this._nowPlayingContainer.appendChild(this._transportControls);
 		this.renderNextAndPreviousSong(this.nowPlayingData.NextTitle);
@@ -374,7 +374,7 @@ export class Ch5MediaPlayerNowPlaying {
 		this.renderTrackInfo();
 		this._transportControls = createElement('div', ["now-playing-controls-container"]);
 		this.renderProgressBar();
-		this.renderActionButtons([], "idle");
+		this.renderActionButtons([], "paused");
 		this.renderMoreActionButtons([]);
 		this._nowPlayingContainer.appendChild(this._transportControls);
 		this.renderNextAndPreviousSong("");
@@ -493,13 +493,13 @@ export class Ch5MediaPlayerNowPlaying {
 		this.seekApiCall();
 	}
 
-	protected renderActionButtons(availableActions: string[], streamingState: string) {
+	protected renderActionButtons(availableActions: string[], PlayerState: string) {
 		if (this._actionButtonsContainer && this._actionButtonsContainer.parentNode) {
 			this._actionButtonsContainer.parentNode.removeChild(this._actionButtonsContainer);
 		}
 		this._actionButtonsContainer = createElement('div', ['now-playing-action-buttons-container']);
 
-		const actionIconMap: { [key: string]: { class: string, style?: string } } = {
+		const actionIconMap: { [key: string]: { class: string } } = {
 			[IgnoreActionsForLoader[10]]: { class: 'mp-icon mp-thumbs-down' },
 			[IgnoreActionsForLoader[4]]: { class: 'mp-icon mp-skip-back' },
 			[IgnoreActionsForLoader[7]]: { class: 'mp-icon mp-fast-backward' },
@@ -512,8 +512,18 @@ export class Ch5MediaPlayerNowPlaying {
 		Object.keys(actionIconMap).forEach(action => {
 			const button = new Ch5MediaPlayerIconButton();
 			button.title = action;
-			if (action === IgnoreActionsForLoader[8] && (availableActions.includes(IgnoreActionsForLoader[9]) || availableActions.includes(IgnoreActionsForLoader[8]))) {
-				if (availableActions.includes(IgnoreActionsForLoader[8]) && streamingState !== 'streaming' && streamingState !== 'buffering') {
+			if (action === IgnoreActionsForLoader[8]) {
+				if ((availableActions.includes(IgnoreActionsForLoader[8]) && availableActions.includes(IgnoreActionsForLoader[9])) && PlayerState !== 'playing' ) {
+					button.setAttribute('iconClass', actionIconMap[action].class);
+					button.onclick = () => {
+						this.musicPlayerLibInstance.nowPlayingvent(action);
+					};
+				} else if(PlayerState==="stopped"){
+					button.setAttribute('iconClass', actionIconMap[action].class);
+					button.onclick = () => {
+						this.musicPlayerLibInstance.nowPlayingvent(action);
+					};
+				} else if(availableActions.includes(IgnoreActionsForLoader[8]) && PlayerState !== 'playing'){
 					button.setAttribute('iconClass', actionIconMap[action].class);
 					button.onclick = () => {
 						this.musicPlayerLibInstance.nowPlayingvent(action);
