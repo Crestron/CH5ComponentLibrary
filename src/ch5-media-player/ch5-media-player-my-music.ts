@@ -196,7 +196,7 @@ export class Ch5MediaPlayerMyMusic {
         const maxReqItems = getMaxReqItems();
 
         if (scrollTop > lastScrollTop && menuLength > this.loadItemsCount) {
-          if (distanceFromBottom <= this.scrollPosition) {
+          if (distanceFromBottom <= this.scrollPosition*2) {
             const first = this._myMusicContentSection.firstElementChild as HTMLElement | null;
             if (first) { this._myMusicContentSection.removeChild(first); }
             this.createLine(this.loadItemsCount, 'end');
@@ -218,7 +218,7 @@ export class Ch5MediaPlayerMyMusic {
         if (menuLength - 1 > maxReqItems) {
           if (menuLength - 1 > this.printedIndex && distanceFromBottom === 0) {
             this._myMusicContentSection.scrollTop = Math.max(this._myMusicContentSection.scrollTop - this.scrollPosition, 0);
-          } else if (scrollTop === 0 && this.printedIndex !== 0) {
+          } else if (scrollTop === 0 && this.loadItemsCount > this.MAXIMUM_ROWS_TO_SHOW) {
             this._myMusicContentSection.scrollTop = this.scrollPosition;
           }
         }
