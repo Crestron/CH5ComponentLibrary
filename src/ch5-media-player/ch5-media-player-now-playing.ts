@@ -1,7 +1,7 @@
 import { Ch5MediaPlayerIconButton } from "./ch5-media-player-icon-button-base.ts";
 import { MusicPlayerLib } from "./music-player.ts";
 import { publishEvent, subscribeState } from "../ch5-core/index.ts";
-import { IgnoreActionsForLoader, TCh5MediaPlayerProgressbarData } from "./interfaces/t-ch5-media-player.ts";
+import { TCH5NowPlayingActions, TCh5MediaPlayerProgressbarData } from "./interfaces/t-ch5-media-player.ts";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log.ts";
 import { debounce } from "../ch5-common/utils/common-functions.ts";
 import { createElement, decodeString, formatTime } from "./ch5-media-player-common.ts";
@@ -294,7 +294,7 @@ export class Ch5MediaPlayerNowPlaying {
 			}
 		}
 		this._nowPlayingPlayerIconName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
-		if (!this.nowPlayingData.ActionsAvailable.includes(IgnoreActionsForLoader[5])) {
+		if (!this.nowPlayingData.ActionsAvailable.includes(TCH5NowPlayingActions.Seek)) {
 			this._progressBarInput.classList.add('hide-progressbar-thumb');
 			this._progressBarInput.removeEventListener('input', this.handleProgressbarInput);
 		} else {
@@ -447,7 +447,7 @@ export class Ch5MediaPlayerNowPlaying {
 	}
 
 	public seekApiCall = debounce(() => {
-		this.musicPlayerLibInstance.nowPlayingvent(IgnoreActionsForLoader[5], this._progressBarInput.value);
+		this.musicPlayerLibInstance.nowPlayingvent(TCH5NowPlayingActions.Seek, this._progressBarInput.value);
 	}, 150);
 
 	protected renderProgressBar() {
@@ -493,46 +493,47 @@ export class Ch5MediaPlayerNowPlaying {
 		this.seekApiCall();
 	}
 
-	protected renderActionButtons(availableActions: string[], PlayerState: string) {
+	protected renderActionButtons(availableActions: TCH5NowPlayingActions[], PlayerState: string) {
 		if (this._actionButtonsContainer && this._actionButtonsContainer.parentNode) {
 			this._actionButtonsContainer.parentNode.removeChild(this._actionButtonsContainer);
 		}
 		this._actionButtonsContainer = createElement('div', ['now-playing-action-buttons-container']);
 
 		const actionIconMap: { [key: string]: { class: string } } = {
-			[IgnoreActionsForLoader[10]]: { class: 'mp-icon mp-thumbs-down' },
-			[IgnoreActionsForLoader[4]]: { class: 'mp-icon mp-skip-back' },
-			[IgnoreActionsForLoader[7]]: { class: 'mp-icon mp-fast-backward' },
-			[IgnoreActionsForLoader[8]]: { class: 'mp-icon mp-play' },
-			[IgnoreActionsForLoader[6]]: { class: 'mp-icon mp-fast-forward' },
-			[IgnoreActionsForLoader[3]]: { class: 'mp-icon mp-skip-forward' },
-			[IgnoreActionsForLoader[11]]: { class: 'mp-icon mp-thumbs-up' }
+			[TCH5NowPlayingActions.ThumbsDown]: { class: 'mp-icon mp-thumbs-down' },
+			[TCH5NowPlayingActions.PreviousTrack]: { class: 'mp-icon mp-skip-back' },
+			[TCH5NowPlayingActions.Rewind]: { class: 'mp-icon mp-fast-backward' },
+			[TCH5NowPlayingActions.Play]: { class: 'mp-icon mp-play' },
+			[TCH5NowPlayingActions.Ffwd]: { class: 'mp-icon mp-fast-forward' },
+			[TCH5NowPlayingActions.NextTrack]: { class: 'mp-icon mp-skip-forward' },
+			[TCH5NowPlayingActions.ThumbsUp]: { class: 'mp-icon mp-thumbs-up' }
 		};
 
-		Object.keys(actionIconMap).forEach(action => {
+		Object.keys(actionIconMap).forEach(actionItem => {
 			const button = new Ch5MediaPlayerIconButton();
-			button.title = action;
-			if (action === IgnoreActionsForLoader[8]) {
-				if ((availableActions.includes(IgnoreActionsForLoader[8]) && availableActions.includes(IgnoreActionsForLoader[9])) && PlayerState !== 'playing' ) {
+			button.title = actionItem;
+			const action = TCH5NowPlayingActions[actionItem as keyof typeof TCH5NowPlayingActions];
+			if (action === TCH5NowPlayingActions.Play) {
+				if ((availableActions.includes(TCH5NowPlayingActions.Play) && availableActions.includes(TCH5NowPlayingActions.Pause)) && PlayerState !== 'playing') {
 					button.setAttribute('iconClass', actionIconMap[action].class);
 					button.onclick = () => {
 						this.musicPlayerLibInstance.nowPlayingvent(action);
 					};
-				} else if(PlayerState==="stopped" || PlayerState === ""){
+				} else if (PlayerState === "stopped" || PlayerState === "") {
 					button.setAttribute('iconClass', actionIconMap[action].class);
 					button.onclick = () => {
 						this.musicPlayerLibInstance.nowPlayingvent(action);
 					};
-				} else if(availableActions.includes(IgnoreActionsForLoader[8]) && PlayerState !== 'playing'){
+				} else if (availableActions.includes(TCH5NowPlayingActions.Play) && PlayerState !== 'playing') {
 					button.setAttribute('iconClass', actionIconMap[action].class);
 					button.onclick = () => {
 						this.musicPlayerLibInstance.nowPlayingvent(action);
 					};
 				} else {
 					button.setAttribute('iconClass', "mp-icon mp-pause");
-					button.title = IgnoreActionsForLoader[9];
+					button.title = TCH5NowPlayingActions.Pause;
 					button.onclick = () => {
-						this.musicPlayerLibInstance.nowPlayingvent(IgnoreActionsForLoader[9]);
+						this.musicPlayerLibInstance.nowPlayingvent(TCH5NowPlayingActions.Pause);
 					};
 				}
 			} else {
@@ -544,23 +545,23 @@ export class Ch5MediaPlayerNowPlaying {
 
 			if (availableActions.includes(action)) {
 				button.classList.remove('button-visibility');
-				if (action === IgnoreActionsForLoader[8]) {
+				if (action === TCH5NowPlayingActions.Play) {
 					button.classList.remove('ch5-disabled');
 					button.removeAttribute('disableIconButton');
 				}
-				if (action === IgnoreActionsForLoader[10] || action === IgnoreActionsForLoader[11]) {
-					if (this.nowPlayingData['Rating']?.current === -1 && action === IgnoreActionsForLoader[10]) {
+				if (action === TCH5NowPlayingActions.ThumbsDown || action === TCH5NowPlayingActions.ThumbsUp) {
+					if (this.nowPlayingData['Rating']?.current === -1 && action === TCH5NowPlayingActions.ThumbsDown) {
 						button.classList.add('active');
-					} else if (this.nowPlayingData['Rating']?.current === 1 && action === IgnoreActionsForLoader[11]) {
+					} else if (this.nowPlayingData['Rating']?.current === 1 && action === TCH5NowPlayingActions.ThumbsUp) {
 						button.classList.add('active');
 					} else {
 						button.classList.remove('active');
 					}
 				}
 			} else {
-				if (action === IgnoreActionsForLoader[8]) {
+				if (action === TCH5NowPlayingActions.Play) {
 					button.classList.remove('button-visibility');
-					if (!availableActions.includes(IgnoreActionsForLoader[9])) {
+					if (!availableActions.includes(TCH5NowPlayingActions.Pause)) {
 						button.classList.add('ch5-disabled');
 						button.setAttribute('disableIconButton', 'true');
 					}
@@ -583,11 +584,11 @@ export class Ch5MediaPlayerNowPlaying {
 
 		this._moreActionButtonsContainer.innerHTML = "";
 		const moreActionIconMap: { [key: string]: { class: string, style?: string } } = {
-			[IgnoreActionsForLoader[0]]: { class: shuffle === 0 ? 'mp-icon mp-shuffle-off' : 'mp-icon mp-shuffle-02' },
-			[IgnoreActionsForLoader[1]]: { class: repeat === 0 ? 'mp-icon mp-repeat-off' : repeat === 1 ? 'mp-icon mp-repeat-1x_1' : 'mp-icon mp-repeat-03' },
-			[IgnoreActionsForLoader[2]]: { class: 'mp-icon mp-play-multi-square' },
-			[IgnoreActionsForLoader[12]]: { class: 'mp-icon mp-music-note-plus' },
-			[IgnoreActionsForLoader[13]]: { class: 'mp-icon mp-image-user-plus' }
+			[TCH5NowPlayingActions.Shuffle]: { class: shuffle === 0 ? 'mp-icon mp-shuffle-off' : 'mp-icon mp-shuffle-02' },
+			[TCH5NowPlayingActions.Repeat]: { class: repeat === 0 ? 'mp-icon mp-repeat-off' : repeat === 1 ? 'mp-icon mp-repeat-1x_1' : 'mp-icon mp-repeat-03' },
+			[TCH5NowPlayingActions.PlayAll]: { class: 'mp-icon mp-play-multi-square' },
+			[TCH5NowPlayingActions.NextTrack]: { class: 'mp-icon mp-music-note-plus' },
+			[TCH5NowPlayingActions.UserNote]: { class: 'mp-icon mp-image-user-plus' }
 		};
 
 		if (Array.isArray(availableActions)) {
@@ -597,7 +598,7 @@ export class Ch5MediaPlayerNowPlaying {
 					button.setAttribute('iconClass', moreActionIconMap[action].class);
 					button.title = action;
 					button.onclick = () => {
-						this.musicPlayerLibInstance.nowPlayingvent(action);
+						this.musicPlayerLibInstance.nowPlayingvent(TCH5NowPlayingActions[action as keyof typeof TCH5NowPlayingActions]);
 					}
 					this._moreActionButtonsContainer.appendChild(button);
 				}
