@@ -514,8 +514,6 @@ export class Ch5MediaPlayerNowPlaying {
 			button.title = actionItem;
 			const action = TCH5NowPlayingActions[actionItem as keyof typeof TCH5NowPlayingActions];
 			if (action === TCH5NowPlayingActions.Play) {
-				console.log('------', action);
-				console.log('========', actionIconMap[action]);
 				if ((availableActions.includes(TCH5NowPlayingActions.Play) && availableActions.includes(TCH5NowPlayingActions.Pause)) && PlayerState !== 'playing') {
 					button.setAttribute('iconClass', actionIconMap[action].class);
 					button.onclick = () => {
