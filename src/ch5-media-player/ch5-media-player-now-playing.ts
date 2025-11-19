@@ -45,6 +45,8 @@ export class Ch5MediaPlayerNowPlaying {
 
 	private demoModeValue: boolean = false;
 	private previousAlbumArtUrl: any;
+	private previousPlayerIconUrl: any;
+	private previousPlayerIcon: any;
 	private _nowPlayingPlayerNameContainer: HTMLElement = {} as HTMLElement
 	private _nowPlayingPlayerImage: HTMLImageElement = {} as HTMLImageElement;
 	private playerName:string = '';
@@ -280,19 +282,56 @@ export class Ch5MediaPlayerNowPlaying {
 			this._separator.classList?.remove('ch5-hide-dis');
 		}
 		this._nowPlayingSongAdditionalInfo.textContent = this.nowPlayingData.TrackCnt > 0 ? `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}` : '';
-		if (this.nowPlayingData.PlayerIconURL) {
+		
+		this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
+		this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[0].split(' '));
+		const currentPlayerIconUrl = this.nowPlayingData.PlayerIconURL?.trim() ?? "";
+		const currentPlayerIcon = this.nowPlayingData.PlayerIcon;
+		const playerIconImg = new Image();
+
+		if (currentPlayerIconUrl && currentPlayerIconUrl !== this.previousPlayerIconUrl) {
+			const imgUrl = currentPlayerIconUrl
+			playerIconImg.addEventListener('load', () => {
+				this._nowPlayingPlayerIconImage.style.backgroundImage = `url('${imgUrl}')`;
+				this.previousPlayerIconUrl = imgUrl;
+				this.previousPlayerIcon = null;
+			});
+			playerIconImg.addEventListener('error', () => {
+				if (!this.previousPlayerIconUrl || this.previousPlayerIconUrl === imgUrl) {
+					this._nowPlayingPlayerIconImage.style.removeProperty("backgroundImage");
+					this.previousPlayerIconUrl = null;
+				}
+			});
+			playerIconImg.src = imgUrl;
+		} else if (currentPlayerIcon && !isNaN(currentPlayerIcon) && currentPlayerIcon > 0 && currentPlayerIcon < this.NOW_PLAYING_ICONS.length && currentPlayerIcon !== this.previousPlayerIcon) {
 			this._nowPlayingPlayerIconImage.classList?.remove(...Array.from(this._nowPlayingPlayerIconImage.classList));
-			this._nowPlayingPlayerImage.classList.add("now-playing-player-icon-image");
-			this._nowPlayingPlayerImage.src = this.nowPlayingData.PlayerIconURL;
-			this._nowPlayingPlayerImage.classList.remove("ch5-hide-dis");
-		} else {
-			this._nowPlayingPlayerImage.classList.add("ch5-hide-dis");
-			this._nowPlayingPlayerImage.classList.remove("now-playing-player-icon-image");
 			this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
-			if (this.NOW_PLAYING_ICONS[this.nowPlayingData.PlayerIcon]) {
-				this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[this.nowPlayingData.PlayerIcon].split(' '));
+			this._nowPlayingPlayerIconImage.style.removeProperty("backgroundImage");
+			if (this.NOW_PLAYING_ICONS[currentPlayerIcon]) {
+				this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[currentPlayerIcon].split(' '));
 			}
+			this.previousPlayerIcon = currentPlayerIcon;
+			this.previousPlayerIconUrl = null;
+		} else if (!currentPlayerIconUrl && (!currentPlayerIcon || isNaN(currentPlayerIcon) || currentPlayerIcon <= 0 || currentPlayerIcon >= this.NOW_PLAYING_ICONS.length)) {
+			this._nowPlayingPlayerIconImage.style.removeProperty("backgroundImage");
+			this.previousPlayerIconUrl = null;
+			this.previousPlayerIcon = null;
+		} else {
+			// Restore previous image if needed
+			if (this.previousPlayerIconUrl && (!this._nowPlayingPlayerIconImage.style.backgroundImage || this._nowPlayingPlayerIconImage.style.backgroundImage === '')) {
+				this._nowPlayingPlayerIconImage.style.backgroundImage = `url('${this.previousPlayerIconUrl}')`;
+			}
+			// Restore previous fallback class if no image and previous index exists
+			else if (this.previousPlayerIcon !== null && (!this._nowPlayingPlayerIconImage.style.backgroundImage || this._nowPlayingPlayerIconImage.style.backgroundImage === '')) {
+				this._nowPlayingPlayerIconImage.classList?.remove(...Array.from(this._nowPlayingPlayerIconImage.classList));
+				this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
+				if (this.NOW_PLAYING_ICONS[this.previousPlayerIcon]) {
+					this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[this.previousPlayerIcon].split(' '));
+				}
+			}
+		
 		}
+		
 		this._nowPlayingPlayerIconName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
 		if (!this.nowPlayingData.ActionsAvailable.includes('Seek')) {
 			this._progressBarInput.classList.add('hide-progressbar-thumb');
@@ -430,9 +469,9 @@ export class Ch5MediaPlayerNowPlaying {
 		if (this.NOW_PLAYING_ICONS[0]) {
 			this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[0].split(' '));
 		}
-		this._nowPlayingPlayerImage = document.createElement('img');
-		this._nowPlayingPlayerImage.classList.add("ch5-hide-dis");
-		this._nowPlayingPlayerIconImage.appendChild(this._nowPlayingPlayerImage);
+		// this._nowPlayingPlayerImage = document.createElement('img');
+		// this._nowPlayingPlayerImage.classList.add("ch5-hide-dis");
+		// this._nowPlayingPlayerIconImage.appendChild(this._nowPlayingPlayerImage);
 		//Now Playing Player Icon Name
 		this._nowPlayingPlayerIconName = createElement('div', ["now-playing-player-icon-name"]);
 		this._nowPlayingPlayerIconContainer.appendChild(this._nowPlayingPlayerIconImage);
