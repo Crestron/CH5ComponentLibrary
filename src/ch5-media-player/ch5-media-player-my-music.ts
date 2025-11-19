@@ -196,7 +196,7 @@ export class Ch5MediaPlayerMyMusic {
         const maxReqItems = getMaxReqItems();
 
         if (scrollTop > lastScrollTop && menuLength > this.loadItemsCount) {
-          if (distanceFromBottom <= this.scrollPosition*2) {
+          if (distanceFromBottom <= this.scrollPosition) {
             const first = this._myMusicContentSection.firstElementChild as HTMLElement | null;
             if (first) { this._myMusicContentSection.removeChild(first); }
             this.createLine(this.loadItemsCount, 'end');
