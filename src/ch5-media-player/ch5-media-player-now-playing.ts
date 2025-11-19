@@ -546,7 +546,6 @@ export class Ch5MediaPlayerNowPlaying {
 			if (availableActions.includes(action)) {
 				button.classList.remove('button-visibility');
 				if (action === TCH5NowPlayingActions.Play) {
-					button.classList.remove('ch5-disabled');
 					button.removeAttribute('disableIconButton');
 				}
 				if (action === TCH5NowPlayingActions.ThumbsDown || action === TCH5NowPlayingActions.ThumbsUp) {
@@ -562,7 +561,6 @@ export class Ch5MediaPlayerNowPlaying {
 				if (action === TCH5NowPlayingActions.Play) {
 					button.classList.remove('button-visibility');
 					if (!availableActions.includes(TCH5NowPlayingActions.Pause)) {
-						button.classList.add('ch5-disabled');
 						button.setAttribute('disableIconButton', 'true');
 					}
 				} else {

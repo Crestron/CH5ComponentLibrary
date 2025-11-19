@@ -211,8 +211,10 @@ export class Ch5MediaPlayerIconButton extends Ch5Log {
 	private handledisableIconButton(value: string) {
 		if(value === "true") {
 			this._elButton.setAttribute('disabled', '');
+			this.classList.add('ch5-disabled');
 		} else {
 			this._elButton.removeAttribute('disabled');
+			this.classList.remove('ch5-disabled');
 		}
 	}
 
