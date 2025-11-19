@@ -518,7 +518,7 @@ export class Ch5MediaPlayerNowPlaying {
 					button.onclick = () => {
 						this.musicPlayerLibInstance.nowPlayingvent(action);
 					};
-				} else if(PlayerState==="stopped"){
+				} else if(PlayerState==="stopped" || PlayerState === ""){
 					button.setAttribute('iconClass', actionIconMap[action].class);
 					button.onclick = () => {
 						this.musicPlayerLibInstance.nowPlayingvent(action);
@@ -530,6 +530,7 @@ export class Ch5MediaPlayerNowPlaying {
 					};
 				} else {
 					button.setAttribute('iconClass', "mp-icon mp-pause");
+					button.title = IgnoreActionsForLoader[9];
 					button.onclick = () => {
 						this.musicPlayerLibInstance.nowPlayingvent(IgnoreActionsForLoader[9]);
 					};
@@ -543,7 +544,10 @@ export class Ch5MediaPlayerNowPlaying {
 
 			if (availableActions.includes(action)) {
 				button.classList.remove('button-visibility');
-				if (action === IgnoreActionsForLoader[8]) button.classList.remove('disable-icon-button');
+				if (action === IgnoreActionsForLoader[8]) {
+					button.classList.remove('ch5-disabled');
+					button.removeAttribute('disableIconButton');
+				}
 				if (action === IgnoreActionsForLoader[10] || action === IgnoreActionsForLoader[11]) {
 					if (this.nowPlayingData['Rating']?.current === -1 && action === IgnoreActionsForLoader[10]) {
 						button.classList.add('active');
@@ -556,7 +560,10 @@ export class Ch5MediaPlayerNowPlaying {
 			} else {
 				if (action === IgnoreActionsForLoader[8]) {
 					button.classList.remove('button-visibility');
-					if (!availableActions.includes(IgnoreActionsForLoader[9])) button.classList.add('disable-icon-button');
+					if (!availableActions.includes(IgnoreActionsForLoader[9])) {
+						button.classList.add('ch5-disabled');
+						button.setAttribute('disableIconButton', 'true');
+					}
 				} else {
 					button.classList.add('button-visibility');
 				}
