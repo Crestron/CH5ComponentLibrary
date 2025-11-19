@@ -47,7 +47,7 @@ export class Ch5MediaPlayerNowPlaying {
 	private previousAlbumArtUrl: any;
 	private _nowPlayingPlayerNameContainer: HTMLElement = {} as HTMLElement
 	private _nowPlayingPlayerImage: HTMLImageElement = {} as HTMLImageElement;
-	private playerName:string = '';
+	private playerName: string = '';
 
 	private readonly NOW_PLAYING_ICONS: any = [
 		"mp-logo mp-logo-unknown",
@@ -186,7 +186,7 @@ export class Ch5MediaPlayerNowPlaying {
 			}
 		}));
 
-		subscribeState('s', 'receiveStatePlayerNameResp', (value:string) => {
+		subscribeState('s', 'receiveStatePlayerNameResp', (value: string) => {
 			this.updatePlayerName(value)
 		});
 	}
@@ -224,7 +224,7 @@ export class Ch5MediaPlayerNowPlaying {
 
 	private updatedNowPlayingContent() {
 		this._nowPlayingPlayerLabel.innerHTML = this.playerName === "" ? '&nbsp;' : this.playerName;
-		if(this.playerName === "") {
+		if (this.playerName === "") {
 			this._nowPlayingPlayerLabel.classList.add('button-visibility');
 		} else {
 			this._nowPlayingPlayerLabel.classList.remove('button-visibility');
@@ -301,7 +301,7 @@ export class Ch5MediaPlayerNowPlaying {
 			this._progressBarInput.classList.remove('hide-progressbar-thumb');
 			this._progressBarInput.addEventListener('input', this.handleProgressbarInput);
 		}
-		this.renderActionButtons(this.nowPlayingData.ActionsAvailable, this._progressStreamState);
+		this.renderActionButtons(this.nowPlayingData.ActionsAvailable, this.nowPlayingData.PlayerState);
 		this.renderMoreActionButtons(this.nowPlayingData.ActionsAvailable, this.nowPlayingData.RepeatState, this.nowPlayingData.ShuffleState);
 		this._nowPlayingContainer.appendChild(this._transportControls);
 		this.renderNextAndPreviousSong(this.nowPlayingData.NextTitle);
@@ -312,7 +312,7 @@ export class Ch5MediaPlayerNowPlaying {
 		}
 	}
 
-	public updatePlayerName(value:string) {
+	public updatePlayerName(value: string) {
 		this.playerName = value;
 		this._nowPlayingPlayerLabel.textContent = value;
 	}
@@ -374,7 +374,7 @@ export class Ch5MediaPlayerNowPlaying {
 		this.renderTrackInfo();
 		this._transportControls = createElement('div', ["now-playing-controls-container"]);
 		this.renderProgressBar();
-		this.renderActionButtons([], "idle");
+		this.renderActionButtons([], "paused");
 		this.renderMoreActionButtons([]);
 		this._nowPlayingContainer.appendChild(this._transportControls);
 		this.renderNextAndPreviousSong("");
@@ -493,13 +493,13 @@ export class Ch5MediaPlayerNowPlaying {
 		this.seekApiCall();
 	}
 
-	protected renderActionButtons(availableActions: string[], streamingState: string) {
+	protected renderActionButtons(availableActions: string[], PlayerState: string) {
 		if (this._actionButtonsContainer && this._actionButtonsContainer.parentNode) {
 			this._actionButtonsContainer.parentNode.removeChild(this._actionButtonsContainer);
 		}
 		this._actionButtonsContainer = createElement('div', ['now-playing-action-buttons-container']);
 
-		const actionIconMap: { [key: string]: { class: string, style?: string } } = {
+		const actionIconMap: { [key: string]: { class: string } } = {
 			[IgnoreActionsForLoader[10]]: { class: 'mp-icon mp-thumbs-down' },
 			[IgnoreActionsForLoader[4]]: { class: 'mp-icon mp-skip-back' },
 			[IgnoreActionsForLoader[7]]: { class: 'mp-icon mp-fast-backward' },
@@ -512,8 +512,18 @@ export class Ch5MediaPlayerNowPlaying {
 		Object.keys(actionIconMap).forEach(action => {
 			const button = new Ch5MediaPlayerIconButton();
 			button.title = action;
-			if (action === IgnoreActionsForLoader[8] && (availableActions.includes(IgnoreActionsForLoader[9]) || availableActions.includes(IgnoreActionsForLoader[8]))) {
-				if (availableActions.includes(IgnoreActionsForLoader[8]) && streamingState !== 'streaming' && streamingState !== 'buffering') {
+			if (action === IgnoreActionsForLoader[8]) {
+				if ((availableActions.includes(IgnoreActionsForLoader[8]) && availableActions.includes(IgnoreActionsForLoader[9])) && PlayerState !== 'playing' ) {
+					button.setAttribute('iconClass', actionIconMap[action].class);
+					button.onclick = () => {
+						this.musicPlayerLibInstance.nowPlayingvent(action);
+					};
+				} else if(PlayerState==="stopped"){
+					button.setAttribute('iconClass', actionIconMap[action].class);
+					button.onclick = () => {
+						this.musicPlayerLibInstance.nowPlayingvent(action);
+					};
+				} else if(availableActions.includes(IgnoreActionsForLoader[8]) && PlayerState !== 'playing'){
 					button.setAttribute('iconClass', actionIconMap[action].class);
 					button.onclick = () => {
 						this.musicPlayerLibInstance.nowPlayingvent(action);
@@ -533,7 +543,7 @@ export class Ch5MediaPlayerNowPlaying {
 
 			if (availableActions.includes(action)) {
 				button.classList.remove('button-visibility');
-				if (action === IgnoreActionsForLoader[8]) button.firstElementChild?.removeAttribute('disabled');
+				if (action === IgnoreActionsForLoader[8]) button.classList.remove('disable-icon-button');
 				if (action === IgnoreActionsForLoader[10] || action === IgnoreActionsForLoader[11]) {
 					if (this.nowPlayingData['Rating']?.current === -1 && action === IgnoreActionsForLoader[10]) {
 						button.classList.add('active');
@@ -546,7 +556,7 @@ export class Ch5MediaPlayerNowPlaying {
 			} else {
 				if (action === IgnoreActionsForLoader[8]) {
 					button.classList.remove('button-visibility');
-					button.firstElementChild?.setAttribute('disabled', "true");
+					if (!availableActions.includes(IgnoreActionsForLoader[9])) button.classList.add('disable-icon-button');
 				} else {
 					button.classList.add('button-visibility');
 				}
