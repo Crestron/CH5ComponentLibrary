@@ -281,7 +281,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
   }
 
   public set receiveStatePlayerName(value: string) {
-    this._ch5Properties.set("receiveStatePlayerName", value, null, (newValue: string) => {      
+    this._ch5Properties.set("receiveStatePlayerName", value, null, (newValue: string) => {
       this.publishMPEvent('s', "receiveStatePlayerNameResp", newValue);
     });
   }
