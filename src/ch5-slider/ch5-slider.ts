@@ -1070,7 +1070,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this.setCleanValue(this.value);
 			this._cleanValueHigh = this.valueHigh;
 			// update templateContent attributes to increment join numbers and prefix contract name
-			Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(this, this.getAttribute("contractname") || '',
+			Ch5AugmentVarSignalsNames.customDifferentiateTmplElemsAttrs(this, this.getAttribute("contractname") || '',
 				parseInt(this.getAttribute("booleanjoinoffset") || '0', 10) || 0,
 				parseInt(this.getAttribute("numericjoinoffset") || '0', 10) || 0,
 				parseInt(this.getAttribute("stringjoinoffset") || '0', 10) || 0);
