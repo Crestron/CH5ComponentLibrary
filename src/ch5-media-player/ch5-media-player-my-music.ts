@@ -218,7 +218,7 @@ export class Ch5MediaPlayerMyMusic {
         if (menuLength - 1 > maxReqItems) {
           if (menuLength - 1 > this.printedIndex && distanceFromBottom === 0) {
             this._myMusicContentSection.scrollTop = Math.max(this._myMusicContentSection.scrollTop - this.scrollPosition, 0);
-          } else if (scrollTop === 0 && this.loadItemsCount > this.MAXIMUM_ROWS_TO_SHOW) {
+          } else if (scrollTop === 0 && this.loadItemsCount > this.MAXIMUM_ROWS_TO_SHOW) { // CH5C-29125: This is a general fix for a list which has a scrollbar
             this._myMusicContentSection.scrollTop = this.scrollPosition;
           }
         }
