@@ -22,6 +22,14 @@ export class Ch5MediaPlayerIconButton extends Ch5Log {
 			type: "string",
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true,
+		},
+		{
+			default: "",
+			name: "disableIconButton",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
 		}
 	];
 
@@ -53,6 +61,15 @@ export class Ch5MediaPlayerIconButton extends Ch5Log {
 	}
 	public get onRelease(): string {
 		return this._ch5Properties.get<string>("onRelease");
+	}
+
+	public set disableIconButton(value: string) {
+		this._ch5Properties.set<string>("disableIconButton", value, () => {
+			this.handledisableIconButton(value);
+		});
+	}
+	public get disableIconButton(): string {
+		return this._ch5Properties.get<string>("disableIconButton");
 	}
 
 	//#endregion
@@ -189,6 +206,16 @@ export class Ch5MediaPlayerIconButton extends Ch5Log {
 		}
 
 		this.updateCssClass();
+	}
+
+	private handledisableIconButton(value: string) {
+		if(value === "true") {
+			this._elButton.setAttribute('disabled', '');
+			this.classList.add('ch5-disabled');
+		} else {
+			this._elButton.removeAttribute('disabled');
+			this.classList.remove('ch5-disabled');
+		}
 	}
 
 	private updateCssClass() {
