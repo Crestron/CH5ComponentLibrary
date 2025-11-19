@@ -21,7 +21,7 @@ export interface ICh5MediaPlayerAttributes extends ICh5CommonAttributesMediaPlay
    * [
    * "`contractName` attribute",
    * "***",
-   * "Represents the name of the Contract"
+   * "Defines the primary contract name to derive the component's contract details."
    * ]
    * @name contractname
    * @default 
@@ -57,7 +57,7 @@ export interface ICh5MediaPlayerAttributes extends ICh5CommonAttributesMediaPlay
    * [
    * "`useContractForCustomStyle` attribute",
    * "***",
-   * "contract for custom style "
+   * "If the contract name exists, by default this becomes true. If the contract name does not exist, by default this becomes false. If this value is set to true then the value received from the contract will be considered for the custom style."
    * ]
    * @name usecontractforcustomstyle
    * @default false
@@ -69,7 +69,7 @@ export interface ICh5MediaPlayerAttributes extends ICh5CommonAttributesMediaPlay
    * [
    * "`useContractForCustomClass` attribute",
    * "***",
-   * "contract for custom class"
+   * "If the contract name exists, by default this becomes true. If the contract name does not exist, by default this becomes false. If this value is set to true then the value received from the contract will be considered for remaining ch5-media-player as a custom class."
    * ]
    * @name usecontractforcustomclass
    * @default false
