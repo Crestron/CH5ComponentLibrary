@@ -2,7 +2,7 @@ import { publishEvent, subscribeState, unsubscribeState } from "../ch5-core";
 import _ from 'lodash';
 import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest } from "./commonInterface";
 import { encodeString } from "./ch5-media-player-common";
-import { IgnoreActionsForLoader } from "./interfaces/t-ch5-media-player";
+import { TCH5NowPlayingActions } from "./interfaces/t-ch5-media-player";
 // import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 
 export class MusicPlayerLib {
@@ -57,7 +57,7 @@ export class MusicPlayerLib {
     private menuListPublishData: any = { 'MenuData': [] };
     public maxReqItems = 40;
     private isItemCountNew = true;
-    public lastPerformedAction: string | null = null;
+    public lastPerformedAction: TCH5NowPlayingActions | null = null;
 
     private nowPlayingData: any = {
         'ActionsSupported': '', 'ActionsAvailable': '', 'RewindSpeed': '',
@@ -602,10 +602,10 @@ export class MusicPlayerLib {
     }
 
     // NowPlaying component action
-    public nowPlayingvent(action: string, time: string = '') {
+    public nowPlayingvent(action: TCH5NowPlayingActions, time: string = '') {
         this.lastPerformedAction = action;
         const myRPC: CommonEventRequest = {
-            params: action === IgnoreActionsForLoader[5] ? { 'time': time } : null,
+            params: action === TCH5NowPlayingActions.Seek ? { 'time': time } : null,
             jsonrpc: '2.0',
             id: this.generateUniqueMessageId(),
             method: this.myMP.instanceName + '.' + action

@@ -11,21 +11,20 @@ export type TCh5MediaPlayerProgressbarData = {
 	ProgressBar: boolean;
 }
 
-export enum IgnoreActionsForLoader {
-	Shuffle,       // 0
-	Repeat,        // 1
-	PlayAll,       // 2
-	NextTrack,     // 3
-	PreviousTrack, // 4
-	Seek,          // 5
-	Ffwd,          // 6
-	Rewind,        // 7
-	Play,          // 8
-	Pause,         // 9
-	ThumbsDown,    // 10
-	ThumbsUp,      // 11
-	MusicNote,     // 12
-	UserNote       //13
-  }
-  
-  
+export enum TCH5NowPlayingActions {
+	Shuffle = "Shuffle",
+	Repeat = "Repeat",
+	PlayAll = "PlayAll",
+	NextTrack = "NextTrack",
+	PreviousTrack = "PreviousTrack",
+	Seek = "Seek",
+	Ffwd = "Ffwd",
+	Rewind = "Rewind",
+	Play = "Play",
+	Pause = "Pause",
+	ThumbsDown = "ThumbsDown",
+	ThumbsUp = "ThumbsUp",
+	MusicNote = "MusicNote",
+	UserNote = "UserNote"
+}
+
