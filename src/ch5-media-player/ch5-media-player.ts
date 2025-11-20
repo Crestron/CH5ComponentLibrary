@@ -479,9 +479,12 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
       ev.stopPropagation();
     }
     this._elMask.onclick = () => {
-      if (this._elMask && this._elMask.parentNode) {
+      if(this.demoMode) {
+        if (this._elMask && this._elMask.parentNode) {
+          this._elMask.parentNode.removeChild(this._elMask);
+        }
+      } else {
         this.musicPlayerLibInstance.popUpAction("", -1);
-        this._elMask.parentNode.removeChild(this._elMask);
       }
     }
   }
