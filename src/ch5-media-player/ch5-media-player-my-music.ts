@@ -66,21 +66,18 @@ export class Ch5MediaPlayerMyMusic {
       }
     ]
   };
-  private logger: Ch5CommonLog;
-
   //#endregion
 
   //#region Component Lifecycle
 
-  public constructor(musicPlayerLib: MusicPlayerLib) {
-    this.logger = new Ch5CommonLog(false, false, "MEDIA_PLAYER:MY_MUSIC");
+  public constructor(musicPlayerLib: MusicPlayerLib, public logger: Ch5CommonLog) {
     this.logger.start('constructor()', "MEDIA_PLAYER:MY_MUSIC");
     this.musicPlayerLibInstance = musicPlayerLib;
     this._myMusicContainer = createElement('div');
     this.createDefaultMyMusic();
 
     subscribeState('o', 'myMusicData', ((data: any) => {
-      this.logger.log('MyMusicData----', data);
+      this.logger.log('MyMusicData ', data);
       this.createMyMusic();
       if (!this.demoModeValue) {
         this.loadItemsCount = this.MAXIMUM_ROWS_TO_SHOW;

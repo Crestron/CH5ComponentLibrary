@@ -71,8 +71,6 @@ export class Ch5MediaPlayerNowPlaying {
 	private _progressBarTrackSec: number = 0;
 	private _progressStreamState: string = '';
 
-	private logger: Ch5CommonLog;
-
 	private readonly NOW_PLAYING_DEMO_DATA = {
 		ActionsAvailable: [
 			"Shuffle",
@@ -118,15 +116,14 @@ export class Ch5MediaPlayerNowPlaying {
 
 	//#region Component Lifecycle
 
-	public constructor(musicPlayerLib: MusicPlayerLib) {
-		this.logger = new Ch5CommonLog(false, false, "MEDIA_PLAYER:NOW_PLAYING");
+	public constructor(musicPlayerLib: MusicPlayerLib, public logger: Ch5CommonLog) {
 		this.musicPlayerLibInstance = musicPlayerLib;
 		this.logger.start('constructor()', "ch5-media-player:now-playing");
 		this._nowPlayingContainer = createElement('div');
 		this.createDefaultNowPlaying();
 
 		subscribeState('o', 'nowPlayingData', ((data: any) => {
-			this.logger.log('NowPlayingData----', data);
+			this.logger.log('NowPlayingData ', data);
 			if (this.demoModeValue === false) {
 				if (data && Object.keys(data).length > 0) {
 					this.nowPlayingData = data;
@@ -139,6 +136,7 @@ export class Ch5MediaPlayerNowPlaying {
 		}));
 
 		subscribeState('o', 'progressBarData', ((data: any) => {
+			this.logger.log('ProgressBarData ', data);
 			if (this._progressBarTimer) {
 				clearInterval(this._progressBarTimer);
 				this._progressBarTimer = null;

@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest } from "./commonInterface";
 import { encodeString } from "./ch5-media-player-common";
 import { TCH5NowPlayingActions } from "./interfaces/t-ch5-media-player";
+import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
 // import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 
 export class MusicPlayerLib {
@@ -12,6 +13,8 @@ export class MusicPlayerLib {
     private mpRPCDataIn: string = '';
     private itemValue: number = 1; // Used in infinite scroll feature.
     private resendRegistrationTimeId: any = '';
+    private tempResponse: any = "";
+    private ignoreFirstData: boolean = false;// ignore first chunked data before register request sent
 
     private subReceiveStateRefreshMediaPlayerResp: any;
     private subreceiveStateDeviceOfflineResp: any;
@@ -72,9 +75,11 @@ export class MusicPlayerLib {
 
     private menuListData: any = { 'MenuData': [] };
 
-    constructor() { }
+    constructor(public logger: Ch5CommonLog) { }
 
     public subscribeLibrarySignals() {
+
+        this.ignoreFirstData = false;// first time set to false, to ignore first data
         this.subReceiveStateRefreshMediaPlayerResp = subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: any) => {
             if (value) {
                 this.refreshMediaPlayer();
@@ -99,7 +104,8 @@ export class MusicPlayerLib {
         this.subreceiveStateCRPCResp = subscribeState('s', 'receiveStateCRPCResp', (value: any) => {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
-            if (value.length > 0) {
+            if ((value.length > 0) && !_.isEqual(this.tempResponse, value) && this.ignoreFirstData) {
+                this.tempResponse = value;
                 const mpRPCPrefix = value.substring(0, 8).trim(); // First 8 bytes is the RPC prefix.
                 // Check byte 3 to determine if this is a single or partial message.
                 // c = partial message
@@ -114,6 +120,7 @@ export class MusicPlayerLib {
                     } else {
                         this.mpRPCDataIn = this.mpRPCDataIn + value.substring(8); // Gather the CRPC data.
                     }
+                    this.tempResponse = '';
 
                     // check error
                     let parsedData: any = '';
@@ -127,7 +134,7 @@ export class MusicPlayerLib {
                         }
 
                     } catch (e) {
-                        console.warn("e", e);
+                        this.logger.log("e", e);
                     }
 
                     this.mpRPCDataIn = ''; // Clear the var now that we have the entire message.
@@ -376,6 +383,7 @@ export class MusicPlayerLib {
         };
 
         this.myMP.RegistrationId = myRPC.id; // Keep track of the message id.
+        this.ignoreFirstData = true;
         this.sendRPCRequest(JSON.stringify(myRPC));
         // Start the re-send time.
         if (!this.resendRegistrationTimeId) {
@@ -485,7 +493,7 @@ export class MusicPlayerLib {
                 requestedData = myPrefix + requestedData;
             }
             if (this.mpSigRPCOut) {
-                console.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
+                this.logger.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
                 publishEvent('s', this.mpSigRPCOut, requestedData);
             }
         }
@@ -595,9 +603,9 @@ export class MusicPlayerLib {
 
     // error-handler.ts
     private handleError(error: ErrorResponseObject) {
-        console.error('Error Code:----  ', error.code);
-        console.error('Error message:----  ', error.message);
-        console.error('Error Data:----  ', error.data);
+        this.logger.error('Error Code:----  ', error.code);
+        this.logger.error('Error message:----  ', error.message);
+        this.logger.error('Error Data:----  ', error.data);
         return;
     }
 
