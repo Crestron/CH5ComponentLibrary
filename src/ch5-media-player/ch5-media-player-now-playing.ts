@@ -290,7 +290,7 @@ export class Ch5MediaPlayerNowPlaying {
 		const playerIconImg = new Image();
 
 		if (currentPlayerIconUrl && currentPlayerIconUrl !== this.previousPlayerIconUrl) {
-			const imgUrl = currentPlayerIconUrl
+			const imgUrl = currentPlayerIconUrl;
 			playerIconImg.addEventListener('load', () => {
 				this._nowPlayingPlayerIconImage.style.backgroundImage = `url('${imgUrl}')`;
 				this.previousPlayerIconUrl = imgUrl;
@@ -469,9 +469,7 @@ export class Ch5MediaPlayerNowPlaying {
 		if (this.NOW_PLAYING_ICONS[0]) {
 			this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[0].split(' '));
 		}
-		// this._nowPlayingPlayerImage = document.createElement('img');
-		// this._nowPlayingPlayerImage.classList.add("ch5-hide-dis");
-		// this._nowPlayingPlayerIconImage.appendChild(this._nowPlayingPlayerImage);
+		
 		//Now Playing Player Icon Name
 		this._nowPlayingPlayerIconName = createElement('div', ["now-playing-player-icon-name"]);
 		this._nowPlayingPlayerIconContainer.appendChild(this._nowPlayingPlayerIconImage);
