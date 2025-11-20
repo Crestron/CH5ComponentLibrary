@@ -2,6 +2,7 @@ import { publishEvent, subscribeState, unsubscribeState } from "../ch5-core";
 import _ from 'lodash';
 import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest } from "./commonInterface";
 import { encodeString } from "./ch5-media-player-common";
+import { TCH5NowPlayingActions } from "./interfaces/t-ch5-media-player";
 // import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 
 export class MusicPlayerLib {
@@ -56,6 +57,7 @@ export class MusicPlayerLib {
     private menuListPublishData: any = { 'MenuData': [] };
     public maxReqItems = 40;
     private isItemCountNew = true;
+    public lastPerformedAction: TCH5NowPlayingActions | null = null;
 
     private nowPlayingData: any = {
         'ActionsSupported': '', 'ActionsAvailable': '', 'RewindSpeed': '',
@@ -449,6 +451,10 @@ export class MusicPlayerLib {
                 this.sendRPCRequest(JSON.stringify(myRPC));
             }
             this.itemValue = this.itemValue + this.maxReqItems;
+        } else { // whenever itemcount is 0, no need to do Api request, pass empty data. Same as VTpro
+            this.menuListData['MenuData'] = [];
+            this.menuListPublishData = { ...this.menuListData };
+            publishEvent('o', 'menuListData', this.menuListPublishData);
         }
     }
 
@@ -498,8 +504,10 @@ export class MusicPlayerLib {
 
         if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method)
             && responseData.params.ev === 'BusyChanged' && responseData.params?.parameters) {// Busychanged event
-            busyChanged = { 'timeoutSec': responseData.params?.parameters?.timeoutSec, 'on': responseData.params?.parameters?.on }
-            publishEvent('o', 'busyChanged', busyChanged);
+            busyChanged = { 'timeoutSec': responseData.params?.parameters?.timeoutSec, 'on': responseData.params?.parameters?.on };
+            if (!this.lastPerformedAction) {
+                publishEvent('o', 'busyChanged', busyChanged);
+            }
         } else if (playerInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // Now music statechanged 
             for (const item in responseData.params.parameters) {
                 if (item === 'ElapsedSec' || item === 'TrackSec' || item === 'StreamState' || item === 'ProgressBar') {
@@ -594,9 +602,10 @@ export class MusicPlayerLib {
     }
 
     // NowPlaying component action
-    public nowPlayingvent(action: string, time: string = '') {
+    public nowPlayingvent(action: TCH5NowPlayingActions, time: string = '') {
+        this.lastPerformedAction = action;
         const myRPC: CommonEventRequest = {
-            params: action === 'Seek' ? { 'time': time } : null,
+            params: action === TCH5NowPlayingActions.Seek ? { 'time': time } : null,
             jsonrpc: '2.0',
             id: this.generateUniqueMessageId(),
             method: this.myMP.instanceName + '.' + action
@@ -607,6 +616,7 @@ export class MusicPlayerLib {
 
     // MyMusic component action
     public myMusicEvent(action: string, itemIndex: number = 0) {
+        this.lastPerformedAction = null;
         const param = itemIndex === 0 ? null : { 'item': itemIndex };
         const myRPC: CommonEventRequest = {
             params: param,
@@ -649,6 +659,7 @@ export class MusicPlayerLib {
 
     // Component level popup action
     public popUpAction(inputValue: string = "", id: number = 0) {
+        this.lastPerformedAction = null;
         const myRPC: CommonRequestForPopup = {
             params: {
                 "localExit": false,
