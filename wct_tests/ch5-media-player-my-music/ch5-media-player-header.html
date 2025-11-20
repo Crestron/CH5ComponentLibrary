@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-media-player-header">
+    <ch5-media-player demomode="true"></ch5-media-player>
+  </test-fixture>
+  <script>
+    let MY_MUSIC_DEMO_DATA = {
+      Title: "HEADER TEXT",
+      Subtitle: "SUBTITLE",
+      IsMenuAvailable: true,
+      ListItemIcons: true,
+      ListSpecificFunctions: [
+        "Create",
+        "Find",
+        "QuickList",
+        "Advanced",
+        "BackToTop",
+        "Favorites"
+      ],
+      Sorted: "none",
+      ItemCnt: 4
+    }
+    
+    let MY_MUSIC_MENU_DEMO_DATA = {
+    MenuData: [
+      {
+        L1: "Text Line one",
+        L2: "Sub Line 1",
+      },
+      {
+        L1: "Text Line 2",
+        L2: "",
+      },
+      {
+        L1: "Text Line 3",
+        L2: "Sub Line 3",
+      },
+      {
+        L1: "Text Line 4",
+        L2: "",
+      }
+    ]
+  };
+  
+  suite('ch5-media-player-header', () => {
+      test('Check header text', () => {
+        const headerText = document.getElementsByClassName('my-music-header-title-text')[0]?.innerHTML;
+        expect(headerText).to.equal('HEADER TEXT');
+      })
+
+      test('test title text', () => {
+        const testValue = "TEST HEADER";
+        MY_MUSIC_DEMO_DATA.Title = testValue;
+        CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA);
+        const headerText = document.getElementsByClassName('my-music-header-title-text')[0]?.innerHTML;
+        expect(headerText).to.equal(testValue);
+      })
+
+      test('test subtitle text', () => {
+        const testValue = "TEST SUBTITLE";
+        MY_MUSIC_DEMO_DATA.Title = testValue;
+        CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA);
+        const headerText = document.getElementsByClassName('my-music-header-title-text')[0]?.innerHTML;
+        expect(headerText).to.equal(testValue);
+      })
+
+      test('test list specification', () => {
+        MY_MUSIC_DEMO_DATA.ListSpecificFunctions = [];
+        CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA)
+        const headerText = document.getElementsByClassName('my-music-footer')[0]?.children.length;
+        expect(headerText).to.equal(0);
+      })
+
+      test('test list specification dynamic data', () => {
+        MY_MUSIC_DEMO_DATA.ListSpecificFunctions = [
+          "Advanced",
+          "BackToTop",
+          "Favorites"];
+        CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA)
+        const list = document.getElementsByClassName('my-music-footer')[0]?.children;
+        for (let i = 0; i < list.length; i++) {
+          expect(list[i].title).to.equal(MY_MUSIC_DEMO_DATA.ListSpecificFunctions[i]);
+        }
+      })
+
+    test('test menu list', () => {
+        // MY_MUSIC_MENU_DEMO_DATA.ListSpecificFunctions = [];
+        CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA)
+        const itemList = document.getElementsByClassName('my-music-content')[0]?.children[0];
+        for (let i = 0; i < itemList.length; i++) {
+          const title = itemList[i].getElementsByClassName('my-music-content-item-title')[0].innerHTML;
+          expect(title).to.equal(MY_MUSIC_MENU_DEMO_DATA.MenuData[i].L1);
+        }
+      })
+    })
+
+  </script>
+</body>
