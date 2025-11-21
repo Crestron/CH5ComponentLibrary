@@ -662,8 +662,8 @@ export class MusicPlayerLib {
         this.lastPerformedAction = null;
         const myRPC: CommonRequestForPopup = {
             params: {
-                "localExit": false,
-                "state": 1,
+                "localExit": id < 0 ? true : false,
+                "state": id < 0 ? 0 : 1,
                 "id": id,
                 "userInput": encodeString(inputValue)
             },
