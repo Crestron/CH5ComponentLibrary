@@ -99,7 +99,7 @@ export class Ch5MediaPlayerNowPlaying {
 		FfwdSpeed: 1,
 		Genre: "Genre",
 		NextTitle: "Song Name Here",
-		PlayerIcon: 10,
+		PlayerIcon: 0,
 		PlayerIconURL: "",
 		PlayerName: "Player Name",
 		PlayerState: "paused",
@@ -282,9 +282,9 @@ export class Ch5MediaPlayerNowPlaying {
 			this._separator.classList?.remove('ch5-hide-dis');
 		}
 		this._nowPlayingSongAdditionalInfo.textContent = this.nowPlayingData.TrackCnt > 0 ? `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}` : '';
-		
+
 		this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
-		this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[0].split(' '));
+		//this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[0].split(' '));
 		const currentPlayerIconUrl = this.nowPlayingData.PlayerIconURL?.trim() ?? "";
 		const currentPlayerIcon = this.nowPlayingData.PlayerIcon;
 		const playerIconImg = new Image();
@@ -303,7 +303,7 @@ export class Ch5MediaPlayerNowPlaying {
 				}
 			});
 			playerIconImg.src = imgUrl;
-		} else if (currentPlayerIcon && !isNaN(currentPlayerIcon) && currentPlayerIcon > 0 && currentPlayerIcon < this.NOW_PLAYING_ICONS.length && currentPlayerIcon !== this.previousPlayerIcon) {
+		} else if (currentPlayerIcon && !isNaN(currentPlayerIcon) && currentPlayerIcon > 0 && currentPlayerIcon < this.NOW_PLAYING_ICONS.length && currentPlayerIcon !== this.previousPlayerIcon && currentPlayerIconUrl !== "") {
 			this._nowPlayingPlayerIconImage.classList?.remove(...Array.from(this._nowPlayingPlayerIconImage.classList));
 			this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
 			this._nowPlayingPlayerIconImage.style.removeProperty("backgroundImage");
@@ -314,24 +314,26 @@ export class Ch5MediaPlayerNowPlaying {
 			this.previousPlayerIconUrl = null;
 		} else if (!currentPlayerIconUrl && (!currentPlayerIcon || isNaN(currentPlayerIcon) || currentPlayerIcon <= 0 || currentPlayerIcon >= this.NOW_PLAYING_ICONS.length)) {
 			this._nowPlayingPlayerIconImage.style.removeProperty("backgroundImage");
+			if (this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName) {
+				this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[0].split(' '));
+			}
 			this.previousPlayerIconUrl = null;
 			this.previousPlayerIcon = null;
 		} else {
 			// Restore previous image if needed
-			if (this.previousPlayerIconUrl && (!this._nowPlayingPlayerIconImage.style.backgroundImage || this._nowPlayingPlayerIconImage.style.backgroundImage === '')) {
+			if (this.previousPlayerIconUrl && (!this._nowPlayingPlayerIconImage.style.backgroundImage || this._nowPlayingPlayerIconImage.style.backgroundImage === '' && currentPlayerIconUrl !== "")) {
 				this._nowPlayingPlayerIconImage.style.backgroundImage = `url('${this.previousPlayerIconUrl}')`;
 			}
 			// Restore previous fallback class if no image and previous index exists
-			else if (this.previousPlayerIcon !== null && (!this._nowPlayingPlayerIconImage.style.backgroundImage || this._nowPlayingPlayerIconImage.style.backgroundImage === '')) {
+			else if (this.previousPlayerIcon !== null && (!this._nowPlayingPlayerIconImage.style.backgroundImage || this._nowPlayingPlayerIconImage.style.backgroundImage === '') && currentPlayerIconUrl !== "") {
 				this._nowPlayingPlayerIconImage.classList?.remove(...Array.from(this._nowPlayingPlayerIconImage.classList));
 				this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
-				if (this.NOW_PLAYING_ICONS[this.previousPlayerIcon]) {
+				if (this.NOW_PLAYING_ICONS[this.previousPlayerIcon] && currentPlayerIconUrl !== "") {
 					this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[this.previousPlayerIcon].split(' '));
 				}
 			}
-		
 		}
-		
+
 		this._nowPlayingPlayerIconName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
 		if (!this.nowPlayingData.ActionsAvailable.includes(TCH5NowPlayingActions.Seek)) {
 			this._progressBarInput.classList.add('hide-progressbar-thumb');
@@ -466,10 +468,7 @@ export class Ch5MediaPlayerNowPlaying {
 		this._nowPlayingPlayerIconContainer = createElement('div', ["now-playing-player-icon-container"]);
 		//Now Playing Player Icon Image
 		this._nowPlayingPlayerIconImage = createElement('div', ["now-playing-player-icon-image"]);
-		if (this.NOW_PLAYING_ICONS[0]) {
-			this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[0].split(' '));
-		}
-		
+
 		//Now Playing Player Icon Name
 		this._nowPlayingPlayerIconName = createElement('div', ["now-playing-player-icon-name"]);
 		this._nowPlayingPlayerIconContainer.appendChild(this._nowPlayingPlayerIconImage);
