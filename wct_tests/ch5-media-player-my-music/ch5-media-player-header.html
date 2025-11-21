@@ -35,7 +35,7 @@
     let MY_MUSIC_MENU_DEMO_DATA = {
     MenuData: [
       {
-        L1: "Text Line one",
+        L1: "Text Line 1",
         L2: "Sub Line 1",
       },
       {
@@ -52,8 +52,61 @@
       }
     ]
   };
+
+  let NOW_PLAYING_DEMO_DATA = {
+    ActionsAvailable: [
+      "Shuffle",
+      "Repeat",
+      "PlayAll",
+      "NextTrack",
+      "PreviousTrack",
+      "Seek",
+      "Ffwd",
+      "Rewind",
+      "Play"
+    ],
+    Album: "Album Name",
+    AlbumArt: true,
+    AlbumArtUrl: "",
+    AlbumArtUrlNAT: "",
+    Artist: "Artist Name",
+ 
+    ElapsedSec: 120,
+    FfwdSpeed: 1,
+    Genre: "Genre",
+    NextTitle: "Song Name Here",
+    PlayerIcon: 10,
+    PlayerIconURL: "",
+    PlayerName: "Player Name",
+    PlayerState: "paused",
+    ProgressBar: true,
+    ProviderName: "",
+    RepeatState: 0,
+    RewindSpeed: 1,
+    ShuffleState: 0,
+    StationName: "Song Title",
+    StreamState: "idle",
+    Title: "Song Title",
+    TrackCnt: 5,
+    TrackNum: 2,
+    TrackSec: 280
+  };
+ 
   
   suite('ch5-media-player-header', () => {
+
+      test('test ActionsAvailable', () => {
+        NOW_PLAYING_DEMO_DATA.ActionsAvailable = ["Play"];
+        CrComLib.publishEvent('o', 'nowPlayingData', NOW_PLAYING_DEMO_DATA);
+        setTimeout(() => {          
+          const list = document.getElementsByClassName('now-playing-action-buttons-container')[0]?.children;
+          console.log("list", list, list.length)
+          for (let i = 0; i < list.length; i++) {
+            expect(list[i].title).to.equal(NOW_PLAYING_DEMO_DATA.ActionsAvailable[i]);
+          }
+        },500);
+      })
+
       test('Check header text', () => {
         const headerText = document.getElementsByClassName('my-music-header-title-text')[0]?.innerHTML;
         expect(headerText).to.equal('HEADER TEXT');
@@ -89,20 +142,58 @@
           "Favorites"];
         CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA)
         const list = document.getElementsByClassName('my-music-footer')[0]?.children;
+        expect(list.length).to.equal(MY_MUSIC_DEMO_DATA.ListSpecificFunctions.length);
         for (let i = 0; i < list.length; i++) {
           expect(list[i].title).to.equal(MY_MUSIC_DEMO_DATA.ListSpecificFunctions[i]);
         }
       })
 
-    test('test menu list', () => {
-        // MY_MUSIC_MENU_DEMO_DATA.ListSpecificFunctions = [];
-        CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA)
+      test('test menu list', () => {
+        MY_MUSIC_MENU_DEMO_DATA.MenuData = [
+          {
+            L1: "Text Line 1",
+            L2: "Sub Line 1",
+          },
+          {
+            L1: "Text Line 2",
+            L2: "",
+          },
+          {
+            L1: "Text Line 3",
+            L2: "Sub Line 3",
+          },
+          {
+            L1: "Text Line 4",
+            L2: "",
+          },
+          {
+            L1: "Text Line 5",
+            L2: "Sub Line 5",
+          },
+          {
+            L1: "Text Line 6",
+            L2: "",
+          },
+          {
+            L1: "Text Line 7",
+            L2: "Sub Line 7",
+          },
+          {
+            L1: "Text Line 8",
+            L2: "",
+          }
+        ]
+        CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_MENU_DEMO_DATA)
         const itemList = document.getElementsByClassName('my-music-content')[0]?.children[0];
         for (let i = 0; i < itemList.length; i++) {
           const title = itemList[i].getElementsByClassName('my-music-content-item-title')[0].innerHTML;
+          const subTitle = itemList[i].getElementsByClassName('my-music-content-item-subtitle')[0].innerHTML;
+
           expect(title).to.equal(MY_MUSIC_MENU_DEMO_DATA.MenuData[i].L1);
+          expect(subTitle).to.equal(MY_MUSIC_MENU_DEMO_DATA.MenuData[i].L2);
         }
       })
+
     })
 
   </script>
