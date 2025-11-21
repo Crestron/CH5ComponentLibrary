@@ -621,7 +621,7 @@ export class Ch5MediaPlayerNowPlaying {
 			[TCH5NowPlayingActions.Shuffle]: { class: shuffle === 0 ? 'mp-icon mp-shuffle-off' : 'mp-icon mp-shuffle-02' },
 			[TCH5NowPlayingActions.Repeat]: { class: repeat === 0 ? 'mp-icon mp-repeat-off' : repeat === 1 ? 'mp-icon mp-repeat-1x_1' : 'mp-icon mp-repeat-03' },
 			[TCH5NowPlayingActions.PlayAll]: { class: 'mp-icon mp-play-multi-square' },
-			[TCH5NowPlayingActions.NextTrack]: { class: 'mp-icon mp-music-note-plus' },
+			[TCH5NowPlayingActions.MusicNote]: { class: 'mp-icon mp-music-note-plus' },
 			[TCH5NowPlayingActions.UserNote]: { class: 'mp-icon mp-image-user-plus' }
 		};
 
