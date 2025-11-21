@@ -105,7 +105,7 @@ export class MusicPlayerLib {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
             if ((value.length > 0) && !_.isEqual(this.tempResponse, value) && this.ignoreFirstData) {
-                console.log('CRPC IN->', value);
+                // console.log('CRPC IN->', value);
                 this.tempResponse = value;
                 const mpRPCPrefix = value.substring(0, 8).trim(); // First 8 bytes is the RPC prefix.
                 // Check byte 3 to determine if this is a single or partial message.
@@ -569,10 +569,8 @@ export class MusicPlayerLib {
                 const responseValue = Object.values(responseData.result)[0];
                 const responseKey = Object.keys(responseData.result)[0];
                 if (myMsgId === this.myMP.TitleMenuId) { // we have two titles, to get only the menu instance title we have this condition
-                    this.myMP.TitleMenuId = 0;
                     this.myMusicData[responseKey] = responseValue;
                 } else if (myMsgId === this.myMP.TitleId) { // we have two titles, to get only the player instance title we have this condition
-                    this.myMP.TitleId = 0;
                     this.nowPlayingData[responseKey] = responseValue;
                 } else if ((responseKey !== "Title") && (this.nowPlayingData.hasOwnProperty(responseKey))) {
                     this.nowPlayingData[responseKey] = responseValue;
