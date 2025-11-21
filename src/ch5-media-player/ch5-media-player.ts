@@ -313,7 +313,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
   public constructor() {
     super();
     this.logger.start('constructor()', Ch5MediaPlayer.ELEMENT_NAME);
-    this.musicPlayerLibInstance = new MusicPlayerLib();
+    this.musicPlayerLibInstance = new MusicPlayerLib(this.logger);
     this.ignoreAttributes = ["appendclasswheninviewport", "receivestateshowpulse", "receivestatehidepulse", "sendeventonshow"];
     if (!this._wasInstatiated) {
       this.createInternalHtml();
@@ -416,9 +416,9 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
     this._elContainer = createElement('div');
-    this.nowPlaying = new Ch5MediaPlayerNowPlaying(this.musicPlayerLibInstance);
+    this.nowPlaying = new Ch5MediaPlayerNowPlaying(this.musicPlayerLibInstance, this.logger);
     this._elContainer.appendChild(this.nowPlaying.createInternalHtml());
-    this.myMusic = new Ch5MediaPlayerMyMusic(this.musicPlayerLibInstance);
+    this.myMusic = new Ch5MediaPlayerMyMusic(this.musicPlayerLibInstance, this.logger);
     this._elContainer.appendChild(this.myMusic.createInternalHtml());
     this.loadingIndicator();
     this.logger.stop();
