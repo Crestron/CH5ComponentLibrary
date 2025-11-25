@@ -5,15 +5,13 @@
   <meta charset="utf-8">
   <script src="/webcomponentsjs/webcomponents-lite.js"></script>
   <script src="/bower_components/web-component-tester/browser.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
 </head>
 
 <body>
   <script>
-    WCT.loadSuites([
-      // 'ch5-media-player-attributes.html',
-      // 'ch5-media-player-attributes-demo-mode.html', 
-      // 'ch5-media-player-portrait-mode.html',
-      'ch5-media-player-default-screen.html'
+    executeTestCases([
+      'ch5-media-player-now-playing.html',
     ]);
   </script>
 </body>

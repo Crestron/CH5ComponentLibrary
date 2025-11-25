@@ -1,0 +1,472 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+    <test-fixture id="ch5-media-player-now-playing-default-fixture">
+        <template>
+            <ch5-media-player id="nowPlayingTest1" demoMode="true">
+            </ch5-media-player>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-media-player-now-playing-action-buttons-fixture">
+        <template>
+            <ch5-media-player id="nowPlayingDemo2" demoMode="true">
+            </ch5-media-player>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-media-player-now-playing — Header & Label', () => {
+            let nowPlayingComponent;
+            setup(() => {
+                nowPlayingComponent = fixture('ch5-media-player-now-playing-default-fixture');
+            });
+            teardown(() => {
+                if (nowPlayingComponent && nowPlayingComponent.parentNode) {
+                    nowPlayingComponent.parentNode.removeChild(nowPlayingComponent);
+                }
+                nowPlayingComponent = null;
+            });
+            test(`updatePlayerName() should update header label text`, (done) => {
+                setTimeout(() => {
+                    try {
+                        const testName = 'Jyothi Prakash';
+                        CrComLib.publishEvent('s', 'receiveStatePlayerNameResp', testName);
+                        setTimeout(() => {
+                            try {
+                                const label = nowPlayingComponent.querySelector('.now-playing-player-label') ||
+                                    document.querySelector('#nowPlayingTest1 .now-playing-player-label');
+                                expect(label).to.exist;
+                                expect((label.textContent || '').trim()).to.equal("Jyothi Prakash");
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+        });
+
+        suite('ch5-media-player-now-playing — Action Buttons', () => {
+            let nowPlayingComponent;
+            const playerName = 'Jyothi Prakash';
+            const nowPlayingData = {
+                ActionsAvailable: [
+                    "Shuffle",
+                    "Repeat",
+                    "PlayAll",
+                    "NextTrack",
+                    "PreviousTrack",
+                    "Seek",
+                    "Play",
+                    "ThumbsUp"
+                ],
+                Album: "Album Name",
+                AlbumArt: true,
+                AlbumArtUrl: "",
+                AlbumArtUrlNAT: "",
+                Artist: "Artist Name",
+
+                ElapsedSec: 120,
+                FfwdSpeed: 1,
+                Genre: "Genre",
+                NextTitle: "Song Name Here",
+                PlayerIcon: 10,
+                PlayerIconURL: "",
+                PlayerName: "Player Name",
+                PlayerState: "paused",
+                ProgressBar: true,
+                ProviderName: "",
+                RepeatState: 0,
+                RewindSpeed: 1,
+                ShuffleState: 0,
+                StationName: "Song Title",
+                StreamState: "idle",
+                Title: "Song Title",
+                TrackCnt: 5,
+                TrackNum: 2,
+                TrackSec: 280
+            }
+            const progressbarData = { StreamState: 'idle', ProgressBar: 'true', ElapsedSec: 20, TrackSec: 30 };
+            setup(() => {
+                nowPlayingComponent = fixture('ch5-media-player-now-playing-action-buttons-fixture');
+            });
+            teardown(() => {
+                if (nowPlayingComponent && nowPlayingComponent.parentNode) {
+                    nowPlayingComponent.parentNode.removeChild(nowPlayingComponent);
+                }
+                nowPlayingComponent = null;
+            });
+
+            test('test number of available action buttons', (done) => {
+                CrComLib.publishEvent('o', 'nowPlayingData', nowPlayingData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const actionButtonContainer = nowPlayingComponent.querySelector('.now-playing-action-buttons-container') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-action-buttons-container');
+                                expect(actionButtonContainer).to.exist;
+                                expect(actionButtonContainer.children.length).to.equal(7);
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+            
+            test('test number of action buttons not visible', (done) => {
+                CrComLib.publishEvent('o', 'nowPlayingData', nowPlayingData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const actionButtonContainer = nowPlayingComponent.querySelector('.now-playing-action-buttons-container') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-action-buttons-container');
+                                const hiddenButtons = actionButtonContainer.querySelectorAll(".button-visibility");
+                                expect(hiddenButtons).to.exist;
+                                expect(hiddenButtons.length).to.equal(3);
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+        
+            test('test number of more action buttons', (done) => {
+                CrComLib.publishEvent('o', 'nowPlayingData', nowPlayingData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const moreActionButtonsContainer = nowPlayingComponent.querySelector('.now-playing-more-action-buttons-container') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-more-action-buttons-container');
+                                expect(moreActionButtonsContainer).to.exist;
+                                expect(moreActionButtonsContainer.children.length).to.equal(3);
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+        });
+
+        suite('ch5-media-player-now-playing — Song Information', () => {
+            let nowPlayingComponent;
+            const playerName = 'Jyothi Prakash';
+            const nowPlayingData = {
+                ActionsAvailable: [
+                    "Shuffle",
+                    "Repeat",
+                    "PlayAll",
+                    "NextTrack",
+                    "PreviousTrack",
+                    "Seek",
+                    "Play",
+                    "ThumbsUp"
+                ],
+                Album: "Album Name",
+                AlbumArt: true,
+                AlbumArtUrl: "",
+                AlbumArtUrlNAT: "",
+                Artist: "Artist Name",
+
+                ElapsedSec: 120,
+                FfwdSpeed: 1,
+                Genre: "Genre",
+                NextTitle: "Song Name Here",
+                PlayerIcon: 10,
+                PlayerIconURL: "",
+                PlayerName: "Player Name",
+                PlayerState: "paused",
+                ProgressBar: true,
+                ProviderName: "",
+                RepeatState: 0,
+                RewindSpeed: 1,
+                ShuffleState: 0,
+                StationName: "Song Title",
+                StreamState: "idle",
+                Title: "Song Title",
+                TrackCnt: 5,
+                TrackNum: 2,
+                TrackSec: 280
+            }
+            const progressbarData = { StreamState: 'idle', ProgressBar: 'true', ElapsedSec: 20, TrackSec: 30 };
+            setup(() => {
+                nowPlayingComponent = fixture('ch5-media-player-now-playing-action-buttons-fixture');
+            });
+            teardown(() => {
+                if (nowPlayingComponent && nowPlayingComponent.parentNode) {
+                    nowPlayingComponent.parentNode.removeChild(nowPlayingComponent);
+                }
+                nowPlayingComponent = null;
+            });
+
+            test('test now playing song title', (done) => {
+                const songTitleData = {...nowPlayingData, Title: "vandemataram" }
+                CrComLib.publishEvent('o', 'nowPlayingData', songTitleData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const songTitle = nowPlayingComponent.querySelector('.now-playing-song-title') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-title');
+                                expect(songTitle).to.exist;
+                                expect(songTitle.children[0].innerHTML).to.equal('vandemataram');
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test now playing artist name & album name', (done) => {
+                const artistAlbumData = {...nowPlayingData, Album: "Jyothi", Artist: "Prakash" }
+                CrComLib.publishEvent('o', 'nowPlayingData', artistAlbumData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const artistName = nowPlayingComponent.querySelector('.now-playing-artist-name') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-artist-name');
+                                expect(artistName).to.exist;
+                                expect(artistName.innerHTML).to.equal('Prakash');
+
+                                const albumName = nowPlayingComponent.querySelector('.now-playing-album-name') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-album-name');
+                                expect(albumName).to.exist;
+                                expect(albumName.innerHTML).to.equal('Jyothi');
+
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test now playing additional info', (done) => {
+                const trackCount = 10;
+                const trackNumber = 4;
+                const genre = "Lovely"
+                const additionalInfoData = {...nowPlayingData, TrackCnt: trackCount, TrackNum: trackNumber, Genre: genre }
+                CrComLib.publishEvent('o', 'nowPlayingData', additionalInfoData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const additionalInfo = nowPlayingComponent.querySelector('.now-playing-song-additional-info') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-additional-info');
+                                expect(additionalInfo).to.exist;
+                                expect(additionalInfo.innerHTML).to.equal(`${trackNumber} of ${trackCount}  ${genre}`);
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+        });
+
+        suite('ch5-media-player-now-playing — Next Song', () => {
+            let nowPlayingComponent;
+            const playerName = 'Jyothi Prakash';
+            const nowPlayingData = {
+                ActionsAvailable: [
+                    "Shuffle",
+                    "Repeat",
+                    "PlayAll",
+                    "NextTrack",
+                    "PreviousTrack",
+                    "Seek",
+                    "Play",
+                    "ThumbsUp"
+                ],
+                Album: "Album Name",
+                AlbumArt: true,
+                AlbumArtUrl: "",
+                AlbumArtUrlNAT: "",
+                Artist: "Artist Name",
+
+                ElapsedSec: 120,
+                FfwdSpeed: 1,
+                Genre: "Genre",
+                NextTitle: "Song Name Here",
+                PlayerIcon: 10,
+                PlayerIconURL: "",
+                PlayerName: "Player Name",
+                PlayerState: "paused",
+                ProgressBar: true,
+                ProviderName: "",
+                RepeatState: 0,
+                RewindSpeed: 1,
+                ShuffleState: 0,
+                StationName: "Song Title",
+                StreamState: "idle",
+                Title: "Song Title",
+                TrackCnt: 5,
+                TrackNum: 2,
+                TrackSec: 280
+            }
+            const progressbarData = { StreamState: 'idle', ProgressBar: 'true', ElapsedSec: 20, TrackSec: 30 };
+            setup(() => {
+                nowPlayingComponent = fixture('ch5-media-player-now-playing-action-buttons-fixture');
+            });
+            teardown(() => {
+                if (nowPlayingComponent && nowPlayingComponent.parentNode) {
+                    nowPlayingComponent.parentNode.removeChild(nowPlayingComponent);
+                }
+                nowPlayingComponent = null;
+            });
+
+             test('test next song', (done) => {
+                const nextSongData = {...nowPlayingData, NextTitle: "vandemataram" }
+                CrComLib.publishEvent('o', 'nowPlayingData', nextSongData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const nextSong = nowPlayingComponent.querySelector('.now-playing-next-song-text') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-next-song-text');
+                                expect(nextSong).to.exist;
+                                expect(nextSong.innerHTML).to.equal('vandemataram');
+                                expect(nextSong.innerHTML).to.not.equal('streaming');
+
+                                const nextSongLabel = nowPlayingComponent.querySelector('.now-playing-next-song-label') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-next-song-label');
+
+                                expect(nextSongLabel).to.exist;
+                                expect(nextSongLabel.innerHTML).to.equal('Next up');
+                                expect(nextSongLabel.innerHTML).to.not.equal('next song');
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+        });
+
+        suite('ch5-media-player-now-playing — Progressbar', () => {
+            let nowPlayingComponent;
+            const playerName = 'Jyothi Prakash';
+            const nowPlayingData = {
+                ActionsAvailable: [
+                    "Shuffle",
+                    "Repeat",
+                    "PlayAll",
+                    "NextTrack",
+                    "PreviousTrack",
+                    "Seek",
+                    "Play",
+                    "ThumbsUp"
+                ],
+                Album: "Album Name",
+                AlbumArt: true,
+                AlbumArtUrl: "",
+                AlbumArtUrlNAT: "",
+                Artist: "Artist Name",
+
+                ElapsedSec: 120,
+                FfwdSpeed: 1,
+                Genre: "Genre",
+                NextTitle: "Song Name Here",
+                PlayerIcon: 10,
+                PlayerIconURL: "",
+                PlayerName: "Player Name",
+                PlayerState: "paused",
+                ProgressBar: true,
+                ProviderName: "",
+                RepeatState: 0,
+                RewindSpeed: 1,
+                ShuffleState: 0,
+                StationName: "Song Title",
+                StreamState: "idle",
+                Title: "Song Title",
+                TrackCnt: 5,
+                TrackNum: 2,
+                TrackSec: 280
+            }
+            const progressbarData = { StreamState: 'idle', ProgressBar: 'true', ElapsedSec: 20, TrackSec: 30 };
+            setup(() => {
+                nowPlayingComponent = fixture('ch5-media-player-now-playing-action-buttons-fixture');
+            });
+            teardown(() => {
+                if (nowPlayingComponent && nowPlayingComponent.parentNode) {
+                    nowPlayingComponent.parentNode.removeChild(nowPlayingComponent);
+                }
+                nowPlayingComponent = null;
+            });
+
+            test('test player playing state and track & elapsed seconds', (done) => {
+                const streamingProgressbarData = { StreamState: 'streaming', ProgressBar: true, ElapsedSec: 30, TrackSec: 30 }
+                CrComLib.publishEvent('o', 'progressBarData', streamingProgressbarData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const playingState = nowPlayingComponent.querySelector('.now-playing-progressbar-current-time-duration-container') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-progressbar-current-time-duration-container');
+                                expect(playingState).to.exist;
+                                expect(playingState.children.length).to.equal(3);
+                                expect(playingState.children[0].innerHTML).to.equal('00:30');
+                                expect(playingState.children[1].innerHTML).to.equal('streaming');
+                                expect(playingState.children[2].innerHTML).to.equal('00:00');
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+        });
+
+    </script>
+</body>
+
+</html>

@@ -353,7 +353,7 @@ export class Ch5MediaPlayerNowPlaying {
 
 	public updatePlayerName(value: string) {
 		this.playerName = value;
-		this._nowPlayingPlayerLabel.textContent = value;
+		this._nowPlayingPlayerLabel.innerHTML = value;
 	}
 
 	public updateMarquee() {
