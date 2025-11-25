@@ -34,12 +34,16 @@ import { ICh5MediaPlayerAttributes } from "./i-ch5-media-player-attributes";
  *     "body": [
  *       "<ch5-media-player id=\"ch5-media-player_${1:id}\"",
  *       "\tcontractName=\"${2:}\"",
- *       "\treceiveStateCRPC=\"${3:}\"",
- *       "\tsendEventCRPC=\"${4:}\"",
- *       "\treceiveStateMessage=\"${5:}\"",
- *       "\treceiveStateRefreshMediaPlayer=\"${6:}\"",
- *       "\treceiveStateDeviceOffline=\"${7:}\"",
- *       "\treceiveStatePlayerName=\"${8:}\">",
+ *       "\tuseContractForEnable=\"${3:}\"",
+ *       "\tuseContractForShow=\"${4:}\"",    
+ *       "\tuseContractForCustomStyle=\"${5:}\"",
+ *       "\tuseContractForCustomClass=\"${6:}\"",
+ *       "\treceiveStateCRPC=\"${7:}\"",
+ *       "\tsendEventCRPC=\"${8:}\"",
+ *       "\treceiveStateMessage=\"${9:}\"",
+ *       "\treceiveStateRefreshMediaPlayer=\"${10:}\"",
+ *       "\treceiveStateDeviceOffline=\"${11:}\"",
+ *       "\treceiveStatePlayerName=\"${12:}\">",
  *       "</ch5-media-player>$0"
  *       ]
  *    },
