@@ -21,6 +21,7 @@ export class MusicPlayerLib {
     private subreceiveStateCRPCResp: any;
     private subreceiveStateMessageResp: any;
     private subsendEventCRPCJoinNo: any;
+    private subControlSystemsOnlineFB: any;
 
     // Generate a constant UUID once per application start.
     private generateStrongCustomId = (): string => {
@@ -80,13 +81,13 @@ export class MusicPlayerLib {
     public subscribeLibrarySignals() {
 
         this.ignoreFirstData = false;// first time set to false, to ignore first data
-        this.subReceiveStateRefreshMediaPlayerResp = subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: any) => {
+        this.subReceiveStateRefreshMediaPlayerResp = subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: boolean) => {
             if (value) {
                 this.refreshMediaPlayer();
             }
         });
 
-        this.subreceiveStateDeviceOfflineResp = subscribeState('b', 'receiveStateDeviceOfflineResp', (value: any) => {
+        this.subreceiveStateDeviceOfflineResp = subscribeState('b', 'receiveStateDeviceOfflineResp', (value: boolean) => {
             this.myMP.connectionActive = !value;
             const data = { 'userInputRequired': "", "text": "No Communication. Please check power and connection.", "textForItems": [], "initialUserInput": "", "timeoutSec": 10000, "show": true }
             if (value) {
@@ -154,6 +155,19 @@ export class MusicPlayerLib {
         this.subsendEventCRPCJoinNo = subscribeState('s', 'sendEventCRPCJoinNo', (value: any) => {
             this.mpSigRPCOut = value;
         });
+
+        this.subControlSystemsOnlineFB = subscribeState('b', 'Csig.All_Control_Systems_Online_fb', (value: boolean) => {
+            if (value) {
+                const subreceiveStateMessageRespTemp = subscribeState('s', 'receiveStateMessageResp', (value: any) => {
+                    if (value.length > 0) {
+                        this.processMessage(value, true);
+                        setTimeout(() => {
+                            unsubscribeState('b', 'receiveStateMessageResp', subreceiveStateMessageRespTemp);
+                        }, 100);
+                    }
+                });
+            }
+        });
     }
 
     // Refresh the media player.
@@ -216,7 +230,7 @@ export class MusicPlayerLib {
     // Process message data from the control system.
     // Note: On an update request from the control system, the last data to be sent
     // will be the message string.
-    private processMessage(data: any) {
+    private processMessage(data: any, param: boolean = false) {
         const myObj = JSON.parse(data);
         if (myObj.hasOwnProperty("tag")) {
             // ToDo: Need to check if the tag matches in case the device
@@ -228,7 +242,9 @@ export class MusicPlayerLib {
         if (myObj.hasOwnProperty("src")) {
             // If this is a different source, we need to refresh the media player.
             // This will also happen on an update request since no source value has been set yet.
-            if (this.myMP.source != myObj.src) {
+            if (param) {
+                this.registerWithDevice();
+            } else if (this.myMP.source != myObj.src) {
                 this.refreshMediaPlayer();
             }
             this.myMP.source = myObj.src;
@@ -692,6 +708,7 @@ export class MusicPlayerLib {
         unsubscribeState('s', 'receiveStateCRPCResp', this.subreceiveStateCRPCResp);
         unsubscribeState('s', 'receiveStateMessageResp', this.subreceiveStateMessageResp);
         unsubscribeState('s', 'sendEventCRPCJoinNo', this.subsendEventCRPCJoinNo);
+        unsubscribeState('b', 'Csig.All_Control_Systems_Online_fb', this.subControlSystemsOnlineFB);
         this.menuListPublishData = { 'MenuData': [] };
         this.nowPlayingPublishData = {};
         this.myMusicPublishData = {};
