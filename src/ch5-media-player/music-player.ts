@@ -527,7 +527,7 @@ export class MusicPlayerLib {
             }
         } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // My music  statechanged 
             // Added a title check to handle multiple instance scenario. In the current instance the isItemCountNew value will be false, when there is any action in other instance, we need to get the updated menudata
-            if (responseData.params?.parameters.hasOwnProperty('Title') && (this.isItemCountNew || responseData.params?.parameters['Title'] !== this.myMusicData['Title'])) {
+            if (responseData.params?.parameters.hasOwnProperty('Title')) {
                 this.isItemCountNew = false;
                 this.myMusicData['ItemCnt'] = responseData.params?.parameters['ItemCnt'];
                 this.updatedMenuData(); // we need to call only when statechanged event has parameters object include key has Title
