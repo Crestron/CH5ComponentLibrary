@@ -30,7 +30,7 @@
       ],
       Sorted: "none",
       ItemCnt: 4
-    }
+    };
     
     let MY_MUSIC_MENU_DEMO_DATA = {
     MenuData: [
@@ -183,7 +183,7 @@
             L2: "",
           }
         ]
-        CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_MENU_DEMO_DATA)
+        CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_MENU_DEMO_DATA);
         const itemList = document.getElementsByClassName('my-music-content')[0]?.children[0];
         for (let i = 0; i < itemList.length; i++) {
           const title = itemList[i].getElementsByClassName('my-music-content-item-title')[0].innerHTML;
