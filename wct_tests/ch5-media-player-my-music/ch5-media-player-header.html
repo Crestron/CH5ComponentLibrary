@@ -107,7 +107,7 @@
         },500);
       })
 
-      test('Check header text', () => {
+      test('test default header text', () => {
         const headerText = document.getElementsByClassName('my-music-header-title-text')[0]?.innerHTML;
         expect(headerText).to.equal('HEADER TEXT');
       })
@@ -120,7 +120,7 @@
         expect(headerText).to.equal(testValue);
       })
 
-      test('test subtitle text', () => {
+      test('test dynamic subtitle text', () => {
         const testValue = "TEST SUBTITLE";
         MY_MUSIC_DEMO_DATA.Title = testValue;
         CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA);
@@ -128,7 +128,7 @@
         expect(headerText).to.equal(testValue);
       })
 
-      test('test list specification', () => {
+      test('test list specification footer icons empty list', () => {
         MY_MUSIC_DEMO_DATA.ListSpecificFunctions = [];
         CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA)
         const headerText = document.getElementsByClassName('my-music-footer')[0]?.children.length;
@@ -148,7 +148,7 @@
         }
       })
 
-      test('test menu list', () => {
+      test('test modified menu list', () => {
         MY_MUSIC_MENU_DEMO_DATA.MenuData = [
           {
             L1: "Text Line 1",
@@ -194,7 +194,12 @@
         }
       })
 
-    })
+      test('test empty menu list', () => {
+        CrComLib.publishEvent('o', 'myMusicData', {});
+        const itemList = document.getElementsByClassName('my-music-content').length;
+        expect(itemList).to.equal(0);
+      })
+  })
 
   </script>
 </body>
