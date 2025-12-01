@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<style>
+    .portrait1 {
+        --ch5-media-player--width: 400px;
+    }
+</style>
+
+<body>
+    <test-fixture id="ch5-media-player-portrait">
+        <template>
+            <ch5-media-player demoMode="true">
+            </ch5-media-player>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('Media Player Portrait Tests', () => {
+            let ch5MediaPlayerPortrait;
+            const widths = [
+                { value: "200px", validate: true },
+                { value: "400px", validate: true },
+                { value: "600px", validate: true },
+                { value: "800px", validate: false },
+                { value: "1000px", validate: false },
+                { value: "1200px", validate: false }
+            ];
+
+            widths.forEach(({ value, validate }) => {
+
+                setup(async () => {
+                    ch5MediaPlayerPortrait = fixture('ch5-media-player-portrait');
+                });
+
+                test(`Portrait check at width ${value}`, (done) => {
+                    ch5MediaPlayerPortrait.setAttribute('customStyle', `width:${value}`);
+                    const ch5MediaPlayerPortraitDiv = ch5MediaPlayerPortrait.querySelector(".ch5-media-player");
+                    flush(() => {
+                        setTimeout(() => {
+                            console.log("ch5MediaPlayerPortraitDiv classes", ch5MediaPlayerPortraitDiv.classList);
+                            expect(ch5MediaPlayerPortraitDiv.classList.contains("portrait-mode-active")).to.be.equal(validate);
+                            done();
+                        }, 500);
+                    });
+                });
+                test(`Animation check at width ${value}`, (done) => {
+                    ch5MediaPlayerPortrait.setAttribute('customStyle', `width:${value}`);
+                    const button = ch5MediaPlayerPortrait.querySelector(".now-playing-player-music-note-button");
+                    const myMusic = ch5MediaPlayerPortrait.querySelector(".ch5-media-player--my-music");
+                    button.click();
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(myMusic.classList.contains("my-music-transition")).to.be.equal(validate);
+                            done();
+                        }, 5000);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
