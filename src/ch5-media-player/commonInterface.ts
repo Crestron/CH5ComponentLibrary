@@ -40,7 +40,7 @@ export interface CommonRequestForPopup {
     jsonrpc: string;
     params: {
         localExit: boolean,
-        state: 1,
+        state: 1 | 0,
         id: number,
         userInput: string
     };

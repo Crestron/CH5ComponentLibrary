@@ -1,0 +1,301 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+    <test-fixture id="ch5-media-player-no-demoMode">
+        <template>
+            <ch5-media-player></ch5-media-player>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-media-player-demoMode-true"></test-fixture>
+    <template>
+        <ch5-media-player demomode="true"></ch5-media-player>
+    </template>
+    </test-fixture>
+    <script>
+        suite('ch5-media-player-default-screen-appearance-no-demomode', () => {
+            let ch5MediaPlayer;
+            let MY_MUSIC_DEMO_DATA = [];
+            let MY_MUSIC_MENU_DEMO_DATA = {};
+            let NOW_PLAYING_DEMO_DATA = {};
+
+            setup(async () => {
+                ch5MediaPlayer = fixture('ch5-media-player-no-demoMode');
+                MY_MUSIC_DEMO_DATA = {
+                    Title: "HEADER TEXT",
+                    Subtitle: "SUBTITLE",
+                    IsMenuAvailable: true,
+                    ListItemIcons: true,
+                    ListSpecificFunctions: [
+                        "Create",
+                        "Find",
+                        "QuickList",
+                        "Advanced",
+                        "BackToTop",
+                        "Favorites"
+                    ],
+                    Sorted: "none",
+                    ItemCnt: 4
+                };
+
+                MY_MUSIC_MENU_DEMO_DATA = {
+                    MenuData: [
+                        {
+                            L1: "Text Line 1",
+                            L2: "Sub Line 1",
+                        },
+                        {
+                            L1: "Text Line 2",
+                            L2: "",
+                        },
+                        {
+                            L1: "Text Line 3",
+                            L2: "Sub Line 3",
+                        },
+                        {
+                            L1: "Text Line 4",
+                            L2: "",
+                        }
+                    ]
+                };
+
+                NOW_PLAYING_DEMO_DATA = {
+                    ActionsAvailable: [
+                        "Shuffle",
+                        "Repeat",
+                        "PlayAll",
+                        "NextTrack",
+                        "PreviousTrack",
+                        "Seek",
+                        "Ffwd",
+                        "Rewind",
+                        "Play"
+                    ],
+                    Album: "Album Name",
+                    AlbumArt: true,
+                    AlbumArtUrl: "",
+                    AlbumArtUrlNAT: "",
+                    Artist: "Artist Name",
+
+                    ElapsedSec: 120,
+                    FfwdSpeed: 1,
+                    Genre: "Genre",
+                    NextTitle: "Song Name Here",
+                    PlayerIcon: 10,
+                    PlayerIconURL: "",
+                    PlayerName: "Player Name",
+                    PlayerState: "paused",
+                    ProgressBar: true,
+                    ProviderName: "",
+                    RepeatState: 0,
+                    RewindSpeed: 1,
+                    ShuffleState: 0,
+                    StationName: "Song Title",
+                    StreamState: "idle",
+                    Title: "Song Title",
+                    TrackCnt: 5,
+                    TrackNum: 2,
+                    TrackSec: 280
+                };
+            });
+
+            test('Check Value "demoMode= false" and empty nowPlayingData', (done) => {
+                NOW_PLAYING_DEMO_DATA = {};
+                CrComLib.publishEvent('o', 'nowPlayingData', NOW_PLAYING_DEMO_DATA);
+                CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA);
+                CrComLib.publishEvent('o', 'menuListData', MY_MUSIC_MENU_DEMO_DATA);
+                flush(() => {
+                    setTimeout(() => {
+                        const divChildren = ch5MediaPlayer.querySelector('.ch5-media-player').children;
+                        expect(divChildren[0].classList.contains("ch5-media-player--now-playing-default")).to.be.true;
+                        expect(divChildren[1].classList.contains("ch5-media-player--my-music-default")).to.be.false;
+                        done();
+                    }, 0);
+                });
+            });
+            test('Check Value "demoMode= false" and nowPlayingData with blank values', (done) => {
+                NOW_PLAYING_DEMO_DATA = {
+                    ActionsAvailable: [],
+                    Album: "",
+                    AlbumArt: "",
+                    AlbumArtUrl: "",
+                    AlbumArtUrlNAT: "",
+                    Artist: "",
+
+                    ElapsedSec: "",
+                    FfwdSpeed: "",
+                    Genre: "",
+                    NextTitle: "",
+                    PlayerIcon: "",
+                    PlayerIconURL: "",
+                    PlayerName: "",
+                    PlayerState: "",
+                    ProgressBar: "",
+                    ProviderName: "",
+                    RepeatState: "",
+                    RewindSpeed: "",
+                    ShuffleState: "",
+                    StationName: "",
+                    StreamState: "",
+                    Title: "",
+                    TrackCnt: "",
+                    TrackNum: "",
+                    TrackSec: ""
+                };
+                CrComLib.publishEvent('o', 'nowPlayingData', NOW_PLAYING_DEMO_DATA);
+                CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA);
+                CrComLib.publishEvent('o', 'menuListData', MY_MUSIC_MENU_DEMO_DATA);
+                flush(() => {
+                    setTimeout(() => {
+                        const divChildren = ch5MediaPlayer.querySelector('.ch5-media-player').children;
+                        expect(divChildren[0].classList.contains("ch5-media-player--now-playing-default")).to.be.false;
+                        expect(divChildren[1].classList.contains("ch5-media-player--my-music-default")).to.be.false;
+                        done();
+                    }, 0);
+                });
+            });
+            test('Check Value "demoMode= false" and empty myMusicData', (done) => {
+                MY_MUSIC_DEMO_DATA = {};
+                CrComLib.publishEvent('o', 'nowPlayingData', NOW_PLAYING_DEMO_DATA);
+                CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA);
+                CrComLib.publishEvent('o', 'menuListData', MY_MUSIC_MENU_DEMO_DATA);
+                flush(() => {
+                    setTimeout(() => {
+                        const divChildren = ch5MediaPlayer.querySelector('.ch5-media-player').children;
+                        expect(divChildren[0].classList.contains("ch5-media-player--now-playing-default")).to.be.false;
+                        expect(divChildren[1].classList.contains("ch5-media-player--my-music-default")).to.be.true;
+                        done();
+                    }, 0);
+                });
+            });
+            test('Check Value "demoMode= false" and myMusicData with blank values', (done) => {
+                MY_MUSIC_DEMO_DATA = {
+                    Title: "",
+                    Subtitle: "",
+                    IsMenuAvailable: "",
+                    ListItemIcons: "",
+                    ListSpecificFunctions: [],
+                    Sorted: "",
+                    ItemCnt: ""
+                };
+                CrComLib.publishEvent('o', 'nowPlayingData', NOW_PLAYING_DEMO_DATA);
+                CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA);
+                CrComLib.publishEvent('o', 'menuListData', MY_MUSIC_MENU_DEMO_DATA);
+                flush(() => {
+                    setTimeout(() => {
+                        const divChildren = ch5MediaPlayer.querySelector('.ch5-media-player').children;
+                        expect(divChildren[0].classList.contains("ch5-media-player--now-playing-default")).to.be.false;
+                        expect(divChildren[1].classList.contains("ch5-media-player--my-music-default")).to.be.false;
+                        done();
+                    }, 0);
+                });
+            });
+            test('Check Value "demoMode= false" and empty menuListData', (done) => {
+                MY_MUSIC_MENU_DEMO_DATA = {};
+                CrComLib.publishEvent('o', 'nowPlayingData', NOW_PLAYING_DEMO_DATA);
+                CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA);
+                CrComLib.publishEvent('o', 'menuListData', MY_MUSIC_MENU_DEMO_DATA);
+                flush(() => {
+                    setTimeout(() => {
+                        const divChildren = ch5MediaPlayer.querySelector('.ch5-media-player').children;
+                        expect(divChildren[0].classList.contains("ch5-media-player--now-playing-default")).to.be.false;
+                        expect(divChildren[1].classList.contains("ch5-media-player--my-music-default")).to.be.false;
+                        done();
+                    }, 0);
+                });
+            });
+            test('Check Value "demoMode= false" and menuListData with blank values', (done) => {
+                MY_MUSIC_MENU_DEMO_DATA = {
+                    MenuData: [
+                        {
+                            L1: "",
+                            L2: "",
+                        },
+                        {
+                            L1: "",
+                            L2: "",
+                        },
+                        {
+                            L1: "",
+                            L2: "",
+                        },
+                        {
+                            L1: "",
+                            L2: "",
+                        }
+                    ]
+                };
+                CrComLib.publishEvent('o', 'nowPlayingData', NOW_PLAYING_DEMO_DATA);
+                CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA);
+                CrComLib.publishEvent('o', 'menuListData', MY_MUSIC_MENU_DEMO_DATA);
+                flush(() => {
+                    setTimeout(() => {
+                        const divChildren = ch5MediaPlayer.querySelector('.ch5-media-player').children;
+                        expect(divChildren[0].classList.contains("ch5-media-player--now-playing-default")).to.be.false;
+                        expect(divChildren[1].classList.contains("ch5-media-player--my-music-default")).to.be.false;
+                        done();
+                    }, 0);
+                });
+            });
+            test('Check Value "demoMode= false" and empty nowPlayingData and myMusicData', (done) => {
+                NOW_PLAYING_DEMO_DATA = {};
+                MY_MUSIC_DEMO_DATA = {};
+                CrComLib.publishEvent('o', 'nowPlayingData', NOW_PLAYING_DEMO_DATA);
+                CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA);
+                CrComLib.publishEvent('o', 'menuListData', MY_MUSIC_MENU_DEMO_DATA);
+                flush(() => {
+                    setTimeout(() => {
+                        const divChildren = ch5MediaPlayer.querySelector('.ch5-media-player').children;
+                        expect(divChildren[0].classList.contains("ch5-media-player--now-playing-default")).to.be.true;
+                        expect(divChildren[1].classList.contains("ch5-media-player--my-music-default")).to.be.true;
+                        done();
+                    }, 0);
+                });
+            });
+            test('Check Value "demoMode= false" and empty nowPlayingData and menuListData', (done) => {
+                NOW_PLAYING_DEMO_DATA = {};
+                MY_MUSIC_MENU_DEMO_DATA = {};
+                console.log("myMusicData: ", MY_MUSIC_DEMO_DATA);
+                CrComLib.publishEvent('o', 'nowPlayingData', NOW_PLAYING_DEMO_DATA);
+                CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA);
+                CrComLib.publishEvent('o', 'menuListData', MY_MUSIC_MENU_DEMO_DATA);
+                flush(() => {
+                    setTimeout(() => {
+                        const divChildren = ch5MediaPlayer.querySelector('.ch5-media-player').children;
+                        expect(divChildren[0].classList.contains("ch5-media-player--now-playing-default")).to.be.true;
+                        expect(divChildren[1].classList.contains("ch5-media-player--my-music-default")).to.be.false;
+                        done();
+                    }, 0);
+                });
+            });
+            test('Check Value "demoMode= false" and empty myMusicData and menuListData', (done) => {
+                MY_MUSIC_DEMO_DATA = {};
+                MY_MUSIC_MENU_DEMO_DATA = {};
+                console.log("nowPlayingData: ", NOW_PLAYING_DEMO_DATA);
+                CrComLib.publishEvent('o', 'nowPlayingData', NOW_PLAYING_DEMO_DATA);
+                CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA);
+                CrComLib.publishEvent('o', 'menuListData', MY_MUSIC_MENU_DEMO_DATA);
+                flush(() => {
+                    setTimeout(() => {
+                        const divChildren = ch5MediaPlayer.querySelector('.ch5-media-player').children;
+                        expect(divChildren[0].classList.contains("ch5-media-player--now-playing-default")).to.be.false;
+                        expect(divChildren[1].classList.contains("ch5-media-player--my-music-default")).to.be.true;
+                        done();
+                    }, 0);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

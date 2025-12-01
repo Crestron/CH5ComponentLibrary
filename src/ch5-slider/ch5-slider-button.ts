@@ -288,3 +288,4 @@ if (typeof window === "object" &&
 	window.customElements.define(Ch5SliderButton.ELEMENT_NAME, Ch5SliderButton);
 }
 Ch5SliderButton.registerSignalAttributeTypes();
+Ch5SliderButton.registerSignalAttributeDefaults(Ch5SliderButton.ELEMENT_NAME);

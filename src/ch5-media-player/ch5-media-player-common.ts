@@ -19,12 +19,12 @@ export const formatTime = (seconds: number = 0): string => {
 //To Decode
 export const decodeString = (textValue: string): string => {
   if (textValue === undefined || textValue === null || textValue === '') return '';
-  const byteArray = Uint8Array.from([...textValue].map(char => char.charCodeAt(0)));
+  const byteArray = Uint8Array.from(textValue.split('').map(char => char.charCodeAt(0)));
   return new TextDecoder('utf-8').decode(byteArray);
 }
 
 //To Decode
 export const encodeString = (input: string): string => {
   const utf8Bytes = new TextEncoder().encode(input);
-  return [...utf8Bytes].map(byte => String.fromCharCode(byte)).join('');
+  return Array.from(utf8Bytes).map(byte => String.fromCharCode(byte)).join('');
 }

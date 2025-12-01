@@ -15,7 +15,11 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 	public static readonly PERCENTAGE_MAX = 65535;
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true }
+		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
+		contractname: { contractName: true },
+		booleanjoinoffset: { booleanJoin: 1 },
+		numericjoinoffset: { numericJoin: 1 },
+		stringjoinoffset: { stringJoin: 1 },
 	};
 
 	public static readonly ELEMENT_NAME = 'ch5-jointotext-numeric';

@@ -10,7 +10,11 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestatevalue: { direction: "state", booleanJoin: 1, contractName: true }
+		receivestatevalue: { direction: "state", booleanJoin: 1, contractName: true },
+		contractname: { contractName: true },
+		booleanjoinoffset: { booleanJoin: 1 },
+		numericjoinoffset: { numericJoin: 1 },
+		stringjoinoffset: { stringJoin: 1 },
 	};
 
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [

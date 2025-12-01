@@ -282,7 +282,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
   }
 
   public set receiveStatePlayerName(value: string) {
-    this._ch5Properties.set("receiveStatePlayerName", value, null, (newValue: string) => {      
+    this._ch5Properties.set("receiveStatePlayerName", value, null, (newValue: string) => {
       this.publishMPEvent('s', "receiveStatePlayerNameResp", newValue);
     });
   }
@@ -314,7 +314,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
   public constructor() {
     super();
     this.logger.start('constructor()', Ch5MediaPlayer.ELEMENT_NAME);
-    this.musicPlayerLibInstance = new MusicPlayerLib();
+    this.musicPlayerLibInstance = new MusicPlayerLib(this.logger);
     this.ignoreAttributes = ["appendclasswheninviewport", "receivestateshowpulse", "receivestatehidepulse", "sendeventonshow"];
     if (!this._wasInstatiated) {
       this.createInternalHtml();
@@ -417,9 +417,9 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
     this._elContainer = createElement('div');
-    this.nowPlaying = new Ch5MediaPlayerNowPlaying(this.musicPlayerLibInstance);
+    this.nowPlaying = new Ch5MediaPlayerNowPlaying(this.musicPlayerLibInstance, this.logger);
     this._elContainer.appendChild(this.nowPlaying.createInternalHtml());
-    this.myMusic = new Ch5MediaPlayerMyMusic(this.musicPlayerLibInstance);
+    this.myMusic = new Ch5MediaPlayerMyMusic(this.musicPlayerLibInstance, this.logger);
     this._elContainer.appendChild(this.myMusic.createInternalHtml());
     this.loadingIndicator();
     this.logger.stop();
@@ -476,6 +476,20 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
         this._dialogAutoCloseTimeout = null;
       }
     });
+
+    //close popup on click of outside
+    this._elGenericDialogContent.onclick = (ev) => {
+      ev.stopPropagation();
+    }
+    this._elMask.onclick = () => {
+      if(this.demoMode) {
+        if (this._elMask && this._elMask.parentNode) {
+          this._elMask.parentNode.removeChild(this._elMask);
+        }
+      } else {
+        this.musicPlayerLibInstance.popUpAction("", -1);
+      }
+    }
   }
 
   //Dialog Heading
@@ -659,17 +673,17 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     }
 
     if (this.demoMode) {
-      const plus = this._elContainer.querySelector('.mp-plus-circle') as HTMLElement | null;
+      const plus = this._elContainer.querySelector('[iconclass="mp-icon mp-plus-circle"]') as HTMLElement | null;
       if (plus) {
         this._demoPlusEl = plus;
         this._demoPlusHandler = (ev: Event) => {
           ev.stopPropagation();
-          this.genericDialog("alphanumeric", "What would you like to call this favorite?", ["Cancel", "Ok"], "", 10);
+          this.genericDialog("alphanumeric", "What would you like to call this favorite?", ["OK", "Cancel"], "", 10);
         };
         this._demoPlusEl.addEventListener('click', this._demoPlusHandler);
       }
 
-      const fav = this._elContainer.querySelector('.mp-music-list-favorites') as HTMLElement | null;
+      const fav = this._elContainer.querySelector('[iconclass="mp-icon mp-music-list-favorites"]') as HTMLElement | null;
       if (fav) {
         this._demoFavoritesEl = fav;
         this._demoFavoritesHandler = (ev: Event) => {
@@ -677,11 +691,6 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
           this.genericDialog("", "What would you like to do?", ["Rename Favorite", "Delete favorite", "Cancel"], "", 10);
         };
         this._demoFavoritesEl.addEventListener('click', this._demoFavoritesHandler);
-      }
-
-      const backBtn = this._elContainer.querySelector('.my-music-header-back-button') as HTMLElement | null;
-      if (backBtn) {
-        backBtn.classList.add('back-button-visibility');
       }
     }
     if (!this.demoMode) {

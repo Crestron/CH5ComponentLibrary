@@ -129,7 +129,6 @@ export class Ch5AugmentVarSignalsNames {
     }
   }
 
-
   private static incrementOrPrependAttrValue(element: Element, attrName: string, value: string, increment: number, contractNamePrefix: string): void {
     // eslint-disable-next-line no-useless-escape
     const doubleMoustcheRe = /({{[\w\-]+}})/g;
@@ -149,9 +148,38 @@ export class Ch5AugmentVarSignalsNames {
 
         element.setAttribute(attrName, incrementedAttrValue);
       }
-    }
+    } 
     else {
       element.setAttribute(attrName, `${contractNamePrefix}${value}`);
+    }
+  }
+
+  private static customIncrementOrPrependAttrValue(element: Element, attrName: string, value: string, increment: number, contractNamePrefix: string): void {
+    // eslint-disable-next-line no-useless-escape
+    const doubleMoustcheRe = /({{[\w\-]+}})/g;
+
+    const valWithoutDoubleMoustaches = value.replace(doubleMoustcheRe, '');
+    if (Ch5Signal.isIntegerSignalName(valWithoutDoubleMoustaches)) {
+      // only change value if it will change attribute value
+      if (increment > 0) {
+        // when it's a number, increment it's value and put back
+        const incrementedValue: number = parseInt(valWithoutDoubleMoustaches, 10) + increment;
+
+        // if applicable, put 
+        // back the double moustaches
+        const doubleMoustachesMatches: RegExpMatchArray | null = value.match(doubleMoustcheRe);
+        const incrementedAttrValue = doubleMoustachesMatches !== null ?
+          `${incrementedValue}${doubleMoustachesMatches.join('')}` :
+          `${incrementedValue}`;
+
+        element.setAttribute(attrName, incrementedAttrValue);
+      }
+    } else {
+      if (value.startsWith(contractNamePrefix)) {
+        element.setAttribute(attrName, `${value}`);
+      } else {
+        element.setAttribute(attrName, `${contractNamePrefix}${value}`);
+      }
     }
   }
 
@@ -220,6 +248,53 @@ export class Ch5AugmentVarSignalsNames {
         }
       });
     }
+  }
+
+
+  public static customDifferentiateTmplElemsAttrs(templateContent: HTMLElement, contractNamePrefix: string,
+    booleanJoinOffset: number, numericJoinOffset: number, stringJoinOffset: number) {
+    Ch5AugmentVarSignalsNames.iterateAttributesInTemplate(templateContent, (element: Element, attrName: string, attrValue: string) => {
+      // callback called for each attribute in each element in the template definition 
+      const signalJoinTypes = Ch5SignalAttributeRegistry.instance.getElementAttributeEntry(element.tagName, attrName);
+      if (signalJoinTypes !== undefined) {
+        const effectiveContractNamePrefix = signalJoinTypes[Ch5SignalAttributeRegistry.CONTRACT_NAME] ? contractNamePrefix : "";
+        let increment = 0;
+        if (signalJoinTypes[Ch5SignalAttributeRegistry.BOOLEAN_JOIN] !== undefined) {
+          increment = booleanJoinOffset;
+        }
+        else if (signalJoinTypes[Ch5SignalAttributeRegistry.NUMERIC_JOIN] !== undefined) {
+          increment = numericJoinOffset;
+        }
+        else if (signalJoinTypes[Ch5SignalAttributeRegistry.STRING_JOIN] !== undefined) {
+          increment = stringJoinOffset;
+        }
+        Ch5AugmentVarSignalsNames.customIncrementOrPrependAttrValue(element, attrName, attrValue, increment, effectiveContractNamePrefix);
+      }
+    }, (element: Element) => {
+      // callback called for each element in the template definition
+      const defaultAttributes = Ch5SignalAttributeRegistry.instance.getElementDefaultAttributeEntries(element.tagName);
+      if (defaultAttributes !== undefined) {
+        // add attribute if one does not exist for those contract name attributes that need to be defaulted
+        if (contractNamePrefix.length > 0) {
+          Ch5AugmentVarSignalsNames.addDefaultEntriesForDifferentiation(element, defaultAttributes.contractName);
+        }
+
+        // add attribute if one does not exist for those digital join attributes that need to be defaulted 
+        if (booleanJoinOffset > 0) {
+          Ch5AugmentVarSignalsNames.addDefaultEntriesForDifferentiation(element, defaultAttributes.booleanJoin);
+        }
+
+        // add attribute if one does not exist for those analog join attributes that need to be defaulted 
+        if (numericJoinOffset > 0) {
+          Ch5AugmentVarSignalsNames.addDefaultEntriesForDifferentiation(element, defaultAttributes.numericJoin);
+        }
+
+        // add attribute if one does not exist for those string join attributes that need to be defaulted 
+        if (stringJoinOffset > 0) {
+          Ch5AugmentVarSignalsNames.addDefaultEntriesForDifferentiation(element, defaultAttributes.stringJoin);
+        }
+      }
+    });
   }
 
   /**

@@ -7,6 +7,7 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { resizeObserver } from "../ch5-core/resize-observer";
 import { subscribeInViewPortChange } from "../ch5-core";
+import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
 
 export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
@@ -34,6 +35,10 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
     receivestatelabel: { direction: "state", stringJoin: 1, contractName: true },
     receivestatescriptlabelhtml: { direction: "state", stringJoin: 1, contractName: true },
+    contractname: { contractName: true },
+    booleanjoinoffset: { booleanJoin: 1 },
+    numericjoinoffset: { numericJoin: 1 },
+    stringjoinoffset: { stringJoin: 1 },
   };
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
@@ -293,6 +298,11 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
     customElements.whenDefined('ch5-text').then(() => {
       this.componentLoadedEvent(Ch5Text.ELEMENT_NAME, this.id);
       this.handleLabel(); // This is important in case where label is missing in parent and template tag exists
+      // update templateContent attributes to increment join numbers and prefix contract name
+      Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(this, this.getAttribute("contractname") || '',
+        parseInt(this.getAttribute("booleanjoinoffset") || '0', 10) || 0,
+        parseInt(this.getAttribute("numericjoinoffset") || '0', 10) || 0,
+        parseInt(this.getAttribute("stringjoinoffset") || '0', 10) || 0);
     });
     this.logger.stop();
   }
@@ -489,3 +499,4 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
 Ch5Text.registerCustomElement();
 Ch5Text.registerSignalAttributeTypes();
+Ch5Text.registerSignalAttributeDefaults(Ch5Text.ELEMENT_NAME);

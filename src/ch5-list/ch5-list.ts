@@ -460,15 +460,6 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5List.ELEMENT_NAME, Ch5List.SIGNAL_ATTRIBUTE_TYPES);
 	}
 
-	public static registerSignalAttributeDefaults() {
-		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5List.ELEMENT_NAME, {
-			contractName: { attributes: ["contractname"], defaultValue: "" },
-			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
-			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
-			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
-		});
-	}
-
 	public static registerCustomElement() {
 		if (typeof window === "object"
 			&& typeof window.customElements === "object"
@@ -2480,4 +2471,4 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 
 Ch5List.registerCustomElement();
 Ch5List.registerSignalAttributeTypes();
-Ch5List.registerSignalAttributeDefaults();
+Ch5List.registerSignalAttributeDefaults(Ch5List.ELEMENT_NAME);

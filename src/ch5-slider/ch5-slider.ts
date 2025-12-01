@@ -21,6 +21,7 @@ import { Ch5SliderTitleLabel } from "./ch5-slider-title-label";
 import { ICh5SliderAttributes } from "./interfaces";
 import { Subscription } from "rxjs";
 import { resizeObserver } from "../ch5-core/resize-observer";
+import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
 
 export interface IRcbSignal {
 	rcb: {
@@ -53,7 +54,11 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		receivestateupper: { direction: "state", booleanJoin: 1, contractName: true },
 		sendeventonlower: { direction: "event", booleanJoin: 1, contractName: true },
 		receivestatelower: { direction: "state", booleanJoin: 1, contractName: true },
-		sendeventonhandleclick: { direction: "event", booleanJoin: 1, contractName: true }
+		sendeventonhandleclick: { direction: "event", booleanJoin: 1, contractName: true },
+		contractname: { contractName: true },
+		booleanjoinoffset: { booleanJoin: 1 },
+		numericjoinoffset: { numericJoin: 1 },
+		stringjoinoffset: { stringJoin: 1 },
 	};
 
 	public static readonly MIN_VALUE: number = 0;
@@ -1064,6 +1069,11 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			// init clean values
 			this.setCleanValue(this.value);
 			this._cleanValueHigh = this.valueHigh;
+			// update templateContent attributes to increment join numbers and prefix contract name
+			Ch5AugmentVarSignalsNames.customDifferentiateTmplElemsAttrs(this, this.getAttribute("contractname") || '',
+				parseInt(this.getAttribute("booleanjoinoffset") || '0', 10) || 0,
+				parseInt(this.getAttribute("numericjoinoffset") || '0', 10) || 0,
+				parseInt(this.getAttribute("stringjoinoffset") || '0', 10) || 0);
 		});
 		this.titleHelper();
 		this.onOffButtonHelper();
@@ -2997,3 +3007,4 @@ if (typeof window === "object" && typeof window.customElements === "object"
 }
 
 Ch5Slider.registerSignalAttributeTypes();
+Ch5Slider.registerSignalAttributeDefaults(Ch5Slider.ELEMENT_NAME);

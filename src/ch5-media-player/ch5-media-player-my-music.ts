@@ -66,21 +66,18 @@ export class Ch5MediaPlayerMyMusic {
       }
     ]
   };
-  private logger: Ch5CommonLog;
-
   //#endregion
 
   //#region Component Lifecycle
 
-  public constructor(musicPlayerLib: MusicPlayerLib) {
-    this.logger = new Ch5CommonLog(false, false, "MEDIA_PLAYER:MY_MUSIC");
+  public constructor(musicPlayerLib: MusicPlayerLib, public logger: Ch5CommonLog) {
     this.logger.start('constructor()', "MEDIA_PLAYER:MY_MUSIC");
     this.musicPlayerLibInstance = musicPlayerLib;
     this._myMusicContainer = createElement('div');
     this.createDefaultMyMusic();
 
     subscribeState('o', 'myMusicData', ((data: any) => {
-      this.logger.log('MyMusicData----', data);
+      this.logger.log('MyMusicData ', data);
       this.createMyMusic();
       if (!this.demoModeValue) {
         this.loadItemsCount = this.MAXIMUM_ROWS_TO_SHOW;
@@ -218,7 +215,7 @@ export class Ch5MediaPlayerMyMusic {
         if (menuLength - 1 > maxReqItems) {
           if (menuLength - 1 > this.printedIndex && distanceFromBottom === 0) {
             this._myMusicContentSection.scrollTop = Math.max(this._myMusicContentSection.scrollTop - this.scrollPosition, 0);
-          } else if (scrollTop === 0 && this.printedIndex !== 0) {
+          } else if (scrollTop === 0 && this.loadItemsCount > this.MAXIMUM_ROWS_TO_SHOW) { // CH5C-29125: This is a general fix for a list which has a scrollbar
             this._myMusicContentSection.scrollTop = this.scrollPosition;
           }
         }
@@ -263,27 +260,61 @@ export class Ch5MediaPlayerMyMusic {
     if (this._myMusicHeaderTitleText.innerText === 'Favorites') {
       let holdTimer: number | null = null;
       let isHeld = false;
+      let startX = 0;
+      let startY = 0;
+      const MOVE_THRESHOLD = 10; // pixels
 
-      this._myMusicContentItem.addEventListener('pointerdown', () => {
-        isHeld = false;
-        holdTimer = window.setTimeout(() => {
-          isHeld = true;
-          this.musicPlayerLibInstance.myMusicEvent('PressAndHold', index + 1); // PressAndHold action
-        }, 2000);
-      });
-
-      this._myMusicContentItem.addEventListener('pointerup', () => {
+      const clearHold = () => {
         if (holdTimer !== null) {
           clearTimeout(holdTimer);
           holdTimer = null;
         }
-      });
+      };
 
-      this._myMusicContentItem.addEventListener('click', () => {
+      const onPointerDown = (ev: PointerEvent) => {
+        isHeld = false;
+        startX = ev.clientX;
+        startY = ev.clientY;
+        try { (ev.target as Element).setPointerCapture?.(ev.pointerId); } catch { /* ignore */ }
+        clearHold();
+        holdTimer = window.setTimeout(() => {
+          isHeld = true;
+          holdTimer = null;
+          this.musicPlayerLibInstance.myMusicEvent('PressAndHold', index + 1);
+        }, 2000);
+      };
+
+      const onPointerMove = (ev: PointerEvent) => {
+        if (!holdTimer) return;
+        const dx = Math.abs(ev.clientX - startX);
+        const dy = Math.abs(ev.clientY - startY);
+        if (dx > MOVE_THRESHOLD || dy > MOVE_THRESHOLD) {
+          clearHold();
+          try { (ev.target as Element).releasePointerCapture?.(ev.pointerId); } catch { /* ignore */ }
+        }
+      };
+
+      const onPointerUp = (ev: PointerEvent) => {
+        clearHold();
+        try { (ev.target as Element).releasePointerCapture?.(ev.pointerId); } catch { /* ignore */ }
+      };
+
+      const onPointerCancel = (ev: PointerEvent) => {
+        clearHold();
+        try { (ev.target as Element).releasePointerCapture?.(ev.pointerId); } catch { /* ignore */ }
+      };
+
+      const onClick = () => {
         if (!isHeld) {
           this.musicPlayerLibInstance.myMusicEvent('Select', index + 1);
         }
-      });
+      };
+
+      this._myMusicContentItem.addEventListener('pointerdown', onPointerDown);
+      this._myMusicContentItem.addEventListener('pointermove', onPointerMove);
+      this._myMusicContentItem.addEventListener('pointerup', onPointerUp);
+      this._myMusicContentItem.addEventListener('pointercancel', onPointerCancel);
+      this._myMusicContentItem.addEventListener('click', onClick);
     } else {
       this._myMusicContentItem.onclick = () => {
         this.musicPlayerLibInstance.myMusicEvent('Select', index + 1);
@@ -310,7 +341,12 @@ export class Ch5MediaPlayerMyMusic {
     this._myMusicHeaderBackButton.onclick = () => {
       this.musicPlayerLibInstance.myMusicEvent('Back');
     }
-    if (backButton) this._myMusicHeaderBackButton.classList.add('back-button-visibility');
+    if (!backButton) {
+      this._myMusicHeaderBackButton.classList.add('button-visibility');
+    }
+    else {
+      this._myMusicHeaderBackButton.classList.remove('button-visibility');
+    }
     this._myMusicHeaderSection.prepend(this._myMusicHeaderBackButton);
 
     this._myMusicHeaderTitle = createElement("div", ['my-music-header-title']);

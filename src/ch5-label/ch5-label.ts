@@ -11,7 +11,11 @@ export class Ch5Label extends Ch5Common implements ICh5LabelAttributes {
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestatelabel: { direction: "state", stringJoin: 1, contractName: true }
+		receivestatelabel: { direction: "state", stringJoin: 1, contractName: true },
+		contractname: { contractName: true },
+		booleanjoinoffset: { booleanJoin: 1 },
+		numericjoinoffset: { numericJoin: 1 },
+		stringjoinoffset: { stringJoin: 1 },
 	};
 
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [

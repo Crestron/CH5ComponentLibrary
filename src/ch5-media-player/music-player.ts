@@ -2,6 +2,8 @@ import { publishEvent, subscribeState, unsubscribeState } from "../ch5-core";
 import _ from 'lodash';
 import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest } from "./commonInterface";
 import { encodeString } from "./ch5-media-player-common";
+import { TCH5NowPlayingActions } from "./interfaces/t-ch5-media-player";
+import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
 // import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 
 export class MusicPlayerLib {
@@ -11,12 +13,15 @@ export class MusicPlayerLib {
     private mpRPCDataIn: string = '';
     private itemValue: number = 1; // Used in infinite scroll feature.
     private resendRegistrationTimeId: any = '';
+    private tempResponse: any = "";
+    private ignoreFirstData: boolean = false;// ignore first chunked data before register request sent
 
     private subReceiveStateRefreshMediaPlayerResp: any;
     private subreceiveStateDeviceOfflineResp: any;
     private subreceiveStateCRPCResp: any;
     private subreceiveStateMessageResp: any;
     private subsendEventCRPCJoinNo: any;
+    private subControlSystemsOnlineFB: any;
 
     // Generate a constant UUID once per application start.
     private generateStrongCustomId = (): string => {
@@ -56,6 +61,7 @@ export class MusicPlayerLib {
     private menuListPublishData: any = { 'MenuData': [] };
     public maxReqItems = 40;
     private isItemCountNew = true;
+    public lastPerformedAction: TCH5NowPlayingActions | null = null;
 
     private nowPlayingData: any = {
         'ActionsSupported': '', 'ActionsAvailable': '', 'RewindSpeed': '',
@@ -70,16 +76,18 @@ export class MusicPlayerLib {
 
     private menuListData: any = { 'MenuData': [] };
 
-    constructor() { }
+    constructor(public logger: Ch5CommonLog) { }
 
     public subscribeLibrarySignals() {
-        this.subReceiveStateRefreshMediaPlayerResp = subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: any) => {
+
+        this.ignoreFirstData = false;// first time set to false, to ignore first data
+        this.subReceiveStateRefreshMediaPlayerResp = subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: boolean) => {
             if (value) {
                 this.refreshMediaPlayer();
             }
         });
 
-        this.subreceiveStateDeviceOfflineResp = subscribeState('b', 'receiveStateDeviceOfflineResp', (value: any) => {
+        this.subreceiveStateDeviceOfflineResp = subscribeState('b', 'receiveStateDeviceOfflineResp', (value: boolean) => {
             this.myMP.connectionActive = !value;
             const data = { 'userInputRequired': "", "text": "No Communication. Please check power and connection.", "textForItems": [], "initialUserInput": "", "timeoutSec": 10000, "show": true }
             if (value) {
@@ -97,7 +105,9 @@ export class MusicPlayerLib {
         this.subreceiveStateCRPCResp = subscribeState('s', 'receiveStateCRPCResp', (value: any) => {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
-            if (value.length > 0) {
+            if ((value.length > 0) && !_.isEqual(this.tempResponse, value) && this.ignoreFirstData) {
+                // console.log('CRPC IN->', value);
+                this.tempResponse = value;
                 const mpRPCPrefix = value.substring(0, 8).trim(); // First 8 bytes is the RPC prefix.
                 // Check byte 3 to determine if this is a single or partial message.
                 // c = partial message
@@ -112,6 +122,7 @@ export class MusicPlayerLib {
                     } else {
                         this.mpRPCDataIn = this.mpRPCDataIn + value.substring(8); // Gather the CRPC data.
                     }
+                    this.tempResponse = '';
 
                     // check error
                     let parsedData: any = '';
@@ -125,7 +136,7 @@ export class MusicPlayerLib {
                         }
 
                     } catch (e) {
-                        console.warn("e", e);
+                        this.logger.log("e", e);
                     }
 
                     this.mpRPCDataIn = ''; // Clear the var now that we have the entire message.
@@ -143,6 +154,19 @@ export class MusicPlayerLib {
         //To get join name from the component
         this.subsendEventCRPCJoinNo = subscribeState('s', 'sendEventCRPCJoinNo', (value: any) => {
             this.mpSigRPCOut = value;
+        });
+
+        this.subControlSystemsOnlineFB = subscribeState('b', 'Csig.All_Control_Systems_Online_fb', (value: boolean) => {
+            if (value) {
+                const subreceiveStateMessageRespTemp = subscribeState('s', 'receiveStateMessageResp', (value: any) => {
+                    if (value.length > 0) {
+                        this.processMessage(value, true);
+                        setTimeout(() => {
+                            unsubscribeState('b', 'receiveStateMessageResp', subreceiveStateMessageRespTemp);
+                        }, 100);
+                    }
+                });
+            }
         });
     }
 
@@ -206,7 +230,7 @@ export class MusicPlayerLib {
     // Process message data from the control system.
     // Note: On an update request from the control system, the last data to be sent
     // will be the message string.
-    private processMessage(data: any) {
+    private processMessage(data: any, param: boolean = false) {
         const myObj = JSON.parse(data);
         if (myObj.hasOwnProperty("tag")) {
             // ToDo: Need to check if the tag matches in case the device
@@ -218,7 +242,9 @@ export class MusicPlayerLib {
         if (myObj.hasOwnProperty("src")) {
             // If this is a different source, we need to refresh the media player.
             // This will also happen on an update request since no source value has been set yet.
-            if (this.myMP.source != myObj.src) {
+            if (param) {
+                this.registerWithDevice();
+            } else if (this.myMP.source != myObj.src) {
                 this.refreshMediaPlayer();
             }
             this.myMP.source = myObj.src;
@@ -375,6 +401,7 @@ export class MusicPlayerLib {
         };
 
         this.myMP.RegistrationId = myRPC.id; // Keep track of the message id.
+        this.ignoreFirstData = true;
         this.sendRPCRequest(JSON.stringify(myRPC));
         // Start the re-send time.
         if (!this.resendRegistrationTimeId) {
@@ -454,6 +481,10 @@ export class MusicPlayerLib {
                 this.sendRPCRequest(JSON.stringify(myRPC));
             }
             this.itemValue = this.itemValue + this.maxReqItems;
+        } else { // whenever itemcount is 0, no need to do Api request, pass empty data. Same as VTpro
+            this.menuListData['MenuData'] = [];
+            this.menuListPublishData = { ...this.menuListData };
+            publishEvent('o', 'menuListData', this.menuListPublishData);
         }
     }
 
@@ -484,7 +515,7 @@ export class MusicPlayerLib {
                 requestedData = myPrefix + requestedData;
             }
             if (this.mpSigRPCOut) {
-                console.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
+                this.logger.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
                 publishEvent('s', this.mpSigRPCOut, requestedData);
             }
         }
@@ -503,9 +534,10 @@ export class MusicPlayerLib {
 
         if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method)
             && responseData.params.ev === 'BusyChanged' && responseData.params?.parameters) {// Busychanged event
-            busyChanged = { 'timeoutSec': responseData.params?.parameters?.timeoutSec, 'on': responseData.params?.parameters?.on }
-            console.log('publishing busychanged', busyChanged)
-            publishEvent('o', 'busyChanged', busyChanged);
+            busyChanged = { 'timeoutSec': responseData.params?.parameters?.timeoutSec, 'on': responseData.params?.parameters?.on };
+            if (!this.lastPerformedAction) {
+                publishEvent('o', 'busyChanged', busyChanged);
+            }
         } else if (playerInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // Now music statechanged 
             for (const item in responseData.params.parameters) {
                 if (item === 'ElapsedSec' || item === 'TrackSec' || item === 'StreamState' || item === 'ProgressBar') {
@@ -516,7 +548,7 @@ export class MusicPlayerLib {
             }
         } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // My music  statechanged 
             // Added a title check to handle multiple instance scenario. In the current instance the isItemCountNew value will be false, when there is any action in other instance, we need to get the updated menudata
-            if (responseData.params?.parameters.hasOwnProperty('Title') && (this.isItemCountNew || responseData.params?.parameters['Title'] !== this.myMusicData['Title'])) {
+            if (responseData.params?.parameters.hasOwnProperty('Title')) {
                 this.isItemCountNew = false;
                 this.myMusicData['ItemCnt'] = responseData.params?.parameters['ItemCnt'];
                 this.updatedMenuData(); // we need to call only when statechanged event has parameters object include key has Title
@@ -546,6 +578,7 @@ export class MusicPlayerLib {
             } else if (myMsgId == this.myMP.MenuId) {
                 this.processMenuResponse(responseData);
             } else if (myMsgId === this.myMP.ItemDataId) {
+                this.myMP.ItemDataId = 0;
                 this.menuListData['MenuData'] = [...this.menuListData['MenuData'], ...responseData.result];
                 
                 if (!(busyChanged && busyChanged['on'] === true)) {
@@ -594,16 +627,17 @@ export class MusicPlayerLib {
 
     // error-handler.ts
     private handleError(error: ErrorResponseObject) {
-        console.error('Error Code:----  ', error.code);
-        console.error('Error message:----  ', error.message);
-        console.error('Error Data:----  ', error.data);
+        this.logger.error('Error Code:----  ', error.code);
+        this.logger.error('Error message:----  ', error.message);
+        this.logger.error('Error Data:----  ', error.data);
         return;
     }
 
     // NowPlaying component action
-    public nowPlayingvent(action: string, time: string = '') {
+    public nowPlayingvent(action: TCH5NowPlayingActions, time: string = '') {
+        this.lastPerformedAction = action;
         const myRPC: CommonEventRequest = {
-            params: action === 'Seek' ? { 'time': time } : null,
+            params: action === TCH5NowPlayingActions.Seek ? { 'time': time } : null,
             jsonrpc: '2.0',
             id: this.generateUniqueMessageId(),
             method: this.myMP.instanceName + '.' + action
@@ -614,6 +648,7 @@ export class MusicPlayerLib {
 
     // MyMusic component action
     public myMusicEvent(action: string, itemIndex: number = 0) {
+        this.lastPerformedAction = null;
         const param = itemIndex === 0 ? null : { 'item': itemIndex };
         const myRPC: CommonEventRequest = {
             params: param,
@@ -656,10 +691,11 @@ export class MusicPlayerLib {
 
     // Component level popup action
     public popUpAction(inputValue: string = "", id: number = 0) {
+        this.lastPerformedAction = null;
         const myRPC: CommonRequestForPopup = {
             params: {
-                "localExit": false,
-                "state": 1,
+                "localExit": id < 0 ? true : false,
+                "state": id < 0 ? 0 : 1,
                 "id": id,
                 "userInput": inputValue ? encodeString(inputValue) : "1"
             },
@@ -678,6 +714,7 @@ export class MusicPlayerLib {
         unsubscribeState('s', 'receiveStateCRPCResp', this.subreceiveStateCRPCResp);
         unsubscribeState('s', 'receiveStateMessageResp', this.subreceiveStateMessageResp);
         unsubscribeState('s', 'sendEventCRPCJoinNo', this.subsendEventCRPCJoinNo);
+        unsubscribeState('b', 'Csig.All_Control_Systems_Online_fb', this.subControlSystemsOnlineFB);
         this.menuListPublishData = { 'MenuData': [] };
         this.nowPlayingPublishData = {};
         this.myMusicPublishData = {};
