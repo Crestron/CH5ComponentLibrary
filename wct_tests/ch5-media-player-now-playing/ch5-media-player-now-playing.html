@@ -26,6 +26,7 @@
     </test-fixture>
 
     <script>
+
         suite('ch5-media-player-now-playing — Header & Label', () => {
             let nowPlayingComponent;
             setup(() => {
@@ -250,9 +251,53 @@
                 }, 30);
             });
 
-            test('test now playing artist name & album name', (done) => {
-                const artistAlbumData = {...nowPlayingData, Album: "Jyothi", Artist: "Prakash" }
-                CrComLib.publishEvent('o', 'nowPlayingData', artistAlbumData);
+            test('test now playing song title empty', (done) => {
+                const songTitleData = {...nowPlayingData, Title: "" }
+                CrComLib.publishEvent('o', 'nowPlayingData', songTitleData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const songTitle = nowPlayingComponent.querySelector('.now-playing-song-title') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-title');
+                                expect(songTitle).to.exist;
+                                expect(songTitle.children[0].innerHTML).to.equal('');
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test now playing song language support', (done) => {
+                const songTitleData = {...nowPlayingData, Title: "AWR Hindi / à¤¹à¤¿à¤¨à¥à¤¦à¥ / à¤¹à¤¿à¤à¤¦à¥" }
+                CrComLib.publishEvent('o', 'nowPlayingData', songTitleData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const songTitle = nowPlayingComponent.querySelector('.now-playing-song-title') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-title');
+                                expect(songTitle).to.exist;
+                                expect(songTitle.children[0].innerHTML).to.equal('AWR Hindi / हिन्दी / हिंदी');
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test now playing artist name', (done) => {
+                const artistData = {...nowPlayingData, Artist: "Prakash" }
+                CrComLib.publishEvent('o', 'nowPlayingData', artistData);
                 setTimeout(() => {
                     try {
                         setTimeout(() => {
@@ -261,12 +306,230 @@
                                     document.querySelector('#nowPlayingTest2 .now-playing-artist-name');
                                 expect(artistName).to.exist;
                                 expect(artistName.innerHTML).to.equal('Prakash');
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
 
+            test('test now playing artist name language support', (done) => {
+                const artistData = {...nowPlayingData, Artist: "à®¤à®®à®¿à®´à¯" }
+                CrComLib.publishEvent('o', 'nowPlayingData', artistData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const artistName = nowPlayingComponent.querySelector('.now-playing-artist-name') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-artist-name');
+                                expect(artistName).to.exist;
+                                expect(artistName.innerHTML).to.equal('தமிழ்');
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test now playing album name', (done) => {
+                const albumData = {...nowPlayingData, Album: "Jyothi" }
+                CrComLib.publishEvent('o', 'nowPlayingData', albumData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
                                 const albumName = nowPlayingComponent.querySelector('.now-playing-album-name') ||
                                     document.querySelector('#nowPlayingTest2 .now-playing-album-name');
                                 expect(albumName).to.exist;
                                 expect(albumName.innerHTML).to.equal('Jyothi');
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
 
+            test('test now playing album name language support', (done) => {
+                const albumData = {...nowPlayingData, Album: "malayÄá¸·am" }
+                CrComLib.publishEvent('o', 'nowPlayingData', albumData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const albumName = nowPlayingComponent.querySelector('.now-playing-album-name') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-album-name');
+                                expect(albumName).to.exist;
+                                expect(albumName.innerHTML).to.equal('malayāḷam');
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test now playing artist without album', (done) => {
+                const artistWithoutAlbumData = {...nowPlayingData, Artist: "Prakash", Album: "" }
+                CrComLib.publishEvent('o', 'nowPlayingData', artistWithoutAlbumData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const artistName = nowPlayingComponent.querySelector('.now-playing-artist-album') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-artist-album');
+                                expect(artistName).to.exist;
+                                expect(artistName.innerText).to.equal('Prakash');
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test now playing album without artist', (done) => {
+                const albumWithoutArtistData = {...nowPlayingData, Artist: "", Album: "Jyothi" }
+                CrComLib.publishEvent('o', 'nowPlayingData', albumWithoutArtistData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const artistAlbumName = nowPlayingComponent.querySelector('.now-playing-artist-album') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-artist-album');
+                                expect(artistAlbumName).to.exist;
+                                expect(artistAlbumName.innerText).to.equal('Jyothi');
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test now playing album and artist empty', (done) => {
+                const albumWithoutArtistData = {...nowPlayingData, Artist: "", Album: "" }
+                CrComLib.publishEvent('o', 'nowPlayingData', albumWithoutArtistData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const artistAlbumName = nowPlayingComponent.querySelector('.now-playing-artist-album') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-artist-album');
+                                expect(artistAlbumName).to.exist;
+                                expect(artistAlbumName.innerText).to.equal('');
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test now playing album and artist empty with hide class check', (done) => {
+                const albumWithoutArtistData = {...nowPlayingData, Artist: "", Album: "" }
+                CrComLib.publishEvent('o', 'nowPlayingData', albumWithoutArtistData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const artistAlbumName = nowPlayingComponent.querySelector('.now-playing-artist-album') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-artist-album');
+                                expect(artistAlbumName).to.exist;
+                                expect(artistAlbumName.children[1].innerText).to.equal(' — ')
+                                expect(artistAlbumName.children[1].classList.contains('ch5-hide-dis')).to.equal(true);
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test now playing additional info track number', (done) => {
+                const trackNumber = 6;
+                const additionalInfoData = {...nowPlayingData, TrackNum: trackNumber }
+                CrComLib.publishEvent('o', 'nowPlayingData', additionalInfoData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const additionalInfo = nowPlayingComponent.querySelector('.now-playing-song-additional-info') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-additional-info');
+                                expect(additionalInfo).to.exist;
+                                expect(additionalInfo.innerHTML.includes('6')).to.equal(true);
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test now playing additional info track count', (done) => {
+                const trackCount = 24;
+                const additionalInfoData = {...nowPlayingData, TrackCnt: trackCount }
+                CrComLib.publishEvent('o', 'nowPlayingData', additionalInfoData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const additionalInfo = nowPlayingComponent.querySelector('.now-playing-song-additional-info') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-additional-info');
+                                expect(additionalInfo).to.exist;
+                                expect(additionalInfo.innerHTML.includes('24')).to.equal(true);
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test now playing additional info genre', (done) => {
+                const genre = "Lovely"
+                const additionalInfoData = {...nowPlayingData, Genre: genre }
+                CrComLib.publishEvent('o', 'nowPlayingData', additionalInfoData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const additionalInfo = nowPlayingComponent.querySelector('.now-playing-song-additional-info') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-additional-info');
+                                expect(additionalInfo).to.exist;
+                                expect(additionalInfo.innerHTML.includes('Lovely')).to.equal(true);
                                 done();
                             } catch (err2) {
                                 done(err2);
@@ -292,6 +555,122 @@
                                     document.querySelector('#nowPlayingTest2 .now-playing-song-additional-info');
                                 expect(additionalInfo).to.exist;
                                 expect(additionalInfo.innerHTML).to.equal(`${trackNumber} of ${trackCount}  ${genre}`);
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test now playing additional info empty', (done) => {
+                const additionalInfoData = {...nowPlayingData, TrackCnt: 0, TrackNum: 0, Genre: "" }
+                CrComLib.publishEvent('o', 'nowPlayingData', additionalInfoData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const additionalInfo = nowPlayingComponent.querySelector('.now-playing-song-additional-info') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-additional-info');
+                                expect(additionalInfo).to.exist;
+                                expect(additionalInfo.innerHTML).to.equal('');
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test now playing provider name', (done) => {
+                const providerNameData = {...nowPlayingData, PlayerName: "Jio Savan" }
+                CrComLib.publishEvent('o', 'nowPlayingData', providerNameData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const providerName = nowPlayingComponent.querySelector('.now-playing-player-icon-name') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-player-icon-name');
+                                expect(providerName).to.exist;
+                                expect(providerName.innerHTML).to.equal('Jio Savan');
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test now playing provider icon default', (done) => {
+                const providerIconData = {...nowPlayingData, PlayerIcon: 0}
+                CrComLib.publishEvent('o', 'nowPlayingData', providerIconData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const providerIcon = nowPlayingComponent.querySelector('.now-playing-player-icon-image') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-player-icon-image');
+                                expect(providerIcon).to.exist;
+                                expect(providerIcon.classList.contains('mp-logo-unknown')).to.equal(true);
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test now playing provider icon with url', (done) => {  //need to test it thoroughly
+                //const providerIconData = {...nowPlayingData, PlayerIconURL: "http://172.22.114.112/assets/mediaplayer/services/Tidal.png"}
+                 const providerIconData = {...nowPlayingData, PlayerIconURL: "http://static.airable.io/13/75/960243.png" };
+                CrComLib.publishEvent('o', 'nowPlayingData', providerIconData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const providerIcon = nowPlayingComponent.querySelector('.now-playing-player-icon-image') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-player-icon-image');
+                                expect(providerIcon).to.exist;
+                                expect(window.getComputedStyle(providerIcon).backgroundImage).to.exist;
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test now playing provider name empty', (done) => {
+                const providerNameData = {...nowPlayingData, PlayerName: ""}
+                CrComLib.publishEvent('o', 'nowPlayingData', providerNameData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const providerName = nowPlayingComponent.querySelector('.now-playing-player-icon-name') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-player-icon-name');
+                                expect(providerName).to.exist;
+                                expect(providerName.textContent).to.equal("");
+
+                                // const providerIcon = nowPlayingComponent.querySelector('.now-playing-player-icon-image') ||
+                                //     document.querySelector('#nowPlayingTest2 .now-playing-player-icon-image');
+                                // console.log(window.getComputedStyle(providerIcon).width);  //check for icon width 24px also if possible
+                                
                                 done();
                             } catch (err2) {
                                 done(err2);
@@ -439,20 +818,16 @@
                 nowPlayingComponent = null;
             });
 
-            test('test player playing state and track & elapsed seconds', (done) => {
-                const streamingProgressbarData = { StreamState: 'streaming', ProgressBar: true, ElapsedSec: 30, TrackSec: 30 }
+            test('test player playing progressbar present', (done) => {
+                const streamingProgressbarData = { ProgressBar: true }
                 CrComLib.publishEvent('o', 'progressBarData', streamingProgressbarData);
                 setTimeout(() => {
                     try {
                         setTimeout(() => {
                             try {
-                                const playingState = nowPlayingComponent.querySelector('.now-playing-progressbar-current-time-duration-container') ||
-                                    document.querySelector('#nowPlayingTest2 .now-playing-progressbar-current-time-duration-container');
-                                expect(playingState).to.exist;
-                                expect(playingState.children.length).to.equal(3);
-                                expect(playingState.children[0].innerHTML).to.equal('00:30');
-                                expect(playingState.children[1].innerHTML).to.equal('streaming');
-                                expect(playingState.children[2].innerHTML).to.equal('00:00');
+                                const progressbar = nowPlayingComponent.querySelector('.now-playing-progressbar-input') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-progressbar-input');
+                                expect(progressbar).to.exist;
                                 done();
                             } catch (err2) {
                                 done(err2);
@@ -464,6 +839,120 @@
                 }, 30);
             });
 
+            test('test player playing progressbar not present', (done) => {
+                const streamingProgressbarData = {  ProgressBar: false }
+                CrComLib.publishEvent('o', 'progressBarData', streamingProgressbarData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const progressbarContainer = nowPlayingComponent.querySelector('.now-playing-progressbar-container') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-progressbar-container');
+                                expect(progressbarContainer.classList.contains('ch5-hide-dis')).to.equal(true);
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test player playing progressbar streaming state: streaming', (done) => {
+                const streamingProgressbarData = { StreamState: 'streaming', ProgressBar: true }
+                CrComLib.publishEvent('o', 'progressBarData', streamingProgressbarData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const playingState = nowPlayingComponent.querySelector('.now-playing-progressbar-current-time-duration-container') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-progressbar-current-time-duration-container');
+                                expect(playingState).to.exist;
+                                expect(playingState.children[1].innerHTML).to.equal('streaming');
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test player playing progressbar streaming state: idle', (done) => {
+                const streamingProgressbarData = { StreamState: 'idle', ProgressBar: true }
+                CrComLib.publishEvent('o', 'progressBarData', streamingProgressbarData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const playingState = nowPlayingComponent.querySelector('.now-playing-progressbar-current-time-duration-container') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-progressbar-current-time-duration-container');
+                                expect(playingState).to.exist;
+                                expect(playingState.children[1].innerHTML).to.equal('idle');
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test player playing progressbar track & elapsed seconds', (done) => {
+                const streamingProgressbarData = { StreamState: 'streaming', ProgressBar: true, ElapsedSec: 10, TrackSec: 30 }
+                CrComLib.publishEvent('o', 'progressBarData', streamingProgressbarData);
+                CrComLib.publishEvent('o', 'nowPlayingData', nowPlayingData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const playingState = nowPlayingComponent.querySelector('.now-playing-progressbar-current-time-duration-container') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-progressbar-current-time-duration-container');
+                                expect(playingState).to.exist;
+                                expect(playingState.children.length).to.equal(3);
+                                expect(playingState.children[0].innerHTML).to.equal('00:10');
+                                expect(playingState.children[1].innerHTML).to.equal('streaming');
+                                expect(playingState.children[2].innerHTML).to.equal('00:20');
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test player playing progressbar thumb not available', (done) => {
+                const streamingProgressbarData = { StreamState: 'streaming', ProgressBar: true, ElapsedSec: 10, TrackSec: 30 }
+                CrComLib.publishEvent('o', 'progressBarData', streamingProgressbarData);
+                const seekNotAvailableData = {...nowPlayingData, ActionsAvailable: [ "Shuffle", "Repeat", "PlayAll", "NextTrack", "PreviousTrack",  "Play", "ThumbsUp"]};
+                CrComLib.publishEvent('o', 'nowPlayingData', seekNotAvailableData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const progressbar = nowPlayingComponent.querySelector('.now-playing-progressbar-input') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-progressbar-input');
+                                expect(progressbar).to.exist;
+                                expect(progressbar.classList.contains("hide-progressbar-thumb")).to.equal(true);
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
         });
 
     </script>
