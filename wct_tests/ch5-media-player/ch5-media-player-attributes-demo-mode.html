@@ -24,10 +24,10 @@
         ch5MediaPlayer = fixture('ch5-media-player-demoMode-attributes');
       });
         
-        let testCases = ['a', '', ' ', 'number', true,false];
-        let expectedResult = ['false', 'false', 'false', 'false', 'true','false'];
+        let testCases = ['a', '', ' ', 'number', true,false, 'true','false', 0, 1, 5, '5'];
+        let expectedResult = ['false', 'true', 'false', 'false', 'true','false', 'true','false','false', 'true', 'false', 'false'];
         testCases.forEach((ele, i) => {
-              test('Check Value "demoMode"', () => {
+              test(`Check Value demoMode = "${ele}" of type '${typeof ele}'`, () => {
                   ch5MediaPlayer.setAttribute('demoMode', ele);
                   expect(ch5MediaPlayer.getAttribute('demoMode')).to.be.equal(expectedResult[i]);
               });
