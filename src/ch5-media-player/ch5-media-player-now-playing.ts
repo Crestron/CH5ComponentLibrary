@@ -223,12 +223,7 @@ export class Ch5MediaPlayerNowPlaying {
 	}
 
 	private updatedNowPlayingContent() {
-		this._nowPlayingPlayerLabel.innerHTML = this.playerName === "" ? '&nbsp;' : this.playerName;
-		if (this.playerName === "") {
-			this._nowPlayingPlayerLabel.classList.add('button-visibility');
-		} else {
-			this._nowPlayingPlayerLabel.classList.remove('button-visibility');
-		}
+		this._nowPlayingPlayerLabel.innerHTML = this.playerName === "" ? this.nowPlayingData.PlayerName || this.nowPlayingData.ProviderName : this.playerName;
 		this._nowPlayingImageParent.classList.add("now-playing-image-container");
 		this._nowPlayingImageParent.classList.add('mp-fallback-album-art');
 		const img = new Image();
