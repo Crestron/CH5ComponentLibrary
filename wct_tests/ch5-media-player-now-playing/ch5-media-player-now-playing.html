@@ -176,6 +176,36 @@
                 }, 30);
             });
 
+            test('test play icon butoon present when no actions available', (done) => {
+                const onlyPlayIconData = {...nowPlayingData, ActionsAvailable: [], PlayerState: ''}
+                CrComLib.publishEvent('o', 'nowPlayingData', onlyPlayIconData);
+                console.log(onlyPlayIconData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const actionButtonContainer = nowPlayingComponent.querySelector('.now-playing-action-buttons-container') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-action-buttons-container');
+                                expect(actionButtonContainer).to.exist;
+                                console.log(actionButtonContainer);
+                                let playBtn;
+                                for(let i = 0; i < actionButtonContainer.children.length; i++) {
+                                    if(!actionButtonContainer.children[i].classList.contains("button-visibility")){
+                                        playBtn = actionButtonContainer.children[i];
+                                    }
+                                }
+                                expect(playBtn.classList.contains('ch5-disabled')).to.equal(true);
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
         });
 
         suite('ch5-media-player-now-playing — Song Information', () => {
@@ -735,7 +765,29 @@
                 nowPlayingComponent = null;
             });
 
-             test('test next song', (done) => {
+            test('test next up label present', (done) => {
+                const nextSongData = {...nowPlayingData, NextTitle: "vandemataram" }
+                CrComLib.publishEvent('o', 'nowPlayingData', nextSongData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const nextSongLabel = nowPlayingComponent.querySelector('.now-playing-next-song-label') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-next-song-label');
+                                expect(nextSongLabel).to.exist;
+                                expect(nextSongLabel.innerHTML).to.equal('Next up');
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test next song title present', (done) => {
                 const nextSongData = {...nowPlayingData, NextTitle: "vandemataram" }
                 CrComLib.publishEvent('o', 'nowPlayingData', nextSongData);
                 setTimeout(() => {
@@ -746,14 +798,58 @@
                                     document.querySelector('#nowPlayingTest2 .now-playing-next-song-text');
                                 expect(nextSong).to.exist;
                                 expect(nextSong.innerHTML).to.equal('vandemataram');
-                                expect(nextSong.innerHTML).to.not.equal('streaming');
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
 
+            test('test next song title language support', (done) => {
+                const nextSongData = {...nowPlayingData, NextTitle: "Stories of Panchtantra à¤ªà¤\x82à¤\x9Aà¤¤à¤\x82à¤¤à¥\x8Dà¤° à¤\x95à¥\x80 à¤\x95à¤¹à¤¾à¤¨à¤¿à¤¯à¤¾à¤\x81" }
+                CrComLib.publishEvent('o', 'nowPlayingData', nextSongData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const nextSong = nowPlayingComponent.querySelector('.now-playing-next-song-text') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-next-song-text');
+                                expect(nextSong).to.exist;
+                                expect(nextSong.innerHTML).to.equal('Stories of Panchtantra पंचतंत्र की कहानियाँ');
+                                done();
+                            } catch (err2) {
+                                done(err2);
+                            }
+                        }, 20);
+                    } catch (err) {
+                        done(err);
+                    }
+                }, 30);
+            });
+
+            test('test next song not present', (done) => {
+                const nextSongData = {...nowPlayingData, NextTitle: "" }
+                CrComLib.publishEvent('o', 'nowPlayingData', nextSongData);
+                setTimeout(() => {
+                    try {
+                        setTimeout(() => {
+                            try {
+                                const nextAndPreviousSongContiner = nowPlayingComponent.querySelector('.now-playing-next-and-previous-song-container') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-next-and-previous-song-container');
+                                expect(nextAndPreviousSongContiner).to.not.exist;
+                                const nextSongContainer = nowPlayingComponent.querySelector('.now-playing-next-song-container') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-next-song-container');
+                                expect(nextSongContainer).to.not.exist;
                                 const nextSongLabel = nowPlayingComponent.querySelector('.now-playing-next-song-label') ||
                                     document.querySelector('#nowPlayingTest2 .now-playing-next-song-label');
-
-                                expect(nextSongLabel).to.exist;
-                                expect(nextSongLabel.innerHTML).to.equal('Next up');
-                                expect(nextSongLabel.innerHTML).to.not.equal('next song');
+                                expect(nextSongLabel).to.not.exist;
+                                const nextSongText = nowPlayingComponent.querySelector('.now-playing-next-song-text') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-next-song-text');
+                                expect(nextSongText).to.not.exist;
                                 done();
                             } catch (err2) {
                                 done(err2);
