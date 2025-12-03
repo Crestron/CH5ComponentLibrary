@@ -513,12 +513,9 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
         }
         this.logger.log("Button Confirmation Id:", i + 1);
         this.logger.log("Input Value:", inputEle?.value);
-        if (this.demoMode) {
-          if (this._elMask && this._elMask.parentNode) {
-            this._elMask.parentNode.removeChild(this._elMask);
-          }
-        } else {
-          this.musicPlayerLibInstance.popUpAction(inputEle?.value, i + 1);
+        this.musicPlayerLibInstance.popUpAction(inputEle?.value, i + 1);
+        if (this._elMask && this._elMask.parentNode) {
+          this._elMask.parentNode.removeChild(this._elMask);
         }
       });
       button.textContent = dialogArray[i];
