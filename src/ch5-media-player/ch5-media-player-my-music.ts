@@ -404,7 +404,9 @@ export class Ch5MediaPlayerMyMusic {
     // Array.from(this._myMusicContentSection.childNodes).forEach((child) => child.remove()); // this will rerender the dom when the next set of items are fetched from the service
     Array.from(this._myMusicFooterSection.childNodes).forEach((child) => child.remove());
 
-    this.myMusicHeader(this.myMusicData.IsMenuAvailable, this.myMusicData.Title, this.myMusicData.Subtitle);
+    const enableBackBtn = this.myMusicData.IsMenuAvailable === "" ? this.myMusicData.Level > 0 : this.myMusicData.IsMenuAvailable;
+
+    this.myMusicHeader(enableBackBtn, this.myMusicData.Title, this.myMusicData.Subtitle);
     this.myMusicMenuIconSection(this.myMusicData.ListSpecificFunctions);
   }
 

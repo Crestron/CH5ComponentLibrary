@@ -325,8 +325,16 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
 
     subscribeState('o', 'busyChanged', ((data: any) => {
       this.busyChanged = data;
+
       if (this.busyChanged.on) {
-        this._loadingIndicator.classList.remove('hide-loading-indicator');
+        if(this.busyChanged.timeoutSec > 0){
+          this._loadingIndicator.classList.remove('hide-loading-indicator');
+          setTimeout(() => {
+            this._loadingIndicator.classList.add('hide-loading-indicator');
+          }, this.busyChanged.timeoutSec * 1000);
+        } else {
+          this._loadingIndicator.classList.remove('hide-loading-indicator');
+        }
       } else {
         this._loadingIndicator.classList.add('hide-loading-indicator');
       }
