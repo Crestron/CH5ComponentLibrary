@@ -100,7 +100,6 @@
         CrComLib.publishEvent('o', 'nowPlayingData', NOW_PLAYING_DEMO_DATA);
         setTimeout(() => {          
           const list = document.getElementsByClassName('now-playing-action-buttons-container')[0]?.children;
-          console.log("list", list, list.length)
           for (let i = 0; i < list.length; i++) {
             expect(list[i].title).to.equal(NOW_PLAYING_DEMO_DATA.ActionsAvailable[i]);
           }

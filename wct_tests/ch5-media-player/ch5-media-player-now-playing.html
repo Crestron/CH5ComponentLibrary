@@ -449,6 +449,136 @@
                     });
                 });
             });
+
+            suite('ch5-media-player-now-playing — Shuffle and Repeat Button', () => {
+                let nowPlayingData;
+                setup(async () => {
+                    nowPlayingData = {
+                        ActionsAvailable: [
+                            "Shuffle",
+                            "Repeat",
+                            "PlayAll",
+                            "NextTrack",
+                            "PreviousTrack",
+                            "Seek",
+                            "Ffwd",
+                            "Rewind",
+                            "Play",
+                            "ThumbsDown",
+                            "ThumbsUp"
+                        ],
+                        Album: "Album Name",
+                        AlbumArt: true,
+                        AlbumArtUrl: "",
+                        AlbumArtUrlNAT: "",
+                        Artist: "Artist Name",
+
+                        ElapsedSec: 120,
+                        FfwdSpeed: 1,
+                        Genre: "Genre",
+                        NextTitle: "Song Name Here",
+                        PlayerIcon: 0,
+                        PlayerIconURL: "",
+                        PlayerName: "Player Name",
+                        PlayerState: "paused",
+                        ProgressBar: true,
+                        ProviderName: "",
+                        RepeatState: 0,
+                        RewindSpeed: 1,
+                        ShuffleState: 0,
+                        StationName: "Song Title",
+                        StreamState: "idle",
+                        Title: "Song Title",
+                        TrackCnt: 5,
+                        TrackNum: 2,
+                        TrackSec: 280
+                    };
+                });
+                test('Check Shuffle button state with ShuffleState = "0"', (done) => {
+                    const onlyPlayIconData = { ...nowPlayingData, ShuffleState: 0 }
+                    CrComLib.publishEvent('o', 'nowPlayingData', onlyPlayIconData);
+                    flush(() => {
+                        setTimeout(() => {
+                            const moreActionButtonContainer = nowPlayingComponent.querySelector('.now-playing-more-action-buttons-container') ||
+                                document.querySelector('#nowPlayingTest2 .now-playing-more-action-buttons-container');
+                            expect(moreActionButtonContainer).to.exist;
+                            const shuffleBtn = moreActionButtonContainer.children[0];
+                            expect(shuffleBtn.querySelector('i').classList.contains('mp-shuffle-off')).to.be.true;
+                            expect(shuffleBtn.querySelector('i').classList.contains('mp-shuffle-02')).to.be.false;
+                            done();
+                        }, 0);
+                    });
+                });
+                const shuffleValues = [1, -1, 5, '', ' ', 'random string'];
+                shuffleValues.forEach(value => {
+                    test(`Check Shuffle button state with ShuffleState = "${value}"`, (done) => {
+                        const onlyPlayIconData = { ...nowPlayingData, ShuffleState: value }
+                        CrComLib.publishEvent('o', 'nowPlayingData', onlyPlayIconData);
+                        flush(() => {
+                            setTimeout(() => {
+                                const moreActionButtonContainer = nowPlayingComponent.querySelector('.now-playing-more-action-buttons-container') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-more-action-buttons-container');
+                                expect(moreActionButtonContainer).to.exist;
+                                const shuffleBtn = moreActionButtonContainer.children[0];
+                                expect(shuffleBtn.querySelector('i').classList.contains('mp-shuffle-off')).to.be.false;
+                                expect(shuffleBtn.querySelector('i').classList.contains('mp-shuffle-02')).to.be.true;
+                                done();
+                            }, 0);
+                        });
+                    });
+                });
+                test('Check Repeat button state with RepeatState = "0"', (done) => {
+                    const onlyPlayIconData = { ...nowPlayingData, RepeatState: 0 }
+                    CrComLib.publishEvent('o', 'nowPlayingData', onlyPlayIconData);
+                    flush(() => {
+                        setTimeout(() => {
+                            const moreActionButtonContainer = nowPlayingComponent.querySelector('.now-playing-more-action-buttons-container') ||
+                                document.querySelector('#nowPlayingTest2 .now-playing-more-action-buttons-container');
+                            expect(moreActionButtonContainer).to.exist;
+                            const repeatBtn = moreActionButtonContainer.children[1];
+                            expect(repeatBtn.querySelector('i').classList.contains('mp-repeat-off')).to.be.true;
+                            expect(repeatBtn.querySelector('i').classList.contains('mp-repeat-1x_1')).to.be.false;
+                            expect(repeatBtn.querySelector('i').classList.contains('mp-repeat-03')).to.be.false;
+                            done();
+                        }, 0);
+                    });
+                });
+                test('Check Repeat button state with RepeatState = "1"', (done) => {
+                    const onlyPlayIconData = { ...nowPlayingData, RepeatState: 1 }
+                    CrComLib.publishEvent('o', 'nowPlayingData', onlyPlayIconData);
+                    flush(() => {
+                        setTimeout(() => {
+                            const moreActionButtonContainer = nowPlayingComponent.querySelector('.now-playing-more-action-buttons-container') ||
+                                document.querySelector('#nowPlayingTest2 .now-playing-more-action-buttons-container');
+                            expect(moreActionButtonContainer).to.exist;
+                            const repeatBtn = moreActionButtonContainer.children[1];
+                            expect(repeatBtn.querySelector('i').classList.contains('mp-repeat-off')).to.be.false;
+                            expect(repeatBtn.querySelector('i').classList.contains('mp-repeat-1x_1')).to.be.true;
+                            expect(repeatBtn.querySelector('i').classList.contains('mp-repeat-03')).to.be.false;
+                            done();
+                        }, 0);
+                    });
+                });
+                const repeatValues = [-1, 2, 5, '', ' ', 'random string'];
+                repeatValues.forEach(value => {
+                    test(`Check Repeat button state with RepeatState = "${value}"`, (done) => {
+                        const onlyPlayIconData = { ...nowPlayingData, RepeatState: value }
+                        CrComLib.publishEvent('o', 'nowPlayingData', onlyPlayIconData);
+                        flush(() => {
+                            setTimeout(() => {
+                                const moreActionButtonContainer = nowPlayingComponent.querySelector('.now-playing-more-action-buttons-container') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-more-action-buttons-container');
+                                expect(moreActionButtonContainer).to.exist;
+                                const repeatBtn = moreActionButtonContainer.children[1];
+                                expect(repeatBtn.querySelector('i').classList.contains('mp-repeat-off')).to.be.false;
+                                expect(repeatBtn.querySelector('i').classList.contains('mp-repeat-1x_1')).to.be.false;
+                                expect(repeatBtn.querySelector('i').classList.contains('mp-repeat-03')).to.be.true;
+                                done();
+                            }, 0);
+                        });
+                    });
+                });
+            });
         });
 
         suite('ch5-media-player-now-playing — Song Information', () => {

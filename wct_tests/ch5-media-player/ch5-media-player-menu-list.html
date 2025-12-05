@@ -64,7 +64,6 @@
           CrComLib.publishEvent('o', 'menuListData', MY_MUSIC_MENU_DEMO_DATA);
               setTimeout(() => {
                   const title = ch5MediaPlayer.querySelector(".my-music-content-item-title");
-                  console.log("title", title.textContent);
                   expect(title.textContent).to.be.equal(validate);
                   done();
               }, 20);

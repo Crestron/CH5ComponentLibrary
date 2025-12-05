@@ -46,7 +46,6 @@
                     const ch5MediaPlayerPortraitDiv = ch5MediaPlayerPortrait.querySelector(".ch5-media-player");
                     flush(() => {
                         setTimeout(() => {
-                            console.log("ch5MediaPlayerPortraitDiv classes", ch5MediaPlayerPortraitDiv.classList);
                             expect(ch5MediaPlayerPortraitDiv.classList.contains("portrait-mode-active")).to.be.equal(validate);
                             done();
                         }, 500);
