@@ -515,12 +515,12 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
       ev.stopPropagation();
     }
     this._elMask.onclick = () => {
-      if (this.demoMode) {
-        if (this._elMask && this._elMask.parentNode) {
-          this._elMask.parentNode.removeChild(this._elMask);
-        }
-      } else {
+      if (!this.demoMode) {
         this.musicPlayerLibInstance.popUpAction("", -1);
+        
+      }
+      if (this._elMask && this._elMask.parentNode) {
+        this._elMask.parentNode.removeChild(this._elMask);
       }
     }
   }
@@ -550,17 +550,16 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
         }
         this.logger.log("Button Confirmation Id:", i + 1);
         this.logger.log("Input Value:", inputEle?.value);
-        if (this.demoMode) {
-          if (this._elMask && this._elMask.parentNode) {
-            this._elMask.parentNode.removeChild(this._elMask);
-          }
-        } else {
+        if(!this.demoMode) {
           this.musicPlayerLibInstance.popUpAction(inputEle?.value, i + 1);
           if (this.popUpData.timeoutSec === 0) {
             if (this._elMask && this._elMask.parentNode) {
               this._elMask.parentNode.removeChild(this._elMask);
             }
           }
+        }
+        if (this._elMask && this._elMask.parentNode) {
+          this._elMask.parentNode.removeChild(this._elMask)
         }
       });
       button.textContent = dialogArray[i];
