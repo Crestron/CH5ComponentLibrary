@@ -454,10 +454,13 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this.getDialogHeading(dialogHeading);
     const dialogContentInput = document.createElement("input");
     // Create input box 
-    if (dialogType === "alphanumeric" || dialogType === "characterMasked") {
+    if (dialogType === "alphanumeric" || dialogType === "characterMasked") { //characterMasked for password popup
       const dialogContent = createElement('div', ["dialog-content"]);
       dialogContentInput.classList.add('dialog-content-input');
       dialogContentInput.value = decodeString(dialogInput);
+      if(dialogType === "characterMasked") {
+        dialogContentInput.type = "password";
+      }
       dialogContent.appendChild(dialogContentInput);
       this._elGenericDialogContent.appendChild(dialogContent);
     }

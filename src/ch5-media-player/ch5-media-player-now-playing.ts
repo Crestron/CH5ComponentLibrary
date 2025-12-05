@@ -156,7 +156,11 @@ export class Ch5MediaPlayerNowPlaying {
 					}
 					this._progressBarContainer.classList?.remove('ch5-hide-dis');
 					this._progressStreamState = this.progressBarData.StreamState;
-					this._streamState.textContent = this._progressStreamState;
+					if(this.nowPlayingData.PlayerState === "forwarding") {
+						this._streamState.textContent = this.nowPlayingData.FfwdSpeed + 'X';
+					} else {
+						this._streamState.textContent = this._progressStreamState;
+					}
 					this._progressBarTrackSec = this.progressBarData.TrackSec;
 					this._progressBarElapsedSec = this.progressBarData.ElapsedSec;
 					this._progressBarInput.max = this._progressBarTrackSec?.toString();
