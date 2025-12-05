@@ -463,6 +463,31 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     }
     this.getDialogFooter(dialogArray, dialogContentInput);
     this._elMask.appendChild(this._elGenericDialogContent);
+    if (dialogArray.length > 2) {
+      this._elMask.classList.add('more-than-two-buttons');
+      const button = createElement('button', ['generic-dialog-button', 'third-popup-button']);
+      button.onclick = () => {
+        //clear auto close timeout on footer button click
+        if (this._dialogAutoCloseTimeout) {
+          clearTimeout(this._dialogAutoCloseTimeout);
+          this._dialogAutoCloseTimeout = null;
+        }
+        this.logger.log("Button Confirmation Id:", 3);
+        this.logger.log("Input Value:", dialogContentInput?.value);
+        if (this.demoMode) {
+          if (this._elMask && this._elMask.parentNode) {
+            this._elMask.parentNode.removeChild(this._elMask);
+          }
+        } else {
+          this.musicPlayerLibInstance.popUpAction(dialogContentInput?.value, 3);
+        }
+      };
+      button.textContent = dialogArray[2];
+      if (dialogArray[2] !== "Cancel") {
+        button.classList.add('primary-dialog-button');
+      }
+      this._elMask.appendChild(button);
+    }
     this._elContainer.appendChild(this._elMask);
 
     //Auto close dialog if user don't take any action for 10 seconds
@@ -490,7 +515,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
       ev.stopPropagation();
     }
     this._elMask.onclick = () => {
-      if(this.demoMode) {
+      if (this.demoMode) {
         if (this._elMask && this._elMask.parentNode) {
           this._elMask.parentNode.removeChild(this._elMask);
         }
@@ -515,6 +540,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this._dialogFooter = createElement('div', ['generic-dialog-footer']);
     const dialogType = dialogArray.length;
     for (let i = 0; i < dialogType; i++) {
+      if(i >= 2) break;
       const button = createElement('button', ['generic-dialog-button']);
       button.addEventListener("click", () => {
         //clear auto close timeout on footer button click
