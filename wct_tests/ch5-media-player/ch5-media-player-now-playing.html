@@ -251,7 +251,7 @@
                 const playerStateValues = ['playing', 'stopped', '', 'paused', ' ', 'random string'];
                 const playPauseActions = [['Play', 'Pause'], ['Play'], ['Pause'], []];
                 playPauseActions.forEach(actionList => {
-                    test(`Check Play button state with PlayerState = "${playerStateValues[0]}" and ActionAvailabel = "${actionList}"`, (done) => {
+                    test(`Check Play button state with PlayerState = "${playerStateValues[0]}" and ActionAvailable = "${actionList}"`, (done) => {
                         const state = playerStateValues[0];
                         const onlyPlayIconData = { ...nowPlayingData, ActionsAvailable: actionList, PlayerState: state }
                         CrComLib.publishEvent('o', 'nowPlayingData', onlyPlayIconData);
@@ -274,7 +274,7 @@
                 });
                 playerStateValues.slice(1, 3).forEach(state => {
                     playPauseActions.forEach(actionList => {
-                        test(`Check Play button state with PlayerState = "${state}" and ActionAvailabel = "${actionList}"`, (done) => {
+                        test(`Check Play button state with PlayerState = "${state}" and ActionAvailable = "${actionList}"`, (done) => {
                             const onlyPlayIconData = { ...nowPlayingData, ActionsAvailable: actionList, PlayerState: state }
                             CrComLib.publishEvent('o', 'nowPlayingData', onlyPlayIconData);
                             flush(() => {
@@ -297,7 +297,7 @@
                 });
                 playerStateValues.slice(3).forEach(state => {
                     playPauseActions.forEach(actionList => {
-                        test(`Check Play button state with PlayerState = "${state}" and ActionAvailabel = "${actionList}"`, (done) => {
+                        test(`Check Play button state with PlayerState = "${state}" and ActionAvailable = "${actionList}"`, (done) => {
                             const onlyPlayIconData = { ...nowPlayingData, ActionsAvailable: actionList, PlayerState: state }
                             CrComLib.publishEvent('o', 'nowPlayingData', onlyPlayIconData);
                             flush(() => {
@@ -318,6 +318,130 @@
                                     } else {
                                         expect(playBtn.classList.contains('ch5-disabled')).to.be.false;
                                     }
+                                    done();
+                                }, 0);
+                            });
+                        });
+                    });
+                });
+            });
+
+            suite('ch5-media-player-now-playing — Thumbs Up/Down Button', () => {
+                let nowPlayingData;
+                setup(async () => {
+                    nowPlayingData = {
+                        ActionsAvailable: [
+                            "Shuffle",
+                            "Repeat",
+                            "PlayAll",
+                            "NextTrack",
+                            "PreviousTrack",
+                            "Seek",
+                            "Ffwd",
+                            "Rewind",
+                            "Play",
+                            "ThumbsDown",
+                            "ThumbsUp"
+                        ],
+                        Album: "Album Name",
+                        AlbumArt: true,
+                        AlbumArtUrl: "",
+                        AlbumArtUrlNAT: "",
+                        Artist: "Artist Name",
+
+                        ElapsedSec: 120,
+                        FfwdSpeed: 1,
+                        Genre: "Genre",
+                        NextTitle: "Song Name Here",
+                        PlayerIcon: 0,
+                        PlayerIconURL: "",
+                        PlayerName: "Player Name",
+                        PlayerState: "paused",
+                        ProgressBar: true,
+                        ProviderName: "",
+                        Rating: {
+                            current: ''
+                        },
+                        RepeatState: 0,
+                        RewindSpeed: 1,
+                        ShuffleState: 0,
+                        StationName: "Song Title",
+                        StreamState: "idle",
+                        Title: "Song Title",
+                        TrackCnt: 5,
+                        TrackNum: 2,
+                        TrackSec: 280
+                    };
+                });
+                const ratingsValues = [1, -1, 0, 5, '', ' ', 'random string'];
+                const thumbsUpDownActions = [['ThumbsUp', 'ThumbsDown'], ['ThumbsUp'], ['ThumbsDown'], []];
+                const expectedVisibility = [[true, true], [true, false], [false, true], [false, false]];
+                thumbsUpDownActions.forEach((actionList, i) => {
+                    test(`Check ThumbsUp and ThumbsDown buttons' state with Rating = "${ratingsValues[0]}" and ActionAvailable = "${actionList}"`, (done) => {
+                        const rating = ratingsValues[0];
+                        const onlyPlayIconData = { ...nowPlayingData, ActionsAvailable: actionList, Rating: { current: rating } }
+                        CrComLib.publishEvent('o', 'nowPlayingData', onlyPlayIconData);
+                        flush(() => {
+                            setTimeout(() => {
+                                const actionButtonContainer = nowPlayingComponent.querySelector('.now-playing-action-buttons-container') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-action-buttons-container');
+                                expect(actionButtonContainer).to.exist;
+                                const thumbsUpBtn = actionButtonContainer.children[6];
+                                const thumbsDownBtn = actionButtonContainer.children[0];
+                                expect(thumbsDownBtn.classList.contains('button-visibility')).to.be.equal(!expectedVisibility[i][1]);
+                                expect(thumbsUpBtn.classList.contains('button-visibility')).to.be.equal(!expectedVisibility[i][0]);
+                                expect(thumbsDownBtn.classList.contains('active')).to.be.false;
+                                if (actionList.includes('ThumbsUp')) {
+                                    expect(thumbsUpBtn.classList.contains('active')).to.be.true;
+                                } else {
+                                    expect(thumbsUpBtn.classList.contains('active')).to.be.false;
+                                }
+                                done();
+                            }, 0);
+                        });
+                    });
+                });
+                thumbsUpDownActions.forEach((actionList, i) => {
+                    test(`Check ThumbsUp and ThumbsDown buttons' state with Rating = "${ratingsValues[1]}" and ActionAvailable = "${actionList}"`, (done) => {
+                        const rating = ratingsValues[1];
+                        const onlyPlayIconData = { ...nowPlayingData, ActionsAvailable: actionList, Rating: { current: rating } }
+                        CrComLib.publishEvent('o', 'nowPlayingData', onlyPlayIconData);
+                        flush(() => {
+                            setTimeout(() => {
+                                const actionButtonContainer = nowPlayingComponent.querySelector('.now-playing-action-buttons-container') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-action-buttons-container');
+                                expect(actionButtonContainer).to.exist;
+                                const thumbsUpBtn = actionButtonContainer.children[6];
+                                const thumbsDownBtn = actionButtonContainer.children[0];
+                                expect(thumbsDownBtn.classList.contains('button-visibility')).to.be.equal(!expectedVisibility[i][1]);
+                                expect(thumbsUpBtn.classList.contains('button-visibility')).to.be.equal(!expectedVisibility[i][0]);
+                                expect(thumbsUpBtn.classList.contains('active')).to.be.false;
+                                if (actionList.includes('ThumbsDown')) {
+                                    expect(thumbsDownBtn.classList.contains('active')).to.be.true;
+                                } else {
+                                    expect(thumbsDownBtn.classList.contains('active')).to.be.false;
+                                }
+                                done();
+                            }, 0);
+                        });
+                    });
+                });
+                ratingsValues.slice(2).forEach(rating => {
+                    thumbsUpDownActions.forEach((actionList, i) => {
+                        test(`Check ThumbsUp and ThumbsDown buttons' state with Rating = "${rating}" and ActionAvailable = "${actionList}"`, (done) => {
+                            const onlyPlayIconData = { ...nowPlayingData, ActionsAvailable: actionList, Rating: { current: rating } }
+                            CrComLib.publishEvent('o', 'nowPlayingData', onlyPlayIconData);
+                            flush(() => {
+                                setTimeout(() => {
+                                    const actionButtonContainer = nowPlayingComponent.querySelector('.now-playing-action-buttons-container') ||
+                                        document.querySelector('#nowPlayingTest2 .now-playing-action-buttons-container');
+                                    expect(actionButtonContainer).to.exist;
+                                    const thumbsUpBtn = actionButtonContainer.children[6];
+                                    const thumbsDownBtn = actionButtonContainer.children[0];
+                                    expect(thumbsDownBtn.classList.contains('button-visibility')).to.be.equal(!expectedVisibility[i][1]);
+                                    expect(thumbsUpBtn.classList.contains('button-visibility')).to.be.equal(!expectedVisibility[i][0]);
+                                    expect(thumbsUpBtn.classList.contains('active')).to.be.false;
+                                    expect(thumbsDownBtn.classList.contains('active')).to.be.false;
                                     done();
                                 }, 0);
                             });
