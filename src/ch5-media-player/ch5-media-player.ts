@@ -454,7 +454,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this.getDialogHeading(dialogHeading);
     const dialogContentInput = document.createElement("input");
     // Create input box 
-    if (dialogType === "alphanumeric") {
+    if (dialogType === "alphanumeric" || dialogType === "characterMasked") {
       const dialogContent = createElement('div', ["dialog-content"]);
       dialogContentInput.classList.add('dialog-content-input');
       dialogContentInput.value = decodeString(dialogInput);

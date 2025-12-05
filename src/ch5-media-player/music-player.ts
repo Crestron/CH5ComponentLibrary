@@ -703,7 +703,7 @@ export class MusicPlayerLib {
                 "localExit": id < 0 ? true : false,
                 "state": id < 0 ? 0 : 1,
                 "id": id,
-                "userInput": inputValue ? encodeString(inputValue) : "1"
+                "userInput": inputValue ? encodeString(inputValue) : ""
             },
             jsonrpc: '2.0',
             id: this.generateUniqueMessageId(),
