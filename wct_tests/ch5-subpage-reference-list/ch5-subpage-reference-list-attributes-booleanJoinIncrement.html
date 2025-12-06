@@ -118,6 +118,26 @@
       </ch5-subpage-reference-list>
     </div>
   </test-fixture>
+
+  <test-fixture id="ch5-subpage-reference-list-booleanJoinIncrement-attributes-with-slider"></test-fixture>
+  <template id="templateWidgetId-with-slider">
+    <ch5-slider value="32767" orientation="vertical" sendEventOnUpper="1" sendEventOnLower="1"
+      receiveStateCustomClass="1" receiveStateCustomStyle="1" receivestateenable="1" receivestatehidepulse="1"
+      receivestateshow="1" receivestateshowpulse="1" receivestateshowonoffonly="1" receivestatevalue="1"
+      receivestatevaluehigh="1" sendeventonchange="1" sendeventonchangehigh="1" sendeventonhandleclick="1"
+      sendeventonlower="1" sendeventonshow="1" sendeventonupper="1">
+      <ch5-slider-title-label label="Title" receiveStateLabel="3"></ch5-slider-title-label>
+      <ch5-slider-button key="on" label="on" sendEventOnClick="2" receiveStateIconClass="2" receiveStateIconUrl="2"
+        receiveStateLabel="2"></ch5-slider-button>
+    </ch5-slider>
+  </template>
+  <div>
+    <ch5-subpage-reference-list widgetId="templateWidgetId-with-slider" scrollbar="true" orientation="horizontal"
+      numberOfItems="5" rows="1" booleanJoinIncrement="" indexId="idx" id="subpagereferencelist-with-slider">
+    </ch5-subpage-reference-list>
+  </div>
+  </test-fixture>
+
   <script>
     suite('ch5-subpage-reference-list-booleanJoinIncrement-attributes-value', () => {
       let ch5SubpageReferenceList;
@@ -140,8 +160,8 @@
       test('booleanjoinIncrement with valid value  20', (done) => {
         flush(() => {
           setTimeout(() => {
-            expect(ch5SubpageReferenceList.children[0].children[1].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-BOOLEAN');
-            expect(ch5SubpageReferenceList.children[0].children[1].children[0].children[1].children[0].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100 + 20).toString());
+            expect(ch5SubpageReferenceList.children[0].children[1].children[0].children[1].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-BOOLEAN');
+            expect(ch5SubpageReferenceList.children[0].children[1].children[0].children[1].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100 + 20).toString());
             done();
           }, 100);
         });
@@ -150,8 +170,8 @@
       test('booleanjoinIncrement with invalid value  a', (done) => {
         flush(() => {
           setTimeout(() => {
-            expect(ch5SubpageReferenceList1.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-BOOLEAN');
-            expect(ch5SubpageReferenceList1.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100).toString());
+            expect(ch5SubpageReferenceList1.children[0].children[0].children[0].children[1].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-BOOLEAN');
+            expect(ch5SubpageReferenceList1.children[0].children[0].children[0].children[1].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100).toString());
             done();
           }, 100);
         });
@@ -160,8 +180,8 @@
       test('booleanjoinIncrement with invalid value  -20', (done) => {
         flush(() => {
           setTimeout(() => {
-            expect(ch5SubpageReferenceList2.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-BOOLEAN');
-            expect(ch5SubpageReferenceList2.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100).toString());
+            expect(ch5SubpageReferenceList2.children[0].children[0].children[0].children[1].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-BOOLEAN');
+            expect(ch5SubpageReferenceList2.children[0].children[0].children[0].children[1].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100).toString());
             done();
           }, 100);
         });
@@ -170,8 +190,8 @@
       test('booleanjoinIncrement with invalid value empty string ', (done) => {
         flush(() => {
           setTimeout(() => {
-            expect(ch5SubpageReferenceList3.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-BOOLEAN');
-            expect(ch5SubpageReferenceList3.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100).toString());
+            expect(ch5SubpageReferenceList3.children[0].children[0].children[0].children[1].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-BOOLEAN');
+            expect(ch5SubpageReferenceList3.children[0].children[0].children[0].children[1].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100).toString());
             done();
           }, 100);
         });
@@ -180,8 +200,8 @@
       test('booleanjoinIncrement with invalid value true ', (done) => {
         flush(() => {
           setTimeout(() => {
-            expect(ch5SubpageReferenceList4.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-BOOLEAN');
-            expect(ch5SubpageReferenceList4.children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100).toString());
+            expect(ch5SubpageReferenceList4.children[0].children[0].children[0].children[1].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-BOOLEAN');
+            expect(ch5SubpageReferenceList4.children[0].children[0].children[0].children[1].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100).toString());
             done();
           }, 100);
         });
@@ -191,13 +211,152 @@
         ch5SubpageReferenceList5.setAttribute('booleanjoinIncrement', 30);
         flush(() => {
           setTimeout(() => {
-            expect(ch5SubpageReferenceList5.children[0].children[1].children[0].children[1].children[0].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-BOOLEAN');
-            expect(ch5SubpageReferenceList5.children[0].children[1].children[0].children[1].children[0].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100 + 30).toString());
+            expect(ch5SubpageReferenceList5.children[0].children[1].children[0].children[1].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-BOOLEAN');
+            expect(ch5SubpageReferenceList5.children[0].children[1].children[0].children[1].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100 + 30).toString());
             done();
           }, 500);
         });
       });
+    });
 
+    suite('ch5-subpage-reference-list-booleanJoinIncrement-attributes-value-with-slider', () => {
+      let ch5SubpageReferenceList;
+
+      setup(async () => {
+        ch5SubpageReferenceList = document.getElementById("subpagereferencelist-with-slider");
+      });
+
+      const inputs = [20, 30, -20, 'a', '', true];
+      const strAtts = [
+        'receivestatecustomclass',
+        'receivestatecustomstyle',
+        'receiveStateIconClass',
+        'receiveStateIconUrl',
+        'receiveStateLabel',
+        'receiveStateLabel'
+      ];
+      const numAtts = [
+        'receivestatevalue',
+        'receivestatevaluehigh',
+        'sendeventonchange',
+        'sendeventonchangehigh'
+      ];
+      const boolAtts = [
+        'receivestateenable',
+        'receivestatehidepulse',
+        'receivestateshow',
+        'receivestateshowpulse',
+        'receivestateshowonoffonly',
+        'sendeventonhandleclick',
+        'sendeventonlower',
+        'sendeventonshow',
+        'sendeventonupper',
+        'sendEventOnClick'
+      ];
+      inputs.slice(0, 2).forEach(input => {
+        test(`booleanJoinIncrement for 'ch5-slider' with valid value  "${input}"`, (done) => {
+          ch5SubpageReferenceList.setAttribute('booleanJoinIncrement', input);
+          flush(() => {
+            setTimeout(() => {
+              for (i = 0; i < 5; i++) {
+                let ch5Slider = ch5SubpageReferenceList.children[0].children[i].children[0];
+                expect(ch5Slider.tagName).to.be.equal('CH5-SLIDER');
+                strAtts.slice(0, 1).forEach(att => {
+                  expect(ch5Slider.getAttribute(att)).to.be.equal((1).toString());
+                });
+                numAtts.forEach(att => {
+                  expect(ch5Slider.getAttribute(att)).to.be.equal((1).toString());
+                });
+                boolAtts.slice(0, -2).forEach(att => {
+                  expect(ch5Slider.getAttribute(att)).to.be.equal((1 + i * input).toString());
+                });
+              }
+              done();
+            }, 100);
+          });
+        });
+        test(`booleanJoinIncrement for 'ch5-slider-button' with valid value  "${input}"`, (done) => {
+          ch5SubpageReferenceList.setAttribute('booleanJoinIncrement', input);
+          flush(() => {
+            setTimeout(() => {
+              for (i = 0; i < 5; i++) {
+                let ch5SliderButton = ch5SubpageReferenceList.children[0].children[i].children[0].children[1].children[1].children[2].children[0];
+                expect(ch5SliderButton.tagName).to.be.equal('CH5-SLIDER-BUTTON');
+                strAtts.slice(2, 5).forEach(att => {
+                  expect(ch5SliderButton.getAttribute(att)).to.be.equal((2).toString());
+                });
+                expect(ch5SliderButton.getAttribute(boolAtts[9])).to.be.equal((2 + i * input).toString());
+              }
+              done();
+            }, 100);
+          });
+        });
+        test(`booleanJoinIncrement for 'ch5-slider-title-label' with valid value  "${input}"`, (done) => {
+          ch5SubpageReferenceList.setAttribute('booleanJoinIncrement', input);
+          flush(() => {
+            setTimeout(() => {
+              for (i = 0; i < 5; i++) {
+                let ch5SliderTitleLabel = ch5SubpageReferenceList.children[0].children[i].children[0].children[0];
+                expect(ch5SliderTitleLabel.tagName).to.be.equal('CH5-SLIDER-TITLE-LABEL');
+                expect(ch5SliderTitleLabel.getAttribute(strAtts[5])).to.be.equal((3).toString());
+              }
+              done();
+            }, 100);
+          });
+        });
+      });
+      inputs.slice(2).forEach(input => {
+        test(`booleanJoinIncrement for 'ch5-slider' with invalid value  "${input}"`, (done) => {
+          ch5SubpageReferenceList.setAttribute('booleanJoinIncrement', input);
+          flush(() => {
+            setTimeout(() => {
+              for (i = 0; i < 5; i++) {
+                let ch5Slider = ch5SubpageReferenceList.children[0].children[i].children[0];
+                expect(ch5Slider.tagName).to.be.equal('CH5-SLIDER');
+                strAtts.slice(0, 1).forEach(att => {
+                  expect(ch5Slider.getAttribute(att)).to.be.equal((1).toString());
+                });
+                numAtts.forEach(att => {
+                  expect(ch5Slider.getAttribute(att)).to.be.equal((1).toString());
+                });
+                boolAtts.slice(0, -2).forEach(att => {
+                  expect(ch5Slider.getAttribute(att)).to.be.equal((1).toString());
+                });
+              }
+              done();
+            }, 100);
+          });
+        });
+        test(`booleanJoinIncrement for 'ch5-slider-button' with invalid value  "${input}"`, (done) => {
+          ch5SubpageReferenceList.setAttribute('booleanJoinIncrement', input);
+          flush(() => {
+            setTimeout(() => {
+              for (i = 0; i < 5; i++) {
+                let ch5SliderButton = ch5SubpageReferenceList.children[0].children[i].children[0].children[1].children[1].children[2].children[0];
+                expect(ch5SliderButton.tagName).to.be.equal('CH5-SLIDER-BUTTON');
+                strAtts.slice(2, 5).forEach(att => {
+                  expect(ch5SliderButton.getAttribute(att)).to.be.equal((2).toString());
+                });
+                expect(ch5SliderButton.getAttribute(boolAtts[9])).to.be.equal((2).toString());
+              }
+              done();
+            }, 100);
+          });
+        });
+        test(`booleanJoinIncrement for 'ch5-slider-title-label' with invalid value  "${input}"`, (done) => {
+          ch5SubpageReferenceList.setAttribute('booleanJoinIncrement', input);
+          flush(() => {
+            setTimeout(() => {
+              for (i = 0; i < 5; i++) {
+                let ch5SliderTitleLabel = ch5SubpageReferenceList.children[0].children[i].children[0].children[0];
+                expect(ch5SliderTitleLabel.tagName).to.be.equal('CH5-SLIDER-TITLE-LABEL');
+                expect(ch5SliderTitleLabel.getAttribute(strAtts[5])).to.be.equal((3).toString());
+              }
+              done();
+            }, 100);
+          });
+        });
+      });
     });
   </script>
 </body>
