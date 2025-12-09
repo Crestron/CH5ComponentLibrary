@@ -13,7 +13,7 @@ import { Ch5ImageUriModel } from "../ch5-image/ch5-image-uri-model";
 import isEmpty from 'lodash/isEmpty';
 import { Ch5CommonLog } from './ch5-common-log';
 import { ICh5CommonAttributes, TCh5ShowType, TCh5ProcessUriParams } from './interfaces';
-import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import _ from 'lodash';
 
 export interface ICh5AttributeAndPropertySettings {
@@ -34,6 +34,24 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	//#region Variables
 
 	public static DIRECTION: string[] = ['ltr', 'rtl'];
+
+	public static registerSignalAttributeDefaults(componentName: string) {
+		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(componentName, {
+			contractName: { attributes: ["contractname"], defaultValue: "" },
+			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
+			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
+			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
+		});
+	}
+
+	public static registerSignalAttributeTypes(componentName: string) {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(componentName, {
+			contractname: { contractName: true },
+			booleanjoinoffset: { booleanJoin: 1 },
+			numericjoinoffset: { numericJoin: 1 },
+			stringjoinoffset: { stringJoin: 1 },
+		});
+	}
 
 	protected static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		receivestatecustomclass: { direction: "state", stringJoin: 1, contractName: true },

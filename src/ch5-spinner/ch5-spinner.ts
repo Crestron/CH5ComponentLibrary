@@ -1168,15 +1168,6 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
     Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Spinner.ELEMENT_NAME, Ch5Spinner.SIGNAL_ATTRIBUTE_TYPES);
   }
 
-  public static registerSignalAttributeDefaults() {
-    Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5Spinner.ELEMENT_NAME, {
-      contractName: { attributes: ["contractname"], defaultValue: "" },
-      booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
-      numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
-      stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
-    });
-  }
-
   /**
    * Triggered when the component is attached to the DOM
    *
@@ -1803,4 +1794,4 @@ if (
 }
 
 Ch5Spinner.registerSignalAttributeTypes();
-Ch5Spinner.registerSignalAttributeDefaults();
+Ch5Spinner.registerSignalAttributeDefaults(Ch5Spinner.ELEMENT_NAME);

@@ -1,0 +1,17 @@
+{
+  "cues": [
+    
+        {
+          "type": "boolean",
+          "event": "trigger_event",
+          "trigger": true,
+          "actions": [
+            {
+              "state": "trigger_event_listener",
+              "type": "boolean",
+              "logic": "toggle"
+            }
+          ]
+        }
+  ]
+}

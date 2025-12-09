@@ -11,7 +11,12 @@ export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStri
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
 		receivestatevalue: { direction: "state", stringJoin: 1, contractName: true },
+		contractname: { contractName: true },
+		booleanjoinoffset: { booleanJoin: 1 },
+		numericjoinoffset: { numericJoin: 1 },
+		stringjoinoffset: { stringJoin: 1 },
 	};
+	
 	public static readonly ELEMENT_NAME = 'ch5-jointotext-string';
 
 	private _receiveStateValue: string = '';
