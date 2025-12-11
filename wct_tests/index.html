@@ -1,106 +1,520 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CH5 Component Library - Test Suite</title>
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <script src="/wct_tests/js/helpers.js"></script>
 
-<head>
-	<meta charset="utf-8">
-	<script src="/webcomponentsjs/webcomponents-lite.js"></script>
-	<script src="/bower_components/web-component-tester/browser.js"></script>
-	<script src="/wct_tests/js/helpers.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
+      html,
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+          "Helvetica Neue", Arial, sans-serif;
+        background: whitesmoke;
+        min-height: 100vh;
+        color: #333;
+      }
 
-	<style>
-		html,
-		body {
-			font-family: "Helvetica", sans-serif;
-		}
+      .container {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 20px;
+      }
 
-		.n-i:after {
-			content: 'not implemented';
-			color: #FF5555;
-		}
+      .header {
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+        align-items: center;
+        justify-content: space-between;
+      }
 
-		.run-all {
-			padding-top: 10px;
-			padding-bottom: 30px;
-		}
+      h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #667eea;
+        margin-bottom: 10px;
+      }
 
-		.run-all a {
-			color: #15a431;
-			font-size: 24px;
-			text-decoration: none;
-		}
+      .subtitle {
+        font-size: 1.1rem;
+        color: #666;
+      }
 
-		.available-tests li a {
-			font-size: 18px;
-			color: #3273DC;
-			text-decoration: none;
-		}
+      .search-container {
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
 
-		.available-tests li {
-			padding: 3px 0;
-		}
+      .search-box {
+        width: 100%;
+        padding: 15px 20px;
+        font-size: 16px;
+        border: 2px solid #e0e0e0;
+        border-radius: 50px;
+        outline: none;
+        transition: all 0.3s ease;
+      }
 
-		.wrapper {
-			margin: 15px;
-		}
-	</style>
-</head>
+      .search-box:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
 
-<body>
-	<div class="wrapper">
-		<h2>Web Component Tester (WCT)</h2>
-		<ol class="available-tests">
-			<li><a href="wct_tests/ch5-accessibility-attributes/">accessibility attributes</a></li>
-            <li><a href="wct_tests/ch5-media-player/">ch5-media-player</a></li>
-            <li><a href="wct_tests/ch5-media-player-my-music/">ch5-media-player-my-music</a></li>
-            <li><a href="wct_tests/ch5-media-player-now-playing/">ch5-media-player-now-playing</a></li>
-			<li><a href="wct_tests/ch5-animation/">ch5-animation</a></li>
-			<li><a href="wct_tests/ch5-background/">ch5-background</a></li>
-			<li><a href="wct_tests/ch5-button/">ch5-button</a></li>
-			<li><a href="wct_tests/ch5-button-list/">ch5-button-list</a></li>
-			<li><a href="wct_tests/ch5-color-chip/">ch5-color-chip</a></li>
-			<li><a href="wct_tests/ch5-color-picker/">ch5-color-picker</a></li>
-			<li><a href="wct_tests/ch5-datetime/">ch5-datetime</a></li>
-			<li><a href="wct_tests/ch5-dpad/">ch5-dpad</a></li>
-			<li><a href="wct_tests/ch5-keypad/">ch5-keypad</a></li>
-			<li><a href="wct_tests/ch5-form/">ch5-form</a></li>
-			<li><a href="wct_tests/ch5-image/">ch5-image</a></li>
-			<li><a href="wct_tests/ch5-import-htmlsnippet/">ch5-import-htmlsnippet</a></li>
-			<li><a href="wct_tests/ch5-jointotext-boolean/">ch5-jointotext-boolean</a></li>
-			<li><a href="wct_tests/ch5-jointotext-numeric/">ch5-jointotext-numeric</a></li>
-			<li><a href="wct_tests/ch5-jointotext-string/">ch5-jointotext-string</a></li>
-			<li><a href="wct_tests/ch5-list/">ch5-list</a></li>
-			<li><a href="wct_tests/ch5-modal-dialog/">ch5-modal-dialog</a></li>
-			<li><a href="wct_tests/ch5-overlay-panel/">ch5-overlay-panel</a></li>
-			<li><a href="wct_tests/ch5-qrcode/">ch5-qrcode</a></li>
-			<li><a href="wct_tests/ch5-segmented-gauge/">ch5-segmented-gauge</a></li>
-			<li><a href="wct_tests/ch5-select/">ch5-select</a></li>
-			<li><a href="wct_tests/ch5-signal-level-gauge/">ch5-signal-level-gauge</a></li>
-			<li><a href="wct_tests/ch5-slider/">ch5-slider</a></li>
-			<li><a href="wct_tests/ch5-spinner/">ch5-spinner</a></li>
-			<li><a href="wct_tests/ch5-subpage-reference-list/">ch5-subpage-reference-list</a></li>
-			<li><a href="wct_tests/ch5-tab-button/">ch5-tab-button</a></li>
-			<li><a href="wct_tests/ch5-template/">ch5-template</a></li>
-			<li><a href="wct_tests/ch5-text/">ch5-text</a></li>
-			<li><a href="wct_tests/ch5-textinput/">ch5-textinput</a></li>
-			<li><a href="wct_tests/ch5-toggle/">ch5-toggle</a></li>
-			<li><a href="wct_tests/ch5-triggerview/">ch5-triggerview</a></li>
-			<li><a href="wct_tests/ch5-video/">ch5-video</a></li>
-			<li><a href="wct_tests/ch5-video-switcher/">ch5-video-switcher</a></li>
-			<li><a href="wct_tests/ch5-wifi-signal-level-gauge/">ch5-wifi-signal-level-gauge</a></li>
-			<li><a href="wct_tests/component-config/">component config</a></li>
-			<li><a href="wct_tests/general/">general</a></li>
-			<li><a href="wct_tests/join-nr-as-signal-names/">join numbers as signal names</a></li>
-			<li><a href="wct_tests/language-translation/">Language Translation</a></li>
-		</ol>
-		<hr>
-		<div class="run-all"><a href="wct_tests/run-all.html">Run All Tests</a></div>
-	</div>
-	<script>
-		// WCT.loadSuites([
-		//     'ch5-select-tests.html',
-		// ]);
-	</script>
-</body>
+      .title-header {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+      }
 
+      .stats {
+        display: flex;
+        text-align: center;
+        gap: 15px;
+      }
+
+      .stat-card {
+        display: flex;
+        background: white;
+        color: #5a5a5a;
+        border: solid 1px #5a5a5a;
+        padding: 15px;
+        border-radius: 12px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+      }
+
+      .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+      }
+
+      .action-buttons {
+        background: white;
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        flex: 1;
+        min-width: 200px;
+        padding: 18px 30px;
+        font-size: 18px;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 12px;
+        text-align: center;
+        transition: all 0.3s ease;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+      }
+
+      .btn-secondary {
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+      }
+
+      .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(14, 165, 233, 0.6);
+      }
+
+      .tests-container {
+        background: white;
+        border-radius: 16px;
+        padding: 40px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .section-title::before {
+        content: "🧪";
+        font-size: 1.5rem;
+      }
+
+      .test-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 15px;
+        list-style: none;
+      }
+
+      .test-item {
+        background: #f8f9fa;
+        border: 2px solid #e9ecef;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+      }
+
+      .test-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        border-color: #667eea;
+      }
+
+      .test-item a {
+        display: block;
+        padding: 20px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        font-size: 16px;
+      }
+
+      .test-item a::before {
+        content: "▶";
+        color: #667eea;
+        margin-right: 10px;
+        font-size: 0.8rem;
+      }
+
+      .no-results {
+        text-align: center;
+        padding: 60px 20px;
+        color: #999;
+        display: none;
+      }
+
+      .no-results.show {
+        display: block;
+      }
+
+      footer {
+        text-align: center;
+        padding: 30px;
+        color: white;
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2rem;
+        }
+
+        .header {
+          padding: 25px;
+        }
+
+        .tests-container {
+          padding: 25px;
+        }
+
+        .test-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .btn {
+          min-width: 100%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="title-header">
+          <h1>CH5 Component Library</h1>
+          <p class="subtitle">Web Component Test Suite</p>
+        </div>
+        <div class="stats">
+          <div class="action-buttons">
+            <a href="/wct_tests/run-all.html" class="btn btn-primary"
+              >▶ Run All Tests</a
+            >
+            <a
+              href="/wct_tests/run-all-with-report.html"
+              class="btn btn-secondary"
+              >📊 Run All Tests with Report</a
+            >
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="totalTests">0</div>
+            <div class="stat-label">Components</div>
+          </div>
+        </div>
+      </div>
+      <div class="search-container">
+        <input
+          type="text"
+          id="searchBox"
+          class="search-box"
+          placeholder="🔍 Search components..."
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="tests-container">
+        <h2 class="section-title">Available Test Suites</h2>
+        <ul class="test-grid" id="testList">
+          <li>
+            <a href="/wct_tests/ch5-accessibility-attributes/"
+              >accessibility attributes</a
+            >
+          </li>
+          <li><a href="/wct_tests/ch5-animation/">ch5-animation</a></li>
+          <li><a href="/wct_tests/ch5-background/">ch5-background</a></li>
+          <li><a href="/wct_tests/ch5-button/">ch5-button</a></li>
+          <li><a href="/wct_tests/ch5-button-list/">ch5-button-list</a></li>
+          <li><a href="/wct_tests/ch5-color-chip/">ch5-color-chip</a></li>
+          <li><a href="/wct_tests/ch5-color-picker/">ch5-color-picker</a></li>
+          <li><a href="/wct_tests/ch5-datetime/">ch5-datetime</a></li>
+          <li><a href="/wct_tests/ch5-dpad/">ch5-dpad</a></li>
+          <li><a href="/wct_tests/ch5-keypad/">ch5-keypad</a></li>
+          <li><a href="/wct_tests/ch5-form/">ch5-form</a></li>
+          <li><a href="/wct_tests/ch5-image/">ch5-image</a></li>
+          <li>
+            <a href="/wct_tests/ch5-import-htmlsnippet/"
+              >ch5-import-htmlsnippet</a
+            >
+          </li>
+          <li>
+            <a href="/wct_tests/ch5-jointotext-boolean/"
+              >ch5-jointotext-boolean</a
+            >
+          </li>
+          <li>
+            <a href="/wct_tests/ch5-jointotext-numeric/"
+              >ch5-jointotext-numeric</a
+            >
+          </li>
+          <li>
+            <a href="/wct_tests/ch5-jointotext-string/"
+              >ch5-jointotext-string</a
+            >
+          </li>
+          <li><a href="/wct_tests/ch5-list/">ch5-list</a></li>
+          <li><a href="/wct_tests/ch5-media-player/">ch5-media-player</a></li>
+          <li>
+            <a href="/wct_tests/ch5-media-player-my-music/"
+              >ch5-media-player-my-music</a
+            >
+          </li>
+          <li>
+            <a href="/wct_tests/ch5-media-player-now-playing/"
+              >ch5-media-player-now-playing</a
+            >
+          </li>
+          <li><a href="/wct_tests/ch5-modal-dialog/">ch5-modal-dialog</a></li>
+          <li><a href="/wct_tests/ch5-overlay-panel/">ch5-overlay-panel</a></li>
+          <li><a href="/wct_tests/ch5-qrcode/">ch5-qrcode</a></li>
+          <li>
+            <a href="/wct_tests/ch5-segmented-gauge/">ch5-segmented-gauge</a>
+          </li>
+          <li><a href="/wct_tests/ch5-select/">ch5-select</a></li>
+          <li>
+            <a href="/wct_tests/ch5-signal-level-gauge/"
+              >ch5-signal-level-gauge</a
+            >
+          </li>
+          <li><a href="/wct_tests/ch5-slider/">ch5-slider</a></li>
+          <li><a href="/wct_tests/ch5-spinner/">ch5-spinner</a></li>
+          <li>
+            <a href="/wct_tests/ch5-subpage-reference-list/"
+              >ch5-subpage-reference-list</a
+            >
+          </li>
+          <li><a href="/wct_tests/ch5-tab-button/">ch5-tab-button</a></li>
+          <li><a href="/wct_tests/ch5-template/">ch5-template</a></li>
+          <li><a href="/wct_tests/ch5-text/">ch5-text</a></li>
+          <li><a href="/wct_tests/ch5-textinput/">ch5-textinput</a></li>
+          <li><a href="/wct_tests/ch5-toggle/">ch5-toggle</a></li>
+          <li><a href="/wct_tests/ch5-triggerview/">ch5-triggerview</a></li>
+          <li><a href="/wct_tests/ch5-video/">ch5-video</a></li>
+          <li>
+            <a href="/wct_tests/ch5-video-switcher/">ch5-video-switcher</a>
+          </li>
+          <li>
+            <a href="/wct_tests/ch5-wifi-signal-level-gauge/"
+              >ch5-wifi-signal-level-gauge</a
+            >
+          </li>
+          <li><a href="/wct_tests/component-config/">component config</a></li>
+          <li><a href="/wct_tests/general/">general</a></li>
+          <li>
+            <a href="/wct_tests/join-nr-as-signal-names/"
+              >join numbers as signal names</a
+            >
+          </li>
+          <li>
+            <a href="/wct_tests/language-translation/">Language Translation</a>
+          </li>
+        </ul>
+        <div class="no-results" id="noResults">
+          <div style="font-size: 3rem; margin-bottom: 10px">🔍</div>
+          <div style="font-size: 1.2rem">No matching tests found</div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2026 Crestron Electronics. All rights reserved.</p>
+    </footer>
+
+    <script>
+      const tests = [
+        {
+          name: "Accessibility Attributes",
+          url: "/wct_tests/ch5-accessibility-attributes/",
+        },
+        { name: "CH5 Animation", url: "/wct_tests/ch5-animation/" },
+        { name: "CH5 Background", url: "/wct_tests/ch5-background/" },
+        { name: "CH5 Button", url: "/wct_tests/ch5-button/" },
+        { name: "CH5 Button List", url: "/wct_tests/ch5-button-list/" },
+        { name: "CH5 Color Chip", url: "/wct_tests/ch5-color-chip/" },
+        { name: "CH5 Color Picker", url: "/wct_tests/ch5-color-picker/" },
+        { name: "CH5 DateTime", url: "/wct_tests/ch5-datetime/" },
+        { name: "CH5 DPad", url: "/wct_tests/ch5-dpad/" },
+        { name: "CH5 Keypad", url: "/wct_tests/ch5-keypad/" },
+        { name: "CH5 Form", url: "/wct_tests/ch5-form/" },
+        { name: "CH5 Image", url: "/wct_tests/ch5-image/" },
+        {
+          name: "CH5 Import HTML Snippet",
+          url: "/wct_tests/ch5-import-htmlsnippet/",
+        },
+        {
+          name: "CH5 JoinToText Boolean",
+          url: "/wct_tests/ch5-jointotext-boolean/",
+        },
+        {
+          name: "CH5 JoinToText Numeric",
+          url: "/wct_tests/ch5-jointotext-numeric/",
+        },
+        {
+          name: "CH5 JoinToText String",
+          url: "/wct_tests/ch5-jointotext-string/",
+        },
+        { name: "CH5 List", url: "/wct_tests/ch5-list/" },
+        { name: "CH5 Media Player", url: "/wct_tests/ch5-media-player/" },
+        {
+          name: "CH5 Media Player My Music",
+          url: "/wct_tests/ch5-media-player-my-music/",
+        },
+        {
+          name: "CH5 Media Player Now Playing",
+          url: "/wct_tests/ch5-media-player-now-playing/",
+        },
+        { name: "CH5 Modal Dialog", url: "/wct_tests/ch5-modal-dialog/" },
+        { name: "CH5 Overlay Panel", url: "/wct_tests/ch5-overlay-panel/" },
+        { name: "CH5 QR Code", url: "/wct_tests/ch5-qrcode/" },
+        { name: "CH5 Segmented Gauge", url: "/wct_tests/ch5-segmented-gauge/" },
+        { name: "CH5 Select", url: "/wct_tests/ch5-select/" },
+        {
+          name: "CH5 Signal Level Gauge",
+          url: "/wct_tests/ch5-signal-level-gauge/",
+        },
+        { name: "CH5 Slider", url: "/wct_tests/ch5-slider/" },
+        { name: "CH5 Spinner", url: "/wct_tests/ch5-spinner/" },
+        {
+          name: "CH5 Subpage Reference List",
+          url: "/wct_tests/ch5-subpage-reference-list/",
+        },
+        { name: "CH5 Tab Button", url: "/wct_tests/ch5-tab-button/" },
+        { name: "CH5 Template", url: "/wct_tests/ch5-template/" },
+        { name: "CH5 Text", url: "/wct_tests/ch5-text/" },
+        { name: "CH5 TextInput", url: "/wct_tests/ch5-textinput/" },
+        { name: "CH5 Toggle", url: "/wct_tests/ch5-toggle/" },
+        { name: "CH5 TriggerView", url: "/wct_tests/ch5-triggerview/" },
+        { name: "CH5 Video", url: "/wct_tests/ch5-video/" },
+        { name: "CH5 Video Switcher", url: "/wct_tests/ch5-video-switcher/" },
+        {
+          name: "CH5 WiFi Signal Level Gauge",
+          url: "/wct_tests/ch5-wifi-signal-level-gauge/",
+        },
+        { name: "Component Config", url: "/wct_tests/component-config/" },
+        { name: "General", url: "/wct_tests/general/" },
+        {
+          name: "Join Numbers as Signal Names",
+          url: "/wct_tests/join-nr-as-signal-names/",
+        },
+        {
+          name: "Language Translation",
+          url: "/wct_tests/language-translation/",
+        },
+      ];
+
+      const testList = document.getElementById("testList");
+      const searchBox = document.getElementById("searchBox");
+      const totalTestsEl = document.getElementById("totalTests");
+      const noResultsEl = document.getElementById("noResults");
+
+      function renderTests(filteredTests = tests) {
+        testList.innerHTML = "";
+
+        if (filteredTests.length === 0) {
+          noResultsEl.classList.add("show");
+        } else {
+          noResultsEl.classList.remove("show");
+          filteredTests.forEach((test) => {
+            const li = document.createElement("li");
+            li.className = "test-item";
+            li.innerHTML = `<a href="${test.url}">${test.name}</a>`;
+            testList.appendChild(li);
+          });
+        }
+
+        totalTestsEl.textContent = tests.length;
+      }
+
+      function handleSearch() {
+        const searchTerm = searchBox.value.toLowerCase().trim();
+
+        if (!searchTerm) {
+          renderTests();
+          return;
+        }
+
+        const filtered = tests.filter((test) =>
+          test.name.toLowerCase().includes(searchTerm)
+        );
+
+        renderTests(filtered);
+      }
+
+      searchBox.addEventListener("input", handleSearch);
+
+      // Initialize
+      renderTests();
+    </script>
+  </body>
 </html>

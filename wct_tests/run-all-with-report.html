@@ -1,0 +1,455 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="/bower_components/web-component-tester/browser.js"></script>
+	<script src="/wct_tests/js/helpers.js"></script>
+	<style>
+		body { 
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+		}
+		#report-status { 
+			position: fixed; 
+			bottom: 30px; 
+			right: 30px; 
+			padding: 16px 32px; 
+			background: #3b82f6; 
+			color: white; 
+			border-radius: 12px; 
+			font-weight: 600; 
+			font-size: 15px;
+			z-index: 9999;
+			box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+			transition: all 0.3s ease;
+			cursor: not-allowed;
+			opacity: 0.8;
+		}
+		#report-status:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+		}
+		#report-status.ready { 
+			background: linear-gradient(135deg, #10b981, #059669);
+			cursor: pointer;
+			opacity: 1;
+			animation: pulse 2s infinite;
+		}
+		#report-status.ready:hover {
+			background: linear-gradient(135deg, #059669, #047857);
+		}
+		@keyframes pulse {
+			0%, 100% { box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4); }
+			50% { box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6); }
+		}
+	</style>
+</head>
+<body>
+	<div id="report-status">⏳ Running Tests...</div>
+	<script>
+const pagesToExecute = [
+			'ch5-accessibility-attributes/index.html',
+			'ch5-animation/index.html',
+			'ch5-background/index.html',
+			'ch5-button/index.html',
+			'ch5-button-list/index.html',
+			'ch5-color-chip/index.html',
+			'ch5-color-picker/index.html',
+			'ch5-datetime/index.html',
+			'ch5-dpad/index.html',
+			'ch5-image/index.html',
+			'ch5-import-htmlsnippet/index.html',
+			'ch5-jointotext-boolean/index.html',
+			'ch5-jointotext-numeric/index.html',
+			'ch5-jointotext-string/index.html',
+			'ch5-form/index.html',
+			'ch5-list/index.html',
+			'ch5-keypad/index.html',
+			'ch5-modal-dialog/index.html',
+			'ch5-media-player/index.html',
+			'ch5-media-player-my-music/index.html',
+			'ch5-media-player-now-playing/index.html',
+			'ch5-overlay-panel/index.html',
+			'ch5-qrcode/index.html',
+			'ch5-segmented-gauge/index.html',
+			'ch5-select/index.html',
+			'ch5-signal-level-gauge/index.html',
+			'ch5-slider/index.html',
+			'ch5-spinner/index.html',
+			'ch5-subpage-reference-list/index.html',
+			'ch5-template/index.html',
+			'ch5-text/index.html',
+			'ch5-textinput/index.html',
+			'ch5-toggle/index.html',
+			'ch5-triggerview/index.html',
+			'ch5-video/index.html',
+			'ch5-video-switcher/index.html',
+			'ch5-wifi-signal-level-gauge/index.html',
+			'component-config/index.html',
+			'general/component-creation-from-js.html',
+			'join-nr-as-signal-names/index.html',
+		];
+
+
+		executeTestCases(pagesToExecute);
+
+		// Collect tests as they run
+		const collectedTests = [];
+		let currentSuiteName = '';
+		
+		function setupTestCapture() {
+			if (!window.WCT || !window.WCT._reporter) {
+				setTimeout(setupTestCapture, 500);
+				return;
+			}
+			
+			const reporter = window.WCT._reporter;
+			const originalEmit = reporter.$events;
+			
+			// Listen for test events
+			reporter.on('test end', function(test) {
+				const testData = {
+					suite: test.parent ? test.parent.fullTitle() : 'Unknown Suite',
+					name: test.title,
+					fullTitle: test.fullTitle(),
+					status: test.state || (test.pending ? 'pending' : 'unknown'),
+					duration: test.duration || 0,
+					speed: test.speed || null,
+					error: test.err ? {
+						message: test.err.message || '',
+						stack: test.err.stack || '',
+						actual: test.err.actual,
+						expected: test.err.expected,
+						showDiff: test.err.showDiff || false
+					} : null,
+					body: test.body || (test.fn ? test.fn.toString() : ''),
+					file: test.file || '',
+					pending: test.pending || false,
+					timedOut: test.timedOut || false
+				};
+				collectedTests.push(testData);
+				console.log('📝 Captured test:', testData.name, '→', testData.status);
+			});
+			
+			console.log('✅ Test capture listeners set up');
+		}
+		
+		setupTestCapture();
+
+		// Generate HTML report when tests complete
+		function waitForTestCompletion() {
+			const checkInterval = setInterval(function() {
+				if (window.WCT && window.WCT._reporter && window.WCT._reporter.stats && window.WCT._reporter.stats.end) {
+					clearInterval(checkInterval);
+					const statusEl = document.getElementById('report-status');
+					statusEl.textContent = '📊 Generating Report...';
+					
+					// Auto-generate and download the report
+					setTimeout(function() {
+						console.log('📊 Auto-generating report with', collectedTests.length, 'captured tests');
+						generateHTMLReport(window.WCT._reporter.stats, collectedTests);
+						statusEl.textContent = '✅ Report Downloaded!';
+						statusEl.className = 'ready';
+						
+						// Allow manual re-download
+						statusEl.onclick = function() {
+							generateHTMLReport(window.WCT._reporter.stats, collectedTests);
+						};
+					}, 1000);
+				}
+			}, 1000);
+		}
+
+		setTimeout(waitForTestCompletion, 5000);
+
+		function generateHTMLReport(stats, tests) {
+			console.log('%cGenerating HTML Report...', 'color: #3b82f6; font-weight: bold;');
+			console.log('  - tests array length:', tests.length);
+			console.log('  - stats:', stats);
+			
+			const timestamp = new Date().toLocaleString();
+			const status = stats.failures === 0 ? 'success' : 'failure';
+			const duration = ((stats.end - stats.start) / 1000).toFixed(2);
+			
+			// Capture browser details
+			const browserInfo = {
+				userAgent: navigator.userAgent,
+				platform: navigator.platform,
+				cookieEnabled: navigator.cookieEnabled,
+				onLine: navigator.onLine
+			};
+			
+			// Helper function to escape HTML
+			function escapeHtml(text) {
+				if (!text) return '';
+				return String(text)
+					.replace(/&/g, '&amp;')
+					.replace(/</g, '&lt;')
+					.replace(/>/g, '&gt;')
+					.replace(/"/g, '&quot;')
+					.replace(/'/g, '&#039;');
+			}
+			
+			// Use the tests array directly (already collected via event listener)
+			const allTests = tests;
+			console.log('%c🔢 TOTAL TESTS:', 'color: #dc2626; font-weight: bold; font-size: 18px;', allTests.length, 'tests');
+			console.log('%c📋 All tests:', 'color: #3b82f6; font-weight: bold;', allTests);
+
+			// Group by suite
+			console.log('%c🔧 Starting to group tests...', 'color: #f59e0b; font-weight: bold;', 'allTests.length =', allTests.length);
+			const suiteMap = {};
+			allTests.forEach(test => {
+				console.log('  Grouping test:', test.name, '→ suite:', test.suite);
+				if (!test.suite) {
+					console.warn('  ⚠️ Test has no suite name!', test);
+				}
+				if (!suiteMap[test.suite]) {
+					suiteMap[test.suite] = { name: test.suite, tests: [], passed: 0, failed: 0, pending: 0 };
+				}
+				suiteMap[test.suite].tests.push(test);
+				if (test.status === 'passed') suiteMap[test.suite].passed++;
+				else if (test.status === 'failed') suiteMap[test.suite].failed++;
+				else suiteMap[test.suite].pending++;
+			});
+			
+			console.log('%c✅ Grouping complete!', 'color: #10b981; font-weight: bold;', 'Total suites:', Object.keys(suiteMap).length);
+			console.log('%c📦 suiteMap:', 'color: #3b82f6; font-weight: bold;', suiteMap);
+
+			const reportHTML = '<!DOCTYPE html>' +
+'<html lang="en">' +
+'<head>' +
+'<meta charset="UTF-8">' +
+'<meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+'<title>WCT Test Results</title>' +
+'<style>' +
+'* { margin: 0; padding: 0; box-sizing: border-box; }' +
+'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f5f5; padding: 20px; color: #333; }' +
+'.container { max-width: 100%; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }' +
+'.header { display: flex; gap: 10px; background: linear-gradient(135deg, ' + (status === 'success' ? '#10b981, #003827' : '#ef4444, #dc2626') + '); color: white; padding: 20px; }' +
+'.header h1 { font-size: 28px; }' +
+'.header .result { border: solid 1px dimgray; background: whitesmoke; color: black; padding: 8px; display: inline-flex; border-radius: 6px; }' +
+'.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 20px; background: #f9fafb; }' +
+'.card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-left: 4px solid; }' +
+'.card.total { border-left-color: #3b82f6; }' +
+'.card.passed { border-left-color: #10b981; }' +
+'.card.failed { border-left-color: #ef4444; }' +
+'.card.pending { border-left-color: #f59e0b; }' +
+'.card .label { font-size: 14px; color: #6b7280; text-transform: uppercase; margin-bottom: 8px; }' +
+'.card .value { font-size: 36px; font-weight: 700; }' +
+'.card.duration { border-left-color: #8b5cf6; }' +
+'.card .unit { font-size: 20px; color: #6b7280; margin-left: 4px; }' +
+'.browser-info { background: #f9fafb; padding: 24px 30px; border-bottom: 2px solid #e5e7eb; }' +
+'.browser-info h3 { font-size: 16px; color: #1f2937; margin-bottom: 12px; font-weight: 600; }' +
+'.browser-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; font-size: 13px; }' +
+'.browser-detail { color: #6b7280; }' +
+'.browser-detail strong { color: #374151; font-weight: 600; }' +
+'.toolbar { padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }' +
+'.toolbar button { padding: 8px 16px; border: 1px solid #d1d5db; border-radius: 6px; background: white; cursor: pointer; font-size: 13px; transition: all 0.2s; }' +
+'.toolbar button:hover { background: #f3f4f6; border-color: #9ca3af; }' +
+'.toolbar button.active { background: #3b82f6; color: white; border-color: #3b82f6; }' +
+'.content { padding: 30px; }' +
+'.suite { margin-bottom: 20px; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; }' +
+'.suite.collapsed .suite-content { display: none; }' +
+'.suite-header { background: #f9fafb; padding: 15px 20px; font-weight: 600; border-bottom: 1px solid #e5e7eb; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }' +
+'.suite-header:hover { background: #f3f4f6; }' +
+'.suite-header::before { content: "▼"; margin-right: 10px; font-size: 10px; transition: transform 0.2s; }' +
+'.suite.collapsed .suite-header::before { transform: rotate(-90deg); }' +
+'.suite-toggle { font-size: 12px; color: #6b7280; }' +
+'.suite-content { }' +
+'.test { padding: 12px 20px; border-bottom: 1px solid #f3f4f6; cursor: pointer; transition: background 0.2s; }' +
+'.test:last-child { border-bottom: none; }' +
+'.test:hover { background: #f9fafb; }' +
+'.test-row { display: flex; align-items: center; }' +
+'.test.expanded { background: #f8fafc; }' +
+'.test-details { display: none; margin-top: 12px; padding: 16px; background: white; border-radius: 8px; border: 1px solid #e5e7eb; }' +
+'.test.expanded .test-details { display: block; }' +
+'.status { width: 24px; height: 24px; border-radius: 50%; margin-right: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; color: white; }' +
+'.status.passed { background: #10b981; }' +
+'.status.passed::after { content: "✓"; }' +
+'.status.failed { background: #ef4444; }' +
+'.status.failed::after { content: "✗"; }' +
+'.status.pending { background: #f59e0b; }' +
+'.status.pending::after { content: "⋯"; }' +
+'.status.unknown { background: #6b7280; }' +
+'.status.unknown::after { content: "?"; }' +
+'.test-info { flex: 1; min-width: 0; }' +
+'.test-name { font-weight: 500; color: #1f2937; word-wrap: break-word; display: flex; align-items: center; }' +
+'.test-name::after { content: "▶"; margin-left: 8px; font-size: 10px; color: #9ca3af; transition: transform 0.2s; }' +
+'.test.expanded .test-name::after { transform: rotate(90deg); }' +
+'.test-meta { display: flex; gap: 12px; margin-top: 4px; font-size: 12px; color: #6b7280; flex-wrap: wrap; }' +
+'.test-duration { background: #f3f4f6; padding: 2px 8px; border-radius: 4px; font-weight: 600; }' +
+'.test-speed { padding: 2px 8px; border-radius: 4px; font-weight: 600; }' +
+'.test-speed.fast { background: #d1fae5; color: #059669; }' +
+'.test-speed.medium { background: #fef3c7; color: #d97706; }' +
+'.test-speed.slow { background: #fee2e2; color: #dc2626; }' +
+'.detail-grid { display: grid; grid-template-columns: 140px 1fr; gap: 10px; font-size: 13px; }' +
+'.detail-label { font-weight: 600; color: #6b7280; }' +
+'.detail-value { color: #1f2937; font-family: "SF Mono", Monaco, Consolas, monospace; word-break: break-word; }' +
+'.detail-value.status-passed { color: #059669; font-weight: 600; }' +
+'.detail-value.status-failed { color: #dc2626; font-weight: 600; }' +
+'.detail-value.status-pending { color: #d97706; font-weight: 600; }' +
+'.test-code { margin-top: 16px; }' +
+'.test-code-header { font-weight: 600; color: #374151; font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }' +
+'.test-code-header::before { content: "📝"; }' +
+'.code-block { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 8px; font-family: "SF Mono", Monaco, Consolas, monospace; font-size: 12px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; overflow-x: auto; max-height: 400px; overflow-y: auto; }' +
+'.code-block .keyword { color: #c084fc; }' +
+'.code-block .string { color: #86efac; }' +
+'.code-block .comment { color: #64748b; font-style: italic; }' +
+'.code-block .function { color: #60a5fa; }' +
+'.code-block .number { color: #fbbf24; }' +
+'.error { margin-top: 12px; padding: 12px; background: #fef2f2; border-left: 4px solid #ef4444; font-size: 13px; color: #991b1b; border-radius: 6px; }' +
+'.error-message { font-weight: 600; margin-bottom: 8px; }' +
+'.error-stack { font-family: "SF Mono", Monaco, Consolas, monospace; font-size: 11px; white-space: pre-wrap; word-break: break-word; background: #fee2e2; padding: 8px; border-radius: 4px; margin-top: 8px; overflow-x: auto; max-height: 300px; overflow-y: auto; }' +
+'.error-diff { margin-top: 8px; padding: 8px; background: #fff7ed; border-radius: 4px; }' +
+'.error-diff strong { display: block; margin-bottom: 4px; color: #9a3412; }' +
+'@media print {' +
+'  body { background: white; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }' +
+'  .container { box-shadow: none; max-width: 100%; }' +
+'  .toolbar { display: none; }' +
+'  .suite { break-inside: avoid; page-break-inside: avoid; }' +
+'  .test { break-inside: avoid; page-break-inside: avoid; }' +
+'  .test-details { display: block !important; }' +
+'  .suite.collapsed .suite-content { display: block !important; }' +
+'  .header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }' +
+'  .status { -webkit-print-color-adjust: exact; print-color-adjust: exact; }' +
+'  .card { -webkit-print-color-adjust: exact; print-color-adjust: exact; }' +
+'  .code-block { max-height: none; overflow: visible; }' +
+'}' +
+'.print-btn { position: fixed; bottom: 80px; right: 30px; padding: 12px 24px; background: #3b82f6; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; box-shadow: 0 4px 12px rgba(59,130,246,0.4); }' +
+'.print-btn:hover { background: #2563eb; }' +
+'</style>' +
+'</head>' +
+'<body>' +
+'<div class="container">' +
+'<div class="header">' +
+'<h1>WCT Test Results</h1>' +
+'<div>' + timestamp + '</div>' +
+'<div class="result">' + (status === 'success' ? '✅ All Tests Passed' : '❌ ' + stats.failures + ' Test(s) Failed') + '</div>' +
+'</div>' +
+'<div class="summary">' +
+'<div class="card total"><div class="label">Total</div><div class="value">' + (stats.tests || 0) + '</div></div>' +
+'<div class="card passed"><div class="label">Passed</div><div class="value">' + (stats.passes || 0) + '</div></div>' +
+'<div class="card failed"><div class="label">Failed</div><div class="value">' + (stats.failures || 0) + '</div></div>' +
+'<div class="card duration"><div class="label">Duration</div><div class="value">' + duration + '<span class="unit">s</span></div></div>' +
+'</div>' +
+'<div class="browser-info">' +
+'<h3>🌐 Browser Environment</h3>' +
+'<div class="browser-details">' +
+'<div class="browser-detail"><strong>User Agent:</strong> ' + browserInfo.userAgent + '</div>' +
+'</div>' +
+'</div>' +
+'<div class="toolbar">' +
+'<button onclick="expandAllSuites()">📂 Expand All Suites</button>' +
+'<button onclick="collapseAllSuites()">📁 Collapse All Suites</button>' +
+'<button onclick="expandAllTests()">🔽 Expand All Tests</button>' +
+'<button onclick="collapseAllTests()">🔼 Collapse All Tests</button>' +
+'<button onclick="showOnlyFailed()" style="background:#fef2f2;border-color:#fca5a5;color:#dc2626;">❌ Show Only Failed</button>' +
+'<button onclick="showAll()">📋 Show All</button>' +
+'</div>' +
+'<div class="content">' +
+(function() {
+	const suites = Object.values(suiteMap);
+	console.log('%c🏗️ Building HTML for suites:', 'color: #7c3aed; font-weight: bold;', suites.length, 'suites');
+	suites.forEach((s, i) => {
+		console.log('  Suite ' + (i+1) + ':', s.name, '→', s.tests.length, 'tests');
+	});
+	return suites;
+})().map(suite => 
+'<div class="suite">' +
+'<div class="suite-header" onclick="this.parentElement.classList.toggle(\'collapsed\')">' +
+'<span>' + suite.name + '</span>' +
+'<span class="suite-toggle">' + suite.passed + '/' + suite.tests.length + ' passed</span>' +
+'</div>' +
+'<div class="suite-content">' +
+suite.tests.map(test => {
+	let errorHTML = '';
+	if (test.error && test.error.message) {
+		errorHTML = '<div class="error">' +
+		'<div class="error-message">❌ ' + escapeHtml(test.error.message) + '</div>';
+		if (test.error.stack) {
+			errorHTML += '<div class="error-stack">' + escapeHtml(test.error.stack) + '</div>';
+		}
+		if (test.error.showDiff && test.error.expected !== undefined && test.error.actual !== undefined) {
+			errorHTML += '<div class="error-diff">' +
+			'<strong>Expected:</strong> ' + escapeHtml(JSON.stringify(test.error.expected)) + '<br>' +
+			'<strong>Actual:</strong> ' + escapeHtml(JSON.stringify(test.error.actual)) +
+			'</div>';
+		}
+		errorHTML += '</div>';
+	}
+	
+	return '<div class="test" data-status="' + test.status + '" onclick="this.classList.toggle(\'expanded\')">' +
+	'<div class="test-row">' +
+	'<div class="status ' + test.status + '"></div>' +
+	'<div class="test-info">' +
+	'<div class="test-name">' + escapeHtml(test.name) + '</div>' +
+	'<div class="test-meta">' +
+	(test.duration ? '<span class="test-duration">⏱ ' + test.duration + 'ms</span>' : '') +
+	(test.speed ? '<span class="test-speed ' + test.speed + '">' + test.speed + '</span>' : '') +
+	(test.timedOut ? '<span style="color:#dc2626;font-weight:600;">⏱️ Timed Out</span>' : '') +
+	'</div>' +
+	'</div>' +
+	'</div>' +
+	'<div class="test-details">' +
+	'<div class="detail-grid">' +
+	'<div class="detail-label">Status:</div>' +
+	'<div class="detail-value status-' + test.status + '">' + (test.status || 'unknown').toUpperCase() + '</div>' +
+	'<div class="detail-label">Duration:</div>' +
+	'<div class="detail-value">' + (test.duration || 0) + 'ms</div>' +
+	(test.speed ? '<div class="detail-label">Speed:</div><div class="detail-value">' + test.speed + '</div>' : '') +
+	(test.timedOut ? '<div class="detail-label">Timed Out:</div><div class="detail-value" style="color:#dc2626;">Yes ⏱️</div>' : '') +
+	(test.pending ? '<div class="detail-label">Pending:</div><div class="detail-value" style="color:#d97706;">Yes</div>' : '') +
+	(test.file ? '<div class="detail-label">File:</div><div class="detail-value">' + escapeHtml(test.file) + '</div>' : '') +
+	'</div>' +
+	(test.body ? '<div class="test-code"><div class="test-code-header">Test Code</div><div class="code-block">' + escapeHtml(test.body) + '</div></div>' : '') +
+	errorHTML +
+	'</div>' +
+	'</div>';
+}).join('') +
+'</div>' +
+'</div>'
+).join('') +
+'</div>' +
+'</div>' +
+'<scr' + 'ipt>' +
+'function escapeHtml(text) { var div = document.createElement("div"); div.textContent = text; return div.innerHTML; }' +
+'function expandAllSuites() { document.querySelectorAll(".suite").forEach(s => s.classList.remove("collapsed")); }' +
+'function collapseAllSuites() { document.querySelectorAll(".suite").forEach(s => s.classList.add("collapsed")); }' +
+'function expandAllTests() { document.querySelectorAll(".test").forEach(t => t.classList.add("expanded")); }' +
+'function collapseAllTests() { document.querySelectorAll(".test").forEach(t => t.classList.remove("expanded")); }' +
+'function showOnlyFailed() { document.querySelectorAll(".test").forEach(t => { if(t.dataset.status !== "failed") t.style.display = "none"; else t.style.display = ""; }); document.querySelectorAll(".suite").forEach(s => { var tests = s.querySelectorAll(".test[data-status=failed]"); if(tests.length === 0) s.style.display = "none"; else s.style.display = ""; }); }' +
+'function showAll() { document.querySelectorAll(".test, .suite").forEach(el => el.style.display = ""); }' +
+'</' + 'script>' +
+'</body>' +
+'</html>';
+
+			// Verify HTML contains tests
+			console.log('%c🔍 HTML Report Stats:', 'color: #7c3aed; font-weight: bold; font-size: 16px;');
+			
+			// Show first 500 chars of report content section
+			const contentStart = reportHTML.indexOf('<div class="content">');
+			if (contentStart > 0) {
+				console.log('  - Content section preview:', reportHTML.substring(contentStart, contentStart + 500));
+			}
+
+			// Download the report
+			const now = new Date();
+			const year = now.getFullYear();
+			const month = String(now.getMonth() + 1).padStart(2, '0');
+			const day = String(now.getDate()).padStart(2, '0');
+			const hours = String(now.getHours()).padStart(2, '0');
+			const minutes = String(now.getMinutes()).padStart(2, '0');
+			const filename = `WCT-REPORT-${year}${month}${day}_${hours}${minutes}.html`;
+			
+			const blob = new Blob([reportHTML], {type: 'text/html'});
+			const a = document.createElement('a');
+			a.href = URL.createObjectURL(blob);
+			a.download = filename;
+			a.click();
+			
+			console.log('%c✅ HTML Report Downloaded!', 'color: green; font-size: 16px; font-weight: bold');
+		}
+	</script>
+</body>
+</html>
