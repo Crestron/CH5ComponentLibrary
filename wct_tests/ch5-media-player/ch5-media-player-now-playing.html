@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <script src="/webcomponentsjs/webcomponents-lite.js"></script>
     <script src="/bower_components/web-component-tester/browser.js"></script>
-    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/light-theme.css">
     <script src="/wct_tests/js/helpers.js"></script>
     <script src="/build_bundles/umd/cr-com-lib.js"></script>
 </head>
@@ -697,7 +697,235 @@
                     }
                 }, 30);
             });
-
+            suite('ch5-media-player-now-playing — Song Title Marquee Effect', () => {
+                suite('Song Title Marquee Effect with constant MP width and changing song title length', () => {
+                    test('test now playing song title marquee effect - short song name', (done) => {
+                        flush(() => {
+                            setTimeout(() => {
+                                const songTitle = nowPlayingComponent.querySelector('.now-playing-song-title') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-title');
+                                expect(songTitle).to.exist;
+                                expect(songTitle.children[0].innerHTML).to.equal('Song Title');
+                                console.log('div: ', songTitle);
+                                expect(songTitle.classList.contains('marquee-item')).to.be.false;
+                                done();
+                            }, 20);
+                        });
+                    });
+                    test('test now playing song title marquee effect -  song name a bit longer than container', (done) => {
+                        const songTitleData = { ...nowPlayingData, Title: "Song Title is good and is a very long text and name" }
+                        CrComLib.publishEvent('o', 'nowPlayingData', songTitleData);
+                        flush(() => {
+                            setTimeout(() => {
+                                const songTitle = nowPlayingComponent.querySelector('.now-playing-song-title') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-title');
+                                expect(songTitle).to.exist;
+                                expect(songTitle.children[0].innerHTML).to.equal('Song Title is good and is a very long text and name');
+                                console.log('div: ', songTitle);
+                                expect(songTitle.classList.contains('marquee-item')).to.be.true;
+                                done();
+                            }, 20);
+                        });
+                    });
+                    test('test now playing song title marquee effect - song name barely longer than container', (done) => {
+                        const songTitleData = { ...nowPlayingData, Title: "Song Ttle is good and is a very long text and name" }
+                        CrComLib.publishEvent('o', 'nowPlayingData', songTitleData);
+                        flush(() => {
+                            setTimeout(() => {
+                                const songTitle = nowPlayingComponent.querySelector('.now-playing-song-title') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-title');
+                                expect(songTitle).to.exist;
+                                expect(songTitle.children[0].innerHTML).to.equal('Song Ttle is good and is a very long text and name');
+                                console.log('div: ', songTitle);
+                                expect(songTitle.classList.contains('marquee-item')).to.be.true;
+                                done();
+                            }, 20);
+                        });
+                    });
+                    test('test now playing song title marquee effect - song name same length as container', (done) => {
+                        const songTitleData = { ...nowPlayingData, Title: "Song Ttle |s good and |s a very long text and name" }
+                        CrComLib.publishEvent('o', 'nowPlayingData', songTitleData);
+                        flush(() => {
+                            setTimeout(() => {
+                                const songTitle = nowPlayingComponent.querySelector('.now-playing-song-title') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-title');
+                                expect(songTitle).to.exist;
+                                expect(songTitle.children[0].innerHTML).to.equal('Song Ttle |s good and |s a very long text and name');
+                                console.log('div: ', songTitle);
+                                expect(songTitle.classList.contains('marquee-item')).to.be.false;
+                                done();
+                            }, 20);
+                        });
+                    });
+                    test('test now playing song title marquee effect - song name barely shorter than container', (done) => {
+                        const songTitleData = { ...nowPlayingData, Title: "Song Ttle s good and ||s a very |ong text and name" }
+                        CrComLib.publishEvent('o', 'nowPlayingData', songTitleData);
+                        flush(() => {
+                            setTimeout(() => {
+                                const songTitle = nowPlayingComponent.querySelector('.now-playing-song-title') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-title');
+                                expect(songTitle).to.exist;
+                                expect(songTitle.children[0].innerHTML).to.equal('Song Ttle s good and ||s a very |ong text and name');
+                                console.log('div: ', songTitle);
+                                expect(songTitle.classList.contains('marquee-item')).to.be.false;
+                                done();
+                            }, 20);
+                        });
+                    });
+                });
+                suite('Song Title Marquee Effect with constant song title length and changing MP width', () => {
+                    test('test now playing song title marquee effect - MP width such that song name a bit longer than container (Landscape Mode)', (done) => {
+                        const songTitleData = { ...nowPlayingData, Title: "Song Title is good and is a very long text and name" }
+                        CrComLib.publishEvent('o', 'nowPlayingData', songTitleData);
+                        nowPlayingComponent.setAttribute('customStyle', 'width:800px');
+                        flush(() => {
+                            setTimeout(() => {
+                                const songTitle = nowPlayingComponent.querySelector('.now-playing-song-title') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-title');
+                                expect(songTitle).to.exist;
+                                expect(songTitle.children[0].innerHTML).to.equal('Song Title is good and is a very long text and name');
+                                expect(songTitle.classList.contains('marquee-item')).to.be.true;
+                                done();
+                            }, 20);
+                        });
+                    });
+                    test('test now playing song title marquee effect - MP width such that song name barely longer than container (Landscape Mode)', (done) => {
+                        const songTitleData = { ...nowPlayingData, Title: "Song Title is good and is a very long text and name" }
+                        CrComLib.publishEvent('o', 'nowPlayingData', songTitleData);
+                        nowPlayingComponent.setAttribute('customStyle', 'width:810px');
+                        flush(() => {
+                            setTimeout(() => {
+                                const songTitle = nowPlayingComponent.querySelector('.now-playing-song-title') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-title');
+                                expect(songTitle).to.exist;
+                                expect(songTitle.children[0].innerHTML).to.equal('Song Title is good and is a very long text and name');
+                                expect(songTitle.classList.contains('marquee-item')).to.be.true;
+                                done();
+                            }, 20);
+                        });
+                    });
+                    test('test now playing song title marquee effect - MP width such that song name same length as container (Landscape Mode)', (done) => {
+                        const songTitleData = { ...nowPlayingData, Title: "Song Title is good and is a very long text and name" }
+                        CrComLib.publishEvent('o', 'nowPlayingData', songTitleData);
+                        nowPlayingComponent.setAttribute('customStyle', 'width:812px');
+                        flush(() => {
+                            setTimeout(() => {
+                                const songTitle = nowPlayingComponent.querySelector('.now-playing-song-title') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-title');
+                                expect(songTitle).to.exist;
+                                expect(songTitle.children[0].innerHTML).to.equal('Song Title is good and is a very long text and name');
+                                expect(songTitle.classList.contains('marquee-item')).to.be.false;
+                                done();
+                            }, 20);
+                        });
+                    });
+                    test('test now playing song title marquee effect - MP width such that song name barely shorter than container (Landscape Mode)', (done) => {
+                        const songTitleData = { ...nowPlayingData, Title: "Song Title is good and is a very long text and name" }
+                        CrComLib.publishEvent('o', 'nowPlayingData', songTitleData);
+                        nowPlayingComponent.setAttribute('customStyle', 'width:814px');
+                        flush(() => {
+                            setTimeout(() => {
+                                const songTitle = nowPlayingComponent.querySelector('.now-playing-song-title') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-title');
+                                expect(songTitle).to.exist;
+                                expect(songTitle.children[0].innerHTML).to.equal('Song Title is good and is a very long text and name');
+                                expect(songTitle.classList.contains('marquee-item')).to.be.false;
+                                done();
+                            }, 20);
+                        });
+                    });
+                    test('test now playing song title marquee effect - MP width such that song name a bit shorter than container (Landscape Mode)', (done) => {
+                        const songTitleData = { ...nowPlayingData, Title: "Song Title is good and is a very long text and name" }
+                        CrComLib.publishEvent('o', 'nowPlayingData', songTitleData);
+                        nowPlayingComponent.setAttribute('customStyle', 'width:824px');
+                        flush(() => {
+                            setTimeout(() => {
+                                const songTitle = nowPlayingComponent.querySelector('.now-playing-song-title') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-title');
+                                expect(songTitle).to.exist;
+                                expect(songTitle.children[0].innerHTML).to.equal('Song Title is good and is a very long text and name');
+                                expect(songTitle.classList.contains('marquee-item')).to.be.false;
+                                done();
+                            }, 20);
+                        });
+                    });
+                    test('test now playing song title marquee effect - MP width such that song name a bit longer than container (Portrait Mode)', (done) => {
+                        const songTitleData = { ...nowPlayingData, Title: "Song Title is good and is a very long text and name" }
+                        CrComLib.publishEvent('o', 'nowPlayingData', songTitleData);
+                        nowPlayingComponent.setAttribute('customStyle', 'width:400px');
+                        flush(() => {
+                            setTimeout(() => {
+                                const songTitle = nowPlayingComponent.querySelector('.now-playing-song-title') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-title');
+                                expect(songTitle).to.exist;
+                                expect(songTitle.children[0].innerHTML).to.equal('Song Title is good and is a very long text and name');
+                                expect(songTitle.classList.contains('marquee-item')).to.be.true;
+                                done();
+                            }, 20);
+                        });
+                    });
+                    test('test now playing song title marquee effect - MP width such that song name barely longer than container (Portrait Mode)', (done) => {
+                        const songTitleData = { ...nowPlayingData, Title: "Song Title is good and is a very long text and name" }
+                        CrComLib.publishEvent('o', 'nowPlayingData', songTitleData);
+                        nowPlayingComponent.setAttribute('customStyle', 'width:405px');
+                        flush(() => {
+                            setTimeout(() => {
+                                const songTitle = nowPlayingComponent.querySelector('.now-playing-song-title') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-title');
+                                expect(songTitle).to.exist;
+                                expect(songTitle.children[0].innerHTML).to.equal('Song Title is good and is a very long text and name');
+                                expect(songTitle.classList.contains('marquee-item')).to.be.true;
+                                done();
+                            }, 20);
+                        });
+                    });
+                    test('test now playing song title marquee effect - MP width such that song name same length as container (Portrait Mode)', (done) => {
+                        const songTitleData = { ...nowPlayingData, Title: "Song Title is good and is a very long text and name" }
+                        CrComLib.publishEvent('o', 'nowPlayingData', songTitleData);
+                        nowPlayingComponent.setAttribute('customStyle', 'width:406px');
+                        flush(() => {
+                            setTimeout(() => {
+                                const songTitle = nowPlayingComponent.querySelector('.now-playing-song-title') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-title');
+                                expect(songTitle).to.exist;
+                                expect(songTitle.children[0].innerHTML).to.equal('Song Title is good and is a very long text and name');
+                                expect(songTitle.classList.contains('marquee-item')).to.be.false;
+                                done();
+                            }, 20);
+                        });
+                    });
+                    test('test now playing song title marquee effect - MP width such that song name barely shorter than container (Portrait Mode)', (done) => {
+                        const songTitleData = { ...nowPlayingData, Title: "Song Title is good and is a very long text and name" }
+                        CrComLib.publishEvent('o', 'nowPlayingData', songTitleData);
+                        nowPlayingComponent.setAttribute('customStyle', 'width:407px');
+                        flush(() => {
+                            setTimeout(() => {
+                                const songTitle = nowPlayingComponent.querySelector('.now-playing-song-title') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-title');
+                                expect(songTitle).to.exist;
+                                expect(songTitle.children[0].innerHTML).to.equal('Song Title is good and is a very long text and name');
+                                expect(songTitle.classList.contains('marquee-item')).to.be.false;
+                                done();
+                            }, 20);
+                        });
+                    });
+                    test('test now playing song title marquee effect - MP width such that song name a bit shorter than container (Portrait Mode)', (done) => {
+                        const songTitleData = { ...nowPlayingData, Title: "Song Title is good and is a very long text and name" }
+                        CrComLib.publishEvent('o', 'nowPlayingData', songTitleData);
+                        nowPlayingComponent.setAttribute('customStyle', 'width:412px');
+                        flush(() => {
+                            setTimeout(() => {
+                                const songTitle = nowPlayingComponent.querySelector('.now-playing-song-title') ||
+                                    document.querySelector('#nowPlayingTest2 .now-playing-song-title');
+                                expect(songTitle).to.exist;
+                                expect(songTitle.children[0].innerHTML).to.equal('Song Title is good and is a very long text and name');
+                                expect(songTitle.classList.contains('marquee-item')).to.be.false;
+                                done();
+                            }, 20);
+                        });
+                    });
+                });
+            });
             test('test now playing artist name', (done) => {
                 const artistData = { ...nowPlayingData, Artist: "Prakash" }
                 CrComLib.publishEvent('o', 'nowPlayingData', artistData);
@@ -1418,7 +1646,7 @@
                 }, 30);
             });
         });
-
+        
     </script>
 </body>
 

@@ -104,12 +104,12 @@
             expect(list[i].title).to.equal(NOW_PLAYING_DEMO_DATA.ActionsAvailable[i]);
           }
         },500);
-      })
+      });
 
       test('test default header text', () => {
         const headerText = document.getElementsByClassName('my-music-header-title-text')[0]?.innerHTML;
         expect(headerText).to.equal('HEADER TEXT');
-      })
+      });
 
       test('test title text', () => {
         const testValue = "TEST HEADER";
@@ -117,7 +117,7 @@
         CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA);
         const headerText = document.getElementsByClassName('my-music-header-title-text')[0]?.innerHTML;
         expect(headerText).to.equal(testValue);
-      })
+      });
 
       test('test dynamic subtitle text', () => {
         const testValue = "TEST SUBTITLE";
@@ -125,14 +125,28 @@
         CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA);
         const headerText = document.getElementsByClassName('my-music-header-title-text')[0]?.innerHTML;
         expect(headerText).to.equal(testValue);
-      })
+      });
+
+      test('test back-button visibility with "IsMenuAvailable = false"', () => {
+        MY_MUSIC_DEMO_DATA.IsMenuAvailable = false;
+        CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA);
+        const backButton = document.querySelector('.my-music-header-back-button');
+        expect(backButton.classList.contains('button-visibility')).to.be.true;
+      });
+
+      test('test back-button visibility with "IsMenuAvailable = true"', () => {
+        MY_MUSIC_DEMO_DATA.IsMenuAvailable = true;
+        CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA);
+        const backButton = document.querySelector('.my-music-header-back-button');
+        expect(backButton.classList.contains('button-visibility')).to.be.false;
+      });
 
       test('test list specification footer icons empty list', () => {
         MY_MUSIC_DEMO_DATA.ListSpecificFunctions = [];
         CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DEMO_DATA)
         const headerText = document.getElementsByClassName('my-music-footer')[0]?.children.length;
         expect(headerText).to.equal(0);
-      })
+      });
 
       test('test list specification dynamic data', () => {
         MY_MUSIC_DEMO_DATA.ListSpecificFunctions = [
@@ -145,9 +159,8 @@
         for (let i = 0; i < list.length; i++) {
           expect(list[i].title).to.equal(MY_MUSIC_DEMO_DATA.ListSpecificFunctions[i]);
         }
-      })
-
-  })
+      });
+  });
 
   </script>
 </body>
