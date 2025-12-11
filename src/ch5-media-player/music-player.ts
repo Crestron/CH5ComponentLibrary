@@ -709,8 +709,20 @@ export class MusicPlayerLib {
             id: this.generateUniqueMessageId(),
             method: this.myMP.menuInstanceName + '.StatusMsgResponseMenu'
         };
-        if (this.myMP.menuInstanceName) {
-            this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
+        if(id === 999 && this.myMP.menuInstanceName) {    //this condition is for autonomic search popup
+           const autonomicSearchRPC = {
+            params: {
+                query: inputValue
+            },
+            jsonrpc: '2.0',
+            id: this.generateUniqueMessageId(),
+            method: this.myMP.menuInstanceName + '.Find'
+           }
+            this.sendRPCRequest(JSON.stringify(autonomicSearchRPC));
+        } else {
+            if (this.myMP.menuInstanceName) {
+                this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
+            }
         }
     };
 
