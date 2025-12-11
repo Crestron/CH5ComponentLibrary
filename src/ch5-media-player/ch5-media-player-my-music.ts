@@ -389,7 +389,12 @@ export class Ch5MediaPlayerMyMusic {
             button.title = action.name;
             button.id = item;
             button.onclick = () => {
-              this.musicPlayerLibInstance.myMusicEvent(item);
+              if(item === 'Find') { //this is for search popup in local instead of based on response
+                const data = { 'userInputRequired': "alphanumeric", "text": "Search", "textForItems": ['Find', 'Cancel'], "initialUserInput": "", "timeoutSec": 0, "show": true, "localExit": false };
+                publishEvent('o', 'PopUpMessageData', data);
+              } else {
+                this.musicPlayerLibInstance.myMusicEvent(item);
+              }
             };
             this._myMusicFooterSection.appendChild(button);
           }
@@ -403,8 +408,8 @@ export class Ch5MediaPlayerMyMusic {
     Array.from(this._myMusicHeaderSection.childNodes).forEach((child) => child.remove());
     // Array.from(this._myMusicContentSection.childNodes).forEach((child) => child.remove()); // this will rerender the dom when the next set of items are fetched from the service
     Array.from(this._myMusicFooterSection.childNodes).forEach((child) => child.remove());
-
-    const enableBackBtn = this.myMusicData.IsMenuAvailable === "" ? this.myMusicData.Level > 0 : this.myMusicData.IsMenuAvailable;
+    
+    const enableBackBtn = this.myMusicData.IsMenuAvailable === "" ? this.myMusicData.Level > 1 : this.myMusicData.IsMenuAvailable;
 
     this.myMusicHeader(enableBackBtn, this.myMusicData.Title, this.myMusicData.Subtitle);
     this.myMusicMenuIconSection(this.myMusicData.ListSpecificFunctions);

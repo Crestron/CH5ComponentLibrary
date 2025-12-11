@@ -191,7 +191,7 @@ export class Ch5MediaPlayerNowPlaying {
 		}));
 
 		subscribeState('s', 'receiveStatePlayerNameResp', (value: string) => {
-			this.updatePlayerName(value)
+			this.updatePlayerName(value);
 		});
 	}
 
