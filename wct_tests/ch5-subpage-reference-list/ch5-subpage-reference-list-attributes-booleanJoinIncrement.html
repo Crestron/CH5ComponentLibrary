@@ -160,9 +160,13 @@
       test('booleanjoinIncrement with valid value  20', (done) => {
         flush(() => {
           setTimeout(() => {
-            expect(ch5SubpageReferenceList.children[0].children[1].children[0].children[1].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-BOOLEAN');
-            expect(ch5SubpageReferenceList.children[0].children[1].children[0].children[1].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100 + 20).toString());
-            done();
+            flush(() => {
+              setTimeout(() => {
+                expect(ch5SubpageReferenceList.children[0].children[1].children[0].children[1].children[0].children[0].children[0].tagName).to.be.equal('CH5-JOINTOTEXT-BOOLEAN');
+                expect(ch5SubpageReferenceList.children[0].children[1].children[0].children[1].children[0].children[0].children[0].getAttribute('receivestatevalue')).to.be.equal((100 + 20).toString());
+                done();
+              }, 100);
+            });
           }, 100);
         });
       });

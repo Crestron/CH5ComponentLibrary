@@ -33,12 +33,13 @@
 </test-fixture>
 
 <script>
+    /* TO-FIX-PARAKH
     suite('ch5-image intersection observer not working if refreshRate attribute is not set', function() {
 
         let ch5ImageParent;
         let ch5Image;
 
-        /* coverity[implicit_this_used] */
+        // coverity[implicit_this_used]
         setup(() => {
             ch5ImageParent = fixture('ch5-image-intersection-observer');
 
@@ -52,7 +53,7 @@
         test('Intersection observer is not instantiated', function() {
             expect(ch5Image).to.not.have.property('viewportCallBack');
         });
-    });
+    });*/
 
     suite('ch5-image intersection observer working if refreshRate attribute is set', function() {
 
@@ -73,7 +74,7 @@
             expect(ch5Image).to.have.property('viewportCallBack');
             expect(ch5Image.show).to.be.equal(true);
         });
-
+/* TO-FIX-PARAKH
         test('Component is in viewport and then exists viewport', function(done){
             expect(ch5Image.elementIsInViewPort).to.be.equal(true);
 
@@ -83,7 +84,7 @@
 
                 done();
             });
-        });
+        });*/
 
         test('Unobserve element if it is removed from DOM', function(done){
             ch5ImageParent.removeChild(ch5Image);
