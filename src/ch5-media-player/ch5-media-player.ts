@@ -467,8 +467,8 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this.getDialogFooter(dialogArray, dialogContentInput);
     this._elMask.appendChild(this._elGenericDialogContent);
     if (dialogArray.length > 2) {
-      this._elMask.classList.add('more-than-two-buttons');
-      const button = createElement('button', ['generic-dialog-button', 'third-popup-button']);
+      this._elMask.classList.add('action-group-popup-dialog');
+      const button = createElement('button', ['generic-dialog-button', 'cancel-popup-button']);
       button.onclick = () => {
         //clear auto close timeout on footer button click
         if (this._dialogAutoCloseTimeout) {
