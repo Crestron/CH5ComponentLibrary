@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+    <test-fixture id="ch5-jointotext-boolean-show-fixture">
+        <template>
+            <ch5-jointotext-boolean show="true" textWhenFalse="Off"></ch5-jointotext-boolean>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-boolean-show-false-fixture">
+        <template>
+            <ch5-jointotext-boolean show="false" textWhenFalse="Off"></ch5-jointotext-boolean>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-boolean-show-default-fixture">
+        <template>
+            <ch5-jointotext-boolean textWhenFalse="Off"></ch5-jointotext-boolean>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-jointotext-boolean-show-true', () => {
+            let ch5JoinToTextBoolean;
+
+            setup(() => {
+                ch5JoinToTextBoolean = fixture('ch5-jointotext-boolean-show-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-boolean')]);
+            });
+
+            test('show attribute should be true', () => {
+                expect(ch5JoinToTextBoolean.getAttribute('show')).to.be.equal('true');
+            });
+        });
+
+        suite('ch5-jointotext-boolean-show-false', () => {
+            let ch5JoinToTextBoolean;
+
+            setup(() => {
+                ch5JoinToTextBoolean = fixture('ch5-jointotext-boolean-show-false-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-boolean')]);
+            });
+
+            test('show attribute should be false', () => {
+                expect(ch5JoinToTextBoolean.getAttribute('show')).to.be.equal('false');
+            });
+        });
+
+        suite('ch5-jointotext-boolean-show-default', () => {
+            let ch5JoinToTextBoolean;
+
+            setup(() => {
+                ch5JoinToTextBoolean = fixture('ch5-jointotext-boolean-show-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-boolean')]);
+            });
+
+            test('show attribute default should be true', () => {
+                expect(ch5JoinToTextBoolean.getAttribute('show')).to.be.null;
+            });
+        });
+
+        suite('ch5-jointotext-boolean-show-dynamic', () => {
+            let ch5JoinToTextBoolean;
+
+            setup(() => {
+                ch5JoinToTextBoolean = fixture('ch5-jointotext-boolean-show-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-boolean')]);
+            });
+
+            let testCases = ['a', '', ' ', '156', 'test', 'true', 'false'];
+            let expectedResult = ['true', 'true', 'true', 'true', 'true', 'true', 'false'];
+            testCases.forEach((ele, i) => {
+                test(`Check Value "show" with input "${ele}"`, () => {
+                    ch5JoinToTextBoolean.setAttribute('show', ele);
+                    expect(ch5JoinToTextBoolean.getAttribute('show')).to.be.equal(expectedResult[i]);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-jointotext-numeric-min-default-fixture">
+        <template>
+            <ch5-jointotext-numeric></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-min-set-fixture">
+        <template>
+            <ch5-jointotext-numeric min="10"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-min-zero-fixture">
+        <template>
+            <ch5-jointotext-numeric min="0"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-min-negative-fixture">
+        <template>
+            <ch5-jointotext-numeric min="-100" type="signed"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-min-max-fixture">
+        <template>
+            <ch5-jointotext-numeric min="50" max="100"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-jointotext-numeric min default', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-min-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('min default should be 0', () => {
+                expect(ch5JoinToTextNumeric.min).to.be.equal(0);
+            });
+        });
+
+        suite('ch5-jointotext-numeric min set', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-min-set-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('min should be 10', () => {
+                expect(ch5JoinToTextNumeric.min).to.be.equal(10);
+            });
+        });
+
+        suite('ch5-jointotext-numeric min zero', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-min-zero-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('min should be 0', () => {
+                expect(ch5JoinToTextNumeric.min).to.be.equal(0);
+            });
+        });
+
+        suite('ch5-jointotext-numeric min negative', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-min-negative-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('min should be -100', () => {
+                expect(ch5JoinToTextNumeric.min).to.be.equal(-100);
+            });
+        });
+
+        suite('ch5-jointotext-numeric min with max', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-min-max-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('min should be 50', () => {
+                expect(ch5JoinToTextNumeric.min).to.be.equal(50);
+            });
+
+            test('max should be 100', () => {
+                expect(ch5JoinToTextNumeric.max).to.be.equal(100);
+            });
+        });
+
+        suite('ch5-jointotext-numeric min dynamic update', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-min-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('min can be set dynamically via attribute', (done) => {
+                ch5JoinToTextNumeric.setAttribute('min', '25');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextNumeric.getAttribute('min')).to.be.equal('25');
+                        expect(ch5JoinToTextNumeric.min).to.be.equal(25);
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('min can be set dynamically via property', (done) => {
+                ch5JoinToTextNumeric.min = 15;
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextNumeric.min).to.be.equal(15);
+                        done();
+                    }, 100);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

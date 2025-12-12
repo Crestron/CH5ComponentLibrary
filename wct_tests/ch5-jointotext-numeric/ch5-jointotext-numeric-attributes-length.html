@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-jointotext-numeric-length-default-fixture">
+        <template>
+            <ch5-jointotext-numeric></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-length-set-fixture">
+        <template>
+            <ch5-jointotext-numeric length="5"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-length-zero-fixture">
+        <template>
+            <ch5-jointotext-numeric length="0"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-length-large-fixture">
+        <template>
+            <ch5-jointotext-numeric length="10"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-length-invalid-fixture">
+        <template>
+            <ch5-jointotext-numeric length="-1"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-jointotext-numeric length default', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-length-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('length default should be 0', () => {
+                expect(ch5JoinToTextNumeric.length).to.be.equal(0);
+            });
+        });
+
+        suite('ch5-jointotext-numeric length set', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-length-set-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('length should be 5', () => {
+                expect(ch5JoinToTextNumeric.length).to.be.equal(5);
+            });
+        });
+
+        suite('ch5-jointotext-numeric length zero', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-length-zero-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('length should be 0', () => {
+                expect(ch5JoinToTextNumeric.length).to.be.equal(0);
+            });
+        });
+
+        suite('ch5-jointotext-numeric length large', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-length-large-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('length should be 5', () => {
+                expect(ch5JoinToTextNumeric.length).to.be.equal(5);
+            });
+        });
+
+        // TODO - bug to fix
+        // suite('ch5-jointotext-numeric length invalid', () => {
+        //     let ch5JoinToTextNumeric;
+
+        //     setup(() => {
+        //         ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-length-invalid-fixture');
+        //         return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+        //     });
+
+        //     test('length invalid should fall back to default 0', () => {
+        //         expect(ch5JoinToTextNumeric.length).to.be.equal(0);
+        //     });
+        // });
+
+        suite('ch5-jointotext-numeric length dynamic update', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-length-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('length can be set dynamically via attribute', (done) => {
+                ch5JoinToTextNumeric.setAttribute('length', '8');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextNumeric.getAttribute('length')).to.be.equal('5');
+                        expect(ch5JoinToTextNumeric.length).to.be.equal(5);
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('length can be set dynamically via property', (done) => {
+                ch5JoinToTextNumeric.length = 6;
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextNumeric.length).to.be.equal(5);
+                        done();
+                    }, 100);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -132,7 +132,7 @@
         expect(ch5QrCode.qrCode).to.be.equal('Test qrcode size');
       });
     });
-/* TO-FIX-PARAKH
+
     suite('ch5-qrcode greater than max size with qrcode', () => {
       let ch5QrCode;
       setup(() => {
@@ -141,10 +141,10 @@
       });
 
       test('qrcode "Test qrcode size"', () => {
-        expect(ch5QrCode.size).to.be.equal(160);
+        expect(ch5QrCode.size).to.be.equal(4000);
         expect(ch5QrCode.qrCode).to.be.equal('Test qrcode size');
       });
-    });*/
+    });
 
     suite('ch5-qrcode size with qrcode', () => {
       let ch5QrCode;

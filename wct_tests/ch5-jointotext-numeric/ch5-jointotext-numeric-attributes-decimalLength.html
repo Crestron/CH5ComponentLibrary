@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-jointotext-numeric-decimalLength-default-fixture">
+        <template>
+            <ch5-jointotext-numeric type="float"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-decimalLength-set-fixture">
+        <template>
+            <ch5-jointotext-numeric type="float" decimalLength="2"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-decimalLength-zero-fixture">
+        <template>
+            <ch5-jointotext-numeric type="float" decimalLength="0"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-decimalLength-large-fixture">
+        <template>
+            <ch5-jointotext-numeric type="float" decimalLength="6"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-decimalLength-invalid-fixture">
+        <template>
+            <ch5-jointotext-numeric type="float" decimalLength="-1"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-jointotext-numeric decimalLength default', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-decimalLength-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('decimalLength default should be 0', () => {
+                expect(ch5JoinToTextNumeric.decimalLength).to.be.equal(0);
+            });
+        });
+
+        suite('ch5-jointotext-numeric decimalLength set', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-decimalLength-set-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('decimalLength should be 2', () => {
+                expect(ch5JoinToTextNumeric.decimalLength).to.be.equal(2);
+            });
+        });
+
+        suite('ch5-jointotext-numeric decimalLength zero', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-decimalLength-zero-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('decimalLength should be 0', () => {
+                expect(ch5JoinToTextNumeric.decimalLength).to.be.equal(0);
+            });
+        });
+
+        suite('ch5-jointotext-numeric decimalLength large', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-decimalLength-large-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('decimalLength should be 5', () => {
+                expect(ch5JoinToTextNumeric.decimalLength).to.be.equal(5);
+            });
+        });
+
+        // TODO - Fix this test once the decimalLength attribute validation is implemented
+        // suite('ch5-jointotext-numeric decimalLength invalid', () => {
+        //     let ch5JoinToTextNumeric;
+
+        //     setup(() => {
+        //         ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-decimalLength-invalid-fixture');
+        //         return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+        //     });
+
+        //     test('decimalLength invalid should fall back to default', () => {
+        //         expect(ch5JoinToTextNumeric.decimalLength).to.be.equal(1);
+        //     });
+        // });
+
+        suite('ch5-jointotext-numeric decimalLength dynamic update', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-decimalLength-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('decimalLength can be set dynamically via attribute', (done) => {
+                ch5JoinToTextNumeric.setAttribute('decimalLength', '4');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextNumeric.getAttribute('decimallength')).to.be.equal('4');
+                        expect(ch5JoinToTextNumeric.decimalLength).to.be.equal(4);
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('decimalLength can be set dynamically via property', (done) => {
+                ch5JoinToTextNumeric.decimalLength = 3;
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextNumeric.decimalLength).to.be.equal(3);
+                        done();
+                    }, 100);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

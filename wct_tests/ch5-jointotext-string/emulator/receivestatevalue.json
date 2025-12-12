@@ -12,6 +12,19 @@
           "value": "No feedback"
         } 
       ]
+    },
+    {
+      "type": "boolean",
+      "event": "set_string_value",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "receive_string_value",
+          "type": "s",
+          "logic": "set",
+          "value": "Signal Value"
+        } 
+      ]
     }
   ]
 }

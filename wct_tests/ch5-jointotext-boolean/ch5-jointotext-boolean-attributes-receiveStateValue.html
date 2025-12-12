@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+    <test-fixture id="ch5-jointotext-boolean-receiveStateValue-fixture">
+        <template>
+            <ch5-jointotext-boolean receiveStateValue="receive_boolean_value" textWhenTrue="On" textWhenFalse="Off"></ch5-jointotext-boolean>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-boolean-receiveStateValue-default-fixture">
+        <template>
+            <ch5-jointotext-boolean textWhenTrue="On" textWhenFalse="Off"></ch5-jointotext-boolean>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-jointotext-boolean-receiveStateValue-attributes', () => {
+            let ch5JoinToTextBoolean;
+
+            setup(async () => {
+                const emulatorJson = await fetch('./emulator/receivestatevalue.json').then((response) => response.json());
+                const emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5JoinToTextBoolean = fixture('ch5-jointotext-boolean-receiveStateValue-fixture');
+            });
+
+            test('receiveStateValue attribute should be set correctly', () => {
+                expect(ch5JoinToTextBoolean.getAttribute('receiveStateValue')).to.be.equal('receive_boolean_value');
+            });
+
+            test('receiveStateValue should update value to true when signal is true', (done) => {
+                CrComLib.publishEvent('b', 'set_boolean_true', true);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextBoolean.value).to.be.equal(true);
+                        expect(ch5JoinToTextBoolean.textContent).to.be.equal('On');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('receiveStateValue should update value to false when signal is false', (done) => {
+                CrComLib.publishEvent('b', 'set_boolean_false', true);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextBoolean.value).to.be.equal(false);
+                        expect(ch5JoinToTextBoolean.textContent).to.be.equal('Off');
+                        done();
+                    }, 100);
+                });
+            });
+        });
+
+        suite('ch5-jointotext-boolean-receiveStateValue-default', () => {
+            let ch5JoinToTextBoolean;
+
+            setup(() => {
+                ch5JoinToTextBoolean = fixture('ch5-jointotext-boolean-receiveStateValue-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-boolean')]);
+            });
+
+            test('receiveStateValue should be undefined by default', () => {
+                expect(ch5JoinToTextBoolean.getAttribute('receiveStateValue')).to.be.null;
+            });
+        });
+
+        suite('ch5-jointotext-boolean-receiveStateValue-dynamic-update', () => {
+            let ch5JoinToTextBoolean;
+
+            setup(() => {
+                ch5JoinToTextBoolean = fixture('ch5-jointotext-boolean-receiveStateValue-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-boolean')]);
+            });
+
+            test('receiveStateValue can be set dynamically', (done) => {
+                ch5JoinToTextBoolean.setAttribute('receiveStateValue', 'new_signal');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextBoolean.getAttribute('receiveStateValue')).to.be.equal('new_signal');
+                        done();
+                    }, 100);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
