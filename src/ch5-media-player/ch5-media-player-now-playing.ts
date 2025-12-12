@@ -165,8 +165,11 @@ export class Ch5MediaPlayerNowPlaying {
 					this._progressBarElapsedSec = this.progressBarData.ElapsedSec;
 					this._progressBarInput.max = this._progressBarTrackSec?.toString();
 					this._progressBarInput.value = this._progressBarElapsedSec?.toString();
-					if (this._progressBarElapsedSec && this._progressBarTrackSec) {
-						this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
+					//if (this._progressBarElapsedSec && this._progressBarTrackSec) {
+					this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
+					//}
+					if(this.nowPlayingData.PlayerState === "stopped") {	//autonomic: reset to initial once song completed
+						this._progressBarTrackSec = 0;
 					}
 					this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
 					this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
