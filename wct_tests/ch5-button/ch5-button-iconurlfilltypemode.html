@@ -54,7 +54,6 @@
 				ch5Button = fixture('ch5-button-fixture-multimode-iconurlfilltype-ex1');
 				ch5Button2 = fixture('ch5-button-fixture-multimode-iconurlfilltype-ex2');
 			});
-/*TO-FIX-PARAKH
 			valid_fill_types.forEach((val) => {
 				test(`The below button contains iconUrlFillType=${val} for ch5-button-mode`, (done) => {
 					const buttonMode = document.getElementById('button-mode');
@@ -62,7 +61,7 @@
 					const buttonDiv = document.querySelector('.ch5-button');
 					flush(() => {
 						setTimeout(() => {
-							expect(buttonDiv.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-${val}`)).to.be.equal(true);
+							expect(buttonDiv.firstChild.classList.contains(`ch5-button--icon-url-fill-type-${val}`)).to.be.equal(true);
 							done();
 						}, 100);
 					});
@@ -72,14 +71,15 @@
 			valid_fill_types.forEach((val) => {
 				test(`The below button contains iconUrlFillType=${val} for ch5-button`, (done) => {
 					const buttonDiv = document.querySelector('.ch5-button');
+					buttonDiv.parentNode.setAttribute('iconUrlFillType', val);
 					flush(() => {
 						setTimeout(() => {
-							expect(buttonDiv.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-stretch`)).to.be.equal(true);
+							expect(buttonDiv.firstChild.classList.contains(`ch5-button--icon-url-fill-type-${val}`)).to.be.equal(true);
 							done();
 						}, 100);
 					});
 				});
-			});*/
+			});
 
 			invalid_fill_types.forEach((val) => {
 				test(`The below button contains invalid iconUrlFillType=${val} for ch5-button-mode`, (done) => {
@@ -88,24 +88,24 @@
 					const buttonDiv = document.querySelector('.ch5-button');
 					flush(() => {
 						setTimeout(() => {
-							expect(buttonDiv.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-${val}`)).to.be.equal(false);
+							expect(buttonDiv.firstChild.classList.contains('ch5-button--icon-url-fill-type-stretch')).to.be.equal(true);
 							done();
 						}, 100);
 					});
 				});
 			});
-/* TO-FIX-PARAKH
 			invalid_fill_types.forEach((val) => {
 				test(`The below button contains invalid iconUrlFillType=${val} for ch5-button`, (done) => {
 					const buttonDiv = document.querySelector('.ch5-button');
+					buttonDiv.parentNode.setAttribute('iconUrlFillType', val);
 					flush(() => {
 						setTimeout(() => {
-							expect(buttonDiv.firstChild.firstChild.classList.contains(`ch5-button--icon-url-fill-type-stretch`)).to.be.equal(true);
+							expect(buttonDiv.firstChild.classList.contains(`ch5-button--icon-url-fill-type-${val}`)).to.be.equal(false);
 							done();
 						}, 100);
 					});
 				});
-			});*/
+			});
 		});
 	</script>
 </body>
