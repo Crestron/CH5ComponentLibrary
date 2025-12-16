@@ -1,0 +1,261 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-media-player-now-playing">
+    <template>
+      <ch5-media-player demomode="true"></ch5-media-player>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-media-player-now-playing-live">
+    <template>
+      <ch5-media-player></ch5-media-player>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-media-player-now-playing-demo-mode', () => {
+      let ch5MediaPlayer;
+      let NOW_PLAYING_DEMO_DATA;
+
+      setup(async () => {
+        ch5MediaPlayer = fixture('ch5-media-player-now-playing');
+        NOW_PLAYING_DEMO_DATA = {
+          ActionsAvailable: [
+            "Shuffle",
+            "Repeat",
+            "PlayAll",
+            "NextTrack",
+            "PreviousTrack",
+            "Seek",
+            "Ffwd",
+            "Rewind",
+            "Play",
+            "Pause",
+            "ThumbsDown",
+            "ThumbsUp"
+          ],
+          Album: "Test Album",
+          AlbumArt: true,
+          AlbumArtUrl: "",
+          AlbumArtUrlNAT: "",
+          Artist: "Test Artist",
+          ElapsedSec: 60,
+          FfwdSpeed: 1,
+          Genre: "Rock",
+          NextTitle: "Next Song",
+          PlayerIcon: 0,
+          PlayerIconURL: "",
+          PlayerName: "Test Player",
+          PlayerState: "paused",
+          ProgressBar: true,
+          ProviderName: "Test Provider",
+          RepeatState: 0,
+          RewindSpeed: 1,
+          ShuffleState: 0,
+          StationName: "Test Station",
+          StreamState: "idle",
+          Title: "Test Song",
+          TrackCnt: 10,
+          TrackNum: 3,
+          TrackSec: 180
+        };
+      });
+
+      test('Check now playing container exists in demo mode', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const nowPlaying = ch5MediaPlayer.querySelector('.ch5-media-player--now-playing');
+            expect(nowPlaying).to.not.be.null;
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check player label is displayed in demo mode', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const playerLabel = ch5MediaPlayer.querySelector('.now-playing-player-label');
+            expect(playerLabel).to.not.be.null;
+            expect(playerLabel.textContent).to.not.be.empty;
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check action buttons container exists', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const actionButtons = ch5MediaPlayer.querySelector('.now-playing-action-buttons-container');
+            expect(actionButtons).to.not.be.null;
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check progress bar container exists', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const progressBar = ch5MediaPlayer.querySelector('.now-playing-progressbar-container');
+            expect(progressBar).to.not.be.null;
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check album art container exists', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const albumArt = ch5MediaPlayer.querySelector('.now-playing-image');
+            expect(albumArt).to.not.be.null;
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check track info container exists', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const trackInfo = ch5MediaPlayer.querySelector('.now-playing-track-info');
+            expect(trackInfo).to.not.be.null;
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check song title is displayed', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const songTitle = ch5MediaPlayer.querySelector('.now-playing-song-title');
+            expect(songTitle).to.not.be.null;
+            done();
+          }, 100);
+        });
+      });
+    });
+
+    suite('ch5-media-player-now-playing-live-mode', () => {
+      let ch5MediaPlayer;
+      let NOW_PLAYING_DATA;
+      let PROGRESS_BAR_DATA;
+
+      setup(async () => {
+        ch5MediaPlayer = fixture('ch5-media-player-now-playing-live');
+        NOW_PLAYING_DATA = {
+          ActionsAvailable: ["Play", "Pause", "NextTrack", "PreviousTrack"],
+          Album: "Live Album",
+          Artist: "Live Artist",
+          Title: "Live Song",
+          PlayerState: "playing",
+          ProgressBar: true,
+          TrackNum: 1,
+          TrackCnt: 5
+        };
+        PROGRESS_BAR_DATA = {
+          StreamState: 'streaming',
+          TrackSec: 200,
+          ElapsedSec: 50,
+          ProgressBar: true
+        };
+      });
+
+      test('Check default screen appears when no data', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const defaultScreen = ch5MediaPlayer.querySelector('.ch5-media-player--now-playing-default');
+            expect(defaultScreen).to.not.be.null;
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check now playing updates when receiving data', (done) => {
+        CrComLib.publishEvent('o', 'nowPlayingData', NOW_PLAYING_DATA);
+        flush(() => {
+          setTimeout(() => {
+            const nowPlaying = ch5MediaPlayer.querySelector('.ch5-media-player--now-playing');
+            expect(nowPlaying).to.not.be.null;
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check progress bar updates with data', (done) => {
+        CrComLib.publishEvent('o', 'nowPlayingData', NOW_PLAYING_DATA);
+        CrComLib.publishEvent('o', 'progressBarData', PROGRESS_BAR_DATA);
+        flush(() => {
+          setTimeout(() => {
+            const progressInput = ch5MediaPlayer.querySelector('.now-playing-progressbar-input');
+            expect(progressInput).to.not.be.null;
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check progress bar is hidden when ProgressBar is false', (done) => {
+        PROGRESS_BAR_DATA.ProgressBar = false;
+        CrComLib.publishEvent('o', 'nowPlayingData', NOW_PLAYING_DATA);
+        CrComLib.publishEvent('o', 'progressBarData', PROGRESS_BAR_DATA);
+        flush(() => {
+          setTimeout(() => {
+            const progressContainer = ch5MediaPlayer.querySelector('.now-playing-progressbar-container');
+            if (progressContainer) {
+              expect(progressContainer.classList.contains('ch5-hide-dis')).to.be.true;
+            }
+            done();
+          }, 200);
+        });
+      });
+    });
+
+    suite('ch5-media-player-now-playing-action-buttons', () => {
+      let ch5MediaPlayer;
+
+      setup(async () => {
+        ch5MediaPlayer = fixture('ch5-media-player-now-playing');
+      });
+
+      test('Check play button exists', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const playButton = ch5MediaPlayer.querySelector('[title="Play"]');
+            expect(playButton).to.not.be.null;
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check shuffle button visibility based on actions', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const shuffleButton = ch5MediaPlayer.querySelector('[title="Shuffle"]');
+            expect(shuffleButton).to.not.be.null;
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check repeat button visibility based on actions', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const repeatButton = ch5MediaPlayer.querySelector('[title="Repeat"]');
+            expect(repeatButton).to.not.be.null;
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

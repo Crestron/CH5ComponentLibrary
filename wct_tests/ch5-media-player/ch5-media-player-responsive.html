@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-media-player-responsive">
+    <template>
+      <ch5-media-player demomode="true" style="width: 800px; height: 600px;"></ch5-media-player>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-media-player-portrait">
+    <template>
+      <ch5-media-player demomode="true" style="width: 400px; height: 800px;"></ch5-media-player>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-media-player-small">
+    <template>
+      <ch5-media-player demomode="true" style="width: 300px; height: 400px;"></ch5-media-player>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-media-player-responsive-breakpoints', () => {
+      let ch5MediaPlayer;
+
+      setup(async () => {
+        ch5MediaPlayer = fixture('ch5-media-player-responsive');
+      });
+
+      test('Check width breakpoint class is applied', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+            const hasWidthClass = Array.from(container.classList).some(cls => cls.startsWith('ch5-media-player--width-'));
+            expect(hasWidthClass).to.be.true;
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check height breakpoint class is applied', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+            const hasHeightClass = Array.from(container.classList).some(cls => cls.startsWith('ch5-media-player--height-'));
+            expect(hasHeightClass).to.be.true;
+            done();
+          }, 200);
+        });
+      });
+    });
+
+    suite('ch5-media-player-portrait-mode', () => {
+      let ch5MediaPlayer;
+
+      setup(async () => {
+        ch5MediaPlayer = fixture('ch5-media-player-portrait');
+      });
+
+      test('Check portrait mode class is applied for narrow width', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+            expect(container.classList.contains('portrait-mode-active')).to.be.true;
+            done();
+          }, 200);
+        });
+      });
+    });
+
+    suite('ch5-media-player-small-screen', () => {
+      let ch5MediaPlayer;
+
+      setup(async () => {
+        ch5MediaPlayer = fixture('ch5-media-player-small');
+      });
+
+      test('Check small screen has proper breakpoint classes', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+            // Should have xs or sm width class for 300px width
+            const hasSmallWidthClass = container.classList.contains('ch5-media-player--width-xs') || 
+                                        container.classList.contains('ch5-media-player--width-sm');
+            expect(hasSmallWidthClass).to.be.true;
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check portrait mode active for small width', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+            expect(container.classList.contains('portrait-mode-active')).to.be.true;
+            done();
+          }, 200);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

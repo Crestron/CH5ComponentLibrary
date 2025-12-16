@@ -1,8 +1,8 @@
-import { Ch5MediaPlayerIconButton } from "./ch5-media-player-icon-button-base.ts";
-import { publishEvent, subscribeState } from "../ch5-core/index.ts";
-import { Ch5CommonLog } from "../ch5-common/ch5-common-log.ts";
-import { createElement, decodeString } from "./ch5-media-player-common.ts";
-import { MusicPlayerLib } from "./music-player.ts";
+import { Ch5MediaPlayerIconButton } from "./ch5-media-player-icon-button-base";
+import { publishEvent, subscribeState } from "../ch5-core/index";
+import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
+import { createElement, decodeString } from "./ch5-media-player-common";
+import { MusicPlayerLib } from "./music-player";
 
 export class Ch5MediaPlayerMyMusic {
 
@@ -323,7 +323,6 @@ export class Ch5MediaPlayerMyMusic {
 
     this._myMusicContentItem.appendChild(this._myMusicContentItemTitle);
     this._myMusicContentItem.appendChild(this._myMusicContentItemSubtitle);
-    this._myMusicContentSection.appendChild(this._myMusicContentItem);
 
     const list = this._myMusicContentSection;
     if (position === 'start') {

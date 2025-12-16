@@ -1,10 +1,10 @@
-import { Ch5MediaPlayerIconButton } from "./ch5-media-player-icon-button-base.ts";
-import { MusicPlayerLib } from "./music-player.ts";
-import { publishEvent, subscribeState } from "../ch5-core/index.ts";
-import { TCH5NowPlayingActions, TCh5MediaPlayerProgressbarData } from "./interfaces/t-ch5-media-player.ts";
-import { Ch5CommonLog } from "../ch5-common/ch5-common-log.ts";
-import { debounce } from "../ch5-common/utils/common-functions.ts";
-import { createElement, decodeString, formatTime } from "./ch5-media-player-common.ts";
+import { Ch5MediaPlayerIconButton } from "./ch5-media-player-icon-button-base";
+import { MusicPlayerLib } from "./music-player";
+import { publishEvent, subscribeState } from "../ch5-core/index";
+import { TCH5NowPlayingActions, TCh5MediaPlayerProgressbarData } from "./interfaces/t-ch5-media-player";
+import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
+import { debounce } from "../ch5-common/utils/common-functions";
+import { createElement, decodeString, formatTime } from "./ch5-media-player-common";
 
 export class Ch5MediaPlayerNowPlaying {
 
@@ -161,7 +161,7 @@ export class Ch5MediaPlayerNowPlaying {
 					this._progressBarElapsedSec = this.progressBarData.ElapsedSec;
 					this._progressBarInput.max = this._progressBarTrackSec?.toString();
 					this._progressBarInput.value = this._progressBarElapsedSec?.toString();
-					if (this._progressBarElapsedSec && this._progressBarTrackSec) {
+					if (this._progressBarElapsedSec && this._progressBarTrackSec && this._progressBarTrackSec > 0) {
 						this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
 					}
 					this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
@@ -171,7 +171,7 @@ export class Ch5MediaPlayerNowPlaying {
 						this._progressBarTimer = window.setInterval(() => {
 							if (this._progressBarElapsedSec < this._progressBarTrackSec) {
 								this._progressBarElapsedSec += 1;
-								const percent = (this._progressBarElapsedSec / this._progressBarTrackSec) * 100;
+								const percent = this._progressBarTrackSec > 0 ? (this._progressBarElapsedSec / this._progressBarTrackSec) * 100 : 0;
 								this._progressBarInput.value = this._progressBarElapsedSec?.toString();
 								this._progressBarInput.style.backgroundSize = percent + "% 100%";
 								this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
@@ -199,10 +199,23 @@ export class Ch5MediaPlayerNowPlaying {
 		this._streamState.textContent = this.NOW_PLAYING_DEMO_DATA.StreamState;
 		this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
 		this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
-		const percent = (this._progressBarElapsedSec / this._progressBarTrackSec) * 100;
+		const percent = this._progressBarTrackSec > 0 ? (this._progressBarElapsedSec / this._progressBarTrackSec) * 100 : 0;
 		this._progressBarInput.style.backgroundSize = percent + "% 100%";
 		this._progressBarInput.max = this._progressBarTrackSec?.toString();
 		this._progressBarInput.value = this._progressBarElapsedSec?.toString();
+	}
+
+	/**
+	 * Cleanup method to be called when component is destroyed
+	 */
+	public cleanup() {
+		if (this._progressBarTimer) {
+			clearInterval(this._progressBarTimer);
+			this._progressBarTimer = null;
+		}
+		if (this._progressBarInput) {
+			this._progressBarInput.removeEventListener('input', this.handleProgressbarInput);
+		}
 	}
 
 	public handleDemoMode(demoMode: boolean) {
@@ -269,7 +282,9 @@ export class Ch5MediaPlayerNowPlaying {
 				this._nowPlayingImageParent.style.backgroundImage = `url('${this.previousAlbumArtUrl}')`;
 			}
 		}
-		this._nowPlayingSongTitle.children[0].textContent = decodeString(this.nowPlayingData.Title);
+		if (this._nowPlayingSongTitle.children && this._nowPlayingSongTitle.children[0]) {
+			this._nowPlayingSongTitle.children[0].textContent = decodeString(this.nowPlayingData.Title);
+		}
 		this.updateMarquee();
 
 		this._nowPlayingArtist.textContent = decodeString(this.nowPlayingData.Artist);
@@ -481,7 +496,7 @@ export class Ch5MediaPlayerNowPlaying {
 	}
 
 	public seekApiCall = debounce(() => {
-		this.musicPlayerLibInstance.nowPlayingvent(TCH5NowPlayingActions.Seek, this._progressBarInput.value);
+		this.musicPlayerLibInstance.nowPlayingEvent(TCH5NowPlayingActions.Seek, this._progressBarInput.value);
 	}, 150);
 
 	protected renderProgressBar() {
@@ -493,7 +508,7 @@ export class Ch5MediaPlayerNowPlaying {
 		this._progressBarInput.min = '0';
 		this._progressBarInput.max = this._progressBarTrackSec ? this._progressBarTrackSec.toString() : '0';
 		this._progressBarInput.value = this._progressBarElapsedSec?.toString();
-		if (this._progressBarElapsedSec && this._progressBarTrackSec) {
+		if (this._progressBarElapsedSec && this._progressBarTrackSec && this._progressBarTrackSec > 0) {
 			this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
 		}
 		this._progressBarInput.classList.add('now-playing-progressbar-input');
@@ -519,10 +534,13 @@ export class Ch5MediaPlayerNowPlaying {
 	}
 
 	protected handleProgressbarInput = () => {
-		this._progressBarInput.style.backgroundSize = ((parseInt(this._progressBarInput.value) / parseInt(this._progressBarInput.max)) * 100) + "% 100%";
-		this._currentTime.textContent = formatTime(parseInt(this._progressBarInput.value));
-		this._duration.textContent = formatTime(parseInt(this._progressBarInput.max) - parseInt(this._progressBarInput.value));
-		this._progressBarElapsedSec = parseInt(this._progressBarInput.value);
+		const maxValue = parseInt(this._progressBarInput.max) || 0;
+		const currentValue = parseInt(this._progressBarInput.value) || 0;
+		const percent = maxValue > 0 ? (currentValue / maxValue) * 100 : 0;
+		this._progressBarInput.style.backgroundSize = percent + "% 100%";
+		this._currentTime.textContent = formatTime(currentValue);
+		this._duration.textContent = formatTime(maxValue - currentValue);
+		this._progressBarElapsedSec = currentValue;
 		this.logger.log('_currentTime==', this._progressBarInput.value);
 		this.seekApiCall();
 	}
@@ -551,29 +569,29 @@ export class Ch5MediaPlayerNowPlaying {
 				if ((availableActions.includes(TCH5NowPlayingActions.Play) && availableActions.includes(TCH5NowPlayingActions.Pause)) && PlayerState !== 'playing') {
 					button.setAttribute('iconClass', actionIconMap[action].class);
 					button.onclick = () => {
-						this.musicPlayerLibInstance.nowPlayingvent(action);
+						this.musicPlayerLibInstance.nowPlayingEvent(action);
 					};
 				} else if (PlayerState === "stopped" || PlayerState === "") {
 					button.setAttribute('iconClass', actionIconMap[action].class);
 					button.onclick = () => {
-						this.musicPlayerLibInstance.nowPlayingvent(action);
+						this.musicPlayerLibInstance.nowPlayingEvent(action);
 					};
 				} else if (availableActions.includes(TCH5NowPlayingActions.Play) && PlayerState !== 'playing') {
 					button.setAttribute('iconClass', actionIconMap[action].class);
 					button.onclick = () => {
-						this.musicPlayerLibInstance.nowPlayingvent(action);
+						this.musicPlayerLibInstance.nowPlayingEvent(action);
 					};
 				} else {
 					button.setAttribute('iconClass', "mp-icon mp-pause");
 					button.title = TCH5NowPlayingActions.Pause;
 					button.onclick = () => {
-						this.musicPlayerLibInstance.nowPlayingvent(TCH5NowPlayingActions.Pause);
+						this.musicPlayerLibInstance.nowPlayingEvent(TCH5NowPlayingActions.Pause);
 					};
 				}
 			} else {
 				button.setAttribute('iconClass', actionIconMap[action].class);
 				button.onclick = () => {
-					this.musicPlayerLibInstance.nowPlayingvent(action);
+					this.musicPlayerLibInstance.nowPlayingEvent(action);
 				};
 			}
 
@@ -630,7 +648,7 @@ export class Ch5MediaPlayerNowPlaying {
 					button.setAttribute('iconClass', moreActionIconMap[action].class);
 					button.title = action;
 					button.onclick = () => {
-						this.musicPlayerLibInstance.nowPlayingvent(TCH5NowPlayingActions[action as keyof typeof TCH5NowPlayingActions]);
+						this.musicPlayerLibInstance.nowPlayingEvent(TCH5NowPlayingActions[action as keyof typeof TCH5NowPlayingActions]);
 					}
 					this._moreActionButtonsContainer.appendChild(button);
 				}

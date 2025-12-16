@@ -1,0 +1,230 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-media-player-popup">
+    <template>
+      <ch5-media-player demomode="true"></ch5-media-player>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-media-player-popup-live">
+    <template>
+      <ch5-media-player></ch5-media-player>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-media-player-popup-dialog', () => {
+      let ch5MediaPlayer;
+
+      setup(async () => {
+        ch5MediaPlayer = fixture('ch5-media-player-popup');
+      });
+
+      test('Check popup appears when PopUpMessageData is published with show true', (done) => {
+        const popupData = {
+          userInputRequired: "",
+          text: "Test Popup Message",
+          textForItems: ["OK", "Cancel"],
+          initialUserInput: "",
+          timeoutSec: 10,
+          show: true
+        };
+        CrComLib.publishEvent('o', 'PopUpMessageData', popupData);
+        flush(() => {
+          setTimeout(() => {
+            const overlay = ch5MediaPlayer.querySelector('.ch5-media-player--popup-overlay');
+            expect(overlay).to.not.be.null;
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check popup dialog title is displayed', (done) => {
+        const popupData = {
+          userInputRequired: "",
+          text: "Test Dialog Title",
+          textForItems: ["OK", "Cancel"],
+          initialUserInput: "",
+          timeoutSec: 10,
+          show: true
+        };
+        CrComLib.publishEvent('o', 'PopUpMessageData', popupData);
+        flush(() => {
+          setTimeout(() => {
+            const title = ch5MediaPlayer.querySelector('.generic-dialog-title');
+            expect(title).to.not.be.null;
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check popup dialog footer buttons are created', (done) => {
+        const popupData = {
+          userInputRequired: "",
+          text: "Test Dialog",
+          textForItems: ["OK", "Cancel"],
+          initialUserInput: "",
+          timeoutSec: 10,
+          show: true
+        };
+        CrComLib.publishEvent('o', 'PopUpMessageData', popupData);
+        flush(() => {
+          setTimeout(() => {
+            const footer = ch5MediaPlayer.querySelector('.generic-dialog-footer');
+            expect(footer).to.not.be.null;
+            const buttons = footer.querySelectorAll('.generic-dialog-button');
+            expect(buttons.length).to.be.equal(2);
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check alphanumeric dialog has input field', (done) => {
+        const popupData = {
+          userInputRequired: "alphanumeric",
+          text: "Enter Name",
+          textForItems: ["OK", "Cancel"],
+          initialUserInput: "Default Text",
+          timeoutSec: 10,
+          show: true
+        };
+        CrComLib.publishEvent('o', 'PopUpMessageData', popupData);
+        flush(() => {
+          setTimeout(() => {
+            const input = ch5MediaPlayer.querySelector('.dialog-content-input');
+            expect(input).to.not.be.null;
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check popup is removed when show is false', (done) => {
+        const popupData = {
+          userInputRequired: "",
+          text: "Test Dialog",
+          textForItems: ["OK"],
+          initialUserInput: "",
+          timeoutSec: 10,
+          show: true
+        };
+        CrComLib.publishEvent('o', 'PopUpMessageData', popupData);
+        flush(() => {
+          setTimeout(() => {
+            popupData.show = false;
+            CrComLib.publishEvent('o', 'PopUpMessageData', popupData);
+            flush(() => {
+              setTimeout(() => {
+                const overlay = ch5MediaPlayer.querySelector('.ch5-media-player--popup-overlay');
+                expect(overlay).to.be.null;
+                done();
+              }, 200);
+            });
+          }, 200);
+        });
+      });
+
+      test('Check multiple buttons layout for more than 2 buttons', (done) => {
+        const popupData = {
+          userInputRequired: "",
+          text: "Choose an option",
+          textForItems: ["Option 1", "Option 2", "Option 3", "Cancel"],
+          initialUserInput: "",
+          timeoutSec: 10,
+          show: true
+        };
+        CrComLib.publishEvent('o', 'PopUpMessageData', popupData);
+        flush(() => {
+          setTimeout(() => {
+            const footer = ch5MediaPlayer.querySelector('.generic-dialog-footer');
+            expect(footer).to.not.be.null;
+            expect(footer.classList.contains('generic-dialog-footer--column')).to.be.true;
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check primary button styling applied to non-Cancel buttons', (done) => {
+        const popupData = {
+          userInputRequired: "",
+          text: "Confirm?",
+          textForItems: ["OK", "Cancel"],
+          initialUserInput: "",
+          timeoutSec: 10,
+          show: true
+        };
+        CrComLib.publishEvent('o', 'PopUpMessageData', popupData);
+        flush(() => {
+          setTimeout(() => {
+            const buttons = ch5MediaPlayer.querySelectorAll('.generic-dialog-button');
+            let hasPrimaryButton = false;
+            buttons.forEach(button => {
+              if (button.textContent === 'OK' && button.classList.contains('primary-dialog-button')) {
+                hasPrimaryButton = true;
+              }
+            });
+            expect(hasPrimaryButton).to.be.true;
+            done();
+          }, 200);
+        });
+      });
+    });
+
+    suite('ch5-media-player-loading-indicator', () => {
+      let ch5MediaPlayer;
+
+      setup(async () => {
+        ch5MediaPlayer = fixture('ch5-media-player-popup-live');
+      });
+
+      test('Check loading indicator exists', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const loadingIndicator = ch5MediaPlayer.querySelector('.mp-loading-indicator');
+            expect(loadingIndicator).to.not.be.null;
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check loading indicator shows when busy', (done) => {
+        CrComLib.publishEvent('o', 'busyChanged', { on: true, timeoutSec: 30 });
+        flush(() => {
+          setTimeout(() => {
+            const loadingIndicator = ch5MediaPlayer.querySelector('.mp-loading-indicator');
+            expect(loadingIndicator.classList.contains('hide-loading-indicator')).to.be.false;
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check loading indicator hides when not busy', (done) => {
+        CrComLib.publishEvent('o', 'busyChanged', { on: true, timeoutSec: 30 });
+        flush(() => {
+          setTimeout(() => {
+            CrComLib.publishEvent('o', 'busyChanged', { on: false, timeoutSec: 0 });
+            flush(() => {
+              setTimeout(() => {
+                const loadingIndicator = ch5MediaPlayer.querySelector('.mp-loading-indicator');
+                expect(loadingIndicator.classList.contains('hide-loading-indicator')).to.be.true;
+                done();
+              }, 200);
+            });
+          }, 200);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
