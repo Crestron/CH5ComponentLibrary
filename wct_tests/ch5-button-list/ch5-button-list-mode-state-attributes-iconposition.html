@@ -82,7 +82,7 @@
           expect(ch5ButtonListModeState.getAttribute('iconPosition')).to.be.equal(expectedResult[i]);
         });
       });
-/* TO-FIX-PARAKH
+
       iconPositionList.forEach((val, i) => {
         test(`Check iconPosition ${val.position} for state normal`, (done) => {
           ch5ButtonList1.setAttribute('buttonIconPosition', val.position);
@@ -90,9 +90,9 @@
           ch5ButtonList1.setAttribute('state', "normal");
           setTimeout(() => {
             expect(ch5ButtonList1.numberOfItems).to.be.equal(4);
-            expect(getSpan(ch5ButtonList1).children[0].classList.contains('md-alarm_on')).to.be.equal(true);
+            expect(getButton(ch5ButtonList1).children[0].classList.contains('md-alarm_on')).to.be.equal(true);
             for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
-              expect(getSpan(ch5ButtonList1).children[0].classList.contains('material-icons')).to.be.equal(true);
+              expect(getButton(ch5ButtonList1).children[0].classList.contains('material-icons')).to.be.equal(true);
               expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].classList.contains('ch5-button--iconposition-' + val.position)).to.be.equal(true);
               expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].classList.contains('ch5-button--default')).to.be.equal(true);
             }
@@ -106,9 +106,9 @@
           ch5ButtonListModeState.setAttribute('state', 'selected');
           setTimeout(() => {
             expect(ch5ButtonList1.numberOfItems).to.be.equal(4);
-            expect(getSpan(ch5ButtonList1).children[0].classList.contains('md-alarm_on')).to.be.equal(true);
+            expect(getButton(ch5ButtonList1).children[0].classList.contains('md-alarm_on')).to.be.equal(true);
             for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
-              expect(getSpan(ch5ButtonList1).children[0].classList.contains('material-icons')).to.be.equal(true);
+              expect(getButton(ch5ButtonList1).children[0].classList.contains('material-icons')).to.be.equal(true);
               expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].classList.contains('ch5-button--iconposition-' + val.position)).to.be.equal(true);
             }
             done();
@@ -121,9 +121,9 @@
           ch5ButtonListModeState.setAttribute('state', 'pressed');
           setTimeout(() => {
             expect(ch5ButtonList1.numberOfItems).to.be.equal(4);
-            expect(getSpan(ch5ButtonList1).children[0].classList.contains('md-alarm_on')).to.be.equal(true);
+            expect(getButton(ch5ButtonList1).children[0].classList.contains('md-alarm_on')).to.be.equal(true);
             for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
-              expect(getSpan(ch5ButtonList1).children[0].classList.contains('material-icons')).to.be.equal(true);
+              expect(getButton(ch5ButtonList1).children[0].classList.contains('material-icons')).to.be.equal(true);
               expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].classList.contains('ch5-button--iconposition-' + val.position)).to.be.equal(true);
             }
             done();
@@ -139,7 +139,7 @@
               setTimeout(() => {
                 expect(ch5ButtonList1.buttonIconUrl).to.be.equal(iconUrl);
                 const expectedValueForIconUrl = iconUrl;
-                const getObjectClassListForIconUrl = getITagInSpanForIcon(ch5ButtonList1).classList;
+                const getObjectClassListForIconUrl = getITagInButtonForCheckbox(ch5ButtonList1).classList;
                 for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
                   expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].classList.contains('ch5-button--iconposition-' + val.position)).to.be.equal(true);
                   expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].classList.contains('ch5-button--default')).to.be.equal(true);
@@ -150,7 +150,7 @@
             });
           });
         });
-      });*/
+      });
     });
   </script>
 </body>
