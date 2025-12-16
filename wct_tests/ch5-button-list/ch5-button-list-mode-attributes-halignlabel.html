@@ -19,13 +19,6 @@
       </ch5-button-list>
     </template>
   </test-fixture>
-  <test-fixture id="ch5-button-list-mode-hAlignLabel-attributes1">
-    <template>
-      <ch5-button-list>
-        <ch5-button-list-mode></ch5-button-list-mode>
-      </ch5-button-list>
-    </template>
-  </test-fixture>
   <script>
     suite('ch5-button-list-mode-hAlignLabel-attributes-value', () => {
       let ch5ButtonList;
@@ -39,20 +32,19 @@
       let testCases = ['a', '', ' ', 'number', 'center', 'left', 'right'];
       let expectedResult = ['center', 'center', 'center', 'center', 'center', 'left', 'right'];
       testCases.forEach((ele, i) => {
-        test('Check Value "hAlignLabel"', () => {
+        test(`Check Value hAlignLabel = "${ele}"`, () => {
           ch5ButtonListMode.setAttribute('hAlignLabel', ele);
           expect(ch5ButtonListMode.getAttribute('hAlignLabel')).to.be.equal(expectedResult[i]);
         });
       });
     });
-    /* TO-FIX-PARAKH
+    
     suite('ch5-button-list-mode-hAlignLabel-attributes-classList', () => {
       let ch5ButtonList;
       let ch5ButtonListMode;
 
-
       setup(async () => {
-        ch5ButtonList = fixture('ch5-button-list-mode-hAlignLabel-attributes1');
+        ch5ButtonList = fixture('ch5-button-list-mode-hAlignLabel-attributes');
         ch5ButtonListMode = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[0];
       });
 
@@ -66,10 +58,10 @@
           flush(() => {
             setTimeout(() => {
               expect(ch5ButtonListMode.hAlignLabel).to.be.equal(hAlignLabelName);
-              expect(getSpan(ch5ButtonList).classList.contains("ch5-button--horizontal-" + hAlignLabelName)).to.be.equal(true);
+              expect(getButton(ch5ButtonList).classList.contains("ch5-button--horizontal-" + hAlignLabelName)).to.be.equal(true);
               valid_hAlignLabel.forEach((hAlignLabelNameErrorCheck, j) => {
                 if (hAlignLabelNameErrorCheck !== hAlignLabelName) {
-                  expect(getSpan(ch5ButtonList).classList.contains("ch5-button--horizontal-" + hAlignLabelNameErrorCheck)).to.be.equal(false);
+                  expect(getButton(ch5ButtonList).classList.contains("ch5-button--horizontal-" + hAlignLabelNameErrorCheck)).to.be.equal(false);
                 }
               });
               done();
@@ -84,10 +76,10 @@
           flush(() => {
             setTimeout(() => {
               expect(ch5ButtonListMode.hAlignLabel).to.be.equal("center");
-              expect(getSpan(ch5ButtonList).classList.contains("ch5-button--horizontal-center")).to.be.equal(true);
+              expect(getButton(ch5ButtonList).classList.contains("ch5-button--horizontal-center")).to.be.equal(true);
               valid_hAlignLabel.forEach((hAlignLabelNameErrorCheck, j) => {
                 if (hAlignLabelNameErrorCheck !== "center") {
-                  expect(getSpan(ch5ButtonList).classList.contains("ch5-button--horizontal-" + hAlignLabelNameErrorCheck)).to.be.equal(false);
+                  expect(getButton(ch5ButtonList).classList.contains("ch5-button--horizontal-" + hAlignLabelNameErrorCheck)).to.be.equal(false);
                 }
               });
               done();
@@ -95,8 +87,7 @@
           });
         });
       });
-    });*/
+    });
   </script>
 </body>
-
 </html>
