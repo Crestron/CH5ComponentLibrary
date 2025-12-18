@@ -1,0 +1,37 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "set_enable_true",
+      "trigger": true,
+      "actions": [
+        {
+          "type": "boolean",
+          "state": "signal_enable",
+          "logic": "set",
+          "value": true
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "set_enable_false",
+      "trigger": true,
+      "actions": [
+        {
+          "type": "boolean",
+          "state": "signal_enable",
+          "logic": "set",
+          "value": false
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "state": "signal_enable",
+      "type": "boolean",
+      "value": true
+    }
+  ]
+}

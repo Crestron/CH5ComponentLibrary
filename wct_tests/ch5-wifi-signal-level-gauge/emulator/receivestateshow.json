@@ -1,0 +1,37 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "set_show_true",
+      "trigger": true,
+      "actions": [
+        {
+          "type": "boolean",
+          "state": "receive_show_signal",
+          "logic": "set",
+          "value": true
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "set_show_false",
+      "trigger": true,
+      "actions": [
+        {
+          "type": "boolean",
+          "state": "receive_show_signal",
+          "logic": "set",
+          "value": false
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "state": "receive_show_signal",
+      "type": "boolean",
+      "value": true
+    }
+  ]
+}

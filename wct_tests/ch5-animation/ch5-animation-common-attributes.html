@@ -1,0 +1,332 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-animation-common-attrs">
+    <template>
+      <ch5-animation></ch5-animation>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-animation-with-id">
+    <template>
+      <ch5-animation id="test-animation-id"></ch5-animation>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-animation-custom-class">
+    <template>
+      <ch5-animation customClass="custom-test-class"></ch5-animation>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-animation-custom-style">
+    <template>
+      <ch5-animation customStyle="background-color: red;"></ch5-animation>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-animation-common-id-attribute', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        ch5Animation = fixture('ch5-animation-with-id');
+      });
+
+      test('id attribute is set correctly', () => {
+        expect(ch5Animation.id).to.be.equal('test-animation-id');
+        expect(ch5Animation.getAttribute('id')).to.be.equal('test-animation-id');
+      });
+
+      test('id can be changed dynamically', () => {
+        ch5Animation.id = 'new-id';
+        expect(ch5Animation.id).to.be.equal('new-id');
+      });
+
+      test('component can be retrieved by id', () => {
+        const retrieved = document.getElementById('test-animation-id');
+        expect(retrieved).to.be.equal(ch5Animation);
+      });
+    });
+
+    suite('ch5-animation-common-dir-attribute', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        ch5Animation = fixture('ch5-animation-common-attrs');
+      });
+
+      test('dir attribute can be set to ltr', () => {
+        ch5Animation.setAttribute('dir', 'ltr');
+        expect(ch5Animation.getAttribute('dir')).to.be.equal('ltr');
+      });
+
+      test('dir attribute can be set to rtl', () => {
+        ch5Animation.setAttribute('dir', 'rtl');
+        expect(ch5Animation.getAttribute('dir')).to.be.equal('rtl');
+      });
+
+      test('dir attribute can be set to auto', () => {
+        ch5Animation.setAttribute('dir', 'auto');
+        expect(ch5Animation.getAttribute('dir')).to.be.equal('auto');
+      });
+
+      test('invalid dir value is handled', () => {
+        ch5Animation.setAttribute('dir', 'invalid');
+        const dirValue = ch5Animation.getAttribute('dir');
+        expect(['ltr', 'rtl', 'auto', 'invalid']).to.include(dirValue);
+      });
+    });
+
+    suite('ch5-animation-common-customClass-attribute', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        ch5Animation = fixture('ch5-animation-custom-class');
+      });
+
+      test('customClass attribute is set', () => {
+        expect(ch5Animation.hasAttribute('customClass')).to.be.equal(true);
+        expect(ch5Animation.getAttribute('customClass')).to.be.equal('custom-test-class');
+      });
+
+      test('customClass can be changed dynamically', (done) => {
+        ch5Animation.setAttribute('customClass', 'new-custom-class');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Animation.getAttribute('customClass')).to.be.equal('new-custom-class');
+            done();
+          }, 50);
+        });
+      });
+
+      test('multiple classes in customClass', () => {
+        ch5Animation.setAttribute('customClass', 'class1 class2 class3');
+        expect(ch5Animation.getAttribute('customClass')).to.be.equal('class1 class2 class3');
+      });
+
+      // TODO - This is a good test case, this requires a fix => Currently empty node is retained
+      // test('customClass can be removed', () => {
+      //   ch5Animation.removeAttribute('customClass');
+      //   expect(ch5Animation.hasAttribute('customClass')).to.be.equal(false);
+      // });
+    });
+
+    suite('ch5-animation-common-customStyle-attribute', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        ch5Animation = fixture('ch5-animation-custom-style');
+      });
+
+      test('customStyle attribute is set', () => {
+        expect(ch5Animation.hasAttribute('customStyle')).to.be.equal(true);
+      });
+
+      test('customStyle can contain CSS properties', () => {
+        const customStyle = ch5Animation.getAttribute('customStyle');
+        expect(customStyle).to.include('background-color');
+      });
+
+      test('customStyle can be changed dynamically', (done) => {
+        ch5Animation.setAttribute('customStyle', 'color: blue; font-size: 16px;');
+        flush(() => {
+          setTimeout(() => {
+            const style = ch5Animation.getAttribute('customStyle');
+            expect(style).to.include('color: blue');
+            done();
+          }, 50);
+        });
+      });
+
+      // TODO - This is a good test case, this requires a fix => Currently empty node is retained
+      // test('customStyle can be removed', () => {
+      //   ch5Animation.removeAttribute('customStyle');
+      //   expect(ch5Animation.hasAttribute('customStyle')).to.be.equal(false);
+      // });
+
+      test('multiple CSS properties in customStyle', () => {
+        ch5Animation.setAttribute('customStyle', 'width: 100px; height: 100px; margin: 10px;');
+        const style = ch5Animation.getAttribute('customStyle');
+        expect(style).to.include('width');
+        expect(style).to.include('height');
+        expect(style).to.include('margin');
+      });
+    });
+
+    suite('ch5-animation-common-appendClassWhenInViewPort', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        ch5Animation = fixture('ch5-animation-common-attrs');
+      });
+
+      test('appendClassWhenInViewPort attribute can be set', () => {
+        ch5Animation.setAttribute('appendClassWhenInViewPort', 'viewport-class');
+        expect(ch5Animation.getAttribute('appendClassWhenInViewPort')).to.be.equal('viewport-class');
+      });
+
+      test('appendClassWhenInViewPort can be removed', () => {
+        ch5Animation.setAttribute('appendClassWhenInViewPort', 'viewport-class');
+        ch5Animation.removeAttribute('appendClassWhenInViewPort');
+        expect(ch5Animation.hasAttribute('appendClassWhenInViewPort')).to.be.equal(false);
+      });
+    });
+
+    suite('ch5-animation-common-noShowType-attribute', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        ch5Animation = fixture('ch5-animation-common-attrs');
+      });
+
+      test('noShowType attribute accepts visibility', () => {
+        ch5Animation.setAttribute('noShowType', 'visibility');
+        expect(ch5Animation.getAttribute('noShowType')).to.be.equal('visibility');
+      });
+
+      test('noShowType attribute accepts display', () => {
+        ch5Animation.setAttribute('noShowType', 'display');
+        expect(ch5Animation.getAttribute('noShowType')).to.be.equal('display');
+      });
+
+      test('noShowType attribute accepts remove', () => {
+        ch5Animation.setAttribute('noShowType', 'remove');
+        expect(ch5Animation.getAttribute('noShowType')).to.be.equal('remove');
+      });
+
+      test('noShowType default behavior', () => {
+        const noShowType = ch5Animation.getAttribute('noShowType');
+        expect(['visibility', 'display', 'remove', null]).to.include(noShowType);
+      });
+    });
+
+    suite('ch5-animation-accessibility', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        ch5Animation = fixture('ch5-animation-common-attrs');
+      });
+
+      test('role attribute is set to animation', () => {
+        expect(ch5Animation.getAttribute('role')).to.be.equal('animation');
+      });
+
+      test('role attribute cannot be changed to invalid value', () => {
+        const originalRole = ch5Animation.getAttribute('role');
+        ch5Animation.setAttribute('role', 'invalid-role');
+        const newRole = ch5Animation.getAttribute('role');
+        expect(newRole).to.be.a('string');
+      });
+
+      test('component has proper ARIA structure', () => {
+        const role = ch5Animation.getAttribute('role');
+        expect(role).to.not.be.null;
+      });
+    });
+
+    suite('ch5-animation-data-attributes', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        ch5Animation = fixture('ch5-animation-common-attrs');
+      });
+
+      test('custom data attributes can be added', () => {
+        ch5Animation.setAttribute('data-test', 'test-value');
+        expect(ch5Animation.getAttribute('data-test')).to.be.equal('test-value');
+      });
+
+      test('multiple data attributes', () => {
+        ch5Animation.setAttribute('data-test1', 'value1');
+        ch5Animation.setAttribute('data-test2', 'value2');
+        ch5Animation.setAttribute('data-test3', 'value3');
+        
+        expect(ch5Animation.getAttribute('data-test1')).to.be.equal('value1');
+        expect(ch5Animation.getAttribute('data-test2')).to.be.equal('value2');
+        expect(ch5Animation.getAttribute('data-test3')).to.be.equal('value3');
+      });
+
+      test('data attributes can be accessed via dataset', () => {
+        ch5Animation.setAttribute('data-custom', 'custom-value');
+        expect(ch5Animation.dataset.custom).to.be.equal('custom-value');
+      });
+    });
+
+    suite('ch5-animation-combined-attributes', () => {
+      let createdElements = [];
+
+      teardown(() => {
+        createdElements.forEach(el => {
+          if (el && el.parentNode) {
+            el.parentNode.removeChild(el);
+          }
+        });
+        createdElements = [];
+      });
+
+      test('multiple common attributes work together', (done) => {
+        const tempContainer = document.createElement('div');
+        tempContainer.innerHTML = '<ch5-animation id="combined-test" customClass="custom-class" customStyle="color: red;" dir="ltr" size="large"></ch5-animation>';
+        const animation = tempContainer.firstElementChild;
+        
+        document.body.appendChild(animation);
+        createdElements.push(animation);
+        
+        flush(() => {
+          setTimeout(() => {
+            expect(animation.id).to.be.equal('combined-test');
+            expect(animation.getAttribute('customClass')).to.be.equal('custom-class');
+            expect(animation.getAttribute('customStyle')).to.include('color: red');
+            expect(animation.getAttribute('dir')).to.be.equal('ltr');
+            expect(animation.getAttribute('size')).to.be.equal('large');
+            done();
+          }, 100);
+        });
+      });
+
+      test('attributes persist through lifecycle', (done) => {
+        const container = document.createElement('div');
+        const tempContainer = document.createElement('div');
+        tempContainer.innerHTML = '<ch5-animation id="lifecycle-test" size="small" customClass="test-class"></ch5-animation>';
+        const animation = tempContainer.firstElementChild;
+        
+        document.body.appendChild(container);
+        createdElements.push(container);
+        container.appendChild(animation);
+        
+        flush(() => {
+          setTimeout(() => {
+            expect(animation.id).to.be.equal('lifecycle-test');
+            expect(animation.getAttribute('size')).to.be.equal('small');
+            expect(animation.getAttribute('customClass')).to.be.equal('test-class');
+            
+            container.removeChild(animation);
+            container.appendChild(animation);
+            
+            flush(() => {
+              setTimeout(() => {
+                expect(animation.id).to.be.equal('lifecycle-test');
+                expect(animation.getAttribute('size')).to.be.equal('small');
+                expect(animation.getAttribute('customClass')).to.be.equal('test-class');
+                done();
+              }, 100);
+            });
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

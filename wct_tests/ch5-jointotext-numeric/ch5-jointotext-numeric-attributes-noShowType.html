@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-jointotext-numeric-noShowType-default-fixture">
+        <template>
+            <ch5-jointotext-numeric></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-noShowType-display-fixture">
+        <template>
+            <ch5-jointotext-numeric noshowtype="display"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-noShowType-visibility-fixture">
+        <template>
+            <ch5-jointotext-numeric noshowtype="visibility"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-noShowType-remove-fixture">
+        <template>
+            <ch5-jointotext-numeric noshowtype="remove"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-noShowType-invalid-fixture">
+        <template>
+            <ch5-jointotext-numeric noshowtype="invalid"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-noShowType-display-hidden-fixture">
+        <template>
+            <ch5-jointotext-numeric noshowtype="display" show="false"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-noShowType-visibility-hidden-fixture">
+        <template>
+            <ch5-jointotext-numeric noshowtype="visibility" show="false"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-jointotext-numeric noShowType default', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-noShowType-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('noShowType default should be "display"', () => {
+                expect(ch5JoinToTextNumeric.noshowType).to.be.equal('display');
+            });
+        });
+
+        suite('ch5-jointotext-numeric noShowType display', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-noShowType-display-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('noShowType should be "display"', () => {
+                expect(ch5JoinToTextNumeric.noshowType).to.be.equal('display');
+            });
+        });
+
+        suite('ch5-jointotext-numeric noShowType visibility', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-noShowType-visibility-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('noShowType should be "visibility"', () => {
+                expect(ch5JoinToTextNumeric.noshowType).to.be.equal('visibility');
+            });
+        });
+
+        suite('ch5-jointotext-numeric noShowType remove', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-noShowType-remove-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('noShowType should be "remove"', () => {
+                expect(ch5JoinToTextNumeric.noshowType).to.be.equal('remove');
+            });
+        });
+
+        suite('ch5-jointotext-numeric noShowType invalid', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-noShowType-invalid-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('noShowType invalid should fall back to default "display"', () => {
+                expect(ch5JoinToTextNumeric.noshowType).to.be.equal('display');
+            });
+        });
+
+        suite('ch5-jointotext-numeric noShowType display with show false', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-noShowType-display-hidden-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('noShowType should be "display"', () => {
+                expect(ch5JoinToTextNumeric.noshowType).to.be.equal('display');
+            });
+
+            test('element should be hidden with display none', (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextNumeric.classList.contains('ch5-hide-dis')).to.be.equal(true);
+                        done();
+                    }, 100);
+                });
+            });
+        });
+
+        suite('ch5-jointotext-numeric noShowType visibility with show false', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-noShowType-visibility-hidden-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('noShowType should be "visibility"', () => {
+                expect(ch5JoinToTextNumeric.noshowType).to.be.equal('visibility');
+            });
+
+            test('element should be hidden with visibility hidden', (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextNumeric.classList.contains('ch5-hide-vis')).to.be.equal(true);
+                        done();
+                    }, 100);
+                });
+            });
+        });
+
+        suite('ch5-jointotext-numeric noShowType dynamic update', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-noShowType-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('noShowType can be set dynamically via attribute', (done) => {
+                ch5JoinToTextNumeric.setAttribute('noshowtype', 'display');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextNumeric.getAttribute('noshowtype')).to.be.equal('display');
+                        expect(ch5JoinToTextNumeric.noshowType).to.be.equal('display');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('noShowType can be set dynamically via property', (done) => {
+                ch5JoinToTextNumeric.noshowType = 'remove';
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextNumeric.noshowType).to.be.equal('remove');
+                        done();
+                    }, 100);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

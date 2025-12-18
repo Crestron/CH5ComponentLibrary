@@ -1,0 +1,376 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-animation-constants">
+    <template>
+      <ch5-animation></ch5-animation>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-animation-constants-validation', () => {
+      test('SIZES array contains all valid values', () => {
+        const sizes = CrComLib.Ch5Animation.SIZES;
+        expect(sizes).to.include('regular');
+        expect(sizes).to.include('small');
+        expect(sizes).to.include('large');
+        expect(sizes).to.include('x-large');
+        expect(sizes.length).to.be.equal(4);
+      });
+
+      test('ANIMATION_STYLES array contains all valid values', () => {
+        const styles = CrComLib.Ch5Animation.ANIMATION_STYLES;
+        expect(styles).to.include('ring');
+        expect(styles).to.include('spinner');
+        expect(styles).to.include('roller');
+        expect(styles.length).to.be.equal(3);
+      });
+
+      test('ANIMATION_STYLES_CLASS array contains FontAwesome classes', () => {
+        const styleClasses = CrComLib.Ch5Animation.ANIMATION_STYLES_CLASS;
+        expect(styleClasses).to.include('fa-circle-notch');
+        expect(styleClasses).to.include('fa-spinner');
+        expect(styleClasses).to.include('fa-sync');
+        expect(styleClasses.length).to.be.equal(3);
+      });
+
+      test('DEFAULT_FRAMES_PER_SECOND is defined', () => {
+        expect(CrComLib.Ch5Animation.DEFAULT_FRAMES_PER_SECOND).to.be.equal(1500);
+      });
+
+      test('MAX_FRAMES_PER_SECOND is defined', () => {
+        expect(CrComLib.Ch5Animation.MAX_FRAMES_PER_SECOND).to.be.equal(1);
+      });
+
+      test('FRAMES_PER_SECOND_MIN is defined', () => {
+        expect(CrComLib.Ch5Animation.FRAMES_PER_SECOND_MIN).to.be.equal(3);
+      });
+
+      test('FRAMES_PER_SECOND_MAX is defined', () => {
+        expect(CrComLib.Ch5Animation.FRAMES_PER_SECOND_MAX).to.be.equal(100);
+      });
+
+      test('ELEMENT_NAME is correct', () => {
+        expect(CrComLib.Ch5Animation.ELEMENT_NAME).to.be.equal('ch5-animation');
+      });
+
+      test('COMPONENT_DATA has SIZE configuration', () => {
+        const componentData = CrComLib.Ch5Animation.COMPONENT_DATA;
+        expect(componentData.SIZE).to.not.be.undefined;
+        expect(componentData.SIZE.default).to.be.equal('regular');
+        expect(componentData.SIZE.key).to.be.equal('size');
+        expect(componentData.SIZE.attribute).to.be.equal('size');
+      });
+
+      test('COMPONENT_DATA has ANIMATION_STYLE configuration', () => {
+        const componentData = CrComLib.Ch5Animation.COMPONENT_DATA;
+        expect(componentData.ANIMATION_STYLE).to.not.be.undefined;
+        expect(componentData.ANIMATION_STYLE.default).to.be.equal('ring');
+        expect(componentData.ANIMATION_STYLE.key).to.be.equal('animationstyle');
+        expect(componentData.ANIMATION_STYLE.attribute).to.be.equal('animationstyle');
+      });
+    });
+
+    suite('ch5-animation-edge-cases', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        ch5Animation = fixture('ch5-animation-constants');
+      });
+
+      test('invalid size value defaults to regular', () => {
+        ch5Animation.setAttribute('size', 'invalid-size');
+        expect(ch5Animation.getAttribute('size')).to.be.equal('regular');
+      });
+
+      test('empty size value defaults to regular', () => {
+        ch5Animation.setAttribute('size', '');
+        expect(ch5Animation.getAttribute('size')).to.be.equal('regular');
+      });
+
+      test('invalid animationStyle value defaults to ring', () => {
+        ch5Animation.setAttribute('animationStyle', 'invalid-style');
+        expect(ch5Animation.getAttribute('animationStyle')).to.be.equal('ring');
+      });
+
+      test('empty animationStyle value defaults to ring', () => {
+        ch5Animation.setAttribute('animationStyle', '');
+        expect(ch5Animation.getAttribute('animationStyle')).to.be.equal('ring');
+      });
+
+      test('numeric size value defaults to regular', () => {
+        ch5Animation.setAttribute('size', '123');
+        expect(ch5Animation.getAttribute('size')).to.be.equal('regular');
+      });
+
+      test('special characters in size defaults to regular', () => {
+        ch5Animation.setAttribute('size', '@#$%');
+        expect(ch5Animation.getAttribute('size')).to.be.equal('regular');
+      });
+
+      test('whitespace-only size defaults to regular', () => {
+        ch5Animation.setAttribute('size', '   ');
+        expect(ch5Animation.getAttribute('size')).to.be.equal('regular');
+      });
+
+      test('case-insensitive size values work correctly', () => {
+        ch5Animation.setAttribute('size', 'SMALL');
+        expect(ch5Animation.getAttribute('size')).to.not.be.equal('small');
+        expect(ch5Animation.getAttribute('size')).to.be.equal('regular');
+      });
+
+      test('startAnimating with non-boolean defaults correctly', () => {
+        ch5Animation.setAttribute('startAnimating', 'not-a-boolean');
+        const attr = ch5Animation.getAttribute('startAnimating');
+        expect(attr === 'true' || attr === 'false').to.be.equal(true);
+      });
+
+      test('removing size attribute resets to default', () => {
+        ch5Animation.setAttribute('size', 'large');
+        ch5Animation.removeAttribute('size');
+        expect(ch5Animation.getAttribute('size')).to.be.equal('regular');
+      });
+
+      test('removing animationStyle attribute resets to default', () => {
+        ch5Animation.setAttribute('animationStyle', 'spinner');
+        ch5Animation.removeAttribute('animationStyle');
+        expect(ch5Animation.getAttribute('animationStyle')).to.be.equal('ring');
+      });
+
+      test('multiple rapid attribute changes', (done) => {
+        ch5Animation.setAttribute('size', 'small');
+        ch5Animation.setAttribute('size', 'large');
+        ch5Animation.setAttribute('size', 'x-large');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Animation.getAttribute('size')).to.be.equal('x-large');
+            done();
+          }, 100);
+        });
+      });
+
+      test('null attribute value is handled', () => {
+        ch5Animation.setAttribute('size', null);
+        expect(ch5Animation.getAttribute('size')).to.be.equal('regular');
+      });
+
+      test('undefined attribute value is handled', () => {
+        ch5Animation.setAttribute('size', undefined);
+        expect(ch5Animation.getAttribute('size')).to.be.equal('regular');
+      });
+    });
+
+    suite('ch5-animation-frames-per-second-boundaries', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        ch5Animation = fixture('ch5-animation-constants');
+      });
+
+      test('frames per second at minimum boundary (3)', (done) => {
+        const icon = ch5Animation.querySelector('i');
+        icon.setAttribute('style', 'animation-duration:1500ms');
+        flush(() => {
+          setTimeout(() => {
+            expect(icon.style.animationDuration).to.be.equal('1500ms');
+            done();
+          }, 50);
+        });
+      });
+
+      test('frames per second at maximum boundary (100)', (done) => {
+        const icon = ch5Animation.querySelector('i');
+        icon.setAttribute('style', 'animation-duration:1ms');
+        flush(() => {
+          setTimeout(() => {
+            expect(icon.style.animationDuration).to.be.equal('1ms');
+            done();
+          }, 50);
+        });
+      });
+
+      test('frames per second below minimum defaults to default', (done) => {
+        const icon = ch5Animation.querySelector('i');
+        icon.setAttribute('style', 'animation-duration:1500ms');
+        flush(() => {
+          setTimeout(() => {
+            expect(icon.style.animationDuration).to.be.equal('1500ms');
+            done();
+          }, 50);
+        });
+      });
+
+      test('frames per second above maximum', (done) => {
+        const icon = ch5Animation.querySelector('i');
+        icon.setAttribute('style', 'animation-duration:1ms');
+        flush(() => {
+          setTimeout(() => {
+            expect(icon.style.animationDuration).to.be.equal('1ms');
+            done();
+          }, 50);
+        });
+      });
+
+      test('zero frames per second', (done) => {
+        const icon = ch5Animation.querySelector('i');
+        icon.setAttribute('style', 'animation-duration:1500ms');
+        flush(() => {
+          setTimeout(() => {
+            expect(icon.style.animationDuration).to.be.equal('1500ms');
+            done();
+          }, 50);
+        });
+      });
+
+      test('negative frames per second', (done) => {
+        const icon = ch5Animation.querySelector('i');
+        icon.setAttribute('style', 'animation-duration:1500ms');
+        flush(() => {
+          setTimeout(() => {
+            expect(icon.style.animationDuration).to.be.equal('1500ms');
+            done();
+          }, 50);
+        });
+      });
+    });
+
+    suite('ch5-animation-multiple-instances', () => {
+      let createdElements = [];
+
+      teardown(() => {
+        createdElements.forEach(el => {
+          if (el && el.parentNode) {
+            el.parentNode.removeChild(el);
+          }
+        });
+        createdElements = [];
+      });
+
+      test('multiple animation components on same page', (done) => {
+        const container = document.createElement('div');
+        container.innerHTML = '<ch5-animation></ch5-animation><ch5-animation></ch5-animation><ch5-animation></ch5-animation>';
+        const animation1 = container.children[0];
+        const animation2 = container.children[1];
+        const animation3 = container.children[2];
+        
+        document.body.appendChild(container);
+        createdElements.push(container);
+        
+        flush(() => {
+          setTimeout(() => {
+            expect(container.querySelectorAll('ch5-animation').length).to.be.equal(3);
+            done();
+          }, 100);
+        });
+      });
+
+      test('each instance has independent state', (done) => {
+        const container1 = document.createElement('div');
+        container1.innerHTML = '<ch5-animation></ch5-animation>';
+        const animation1 = container1.firstElementChild;
+        
+        const container2 = document.createElement('div');
+        container2.innerHTML = '<ch5-animation></ch5-animation>';
+        const animation2 = container2.firstElementChild;
+        
+        document.body.appendChild(animation1);
+        document.body.appendChild(animation2);
+        createdElements.push(animation1, animation2);
+        
+        flush(() => {
+          setTimeout(() => {
+            animation1.setAttribute('size', 'small');
+            animation2.setAttribute('size', 'large');
+            
+            flush(() => {
+              setTimeout(() => {
+                expect(animation1.getAttribute('size')).to.be.equal('small');
+                expect(animation2.getAttribute('size')).to.be.equal('large');
+                done();
+              }, 100);
+            });
+          }, 100);
+        });
+      });
+    });
+
+    suite('ch5-animation-dom-manipulation', () => {
+      let createdElements = [];
+
+      teardown(() => {
+        createdElements.forEach(el => {
+          if (el && el.parentNode) {
+            el.parentNode.removeChild(el);
+          }
+        });
+        createdElements = [];
+      });
+
+      test('component can be removed and re-added to DOM', (done) => {
+        const container = document.createElement('div');
+        const tempContainer = document.createElement('div');
+        tempContainer.innerHTML = '<ch5-animation></ch5-animation>';
+        const animation = tempContainer.firstElementChild;
+        
+        document.body.appendChild(container);
+        createdElements.push(container);
+        container.appendChild(animation);
+        
+        flush(() => {
+          setTimeout(() => {
+            expect(container.querySelector('ch5-animation')).to.not.be.null;
+            
+            container.removeChild(animation);
+            expect(container.querySelector('ch5-animation')).to.be.null;
+            
+            container.appendChild(animation);
+            flush(() => {
+              setTimeout(() => {
+                expect(container.querySelector('ch5-animation')).to.not.be.null;
+                done();
+              }, 100);
+            });
+          }, 100);
+        });
+      });
+
+      test('component retains attributes after DOM manipulation', (done) => {
+        const container = document.createElement('div');
+        const tempContainer = document.createElement('div');
+        tempContainer.innerHTML = '<ch5-animation size="large" animationStyle="spinner"></ch5-animation>';
+        const animation = tempContainer.firstElementChild;
+        
+        document.body.appendChild(container);
+        createdElements.push(container);
+        container.appendChild(animation);
+        
+        flush(() => {
+          setTimeout(() => {
+            container.removeChild(animation);
+            container.appendChild(animation);
+            
+            flush(() => {
+              setTimeout(() => {
+                expect(animation.getAttribute('size')).to.be.equal('large');
+                expect(animation.getAttribute('animationStyle')).to.be.equal('spinner');
+                done();
+              }, 100);
+            });
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

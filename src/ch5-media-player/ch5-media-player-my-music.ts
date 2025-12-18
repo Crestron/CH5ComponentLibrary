@@ -257,69 +257,69 @@ export class Ch5MediaPlayerMyMusic {
     this._myMusicContentItemTitle = createElement('div', ['my-music-content-item-title'], decodeString(text));
     this._myMusicContentItemSubtitle = createElement('div', ['my-music-content-item-subtitle'], decodeString(subText));
 
-    if (this._myMusicHeaderTitleText.innerText === 'Favorites') {
-      let holdTimer: number | null = null;
-      let isHeld = false;
-      let startX = 0;
-      let startY = 0;
-      const MOVE_THRESHOLD = 10; // pixels
+    //  if (this._myMusicHeaderTitleText.innerText === 'Favorites') { // This is not required
+    let holdTimer: number | null = null;
+    let isHeld = false;
+    let startX = 0;
+    let startY = 0;
+    const MOVE_THRESHOLD = 10; // pixels
 
-      const clearHold = () => {
-        if (holdTimer !== null) {
-          clearTimeout(holdTimer);
-          holdTimer = null;
-        }
-      };
+    const clearHold = () => {
+      if (holdTimer !== null) {
+        clearTimeout(holdTimer);
+        holdTimer = null;
+      }
+    };
 
-      const onPointerDown = (ev: PointerEvent) => {
-        isHeld = false;
-        startX = ev.clientX;
-        startY = ev.clientY;
-        try { (ev.target as Element).setPointerCapture?.(ev.pointerId); } catch { /* ignore */ }
-        clearHold();
-        holdTimer = window.setTimeout(() => {
-          isHeld = true;
-          holdTimer = null;
-          this.musicPlayerLibInstance.myMusicEvent('PressAndHold', index + 1);
-        }, 2000);
-      };
+    const onPointerDown = (ev: PointerEvent) => {
+      isHeld = false;
+      startX = ev.clientX;
+      startY = ev.clientY;
+      try { (ev.target as Element).setPointerCapture?.(ev.pointerId); } catch { /* ignore */ }
+      clearHold();
+      holdTimer = window.setTimeout(() => {
+        isHeld = true;
+        holdTimer = null;
+        this.musicPlayerLibInstance.myMusicEvent('PressAndHold', index + 1);
+      }, 2000);
+    };
 
-      const onPointerMove = (ev: PointerEvent) => {
-        if (!holdTimer) return;
-        const dx = Math.abs(ev.clientX - startX);
-        const dy = Math.abs(ev.clientY - startY);
-        if (dx > MOVE_THRESHOLD || dy > MOVE_THRESHOLD) {
-          clearHold();
-          try { (ev.target as Element).releasePointerCapture?.(ev.pointerId); } catch { /* ignore */ }
-        }
-      };
-
-      const onPointerUp = (ev: PointerEvent) => {
+    const onPointerMove = (ev: PointerEvent) => {
+      if (!holdTimer) return;
+      const dx = Math.abs(ev.clientX - startX);
+      const dy = Math.abs(ev.clientY - startY);
+      if (dx > MOVE_THRESHOLD || dy > MOVE_THRESHOLD) {
         clearHold();
         try { (ev.target as Element).releasePointerCapture?.(ev.pointerId); } catch { /* ignore */ }
-      };
+      }
+    };
 
-      const onPointerCancel = (ev: PointerEvent) => {
-        clearHold();
-        try { (ev.target as Element).releasePointerCapture?.(ev.pointerId); } catch { /* ignore */ }
-      };
+    const onPointerUp = (ev: PointerEvent) => {
+      clearHold();
+      try { (ev.target as Element).releasePointerCapture?.(ev.pointerId); } catch { /* ignore */ }
+    };
 
-      const onClick = () => {
-        if (!isHeld) {
-          this.musicPlayerLibInstance.myMusicEvent('Select', index + 1);
-        }
-      };
+    const onPointerCancel = (ev: PointerEvent) => {
+      clearHold();
+      try { (ev.target as Element).releasePointerCapture?.(ev.pointerId); } catch { /* ignore */ }
+    };
 
-      this._myMusicContentItem.addEventListener('pointerdown', onPointerDown);
-      this._myMusicContentItem.addEventListener('pointermove', onPointerMove);
-      this._myMusicContentItem.addEventListener('pointerup', onPointerUp);
-      this._myMusicContentItem.addEventListener('pointercancel', onPointerCancel);
-      this._myMusicContentItem.addEventListener('click', onClick);
-    } else {
+    const onClick = () => {
+      if (!isHeld) {
+        this.musicPlayerLibInstance.myMusicEvent('Select', index + 1);
+      }
+    };
+
+    this._myMusicContentItem.addEventListener('pointerdown', onPointerDown);
+    this._myMusicContentItem.addEventListener('pointermove', onPointerMove);
+    this._myMusicContentItem.addEventListener('pointerup', onPointerUp);
+    this._myMusicContentItem.addEventListener('pointercancel', onPointerCancel);
+    this._myMusicContentItem.addEventListener('click', onClick);
+    /* } else {
       this._myMusicContentItem.onclick = () => {
         this.musicPlayerLibInstance.myMusicEvent('Select', index + 1);
       }
-    }
+    } */
 
     this._myMusicContentItem.appendChild(this._myMusicContentItemTitle);
     this._myMusicContentItem.appendChild(this._myMusicContentItemSubtitle);
@@ -388,7 +388,12 @@ export class Ch5MediaPlayerMyMusic {
             button.title = action.name;
             button.id = item;
             button.onclick = () => {
-              this.musicPlayerLibInstance.myMusicEvent(item);
+              if (item === 'Find') { //this is for search popup in local instead of based on response
+                const data = { 'userInputRequired': "alphanumeric", "text": "Search", "textForItems": ['Find', 'Cancel'], "initialUserInput": "", "timeoutSec": 0, "show": true, "localExit": false };
+                publishEvent('o', 'PopUpMessageData', data);
+              } else {
+                this.musicPlayerLibInstance.myMusicEvent(item);
+              }
             };
             this._myMusicFooterSection.appendChild(button);
           }
@@ -403,7 +408,9 @@ export class Ch5MediaPlayerMyMusic {
     // Array.from(this._myMusicContentSection.childNodes).forEach((child) => child.remove()); // this will rerender the dom when the next set of items are fetched from the service
     Array.from(this._myMusicFooterSection.childNodes).forEach((child) => child.remove());
 
-    this.myMusicHeader(this.myMusicData.IsMenuAvailable, this.myMusicData.Title, this.myMusicData.Subtitle);
+    const enableBackBtn = this.myMusicData.IsMenuAvailable === "" ? this.myMusicData.Level > 1 : this.myMusicData.IsMenuAvailable;
+
+    this.myMusicHeader(enableBackBtn, this.myMusicData.Title, this.myMusicData.Subtitle);
     this.myMusicMenuIconSection(this.myMusicData.ListSpecificFunctions);
   }
 

@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-jointotext-boolean-value-true-fixture">
+        <template>
+            <ch5-jointotext-boolean value="true" textWhenTrue="On"></ch5-jointotext-boolean>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-boolean-value-false-fixture">
+        <template>
+            <ch5-jointotext-boolean value="false" textWhenFalse="Off"></ch5-jointotext-boolean>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-boolean-value-default-fixture">
+        <template>
+            <ch5-jointotext-boolean textWhenFalse="Off"></ch5-jointotext-boolean>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-boolean-value-invalid-fixture">
+        <template>
+            <ch5-jointotext-boolean value="invalid" textWhenTrue="On" textWhenFalse="Off"></ch5-jointotext-boolean>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-jointotext-boolean value true', () => {
+            let ch5JoinToTextBoolean;
+
+            setup(() => {
+                ch5JoinToTextBoolean = fixture('ch5-jointotext-boolean-value-true-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-boolean')]);
+            });
+
+            test('value should be true', () => {
+                expect(ch5JoinToTextBoolean.value).to.be.equal(true);
+                expect(ch5JoinToTextBoolean.textContent).to.be.equal('On');
+            });
+        });
+
+        suite('ch5-jointotext-boolean value false', () => {
+            let ch5JoinToTextBoolean;
+
+            setup(() => {
+                ch5JoinToTextBoolean = fixture('ch5-jointotext-boolean-value-false-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-boolean')]);
+            });
+
+            test('value should be false', () => {
+                expect(ch5JoinToTextBoolean.value).to.be.equal(false);
+                expect(ch5JoinToTextBoolean.textContent).to.be.equal('Off');
+            });
+        });
+
+        suite('ch5-jointotext-boolean value default', () => {
+            let ch5JoinToTextBoolean;
+
+            setup(() => {
+                ch5JoinToTextBoolean = fixture('ch5-jointotext-boolean-value-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-boolean')]);
+            });
+
+            test('value default should be false', () => {
+                expect(ch5JoinToTextBoolean.value).to.be.equal(false);
+                expect(ch5JoinToTextBoolean.textContent).to.be.equal('Off');
+            });
+        });
+
+        suite('ch5-jointotext-boolean value invalid', () => {
+            let ch5JoinToTextBoolean;
+
+            setup(() => {
+                ch5JoinToTextBoolean = fixture('ch5-jointotext-boolean-value-invalid-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-boolean')]);
+            });
+
+            test('value invalid should be false', () => {
+                expect(ch5JoinToTextBoolean.value).to.be.equal(false);
+                expect(ch5JoinToTextBoolean.textContent).to.be.equal('Off');
+            });
+        });
+
+        suite('ch5-jointotext-boolean value dynamic update', () => {
+            let ch5JoinToTextBoolean;
+
+            setup(() => {
+                ch5JoinToTextBoolean = fixture('ch5-jointotext-boolean-value-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-boolean')]);
+            });
+
+            test('value can be set to true dynamically via attribute', (done) => {
+                ch5JoinToTextBoolean.setAttribute('textWhenTrue', 'On');
+                ch5JoinToTextBoolean.setAttribute('value', 'true');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextBoolean.value).to.be.equal(true);
+                        expect(ch5JoinToTextBoolean.textContent).to.be.equal('On');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('value can be set to false dynamically via attribute', (done) => {
+                ch5JoinToTextBoolean.setAttribute('value', 'false');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextBoolean.value).to.be.equal(false);
+                        expect(ch5JoinToTextBoolean.textContent).to.be.equal('Off');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('value can be set dynamically via property', (done) => {
+                ch5JoinToTextBoolean.textWhenTrue = 'On';
+                ch5JoinToTextBoolean.value = true;
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextBoolean.value).to.be.equal(true);
+                        expect(ch5JoinToTextBoolean.textContent).to.be.equal('On');
+                        done();
+                    }, 100);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

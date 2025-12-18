@@ -1,0 +1,860 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<!-- State attribute tests: disabled, gestureable, debug, trace -->
+
+<test-fixture id="ch5-import-htmlsnippet-disabled-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" disabled="true"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-disabled-default-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-disabled-empty-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" disabled></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-disabled-invalid-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" disabled="invalid"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-gestureable-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" gestureable="true"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-gestureable-default-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-gestureable-empty-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" gestureable></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-gestureable-invalid-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" gestureable="invalid"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-debug-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" debug="true"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-debug-default-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-debug-empty-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" debug></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-debug-invalid-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" debug="invalid"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-trace-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" trace="true"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-trace-default-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-trace-empty-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" trace></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-trace-invalid-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" trace="invalid"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-show-disabled-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" show="true" disabled="true"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-show-enabled-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" show="true" disabled="false"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-hidden-disabled-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" show="false" disabled="true"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-hidden-enabled-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" show="false" disabled="false"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-show-noshowtype-disabled-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<script>
+    suite('ch5-import-htmlsnippet disabled attribute', function() {
+
+        let ch5ImportHtmlsnippet;
+
+        setup(() => {
+            ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-disabled-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        test('disabled attribute should be set to true', function() {
+            expect(ch5ImportHtmlsnippet.getAttribute('disabled')).to.be.equal('true');
+        });
+
+        test('disabled can be toggled dynamically', function() {
+            ch5ImportHtmlsnippet.setAttribute('disabled', 'false');
+            expect(ch5ImportHtmlsnippet.getAttribute('disabled')).to.be.equal('false');
+            expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.false;
+            ch5ImportHtmlsnippet.setAttribute('disabled', 'true');
+            expect(ch5ImportHtmlsnippet.getAttribute('disabled')).to.be.equal('true');
+            expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.true;
+        });
+
+        test('Content should still load when disabled', function(done) {
+            setTimeout(() => {
+                const buttons = ch5ImportHtmlsnippet.querySelectorAll('ch5-button');
+                expect(buttons.length).to.be.greaterThan(0);
+                done();
+            }, 500);
+        });
+
+        test('Disabled adds ch5-disabled class; enabling removes it', function(done) {
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.true;
+                ch5ImportHtmlsnippet.setAttribute('disabled', 'false');
+                setTimeout(() => {
+                    expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.false;
+                    done();
+                }, 100);
+            }, 100);
+        });
+    });
+
+    suite('ch5-import-htmlsnippet disabled defaults and invalids', function() {
+        let ch5ImportHtmlsnippet;
+
+        setup(() => {
+            ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-disabled-default-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        test('No disabled attribute defaults to false (enabled)', function(done) {
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.hasAttribute('disabled')).to.be.false;
+                expect(ch5ImportHtmlsnippet.disabled).to.be.false;
+                expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.false;
+                done();
+            }, 150);
+        });
+
+        const disabledTestCases = [
+            { key: true, value: true, description: 'boolean true' },
+            { key: false, value: false, description: 'boolean false' },
+            { key: 'true', value: true, description: 'string "true"' },
+            { key: 'false', value: false, description: 'string "false"' },
+            { key: 'TRUE', value: false, description: 'string "TRUE"' },
+            { key: 'FALSE', value: false, description: 'string "FALSE"' },
+            { key: 'invalid', value: false, description: 'invalid string' },
+            { key: 'Junk', value: false, description: 'junk string' },
+            { key: 'null', value: false, description: 'string "null"' },
+            { key: 'undefined', value: false, description: 'string "undefined"' },
+            { key: '', value: true, description: 'empty string' },
+            { key: 123, value: false, description: 'number 123' },
+            { key: ' ', value: false, description: 'whitespace string' }
+        ];
+
+        disabledTestCases.forEach((testCase) => {
+            test(`disabled="${testCase.key}" (${testCase.description}) should be ${testCase.value}`, function(done) {
+                ch5ImportHtmlsnippet.setAttribute('disabled', testCase.key);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5ImportHtmlsnippet.disabled).to.be.equal(testCase.value);
+                        expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.equal(testCase.value);
+                        done();
+                    }, 150);
+                });
+            });
+        });
+    });
+
+    suite('ch5-import-htmlsnippet gestureable attribute', function() {
+
+        let ch5ImportHtmlsnippet;
+
+        setup(() => {
+            ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-gestureable-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        test('gestureable attribute should be set to true', function() {
+            expect(ch5ImportHtmlsnippet.getAttribute('gestureable')).to.be.equal('true');
+        });
+
+        test('gestureable can be toggled', function() {
+            ch5ImportHtmlsnippet.setAttribute('gestureable', 'false');
+            expect(ch5ImportHtmlsnippet.getAttribute('gestureable')).to.be.equal('false');
+        });
+
+        test('Content should load with gestureable enabled', function(done) {
+            setTimeout(() => {
+                const buttons = ch5ImportHtmlsnippet.querySelectorAll('ch5-button');
+                expect(buttons.length).to.be.greaterThan(0);
+                done();
+            }, 500);
+        });
+    });
+
+    suite('ch5-import-htmlsnippet gestureable defaults and invalids', function() {
+        let ch5ImportHtmlsnippet;
+
+        setup(() => {
+            ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-gestureable-default-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        test('No gestureable attribute defaults to false', function(done) {
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.hasAttribute('gestureable')).to.be.false;
+                expect(ch5ImportHtmlsnippet.gestureable).to.be.false;
+                done();
+            }, 150);
+        });
+
+        const gestureableTestCases = [
+            { key: true, value: true, description: 'boolean true' },
+            { key: false, value: false, description: 'boolean false' },
+            { key: 'true', value: true, description: 'string "true"' },
+            { key: 'false', value: false, description: 'string "false"' },
+            { key: 'TRUE', value: true, description: 'string "TRUE"' },
+            { key: 'FALSE', value: false, description: 'string "FALSE"' },
+            { key: 'invalid', value: false, description: 'invalid string' },
+            { key: 'Junk', value: false, description: 'junk string' },
+            { key: 'null', value: false, description: 'string "null"' },
+            { key: 'undefined', value: false, description: 'string "undefined"' },
+            { key: '', value: false, description: 'empty string' },
+            { key: 123, value: false, description: 'number 123' },
+            { key: ' ', value: false, description: 'whitespace string' }
+        ];
+
+        gestureableTestCases.forEach((testCase) => {
+            test(`gestureable="${testCase.key}" (${testCase.description}) should be ${testCase.value}`, function(done) {
+                ch5ImportHtmlsnippet.setAttribute('gestureable', testCase.key);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5ImportHtmlsnippet.gestureable).to.be.equal(testCase.value);
+                        done();
+                    }, 150);
+                });
+            });
+        });
+    });
+
+    suite('ch5-import-htmlsnippet debug attribute', function() {
+
+        let ch5ImportHtmlsnippet;
+
+        setup(() => {
+            ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-debug-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        test('debug attribute should be set to true', function() {
+            expect(ch5ImportHtmlsnippet.getAttribute('debug')).to.be.equal('true');
+        });
+
+        test('debug can be disabled', function() {
+            ch5ImportHtmlsnippet.setAttribute('debug', 'false');
+            expect(ch5ImportHtmlsnippet.getAttribute('debug')).to.be.equal('false');
+        });
+    });
+
+    suite('ch5-import-htmlsnippet debug defaults and invalids', function() {
+        let ch5ImportHtmlsnippet;
+
+        setup(() => {
+            ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-debug-default-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        test('No debug attribute defaults to false (disabled)', function(done) {
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.hasAttribute('debug')).to.be.false;
+                expect(ch5ImportHtmlsnippet.logger.isDebugEnabled).to.be.false;
+                done();
+            }, 150);
+        });
+
+        const debugTestCases = [
+            { key: 'true', value: true, description: 'string "true"' },
+            { key: 'false', value: true, description: 'string "false" (presence enables)' },
+            { key: 'TRUE', value: true, description: 'string "TRUE"' },
+            { key: 'FALSE', value: true, description: 'string "FALSE" (presence enables)' },
+            { key: 'invalid', value: true, description: 'invalid string (presence enables)' },
+            { key: 'Junk', value: true, description: 'junk string (presence enables)' },
+            { key: 'null', value: true, description: 'string "null" (presence enables)' },
+            { key: 'undefined', value: true, description: 'string "undefined" (presence enables)' },
+            { key: '', value: true, description: 'empty string (presence enables)' },
+            { key: 123, value: true, description: 'number 123 (presence enables)' },
+            { key: ' ', value: true, description: 'whitespace string (presence enables)' }
+        ];
+
+        debugTestCases.forEach((testCase) => {
+            test(`debug="${testCase.key}" (${testCase.description}) should be ${testCase.value}`, function(done) {
+                ch5ImportHtmlsnippet.setAttribute('debug', testCase.key);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5ImportHtmlsnippet.logger.isDebugEnabled).to.be.equal(testCase.value);
+                        done();
+                    }, 150);
+                });
+            });
+        });
+    });
+
+    suite('ch5-import-htmlsnippet trace attribute', function() {
+
+        let ch5ImportHtmlsnippet;
+
+        setup(() => {
+            ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-trace-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        test('trace attribute should be set to true', function() {
+            expect(ch5ImportHtmlsnippet.getAttribute('trace')).to.be.equal('true');
+        });
+
+        test('trace can be disabled', function() {
+            ch5ImportHtmlsnippet.setAttribute('trace', 'false');
+            expect(ch5ImportHtmlsnippet.getAttribute('trace')).to.be.equal('false');
+        });
+    });
+
+    suite('ch5-import-htmlsnippet trace defaults and invalids', function() {
+        let ch5ImportHtmlsnippet;
+
+        setup(() => {
+            ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-trace-default-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        test('No trace attribute defaults to false (disabled)', function(done) {
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.hasAttribute('trace')).to.be.false;
+                expect(ch5ImportHtmlsnippet.logger.isTraceEnabled).to.be.false;
+                done();
+            }, 150);
+        });
+
+        const traceTestCases = [
+            { key: 'true', value: true, description: 'string "true"' },
+            { key: 'false', value: true, description: 'string "false" (presence enables)' },
+            { key: 'TRUE', value: true, description: 'string "TRUE"' },
+            { key: 'FALSE', value: true, description: 'string "FALSE" (presence enables)' },
+            { key: 'invalid', value: true, description: 'invalid string (presence enables)' },
+            { key: 'Junk', value: true, description: 'junk string (presence enables)' },
+            { key: 'null', value: true, description: 'string "null" (presence enables)' },
+            { key: 'undefined', value: true, description: 'string "undefined" (presence enables)' },
+            { key: '', value: true, description: 'empty string (presence enables)' },
+            { key: 123, value: true, description: 'number 123 (presence enables)' },
+            { key: ' ', value: true, description: 'whitespace string (presence enables)' }
+        ];
+
+        traceTestCases.forEach((testCase) => {
+            test(`trace="${testCase.key}" (${testCase.description}) should be ${testCase.value}`, function(done) {
+                ch5ImportHtmlsnippet.setAttribute('trace', testCase.key);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5ImportHtmlsnippet.logger.isTraceEnabled).to.be.equal(testCase.value);
+                        done();
+                    }, 150);
+                });
+            });
+        });
+    });
+
+    suite('ch5-import-htmlsnippet show + disabled combination', function() {
+
+        test('show=true + disabled=true: Both attributes set with disabled class', function(done) {
+            const ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-show-disabled-fixture');
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.getAttribute('show')).to.be.equal('true');
+                expect(ch5ImportHtmlsnippet.getAttribute('disabled')).to.be.equal('true');
+                expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.true;
+                done();
+            }, 200);
+        });
+
+        test('show=true + disabled=false: Both attributes set without disabled class', function(done) {
+            const ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-show-enabled-fixture');
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.getAttribute('show')).to.be.equal('true');
+                expect(ch5ImportHtmlsnippet.getAttribute('disabled')).to.be.equal('false');
+                expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.false;
+                done();
+            }, 200);
+        });
+
+        test('show=false + disabled=true: Both attributes set with disabled class', function(done) {
+            const ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-hidden-disabled-fixture');
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.getAttribute('show')).to.be.equal('false');
+                expect(ch5ImportHtmlsnippet.getAttribute('disabled')).to.be.equal('true');
+                expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.true;
+                done();
+            }, 200);
+        });
+
+        test('show=false + disabled=false: Both attributes set without disabled class', function(done) {
+            const ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-hidden-enabled-fixture');
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.getAttribute('show')).to.be.equal('false');
+                expect(ch5ImportHtmlsnippet.getAttribute('disabled')).to.be.equal('false');
+                expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.false;
+                done();
+            }, 200);
+        });
+
+        test('Content loads in all show/disabled combinations', function(done) {
+            const ch5ImportHtmlsnippet1 = fixture('ch5-import-htmlsnippet-show-disabled-fixture');
+            const ch5ImportHtmlsnippet2 = fixture('ch5-import-htmlsnippet-show-enabled-fixture');
+            const ch5ImportHtmlsnippet3 = fixture('ch5-import-htmlsnippet-hidden-disabled-fixture');
+            const ch5ImportHtmlsnippet4 = fixture('ch5-import-htmlsnippet-hidden-enabled-fixture');
+            
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet1.querySelectorAll('ch5-button').length).to.be.greaterThan(0);
+                expect(ch5ImportHtmlsnippet2.querySelectorAll('ch5-button').length).to.be.greaterThan(0);
+                expect(ch5ImportHtmlsnippet3.querySelectorAll('ch5-button').length).to.be.greaterThan(0);
+                expect(ch5ImportHtmlsnippet4.querySelectorAll('ch5-button').length).to.be.greaterThan(0);
+                done();
+            }, 500);
+        });
+
+        test('Toggling disabled preserves show state and updates class', function(done) {
+            const ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-show-disabled-fixture');
+            
+            ch5ImportHtmlsnippet.setAttribute('disabled', 'false');
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.getAttribute('show')).to.be.equal('true');
+                expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.false;
+                
+                ch5ImportHtmlsnippet.setAttribute('disabled', 'true');
+                setTimeout(() => {
+                    expect(ch5ImportHtmlsnippet.getAttribute('show')).to.be.equal('true');
+                    expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.true;
+                    done();
+                }, 100);
+            }, 100);
+        });
+
+        test('Toggling show preserves disabled state and class', function(done) {
+            const ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-show-disabled-fixture');
+            
+            ch5ImportHtmlsnippet.setAttribute('show', 'false');
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.getAttribute('show')).to.be.equal('false');
+                expect(ch5ImportHtmlsnippet.getAttribute('disabled')).to.be.equal('true');
+                expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.true;
+                
+                ch5ImportHtmlsnippet.setAttribute('show', 'true');
+                setTimeout(() => {
+                    expect(ch5ImportHtmlsnippet.getAttribute('show')).to.be.equal('true');
+                    expect(ch5ImportHtmlsnippet.getAttribute('disabled')).to.be.equal('true');
+                    expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.true;
+                    done();
+                }, 100);
+            }, 100);
+        });
+
+        test('Both attributes can be toggled simultaneously', function(done) {
+            const ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-show-disabled-fixture');
+            
+            ch5ImportHtmlsnippet.setAttribute('show', 'false');
+            ch5ImportHtmlsnippet.setAttribute('disabled', 'false');
+            
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.getAttribute('show')).to.be.equal('false');
+                expect(ch5ImportHtmlsnippet.getAttribute('disabled')).to.be.equal('false');
+                expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.false;
+                done();
+            }, 200);
+        });
+    });
+
+    suite('ch5-import-htmlsnippet show + noshowtype + disabled combinations', function() {
+
+        let ch5ImportHtmlsnippet;
+
+        setup(() => {
+            ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-show-noshowtype-disabled-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        // Test cases: all combinations of show (true/false) × noshowtype (display/visibility/remove) × disabled (true/false)
+        const combinationTestCases = [
+            // show=true combinations
+            { show: 'true', noshowtype: 'display', disabled: 'true', 
+              expectedShowHideClasses: false, expectedDisabledClass: true, expectedInDOM: true,
+              description: 'show=true + display + disabled' },
+            { show: 'true', noshowtype: 'display', disabled: 'false',
+              expectedShowHideClasses: false, expectedDisabledClass: false, expectedInDOM: true,
+              description: 'show=true + display + enabled' },
+            { show: 'true', noshowtype: 'visibility', disabled: 'true',
+              expectedShowHideClasses: false, expectedDisabledClass: true, expectedInDOM: true,
+              description: 'show=true + visibility + disabled' },
+            { show: 'true', noshowtype: 'visibility', disabled: 'false',
+              expectedShowHideClasses: false, expectedDisabledClass: false, expectedInDOM: true,
+              description: 'show=true + visibility + enabled' },
+            { show: 'true', noshowtype: 'remove', disabled: 'true',
+              expectedShowHideClasses: false, expectedDisabledClass: true, expectedInDOM: true,
+              description: 'show=true + remove + disabled' },
+            { show: 'true', noshowtype: 'remove', disabled: 'false',
+              expectedShowHideClasses: false, expectedDisabledClass: false, expectedInDOM: true,
+              description: 'show=true + remove + enabled' },
+
+            // show=false combinations with display (ch5-hide-dis class)
+            { show: 'false', noshowtype: 'display', disabled: 'true',
+              expectedShowHideClasses: true, expectedShowHideClassName: 'ch5-hide-dis', expectedDisabledClass: true, expectedInDOM: true,
+              description: 'show=false + display + disabled' },
+            { show: 'false', noshowtype: 'display', disabled: 'false',
+              expectedShowHideClasses: true, expectedShowHideClassName: 'ch5-hide-dis', expectedDisabledClass: false, expectedInDOM: true,
+              description: 'show=false + display + enabled' },
+
+            // show=false combinations with visibility (ch5-hide-vis class)
+            { show: 'false', noshowtype: 'visibility', disabled: 'true',
+              expectedShowHideClasses: true, expectedShowHideClassName: 'ch5-hide-vis', expectedDisabledClass: true, expectedInDOM: true,
+              description: 'show=false + visibility + disabled' },
+            { show: 'false', noshowtype: 'visibility', disabled: 'false',
+              expectedShowHideClasses: true, expectedShowHideClassName: 'ch5-hide-vis', expectedDisabledClass: false, expectedInDOM: true,
+              description: 'show=false + visibility + enabled' },
+
+                        // show=false combinations with remove (element removed from DOM)
+                        { show: 'false', noshowtype: 'remove', disabled: 'true',
+                            expectedShowHideClasses: false, expectedDisabledClass: true, expectedInDOM: false,
+                            description: 'show=false + remove + disabled' },
+                        { show: 'false', noshowtype: 'remove', disabled: 'false',
+                            expectedShowHideClasses: false, expectedDisabledClass: false, expectedInDOM: false,
+                            description: 'show=false + remove + enabled' },
+        ];
+
+        combinationTestCases.forEach((testCase) => {
+            test(`${testCase.description}: attributes set correctly`, function(done) {
+                ch5ImportHtmlsnippet.setAttribute('show', testCase.show);
+                ch5ImportHtmlsnippet.setAttribute('noshowtype', testCase.noshowtype);
+                ch5ImportHtmlsnippet.setAttribute('disabled', testCase.disabled);
+                
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5ImportHtmlsnippet.getAttribute('show')).to.be.equal(testCase.show);
+                        expect(ch5ImportHtmlsnippet.getAttribute('noshowtype')).to.be.equal(testCase.noshowtype);
+                        expect(ch5ImportHtmlsnippet.getAttribute('disabled')).to.be.equal(testCase.disabled);
+                        done();
+                    }, 150);
+                });
+            });
+
+            test(`${testCase.description}: disabled class ${testCase.expectedDisabledClass ? 'present' : 'absent'}`, function(done) {
+                ch5ImportHtmlsnippet.setAttribute('show', testCase.show);
+                ch5ImportHtmlsnippet.setAttribute('noshowtype', testCase.noshowtype);
+                ch5ImportHtmlsnippet.setAttribute('disabled', testCase.disabled);
+                
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.equal(testCase.expectedDisabledClass);
+                        done();
+                    }, 150);
+                });
+            });
+
+            if (testCase.expectedShowHideClasses) {
+                test(`${testCase.description}: show/hide class ${testCase.expectedShowHideClassName} present`, function(done) {
+                    ch5ImportHtmlsnippet.setAttribute('show', testCase.show);
+                    ch5ImportHtmlsnippet.setAttribute('noshowtype', testCase.noshowtype);
+                    ch5ImportHtmlsnippet.setAttribute('disabled', testCase.disabled);
+                    
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5ImportHtmlsnippet.classList.contains(testCase.expectedShowHideClassName)).to.be.true;
+                            done();
+                        }, 150);
+                    });
+                });
+            }
+
+            test(`${testCase.description}: element ${testCase.expectedInDOM ? 'present' : 'removed'} in DOM`, function(done) {
+                ch5ImportHtmlsnippet.setAttribute('show', testCase.show);
+                ch5ImportHtmlsnippet.setAttribute('noshowtype', testCase.noshowtype);
+                ch5ImportHtmlsnippet.setAttribute('disabled', testCase.disabled);
+                
+                flush(() => {
+                    setTimeout(() => {
+                        const parent = ch5ImportHtmlsnippet.parentElement;
+                        const isInDOM = !!(parent && parent.contains(ch5ImportHtmlsnippet));
+                        expect(isInDOM).to.be.equal(testCase.expectedInDOM);
+                        done();
+                    }, 150);
+                });
+            });
+        });
+
+        // Dynamic toggling tests
+        test('Toggling show between true and false with display noshowtype toggles ch5-hide-dis class', function(done) {
+            ch5ImportHtmlsnippet.setAttribute('show', 'true');
+            ch5ImportHtmlsnippet.setAttribute('noshowtype', 'display');
+            ch5ImportHtmlsnippet.setAttribute('disabled', 'false');
+            
+            flush(() => {
+                setTimeout(() => {
+                    expect(ch5ImportHtmlsnippet.classList.contains('ch5-hide-dis')).to.be.false;
+                    
+                    ch5ImportHtmlsnippet.setAttribute('show', 'false');
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5ImportHtmlsnippet.classList.contains('ch5-hide-dis')).to.be.true;
+                            
+                            ch5ImportHtmlsnippet.setAttribute('show', 'true');
+                            flush(() => {
+                                setTimeout(() => {
+                                    expect(ch5ImportHtmlsnippet.classList.contains('ch5-hide-dis')).to.be.false;
+                                    done();
+                                }, 100);
+                            });
+                        }, 100);
+                    });
+                }, 100);
+            });
+        });
+
+        test('Toggling show between true and false with visibility noshowtype toggles ch5-hide-vis class', function(done) {
+            ch5ImportHtmlsnippet.setAttribute('show', 'true');
+            ch5ImportHtmlsnippet.setAttribute('noshowtype', 'visibility');
+            ch5ImportHtmlsnippet.setAttribute('disabled', 'false');
+            
+            flush(() => {
+                setTimeout(() => {
+                    expect(ch5ImportHtmlsnippet.classList.contains('ch5-hide-vis')).to.be.false;
+                    
+                    ch5ImportHtmlsnippet.setAttribute('show', 'false');
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5ImportHtmlsnippet.classList.contains('ch5-hide-vis')).to.be.true;
+                            
+                            ch5ImportHtmlsnippet.setAttribute('show', 'true');
+                            flush(() => {
+                                setTimeout(() => {
+                                    expect(ch5ImportHtmlsnippet.classList.contains('ch5-hide-vis')).to.be.false;
+                                    done();
+                                }, 100);
+                            });
+                        }, 100);
+                    });
+                }, 100);
+            });
+        });
+
+        test('Toggling noshowtype changes hiding mechanism while preserving show and disabled states', function(done) {
+            ch5ImportHtmlsnippet.setAttribute('show', 'false');
+            ch5ImportHtmlsnippet.setAttribute('noshowtype', 'display');
+            ch5ImportHtmlsnippet.setAttribute('disabled', 'true');
+            
+            flush(() => {
+                setTimeout(() => {
+                    expect(ch5ImportHtmlsnippet.classList.contains('ch5-hide-dis')).to.be.true;
+                    expect(ch5ImportHtmlsnippet.classList.contains('ch5-hide-vis')).to.be.false;
+                    expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.true;
+                    
+                    ch5ImportHtmlsnippet.setAttribute('noshowtype', 'visibility');
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5ImportHtmlsnippet.classList.contains('ch5-hide-dis')).to.be.false;
+                            expect(ch5ImportHtmlsnippet.classList.contains('ch5-hide-vis')).to.be.true;
+                            expect(ch5ImportHtmlsnippet.getAttribute('show')).to.be.equal('false');
+                            expect(ch5ImportHtmlsnippet.getAttribute('disabled')).to.be.equal('true');
+                            expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.true;
+                            done();
+                        }, 100);
+                    });
+                }, 100);
+            });
+        });
+
+        test('Disabled state is preserved when toggling noshowtype', function(done) {
+            ch5ImportHtmlsnippet.setAttribute('show', 'true');
+            ch5ImportHtmlsnippet.setAttribute('noshowtype', 'display');
+            ch5ImportHtmlsnippet.setAttribute('disabled', 'true');
+            
+            flush(() => {
+                setTimeout(() => {
+                    expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.true;
+                    
+                    ch5ImportHtmlsnippet.setAttribute('noshowtype', 'visibility');
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.true;
+                            
+                            ch5ImportHtmlsnippet.setAttribute('noshowtype', 'remove');
+                            flush(() => {
+                                setTimeout(() => {
+                                    expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.true;
+                                    done();
+                                }, 100);
+                            });
+                        }, 100);
+                    });
+                }, 100);
+            });
+        });
+
+        test('show=false + remove noshowtype removes element from DOM', function(done) {
+            ch5ImportHtmlsnippet.setAttribute('show', 'false');
+            ch5ImportHtmlsnippet.setAttribute('noshowtype', 'remove');
+            
+            flush(() => {
+                setTimeout(() => {
+                    const isInDOM = document.body.contains(ch5ImportHtmlsnippet);
+                    expect(isInDOM).to.be.false;
+                    
+                    ch5ImportHtmlsnippet.setAttribute('show', 'true');
+                    flush(() => {
+                        setTimeout(() => {
+                            const isBackInDOM = document.body.contains(ch5ImportHtmlsnippet);
+                            expect(isBackInDOM).to.be.true;
+                            done();
+                        }, 300);
+                    });
+                }, 150);
+            });
+        });
+
+        test('Multiple rapid attribute changes are handled correctly', function(done) {
+            ch5ImportHtmlsnippet.setAttribute('show', 'true');
+            ch5ImportHtmlsnippet.setAttribute('noshowtype', 'display');
+            ch5ImportHtmlsnippet.setAttribute('disabled', 'false');
+            
+            ch5ImportHtmlsnippet.setAttribute('show', 'false');
+            ch5ImportHtmlsnippet.setAttribute('disabled', 'true');
+            
+            ch5ImportHtmlsnippet.setAttribute('noshowtype', 'visibility');
+            
+            flush(() => {
+                setTimeout(() => {
+                    expect(ch5ImportHtmlsnippet.getAttribute('show')).to.be.equal('false');
+                    expect(ch5ImportHtmlsnippet.getAttribute('noshowtype')).to.be.equal('visibility');
+                    expect(ch5ImportHtmlsnippet.getAttribute('disabled')).to.be.equal('true');
+                    expect(ch5ImportHtmlsnippet.classList.contains('ch5-hide-vis')).to.be.true;
+                    expect(ch5ImportHtmlsnippet.classList.contains('ch5-disabled')).to.be.true;
+                    done();
+                }, 150);
+            });
+        });
+
+        test('Content loads successfully in all show/noshowtype/disabled combinations', function(done) {
+            // Test combinations across all noshowtype values and disabled states
+            const contentTestCases = [
+                { show: 'true', noshowtype: 'display', disabled: 'true', description: 'show=true + display + disabled' },
+                { show: 'true', noshowtype: 'visibility', disabled: 'false', description: 'show=true + visibility + enabled' },
+                { show: 'true', noshowtype: 'remove', disabled: 'true', description: 'show=true + remove + disabled' },
+                { show: 'false', noshowtype: 'display', disabled: 'false', description: 'show=false + display + enabled' },
+                { show: 'false', noshowtype: 'visibility', disabled: 'true', description: 'show=false + visibility + disabled' },
+                // Note: show=false + remove will remove element from DOM, so we skip content check for that
+            ];
+
+            let testIndex = 0;
+
+            const runNextTest = () => {
+                if (testIndex >= contentTestCases.length) {
+                    done();
+                    return;
+                }
+
+                const testCase = contentTestCases[testIndex];
+                ch5ImportHtmlsnippet.setAttribute('show', testCase.show);
+                ch5ImportHtmlsnippet.setAttribute('noshowtype', testCase.noshowtype);
+                ch5ImportHtmlsnippet.setAttribute('disabled', testCase.disabled);
+
+                flush(() => {
+                    setTimeout(() => {
+                        const buttons = ch5ImportHtmlsnippet.querySelectorAll('ch5-button');
+                        expect(buttons.length).to.be.greaterThan(0, 
+                            `Content should load for: ${testCase.description}`);
+                        testIndex++;
+                        runNextTest();
+                    }, 150);
+                });
+            };
+
+            runNextTest();
+        });
+    });
+</script>
+</body>
+</html>

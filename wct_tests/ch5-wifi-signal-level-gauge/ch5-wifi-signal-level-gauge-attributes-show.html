@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+    <test-fixture id="ch5-wifi-signal-level-gauge-show-fixture">
+        <template>
+            <ch5-wifi-signal-level-gauge show="true" value="50"></ch5-wifi-signal-level-gauge>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-wifi-signal-level-gauge-show-false-fixture">
+        <template>
+            <ch5-wifi-signal-level-gauge show="false" value="50"></ch5-wifi-signal-level-gauge>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-wifi-signal-level-gauge-show-default-fixture">
+        <template>
+            <ch5-wifi-signal-level-gauge value="50"></ch5-wifi-signal-level-gauge>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-wifi-signal-level-gauge-show-true', () => {
+            let ch5WifiSignalLevelGauge;
+
+            setup(() => {
+                ch5WifiSignalLevelGauge = fixture('ch5-wifi-signal-level-gauge-show-fixture');
+                return Promise.all([customElements.whenDefined('ch5-wifi-signal-level-gauge')]);
+            });
+
+            test('show attribute should be true', () => {
+                expect(ch5WifiSignalLevelGauge.getAttribute('show')).to.be.equal('true');
+            });
+        });
+
+        suite('ch5-wifi-signal-level-gauge-show-false', () => {
+            let ch5WifiSignalLevelGauge;
+
+            setup(() => {
+                ch5WifiSignalLevelGauge = fixture('ch5-wifi-signal-level-gauge-show-false-fixture');
+                return Promise.all([customElements.whenDefined('ch5-wifi-signal-level-gauge')]);
+            });
+
+            test('show attribute should be false', () => {
+                expect(ch5WifiSignalLevelGauge.getAttribute('show')).to.be.equal('false');
+            });
+        });
+
+        suite('ch5-wifi-signal-level-gauge-show-default', () => {
+            let ch5WifiSignalLevelGauge;
+
+            setup(() => {
+                ch5WifiSignalLevelGauge = fixture('ch5-wifi-signal-level-gauge-show-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-wifi-signal-level-gauge')]);
+            });
+
+            test('show attribute default should be true', () => {
+                expect(ch5WifiSignalLevelGauge.getAttribute('show')).to.be.null;
+            });
+        });
+
+        suite('ch5-wifi-signal-level-gauge-show-dynamic', () => {
+            let ch5WifiSignalLevelGauge;
+
+            setup(() => {
+                ch5WifiSignalLevelGauge = fixture('ch5-wifi-signal-level-gauge-show-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-wifi-signal-level-gauge')]);
+            });
+
+            let testCases = ['a', '', ' ', '156', 'test', 'true', 'false'];
+            let expectedResult = ['true', 'true', 'true', 'true', 'true', 'true', 'false'];
+            testCases.forEach((ele, i) => {
+                test(`Check Value "show" with input "${ele}"`, () => {
+                    ch5WifiSignalLevelGauge.setAttribute('show', ele);
+                    expect(ch5WifiSignalLevelGauge.getAttribute('show')).to.be.equal(expectedResult[i]);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
