@@ -237,6 +237,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
   public set receiveStateCRPC(value: string) {
     this._ch5Properties.set("receiveStateCRPC", value, null, (newValue: string) => {
       this.logger.log('CRCP In join: ' + this.receiveStateCRPC + ' ' + newValue);
+      console.log('CRCP In join: ' + this.receiveStateCRPC + ' ' + newValue);
       this.publishMPEvent('s', "receiveStateCRPCResp", newValue);
     });
   }
@@ -324,8 +325,16 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
 
     subscribeState('o', 'busyChanged', ((data: any) => {
       this.busyChanged = data;
+
       if (this.busyChanged.on) {
-        this._loadingIndicator.classList.remove('hide-loading-indicator');
+        if(this.busyChanged.timeoutSec > 0){
+          this._loadingIndicator.classList.remove('hide-loading-indicator');
+          setTimeout(() => {
+            this._loadingIndicator.classList.add('hide-loading-indicator');
+          }, this.busyChanged.timeoutSec * 1000);
+        } else {
+          this._loadingIndicator.classList.remove('hide-loading-indicator');
+        }
       } else {
         this._loadingIndicator.classList.add('hide-loading-indicator');
       }
@@ -445,27 +454,57 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this.getDialogHeading(dialogHeading);
     const dialogContentInput = document.createElement("input");
     // Create input box 
-    if (dialogType === "alphanumeric") {
+    if (dialogType === "alphanumeric" || dialogType === "characterMasked") { //characterMasked for password popup
       const dialogContent = createElement('div', ["dialog-content"]);
       dialogContentInput.classList.add('dialog-content-input');
       dialogContentInput.value = decodeString(dialogInput);
+      if(dialogType === "characterMasked") {
+        dialogContentInput.type = "password";
+      }
       dialogContent.appendChild(dialogContentInput);
       this._elGenericDialogContent.appendChild(dialogContent);
     }
     this.getDialogFooter(dialogArray, dialogContentInput);
     this._elMask.appendChild(this._elGenericDialogContent);
+    if (dialogArray.length > 2) {
+      this._elMask.classList.add('action-group-popup-dialog');
+      const button = createElement('button', ['generic-dialog-button', 'cancel-popup-button']);
+      button.onclick = () => {
+        //clear auto close timeout on footer button click
+        if (this._dialogAutoCloseTimeout) {
+          clearTimeout(this._dialogAutoCloseTimeout);
+          this._dialogAutoCloseTimeout = null;
+        }
+        this.logger.log("Button Confirmation Id:", 3);
+        this.logger.log("Input Value:", dialogContentInput?.value);
+        if (this.demoMode) {
+          if (this._elMask && this._elMask.parentNode) {
+            this._elMask.parentNode.removeChild(this._elMask);
+          }
+        } else {
+          this.musicPlayerLibInstance.popUpAction(dialogContentInput?.value, 3);
+        }
+      };
+      button.textContent = dialogArray[2];
+      if (dialogArray[2] !== "Cancel") {
+        button.classList.add('primary-dialog-button');
+      }
+      this._elMask.appendChild(button);
+    }
     this._elContainer.appendChild(this._elMask);
 
     //Auto close dialog if user don't take any action for 10 seconds
     if (this._dialogAutoCloseTimeout) {
       clearTimeout(this._dialogAutoCloseTimeout);
     }
-    this._dialogAutoCloseTimeout = window.setTimeout(() => {
-      if (this._elMask && this._elMask.parentNode) {
-        this._elMask.parentNode.removeChild(this._elMask);
-      }
-      this._dialogAutoCloseTimeout = null;
-    }, timeoutSec * 1000);
+    if(timeoutSec > 0) { // we don't have to auto close the popup if the timer is 0 sec
+      this._dialogAutoCloseTimeout = window.setTimeout(() => {
+        if (this._elMask && this._elMask.parentNode) {
+          this._elMask.parentNode.removeChild(this._elMask);
+        }
+        this._dialogAutoCloseTimeout = null;
+      }, timeoutSec * 1000);
+    }
 
     dialogContentInput.addEventListener('input', () => {
       if (this._dialogAutoCloseTimeout) {
@@ -479,12 +518,12 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
       ev.stopPropagation();
     }
     this._elMask.onclick = () => {
-      if(this.demoMode) {
-        if (this._elMask && this._elMask.parentNode) {
-          this._elMask.parentNode.removeChild(this._elMask);
-        }
-      } else {
+      if (!this.demoMode) {
         this.musicPlayerLibInstance.popUpAction("", -1);
+        
+      }
+      if (this._elMask && this._elMask.parentNode) {
+        this._elMask.parentNode.removeChild(this._elMask);
       }
     }
   }
@@ -504,6 +543,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this._dialogFooter = createElement('div', ['generic-dialog-footer']);
     const dialogType = dialogArray.length;
     for (let i = 0; i < dialogType; i++) {
+      if(i >= 2) break;
       const button = createElement('button', ['generic-dialog-button']);
       button.addEventListener("click", () => {
         //clear auto close timeout on footer button click
@@ -513,12 +553,20 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
         }
         this.logger.log("Button Confirmation Id:", i + 1);
         this.logger.log("Input Value:", inputEle?.value);
-        if (this.demoMode) {
-          if (this._elMask && this._elMask.parentNode) {
-            this._elMask.parentNode.removeChild(this._elMask);
+        if(!this.demoMode) {
+          if(dialogArray.includes('Find')) {  //this condition is for search popup on autonomic
+            this.musicPlayerLibInstance.popUpAction(inputEle?.value, 999);
+          } else {
+            this.musicPlayerLibInstance.popUpAction(inputEle?.value, i + 1);
           }
-        } else {
-          this.musicPlayerLibInstance.popUpAction(inputEle?.value, i + 1);
+          if (this.popUpData.timeoutSec === 0) {
+            if (this._elMask && this._elMask.parentNode) {
+              this._elMask.parentNode.removeChild(this._elMask);
+            }
+          }
+        }
+        if (this._elMask && this._elMask.parentNode) {
+          this._elMask.parentNode.removeChild(this._elMask)
         }
       });
       button.textContent = dialogArray[i];

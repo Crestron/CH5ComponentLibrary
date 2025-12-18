@@ -69,7 +69,6 @@ export interface Params {
     type: string;
     format: string;
     name: string;
-    jsonrpc: string;
 }
 
 // RESPONSE

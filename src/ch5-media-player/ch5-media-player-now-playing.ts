@@ -156,13 +156,20 @@ export class Ch5MediaPlayerNowPlaying {
 					}
 					this._progressBarContainer.classList?.remove('ch5-hide-dis');
 					this._progressStreamState = this.progressBarData.StreamState;
-					this._streamState.textContent = this._progressStreamState;
+					if(this.nowPlayingData.PlayerState === "forwarding") {
+						this._streamState.textContent = this.nowPlayingData.FfwdSpeed + 'X';
+					} else {
+						this._streamState.textContent = this._progressStreamState;
+					}
 					this._progressBarTrackSec = this.progressBarData.TrackSec;
 					this._progressBarElapsedSec = this.progressBarData.ElapsedSec;
 					this._progressBarInput.max = this._progressBarTrackSec?.toString();
 					this._progressBarInput.value = this._progressBarElapsedSec?.toString();
-					if (this._progressBarElapsedSec && this._progressBarTrackSec) {
-						this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
+					//if (this._progressBarElapsedSec && this._progressBarTrackSec) {
+					this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
+					//}
+					if(this.nowPlayingData.PlayerState === "stopped") {	//autonomic: reset to initial once song completed
+						this._progressBarTrackSec = 0;
 					}
 					this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
 					this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
@@ -187,7 +194,7 @@ export class Ch5MediaPlayerNowPlaying {
 		}));
 
 		subscribeState('s', 'receiveStatePlayerNameResp', (value: string) => {
-			this.updatePlayerName(value)
+			this.updatePlayerName(value);
 		});
 	}
 
@@ -279,7 +286,8 @@ export class Ch5MediaPlayerNowPlaying {
 		} else {
 			this._separator.classList?.remove('ch5-hide-dis');
 		}
-		this._nowPlayingSongAdditionalInfo.textContent = this.nowPlayingData.TrackCnt > 0 ? `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}` : '';
+		// this._nowPlayingSongAdditionalInfo.textContent = this.nowPlayingData.TrackCnt > 0 ? `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}` : '';
+		this._nowPlayingSongAdditionalInfo.textContent= this.nowPlayingData.StationName; // Compared logs from vtproe and used stationname here.
 
 		this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
 		//this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[0].split(' '));
