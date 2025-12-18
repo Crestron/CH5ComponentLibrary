@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<!-- Additional URL attribute tests -->
+
+<test-fixture id="ch5-import-htmlsnippet-empty-url-fixture">
+    <template>
+        <ch5-import-htmlsnippet></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-with-id-fixture">
+    <template>
+        <ch5-import-htmlsnippet id="test-snippet" url="ch5-sample-elements.html"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<script>
+    suite('ch5-import-htmlsnippet empty url', function() {
+
+        let ch5ImportHtmlsnippet;
+
+        setup(() => {
+            ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-empty-url-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        test('URL should be empty string when not provided', function() {
+            expect(ch5ImportHtmlsnippet.url).to.be.equal('');
+        });
+
+        test('Element should have no content when url is empty', function(done) {
+            setTimeout(() => {
+                const container = ch5ImportHtmlsnippet.querySelector('div');
+                if (container) {
+                    expect(container.innerHTML).to.be.equal('');
+                }
+                done();
+            }, 200);
+        });
+
+        test('Setting empty string to url should keep it empty', function() {
+            ch5ImportHtmlsnippet.setAttribute('url', '');
+            expect(ch5ImportHtmlsnippet.url).to.be.equal('');
+        });
+    });
+
+    suite('ch5-import-htmlsnippet dynamic url change', function() {
+
+        let ch5ImportHtmlsnippet;
+
+        setup(() => {
+            ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        test('URL can be changed dynamically', function(done) {
+            const newUrl = 'ch5-sample-elements1.html';
+            ch5ImportHtmlsnippet.setAttribute('url', newUrl);
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.url).to.be.equal(newUrl);
+                done();
+            }, 200);
+        });
+
+        test('Setting null to url attribute should set url to "null"', function() {
+            ch5ImportHtmlsnippet.setAttribute('url', null);
+            expect(ch5ImportHtmlsnippet.url).to.be.equal('null');
+            expect(ch5ImportHtmlsnippet.url).to.be.a('string');
+        });
+
+        test('Setting boolean true to url should convert to string', function() {
+            ch5ImportHtmlsnippet.setAttribute('url', true);
+            expect(ch5ImportHtmlsnippet.getAttribute('url')).to.be.equal('true');
+            expect(ch5ImportHtmlsnippet.getAttribute('url')).to.be.a('string');
+        });
+
+        test('URL with query parameters should be handled', function() {
+            ch5ImportHtmlsnippet.setAttribute('url', 'ch5-sample-elements.html?param=value');
+            expect(ch5ImportHtmlsnippet.url).to.be.equal('ch5-sample-elements.html?param=value');
+        });
+
+        test('URL with hash should be handled', function() {
+            ch5ImportHtmlsnippet.setAttribute('url', 'ch5-sample-elements.html#section');
+            expect(ch5ImportHtmlsnippet.url).to.be.equal('ch5-sample-elements.html#section');
+        });
+    });
+
+    suite('ch5-import-htmlsnippet with id', function() {
+
+        let ch5ImportHtmlsnippet;
+
+        setup(() => {
+            ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-with-id-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        test('Element should have correct id attribute', function() {
+            expect(ch5ImportHtmlsnippet.id).to.be.equal('test-snippet');
+        });
+
+        test('Element should have id accessible via getAttribute', function() {
+            expect(ch5ImportHtmlsnippet.getAttribute('id')).to.be.equal('test-snippet');
+        });
+
+        test('Element can be found by id in DOM', function() {
+            const element = document.getElementById('test-snippet');
+            expect(element).to.not.be.null;
+        });
+
+        test('Id can be changed dynamically', function() {
+            ch5ImportHtmlsnippet.id = 'new-snippet-id';
+            expect(ch5ImportHtmlsnippet.id).to.be.equal('new-snippet-id');
+        });
+    });
+
+    suite('ch5-import-htmlsnippet content loading', function() {
+
+        let ch5ImportHtmlsnippet;
+
+        setup(() => {
+            ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        test('Should load ch5-button elements from sample file', function(done) {
+            setTimeout(() => {
+                const buttons = ch5ImportHtmlsnippet.querySelectorAll('ch5-button');
+                expect(buttons.length).to.be.greaterThan(0);
+                done();
+            }, 500);
+        });
+
+        test('Should load div elements from sample file', function(done) {
+            setTimeout(() => {
+                const divs = ch5ImportHtmlsnippet.querySelectorAll('div');
+                expect(divs.length).to.be.greaterThan(0);
+                done();
+            }, 500);
+        });
+
+        test('Should contain button with type "danger"', function(done) {
+            setTimeout(() => {
+                const dangerButton = ch5ImportHtmlsnippet.querySelector('ch5-button[type="danger"]');
+                expect(dangerButton).to.not.be.null;
+                done();
+            }, 500);
+        });
+
+        test('Should contain h3 elements with text content', function(done) {
+            setTimeout(() => {
+                const h3Elements = ch5ImportHtmlsnippet.querySelectorAll('h3');
+                expect(h3Elements.length).to.be.greaterThan(0);
+                done();
+            }, 500);
+        });
+    });
+
+    suite('ch5-import-htmlsnippet element definition', function() {
+
+        test('ch5-import-htmlsnippet should be a defined custom element', function() {
+            expect(customElements.get('ch5-import-htmlsnippet')).to.not.be.undefined;
+        });
+
+        test('Element should be an instance of HTMLElement', function() {
+            const element = document.createElement('ch5-import-htmlsnippet');
+            expect(element instanceof HTMLElement).to.be.true;
+        });
+    });
+</script>
+</body>
+</html>
