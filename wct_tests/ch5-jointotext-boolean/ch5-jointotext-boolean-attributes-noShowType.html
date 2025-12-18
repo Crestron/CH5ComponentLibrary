@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+    <test-fixture id="ch5-jointotext-boolean-noShowType-display-fixture">
+        <template>
+            <ch5-jointotext-boolean noShowType="display" textWhenFalse="Off"></ch5-jointotext-boolean>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-boolean-noShowType-visibility-fixture">
+        <template>
+            <ch5-jointotext-boolean noShowType="visibility" textWhenFalse="Off"></ch5-jointotext-boolean>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-boolean-noShowType-remove-fixture">
+        <template>
+            <ch5-jointotext-boolean noShowType="remove" textWhenFalse="Off"></ch5-jointotext-boolean>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-boolean-noShowType-default-fixture">
+        <template>
+            <ch5-jointotext-boolean textWhenFalse="Off"></ch5-jointotext-boolean>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-jointotext-boolean noShowType display', () => {
+            let ch5JoinToTextBoolean;
+
+            setup(() => {
+                ch5JoinToTextBoolean = fixture('ch5-jointotext-boolean-noShowType-display-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-boolean')]);
+            });
+
+            test('noShowType attribute should be display', () => {
+                expect(ch5JoinToTextBoolean.getAttribute('noShowType')).to.be.equal('display');
+            });
+        });
+
+        suite('ch5-jointotext-boolean noShowType visibility', () => {
+            let ch5JoinToTextBoolean;
+
+            setup(() => {
+                ch5JoinToTextBoolean = fixture('ch5-jointotext-boolean-noShowType-visibility-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-boolean')]);
+            });
+
+            test('noShowType attribute should be visibility', () => {
+                expect(ch5JoinToTextBoolean.getAttribute('noShowType')).to.be.equal('visibility');
+            });
+        });
+
+        suite('ch5-jointotext-boolean noShowType remove', () => {
+            let ch5JoinToTextBoolean;
+
+            setup(() => {
+                ch5JoinToTextBoolean = fixture('ch5-jointotext-boolean-noShowType-remove-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-boolean')]);
+            });
+
+            test('noShowType attribute should be remove', () => {
+                expect(ch5JoinToTextBoolean.getAttribute('noShowType')).to.be.equal('remove');
+            });
+        });
+
+        suite('ch5-jointotext-boolean noShowType default', () => {
+            let ch5JoinToTextBoolean;
+
+            setup(() => {
+                ch5JoinToTextBoolean = fixture('ch5-jointotext-boolean-noShowType-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-boolean')]);
+            });
+
+            test('noShowType attribute default should be null', () => {
+                expect(ch5JoinToTextBoolean.getAttribute('noShowType')).to.be.equal(null);
+            });
+        });
+
+        suite('ch5-jointotext-boolean noShowType dynamic update', () => {
+            let ch5JoinToTextBoolean;
+
+            setup(() => {
+                ch5JoinToTextBoolean = fixture('ch5-jointotext-boolean-noShowType-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-boolean')]);
+            });
+
+            test('noShowType can be set to display', (done) => {
+                ch5JoinToTextBoolean.setAttribute('noShowType', 'display');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextBoolean.getAttribute('noShowType')).to.be.equal('display');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('noShowType can be set to visibility', (done) => {
+                ch5JoinToTextBoolean.setAttribute('noShowType', 'visibility');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextBoolean.getAttribute('noShowType')).to.be.equal('visibility');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('noShowType can be set to remove', (done) => {
+                ch5JoinToTextBoolean.setAttribute('noShowType', 'remove');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextBoolean.getAttribute('noShowType')).to.be.equal('remove');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('noShowType invalid value defaults to display', (done) => {
+                ch5JoinToTextBoolean.setAttribute('noShowType', 'invalid');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextBoolean.getAttribute('noShowType')).to.be.equal('display');
+                        done();
+                    }, 100);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,767 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <link rel="stylesheet" href="/build_bundles/umd/cr-com-lib.css">
+</head>
+
+<body>
+    <!-- Test fixtures for receiveStateShow -->
+    <test-fixture id="ch5-import-htmlsnippet-receivestateshow-fixture">
+        <template>
+            <ch5-import-htmlsnippet id="test-receivestateshow" 
+                url="ch5-sample-elements.html" 
+                receivestateshow="signal_show">
+            </ch5-import-htmlsnippet>
+        </template>
+    </test-fixture>
+
+    <!-- Test fixtures for receiveStateShow with noshowtype variations -->
+    
+
+    <!-- Test fixtures for receiveStateShowPulse -->
+    <test-fixture id="ch5-import-htmlsnippet-receivestateshowpulse-fixture">
+        <template>
+            <ch5-import-htmlsnippet id="test-receivestateshowpulse" 
+                url="ch5-sample-elements.html" 
+                receivestateshowpulse="signal_show_pulse"
+                show="false">
+            </ch5-import-htmlsnippet>
+        </template>
+    </test-fixture>
+
+    <!-- Test fixtures for receiveStateShowPulse with noshowtype variations -->
+    
+
+    <!-- Test fixtures for receiveStateHidePulse -->
+    <test-fixture id="ch5-import-htmlsnippet-receivestatehidepulse-fixture">
+        <template>
+            <ch5-import-htmlsnippet id="test-receivestatehidepulse" 
+                url="ch5-sample-elements.html" 
+                receivestatehidepulse="signal_hide_pulse"
+                show="true">
+            </ch5-import-htmlsnippet>
+        </template>
+    </test-fixture>
+
+    <!-- Test fixtures for receiveStateHidePulse with noshowtype variations -->
+    
+
+    <!-- Test fixtures for receiveStateEnable -->
+    <test-fixture id="ch5-import-htmlsnippet-receivestateenable-fixture">
+        <template>
+            <ch5-import-htmlsnippet id="test-receivestateenable" 
+                url="ch5-sample-elements.html" 
+                receivestateenable="signal_enable">
+            </ch5-import-htmlsnippet>
+        </template>
+    </test-fixture>
+
+    <!-- Test fixtures for receiveStateCustomClass -->
+    <test-fixture id="ch5-import-htmlsnippet-receivestatecustomclass-fixture">
+        <template>
+            <ch5-import-htmlsnippet id="test-receivestatecustomclass" 
+                url="ch5-sample-elements.html" 
+                receivestatecustomclass="signal_custom_class">
+            </ch5-import-htmlsnippet>
+        </template>
+    </test-fixture>
+
+    <!-- Test fixtures for receiveStateCustomStyle -->
+    <test-fixture id="ch5-import-htmlsnippet-receivestatecustomstyle-fixture">
+        <template>
+            <ch5-import-htmlsnippet id="test-receivestatecustomstyle" 
+                url="ch5-sample-elements.html" 
+                receivestatecustomstyle="signal_custom_style">
+            </ch5-import-htmlsnippet>
+        </template>
+    </test-fixture>
+
+    <!-- Test fixtures for sendEventOnShow -->
+    <test-fixture id="ch5-import-htmlsnippet-sendeventonshow-fixture">
+        <template>
+            <ch5-import-htmlsnippet id="test-sendeventonshow" 
+                url="ch5-sample-elements.html" 
+                sendeventonshow="signal_on_show"
+                show="false">
+            </ch5-import-htmlsnippet>
+        </template>
+    </test-fixture>
+
+    <!-- Test fixtures for combined signals -->
+    <test-fixture id="ch5-import-htmlsnippet-combined-signals-fixture">
+        <template>
+            <ch5-import-htmlsnippet id="test-combined-signals" 
+                url="ch5-sample-elements.html" 
+                receivestateshow="signal_show_combined"
+                sendeventonshow="signal_on_show_combined">
+            </ch5-import-htmlsnippet>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-import-htmlsnippet receiveStateShow tests', function() {
+            let ch5ImportHtmlsnippet;
+            let emulator;
+
+            setup(async function() {
+                const emulatorJson = await fetch('./emulator/receivestateshow.json').then((response) => response.json());
+                emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-receivestateshow-fixture');
+            });
+
+            test('receivestateshow attribute is set correctly', function() {
+                assert.equal(ch5ImportHtmlsnippet.getAttribute('receivestateshow'), 'signal_show');
+            });
+
+            test('receiveStateShow signal=true updates show attribute to true', function(done) {
+                CrComLib.publishEvent('b', 'set_show_true', true);
+                flush(function() {
+                    setTimeout(function() {
+                        assert.equal(ch5ImportHtmlsnippet.getAttribute('show'), 'true', 'show attribute should be true');
+                        assert.equal(ch5ImportHtmlsnippet.show, true, 'show property should be true');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('receiveStateShow signal=true makes element visible (no hide classes)', function(done) {
+                CrComLib.publishEvent('b', 'set_show_true', true);
+                flush(function() {
+                    setTimeout(function() {
+                        assert.isFalse(ch5ImportHtmlsnippet.classList.contains('ch5-hide-dis'), 'Should not have ch5-hide-dis class');
+                        assert.isFalse(ch5ImportHtmlsnippet.classList.contains('ch5-hide-vis'), 'Should not have ch5-hide-vis class');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('receiveStateShow signal=false updates show attribute to false', function(done) {
+                CrComLib.publishEvent('b', 'set_show_false', true);
+                flush(function() {
+                    setTimeout(function() {
+                        assert.equal(ch5ImportHtmlsnippet.getAttribute('show'), 'false', 'show attribute should be false');
+                        assert.equal(ch5ImportHtmlsnippet.show, false, 'show property should be false');
+                        // Default noshowtype is display; element should have ch5-hide-dis and not ch5-hide-vis
+                        assert.isTrue(ch5ImportHtmlsnippet.classList.contains('ch5-hide-dis'), 'Should have ch5-hide-dis class by default');
+                        assert.isFalse(ch5ImportHtmlsnippet.classList.contains('ch5-hide-vis'), 'Should not have ch5-hide-vis class by default');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('receiveStateShow signal=false hides element with default noshowtype (display)', function(done) {
+                CrComLib.publishEvent('b', 'set_show_false', true);
+                flush(function() {
+                    setTimeout(function() {
+                        assert.isTrue(ch5ImportHtmlsnippet.classList.contains('ch5-hide-dis'), 'Should have ch5-hide-dis class');
+                        assert.isFalse(ch5ImportHtmlsnippet.classList.contains('ch5-hide-vis'), 'Should not have ch5-hide-vis class');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('receiveStateShow toggles show attribute and classes multiple times', function(done) {
+                // Hide
+                CrComLib.publishEvent('b', 'set_show_false', true);
+                flush(function() {
+                    setTimeout(function() {
+                        assert.equal(ch5ImportHtmlsnippet.getAttribute('show'), 'false');
+                        assert.isTrue(ch5ImportHtmlsnippet.classList.contains('ch5-hide-dis'));
+                        
+                        // Show
+                        CrComLib.publishEvent('b', 'set_show_true', true);
+                        flush(function() {
+                            setTimeout(function() {
+                                assert.equal(ch5ImportHtmlsnippet.getAttribute('show'), 'true');
+                                assert.isFalse(ch5ImportHtmlsnippet.classList.contains('ch5-hide-dis'));
+                                done();
+                            }, 100);
+                        });
+                    }, 100);
+                });
+            });
+        });
+
+        suite('ch5-import-htmlsnippet receiveStateShow with noshowtype tests', function() {
+            let ch5ImportHtmlsnippet;
+            let emulator;
+
+            setup(async function() {
+                const emulatorJson = await fetch('./emulator/receivestateshow.json').then((response) => response.json());
+                emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-receivestateshow-fixture');
+            });
+
+            const noshowTypes = [
+                { value: 'display', hideClass: 'ch5-hide-dis', otherClass: 'ch5-hide-vis' },
+                { value: 'visibility', hideClass: 'ch5-hide-vis', otherClass: 'ch5-hide-dis' },
+                { value: 'remove', hideClass: null, otherClass: null }
+            ];
+
+            noshowTypes.forEach(function(noshowType) {
+                test('receiveStateShow signal=false with noshowtype=' + noshowType.value + ' applies correct hide mechanism', function(done) {
+                    ch5ImportHtmlsnippet.setAttribute('noshowtype', noshowType.value);
+                    CrComLib.publishEvent('b', 'set_show_false', true);
+                    flush(function() {
+                        setTimeout(function() {
+                            assert.equal(ch5ImportHtmlsnippet.getAttribute('show'), 'false', 'show attribute should be false');
+                            
+                            if (noshowType.value === 'remove') {
+                                assert.isNull(ch5ImportHtmlsnippet.parentElement, 'Element should be removed from DOM');
+                            } else {
+                                assert.isTrue(ch5ImportHtmlsnippet.classList.contains(noshowType.hideClass), 'Should have ' + noshowType.hideClass + ' class');
+                                assert.isFalse(ch5ImportHtmlsnippet.classList.contains(noshowType.otherClass), 'Should not have ' + noshowType.otherClass + ' class');
+                            }
+                            done();
+                        }, 100);
+                    });
+                });
+
+                test('receiveStateShow signal=true with noshowtype=' + noshowType.value + ' removes hide mechanism', function(done) {
+                    ch5ImportHtmlsnippet.setAttribute('noshowtype', noshowType.value);
+                    ch5ImportHtmlsnippet.setAttribute('show', 'false');
+                    flush(function() {
+                        setTimeout(function() {
+                            CrComLib.publishEvent('b', 'set_show_true', true);
+                            flush(function() {
+                                setTimeout(function() {
+                                    assert.equal(ch5ImportHtmlsnippet.getAttribute('show'), 'true', 'show attribute should be true');
+                                    
+                                    if (noshowType.value === 'remove') {
+                                        assert.isNotNull(ch5ImportHtmlsnippet.parentElement, 'Element should be restored to DOM');
+                                    } else {
+                                        assert.isFalse(ch5ImportHtmlsnippet.classList.contains(noshowType.hideClass), 'Should not have ' + noshowType.hideClass + ' class');
+                                        assert.isFalse(ch5ImportHtmlsnippet.classList.contains(noshowType.otherClass), 'Should not have ' + noshowType.otherClass + ' class');
+                                    }
+                                    done();
+                                }, 100);
+                            });
+                        }, 100);
+                    });
+                });
+            });
+        });
+
+        suite('ch5-import-htmlsnippet receiveStateShowPulse tests', function() {
+            let ch5ImportHtmlsnippet;
+            let emulator;
+
+            setup(async function() {
+                const emulatorJson = await fetch('./emulator/receivestateshowpulse.json').then((response) => response.json());
+                emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-receivestateshowpulse-fixture');
+            });
+
+            test('receivestateshowpulse attribute is set correctly', function() {
+                assert.equal(ch5ImportHtmlsnippet.getAttribute('receivestateshowpulse'), 'signal_show_pulse');
+            });
+
+            test('initial state: element is hidden with show=false', function() {
+                assert.equal(ch5ImportHtmlsnippet.getAttribute('show'), 'false', 'show attribute should be false initially');
+                assert.equal(ch5ImportHtmlsnippet.show, false, 'show property should be false initially');
+                // Default noshowtype is display; element should have ch5-hide-dis and not ch5-hide-vis
+                assert.isTrue(ch5ImportHtmlsnippet.classList.contains('ch5-hide-dis'), 'Should have ch5-hide-dis class by default');
+                assert.isFalse(ch5ImportHtmlsnippet.classList.contains('ch5-hide-vis'), 'Should not have ch5-hide-vis class by default');
+            });
+
+            test('pulse signal updates show attribute to true', function(done) {
+                CrComLib.publishEvent('b', 'trigger_show_pulse', true);
+                flush(function() {
+                    setTimeout(function() {
+                        assert.equal(ch5ImportHtmlsnippet.getAttribute('show'), 'true', 'show attribute should be true after pulse');
+                        assert.equal(ch5ImportHtmlsnippet.show, true, 'show property should be true after pulse');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('pulse signal removes hide classes', function(done) {
+                CrComLib.publishEvent('b', 'trigger_show_pulse', true);
+                flush(function() {
+                    setTimeout(function() {
+                        assert.isFalse(ch5ImportHtmlsnippet.classList.contains('ch5-hide-dis'), 'Should not have ch5-hide-dis class');
+                        assert.isFalse(ch5ImportHtmlsnippet.classList.contains('ch5-hide-vis'), 'Should not have ch5-hide-vis class');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('multiple pulses maintain show=true state', function(done) {
+                CrComLib.publishEvent('b', 'trigger_show_pulse', true);
+                flush(function() {
+                    setTimeout(function() {
+                        assert.equal(ch5ImportHtmlsnippet.getAttribute('show'), 'true');
+                        
+                        // Second pulse
+                        CrComLib.publishEvent('b', 'trigger_show_pulse', true);
+                        flush(function() {
+                            setTimeout(function() {
+                                assert.equal(ch5ImportHtmlsnippet.getAttribute('show'), 'true', 'show should remain true after second pulse');
+                                assert.isFalse(ch5ImportHtmlsnippet.classList.contains('ch5-hide-dis'), 'Should not have ch5-hide-dis after pulses');
+                                assert.isFalse(ch5ImportHtmlsnippet.classList.contains('ch5-hide-vis'), 'Should not have ch5-hide-vis after pulses');
+                                done();
+                            }, 100);
+                        });
+                    }, 100);
+                });
+            });
+        });
+
+        suite('ch5-import-htmlsnippet receiveStateShowPulse with noshowtype tests', function() {
+            let ch5ImportHtmlsnippet;
+            let emulator;
+
+            setup(async function() {
+                const emulatorJson = await fetch('./emulator/receivestateshowpulse.json').then((response) => response.json());
+                emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-receivestateshowpulse-fixture');
+            });
+
+            const noshowTypes = [
+                { value: 'display', hideClass: 'ch5-hide-dis', otherClass: 'ch5-hide-vis' },
+                { value: 'visibility', hideClass: 'ch5-hide-vis', otherClass: 'ch5-hide-dis' },
+                { value: 'remove', hideClass: null, otherClass: null }
+            ];
+
+            noshowTypes.forEach(function(noshowType) {
+                test('pulse signal with noshowtype=' + noshowType.value + ' shows element correctly', function(done) {
+                    ch5ImportHtmlsnippet.setAttribute('noshowtype', noshowType.value);
+                    CrComLib.publishEvent('b', 'trigger_show_pulse', true);
+                    flush(function() {
+                        setTimeout(function() {
+                            assert.equal(ch5ImportHtmlsnippet.getAttribute('show'), 'true', 'show attribute should be true after pulse');
+                            
+                            if (noshowType.value === 'remove') {
+                                assert.isNotNull(ch5ImportHtmlsnippet.parentElement, 'Element should be in DOM');
+                            } else {
+                                assert.isFalse(ch5ImportHtmlsnippet.classList.contains(noshowType.hideClass), 'Should not have ' + noshowType.hideClass + ' class');
+                                assert.isFalse(ch5ImportHtmlsnippet.classList.contains(noshowType.otherClass), 'Should not have ' + noshowType.otherClass + ' class');
+                            }
+                            done();
+                        }, 100);
+                    });
+                });
+            });
+        });
+
+        suite('ch5-import-htmlsnippet receiveStateHidePulse tests', function() {
+            let ch5ImportHtmlsnippet;
+            let emulator;
+
+            setup(async function() {
+                const emulatorJson = await fetch('./emulator/receivestatehidepulse.json').then((response) => response.json());
+                emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-receivestatehidepulse-fixture');
+            });
+
+            test('receivestatehidepulse attribute is set correctly', function() {
+                assert.equal(ch5ImportHtmlsnippet.getAttribute('receivestatehidepulse'), 'signal_hide_pulse');
+            });
+
+            test('initial state: element is visible with show=true', function() {
+                assert.equal(ch5ImportHtmlsnippet.getAttribute('show'), 'true', 'show attribute should be true initially');
+                assert.equal(ch5ImportHtmlsnippet.show, true, 'show property should be true initially');
+                assert.isFalse(ch5ImportHtmlsnippet.classList.contains('ch5-hide-dis'), 'Should not have ch5-hide-dis class initially');
+                assert.isFalse(ch5ImportHtmlsnippet.classList.contains('ch5-hide-vis'), 'Should not have ch5-hide-vis class initially');
+            });
+
+            test('pulse signal updates show attribute to false', function(done) {
+                CrComLib.publishEvent('b', 'trigger_hide_pulse', true);
+                flush(function() {
+                    setTimeout(function() {
+                        assert.equal(ch5ImportHtmlsnippet.getAttribute('show'), 'false', 'show attribute should be false after pulse');
+                        assert.equal(ch5ImportHtmlsnippet.show, false, 'show property should be false after pulse');
+                        assert.isTrue(ch5ImportHtmlsnippet.classList.contains('ch5-hide-dis'), 'Should have ch5-hide-dis class after pulse');
+                        assert.isFalse(ch5ImportHtmlsnippet.classList.contains('ch5-hide-vis'), 'Should not have ch5-hide-vis class after pulse');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('pulse signal adds hide class (default noshowtype=display)', function(done) {
+                CrComLib.publishEvent('b', 'trigger_hide_pulse', true);
+                flush(function() {
+                    setTimeout(function() {
+                        assert.isTrue(ch5ImportHtmlsnippet.classList.contains('ch5-hide-dis'), 'Should have ch5-hide-dis class');
+                        assert.isFalse(ch5ImportHtmlsnippet.classList.contains('ch5-hide-vis'), 'Should not have ch5-hide-vis class');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('multiple pulses maintain show=false state', function(done) {
+                CrComLib.publishEvent('b', 'trigger_hide_pulse', true);
+                flush(function() {
+                    setTimeout(function() {
+                        assert.equal(ch5ImportHtmlsnippet.getAttribute('show'), 'false');
+                        
+                        // Second pulse
+                        CrComLib.publishEvent('b', 'trigger_hide_pulse', true);
+                        flush(function() {
+                            setTimeout(function() {
+                                assert.equal(ch5ImportHtmlsnippet.getAttribute('show'), 'false', 'show should remain false after second pulse');
+                                assert.isTrue(ch5ImportHtmlsnippet.classList.contains('ch5-hide-dis'), 'Should have ch5-hide-dis after pulses');
+                                assert.isFalse(ch5ImportHtmlsnippet.classList.contains('ch5-hide-vis'), 'Should not have ch5-hide-vis after pulses');
+                                done();
+                            }, 100);
+                        });
+                    }, 100);
+                });
+            });
+        });
+
+        suite('ch5-import-htmlsnippet receiveStateHidePulse with noshowtype tests', function() {
+            let ch5ImportHtmlsnippet;
+            let emulator;
+
+            setup(async function() {
+                const emulatorJson = await fetch('./emulator/receivestatehidepulse.json').then((response) => response.json());
+                emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-receivestatehidepulse-fixture');
+            });
+
+            const noshowTypes = [
+                { value: 'display', hideClass: 'ch5-hide-dis', otherClass: 'ch5-hide-vis' },
+                { value: 'visibility', hideClass: 'ch5-hide-vis', otherClass: 'ch5-hide-dis' },
+                { value: 'remove', hideClass: null, otherClass: null }
+            ];
+
+            noshowTypes.forEach(function(noshowType) {
+                test('pulse signal with noshowtype=' + noshowType.value + ' hides element correctly', function(done) {
+                    ch5ImportHtmlsnippet.setAttribute('noshowtype', noshowType.value);
+                    CrComLib.publishEvent('b', 'trigger_hide_pulse', true);
+                    flush(function() {
+                        setTimeout(function() {
+                            assert.equal(ch5ImportHtmlsnippet.getAttribute('show'), 'false', 'show attribute should be false after pulse');
+                            
+                            if (noshowType.value === 'remove') {
+                                assert.isNull(ch5ImportHtmlsnippet.parentElement, 'Element should be removed from DOM');
+                            } else {
+                                assert.isTrue(ch5ImportHtmlsnippet.classList.contains(noshowType.hideClass), 'Should have ' + noshowType.hideClass + ' class');
+                                assert.isFalse(ch5ImportHtmlsnippet.classList.contains(noshowType.otherClass), 'Should not have ' + noshowType.otherClass + ' class');
+                            }
+                            done();
+                        }, 100);
+                    });
+                });
+            });
+        });
+
+        suite('ch5-import-htmlsnippet receiveStateEnable tests', function() {
+            let ch5ImportHtmlsnippet;
+            let emulator;
+
+            setup(async function() {
+                const emulatorJson = await fetch('./emulator/receivestateenable.json').then((response) => response.json());
+                emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-receivestateenable-fixture');
+            });
+
+            test('receivestateenable attribute is set correctly', function() {
+                assert.equal(ch5ImportHtmlsnippet.getAttribute('receivestateenable'), 'signal_enable');
+            });
+
+            test('receiveStateEnable signal=true updates disabled attribute to false (enabled)', function(done) {
+                CrComLib.publishEvent('b', 'set_enable_true', true);
+                flush(function() {
+                    setTimeout(function() {
+                        assert.equal(ch5ImportHtmlsnippet.getAttribute('disabled'), 'false', 'disabled attribute should be false');
+                        assert.equal(ch5ImportHtmlsnippet.disabled, false, 'disabled property should be false');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('receiveStateEnable signal=true removes ch5-disabled class', function(done) {
+                CrComLib.publishEvent('b', 'set_enable_true', true);
+                flush(function() {
+                    setTimeout(function() {
+                        assert.isFalse(ch5ImportHtmlsnippet.classList.contains('ch5-disabled'), 'Should not have ch5-disabled class when enabled');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('receiveStateEnable signal=false updates disabled attribute to true (disabled)', function(done) {
+                CrComLib.publishEvent('b', 'set_enable_false', true);
+                flush(function() {
+                    setTimeout(function() {
+                        assert.equal(ch5ImportHtmlsnippet.getAttribute('disabled'), 'true', 'disabled attribute should be true');
+                        assert.equal(ch5ImportHtmlsnippet.disabled, true, 'disabled property should be true');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('receiveStateEnable signal=false adds ch5-disabled class', function(done) {
+                CrComLib.publishEvent('b', 'set_enable_false', true);
+                flush(function() {
+                    setTimeout(function() {
+                        assert.isTrue(ch5ImportHtmlsnippet.classList.contains('ch5-disabled'), 'Should have ch5-disabled class when disabled');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('receiveStateEnable toggles disabled attribute and class multiple times', function(done) {
+                // Disable
+                CrComLib.publishEvent('b', 'set_enable_false', true);
+                flush(function() {
+                    setTimeout(function() {
+                        assert.equal(ch5ImportHtmlsnippet.getAttribute('disabled'), 'true');
+                        assert.isTrue(ch5ImportHtmlsnippet.classList.contains('ch5-disabled'));
+                        
+                        // Enable
+                        CrComLib.publishEvent('b', 'set_enable_true', true);
+                        flush(function() {
+                            setTimeout(function() {
+                                assert.equal(ch5ImportHtmlsnippet.getAttribute('disabled'), 'false');
+                                assert.isFalse(ch5ImportHtmlsnippet.classList.contains('ch5-disabled'));
+                                done();
+                            }, 100);
+                        });
+                    }, 100);
+                });
+            });
+        });
+
+        suite('ch5-import-htmlsnippet receiveStateCustomClass tests', function() {
+            let ch5ImportHtmlsnippet;
+            let emulator;
+
+            setup(async function() {
+                const emulatorJson = await fetch('./emulator/receivestatecustomclass.json').then((response) => response.json());
+                emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-receivestatecustomclass-fixture');
+            });
+
+            test('receivestatecustomclass attribute is set correctly', function() {
+                assert.equal(ch5ImportHtmlsnippet.getAttribute('receivestatecustomclass'), 'signal_custom_class');
+            });
+
+            test('signal updates customClass property', function(done) {
+                CrComLib.publishEvent('s', 'signal_custom_class', 'dynamic-signal-class');
+                flush(function() {
+                    setTimeout(function() {
+                        assert.equal(ch5ImportHtmlsnippet.customClass, 'dynamic-signal-class', 'customClass property should be updated');
+                        done();
+                    }, 300);
+                });
+            });
+
+            test('signal adds class to element classList', function(done) {
+                CrComLib.publishEvent('s', 'signal_custom_class', 'dynamic-signal-class');
+                flush(function() {
+                    setTimeout(function() {
+                        assert.isTrue(ch5ImportHtmlsnippet.classList.contains('dynamic-signal-class'), 'Element should have the dynamically assigned class');
+                        done();
+                    }, 300);
+                });
+            });
+
+            test('signal updates with new class value', function(done) {
+                CrComLib.publishEvent('s', 'signal_custom_class', 'first-class');
+                flush(function() {
+                    setTimeout(function() {
+                        assert.isTrue(ch5ImportHtmlsnippet.classList.contains('first-class'));
+                        
+                        CrComLib.publishEvent('s', 'signal_custom_class', 'second-class');
+                        flush(function() {
+                            setTimeout(function() {
+                                assert.isFalse(ch5ImportHtmlsnippet.classList.contains('first-class'), 'Old class should be removed');
+                                assert.isTrue(ch5ImportHtmlsnippet.classList.contains('second-class'), 'New class should be added');
+                                done();
+                            }, 300);
+                        });
+                    }, 300);
+                });
+            });
+
+            test('signal with empty string clears custom class', function(done) {
+                CrComLib.publishEvent('s', 'signal_custom_class', 'temp-class');
+                flush(function() {
+                    setTimeout(function() {
+                        assert.isTrue(ch5ImportHtmlsnippet.classList.contains('temp-class'));
+                        
+                        CrComLib.publishEvent('s', 'signal_custom_class', '');
+                        flush(function() {
+                            setTimeout(function() {
+                                assert.isFalse(ch5ImportHtmlsnippet.classList.contains('temp-class'), 'Class should be removed when signal is empty');
+                                done();
+                            }, 300);
+                        });
+                    }, 300);
+                });
+            });
+        });
+
+        suite('ch5-import-htmlsnippet receiveStateCustomStyle tests', function() {
+            let ch5ImportHtmlsnippet;
+            let emulator;
+
+            setup(async function() {
+                const emulatorJson = await fetch('./emulator/receivestatecustomstyle.json').then((response) => response.json());
+                emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-receivestatecustomstyle-fixture');
+            });
+
+            test('receivestatecustomstyle attribute is set correctly', function() {
+                assert.equal(ch5ImportHtmlsnippet.getAttribute('receivestatecustomstyle'), 'signal_custom_style');
+            });
+
+            test('signal updates customStyle attribute', function(done) {
+                CrComLib.publishEvent('s', 'signal_custom_style', 'background-color: red;');
+                flush(function() {
+                    setTimeout(function() {
+                        assert.equal(ch5ImportHtmlsnippet.getAttribute('customstyle'), 'background-color: red;', 'customstyle attribute should be updated');
+                        done();
+                    }, 300);
+                });
+            });
+
+            test('signal applies inline styles', function(done) {
+                CrComLib.publishEvent('s', 'signal_custom_style', 'color: blue; padding: 10px;');
+                flush(function() {
+                    setTimeout(function() {
+                        const styleAttr = ch5ImportHtmlsnippet.getAttribute('style');
+                        assert.isNotNull(styleAttr, 'Element should have style attribute');
+                        assert.include(styleAttr, 'color', 'Style should contain color property');
+                        done();
+                    }, 300);
+                });
+            });
+
+            test('signal updates with new style value', function(done) {
+                CrComLib.publishEvent('s', 'signal_custom_style', 'border: 1px solid black;');
+                flush(function() {
+                    setTimeout(function() {
+                        assert.equal(ch5ImportHtmlsnippet.getAttribute('customstyle'), 'border: 1px solid black;');
+                        
+                        CrComLib.publishEvent('s', 'signal_custom_style', 'margin: 5px;');
+                        flush(function() {
+                            setTimeout(function() {
+                                assert.equal(ch5ImportHtmlsnippet.getAttribute('customstyle'), 'margin: 5px;', 'customstyle should be updated to new value');
+                                done();
+                            }, 300);
+                        });
+                    }, 300);
+                });
+            });
+
+            test('signal with empty string clears custom style', function(done) {
+                CrComLib.publishEvent('s', 'signal_custom_style', 'background: yellow;');
+                flush(function() {
+                    setTimeout(function() {
+                        assert.equal(ch5ImportHtmlsnippet.getAttribute('customstyle'), 'background: yellow;');
+                        
+                        CrComLib.publishEvent('s', 'signal_custom_style', '');
+                        flush(function() {
+                            setTimeout(function() {
+                                const customStyleAttr = ch5ImportHtmlsnippet.getAttribute('customstyle');
+                                assert.isTrue(customStyleAttr === '' || customStyleAttr === null, 'customstyle should be empty or null when signal is empty');
+                                done();
+                            }, 300);
+                        });
+                    }, 300);
+                });
+            });
+        });
+
+        suite('ch5-import-htmlsnippet sendEventOnShow tests', function() {
+            let ch5ImportHtmlsnippet;
+            let emulator;
+            let signalReceived = false;
+
+            setup(async function() {
+                signalReceived = false;
+                const emulatorJson = await fetch('./emulator/sendeventonshow.json').then((response) => response.json());
+                emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-sendeventonshow-fixture');
+            });
+
+            test('sendeventonshow attribute is set correctly', function() {
+                assert.equal(ch5ImportHtmlsnippet.getAttribute('sendeventonshow'), 'signal_on_show');
+            });
+
+            test('sendEventOnShow signal is sent when element becomes visible', function(done) {
+                // Subscribe to the signal
+                const subscriptionId = CrComLib.subscribeState('b', 'signal_on_show', function(value) {
+                    if (value === true) {
+                        signalReceived = true;
+                    }
+                });
+
+                // Show the element
+                ch5ImportHtmlsnippet.setAttribute('show', 'true');
+
+                flush(function() {
+                    setTimeout(function() {
+                        CrComLib.unsubscribeState('b', 'signal_on_show', subscriptionId);
+                        // The signal should have been sent
+                        assert.isTrue(signalReceived, 'sendEventOnShow signal should be sent when element becomes visible');
+                        done();
+                    }, 500);
+                });
+            });
+        });
+
+        suite('ch5-import-htmlsnippet combined signal tests', function() {
+            let ch5ImportHtmlsnippet;
+            let emulator;
+
+            setup(async function() {
+                const emulatorJson = await fetch('./emulator/receivestateshow_combined.json').then((response) => response.json());
+                emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-combined-signals-fixture');
+            });
+
+            test('element can have both receiveStateShow and sendEventOnShow', function() {
+                assert.equal(ch5ImportHtmlsnippet.getAttribute('receivestateshow'), 'signal_show_combined');
+                assert.equal(ch5ImportHtmlsnippet.getAttribute('sendeventonshow'), 'signal_on_show_combined');
+            });
+
+            test('combined signals work together', function(done) {
+                let sendEventReceived = false;
+                
+                // Subscribe to sendEventOnShow signal
+                const subscriptionId = CrComLib.subscribeState('b', 'signal_on_show_combined', function(value) {
+                    if (value === true) {
+                        sendEventReceived = true;
+                    }
+                });
+
+                // Trigger show via receiveStateShow signal
+                CrComLib.publishEvent('b', 'set_show_true', true);
+
+                flush(function() {
+                    setTimeout(function() {
+                        CrComLib.unsubscribeState('b', 'signal_on_show_combined', subscriptionId);
+                        // Verify element show attribute is updated
+                        assert.isTrue(sendEventReceived, 'sendEventOnShow signal should be received');
+                        assert.equal(ch5ImportHtmlsnippet.getAttribute('show'), 'true', 'show attribute should be true');
+                        assert.isFalse(ch5ImportHtmlsnippet.classList.contains('ch5-hide-dis'), 'Element should not have hide class');
+                        done();
+                    }, 100);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

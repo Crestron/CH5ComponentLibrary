@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-jointotext-numeric-value-default-fixture">
+        <template>
+            <ch5-jointotext-numeric></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-value-set-fixture">
+        <template>
+            <ch5-jointotext-numeric value="123"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-value-negative-fixture">
+        <template>
+            <ch5-jointotext-numeric value="-456" type="signed"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-value-zero-fixture">
+        <template>
+            <ch5-jointotext-numeric value="0"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-value-invalid-fixture">
+        <template>
+            <ch5-jointotext-numeric value="invalid"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-jointotext-numeric value default', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-value-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('value default should be empty string', () => {
+                expect(ch5JoinToTextNumeric.value).to.be.equal('');
+            });
+        });
+
+        suite('ch5-jointotext-numeric value set', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-value-set-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('value should be "123"', () => {
+                expect(ch5JoinToTextNumeric.value).to.be.equal('123');
+            });
+        });
+
+        suite('ch5-jointotext-numeric value negative', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-value-negative-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('value should be "-456"', () => {
+                expect(ch5JoinToTextNumeric.value).to.be.equal('-456');
+            });
+        });
+
+        suite('ch5-jointotext-numeric value zero', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-value-zero-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('value should be "0"', () => {
+                expect(ch5JoinToTextNumeric.value).to.be.equal('0');
+            });
+        });
+
+        suite('ch5-jointotext-numeric value invalid', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-value-invalid-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('value invalid should be "invalid"', () => {
+                expect(ch5JoinToTextNumeric.value).to.be.equal('invalid');
+            });
+        });
+
+        suite('ch5-jointotext-numeric value dynamic update', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-value-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('value can be set dynamically via attribute', (done) => {
+                ch5JoinToTextNumeric.setAttribute('value', '999');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextNumeric.getAttribute('value')).to.be.equal('999');
+                        expect(ch5JoinToTextNumeric.value).to.be.equal('999');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('value can be set dynamically via property', (done) => {
+                ch5JoinToTextNumeric.value = '555';
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextNumeric.value).to.be.equal('555');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('value can be updated multiple times', (done) => {
+                ch5JoinToTextNumeric.value = '100';
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextNumeric.value).to.be.equal('100');
+                        ch5JoinToTextNumeric.value = '200';
+                        flush(() => {
+                            setTimeout(() => {
+                                expect(ch5JoinToTextNumeric.value).to.be.equal('200');
+                                done();
+                            }, 100);
+                        });
+                    }, 100);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

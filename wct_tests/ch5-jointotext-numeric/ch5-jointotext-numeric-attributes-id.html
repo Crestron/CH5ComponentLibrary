@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-jointotext-numeric-id-default-fixture">
+        <template>
+            <ch5-jointotext-numeric></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-id-set-fixture">
+        <template>
+            <ch5-jointotext-numeric id="my-numeric-component"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-id-special-fixture">
+        <template>
+            <ch5-jointotext-numeric id="numeric-123-test"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-jointotext-numeric id default', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-id-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('id default should be empty', () => {
+                expect(ch5JoinToTextNumeric.id).to.be.equal('');
+            });
+        });
+
+        suite('ch5-jointotext-numeric id set', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-id-set-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('id should be "my-numeric-component"', () => {
+                expect(ch5JoinToTextNumeric.id).to.be.equal('my-numeric-component');
+            });
+
+            test('element can be found by id', () => {
+                const foundElement = document.getElementById('my-numeric-component');
+                expect(foundElement).to.not.be.null;
+                expect(foundElement).to.be.equal(ch5JoinToTextNumeric);
+            });
+        });
+
+        suite('ch5-jointotext-numeric id special', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-id-special-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('id with numbers should be "numeric-123-test"', () => {
+                expect(ch5JoinToTextNumeric.id).to.be.equal('numeric-123-test');
+            });
+        });
+
+        suite('ch5-jointotext-numeric id dynamic update', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-id-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('id can be set dynamically via attribute', (done) => {
+                ch5JoinToTextNumeric.setAttribute('id', 'new-numeric-id');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextNumeric.id).to.be.equal('new-numeric-id');
+                        expect(ch5JoinToTextNumeric.getAttribute('id')).to.be.equal('new-numeric-id');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('id can be set dynamically via property', (done) => {
+                ch5JoinToTextNumeric.id = 'property-set-id';
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextNumeric.id).to.be.equal('property-set-id');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('id can be updated multiple times', (done) => {
+                ch5JoinToTextNumeric.id = 'first-id';
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextNumeric.id).to.be.equal('first-id');
+                        ch5JoinToTextNumeric.id = 'second-id';
+                        flush(() => {
+                            setTimeout(() => {
+                                expect(ch5JoinToTextNumeric.id).to.be.equal('second-id');
+                                done();
+                            }, 100);
+                        });
+                    }, 100);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

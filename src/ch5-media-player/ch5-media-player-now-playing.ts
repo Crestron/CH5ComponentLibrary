@@ -332,7 +332,7 @@ export class Ch5MediaPlayerNowPlaying {
 			}
 		}
 
-		this._nowPlayingPlayerIconName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
+		this._nowPlayingPlayerIconName.textContent = decodeString(this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName);
 		if (!this.nowPlayingData.ActionsAvailable.includes(TCH5NowPlayingActions.Seek)) {
 			this._progressBarInput.classList.add('hide-progressbar-thumb');
 			this._progressBarInput.removeEventListener('input', this.handleProgressbarInput);
@@ -352,8 +352,8 @@ export class Ch5MediaPlayerNowPlaying {
 	}
 
 	public updatePlayerName(value: string) {
-		this.playerName = value;
-		this._nowPlayingPlayerLabel.innerHTML = value;
+		this.playerName = decodeString(value);
+		this._nowPlayingPlayerLabel.innerHTML = decodeString(value);
 	}
 
 	public updateMarquee() {
@@ -651,7 +651,7 @@ export class Ch5MediaPlayerNowPlaying {
 			this._nextSongLabel = createElement('span', ['now-playing-next-song-label'], 'Next up');
 			nextSongSection.appendChild(this._nextSongLabel);
 			//Next Song Text
-			this._nextSongText = createElement('span', ['now-playing-next-song-text'], nextSong);
+			this._nextSongText = createElement('span', ['now-playing-next-song-text'], decodeString(nextSong));
 			nextSongSection.appendChild(this._nextSongText);
 			this._nextAndPreviousSongContainer.appendChild(nextSongSection);
 

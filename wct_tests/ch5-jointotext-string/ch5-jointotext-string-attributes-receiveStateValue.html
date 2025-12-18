@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+    <test-fixture id="ch5-jointotext-string-receiveStateValue-fixture">
+        <template>
+            <ch5-jointotext-string receiveStateValue="receive_string_value" textWhenEmpty="No feedback"></ch5-jointotext-string>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-string-receiveStateValue-default-fixture">
+        <template>
+            <ch5-jointotext-string></ch5-jointotext-string>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-jointotext-string-receiveStateValue-attributes', () => {
+            let ch5JoinToTextString;
+
+            setup(async () => {
+                const emulatorJson = await fetch('./emulator/receivestatevalue.json').then((response) => response.json());
+                const emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5JoinToTextString = fixture('ch5-jointotext-string-receiveStateValue-fixture');
+            });
+
+            test('receiveStateValue attribute should be set correctly', () => {
+                expect(ch5JoinToTextString.getAttribute('receiveStateValue')).to.be.equal('receive_string_value');
+            });
+
+            test('receiveStateValue should update value when signal changes', (done) => {
+                CrComLib.publishEvent('b', 'set_string_value', true);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextString.getAttribute('value')).to.be.equal('Signal Value');
+                        expect(ch5JoinToTextString.textContent).to.be.equal('Signal Value');
+                        done();
+                    }, 100);
+                });
+            });
+        });
+
+        suite('ch5-jointotext-string-receiveStateValue-default', () => {
+            let ch5JoinToTextString;
+
+            setup(() => {
+                ch5JoinToTextString = fixture('ch5-jointotext-string-receiveStateValue-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-string')]);
+            });
+
+            test('receiveStateValue should be undefined by default', () => {
+                expect(ch5JoinToTextString.getAttribute('receiveStateValue')).to.be.null;
+            });
+        });
+
+        suite('ch5-jointotext-string-receiveStateValue-dynamic-update', () => {
+            let ch5JoinToTextString;
+
+            setup(() => {
+                ch5JoinToTextString = fixture('ch5-jointotext-string-receiveStateValue-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-string')]);
+            });
+
+            test('receiveStateValue can be set dynamically', (done) => {
+                ch5JoinToTextString.setAttribute('receiveStateValue', 'new_signal');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextString.getAttribute('receiveStateValue')).to.be.equal('new_signal');
+                        done();
+                    }, 100);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+    <test-fixture id="ch5-media-player-active-state">
+        <template>
+            <ch5-media-player demomode="true"></ch5-media-player>
+        </template>
+    </test-fixture>
+    <script>
+        suite('Tests for active state funtionality in buttons and menu items', () => {
+            let ch5MediaPlayer;
+            let innerDiv;
+            setup(async () => {
+                ch5MediaPlayer = fixture('ch5-media-player-active-state');
+                innerDiv = ch5MediaPlayer.querySelector('.ch5-media-player');
+            });
+            test('Check for active state in 2nd menu icon button in demomode', (done) => {
+                const menuIconButton = ch5MediaPlayer.querySelector('.my-music-footer').children[1];
+                expect(menuIconButton.classList.contains('active')).to.be.true;
+                done();
+            });
+            test('Check for active state in 1st menu item in demomode', (done) => {
+                const menuItem = ch5MediaPlayer.querySelector('.my-music-content').children[0];
+                expect(menuItem.classList.contains('active')).to.be.true;
+                done();
+            });
+        });
+    </script>
+</body>
+
+</html>

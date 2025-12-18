@@ -563,7 +563,6 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
 
   private handleResizeObserver = () => {
     const { width, height } = this._elContainer.getBoundingClientRect();
-    this.nowPlaying?.updateMarquee();
 
     if (width < 640) {
       if (!this._elContainer.classList.contains("portrait-mode-active")) {
@@ -617,6 +616,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
         }
       }
     }
+  this.nowPlaying?.updateMarquee();
   }
 
   protected removeEventListeners() {
@@ -670,7 +670,10 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
         this._demoPlusEl = plus;
         this._demoPlusHandler = (ev: Event) => {
           ev.stopPropagation();
-          this.genericDialog("alphanumeric", "What would you like to call this favorite?", ["OK", "Cancel"], "", 10);
+          const popupFavoritiesName = document.querySelector('.now-playing-song-title')?.children[0].textContent;
+          if(popupFavoritiesName) {
+            this.genericDialog("alphanumeric", "What would you like to call this favorite?", ["OK", "Cancel"], popupFavoritiesName, 10);
+          }
         };
         this._demoPlusEl.addEventListener('click', this._demoPlusHandler);
       }
@@ -680,7 +683,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
         this._demoFavoritesEl = fav;
         this._demoFavoritesHandler = (ev: Event) => {
           ev.stopPropagation();
-          this.genericDialog("", "What would you like to do?", ["Rename Favorite", "Delete favorite", "Cancel"], "", 10);
+          this.genericDialog("", "What would you like to do?", ["Rename Favorite", "Delete Favorite", "Cancel"], "", 10);
         };
         this._demoFavoritesEl.addEventListener('click', this._demoFavoritesHandler);
       }

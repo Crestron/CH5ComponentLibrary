@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-jointotext-string-value-default-fixture">
+        <template>
+            <ch5-jointotext-string></ch5-jointotext-string>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-string-value-set-fixture">
+        <template>
+            <ch5-jointotext-string value="Hello World"></ch5-jointotext-string>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-string-value-empty-fixture">
+        <template>
+            <ch5-jointotext-string value=""></ch5-jointotext-string>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-string-value-special-chars-fixture">
+        <template>
+            <ch5-jointotext-string value="Test@#$%^&*()_+"></ch5-jointotext-string>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-string-value-numeric-fixture">
+        <template>
+            <ch5-jointotext-string value="1234567890"></ch5-jointotext-string>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-string-value-unicode-fixture">
+        <template>
+            <ch5-jointotext-string value="Hello 你好世界"></ch5-jointotext-string>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-jointotext-string value default', () => {
+            let ch5JoinToTextString;
+
+            setup(() => {
+                ch5JoinToTextString = fixture('ch5-jointotext-string-value-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-string')]);
+            });
+
+            test('value default should be empty string', () => {
+                expect(ch5JoinToTextString.value).to.be.equal('');
+                expect(ch5JoinToTextString.textContent).to.be.equal('');
+            });
+        });
+
+        suite('ch5-jointotext-string value set', () => {
+            let ch5JoinToTextString;
+
+            setup(() => {
+                ch5JoinToTextString = fixture('ch5-jointotext-string-value-set-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-string')]);
+            });
+
+            test('value should be "Hello World"', () => {
+                expect(ch5JoinToTextString.value).to.be.equal('Hello World');
+                expect(ch5JoinToTextString.textContent).to.be.equal('Hello World');
+            });
+        });
+
+        suite('ch5-jointotext-string value empty', () => {
+            let ch5JoinToTextString;
+
+            setup(() => {
+                ch5JoinToTextString = fixture('ch5-jointotext-string-value-empty-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-string')]);
+            });
+
+            test('value empty should display empty', () => {
+                expect(ch5JoinToTextString.value).to.be.equal('');
+                expect(ch5JoinToTextString.textContent).to.be.equal('');
+            });
+        });
+
+        suite('ch5-jointotext-string value special characters', () => {
+            let ch5JoinToTextString;
+
+            setup(() => {
+                ch5JoinToTextString = fixture('ch5-jointotext-string-value-special-chars-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-string')]);
+            });
+
+            test('value with special characters', () => {
+                expect(ch5JoinToTextString.value).to.be.equal('Test@#$%^&*()_+');
+                expect(ch5JoinToTextString.textContent).to.be.equal('Test@#$%^&*()_+');
+            });
+        });
+
+        suite('ch5-jointotext-string value numeric', () => {
+            let ch5JoinToTextString;
+
+            setup(() => {
+                ch5JoinToTextString = fixture('ch5-jointotext-string-value-numeric-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-string')]);
+            });
+
+            test('value with numeric string', () => {
+                expect(ch5JoinToTextString.value).to.be.equal('1234567890');
+                expect(ch5JoinToTextString.textContent).to.be.equal('1234567890');
+            });
+        });
+
+        suite('ch5-jointotext-string value unicode', () => {
+            let ch5JoinToTextString;
+
+            setup(() => {
+                ch5JoinToTextString = fixture('ch5-jointotext-string-value-unicode-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-string')]);
+            });
+
+            test('value with unicode characters', () => {
+                expect(ch5JoinToTextString.value).to.be.equal('Hello 你好世界');
+                expect(ch5JoinToTextString.textContent).to.be.equal('Hello 你好世界');
+            });
+        });
+
+        suite('ch5-jointotext-string value dynamic update', () => {
+            let ch5JoinToTextString;
+
+            setup(() => {
+                ch5JoinToTextString = fixture('ch5-jointotext-string-value-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-string')]);
+            });
+
+            test('value can be set dynamically via attribute', (done) => {
+                ch5JoinToTextString.setAttribute('value', 'Dynamic Value');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextString.getAttribute('value')).to.be.equal('Dynamic Value');
+                        expect(ch5JoinToTextString.value).to.be.equal('Dynamic Value');
+                        expect(ch5JoinToTextString.textContent).to.be.equal('Dynamic Value');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('value can be set dynamically via property', (done) => {
+                ch5JoinToTextString.value = 'Property Value';
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextString.value).to.be.equal('Property Value');
+                        expect(ch5JoinToTextString.textContent).to.be.equal('Property Value');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('value can be updated multiple times', (done) => {
+                ch5JoinToTextString.value = 'First Value';
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextString.value).to.be.equal('First Value');
+                        ch5JoinToTextString.value = 'Second Value';
+                        flush(() => {
+                            setTimeout(() => {
+                                expect(ch5JoinToTextString.value).to.be.equal('Second Value');
+                                done();
+                            }, 100);
+                        });
+                    }, 100);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

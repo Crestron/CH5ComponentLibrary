@@ -41,7 +41,7 @@
               expect(ch5ButtonList.buttonIconClass).to.be.equal(iconClass);
               expect(ch5ButtonList.buttonIconPosition).to.be.equal("first");
               const expectedValueForIconClass = iconClass.split(" ");
-              const getObjectClassListForIconClass = getITagInSpanForIcon(ch5ButtonList).classList;
+              const getObjectClassListForIconClass = getITagInButtonForCheckbox(ch5ButtonList).classList;
               for (let z = 0; z < expectedValueForIconClass.length; z++) {
                 expect(getObjectClassListForIconClass.contains(expectedValueForIconClass[z])).to.be.equal(true);
               }
@@ -68,7 +68,7 @@
                 expect(ch5ButtonList.buttonIconClass).to.be.equal(iconClass);
                 expect(ch5ButtonList.buttonIconPosition).to.be.equal(iconPosition);
                 const expectedValueForIconClass = iconClass.split(" ");
-                const getObjectClassListForIconClass = getITagInSpanForIcon(ch5ButtonList).classList;
+                const getObjectClassListForIconClass = getITagInButtonForCheckbox(ch5ButtonList).classList;
                 for (let z = 0; z < expectedValueForIconClass.length; z++) {
                   expect(getObjectClassListForIconClass.contains(expectedValueForIconClass[z])).to.be.equal(true);
                 }
@@ -95,7 +95,7 @@
                 expect(ch5ButtonList.buttonIconClass).to.be.equal(iconClass);
                 expect(ch5ButtonList.buttonIconPosition).to.be.equal("first");
                 const expectedValueForIconClass = iconClass.split(" ");
-                const getObjectClassListForIconClass = getITagInSpanForIcon(ch5ButtonList).classList;
+                const getObjectClassListForIconClass = getITagInButtonForCheckbox(ch5ButtonList).classList;
                 for (let z = 0; z < expectedValueForIconClass.length; z++) {
                   expect(getObjectClassListForIconClass.contains(expectedValueForIconClass[z])).to.be.equal(true);
                 }

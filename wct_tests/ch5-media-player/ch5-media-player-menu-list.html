@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-media-player-language">
+    <template>
+      <ch5-media-player demomode="true"></ch5-media-player>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-media-player-menu-list', () => {
+      let ch5MediaPlayer;
+      let MY_MUSIC_MENU_DEMO_DATA = {
+        MenuData: [
+          {
+            L1: "Text Line 1",
+            L2: "Sub Line 1",
+          },
+          {
+            L1: "Text Line 2",
+            L2: "",
+          },
+          {
+            L1: "Text Line 3",
+            L2: "Sub Line 3",
+          },
+          {
+            L1: "Text Line 4",
+            L2: "",
+          }
+        ]
+      };
+
+      const languageValues = [
+        { value: "AWR Hindi / à¤¹à¤¿à¤¨à¥\x8Dà¤¦à¥\x80 / à¤¹à¤¿à¤\x82à¤¦à¥\x80", validate: "AWR Hindi / हिन्दी / हिंदी" },
+        { value: "AWR Tamil / à®¤à®®à®¿à®´à¯\x8D / tamiá¸»", validate: "AWR Tamil / தமிழ் / tamiḻ" },
+        { value: "AWR Malayalam / à´®à´²à´¯à´¾à´³à´\x82 / malayÄ\x81á¸·am", validate: "AWR Malayalam / മലയാളം / malayāḷam" },
+        { value: "Stories of Panchtantra à¤ªà¤\x82à¤\x9Aà¤¤à¤\x82à¤¤à¥\x8Dà¤° à¤\x95à¥\x80 à¤\x95à¤¹à¤¾à¤¨à¤¿à¤¯à¤¾à¤\x81", validate: "Stories of Panchtantra पंचतंत्र की कहानियाँ" },
+        { value: "Upnishads", validate: "Upnishads" },
+        { value: "à¤\x9Cà¤¿à¤¨à¤\x97à¥\x80 à¤\x95à¥\x80 à¤°à¤¾à¤¹ @ ttb.twr.org/Bhojpuri", validate: "जिनगी की राह @ ttb.twr.org/Bhojpuri" },
+        { value: "æ±\x89è¯­", validate: "汉语" },
+        {
+          value: "#1 à¤¡à¥\x80à¤\x9Cà¤² à¤\x95à¤¾à¤° à¤®à¥\x87à¤\x82 à¤\x97à¤²à¤¤à¥\x80 à¤¸à¥\x87 à¤ªà¥\x87à¤\x9Fà¥\x8Dà¤°à¥\x8Bà¤² à¤¡à¤² à¤\x9Cà¤¾à¤¤à¤¾ à¤¹à¥\x88, à¤¤à¥\x8B à¤\x96à¥\x81à¤¦ à¤ à¥\x80à¤\x95 à¤\x95à¤°à¤¨à¥\x87 à¤\x95à¤¾ à¤¤à¤°à¥\x80à¤\x95à¤¾ à¤¶à¥\x80à¤\x96 à¤²à¥\x87 - By- Inspired TV",
+          validate: "#1 डीजल कार में गलती से पेट्रोल डल जाता है, तो खुद � ीक करने का तरीका शीख ले - By- Inspired TV"
+        }
+      ];
+
+      setup(async () => {
+        ch5MediaPlayer = fixture('ch5-media-player-language');
+      });
+
+      languageValues.forEach(({ value, validate }) => {
+        test('test for language support', (done) => {
+          MY_MUSIC_MENU_DEMO_DATA.MenuData[0].L1 = value;
+          CrComLib.publishEvent('o', 'menuListData', MY_MUSIC_MENU_DEMO_DATA);
+              setTimeout(() => {
+                  const title = ch5MediaPlayer.querySelector(".my-music-content-item-title");
+                  expect(title.textContent).to.be.equal(validate);
+                  done();
+              }, 20);
+
+        });
+      });
+
+      test('test modified menu list', () => {
+        MY_MUSIC_MENU_DEMO_DATA.MenuData = [
+          {
+            L1: "Text Line 1",
+            L2: "Sub Line 1",
+          },
+          {
+            L1: "Text Line 2",
+            L2: "",
+          },
+          {
+            L1: "Text Line 3",
+            L2: "Sub Line 3",
+          },
+          {
+            L1: "Text Line 4",
+            L2: "",
+          },
+          {
+            L1: "Text Line 5",
+            L2: "Sub Line 5",
+          },
+          {
+            L1: "Text Line 6",
+            L2: "",
+          },
+          {
+            L1: "Text Line 7",
+            L2: "Sub Line 7",
+          },
+          {
+            L1: "Text Line 8",
+            L2: "",
+          }
+        ]
+        CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_MENU_DEMO_DATA);
+        const itemList = document.getElementsByClassName('my-music-content')[0]?.children[0];
+        for (let i = 0; i < itemList.length; i++) {
+          const title = itemList[i].getElementsByClassName('my-music-content-item-title')[0].innerHTML;
+          const subTitle = itemList[i].getElementsByClassName('my-music-content-item-subtitle')[0].innerHTML;
+
+          expect(title).to.equal(MY_MUSIC_MENU_DEMO_DATA.MenuData[i].L1);
+          expect(subTitle).to.equal(MY_MUSIC_MENU_DEMO_DATA.MenuData[i].L2);
+        }
+      })
+
+      test('test empty menu list', () => {
+        CrComLib.publishEvent('o', 'myMusicData', {});
+        const itemList = document.getElementsByClassName('my-music-content').length;
+        expect(itemList).to.equal(0);
+      })
+
+
+    });
+  </script>
+</body>
+
+</html>

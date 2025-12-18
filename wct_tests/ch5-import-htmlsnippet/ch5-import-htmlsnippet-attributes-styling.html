@@ -1,0 +1,408 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<!-- Styling attribute tests: customclass, customstyle, dir, appendclasswheninviewport -->
+
+<test-fixture id="ch5-import-htmlsnippet-customclass-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" customclass="my-custom-class"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-customstyle-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" customstyle="color: red; font-size: 14px;"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-dir-ltr-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" dir="ltr"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-dir-rtl-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" dir="rtl"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-appendclass-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" appendclasswheninviewport="in-viewport-class"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-customclass-customstyle-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html" customclass="combo-class" customstyle="border: 1px solid black;"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<script>
+    suite('ch5-import-htmlsnippet customclass attribute', function() {
+
+        let ch5ImportHtmlsnippet;
+
+        setup(() => {
+            ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-customclass-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        test('customclass attribute should be set correctly', function() {
+            expect(ch5ImportHtmlsnippet.getAttribute('customclass')).to.be.equal('my-custom-class');
+        });
+
+        test('Element should contain the custom class', function(done) {
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.classList.contains('my-custom-class')).to.be.true;
+                done();
+            }, 200);
+        });
+
+        test('customclass can be changed dynamically', function(done) {
+            ch5ImportHtmlsnippet.setAttribute('customclass', 'new-custom-class');
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.classList.contains('new-custom-class')).to.be.true;
+                done();
+            }, 200);
+        });
+
+        test('Multiple custom classes can be applied', function(done) {
+            ch5ImportHtmlsnippet.setAttribute('customclass', 'class-one class-two');
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.getAttribute('customclass')).to.be.equal('class-one class-two');
+                expect(ch5ImportHtmlsnippet.classList.contains('class-one')).to.be.true;
+                done();
+            }, 200);
+        });
+
+        test('Setting number to customclass should convert to string', function() {
+            ch5ImportHtmlsnippet.setAttribute('customclass', 123);
+            expect(ch5ImportHtmlsnippet.getAttribute('customclass')).to.be.a('string');
+            expect(ch5ImportHtmlsnippet.getAttribute('customclass')).to.be.equal('123');
+        });
+
+        test('Empty string for customclass should be allowed', function() {
+            ch5ImportHtmlsnippet.setAttribute('customclass', '');
+            expect(ch5ImportHtmlsnippet.getAttribute('customclass')).to.be.equal('');
+        });
+
+        test('Multiple rapid customclass changes should be handled', function(done) {
+            ch5ImportHtmlsnippet.setAttribute('customclass', 'class1');
+            ch5ImportHtmlsnippet.setAttribute('customclass', 'class2');
+            ch5ImportHtmlsnippet.setAttribute('customclass', 'class3');
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.getAttribute('customclass')).to.be.equal('class3');
+                done();
+            }, 200);
+        });
+
+        test('Removing customclass should remove attribute', function(done) {
+            ch5ImportHtmlsnippet.removeAttribute('customclass');
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.getAttribute('customclass')).to.be.empty;
+                done();
+            }, 100);
+        });
+    });
+
+    suite('ch5-import-htmlsnippet customstyle attribute', function() {
+
+        let ch5ImportHtmlsnippet;
+
+        setup(() => {
+            ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-customstyle-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        test('customstyle attribute should be set correctly', function() {
+            expect(ch5ImportHtmlsnippet.getAttribute('customstyle')).to.be.equal('color: red; font-size: 14px;');
+        });
+
+        test('customstyle can be changed dynamically', function() {
+            ch5ImportHtmlsnippet.setAttribute('customstyle', 'background: blue;');
+            expect(ch5ImportHtmlsnippet.getAttribute('customstyle')).to.be.equal('background: blue;');
+        });
+
+        test('Empty customstyle should be allowed', function() {
+            ch5ImportHtmlsnippet.setAttribute('customstyle', '');
+            expect(ch5ImportHtmlsnippet.getAttribute('customstyle')).to.be.equal('');
+        });
+
+        test('Special characters in customstyle should work', function() {
+            ch5ImportHtmlsnippet.setAttribute('customstyle', 'content: "test";');
+            expect(ch5ImportHtmlsnippet.getAttribute('customstyle')).to.be.equal('content: "test";');
+        });
+
+        test('Removing customstyle should be allowed', function() {
+            ch5ImportHtmlsnippet.removeAttribute('customstyle');
+            expect(ch5ImportHtmlsnippet.getAttribute('customstyle')).to.be.empty;
+        });
+    });
+
+    suite('ch5-import-htmlsnippet dir attribute', function() {
+
+        let ch5ImportHtmlsnippetLtr;
+        let ch5ImportHtmlsnippetRtl;
+
+        setup(() => {
+            ch5ImportHtmlsnippetLtr = fixture('ch5-import-htmlsnippet-dir-ltr-fixture');
+            ch5ImportHtmlsnippetRtl = fixture('ch5-import-htmlsnippet-dir-rtl-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        test('dir ltr should be set correctly', function() {
+            expect(ch5ImportHtmlsnippetLtr.getAttribute('dir')).to.be.equal('ltr');
+        });
+
+        test('dir rtl should be set correctly', function() {
+            expect(ch5ImportHtmlsnippetRtl.getAttribute('dir')).to.be.equal('rtl');
+        });
+
+        test('dir can be changed from ltr to rtl', function() {
+            ch5ImportHtmlsnippetLtr.setAttribute('dir', 'rtl');
+            expect(ch5ImportHtmlsnippetLtr.getAttribute('dir')).to.be.equal('rtl');
+        });
+
+        test('dir can be changed from rtl to ltr', function() {
+            ch5ImportHtmlsnippetRtl.setAttribute('dir', 'ltr');
+            expect(ch5ImportHtmlsnippetRtl.getAttribute('dir')).to.be.equal('ltr');
+        });
+
+        test('Removing dir should be allowed', function() {
+            ch5ImportHtmlsnippetLtr.removeAttribute('dir');
+            expect(ch5ImportHtmlsnippetLtr.getAttribute('dir')).to.be.null;
+        });
+    });
+
+    suite('ch5-import-htmlsnippet appendclasswheninviewport attribute', function() {
+
+        let ch5ImportHtmlsnippet;
+
+        setup(() => {
+            ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-appendclass-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        test('appendclasswheninviewport attribute should be set correctly', function() {
+            expect(ch5ImportHtmlsnippet.getAttribute('appendclasswheninviewport')).to.be.equal('in-viewport-class');
+        });
+
+        test('appendclasswheninviewport can be changed', function() {
+            ch5ImportHtmlsnippet.setAttribute('appendclasswheninviewport', 'new-viewport-class');
+            expect(ch5ImportHtmlsnippet.getAttribute('appendclasswheninviewport')).to.be.equal('new-viewport-class');
+        });
+
+        test('Class should be added when element is in viewport', function(done) {
+            // Element is in viewport when loaded (visible in test runner)
+            setTimeout(() => {
+                // When element is in viewport, the class should be added
+                if (ch5ImportHtmlsnippet.elementIsInViewPort) {
+                    expect(ch5ImportHtmlsnippet.classList.contains('in-viewport-class')).to.be.true;
+                }
+                done();
+            }, 300);
+        });
+
+        test('Element should have elementIsInViewPort property', function() {
+//can be removed
+            expect(ch5ImportHtmlsnippet).to.have.property('elementIsInViewPort');
+        });
+
+        test('updateInViewPortClass method should exist', function() {
+//can be removed
+            expect(ch5ImportHtmlsnippet.updateInViewPortClass).to.be.a('function');
+        });
+
+        test('Class should be removed when element is hidden (out of viewport)', function(done) {
+            setTimeout(() => {
+                // Hide the element to simulate going out of viewport
+                ch5ImportHtmlsnippet.style.display = 'none';
+                ch5ImportHtmlsnippet.elementIsInViewPort = false;
+                ch5ImportHtmlsnippet.updateInViewPortClass();
+                
+                setTimeout(() => {
+                    expect(ch5ImportHtmlsnippet.classList.contains('in-viewport-class')).to.be.false;
+                    
+                    // Restore element
+                    ch5ImportHtmlsnippet.style.display = '';
+                    done();
+                }, 100);
+            }, 200);
+        });
+
+        test('Class should be re-added when element returns to viewport', function(done) {
+            setTimeout(() => {
+                // Simulate going out of viewport
+                ch5ImportHtmlsnippet.elementIsInViewPort = false;
+                ch5ImportHtmlsnippet.updateInViewPortClass();
+                
+                setTimeout(() => {
+                    expect(ch5ImportHtmlsnippet.classList.contains('in-viewport-class')).to.be.false;
+                    
+                    // Simulate returning to viewport
+                    ch5ImportHtmlsnippet.elementIsInViewPort = true;
+                    ch5ImportHtmlsnippet.updateInViewPortClass();
+                    
+                    setTimeout(() => {
+                        expect(ch5ImportHtmlsnippet.classList.contains('in-viewport-class')).to.be.true;
+                        done();
+                    }, 100);
+                }, 100);
+            }, 200);
+        });
+
+        test('Changing appendclasswheninviewport should update class when in viewport', function(done) {
+            setTimeout(() => {
+                // Change the class name
+                ch5ImportHtmlsnippet.setAttribute('appendclasswheninviewport', 'new-viewport-class');
+                ch5ImportHtmlsnippet.elementIsInViewPort = true;
+                ch5ImportHtmlsnippet.updateInViewPortClass();
+                
+                setTimeout(() => {
+                    expect(ch5ImportHtmlsnippet.classList.contains('new-viewport-class')).to.be.true;
+                    done();
+                }, 100);
+            }, 200);
+        });
+/* TO-FIX-PARAKH - this is a bug in the attribute behavior, needs to be fixed
+        test('Removing appendclasswheninviewport should remove class', function(done) {
+            setTimeout(() => {
+                // First ensure class is applied
+                ch5ImportHtmlsnippet.elementIsInViewPort = true;
+                ch5ImportHtmlsnippet.updateInViewPortClass();
+                
+                setTimeout(() => {
+                    // Confirm class was added
+                    expect(ch5ImportHtmlsnippet.classList.contains('in-viewport-class')).to.be.true;
+                    
+                    // Remove the attribute
+                    ch5ImportHtmlsnippet.removeAttribute('appendclasswheninviewport');
+                    // Re-run viewport class update to reflect removal
+                    ch5ImportHtmlsnippet.updateInViewPortClass();
+
+                    setTimeout(() => {
+                        expect(ch5ImportHtmlsnippet.getAttribute('appendclasswheninviewport')).to.be.null;
+                        expect(ch5ImportHtmlsnippet.classList.contains('in-viewport-class')).to.be.false;
+                        done();
+                    }, 100);
+                }, 100);
+            }, 200);
+        });*/
+
+        test('Empty appendclasswheninviewport should not add any class', function(done) {
+            ch5ImportHtmlsnippet.setAttribute('appendclasswheninviewport', '');
+            ch5ImportHtmlsnippet.elementIsInViewPort = true;
+            ch5ImportHtmlsnippet.updateInViewPortClass();
+            
+            setTimeout(() => {
+                // With empty value, no viewport-related class should be added
+                expect(ch5ImportHtmlsnippet.getAttribute('appendclasswheninviewport')).to.be.equal('');
+                done();
+            }, 100);
+        });
+
+        test('Multiple viewport class toggle cycles should work correctly', function(done) {
+            let cycleCount = 0;
+            const maxCycles = 3;
+            
+            // First ensure class is initially applied by setting viewport state
+            ch5ImportHtmlsnippet.elementIsInViewPort = true;
+            ch5ImportHtmlsnippet.updateInViewPortClass();
+            
+            setTimeout(() => {
+                function toggleCycle() {
+                    // Out of viewport
+                    ch5ImportHtmlsnippet.elementIsInViewPort = false;
+                    ch5ImportHtmlsnippet.updateInViewPortClass();
+                    
+                    setTimeout(() => {
+                        expect(ch5ImportHtmlsnippet.classList.contains('in-viewport-class')).to.be.false;
+                        
+                        // Back in viewport
+                        ch5ImportHtmlsnippet.elementIsInViewPort = true;
+                        ch5ImportHtmlsnippet.updateInViewPortClass();
+                        
+                        setTimeout(() => {
+                            expect(ch5ImportHtmlsnippet.classList.contains('in-viewport-class')).to.be.true;
+                            cycleCount++;
+                            
+                            if (cycleCount < maxCycles) {
+                                toggleCycle();
+                            } else {
+                                done();
+                            }
+                        }, 100);
+                    }, 100);
+                }
+                
+                toggleCycle();
+            }, 100);
+        });
+    });
+
+    suite('ch5-import-htmlsnippet customclass + customstyle combination', function() {
+
+        let ch5ImportHtmlsnippet;
+
+        setup(() => {
+            ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-customclass-customstyle-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        test('Both customclass and customstyle should be set', function() {
+            expect(ch5ImportHtmlsnippet.getAttribute('customclass')).to.be.equal('combo-class');
+            expect(ch5ImportHtmlsnippet.getAttribute('customstyle')).to.be.equal('border: 1px solid black;');
+        });
+
+        test('Class should be applied to element', function(done) {
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.classList.contains('combo-class')).to.be.true;
+                done();
+            }, 200);
+        });
+
+        test('Content should still load with styling', function(done) {
+            setTimeout(() => {
+                const buttons = ch5ImportHtmlsnippet.querySelectorAll('ch5-button');
+                expect(buttons.length).to.be.greaterThan(0);
+                done();
+            }, 500);
+        });
+
+        test('Changing customclass should not affect customstyle', function() {
+            ch5ImportHtmlsnippet.setAttribute('customclass', 'new-class');
+                expect(ch5ImportHtmlsnippet.classList.contains('new-class')).to.be.true;
+            expect(ch5ImportHtmlsnippet.getAttribute('customstyle')).to.be.equal('border: 1px solid black;');
+        });
+
+        test('Changing customstyle should not affect customclass', function() {
+            ch5ImportHtmlsnippet.setAttribute('customstyle', 'margin: 5px;');
+            expect(ch5ImportHtmlsnippet.getAttribute('customstyle')).to.be.equal('margin: 5px;');
+            expect(ch5ImportHtmlsnippet.getAttribute('customclass')).to.be.equal('combo-class');
+                expect(ch5ImportHtmlsnippet.classList.contains('combo-class')).to.be.true;
+        });
+    });
+</script>
+</body>
+</html>

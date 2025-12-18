@@ -1,0 +1,201 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<!-- Multiple attribute combinations tests -->
+
+<test-fixture id="ch5-import-htmlsnippet-id-customclass-fixture">
+    <template>
+        <ch5-import-htmlsnippet id="snippet-with-class" url="ch5-sample-elements.html" customclass="id-class-combo"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-all-attrs-fixture">
+    <template>
+        <ch5-import-htmlsnippet 
+            id="full-snippet" 
+            url="ch5-sample-elements.html" 
+            show="true" 
+            customclass="full-class" 
+            customstyle="padding: 10px;"
+            dir="ltr"
+            sendEventOnShow="fullSignal">
+        </ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-import-htmlsnippet-fixture">
+    <template>
+        <ch5-import-htmlsnippet url="ch5-sample-elements.html"></ch5-import-htmlsnippet>
+    </template>
+</test-fixture>
+
+<script>
+    suite('ch5-import-htmlsnippet all attributes combination', function() {
+
+        let ch5ImportHtmlsnippet;
+
+        setup(() => {
+            ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-all-attrs-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        test('All attributes should be set correctly', function() {
+            expect(ch5ImportHtmlsnippet.id).to.be.equal('full-snippet');
+            expect(ch5ImportHtmlsnippet.url).to.be.equal('ch5-sample-elements.html');
+            expect(ch5ImportHtmlsnippet.getAttribute('show')).to.be.equal('true');
+            expect(ch5ImportHtmlsnippet.getAttribute('customclass')).to.be.equal('full-class');
+            expect(ch5ImportHtmlsnippet.getAttribute('customstyle')).to.be.equal('padding: 10px;');
+            expect(ch5ImportHtmlsnippet.getAttribute('dir')).to.be.equal('ltr');
+            expect(ch5ImportHtmlsnippet.getAttribute('sendEventOnShow')).to.be.equal('fullSignal');
+        });
+
+        test('Content should load with all attributes set', function(done) {
+            setTimeout(() => {
+                const buttons = ch5ImportHtmlsnippet.querySelectorAll('ch5-button');
+                expect(buttons.length).to.be.greaterThan(0);
+                done();
+            }, 500);
+        });
+
+        test('Class should be applied with all attributes', function(done) {
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.classList.contains('full-class')).to.be.true;
+                done();
+            }, 200);
+        });
+
+        // Simple loop: change one attribute per test, verify others unchanged
+        const baseAttrs = {
+            id: 'full-snippet',
+            url: 'ch5-sample-elements.html',
+            show: 'true',
+            customclass: 'full-class',
+            customstyle: 'padding: 10px;',
+            dir: 'ltr'
+        };
+
+        const newAttrs = {
+            id: 'full-snippet-2',
+            url: 'ch5-sample-elements.html?nc=1',
+            show: 'false',
+            customclass: 'changed-class',
+            customstyle: 'margin: 5px;',
+            dir: 'rtl'
+        };
+
+        Object.keys(baseAttrs).forEach(function(attr) {
+            test('Changing ' + attr + ' should not affect others', function() {
+                // Set current attribute to a new value
+                ch5ImportHtmlsnippet.setAttribute(attr, newAttrs[attr]);
+                // Verify the changed value
+                expect(ch5ImportHtmlsnippet.getAttribute(attr)).to.be.equal(newAttrs[attr]);
+                // Verify all other attributes remain at base values
+                Object.keys(baseAttrs).forEach(function(other) {
+                    if (!(other === attr)) {
+                    expect(ch5ImportHtmlsnippet.getAttribute(other)).to.be.equal(baseAttrs[other]);
+                    }
+                });
+            });
+        });
+
+        test('Multiple attributes can be changed in sequence', function() {
+            ch5ImportHtmlsnippet.setAttribute('show', 'false');
+            ch5ImportHtmlsnippet.setAttribute('customclass', 'new-class');
+            ch5ImportHtmlsnippet.setAttribute('dir', 'rtl');
+            expect(ch5ImportHtmlsnippet.getAttribute('show')).to.be.equal('false');
+            expect(ch5ImportHtmlsnippet.getAttribute('customclass')).to.be.equal('new-class');
+            expect(ch5ImportHtmlsnippet.getAttribute('dir')).to.be.equal('rtl');
+        });
+    });
+
+    suite('ch5-import-htmlsnippet attribute removal', function() {
+
+        let ch5ImportHtmlsnippet;
+
+        setup(() => {
+            ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-all-attrs-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        test('Removing customclass should remove attribute', function(done) {
+            ch5ImportHtmlsnippet.removeAttribute('customclass');
+            setTimeout(() => {
+                expect(ch5ImportHtmlsnippet.getAttribute('customclass')).to.be.empty;
+                done();
+            }, 200);
+        });
+
+        test('Removing customstyle should be allowed', function() {
+            ch5ImportHtmlsnippet.removeAttribute('customstyle');
+            expect(ch5ImportHtmlsnippet.getAttribute('customstyle')).to.be.empty;
+        });
+
+        test('Removing sendEventOnShow should be allowed', function() {
+            ch5ImportHtmlsnippet.removeAttribute('sendEventOnShow');
+            expect(ch5ImportHtmlsnippet.getAttribute('sendEventOnShow')).to.be.null;
+        });
+
+        test('Removing dir should be allowed', function() {
+            ch5ImportHtmlsnippet.removeAttribute('dir');
+            expect(ch5ImportHtmlsnippet.getAttribute('dir')).to.be.null;
+        });
+
+        test('Removing multiple attributes should work', function() {
+            ch5ImportHtmlsnippet.removeAttribute('customclass');
+            ch5ImportHtmlsnippet.removeAttribute('customstyle');
+            ch5ImportHtmlsnippet.removeAttribute('dir');
+            expect(ch5ImportHtmlsnippet.getAttribute('customclass')).to.be.empty;
+            expect(ch5ImportHtmlsnippet.getAttribute('customstyle')).to.be.empty;
+            expect(ch5ImportHtmlsnippet.getAttribute('dir')).to.be.null;
+            // These should remain
+            expect(ch5ImportHtmlsnippet.id).to.be.equal('full-snippet');
+            expect(ch5ImportHtmlsnippet.url).to.be.equal('ch5-sample-elements.html');
+        });
+    });
+
+    suite('ch5-import-htmlsnippet multiple attribute changes', function() {
+
+        let ch5ImportHtmlsnippet;
+
+        setup(() => {
+            ch5ImportHtmlsnippet = fixture('ch5-import-htmlsnippet-fixture');
+            return Promise.all([
+                customElements.whenDefined('ch5-import-htmlsnippet')
+            ]);
+        });
+
+        test('Setting multiple attributes in sequence', function() {
+            ch5ImportHtmlsnippet.setAttribute('show', 'true');
+            ch5ImportHtmlsnippet.setAttribute('disabled', 'true');
+            ch5ImportHtmlsnippet.setAttribute('customclass', 'test-class');
+            expect(ch5ImportHtmlsnippet.getAttribute('show')).to.be.equal('true');
+            expect(ch5ImportHtmlsnippet.getAttribute('disabled')).to.be.equal('true');
+            expect(ch5ImportHtmlsnippet.getAttribute('customclass')).to.be.equal('test-class');
+        });
+
+        test('Content should load after adding multiple attributes', function(done) {
+            ch5ImportHtmlsnippet.setAttribute('show', 'true');
+            ch5ImportHtmlsnippet.setAttribute('customclass', 'test');
+            setTimeout(() => {
+                const buttons = ch5ImportHtmlsnippet.querySelectorAll('ch5-button');
+                expect(buttons.length).to.be.greaterThan(0);
+                done();
+            }, 500);
+        });
+    });
+</script>
+</body>
+</html>
