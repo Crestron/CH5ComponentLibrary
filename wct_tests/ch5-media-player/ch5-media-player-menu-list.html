@@ -55,6 +55,8 @@
       ];
 
       setup(async () => {
+        // Reset progress bar state to avoid stale emissions from prior suites
+        CrComLib.publishEvent('o', 'progressBarData', {});
         ch5MediaPlayer = fixture('ch5-media-player-language');
       });
 
@@ -62,11 +64,11 @@
         test('test for language support', (done) => {
           MY_MUSIC_MENU_DEMO_DATA.MenuData[0].L1 = value;
           CrComLib.publishEvent('o', 'menuListData', MY_MUSIC_MENU_DEMO_DATA);
-              setTimeout(() => {
-                  const title = ch5MediaPlayer.querySelector(".my-music-content-item-title");
-                  expect(title.textContent).to.be.equal(validate);
-                  done();
-              }, 20);
+          setTimeout(() => {
+            const title = ch5MediaPlayer.querySelector(".my-music-content-item-title");
+            expect(title.textContent).to.be.equal(validate);
+            done();
+          }, 20);
 
         });
       });

@@ -103,6 +103,8 @@
             }
             const progressbarData = { StreamState: 'idle', ProgressBar: 'true', ElapsedSec: 20, TrackSec: 30 };
             setup(() => {
+                // Reset progress bar state to avoid stale emissions from prior suites
+                CrComLib.publishEvent('o', 'progressBarData', {});
                 nowPlayingComponent = fixture('ch5-media-player-now-playing-action-buttons-fixture');
             });
             teardown(() => {
@@ -1103,9 +1105,9 @@
                 }, 30);
             });
 
-            test('test now playing additional info track number', (done) => {
-                const trackNumber = 6;
-                const additionalInfoData = { ...nowPlayingData, TrackNum: trackNumber }
+            test('test now playing additional info displays station name', (done) => {
+                const stationName = "KEXP 90.3 FM";
+                const additionalInfoData = { ...nowPlayingData, StationName: stationName }
                 CrComLib.publishEvent('o', 'nowPlayingData', additionalInfoData);
                 setTimeout(() => {
                     try {
@@ -1114,78 +1116,8 @@
                                 const additionalInfo = nowPlayingComponent.querySelector('.now-playing-song-additional-info') ||
                                     document.querySelector('#nowPlayingTest2 .now-playing-song-additional-info');
                                 expect(additionalInfo).to.exist;
-                                expect(additionalInfo.innerHTML.includes('6')).to.equal(true);
-                                done();
-                            } catch (err2) {
-                                done(err2);
-                            }
-                        }, 20);
-                    } catch (err) {
-                        done(err);
-                    }
-                }, 30);
-            });
-
-            test('test now playing additional info track count', (done) => {
-                const trackCount = 24;
-                const additionalInfoData = { ...nowPlayingData, TrackCnt: trackCount }
-                CrComLib.publishEvent('o', 'nowPlayingData', additionalInfoData);
-                setTimeout(() => {
-                    try {
-                        setTimeout(() => {
-                            try {
-                                const additionalInfo = nowPlayingComponent.querySelector('.now-playing-song-additional-info') ||
-                                    document.querySelector('#nowPlayingTest2 .now-playing-song-additional-info');
-                                expect(additionalInfo).to.exist;
-                                expect(additionalInfo.innerHTML.includes('24')).to.equal(true);
-                                done();
-                            } catch (err2) {
-                                done(err2);
-                            }
-                        }, 20);
-                    } catch (err) {
-                        done(err);
-                    }
-                }, 30);
-            });
-
-            test('test now playing additional info genre', (done) => {
-                const genre = "Lovely"
-                const additionalInfoData = { ...nowPlayingData, Genre: genre }
-                CrComLib.publishEvent('o', 'nowPlayingData', additionalInfoData);
-                setTimeout(() => {
-                    try {
-                        setTimeout(() => {
-                            try {
-                                const additionalInfo = nowPlayingComponent.querySelector('.now-playing-song-additional-info') ||
-                                    document.querySelector('#nowPlayingTest2 .now-playing-song-additional-info');
-                                expect(additionalInfo).to.exist;
-                                expect(additionalInfo.innerHTML.includes('Lovely')).to.equal(true);
-                                done();
-                            } catch (err2) {
-                                done(err2);
-                            }
-                        }, 20);
-                    } catch (err) {
-                        done(err);
-                    }
-                }, 30);
-            });
-
-            test('test now playing additional info', (done) => {
-                const trackCount = 10;
-                const trackNumber = 4;
-                const genre = "Lovely"
-                const additionalInfoData = { ...nowPlayingData, TrackCnt: trackCount, TrackNum: trackNumber, Genre: genre }
-                CrComLib.publishEvent('o', 'nowPlayingData', additionalInfoData);
-                setTimeout(() => {
-                    try {
-                        setTimeout(() => {
-                            try {
-                                const additionalInfo = nowPlayingComponent.querySelector('.now-playing-song-additional-info') ||
-                                    document.querySelector('#nowPlayingTest2 .now-playing-song-additional-info');
-                                expect(additionalInfo).to.exist;
-                                expect(additionalInfo.innerHTML).to.equal(`${trackNumber} of ${trackCount}  ${genre}`);
+                                expect(additionalInfo.textContent).to.equal(stationName);
+                                expect(additionalInfo.innerHTML.includes(stationName)).to.equal(true);
                                 done();
                             } catch (err2) {
                                 done(err2);
@@ -1198,7 +1130,7 @@
             });
 
             test('test now playing additional info empty', (done) => {
-                const additionalInfoData = { ...nowPlayingData, TrackCnt: 0, TrackNum: 0, Genre: "" }
+                const additionalInfoData = { ...nowPlayingData, StationName: "" }
                 CrComLib.publishEvent('o', 'nowPlayingData', additionalInfoData);
                 setTimeout(() => {
                     try {
@@ -1207,7 +1139,7 @@
                                 const additionalInfo = nowPlayingComponent.querySelector('.now-playing-song-additional-info') ||
                                     document.querySelector('#nowPlayingTest2 .now-playing-song-additional-info');
                                 expect(additionalInfo).to.exist;
-                                expect(additionalInfo.innerHTML).to.equal('');
+                                expect(additionalInfo.textContent).to.equal('');
                                 done();
                             } catch (err2) {
                                 done(err2);

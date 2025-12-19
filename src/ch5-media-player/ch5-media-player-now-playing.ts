@@ -156,8 +156,8 @@ export class Ch5MediaPlayerNowPlaying {
 					}
 					this._progressBarContainer.classList?.remove('ch5-hide-dis');
 					this._progressStreamState = this.progressBarData.StreamState;
-					if(this.nowPlayingData.PlayerState === "forwarding") {
-						this._streamState.textContent = this.nowPlayingData.FfwdSpeed + 'X';
+					if(this.nowPlayingData?.PlayerState === "forwarding") {
+						this._streamState.textContent = this.nowPlayingData?.FfwdSpeed + 'X';
 					} else {
 						this._streamState.textContent = this._progressStreamState;
 					}
@@ -168,7 +168,7 @@ export class Ch5MediaPlayerNowPlaying {
 					//if (this._progressBarElapsedSec && this._progressBarTrackSec) {
 					this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
 					//}
-					if(this.nowPlayingData.PlayerState === "stopped") {	//autonomic: reset to initial once song completed
+					if(this.nowPlayingData?.PlayerState === "stopped") {	//autonomic: reset to initial once song completed
 						this._progressBarTrackSec = 0;
 					}
 					this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
