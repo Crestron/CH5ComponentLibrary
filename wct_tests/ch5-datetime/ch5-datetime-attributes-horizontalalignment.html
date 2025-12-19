@@ -40,7 +40,7 @@
       let clock;
 
       suiteSetup(() => {
-        clock = sinon.useFakeTimers(new Date(2023, 00, 01).getTime());
+        clock = sinon.useFakeTimers(new Date(2023, 0o0, 0o1).getTime());
         ch5DateTime = fixture('ch5-datetime-horizontalAlignment-attributes');
       });
 
