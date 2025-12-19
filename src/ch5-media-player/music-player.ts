@@ -640,7 +640,7 @@ export class MusicPlayerLib {
     }
 
     // NowPlaying component action
-    public nowPlayingvent(action: TCH5NowPlayingActions, time: string = '') {
+    public nowPlayingEvent(action: TCH5NowPlayingActions, time: string = '') {
         this.lastPerformedAction = action;
         const myRPC: CommonEventRequest = {
             params: action === TCH5NowPlayingActions.Seek ? { 'time': time } : null,

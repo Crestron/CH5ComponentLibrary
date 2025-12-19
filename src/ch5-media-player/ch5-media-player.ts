@@ -176,6 +176,10 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
   private _demoFavoritesEl: HTMLElement | null = null;
   private _demoFavoritesHandler: EventListener | null = null;
 
+  // Subscription IDs for proper cleanup
+  private _subBusyChanged: string | null = null;
+  private _subPopUpMessageData: string | null = null;
+
   //#endregion
 
   //#region Getters and Setters
@@ -323,10 +327,10 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this._ch5Properties = new Ch5Properties(this, Ch5MediaPlayer.COMPONENT_PROPERTIES);
     this.updateCssClass();
 
-    subscribeState('o', 'busyChanged', ((data: any) => {
+    this._subBusyChanged = subscribeState('o', 'busyChanged', ((data: any) => {
       this.busyChanged = data;
 
-      if (this.busyChanged.on) {
+      if (this.busyChanged && this.busyChanged.on) {
         if(this.busyChanged.timeoutSec > 0){
           this._loadingIndicator.classList.remove('hide-loading-indicator');
           setTimeout(() => {
@@ -341,13 +345,13 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
       this.logger.log('busyChanged', this.busyChanged);
     }));
 
-    subscribeState('o', 'PopUpMessageData', ((data: any) => {
+    this._subPopUpMessageData = subscribeState('o', 'PopUpMessageData', ((data: any) => {
       this.popUpData = data;
       this.logger.log("Popup Data", this.popUpData);
       if (this._elMask && this._elMask.parentNode) {
         this._elMask.parentNode.removeChild(this._elMask);
       }
-      if (this.popUpData.show) {
+      if (this.popUpData && this.popUpData.show) {
         this.genericDialog(this.popUpData.userInputRequired, this.popUpData.text, this.popUpData.textForItems, this.popUpData.initialUserInput, this.popUpData.timeoutSec);
       } else {
         if (this._elMask && this._elMask.parentNode) {
@@ -414,6 +418,28 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this.removeEventListeners();
     this.unsubscribeFromSignals();
     this.musicPlayerLibInstance.unsubscribeLibrarySignals();// unsubscribeLibrarySignals
+    
+    // Cleanup child components
+    if (this.nowPlaying) {
+      this.nowPlaying.cleanup();
+    }
+    
+    // Clear dialog auto-close timeout
+    if (this._dialogAutoCloseTimeout) {
+      clearTimeout(this._dialogAutoCloseTimeout);
+      this._dialogAutoCloseTimeout = null;
+    }
+    
+    // Unsubscribe from busyChanged and PopUpMessageData
+    if (this._subBusyChanged) {
+      unsubscribeState('o', 'busyChanged', this._subBusyChanged);
+      this._subBusyChanged = null;
+    }
+    if (this._subPopUpMessageData) {
+      unsubscribeState('o', 'PopUpMessageData', this._subPopUpMessageData);
+      this._subPopUpMessageData = null;
+    }
+    
     this.logger.stop();
   }
 
@@ -844,7 +870,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     const subReceiveStateDeviceOffline = subscribeState('b', this.receiveStateDeviceOffline, ((value: any) => {
       publishEvent('b', "receiveStateDeviceOfflineResp", value);
       setTimeout(() => {
-        unsubscribeState('s', 'receiveStateDeviceOffline', subReceiveStateDeviceOffline);
+        unsubscribeState('b', 'receiveStateDeviceOffline', subReceiveStateDeviceOffline);
       })
     }));
   }

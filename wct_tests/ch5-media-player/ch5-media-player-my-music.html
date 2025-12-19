@@ -1,0 +1,281 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-media-player-my-music">
+    <template>
+      <ch5-media-player demomode="true"></ch5-media-player>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-media-player-my-music-live">
+    <template>
+      <ch5-media-player></ch5-media-player>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-media-player-my-music-demo-mode', () => {
+      let ch5MediaPlayer;
+
+      setup(async () => {
+        ch5MediaPlayer = fixture('ch5-media-player-my-music');
+      });
+
+      test('Check my music container exists in demo mode', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const myMusic = ch5MediaPlayer.querySelector('.ch5-media-player--my-music');
+            expect(myMusic).to.not.be.null;
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check my music header exists', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const header = ch5MediaPlayer.querySelector('.my-music-header');
+            expect(header).to.not.be.null;
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check my music content section exists', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const content = ch5MediaPlayer.querySelector('.my-music-content');
+            expect(content).to.not.be.null;
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check my music footer section exists', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const footer = ch5MediaPlayer.querySelector('.my-music-footer');
+            expect(footer).to.not.be.null;
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check back button exists in header', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const backButton = ch5MediaPlayer.querySelector('.my-music-header-back-button');
+            expect(backButton).to.not.be.null;
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check header title text exists', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const titleText = ch5MediaPlayer.querySelector('.my-music-header-title-text');
+            expect(titleText).to.not.be.null;
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check now playing button exists in header', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const nowPlayingButton = ch5MediaPlayer.querySelector('.my-music-header-now-playing-button');
+            expect(nowPlayingButton).to.not.be.null;
+            done();
+          }, 100);
+        });
+      });
+    });
+
+    suite('ch5-media-player-my-music-live-mode', () => {
+      let ch5MediaPlayer;
+      let MY_MUSIC_DATA;
+      let MENU_LIST_DATA;
+
+      setup(async () => {
+        ch5MediaPlayer = fixture('ch5-media-player-my-music-live');
+        MY_MUSIC_DATA = {
+          Title: "Browse Music",
+          Subtitle: "All Artists",
+          IsMenuAvailable: true,
+          ListItemIcons: true,
+          ListSpecificFunctions: [
+            "Create",
+            "Find",
+            "QuickList",
+            "Advanced",
+            "BackToTop",
+            "Favorites"
+          ],
+          Sorted: "none",
+          ItemCnt: 5
+        };
+        MENU_LIST_DATA = {
+          MenuData: [
+            { L1: "Item 1", L2: "Sub Item 1", Id: "1" },
+            { L1: "Item 2", L2: "Sub Item 2", Id: "2" },
+            { L1: "Item 3", L2: "Sub Item 3", Id: "3" },
+            { L1: "Item 4", L2: "", Id: "4" },
+            { L1: "Item 5", L2: "Sub Item 5", Id: "5" }
+          ]
+        };
+      });
+
+      test('Check default screen appears when no data', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const defaultScreen = ch5MediaPlayer.querySelector('.ch5-media-player--my-music-default');
+            expect(defaultScreen).to.not.be.null;
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check my music updates when receiving data', (done) => {
+        CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DATA);
+        CrComLib.publishEvent('o', 'menuListData', MENU_LIST_DATA);
+        flush(() => {
+          setTimeout(() => {
+            const myMusic = ch5MediaPlayer.querySelector('.ch5-media-player--my-music');
+            expect(myMusic).to.not.be.null;
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check menu items are created from data', (done) => {
+        CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DATA);
+        CrComLib.publishEvent('o', 'menuListData', MENU_LIST_DATA);
+        flush(() => {
+          setTimeout(() => {
+            const contentItems = ch5MediaPlayer.querySelectorAll('.my-music-content-item');
+            expect(contentItems.length).to.be.greaterThan(0);
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check footer icons are created from ListSpecificFunctions', (done) => {
+        CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DATA);
+        CrComLib.publishEvent('o', 'menuListData', MENU_LIST_DATA);
+        flush(() => {
+          setTimeout(() => {
+            const footer = ch5MediaPlayer.querySelector('.my-music-footer');
+            expect(footer).to.not.be.null;
+            expect(footer.children.length).to.be.greaterThan(0);
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check header title updates with data', (done) => {
+        CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DATA);
+        flush(() => {
+          setTimeout(() => {
+            const titleText = ch5MediaPlayer.querySelector('.my-music-header-title-text');
+            if (titleText) {
+              expect(titleText.textContent).to.be.equal('Browse Music');
+            }
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check subtitle updates with data', (done) => {
+        CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DATA);
+        flush(() => {
+          setTimeout(() => {
+            const subtitle = ch5MediaPlayer.querySelector('.my-music-header-subtitle');
+            if (subtitle) {
+              expect(subtitle.textContent).to.be.equal('All Artists');
+            }
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check back button visibility with IsMenuAvailable', (done) => {
+        CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DATA);
+        flush(() => {
+          setTimeout(() => {
+            const backButton = ch5MediaPlayer.querySelector('.my-music-header-back-button');
+            if (backButton) {
+              expect(backButton.classList.contains('button-visibility')).to.be.false;
+            }
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check back button hidden when IsMenuAvailable is false', (done) => {
+        MY_MUSIC_DATA.IsMenuAvailable = false;
+        CrComLib.publishEvent('o', 'myMusicData', MY_MUSIC_DATA);
+        flush(() => {
+          setTimeout(() => {
+            const backButton = ch5MediaPlayer.querySelector('.my-music-header-back-button');
+            if (backButton) {
+              expect(backButton.classList.contains('button-visibility')).to.be.true;
+            }
+            done();
+          }, 200);
+        });
+      });
+    });
+
+    suite('ch5-media-player-my-music-transition', () => {
+      let ch5MediaPlayer;
+
+      setup(async () => {
+        ch5MediaPlayer = fixture('ch5-media-player-my-music');
+      });
+
+      test('Check my music transition class added on showMyMusicComponent true', (done) => {
+        CrComLib.publishEvent('b', 'showMyMusicComponent', true);
+        flush(() => {
+          setTimeout(() => {
+            const myMusic = ch5MediaPlayer.querySelector('.ch5-media-player--my-music');
+            if (myMusic) {
+              expect(myMusic.classList.contains('my-music-transition')).to.be.true;
+            }
+            done();
+          }, 200);
+        });
+      });
+
+      test('Check my music transition class removed on showMyMusicComponent false', (done) => {
+        CrComLib.publishEvent('b', 'showMyMusicComponent', true);
+        flush(() => {
+          setTimeout(() => {
+            CrComLib.publishEvent('b', 'showMyMusicComponent', false);
+            flush(() => {
+              setTimeout(() => {
+                const myMusic = ch5MediaPlayer.querySelector('.ch5-media-player--my-music');
+                if (myMusic) {
+                  expect(myMusic.classList.contains('my-music-transition')).to.be.false;
+                }
+                done();
+              }, 200);
+            });
+          }, 200);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
