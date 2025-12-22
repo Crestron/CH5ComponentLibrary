@@ -29,7 +29,7 @@
 
       setup(async () => {
         // Reset progress bar state to avoid stale emissions from prior suites
-        CrComLib.publishEvent('o', 'progressBarData', {});
+         
         ch5MediaPlayer = fixture('ch5-media-player-my-music');
       });
 
@@ -111,7 +111,7 @@
 
       setup(async () => {
         // Reset progress bar state to avoid stale emissions from prior suites
-        CrComLib.publishEvent('o', 'progressBarData', {});
+         
         ch5MediaPlayer = fixture('ch5-media-player-my-music-live');
         MY_MUSIC_DATA = {
           Title: "Browse Music",
@@ -246,7 +246,7 @@
 
       setup(async () => {
         // Reset progress bar state to avoid stale emissions from prior suites
-        CrComLib.publishEvent('o', 'progressBarData', {});
+         
         ch5MediaPlayer = fixture('ch5-media-player-my-music');
         ch5MediaPlayer.setAttribute('customStyle', 'width: 600px;');
       });

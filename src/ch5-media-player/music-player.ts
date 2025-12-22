@@ -737,6 +737,11 @@ export class MusicPlayerLib {
         this.nowPlayingPublishData = {};
         this.myMusicPublishData = {};
         this.progressBarPublishData = {};
+        // Publish empty events to clear BehaviorSubject cache when component is destroyed
+        publishEvent('o', 'menuListData', this.menuListPublishData);
+        publishEvent('o', 'nowPlayingData', this.nowPlayingPublishData);
+        publishEvent('o', 'myMusicData', this.myMusicPublishData);
+        publishEvent('o', 'progressBarData', this.progressBarPublishData);
         this.resetMp();
     }
 

@@ -285,7 +285,7 @@
 
       setup(() => {
         // Reset progress bar state to avoid stale emissions from prior suites
-        CrComLib.publishEvent('o', 'progressBarData', {});
+         
         ch5MediaPlayer = fixture('ch5-media-player-contract-with-attributes');
       });
 
@@ -393,7 +393,7 @@
     suite('ch5-media-player-contract-dynamic-toggle', () => {
       test('Initial state without contract', (done) => {
         // Reset progress bar state before creating fixture
-        CrComLib.publishEvent('o', 'progressBarData', {});
+         
         const ch5MediaPlayer = fixture('ch5-media-player-contract-without-contract-with-toggles');
         flush(() => {
           setTimeout(() => {
@@ -410,7 +410,7 @@
       });
 
       test('Contract set dynamically updates signal properties', (done) => {
-        CrComLib.publishEvent('o', 'progressBarData', {});
+         
         const ch5MediaPlayer = fixture('ch5-media-player-contract-without-contract-with-toggles');
         flush(() => {
           setTimeout(() => {
@@ -432,7 +432,7 @@
       });
 
       test('Contract set dynamically updates toggle-dependent signals', (done) => {
-        CrComLib.publishEvent('o', 'progressBarData', {});
+         
         const ch5MediaPlayer = fixture('ch5-media-player-contract-without-contract-with-toggles');
         flush(() => {
           setTimeout(() => {
@@ -451,7 +451,7 @@
       });
 
       test('Clearing contract restores original attribute signal values', (done) => {
-        CrComLib.publishEvent('o', 'progressBarData', {});
+         
         const ch5MediaPlayer = fixture('ch5-media-player-contract-without-contract-with-toggles');
         flush(() => {
           setTimeout(() => {
@@ -478,7 +478,7 @@
       });
 /* TO-FIX-PARAKH - need to confirm if this is expected behavior
       test('Clearing contract resets toggle-dependent signals to empty', (done) => {
-        CrComLib.publishEvent('o', 'progressBarData', {});
+         
         const ch5MediaPlayer = fixture('ch5-media-player-contract-without-contract-with-toggles');
             console.log("value1: ", ch5MediaPlayer.receiveStateShow);
         flush(() => {

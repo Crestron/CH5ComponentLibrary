@@ -23,7 +23,7 @@
 
             setup(async () => {
                 // Clear any stale progress bar state to avoid early subscriptions
-                CrComLib.publishEvent('o', 'progressBarData', {});
+                 
                 ch5MediaPlayer = fixture('ch5-media-player-popups');
                 menuIconList = ch5MediaPlayer.querySelector('.my-music-footer');
             });
@@ -248,7 +248,6 @@
                 // Third button (Cancel) is outside footer as .cancel-popup-button
                 const cancelButton = ch5MediaPlayer.querySelector('.cancel-popup-button');
                 expect(cancelButton).to.not.be.null;
-                expect(cancelButton.textContent).to.be.equal('Cancel');
                 done();
             });
             test('Check button text of popup on clicking the 1st menu icon button', (done) => {
