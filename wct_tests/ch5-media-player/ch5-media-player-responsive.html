@@ -13,19 +13,7 @@
 <body>
   <test-fixture id="ch5-media-player-responsive">
     <template>
-      <ch5-media-player demomode="true" style="width: 800px; height: 600px;"></ch5-media-player>
-    </template>
-  </test-fixture>
-
-  <test-fixture id="ch5-media-player-portrait">
-    <template>
-      <ch5-media-player demomode="true" style="width: 400px; height: 800px;"></ch5-media-player>
-    </template>
-  </test-fixture>
-
-  <test-fixture id="ch5-media-player-small">
-    <template>
-      <ch5-media-player demomode="true" style="width: 300px; height: 400px;"></ch5-media-player>
+      <ch5-media-player demomode="true"></ch5-media-player>
     </template>
   </test-fixture>
 
@@ -34,6 +22,8 @@
       let ch5MediaPlayer;
 
       setup(async () => {
+        // Reset progress bar state to avoid stale emissions from prior suites
+        CrComLib.publishEvent('o', 'progressBarData', {});
         ch5MediaPlayer = fixture('ch5-media-player-responsive');
       });
 
@@ -60,51 +50,483 @@
       });
     });
 
-    suite('ch5-media-player-portrait-mode', () => {
+    // Test suite for XS breakpoint (0-384px)
+    suite('ch5-media-player-xs-width-breakpoint', () => {
       let ch5MediaPlayer;
+      const testCases = [
+        { width: '1px', expected: 'xs' },
+        { width: '200px', expected: 'xs' },
+        { width: '300px', expected: 'xs' },
+        { width: '383px', expected: 'xs' },
+        { width: '384px', expected: 'xs' }
+      ];
 
-      setup(async () => {
-        ch5MediaPlayer = fixture('ch5-media-player-portrait');
-      });
+      testCases.forEach(({ width, expected }) => {
+        setup(async () => {
+          CrComLib.publishEvent('o', 'progressBarData', {});
+          ch5MediaPlayer = fixture('ch5-media-player-responsive');
+        });
 
-      test('Check portrait mode class is applied for narrow width', (done) => {
-        flush(() => {
-          setTimeout(() => {
-            const container = ch5MediaPlayer.querySelector('.ch5-media-player');
-            expect(container.classList.contains('portrait-mode-active')).to.be.true;
-            done();
-          }, 200);
+        test(`Check XS width breakpoint at ${width}`, (done) => {
+          ch5MediaPlayer.setAttribute('customStyle', `width:${width}; height:500px`);
+          flush(() => {
+            setTimeout(() => {
+              const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+              expect(container.classList.contains(`ch5-media-player--width-${expected}`)).to.be.true;
+              done();
+            }, 500);
+          });
         });
       });
     });
 
-    suite('ch5-media-player-small-screen', () => {
+    suite('ch5-media-player-xs-height-breakpoint', () => {
+      let ch5MediaPlayer;
+      const testCases = [
+        { height: '1px', expected: 'xs' },
+        { height: '200px', expected: 'xs' },
+        { height: '300px', expected: 'xs' },
+        { height: '383px', expected: 'xs' },
+        { height: '384px', expected: 'xs' }
+      ];
+
+      testCases.forEach(({ height, expected }) => {
+        setup(async () => {
+          CrComLib.publishEvent('o', 'progressBarData', {});
+          ch5MediaPlayer = fixture('ch5-media-player-responsive');
+        });
+
+        test(`Check XS height breakpoint at ${height}`, (done) => {
+          ch5MediaPlayer.setAttribute('customStyle', `width:500px; height:${height}`);
+          flush(() => {
+            setTimeout(() => {
+              const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+              expect(container.classList.contains(`ch5-media-player--height-${expected}`)).to.be.true;
+              done();
+            }, 500);
+          });
+        });
+      });
+    });
+
+    // Test suite for SM breakpoint (384-768px)
+    suite('ch5-media-player-sm-width-breakpoint', () => {
+      let ch5MediaPlayer;
+      const testCases = [
+        { width: '385px', expected: 'sm' },
+        { width: '400px', expected: 'sm' },
+        { width: '600px', expected: 'sm' },
+        { width: '767px', expected: 'sm' },
+        { width: '768px', expected: 'sm' }
+      ];
+
+      testCases.forEach(({ width, expected }) => {
+        setup(async () => {
+          CrComLib.publishEvent('o', 'progressBarData', {});
+          ch5MediaPlayer = fixture('ch5-media-player-responsive');
+        });
+
+        test(`Check SM width breakpoint at ${width}`, (done) => {
+          ch5MediaPlayer.setAttribute('customStyle', `width:${width}; height:500px`);
+          flush(() => {
+            setTimeout(() => {
+              const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+              expect(container.classList.contains(`ch5-media-player--width-${expected}`)).to.be.true;
+              done();
+            }, 500);
+          });
+        });
+      });
+    });
+
+    suite('ch5-media-player-sm-height-breakpoint', () => {
+      let ch5MediaPlayer;
+      const testCases = [
+        { height: '385px', expected: 'sm' },
+        { height: '400px', expected: 'sm' },
+        { height: '600px', expected: 'sm' },
+        { height: '767px', expected: 'sm' },
+        { height: '768px', expected: 'sm' }
+      ];
+
+      testCases.forEach(({ height, expected }) => {
+        setup(async () => {
+          CrComLib.publishEvent('o', 'progressBarData', {});
+          ch5MediaPlayer = fixture('ch5-media-player-responsive');
+        });
+
+        test(`Check SM height breakpoint at ${height}`, (done) => {
+          ch5MediaPlayer.setAttribute('customStyle', `width:500px; height:${height}`);
+          flush(() => {
+            setTimeout(() => {
+              const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+              expect(container.classList.contains(`ch5-media-player--height-${expected}`)).to.be.true;
+              done();
+            }, 500);
+          });
+        });
+      });
+    });
+
+    // Test suite for MD breakpoint (768-1024px)
+    suite('ch5-media-player-md-width-breakpoint', () => {
+      let ch5MediaPlayer;
+      const testCases = [
+        { width: '769px', expected: 'md' },
+        { width: '800px', expected: 'md' },
+        { width: '900px', expected: 'md' },
+        { width: '1023px', expected: 'md' },
+        { width: '1024px', expected: 'md' }
+      ];
+
+      testCases.forEach(({ width, expected }) => {
+        setup(async () => {
+          CrComLib.publishEvent('o', 'progressBarData', {});
+          ch5MediaPlayer = fixture('ch5-media-player-responsive');
+        });
+
+        test(`Check MD width breakpoint at ${width}`, (done) => {
+          ch5MediaPlayer.setAttribute('customStyle', `width:${width}; height:500px`);
+          flush(() => {
+            setTimeout(() => {
+              const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+              expect(container.classList.contains(`ch5-media-player--width-${expected}`)).to.be.true;
+              done();
+            }, 500);
+          });
+        });
+      });
+    });
+
+    suite('ch5-media-player-md-height-breakpoint', () => {
+      let ch5MediaPlayer;
+      const testCases = [
+        { height: '769px', expected: 'md' },
+        { height: '800px', expected: 'md' },
+        { height: '900px', expected: 'md' },
+        { height: '1023px', expected: 'md' },
+        { height: '1024px', expected: 'md' }
+      ];
+
+      testCases.forEach(({ height, expected }) => {
+        setup(async () => {
+          CrComLib.publishEvent('o', 'progressBarData', {});
+          ch5MediaPlayer = fixture('ch5-media-player-responsive');
+        });
+
+        test(`Check MD height breakpoint at ${height}`, (done) => {
+          ch5MediaPlayer.setAttribute('customStyle', `width:500px; height:${height}`);
+          flush(() => {
+            setTimeout(() => {
+              const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+              expect(container.classList.contains(`ch5-media-player--height-${expected}`)).to.be.true;
+              done();
+            }, 500);
+          });
+        });
+      });
+    });
+
+    // Test suite for LG breakpoint (1024-1280px)
+    suite('ch5-media-player-lg-width-breakpoint', () => {
+      let ch5MediaPlayer;
+      const testCases = [
+        { width: '1025px', expected: 'lg' },
+        { width: '1100px', expected: 'lg' },
+        { width: '1200px', expected: 'lg' },
+        { width: '1279px', expected: 'lg' },
+        { width: '1280px', expected: 'lg' }
+      ];
+
+      testCases.forEach(({ width, expected }) => {
+        setup(async () => {
+          CrComLib.publishEvent('o', 'progressBarData', {});
+          ch5MediaPlayer = fixture('ch5-media-player-responsive');
+        });
+
+        test(`Check LG width breakpoint at ${width}`, (done) => {
+          ch5MediaPlayer.setAttribute('customStyle', `width:${width}; height:500px`);
+          flush(() => {
+            setTimeout(() => {
+              const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+              expect(container.classList.contains(`ch5-media-player--width-${expected}`)).to.be.true;
+              done();
+            }, 500);
+          });
+        });
+      });
+    });
+
+    suite('ch5-media-player-lg-height-breakpoint', () => {
+      let ch5MediaPlayer;
+      const testCases = [
+        { height: '1025px', expected: 'lg' },
+        { height: '1100px', expected: 'lg' },
+        { height: '1200px', expected: 'lg' },
+        { height: '1279px', expected: 'lg' },
+        { height: '1280px', expected: 'lg' }
+      ];
+
+      testCases.forEach(({ height, expected }) => {
+        setup(async () => {
+          CrComLib.publishEvent('o', 'progressBarData', {});
+          ch5MediaPlayer = fixture('ch5-media-player-responsive');
+        });
+
+        test(`Check LG height breakpoint at ${height}`, (done) => {
+          ch5MediaPlayer.setAttribute('customStyle', `width:500px; height:${height}`);
+          flush(() => {
+            setTimeout(() => {
+              const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+              expect(container.classList.contains(`ch5-media-player--height-${expected}`)).to.be.true;
+              done();
+            }, 500);
+          });
+        });
+      });
+    });
+
+    // Test suite for XL breakpoint (1280px+)
+    suite('ch5-media-player-xl-width-breakpoint', () => {
+      let ch5MediaPlayer;
+      const testCases = [
+        { width: '1281px', expected: 'xl' },
+        { width: '1300px', expected: 'xl' },
+        { width: '1500px', expected: 'xl' },
+        { width: '1920px', expected: 'xl' },
+        { width: '2560px', expected: 'xl' }
+      ];
+
+      testCases.forEach(({ width, expected }) => {
+        setup(async () => {
+          CrComLib.publishEvent('o', 'progressBarData', {});
+          ch5MediaPlayer = fixture('ch5-media-player-responsive');
+        });
+
+        test(`Check XL width breakpoint at ${width}`, (done) => {
+          ch5MediaPlayer.setAttribute('customStyle', `width:${width}; height:500px`);
+          flush(() => {
+            setTimeout(() => {
+              const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+              expect(container.classList.contains(`ch5-media-player--width-${expected}`)).to.be.true;
+              done();
+            }, 500);
+          });
+        });
+      });
+    });
+
+    suite('ch5-media-player-xl-height-breakpoint', () => {
+      let ch5MediaPlayer;
+      const testCases = [
+        { height: '1281px', expected: 'xl' },
+        { height: '1300px', expected: 'xl' },
+        { height: '1500px', expected: 'xl' },
+        { height: '1920px', expected: 'xl' },
+        { height: '2160px', expected: 'xl' }
+      ];
+
+      testCases.forEach(({ height, expected }) => {
+        setup(async () => {
+          CrComLib.publishEvent('o', 'progressBarData', {});
+          ch5MediaPlayer = fixture('ch5-media-player-responsive');
+        });
+
+        test(`Check XL height breakpoint at ${height}`, (done) => {
+          ch5MediaPlayer.setAttribute('customStyle', `width:500px; height:${height}`);
+          flush(() => {
+            setTimeout(() => {
+              const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+              expect(container.classList.contains(`ch5-media-player--height-${expected}`)).to.be.true;
+              done();
+            }, 500);
+          });
+        });
+      });
+    });
+
+    // Edge case tests for breakpoint boundaries
+    suite('ch5-media-player-breakpoint-edge-cases', () => {
       let ch5MediaPlayer;
 
       setup(async () => {
-        ch5MediaPlayer = fixture('ch5-media-player-small');
+        CrComLib.publishEvent('o', 'progressBarData', {});
+        ch5MediaPlayer = fixture('ch5-media-player-responsive');
       });
 
-      test('Check small screen has proper breakpoint classes', (done) => {
+      test('Edge: 383px width should be XS', (done) => {
+        ch5MediaPlayer.setAttribute('customStyle', 'width:383px; height:500px');
         flush(() => {
           setTimeout(() => {
             const container = ch5MediaPlayer.querySelector('.ch5-media-player');
-            // Should have xs or sm width class for 300px width
-            const hasSmallWidthClass = container.classList.contains('ch5-media-player--width-xs') || 
-                                        container.classList.contains('ch5-media-player--width-sm');
-            expect(hasSmallWidthClass).to.be.true;
+            expect(container.classList.contains('ch5-media-player--width-xs')).to.be.true;
+            expect(container.classList.contains('ch5-media-player--width-sm')).to.be.false;
             done();
-          }, 200);
+          }, 500);
         });
       });
 
-      test('Check portrait mode active for small width', (done) => {
+      test('Edge: 384px width should be XS', (done) => {
+        ch5MediaPlayer.setAttribute('customStyle', 'width:384px; height:500px');
         flush(() => {
           setTimeout(() => {
             const container = ch5MediaPlayer.querySelector('.ch5-media-player');
-            expect(container.classList.contains('portrait-mode-active')).to.be.true;
+            expect(container.classList.contains('ch5-media-player--width-xs')).to.be.true;
+            expect(container.classList.contains('ch5-media-player--width-sm')).to.be.false;
             done();
-          }, 200);
+          }, 500);
+        });
+      });
+
+      test('Edge: 385px width should be SM', (done) => {
+        ch5MediaPlayer.setAttribute('customStyle', 'width:385px; height:500px');
+        flush(() => {
+          setTimeout(() => {
+            const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+            expect(container.classList.contains('ch5-media-player--width-sm')).to.be.true;
+            expect(container.classList.contains('ch5-media-player--width-xs')).to.be.false;
+            done();
+          }, 500);
+        });
+      });
+
+      test('Edge: 767px width should be SM', (done) => {
+        ch5MediaPlayer.setAttribute('customStyle', 'width:767px; height:500px');
+        flush(() => {
+          setTimeout(() => {
+            const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+            expect(container.classList.contains('ch5-media-player--width-sm')).to.be.true;
+            expect(container.classList.contains('ch5-media-player--width-md')).to.be.false;
+            done();
+          }, 500);
+        });
+      });
+
+      test('Edge: 768px width should be SM', (done) => {
+        ch5MediaPlayer.setAttribute('customStyle', 'width:768px; height:500px');
+        flush(() => {
+          setTimeout(() => {
+            const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+            expect(container.classList.contains('ch5-media-player--width-sm')).to.be.true;
+            expect(container.classList.contains('ch5-media-player--width-md')).to.be.false;
+            done();
+          }, 500);
+        });
+      });
+
+      test('Edge: 769px width should be MD', (done) => {
+        ch5MediaPlayer.setAttribute('customStyle', 'width:769px; height:500px');
+        flush(() => {
+          setTimeout(() => {
+            const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+            expect(container.classList.contains('ch5-media-player--width-md')).to.be.true;
+            expect(container.classList.contains('ch5-media-player--width-sm')).to.be.false;
+            done();
+          }, 500);
+        });
+      });
+
+      test('Edge: 1023px width should be MD', (done) => {
+        ch5MediaPlayer.setAttribute('customStyle', 'width:1023px; height:500px');
+        flush(() => {
+          setTimeout(() => {
+            const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+            expect(container.classList.contains('ch5-media-player--width-md')).to.be.true;
+            expect(container.classList.contains('ch5-media-player--width-lg')).to.be.false;
+            done();
+          }, 500);
+        });
+      });
+
+      test('Edge: 1024px width should be MD', (done) => {
+        ch5MediaPlayer.setAttribute('customStyle', 'width:1024px; height:500px');
+        flush(() => {
+          setTimeout(() => {
+            const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+            expect(container.classList.contains('ch5-media-player--width-md')).to.be.true;
+            expect(container.classList.contains('ch5-media-player--width-lg')).to.be.false;
+            done();
+          }, 500);
+        });
+      });
+
+      test('Edge: 1025px width should be LG', (done) => {
+        ch5MediaPlayer.setAttribute('customStyle', 'width:1025px; height:500px');
+        flush(() => {
+          setTimeout(() => {
+            const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+            expect(container.classList.contains('ch5-media-player--width-lg')).to.be.true;
+            expect(container.classList.contains('ch5-media-player--width-md')).to.be.false;
+            done();
+          }, 500);
+        });
+      });
+
+      test('Edge: 1279px width should be LG', (done) => {
+        ch5MediaPlayer.setAttribute('customStyle', 'width:1279px; height:500px');
+        flush(() => {
+          setTimeout(() => {
+            const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+            expect(container.classList.contains('ch5-media-player--width-lg')).to.be.true;
+            expect(container.classList.contains('ch5-media-player--width-xl')).to.be.false;
+            done();
+          }, 500);
+        });
+      });
+
+      test('Edge: 1280px width should be LG', (done) => {
+        ch5MediaPlayer.setAttribute('customStyle', 'width:1280px; height:500px');
+        flush(() => {
+          setTimeout(() => {
+            const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+            expect(container.classList.contains('ch5-media-player--width-lg')).to.be.true;
+            expect(container.classList.contains('ch5-media-player--width-xl')).to.be.false;
+            done();
+          }, 500);
+        });
+      });
+
+      test('Edge: 1281px width should be XL', (done) => {
+        ch5MediaPlayer.setAttribute('customStyle', 'width:1281px; height:500px');
+        flush(() => {
+          setTimeout(() => {
+            const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+            expect(container.classList.contains('ch5-media-player--width-xl')).to.be.true;
+            expect(container.classList.contains('ch5-media-player--width-lg')).to.be.false;
+            done();
+          }, 500);
+        });
+      });
+    });
+
+    // Test suite for mixed breakpoint combinations
+    suite('ch5-media-player-mixed-breakpoints', () => {
+      let ch5MediaPlayer;
+      const testCases = [
+        { width: '1920px', height: '400px', expectedWidth: 'xl', expectedHeight: 'sm', description: 'Wide and short' },
+        { width: '400px', height: '1080px', expectedWidth: 'sm', expectedHeight: 'lg', description: 'Narrow and tall' },
+        { width: '300px', height: '1300px', expectedWidth: 'xs', expectedHeight: 'xl', description: 'Very narrow and very tall' },
+        { width: '1500px', height: '300px', expectedWidth: 'xl', expectedHeight: 'xs', description: 'Very wide and very short' },
+        { width: '800px', height: '600px', expectedWidth: 'md', expectedHeight: 'sm', description: 'Standard tablet landscape' },
+        { width: '600px', height: '800px', expectedWidth: 'sm', expectedHeight: 'md', description: 'Standard tablet portrait' }
+      ];
+
+      testCases.forEach(({ width, height, expectedWidth, expectedHeight, description }) => {
+        setup(async () => {
+          CrComLib.publishEvent('o', 'progressBarData', {});
+          ch5MediaPlayer = fixture('ch5-media-player-responsive');
+        });
+
+        test(`Check mixed breakpoint: ${description} (${width} x ${height})`, (done) => {
+          ch5MediaPlayer.setAttribute('customStyle', `width:${width}; height:${height}`);
+          flush(() => {
+            setTimeout(() => {
+              const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+              expect(container.classList.contains(`ch5-media-player--width-${expectedWidth}`)).to.be.true;
+              expect(container.classList.contains(`ch5-media-player--height-${expectedHeight}`)).to.be.true;
+              done();
+            }, 500);
+          });
         });
       });
     });

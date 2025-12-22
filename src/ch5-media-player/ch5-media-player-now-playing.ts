@@ -220,7 +220,7 @@ export class Ch5MediaPlayerNowPlaying {
 			clearInterval(this._progressBarTimer);
 			this._progressBarTimer = null;
 		}
-		if (this._progressBarInput) {
+		if (this._progressBarInput && typeof this._progressBarInput.removeEventListener === 'function') {
 			this._progressBarInput.removeEventListener('input', this.handleProgressbarInput);
 		}
 	}

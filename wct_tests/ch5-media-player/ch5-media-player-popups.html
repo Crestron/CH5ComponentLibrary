@@ -39,6 +39,18 @@
                     done();
                 });
             });
+            test('Check appearance and removal of popup on clicking the 2nd menu icon button', (done) => {
+                menuIconList.children[1].click();
+                innerDiv = ch5MediaPlayer.querySelector('.ch5-media-player');
+                expect(innerDiv.children.length).to.be.equal(4);
+                expect(innerDiv.children[3].classList.contains('ch5-media-player--popup-overlay')).to.be.true;
+                innerDiv.children[3].click();
+                flush(() => {
+                    expect(innerDiv.children.length).to.be.equal(3);
+                    expect(ch5MediaPlayer.querySelector('.ch5-media-player--popup-overlay')).to.equal(null);
+                    done();
+                });
+            });
             test('Check appearance and removal of popup on clicking the 6th menu icon button', (done) => {
                 menuIconList.children[5].click();
                 innerDiv = ch5MediaPlayer.querySelector('.ch5-media-player');
@@ -51,9 +63,8 @@
                     done();
                 });
             });
-            test('Check non-appearance of popup on clicking the 2nd - 5th menu icon buttons', (done) => {
-                // Note: Button 2 (Find) creates a popup; buttons 3-5 do not
-                // Button 1: Create (no popup), Button 2: Find (popup), Button 3-5: QuickList/Advanced/BackToTop (no popup)
+            test('Check non-appearance of popup on clicking the 3rd - 5th menu icon buttons', (done) => {
+                // Buttons 3-5: QuickList/Advanced/BackToTop (no popup)
                 innerDiv = ch5MediaPlayer.querySelector('.ch5-media-player');
                 const existingOverlay = ch5MediaPlayer.querySelector('.ch5-media-player--popup-overlay');
                 if (existingOverlay) {
@@ -159,6 +170,16 @@
                 expect(popup.children[1].classList.contains('dialog-content')).to.be.true;
                 done();
             });
+            test('Check type of popup on clicking the 2nd menu icon button', (done) => {
+                menuIconList.children[1].click();
+                innerDiv = ch5MediaPlayer.querySelector('.ch5-media-player');
+                expect(innerDiv.children.length).to.be.equal(4);
+                expect(innerDiv.children[3].classList.contains('ch5-media-player--popup-overlay')).to.be.true;
+                const popup = ch5MediaPlayer.querySelector('.ch5-media-player--popup-content-generic');
+                expect(popup.children.length).to.be.equal(3);
+                expect(popup.children[1].classList.contains('dialog-content')).to.be.true;
+                done();
+            });
             test('Check type of popup on clicking the 6st menu icon button', (done) => {
                 menuIconList.children[5].click();
                 innerDiv = ch5MediaPlayer.querySelector('.ch5-media-player');
@@ -176,6 +197,15 @@
                 expect(innerDiv.children[3].classList.contains('ch5-media-player--popup-overlay')).to.be.true;
                 const header = ch5MediaPlayer.querySelector('.generic-dialog-title');
                 expect(header.textContent).to.be.equal('What would you like to call this favorite?');
+                done();
+            });
+            test('Check title of popup on clicking the 2nd menu icon button', (done) => {
+                menuIconList.children[1].click();
+                innerDiv = ch5MediaPlayer.querySelector('.ch5-media-player');
+                expect(innerDiv.children.length).to.be.equal(4);
+                expect(innerDiv.children[3].classList.contains('ch5-media-player--popup-overlay')).to.be.true;
+                const header = ch5MediaPlayer.querySelector('.generic-dialog-title');
+                expect(header.textContent).to.be.equal('Search');
                 done();
             });
             test('Check title of popup on clicking the 6st menu icon button', (done) => {
@@ -197,6 +227,16 @@
                 expect(footer.classList.contains('generic-dialog-footer--row')).to.be.true;
                 done();
             });
+            test('Check button orientation of popup on clicking the 2nd menu icon button', (done) => {
+                menuIconList.children[1].click();
+                innerDiv = ch5MediaPlayer.querySelector('.ch5-media-player');
+                expect(innerDiv.children.length).to.be.equal(4);
+                expect(innerDiv.children[3].classList.contains('ch5-media-player--popup-overlay')).to.be.true;
+                const footer = ch5MediaPlayer.querySelector('.generic-dialog-footer');
+                expect(footer.children.length).to.be.at.most(2);
+                expect(footer.classList.contains('generic-dialog-footer--row')).to.be.true;
+                done();
+            });
             test('Check button orientation of popup on clicking the 6st menu icon button', (done) => {
                 menuIconList.children[5].click();
                 innerDiv = ch5MediaPlayer.querySelector('.ch5-media-player');
@@ -205,6 +245,10 @@
                 const footer = ch5MediaPlayer.querySelector('.generic-dialog-footer');
                 expect(footer.children.length).to.be.equal(2);
                 expect(footer.classList.contains('generic-dialog-footer--column')).to.be.true;
+                // Third button (Cancel) is outside footer as .cancel-popup-button
+                const cancelButton = ch5MediaPlayer.querySelector('.cancel-popup-button');
+                expect(cancelButton).to.not.be.null;
+                expect(cancelButton.textContent).to.be.equal('Cancel');
                 done();
             });
             test('Check button text of popup on clicking the 1st menu icon button', (done) => {
@@ -220,21 +264,55 @@
                 });
                 done();
             });
-            test('Check button text of popup on clicking the 6st menu icon button', (done) => {
-                menuIconList.children[5].click();
+            test('Check button text of popup on clicking the 2nd menu icon button', (done) => {
+                menuIconList.children[1].click();
                 innerDiv = ch5MediaPlayer.querySelector('.ch5-media-player');
                 expect(innerDiv.children.length).to.be.equal(4);
                 expect(innerDiv.children[3].classList.contains('ch5-media-player--popup-overlay')).to.be.true;
                 const footerBtns = ch5MediaPlayer.querySelectorAll('.generic-dialog-button');
-                expect(footerBtns.length).to.be.equal(3);
-                const btnNames = ["Rename Favorite", "Delete Favorite", "Cancel"];
+                expect(footerBtns.length).to.be.equal(2);
+                const btnNames = ["Find", "Cancel"];
                 footerBtns.forEach((btn, i) => {
                     expect(btn.textContent).to.be.equal(btnNames[i]);
                 });
                 done();
             });
+            test('Check button text of popup on clicking the 6st menu icon button', (done) => {
+                menuIconList.children[5].click();
+                innerDiv = ch5MediaPlayer.querySelector('.ch5-media-player');
+                expect(innerDiv.children.length).to.be.equal(4);
+                expect(innerDiv.children[3].classList.contains('ch5-media-player--popup-overlay')).to.be.true;
+                // Footer contains only first 2 buttons
+                const footerBtns = ch5MediaPlayer.querySelectorAll('.generic-dialog-footer .generic-dialog-button');
+                expect(footerBtns.length).to.be.equal(2);
+                const btnNames = ["Rename Favorite", "Delete Favorite"];
+                footerBtns.forEach((btn, i) => {
+                    expect(btn.textContent).to.be.equal(btnNames[i]);
+                });
+                // Third button is separate cancel button
+                const cancelButton = ch5MediaPlayer.querySelector('.cancel-popup-button');
+                expect(cancelButton).to.not.be.null;
+                expect(cancelButton.textContent).to.be.equal('Cancel');
+                done();
+            });
             test('Check button type of popup on clicking the 1st menu icon button', (done) => {
                 menuIconList.children[0].click();
+                innerDiv = ch5MediaPlayer.querySelector('.ch5-media-player');
+                expect(innerDiv.children.length).to.be.equal(4);
+                expect(innerDiv.children[3].classList.contains('ch5-media-player--popup-overlay')).to.be.true;
+                const footerBtns = ch5MediaPlayer.querySelectorAll('.generic-dialog-button');
+                expect(footerBtns.length).to.be.equal(2);
+                footerBtns.forEach((btn) => {
+                    if (btn.textContent !== 'Cancel') {
+                        expect(btn.classList.contains('primary-dialog-button')).to.be.true;
+                    } else {
+                        expect(btn.classList.contains('primary-dialog-button')).to.be.false;
+                    }
+                });
+                done();
+            });
+            test('Check button type of popup on clicking the 2nd menu icon button', (done) => {
+                menuIconList.children[1].click();
                 innerDiv = ch5MediaPlayer.querySelector('.ch5-media-player');
                 expect(innerDiv.children.length).to.be.equal(4);
                 expect(innerDiv.children[3].classList.contains('ch5-media-player--popup-overlay')).to.be.true;
@@ -254,15 +332,16 @@
                 innerDiv = ch5MediaPlayer.querySelector('.ch5-media-player');
                 expect(innerDiv.children.length).to.be.equal(4);
                 expect(innerDiv.children[3].classList.contains('ch5-media-player--popup-overlay')).to.be.true;
-                const footerBtns = ch5MediaPlayer.querySelectorAll('.generic-dialog-button');
-                expect(footerBtns.length).to.be.equal(3);
+                // Footer contains only first 2 buttons (both are primary buttons)
+                const footerBtns = ch5MediaPlayer.querySelectorAll('.generic-dialog-footer .generic-dialog-button');
+                expect(footerBtns.length).to.be.equal(2);
                 footerBtns.forEach((btn) => {
-                    if (btn.textContent !== 'Cancel') {
-                        expect(btn.classList.contains('primary-dialog-button')).to.be.true;
-                    } else {
-                        expect(btn.classList.contains('primary-dialog-button')).to.be.false;
-                    }
+                    expect(btn.classList.contains('primary-dialog-button')).to.be.true;
                 });
+                // Cancel button is separate and should NOT have primary class
+                const cancelButton = ch5MediaPlayer.querySelector('.cancel-popup-button');
+                expect(cancelButton).to.not.be.null;
+                expect(cancelButton.classList.contains('primary-dialog-button')).to.be.false;
                 done();
             });
             suite('To check popup closure when clicked on the popup footer buttons for 1st menu icon button', () => {
@@ -287,14 +366,36 @@
                     done();
                 });
             });
+            suite('To check popup closure when clicked on the popup footer buttons for 2nd menu icon button', () => {
+                setup(async () => {
+                    menuIconList.children[1].click();
+                    innerDiv = ch5MediaPlayer.querySelector('.ch5-media-player');
+                    expect(innerDiv.children.length).to.be.equal(4);
+                    expect(innerDiv.children[3].classList.contains('ch5-media-player--popup-overlay')).to.be.true;
+                    footerBtns = innerDiv.children[3].querySelectorAll('.generic-dialog-button');
+                    expect(footerBtns.length).to.be.equal(2);
+                });
+                test('Check popup closure when clicked on "Find" button on popup', (done) => {
+                    footerBtns[0].click();
+                    expect(innerDiv.children.length).to.be.equal(3);
+                    expect(ch5MediaPlayer.querySelector('.ch5-media-player--popup-overlay')).to.equal(null);
+                    done();
+                });
+                test('Check popup closure when clicked on "Cancel" button on popup', (done) => {
+                    footerBtns[1].click();
+                    expect(innerDiv.children.length).to.be.equal(3);
+                    expect(ch5MediaPlayer.querySelector('.ch5-media-player--popup-overlay')).to.equal(null);
+                    done();
+                });
+            });
             suite('To check popup closure when clicked on the popup footer buttons for 6th menu icon button', () => {
                 setup(async () => {
                     menuIconList.children[5].click();
                     innerDiv = ch5MediaPlayer.querySelector('.ch5-media-player');
                     expect(innerDiv.children.length).to.be.equal(4);
                     expect(innerDiv.children[3].classList.contains('ch5-media-player--popup-overlay')).to.be.true;
-                    footerBtns = innerDiv.children[3].querySelectorAll('.generic-dialog-button');
-                    expect(footerBtns.length).to.be.equal(3);
+                    footerBtns = innerDiv.children[3].querySelectorAll('.generic-dialog-footer .generic-dialog-button');
+                    expect(footerBtns.length).to.be.equal(2);
                 });
                 test('Check popup closure when clicked on "Rename Favourite" button on popup', (done) => {
                     footerBtns[0].click();
@@ -309,7 +410,9 @@
                     done();
                 });
                 test('Check popup closure when clicked on "Cancel" button on popup', (done) => {
-                    footerBtns[2].click();
+                    const cancelButton = ch5MediaPlayer.querySelector('.cancel-popup-button');
+                    expect(cancelButton).to.not.be.null;
+                    cancelButton.click();
                     expect(innerDiv.children.length).to.be.equal(3);
                     expect(ch5MediaPlayer.querySelector('.ch5-media-player--popup-overlay')).to.equal(null);
                     done();
