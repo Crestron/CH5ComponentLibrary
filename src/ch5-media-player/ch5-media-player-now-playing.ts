@@ -297,7 +297,7 @@ export class Ch5MediaPlayerNowPlaying {
 			this._separator.classList?.remove('ch5-hide-dis');
 		}
 		// this._nowPlayingSongAdditionalInfo.textContent = this.nowPlayingData.TrackCnt > 0 ? `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}` : '';
-		this._nowPlayingSongAdditionalInfo.textContent= this.nowPlayingData.StationName; // Compared logs from vtproe and used stationname here.
+		this._nowPlayingSongAdditionalInfo.textContent= decodeString(this.nowPlayingData.StationName); // Compared logs from vtproe and used stationname here.
 
 		this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
 		//this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[0].split(' '));
