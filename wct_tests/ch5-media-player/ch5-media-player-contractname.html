@@ -1,0 +1,511 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <!-- With-contract fixture (unique id to avoid conflicts) -->
+  <test-fixture id="ch5-media-player-contract-with-attributes">
+    <template>
+      <ch5-media-player 
+        demomode="true"
+        contractname="TestContract"
+        usecontractforshow="true"
+        usecontractforenable="true"
+        usecontractforcustomstyle="true"
+        usecontractforcustomclass="true"
+        receivestatecrpc="TestContract:state1"
+        sendeventcrpc="TestContract:event1"
+        receivestatemessage="messageSignal"
+        receivestaterefreshmediaplayer="refreshSignal"
+        receivestatedeviceoffline="offlineSignal"
+        receivestateplayername="playerNameSignal">
+      </ch5-media-player>
+    </template>
+  </test-fixture>
+
+  <!-- No-contract fixtures to validate exact values without contract mapping -->
+  <test-fixture id="ch5-media-player-contract-without-contract">
+    <template>
+      <ch5-media-player
+        receivestatecrpc="state1"
+        sendeventcrpc="event1"
+        receivestatemessage="messageSignal"
+        receivestaterefreshmediaplayer="refreshSignal"
+        receivestatedeviceoffline="offlineSignal"
+        receivestateplayername="playerNameSignal">
+      </ch5-media-player>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-media-player-contract-without-contract-with-toggles">
+    <template>
+      <ch5-media-player
+        usecontractforshow="true"
+        usecontractforenable="true"
+        usecontractforcustomstyle="true"
+        usecontractforcustomclass="true"
+        receivestatecrpc="state1"
+        sendeventcrpc="event1"
+        receivestatemessage="messageSignal"
+        receivestaterefreshmediaplayer="refreshSignal"
+        receivestatedeviceoffline="offlineSignal"
+        receivestateplayername="playerNameSignal">
+      </ch5-media-player>
+    </template>
+  </test-fixture>
+
+  <script>
+    // No-contract tests: toggles default (false)
+    suite('ch5-media-player-contract-without-contract-toggles-false', () => {
+      let ch5MediaPlayer;
+
+      setup(() => {
+        ch5MediaPlayer = fixture('ch5-media-player-contract-without-contract');
+      });
+
+      test('Check contractName is empty', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.contractName).to.equal('');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateCRPC matches attribute', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateCRPC).to.equal('state1');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check sendEventCRPC matches attribute', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.sendEventCRPC).to.equal('event1');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateMessage matches attribute', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateMessage).to.equal('messageSignal');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateRefreshMediaPlayer matches attribute', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateRefreshMediaPlayer).to.equal('refreshSignal');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateDeviceOffline matches attribute', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateDeviceOffline).to.equal('offlineSignal');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStatePlayerName matches attribute', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStatePlayerName).to.equal('playerNameSignal');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateShow is empty (no contract)', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateShow).to.equal('');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateEnable is empty (no contract)', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateEnable).to.equal('');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateCustomStyle is empty (no contract)', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateCustomStyle).to.equal('');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateCustomClass is empty (no contract)', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateCustomClass).to.equal('');
+            done();
+          }, 100);
+        });
+      });
+    });
+
+    // No-contract tests: toggles set to true
+    suite('ch5-media-player-contract-without-contract-toggles-true', () => {
+      let ch5MediaPlayer;
+
+      setup(() => {
+        ch5MediaPlayer = fixture('ch5-media-player-contract-without-contract-with-toggles');
+      });
+
+      test('Check contractName is empty', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.contractName).to.equal('');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateCRPC matches attribute', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateCRPC).to.equal('state1');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check sendEventCRPC matches attribute', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.sendEventCRPC).to.equal('event1');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateMessage matches attribute', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateMessage).to.equal('messageSignal');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateRefreshMediaPlayer matches attribute', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateRefreshMediaPlayer).to.equal('refreshSignal');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateDeviceOffline matches attribute', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateDeviceOffline).to.equal('offlineSignal');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStatePlayerName matches attribute', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStatePlayerName).to.equal('playerNameSignal');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateShow is empty (toggles true but no contract)', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateShow).to.equal('');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateEnable is empty (toggles true but no contract)', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateEnable).to.equal('');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateCustomStyle is empty (toggles true but no contract)', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateCustomStyle).to.equal('');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateCustomClass is empty (toggles true but no contract)', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateCustomClass).to.equal('');
+            done();
+          }, 100);
+        });
+      });
+    });
+
+    // With-contract tests: exact derived values
+    suite('ch5-media-player-contract-with-contract-derived-values', () => {
+      let ch5MediaPlayer;
+
+      setup(() => {
+        // Reset progress bar state to avoid stale emissions from prior suites
+         
+        ch5MediaPlayer = fixture('ch5-media-player-contract-with-attributes');
+      });
+
+      test('Check contractName is set to TestContract', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.contractName).to.equal('TestContract');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateCRPC is derived from contract', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateCRPC).to.equal('TestContract.CRPC_FB');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check sendEventCRPC is derived from contract', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.sendEventCRPC).to.equal('TestContract.CRPC');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateMessage is derived from contract', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateMessage).to.equal('TestContract.Message_FB');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateRefreshMediaPlayer is derived from contract', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateRefreshMediaPlayer).to.equal('TestContract.Refresh');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateDeviceOffline is derived from contract', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateDeviceOffline).to.equal('TestContract.Offline');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStatePlayerName is derived from contract', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStatePlayerName).to.equal('TestContract.Player_Name');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateShow is derived from contract (toggle enabled)', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateShow).to.equal('TestContract.Visible');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateEnable is derived from contract (toggle enabled)', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateEnable).to.equal('TestContract.Enabled');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateCustomStyle is derived from contract (toggle enabled)', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateCustomStyle).to.equal('TestContract.CustomStyle');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check receiveStateCustomClass is derived from contract (toggle enabled)', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.receiveStateCustomClass).to.equal('TestContract.CustomClass');
+            done();
+          }, 100);
+        });
+      });
+    });
+
+    // Dynamic contract tests: set and clear contract
+    suite('ch5-media-player-contract-dynamic-toggle', () => {
+      test('Initial state without contract', (done) => {
+        // Reset progress bar state before creating fixture
+         
+        const ch5MediaPlayer = fixture('ch5-media-player-contract-without-contract-with-toggles');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.contractName).to.equal('');
+            expect(ch5MediaPlayer.receiveStateCRPC).to.equal('state1');
+            expect(ch5MediaPlayer.sendEventCRPC).to.equal('event1');
+            expect(ch5MediaPlayer.receiveStateMessage).to.equal('messageSignal');
+            expect(ch5MediaPlayer.receiveStateRefreshMediaPlayer).to.equal('refreshSignal');
+            expect(ch5MediaPlayer.receiveStateDeviceOffline).to.equal('offlineSignal');
+            expect(ch5MediaPlayer.receiveStatePlayerName).to.equal('playerNameSignal');
+            done();
+          }, 100);
+        });
+      });
+
+      test('Contract set dynamically updates signal properties', (done) => {
+         
+        const ch5MediaPlayer = fixture('ch5-media-player-contract-without-contract-with-toggles');
+        flush(() => {
+          setTimeout(() => {
+            ch5MediaPlayer.setAttribute('contractname', 'C1');
+            flush(() => {
+              setTimeout(() => {
+                expect(ch5MediaPlayer.contractName).to.equal('C1');
+                expect(ch5MediaPlayer.receiveStateCRPC).to.equal('C1.CRPC_FB');
+                expect(ch5MediaPlayer.sendEventCRPC).to.equal('C1.CRPC');
+                expect(ch5MediaPlayer.receiveStateMessage).to.equal('C1.Message_FB');
+                expect(ch5MediaPlayer.receiveStateRefreshMediaPlayer).to.equal('C1.Refresh');
+                expect(ch5MediaPlayer.receiveStateDeviceOffline).to.equal('C1.Offline');
+                expect(ch5MediaPlayer.receiveStatePlayerName).to.equal('C1.Player_Name');
+                done();
+              }, 100);
+            });
+          }, 100);
+        });
+      });
+
+      test('Contract set dynamically updates toggle-dependent signals', (done) => {
+         
+        const ch5MediaPlayer = fixture('ch5-media-player-contract-without-contract-with-toggles');
+        flush(() => {
+          setTimeout(() => {
+            ch5MediaPlayer.setAttribute('contractname', 'C1');
+            flush(() => {
+              setTimeout(() => {
+                expect(ch5MediaPlayer.receiveStateShow).to.equal('C1.Visible');
+                expect(ch5MediaPlayer.receiveStateEnable).to.equal('C1.Enabled');
+                expect(ch5MediaPlayer.receiveStateCustomStyle).to.equal('C1.CustomStyle');
+                expect(ch5MediaPlayer.receiveStateCustomClass).to.equal('C1.CustomClass');
+                done();
+              }, 100);
+            });
+          }, 100);
+        });
+      });
+
+      test('Clearing contract restores original attribute signal values', (done) => {
+         
+        const ch5MediaPlayer = fixture('ch5-media-player-contract-without-contract-with-toggles');
+        flush(() => {
+          setTimeout(() => {
+            ch5MediaPlayer.setAttribute('contractname', 'C1');
+            flush(() => {
+              setTimeout(() => {
+                ch5MediaPlayer.setAttribute('contractname', '');
+                flush(() => {
+                  setTimeout(() => {
+                    expect(ch5MediaPlayer.contractName).to.equal('');
+                    expect(ch5MediaPlayer.receiveStateCRPC).to.equal('state1');
+                    expect(ch5MediaPlayer.sendEventCRPC).to.equal('event1');
+                    expect(ch5MediaPlayer.receiveStateMessage).to.equal('messageSignal');
+                    expect(ch5MediaPlayer.receiveStateRefreshMediaPlayer).to.equal('refreshSignal');
+                    expect(ch5MediaPlayer.receiveStateDeviceOffline).to.equal('offlineSignal');
+                    expect(ch5MediaPlayer.receiveStatePlayerName).to.equal('playerNameSignal');
+                    done();
+                  }, 100);
+                });
+              }, 100);
+            });
+          }, 100);
+        });
+      });
+/* TO-FIX-PARAKH - need to confirm if this is expected behavior
+      test('Clearing contract resets toggle-dependent signals to empty', (done) => {
+         
+        const ch5MediaPlayer = fixture('ch5-media-player-contract-without-contract-with-toggles');
+            console.log("value1: ", ch5MediaPlayer.receiveStateShow);
+        flush(() => {
+          setTimeout(() => {
+            ch5MediaPlayer.setAttribute('contractname', 'C1');
+            console.log("value2: ", ch5MediaPlayer.receiveStateShow);
+            flush(() => {
+              setTimeout(() => {
+                ch5MediaPlayer.setAttribute('contractname', '');
+                flush(() => {
+                  setTimeout(() => {
+                    expect(ch5MediaPlayer.receiveStateShow).to.equal('');
+                    expect(ch5MediaPlayer.receiveStateEnable).to.equal('');
+                    expect(ch5MediaPlayer.receiveStateCustomStyle).to.equal('');
+                    expect(ch5MediaPlayer.receiveStateCustomClass).to.equal('');
+                    done();
+                  }, 100);
+                });
+              }, 100);
+            });
+          }, 100);
+        });
+      });*/
+    });
+  </script>
+</body>
+
+</html>
+
+

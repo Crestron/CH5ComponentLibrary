@@ -104,7 +104,7 @@
             const progressbarData = { StreamState: 'idle', ProgressBar: 'true', ElapsedSec: 20, TrackSec: 30 };
             setup(() => {
                 // Reset progress bar state to avoid stale emissions from prior suites
-                CrComLib.publishEvent('o', 'progressBarData', {});
+                 
                 nowPlayingComponent = fixture('ch5-media-player-now-playing-action-buttons-fixture');
             });
             teardown(() => {

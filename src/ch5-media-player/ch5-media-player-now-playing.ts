@@ -72,6 +72,7 @@ export class Ch5MediaPlayerNowPlaying {
 	private _progressBarElapsedSec: number = 0;
 	private _progressBarTrackSec: number = 0;
 	private _progressStreamState: string = '';
+	private _progressBarInputHandler: (() => void) | null = null;
 
 	private readonly NOW_PLAYING_DEMO_DATA = {
 		ActionsAvailable: [
@@ -156,19 +157,21 @@ export class Ch5MediaPlayerNowPlaying {
 					}
 					this._progressBarContainer.classList?.remove('ch5-hide-dis');
 					this._progressStreamState = this.progressBarData.StreamState;
-					if(this.nowPlayingData?.PlayerState === "forwarding") {
+					if (this.nowPlayingData?.PlayerState === "forwarding") {
 						this._streamState.textContent = this.nowPlayingData?.FfwdSpeed + 'X';
 					} else {
 						this._streamState.textContent = this._progressStreamState;
 					}
-					this._progressBarTrackSec = this.progressBarData.TrackSec;
-					this._progressBarElapsedSec = this.progressBarData.ElapsedSec;
+				this._progressBarTrackSec = this.progressBarData.TrackSec;
+				this._progressBarElapsedSec = this.progressBarData.ElapsedSec;
+				if (this._progressBarInput) {
 					this._progressBarInput.max = this._progressBarTrackSec?.toString();
 					this._progressBarInput.value = this._progressBarElapsedSec?.toString();
-					//if (this._progressBarElapsedSec && this._progressBarTrackSec) {
-					this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
-					//}
-					if(this.nowPlayingData?.PlayerState === "stopped") {	//autonomic: reset to initial once song completed
+					if (this._progressBarElapsedSec && this._progressBarTrackSec && this._progressBarTrackSec > 0) {
+						this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
+					}
+				}
+					if (this.nowPlayingData?.PlayerState === "stopped") {	//autonomic: reset to initial once song completed
 						this._progressBarTrackSec = 0;
 					}
 					this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
@@ -220,8 +223,9 @@ export class Ch5MediaPlayerNowPlaying {
 			clearInterval(this._progressBarTimer);
 			this._progressBarTimer = null;
 		}
-		if (this._progressBarInput) {
-			this._progressBarInput.removeEventListener('input', this.handleProgressbarInput);
+		if (this._progressBarInput && this._progressBarInputHandler) {
+			this._progressBarInput.removeEventListener('input', this._progressBarInputHandler);
+			this._progressBarInputHandler = null;
 		}
 	}
 
@@ -297,7 +301,7 @@ export class Ch5MediaPlayerNowPlaying {
 			this._separator.classList?.remove('ch5-hide-dis');
 		}
 		// this._nowPlayingSongAdditionalInfo.textContent = this.nowPlayingData.TrackCnt > 0 ? `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}` : '';
-		this._nowPlayingSongAdditionalInfo.textContent= this.nowPlayingData.StationName; // Compared logs from vtproe and used stationname here.
+		this._nowPlayingSongAdditionalInfo.textContent = this.nowPlayingData.StationName; // Compared logs from vtproe and used stationname here.
 
 		this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
 		//this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[0].split(' '));
@@ -353,10 +357,15 @@ export class Ch5MediaPlayerNowPlaying {
 		this._nowPlayingPlayerIconName.textContent = decodeString(this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName);
 		if (!this.nowPlayingData.ActionsAvailable.includes(TCH5NowPlayingActions.Seek)) {
 			this._progressBarInput.classList.add('hide-progressbar-thumb');
-			this._progressBarInput.removeEventListener('input', this.handleProgressbarInput);
+			if (this._progressBarInputHandler) {
+				this._progressBarInput.removeEventListener('input', this._progressBarInputHandler);
+			}
 		} else {
 			this._progressBarInput.classList.remove('hide-progressbar-thumb');
-			this._progressBarInput.addEventListener('input', this.handleProgressbarInput);
+			if (!this._progressBarInputHandler) {
+				this._progressBarInputHandler = this.handleProgressbarInput.bind(this);
+			}
+			this._progressBarInput.addEventListener('input', this._progressBarInputHandler);
 		}
 		this.renderActionButtons(this.nowPlayingData.ActionsAvailable, this.nowPlayingData.PlayerState);
 		this.renderMoreActionButtons(this.nowPlayingData.ActionsAvailable, this.nowPlayingData.RepeatState, this.nowPlayingData.ShuffleState);
@@ -530,8 +539,9 @@ export class Ch5MediaPlayerNowPlaying {
 		progressBarCurrentTimeDurationContainer.appendChild(this._duration);
 		this._progressBarContainer.appendChild(progressBarCurrentTimeDurationContainer);
 
-		//Seek
-		this._progressBarInput.addEventListener("input", this.handleProgressbarInput);
+		//Seek - store handler reference for later removal
+		this._progressBarInputHandler = this.handleProgressbarInput.bind(this);
+		this._progressBarInput.addEventListener("input", this._progressBarInputHandler);
 		// Append the progress bar container to the main container
 		this._transportControls.appendChild(this._progressBarContainer);
 	}

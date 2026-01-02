@@ -28,6 +28,8 @@
       let ch5MediaPlayer;
 
       setup(async () => {
+        // Reset progress bar state to avoid stale emissions from prior suites
+         
         ch5MediaPlayer = fixture('ch5-media-player-my-music');
       });
 
@@ -108,6 +110,8 @@
       let MENU_LIST_DATA;
 
       setup(async () => {
+        // Reset progress bar state to avoid stale emissions from prior suites
+         
         ch5MediaPlayer = fixture('ch5-media-player-my-music-live');
         MY_MUSIC_DATA = {
           Title: "Browse Music",
@@ -241,7 +245,10 @@
       let ch5MediaPlayer;
 
       setup(async () => {
+        // Reset progress bar state to avoid stale emissions from prior suites
+         
         ch5MediaPlayer = fixture('ch5-media-player-my-music');
+        ch5MediaPlayer.setAttribute('customStyle', 'width: 600px;');
       });
 
       test('Check my music transition class added on showMyMusicComponent true', (done) => {
