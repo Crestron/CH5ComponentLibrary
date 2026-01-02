@@ -328,21 +328,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this.updateCssClass();
 
     this._subBusyChanged = subscribeState('o', 'busyChanged', ((data: any) => {
-      this.busyChanged = data;
-
-      if (this.busyChanged && this.busyChanged.on) {
-        if(this.busyChanged.timeoutSec > 0){
-          this._loadingIndicator.classList.remove('hide-loading-indicator');
-          setTimeout(() => {
-            this._loadingIndicator.classList.add('hide-loading-indicator');
-          }, this.busyChanged.timeoutSec * 1000);
-        } else {
-          this._loadingIndicator.classList.remove('hide-loading-indicator');
-        }
-      } else {
-        this._loadingIndicator.classList.add('hide-loading-indicator');
-      }
-      this.logger.log('busyChanged', this.busyChanged);
+      this.debouncedBusyChangedHandler(data);
     }));
 
     this._subPopUpMessageData = subscribeState('o', 'PopUpMessageData', ((data: any) => {
@@ -828,6 +814,25 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
       }
     }
   }
+
+   // Debounced handler for busyChanged subscription
+  private debouncedBusyChangedHandler = this.debounce((data: any) => {
+    this.busyChanged = data;
+ 
+    if (this.busyChanged && this.busyChanged.on) {
+      if (this.busyChanged.timeoutSec > 0) {
+        this._loadingIndicator.classList.remove('hide-loading-indicator');
+        setTimeout(() => {
+          this._loadingIndicator.classList.add('hide-loading-indicator');
+        }, this.busyChanged.timeoutSec * 1000);
+      } else {
+        this._loadingIndicator.classList.remove('hide-loading-indicator');
+      }
+    } else {
+      this._loadingIndicator.classList.add('hide-loading-indicator');
+    }
+    this.logger.log('busyChanged', this.busyChanged);
+  }, 50);
 
   private updateCssClass() {
     this.logger.start('UpdateCssClass');

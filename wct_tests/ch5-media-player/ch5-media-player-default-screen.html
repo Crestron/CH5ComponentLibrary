@@ -31,7 +31,7 @@
 
             setup(async () => {
                 // Reset progress bar state to avoid stale emissions from prior suites
-                CrComLib.publishEvent('o', 'progressBarData', {});
+                 
                 ch5MediaPlayer = fixture('ch5-media-player-no-demoMode');
                 MY_MUSIC_DEMO_DATA = {
                     Title: "HEADER TEXT",
@@ -311,7 +311,7 @@
 
             setup(async () => {
                 // Reset progress bar state to avoid stale emissions from prior suites
-                CrComLib.publishEvent('o', 'progressBarData', {});
+                 
                 ch5MediaPlayer1 = fixture('ch5-media-player-demoMode-true');
                 MY_MUSIC_DEMO_DATA = {
                     Title: "HEADER TEXT",
