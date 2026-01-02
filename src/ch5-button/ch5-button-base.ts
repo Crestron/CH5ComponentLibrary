@@ -1957,6 +1957,16 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	public unsubscribeFromSignals() {
 		super.unsubscribeFromSignals();
 		this._ch5ButtonSignal.unsubscribeAll();
+
+		// Unsubscribe from receiveStateSelected signal
+		this.clearBooleanSignalSubscription(this._sigNameReceiveSelected, this._subReceiveSelected);
+		this._sigNameReceiveSelected = '';
+		this._subReceiveSelected = '';
+
+		// Unsubscribe from receiveStateMode signal
+		this.clearNumberSignalSubscription(this._sigNameReceiveStateMode as string, this._subReceiveSignalMode as string);
+		this._sigNameReceiveStateMode = null;
+		this._subReceiveSignalMode = null;
 	}
 
 	private updateIconDisplay() {
