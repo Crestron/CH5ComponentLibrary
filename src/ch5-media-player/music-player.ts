@@ -169,17 +169,7 @@ export class MusicPlayerLib {
                         const src = JSON.parse(value).src;
                         // This 'if' condition is required to show default screen
                         if(src && src === "0"){
-                            this.myMusicPublishData = {};
-                            this.nowPlayingPublishData = {};
-                            this.progressBarPublishData = {};
-                            this.menuListPublishData = {};
-                            this.resendRegistrationTimeId = "";
-                            this.itemValue = 1;
-
-                            publishEvent('o', 'myMusicData', this.myMusicPublishData);
-                            publishEvent('o', 'nowPlayingData', this.nowPlayingPublishData);
-                            publishEvent('o', 'progressBarData', this.progressBarPublishData);
-                            publishEvent('o', 'menuListData', this.menuListPublishData);
+                            this.clearAllDataObjects();
                             this.resetMp();
                         }
                         this.processMessage(value, true);
@@ -190,6 +180,20 @@ export class MusicPlayerLib {
                 });
             }
         });
+    }
+
+    private clearAllDataObjects() {
+        this.myMusicPublishData = {};
+        this.nowPlayingPublishData = {};
+        this.progressBarPublishData = {};
+        this.menuListPublishData = {};
+        this.resendRegistrationTimeId = "";
+        this.itemValue = 1;
+
+        publishEvent('o', 'myMusicData', this.myMusicPublishData);
+        publishEvent('o', 'nowPlayingData', this.nowPlayingPublishData);
+        publishEvent('o', 'progressBarData', this.progressBarPublishData);
+        publishEvent('o', 'menuListData', this.menuListPublishData);
     }
 
     // Refresh the media player.
@@ -383,17 +387,7 @@ export class MusicPlayerLib {
                 this.sendRPCRequest(JSON.stringify(myRPC));
             });
 
-            this.myMusicPublishData = {};
-            this.nowPlayingPublishData = {};
-            this.progressBarPublishData = {};
-            this.menuListPublishData = {};
-            this.resendRegistrationTimeId = "";
-            this.itemValue = 1;
-
-            publishEvent('o', 'myMusicData', this.myMusicPublishData);
-            publishEvent('o', 'nowPlayingData', this.nowPlayingPublishData);
-            publishEvent('o', 'progressBarData', this.progressBarPublishData);
-            publishEvent('o', 'menuListData', this.menuListPublishData);
+            this.clearAllDataObjects()
             this.resetMp(deviceOffLine);
         }
     }
