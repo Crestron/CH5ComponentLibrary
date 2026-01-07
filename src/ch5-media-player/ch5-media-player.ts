@@ -242,7 +242,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this._ch5Properties.set("receiveStateCRPC", value, null, (newValue: string) => {
       this.logger.log('CRCP In join: ' + this.receiveStateCRPC + ' ' + newValue);
       console.log('CRCP In join: ' + this.receiveStateCRPC + ' ' + newValue);
-      this.publishMPEvent('s', "receiveStateCRPCResp", newValue);
+      this.publishMPEvent('s', "serial_receiveStateCRPCResp", newValue);
     });
   }
   public get receiveStateCRPC(): string {
@@ -251,7 +251,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
 
   public set sendEventCRPC(value: string) {
     this._ch5Properties.set("sendEventCRPC", value);
-    this.publishMPEvent('s', 'sendEventCRPCJoinNo', this.sendEventCRPC);
+    this.publishMPEvent('s', 'serial_sendEventCRPCJoinNo', this.sendEventCRPC);
   }
   public get sendEventCRPC(): string {
     return this._ch5Properties.get<string>('sendEventCRPC');
@@ -260,7 +260,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
   public set receiveStateMessage(value: string) {
     this._ch5Properties.set("receiveStateMessage", value, null, (newValue: string) => {
       this.logger.log('Source and Tag value', newValue);
-      this.publishMPEvent('s', "receiveStateMessageResp", newValue);
+      this.publishMPEvent('s', "serial_receiveStateMessageResp", newValue);
     });
   }
   public get receiveStateMessage(): string {
@@ -269,7 +269,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
 
   public set receiveStateRefreshMediaPlayer(value: string) {
     this._ch5Properties.set("receiveStateRefreshMediaPlayer", value, null, (newValue: boolean) => {
-      this.publishMPEvent('b', "receiveStateRefreshMediaPlayerResp", newValue);
+      this.publishMPEvent('b', "digital_receiveStateRefreshMediaPlayerResp", newValue);
     });
   }
   public get receiveStateRefreshMediaPlayer(): string {
@@ -278,7 +278,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
 
   public set receiveStateDeviceOffline(value: string) {
     this._ch5Properties.set("receiveStateDeviceOffline", value, null, (newValue: boolean) => {
-      this.publishMPEvent('b', "receiveStateDeviceOfflineResp", newValue);
+      this.publishMPEvent('b', "digital_receiveStateDeviceOfflineResp", newValue);
     });
   }
   public get receiveStateDeviceOffline(): string {
@@ -856,24 +856,24 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
 
   private publishAllSignals() {
     this.musicPlayerLibInstance.resetMp();
-    publishEvent('s', 'sendEventCRPCJoinNo', this.sendEventCRPC);
+    publishEvent('s', 'serial_sendEventCRPCJoinNo', this.sendEventCRPC);
 
     const subReceiveStateMessage = subscribeState('s', this.receiveStateMessage, ((value: any) => {
-      publishEvent('s', "receiveStateMessageResp", value);
+      publishEvent('s', "serial_receiveStateMessageResp", value);
       setTimeout(() => {
         unsubscribeState('s', 'receiveStateMessage', subReceiveStateMessage);
       })
     }));
 
     const subReceiveStateRefreshMediaPlayer = subscribeState('b', this.receiveStateRefreshMediaPlayer, ((value: any) => {
-      publishEvent('b', "receiveStateRefreshMediaPlayerResp", value);
+      publishEvent('b', "digital_receiveStateRefreshMediaPlayerResp", value);
       setTimeout(() => {
         unsubscribeState('b', 'receiveStateRefreshMediaPlayer', subReceiveStateRefreshMediaPlayer);
       })
     }));
 
     const subReceiveStateDeviceOffline = subscribeState('b', this.receiveStateDeviceOffline, ((value: any) => {
-      publishEvent('b', "receiveStateDeviceOfflineResp", value);
+      publishEvent('b', "digital_receiveStateDeviceOfflineResp", value);
       setTimeout(() => {
         unsubscribeState('b', 'receiveStateDeviceOffline', subReceiveStateDeviceOffline);
       })
