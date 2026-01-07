@@ -289,20 +289,47 @@ export class Ch5MediaPlayerNowPlaying {
 			}
 		}
 		if (this._nowPlayingSongTitle.children && this._nowPlayingSongTitle.children[0]) {
-			this._nowPlayingSongTitle.children[0].textContent = decodeString(this.nowPlayingData.Title);
+			if(this.nowPlayingData.hasOwnProperty('Title')) {
+				const title = this.nowPlayingData.Title;
+				this._nowPlayingSongTitle.children[0].textContent = decodeString(title);
+			} else {
+				const textLine = this.nowPlayingData.TextLines?.[0] ?? '';
+				this._nowPlayingSongTitle.children[0].textContent = decodeString(textLine);
+			}
 		}
 		this.updateMarquee();
 
-		this._nowPlayingArtist.textContent = decodeString(this.nowPlayingData.Artist);
-		this._nowPlayingAlbum.textContent = decodeString(this.nowPlayingData.Album);
+		if(this.nowPlayingData.hasOwnProperty('Artist')) {
+			const artist = this.nowPlayingData.Artist;
+			this._nowPlayingArtist.textContent = decodeString(artist);
+		} else {
+			const textLine = this.nowPlayingData.TextLines?.[1] ?? '';
+			this._nowPlayingArtist.textContent = decodeString(textLine);
+		}
+
+		
+		if(this.nowPlayingData.hasOwnProperty('Album')) {
+			const album = this.nowPlayingData.Album;
+			this._nowPlayingAlbum.textContent = decodeString(album);
+		} else {
+			const textLine = this.nowPlayingData.TextLines?.[2] ?? '';
+			this._nowPlayingAlbum.textContent = decodeString(textLine);
+		}
+		
 		if (!this.nowPlayingData.Album?.trim() || !this.nowPlayingData.Artist?.trim()) {
 			this._separator.classList?.add('ch5-hide-dis');
 		} else {
 			this._separator.classList?.remove('ch5-hide-dis');
 		}
 		// this._nowPlayingSongAdditionalInfo.textContent = this.nowPlayingData.TrackCnt > 0 ? `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}` : '';
-		this._nowPlayingSongAdditionalInfo.textContent= decodeString(this.nowPlayingData.StationName); // Compared logs from vtproe and used stationname here.
-
+		// const station = this.nowPlayingData.StationName;
+		// if (station === null || station === undefined || station === '') {
+		// 	const textLine = this.nowPlayingData.TextLines?.[3] ?? '';
+		// 	this._nowPlayingSongAdditionalInfo.textContent = decodeString(textLine);
+		// } else {
+		this._nowPlayingSongAdditionalInfo.textContent = decodeString(this.nowPlayingData.StationName); // Compared logs from vtproe and used stationname here.
+		//}
+		
 		this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
 		//this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[0].split(' '));
 		const currentPlayerIconUrl = this.nowPlayingData.PlayerIconURL?.trim() ?? "";
@@ -352,6 +379,14 @@ export class Ch5MediaPlayerNowPlaying {
 					this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[this.previousPlayerIcon].split(' '));
 				}
 			}
+		}
+
+		const provider = this.nowPlayingData.ProviderName|| this.nowPlayingData.PlayerName;
+		if (provider === null || provider === undefined || provider === '') {
+			const textLine = this.nowPlayingData.TextLines?.[4] ?? '';
+			this._nowPlayingPlayerIconName.textContent = decodeString(textLine);
+		} else {
+			this._nowPlayingPlayerIconName.textContent = decodeString(provider); // Compared logs from vtproe and used stationname here.
 		}
 
 		this._nowPlayingPlayerIconName.textContent = decodeString(this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName);

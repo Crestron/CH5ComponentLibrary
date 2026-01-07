@@ -241,7 +241,6 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
   public set receiveStateCRPC(value: string) {
     this._ch5Properties.set("receiveStateCRPC", value, null, (newValue: string) => {
       this.logger.log('CRCP In join: ' + this.receiveStateCRPC + ' ' + newValue);
-      console.log('CRCP In join: ' + this.receiveStateCRPC + ' ' + newValue);
       this.publishMPEvent('s', "receiveStateCRPCResp", newValue);
     });
   }
@@ -332,18 +331,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     }));
 
     this._subPopUpMessageData = subscribeState('o', 'PopUpMessageData', ((data: any) => {
-      this.popUpData = data;
-      this.logger.log("Popup Data", this.popUpData);
-      if (this._elMask && this._elMask.parentNode) {
-        this._elMask.parentNode.removeChild(this._elMask);
-      }
-      if (this.popUpData && this.popUpData.show) {
-        this.genericDialog(this.popUpData.userInputRequired, this.popUpData.text, this.popUpData.textForItems, this.popUpData.initialUserInput, this.popUpData.timeoutSec);
-      } else {
-        if (this._elMask && this._elMask.parentNode) {
-          this._elMask.parentNode.removeChild(this._elMask);
-        }
-      }
+      this.debouncePopupHandler(data);
     }));
   }
 
@@ -832,6 +820,21 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
       this._loadingIndicator.classList.add('hide-loading-indicator');
     }
     this.logger.log('busyChanged', this.busyChanged);
+  }, 50);
+
+  private debouncePopupHandler = this.debounce((data: any) => {
+    this.popUpData = data;
+    this.logger.log("Popup Data", this.popUpData);
+    if (this._elMask && this._elMask.parentNode) {
+      this._elMask.parentNode.removeChild(this._elMask);
+    }
+    if (this.popUpData && this.popUpData.show) {
+      this.genericDialog(this.popUpData.userInputRequired, this.popUpData.text, this.popUpData.textForItems, this.popUpData.initialUserInput, this.popUpData.timeoutSec);
+    } else {
+      if (this._elMask && this._elMask.parentNode) {
+        this._elMask.parentNode.removeChild(this._elMask);
+      }
+    }
   }, 50);
 
   private updateCssClass() {
