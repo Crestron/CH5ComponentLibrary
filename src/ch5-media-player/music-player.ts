@@ -296,7 +296,7 @@ export class MusicPlayerLib {
         this.getMenu(this.myMP.instanceName);
         ['BusyChanged', 'StatusMsgChanged', 'StateChangedByBrowseContext', 'StateChanged'].forEach((item: any) => {
             const myRPC: CommonEventRequest = {
-                params: { "ev": item, "handle": "sg" },
+                params: { "ev": item, "handle": "ch5" },
                 jsonrpc: '2.0',
                 id: this.generateUniqueMessageId(),
                 method: this.myMP.instanceName + '.RegisterEvent'
@@ -309,7 +309,6 @@ export class MusicPlayerLib {
     }
 
     private processPropertiesSupportedResponse(getPropertiesSupportedResponse: GetPropertiesSupportedResponse) {
-        console.log("getPropertiesSupportedResponse", getPropertiesSupportedResponse.result.PropertiesSupported)
         const properties = getPropertiesSupportedResponse.result.PropertiesSupported;
         properties.forEach((item: any) => {
             if (item !== 'PropertiesSupported') { // in response geetting one of item as "PropertiesSupported", to avoid loop adding this condtion
@@ -332,7 +331,7 @@ export class MusicPlayerLib {
 
         ['Reset', 'BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'].forEach((item: any) => {
             const myRPC: CommonEventRequest = {
-                params: { "ev": item, "handle": "sg" },
+                params: { "ev": item, "handle": "ch5" },
                 jsonrpc: '2.0',
                 id: this.generateUniqueMessageId(),
                 method: this.myMP.menuInstanceName + '.RegisterEvent'
@@ -370,7 +369,7 @@ export class MusicPlayerLib {
         if (this.myMP.instanceName && this.myMP.menuInstanceName) {
             ['BusyChanged', 'StatusMsgChanged', 'StateChangedByBrowseContext', 'StateChanged'].forEach((item: any) => {
                 const myRPC: CommonEventRequest = {
-                    params: { "ev": item, "handle": "sg" },
+                    params: { "ev": item, "handle": "ch5" },
                     jsonrpc: '2.0',
                     id: this.generateUniqueMessageId(),
                     method: this.myMP.instanceName + '.DeregisterEvent'
@@ -380,7 +379,7 @@ export class MusicPlayerLib {
             });
             ['BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'].forEach((item: any) => {
                 const myRPC: CommonEventRequest = {
-                    params: { "ev": item, "handle": "sg" },
+                    params: { "ev": item, "handle": "ch5" },
                     jsonrpc: '2.0',
                     id: this.generateUniqueMessageId(),
                     method: this.myMP.menuInstanceName + '.DeregisterEvent'
@@ -444,7 +443,7 @@ export class MusicPlayerLib {
             jsonrpc: '2.0',
             id: this.generateUniqueMessageId(),
             method: 'Crpc.RegisterEvent',
-            params: { "ev": "ObjectDirectoryChanged", "handle": "sg" },
+            params: { "ev": "ObjectDirectoryChanged", "handle": "ch5" },
         };
         this.sendRPCRequest(JSON.stringify(myRPC)); // Send the message.
     }
