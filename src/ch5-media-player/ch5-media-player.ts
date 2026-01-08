@@ -241,7 +241,6 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
   public set receiveStateCRPC(value: string) {
     this._ch5Properties.set("receiveStateCRPC", value, null, (newValue: string) => {
       this.logger.log('CRCP In join: ' + this.receiveStateCRPC + ' ' + newValue);
-      console.log('CRCP In join: ' + this.receiveStateCRPC + ' ' + newValue);
       this.publishMPEvent('s', "serial_receiveStateCRPCResp", newValue);
     });
   }
