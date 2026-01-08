@@ -1958,6 +1958,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		super.unsubscribeFromSignals();
 		this._ch5ButtonSignal.unsubscribeAll();
 
+		// TODO - The below is a temporary solution to fix memory leaks. A proper solution would be to refactor the signal subscription management in the base class.
+		// The same will be corrected once the button is moved to the new signal management system as per newer components.
 		// Unsubscribe from receiveStateSelected signal
 		this.clearBooleanSignalSubscription(this._sigNameReceiveSelected, this._subReceiveSelected);
 		this._sigNameReceiveSelected = '';
