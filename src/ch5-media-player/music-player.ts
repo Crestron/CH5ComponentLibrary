@@ -168,12 +168,9 @@ export class MusicPlayerLib {
             if (value) {
                 const subreceiveStateMessageRespTemp = subscribeState('s', 'serial_receiveStateMessageResp', (value: any) => {
                     if (value.length > 0) {
-                        const src = JSON.parse(value).src;
-                        // This 'if' condition is required to show default screen
-                        if(src && src === "0"){
-                            this.clearAllDataObjects();
-                            this.resetMp();
-                        }
+
+                        this.clearAllDataObjects();
+                        this.resetMp();
                         this.processMessage(value, true);
                         setTimeout(() => {
                             unsubscribeState('b', 'receiveStateMessageResp', subreceiveStateMessageRespTemp);
@@ -748,6 +745,7 @@ export class MusicPlayerLib {
         this.nowPlayingPublishData = {};
         this.myMusicPublishData = {};
         this.progressBarPublishData = {};
+        this.clearAllDataObjects();
         this.resetMp();
     }
 
