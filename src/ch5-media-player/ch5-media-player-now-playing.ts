@@ -508,7 +508,7 @@ export class Ch5MediaPlayerNowPlaying {
 	}
 
 	public seekApiCall = debounce(() => {
-		this.musicPlayerLibInstance.nowPlayingEvent(TCH5NowPlayingActions.Seek, this._progressBarInput.value);
+		this.musicPlayerLibInstance.nowPlayingEvent(TCH5NowPlayingActions.Seek, +this._progressBarInput.value);
 	}, 150);
 
 	protected renderProgressBar() {
