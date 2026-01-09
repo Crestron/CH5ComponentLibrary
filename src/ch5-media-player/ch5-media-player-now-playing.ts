@@ -48,7 +48,6 @@ export class Ch5MediaPlayerNowPlaying {
 	private previousPlayerIconUrl: any;
 	private previousPlayerIcon: any;
 	private _nowPlayingPlayerNameContainer: HTMLElement = {} as HTMLElement
-	private _nowPlayingPlayerImage: HTMLImageElement = {} as HTMLImageElement;
 	private playerName: string = '';
 
 	private readonly NOW_PLAYING_ICONS: any = [
@@ -126,17 +125,8 @@ export class Ch5MediaPlayerNowPlaying {
 		this.createDefaultNowPlaying();
 
 		subscribeState('o', 'nowPlayingData', ((data: any) => {
-			this.logger.log('NowPlayingData ', data);
-			if (this.demoModeValue === false) {
-				if (data && Object.keys(data).length > 0) {
-					this.nowPlayingData = data;
-					this.createNowPlaying();
-					this.updatedNowPlayingContent();
-				} else {
-					this.createDefaultNowPlaying();
-				}
-			}
-		}));
+            this.debouncedNowPlayingDataHandler(data);
+        }));
 
 		subscribeState('o', 'progressBarData', ((data: any) => {
 			this.logger.log('ProgressBarData ', data);
@@ -690,6 +680,20 @@ export class Ch5MediaPlayerNowPlaying {
 		}
 	}
 
+    // Debounced handler for nowPlayingData subscription
+    private debouncedNowPlayingDataHandler = debounce((data: any) => {
+        this.logger.log('NowPlayingData ', data);
+        if (this.demoModeValue === false) {
+            if (data && Object.keys(data).length > 0) {
+                this.nowPlayingData = data;
+                this.createNowPlaying();
+                this.updatedNowPlayingContent();
+            } else {
+                this.createDefaultNowPlaying();
+            }
+        }
+    }, 100);
+ 
 	//#endregion
 
 }
