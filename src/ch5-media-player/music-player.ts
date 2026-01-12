@@ -12,16 +12,17 @@ export class MusicPlayerLib {
     private mpSigRPCOut: string = "";
     private mpRPCDataIn: string = '';
     private itemValue: number = 1; // Used in infinite scroll feature.
-    private resendRegistrationTimeId: any = '';
+    private resendRegistrationTimeId: any = null;
     private tempResponse: any = "";
     private ignoreFirstData: boolean = false;// ignore first chunked data before register request sent
 
     private subReceiveStateRefreshMediaPlayerResp: any;
-    private subreceiveStateDeviceOfflineResp: any;
-    private subreceiveStateCRPCResp: any;
-    private subreceiveStateMessageResp: any;
-    private subsendEventCRPCJoinNo: any;
+    private subReceiveStateDeviceOfflineResp: any;
+    private subReceiveStateCRPCResp: any;
+    private subReceiveStateMessageResp: any;
+    private subSendEventCRPCJoinNo: any;
     private subControlSystemsOnlineFB: any;
+    private naxDeviceOfflineFlag: boolean = false;
 
     // Generate a constant UUID once per application start.
     private generateStrongCustomId = (): string => {
@@ -84,31 +85,48 @@ export class MusicPlayerLib {
 
     constructor(public logger: Ch5CommonLog) { }
 
+    public debounce = (func: any, wait: number) => {
+        let timeout: any;
+        return function executedFunction(...args: any[]) {
+            const later = () => {
+                window.clearTimeout(timeout);
+                func(...args);
+            };
+            // if (timeout) {
+            window.clearTimeout(timeout);
+            // }
+            timeout = window.setTimeout(later, wait);
+        };
+    };
+
     public subscribeLibrarySignals() {
 
         this.ignoreFirstData = false;// first time set to false, to ignore first data
-        this.subReceiveStateRefreshMediaPlayerResp = subscribeState('b', 'receiveStateRefreshMediaPlayerResp', (value: boolean) => {
+        this.subReceiveStateRefreshMediaPlayerResp = subscribeState('b', 'digital_receiveStateRefreshMediaPlayerResp', (value: boolean) => {
             if (value) {
+                const data = { 'userInputRequired': "", "text": "", "textForItems": [], "initialUserInput": "", "timeoutSec": 10000, "show": false }
+                publishEvent('o', 'PopUpMessageData', data); //To close the popups whenever we are switching the player
                 this.refreshMediaPlayer();
             }
         });
 
-        this.subreceiveStateDeviceOfflineResp = subscribeState('b', 'receiveStateDeviceOfflineResp', (value: boolean) => {
+        this.subReceiveStateDeviceOfflineResp = subscribeState('b', 'digital_receiveStateDeviceOfflineResp', (value: boolean) => {
             this.myMP.connectionActive = !value;
             const data = { 'userInputRequired': "", "text": "No Communication. Please check power and connection.", "textForItems": [], "initialUserInput": "", "timeoutSec": 10000, "show": true }
             if (value) {
                 this.unregisterWithDevice(true);
+                this.naxDeviceOfflineFlag = true;
             } else {
                 data.text = "";
                 data.show = false;
-                if (this.myMP.source && this.myMP.tag) {
-                    this.registerWithDevice();
+                if (this.myMP.instanceName && this.myMP.menuInstanceName && this.myMP.connectionActive) {
+                    this.naxDeviceOnline();
                 }
             }
             publishEvent('o', 'PopUpMessageData', data);
         });
 
-        this.subreceiveStateCRPCResp = subscribeState('s', 'receiveStateCRPCResp', (value: any) => {
+        this.subReceiveStateCRPCResp = subscribeState('s', 'serial_receiveStateCRPCResp', (value: any) => {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
             if ((value.length > 0) && !_.isEqual(this.tempResponse, value) && this.ignoreFirstData) {
@@ -151,27 +169,23 @@ export class MusicPlayerLib {
         });
 
         //receiveStateMessageResp from CS (ver tag src)
-        this.subreceiveStateMessageResp = subscribeState('s', 'receiveStateMessageResp', (value: any) => {
+        this.subReceiveStateMessageResp = subscribeState('s', 'serial_receiveStateMessageResp', (value: any) => {
             if (value.length > 0) {
                 this.processMessage(value);
             }
         });
 
         //To get join name from the component
-        this.subsendEventCRPCJoinNo = subscribeState('s', 'sendEventCRPCJoinNo', (value: any) => {
+        this.subSendEventCRPCJoinNo = subscribeState('s', 'serial_sendEventCRPCJoinNo', (value: any) => {
             this.mpSigRPCOut = value;
         });
 
         this.subControlSystemsOnlineFB = subscribeState('b', 'Csig.All_Control_Systems_Online_fb', (value: boolean) => {
             if (value) {
-                const subreceiveStateMessageRespTemp = subscribeState('s', 'receiveStateMessageResp', (value: any) => {
+                const subreceiveStateMessageRespTemp = subscribeState('s', 'serial_receiveStateMessageResp', (value: any) => {
                     if (value.length > 0) {
-                        const src = JSON.parse(value).src;
-                        // This 'if' condition is required to show default screen
-                        if(src && src === "0"){
-                            this.clearAllDataObjects();
-                            this.resetMp();
-                        }
+                        this.clearAllDataObjects();
+                        this.resetMp();
                         this.processMessage(value, true);
                         setTimeout(() => {
                             unsubscribeState('b', 'receiveStateMessageResp', subreceiveStateMessageRespTemp);
@@ -183,11 +197,14 @@ export class MusicPlayerLib {
     }
 
     private clearAllDataObjects() {
+        if (this.resendRegistrationTimeId) {
+            clearInterval(this.resendRegistrationTimeId);
+            this.resendRegistrationTimeId = null;
+        }
         this.myMusicPublishData = {};
         this.nowPlayingPublishData = {};
         this.progressBarPublishData = {};
         this.menuListPublishData = {};
-        this.resendRegistrationTimeId = "";
         this.itemValue = 1;
 
         publishEvent('o', 'myMusicData', this.myMusicPublishData);
@@ -206,12 +223,12 @@ export class MusicPlayerLib {
     // 4. Need to continually register until a valid response as long as the device is still online.
     private refreshMediaPlayer() {
         // Do we have an active connection and need to unregister?
-        if (this.myMP.connectionActive) {
+        if (this.myMP.connectionActive && !this.naxDeviceOfflineFlag) {
             this.unregisterWithDevice();
         }
         // Register with the new device. ToDo: Add checks for online & tag values.
-        if (this.myMP.tag && this.myMP.connectionActive) {
-            this.registerWithDevice();
+        if (this.myMP.tag && this.myMP.connectionActive && !this.naxDeviceOfflineFlag) {
+            this.debouncedRegisterWithDevice();
         }
     }
 
@@ -248,6 +265,9 @@ export class MusicPlayerLib {
     }
 
     private startRegistrationResendTimer() {
+        if (this.resendRegistrationTimeId) {
+            clearInterval(this.resendRegistrationTimeId);
+        }
         this.resendRegistrationTimeId = setInterval(() => {
             this.registerWithDevice();
         }, 10000);
@@ -269,7 +289,7 @@ export class MusicPlayerLib {
             // If this is a different source, we need to refresh the media player.
             // This will also happen on an update request since no source value has been set yet.
             if (param) {
-                this.registerWithDevice();
+                this.debouncedRegisterWithDevice();
             } else if (this.myMP.source != myObj.src) {
                 this.refreshMediaPlayer();
             }
@@ -294,7 +314,7 @@ export class MusicPlayerLib {
         this.getMenu(this.myMP.instanceName);
         ['BusyChanged', 'StatusMsgChanged', 'StateChangedByBrowseContext', 'StateChanged'].forEach((item: any) => {
             const myRPC: CommonEventRequest = {
-                params: { "ev": item, "handle": "sg" },
+                params: { "ev": item, "handle": "ch5" },
                 jsonrpc: '2.0',
                 id: this.generateUniqueMessageId(),
                 method: this.myMP.instanceName + '.RegisterEvent'
@@ -307,7 +327,6 @@ export class MusicPlayerLib {
     }
 
     private processPropertiesSupportedResponse(getPropertiesSupportedResponse: GetPropertiesSupportedResponse) {
-        console.log("getPropertiesSupportedResponse", getPropertiesSupportedResponse.result.PropertiesSupported)
         const properties = getPropertiesSupportedResponse.result.PropertiesSupported;
         properties.forEach((item: any) => {
             if (item !== 'PropertiesSupported') { // in response geetting one of item as "PropertiesSupported", to avoid loop adding this condtion
@@ -323,6 +342,7 @@ export class MusicPlayerLib {
                 }
             }
         });
+        this.naxDeviceOfflineFlag = false;// to reset nax offline flag after getting propertiessupported response
     }
 
     private processMenuResponse(getMenuResponse: GetMenuResponse) {
@@ -330,7 +350,7 @@ export class MusicPlayerLib {
 
         ['Reset', 'BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'].forEach((item: any) => {
             const myRPC: CommonEventRequest = {
-                params: { "ev": item, "handle": "sg" },
+                params: { "ev": item, "handle": "ch5" },
                 jsonrpc: '2.0',
                 id: this.generateUniqueMessageId(),
                 method: this.myMP.menuInstanceName + '.RegisterEvent'
@@ -368,7 +388,7 @@ export class MusicPlayerLib {
         if (this.myMP.instanceName && this.myMP.menuInstanceName) {
             ['BusyChanged', 'StatusMsgChanged', 'StateChangedByBrowseContext', 'StateChanged'].forEach((item: any) => {
                 const myRPC: CommonEventRequest = {
-                    params: { "ev": item, "handle": "sg" },
+                    params: { "ev": item, "handle": "ch5" },
                     jsonrpc: '2.0',
                     id: this.generateUniqueMessageId(),
                     method: this.myMP.instanceName + '.DeregisterEvent'
@@ -378,7 +398,7 @@ export class MusicPlayerLib {
             });
             ['BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'].forEach((item: any) => {
                 const myRPC: CommonEventRequest = {
-                    params: { "ev": item, "handle": "sg" },
+                    params: { "ev": item, "handle": "ch5" },
                     jsonrpc: '2.0',
                     id: this.generateUniqueMessageId(),
                     method: this.myMP.menuInstanceName + '.DeregisterEvent'
@@ -387,9 +407,43 @@ export class MusicPlayerLib {
                 this.sendRPCRequest(JSON.stringify(myRPC));
             });
 
-            this.clearAllDataObjects()
-            this.resetMp(deviceOffLine);
+            if (!deviceOffLine) {
+                this.clearAllDataObjects();
+                this.resetMp(deviceOffLine);
+            }
         }
+    }
+
+    private naxDeviceOnline() {
+        this.getPropertiesSupported(this.myMP.instanceName);
+
+        ['BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'].forEach((item: any) => {
+            const myRPC: CommonEventRequest = {
+                params: { "ev": item, "handle": "ch5" },
+                jsonrpc: '2.0',
+                id: this.generateUniqueMessageId(),
+                method: this.myMP.menuInstanceName + '.RegisterEvent'
+            };
+            
+            if (this.myMP.menuInstanceName) {
+                this.sendRPCRequest(JSON.stringify(myRPC));
+            }
+        });
+
+        ['Version', 'MaxReqItems', 'Level', 'ItemCnt', 'Title', 'Subtitle', 'ListSpecificFunctions', 'IsMenuAvailable', 'StatusMsgMenu', 'Instance'].forEach((item: any) => {
+            const myRPC: CommonRequestPropName = {
+                params: { "propName": item },
+                jsonrpc: '2.0',
+                id: this.generateUniqueMessageId(),
+                method: this.myMP.menuInstanceName + '.GetProperty'
+            };
+            if (item === 'Title') {
+                this.myMP[item + 'MenuId'] = myRPC.id;// Keep track of the message id.
+            }
+            if (this.myMP.menuInstanceName) {
+                this.sendRPCRequest(JSON.stringify(myRPC));
+            }
+        });
     }
 
     // Register with a media player device.
@@ -425,6 +479,10 @@ export class MusicPlayerLib {
         }
     }
 
+    private debouncedRegisterWithDevice = this.debounce(() => {
+        this.registerWithDevice();
+    }, 50);
+
     // Get all of the media player objects from the device.
     // This is called after a successful registration with the device.
     private getObjects() {
@@ -442,7 +500,7 @@ export class MusicPlayerLib {
             jsonrpc: '2.0',
             id: this.generateUniqueMessageId(),
             method: 'Crpc.RegisterEvent',
-            params: { "ev": "ObjectDirectoryChanged", "handle": "sg" },
+            params: { "ev": "ObjectDirectoryChanged", "handle": "ch5" },
         };
         this.sendRPCRequest(JSON.stringify(myRPC)); // Send the message.
     }
@@ -479,8 +537,8 @@ export class MusicPlayerLib {
 
         let itemCount = this.myMusicData['ItemCnt'];
         // Recheck why undefined
-        let count =0
-        if(itemCount){
+        let count = 0
+        if (itemCount) {
             count = (itemCount < this.maxReqItems) ? itemCount : this.maxReqItems;
         }
         itemCount = itemCount - count;
@@ -596,7 +654,7 @@ export class MusicPlayerLib {
             } else if (myMsgId === this.myMP.ItemDataId) {
                 this.myMP.ItemDataId = 0;
                 this.menuListData['MenuData'] = [...this.menuListData['MenuData'], ...responseData.result];
-                
+
                 if (!(busyChanged && busyChanged['on'] === true)) {
                     if (!_.isEqual(this.menuListPublishData, this.menuListData)) {
                         this.menuListPublishData = { ...this.menuListData };
@@ -650,7 +708,7 @@ export class MusicPlayerLib {
     }
 
     // NowPlaying component action
-    public nowPlayingEvent(action: TCH5NowPlayingActions, time: string = '') {
+    public nowPlayingEvent(action: TCH5NowPlayingActions, time: number = 0) {
         this.lastPerformedAction = action;
         const myRPC: CommonEventRequest = {
             params: action === TCH5NowPlayingActions.Seek ? { 'time': time } : null,
@@ -719,15 +777,15 @@ export class MusicPlayerLib {
             id: this.generateUniqueMessageId(),
             method: this.myMP.menuInstanceName + '.StatusMsgResponseMenu'
         };
-        if(id === 999 && this.myMP.menuInstanceName) {    //this condition is for autonomic search popup
-           const autonomicSearchRPC = {
-            params: {
-                query: inputValue
-            },
-            jsonrpc: '2.0',
-            id: this.generateUniqueMessageId(),
-            method: this.myMP.menuInstanceName + '.Find'
-           }
+        if (id === 999 && this.myMP.menuInstanceName) {    //this condition is for autonomic search popup
+            const autonomicSearchRPC = {
+                params: {
+                    query: inputValue
+                },
+                jsonrpc: '2.0',
+                id: this.generateUniqueMessageId(),
+                method: this.myMP.menuInstanceName + '.Find'
+            }
             this.sendRPCRequest(JSON.stringify(autonomicSearchRPC));
         } else {
             if (this.myMP.menuInstanceName) {
@@ -737,16 +795,21 @@ export class MusicPlayerLib {
     };
 
     public unsubscribeLibrarySignals() {
-        unsubscribeState('b', 'receiveStateRefreshMediaPlayerResp', this.subReceiveStateRefreshMediaPlayerResp);
-        unsubscribeState('b', 'receiveStateDeviceOfflineResp', this.subreceiveStateDeviceOfflineResp);
-        unsubscribeState('s', 'receiveStateCRPCResp', this.subreceiveStateCRPCResp);
-        unsubscribeState('s', 'receiveStateMessageResp', this.subreceiveStateMessageResp);
-        unsubscribeState('s', 'sendEventCRPCJoinNo', this.subsendEventCRPCJoinNo);
+        if (this.resendRegistrationTimeId) {
+            clearInterval(this.resendRegistrationTimeId);
+            this.resendRegistrationTimeId = null;
+        }
+        unsubscribeState('b', 'digital_receiveStateRefreshMediaPlayerResp', this.subReceiveStateRefreshMediaPlayerResp);
+        unsubscribeState('b', 'digital_receiveStateDeviceOfflineResp', this.subReceiveStateDeviceOfflineResp);
+        unsubscribeState('s', 'serial_receiveStateCRPCResp', this.subReceiveStateCRPCResp);
+        unsubscribeState('s', 'serial_receiveStateMessageResp', this.subReceiveStateMessageResp);
+        unsubscribeState('s', 'serial_sendEventCRPCJoinNo', this.subSendEventCRPCJoinNo);
         unsubscribeState('b', 'Csig.All_Control_Systems_Online_fb', this.subControlSystemsOnlineFB);
         this.menuListPublishData = { 'MenuData': [] };
         this.nowPlayingPublishData = {};
         this.myMusicPublishData = {};
         this.progressBarPublishData = {};
+        this.clearAllDataObjects();
         this.resetMp();
     }
 
