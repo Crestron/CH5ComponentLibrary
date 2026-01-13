@@ -73,6 +73,24 @@ export class Ch5MediaPlayerNowPlaying {
 	private _progressStreamState: string = '';
 	private _progressBarInputHandler: (() => void) | null = null;
 
+	/**
+	 * Helper method to get a value from nowPlayingData property or fallback to TextLines array
+	 * @param propertyName - The property name to check in nowPlayingData
+	 * @param textLineIndex - The index in TextLines array to use as fallback
+	 * @param minTextLinesLength - Optional minimum length required for TextLines array (defaults to textLineIndex + 1)
+	 * @returns The value from the property or TextLines, or empty string if not found
+	 */
+	private getDataValue(propertyName: string, textLineIndex: number, minTextLinesLength?: number): string {
+		if (this.nowPlayingData.hasOwnProperty(propertyName)) {
+			return this.nowPlayingData[propertyName] ?? '';
+		}
+		const requiredLength = minTextLinesLength ?? (textLineIndex + 1);
+		if (Array.isArray(this.nowPlayingData.TextLines) && this.nowPlayingData.TextLines.length >= requiredLength) {
+			return this.nowPlayingData.TextLines[textLineIndex] ?? '';
+		}
+		return '';
+	}
+
 	private readonly NOW_PLAYING_DEMO_DATA = {
 		ActionsAvailable: [
 			"Shuffle",
@@ -106,7 +124,7 @@ export class Ch5MediaPlayerNowPlaying {
 		RepeatState: 0,
 		RewindSpeed: 1,
 		ShuffleState: 0,
-		StationName: "Song Title",
+		StationName: "4th line of text here",
 		StreamState: "idle",
 		Title: "Song Title",
 		TrackCnt: 5,
@@ -125,8 +143,8 @@ export class Ch5MediaPlayerNowPlaying {
 		this.createDefaultNowPlaying();
 
 		subscribeState('o', 'nowPlayingData', ((data: any) => {
-            this.debouncedNowPlayingDataHandler(data);
-        }));
+			this.debouncedNowPlayingDataHandler(data);
+		}));
 
 		subscribeState('o', 'progressBarData', ((data: any) => {
 			this.logger.log('ProgressBarData ', data);
@@ -152,23 +170,30 @@ export class Ch5MediaPlayerNowPlaying {
 					} else {
 						this._streamState.textContent = this._progressStreamState;
 					}
-				this._progressBarTrackSec = this.progressBarData.TrackSec;
-				this._progressBarElapsedSec = this.progressBarData.ElapsedSec;
-				if (this._progressBarInput) {
-					this._progressBarInput.max = this._progressBarTrackSec?.toString();
-					this._progressBarInput.value = this._progressBarElapsedSec?.toString();
-					if (this._progressBarElapsedSec && this._progressBarTrackSec && this._progressBarTrackSec > 0) {
-						this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
+					this._progressBarTrackSec = this.progressBarData.TrackSec;
+					this._progressBarElapsedSec = this.progressBarData.ElapsedSec;
+					if (this._progressBarInput) {
+						this._progressBarInput.max = this._progressBarTrackSec?.toString();
+						this._progressBarInput.value = this._progressBarElapsedSec?.toString();
+						if (this._progressBarElapsedSec && this._progressBarTrackSec && this._progressBarTrackSec > 0) {
+							this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
+						}
 					}
-				}
 					if (this.nowPlayingData?.PlayerState === "stopped") {	//autonomic: reset to initial once song completed
 						this._progressBarTrackSec = 0;
 					}
 					this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
 					this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
-
-					if (this.progressBarData.StreamState === 'streaming' && !this.demoModeValue) {
+					if ((this.progressBarData.StreamState === 'streaming' || this.nowPlayingData?.PlayerState === "playing") && !this.demoModeValue) {
 						this._progressBarTimer = window.setInterval(() => {
+							// Stop the timer if player is no longer playing/streaming
+							const isPlaying = this.nowPlayingData?.PlayerState === "playing";
+							const isStreaming = this.progressBarData?.StreamState === 'streaming';
+							if (!isPlaying && !isStreaming) {
+								clearInterval(this._progressBarTimer!);
+								this._progressBarTimer = null;
+								return;
+							}
 							if (this._progressBarElapsedSec < this._progressBarTrackSec) {
 								this._progressBarElapsedSec += 1;
 								const percent = this._progressBarTrackSec > 0 ? (this._progressBarElapsedSec / this._progressBarTrackSec) * 100 : 0;
@@ -237,7 +262,7 @@ export class Ch5MediaPlayerNowPlaying {
 	}
 
 	private updatedNowPlayingContent() {
-		this._nowPlayingPlayerLabel.innerHTML = this.playerName === "" ? this.nowPlayingData.PlayerName || this.nowPlayingData.ProviderName : this.playerName;
+		this._nowPlayingPlayerLabel.innerHTML = this.playerName === "" ? (this.nowPlayingData.PlayerName || this.nowPlayingData.ProviderName) ?? "" : this.playerName;
 		this._nowPlayingImageParent.classList.add("now-playing-image-container");
 		this._nowPlayingImageParent.classList.add('mp-fallback-album-art');
 		const img = new Image();
@@ -278,20 +303,27 @@ export class Ch5MediaPlayerNowPlaying {
 				this._nowPlayingImageParent.style.backgroundImage = `url('${this.previousAlbumArtUrl}')`;
 			}
 		}
+
 		if (this._nowPlayingSongTitle.children && this._nowPlayingSongTitle.children[0]) {
-			this._nowPlayingSongTitle.children[0].textContent = decodeString(this.nowPlayingData.Title);
+			const title = this.getDataValue('Title', 0);
+			this._nowPlayingSongTitle.children[0].textContent = decodeString(title);
 		}
 		this.updateMarquee();
 
-		this._nowPlayingArtist.textContent = decodeString(this.nowPlayingData.Artist);
-		this._nowPlayingAlbum.textContent = decodeString(this.nowPlayingData.Album);
-		if (!this.nowPlayingData.Album?.trim() || !this.nowPlayingData.Artist?.trim()) {
+		const artist = this.getDataValue('Artist', 1);
+		this._nowPlayingArtist.textContent = decodeString(artist);
+
+		const album = this.getDataValue('Album', 2);
+		this._nowPlayingAlbum.textContent = decodeString(album);
+
+		if (!album?.trim() || !artist?.trim()) {
 			this._separator.classList?.add('ch5-hide-dis');
 		} else {
 			this._separator.classList?.remove('ch5-hide-dis');
 		}
 		// this._nowPlayingSongAdditionalInfo.textContent = this.nowPlayingData.TrackCnt > 0 ? `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}` : '';
-		this._nowPlayingSongAdditionalInfo.textContent= decodeString(this.nowPlayingData.StationName); // Compared logs from vtproe and used stationname here.
+		const station = this.getDataValue('StationName', 3, 5);
+		this._nowPlayingSongAdditionalInfo.textContent = decodeString(station);
 
 		this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
 		//this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[0].split(' '));
@@ -313,7 +345,7 @@ export class Ch5MediaPlayerNowPlaying {
 				}
 			});
 			playerIconImg.src = imgUrl;
-		} else if (currentPlayerIcon && !isNaN(currentPlayerIcon) && currentPlayerIcon > 0 && currentPlayerIcon < this.NOW_PLAYING_ICONS.length && currentPlayerIcon !== this.previousPlayerIcon && currentPlayerIconUrl !== "") {
+		} else if (currentPlayerIcon && !isNaN(currentPlayerIcon) && currentPlayerIcon > 0 && currentPlayerIcon < this.NOW_PLAYING_ICONS.length && currentPlayerIcon !== this.previousPlayerIcon && currentPlayerIconUrl === "") {
 			this._nowPlayingPlayerIconImage.classList?.remove(...Array.from(this._nowPlayingPlayerIconImage.classList));
 			this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
 			this._nowPlayingPlayerIconImage.style.removeProperty("backgroundImage");
@@ -344,8 +376,15 @@ export class Ch5MediaPlayerNowPlaying {
 			}
 		}
 
-		this._nowPlayingPlayerIconName.textContent = decodeString(this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName);
-		if (!this.nowPlayingData.ActionsAvailable.includes(TCH5NowPlayingActions.Seek)) {
+		const provider = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
+		if (!provider?.trim()) {
+			const textLine = this.getDataValue('ProviderName', 4);
+			this._nowPlayingPlayerIconName.textContent = decodeString(textLine || this.nowPlayingData.PlayerName);
+		} else {
+			this._nowPlayingPlayerIconName.textContent = decodeString(provider);
+		}
+
+		if (this.nowPlayingData.hasOwnProperty('ActionsAvailable') && !this.nowPlayingData.ActionsAvailable.includes(TCH5NowPlayingActions.Seek)) {
 			this._progressBarInput.classList.add('hide-progressbar-thumb');
 			if (this._progressBarInputHandler) {
 				this._progressBarInput.removeEventListener('input', this._progressBarInputHandler);
@@ -549,6 +588,9 @@ export class Ch5MediaPlayerNowPlaying {
 	}
 
 	protected renderActionButtons(availableActions: TCH5NowPlayingActions[], PlayerState: string) {
+		if (!Array.isArray(availableActions)) {
+			availableActions = [];
+		}
 		if (this._actionButtonsContainer && this._actionButtonsContainer.parentNode) {
 			this._actionButtonsContainer.parentNode.removeChild(this._actionButtonsContainer);
 		}
@@ -680,20 +722,25 @@ export class Ch5MediaPlayerNowPlaying {
 		}
 	}
 
-    // Debounced handler for nowPlayingData subscription
-    private debouncedNowPlayingDataHandler = debounce((data: any) => {
-        this.logger.log('NowPlayingData ', data);
-        if (this.demoModeValue === false) {
-            if (data && Object.keys(data).length > 0) {
-                this.nowPlayingData = data;
-                this.createNowPlaying();
-                this.updatedNowPlayingContent();
-            } else {
-                this.createDefaultNowPlaying();
-            }
-        }
-    }, 100);
- 
+	// Debounced handler for nowPlayingData subscription
+	private debouncedNowPlayingDataHandler = debounce((data: any) => {
+		this.logger.log('NowPlayingData ', data);
+		if (this.demoModeValue === false) {
+			if (data && Object.keys(data).length > 0) {
+				for (const key in data) {
+					if (typeof data[key] === 'string' && data[key].trim() === "") {
+						delete data[key];
+					}
+				}
+				this.nowPlayingData = data;
+				this.createNowPlaying();
+				this.updatedNowPlayingContent();
+			} else {
+				this.createDefaultNowPlaying();
+			}
+		}
+	}, 100);
+
 	//#endregion
 
 }

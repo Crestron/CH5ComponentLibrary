@@ -403,18 +403,18 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this.removeEventListeners();
     this.unsubscribeFromSignals();
     this.musicPlayerLibInstance.unsubscribeLibrarySignals();// unsubscribeLibrarySignals
-    
+
     // Cleanup child components
     if (this.nowPlaying) {
       this.nowPlaying.cleanup();
     }
-    
+
     // Clear dialog auto-close timeout
     if (this._dialogAutoCloseTimeout) {
       clearTimeout(this._dialogAutoCloseTimeout);
       this._dialogAutoCloseTimeout = null;
     }
-    
+
     // Unsubscribe from busyChanged and PopUpMessageData
     if (this._subBusyChanged) {
       unsubscribeState('o', 'busyChanged', this._subBusyChanged);
@@ -424,7 +424,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
       unsubscribeState('o', 'PopUpMessageData', this._subPopUpMessageData);
       this._subPopUpMessageData = null;
     }
-    
+
     this.logger.stop();
   }
 
@@ -469,7 +469,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
       const dialogContent = createElement('div', ["dialog-content"]);
       dialogContentInput.classList.add('dialog-content-input');
       dialogContentInput.value = decodeString(dialogInput);
-      if(dialogType === "characterMasked") {
+      if (dialogType === "characterMasked") {
         dialogContentInput.type = "password";
       }
       dialogContent.appendChild(dialogContentInput);
@@ -508,7 +508,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     if (this._dialogAutoCloseTimeout) {
       clearTimeout(this._dialogAutoCloseTimeout);
     }
-    if(timeoutSec > 0) { // we don't have to auto close the popup if the timer is 0 sec
+    if (timeoutSec > 0) { // we don't have to auto close the popup if the timer is 0 sec
       this._dialogAutoCloseTimeout = window.setTimeout(() => {
         if (this._elMask && this._elMask.parentNode) {
           this._elMask.parentNode.removeChild(this._elMask);
@@ -531,7 +531,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this._elMask.onclick = () => {
       if (!this.demoMode) {
         this.musicPlayerLibInstance.popUpAction("", -1);
-        
+
       }
       if (this._elMask && this._elMask.parentNode) {
         this._elMask.parentNode.removeChild(this._elMask);
@@ -554,7 +554,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this._dialogFooter = createElement('div', ['generic-dialog-footer']);
     const dialogType = dialogArray.length;
     for (let i = 0; i < dialogType; i++) {
-      if(i >= 2) break;
+      if (i >= 2) break;
       const button = createElement('button', ['generic-dialog-button']);
       button.addEventListener("click", () => {
         //clear auto close timeout on footer button click
@@ -564,8 +564,8 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
         }
         this.logger.log("Button Confirmation Id:", i + 1);
         this.logger.log("Input Value:", inputEle?.value);
-        if(!this.demoMode) {
-          if(dialogArray.includes('Find')) {  //this condition is for search popup on autonomic
+        if (!this.demoMode) {
+          if (dialogArray.includes('Find')) {  //this condition is for search popup on autonomic
             this.musicPlayerLibInstance.popUpAction(inputEle?.value, 999);
           } else {
             this.musicPlayerLibInstance.popUpAction(inputEle?.value, i + 1);
@@ -675,7 +675,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
         }
       }
     }
-  this.nowPlaying?.updateMarquee();
+    this.nowPlaying?.updateMarquee();
   }
 
   protected removeEventListeners() {
@@ -730,7 +730,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
         this._demoPlusHandler = (ev: Event) => {
           ev.stopPropagation();
           const popupFavoritiesName = document.querySelector('.now-playing-song-title')?.children[0].textContent;
-          if(popupFavoritiesName) {
+          if (popupFavoritiesName) {
             this.genericDialog("alphanumeric", "What would you like to call this favorite?", ["OK", "Cancel"], popupFavoritiesName, 10);
           }
         };
@@ -814,10 +814,10 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     }
   }
 
-   // Debounced handler for busyChanged subscription
+  // Debounced handler for busyChanged subscription
   private debouncedBusyChangedHandler = this.debounce((data: any) => {
     this.busyChanged = data;
- 
+
     if (this.busyChanged && this.busyChanged.on) {
       if (this.busyChanged.timeoutSec > 0) {
         this._loadingIndicator.classList.remove('hide-loading-indicator');
