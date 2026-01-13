@@ -162,22 +162,22 @@ export class Ch5MediaPlayerNowPlaying {
 					} else {
 						this._streamState.textContent = this._progressStreamState;
 					}
-				this._progressBarTrackSec = this.progressBarData.TrackSec;
-				this._progressBarElapsedSec = this.progressBarData.ElapsedSec;
-				if (this._progressBarInput) {
-					this._progressBarInput.max = this._progressBarTrackSec?.toString();
-					this._progressBarInput.value = this._progressBarElapsedSec?.toString();
-					if (this._progressBarElapsedSec && this._progressBarTrackSec && this._progressBarTrackSec > 0) {
-						this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
+					this._progressBarTrackSec = this.progressBarData.TrackSec;
+					this._progressBarElapsedSec = this.progressBarData.ElapsedSec;
+					if (this._progressBarInput) {
+						this._progressBarInput.max = this._progressBarTrackSec?.toString();
+						this._progressBarInput.value = this._progressBarElapsedSec?.toString();
+						if (this._progressBarElapsedSec && this._progressBarTrackSec && this._progressBarTrackSec > 0) {
+							this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
+						}
 					}
-				}
 					if (this.nowPlayingData?.PlayerState === "stopped") {	//autonomic: reset to initial once song completed
 						this._progressBarTrackSec = 0;
 					}
 					this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
 					this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
 
-					if (this.progressBarData.StreamState === 'streaming' && !this.demoModeValue) {
+					if ((this.progressBarData.StreamState === 'streaming' || this.nowPlayingData.PlayerState === "playing") && !this.demoModeValue) {
 						this._progressBarTimer = window.setInterval(() => {
 							if (this._progressBarElapsedSec < this._progressBarTrackSec) {
 								this._progressBarElapsedSec += 1;
@@ -350,7 +350,7 @@ export class Ch5MediaPlayerNowPlaying {
 				}
 			});
 			playerIconImg.src = imgUrl;
-		} else if (currentPlayerIcon && !isNaN(currentPlayerIcon) && currentPlayerIcon > 0 && currentPlayerIcon < this.NOW_PLAYING_ICONS.length && currentPlayerIcon !== this.previousPlayerIcon && currentPlayerIconUrl !== "") {
+		} else if (currentPlayerIcon && !isNaN(currentPlayerIcon) && currentPlayerIcon > 0 && currentPlayerIcon < this.NOW_PLAYING_ICONS.length && currentPlayerIcon !== this.previousPlayerIcon && currentPlayerIconUrl === "") {
 			this._nowPlayingPlayerIconImage.classList?.remove(...Array.from(this._nowPlayingPlayerIconImage.classList));
 			this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
 			this._nowPlayingPlayerIconImage.style.removeProperty("backgroundImage");
@@ -381,7 +381,7 @@ export class Ch5MediaPlayerNowPlaying {
 			}
 		}
 
-		const provider = this.nowPlayingData.ProviderName|| this.nowPlayingData.PlayerName;
+		const provider = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
 		if (provider === null || provider === undefined || provider === '') {
 			const textLine = this.nowPlayingData.TextLines?.[4] ?? '';
 			this._nowPlayingPlayerIconName.textContent = decodeString(textLine);
