@@ -74,6 +74,24 @@ export class Ch5MediaPlayerNowPlaying {
 	private _progressStreamState: string = '';
 	private _progressBarInputHandler: (() => void) | null = null;
 
+	/**
+	 * Helper method to get a value from nowPlayingData property or fallback to TextLines array
+	 * @param propertyName - The property name to check in nowPlayingData
+	 * @param textLineIndex - The index in TextLines array to use as fallback
+	 * @param minTextLinesLength - Optional minimum length required for TextLines array (defaults to textLineIndex + 1)
+	 * @returns The value from the property or TextLines, or empty string if not found
+	 */
+	private getDataValue(propertyName: string, textLineIndex: number, minTextLinesLength?: number): string {
+		if (this.nowPlayingData.hasOwnProperty(propertyName)) {
+			return this.nowPlayingData[propertyName] ?? '';
+		}
+		const requiredLength = minTextLinesLength ?? (textLineIndex + 1);
+		if (Array.isArray(this.nowPlayingData.TextLines) && this.nowPlayingData.TextLines.length >= requiredLength) {
+			return this.nowPlayingData.TextLines[textLineIndex] ?? '';
+		}
+		return '';
+	}
+
 	private readonly NOW_PLAYING_DEMO_DATA = {
 		ActionsAvailable: [
 			"Shuffle",
@@ -302,30 +320,15 @@ export class Ch5MediaPlayerNowPlaying {
 		}
 
 		if (this._nowPlayingSongTitle.children && this._nowPlayingSongTitle.children[0]) {
-			let title = "";
-			if(this.nowPlayingData.hasOwnProperty('Title')) {
-				title = this.nowPlayingData.Title;
-			} else {
-				title = this.nowPlayingData.TextLines?.[0] ?? '';
-			}
+			const title = this.getDataValue('Title', 0);
 			this._nowPlayingSongTitle.children[0].textContent = decodeString(title);
 		}
 		this.updateMarquee();
 
-		let artist = "";
-		if(this.nowPlayingData.hasOwnProperty('Artist')) {
-			artist = this.nowPlayingData.Artist;
-		} else {
-			artist = this.nowPlayingData.TextLines?.[1] ?? '';
-		}
+		const artist = this.getDataValue('Artist', 1);
 		this._nowPlayingArtist.textContent = decodeString(artist);
 
-		let album = "";
-		if(this.nowPlayingData.hasOwnProperty('Album')) {
-			album = this.nowPlayingData.Album;
-		} else {
-			album = this.nowPlayingData.TextLines?.[2] ?? '';
-		}
+		const album = this.getDataValue('Album', 2);
 		this._nowPlayingAlbum.textContent = decodeString(album);
 		
 		if (!album?.trim() || !artist?.trim()) {
@@ -334,12 +337,7 @@ export class Ch5MediaPlayerNowPlaying {
 			this._separator.classList?.remove('ch5-hide-dis');
 		}
 		// this._nowPlayingSongAdditionalInfo.textContent = this.nowPlayingData.TrackCnt > 0 ? `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}` : '';
-		let station = "";
-		if (this.nowPlayingData.hasOwnProperty('StationName')) {
-			station = this.nowPlayingData.StationName;
-		} else {
-			station = this.nowPlayingData.TextLines.length > 4 ? this.nowPlayingData.TextLines?.[3] : '';
-		}
+		const station = this.getDataValue('StationName', 3, 5);
 		this._nowPlayingSongAdditionalInfo.textContent = decodeString(station);
 		
 		this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
@@ -394,14 +392,13 @@ export class Ch5MediaPlayerNowPlaying {
 		}
 
 		const provider = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
-		if (provider === null || provider === undefined || provider.trim() === '') {
-			const textLine = this.nowPlayingData.TextLines?.[4] ?? '';
-			this._nowPlayingPlayerIconName.textContent = decodeString(textLine);
+		if (!provider?.trim()) {
+			const textLine = this.getDataValue('ProviderName', 4);
+			this._nowPlayingPlayerIconName.textContent = decodeString(textLine || this.nowPlayingData.PlayerName);
 		} else {
-			this._nowPlayingPlayerIconName.textContent = decodeString(provider); // Compared logs from vtproe and used stationname here.
+			this._nowPlayingPlayerIconName.textContent = decodeString(provider);
 		}
 
-		this._nowPlayingPlayerIconName.textContent = decodeString(this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName);
 		if (this.nowPlayingData.hasOwnProperty('ActionsAvailable') && !this.nowPlayingData.ActionsAvailable.includes(TCH5NowPlayingActions.Seek)) {
 			this._progressBarInput.classList.add('hide-progressbar-thumb');
 			if (this._progressBarInputHandler) {
