@@ -107,7 +107,7 @@ export class Ch5MediaPlayerNowPlaying {
 		RepeatState: 0,
 		RewindSpeed: 1,
 		ShuffleState: 0,
-		StationName: "Song Title",
+		StationName: "4th line of text here",
 		StreamState: "idle",
 		Title: "Song Title",
 		TrackCnt: 5,
@@ -129,6 +129,11 @@ export class Ch5MediaPlayerNowPlaying {
 			this.logger.log('NowPlayingData ', data);
 			if (this.demoModeValue === false) {
 				if (data && Object.keys(data).length > 0) {
+					for (const key in data) {
+                        if (typeof data[key] === 'string' && data[key].trim() === "") {
+                            delete data[key];
+                        }
+                    }
 					this.nowPlayingData = data;
 					this.createNowPlaying();
 					this.updatedNowPlayingContent();
@@ -176,9 +181,16 @@ export class Ch5MediaPlayerNowPlaying {
 					}
 					this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
 					this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
-
-					if ((this.progressBarData.StreamState === 'streaming' || this.nowPlayingData.PlayerState === "playing") && !this.demoModeValue) {
+					if ((this.progressBarData.StreamState === 'streaming' || this.nowPlayingData?.PlayerState === "playing") && !this.demoModeValue) {
 						this._progressBarTimer = window.setInterval(() => {
+							// Stop the timer if player is no longer playing/streaming
+							const isPlaying = this.nowPlayingData?.PlayerState === "playing";
+							const isStreaming = this.progressBarData?.StreamState === 'streaming';
+							if (!isPlaying && !isStreaming) {
+								clearInterval(this._progressBarTimer!);
+								this._progressBarTimer = null;
+								return;
+							}
 							if (this._progressBarElapsedSec < this._progressBarTrackSec) {
 								this._progressBarElapsedSec += 1;
 								const percent = this._progressBarTrackSec > 0 ? (this._progressBarElapsedSec / this._progressBarTrackSec) * 100 : 0;
@@ -247,7 +259,7 @@ export class Ch5MediaPlayerNowPlaying {
 	}
 
 	private updatedNowPlayingContent() {
-		this._nowPlayingPlayerLabel.innerHTML = this.playerName === "" ? this.nowPlayingData.PlayerName || this.nowPlayingData.ProviderName : this.playerName;
+		this._nowPlayingPlayerLabel.innerHTML = this.playerName === "" ? (this.nowPlayingData.PlayerName || this.nowPlayingData.ProviderName) ?? "" : this.playerName;
 		this._nowPlayingImageParent.classList.add("now-playing-image-container");
 		this._nowPlayingImageParent.classList.add('mp-fallback-album-art');
 		const img = new Image();
@@ -288,47 +300,47 @@ export class Ch5MediaPlayerNowPlaying {
 				this._nowPlayingImageParent.style.backgroundImage = `url('${this.previousAlbumArtUrl}')`;
 			}
 		}
+
 		if (this._nowPlayingSongTitle.children && this._nowPlayingSongTitle.children[0]) {
+			let title = "";
 			if(this.nowPlayingData.hasOwnProperty('Title')) {
-				const title = this.nowPlayingData.Title;
-				this._nowPlayingSongTitle.children[0].textContent = decodeString(title);
+				title = this.nowPlayingData.Title;
 			} else {
-				const textLine = this.nowPlayingData.TextLines?.[0] ?? '';
-				this._nowPlayingSongTitle.children[0].textContent = decodeString(textLine);
+				title = this.nowPlayingData.TextLines?.[0] ?? '';
 			}
+			this._nowPlayingSongTitle.children[0].textContent = decodeString(title);
 		}
 		this.updateMarquee();
 
+		let artist = "";
 		if(this.nowPlayingData.hasOwnProperty('Artist')) {
-			const artist = this.nowPlayingData.Artist;
-			this._nowPlayingArtist.textContent = decodeString(artist);
+			artist = this.nowPlayingData.Artist;
 		} else {
-			const textLine = this.nowPlayingData.TextLines?.[1] ?? '';
-			this._nowPlayingArtist.textContent = decodeString(textLine);
+			artist = this.nowPlayingData.TextLines?.[1] ?? '';
 		}
+		this._nowPlayingArtist.textContent = decodeString(artist);
 
-		
+		let album = "";
 		if(this.nowPlayingData.hasOwnProperty('Album')) {
-			const album = this.nowPlayingData.Album;
-			this._nowPlayingAlbum.textContent = decodeString(album);
+			album = this.nowPlayingData.Album;
 		} else {
-			const textLine = this.nowPlayingData.TextLines?.[2] ?? '';
-			this._nowPlayingAlbum.textContent = decodeString(textLine);
+			album = this.nowPlayingData.TextLines?.[2] ?? '';
 		}
+		this._nowPlayingAlbum.textContent = decodeString(album);
 		
-		if (!this.nowPlayingData.Album?.trim() || !this.nowPlayingData.Artist?.trim()) {
+		if (!album?.trim() || !artist?.trim()) {
 			this._separator.classList?.add('ch5-hide-dis');
 		} else {
 			this._separator.classList?.remove('ch5-hide-dis');
 		}
 		// this._nowPlayingSongAdditionalInfo.textContent = this.nowPlayingData.TrackCnt > 0 ? `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}` : '';
-		// const station = this.nowPlayingData.StationName;
-		// if (station === null || station === undefined || station === '') {
-		// 	const textLine = this.nowPlayingData.TextLines?.[3] ?? '';
-		// 	this._nowPlayingSongAdditionalInfo.textContent = decodeString(textLine);
-		// } else {
-		this._nowPlayingSongAdditionalInfo.textContent = decodeString(this.nowPlayingData.StationName); // Compared logs from vtproe and used stationname here.
-		//}
+		let station = "";
+		if (this.nowPlayingData.hasOwnProperty('StationName')) {
+			station = this.nowPlayingData.StationName;
+		} else {
+			station = this.nowPlayingData.TextLines.length > 4 ? this.nowPlayingData.TextLines?.[3] : '';
+		}
+		this._nowPlayingSongAdditionalInfo.textContent = decodeString(station);
 		
 		this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
 		//this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[0].split(' '));
@@ -382,7 +394,7 @@ export class Ch5MediaPlayerNowPlaying {
 		}
 
 		const provider = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
-		if (provider === null || provider === undefined || provider === '') {
+		if (provider === null || provider === undefined || provider.trim() === '') {
 			const textLine = this.nowPlayingData.TextLines?.[4] ?? '';
 			this._nowPlayingPlayerIconName.textContent = decodeString(textLine);
 		} else {
@@ -390,7 +402,7 @@ export class Ch5MediaPlayerNowPlaying {
 		}
 
 		this._nowPlayingPlayerIconName.textContent = decodeString(this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName);
-		if (!this.nowPlayingData.ActionsAvailable.includes(TCH5NowPlayingActions.Seek)) {
+		if (this.nowPlayingData.hasOwnProperty('ActionsAvailable') && !this.nowPlayingData.ActionsAvailable.includes(TCH5NowPlayingActions.Seek)) {
 			this._progressBarInput.classList.add('hide-progressbar-thumb');
 			if (this._progressBarInputHandler) {
 				this._progressBarInput.removeEventListener('input', this._progressBarInputHandler);
@@ -594,6 +606,9 @@ export class Ch5MediaPlayerNowPlaying {
 	}
 
 	protected renderActionButtons(availableActions: TCH5NowPlayingActions[], PlayerState: string) {
+		if (!Array.isArray(availableActions)) {
+			availableActions = [];
+		}
 		if (this._actionButtonsContainer && this._actionButtonsContainer.parentNode) {
 			this._actionButtonsContainer.parentNode.removeChild(this._actionButtonsContainer);
 		}
