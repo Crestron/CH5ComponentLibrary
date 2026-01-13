@@ -48,7 +48,6 @@ export class Ch5MediaPlayerNowPlaying {
 	private previousPlayerIconUrl: any;
 	private previousPlayerIcon: any;
 	private _nowPlayingPlayerNameContainer: HTMLElement = {} as HTMLElement
-	private _nowPlayingPlayerImage: HTMLImageElement = {} as HTMLImageElement;
 	private playerName: string = '';
 
 	private readonly NOW_PLAYING_ICONS: any = [
@@ -144,21 +143,7 @@ export class Ch5MediaPlayerNowPlaying {
 		this.createDefaultNowPlaying();
 
 		subscribeState('o', 'nowPlayingData', ((data: any) => {
-			this.logger.log('NowPlayingData ', data);
-			if (this.demoModeValue === false) {
-				if (data && Object.keys(data).length > 0) {
-					for (const key in data) {
-                        if (typeof data[key] === 'string' && data[key].trim() === "") {
-                            delete data[key];
-                        }
-                    }
-					this.nowPlayingData = data;
-					this.createNowPlaying();
-					this.updatedNowPlayingContent();
-				} else {
-					this.createDefaultNowPlaying();
-				}
-			}
+			this.debouncedNowPlayingDataHandler(data);
 		}));
 
 		subscribeState('o', 'progressBarData', ((data: any) => {
@@ -330,7 +315,7 @@ export class Ch5MediaPlayerNowPlaying {
 
 		const album = this.getDataValue('Album', 2);
 		this._nowPlayingAlbum.textContent = decodeString(album);
-		
+
 		if (!album?.trim() || !artist?.trim()) {
 			this._separator.classList?.add('ch5-hide-dis');
 		} else {
@@ -339,7 +324,7 @@ export class Ch5MediaPlayerNowPlaying {
 		// this._nowPlayingSongAdditionalInfo.textContent = this.nowPlayingData.TrackCnt > 0 ? `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}` : '';
 		const station = this.getDataValue('StationName', 3, 5);
 		this._nowPlayingSongAdditionalInfo.textContent = decodeString(station);
-		
+
 		this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
 		//this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[0].split(' '));
 		const currentPlayerIconUrl = this.nowPlayingData.PlayerIconURL?.trim() ?? "";
@@ -736,6 +721,25 @@ export class Ch5MediaPlayerNowPlaying {
 			this._nowPlayingContainer.appendChild(this._nextAndPreviousSongContainer);
 		}
 	}
+
+	// Debounced handler for nowPlayingData subscription
+	private debouncedNowPlayingDataHandler = debounce((data: any) => {
+		this.logger.log('NowPlayingData ', data);
+		if (this.demoModeValue === false) {
+			if (data && Object.keys(data).length > 0) {
+				for (const key in data) {
+					if (typeof data[key] === 'string' && data[key].trim() === "") {
+						delete data[key];
+					}
+				}
+				this.nowPlayingData = data;
+				this.createNowPlaying();
+				this.updatedNowPlayingContent();
+			} else {
+				this.createDefaultNowPlaying();
+			}
+		}
+	}, 100);
 
 	//#endregion
 
