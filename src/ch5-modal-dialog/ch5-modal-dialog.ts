@@ -680,14 +680,14 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		this.updateCssClasses();
 	}
 
-	protected updateSwipeGesture() {
-		if (this._elBtnCancel) {
-			this._elBtnCancel.setAttribute('sendEventOnClick', String(this.swipeGestureEnabled));
-		}
-		if (this._elBtnOk) {
-			this._elBtnOk.setAttribute('sendEventOnClick', String(this.swipeGestureEnabled));
-		}
-	}
+	// protected updateSwipeGesture() {
+	// 	if (this._elBtnCancel) {
+	// 		this._elBtnCancel.setAttribute('sendEventOnClick', String(this.swipeGestureEnabled));
+	// 	}
+	// 	if (this._elBtnOk) {
+	// 		this._elBtnOk.setAttribute('sendEventOnClick', String(this.swipeGestureEnabled));
+	// 	}
+	// }
 
 	protected initializeButton() {
 		if (!this.hideOkButton && this._elBtnOk.childNodes === undefined) {

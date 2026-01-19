@@ -34,7 +34,7 @@ export interface ICh5CommonProperties {
 	sendEventOnShow: ICh5PropertySettings,
 	show: ICh5PropertySettings,
 	trace: ICh5PropertySettings,
-	swipeGestureEnabled: ICh5PropertySettings
+	// swipeGestureEnabled: ICh5PropertySettings
 }
 
 export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttributes {
@@ -261,14 +261,14 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true
 		},
-		{
-			default: false,
-			name: "swipeGestureEnabled",
-			removeAttributeOnNull: true,
-			type: "boolean",
-			valueOnAttributeEmpty: true,
-			isObservableProperty: true
-		},
+		// {
+		// 	default: false,
+		// 	name: "swipeGestureEnabled",
+		// 	removeAttributeOnNull: true,
+		// 	type: "boolean",
+		// 	valueOnAttributeEmpty: true,
+		// 	isObservableProperty: true
+		// },
 	];
 
 	public static readonly COMMON_PROPERTIES: ICh5CommonProperties = {
@@ -289,7 +289,7 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 		sendEventOnShow: this.getCommonProperty("sendEventOnShow"),
 		show: this.getCommonProperty("show"),
 		trace: this.getCommonProperty("trace"),
-		swipeGestureEnabled: this.getCommonProperty('swipeGestureEnabled')
+		// swipeGestureEnabled: this.getCommonProperty('swipeGestureEnabled')
 	};
 
 	//#endregion
@@ -507,13 +507,13 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 		return this._ch5Properties.get<boolean>("trace");
 	}
 
-	public set swipeGestureEnabled(value: boolean) {
-		this.logger.log('set swipeGestureEnabled(\'' + value + '\')');
-		this._ch5Properties.set<boolean>("swipeGestureEnabled", value)
-	}
-	public get swipeGestureEnabled(): boolean {
-		return this.swipeGestureEnabled;
-	}
+	// public set swipeGestureEnabled(value: boolean) {
+	// 	this.logger.log('set swipeGestureEnabled(\'' + value + '\')');
+	// 	this._ch5Properties.set<boolean>("swipeGestureEnabled", value)
+	// }
+	// public get swipeGestureEnabled(): boolean {
+	// 	return this.swipeGestureEnabled;
+	// }
 
 	protected get util() {
 		return util;
