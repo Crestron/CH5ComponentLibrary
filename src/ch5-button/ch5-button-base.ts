@@ -549,9 +549,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private sgIconNumeric: number = -1;
 	private sgIconString: string = "";
 
-	private _pressDelayTime: number | null = null;
-	private _pressDelayDistance: number | null = null;
-
 	private buttonListContract: ICh5ButtonListContractObj = {
 		clickHoldTime: 0,
 		index: -1,
@@ -1291,9 +1288,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			'halignlabel',
 			'valignlabel',
 
-			'pressdelaytime',
-			'pressdelaydistance',
-
 			'shape',
 			'size',
 			'stretch',
@@ -1682,38 +1676,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.stop();
 	}
 
-	public set pressDelayTime(value: number | null) {
-		this.logger.log('set pressDelayTime("' + value + '")');
-		if (this._pressDelayTime !== value && value !== null) {
-			if (!Number.isNaN(value)) {
-				this._pressDelayTime = value;
-				this.setAttribute('pressDelayTime', String(this._pressDelayTime));
-			}
-		}
-	}
-	public get pressDelayTime(): number | null {
-		return this._pressDelayTime;
-	}
-
-	public set pressDelayDistance(value: number | null) {
-		this.logger.log('set pressDelayDistance("' + value + '")');
-		if (this._pressDelayDistance !== value && value !== null) {
-			if (!Number.isNaN(value)) {
-				this._pressDelayDistance = value;
-				this.setAttribute('pressDelayDistance', String(this._pressDelayDistance));
-			}
-		}
-	}
-	public get pressDelayDistance(): number | null {
-		return this._pressDelayDistance;
-	}
-
-
-	// protected updateSwipeGesture() {
-	// 	if (this._pressable !== null && !_.isNil(this._pressable.options)) {
-	// 		this._pressable.options.enableSwipe = this.swipeGestureEnabled;
-	// 	}
-	// }
 	public createButtonLabel(selectedObject: Ch5ButtonBase | Ch5ButtonMode | Ch5ButtonModeState) {
 		const buttonLabelList = selectedObject.getElementsByTagName("ch5-button-label");
 		const findButtonLabel = Array.prototype.slice.call(buttonLabelList).filter((x: { parentNode: { nodeName: { toString: () => string; }; }; }) => x.parentNode.nodeName.toString().toLowerCase() === selectedObject.nodeName.toString().toLowerCase());
@@ -1893,7 +1855,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
 			cssPressedClass: pressedClass
 		});
-		// console.log("updatePressedClass:=============", this.swipeGestureEnabled);
 	}
 
 	protected updateForChangeInCustomCssClass() {

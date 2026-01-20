@@ -257,12 +257,6 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 		}
 	}
 
-	// protected updateSwipeGesture() {
-	// 	if (this._pressable !== null && !_.isNil(this._pressable.options)) {
-	// 		this._pressable.options.enableSwipe = this._parentDpad.swipeGestureEnabled;
-	// 	}
-	// }
-
 	/**
 	 * 	Called every time the element is inserted into the DOM.
 	 *  Useful for running setup code, such as fetching resources or rendering.

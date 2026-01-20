@@ -106,11 +106,6 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
 				.replaceIndexIdInTmplElemsContent(documentContainer, (index), this._list.indexId as string);
 		}
 
-		// const templateContent = (documentContainer as HTMLTemplateElement)?.content;
-		// this.setCustomAttributesInChildComponents(templateContent);
-
-		// divTemplate.appendChild(templateContent);
-
 		divTemplate.appendChild((documentContainer as HTMLTemplateElement).content);
 
 		// update templateContent attributes to increment join numbers and prefix contract name
@@ -131,18 +126,6 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
 		return divTemplate as HTMLElement;
 	}
 
-	// private setCustomAttributesInChildComponents(parentElement: any) {
-	// 	const found: any = [];
-	// 	const allElements = parentElement.querySelectorAll('*');
-	// 	for (const element of allElements) {
-	// 		const elementTagName = element.tagName;
-	// 		if (elementTagName.startsWith('CH5-')) {
-	// 			element.setAttribute("swipeGestureEnabled", "true");
-	// 			found.push(element);
-	// 		}
-	// 	}
-	// 	return found;
-	// }
 	/**
 	 * Process css applied on list item
 	 */

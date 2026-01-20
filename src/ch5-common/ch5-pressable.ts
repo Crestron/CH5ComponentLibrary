@@ -209,31 +209,22 @@ export class Ch5Pressable {
 	private _onPointerMove(pointerEvent: PointerEvent): void {
 		// On a swipe motion we don't want to send a join or show visual feedback, check if finger has moved
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Start ) {
-			// this._ch5Component.logger.log("this._options?.enableSwipe", this._options?.enableSwipe);
-			// console.log("enableSwipe-------->>", this._options?.enableSwipe)
-			// if (this._options && this._options.enableSwipe === true) {
-				// console.log("pointerEvent", pointerEvent);
 				if (pointerEvent !== null) {
 					const xMoveDistance = pointerEvent.clientX - this._fingerState.touchStartLocationX;
 					const yMoveDistance = pointerEvent.clientY - this._fingerState.touchStartLocationY;
 					const distanceMoved = Math.sqrt(xMoveDistance ** 2 + yMoveDistance ** 2);
-					// console.log("Distance moved:", distanceMoved);
 					this._ch5Component.info(`DELETE ME Ch5Pressable.onMouseMove() , ${pointerEvent.clientX}, ${pointerEvent.clientY}, ${distanceMoved}`);
 					if (distanceMoved > this.CLICK_MOVE_THRESHOLD) {
-						console.log("Swipe is true");
 						this._ch5Component.logger.log("Swipe is true");
 						this._ch5Component.info(`Ch5Pressable.onMouseMove() cancelling press, ${pointerEvent.clientX}, ${pointerEvent.clientY}, ${distanceMoved}`);
 						this._fingerState.reset();
 					}
 				}
-			// }
 		}
 
-		// console.log("mode", this._fingerState.mode);
 		// If finger is down, check if pointer is outside the button
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
 			const rect = this._ch5Component.getBoundingClientRect();
-			// console.log("RECT", rect);
 			// Check if the pointer is outside the button
 			if (
 				pointerEvent.clientX < rect.left ||
@@ -258,7 +249,6 @@ export class Ch5Pressable {
 	}
 
 	public resetPressAndReleaseActions() {
-		console.log("resetPressAndReleaseActions")
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
 			// quick tap, must do both press and release
 			this._fingerIsDownActions();
