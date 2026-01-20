@@ -288,6 +288,22 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true,
 		},
+		{
+			default: false,
+			name: "multilineSupport",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true,
+		},
+		{
+			default: false,
+			name: "truncateText",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true,
+		},
 	];
 
 	private readonly BUTTON_PROPERTIES: {
@@ -1144,6 +1160,29 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		return this._attributeValueAsString('receivestatecustomstyle');
 	}
 
+	public set multilineSupport(value: boolean) {
+		this._ch5Properties.set<boolean>("multilineSupport", value, () => {
+		this.debounceHandleMultilineSupport();
+		});
+	}
+
+	public debounceHandleMultilineSupport = this.debounce(() => {
+		this.handleMultilineSupport();
+	}, 150);
+
+	public get multilineSupport(): boolean {
+		return this._ch5Properties.get<boolean>("multilineSupport");
+	}
+
+	public set truncateText(value: boolean) {
+		this._ch5Properties.set<boolean>("truncateText", value, () => {
+		this.handleTruncateText();
+		});
+	}
+	public get truncateText(): boolean {
+		return this._ch5Properties.get<boolean>("truncateText");
+	}
+
 	//#endregion
 
 	//#endregion
@@ -1174,6 +1213,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		subscribeInViewPortChange(this, () => {
 			if (this.elementIsInViewPort) {
 				this.verticalOrientationHandler();
+				this.debounceHandleMultilineSupport();
 			} else {
 				this.setAttribute("pressed", "false");
 				if (this._pressable) {
@@ -1233,6 +1273,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				this.isResizeInProgress = false; // reset debounce once completed
 			}, this.RESIZE_DEBOUNCE);
 		}
+		this.debounceHandleMultilineSupport();
 	}
 
 	private verticalOrientationHandler() {
@@ -2998,6 +3039,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			}
 			this._elButton.className = this.BUTTON_PRIMARY_CLASS + ' ' + this.primaryCssClass + '--span' + ' ' + arrayListTwo.join(' ');//.add(this._listOfAllPossibleComponentCssClasses[i]);
 		}
+		this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label-multiline-support-' + this.multilineSupport.toString());
+		this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label-truncate-text-' + this.truncateText.toString());
 		this.logger.stop();
 	}
 
@@ -3016,6 +3059,59 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.setButtonDisplay();
 		this.checkboxDisplay();
 		this.updateCssClasses();
+	}
+
+	private handleMultilineSupport() {
+		['true', 'false'].forEach((e: any) => {
+			this._elSpanForLabelOnly.classList.remove(this.primaryCssClass + '--label-multiline-support-' + e);
+		});
+		this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label-multiline-support-' + this.multilineSupport.toString());
+		if (this.multilineSupport) {
+			this.fitEllipsisForMultiline();
+		}
+	}
+
+	private handleTruncateText() {
+		['true', 'false'].forEach((e: any) => {
+			this._elSpanForLabelOnly.classList.remove(this.primaryCssClass + '--label-truncate-text-' + e);
+		});
+		this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label-truncate-text-' + this.truncateText.toString());
+		if (this.multilineSupport) {
+			this.fitEllipsisForMultiline();
+		} else {
+			this._elSpanForLabelOnly.style.removeProperty('word-wrap');
+			this._elSpanForLabelOnly.style.removeProperty('display');
+			this._elSpanForLabelOnly.style.removeProperty('max-height');
+		}
+	}
+
+	public fitEllipsisForMultiline() {
+		let numberOfLines = 0;
+		const lineHeight = this.getLineHeightSuper(this._elSpanForLabelOnly);
+		//const topAndBottomPadding = 20;
+		const containerHeight = this.getContainerHeight(this._elButton);
+		if (containerHeight < lineHeight) {
+			numberOfLines = 1
+		} else {
+			numberOfLines = Math.floor(containerHeight / lineHeight);
+		}
+		if (this.truncateText) {
+			this._elSpanForLabelOnly.setAttribute("style", "-webkit-line-clamp:" + numberOfLines);
+		} else {
+			this._elSpanForLabelOnly.setAttribute("style", "max-height: " + (numberOfLines * lineHeight) + "px" + ";");
+		}
+	}
+ 
+	public getLineHeightSuper(element: HTMLElement) {
+		const oldHtml = element.innerHTML;
+		element.innerHTML = "&nbsp;";
+		const lineHeight = element.offsetHeight;
+		element.innerHTML = oldHtml;
+		return lineHeight;
+	}
+
+	public getContainerHeight(element: HTMLElement) {
+		return element.clientHeight;
 	}
 
 	//#endregion
