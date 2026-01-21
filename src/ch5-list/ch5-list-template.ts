@@ -106,7 +106,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
 				.replaceIndexIdInTmplElemsContent(documentContainer, (index), this._list.indexId as string);
 		}
 
-		divTemplate.appendChild((documentContainer as HTMLTemplateElement).content);
+		divTemplate.appendChild((documentContainer as HTMLTemplateElement)?.content);
 
 		// update templateContent attributes to increment join numbers and prefix contract name
 		Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(divTemplate, this._list.getAttribute("contractname") || '',

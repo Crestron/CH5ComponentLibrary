@@ -190,7 +190,6 @@ export class Ch5Pressable {
 	} */
 
 	private _onClick(): void {
-		console.log("CLICK ACTION")
 		if (!this._ch5Component.elementIsInViewPort) { return; }
 	}
 
