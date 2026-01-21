@@ -18,7 +18,6 @@ import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { CH5KeypadUtils } from './ch5-keypad-utils';
 import { Ch5Keypad } from './ch5-keypad';
-import _ from "lodash";
 
 export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttributes {
 
@@ -372,22 +371,11 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		}
 		this._pressable = new Ch5Pressable(this, {
 			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
-			cssPressedClass: pressedClass,
-			enableSwipe: parent.swipeGestureEnabled
+			cssPressedClass: pressedClass
 		});
 		if (this._pressable) {
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
-		}
-	}
-
-	protected updateSwipeGesture() {
-		const parent = this.parentElement?.parentElement as Ch5Keypad;
-		if (!parent) {
-			return;
-		}
-		if (this._pressable !== null && !_.isNil(this._pressable.options)) {
-			this._pressable.options.enableSwipe = parent.swipeGestureEnabled;
 		}
 	}
 

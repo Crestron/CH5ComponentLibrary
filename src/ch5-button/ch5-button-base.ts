@@ -1676,12 +1676,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.stop();
 	}
 
-
-	protected updateSwipeGesture() {
-		if (this._pressable !== null && !_.isNil(this._pressable.options)) {
-			this._pressable.options.enableSwipe = this.swipeGestureEnabled;
-		}
-	}
 	public createButtonLabel(selectedObject: Ch5ButtonBase | Ch5ButtonMode | Ch5ButtonModeState) {
 		const buttonLabelList = selectedObject.getElementsByTagName("ch5-button-label");
 		const findButtonLabel = Array.prototype.slice.call(buttonLabelList).filter((x: { parentNode: { nodeName: { toString: () => string; }; }; }) => x.parentNode.nodeName.toString().toLowerCase() === selectedObject.nodeName.toString().toLowerCase());
@@ -1859,8 +1853,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private updatePressedClass(pressedClass: string) {
 		this._pressable = new Ch5Pressable(this, {
 			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
-			cssPressedClass: pressedClass,
-			enableSwipe: this.swipeGestureEnabled
+			cssPressedClass: pressedClass
 		});
 	}
 

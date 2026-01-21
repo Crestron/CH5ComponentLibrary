@@ -65,22 +65,9 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	};
 
 	protected readonly COMMON_PROPERTIES: {
-		SWIPE_GESTURE_ENABLED: ICh5AttributeAndPropertySettings,
 		SHOW: ICh5AttributeAndPropertySettings,
 		DISABLED: ICh5AttributeAndPropertySettings
 	} = {
-			SWIPE_GESTURE_ENABLED: {
-				default: false,
-				valueOnAttributeEmpty: true,
-				variableName: "_swipeGestureEnabled",
-				attributeName: "swipeGestureEnabled",
-				propertyName: "swipeGestureEnabled",
-				type: "boolean",
-				removeAttributeOnNull: true,
-				enumeratedValues: ['true', 'false', '', true, false],
-				componentReference: this,
-				callback: this.updateSwipeGesture.bind(this)
-			},
 			SHOW: {
 				default: true,
 				valueOnAttributeEmpty: true,
@@ -167,11 +154,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	 * Reflects the gestureable ability of the components
 	 */
 	private _gestureable: boolean = false;
-
-	/**
-	 * Reflects the swipe gesture ability of the components
-	 */
-	private _swipeGestureEnabled: boolean = false;
 
 	/**
 	 * Contains the name of a string signal. The value received on this string signal will be applied as a property on
@@ -447,14 +429,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	}
 	public get gestureable(): boolean {
 		return this._gestureable;
-	}
-
-	public set swipeGestureEnabled(value: boolean) {
-		this.logger.log('set swipeGestureEnabled(\'' + value + '\')');
-		this.setAttributeAndProperty(this.COMMON_PROPERTIES.SWIPE_GESTURE_ENABLED, value);
-	}
-	public get swipeGestureEnabled(): boolean {
-		return this._swipeGestureEnabled;
 	}
 
 	public set receiveStateCustomClass(value: string) {
@@ -1054,7 +1028,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 			'noshowtype',
 			'disabled',
 			'gestureable',
-			'swipegestureenabled',
 			'receivestatecustomclass',
 			'receivestatecustomstyle',
 			'receivestateshow',
@@ -1129,9 +1102,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 				break;
 			case 'show':
 				this.show = newValue as unknown as boolean;
-				break;
-			case 'swipegestureenabled':
-				this.swipeGestureEnabled = newValue as unknown as boolean;
 				break;
 			case 'noshowtype':
 				this.updateForChangeInShowStatus();
@@ -1347,13 +1317,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 			this.handleShow(targetElement);
 		}
 	}
-	/**
-		 * Placeholder method. If needed can be overridden in child classes
-		 */
-	protected updateSwipeGesture() {
-		// this.logger.log('common - updateSwipeGesture()');
-		return;
-	}
 
 	protected updateForChangeInShowStatus() {
 		const targetElement: HTMLElement = this;
@@ -1520,10 +1483,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		}
 		if (this.hasAttribute('show') && this.ignoreAttributes.includes('show') === false) {
 			this.show = this.getAttribute('show') as unknown as boolean;
-		}
-
-		if (this.hasAttribute('swipegestureenabled') && this.ignoreAttributes.includes('swipegestureenabled') === false) {
-			this.swipeGestureEnabled = this.getAttribute('swipegestureenabled') as unknown as boolean;
 		}
 
 		if (this.hasAttribute('customclass') && this.ignoreAttributes.includes('customclass') === false) {
