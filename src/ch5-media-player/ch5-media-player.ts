@@ -399,7 +399,6 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
   }
 
   public disconnectedCallback() {
-    console.log('Disconencted called------');
     this.logger.start('disconnectedCallback()');
     this.removeEventListeners();
     this.unsubscribeFromSignals();
@@ -460,7 +459,6 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
   //Generic Dialog
   protected genericDialog(dialogType: string, dialogHeading: string, dialogArray: Array<string>, dialogInput: string, timeoutSec: number) {
     this.logger.log(dialogType);
-    console.log("genericDialog----"); 
     if (this._elMask) this._elMask.innerHTML = "";
 
     // Set dialog heading
@@ -543,7 +541,6 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
 
   //Dialog Heading
   protected getDialogHeading(dialogHeading: string) {
-    console.log("getDialogHeading----");
     this._elMask = createElement('div', ['ch5-media-player--popup-overlay']);
     this._elContainer.appendChild(this._elMask);
     this._elGenericDialogContent = createElement('div', ['ch5-media-player--popup-content-generic']);
