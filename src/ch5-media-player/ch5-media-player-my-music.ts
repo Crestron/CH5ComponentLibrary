@@ -117,13 +117,15 @@ export class Ch5MediaPlayerMyMusic {
 
   public handleDemoMode(demoMode: boolean) {
     if (demoMode) {
-      this.createMyMusic();
-      this.myMusicData = this.MY_MUSIC_DEMO_DATA;
-      this.menuListData = this.MY_MUSIC_MENU_DEMO_DATA;
-      this.apiChanges();
-      this.menuApiChanges();
-      this._myMusicContentSection?.children[0]?.classList.add('active');
-      this._myMusicFooterSection?.children[1]?.classList.add('active');
+      setTimeout(() => { // ToDo
+        this.createMyMusic();
+        this.myMusicData = this.MY_MUSIC_DEMO_DATA;
+        this.menuListData = this.MY_MUSIC_MENU_DEMO_DATA;
+        this.apiChanges();
+        this.menuApiChanges();
+        this._myMusicContentSection?.children[0]?.classList.add('active');
+        this._myMusicFooterSection?.children[1]?.classList.add('active');
+      }, 200)
     } else {
       this.myMusicData = "";
       this.createDefaultMyMusic();

@@ -250,11 +250,13 @@ export class Ch5MediaPlayerNowPlaying {
 				clearInterval(this._progressBarTimer);
 				this._progressBarTimer = null;
 			}
-			this.createNowPlaying();
-			this.nowPlayingData = this.NOW_PLAYING_DEMO_DATA;
-			this.updatePlayerName(this.nowPlayingData.PlayerName);
-			this.updatedNowPlayingContent();
-			this.updateProgressBarDemoData();
+			setTimeout(() => { // ToDo
+				this.createNowPlaying();
+				this.nowPlayingData = this.NOW_PLAYING_DEMO_DATA;
+				this.updatePlayerName(this.nowPlayingData.PlayerName);
+				this.updatedNowPlayingContent();
+				this.updateProgressBarDemoData();
+			}, 200);
 		} else {
 			this.nowPlayingData = '';
 			this.createDefaultNowPlaying();
