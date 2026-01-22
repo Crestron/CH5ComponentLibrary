@@ -250,7 +250,7 @@ export class Ch5MediaPlayerNowPlaying {
 				clearInterval(this._progressBarTimer);
 				this._progressBarTimer = null;
 			}
-			setTimeout(() => { // ToDo
+			setTimeout(() => { // ToDo : need to find better way to add demo mode handlers with the debounce
 				this.createNowPlaying();
 				this.nowPlayingData = this.NOW_PLAYING_DEMO_DATA;
 				this.updatePlayerName(this.nowPlayingData.PlayerName);
