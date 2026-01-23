@@ -763,6 +763,15 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 		}
 	}
 
+	protected updateSwipeGesture() {
+		if (this.submitButton) {
+			this.submitButton.swipeGestureEnabled = this.swipeGestureEnabled;
+		}
+		if (this.cancelButton) {
+			this.cancelButton.swipeGestureEnabled = this.swipeGestureEnabled;
+		}
+	}
+
 	/**
 	 * COMPONENT METHODS
 	 *
