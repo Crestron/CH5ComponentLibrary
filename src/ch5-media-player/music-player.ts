@@ -1,6 +1,6 @@
 import { publishEvent, subscribeState, unsubscribeState } from "../ch5-core";
 import _ from 'lodash';
-import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest } from "./commonInterface";
+import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest, RegisterwithDeviceResponse } from "./commonInterface";
 import { encodeString } from "./ch5-media-player-common";
 import { TCH5NowPlayingActions } from "./interfaces/t-ch5-media-player";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
@@ -23,6 +23,9 @@ export class MusicPlayerLib {
     private subSendEventCRPCJoinNo: any;
     private subControlSystemsOnlineFB: any;
     private naxDeviceOfflineFlag: boolean = false;
+
+    private subCsigMediaSocketResponse: any;
+    private subCsigMediaSocketInboundMessage: any;
 
     // Generate a constant UUID once per application start.
     private generateStrongCustomId = (): string => {
@@ -62,6 +65,7 @@ export class MusicPlayerLib {
         "instanceName": '',
         "menuInstanceName": '',
     };
+
     private nowPlayingPublishData: any = {};
     private myMusicPublishData: any = {};
     private progressBarPublishData: any = {};
@@ -193,6 +197,16 @@ export class MusicPlayerLib {
                     }
                 });
             }
+        });
+    }
+
+    private directConnectionSubscription() {
+        this.subCsigMediaSocketResponse = subscribeState('s', 'Csig.mediasocket.response', (value: string) => {
+            console.log('Csig.mediasocket.response--', value);
+        });
+
+        this.subCsigMediaSocketInboundMessage = subscribeState('s', 'Csig.mediasocket.inboundmessage', (value: string) => {
+            console.log('Csig.mediasocket.inboundmessage--', value)
         });
     }
 
@@ -424,7 +438,7 @@ export class MusicPlayerLib {
                 id: this.generateUniqueMessageId(),
                 method: this.myMP.menuInstanceName + '.RegisterEvent'
             };
-            
+
             if (this.myMP.menuInstanceName) {
                 this.sendRPCRequest(JSON.stringify(myRPC));
             }
@@ -476,6 +490,40 @@ export class MusicPlayerLib {
         // Start the re-send time.
         if (!this.resendRegistrationTimeId) {
             this.startRegistrationResendTimer();
+        }
+    }
+
+    private processRegistrationResponse(dataObj: RegisterwithDeviceResponse) {
+        console.log('***processRegistrationResponse***');
+
+        // Make sure we have a result.
+        if (dataObj.result) {
+            console.log('Found result.', dataObj);
+
+            // We have a response, so our connnecton is active.
+            this.myMP.connectionActive = true;
+            // What RPC version is this?
+            /*         if (dataObj.ver == '1.0') {
+                        console.log('RPC version = 1.0.');
+            
+                        if (dataObj.result.connections) {
+                            console.log('Found connections list.');
+                            var myDirectConnectionInfo = dataObj.result.connections.cip;
+                            console.log('myDirectConnectionInfo Ip: ' + myDirectConnectionInfo.ip);
+                        }
+                    }
+                    else {
+                        console.log('RPC version = 2.0.');
+            
+                        // Do we have the connection list?
+                        if (dataObj.result.connectionslist) {
+                            console.log('Found connections list.');
+                            var myDirectConnectionInfo = getDirectConnectionInfoFromArray(dataObj.result.connectionslist);
+                            console.log('myDirectConnectionInfo Ip: ' + myDirectConnectionInfo.ip);
+                        }
+                    } */
+
+
         }
     }
 
@@ -642,9 +690,10 @@ export class MusicPlayerLib {
             if (myMsgId == this.myMP.RegistrationId) {
                 // When we perform the CS to Nax registration, the response data will contain Nax-related information, including IP, IP subnet, name, and other details, which we may use in the future if required.
                 clearInterval(this.resendRegistrationTimeId);
-                this.myMP.connectionActive = true;
+                this.processRegistrationResponse(responseData);
+                //this.myMP.connectionActive = true;
                 // While objects are being returned, switch the connection to direct (if possible).
-                this.getObjects();
+                //this.getObjects();
             } else if (myMsgId == this.myMP.ObjectsId) {
                 this.processGetObjectsResponse(responseData);
             } else if (myMsgId == this.myMP.PropertiesSupportedId) {
@@ -805,6 +854,10 @@ export class MusicPlayerLib {
         unsubscribeState('s', 'serial_receiveStateMessageResp', this.subReceiveStateMessageResp);
         unsubscribeState('s', 'serial_sendEventCRPCJoinNo', this.subSendEventCRPCJoinNo);
         unsubscribeState('b', 'Csig.All_Control_Systems_Online_fb', this.subControlSystemsOnlineFB);
+
+        unsubscribeState('b', 'Csig.mediasocket.response', this.subCsigMediaSocketResponse);
+        unsubscribeState('b', 'Csig.mediasocket.inboundmessage', this.subCsigMediaSocketInboundMessage);
+
         this.menuListPublishData = { 'MenuData': [] };
         this.nowPlayingPublishData = {};
         this.myMusicPublishData = {};
