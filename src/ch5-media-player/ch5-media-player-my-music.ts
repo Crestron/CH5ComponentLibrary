@@ -194,7 +194,7 @@ export class Ch5MediaPlayerMyMusic {
         const menuLength = getMenuLength();
         const maxReqItems = getMaxReqItems();
 
-        if (scrollTop > lastScrollTop && menuLength > this.loadItemsCount) {
+        if (scrollTop > lastScrollTop && menuLength >= this.loadItemsCount) {
           if (distanceFromBottom <= this.scrollPosition) {
             const first = this._myMusicContentSection.firstElementChild as HTMLElement | null;
             if (first) { this._myMusicContentSection.removeChild(first); }
@@ -241,8 +241,10 @@ export class Ch5MediaPlayerMyMusic {
   }
 
   protected createLine(index: number, position = 'end') {
-    if ((index + 1 >= this.menuListData['MenuData']?.length) && (index + 1 >= this.musicPlayerLibInstance.maxReqItems)) {
-      this.musicPlayerLibInstance.getItemData(true);
+    if (position !== 'first' && (index + 1 >= this.menuListData['MenuData']?.length) && (index + 1 >= this.musicPlayerLibInstance.maxReqItems)) {
+      if(this.menuListData['MenuData']?.length < this.myMusicData['ItemCnt']) {
+        this.musicPlayerLibInstance.getItemData(true);
+      }
     }
 
     // if (index > 0 && this.printedIndex === index) return;
@@ -431,7 +433,7 @@ export class Ch5MediaPlayerMyMusic {
     if (menuLength <= this.musicPlayerLibInstance.maxReqItems) {
       Array.from(this._myMusicContentSection.childNodes).forEach(child => child.remove());
       for (let index = 0; index < menuLength; index++) {
-        this.createLine(index);
+        this.createLine(index, 'first');
       }
     }
 
