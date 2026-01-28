@@ -165,11 +165,6 @@ export class Ch5MediaPlayerNowPlaying {
 					}
 					this._progressBarContainer.classList?.remove('ch5-hide-dis');
 					this._progressStreamState = this.progressBarData.StreamState;
-					if (this.nowPlayingData?.PlayerState === "forwarding") {
-						this._streamState.textContent = this.nowPlayingData?.FfwdSpeed + 'X';
-					} else {
-						this._streamState.textContent = this._progressStreamState;
-					}
 					this._progressBarTrackSec = this.progressBarData.TrackSec;
 					this._progressBarElapsedSec = this.progressBarData.ElapsedSec;
 					if (this._progressBarInput) {
@@ -563,7 +558,13 @@ export class Ch5MediaPlayerNowPlaying {
 		this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
 		progressBarCurrentTimeDurationContainer.appendChild(this._currentTime);
 		this._streamState = createElement('span');
-		this._streamState.textContent = this._progressStreamState;
+		if (this._progressStreamState !== '') {
+			this._streamState.textContent = this._progressStreamState;
+		}
+		else if (this.nowPlayingData?.PlayerState === "forwarding") {
+			console.log('ffwd speed>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', this.nowPlayingData?.FfwdSpeed);
+			this._streamState.textContent = this.nowPlayingData?.FfwdSpeed + 'X';
+		}
 		progressBarCurrentTimeDurationContainer.appendChild(this._streamState);
 		this._duration = createElement('span');
 		this._duration.textContent = formatTime(parseInt(this._progressBarInput.max) - parseInt(this._progressBarInput.value));
