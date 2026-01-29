@@ -12,6 +12,7 @@ import { isSafariMobile } from '../ch5-core/utility-functions/is-safari-mobile';
 export interface ICh5PressableOptions {
 	cssTargetElement: HTMLElement;
 	cssPressedClass: string;
+	enableSwipe: boolean;
 }
 
 enum Ch5PressableFingerStateMode {
@@ -207,7 +208,9 @@ export class Ch5Pressable {
 
 	private _onPointerMove(pointerEvent: PointerEvent): void {
 		// On a swipe motion we don't want to send a join or show visual feedback, check if finger has moved
-		if (this._fingerState.mode === Ch5PressableFingerStateMode.Start ) {
+		if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
+			this._ch5Component.logger.log("this._options?.enableSwipe", this._options?.enableSwipe);
+			if (this._options && this._options.enableSwipe === true) {
 				if (pointerEvent !== null) {
 					const xMoveDistance = pointerEvent.clientX - this._fingerState.touchStartLocationX;
 					const yMoveDistance = pointerEvent.clientY - this._fingerState.touchStartLocationY;
@@ -219,9 +222,9 @@ export class Ch5Pressable {
 						this._fingerState.reset();
 					}
 				}
+			}
 		}
 
-		// If finger is down, check if pointer is outside the button
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
 			const rect = this._ch5Component.getBoundingClientRect();
 			// Check if the pointer is outside the button

@@ -330,20 +330,6 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
       this.debouncedBusyChangedHandler(data);
     }));
 
-    this._subPopUpMessageData = subscribeState('o', 'PopUpMessageData', ((data: any) => {
-      this.popUpData = data;
-      this.logger.log("Popup Data", this.popUpData);
-      if (this._elMask && this._elMask.parentNode) {
-        this._elMask.parentNode.removeChild(this._elMask);
-      }
-      if (this.popUpData && this.popUpData.show) {
-        this.genericDialog(this.popUpData.userInputRequired, this.popUpData.text, this.popUpData.textForItems, this.popUpData.initialUserInput, this.popUpData.timeoutSec);
-      } else {
-        if (this._elMask && this._elMask.parentNode) {
-          this._elMask.parentNode.removeChild(this._elMask);
-        }
-      }
-    }));
   }
 
   public static get observedAttributes(): string[] {
@@ -395,6 +381,22 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
       this.musicPlayerLibInstance.subscribeLibrarySignals();
       this.componentLoadedEvent(Ch5MediaPlayer.ELEMENT_NAME, this.id);
     });
+
+    this._subPopUpMessageData = subscribeState('o', 'PopUpMessageData', ((data: any) => {
+      this.popUpData = data;
+      this.logger.log("Popup Data", this.popUpData);
+      if (this._elMask && this._elMask.parentNode) {
+        this._elMask.parentNode.removeChild(this._elMask);
+      }
+      if (this.popUpData && this.popUpData.show) {
+        this.genericDialog(this.popUpData.userInputRequired, this.popUpData.text, this.popUpData.textForItems, this.popUpData.initialUserInput, this.popUpData.timeoutSec);
+      } else {
+        if (this._elMask && this._elMask.parentNode) {
+          this._elMask.parentNode.removeChild(this._elMask);
+        }
+      }
+    }));
+    
     this.logger.stop();
   }
 
