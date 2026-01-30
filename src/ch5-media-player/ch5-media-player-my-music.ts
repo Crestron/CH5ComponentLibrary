@@ -28,6 +28,7 @@ export class Ch5MediaPlayerMyMusic {
   private loadItemsCount = 40;
   private printedIndex = 0;
   private scrollPosition = 100;
+  private isLoadingMoreData = false;
 
   private MY_MUSIC_DEMO_DATA = {
     Title: "HEADER TEXT",
@@ -93,6 +94,7 @@ export class Ch5MediaPlayerMyMusic {
 
     subscribeState('o', 'menuListData', ((data: any) => {
       this.menuListData = data;
+      this.isLoadingMoreData = false;
       this.logger.log("My Music Menu list Data: ", this.menuListData);
       if (this.menuListData && this.menuListData['MenuData'] && this.menuListData['MenuData'].length <= this.musicPlayerLibInstance.maxReqItems) {
         this.printedIndex = 0;
@@ -242,7 +244,8 @@ export class Ch5MediaPlayerMyMusic {
 
   protected createLine(index: number, position = 'end') {
     if (position !== 'first' && (index + 1 >= this.menuListData['MenuData']?.length) && (index + 1 >= this.musicPlayerLibInstance.maxReqItems)) {
-      if(this.menuListData['MenuData']?.length < this.myMusicData['ItemCnt']) {
+      if(!this.isLoadingMoreData && this.menuListData['MenuData']?.length < this.myMusicData['ItemCnt']) {
+        this.isLoadingMoreData = true;// to avoid multiple calls on scroll
         this.musicPlayerLibInstance.getItemData(true);
       }
     }
