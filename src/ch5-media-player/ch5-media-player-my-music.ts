@@ -102,7 +102,9 @@ export class Ch5MediaPlayerMyMusic {
 
     subscribeState('b', 'showMyMusicComponent', ((value: boolean) => {
       if (value) {
-        this._myMusicContainer.classList.add("my-music-transition");
+        if (this._myMusicContainer.parentElement?.classList.contains("portrait-mode-active")) {
+          this._myMusicContainer.classList.add("my-music-transition");
+        }
       } else {
         if (this._myMusicContainer && this._myMusicContainer.classList.contains("my-music-transition")) {
           this._myMusicContainer.classList.remove("my-music-transition");
