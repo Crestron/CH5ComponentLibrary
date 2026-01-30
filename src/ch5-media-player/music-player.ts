@@ -724,6 +724,7 @@ export class MusicPlayerLib {
 
     // MyMusic component action
     public myMusicEvent(action: string, itemIndex: number = 0) {
+        this.totalItemCountCheck = 0;// to reset total item count check on any action
         this.lastPerformedAction = null;
         const param = itemIndex === 0 ? null : { 'item': itemIndex };
         const myRPC: CommonEventRequest = {
@@ -750,7 +751,6 @@ export class MusicPlayerLib {
     };
 
     private updatedMenuData() {
-        console.log('updatedMenuData called-------');
         ['ListSpecificFunctions', 'StatusMsgMenu', 'Instance', 'TransactionId', 'ItemCnt'].forEach((item: any) => {
             const myRPC: CommonRequestPropName = {
                 params: { "propName": item },
