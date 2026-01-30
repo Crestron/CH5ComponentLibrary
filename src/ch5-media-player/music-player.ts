@@ -23,6 +23,7 @@ export class MusicPlayerLib {
     private subSendEventCRPCJoinNo: any;
     private subControlSystemsOnlineFB: any;
     private naxDeviceOfflineFlag: boolean = false;
+    private totalItemCountCheck: number = 0;
 
     // Generate a constant UUID once per application start.
     private generateStrongCustomId = (): string => {
@@ -67,7 +68,6 @@ export class MusicPlayerLib {
     private progressBarPublishData: any = {};
     private menuListPublishData: any = { 'MenuData': [] };
     public maxReqItems = 40;
-    private isItemCountNew = true;
     public lastPerformedAction: TCH5NowPlayingActions | null = null;
 
     private nowPlayingData: any = {
@@ -206,6 +206,7 @@ export class MusicPlayerLib {
         this.progressBarPublishData = {};
         this.menuListPublishData = {};
         this.itemValue = 1;
+        this.totalItemCountCheck = 0
 
         publishEvent('o', 'myMusicData', this.myMusicPublishData);
         publishEvent('o', 'nowPlayingData', this.nowPlayingPublishData);
@@ -623,7 +624,6 @@ export class MusicPlayerLib {
         } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // My music  statechanged 
             // Added a title check to handle multiple instance scenario. In the current instance the isItemCountNew value will be false, when there is any action in other instance, we need to get the updated menudata
             if (responseData.params?.parameters.hasOwnProperty('Title')) {
-                this.isItemCountNew = false;
                 this.myMusicData['ItemCnt'] = responseData.params?.parameters['ItemCnt'];
                 this.updatedMenuData(); // we need to call only when statechanged event has parameters object include key has Title
             }
@@ -675,8 +675,10 @@ export class MusicPlayerLib {
                 } else if ((responseKey !== "Title") && this.myMusicData.hasOwnProperty(responseKey)) {
                     this.myMusicData[responseKey] = responseValue;
                     if (responseKey === 'ItemCnt') {
-                        this.isItemCountNew = true; // when we receive a new value in itemcnt we need to trigger the getItemData, so setting this flag as true
-                        this.getItemData();
+                        if(this.totalItemCountCheck !== this.myMusicData[responseKey]){// to avoid multiple calls
+                            this.totalItemCountCheck = this.myMusicData[responseKey];
+                            this.getItemData();
+                        }
                     }
                 }
             }
@@ -722,6 +724,7 @@ export class MusicPlayerLib {
 
     // MyMusic component action
     public myMusicEvent(action: string, itemIndex: number = 0) {
+        this.totalItemCountCheck = 0;// to reset total item count check on any action
         this.lastPerformedAction = null;
         const param = itemIndex === 0 ? null : { 'item': itemIndex };
         const myRPC: CommonEventRequest = {
@@ -731,7 +734,6 @@ export class MusicPlayerLib {
             method: this.myMP.menuInstanceName + '.' + action
         };
         this.sendRPCRequest(JSON.stringify(myRPC));
-        this.isItemCountNew = true;
     }
 
     private callTrackTime() {
@@ -810,6 +812,7 @@ export class MusicPlayerLib {
         this.myMusicPublishData = {};
         this.progressBarPublishData = {};
         this.clearAllDataObjects();
+        this.totalItemCountCheck = 0
         this.resetMp();
     }
 
@@ -865,5 +868,6 @@ export class MusicPlayerLib {
         this.myMusicData = { 'Title': '', 'Subtitle': '', 'ListSpecificFunctions': '', 'ItemCnt': 0, 'MaxReqItems': '', 'IsMenuAvailable': '', 'Level': '' }
 
         this.menuListData = { 'MenuData': [] };
+        this.totalItemCountCheck = 0;
     }
 }
