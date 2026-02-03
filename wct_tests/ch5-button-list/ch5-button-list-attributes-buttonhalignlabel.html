@@ -18,6 +18,7 @@
     </template>
   </test-fixture>
   <script>
+
     suite('ch5-button-list-buttonHAlignLabel-attributes-value', () => {
       let ch5ButtonList;
 
@@ -34,10 +35,10 @@
           flush(() => {
             setTimeout(() => {
               expect(ch5ButtonList.buttonHAlignLabel).to.be.equal(hAlignLabelName);
-              expect(getSpan(ch5ButtonList).classList.contains("ch5-button--horizontal-" + hAlignLabelName)).to.be.equal(true);
+              expect(getButton(ch5ButtonList).classList.contains("ch5-button--horizontal-" + hAlignLabelName)).to.be.equal(true);
               valid_hAlignLabel.forEach((hAlignLabelNameErrorCheck, j) => {
                 if (hAlignLabelNameErrorCheck !== hAlignLabelName) {
-                  expect(getSpan(ch5ButtonList).classList.contains("ch5-button--horizontal-" + hAlignLabelNameErrorCheck)).to.be.equal(false);
+                  expect(getButton(ch5ButtonList).classList.contains("ch5-button--horizontal-" + hAlignLabelNameErrorCheck)).to.be.equal(false);
                 }
               });
               done();
@@ -52,10 +53,10 @@
           flush(() => {
             setTimeout(() => {
               expect(ch5ButtonList.buttonHAlignLabel).to.be.equal("center");
-              expect(getSpan(ch5ButtonList).classList.contains("ch5-button--horizontal-center")).to.be.equal(true);
+              expect(getButton(ch5ButtonList).classList.contains("ch5-button--horizontal-center")).to.be.equal(true);
               valid_hAlignLabel.forEach((hAlignLabelNameErrorCheck, j) => {
                 if (hAlignLabelNameErrorCheck !== "center") {
-                  expect(getSpan(ch5ButtonList).classList.contains("ch5-button--horizontal-" + hAlignLabelNameErrorCheck)).to.be.equal(false);
+                  expect(getButton(ch5ButtonList).classList.contains("ch5-button--horizontal-" + hAlignLabelNameErrorCheck)).to.be.equal(false);
                 }
               });
               done();
@@ -64,6 +65,7 @@
         });
       });
     });
+    
   </script>
 </body>
 

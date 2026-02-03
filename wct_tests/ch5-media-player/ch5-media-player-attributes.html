@@ -26,6 +26,7 @@
         
       test('Check signal types', () => {
         for (signal in signalTypes) {
+          expect(signalTypes[signal]).to.have.property('direction');
           if (signal.includes("sendevent")) {
             expect(signalTypes[signal].direction).to.be.equal("event");
           } else if (signal.includes("receivestate")) {

@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+    <test-fixture id="ch5-jointotext-string-id-fixture">
+        <template>
+            <ch5-jointotext-string id="test-jointotext-string-id" value="Test"></ch5-jointotext-string>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-string-id-empty-fixture">
+        <template>
+            <ch5-jointotext-string id="" value="Test"></ch5-jointotext-string>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-string-no-id-fixture">
+        <template>
+            <ch5-jointotext-string value="Test"></ch5-jointotext-string>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-string-id-special-chars-fixture">
+        <template>
+            <ch5-jointotext-string id="test-id-123_abc" value="Test"></ch5-jointotext-string>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-jointotext-string id attribute', () => {
+            let ch5JoinToTextString;
+
+            setup(() => {
+                ch5JoinToTextString = fixture('ch5-jointotext-string-id-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-string')]);
+            });
+
+            test('id attribute should be set correctly', () => {
+                expect(ch5JoinToTextString.id).to.be.equal('test-jointotext-string-id');
+                expect(ch5JoinToTextString.getAttribute('id')).to.be.equal('test-jointotext-string-id');
+            });
+        });
+
+        suite('ch5-jointotext-string id empty attribute', () => {
+            let ch5JoinToTextString;
+
+            setup(() => {
+                ch5JoinToTextString = fixture('ch5-jointotext-string-id-empty-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-string')]);
+            });
+
+            test('id attribute should be empty string', () => {
+                expect(ch5JoinToTextString.id).to.be.equal('');
+            });
+        });
+
+        suite('ch5-jointotext-string no id attribute', () => {
+            let ch5JoinToTextString;
+
+            setup(() => {
+                ch5JoinToTextString = fixture('ch5-jointotext-string-no-id-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-string')]);
+            });
+
+            test('id attribute should be empty when not set', () => {
+                expect(ch5JoinToTextString.id).to.be.equal('');
+            });
+        });
+
+        suite('ch5-jointotext-string id with special characters', () => {
+            let ch5JoinToTextString;
+
+            setup(() => {
+                ch5JoinToTextString = fixture('ch5-jointotext-string-id-special-chars-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-string')]);
+            });
+
+            test('id attribute with special characters should be set correctly', () => {
+                expect(ch5JoinToTextString.id).to.be.equal('test-id-123_abc');
+            });
+        });
+
+        suite('ch5-jointotext-string id dynamic update', () => {
+            let ch5JoinToTextString;
+
+            setup(() => {
+                ch5JoinToTextString = fixture('ch5-jointotext-string-no-id-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-string')]);
+            });
+
+            test('id can be set dynamically via attribute', (done) => {
+                ch5JoinToTextString.setAttribute('id', 'dynamic-id');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextString.id).to.be.equal('dynamic-id');
+                        expect(ch5JoinToTextString.getAttribute('id')).to.be.equal('dynamic-id');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('id can be set dynamically via property', (done) => {
+                ch5JoinToTextString.id = 'property-id';
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextString.id).to.be.equal('property-id');
+                        done();
+                    }, 100);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

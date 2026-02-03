@@ -1,0 +1,17 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_show_pulse",
+      "trigger": true,
+      "actions": [
+        {
+          "type": "boolean",
+          "state": "signal_show_pulse",
+          "logic": "pulse"
+        }
+      ]
+    }
+  ],
+  "onStart": []
+}

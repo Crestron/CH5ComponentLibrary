@@ -25,7 +25,7 @@ export interface CommonRequest {
 
 export interface CommonEventRequest {
     jsonrpc: string;
-    params: { ev: string, handle: string } | { 'item': number } | { 'time': string } | null;
+    params: { ev: string, handle: string } | { 'item': number } | { 'time': number } | null;
     method: string;
     id: number
 }
@@ -69,7 +69,6 @@ export interface Params {
     type: string;
     format: string;
     name: string;
-    jsonrpc: string;
 }
 
 // RESPONSE

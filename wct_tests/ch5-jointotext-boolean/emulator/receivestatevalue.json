@@ -12,51 +12,32 @@
             "value": true
           } 
         ]
+      },
+      {
+        "type": "boolean",
+        "event": "set_boolean_true",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "receive_boolean_value",
+            "type": "b",
+            "logic": "set",
+            "value": true
+          } 
+        ]
+      },
+      {
+        "type": "boolean",
+        "event": "set_boolean_false",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "receive_boolean_value",
+            "type": "b",
+            "logic": "set",
+            "value": false
+          } 
+        ]
       }
-    ] ,
-   "cues1": [
-    {
-      "type": "boolean",
-      "event": "trigger_change_value1",
-      "trigger": true,
-      "actions": [
-        {
-          "state": "media_player_is_playing1",
-          "type": "b",
-          "logic": "toggle",
-          "value": true
-        } 
-      ]
-    }
-  ], 
-  "cues2": [
-    {
-      "type": "boolean",
-      "event": "trigger_change_value2",
-      "trigger": true,
-      "actions": [
-        {
-          "state": "media_player_is_playing2",
-          "type": "b",
-          "logic": "toggle",
-          "value": true
-        } 
-      ]
-    }
-  ],
-  "cues3": [
-    {
-      "type": "boolean",
-      "event": "trigger_change_value3",
-      "trigger": true,
-      "actions": [
-        {
-          "state": "media_player_is_playing3",
-          "type": "b",
-          "logic": "toggle",
-          "value": true
-        } 
-      ]
-    }
-  ]
+    ]
 }

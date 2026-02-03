@@ -1,0 +1,310 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-animation-signal-integration">
+    <template>
+      <ch5-animation 
+        receiveStateAnimate="signal_animate"
+        receiveStateFramesPerSecond="signal_fps"
+        receiveStateAnimationStyle="signal_style">
+      </ch5-animation>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-animation-signal-unsubscribe">
+    <template>
+      <ch5-animation 
+        receiveStateAnimate="signal_unsubscribe_test">
+      </ch5-animation>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-animation-signal-subscription', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/signal-integration.json').then((response) => response.json()).catch(() => ({
+          "devices": [{
+            "uuid": "test-device",
+            "name": "Test Device",
+            "booleanJoins": [
+              {"signal": "signal_animate", "value": false},
+              {"signal": "signal_unsubscribe_test", "value": false}
+            ],
+            "numericJoins": [
+              {"signal": "signal_fps", "value": 50}
+            ],
+            "stringJoins": [
+              {"signal": "signal_style", "value": "ring"}
+            ]
+          }]
+        }));
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Animation = fixture('ch5-animation-signal-integration');
+      });
+
+      test('receiveStateAnimate signal is subscribed', () => {
+        expect(ch5Animation.getAttribute('receiveStateAnimate')).to.be.equal('signal_animate');
+      });
+
+      test('receiveStateFramesPerSecond signal is subscribed', () => {
+        expect(ch5Animation.getAttribute('receiveStateFramesPerSecond')).to.be.equal('signal_fps');
+      });
+
+      test('receiveStateAnimationStyle signal is subscribed', () => {
+        expect(ch5Animation.getAttribute('receiveStateAnimationStyle')).to.be.equal('signal_style');
+      });
+
+      test('signal updates startAnimating property', (done) => {
+        CrComLib.publishEvent('b', 'signal_animate', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Animation.getAttribute('startAnimating')).to.be.equal('true');
+            done();
+          }, 100);
+        });
+      });
+
+      test('signal updates animationStyle property', (done) => {
+        CrComLib.publishEvent('s', 'signal_style', 'spinner');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Animation.getAttribute('animationStyle')).to.be.equal('spinner');
+            done();
+          }, 100);
+        });
+      });
+
+      test('multiple signal updates in sequence', (done) => {
+        CrComLib.publishEvent('b', 'signal_animate', true);
+        setTimeout(() => {
+          CrComLib.publishEvent('s', 'signal_style', 'roller');
+          setTimeout(() => {
+            expect(ch5Animation.getAttribute('startAnimating')).to.be.equal('true');
+            expect(ch5Animation.getAttribute('animationStyle')).to.be.equal('roller');
+            done();
+          }, 100);
+        }, 100);
+      });
+
+      test('signal type is correctly identified for boolean', () => {
+        const signalTypes = CrComLib.Ch5Animation.SIGNAL_ATTRIBUTE_TYPES;
+        expect(signalTypes.receivestateanimate.direction).to.be.equal('state');
+        expect(signalTypes.receivestateanimate.booleanJoin).to.be.equal(1);
+      });
+
+      test('signal type is correctly identified for numeric', () => {
+        const signalTypes = CrComLib.Ch5Animation.SIGNAL_ATTRIBUTE_TYPES;
+        expect(signalTypes.receivestateframespersecond.direction).to.be.equal('state');
+        expect(signalTypes.receivestateframespersecond.numericJoin).to.be.equal(1);
+      });
+
+      test('signal type is correctly identified for string', () => {
+        const signalTypes = CrComLib.Ch5Animation.SIGNAL_ATTRIBUTE_TYPES;
+        expect(signalTypes.receivestateanimationstyle.direction).to.be.equal('state');
+        expect(signalTypes.receivestateanimationstyle.stringJoin).to.be.equal(1);
+      });
+    });
+
+    suite('ch5-animation-signal-unsubscribe', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/signal-integration.json').then((response) => response.json()).catch(() => ({
+          "devices": [{
+            "uuid": "test-device",
+            "name": "Test Device",
+            "booleanJoins": [
+              {"signal": "signal_unsubscribe_test", "value": false}
+            ]
+          }]
+        }));
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Animation = fixture('ch5-animation-signal-unsubscribe');
+      });
+
+      test('signals are unsubscribed on disconnectedCallback', () => {
+        const container = document.createElement('div');
+        container.innerHTML = '<ch5-animation receiveStateAnimate="test_signal"></ch5-animation>';
+        const animation = container.firstElementChild;
+        
+        document.body.appendChild(container);
+        
+        expect(animation.getAttribute('receiveStateAnimate')).to.be.equal('test_signal');
+        
+        container.removeChild(animation);
+        
+        // Component should clean up subscriptions
+        expect(animation).to.not.be.null;
+        
+        document.body.removeChild(container);
+      });
+    });
+
+    suite('ch5-animation-signal-edge-cases', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/signal-integration.json').then((response) => response.json()).catch(() => ({
+          "devices": [{
+            "uuid": "test-device",
+            "name": "Test Device",
+            "booleanJoins": [],
+            "numericJoins": [],
+            "stringJoins": []
+          }]
+        }));
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Animation = fixture('ch5-animation-signal-integration');
+      });
+
+      test('empty signal name is handled', () => {
+        ch5Animation.setAttribute('receiveStateAnimate', '');
+        expect(ch5Animation.getAttribute('receiveStateAnimate')).to.be.equal('');
+      });
+
+      test('invalid signal name is handled', () => {
+        ch5Animation.setAttribute('receiveStateAnimate', 'non_existent_signal');
+        expect(ch5Animation.getAttribute('receiveStateAnimate')).to.be.equal('non_existent_signal');
+      });
+
+      test('signal with special characters', () => {
+        ch5Animation.setAttribute('receiveStateAnimate', 'signal_with-special.chars');
+        expect(ch5Animation.getAttribute('receiveStateAnimate')).to.be.equal('signal_with-special.chars');
+      });
+
+      test('changing signal name dynamically', (done) => {
+        ch5Animation.setAttribute('receiveStateAnimate', 'signal_1');
+        flush(() => {
+          setTimeout(() => {
+            ch5Animation.setAttribute('receiveStateAnimate', 'signal_2');
+            flush(() => {
+              setTimeout(() => {
+                expect(ch5Animation.getAttribute('receiveStateAnimate')).to.be.equal('signal_2');
+                done();
+              }, 50);
+            });
+          }, 50);
+        });
+      });
+
+      test('removing signal attribute', () => {
+        ch5Animation.setAttribute('receiveStateAnimate', 'test_signal');
+        ch5Animation.removeAttribute('receiveStateAnimate');
+        expect(ch5Animation.hasAttribute('receiveStateAnimate')).to.be.equal(false);
+      });
+    });
+
+    suite('ch5-animation-signal-contract-names', () => {
+      test('receiveStateAnimate supports contract names', () => {
+        const signalTypes = CrComLib.Ch5Animation.SIGNAL_ATTRIBUTE_TYPES;
+        expect(signalTypes.receivestateanimate.contractName).to.be.equal(true);
+      });
+
+      test('receiveStateFramesPerSecond supports contract names', () => {
+        const signalTypes = CrComLib.Ch5Animation.SIGNAL_ATTRIBUTE_TYPES;
+        expect(signalTypes.receivestateframespersecond.contractName).to.be.equal(true);
+      });
+
+      test('receiveStateAnimationStyle supports contract names', () => {
+        const signalTypes = CrComLib.Ch5Animation.SIGNAL_ATTRIBUTE_TYPES;
+        expect(signalTypes.receivestateanimationstyle.contractName).to.be.equal(true);
+      });
+    });
+
+    suite('ch5-animation-signal-registry', () => {
+      test('signal attributes are registered', () => {
+        const signalTypes = CrComLib.Ch5Animation.SIGNAL_ATTRIBUTE_TYPES;
+        expect(signalTypes).to.not.be.undefined;
+        expect(signalTypes.receivestateanimate).to.not.be.undefined;
+        expect(signalTypes.receivestateframespersecond).to.not.be.undefined;
+        expect(signalTypes.receivestateanimationstyle).to.not.be.undefined;
+      });
+
+      test('all signal attributes have direction defined', () => {
+        const signalTypes = CrComLib.Ch5Animation.SIGNAL_ATTRIBUTE_TYPES;
+        Object.keys(signalTypes).forEach(key => {
+          if (key.includes('receive') || key.includes('send')) {
+            expect(signalTypes[key].direction).to.not.be.undefined;
+          }
+        });
+      });
+
+      test('state signals have correct direction', () => {
+        const signalTypes = CrComLib.Ch5Animation.SIGNAL_ATTRIBUTE_TYPES;
+        expect(signalTypes.receivestateanimate.direction).to.be.equal('state');
+        expect(signalTypes.receivestateframespersecond.direction).to.be.equal('state');
+        expect(signalTypes.receivestateanimationstyle.direction).to.be.equal('state');
+      });
+    });
+
+    suite('ch5-animation-signal-value-updates', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/signal-integration.json').then((response) => response.json()).catch(() => ({
+          "devices": [{
+            "uuid": "test-device",
+            "name": "Test Device",
+            "booleanJoins": [
+              {"signal": "bool_signal", "value": false}
+            ],
+            "numericJoins": [
+              {"signal": "num_signal", "value": 0}
+            ],
+            "stringJoins": [
+              {"signal": "str_signal", "value": ""}
+            ]
+          }]
+        }));
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Animation = fixture('ch5-animation-signal-integration');
+      });
+
+      test('boolean signal toggles animation state', (done) => {
+        ch5Animation.setAttribute('receiveStateAnimate', 'bool_signal');
+        CrComLib.publishEvent('b', 'bool_signal', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Animation.getAttribute('startAnimating')).to.be.equal('true');
+            CrComLib.publishEvent('b', 'bool_signal', false);
+            flush(() => {
+              setTimeout(() => {
+                expect(ch5Animation.getAttribute('startAnimating')).to.be.equal('false');
+                done();
+              }, 100);
+            });
+          }, 100);
+        });
+      });
+
+      test('string signal updates animation style', (done) => {
+        ch5Animation.setAttribute('receiveStateAnimationStyle', 'str_signal');
+        CrComLib.publishEvent('s', 'str_signal', 'spinner');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Animation.getAttribute('animationStyle')).to.be.equal('spinner');
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

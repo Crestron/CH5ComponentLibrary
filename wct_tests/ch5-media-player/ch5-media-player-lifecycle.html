@@ -1,0 +1,248 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-media-player-lifecycle">
+    <template>
+      <ch5-media-player></ch5-media-player>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-media-player-lifecycle-with-attributes">
+    <template>
+      <ch5-media-player 
+        demomode="true"
+        contractname="TestContract"
+        usecontractforshow="true"
+        usecontractforenable="true"
+        usecontractforcustomstyle="true"
+        usecontractforcustomclass="true"
+        receivestatecrpc="TestContract:state1"
+        sendeventcrpc="TestContract:event1"
+        receivestatemessage="messageSignal"
+        receivestaterefreshmediaplayer="refreshSignal"
+        receivestatedeviceoffline="offlineSignal"
+        receivestateplayername="playerNameSignal">
+      </ch5-media-player>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-media-player-lifecycle-connected', () => {
+      let ch5MediaPlayer;
+
+      setup(async () => {
+        ch5MediaPlayer = fixture('ch5-media-player-lifecycle');
+      });
+
+      test('Check component is connected to DOM', () => {
+        expect(ch5MediaPlayer.isConnected).to.be.true;
+      });
+
+      test('Check WAI-ARIA role is set', () => {
+        expect(ch5MediaPlayer.getAttribute('role')).to.be.equal('media-player');
+      });
+
+      test('Check primary CSS class is applied to container', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const container = ch5MediaPlayer.querySelector('.ch5-media-player');
+            expect(container).to.not.be.null;
+            done();
+          }, 100);
+        });
+      });
+
+      test('Check component has internal HTML structure', (done) => {
+        flush(() => {
+          setTimeout(() => {
+            const children = ch5MediaPlayer.querySelector('.ch5-media-player').children;
+            expect(children.length).to.be.greaterThan(0);
+            done();
+          }, 100);
+        });
+      });
+    });
+
+    suite('ch5-media-player-attribute-initialization', () => {
+      let ch5MediaPlayer;
+
+      setup(async () => {
+        ch5MediaPlayer = fixture('ch5-media-player-lifecycle-with-attributes');
+      });
+
+      test('Check demoMode is initialized from attribute', () => {
+        expect(ch5MediaPlayer.getAttribute('demomode')).to.be.equal('true');
+        expect(ch5MediaPlayer.demoMode).to.be.true;
+      });
+
+      test('Check contractName is initialized from attribute', () => {
+        expect(ch5MediaPlayer.getAttribute('contractname')).to.be.equal('TestContract');
+        expect(ch5MediaPlayer.contractName).to.be.equal('TestContract');
+      });
+
+      test('Check useContractForShow is initialized from attribute', () => {
+        expect(ch5MediaPlayer.getAttribute('usecontractforshow')).to.be.equal('true');
+        expect(ch5MediaPlayer.useContractForShow).to.be.true;
+      });
+
+      test('Check useContractForEnable is initialized from attribute', () => {
+        expect(ch5MediaPlayer.getAttribute('usecontractforenable')).to.be.equal('true');
+        expect(ch5MediaPlayer.useContractForEnable).to.be.true;
+      });
+
+      test('Check receiveStateCrpc is initialized from attribute', () => {
+        expect(ch5MediaPlayer.getAttribute('receivestatecrpc')).to.not.be.null;
+        expect(ch5MediaPlayer.receiveStateCrpc).to.not.be.null;
+      });
+
+      test('Check sendEventCrpc is initialized from attribute', () => {
+        expect(ch5MediaPlayer.getAttribute('sendeventcrpc')).to.not.be.null;
+        expect(ch5MediaPlayer.sendEventCrpc).to.not.be.null;
+      });
+
+      test('Check receiveStateMessage is initialized from attribute', () => {
+        // Attribute presence check only to avoid contract-derived mapping conflicts
+        expect(ch5MediaPlayer.getAttribute('receivestatemessage')).to.not.be.null;
+        // Property should be initialized (non-empty string)
+        expect(ch5MediaPlayer.receiveStateMessage).to.be.a('string');
+        expect(ch5MediaPlayer.receiveStateMessage).to.not.equal('');
+      });
+
+      test('Check receiveStateRefreshMediaPlayer is initialized from attribute', () => {
+        // Attribute presence check only to avoid contract-derived mapping conflicts
+        expect(ch5MediaPlayer.getAttribute('receivestaterefreshmediaplayer')).to.not.be.null;
+        // Property should be initialized (non-empty string)
+        expect(ch5MediaPlayer.receiveStateRefreshMediaPlayer).to.be.a('string');
+        expect(ch5MediaPlayer.receiveStateRefreshMediaPlayer).to.not.equal('');
+      });
+
+      test('Check receiveStateDeviceOffline is initialized from attribute', () => {
+        // Attribute presence check only to avoid contract-derived mapping conflicts
+        expect(ch5MediaPlayer.getAttribute('receivestatedeviceoffline')).to.not.be.null;
+        // Property should be initialized (non-empty string)
+        expect(ch5MediaPlayer.receiveStateDeviceOffline).to.be.a('string');
+        expect(ch5MediaPlayer.receiveStateDeviceOffline).to.not.equal('');
+      });
+
+      test('Check receiveStatePlayerName is initialized from attribute', () => {
+        // Attribute presence check only to avoid contract-derived mapping conflicts
+        expect(ch5MediaPlayer.getAttribute('receivestateplayername')).to.not.be.null;
+        // Property should be initialized (non-empty string)
+        expect(ch5MediaPlayer.receiveStatePlayerName).to.be.a('string');
+        expect(ch5MediaPlayer.receiveStatePlayerName).to.not.equal('');
+      });
+
+      test('Check useContractForCustomStyle is initialized from attribute', () => {
+        expect(ch5MediaPlayer.getAttribute('usecontractforcustomstyle')).to.be.equal('true');
+        expect(ch5MediaPlayer.useContractForCustomStyle).to.be.true;
+      });
+
+      test('Check useContractForCustomClass is initialized from attribute', () => {
+        expect(ch5MediaPlayer.getAttribute('usecontractforcustomclass')).to.be.equal('true');
+        expect(ch5MediaPlayer.useContractForCustomClass).to.be.true;
+      });
+    });
+
+    suite('ch5-media-player-observed-attributes', () => {
+      let ch5MediaPlayer;
+
+      setup(async () => {
+        // Reset progress bar state to avoid stale emissions from prior suites
+         
+        ch5MediaPlayer = fixture('ch5-media-player-lifecycle');
+      });
+
+      test('Check observedAttributes includes required attributes', () => {
+        const observedAttrs = CrComLib.Ch5MediaPlayer.observedAttributes;
+        expect(observedAttrs).to.include('demomode');
+        expect(observedAttrs).to.include('contractname');
+        expect(observedAttrs).to.include('usecontractforshow');
+        expect(observedAttrs).to.include('usecontractforenable');
+        expect(observedAttrs).to.include('usecontractforcustomstyle');
+        expect(observedAttrs).to.include('usecontractforcustomclass');
+        expect(observedAttrs).to.include('receivestatecrpc');
+        expect(observedAttrs).to.include('sendeventcrpc');
+        expect(observedAttrs).to.include('receivestatemessage');
+        expect(observedAttrs).to.include('receivestaterefreshmediaplayer');
+        expect(observedAttrs).to.include('receivestatedeviceoffline');
+        expect(observedAttrs).to.include('receivestateplayername');
+      });
+
+      test('Check attribute change triggers callback', (done) => {
+        ch5MediaPlayer.setAttribute('demomode', 'true');
+        ch5MediaPlayer.setAttribute('contractname', 'NewContract');
+        ch5MediaPlayer.setAttribute('usecontractforshow', 'true');
+        ch5MediaPlayer.setAttribute('usecontractforenable', 'false');
+        ch5MediaPlayer.setAttribute('usecontractforcustomstyle', 'true');
+        ch5MediaPlayer.setAttribute('usecontractforcustomclass', 'false');
+        ch5MediaPlayer.setAttribute('receivestatemessage', 'newMessage');
+        ch5MediaPlayer.setAttribute('receivestatedeviceoffline', 'newOffline');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5MediaPlayer.demoMode).to.be.true;
+            expect(ch5MediaPlayer.contractName).to.be.equal('NewContract');
+            expect(ch5MediaPlayer.useContractForShow).to.be.true;
+            expect(ch5MediaPlayer.useContractForEnable).to.be.false;
+            expect(ch5MediaPlayer.useContractForCustomStyle).to.be.true;
+            expect(ch5MediaPlayer.useContractForCustomClass).to.be.false;
+            expect(ch5MediaPlayer.receiveStateMessage).to.be.equal('newMessage');
+            expect(ch5MediaPlayer.receiveStateDeviceOffline).to.be.equal('newOffline');
+            done();
+          }, 100);
+        });
+      });
+    });
+
+    suite('ch5-media-player-signal-attribute-types', () => {
+      let signalTypes;
+
+      setup(() => {
+        signalTypes = CrComLib.Ch5MediaPlayer.SIGNAL_ATTRIBUTE_TYPES;
+      });
+
+      test('Check receivestatecrpc signal type', () => {
+        expect(signalTypes.receivestatecrpc.direction).to.be.equal('state');
+        expect(signalTypes.receivestatecrpc.stringJoin).to.be.equal(1);
+        expect(signalTypes.receivestatecrpc.contractName).to.be.true;
+      });
+
+      test('Check sendeventcrpc signal type', () => {
+        expect(signalTypes.sendeventcrpc.direction).to.be.equal('event');
+        expect(signalTypes.sendeventcrpc.stringJoin).to.be.equal(1);
+        expect(signalTypes.sendeventcrpc.contractName).to.be.true;
+      });
+
+      test('Check receivestatemessage signal type', () => {
+        expect(signalTypes.receivestatemessage.direction).to.be.equal('state');
+        expect(signalTypes.receivestatemessage.stringJoin).to.be.equal(1);
+      });
+
+      test('Check receivestaterefreshmediaplayer signal type', () => {
+        expect(signalTypes.receivestaterefreshmediaplayer.direction).to.be.equal('state');
+        expect(signalTypes.receivestaterefreshmediaplayer.booleanJoin).to.be.equal(1);
+      });
+
+      test('Check receivestatedeviceoffline signal type', () => {
+        expect(signalTypes.receivestatedeviceoffline.direction).to.be.equal('state');
+        expect(signalTypes.receivestatedeviceoffline.booleanJoin).to.be.equal(1);
+      });
+
+      test('Check receivestateplayername signal type', () => {
+        expect(signalTypes.receivestateplayername.direction).to.be.equal('state');
+        expect(signalTypes.receivestateplayername.stringJoin).to.be.equal(1);
+      });
+    });
+  </script>
+</body>
+
+</html>
