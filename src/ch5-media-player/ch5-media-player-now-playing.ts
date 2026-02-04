@@ -167,7 +167,7 @@ export class Ch5MediaPlayerNowPlaying {
 					this._progressStreamState = this.progressBarData.StreamState;
 					this._progressBarTrackSec = this.progressBarData.TrackSec;
 					this._progressBarElapsedSec = this.progressBarData.ElapsedSec;
-					if (this._progressBarInput) {
+					if (this._progressBarInput instanceof HTMLInputElement) {
 						this._progressBarInput.max = this._progressBarTrackSec?.toString();
 						this._progressBarInput.value = this._progressBarElapsedSec?.toString();
 						if (this._progressBarElapsedSec && this._progressBarTrackSec && this._progressBarTrackSec > 0) {
@@ -618,7 +618,7 @@ export class Ch5MediaPlayerNowPlaying {
 					button.onclick = () => {
 						this.musicPlayerLibInstance.nowPlayingEvent(action);
 					};
-				} else if (PlayerState === "stopped" || PlayerState === "") {
+				} else if (PlayerState === "stopped" || PlayerState === undefined) {
 					button.setAttribute('iconClass', actionIconMap[action].class);
 					button.onclick = () => {
 						this.musicPlayerLibInstance.nowPlayingEvent(action);
