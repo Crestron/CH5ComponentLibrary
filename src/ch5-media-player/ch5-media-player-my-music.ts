@@ -436,6 +436,9 @@ export class Ch5MediaPlayerMyMusic {
     // Create lines if within max request limit
     // control will go in this if condition only on the first load of data. When the new data is fetched the item creation will work from the scroll event
     if (menuLength <= this.musicPlayerLibInstance.maxReqItems) {
+      // CH5C-29366: The loadItesmCount need to be reset to the lenth of menulength when the new data is fetched. 
+      // This is to avoid the scenario where the user scrolls and reaches the end of the list and then new data is fetched but the loadItemsCount is still at a higher value which will break the logic for creating new items on scroll.
+      this.loadItemsCount = Math.min(menuLength, this.MAXIMUM_ROWS_TO_SHOW);
       Array.from(this._myMusicContentSection.childNodes).forEach(child => child.remove());
       for (let index = 0; index < menuLength; index++) {
         this.createLine(index, 'first');
