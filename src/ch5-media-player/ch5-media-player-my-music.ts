@@ -93,6 +93,7 @@ export class Ch5MediaPlayerMyMusic {
     }));
 
     subscribeState('o', 'menuListData', ((data: any) => {
+      console.log('Received Menu Data ->', data);
       this.menuListData = data;
       this.isLoadingMoreData = false;
       this.logger.log("My Music Menu list Data: ", this.menuListData);
@@ -443,6 +444,8 @@ export class Ch5MediaPlayerMyMusic {
       for (let index = 0; index < menuLength; index++) {
         this.createLine(index, 'first');
       }
+      this._myMusicContentSection.scrollTop = 0;
+      return; // Early exit since all items are created; Required?
     }
 
     // Adjust scroll if menu exceeds both limits

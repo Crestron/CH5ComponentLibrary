@@ -24,6 +24,7 @@ export class MusicPlayerLib {
     private subControlSystemsOnlineFB: any;
     private naxDeviceOfflineFlag: boolean = false;
     private totalItemCountCheck: number = 0;
+    private menuRefreshFlags = { titleChanged: false, levelChanged: false, itemCntChanged: false };
 
     // Generate a constant UUID once per application start.
     private generateStrongCustomId = (): string => {
@@ -559,6 +560,7 @@ export class MusicPlayerLib {
         } else { // whenever itemcount is 0, no need to do Api request, pass empty data. Same as VTpro
             this.menuListData['MenuData'] = [];
             this.menuListPublishData = { ...this.menuListData };
+            console.log('Menu Data ->', this.menuListPublishData);
             publishEvent('o', 'menuListData', this.menuListPublishData);
         }
     }
@@ -591,6 +593,7 @@ export class MusicPlayerLib {
             }
             if (this.mpSigRPCOut) {
                 this.logger.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
+                console.log('CRPC send join:', requestedData);
                 publishEvent('s', this.mpSigRPCOut, requestedData);
             }
         }
@@ -598,6 +601,7 @@ export class MusicPlayerLib {
 
     // Process CRPC data from the control system.
     private processCRPCResponse(data: any) {
+        console.log('CRPC Response->', data);
         const responseData = data;
         // Get the messge id.
         // This can be used to determine if a valid response was received
@@ -622,16 +626,33 @@ export class MusicPlayerLib {
                 }
             }
         } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // My music  statechanged 
+            const params = responseData.params?.parameters;
+            const titleChanged = params.hasOwnProperty('Title') && this.myMusicData['Title'] !== params['Title'];
+            const levelChanged = params.hasOwnProperty('Level') && this.myMusicData['Level'] !== params['Level'];
+            const itemCntChanged = params.hasOwnProperty('ItemCnt') && this.myMusicData['ItemCnt'] !== params['ItemCnt'];
+
             // Added a title check to handle multiple instance scenario. In the current instance the isItemCountNew value will be false, when there is any action in other instance, we need to get the updated menudata
-            if (responseData.params?.parameters.hasOwnProperty('Title')) {
-                this.myMusicData['ItemCnt'] = responseData.params?.parameters['ItemCnt'];
+            if (params.hasOwnProperty('Title')) {
+                this.myMusicData['ItemCnt'] = params['ItemCnt'];
                 this.updatedMenuData(); // we need to call only when statechanged event has parameters object include key has Title
             }
-            for (const item in responseData.params?.parameters) {
+
+            for (const item in params) {
                 if (this.myMusicData.hasOwnProperty(item)) {
-                    this.myMusicData[item] = responseData.params?.parameters[item];
+                    this.myMusicData[item] = params[item];
                 }
             }
+
+            if (titleChanged) {
+                this.menuRefreshFlags.titleChanged = true;
+            }
+            if (levelChanged) {
+                this.menuRefreshFlags.levelChanged = true;
+            }
+            if (itemCntChanged) {
+                this.menuRefreshFlags.itemCntChanged = true;
+            }
+            this.checkAndTriggerMenuRefresh();
         } else if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method) &&
             (responseData?.params?.ev === 'StatusMsgMenuChanged' || responseData?.params?.ev === 'StatusMsgChanged' || responseData?.params?.ev === 'StatusMsgMenu') &&
             responseData.params?.parameters) { // My music and Now Playing  Popup data
@@ -665,7 +686,12 @@ export class MusicPlayerLib {
                 const responseValue = Object.values(responseData.result)[0];
                 const responseKey = Object.keys(responseData.result)[0];
                 if (myMsgId === this.myMP.TitleMenuId) { // we have two titles, to get only the menu instance title we have this condition
+                    const previousTitle = this.myMusicData[responseKey];
                     this.myMusicData[responseKey] = responseValue;
+                    if (previousTitle !== responseValue) {
+                        this.menuRefreshFlags.titleChanged = true;
+                        this.checkAndTriggerMenuRefresh();
+                    }
                 } else if (myMsgId === this.myMP.TitleId) { // we have two titles, to get only the player instance title we have this condition
                     this.nowPlayingData[responseKey] = responseValue;
                 } else if ((responseKey !== "Title") && (this.nowPlayingData.hasOwnProperty(responseKey))) {
@@ -673,12 +699,25 @@ export class MusicPlayerLib {
                 } else if (this.progressBarData.hasOwnProperty(responseKey)) {
                     this.progressBarData[responseKey] = responseValue;
                 } else if ((responseKey !== "Title") && this.myMusicData.hasOwnProperty(responseKey)) {
-                    this.myMusicData[responseKey] = responseValue;
+                    const previousValue = this.myMusicData[responseKey];
                     if (responseKey === 'ItemCnt') {
-                        if(this.totalItemCountCheck !== this.myMusicData[responseKey]){// to avoid multiple calls
-                            this.totalItemCountCheck = this.myMusicData[responseKey];
-                            this.getItemData();
+                        const numericResponseValue = typeof responseValue === 'number' ? responseValue : Number(responseValue);
+                        if (!Number.isNaN(numericResponseValue)) {
+                            this.myMusicData[responseKey] = numericResponseValue;
+                            if (this.totalItemCountCheck !== numericResponseValue) {// to avoid multiple calls
+                                this.totalItemCountCheck = numericResponseValue;
+                                if (previousValue !== numericResponseValue) {
+                                    this.menuRefreshFlags.itemCntChanged = true;
+                                    this.checkAndTriggerMenuRefresh();
+                                }
+                            }
                         }
+                    } else {
+                        this.myMusicData[responseKey] = responseValue;
+                    }
+                    if (responseKey === 'Level' && previousValue !== responseValue) {
+                        this.menuRefreshFlags.levelChanged = true;
+                        this.checkAndTriggerMenuRefresh();
                     }
                 }
             }
@@ -764,6 +803,15 @@ export class MusicPlayerLib {
         });
         // this.getItemData();
     };
+
+    private checkAndTriggerMenuRefresh() {
+        if (this.menuRefreshFlags.titleChanged
+            || this.menuRefreshFlags.levelChanged
+            || this.menuRefreshFlags.itemCntChanged) {
+            this.menuRefreshFlags = { titleChanged: false, levelChanged: false, itemCntChanged: false };
+            this.getItemData();
+        }
+    }
 
     // Component level popup action
     public popUpAction(inputValue: string = "", id: number = 0) {
