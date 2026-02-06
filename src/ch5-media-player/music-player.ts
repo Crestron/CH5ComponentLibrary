@@ -53,6 +53,7 @@ export class MusicPlayerLib {
         "tag": "",
         "source": 0,
         "connectionActive": false,
+        "directConnection": false,
         "RegistrationId": 0,
         "ObjectsId": 0,
         "PropertiesSupportedId": 0,
@@ -198,17 +199,36 @@ export class MusicPlayerLib {
                 });
             }
         });
-    }
 
-    private directConnectionSubscription() {
-        this.subCsigMediaSocketResponse = subscribeState('s', 'Csig.mediasocket.response', (value: string) => {
+
+        // Direct connection mediasocket responses
+        this.subCsigMediaSocketResponse = subscribeState('o', 'Csig.mediasocket.response', (value: any) => {
             console.log('Csig.mediasocket.response--', value);
+        //    / { "ver": "1.0", "action": "connectionstatus", "id": 0, "status": "connected", "statusCode": 0, "currenttime": 1770190716483 }
+            value = JSON.parse(value)
+            if (value.statusCode === 0 && value.status === "connected") {
+                this.myMP.directConnection = true;
+                console.log("Direct connection established with Media Player device.");
+                this.getObjects();
+            } else if (value.statusCode === 0 && value.status === "disconnected") {
+                this.myMP.directConnection = false;
+
+                console.log("Direct connection disconnected with Media Player device.");
+            } else {
+                this.myMP.directConnection = false;
+                console.log('Socket connection Error', value.statusCode, value.status);
+            }
         });
 
-        this.subCsigMediaSocketInboundMessage = subscribeState('s', 'Csig.mediasocket.inboundmessage', (value: string) => {
-            console.log('Csig.mediasocket.inboundmessage--', value)
+        this.subCsigMediaSocketInboundMessage = subscribeState('o', 'Csig.mediasocket.inboundmessage', (value: any) => {
+            console.log('Csig.mediasocket.inboundmessage--', value);
+            value = JSON.parse(value);
+            if (value.action === "crpcdata") {
+                this.processCRPCResponse(value.payload)
+            }
         });
     }
+
 
     private clearAllDataObjects() {
         if (this.resendRegistrationTimeId) {
@@ -336,7 +356,7 @@ export class MusicPlayerLib {
             };
             this.myMP[item + 'Id'] = myRPC.id; // Keep track of the message id.
             if (this.myMP.instanceName) {
-                this.sendRPCRequest(JSON.stringify(myRPC)); // Send the message.
+                this.sendRPCRequest(myRPC); // Send the message.
             }
         });
     }
@@ -353,7 +373,7 @@ export class MusicPlayerLib {
                 };
                 this.myMP[item + "Id"] = myRPC.id; // Keep track of the message id.
                 if (this.myMP.instanceName) {
-                    this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
+                    this.sendRPCRequest(myRPC);// Send the message.
                 }
             }
         });
@@ -376,7 +396,7 @@ export class MusicPlayerLib {
             };
 
             if (this.myMP.menuInstanceName) {
-                this.sendRPCRequest(JSON.stringify(myRPC));
+                this.sendRPCRequest(myRPC);
             }
         });
 
@@ -391,7 +411,7 @@ export class MusicPlayerLib {
                 this.myMP[item + 'MenuId'] = myRPC.id;// Keep track of the message id.
             }
             if (this.myMP.menuInstanceName) {
-                this.sendRPCRequest(JSON.stringify(myRPC));
+                this.sendRPCRequest(myRPC);
             }
         });
     }
@@ -409,7 +429,7 @@ export class MusicPlayerLib {
                     method: this.myMP.instanceName + '.DeregisterEvent'
 
                 };
-                this.sendRPCRequest(JSON.stringify(myRPC));
+                this.sendRPCRequest(myRPC);
             });
             ['BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'].forEach((item: any) => {
                 const myRPC: CommonEventRequest = {
@@ -419,7 +439,7 @@ export class MusicPlayerLib {
                     method: this.myMP.menuInstanceName + '.DeregisterEvent'
 
                 };
-                this.sendRPCRequest(JSON.stringify(myRPC));
+                this.sendRPCRequest(myRPC);
             });
 
             if (!deviceOffLine) {
@@ -441,7 +461,7 @@ export class MusicPlayerLib {
             };
 
             if (this.myMP.menuInstanceName) {
-                this.sendRPCRequest(JSON.stringify(myRPC));
+                this.sendRPCRequest(myRPC);
             }
         });
 
@@ -456,7 +476,7 @@ export class MusicPlayerLib {
                 this.myMP[item + 'MenuId'] = myRPC.id;// Keep track of the message id.
             }
             if (this.myMP.menuInstanceName) {
-                this.sendRPCRequest(JSON.stringify(myRPC));
+                this.sendRPCRequest(myRPC);
             }
         });
     }
@@ -487,7 +507,7 @@ export class MusicPlayerLib {
 
         this.myMP.RegistrationId = myRPC.id; // Keep track of the message id.
         this.ignoreFirstData = true;
-        this.sendRPCRequest(JSON.stringify(myRPC));
+        this.sendRPCRequest(myRPC);
         // Start the re-send time.
         if (!this.resendRegistrationTimeId) {
             this.startRegistrationResendTimer();
@@ -503,29 +523,44 @@ export class MusicPlayerLib {
 
             // We have a response, so our connnecton is active.
             this.myMP.connectionActive = true;
-            // What RPC version is this?
-            /*         if (dataObj.ver == '1.0') {
-                        console.log('RPC version = 1.0.');
-            
-                        if (dataObj.result.connections) {
-                            console.log('Found connections list.');
-                            var myDirectConnectionInfo = dataObj.result.connections.cip;
-                            console.log('myDirectConnectionInfo Ip: ' + myDirectConnectionInfo.ip);
-                        }
-                    }
-                    else {
-                        console.log('RPC version = 2.0.');
-            
-                        // Do we have the connection list?
-                        if (dataObj.result.connectionslist) {
-                            console.log('Found connections list.');
-                            var myDirectConnectionInfo = getDirectConnectionInfoFromArray(dataObj.result.connectionslist);
-                            console.log('myDirectConnectionInfo Ip: ' + myDirectConnectionInfo.ip);
-                        }
-                    } */
+            if (dataObj.result.connectionslist) {
+                console.log('Found connections list.');
+                const myDirectConnectionInfo = this.getDirectConnectionInfoFromArray(dataObj.result.connectionslist);
+                console.log('myDirectConnectionInfo Ip: ' + myDirectConnectionInfo.ip);
+                console.log('myDirectConnectionInfo port: ' + myDirectConnectionInfo.port);
+                const requestObject: any = {
+                    "ver": "1.0",
+                    "action": "connect",
+                    "connectionid": 10,
+                    "hostname": myDirectConnectionInfo.ip,
+                    "port": myDirectConnectionInfo.port,
+                    "currenttime": new Date().getTime()
+                }
+                console.log('Request Object for mediasocket--', requestObject);
+                publishEvent('o', 'Csig.socket.request', requestObject);
+            }
 
 
         }
+    }
+
+    private getDirectConnectionInfoFromArray(data: any) {
+        console.log('***getDirectConnectionInfoFromArray***');
+
+        // Data is an array of connections.
+        // ToDo: This is only for RPC v2.0 .. we need to handle RPC v.10 as well.
+        const myConnectionData: any = {};
+        myConnectionData.ip = '';
+        myConnectionData.port = 0;
+        for (let i = 0; i < data.length; i++) {
+            const item = data[i];
+            if (item.type == 'cip-direct/json-rpc') {
+                myConnectionData.ip = item.ip;
+                myConnectionData.port = item.port;
+            }
+        }
+
+        return myConnectionData;
     }
 
     private debouncedRegisterWithDevice = this.debounce(() => {
@@ -541,7 +576,7 @@ export class MusicPlayerLib {
             method: 'Crpc.GetObjects'
         };
         this.myMP.ObjectsId = myRPC.id;// Keep track of the message id.
-        this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
+        this.sendRPCRequest(myRPC);// Send the message.
     }
 
     private registerEvent() {
@@ -551,7 +586,7 @@ export class MusicPlayerLib {
             method: 'Crpc.RegisterEvent',
             params: { "ev": "ObjectDirectoryChanged", "handle": "ch5" },
         };
-        this.sendRPCRequest(JSON.stringify(myRPC)); // Send the message.
+        this.sendRPCRequest(myRPC); // Send the message.
     }
     private getPropertiesSupported(instanceName: string) {
         const myRPC: GetPropertiesSupportedRequest = {
@@ -561,7 +596,7 @@ export class MusicPlayerLib {
             method: instanceName + '.GetProperty'
         };
         this.myMP.PropertiesSupportedId = myRPC.id;// Keep track of the message id.
-        this.sendRPCRequest(JSON.stringify(myRPC));
+        this.sendRPCRequest(myRPC);
     }
 
     //Get the Menu (Should check an Autonomic device and see what data is returned) 
@@ -574,7 +609,7 @@ export class MusicPlayerLib {
         };
         this.myMP.MenuId = myRPC.id;// Keep track of the message id.
         if (instanceName) {
-            this.sendRPCRequest(JSON.stringify(myRPC));
+            this.sendRPCRequest(myRPC);
         }
     }
 
@@ -601,7 +636,7 @@ export class MusicPlayerLib {
             };
             this.myMP.ItemDataId = myRPC.id; // Keep track of the message id.
             if (this.myMP.menuInstanceName) {
-                this.sendRPCRequest(JSON.stringify(myRPC));
+                this.sendRPCRequest(myRPC);
             }
             this.itemValue = this.itemValue + this.maxReqItems;
         } else { // whenever itemcount is 0, no need to do Api request, pass empty data. Same as VTpro
@@ -612,34 +647,38 @@ export class MusicPlayerLib {
     }
 
     private sendRPCRequest(data: any) {
-        let myPrefix = '';
         let requestedData = '';
-        const numberOfChar = 100;
-
-        /*  if (isSafariMobile()) {// for crestron one
-             myPrefix = this.generateRPCPrefixForFinalMessage(data);
-             requestedData = myPrefix + data;
-             if (this.mpSigRPCOut) {
-                 console.log('CRPC send join: ' + this.mpSigRPCOut + " " + requestedData);
-                 publishEvent('s', this.mpSigRPCOut, requestedData);
-             }
-         } else { */
-        // Add prefix if the connection is not direct.
-
-        const chuncknCount = Math.ceil(data.length / numberOfChar);
-        for (let i = 0; i < chuncknCount; i++) {
-            if (i === (chuncknCount - 1)) {
-                requestedData = data.substring(numberOfChar * i);
-                myPrefix = this.generateRPCPrefixForFinalMessage(requestedData);
-                requestedData = myPrefix + requestedData;
-            } else {
-                requestedData = data.substring((numberOfChar * i), (numberOfChar * i) + numberOfChar);
-                myPrefix = this.generateRPCPrefixForPartialMessage(requestedData);
-                requestedData = myPrefix + requestedData;
+        if (this.myMP.directConnection) {
+            const requestedData: any = {
+                "ver": "1.0",
+                "action": "crpcdata",
+                "connectionid": 12,
+                "payload": data,
+                "currenttime": new Date().getTime()
             }
-            if (this.mpSigRPCOut) {
-                this.logger.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
-                publishEvent('s', this.mpSigRPCOut, requestedData);
+            console.log('Direct connection crpcdata Request--', requestedData);
+            publishEvent('o', "Csig.socket.request", requestedData);
+        } else {
+            data = JSON.stringify(data);
+            let myPrefix = '';
+            const numberOfChar = 100;
+
+            // Add prefix if the connection is not direct.
+            const chuncknCount = Math.ceil(data.length / numberOfChar);
+            for (let i = 0; i < chuncknCount; i++) {
+                if (i === (chuncknCount - 1)) {
+                    requestedData = data.substring(numberOfChar * i);
+                    myPrefix = this.generateRPCPrefixForFinalMessage(requestedData);
+                    requestedData = myPrefix + requestedData;
+                } else {
+                    requestedData = data.substring((numberOfChar * i), (numberOfChar * i) + numberOfChar);
+                    myPrefix = this.generateRPCPrefixForPartialMessage(requestedData);
+                    requestedData = myPrefix + requestedData;
+                }
+                if (this.mpSigRPCOut) {
+                    this.logger.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
+                    publishEvent('s', this.mpSigRPCOut, requestedData);
+                }
             }
         }
     }
@@ -724,7 +763,7 @@ export class MusicPlayerLib {
                 } else if ((responseKey !== "Title") && this.myMusicData.hasOwnProperty(responseKey)) {
                     this.myMusicData[responseKey] = responseValue;
                     if (responseKey === 'ItemCnt') {
-                        if(this.totalItemCountCheck !== this.myMusicData[responseKey]){// to avoid multiple calls
+                        if (this.totalItemCountCheck !== this.myMusicData[responseKey]) {// to avoid multiple calls
                             this.totalItemCountCheck = this.myMusicData[responseKey];
                             this.getItemData();
                         }
@@ -768,7 +807,7 @@ export class MusicPlayerLib {
             method: this.myMP.instanceName + '.' + action
         };
         this.myMP[action + 'Id'] = myRPC.id;
-        this.sendRPCRequest(JSON.stringify(myRPC));
+        this.sendRPCRequest(myRPC);
     }
 
     // MyMusic component action
@@ -782,7 +821,7 @@ export class MusicPlayerLib {
             id: this.generateUniqueMessageId(),
             method: this.myMP.menuInstanceName + '.' + action
         };
-        this.sendRPCRequest(JSON.stringify(myRPC));
+        this.sendRPCRequest(myRPC);
     }
 
     private callTrackTime() {
@@ -794,7 +833,7 @@ export class MusicPlayerLib {
                 method: this.myMP.instanceName + '.GetProperty'
             };
             if (this.myMP.instanceName) {
-                this.sendRPCRequest(JSON.stringify(myRPC));
+                this.sendRPCRequest(myRPC);
             }
         });
     };
@@ -808,7 +847,7 @@ export class MusicPlayerLib {
                 method: this.myMP.menuInstanceName + '.GetProperty'
             };
             if (this.myMP.menuInstanceName) {
-                this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
+                this.sendRPCRequest(myRPC);// Send the message.
             }
         });
         // this.getItemData();
@@ -837,10 +876,10 @@ export class MusicPlayerLib {
                 id: this.generateUniqueMessageId(),
                 method: this.myMP.menuInstanceName + '.Find'
             }
-            this.sendRPCRequest(JSON.stringify(autonomicSearchRPC));
+            this.sendRPCRequest(autonomicSearchRPC);
         } else {
             if (this.myMP.menuInstanceName) {
-                this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
+                this.sendRPCRequest(myRPC);// Send the message.
             }
         }
     };
@@ -875,6 +914,7 @@ export class MusicPlayerLib {
                 "tag": this.myMP.tag,
                 "source": this.myMP.source,
                 "connectionActive": false,
+                "directConnection": false,
                 "RegistrationId": 0,
                 "ObjectsId": 0,
                 "PropertiesSupportedId": 0,
@@ -893,6 +933,7 @@ export class MusicPlayerLib {
                 "tag": "",
                 "source": 0,
                 "connectionActive": true,
+                "directConnection": false,
                 "RegistrationId": 0,
                 "ObjectsId": 0,
                 "PropertiesSupportedId": 0,

@@ -3,6 +3,7 @@ export interface MyMpObject {
     tag: string;
     source: number;
     connectionActive: boolean;
+    directConnection: boolean;
     RegistrationId: number;
     ObjectsId: number;
     PropertiesSupportedId: number;
