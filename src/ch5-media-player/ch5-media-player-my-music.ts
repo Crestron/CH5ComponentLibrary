@@ -460,7 +460,7 @@ export class Ch5MediaPlayerMyMusic {
         this.createLine(index, 'first');
       }
       this._myMusicContentSection.scrollTop = 0;
-      return; // Early exit since all items are created; Required?
+      return; // Early exit since all items are created; prevents running the scroll-adjustment logic below when it is not needed
     }
 
     // Adjust scroll if menu exceeds both limits
