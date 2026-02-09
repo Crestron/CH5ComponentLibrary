@@ -27,7 +27,7 @@ export class Ch5MediaPlayerMyMusic {
   private readonly MAXIMUM_ROWS_TO_SHOW = 40;
   private loadItemsCount = 40;
   private printedIndex = 0;
-  private scrollPosition = 200;
+  private scrollPosition = 100;
   private isLoadingMoreData = false;
 
   private MY_MUSIC_DEMO_DATA = {
@@ -93,7 +93,6 @@ export class Ch5MediaPlayerMyMusic {
     }));
 
     subscribeState('o', 'menuListData', ((data: any) => {
-      console.log('Received Menu Data ->', data);
       this.menuListData = data;
       this.isLoadingMoreData = false;
       this.logger.log("My Music Menu list Data: ", this.menuListData);
@@ -200,20 +199,17 @@ export class Ch5MediaPlayerMyMusic {
         const maxReqItems = getMaxReqItems();
 
         if (scrollTop > lastScrollTop && menuLength >= this.loadItemsCount) {
+          // Scrolling down and there are more items to load
           if (distanceFromBottom <= this.scrollPosition) {
-            const first = this._myMusicContentSection.firstElementChild as HTMLElement | null;
-            if (first) { this._myMusicContentSection.removeChild(first); }
-            this.createLine(this.loadItemsCount, 'end');
+            this.createLine(this.loadItemsCount, 'end', true);
             this.loadItemsCount += 1;
           }
         } else if (scrollTop < lastScrollTop && this.loadItemsCount > this.MAXIMUM_ROWS_TO_SHOW) {
+          // Scrolling up and there are more items to load
           if (scrollTop <= this.scrollPosition) {
             const childrenCount = this._myMusicContentSection.children.length;
-            if (childrenCount >= this.MAXIMUM_ROWS_TO_SHOW) {
-              this._myMusicContentSection.removeChild(this._myMusicContentSection.children[childrenCount - 1]);
-            }
             this.loadItemsCount -= 1;
-            this.createLine(this.loadItemsCount - this.MAXIMUM_ROWS_TO_SHOW, 'start');
+            this.createLine(this.loadItemsCount - this.MAXIMUM_ROWS_TO_SHOW, 'start', childrenCount > 0);
           }
         }
 
@@ -245,8 +241,8 @@ export class Ch5MediaPlayerMyMusic {
     }
   }
 
-  protected createLine(index: number, position = 'end') {
-    console.log('Creating line at index:', index, 'Position:', position);
+  protected createLine(index: number, position = 'end', removeOpposite = false) {   
+    
     if (position !== 'first' && (index + 1 >= this.menuListData['MenuData']?.length) && (index + 1 >= this.musicPlayerLibInstance.maxReqItems)) {
       if(!this.isLoadingMoreData && this.menuListData['MenuData']?.length < this.myMusicData['ItemCnt']) {
         this.isLoadingMoreData = true;// to avoid multiple calls on scroll
@@ -254,12 +250,26 @@ export class Ch5MediaPlayerMyMusic {
       }
     }
 
-    if (index > 0 && this.printedIndex === index) return;
+    // if (index > 0 && this.printedIndex === index) return;
     
     if (!this.menuListData['MenuData'] || !this.menuListData['MenuData'][index]) {
       this.loadItemsCount = index-1; // to avoid creating empty items in case of missing data at the index
       return;
     };
+
+    if (removeOpposite) {
+      if (position === 'end') {
+        const first = this._myMusicContentSection.firstElementChild as HTMLElement | null;
+        if (first) {
+          this._myMusicContentSection.removeChild(first);
+        }
+      } else if (position === 'start') {
+        const childrenCount = this._myMusicContentSection.children.length;
+        if (childrenCount > 0) {
+          this._myMusicContentSection.removeChild(this._myMusicContentSection.children[childrenCount - 1]);
+        }
+      }
+    }
     
     this.printedIndex = index;
 

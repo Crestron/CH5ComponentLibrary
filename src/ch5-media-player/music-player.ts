@@ -560,7 +560,6 @@ export class MusicPlayerLib {
         } else { // whenever itemcount is 0, no need to do Api request, pass empty data. Same as VTpro
             this.menuListData['MenuData'] = [];
             this.menuListPublishData = { ...this.menuListData };
-            console.log('Menu Data ->', this.menuListPublishData);
             publishEvent('o', 'menuListData', this.menuListPublishData);
         }
     }
@@ -593,7 +592,6 @@ export class MusicPlayerLib {
             }
             if (this.mpSigRPCOut) {
                 this.logger.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
-                console.log('CRPC send join:', requestedData);
                 publishEvent('s', this.mpSigRPCOut, requestedData);
             }
         }
@@ -601,7 +599,6 @@ export class MusicPlayerLib {
 
     // Process CRPC data from the control system.
     private processCRPCResponse(data: any) {
-        console.log('CRPC Response->', data);
         const responseData = data;
         // Get the messge id.
         // This can be used to determine if a valid response was received
