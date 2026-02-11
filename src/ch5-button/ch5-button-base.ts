@@ -351,7 +351,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private readonly pressedCssClassPostfix: string = '--pressed';
 	private readonly selectedCssClassPostfix: string = '--selected';
 
-	private repeatFlag: boolean = false;
 
 	//#endregion
 
@@ -1722,14 +1721,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 						window.clearInterval(this._repeatDigitalInterval as number);
 					}
 					this.sendValueForRepeatDigitalWorking(false);
-					this.repeatFlag = false;
-					try {
-						this.removeEventListener('touchmove', this._onTouchMove);
-						this.style.touchAction = '';
-						this._elContainer.style.touchAction = '';
-					} catch {
-						console.info('removeEventListener');
-					}
 					setTimeout(() => {
 						this.setButtonDisplay();
 					}, this.STATE_CHANGE_TIMEOUTS);
@@ -1741,12 +1732,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 					// let numRepeatDigitals = 0;
 					this._repeatDigitalInterval = window.setInterval(() => {
 						this.sendValueForRepeatDigitalWorking(true);
-						if (!this.repeatFlag) {
-							this.style.touchAction = 'none';
-							this._elContainer.style.touchAction = 'none';
-							this.addEventListener('touchmove', this._onTouchMove, { passive: false });
-							this.repeatFlag = true;
-						}
 						// if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
 						// 	console.warn("Ch5Button MAXIMUM Repeat digitals sent");
 						// 	window.clearInterval(this._repeatDigitalInterval as number);
@@ -1758,11 +1743,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				// }
 			});
 		}
-	}
-
-	private _onTouchMove(event: Event) {
-		event.preventDefault();
-
 	}
 
 	private _subscribeToPressableIsPressedForTabButton() {
