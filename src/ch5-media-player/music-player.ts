@@ -203,21 +203,19 @@ export class MusicPlayerLib {
 
         // Direct connection socket responses
         this.subCsigSocketResponse = subscribeState('o', 'Csig.socket.response', (value: any) => {
-            console.log('Csig.socket.response--', value);
+            console.log('Csig.socket.response for connection-------', value);
             //    / { "ver": "1.0", "action": "connectionstatus", "id": 0, "status": "connected", "statusCode": 0, "currenttime": 1770190716483 }
             value = JSON.parse(value);
             if (value.statusCode === 0 && value.status === "connected") {
                 this.myMP.directConnection = true;
                 console.log("Direct connection established with Media Player device.");
-
                 if (this.myMP.tag && this.myMP.source) {
                     this.unsubscribeLibrarySignals()
                     this.debouncedRegisterWithDevice();
                 }
             } else if (value.statusCode === 0 && value.status === "disconnected") {
                 this.myMP.directConnection = false;
-
-                console.log("Direct connection disconnected with Media Player device.");
+                console.log("DC Disconnected.", value);
             } else {
                 this.myMP.directConnection = false;
                 console.log('Socket connection Error', value.statusCode, value.status);
@@ -225,13 +223,11 @@ export class MusicPlayerLib {
         });
 
         this.subCsigSocketInboundMessage = subscribeState('o', 'Csig.socket.inboundmessage', (value: any) => {
-            console.log('Csig.socket.inboundmessage--', value);
-            console.log('++++++++++++++++++++++++++++++++++++++');
+            console.log('Csig.socket.inboundmessage response------', value);
             const testData = JSON.parse(value);
             console.log('Action: ', testData.action);
             console.log('Payload: ', testData.payload);
             if (testData.action === "crpcdata") {
-                console.log('------------------', testData);
                 this.processCRPCResponse(testData.payload);
             }
         });
@@ -735,7 +731,7 @@ export class MusicPlayerLib {
             if (myMsgId == this.myMP.RegistrationId) {
                 // When we perform the CS to Nax registration, the response data will contain Nax-related information, including IP, IP subnet, name, and other details, which we may use in the future if required.
                 clearInterval(this.resendRegistrationTimeId);
-                console.log('------------- direct connection ', this.myMP.directConnection);
+                console.log('Direction enabled? ', this.myMP.directConnection);
                 if (this.myMP.directConnection) {
                     console.log('Getting objects after registration response via direct connection.');
                     this.getObjects();
