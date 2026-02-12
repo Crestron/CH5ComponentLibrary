@@ -111,6 +111,7 @@ export class Ch5Pressable {
 		this._onPointerUp = this._onPointerUp.bind(this);
 		this._onPointerLeave = this._onPointerLeave.bind(this);
 		this._onPointerMove = this._onPointerMove.bind(this);
+		this._onTouchMove = this._onTouchMove.bind(this);// Check comment bottom
 		this._onTouchHoldTimer = this._onTouchHoldTimer.bind(this);
 		this._onHold = this._onHold.bind(this);
 		this._onRelease = this._onRelease.bind(this);
@@ -168,6 +169,8 @@ export class Ch5Pressable {
 		if (isSafariMobile()) {
 			this._ch5Component.addEventListener('pointerout', this._onPointerLeave);
 		}
+		this._ch5Component.addEventListener('touchmove', this._onTouchMove);// Check comment bottom
+		this._ch5Component.addEventListener('touchcancel', this._onTouchMove);// Check comment bottom
 	}
 
 	/**
@@ -183,6 +186,8 @@ export class Ch5Pressable {
 		if (isSafariMobile()) {
 			this._ch5Component.removeEventListener('pointerout', this._onPointerLeave);
 		}
+		this._ch5Component.removeEventListener('touchmove', this._onTouchMove);// Check comment bottom
+		this._ch5Component.removeEventListener('touchcancel', this._onTouchMove);// Check comment bottom
 	}
 
 	/* private _onContextMenu(inEvent: Event): void {
@@ -271,6 +276,9 @@ export class Ch5Pressable {
 		}
 		// this._ch5Component.releasePointerCapture(mouseEvent.pointerId);
 	}
+	private _onTouchMove(event: Event): void {// Check comment bottom
+		event.preventDefault();
+	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	private _onTouchHoldTimer(event: Event): void {
@@ -296,6 +304,8 @@ export class Ch5Pressable {
 		if (!this._pressed) {
 			// add the visual feedback
 			this._addCssPressClass();
+			// prevent scrolling during press
+			this._setTouchAction('none');// Check comment bottom
 
 			this._pressed = true;
 			this._released = false;
@@ -333,6 +343,8 @@ export class Ch5Pressable {
 			setTimeout(() => {
 				this._removeCssPressClass();
 			}, this.TOUCH_TIMEOUT);
+			// restore default touch action
+			this._setTouchAction('');// Check comment bottom
 
 			// update state of the button and tell the button the state
 			this._pressed = false;
@@ -384,4 +396,45 @@ export class Ch5Pressable {
 		}
 	}
 
+	/**
+	 * Set or clear touchAction CSS property on component and container
+	 */
+	private _setTouchAction(value: string) {// Check comment bottom
+		try {
+			this._ch5Component.style.touchAction = value;
+			if (this._options && this._options.cssTargetElement) {
+				this._options.cssTargetElement.style.touchAction = value;
+			}
+		} catch {
+			console.info('touchAction update failed');
+		}
+	}
 }
+
+/* Why You Need Both Pointer Move and Touch Move in CH5 Button
+Pointer events are the modern standard, but there are important compatibility and behavior reasons why touchmove is still needed:
+1. Browser Compatibility & Fallback
+Pointer events are relatively newer and not supported on all older browsers/devices
+Touch move events provide fallback support for devices that don't fully support the Pointer Events API
+Legacy systems may still rely on touch events
+2. Touch Action Control
+Looking at ch5-button-base.ts, the button explicitly sets:
+this.style.touchAction = 'none';
+this._elContainer.style.touchAction = 'none';
+ 
+This CSS property prevents default touch behaviors (like scrolling), but it works better when combined with a touchmove listener that prevents default.
+3. Preventing Default Scroll Behavior
+The touchmove handler at line 1763:
+private _onTouchMove(event: Event) {
+    event.preventDefault();
+}
+ 
+This prevents scrolling while the button is being held/pressed, which is important for interactive components where you want to maintain the press state during a hold operation.
+4. Event Propagation Differences
+Pointer events handle mouse, touch, and pen input in a unified way
+Touch events have different propagation and default behaviors
+Some devices/browsers fire both events, and you need both listeners to ensure consistent behavior
+Summary
+Pointer Move = Primary handler for modern devices (handles press state changes, swipe detection)
+Touch Move = Supplements pointer events by explicitly preventing scroll/default behaviors during press
+They work together to ensure smooth, interrupt-free button interactions across all devices and browsers. */
