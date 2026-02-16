@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-jointotext-string-textWhenEmpty-default-fixture">
+        <template>
+            <ch5-jointotext-string></ch5-jointotext-string>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-string-textWhenEmpty-set-fixture">
+        <template>
+            <ch5-jointotext-string textWhenEmpty="No Data Available"></ch5-jointotext-string>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-string-textWhenEmpty-value-empty-fixture">
+        <template>
+            <ch5-jointotext-string textWhenEmpty="Default Text" value=""></ch5-jointotext-string>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-string-textWhenEmpty-value-set-fixture">
+        <template>
+            <ch5-jointotext-string textWhenEmpty="Default Text" value="Actual Value"></ch5-jointotext-string>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-string-textWhenEmpty-special-chars-fixture">
+        <template>
+            <ch5-jointotext-string textWhenEmpty="@#$%^&*()"></ch5-jointotext-string>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-jointotext-string textWhenEmpty default', () => {
+            let ch5JoinToTextString;
+
+            setup(() => {
+                ch5JoinToTextString = fixture('ch5-jointotext-string-textWhenEmpty-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-string')]);
+            });
+
+            test('textWhenEmpty default should be empty string', () => {
+                expect(ch5JoinToTextString.textWhenEmpty).to.be.equal('');
+            });
+        });
+
+        suite('ch5-jointotext-string textWhenEmpty set', () => {
+            let ch5JoinToTextString;
+
+            setup(() => {
+                ch5JoinToTextString = fixture('ch5-jointotext-string-textWhenEmpty-set-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-string')]);
+            });
+
+            test('textWhenEmpty should be "No Data Available"', () => {
+                expect(ch5JoinToTextString.textWhenEmpty).to.be.equal('No Data Available');
+                expect(ch5JoinToTextString.textContent).to.be.equal('No Data Available');
+            });
+        });
+
+        suite('ch5-jointotext-string textWhenEmpty with empty value', () => {
+            let ch5JoinToTextString;
+
+            setup(() => {
+                ch5JoinToTextString = fixture('ch5-jointotext-string-textWhenEmpty-value-empty-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-string')]);
+            });
+
+            test('textWhenEmpty should display when value is empty', () => {
+                expect(ch5JoinToTextString.textWhenEmpty).to.be.equal('Default Text');
+                expect(ch5JoinToTextString.textContent).to.be.equal('Default Text');
+            });
+        });
+
+        suite('ch5-jointotext-string textWhenEmpty with value set', () => {
+            let ch5JoinToTextString;
+
+            setup(() => {
+                ch5JoinToTextString = fixture('ch5-jointotext-string-textWhenEmpty-value-set-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-string')]);
+            });
+
+            test('value should be displayed instead of textWhenEmpty', () => {
+                expect(ch5JoinToTextString.textWhenEmpty).to.be.equal('Default Text');
+                expect(ch5JoinToTextString.value).to.be.equal('Actual Value');
+                expect(ch5JoinToTextString.textContent).to.be.equal('Actual Value');
+            });
+        });
+
+        suite('ch5-jointotext-string textWhenEmpty special characters', () => {
+            let ch5JoinToTextString;
+
+            setup(() => {
+                ch5JoinToTextString = fixture('ch5-jointotext-string-textWhenEmpty-special-chars-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-string')]);
+            });
+
+            test('textWhenEmpty with special characters', () => {
+                expect(ch5JoinToTextString.textWhenEmpty).to.be.equal('@#$%^&*()');
+                expect(ch5JoinToTextString.textContent).to.be.equal('@#$%^&*()');
+            });
+        });
+
+        suite('ch5-jointotext-string textWhenEmpty dynamic update', () => {
+            let ch5JoinToTextString;
+
+            setup(() => {
+                ch5JoinToTextString = fixture('ch5-jointotext-string-textWhenEmpty-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-string')]);
+            });
+
+            test('textWhenEmpty can be set dynamically via attribute', (done) => {
+                ch5JoinToTextString.setAttribute('textWhenEmpty', 'Dynamic Default');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextString.getAttribute('textWhenEmpty')).to.be.equal('Dynamic Default');
+                        expect(ch5JoinToTextString.textWhenEmpty).to.be.equal('Dynamic Default');
+                        expect(ch5JoinToTextString.textContent).to.be.equal('Dynamic Default');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('textWhenEmpty can be set dynamically via property', (done) => {
+                ch5JoinToTextString.textWhenEmpty = 'Property Default';
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextString.textWhenEmpty).to.be.equal('Property Default');
+                        expect(ch5JoinToTextString.textContent).to.be.equal('Property Default');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('setting value should override textWhenEmpty display', (done) => {
+                ch5JoinToTextString.textWhenEmpty = 'Default';
+                ch5JoinToTextString.value = 'Actual';
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextString.textContent).to.be.equal('Actual');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('clearing value should show textWhenEmpty again', (done) => {
+                ch5JoinToTextString.textWhenEmpty = 'Default';
+                ch5JoinToTextString.value = 'Actual';
+                flush(() => {
+                    setTimeout(() => {
+                        ch5JoinToTextString.value = '';
+                        flush(() => {
+                            setTimeout(() => {
+                                expect(ch5JoinToTextString.textContent).to.be.equal('Default');
+                                done();
+                            }, 100);
+                        });
+                    }, 100);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

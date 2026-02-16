@@ -1,0 +1,10 @@
+{
+  "cues": [],
+  "onStart": [
+    {
+      "state": "signal_custom_style",
+      "type": "string",
+      "value": ""
+    }
+  ]
+}

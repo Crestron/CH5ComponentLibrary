@@ -29,12 +29,12 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		sendsignalonbeforeshow: { direction: "event", booleanJoin: 1, contractName: true },
-		sendsignalonaftershow: { direction: "event", booleanJoin: 1, contractName: true },
-		sendsignalonbeforehide: { direction: "event", booleanJoin: 1, contractName: true },
-		sendsignalonafterhide: { direction: "event", booleanJoin: 1, contractName: true },
-		sendsignalonok: { direction: "event", booleanJoin: 1, contractName: true },
-		sendsignaloncancel: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventonbeforeshow: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventonaftershow: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventonbeforehide: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventonafterhide: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventonok: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventoncancel: { direction: "event", booleanJoin: 1, contractName: true },
 	};
 
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [

@@ -44,7 +44,7 @@
               expect(ch5ButtonList.buttonIconUrl).to.be.equal(iconUrl);
               const expectedValueForIconUrl = iconUrl;
               const expectedIconPositionForIconUrl = "first";
-              const getObjectClassListForIconUrl = getITagInSpanForIcon(ch5ButtonList).classList;
+              const getObjectClassListForIconUrl = getITagInButtonForCheckbox(ch5ButtonList).classList;
               expect(getObjectClassListForIconUrl.contains("cx-button-icon-pos-" + expectedIconPositionForIconUrl)).to.be.equal(true);
               done();
             }, COMPONENT_TESTING_TIMEOUT);
@@ -59,7 +59,7 @@
               setTimeout(() => {
                 expect(ch5ButtonList.buttonIconUrl).to.be.equal(iconUrl);
                 expect(ch5ButtonList.buttonIconPosition).to.be.equal(iconPosition);
-                const getObjectClassListForIconUrl = getITagInSpanForIcon(ch5ButtonList).classList;
+                const getObjectClassListForIconUrl = getITagInButtonForCheckbox(ch5ButtonList).classList;
                 expect(getObjectClassListForIconUrl.contains("cx-button-icon-pos-" + iconPosition)).to.be.equal(true);
                 expect(ch5ButtonList.getAttribute("buttonIconPosition")).to.be.equal(iconPosition);
                 done();
@@ -76,7 +76,7 @@
               setTimeout(() => {
                 expect(ch5ButtonList.buttonIconUrl).to.be.equal(iconUrl);
                 expect(ch5ButtonList.buttonIconPosition).to.be.equal("first");
-                const getObjectClassListForIconUrl = getITagInSpanForIcon(ch5ButtonList).classList;
+                const getObjectClassListForIconUrl = getITagInButtonForCheckbox(ch5ButtonList).classList;
                 expect(getObjectClassListForIconUrl.contains("cx-button-icon-pos-first")).to.be.equal(true);
                 expect(ch5ButtonList.getAttribute("buttonIconPosition")).to.be.equal("first");
                 done();

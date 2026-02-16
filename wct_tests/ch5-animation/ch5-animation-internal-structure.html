@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-animation-structure">
+    <template>
+      <ch5-animation></ch5-animation>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-animation-internal-structure', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        ch5Animation = fixture('ch5-animation-structure');
+      });
+
+      test('component has internal container element', () => {
+        const container = ch5Animation.querySelector('div.ch5-animation');
+        expect(container).to.not.be.null;
+      });
+
+      test('container has icon element', () => {
+        const container = ch5Animation.querySelector('div.ch5-animation');
+        const icon = container.querySelector('i');
+        expect(icon).to.not.be.null;
+      });
+
+      test('icon has fas class', () => {
+        const icon = ch5Animation.querySelector('i');
+        expect(icon.classList.contains('fas')).to.be.equal(true);
+      });
+
+      test('icon has fa-spin class by default', () => {
+        const icon = ch5Animation.querySelector('i');
+        expect(icon.classList.contains('fa-spin')).to.be.equal(true);
+      });
+
+      test('icon has default animation style class', () => {
+        const icon = ch5Animation.querySelector('i');
+        const hasDefaultClass = icon.classList.contains('fa-circle-notch') || 
+                                icon.classList.contains('fa-spinner') || 
+                                icon.classList.contains('fa-sync');
+        expect(hasDefaultClass).to.be.equal(true);
+      });
+
+      test('component structure is created only once', () => {
+        const containers = ch5Animation.querySelectorAll('div.ch5-animation');
+        expect(containers.length).to.be.equal(1);
+      });
+    });
+
+    suite('ch5-animation-css-classes', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        ch5Animation = fixture('ch5-animation-structure');
+      });
+
+      test('primary css class is applied', () => {
+        const container = ch5Animation.querySelector('div.ch5-animation');
+        expect(container).to.not.be.null;
+        expect(container.classList.contains('ch5-animation')).to.be.equal(true);
+      });
+
+      test('size class is applied for regular', () => {
+        ch5Animation.setAttribute('size', 'regular');
+        flush(() => {
+          const icon = ch5Animation.querySelector('i');
+          expect(icon.classList.contains('ch5-animation--size-regular')).to.be.equal(true);
+        });
+      });
+
+      test('size class is applied for small', () => {
+        ch5Animation.setAttribute('size', 'small');
+        flush(() => {
+          const icon = ch5Animation.querySelector('i');
+          expect(icon.classList.contains('ch5-animation--size-small')).to.be.equal(true);
+        });
+      });
+
+      test('size class is applied for large', () => {
+        ch5Animation.setAttribute('size', 'large');
+        flush(() => {
+          const icon = ch5Animation.querySelector('i');
+          expect(icon.classList.contains('ch5-animation--size-large')).to.be.equal(true);
+        });
+      });
+
+      test('size class is applied for x-large', () => {
+        ch5Animation.setAttribute('size', 'x-large');
+        flush(() => {
+          const icon = ch5Animation.querySelector('i');
+          expect(icon.classList.contains('ch5-animation--size-x-large')).to.be.equal(true);
+        });
+      });
+
+      test('startAnimating true class is applied', (done) => {
+        ch5Animation.setAttribute('startAnimating', 'true');
+        flush(() => {
+          setTimeout(() => {
+            const icon = ch5Animation.querySelector('i');
+            expect(icon.classList.contains('ch5-animation--start-animating-true')).to.be.equal(true);
+            done();
+          }, 50);
+        });
+      });
+
+      test('startAnimating false class is applied', (done) => {
+        ch5Animation.setAttribute('startAnimating', 'false');
+        flush(() => {
+          setTimeout(() => {
+            const icon = ch5Animation.querySelector('i');
+            expect(icon.classList.contains('ch5-animation--start-animating-false')).to.be.equal(true);
+            done();
+          }, 50);
+        });
+      });
+
+      test('animationStyle ring applies correct icon class', (done) => {
+        ch5Animation.setAttribute('animationStyle', 'ring');
+        flush(() => {
+          setTimeout(() => {
+            const icon = ch5Animation.querySelector('i');
+            expect(icon.classList.contains('fa-circle-notch')).to.be.equal(true);
+            done();
+          }, 50);
+        });
+      });
+
+      test('animationStyle spinner applies correct icon class', (done) => {
+        ch5Animation.setAttribute('animationStyle', 'spinner');
+        flush(() => {
+          setTimeout(() => {
+            const icon = ch5Animation.querySelector('i');
+            expect(icon.classList.contains('fa-spinner')).to.be.equal(true);
+            done();
+          }, 50);
+        });
+      });
+
+      test('animationStyle roller applies correct icon class', (done) => {
+        ch5Animation.setAttribute('animationStyle', 'roller');
+        flush(() => {
+          setTimeout(() => {
+            const icon = ch5Animation.querySelector('i');
+            expect(icon.classList.contains('fa-sync')).to.be.equal(true);
+            done();
+          }, 50);
+        });
+      });
+
+      test('disabled class method returns correct class name', () => {
+        const disabledClass = ch5Animation.getCssClassDisabled();
+        expect(disabledClass).to.be.equal('ch5-animation--disabled');
+      });
+
+      test('changing size removes old size class', (done) => {
+        ch5Animation.setAttribute('size', 'small');
+        flush(() => {
+          setTimeout(() => {
+            ch5Animation.setAttribute('size', 'large');
+            flush(() => {
+              setTimeout(() => {
+                const icon = ch5Animation.querySelector('i');
+                expect(icon.classList.contains('ch5-animation--size-small')).to.be.equal(false);
+                expect(icon.classList.contains('ch5-animation--size-large')).to.be.equal(true);
+                done();
+              }, 50);
+            });
+          }, 50);
+        });
+      });
+
+      test('changing animationStyle removes old icon class', (done) => {
+        ch5Animation.setAttribute('animationStyle', 'ring');
+        flush(() => {
+          setTimeout(() => {
+            ch5Animation.setAttribute('animationStyle', 'spinner');
+            flush(() => {
+              setTimeout(() => {
+                const icon = ch5Animation.querySelector('i');
+                expect(icon.classList.contains('fa-circle-notch')).to.be.equal(false);
+                expect(icon.classList.contains('fa-spinner')).to.be.equal(true);
+                done();
+              }, 50);
+            });
+          }, 50);
+        });
+      });
+    });
+
+    suite('ch5-animation-animation-duration', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        ch5Animation = fixture('ch5-animation-structure');
+      });
+
+      test('default animation duration is applied', () => {
+        const icon = ch5Animation.querySelector('i');
+        const style = icon.getAttribute('style');
+        expect(style).to.include('animation-duration');
+        expect(style).to.include('1500ms');
+      });
+
+      test('animation duration changes with frames per second', (done) => {
+        const icon = ch5Animation.querySelector('i');
+        const testDuration = '500ms';
+        icon.setAttribute('style', `animation-duration:${testDuration}`);
+        flush(() => {
+          setTimeout(() => {
+            expect(icon.style.animationDuration).to.be.equal(testDuration);
+            done();
+          }, 50);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -1,6 +1,6 @@
 {
     "name": "@crestron/ch5-crcomlib", 
-    "version": "2.17.0", 
+    "version": "2.17.1", 
     "description": "Crestron HTML5 (CH5) Components Library", 
     "repository": {
         "type": "git", 
@@ -55,7 +55,7 @@
         "prebuild": "npm-run-all clean:*", 
         "test:mocha": "npm-run-all clean:compiled && tsc -p tsconfig.umd.json --target ES6 && nyc mocha --reporter mochawesome --exit", 
         "test:wct": "ws -o", 
-        "wct:xml-report": "./node_modules/.bin/wct ./wct_tests/run-all.html", 
+        "wct:report": "echo '\ud83d\ude80 Starting server and opening test page...' && (ws > /dev/null 2>&1 &) && sleep 3 && open http://localhost:8000/wct_tests/run-all-with-report.html && echo '\u2705 Page opened! Wait for tests to complete, then click the green button to download report.'", 
         "eslint": "eslint . --ext .ts"
     }, 
     "author": "Crestron", 

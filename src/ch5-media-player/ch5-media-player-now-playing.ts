@@ -1,10 +1,10 @@
-import { Ch5MediaPlayerIconButton } from "./ch5-media-player-icon-button-base.ts";
-import { MusicPlayerLib } from "./music-player.ts";
-import { publishEvent, subscribeState } from "../ch5-core/index.ts";
-import { TCH5NowPlayingActions, TCh5MediaPlayerProgressbarData } from "./interfaces/t-ch5-media-player.ts";
-import { Ch5CommonLog } from "../ch5-common/ch5-common-log.ts";
-import { debounce } from "../ch5-common/utils/common-functions.ts";
-import { createElement, decodeString, formatTime } from "./ch5-media-player-common.ts";
+import { Ch5MediaPlayerIconButton } from "./ch5-media-player-icon-button-base";
+import { MusicPlayerLib } from "./music-player";
+import { publishEvent, subscribeState } from "../ch5-core/index";
+import { TCH5NowPlayingActions, TCh5MediaPlayerProgressbarData } from "./interfaces/t-ch5-media-player";
+import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
+import { debounce } from "../ch5-common/utils/common-functions";
+import { createElement, decodeString, formatTime } from "./ch5-media-player-common";
 
 export class Ch5MediaPlayerNowPlaying {
 
@@ -48,7 +48,6 @@ export class Ch5MediaPlayerNowPlaying {
 	private previousPlayerIconUrl: any;
 	private previousPlayerIcon: any;
 	private _nowPlayingPlayerNameContainer: HTMLElement = {} as HTMLElement
-	private _nowPlayingPlayerImage: HTMLImageElement = {} as HTMLImageElement;
 	private playerName: string = '';
 
 	private readonly NOW_PLAYING_ICONS: any = [
@@ -72,6 +71,25 @@ export class Ch5MediaPlayerNowPlaying {
 	private _progressBarElapsedSec: number = 0;
 	private _progressBarTrackSec: number = 0;
 	private _progressStreamState: string = '';
+	private _progressBarInputHandler: (() => void) | null = null;
+
+	/**
+	 * Helper method to get a value from nowPlayingData property or fallback to TextLines array
+	 * @param propertyName - The property name to check in nowPlayingData
+	 * @param textLineIndex - The index in TextLines array to use as fallback
+	 * @param minTextLinesLength - Optional minimum length required for TextLines array (defaults to textLineIndex + 1)
+	 * @returns The value from the property or TextLines, or empty string if not found
+	 */
+	private getDataValue(propertyName: string, textLineIndex: number, minTextLinesLength?: number): string {
+		if (this.nowPlayingData.hasOwnProperty(propertyName)) {
+			return this.nowPlayingData[propertyName] ?? '';
+		}
+		const requiredLength = minTextLinesLength ?? (textLineIndex + 1);
+		if (Array.isArray(this.nowPlayingData.TextLines) && this.nowPlayingData.TextLines.length >= requiredLength) {
+			return this.nowPlayingData.TextLines[textLineIndex] ?? '';
+		}
+		return '';
+	}
 
 	private readonly NOW_PLAYING_DEMO_DATA = {
 		ActionsAvailable: [
@@ -106,7 +124,7 @@ export class Ch5MediaPlayerNowPlaying {
 		RepeatState: 0,
 		RewindSpeed: 1,
 		ShuffleState: 0,
-		StationName: "Song Title",
+		StationName: "4th line of text here",
 		StreamState: "idle",
 		Title: "Song Title",
 		TrackCnt: 5,
@@ -125,16 +143,7 @@ export class Ch5MediaPlayerNowPlaying {
 		this.createDefaultNowPlaying();
 
 		subscribeState('o', 'nowPlayingData', ((data: any) => {
-			this.logger.log('NowPlayingData ', data);
-			if (this.demoModeValue === false) {
-				if (data && Object.keys(data).length > 0) {
-					this.nowPlayingData = data;
-					this.createNowPlaying();
-					this.updatedNowPlayingContent();
-				} else {
-					this.createDefaultNowPlaying();
-				}
-			}
+			this.debouncedNowPlayingDataHandler(data);
 		}));
 
 		subscribeState('o', 'progressBarData', ((data: any) => {
@@ -156,22 +165,33 @@ export class Ch5MediaPlayerNowPlaying {
 					}
 					this._progressBarContainer.classList?.remove('ch5-hide-dis');
 					this._progressStreamState = this.progressBarData.StreamState;
-					this._streamState.textContent = this._progressStreamState;
 					this._progressBarTrackSec = this.progressBarData.TrackSec;
 					this._progressBarElapsedSec = this.progressBarData.ElapsedSec;
-					this._progressBarInput.max = this._progressBarTrackSec?.toString();
-					this._progressBarInput.value = this._progressBarElapsedSec?.toString();
-					if (this._progressBarElapsedSec && this._progressBarTrackSec) {
-						this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
+					if (this._progressBarInput instanceof HTMLInputElement) {
+						this._progressBarInput.max = this._progressBarTrackSec?.toString();
+						this._progressBarInput.value = this._progressBarElapsedSec?.toString();
+						if (this._progressBarElapsedSec && this._progressBarTrackSec && this._progressBarTrackSec > 0) {
+							this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
+						}
+					}
+					if (this.nowPlayingData?.PlayerState === "stopped") {	//autonomic: reset to initial once song completed
+						this._progressBarTrackSec = 0;
 					}
 					this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
 					this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
-
-					if (this.progressBarData.StreamState === 'streaming' && !this.demoModeValue) {
+					if ((this.progressBarData.StreamState === 'streaming' || this.nowPlayingData?.PlayerState === "playing") && !this.demoModeValue) {
 						this._progressBarTimer = window.setInterval(() => {
+							// Stop the timer if player is no longer playing/streaming
+							const isPlaying = this.nowPlayingData?.PlayerState === "playing";
+							const isStreaming = this.progressBarData?.StreamState === 'streaming';
+							if (!isPlaying && !isStreaming) {
+								clearInterval(this._progressBarTimer!);
+								this._progressBarTimer = null;
+								return;
+							}
 							if (this._progressBarElapsedSec < this._progressBarTrackSec) {
 								this._progressBarElapsedSec += 1;
-								const percent = (this._progressBarElapsedSec / this._progressBarTrackSec) * 100;
+								const percent = this._progressBarTrackSec > 0 ? (this._progressBarElapsedSec / this._progressBarTrackSec) * 100 : 0;
 								this._progressBarInput.value = this._progressBarElapsedSec?.toString();
 								this._progressBarInput.style.backgroundSize = percent + "% 100%";
 								this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
@@ -187,7 +207,7 @@ export class Ch5MediaPlayerNowPlaying {
 		}));
 
 		subscribeState('s', 'receiveStatePlayerNameResp', (value: string) => {
-			this.updatePlayerName(value)
+			this.updatePlayerName(value);
 		});
 	}
 
@@ -199,10 +219,24 @@ export class Ch5MediaPlayerNowPlaying {
 		this._streamState.textContent = this.NOW_PLAYING_DEMO_DATA.StreamState;
 		this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
 		this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
-		const percent = (this._progressBarElapsedSec / this._progressBarTrackSec) * 100;
+		const percent = this._progressBarTrackSec > 0 ? (this._progressBarElapsedSec / this._progressBarTrackSec) * 100 : 0;
 		this._progressBarInput.style.backgroundSize = percent + "% 100%";
 		this._progressBarInput.max = this._progressBarTrackSec?.toString();
 		this._progressBarInput.value = this._progressBarElapsedSec?.toString();
+	}
+
+	/**
+	 * Cleanup method to be called when component is destroyed
+	 */
+	public cleanup() {
+		if (this._progressBarTimer) {
+			clearInterval(this._progressBarTimer);
+			this._progressBarTimer = null;
+		}
+		if (this._progressBarInput && this._progressBarInputHandler) {
+			this._progressBarInput.removeEventListener('input', this._progressBarInputHandler);
+			this._progressBarInputHandler = null;
+		}
 	}
 
 	public handleDemoMode(demoMode: boolean) {
@@ -211,11 +245,13 @@ export class Ch5MediaPlayerNowPlaying {
 				clearInterval(this._progressBarTimer);
 				this._progressBarTimer = null;
 			}
-			this.createNowPlaying();
-			this.nowPlayingData = this.NOW_PLAYING_DEMO_DATA;
-			this.updatePlayerName(this.nowPlayingData.PlayerName);
-			this.updatedNowPlayingContent();
-			this.updateProgressBarDemoData();
+			setTimeout(() => { // ToDo : need to find better way to add demo mode handlers with the debounce
+				this.createNowPlaying();
+				this.nowPlayingData = this.NOW_PLAYING_DEMO_DATA;
+				this.updatePlayerName(this.nowPlayingData.PlayerName);
+				this.updatedNowPlayingContent();
+				this.updateProgressBarDemoData();
+			}, 200);
 		} else {
 			this.nowPlayingData = '';
 			this.createDefaultNowPlaying();
@@ -223,12 +259,7 @@ export class Ch5MediaPlayerNowPlaying {
 	}
 
 	private updatedNowPlayingContent() {
-		this._nowPlayingPlayerLabel.innerHTML = this.playerName === "" ? '&nbsp;' : this.playerName;
-		if (this.playerName === "") {
-			this._nowPlayingPlayerLabel.classList.add('button-visibility');
-		} else {
-			this._nowPlayingPlayerLabel.classList.remove('button-visibility');
-		}
+		this._nowPlayingPlayerLabel.innerHTML = this.playerName === "" ? (this.nowPlayingData.PlayerName || this.nowPlayingData.ProviderName) ?? "" : this.playerName;
 		this._nowPlayingImageParent.classList.add("now-playing-image-container");
 		this._nowPlayingImageParent.classList.add('mp-fallback-album-art');
 		const img = new Image();
@@ -269,17 +300,27 @@ export class Ch5MediaPlayerNowPlaying {
 				this._nowPlayingImageParent.style.backgroundImage = `url('${this.previousAlbumArtUrl}')`;
 			}
 		}
-		this._nowPlayingSongTitle.children[0].textContent = decodeString(this.nowPlayingData.Title);
+
+		if (this._nowPlayingSongTitle.children && this._nowPlayingSongTitle.children[0]) {
+			const title = this.getDataValue('Title', 0);
+			this._nowPlayingSongTitle.children[0].textContent = decodeString(title);
+		}
 		this.updateMarquee();
 
-		this._nowPlayingArtist.textContent = decodeString(this.nowPlayingData.Artist);
-		this._nowPlayingAlbum.textContent = decodeString(this.nowPlayingData.Album);
-		if (!this.nowPlayingData.Album?.trim() || !this.nowPlayingData.Artist?.trim()) {
+		const artist = this.getDataValue('Artist', 1);
+		this._nowPlayingArtist.textContent = decodeString(artist);
+
+		const album = this.getDataValue('Album', 2);
+		this._nowPlayingAlbum.textContent = decodeString(album);
+
+		if (!album?.trim() || !artist?.trim()) {
 			this._separator.classList?.add('ch5-hide-dis');
 		} else {
 			this._separator.classList?.remove('ch5-hide-dis');
 		}
-		this._nowPlayingSongAdditionalInfo.textContent = this.nowPlayingData.TrackCnt > 0 ? `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}` : '';
+		// this._nowPlayingSongAdditionalInfo.textContent = this.nowPlayingData.TrackCnt > 0 ? `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}` : '';
+		const station = this.getDataValue('StationName', 3, 5);
+		this._nowPlayingSongAdditionalInfo.textContent = decodeString(station);
 
 		this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
 		//this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[0].split(' '));
@@ -301,7 +342,7 @@ export class Ch5MediaPlayerNowPlaying {
 				}
 			});
 			playerIconImg.src = imgUrl;
-		} else if (currentPlayerIcon && !isNaN(currentPlayerIcon) && currentPlayerIcon > 0 && currentPlayerIcon < this.NOW_PLAYING_ICONS.length && currentPlayerIcon !== this.previousPlayerIcon && currentPlayerIconUrl !== "") {
+		} else if (currentPlayerIcon && !isNaN(currentPlayerIcon) && currentPlayerIcon > 0 && currentPlayerIcon < this.NOW_PLAYING_ICONS.length && currentPlayerIcon !== this.previousPlayerIcon && currentPlayerIconUrl === "") {
 			this._nowPlayingPlayerIconImage.classList?.remove(...Array.from(this._nowPlayingPlayerIconImage.classList));
 			this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
 			this._nowPlayingPlayerIconImage.style.removeProperty("backgroundImage");
@@ -332,13 +373,25 @@ export class Ch5MediaPlayerNowPlaying {
 			}
 		}
 
-		this._nowPlayingPlayerIconName.textContent = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
-		if (!this.nowPlayingData.ActionsAvailable.includes(TCH5NowPlayingActions.Seek)) {
+		const provider = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
+		if (!provider?.trim()) {
+			const textLine = this.getDataValue('ProviderName', 4);
+			this._nowPlayingPlayerIconName.textContent = decodeString(textLine || this.nowPlayingData.PlayerName);
+		} else {
+			this._nowPlayingPlayerIconName.textContent = decodeString(provider);
+		}
+
+		if (this.nowPlayingData.hasOwnProperty('ActionsAvailable') && !this.nowPlayingData.ActionsAvailable.includes(TCH5NowPlayingActions.Seek)) {
 			this._progressBarInput.classList.add('hide-progressbar-thumb');
-			this._progressBarInput.removeEventListener('input', this.handleProgressbarInput);
+			if (this._progressBarInputHandler) {
+				this._progressBarInput.removeEventListener('input', this._progressBarInputHandler);
+			}
 		} else {
 			this._progressBarInput.classList.remove('hide-progressbar-thumb');
-			this._progressBarInput.addEventListener('input', this.handleProgressbarInput);
+			if (!this._progressBarInputHandler) {
+				this._progressBarInputHandler = this.handleProgressbarInput.bind(this);
+			}
+			this._progressBarInput.addEventListener('input', this._progressBarInputHandler);
 		}
 		this.renderActionButtons(this.nowPlayingData.ActionsAvailable, this.nowPlayingData.PlayerState);
 		this.renderMoreActionButtons(this.nowPlayingData.ActionsAvailable, this.nowPlayingData.RepeatState, this.nowPlayingData.ShuffleState);
@@ -352,8 +405,8 @@ export class Ch5MediaPlayerNowPlaying {
 	}
 
 	public updatePlayerName(value: string) {
-		this.playerName = value;
-		this._nowPlayingPlayerLabel.innerHTML = value;
+		this.playerName = decodeString(value);
+		this._nowPlayingPlayerLabel.innerHTML = decodeString(value);
 	}
 
 	public updateMarquee() {
@@ -481,7 +534,7 @@ export class Ch5MediaPlayerNowPlaying {
 	}
 
 	public seekApiCall = debounce(() => {
-		this.musicPlayerLibInstance.nowPlayingvent(TCH5NowPlayingActions.Seek, this._progressBarInput.value);
+		this.musicPlayerLibInstance.nowPlayingEvent(TCH5NowPlayingActions.Seek, +this._progressBarInput.value);
 	}, 150);
 
 	protected renderProgressBar() {
@@ -493,7 +546,7 @@ export class Ch5MediaPlayerNowPlaying {
 		this._progressBarInput.min = '0';
 		this._progressBarInput.max = this._progressBarTrackSec ? this._progressBarTrackSec.toString() : '0';
 		this._progressBarInput.value = this._progressBarElapsedSec?.toString();
-		if (this._progressBarElapsedSec && this._progressBarTrackSec) {
+		if (this._progressBarElapsedSec && this._progressBarTrackSec && this._progressBarTrackSec > 0) {
 			this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
 		}
 		this._progressBarInput.classList.add('now-playing-progressbar-input');
@@ -505,29 +558,41 @@ export class Ch5MediaPlayerNowPlaying {
 		this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
 		progressBarCurrentTimeDurationContainer.appendChild(this._currentTime);
 		this._streamState = createElement('span');
-		this._streamState.textContent = this._progressStreamState;
+		if (this._progressStreamState !== '') {
+			this._streamState.textContent = this._progressStreamState;
+		}
+		else if (this.nowPlayingData?.PlayerState === "forwarding") {
+			this._streamState.textContent = this.nowPlayingData?.FfwdSpeed + 'X';
+		}
 		progressBarCurrentTimeDurationContainer.appendChild(this._streamState);
 		this._duration = createElement('span');
 		this._duration.textContent = formatTime(parseInt(this._progressBarInput.max) - parseInt(this._progressBarInput.value));
 		progressBarCurrentTimeDurationContainer.appendChild(this._duration);
 		this._progressBarContainer.appendChild(progressBarCurrentTimeDurationContainer);
 
-		//Seek
-		this._progressBarInput.addEventListener("input", this.handleProgressbarInput);
+		//Seek - store handler reference for later removal
+		this._progressBarInputHandler = this.handleProgressbarInput.bind(this);
+		this._progressBarInput.addEventListener("input", this._progressBarInputHandler);
 		// Append the progress bar container to the main container
 		this._transportControls.appendChild(this._progressBarContainer);
 	}
 
 	protected handleProgressbarInput = () => {
-		this._progressBarInput.style.backgroundSize = ((parseInt(this._progressBarInput.value) / parseInt(this._progressBarInput.max)) * 100) + "% 100%";
-		this._currentTime.textContent = formatTime(parseInt(this._progressBarInput.value));
-		this._duration.textContent = formatTime(parseInt(this._progressBarInput.max) - parseInt(this._progressBarInput.value));
-		this._progressBarElapsedSec = parseInt(this._progressBarInput.value);
+		const maxValue = parseInt(this._progressBarInput.max) || 0;
+		const currentValue = parseInt(this._progressBarInput.value) || 0;
+		const percent = maxValue > 0 ? (currentValue / maxValue) * 100 : 0;
+		this._progressBarInput.style.backgroundSize = percent + "% 100%";
+		this._currentTime.textContent = formatTime(currentValue);
+		this._duration.textContent = formatTime(maxValue - currentValue);
+		this._progressBarElapsedSec = currentValue;
 		this.logger.log('_currentTime==', this._progressBarInput.value);
 		this.seekApiCall();
 	}
 
 	protected renderActionButtons(availableActions: TCH5NowPlayingActions[], PlayerState: string) {
+		if (!Array.isArray(availableActions)) {
+			availableActions = [];
+		}
 		if (this._actionButtonsContainer && this._actionButtonsContainer.parentNode) {
 			this._actionButtonsContainer.parentNode.removeChild(this._actionButtonsContainer);
 		}
@@ -551,29 +616,29 @@ export class Ch5MediaPlayerNowPlaying {
 				if ((availableActions.includes(TCH5NowPlayingActions.Play) && availableActions.includes(TCH5NowPlayingActions.Pause)) && PlayerState !== 'playing') {
 					button.setAttribute('iconClass', actionIconMap[action].class);
 					button.onclick = () => {
-						this.musicPlayerLibInstance.nowPlayingvent(action);
+						this.musicPlayerLibInstance.nowPlayingEvent(action);
 					};
-				} else if (PlayerState === "stopped" || PlayerState === "") {
+				} else if (PlayerState === "stopped" || PlayerState === undefined) {
 					button.setAttribute('iconClass', actionIconMap[action].class);
 					button.onclick = () => {
-						this.musicPlayerLibInstance.nowPlayingvent(action);
+						this.musicPlayerLibInstance.nowPlayingEvent(action);
 					};
 				} else if (availableActions.includes(TCH5NowPlayingActions.Play) && PlayerState !== 'playing') {
 					button.setAttribute('iconClass', actionIconMap[action].class);
 					button.onclick = () => {
-						this.musicPlayerLibInstance.nowPlayingvent(action);
+						this.musicPlayerLibInstance.nowPlayingEvent(action);
 					};
 				} else {
 					button.setAttribute('iconClass', "mp-icon mp-pause");
 					button.title = TCH5NowPlayingActions.Pause;
 					button.onclick = () => {
-						this.musicPlayerLibInstance.nowPlayingvent(TCH5NowPlayingActions.Pause);
+						this.musicPlayerLibInstance.nowPlayingEvent(TCH5NowPlayingActions.Pause);
 					};
 				}
 			} else {
 				button.setAttribute('iconClass', actionIconMap[action].class);
 				button.onclick = () => {
-					this.musicPlayerLibInstance.nowPlayingvent(action);
+					this.musicPlayerLibInstance.nowPlayingEvent(action);
 				};
 			}
 
@@ -630,7 +695,7 @@ export class Ch5MediaPlayerNowPlaying {
 					button.setAttribute('iconClass', moreActionIconMap[action].class);
 					button.title = action;
 					button.onclick = () => {
-						this.musicPlayerLibInstance.nowPlayingvent(TCH5NowPlayingActions[action as keyof typeof TCH5NowPlayingActions]);
+						this.musicPlayerLibInstance.nowPlayingEvent(TCH5NowPlayingActions[action as keyof typeof TCH5NowPlayingActions]);
 					}
 					this._moreActionButtonsContainer.appendChild(button);
 				}
@@ -651,13 +716,32 @@ export class Ch5MediaPlayerNowPlaying {
 			this._nextSongLabel = createElement('span', ['now-playing-next-song-label'], 'Next up');
 			nextSongSection.appendChild(this._nextSongLabel);
 			//Next Song Text
-			this._nextSongText = createElement('span', ['now-playing-next-song-text'], nextSong);
+			this._nextSongText = createElement('span', ['now-playing-next-song-text'], decodeString(nextSong));
 			nextSongSection.appendChild(this._nextSongText);
 			this._nextAndPreviousSongContainer.appendChild(nextSongSection);
 
 			this._nowPlayingContainer.appendChild(this._nextAndPreviousSongContainer);
 		}
 	}
+
+	// Debounced handler for nowPlayingData subscription
+	private debouncedNowPlayingDataHandler = debounce((data: any) => {
+		this.logger.log('NowPlayingData ', data);
+		if (this.demoModeValue === false) {
+			if (data && Object.keys(data).length > 0) {
+				for (const key in data) {
+					if (typeof data[key] === 'string' && data[key].trim() === "") {
+						delete data[key];
+					}
+				}
+				this.nowPlayingData = data;
+				this.createNowPlaying();
+				this.updatedNowPlayingContent();
+			} else {
+				this.createDefaultNowPlaying();
+			}
+		}
+	}, 100);
 
 	//#endregion
 

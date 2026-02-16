@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-qrcode-id-fixture">
+        <template>
+            <ch5-qrcode id="test-qrcode-id"></ch5-qrcode>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-qrcode-id-empty-fixture">
+        <template>
+            <ch5-qrcode id=""></ch5-qrcode>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-qrcode-no-id-fixture">
+        <template>
+            <ch5-qrcode></ch5-qrcode>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-qrcode-id-special-chars-fixture">
+        <template>
+            <ch5-qrcode id="test-id-123_abc"></ch5-qrcode>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-qrcode id attribute', () => {
+            let ch5QrCode;
+
+            setup(() => {
+                ch5QrCode = fixture('ch5-qrcode-id-fixture');
+                return Promise.all([customElements.whenDefined('ch5-qrcode')]);
+            });
+
+            test('id attribute should be set correctly', () => {
+                expect(ch5QrCode.id).to.be.equal('test-qrcode-id');
+                expect(ch5QrCode.getAttribute('id')).to.be.equal('test-qrcode-id');
+            });
+        });
+
+        suite('ch5-qrcode id empty attribute', () => {
+            let ch5QrCode;
+
+            setup(() => {
+                ch5QrCode = fixture('ch5-qrcode-id-empty-fixture');
+                return Promise.all([customElements.whenDefined('ch5-qrcode')]);
+            });
+
+            test('id attribute should be empty string', () => {
+                expect(ch5QrCode.id).to.be.equal('');
+            });
+        });
+
+        suite('ch5-qrcode no id attribute', () => {
+            let ch5QrCode;
+
+            setup(() => {
+                ch5QrCode = fixture('ch5-qrcode-no-id-fixture');
+                return Promise.all([customElements.whenDefined('ch5-qrcode')]);
+            });
+
+            test('id attribute should be empty when not set', () => {
+                expect(ch5QrCode.id).to.be.equal('');
+            });
+        });
+
+        suite('ch5-qrcode id with special characters', () => {
+            let ch5QrCode;
+
+            setup(() => {
+                ch5QrCode = fixture('ch5-qrcode-id-special-chars-fixture');
+                return Promise.all([customElements.whenDefined('ch5-qrcode')]);
+            });
+
+            test('id attribute with special characters should be set correctly', () => {
+                expect(ch5QrCode.id).to.be.equal('test-id-123_abc');
+            });
+        });
+
+        suite('ch5-qrcode id dynamic update', () => {
+            let ch5QrCode;
+
+            setup(() => {
+                ch5QrCode = fixture('ch5-qrcode-no-id-fixture');
+                return Promise.all([customElements.whenDefined('ch5-qrcode')]);
+            });
+
+            test('id can be set dynamically via attribute', (done) => {
+                ch5QrCode.setAttribute('id', 'dynamic-id');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5QrCode.id).to.be.equal('dynamic-id');
+                        expect(ch5QrCode.getAttribute('id')).to.be.equal('dynamic-id');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('id can be set dynamically via property', (done) => {
+                ch5QrCode.id = 'property-id';
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5QrCode.id).to.be.equal('property-id');
+                        done();
+                    }, 100);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

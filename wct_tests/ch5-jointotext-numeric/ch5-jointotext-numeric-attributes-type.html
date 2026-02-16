@@ -1,0 +1,223 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-jointotext-numeric-type-default-fixture">
+        <template>
+            <ch5-jointotext-numeric></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-type-signed-fixture">
+        <template>
+            <ch5-jointotext-numeric type="signed" value="-123"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-type-unsigned-fixture">
+        <template>
+            <ch5-jointotext-numeric type="unsigned" value="456"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-type-float-fixture">
+        <template>
+            <ch5-jointotext-numeric type="float" value="123.456"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-type-percentage-fixture">
+        <template>
+            <ch5-jointotext-numeric type="percentage" value="75"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-type-hex-fixture">
+        <template>
+            <ch5-jointotext-numeric type="hex" value="255"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-type-raw-fixture">
+        <template>
+            <ch5-jointotext-numeric type="raw" value="100"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-type-time-fixture">
+        <template>
+            <ch5-jointotext-numeric type="time" value="3661"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-jointotext-numeric-type-invalid-fixture">
+        <template>
+            <ch5-jointotext-numeric type="invalid" value="100"></ch5-jointotext-numeric>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-jointotext-numeric type default', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-type-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('type default should be "signed"', () => {
+                expect(ch5JoinToTextNumeric.type).to.be.equal('signed');
+            });
+        });
+
+        suite('ch5-jointotext-numeric type signed', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-type-signed-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('type should be "signed"', () => {
+                expect(ch5JoinToTextNumeric.type).to.be.equal('signed');
+            });
+
+            test('type signed should allow negative values', () => {
+                expect(ch5JoinToTextNumeric.value).to.be.equal('-123');
+            });
+        });
+
+        suite('ch5-jointotext-numeric type unsigned', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-type-unsigned-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('type should be "unsigned"', () => {
+                expect(ch5JoinToTextNumeric.type).to.be.equal('unsigned');
+            });
+        });
+
+        suite('ch5-jointotext-numeric type float', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-type-float-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('type should be "float"', () => {
+                expect(ch5JoinToTextNumeric.type).to.be.equal('float');
+            });
+        });
+
+        suite('ch5-jointotext-numeric type percentage', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-type-percentage-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('type should be "percentage"', () => {
+                expect(ch5JoinToTextNumeric.type).to.be.equal('percentage');
+            });
+        });
+
+        suite('ch5-jointotext-numeric type hex', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-type-hex-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('type should be "hex"', () => {
+                expect(ch5JoinToTextNumeric.type).to.be.equal('hex');
+            });
+        });
+
+        suite('ch5-jointotext-numeric type raw', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-type-raw-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('type should be "raw"', () => {
+                expect(ch5JoinToTextNumeric.type).to.be.equal('raw');
+            });
+        });
+
+        suite('ch5-jointotext-numeric type time', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-type-time-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('type should be "time"', () => {
+                expect(ch5JoinToTextNumeric.type).to.be.equal('time');
+            });
+        });
+
+        suite('ch5-jointotext-numeric type invalid', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-type-invalid-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('type invalid should fall back to default "signed"', () => {
+                expect(ch5JoinToTextNumeric.type).to.be.equal('signed');
+            });
+        });
+
+        suite('ch5-jointotext-numeric type dynamic update', () => {
+            let ch5JoinToTextNumeric;
+
+            setup(() => {
+                ch5JoinToTextNumeric = fixture('ch5-jointotext-numeric-type-default-fixture');
+                return Promise.all([customElements.whenDefined('ch5-jointotext-numeric')]);
+            });
+
+            test('type can be set dynamically via attribute', (done) => {
+                ch5JoinToTextNumeric.setAttribute('type', 'signed');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextNumeric.getAttribute('type')).to.be.equal('signed');
+                        expect(ch5JoinToTextNumeric.type).to.be.equal('signed');
+                        done();
+                    }, 100);
+                });
+            });
+
+            test('type can be set dynamically via property', (done) => {
+                ch5JoinToTextNumeric.type = 'float';
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5JoinToTextNumeric.type).to.be.equal('float');
+                        done();
+                    }, 100);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
