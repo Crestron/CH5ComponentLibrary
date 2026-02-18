@@ -405,6 +405,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this.removeEventListeners();
     this.unsubscribeFromSignals();
     this.musicPlayerLibInstance.unsubscribeLibrarySignals();// unsubscribeLibrarySignals
+    this.musicPlayerLibInstance.unsubscribeCSIGSignals(); // unsubscribeCSIGSignals
 
     // Cleanup child components
     if (this.nowPlaying) {

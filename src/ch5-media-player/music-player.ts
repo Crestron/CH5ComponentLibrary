@@ -4,7 +4,8 @@ import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, Error
 import { encodeString } from "./ch5-media-player-common";
 import { TCH5NowPlayingActions } from "./interfaces/t-ch5-media-player";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
-// import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
+import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
+import { isCrestronDevice } from "../ch5-core/utility-functions/is-crestron-device";
 
 export class MusicPlayerLib {
 
@@ -24,6 +25,7 @@ export class MusicPlayerLib {
     private subControlSystemsOnlineFB: any;
     private naxDeviceOfflineFlag: boolean = false;
     private totalItemCountCheck: number = 0;
+    private firstRegisterRequest: boolean = true; // flag to check whether direct connection is established, to avoid multiple popups in case of multiple registration response with direct connection info before establishing direct connection
 
     private subCsigSocketResponse: any;
     private subCsigSocketInboundMessage: any;
@@ -202,37 +204,54 @@ export class MusicPlayerLib {
 
 
         // Direct connection socket responses
-        this.subCsigSocketResponse = subscribeState('o', 'Csig.socket.response', (value: any) => {
-            console.log('Csig.socket.response for connection-------', value);
-            //    / { "ver": "1.0", "action": "connectionstatus", "id": 0, "status": "connected", "statusCode": 0, "currenttime": 1770190716483 }
-            value = JSON.parse(value);
-            if (value.statusCode === 0 && value.status === "connected") {
+        this.subCsigSocketResponse = subscribeState('o', 'Csig.socket.response', (response: any) => {
+            console.log('Csig.socket.response for connection-------', response);
+            let responseData: any = {};
+            if (typeof response === 'string') {
+                responseData = JSON.parse(response);
+            } else {
+                responseData = response;
+            }
+            if (responseData.statusCode === 0 && responseData.status === "connecting") {
+                 console.log("Direct connection in progress with Media Player device...");
+                return;
+            }
+            if (responseData.statusCode === 0 && responseData.status === "connected") {
                 this.myMP.directConnection = true;
+                clearInterval(this.resendRegistrationTimeId);// to clear registerevent re-send timer once direct connection is established, as we will not be needing to re-send registration via join anymore
                 console.log("Direct connection established with Media Player device.");
                 if (this.myMP.tag && this.myMP.source) {
-                    this.unsubscribeLibrarySignals()
+                    this.unsubscribeLibrarySignals(false);
                     this.debouncedRegisterWithDevice();
                 }
-            } else if (value.statusCode === 0 && value.status === "disconnected") {
+            } else if (responseData.statusCode === 0 && responseData.status === "disconnected") {
                 this.myMP.directConnection = false;
-                console.log("DC Disconnected.", value);
+                console.log("DC Disconnected.", responseData);
             } else {
                 this.myMP.directConnection = false;
-                console.log('Socket connection Error', value.statusCode, value.status);
+                console.log('Socket connection Error', responseData.statusCode, responseData.status);
             }
         });
 
-        this.subCsigSocketInboundMessage = subscribeState('o', 'Csig.socket.inboundmessage', (value: any) => {
-            console.log('Csig.socket.inboundmessage response------', value);
-            const testData = JSON.parse(value);
-            console.log('Action: ', testData.action);
-            console.log('Payload: ', testData.payload);
-            if (testData.action === "crpcdata") {
-                this.processCRPCResponse(testData.payload);
+        this.subCsigSocketInboundMessage = subscribeState('o', 'Csig.socket.inboundmessage', (response: any) => {
+             console.log('Csig.socket.inboundmessage response------', response);
+            if (!this.myMP.directConnection) { // if direct connection is not established, we should not process the message. This is a safety check since we should only be getting CRPC messages via this socket when we have established a direct connection.
+                return;             
+            }
+
+            let responseData: any = {};
+            if (typeof response === 'string') {
+                responseData = JSON.parse(response);
+            } else {
+                responseData = response;
+            }
+            /*  console.log('Action: ', responseData.action);
+             console.log('Payload: ', responseData.payload); */
+            if (responseData.action === "crpcdata") {
+                this.processCRPCResponse(responseData.payload);
             }
         });
     }
-
 
     private clearAllDataObjects() {
         if (this.resendRegistrationTimeId) {
@@ -245,6 +264,7 @@ export class MusicPlayerLib {
         this.menuListPublishData = {};
         this.itemValue = 1;
         this.totalItemCountCheck = 0;
+        this.firstRegisterRequest = true;
 
         publishEvent('o', 'myMusicData', this.myMusicPublishData);
         publishEvent('o', 'nowPlayingData', this.nowPlayingPublishData);
@@ -519,12 +539,9 @@ export class MusicPlayerLib {
     }
 
     private processRegistrationResponse(dataObj: RegisterwithDeviceResponse) {
-        console.log('***processRegistrationResponse***');
-
         // Make sure we have a result.
         if (dataObj.result) {
             console.log('Found result.', dataObj);
-
             // We have a response, so our connnecton is active.
             this.myMP.connectionActive = true;
             if (dataObj.result.connectionslist) {
@@ -539,16 +556,21 @@ export class MusicPlayerLib {
                     "port": myDirectConnectionInfo.port,
                     "currenttime": new Date().getTime()
                 }
-                console.log('Request Object for socket--', requestObject);
-                publishEvent('o', 'Csig.socket.request', requestObject);
+                if (this.firstRegisterRequest) {
+                    console.log('Connect request for socket', requestObject);
+                    publishEvent('o', 'Csig.socket.request', requestObject);
+                    this.firstRegisterRequest = false;
+                } else {
+                    //console.log('Request Object for', requestObject);
+                    clearInterval(this.resendRegistrationTimeId);
+                    this.getObjects();
+                }
             }
-
-
         }
     }
 
     private getDirectConnectionInfoFromArray(data: any) {
-        console.log('***getDirectConnectionInfoFromArray***');
+        // console.log('***getDirectConnectionInfoFromArray***');
 
         // Data is an array of connections.
         // ToDo: This is only for RPC v2.0 .. we need to handle RPC v.10 as well.
@@ -652,6 +674,7 @@ export class MusicPlayerLib {
     private sendRPCRequest(data: any) {
         let requestedData = '';
         data = JSON.stringify(data);
+        console.log('&&&&&&&&&&&&',this.myMP.directConnection);
         if (this.myMP.directConnection) {
             const requestedData: any = {
                 "ver": "1.0",
@@ -659,7 +682,7 @@ export class MusicPlayerLib {
                 "payload": data,
                 "currenttime": new Date().getTime()
             }
-            console.log('Direct connection crpcdata Request--', requestedData);
+            console.log('Direct connection crpcdata Request-----', requestedData);
             publishEvent('o', "Csig.socket.request", requestedData);
         } else {
             let myPrefix = '';
@@ -678,6 +701,7 @@ export class MusicPlayerLib {
                     requestedData = myPrefix + requestedData;
                 }
                 if (this.mpSigRPCOut) {
+                    console.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
                     this.logger.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
                     publishEvent('s', this.mpSigRPCOut, requestedData);
                 }
@@ -730,15 +754,20 @@ export class MusicPlayerLib {
         } else {
             if (myMsgId == this.myMP.RegistrationId) {
                 // When we perform the CS to Nax registration, the response data will contain Nax-related information, including IP, IP subnet, name, and other details, which we may use in the future if required.
-                clearInterval(this.resendRegistrationTimeId);
+                // 
                 console.log('Direction enabled? ', this.myMP.directConnection);
                 if (this.myMP.directConnection) {
+                    clearInterval(this.resendRegistrationTimeId);
                     console.log('Getting objects after registration response via direct connection.');
                     this.getObjects();
                 } else {
-                    this.processRegistrationResponse(responseData);
+                    if((isSafariMobile() && isCrestronDevice())) { // For crestron devices
+                        this.processRegistrationResponse(responseData);
+                    }else{
+                        clearInterval(this.resendRegistrationTimeId);
+                        this.getObjects(); // for non crestron devices
+                    }
                 }
-                this.processRegistrationResponse(responseData);
                 //this.myMP.connectionActive = true;
                 // While objects are being returned, switch the connection to direct (if possible).
                 //this.getObjects();
@@ -893,7 +922,7 @@ export class MusicPlayerLib {
         }
     };
 
-    public unsubscribeLibrarySignals() {
+    public unsubscribeLibrarySignals(clearObject: boolean = true) {
         if (this.resendRegistrationTimeId) {
             clearInterval(this.resendRegistrationTimeId);
             this.resendRegistrationTimeId = null;
@@ -905,17 +934,23 @@ export class MusicPlayerLib {
         unsubscribeState('s', 'serial_sendEventCRPCJoinNo', this.subSendEventCRPCJoinNo);
         unsubscribeState('b', 'Csig.All_Control_Systems_Online_fb', this.subControlSystemsOnlineFB);
 
-        /*  unsubscribeState('b', 'Csig.socket.response', this.subCsigSocketResponse);
-         unsubscribeState('b', 'Csig.socket.inboundmessage', this.subCsigSocketInboundMessage); */
-
-        /*   this.menuListPublishData = { 'MenuData': [] };
-          this.nowPlayingPublishData = {};
-          this.myMusicPublishData = {};
-          this.progressBarPublishData = {};
-        //  this.clearAllDataObjects();
-          this.totalItemCountCheck = 0
-         // this.resetMp(); */
+        if (clearObject) {
+            this.menuListPublishData = { 'MenuData': [] };
+            this.nowPlayingPublishData = {};
+            this.myMusicPublishData = {};
+            this.progressBarPublishData = {};
+            this.clearAllDataObjects();
+            this.totalItemCountCheck = 0
+            this.resetMp();
+        }
     }
+
+    public unsubscribeCSIGSignals() {
+        unsubscribeState('b', 'Csig.socket.response', this.subCsigSocketResponse);
+        unsubscribeState('b', 'Csig.socket.inboundmessage', this.subCsigSocketInboundMessage);
+        this.myMP.directConnection = false;
+    }
+
 
     public resetMp(param: boolean = false) {
         if (param) {
