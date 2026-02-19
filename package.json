@@ -56,7 +56,14 @@
         "test:mocha": "npm-run-all clean:compiled && tsc -p tsconfig.umd.json --target ES6 && nyc mocha --reporter mochawesome --exit", 
         "test:wct": "ws -o", 
         "wct:report": "echo '\ud83d\ude80 Starting server and opening test page...' && (ws > /dev/null 2>&1 &) && sleep 3 && open http://localhost:8000/wct_tests/run-all-with-report.html && echo '\u2705 Page opened! Wait for tests to complete, then click the green button to download report.'", 
-        "eslint": "eslint . --ext .ts"
+        "eslint": "eslint . --ext .ts",
+        "start": "npm run build:dev && npm run build:showcase && npm run start:showcase",
+        "build:showcase": "copyfiles -u 1 build_bundles/**/* ../CH5ShowcaseApp/node_modules/@crestron/ch5-crcomlib/build_bundles/",
+        "build:shell": "copyfiles -u 1 build_bundles/**/* /Users/rbarla/Downloads/2.18.0/Direct/mediaplayer_qe3/node_modules/@crestron/ch5-crcomlib/build_bundles/",
+        "build:shell1": "copyfiles -u 1 build_bundles/**/* /Users/rbarla/Downloads/mediaplayer_qe3/mediaplayer_qe3/node_modules/@crestron/ch5-crcomlib/build_bundles/",
+        "start:showcase": "cd .. && cd CH5ShowcaseApp && npm run start",
+        "start-shell": "npm run build:prod && npm run build:shell && npm run build:shell1",
+        "my:pack": "reset && npm run build:prod_all && npm pack"
     }, 
     "author": "Crestron", 
     "license": "SEE LICENSE IN LICENSE.txt", 

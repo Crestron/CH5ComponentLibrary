@@ -373,7 +373,8 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		this._pressable = new Ch5Pressable(this, {
 			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
 			cssPressedClass: pressedClass,
-			enableSwipe: parent.swipeGestureEnabled
+			enableSwipe: parent.swipeGestureEnabled,
+			touchMove: true
 		});
 		if (this._pressable) {
 			this._pressable.init();
