@@ -82,6 +82,7 @@ export interface Result {
     name: string;
     uuid: string;
     connectionslist: ConnectionList[];
+    connections: any;
     maxPacketSize: number;
     encoding: string;
     format: string;
