@@ -1,6 +1,6 @@
 import { publishEvent, subscribeState, unsubscribeState } from "../ch5-core";
 import _ from 'lodash';
-import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest } from "./commonInterface";
+import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest } from "./commonInterface";
 import { encodeString } from "./ch5-media-player-common";
 import { TCH5NowPlayingActions } from "./interfaces/t-ch5-media-player";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
@@ -311,20 +311,7 @@ export class MusicPlayerLib {
         });
 
         this.registerEvent();
-        this.getPropertiesSupported(this.myMP.instanceName);
         this.getMenu(this.myMP.instanceName);
-        ['BusyChanged', 'StatusMsgChanged', 'StateChangedByBrowseContext', 'StateChanged'].forEach((item: any) => {
-            const myRPC: CommonEventRequest = {
-                params: { "ev": item, "handle": "ch5" },
-                jsonrpc: '2.0',
-                id: this.generateUniqueMessageId(),
-                method: this.myMP.instanceName + '.RegisterEvent'
-            };
-            this.myMP[item + 'Id'] = myRPC.id; // Keep track of the message id.
-            if (this.myMP.instanceName) {
-                this.sendRPCRequest(JSON.stringify(myRPC)); // Send the message.
-            }
-        });
     }
 
     private processPropertiesSupportedResponse(getPropertiesSupportedResponse: GetPropertiesSupportedResponse) {
@@ -346,9 +333,22 @@ export class MusicPlayerLib {
         this.naxDeviceOfflineFlag = false;// to reset nax offline flag after getting propertiessupported response
     }
 
-    private processMenuResponse(getMenuResponse: GetMenuResponse) {
-        this.myMP.menuInstanceName = getMenuResponse.result.instanceName;
+    private registerForNowPlayingChangedEvent() {
+        ['BusyChanged', 'StatusMsgChanged', 'StateChangedByBrowseContext', 'StateChanged'].forEach((item: any) => {
+            const myRPC: CommonEventRequest = {
+                params: { "ev": item, "handle": "ch5" },
+                jsonrpc: '2.0',
+                id: this.generateUniqueMessageId(),
+                method: this.myMP.instanceName + '.RegisterEvent'
+            };
+            this.myMP[item + 'Id'] = myRPC.id; // Keep track of the message id.
+            if (this.myMP.instanceName) {
+                this.sendRPCRequest(JSON.stringify(myRPC)); // Send the message.
+            }
+        });
+    }
 
+    private registerForMenuChangedEvent() {
         ['Reset', 'BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'].forEach((item: any) => {
             const myRPC: CommonEventRequest = {
                 params: { "ev": item, "handle": "ch5" },
@@ -648,9 +648,12 @@ export class MusicPlayerLib {
             } else if (myMsgId == this.myMP.ObjectsId) {
                 this.processGetObjectsResponse(responseData);
             } else if (myMsgId == this.myMP.PropertiesSupportedId) {
+                this.registerForNowPlayingChangedEvent();
+                this.registerForMenuChangedEvent();
                 this.processPropertiesSupportedResponse(responseData);
             } else if (myMsgId == this.myMP.MenuId) {
-                this.processMenuResponse(responseData);
+                this.myMP.menuInstanceName = responseData.result.instanceName;
+                this.getPropertiesSupported(this.myMP.instanceName);                
             } else if (myMsgId === this.myMP.ItemDataId) {
                 this.myMP.ItemDataId = 0;
                 this.menuListData['MenuData'] = [...this.menuListData['MenuData'], ...responseData.result];
