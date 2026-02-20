@@ -379,6 +379,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this.handleDemoMode(); // it is needed when attribute is set to true and then removed from the component
     customElements.whenDefined('ch5-media-player').then(() => {
       this.musicPlayerLibInstance.subscribeLibrarySignals();
+      this.musicPlayerLibInstance.subscribeCSIGSignals();
       this.componentLoadedEvent(Ch5MediaPlayer.ELEMENT_NAME, this.id);
     });
 

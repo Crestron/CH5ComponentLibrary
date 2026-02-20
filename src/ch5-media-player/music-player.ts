@@ -29,6 +29,7 @@ export class MusicPlayerLib {
 
     private subCsigSocketResponse: any;
     private subCsigSocketInboundMessage: any;
+    private directConnectionFlag = false;
 
     // Generate a constant UUID once per application start.
     private generateStrongCustomId = (): string => {
@@ -133,6 +134,37 @@ export class MusicPlayerLib {
             publishEvent('o', 'PopUpMessageData', data);
         });
 
+        this.subscribeCRCPRespSignal();// we are making seperate function direct connection  
+
+        //receiveStateMessageResp from CS (ver tag src)
+        this.subReceiveStateMessageResp = subscribeState('s', 'serial_receiveStateMessageResp', (value: any) => {
+            if (value.length > 0) {
+                this.processMessage(value);
+            }
+        });
+
+        //To get join name from the component
+        this.subSendEventCRPCJoinNo = subscribeState('s', 'serial_sendEventCRPCJoinNo', (value: any) => {
+            this.mpSigRPCOut = value;
+        });
+
+        this.subControlSystemsOnlineFB = subscribeState('b', 'Csig.All_Control_Systems_Online_fb', (value: boolean) => {
+            if (value) {
+                const subreceiveStateMessageRespTemp = subscribeState('s', 'serial_receiveStateMessageResp', (value: any) => {
+                    if (value.length > 0) {
+                        this.clearAllDataObjects();
+                        this.resetMp();
+                        this.processMessage(value, true);
+                        setTimeout(() => {
+                            unsubscribeState('b', 'serial_receiveStateMessageResp', subreceiveStateMessageRespTemp);
+                        }, 100);
+                    }
+                });
+            }
+        });
+    }
+
+    private subscribeCRCPRespSignal() {
         this.subReceiveStateCRPCResp = subscribeState('s', 'serial_receiveStateCRPCResp', (value: any) => {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
@@ -174,35 +206,9 @@ export class MusicPlayerLib {
                 }
             }
         });
+    }
 
-        //receiveStateMessageResp from CS (ver tag src)
-        this.subReceiveStateMessageResp = subscribeState('s', 'serial_receiveStateMessageResp', (value: any) => {
-            if (value.length > 0) {
-                this.processMessage(value);
-            }
-        });
-
-        //To get join name from the component
-        this.subSendEventCRPCJoinNo = subscribeState('s', 'serial_sendEventCRPCJoinNo', (value: any) => {
-            this.mpSigRPCOut = value;
-        });
-
-        this.subControlSystemsOnlineFB = subscribeState('b', 'Csig.All_Control_Systems_Online_fb', (value: boolean) => {
-            if (value) {
-                const subreceiveStateMessageRespTemp = subscribeState('s', 'serial_receiveStateMessageResp', (value: any) => {
-                    if (value.length > 0) {
-                        this.clearAllDataObjects();
-                        this.resetMp();
-                        this.processMessage(value, true);
-                        setTimeout(() => {
-                            unsubscribeState('b', 'receiveStateMessageResp', subreceiveStateMessageRespTemp);
-                        }, 100);
-                    }
-                });
-            }
-        });
-
-
+    public subscribeCSIGSignals() {
         // Direct connection socket responses
         this.subCsigSocketResponse = subscribeState('o', 'Csig.socket.response', (response: any) => {
             console.log('Csig.socket.response for connection-------', response);
@@ -221,7 +227,8 @@ export class MusicPlayerLib {
                 clearInterval(this.resendRegistrationTimeId);// to clear registerevent re-send timer once direct connection is established, as we will not be needing to re-send registration via join anymore
                 console.log("Direct connection established with Media Player device.");
                 if (this.myMP.tag && this.myMP.source) {
-                    this.unsubscribeLibrarySignals(false);
+                    this.directConnectionFlag = true;
+                    unsubscribeState('s', 'serial_receiveStateCRPCResp', this.subReceiveStateCRPCResp); //unsubscribe from join-based CRPC response since we have established direct connection and we will be getting CRPC responses via socket
                     this.debouncedRegisterWithDevice();
                 }
             } else if (responseData.statusCode === 0 && responseData.status === "disconnected") {
@@ -245,8 +252,6 @@ export class MusicPlayerLib {
             } else {
                 responseData = response;
             }
-            /*  console.log('Action: ', responseData.action);
-             console.log('Payload: ', responseData.payload); */
             if (responseData.action === "crpcdata") {
                 this.processCRPCResponse(responseData.payload);
             }
@@ -287,6 +292,10 @@ export class MusicPlayerLib {
         }
         // Register with the new device. ToDo: Add checks for online & tag values.
         if (this.myMP.tag && this.myMP.connectionActive && !this.naxDeviceOfflineFlag) {
+            if (this.directConnectionFlag) {
+                this.directConnectionFlag = false;
+                this.subscribeCRCPRespSignal();
+            }
             this.debouncedRegisterWithDevice();
         }
     }
@@ -541,7 +550,6 @@ export class MusicPlayerLib {
     private processRegistrationResponse(dataObj: RegisterwithDeviceResponse) {
         // Make sure we have a result.
         if (dataObj.result) {
-            // console.log('Found result.', dataObj);
             // We have a response, so our connnecton is active.
             this.myMP.connectionActive = true;
             let myDirectConnectionInfo: any = {};
@@ -563,9 +571,7 @@ export class MusicPlayerLib {
                 "currenttime": new Date().getTime()
             }
 
-            console.log('______', this.firstRegisterRequest);
             if (this.firstRegisterRequest) {
-                console.log('DC Request');
                 publishEvent('o', 'Csig.socket.request', requestObject);
                 this.firstRegisterRequest = false;
             } else {
@@ -576,10 +582,7 @@ export class MusicPlayerLib {
     }
 
     private getDirectConnectionInfoFromArray(data: any) {
-        // console.log('***getDirectConnectionInfoFromArray***');
-
         // Data is an array of connections.
-        // ToDo: This is only for RPC v2.0 .. we need to handle RPC v.10 as well.
         const myConnectionData: any = {};
         myConnectionData.ip = '';
         myConnectionData.port = 0;
@@ -680,7 +683,6 @@ export class MusicPlayerLib {
     private sendRPCRequest(data: any) {
         let requestedData = '';
         data = JSON.stringify(data);
-        // console.log('&&&&&&&&&&&&',this.myMP.directConnection);
         if (this.myMP.directConnection) {
             const requestedData: any = {
                 "ver": "1.0",
@@ -688,7 +690,6 @@ export class MusicPlayerLib {
                 "payload": data,
                 "currenttime": new Date().getTime()
             }
-            //console.log('Direct connection crpcdata Request-----', requestedData);
             publishEvent('o', "Csig.socket.request", requestedData);
         } else {
             let myPrefix = '';
@@ -707,7 +708,6 @@ export class MusicPlayerLib {
                     requestedData = myPrefix + requestedData;
                 }
                 if (this.mpSigRPCOut) {
-                    // console.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
                     this.logger.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
                     publishEvent('s', this.mpSigRPCOut, requestedData);
                 }
@@ -761,10 +761,8 @@ export class MusicPlayerLib {
             if (myMsgId == this.myMP.RegistrationId) {
                 // When we perform the CS to Nax registration, the response data will contain Nax-related information, including IP, IP subnet, name, and other details, which we may use in the future if required.
                 // 
-                //console.log('Direction enabled? ', this.myMP.directConnection);
                 if (this.myMP.directConnection) {
                     clearInterval(this.resendRegistrationTimeId);
-                    //console.log('Getting objects after registration response via direct connection.');
                     this.getObjects();
                 } else {
                     /* console.log('@@@@@@@@@@@@@@@', window.navigator.userAgent.toLowerCase().includes("crestron"));
