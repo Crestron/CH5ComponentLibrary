@@ -112,15 +112,16 @@ export class MusicPlayerLib {
 
         this.subReceiveStateDeviceOfflineResp = subscribeState('b', 'digital_receiveStateDeviceOfflineResp', (value: boolean) => {
             this.myMP.connectionActive = !value;
-            const data = { 'userInputRequired': "", "text": "No Communication. Please check power and connection.", "textForItems": [], "initialUserInput": "", "timeoutSec": 10000, "show": true }
+            const data = { 'userInputRequired': "", "text": "No Communication. Please check power and connection.", "textForItems": [], "initialUserInput": "", "timeoutSec": 10000, "show": true, "donotcloseOnOutsideClick": true }
             if (value) {
-                this.unregisterWithDevice(true);
-                this.naxDeviceOfflineFlag = true;
+                // this.unregisterWithDevice(true);
+                this.naxDeviceOfflineFlag = true; // when device is offline
             } else {
                 data.text = "";
                 data.show = false;
                 if (this.myMP.instanceName && this.myMP.menuInstanceName && this.myMP.connectionActive) {
-                    this.naxDeviceOnline();
+                    // this.naxDeviceOnline();
+                    this.debouncedRegisterWithDevice();
                 }
             }
             publishEvent('o', 'PopUpMessageData', data);
@@ -415,37 +416,37 @@ export class MusicPlayerLib {
         }
     }
 
-    private naxDeviceOnline() {
-        this.getPropertiesSupported(this.myMP.instanceName);
+    // private naxDeviceOnline() {
+    //     this.getPropertiesSupported(this.myMP.instanceName);
 
-        ['BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'].forEach((item: any) => {
-            const myRPC: CommonEventRequest = {
-                params: { "ev": item, "handle": "ch5" },
-                jsonrpc: '2.0',
-                id: this.generateUniqueMessageId(),
-                method: this.myMP.menuInstanceName + '.RegisterEvent'
-            };
+    //     ['BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'].forEach((item: any) => {
+    //         const myRPC: CommonEventRequest = {
+    //             params: { "ev": item, "handle": "ch5" },
+    //             jsonrpc: '2.0',
+    //             id: this.generateUniqueMessageId(),
+    //             method: this.myMP.menuInstanceName + '.RegisterEvent'
+    //         };
             
-            if (this.myMP.menuInstanceName) {
-                this.sendRPCRequest(JSON.stringify(myRPC));
-            }
-        });
+    //         if (this.myMP.menuInstanceName) {
+    //             this.sendRPCRequest(JSON.stringify(myRPC));
+    //         }
+    //     });
 
-        ['Version', 'MaxReqItems', 'Level', 'ItemCnt', 'Title', 'Subtitle', 'ListSpecificFunctions', 'IsMenuAvailable', 'StatusMsgMenu', 'Instance'].forEach((item: any) => {
-            const myRPC: CommonRequestPropName = {
-                params: { "propName": item },
-                jsonrpc: '2.0',
-                id: this.generateUniqueMessageId(),
-                method: this.myMP.menuInstanceName + '.GetProperty'
-            };
-            if (item === 'Title') {
-                this.myMP[item + 'MenuId'] = myRPC.id;// Keep track of the message id.
-            }
-            if (this.myMP.menuInstanceName) {
-                this.sendRPCRequest(JSON.stringify(myRPC));
-            }
-        });
-    }
+    //     ['Version', 'MaxReqItems', 'Level', 'ItemCnt', 'Title', 'Subtitle', 'ListSpecificFunctions', 'IsMenuAvailable', 'StatusMsgMenu', 'Instance'].forEach((item: any) => {
+    //         const myRPC: CommonRequestPropName = {
+    //             params: { "propName": item },
+    //             jsonrpc: '2.0',
+    //             id: this.generateUniqueMessageId(),
+    //             method: this.myMP.menuInstanceName + '.GetProperty'
+    //         };
+    //         if (item === 'Title') {
+    //             this.myMP[item + 'MenuId'] = myRPC.id;// Keep track of the message id.
+    //         }
+    //         if (this.myMP.menuInstanceName) {
+    //             this.sendRPCRequest(JSON.stringify(myRPC));
+    //         }
+    //     });
+    // }
 
     // Register with a media player device.
     // 1. The initial registration is always via serial join.
