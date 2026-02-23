@@ -82,7 +82,7 @@ export class MusicPlayerLib {
     private myMusicData: any = { 'Title': '', 'Subtitle': '', 'ListSpecificFunctions': '', 'ItemCnt': 0, 'MaxReqItems': '', 'IsMenuAvailable': '', 'Level': '' };
 
     private menuListData: any = { 'MenuData': [] };
-    private requestedId: any[] = [];
+
     private pendingPropertyRequests: string[] = [];
     private currentPropertyRequestId: number | null = null;
     private pendingNowPlayingEventRequests: string[] = [];
@@ -325,7 +325,6 @@ export class MusicPlayerLib {
 
     private processPropertiesSupportedResponse(getPropertiesSupportedResponse: GetPropertiesSupportedResponse) {
         const properties = getPropertiesSupportedResponse.result.PropertiesSupported;
-        console.log('properties supported ->', properties);
         this.pendingPropertyRequests = properties.filter((item: any) => item !== 'PropertiesSupported');
         this.sendNextPropertyRequest();
         this.naxDeviceOfflineFlag = false;// to reset nax offline flag after getting propertiessupported response
@@ -350,8 +349,6 @@ export class MusicPlayerLib {
         };
         this.myMP[nextProp + "Id"] = myRPC.id; // Keep track of the message id.
         this.currentPropertyRequestId = myRPC.id;
-        this.requestedId = [myRPC.id];
-        console.log('Requesting property ->', nextProp, ' with id ->', myRPC.id);
         this.sendRPCRequest(JSON.stringify(myRPC));// Send the message.
     }
 
@@ -653,7 +650,7 @@ export class MusicPlayerLib {
             }
             if (this.mpSigRPCOut) {
                 this.logger.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
-                console.log('CRPC send request: ', requestedData);
+                // console.log('CRPC send request: ', requestedData);
                 publishEvent('s', this.mpSigRPCOut, requestedData);
             }
         }
@@ -661,16 +658,14 @@ export class MusicPlayerLib {
 
     // Process CRPC data from the control system.
     private processCRPCResponse(data: any) {
-        console.log('CRPC Response ->', data);
+        // console.log('CRPC Response ->', data);
         const responseData = data;
         // Get the messge id.
         // This can be used to determine if a valid response was received
         // for a specific API call we just made.
         const myMsgId = responseData.id;
 
-        if(this.requestedId.includes(myMsgId)){
-            console.log('Response received for requested id: ', myMsgId);
-            this.requestedId = []; // clear the requested id array once we get the response for any of the requested id, as we are sending one request at a time there will be only one id in the array
+        if(this.currentPropertyRequestId === myMsgId){
             this.currentPropertyRequestId = null;
             this.sendNextPropertyRequest();
         }
@@ -963,6 +958,7 @@ export class MusicPlayerLib {
 
         this.menuListData = { 'MenuData': [] };
         this.totalItemCountCheck = 0;
+        
         this.pendingPropertyRequests = [];
         this.currentPropertyRequestId = null;
         this.pendingNowPlayingEventRequests = [];
