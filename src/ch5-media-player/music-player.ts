@@ -555,8 +555,8 @@ export class MusicPlayerLib {
             let myDirectConnectionInfo: any = {};
 
             if (dataObj.result.ver == '1.0' && dataObj.result.connections) {
-                myDirectConnectionInfo.ip = dataObj.result?.connections['cip-direct-json-rpc']?.ip;
-                myDirectConnectionInfo.port = dataObj.result?.connections['cip-direct-json-rpc']?.port;
+                myDirectConnectionInfo.ip = dataObj.result?.connections['cip-direct/json-rpc']?.ip;
+                myDirectConnectionInfo.port = dataObj.result?.connections['cip-direct/json-rpc']?.port;
             }
             else if (dataObj.result?.connectionslist) {
                 myDirectConnectionInfo = this.getDirectConnectionInfoFromArray(dataObj.result.connectionslist);
