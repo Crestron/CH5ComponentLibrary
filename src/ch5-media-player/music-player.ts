@@ -234,9 +234,19 @@ export class MusicPlayerLib {
             } else if (responseData.statusCode === 0 && responseData.status === "disconnected") {
                 this.myMP.directConnection = false;
                 console.log("DC Disconnected.", responseData);
+            } else if ((responseData.statusCode === 1001) || (responseData.statusCode === 1002) || (responseData.statusCode === 1003)) {
+                console.log("Error 1001/1002/1003", responseData);
+                const requestedData: any = {
+                    "ver": "1.0",
+                    "action": "disconnect",
+                    "currenttime": new Date().getTime()
+                }
+                clearInterval(this.resendRegistrationTimeId);
+                publishEvent('o', "Csig.socket.request", requestedData);// on player change we have to disconnect direct connection and then establish new direct connection with new player.
+                this.debouncedRegisterWithDevice();
             } else {
                 this.myMP.directConnection = false;
-                console.log('Socket connection Error', responseData.statusCode, responseData.status);
+                console.log('Unknown Error', responseData.statusCode, responseData.status);
             }
         });
 
@@ -480,6 +490,14 @@ export class MusicPlayerLib {
                 this.resetMp(deviceOffLine);
             }
         }
+        if (this.myMP.directConnection) {
+            const requestedData: any = {
+                "ver": "1.0",
+                "action": "disconnect",
+                "currenttime": new Date().getTime()
+            }
+            publishEvent('o', "Csig.socket.request", requestedData);// on player change we have to disconnect direct connection and then establish new direct connection with new player.
+        }
     }
 
     private naxDeviceOnline() {
@@ -572,6 +590,7 @@ export class MusicPlayerLib {
             }
 
             if (this.firstRegisterRequest) {
+                console.log('Csig.socket.request', requestObject);
                 publishEvent('o', 'Csig.socket.request', requestObject);
                 this.firstRegisterRequest = false;
             } else {
