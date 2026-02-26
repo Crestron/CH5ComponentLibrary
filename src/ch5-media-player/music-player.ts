@@ -122,9 +122,11 @@ export class MusicPlayerLib {
             this.myMP.connectionActive = !value;
             const data = { 'userInputRequired': "", "text": "No Communication. Please check power and connection.", "textForItems": [], "initialUserInput": "", "timeoutSec": 10000, "show": true }
             if (value) {
+                console.log('Nax device offline... ', value);
                 this.unregisterWithDevice(true);
                 this.naxDeviceOfflineFlag = true;
             } else {
+                console.log('Nax device online... ', value);
                 data.text = "";
                 data.show = false;
                 if (this.myMP.instanceName && this.myMP.menuInstanceName && this.myMP.connectionActive) {
@@ -784,13 +786,12 @@ export class MusicPlayerLib {
                     clearInterval(this.resendRegistrationTimeId);
                     this.getObjects();
                 } else {
-                    /* console.log('@@@@@@@@@@@@@@@', window.navigator.userAgent.toLowerCase().includes("crestron"));
-                    if ((isSafariMobile() || isCrestronDevice())) { // For crestron devices */
-                    this.processRegistrationResponse(responseData);
-                    /* } else {
+                    if (this.isDesktopBrowser()) {
                         clearInterval(this.resendRegistrationTimeId);
-                        this.getObjects(); // for non crestron devices
-                    } */
+                        this.getObjects(); // for non crestron devices 
+                    } else {
+                        this.processRegistrationResponse(responseData);
+                    }
                 }
                 //this.myMP.connectionActive = true;
                 // While objects are being returned, switch the connection to direct (if possible).
@@ -1031,5 +1032,19 @@ export class MusicPlayerLib {
 
         this.menuListData = { 'MenuData': [] };
         this.totalItemCountCheck = 0;
+    }
+
+    private isDesktopBrowser() {
+        const userAgent = navigator.userAgent || navigator.vendor || (window as any)['opera'];
+        if (/android/i.test(userAgent)) {
+            console.log("Running on Android");
+            return false;
+        } else if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any)['MSStream']) {
+            console.log("Running on iOS");
+            return false;
+        } else {
+            console.log("Running on Desktop or other OS");
+            return true;
+        }
     }
 }
