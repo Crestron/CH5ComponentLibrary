@@ -486,20 +486,21 @@ export class MusicPlayerLib {
                 };
                 this.sendRPCRequest(myRPC);
             });
+            if (this.myMP.directConnection) {
+                const requestedData: any = {
+                    "ver": "1.0",
+                    "action": "disconnect",
+                    "currenttime": new Date().getTime()
+                }
+                publishEvent('o', "Csig.socket.request", requestedData);// on player change we have to disconnect direct connection and then establish new direct connection with new player.
+            }
 
             if (!deviceOffLine) {
                 this.clearAllDataObjects();
                 this.resetMp(deviceOffLine);
             }
         }
-        if (this.myMP.directConnection) {
-            const requestedData: any = {
-                "ver": "1.0",
-                "action": "disconnect",
-                "currenttime": new Date().getTime()
-            }
-            publishEvent('o', "Csig.socket.request", requestedData);// on player change we have to disconnect direct connection and then establish new direct connection with new player.
-        }
+
     }
 
     private naxDeviceOnline() {
