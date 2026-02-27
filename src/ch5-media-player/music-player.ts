@@ -123,7 +123,9 @@ export class MusicPlayerLib {
             const data = { 'userInputRequired': "", "text": "No Communication. Please check power and connection.", "textForItems": [], "initialUserInput": "", "timeoutSec": 10000, "show": true }
             if (value) {
                 console.log('Nax device offline... ', value);
-                this.unregisterWithDevice(true);
+                if (!this.myMP.directConnection) {
+                    this.unregisterWithDevice(true);
+                }
                 this.naxDeviceOfflineFlag = true;
             } else {
                 console.log('Nax device online... ', value);
@@ -244,6 +246,7 @@ export class MusicPlayerLib {
                     "currenttime": new Date().getTime()
                 }
                 clearInterval(this.resendRegistrationTimeId);
+                console.log('Csig.socket.request -------', requestedData);
                 publishEvent('o', "Csig.socket.request", requestedData);// on player change we have to disconnect direct connection and then establish new direct connection with new player.
                 this.debouncedRegisterWithDevice();
             } else {
@@ -253,7 +256,7 @@ export class MusicPlayerLib {
         });
 
         this.subCsigSocketInboundMessage = subscribeState('o', 'Csig.socket.inboundmessage', (response: any) => {
-            console.log('Csig.socket.inboundmessage response------', response);
+            // console.log('Csig.socket.inboundmessage response------', response);
             if (!this.myMP.directConnection) { // if direct connection is not established, we should not process the message. This is a safety check since we should only be getting CRPC messages via this socket when we have established a direct connection.
                 return;
             }
@@ -492,6 +495,7 @@ export class MusicPlayerLib {
                     "action": "disconnect",
                     "currenttime": new Date().getTime()
                 }
+                console.log('Csig.socket.request -------', requestedData);
                 publishEvent('o', "Csig.socket.request", requestedData);// on player change we have to disconnect direct connection and then establish new direct connection with new player.
             }
 
@@ -1035,16 +1039,51 @@ export class MusicPlayerLib {
         this.totalItemCountCheck = 0;
     }
 
-    private isDesktopBrowser() {
-        const userAgent = navigator.userAgent || navigator.vendor || (window as any)['opera'];
-        if (/android/i.test(userAgent)) {
-            console.log("Running on Android");
-            return false;
-        } else if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any)['MSStream']) {
-            console.log("Running on iOS");
-            return false;
-        } else {
-            console.log("Running on Desktop or other OS");
+    private isDesktopBrowser(): boolean {
+        try {
+            const ua = navigator.userAgent || navigator.vendor || (window as any).opera || '';
+            const vendor = (navigator as any).vendor || '';
+            const platform = (navigator as any).platform || '';
+            const maxTouchPoints = (navigator as any).maxTouchPoints || 0;
+
+            // 1) Android (phones/tablets)
+            if (/android/i.test(ua)) {
+                console.log('Running on Android');
+                return false;
+            }
+
+            // 2) Classic iOS (iPhone, iPod, iPad < iPadOS 13)
+            if (/iPhone|iPod|iPad/i.test(ua)) {
+                console.log('Running on iOS (classic UA match)');
+                return false;
+            }
+
+            // 3) iPadOS 13+ (spoofs as Mac)
+            // Heuristic: Mac platform + multiple touch points => iPadOS
+            if (platform === 'MacIntel' && maxTouchPoints > 1) {
+                console.log('Running on iPadOS (MacIntel + touch)');
+                return false;
+            }
+
+            // 4) Additional Apple mobile hint (rare edge cases)
+            // Vendor Apple + Mobile Safari token but not Chrome-on-iOS (CriOS)
+            const isAppleMobile =
+                /Apple/i.test(vendor) &&
+                /Safari/i.test(ua) &&
+                !/CriOS/i.test(ua) &&
+                /Mobile/i.test(ua);
+
+            if (isAppleMobile) {
+                console.log('Running on iOS (vendor/mobile hint)');
+                return false;
+            }
+
+            // Otherwise, treat as desktop/other
+            console.log('Running on Desktop or other OS');
+            return true;
+        } catch (e) {
+            // Fail-safe: assume desktop if detection errors
+            console.log('Environment detection error, assuming Desktop:', e);
             return true;
         }
     }
