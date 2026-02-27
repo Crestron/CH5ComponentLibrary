@@ -1,6 +1,6 @@
 import { publishEvent, subscribeState, unsubscribeState } from "../ch5-core";
 import _ from 'lodash';
-import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest, RegisterwithDeviceResponse } from "./commonInterface";
+import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest, RegisterwithDeviceResponse } from "./commonInterface";
 import { encodeString } from "./ch5-media-player-common";
 import { TCH5NowPlayingActions } from "./interfaces/t-ch5-media-player";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
@@ -740,7 +740,7 @@ export class MusicPlayerLib {
             publishEvent('o', "Csig.socket.request", requestedData);
         } else {
             let myPrefix = '';
-            const numberOfChar = 100;
+            const numberOfChar = 248;
 
             // Add prefix if the connection is not direct.
             const chuncknCount = Math.ceil(data.length / numberOfChar);
