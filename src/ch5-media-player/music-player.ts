@@ -743,7 +743,7 @@ export class MusicPlayerLib {
             publishEvent('o', "Csig.socket.request", requestedData);
         } else {
             let myPrefix = '';
-            const numberOfChar = 100;
+            const numberOfChar = 248;
 
             // Add prefix if the connection is not direct.
             const chuncknCount = Math.ceil(data.length / numberOfChar);
