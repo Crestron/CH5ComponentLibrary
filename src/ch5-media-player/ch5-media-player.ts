@@ -389,7 +389,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
         this._elMask.parentNode.removeChild(this._elMask);
       }
       if (this.popUpData && this.popUpData.show) {
-        this.genericDialog(this.popUpData.userInputRequired, this.popUpData.text, this.popUpData.textForItems, this.popUpData.initialUserInput, this.popUpData.timeoutSec);
+        this.genericDialog(this.popUpData.userInputRequired, this.popUpData.text, this.popUpData.textForItems, this.popUpData.initialUserInput, this.popUpData.timeoutSec, this.popUpData.donotcloseOnOutsideClick);
       } else {
         if (this._elMask && this._elMask.parentNode) {
           this._elMask.parentNode.removeChild(this._elMask);
@@ -459,7 +459,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
   }
 
   //Generic Dialog
-  protected genericDialog(dialogType: string, dialogHeading: string, dialogArray: Array<string>, dialogInput: string, timeoutSec: number) {
+  protected genericDialog(dialogType: string, dialogHeading: string, dialogArray: Array<string>, dialogInput: string, timeoutSec: number, donotcloseOnOutsideClick = false) {
     this.logger.log(dialogType);
     if (this._elMask) this._elMask.innerHTML = "";
 
@@ -535,7 +535,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
         this.musicPlayerLibInstance.popUpAction("", -1);
 
       }
-      if (this._elMask && this._elMask.parentNode) {
+      if (this._elMask && this._elMask.parentNode && !donotcloseOnOutsideClick) {
         this._elMask.parentNode.removeChild(this._elMask);
       }
     }
