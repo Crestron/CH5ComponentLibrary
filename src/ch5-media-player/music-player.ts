@@ -91,6 +91,15 @@ export class MusicPlayerLib {
 
     private menuListData: any = { 'MenuData': [] };
 
+    private pendingPropertyRequests: string[] = [];
+    private currentPropertyRequestId: number | null = null;
+    private pendingNowPlayingEventRequests: string[] = [];
+    private currentNowPlayingEventRequestId: number | null = null;
+    private pendingMenuEventRequests: string[] = [];
+    private currentMenuEventRequestId: number | null = null;
+    private pendingMenuPropertyRequests: string[] = [];
+    private currentMenuPropertyRequestId: number | null = null;
+
     constructor(public logger: Ch5CommonLog) { }
 
     public debounce = (func: any, wait: number) => {
@@ -120,19 +129,17 @@ export class MusicPlayerLib {
 
         this.subReceiveStateDeviceOfflineResp = subscribeState('b', 'digital_receiveStateDeviceOfflineResp', (value: boolean) => {
             this.myMP.connectionActive = !value;
-            const data = { 'userInputRequired': "", "text": "No Communication. Please check power and connection.", "textForItems": [], "initialUserInput": "", "timeoutSec": 10000, "show": true }
+            const data = { 'userInputRequired': "", "text": "No Communication. Please check power and connection.", "textForItems": [], "initialUserInput": "", "timeoutSec": 10000, "show": true, "donotcloseOnOutsideClick": true }
             if (value) {
-                console.log('Nax device offline... ', value);
-                if (!this.myMP.directConnection) {
-                    this.unregisterWithDevice(true);
-                }
-                this.naxDeviceOfflineFlag = true;
+                // this.unregisterWithDevice(true);
+                this.naxDeviceOfflineFlag = true; // when device is offline
             } else {
                 console.log('Nax device online... ', value);
                 data.text = "";
                 data.show = false;
                 if (this.myMP.instanceName && this.myMP.menuInstanceName && this.myMP.connectionActive) {
-                    this.naxDeviceOnline();
+                    // this.naxDeviceOnline();
+                    this.debouncedRegisterWithDevice();
                 }
             }
             publishEvent('o', 'PopUpMessageData', data);
@@ -393,75 +400,117 @@ export class MusicPlayerLib {
         });
 
         this.registerEvent();
-        this.getPropertiesSupported(this.myMP.instanceName);
         this.getMenu(this.myMP.instanceName);
-        ['BusyChanged', 'StatusMsgChanged', 'StateChangedByBrowseContext', 'StateChanged'].forEach((item: any) => {
-            const myRPC: CommonEventRequest = {
-                params: { "ev": item, "handle": "ch5" },
-                jsonrpc: '2.0',
-                id: this.generateUniqueMessageId(),
-                method: this.myMP.instanceName + '.RegisterEvent'
-            };
-            this.myMP[item + 'Id'] = myRPC.id; // Keep track of the message id.
-            if (this.myMP.instanceName) {
-                this.sendRPCRequest(myRPC); // Send the message.
-            }
-        });
     }
 
     private processPropertiesSupportedResponse(getPropertiesSupportedResponse: GetPropertiesSupportedResponse) {
         const properties = getPropertiesSupportedResponse.result.PropertiesSupported;
-        properties.forEach((item: any) => {
-            if (item !== 'PropertiesSupported') { // in response geetting one of item as "PropertiesSupported", to avoid loop adding this condtion
-                const myRPC: CommonRequestPropName = {
-                    params: { "propName": item },
-                    jsonrpc: '2.0',
-                    id: this.generateUniqueMessageId(),
-                    method: this.myMP.instanceName + '.GetProperty'
-                };
-                this.myMP[item + "Id"] = myRPC.id; // Keep track of the message id.
-                if (this.myMP.instanceName) {
-                    this.sendRPCRequest(myRPC);// Send the message.
-                }
-            }
-        });
+        this.pendingPropertyRequests = properties.filter((item: any) => item !== 'PropertiesSupported');
+        this.sendNextPropertyRequest();
         this.naxDeviceOfflineFlag = false;// to reset nax offline flag after getting propertiessupported response
     }
 
-    private processMenuResponse(getMenuResponse: GetMenuResponse) {
-        this.myMP.menuInstanceName = getMenuResponse.result.instanceName;
+    private sendNextPropertyRequest() {
+        if (!this.myMP.instanceName) {
+            return;
+        }
+        if (this.currentPropertyRequestId !== null) {
+            return;
+        }
+        const nextProp = this.pendingPropertyRequests.shift();
+        if (!nextProp) {
+            return;
+        }
+        const myRPC: CommonRequestPropName = {
+            params: { "propName": nextProp },
+            jsonrpc: '2.0',
+            id: this.generateUniqueMessageId(),
+            method: this.myMP.instanceName + '.GetProperty'
+        };
+        this.myMP[nextProp + "Id"] = myRPC.id; // Keep track of the message id.
+        this.currentPropertyRequestId = myRPC.id;
+        this.sendRPCRequest(myRPC);// Send the message.
+    }
 
-        ['Reset', 'BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'].forEach((item: any) => {
-            const myRPC: CommonEventRequest = {
-                params: { "ev": item, "handle": "ch5" },
-                jsonrpc: '2.0',
-                id: this.generateUniqueMessageId(),
-                method: this.myMP.menuInstanceName + '.RegisterEvent'
-            };
-            if (item === 'Reset') {
-                myRPC.params = null;
-                myRPC.method = this.myMP.menuInstanceName + '.Reset'
-            };
+    private registerForNowPlayingChangedEvent() {
+        this.pendingNowPlayingEventRequests = ['BusyChanged', 'StatusMsgChanged', 'StateChangedByBrowseContext', 'StateChanged'];
+        this.sendNextNowPlayingEventRequest();
+    }
 
-            if (this.myMP.menuInstanceName) {
-                this.sendRPCRequest(myRPC);
-            }
-        });
+    private sendNextNowPlayingEventRequest() {
+        if (!this.myMP.instanceName || this.currentNowPlayingEventRequestId !== null) {
+            return;
+        }
+        const nextEvent = this.pendingNowPlayingEventRequests.shift();
+        if (!nextEvent) {
+            return;
+        }
+        const myRPC: CommonEventRequest = {
+            params: { "ev": nextEvent, "handle": "ch5" },
+            jsonrpc: '2.0',
+            id: this.generateUniqueMessageId(),
+            method: this.myMP.instanceName + '.RegisterEvent'
+        };
+        this.myMP[nextEvent + 'Id'] = myRPC.id; // Keep track of the message id.
+        this.currentNowPlayingEventRequestId = myRPC.id;
+        setTimeout(() => {
+            this.sendRPCRequest(myRPC); // Send the message.
+        }, 50);
+    }
 
-        ['Version', 'MaxReqItems', 'Level', 'ItemCnt', 'Title', 'Subtitle', 'ListSpecificFunctions', 'IsMenuAvailable', 'StatusMsgMenu', 'Instance'].forEach((item: any) => {
-            const myRPC: CommonRequestPropName = {
-                params: { "propName": item },
-                jsonrpc: '2.0',
-                id: this.generateUniqueMessageId(),
-                method: this.myMP.menuInstanceName + '.GetProperty'
-            };
-            if (item === 'Title') {
-                this.myMP[item + 'MenuId'] = myRPC.id;// Keep track of the message id.
-            }
-            if (this.myMP.menuInstanceName) {
-                this.sendRPCRequest(myRPC);
-            }
-        });
+    private registerForMenuChangedEvent() {
+        this.pendingMenuEventRequests = ['Reset', 'BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'];
+        this.sendNextMenuEventRequest();
+
+        this.pendingMenuPropertyRequests = ['Version', 'MaxReqItems', 'Level', 'ItemCnt', 'Title', 'Subtitle', 'ListSpecificFunctions', 'IsMenuAvailable', 'StatusMsgMenu', 'Instance'];
+        this.sendNextMenuPropertyRequest();
+    }
+
+    private sendNextMenuEventRequest() {
+        if (!this.myMP.menuInstanceName || this.currentMenuEventRequestId !== null) {
+            return;
+        }
+        const nextEvent = this.pendingMenuEventRequests.shift();
+        if (!nextEvent) {
+            return;
+        }
+        const myRPC: CommonEventRequest = {
+            params: { "ev": nextEvent, "handle": "ch5" },
+            jsonrpc: '2.0',
+            id: this.generateUniqueMessageId(),
+            method: this.myMP.menuInstanceName + '.RegisterEvent'
+        };
+        if (nextEvent === 'Reset') {
+            myRPC.params = null;
+            myRPC.method = this.myMP.menuInstanceName + '.Reset'
+        }
+        this.currentMenuEventRequestId = myRPC.id;
+        setTimeout(() => {
+            this.sendRPCRequest(myRPC);
+        }, 50);
+    }
+
+    private sendNextMenuPropertyRequest() {
+        if (!this.myMP.menuInstanceName || this.currentMenuPropertyRequestId !== null) {
+            return;
+        }
+        const nextProp = this.pendingMenuPropertyRequests.shift();
+        if (!nextProp) {
+            return;
+        }
+        const myRPC: CommonRequestPropName = {
+            params: { "propName": nextProp },
+            jsonrpc: '2.0',
+            id: this.generateUniqueMessageId(),
+            method: this.myMP.menuInstanceName + '.GetProperty'
+        };
+        if (nextProp === 'Title') {
+            this.myMP[nextProp + 'MenuId'] = myRPC.id;// Keep track of the message id.
+        }
+        this.currentMenuPropertyRequestId = myRPC.id;
+        setTimeout(() => {
+            this.sendRPCRequest(myRPC);
+        }, 50);
     }
 
     private unregisterWithDevice(deviceOffLine: boolean = false) {
@@ -477,7 +526,9 @@ export class MusicPlayerLib {
                     method: this.myMP.instanceName + '.DeregisterEvent'
 
                 };
-                this.sendRPCRequest(myRPC);
+                setTimeout(() => {
+                    this.sendRPCRequest(myRPC);
+                }, 50);
             });
             ['BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'].forEach((item: any) => {
                 const myRPC: CommonEventRequest = {
@@ -487,7 +538,9 @@ export class MusicPlayerLib {
                     method: this.myMP.menuInstanceName + '.DeregisterEvent'
 
                 };
-                this.sendRPCRequest(myRPC);
+                setTimeout(() => {
+                    this.sendRPCRequest(myRPC);
+                }, 50);
             });
             if (this.myMP.directConnection) {
                 const requestedData: any = {
@@ -505,38 +558,6 @@ export class MusicPlayerLib {
             }
         }
 
-    }
-
-    private naxDeviceOnline() {
-        this.getPropertiesSupported(this.myMP.instanceName);
-
-        ['BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'].forEach((item: any) => {
-            const myRPC: CommonEventRequest = {
-                params: { "ev": item, "handle": "ch5" },
-                jsonrpc: '2.0',
-                id: this.generateUniqueMessageId(),
-                method: this.myMP.menuInstanceName + '.RegisterEvent'
-            };
-
-            if (this.myMP.menuInstanceName) {
-                this.sendRPCRequest(myRPC);
-            }
-        });
-
-        ['Version', 'MaxReqItems', 'Level', 'ItemCnt', 'Title', 'Subtitle', 'ListSpecificFunctions', 'IsMenuAvailable', 'StatusMsgMenu', 'Instance'].forEach((item: any) => {
-            const myRPC: CommonRequestPropName = {
-                params: { "propName": item },
-                jsonrpc: '2.0',
-                id: this.generateUniqueMessageId(),
-                method: this.myMP.menuInstanceName + '.GetProperty'
-            };
-            if (item === 'Title') {
-                this.myMP[item + 'MenuId'] = myRPC.id;// Keep track of the message id.
-            }
-            if (this.myMP.menuInstanceName) {
-                this.sendRPCRequest(myRPC);
-            }
-        });
     }
 
     // Register with a media player device.
@@ -743,11 +764,33 @@ export class MusicPlayerLib {
 
     // Process CRPC data from the control system.
     private processCRPCResponse(data: any) {
+        // console.log('CRPC Response ->', data);
         const responseData = data;
         // Get the messge id.
         // This can be used to determine if a valid response was received
         // for a specific API call we just made.
         const myMsgId = responseData.id;
+
+        if (this.currentPropertyRequestId === myMsgId) {
+            this.currentPropertyRequestId = null;
+            this.sendNextPropertyRequest();
+        }
+
+        if (this.currentNowPlayingEventRequestId === myMsgId) {
+            this.currentNowPlayingEventRequestId = null;
+            this.sendNextNowPlayingEventRequest();
+        }
+
+        if (this.currentMenuEventRequestId === myMsgId) {
+            this.currentMenuEventRequestId = null;
+            this.sendNextMenuEventRequest();
+        }
+
+        if (this.currentMenuPropertyRequestId === myMsgId) {
+            this.currentMenuPropertyRequestId = null;
+            this.sendNextMenuPropertyRequest();
+        }
+
         let busyChanged: any = {};
         const playerInstanceMethod = this.myMP?.instanceName + '.Event'; // mediaplayer instance method event
         const menuInstanceMethod = this.myMP?.menuInstanceName + '.Event'; // mediaplayermenu instance method event
@@ -804,9 +847,12 @@ export class MusicPlayerLib {
             } else if (myMsgId == this.myMP.ObjectsId) {
                 this.processGetObjectsResponse(responseData);
             } else if (myMsgId == this.myMP.PropertiesSupportedId) {
+                this.registerForNowPlayingChangedEvent();
+                this.registerForMenuChangedEvent();
                 this.processPropertiesSupportedResponse(responseData);
             } else if (myMsgId == this.myMP.MenuId) {
-                this.processMenuResponse(responseData);
+                this.myMP.menuInstanceName = responseData.result.instanceName;
+                this.getPropertiesSupported(this.myMP.instanceName);
             } else if (myMsgId === this.myMP.ItemDataId) {
                 this.myMP.ItemDataId = 0;
                 this.menuListData['MenuData'] = [...this.menuListData['MenuData'], ...responseData.result];
@@ -901,7 +947,9 @@ export class MusicPlayerLib {
                 method: this.myMP.instanceName + '.GetProperty'
             };
             if (this.myMP.instanceName) {
-                this.sendRPCRequest(myRPC);
+                setTimeout(() => {
+                    this.sendRPCRequest(myRPC);
+                }, 50);
             }
         });
     };
@@ -915,7 +963,9 @@ export class MusicPlayerLib {
                 method: this.myMP.menuInstanceName + '.GetProperty'
             };
             if (this.myMP.menuInstanceName) {
-                this.sendRPCRequest(myRPC);// Send the message.
+                setTimeout(() => {
+                    this.sendRPCRequest(myRPC);
+                }, 50);
             }
         });
         // this.getItemData();
@@ -1037,6 +1087,15 @@ export class MusicPlayerLib {
 
         this.menuListData = { 'MenuData': [] };
         this.totalItemCountCheck = 0;
+
+        this.pendingPropertyRequests = [];
+        this.currentPropertyRequestId = null;
+        this.pendingNowPlayingEventRequests = [];
+        this.currentNowPlayingEventRequestId = null;
+        this.pendingMenuEventRequests = [];
+        this.currentMenuEventRequestId = null;
+        this.pendingMenuPropertyRequests = [];
+        this.currentMenuPropertyRequestId = null;
     }
 
     private isDesktopBrowser(): boolean {

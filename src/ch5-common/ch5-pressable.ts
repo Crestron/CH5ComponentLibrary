@@ -13,6 +13,7 @@ export interface ICh5PressableOptions {
 	cssTargetElement: HTMLElement;
 	cssPressedClass: string;
 	enableSwipe: boolean;
+	touchMove: boolean;
 }
 
 enum Ch5PressableFingerStateMode {
@@ -111,7 +112,9 @@ export class Ch5Pressable {
 		this._onPointerUp = this._onPointerUp.bind(this);
 		this._onPointerLeave = this._onPointerLeave.bind(this);
 		this._onPointerMove = this._onPointerMove.bind(this);
-		this._onTouchMove = this._onTouchMove.bind(this);// Check comment bottom
+		if (this._options?.touchMove) {
+			this._onTouchMove = this._onTouchMove.bind(this);
+		}
 		this._onTouchHoldTimer = this._onTouchHoldTimer.bind(this);
 		this._onHold = this._onHold.bind(this);
 		this._onRelease = this._onRelease.bind(this);
@@ -169,8 +172,10 @@ export class Ch5Pressable {
 		if (isSafariMobile()) {
 			this._ch5Component.addEventListener('pointerout', this._onPointerLeave);
 		}
-		this._ch5Component.addEventListener('touchmove', this._onTouchMove);// Check comment bottom
-		this._ch5Component.addEventListener('touchcancel', this._onTouchMove);// Check comment bottom
+		if (this._options?.touchMove) {
+			this._ch5Component.addEventListener('touchmove', this._onTouchMove);// Check comment bottom
+			this._ch5Component.addEventListener('touchcancel', this._onTouchMove);// Check comment bottom
+		}
 	}
 
 	/**
@@ -186,8 +191,10 @@ export class Ch5Pressable {
 		if (isSafariMobile()) {
 			this._ch5Component.removeEventListener('pointerout', this._onPointerLeave);
 		}
-		this._ch5Component.removeEventListener('touchmove', this._onTouchMove);// Check comment bottom
-		this._ch5Component.removeEventListener('touchcancel', this._onTouchMove);// Check comment bottom
+		if (this._options?.touchMove) {
+			this._ch5Component.removeEventListener('touchmove', this._onTouchMove);// Check comment bottom
+			this._ch5Component.removeEventListener('touchcancel', this._onTouchMove);// Check comment bottom
+		}
 	}
 
 	/* private _onContextMenu(inEvent: Event): void {
@@ -305,8 +312,9 @@ export class Ch5Pressable {
 			// add the visual feedback
 			this._addCssPressClass();
 			// prevent scrolling during press
-			this._setTouchAction('none');// Check comment bottom
-
+			if (this._options?.touchMove) {
+				this._setTouchAction('none');// Check comment bottom
+			}
 			this._pressed = true;
 			this._released = false;
 			this.observablePressed.next(this._pressed);
@@ -344,7 +352,9 @@ export class Ch5Pressable {
 				this._removeCssPressClass();
 			}, this.TOUCH_TIMEOUT);
 			// restore default touch action
-			this._setTouchAction('');// Check comment bottom
+			if (this._options?.cssPressedClass !== "ch5-button--pressed ch5-button-list--pressed") {
+				this._setTouchAction('');// Check comment bottom
+			}
 
 			// update state of the button and tell the button the state
 			this._pressed = false;
@@ -426,7 +436,7 @@ This CSS property prevents default touch behaviors (like scrolling), but it work
 3. Preventing Default Scroll Behavior
 The touchmove handler at line 1763:
 private _onTouchMove(event: Event) {
-    event.preventDefault();
+	event.preventDefault();
 }
  
 This prevents scrolling while the button is being held/pressed, which is important for interactive components where you want to maintain the press state during a hold operation.
