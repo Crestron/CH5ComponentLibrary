@@ -1,6 +1,6 @@
 import { publishEvent, subscribeState, unsubscribeState } from "../ch5-core";
 import _ from 'lodash';
-import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetMenuResponse, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest, RegisterwithDeviceResponse } from "./commonInterface";
+import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest, RegisterwithDeviceResponse } from "./commonInterface";
 import { encodeString } from "./ch5-media-player-common";
 import { TCH5NowPlayingActions } from "./interfaces/t-ch5-media-player";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
@@ -180,6 +180,7 @@ export class MusicPlayerLib {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
             if ((value.length > 0) && !_.isEqual(this.tempResponse, value) && this.ignoreFirstData) {
+                console.log('CRPC IN->', value);
                 // console.log('CRPC IN->', value);
                 this.tempResponse = value;
                 const mpRPCPrefix = value.substring(0, 8).trim(); // First 8 bytes is the RPC prefix.
@@ -263,7 +264,7 @@ export class MusicPlayerLib {
         });
 
         this.subCsigSocketInboundMessage = subscribeState('o', 'Csig.socket.inboundmessage', (response: any) => {
-            // console.log('Csig.socket.inboundmessage response------', response);
+            console.log('Csig.socket.inboundmessage response------', response);
             if (!this.myMP.directConnection) { // if direct connection is not established, we should not process the message. This is a safety check since we should only be getting CRPC messages via this socket when we have established a direct connection.
                 return;
             }
@@ -595,6 +596,7 @@ export class MusicPlayerLib {
 
     private processRegistrationResponse(dataObj: RegisterwithDeviceResponse) {
         // Make sure we have a result.
+        // When we perform the CS to Nax registration, the response data will contain Nax-related information, including IP, IP subnet, name, and other details, which we may use in the future if required.
         if (dataObj.result) {
             // We have a response, so our connnecton is active.
             this.myMP.connectionActive = true;
@@ -737,6 +739,7 @@ export class MusicPlayerLib {
                 "payload": data,
                 "currenttime": new Date().getTime()
             }
+            console.log('DC Request:' + JSON.stringify(requestedData));
             publishEvent('o', "Csig.socket.request", requestedData);
         } else {
             let myPrefix = '';
@@ -756,6 +759,7 @@ export class MusicPlayerLib {
                 }
                 if (this.mpSigRPCOut) {
                     this.logger.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
+                    console.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
                     publishEvent('s', this.mpSigRPCOut, requestedData);
                 }
             }
@@ -764,7 +768,6 @@ export class MusicPlayerLib {
 
     // Process CRPC data from the control system.
     private processCRPCResponse(data: any) {
-        // console.log('CRPC Response ->', data);
         const responseData = data;
         // Get the messge id.
         // This can be used to determine if a valid response was received
@@ -828,8 +831,6 @@ export class MusicPlayerLib {
             this.callTrackTime();
         } else {
             if (myMsgId == this.myMP.RegistrationId) {
-                // When we perform the CS to Nax registration, the response data will contain Nax-related information, including IP, IP subnet, name, and other details, which we may use in the future if required.
-                // 
                 if (this.myMP.directConnection) {
                     clearInterval(this.resendRegistrationTimeId);
                     this.getObjects();
