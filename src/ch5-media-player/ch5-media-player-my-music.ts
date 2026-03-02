@@ -199,20 +199,17 @@ export class Ch5MediaPlayerMyMusic {
         const maxReqItems = getMaxReqItems();
 
         if (scrollTop > lastScrollTop && menuLength >= this.loadItemsCount) {
+          // Scrolling down and there are more items to load
           if (distanceFromBottom <= this.scrollPosition) {
-            const first = this._myMusicContentSection.firstElementChild as HTMLElement | null;
-            if (first) { this._myMusicContentSection.removeChild(first); }
-            this.createLine(this.loadItemsCount, 'end');
+            this.createLine(this.loadItemsCount, 'end', true);
             this.loadItemsCount += 1;
           }
         } else if (scrollTop < lastScrollTop && this.loadItemsCount > this.MAXIMUM_ROWS_TO_SHOW) {
+          // Scrolling up and there are more items to load
           if (scrollTop <= this.scrollPosition) {
             const childrenCount = this._myMusicContentSection.children.length;
-            if (childrenCount >= this.MAXIMUM_ROWS_TO_SHOW) {
-              this._myMusicContentSection.removeChild(this._myMusicContentSection.children[childrenCount - 1]);
-            }
             this.loadItemsCount -= 1;
-            this.createLine(this.loadItemsCount - this.MAXIMUM_ROWS_TO_SHOW, 'start');
+            this.createLine(this.loadItemsCount - this.MAXIMUM_ROWS_TO_SHOW, 'start', childrenCount > 0);
           }
         }
 
@@ -244,7 +241,8 @@ export class Ch5MediaPlayerMyMusic {
     }
   }
 
-  protected createLine(index: number, position = 'end') {
+  protected createLine(index: number, position = 'end', removeOpposite = false) {   
+    
     if (position !== 'first' && (index + 1 >= this.menuListData['MenuData']?.length) && (index + 1 >= this.musicPlayerLibInstance.maxReqItems)) {
       if(!this.isLoadingMoreData && this.menuListData['MenuData']?.length < this.myMusicData['ItemCnt']) {
         this.isLoadingMoreData = true;// to avoid multiple calls on scroll
@@ -253,9 +251,27 @@ export class Ch5MediaPlayerMyMusic {
     }
 
     // if (index > 0 && this.printedIndex === index) return;
-    this.printedIndex = index;
+    
+    if (!this.menuListData['MenuData'] || !this.menuListData['MenuData'][index]) {
+      this.loadItemsCount = index-1; // to avoid creating empty items in case of missing data at the index
+      return;
+    };
 
-    if (!this.menuListData['MenuData'] || !this.menuListData['MenuData'][index]) return;
+    if (removeOpposite) {
+      if (position === 'end') {
+        const first = this._myMusicContentSection.firstElementChild as HTMLElement | null;
+        if (first) {
+          this._myMusicContentSection.removeChild(first);
+        }
+      } else if (position === 'start') {
+        const childrenCount = this._myMusicContentSection.children.length;
+        if (childrenCount > 0) {
+          this._myMusicContentSection.removeChild(this._myMusicContentSection.children[childrenCount - 1]);
+        }
+      }
+    }
+    
+    this.printedIndex = index;
 
     const text = this.menuListData['MenuData'][index]['L1'];
     const subText = this.menuListData['MenuData'][index]['L2'];
@@ -438,11 +454,13 @@ export class Ch5MediaPlayerMyMusic {
     if (menuLength <= this.musicPlayerLibInstance.maxReqItems) {
       // CH5C-29366: The loadItesmCount need to be reset to the lenth of menulength when the new data is fetched. 
       // This is to avoid the scenario where the user scrolls and reaches the end of the list and then new data is fetched but the loadItemsCount is still at a higher value which will break the logic for creating new items on scroll.
-      this.loadItemsCount = Math.min(menuLength, this.MAXIMUM_ROWS_TO_SHOW);
+      this.loadItemsCount = this.MAXIMUM_ROWS_TO_SHOW;
       Array.from(this._myMusicContentSection.childNodes).forEach(child => child.remove());
       for (let index = 0; index < menuLength; index++) {
         this.createLine(index, 'first');
       }
+      this._myMusicContentSection.scrollTop = 0;
+      return; // Early exit since all items are created; prevents running the scroll-adjustment logic below when it is not needed
     }
 
     // Adjust scroll if menu exceeds both limits
