@@ -94,12 +94,9 @@ export class MusicPlayerLib {
 
     private pendingPropertyRequests: string[] = [];
     private currentPropertyRequestId: number | null = null;
-    private pendingNowPlayingEventRequests: string[] = [];
-    private currentNowPlayingEventRequestId: number | null = null;
-    private pendingMenuEventRequests: string[] = [];
-    private currentMenuEventRequestId: number | null = null;
-    private pendingMenuPropertyRequests: string[] = [];
-    private currentMenuPropertyRequestId: number | null = null;
+    private nowPlayingEventRequests: string[] = [];
+    private menuEventRequests: string[] = [];
+    private menuPropertyRequests: string[] = [];
 
     constructor(public logger: Ch5CommonLog) { }
 
@@ -435,84 +432,67 @@ export class MusicPlayerLib {
     }
 
     private registerForNowPlayingChangedEvent() {
-        this.pendingNowPlayingEventRequests = ['BusyChanged', 'StatusMsgChanged', 'StateChangedByBrowseContext', 'StateChanged'];
+        this.nowPlayingEventRequests = ['BusyChanged', 'StatusMsgChanged', 'StateChangedByBrowseContext', 'StateChanged'];
         this.sendNextNowPlayingEventRequest();
     }
 
     private sendNextNowPlayingEventRequest() {
-        if (!this.myMP.instanceName || this.currentNowPlayingEventRequestId !== null) {
-            return;
-        }
-        const nextEvent = this.pendingNowPlayingEventRequests.shift();
-        if (!nextEvent) {
-            return;
-        }
-        const myRPC: CommonEventRequest = {
-            params: { "ev": nextEvent, "handle": "ch5" },
-            jsonrpc: '2.0',
-            id: this.generateUniqueMessageId(),
-            method: this.myMP.instanceName + '.RegisterEvent'
-        };
-        this.myMP[nextEvent + 'Id'] = myRPC.id; // Keep track of the message id.
-        this.currentNowPlayingEventRequestId = myRPC.id;
-        setTimeout(() => {
-            this.sendRPCRequest(myRPC); // Send the message.
-        }, 50);
+        this.nowPlayingEventRequests.map((item: any) => {
+            const myRPC: CommonEventRequest = {
+                params: { "ev": item, "handle": "ch5" },
+                jsonrpc: '2.0',
+                id: this.generateUniqueMessageId(),
+                method: this.myMP.instanceName + '.RegisterEvent'
+            };
+            this.myMP[item + 'Id'] = myRPC.id; // Keep track of the message id.
+            setTimeout(() => {
+                this.sendRPCRequest(myRPC); // Send the message.
+            }, 50);
+        });
     }
 
     private registerForMenuChangedEvent() {
-        this.pendingMenuEventRequests = ['Reset', 'BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'];
+        this.menuEventRequests = ['Reset', 'BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'];
         this.sendNextMenuEventRequest();
 
-        this.pendingMenuPropertyRequests = ['Version', 'MaxReqItems', 'Level', 'ItemCnt', 'Title', 'Subtitle', 'ListSpecificFunctions', 'IsMenuAvailable', 'StatusMsgMenu', 'Instance'];
+        this.menuPropertyRequests = ['Version', 'MaxReqItems', 'Level', 'ItemCnt', 'Title', 'Subtitle', 'ListSpecificFunctions', 'IsMenuAvailable', 'StatusMsgMenu', 'Instance'];
         this.sendNextMenuPropertyRequest();
     }
 
     private sendNextMenuEventRequest() {
-        if (!this.myMP.menuInstanceName || this.currentMenuEventRequestId !== null) {
-            return;
-        }
-        const nextEvent = this.pendingMenuEventRequests.shift();
-        if (!nextEvent) {
-            return;
-        }
-        const myRPC: CommonEventRequest = {
-            params: { "ev": nextEvent, "handle": "ch5" },
-            jsonrpc: '2.0',
-            id: this.generateUniqueMessageId(),
-            method: this.myMP.menuInstanceName + '.RegisterEvent'
-        };
-        if (nextEvent === 'Reset') {
-            myRPC.params = null;
-            myRPC.method = this.myMP.menuInstanceName + '.Reset'
-        }
-        this.currentMenuEventRequestId = myRPC.id;
-        setTimeout(() => {
-            this.sendRPCRequest(myRPC);
-        }, 50);
+        this.menuEventRequests.map((item: any) => {
+            const myRPC: CommonEventRequest = {
+                params: { "ev": item, "handle": "ch5" },
+                jsonrpc: '2.0',
+                id: this.generateUniqueMessageId(),
+                method: this.myMP.menuInstanceName + '.RegisterEvent'
+            };
+            if (item === 'Reset') {
+                myRPC.params = null;
+                myRPC.method = this.myMP.menuInstanceName + '.Reset'
+            }
+            setTimeout(() => {
+                console.log('Menu Event register---------->>>>', myRPC);
+                this.sendRPCRequest(myRPC);
+            }, 50);
+        });
     }
 
     private sendNextMenuPropertyRequest() {
-        if (!this.myMP.menuInstanceName || this.currentMenuPropertyRequestId !== null) {
-            return;
-        }
-        const nextProp = this.pendingMenuPropertyRequests.shift();
-        if (!nextProp) {
-            return;
-        }
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": nextProp },
-            jsonrpc: '2.0',
-            id: this.generateUniqueMessageId(),
-            method: this.myMP.menuInstanceName + '.GetProperty'
-        };
-        if (nextProp === 'Title') {
-            this.myMP[nextProp + 'MenuId'] = myRPC.id;// Keep track of the message id.
-        }
-        this.currentMenuPropertyRequestId = myRPC.id;
-        setTimeout(() => {
-            this.sendRPCRequest(myRPC);
-        }, 50);
+        this.menuPropertyRequests.map((item: any) => {
+            const myRPC: CommonRequestPropName = {
+                params: { "propName": item },
+                jsonrpc: '2.0',
+                id: this.generateUniqueMessageId(),
+                method: this.myMP.menuInstanceName + '.GetProperty'
+            };
+            if (item === 'Title') {
+                this.myMP[item + 'MenuId'] = myRPC.id;// Keep track of the message id.
+            }
+            setTimeout(() => {
+                this.sendRPCRequest(myRPC);
+            }, 50);
+        });
     }
 
     private unregisterWithDevice(deviceOffLine: boolean = false) {
@@ -760,7 +740,7 @@ export class MusicPlayerLib {
                 }
                 if (this.mpSigRPCOut) {
                     this.logger.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
-                    console.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
+                    // console.log('CRPC send join:', requestedData);
                     publishEvent('s', this.mpSigRPCOut, requestedData);
                 }
             }
@@ -769,6 +749,7 @@ export class MusicPlayerLib {
 
     // Process CRPC data from the control system.
     private processCRPCResponse(data: any) {
+        console.log('CRPC Response->', data);
         const responseData = data;
         // Get the messge id.
         // This can be used to determine if a valid response was received
@@ -778,21 +759,6 @@ export class MusicPlayerLib {
         if (this.currentPropertyRequestId === myMsgId) {
             this.currentPropertyRequestId = null;
             this.sendNextPropertyRequest();
-        }
-
-        if (this.currentNowPlayingEventRequestId === myMsgId) {
-            this.currentNowPlayingEventRequestId = null;
-            this.sendNextNowPlayingEventRequest();
-        }
-
-        if (this.currentMenuEventRequestId === myMsgId) {
-            this.currentMenuEventRequestId = null;
-            this.sendNextMenuEventRequest();
-        }
-
-        if (this.currentMenuPropertyRequestId === myMsgId) {
-            this.currentMenuPropertyRequestId = null;
-            this.sendNextMenuPropertyRequest();
         }
 
         let busyChanged: any = {};
@@ -814,10 +780,15 @@ export class MusicPlayerLib {
                 }
             }
         } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // My music  statechanged 
+            // console.log('Menu State Changed >', responseData.params.parameters);
             const params = responseData.params?.parameters;
             const titleChanged = params.hasOwnProperty('Title') && this.myMusicData['Title'] !== params['Title'];
             const levelChanged = params.hasOwnProperty('Level') && this.myMusicData['Level'] !== params['Level'];
             const itemCntChanged = params.hasOwnProperty('ItemCnt') && this.myMusicData['ItemCnt'] !== params['ItemCnt'];
+
+            // console.log('titleChanged >', titleChanged);
+            // console.log('levelChanged >', levelChanged);
+            // console.log('itemCntChanged >', itemCntChanged);
 
             // Added a title check to handle multiple instance scenario. In the current instance the isItemCountNew value will be false, when there is any action in other instance, we need to get the updated menudata
             if (params.hasOwnProperty('Title')) {
@@ -848,6 +819,7 @@ export class MusicPlayerLib {
         } else if (myMsgId === this.myMP.PlayId || myMsgId === this.myMP.PauseId || myMsgId === this.myMP.SeekId) { // Play or pause clicked
             this.callTrackTime();
         } else {
+            // console.log('ELSE Block >', responseData);
             if (myMsgId == this.myMP.RegistrationId) {
                 if (this.myMP.directConnection) {
                     clearInterval(this.resendRegistrationTimeId);
@@ -883,6 +855,7 @@ export class MusicPlayerLib {
                     }
                 }
             } else if (responseData.result && Object.keys(responseData.result)?.length === 1) {
+                // console.log('Single property changed >', responseData.result);
                 const responseValue = Object.values(responseData.result)[0];
                 const responseKey = Object.keys(responseData.result)[0];
                 if (myMsgId === this.myMP.TitleMenuId) { // we have two titles, to get only the menu instance title we have this condition
@@ -1009,6 +982,7 @@ export class MusicPlayerLib {
     };
 
     private checkAndTriggerMenuRefresh() {
+        // console.log('Menu Refresh Flags >', this.menuRefreshFlags);
         if (this.menuRefreshFlags.titleChanged
             || this.menuRefreshFlags.levelChanged
             || this.menuRefreshFlags.itemCntChanged) {
@@ -1136,12 +1110,6 @@ export class MusicPlayerLib {
 
         this.pendingPropertyRequests = [];
         this.currentPropertyRequestId = null;
-        this.pendingNowPlayingEventRequests = [];
-        this.currentNowPlayingEventRequestId = null;
-        this.pendingMenuEventRequests = [];
-        this.currentMenuEventRequestId = null;
-        this.pendingMenuPropertyRequests = [];
-        this.currentMenuPropertyRequestId = null;
     }
 
     private isDesktopBrowser(): boolean {
