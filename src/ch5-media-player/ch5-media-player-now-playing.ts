@@ -40,7 +40,9 @@ export class Ch5MediaPlayerNowPlaying {
 		StreamState: '',
 		TrackSec: 0,
 		ElapsedSec: 0,
-		ProgressBar: false
+		ProgressBar: false,
+		PlayerState: '',
+		FfwdSpeed: ''
 	};
 
 	private demoModeValue: boolean = false;
@@ -174,15 +176,18 @@ export class Ch5MediaPlayerNowPlaying {
 							this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
 						}
 					}
-					if (this.nowPlayingData?.PlayerState === "stopped") {	//autonomic: reset to initial once song completed
+					//&& this.progressBarData.TrackSec === 0
+					if (this.progressBarData?.PlayerState === "stopped" && this.progressBarData.TrackSec === 0) {	//autonomic: reset to initial once song completed
 						this._progressBarTrackSec = 0;
+					} else {
+						this._progressBarTrackSec = this.progressBarData.TrackSec;
 					}
 					this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
 					this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
-					if ((this.progressBarData.StreamState === 'streaming' || this.nowPlayingData?.PlayerState === "playing") && !this.demoModeValue) {
+					if ((this.progressBarData.StreamState === 'streaming' || this.progressBarData?.PlayerState === "playing") && !this.demoModeValue) {
 						this._progressBarTimer = window.setInterval(() => {
 							// Stop the timer if player is no longer playing/streaming
-							const isPlaying = this.nowPlayingData?.PlayerState === "playing";
+							const isPlaying = this.progressBarData?.PlayerState === "playing";
 							const isStreaming = this.progressBarData?.StreamState === 'streaming';
 							if (!isPlaying && !isStreaming) {
 								clearInterval(this._progressBarTimer!);
@@ -561,8 +566,8 @@ export class Ch5MediaPlayerNowPlaying {
 		if (this._progressStreamState !== '') {
 			this._streamState.textContent = this._progressStreamState;
 		}
-		else if (this.nowPlayingData?.PlayerState === "forwarding") {
-			this._streamState.textContent = this.nowPlayingData?.FfwdSpeed + 'X';
+		else if (this.progressBarData?.PlayerState === "forwarding") {
+			this._streamState.textContent = this.progressBarData?.FfwdSpeed + 'X';
 		}
 		progressBarCurrentTimeDurationContainer.appendChild(this._streamState);
 		this._duration = createElement('span');
