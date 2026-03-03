@@ -9,6 +9,8 @@ export type TCh5MediaPlayerProgressbarData = {
 	TrackSec: number;
 	ElapsedSec: number;
 	ProgressBar: boolean;
+	PlayerState: string;
+	FfwdSpeed?: string;
 }
 
 export enum TCH5NowPlayingActions {
