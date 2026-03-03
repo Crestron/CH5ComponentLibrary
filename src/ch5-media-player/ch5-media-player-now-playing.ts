@@ -171,10 +171,11 @@ export class Ch5MediaPlayerNowPlaying {
 					this._progressBarElapsedSec = this.progressBarData.ElapsedSec;
 					if (this._progressBarInput instanceof HTMLInputElement) {
 						this._progressBarInput.max = this._progressBarTrackSec?.toString();
-						this._progressBarInput.value = this._progressBarElapsedSec?.toString();
-						if (this._progressBarElapsedSec && this._progressBarTrackSec && this._progressBarTrackSec > 0) {
-							this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
-						}
+						//commented below code to prevent progress bar jump when TrackSec changes while playing. Progress bar will now only update when ElapsedSec or StreamState changes, or when user interacts with it.
+						// this._progressBarInput.value = this._progressBarElapsedSec ? this._progressBarElapsedSec.toString() : '0';
+						// if (this._progressBarElapsedSec && this._progressBarTrackSec && this._progressBarTrackSec > 0) {
+						// 	this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
+						// }
 					}
 					//&& this.progressBarData.TrackSec === 0
 					if (this.progressBarData?.PlayerState === "stopped" && this.progressBarData.TrackSec === 0) {	//autonomic: reset to initial once song completed
@@ -184,10 +185,11 @@ export class Ch5MediaPlayerNowPlaying {
 					}
 					this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
 					this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
-					if ((this.progressBarData.StreamState === 'streaming' || this.progressBarData?.PlayerState === "playing") && !this.demoModeValue) {
+					const playerStateForTimer = this.progressBarData.PlayerState || this.nowPlayingData.PlayerState;
+					if ((this.progressBarData.StreamState === 'streaming' || playerStateForTimer === "playing") && !this.demoModeValue) {
 						this._progressBarTimer = window.setInterval(() => {
 							// Stop the timer if player is no longer playing/streaming
-							const isPlaying = this.progressBarData?.PlayerState === "playing";
+							const isPlaying = playerStateForTimer === "playing";
 							const isStreaming = this.progressBarData?.StreamState === 'streaming';
 							if (!isPlaying && !isStreaming) {
 								clearInterval(this._progressBarTimer!);
@@ -550,7 +552,7 @@ export class Ch5MediaPlayerNowPlaying {
 		this._progressBarInput.type = 'range';
 		this._progressBarInput.min = '0';
 		this._progressBarInput.max = this._progressBarTrackSec ? this._progressBarTrackSec.toString() : '0';
-		this._progressBarInput.value = this._progressBarElapsedSec?.toString();
+		this._progressBarInput.value = this._progressBarElapsedSec ? this._progressBarElapsedSec.toString() : '0';
 		if (this._progressBarElapsedSec && this._progressBarTrackSec && this._progressBarTrackSec > 0) {
 			this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
 		}
