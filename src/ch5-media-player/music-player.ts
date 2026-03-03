@@ -4,8 +4,6 @@ import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, Error
 import { encodeString } from "./ch5-media-player-common";
 import { TCH5NowPlayingActions } from "./interfaces/t-ch5-media-player";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
-/* import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
-import { isCrestronDevice } from "../ch5-core/utility-functions/is-crestron-device"; */
 
 export class MusicPlayerLib {
 
@@ -81,12 +79,12 @@ export class MusicPlayerLib {
 
     private nowPlayingData: any = {
         'ActionsSupported': '', 'ActionsAvailable': '', 'RewindSpeed': '',
-        'FfwdSpeed': '', 'ProviderName': '', 'PlayerState': '', 'PlayerIcon': '', 'PlayerIconURL': '', 'PlayerName': '',
+        'ProviderName': '', 'PlayerState': '', 'PlayerIcon': '', 'PlayerIconURL': '', 'PlayerName': '',
         'Album': '', 'AlbumArt': '', 'AlbumArtUrl': '', 'AlbumArtUrlNAT': '', 'StationName': '', 'Genre': '', 'Artist': '',
         'Title': '', 'TrackNum': '', 'TrackCnt': '', 'NextTitle': '', 'ShuffleState': '', 'RepeatState': '', 'Rating': {}, 'TextLines': []
     };
 
-    private progressBarData: any = { 'StreamState': '', 'ProgressBar': '', 'ElapsedSec': '', 'TrackSec': '' };
+    private progressBarData: any = { 'StreamState': '', 'ProgressBar': '', 'ElapsedSec': '', 'TrackSec': '', 'PlayerState': '', 'FfwdSpeed': '' };
 
     private myMusicData: any = { 'Title': '', 'Subtitle': '', 'ListSpecificFunctions': '', 'ItemCnt': 0, 'MaxReqItems': '', 'IsMenuAvailable': '', 'Level': '' };
 
@@ -94,12 +92,9 @@ export class MusicPlayerLib {
 
     private pendingPropertyRequests: string[] = [];
     private currentPropertyRequestId: number | null = null;
-    private pendingNowPlayingEventRequests: string[] = [];
-    private currentNowPlayingEventRequestId: number | null = null;
-    private pendingMenuEventRequests: string[] = [];
-    private currentMenuEventRequestId: number | null = null;
-    private pendingMenuPropertyRequests: string[] = [];
-    private currentMenuPropertyRequestId: number | null = null;
+    private nowPlayingEventRequests: string[] = [];
+    private menuEventRequests: string[] = [];
+    private menuPropertyRequests: string[] = [];
 
     constructor(public logger: Ch5CommonLog) { }
 
@@ -432,84 +427,66 @@ export class MusicPlayerLib {
     }
 
     private registerForNowPlayingChangedEvent() {
-        this.pendingNowPlayingEventRequests = ['BusyChanged', 'StatusMsgChanged', 'StateChangedByBrowseContext', 'StateChanged'];
+        this.nowPlayingEventRequests = ['BusyChanged', 'StatusMsgChanged', 'StateChangedByBrowseContext', 'StateChanged'];
         this.sendNextNowPlayingEventRequest();
     }
 
     private sendNextNowPlayingEventRequest() {
-        if (!this.myMP.instanceName || this.currentNowPlayingEventRequestId !== null) {
-            return;
-        }
-        const nextEvent = this.pendingNowPlayingEventRequests.shift();
-        if (!nextEvent) {
-            return;
-        }
-        const myRPC: CommonEventRequest = {
-            params: { "ev": nextEvent, "handle": "ch5" },
-            jsonrpc: '2.0',
-            id: this.generateUniqueMessageId(),
-            method: this.myMP.instanceName + '.RegisterEvent'
-        };
-        this.myMP[nextEvent + 'Id'] = myRPC.id; // Keep track of the message id.
-        this.currentNowPlayingEventRequestId = myRPC.id;
-        setTimeout(() => {
-            this.sendRPCRequest(myRPC); // Send the message.
-        }, 50);
+        this.nowPlayingEventRequests.map((item: any) => {
+            const myRPC: CommonEventRequest = {
+                params: { "ev": item, "handle": "ch5" },
+                jsonrpc: '2.0',
+                id: this.generateUniqueMessageId(),
+                method: this.myMP.instanceName + '.RegisterEvent'
+            };
+            this.myMP[item + 'Id'] = myRPC.id; // Keep track of the message id.
+            setTimeout(() => {
+                this.sendRPCRequest(myRPC); // Send the message.
+            }, 50);
+        });
     }
 
     private registerForMenuChangedEvent() {
-        this.pendingMenuEventRequests = ['Reset', 'BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'];
+        this.menuEventRequests = ['Reset', 'BusyChanged', 'ClearChanged', 'ListChanged', 'StateChanged', 'StatusMsgMenuChanged'];
         this.sendNextMenuEventRequest();
 
-        this.pendingMenuPropertyRequests = ['Version', 'MaxReqItems', 'Level', 'ItemCnt', 'Title', 'Subtitle', 'ListSpecificFunctions', 'IsMenuAvailable', 'StatusMsgMenu', 'Instance'];
+        this.menuPropertyRequests = ['Version', 'MaxReqItems', 'Level', 'ItemCnt', 'Title', 'Subtitle', 'ListSpecificFunctions', 'IsMenuAvailable', 'StatusMsgMenu', 'Instance'];
         this.sendNextMenuPropertyRequest();
     }
 
     private sendNextMenuEventRequest() {
-        if (!this.myMP.menuInstanceName || this.currentMenuEventRequestId !== null) {
-            return;
-        }
-        const nextEvent = this.pendingMenuEventRequests.shift();
-        if (!nextEvent) {
-            return;
-        }
-        const myRPC: CommonEventRequest = {
-            params: { "ev": nextEvent, "handle": "ch5" },
-            jsonrpc: '2.0',
-            id: this.generateUniqueMessageId(),
-            method: this.myMP.menuInstanceName + '.RegisterEvent'
-        };
-        if (nextEvent === 'Reset') {
-            myRPC.params = null;
-            myRPC.method = this.myMP.menuInstanceName + '.Reset'
-        }
-        this.currentMenuEventRequestId = myRPC.id;
-        setTimeout(() => {
-            this.sendRPCRequest(myRPC);
-        }, 50);
+        this.menuEventRequests.map((item: any) => {
+            const myRPC: CommonEventRequest = {
+                params: { "ev": item, "handle": "ch5" },
+                jsonrpc: '2.0',
+                id: this.generateUniqueMessageId(),
+                method: this.myMP.menuInstanceName + '.RegisterEvent'
+            };
+            if (item === 'Reset') {
+                myRPC.params = null;
+                myRPC.method = this.myMP.menuInstanceName + '.Reset'
+            }
+            setTimeout(() => {
+                this.sendRPCRequest(myRPC);
+            }, 50);
+        });
     }
 
     private sendNextMenuPropertyRequest() {
-        if (!this.myMP.menuInstanceName || this.currentMenuPropertyRequestId !== null) {
-            return;
-        }
-        const nextProp = this.pendingMenuPropertyRequests.shift();
-        if (!nextProp) {
-            return;
-        }
-        const myRPC: CommonRequestPropName = {
-            params: { "propName": nextProp },
-            jsonrpc: '2.0',
-            id: this.generateUniqueMessageId(),
-            method: this.myMP.menuInstanceName + '.GetProperty'
-        };
-        if (nextProp === 'Title') {
-            this.myMP[nextProp + 'MenuId'] = myRPC.id;// Keep track of the message id.
-        }
-        this.currentMenuPropertyRequestId = myRPC.id;
-        setTimeout(() => {
-            this.sendRPCRequest(myRPC);
-        }, 50);
+        this.menuPropertyRequests.map((item: any) => {
+            const myRPC: CommonRequestPropName = {
+                params: { "propName": item },
+                jsonrpc: '2.0',
+                id: this.generateUniqueMessageId(),
+                method: this.myMP.menuInstanceName + '.GetProperty'
+            };
+            if (item === 'Title') {
+                this.myMP[item + 'MenuId'] = myRPC.id;// Keep track of the message id.
+            }
+            setTimeout(() => {
+                this.sendRPCRequest(myRPC);
+            }, 50);
+        });
     }
 
     private unregisterWithDevice(deviceOffLine: boolean = false) {
@@ -776,21 +753,6 @@ export class MusicPlayerLib {
             this.sendNextPropertyRequest();
         }
 
-        if (this.currentNowPlayingEventRequestId === myMsgId) {
-            this.currentNowPlayingEventRequestId = null;
-            this.sendNextNowPlayingEventRequest();
-        }
-
-        if (this.currentMenuEventRequestId === myMsgId) {
-            this.currentMenuEventRequestId = null;
-            this.sendNextMenuEventRequest();
-        }
-
-        if (this.currentMenuPropertyRequestId === myMsgId) {
-            this.currentMenuPropertyRequestId = null;
-            this.sendNextMenuPropertyRequest();
-        }
-
         let busyChanged: any = {};
         const playerInstanceMethod = this.myMP?.instanceName + '.Event'; // mediaplayer instance method event
         const menuInstanceMethod = this.myMP?.menuInstanceName + '.Event'; // mediaplayermenu instance method event
@@ -803,10 +765,13 @@ export class MusicPlayerLib {
             }
         } else if (playerInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // Now music statechanged 
             for (const item in responseData.params.parameters) {
-                if (item === 'ElapsedSec' || item === 'TrackSec' || item === 'StreamState' || item === 'ProgressBar') {
+                if (item === 'ElapsedSec' || item === 'TrackSec' || item === 'StreamState' || item === 'ProgressBar' || item === 'FfwdSpeed') {
                     this.progressBarData[item] = responseData.params?.parameters[item];
                 } else {
                     this.nowPlayingData[item] = responseData.params?.parameters[item];
+                }
+                if (item === 'PlayerState') {
+                    this.progressBarData[item] = responseData.params?.parameters[item];
                 }
             }
         } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'StateChanged' && responseData.params?.parameters) { // My music  statechanged 
@@ -1118,12 +1083,12 @@ export class MusicPlayerLib {
 
         this.nowPlayingData = {
             'ActionsSupported': '', 'ActionsAvailable': '', 'RewindSpeed': '',
-            'FfwdSpeed': '', 'ProviderName': '', 'PlayerState': '', 'PlayerIcon': '', 'PlayerIconURL': '', 'PlayerName': '',
+            'ProviderName': '', 'PlayerState': '', 'PlayerIcon': '', 'PlayerIconURL': '', 'PlayerName': '',
             'Album': '', 'AlbumArt': '', 'AlbumArtUrl': '', 'AlbumArtUrlNAT': '', 'StationName': '', 'Genre': '', 'Artist': '',
             'Title': '', 'TrackNum': '', 'TrackCnt': '', 'NextTitle': '', 'ShuffleState': '', 'RepeatState': '', 'Rating': {}, 'TextLines': []
         };
 
-        this.progressBarData = { 'StreamState': '', 'ProgressBar': '', 'ElapsedSec': '', 'TrackSec': '' };
+        this.progressBarData = { 'StreamState': '', 'ProgressBar': '', 'ElapsedSec': '', 'TrackSec': '', 'PlayerState': '', 'FfwdSpeed': '' };
 
         this.myMusicData = { 'Title': '', 'Subtitle': '', 'ListSpecificFunctions': '', 'ItemCnt': 0, 'MaxReqItems': '', 'IsMenuAvailable': '', 'Level': '' }
 
@@ -1132,12 +1097,6 @@ export class MusicPlayerLib {
 
         this.pendingPropertyRequests = [];
         this.currentPropertyRequestId = null;
-        this.pendingNowPlayingEventRequests = [];
-        this.currentNowPlayingEventRequestId = null;
-        this.pendingMenuEventRequests = [];
-        this.currentMenuEventRequestId = null;
-        this.pendingMenuPropertyRequests = [];
-        this.currentMenuPropertyRequestId = null;
     }
 
     private isDesktopBrowser(): boolean {
