@@ -131,11 +131,11 @@ export class MusicPlayerLib {
         this.subReceiveStateDeviceOfflineResp = subscribeState('b', 'digital_receiveStateDeviceOfflineResp', (value: boolean) => {
             this.myMP.connectionActive = !value;
             const data = { 'userInputRequired': "", "text": "No Communication. Please check power and connection.", "textForItems": [], "initialUserInput": "", "timeoutSec": 10000, "show": true, "donotcloseOnOutsideClick": true }
+            this.logger.log('Nax device online:', value);
             if (value) {
                 // this.unregisterWithDevice(true);
                 this.naxDeviceOfflineFlag = true; // when device is offline
             } else {
-                console.log('Nax device online... ', value);
                 data.text = "";
                 data.show = false;
                 if (this.myMP.instanceName && this.myMP.menuInstanceName && this.myMP.connectionActive) {
@@ -181,8 +181,6 @@ export class MusicPlayerLib {
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
             if ((value.length > 0) && !_.isEqual(this.tempResponse, value) && this.ignoreFirstData) {
-                console.log('CRPC IN->', value);
-                // console.log('CRPC IN->', value);
                 this.tempResponse = value;
                 const mpRPCPrefix = value.substring(0, 8).trim(); // First 8 bytes is the RPC prefix.
                 // Check byte 3 to determine if this is a single or partial message.
@@ -205,7 +203,6 @@ export class MusicPlayerLib {
                     try {
                         parsedData = JSON.parse(this.mpRPCDataIn);
                         if (parsedData.error) {
-                            //console.info('handle Error >', parsedData.error);
                             this.handleError(parsedData.error);
                         } else {
                             this.processCRPCResponse(parsedData); // Process the entire payload then clear the var.
@@ -224,7 +221,7 @@ export class MusicPlayerLib {
     public subscribeCSIGSignals() {
         // Direct connection socket responses
         this.subCsigSocketResponse = subscribeState('o', 'Csig.socket.response', (response: any) => {
-            console.log('Csig.socket.response for connection-------', response);
+            this.logger.log('Csig.socket.response:', response);
             let responseData: any = {};
             if (typeof response === 'string') {
                 responseData = JSON.parse(response);
@@ -232,13 +229,13 @@ export class MusicPlayerLib {
                 responseData = response;
             }
             if (responseData.statusCode === 0 && responseData.status === "connecting") {
-                console.log("Direct connection in progress with Media Player device...");
+                this.logger.log("Direct connection in progress with Media Player device...");
                 return;
             }
             if (responseData.statusCode === 0 && responseData.status === "connected") {
                 this.myMP.directConnection = true;
                 clearInterval(this.resendRegistrationTimeId);// to clear registerevent re-send timer once direct connection is established, as we will not be needing to re-send registration via join anymore
-                console.log("Direct connection established with Media Player device.");
+                this.logger.log("Direct connection established with Media Player device.");
                 if (this.myMP.tag && this.myMP.source) {
                     this.directConnectionFlag = true;
                     unsubscribeState('s', 'serial_receiveStateCRPCResp', this.subReceiveStateCRPCResp); //unsubscribe from join-based CRPC response since we have established direct connection and we will be getting CRPC responses via socket
@@ -246,26 +243,26 @@ export class MusicPlayerLib {
                 }
             } else if (responseData.statusCode === 0 && responseData.status === "disconnected") {
                 this.myMP.directConnection = false;
-                console.log("DC Disconnected.", responseData);
+                this.logger.log("Direct connection disconnected.", responseData);
             } else if ((responseData.statusCode === 1001) || (responseData.statusCode === 1002) || (responseData.statusCode === 1003)) {
-                console.log("Error 1001/1002/1003", responseData);
+                this.logger.log("Error 1001/1002/1003", responseData);
                 const requestedData: any = {
                     "ver": "1.0",
                     "action": "disconnect",
                     "currenttime": new Date().getTime()
                 }
                 clearInterval(this.resendRegistrationTimeId);
-                console.log('Csig.socket.request -------', requestedData);
+                this.logger.log('Csig.socket.request for disconnect', requestedData);
                 publishEvent('o', "Csig.socket.request", requestedData);// on player change we have to disconnect direct connection and then establish new direct connection with new player.
                 this.debouncedRegisterWithDevice();
             } else {
                 this.myMP.directConnection = false;
-                console.log('Unknown Error', responseData.statusCode, responseData.status);
+                this.logger.log('Unknown Error from direct connection', responseData.statusCode, responseData.status);
             }
         });
 
         this.subCsigSocketInboundMessage = subscribeState('o', 'Csig.socket.inboundmessage', (response: any) => {
-            console.log('Csig.socket.inboundmessage response------', response);
+            this.logger.log('Csig.socket.inboundmessage response:', response);
             if (!this.myMP.directConnection) { // if direct connection is not established, we should not process the message. This is a safety check since we should only be getting CRPC messages via this socket when we have established a direct connection.
                 return;
             }
@@ -550,7 +547,7 @@ export class MusicPlayerLib {
                     "action": "disconnect",
                     "currenttime": new Date().getTime()
                 }
-                console.log('Csig.socket.request -------', requestedData);
+                this.logger.log('Csig.socket.request disconnect', requestedData);
                 publishEvent('o', "Csig.socket.request", requestedData);// on player change we have to disconnect direct connection and then establish new direct connection with new player.
             }
 
@@ -621,7 +618,7 @@ export class MusicPlayerLib {
             }
 
             if (this.firstRegisterRequest) {
-                console.log('Csig.socket.request', requestObject);
+                this.logger.log('Csig.socket.request for connect', requestObject);
                 publishEvent('o', 'Csig.socket.request', requestObject);
                 this.firstRegisterRequest = false;
             } else {
@@ -740,7 +737,7 @@ export class MusicPlayerLib {
                 "payload": data,
                 "currenttime": new Date().getTime()
             }
-            console.log('DC Request:' + JSON.stringify(requestedData));
+            this.logger.log('Csig.socket.request for CRCP:', JSON.stringify(requestedData));
             publishEvent('o', "Csig.socket.request", requestedData);
         } else {
             let myPrefix = '';
@@ -760,7 +757,6 @@ export class MusicPlayerLib {
                 }
                 if (this.mpSigRPCOut) {
                     this.logger.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
-                    console.log('CRPC send join:' + this.mpSigRPCOut + " " + requestedData);
                     publishEvent('s', this.mpSigRPCOut, requestedData);
                 }
             }
@@ -1153,20 +1149,20 @@ export class MusicPlayerLib {
 
             // 1) Android (phones/tablets)
             if (/android/i.test(ua)) {
-                console.log('Running on Android');
+                this.logger.log('Running on Android');
                 return false;
             }
 
             // 2) Classic iOS (iPhone, iPod, iPad < iPadOS 13)
             if (/iPhone|iPod|iPad/i.test(ua)) {
-                console.log('Running on iOS (classic UA match)');
+                this.logger.log('Running on iOS (classic UA match)');
                 return false;
             }
 
             // 3) iPadOS 13+ (spoofs as Mac)
             // Heuristic: Mac platform + multiple touch points => iPadOS
             if (platform === 'MacIntel' && maxTouchPoints > 1) {
-                console.log('Running on iPadOS (MacIntel + touch)');
+                this.logger.log('Running on iPadOS (MacIntel + touch)');
                 return false;
             }
 
@@ -1179,16 +1175,16 @@ export class MusicPlayerLib {
                 /Mobile/i.test(ua);
 
             if (isAppleMobile) {
-                console.log('Running on iOS (vendor/mobile hint)');
+                this.logger.log('Running on iOS (vendor/mobile hint)');
                 return false;
             }
 
             // Otherwise, treat as desktop/other
-            console.log('Running on Desktop or other OS');
+            this.logger.log('Running on Desktop or other OS');
             return true;
         } catch (e) {
             // Fail-safe: assume desktop if detection errors
-            console.log('Environment detection error, assuming Desktop:', e);
+            this.logger.log('Environment detection error, assuming Desktop:', e);
             return true;
         }
     }
