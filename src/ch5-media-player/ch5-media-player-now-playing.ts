@@ -177,13 +177,12 @@ export class Ch5MediaPlayerNowPlaying {
 						// 	this._progressBarInput.style.backgroundSize = ((this._progressBarElapsedSec / this._progressBarTrackSec) * 100) + "% 100%";
 						// }
 					}
-					//&& this.progressBarData.TrackSec === 0
-					if (this.progressBarData?.PlayerState === "stopped" && this.progressBarData.TrackSec === 0) {	//autonomic: reset to initial once song completed
+					if (this.progressBarData?.PlayerState === "stopped") {	//autonomic: reset to initial once song completed
 						this._progressBarTrackSec = 0;
 					} else {
 						this._progressBarTrackSec = this.progressBarData.TrackSec;
 					}
-					this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
+					this._currentTime.textContent = this._progressBarTrackSec > 0 ? formatTime(this._progressBarElapsedSec) : formatTime(0);
 					this._duration.textContent = formatTime(this._progressBarTrackSec - this._progressBarElapsedSec);
 					const playerStateForTimer = this.progressBarData.PlayerState || this.nowPlayingData.PlayerState;
 					if ((this.progressBarData.StreamState === 'streaming' || playerStateForTimer === "playing") && !this.demoModeValue) {
@@ -562,7 +561,7 @@ export class Ch5MediaPlayerNowPlaying {
 		// Current time and duration container
 		const progressBarCurrentTimeDurationContainer = createElement('div', ['now-playing-progressbar-current-time-duration-container']);
 		this._currentTime = createElement('span');
-		this._currentTime.textContent = formatTime(this._progressBarElapsedSec);
+		this._currentTime.textContent = this._progressBarTrackSec > 0 ? formatTime(this._progressBarElapsedSec) : formatTime(0);
 		progressBarCurrentTimeDurationContainer.appendChild(this._currentTime);
 		this._streamState = createElement('span');
 		if (this._progressStreamState !== '') {
