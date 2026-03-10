@@ -285,15 +285,15 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 		this.setAttribute('data-ch5-id', this.getCrId());
 
 		this.createElementsAndInitialize();
-
-		// init pressable before initAttributes because pressable subscribe to gestureable attribute
+		// removed to fix 28272
+		/* // init pressable before initAttributes because pressable subscribe to gestureable attribute
 		if (!_.isNil(this._pressable) && this.getDisabledOrHiddenDpadCenterButton() === false) {
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
 		}
 
 		// TODO - calling this again for pressed true on load - must be cleaned
-		this.initAttributes();
+		this.initAttributes(); */
 
 		customElements.whenDefined('ch5-dpad-button').then(() => {
 			this.initCommonMutationObserver(this);
@@ -468,12 +468,12 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 				this.sendEventOnClick = "";
 			}
 		}
-
-		if (this.hasAttribute('pressed')) {
+		// removed to fix 28272
+		/* if (this.hasAttribute('pressed')) {
 			if (this._pressable) {
 				this._pressable.setPressed(this.toBoolean((this.hasAttribute('pressed') && this.getAttribute('pressed') !== "false"), false));
 			}
-		}
+		} */
 
 		this.logger.stop();
 	}
@@ -560,6 +560,22 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 		const stateDisabledHidden = this.getDisabledOrHiddenDpadCenterButton();
 		if (stateDisabledHidden === false) {
 			this.setDisabledOrHidden(stateDisabledHidden);
+			if (this._wasInstatiated === false) {
+				const cssPressedClass = this._pressable?.options?.cssPressedClass;
+				const cssTargetElement = this.getTargetElementForCssClassesAndStyle();
+				if (!_.isNil(cssPressedClass)) {
+					cssPressedClass.split(' ').forEach((cssClassName: string) => {
+						if (cssClassName.trim().length > 0) {
+							if (this.pressed) {
+								cssTargetElement.classList.add(cssClassName);
+							} else {
+								cssTargetElement.classList.remove(cssClassName);
+							}
+						}
+					});
+				}
+				return;
+			}
 			if (this._pressable?._pressed !== this.pressed) {
 				this._pressable?.setPressed(this.pressed);
 			}
