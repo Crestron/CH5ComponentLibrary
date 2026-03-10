@@ -625,8 +625,8 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
   }
 
   private handleResizeObserver = () => {
-    const { width, height } = this._elContainer.getBoundingClientRect();
-
+    const width = this._elContainer.offsetWidth;
+    const height = this._elContainer.offsetHeight;
     if (width < 640) {
       if (!this._elContainer.classList.contains("portrait-mode-active")) {
         this._elContainer.classList.add("portrait-mode-active");
