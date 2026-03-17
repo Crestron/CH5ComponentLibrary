@@ -1185,7 +1185,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.previousExtendedProperties = {}; // Very important - for pages hidden with buttons and shown back with noshowtype remove
 
 		this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
-		if (this.buttonListContract?.parentComponent === "ch5-tab-button" || this.buttonListContract?.parentComponent === "ch5-button-list") {
+		if (this.buttonListContract?.parentComponent === "ch5-tab-button" || this.buttonListContract?.parentComponent === "ch5-button-list" || this.parentElement?.parentElement?.classList?.contains("ch5-subpage-reference-list--subpage-container")) {
 			this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix + ' ' + this.buttonListContract?.parentComponent + this.pressedCssClassPostfix, false);
 		} else {
 			this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
@@ -1836,7 +1836,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 * Called when pressed class will be available
 	 * @param pressedClass is class name. it will add after press the ch5 button
 	 */
-	private updatePressedClass(pressedClass: string, onTouchMove:boolean = true) {
+	private updatePressedClass(pressedClass: string, onTouchMove: boolean = true) {
 		this._pressable = new Ch5Pressable(this, {
 			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
 			cssPressedClass: pressedClass,

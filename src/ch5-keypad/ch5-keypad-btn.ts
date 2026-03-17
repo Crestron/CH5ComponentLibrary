@@ -374,7 +374,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
 			cssPressedClass: pressedClass,
 			enableSwipe: parent.swipeGestureEnabled,
-			touchMove: true
+			touchMove: this.parentElement?.parentElement?.parentElement?.parentElement?.classList?.contains("ch5-subpage-reference-list--subpage-container") ? false : true
 		});
 		if (this._pressable) {
 			this._pressable.init();

@@ -249,7 +249,7 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 					cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
 					cssPressedClass: this.primaryCssClass + this.PRESSED_CSS_CLASS_SUFFIX,
 					enableSwipe: this._parentDpad.swipeGestureEnabled,
-					touchMove: true
+					touchMove: this.parentElement?.parentElement?.classList?.contains("ch5-subpage-reference-list--subpage-container") ? false : true
 				});
 				this._pressable?.init();
 			}
@@ -507,7 +507,7 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
 			cssPressedClass: pressedClass,
 			enableSwipe: this._parentDpad.swipeGestureEnabled,
-			touchMove: true
+			touchMove: this.parentElement?.parentElement?.classList?.contains("ch5-subpage-reference-list--subpage-container") ? false : true
 		});
 	}
 
