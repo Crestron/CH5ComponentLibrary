@@ -21,6 +21,7 @@ export class MusicPlayerLib {
     private subReceiveStateMessageResp: any;
     private subSendEventCRPCJoinNo: any;
     private subControlSystemsOnlineFB: any;
+    private naxDeviceOfflineFlag: boolean = false;
     private totalItemCountCheck: number = 0;
     private menuRefreshFlags = { titleChanged: false, levelChanged: false, itemCntChanged: false };
     private firstRegisterRequest: boolean = true; // flag to check whether direct connection is established, to avoid multiple popups in case of multiple registration response with direct connection info before establishing direct connection
@@ -126,7 +127,9 @@ export class MusicPlayerLib {
             this.myMP.connectionActive = !value;
             const data = { 'userInputRequired': "", "text": "No Communication. Please check power and connection.", "textForItems": [], "initialUserInput": "", "timeoutSec": 10000, "show": true, "donotcloseOnOutsideClick": true }
             this.logger.log('Nax device online:', value);
-            if (value === false) {
+            if (value) {
+                this.naxDeviceOfflineFlag = true; // when device is offline
+            } else {
                 data.text = "";
                 data.show = false;
                 if (this.myMP.instanceName && this.myMP.menuInstanceName && this.myMP.connectionActive) {
@@ -311,11 +314,11 @@ export class MusicPlayerLib {
     // 4. Need to continually register until a valid response as long as the device is still online.
     private refreshMediaPlayer() {
         // Do we have an active connection and need to unregister?
-        if (this.myMP.connectionActive) {
+        if (this.myMP.connectionActive && !this.naxDeviceOfflineFlag) {
             this.unregisterWithDevice();
         }
         // Register with the new device. ToDo: Add checks for online & tag values.
-        if (this.myMP.tag && this.myMP.connectionActive) {
+        if (this.myMP.tag && this.myMP.connectionActive && !this.naxDeviceOfflineFlag) {
             if (this.directConnectionFlag) {
                 this.directConnectionFlag = false;
                 this.subscribeCRCPRespSignal();
@@ -412,6 +415,7 @@ export class MusicPlayerLib {
         const properties = getPropertiesSupportedResponse.result.PropertiesSupported;
         this.pendingPropertyRequests = properties.filter((item: any) => item !== 'PropertiesSupported');
         this.sendNextPropertyRequest();
+        this.naxDeviceOfflineFlag = false;
     }
 
     private sendNextPropertyRequest() {
