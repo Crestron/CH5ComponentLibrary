@@ -381,6 +381,7 @@ export class MusicPlayerLib {
             // If this is a different source, we need to refresh the media player.
             // This will also happen on an update request since no source value has been set yet.
             if (param) {
+                // this is need only when CS comes online fromm offline state
                 unsubscribeState('s', 'serial_receiveStateCRPCResp', this.subReceiveStateCRPCResp);
                 this.subscribeCRCPRespSignal();
                 this.debouncedRegisterWithDevice();
