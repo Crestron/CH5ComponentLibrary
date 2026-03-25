@@ -840,7 +840,11 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
     this._elIcon.classList.add(this.primaryCssClass + '--icon')
     this._elIcon.classList.add(this.primaryCssClass + '--icon-position-' + this.iconPosition)
     if (this.iconClass.trim() !== "") {
-      this.iconClass.split(' ').forEach((clsName: string) => this._elIcon.classList.add(clsName));
+      this.iconClass.split(' ').forEach((clsName: string) => {
+        if (clsName.trim() !== "") {
+          this._elIcon.classList.add(clsName);
+        }
+      });
     }
     this.iconClass === '' ? this._elIcon.remove() : this.iconPosition === 'first' ? this._elInput.parentElement?.prepend(this._elIcon) : this._elInput.parentElement?.appendChild(this._elIcon);
   }
