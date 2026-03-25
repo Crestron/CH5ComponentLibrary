@@ -1242,27 +1242,23 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				this.style.height = setValue + 'px';
 				this.style.width = setValue + 'px';
 			}
+		} else {
+			//this is set to reset the height and width set by stretch when the shape is set to circle first and then stretch is set to any value or null, 
+			// later stretch is removed but height and width are still applied, this will reset it back to normal
+			this.style.removeProperty('height');
+			this.style.removeProperty('width');
 		}
 		if (this.orientation === "vertical") {
-			if (!_.isNil(this.stretch) && this.parentElement) {
-				const { height, width } = this.parentElement.getBoundingClientRect();
-				if (this.stretch === 'height') {
-					this._elButton.style.width = height + "px";
-					this._elButton.style.height = this._elContainer.getBoundingClientRect().width + "px";
-				} else if (this.stretch === 'width') {
-					this._elButton.style.height = width + "px";
-					this._elButton.style.width = this._elContainer.getBoundingClientRect().height + "px";
-				} else if (this.stretch === 'both') {
-					this._elButton.style.height = width + "px";
-					this._elButton.style.width = height + "px";
-				}
-			} else if (_.isNil(this.stretch) && this.shape !== "circle") {
-				const { height, width } = this._elContainer.getBoundingClientRect();
-				this._elButton.style.width = height + "px";
-				this._elButton.style.height = width + "px";
-			} else if (this.shape === "circle") {
+			if (!this._elContainer || !this._elButton) return;
+			if (this.shape === 'circle') {
 				this._elButton.style.removeProperty('width');
 				this._elButton.style.removeProperty('height');
+				return;
+			}
+			if (this.stretch == null || this.stretch === 'height' || this.stretch === 'width' || this.stretch === 'both') {
+				const { clientHeight, clientWidth } = this._elContainer;
+				this._elButton.style.width = `${clientHeight}px`;
+				this._elButton.style.height = `${clientWidth}px`;
 			}
 		} else {
 			this._elButton.style.removeProperty('width');
