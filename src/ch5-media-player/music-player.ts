@@ -21,7 +21,6 @@ export class MusicPlayerLib {
     private subReceiveStateMessageResp: any;
     private subSendEventCRPCJoinNo: any;
     private subControlSystemsOnlineFB: any;
-    private naxDeviceOfflineFlag: boolean = false;
     private totalItemCountCheck: number = 0;
     private menuRefreshFlags = { titleChanged: false, levelChanged: false, itemCntChanged: false };
     private firstRegisterRequest: boolean = true; // flag to check whether direct connection is established, to avoid multiple popups in case of multiple registration response with direct connection info before establishing direct connection
@@ -127,10 +126,7 @@ export class MusicPlayerLib {
             this.myMP.connectionActive = !value;
             const data = { 'userInputRequired': "", "text": "No Communication. Please check power and connection.", "textForItems": [], "initialUserInput": "", "timeoutSec": 10000, "show": true, "donotcloseOnOutsideClick": true }
             this.logger.log('Nax device online:', value);
-            if (value) {
-                // this.unregisterWithDevice(true);
-                this.naxDeviceOfflineFlag = true; // when device is offline
-            } else {
+            if (value === false) {
                 data.text = "";
                 data.show = false;
                 if (this.myMP.instanceName && this.myMP.menuInstanceName && this.myMP.connectionActive) {
@@ -167,6 +163,17 @@ export class MusicPlayerLib {
                         }, 100);
                     }
                 });
+            } else {
+                if (this.myMP.directConnection) {
+                    const requestedData: any = {
+                        "ver": "1.0",
+                        "action": "disconnect",
+                        "currenttime": new Date().getTime()
+                    }
+                    clearInterval(this.resendRegistrationTimeId);
+                    this.logger.log('Csig.socket.request for disconnect', requestedData);
+                    publishEvent('o', "Csig.socket.request", requestedData);
+                }
             }
         });
     }
@@ -303,11 +310,11 @@ export class MusicPlayerLib {
     // 4. Need to continually register until a valid response as long as the device is still online.
     private refreshMediaPlayer() {
         // Do we have an active connection and need to unregister?
-        if (this.myMP.connectionActive && !this.naxDeviceOfflineFlag) {
+        if (this.myMP.connectionActive) {
             this.unregisterWithDevice();
         }
         // Register with the new device. ToDo: Add checks for online & tag values.
-        if (this.myMP.tag && this.myMP.connectionActive && !this.naxDeviceOfflineFlag) {
+        if (this.myMP.tag && this.myMP.connectionActive) {
             if (this.directConnectionFlag) {
                 this.directConnectionFlag = false;
                 this.subscribeCRCPRespSignal();
@@ -373,6 +380,8 @@ export class MusicPlayerLib {
             // If this is a different source, we need to refresh the media player.
             // This will also happen on an update request since no source value has been set yet.
             if (param) {
+                unsubscribeState('s', 'serial_receiveStateCRPCResp', this.subReceiveStateCRPCResp);
+                this.subscribeCRCPRespSignal();
                 this.debouncedRegisterWithDevice();
             } else if (this.myMP.source != myObj.src) {
                 this.refreshMediaPlayer();
@@ -401,7 +410,6 @@ export class MusicPlayerLib {
         const properties = getPropertiesSupportedResponse.result.PropertiesSupported;
         this.pendingPropertyRequests = properties.filter((item: any) => item !== 'PropertiesSupported');
         this.sendNextPropertyRequest();
-        this.naxDeviceOfflineFlag = false;// to reset nax offline flag after getting propertiessupported response
     }
 
     private sendNextPropertyRequest() {
