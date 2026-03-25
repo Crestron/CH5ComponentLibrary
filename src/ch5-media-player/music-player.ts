@@ -164,6 +164,7 @@ export class MusicPlayerLib {
                     }
                 });
             } else {
+                // When DC is active and CS goes offline,We need to disconnect from the device if we have an active direct connection.   
                 if (this.myMP.directConnection) {
                     const requestedData: any = {
                         "ver": "1.0",
