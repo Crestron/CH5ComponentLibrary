@@ -96,7 +96,18 @@ export class Ch5ImageUriModel {
         if (!this.isValidAuthenticationUri()){
             return '';
         }
-        return `${this._protocol}://${this.location}?cres_username=${this.user}&cres_password=${this.password}`;
+ 
+        try {
+            const url = new URL(`${this._protocol}://${this.location}`);
+            url.searchParams.set('cres_username', this.user);
+            url.searchParams.set('cres_password', this.password);
+            console.log('try', url.toString());
+            return url.toString();
+        } catch (e) {
+            const separator = this.location.includes('?') ? '&' : '?';      
+             console.log('catch', `${this._protocol}://${this.location}${separator}cres_username=${encodeURIComponent(this.user)}&cres_password=${encodeURIComponent(this.password)}`); 
+            return `${this._protocol}://${this.location}${separator}cres_username=${encodeURIComponent(this.user)}&cres_password=${encodeURIComponent(this.password)}`;
+        }
     }
 
     public isValidAuthenticationUri() { 
