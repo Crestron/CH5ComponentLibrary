@@ -96,8 +96,7 @@ export class Ch5ImageUriModel {
         if (!this.isValidAuthenticationUri()){
             return '';
         }
-
-        return `${this._protocol}://${this.user}:${this.password}@${this.location}`;
+        return `${this._protocol}://${this.location}?cres_username=${this.user}&cres_password=${this.password}`;
     }
 
     public isValidAuthenticationUri() { 
