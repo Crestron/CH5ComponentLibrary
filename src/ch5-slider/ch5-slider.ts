@@ -45,6 +45,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventonchange: { direction: "event", numericJoin: 1, contractName: true },
 		sendeventonchangehigh: { direction: "event", numericJoin: 1, contractName: true },
 		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
@@ -378,6 +379,16 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		{
 			default: "",
 			isSignal: true,
+			name: "sendEventOnClick",
+			signalType: "boolean",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true
+		},
+		{
+			default: "",
+			isSignal: true,
 			name: "sendEventOnChange",
 			signalType: "number",
 			removeAttributeOnNull: true,
@@ -446,6 +457,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	private sliderTouch: any = null;
 	private _isPressedSubscription: Subscription | null = null;
 	private _repeatDigitalInterval: number | null = null;
+	private _repeatDigitalOnClickInterval: number | null = null;
+	private _sendEventOnClickPressed: boolean = false;
+	private _sendEventOnClickGaugePressed: boolean = false;
 
 	private _receiveStateValueSignal: string = '';
 	private _subReceiveValueId: string = '';
@@ -750,6 +764,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	public set sendEventOnChange(value: string) {
 		this._ch5Properties.set("sendEventOnChange", value);
 	}
+	public set sendEventOnClick(value: string) {
+		this._ch5Properties.set("sendEventOnClick", value);
+	}
+	public get sendEventOnClick(): string {
+		return this._ch5Properties.get<string>('sendEventOnClick');
+	}
+
 	public get sendEventOnChange(): string {
 		return this._ch5Properties.get<string>('sendEventOnChange');
 	}
@@ -1092,6 +1113,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		this._onMouseLeave = this._onMouseLeave.bind(this);
 		this._onTouchMoveEnd = this._onTouchMoveEnd.bind(this);
 		this.sendEventOnHandleClickHandle = this.sendEventOnHandleClickHandle.bind(this);
+		this._onSliderGaugeDown = this._onSliderGaugeDown.bind(this);
+		this._onSliderGaugeUp = this._onSliderGaugeUp.bind(this);
 	}
 
 	private setCleanValue(value: string | number) {
@@ -1104,6 +1127,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 */
 	public disconnectedCallback() {
 		this.logger.start('Ch5Slider.disconnectedCallback()');
+		this.handleSendEventOnClick(false);
 		this.removeEvents();
 		this.unsubscribeFromSignals();
 
@@ -1416,6 +1440,10 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this._innerContainer.addEventListener('mouseleave', this._onMouseLeave);
 			this._innerContainer.addEventListener('touchmove', this._onMouseLeave);
 		}
+		// Gauge/track pointer detection for sendEventOnClick
+		this._innerContainer.addEventListener('pointerdown', this._onSliderGaugeDown);
+		document.addEventListener('pointerup', this._onSliderGaugeUp);
+		document.addEventListener('pointercancel', this._onSliderGaugeUp);
 		// init pressable
 		if (null !== this._pressable) {
 			this._pressable.init();
@@ -1444,6 +1472,10 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			this._innerContainer.removeEventListener('touchmove', this._onMouseLeave);
 			noUiHandle.removeEventListener('pointermove', (event) => { event.stopPropagation() });
 		}
+		// Gauge/track pointer listeners
+		this._innerContainer.removeEventListener('pointerdown', this._onSliderGaugeDown);
+		document.removeEventListener('pointerup', this._onSliderGaugeUp);
+		document.removeEventListener('pointercancel', this._onSliderGaugeUp);
 		if (!_.isNil(this._pressable)) {
 			this._unsubscribeFromPressableIsPressed();
 		}
@@ -1538,15 +1570,18 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 						window.clearInterval(this._repeatDigitalInterval as number);
 					}
 					this.handleSendEvent(value.range, false);
+					this.handleSendEventOnClick(false);
 				}
 				else {
 					this.handleSendEvent(value.range, true);
+					this.handleSendEventOnClick(true);
 					if (this._repeatDigitalInterval !== null) {
 						window.clearInterval(this._repeatDigitalInterval as number);
 					}
 					// let numRepeatDigitals = 0;
 					this._repeatDigitalInterval = window.setInterval(() => {
 						this.handleSendEvent(value.range, true);
+						this.handleSendEventOnClick(true);
 						// if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
 						// 	window.clearInterval(this._repeatDigitalInterval as number);
 						// 	this.handleSendEvent(value.range, false);
@@ -1560,7 +1595,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	private _unsubscribeFromPressableIsPressed() {
 		if (this._repeatDigitalInterval !== null) {
 			window.clearInterval(this._repeatDigitalInterval as number);
+			this._repeatDigitalInterval = null;
 		}
+		this._stopSendEventOnClickRepeatDigital();
 		if (this._isPressedSubscription !== null) {
 			this._isPressedSubscription.unsubscribe();
 			this._isPressedSubscription = null;
@@ -1645,6 +1682,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		this.logger.start('Ch5Slider._onSliderStart()');
 		this._innerContainer.removeEventListener('touchmove', this._onTouchMoveEnd);
 		this._innerContainer.addEventListener('touchmove', this._onMouseLeave);
+		this.handleSendEventOnClick(true);
 		/**
 		 * Fired when the component's handle start to slide.
 		 *
@@ -1677,6 +1715,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		this.logger.start('Ch5Slider._onSliderStop()');
 		this.isSliderStarted = false;
 		this.sliderTouch = null;
+		this.handleSendEventOnClick(false);
 		// Fired when the component's handle end to slide.
 		this.dispatchEvent(
 			this.sliderEndEvent = new CustomEvent('slideend', {
@@ -1689,6 +1728,38 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			})
 		);
 		this.logger.stop();
+	}
+
+	/**
+	 * Runs when user points down anywhere on the slider gauge (for sendEventOnClick)
+	 * @private
+	 */
+	private _onSliderGaugeDown(event: PointerEvent): void {
+		// Only send sendEventOnClick if not from handle itself (to avoid double-publish)
+		// The handle interaction is already covered by _onSliderStart/Stop
+		// We want to catch gauge/track taps
+		const target = event.target as HTMLElement;
+		if (target !== this._innerContainer && !this._innerContainer.contains(target)) {
+			return;
+		}
+		// Check if this is a handle element
+		if ((target as HTMLElement).classList?.contains('noUi-handle')) {
+			return; // Handle interaction is handled by _onSliderStart
+		}
+		this._sendEventOnClickGaugePressed = true;
+		this.handleSendEventOnClick(true);
+	}
+
+	/**
+	 * Runs when user releases/cancels pointer anywhere (for sendEventOnClick)
+	 * @private
+	 */
+	private _onSliderGaugeUp(): void {
+		if (!this._sendEventOnClickGaugePressed) {
+			return; // User didn't press on gauge
+		}
+		this._sendEventOnClickGaugePressed = false;
+		this.handleSendEventOnClick(false);
 	}
 
 	/**
@@ -1781,6 +1852,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 	private _onTouchMoveEnd(inEvent: any): void {
 		this.isSliderStarted = false;
+		this.handleSendEventOnClick(false);
 		if (inEvent.cancelable) {
 			inEvent.preventDefault();
 		}
@@ -1817,6 +1889,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 					calculationValue = this._innerContainer.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
 				} if (calculationValue < touchPositionValue) {
 					this.isSliderStarted = false;
+					this.handleSendEventOnClick(false);
 					this._innerContainer.addEventListener('touchmove', this._onTouchMoveEnd);
 					this.dispatchEvent(
 						this.blurEvent = new CustomEvent('touchend', {
@@ -1843,6 +1916,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				}
 				if (calculationValue < touchPositionValue) {
 					this.isSliderStarted = false;
+					this.handleSendEventOnClick(false);
 					this.dispatchEvent(
 						this.blurEvent = new CustomEvent('mouseup', {
 							bubbles: true,
@@ -2684,6 +2758,46 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		} else if (this.sendEventOnLower !== '' && this.sendEventOnLower !== null && this.sendEventOnLower !== undefined && eventName === 'lower') {
 			Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnLower)?.publish(value);
 		}
+	}
+
+	private _startSendEventOnClickRepeatDigital(): void {
+		const REPEAT_DIGITAL_PERIOD = 400;
+		if (this._repeatDigitalOnClickInterval !== null) {
+			return;
+		}
+
+		this._repeatDigitalOnClickInterval = window.setInterval(() => {
+			this.handleSendEventOnClick(true, true);
+		}, REPEAT_DIGITAL_PERIOD);
+	}
+
+	private _stopSendEventOnClickRepeatDigital(): void {
+		if (this._repeatDigitalOnClickInterval !== null) {
+			window.clearInterval(this._repeatDigitalOnClickInterval as number);
+			this._repeatDigitalOnClickInterval = null;
+		}
+	}
+
+	private handleSendEventOnClick(value: boolean, forcePublish: boolean = false): void {
+		if (this.disabled || Ch5Common.isNil(this.sendEventOnClick)) {
+			this._stopSendEventOnClickRepeatDigital();
+			this._sendEventOnClickPressed = false;
+			this._sendEventOnClickGaugePressed = false;
+			return;
+		}
+
+		if (value) {
+			this._startSendEventOnClickRepeatDigital();
+		} else {
+			this._stopSendEventOnClickRepeatDigital();
+		}
+
+		if (!forcePublish && this._sendEventOnClickPressed === value) {
+			return;
+		}
+
+		this._sendEventOnClickPressed = value;
+		Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(value);
 	}
 
 	private sendEventOnHandleClickHandle(): void {
