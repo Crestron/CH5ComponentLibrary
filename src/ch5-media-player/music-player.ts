@@ -153,6 +153,16 @@ export class MusicPlayerLib {
             const data = { 'userInputRequired': "", "text": "No Communication. Please check power and connection.", "textForItems": [], "initialUserInput": "", "timeoutSec": MP_POPUP_TIMEOUT_SEC, "show": true, "donotcloseOnOutsideClick": true }
             this.logger.log('Nax device online:', value);
             if (value) {
+                if (this.myMP.directConnection) {
+                    const requestedData: any = {
+                        "ver": MP_PROTOCOL_VERSION,
+                        "action": MP_SOCKET_ACTION_DISCONNECT,
+                        "currenttime": new Date().getTime()
+                    }
+                    clearInterval(this.resendRegistrationTimeId);
+                    this.logger.log('Csig.socket.request for disconnect', requestedData);
+                    publishEvent('o', "Csig.socket.request", requestedData);
+                }
                 this.naxDeviceOfflineFlag = true; // when device is offline
                 this.clearAllDataObjects();
                 this.resetMp();
