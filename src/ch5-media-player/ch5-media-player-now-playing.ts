@@ -733,6 +733,7 @@ export class Ch5MediaPlayerNowPlaying {
 	// Debounced handler for nowPlayingData subscription
 	private debouncedNowPlayingDataHandler = debounce((data: any) => {
 		this.logger.log('NowPlayingData ', data);
+		const myMusic = this._nowPlayingContainer.parentElement?.querySelector(".ch5-media-player--my-music");
 		if (this.demoModeValue === false) {
 			if (data && Object.keys(data).length > 0) {
 				for (const key in data) {
@@ -742,6 +743,13 @@ export class Ch5MediaPlayerNowPlaying {
 				}
 				this.nowPlayingData = data;
 				this.createNowPlaying();
+				if (this._nowPlayingContainer.parentElement?.classList.contains("portrait-mode-active")) {
+					if (myMusic?.classList.contains("my-music-transition")) {
+						this._nowPlayingContainer?.classList.add("ch5-hide-vis");
+					} else {
+						this._nowPlayingContainer?.classList.remove("ch5-hide-vis");
+					}
+				}
 				this.updatedNowPlayingContent();
 			} else {
 				this.createDefaultNowPlaying();
