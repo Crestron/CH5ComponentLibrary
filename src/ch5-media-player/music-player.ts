@@ -153,14 +153,32 @@ export class MusicPlayerLib {
             const data = { 'userInputRequired': "", "text": "No Communication. Please check power and connection.", "textForItems": [], "initialUserInput": "", "timeoutSec": MP_POPUP_TIMEOUT_SEC, "show": true, "donotcloseOnOutsideClick": true }
             this.logger.log('Nax device online:', value);
             if (value) {
+                if (this.myMP.directConnection) {
+                    const requestedData: any = {
+                        "ver": MP_PROTOCOL_VERSION,
+                        "action": MP_SOCKET_ACTION_DISCONNECT,
+                        "currenttime": new Date().getTime()
+                    }
+                    clearInterval(this.resendRegistrationTimeId);
+                    this.logger.log('Csig.socket.request for disconnect', requestedData);
+                    publishEvent('o', "Csig.socket.request", requestedData);
+                }
                 this.naxDeviceOfflineFlag = true; // when device is offline
+                this.clearAllDataObjects();
+                this.resetMp();
             } else {
                 data.text = "";
                 data.show = false;
-                if (this.myMP.instanceName && this.myMP.menuInstanceName && this.myMP.connectionActive) {
-                    // this.naxDeviceOnline();
-                    this.debouncedRegisterWithDevice();
-                }
+                const subreceiveStateMessageRespTemp = subscribeState('s', 'serial_receiveStateMessageResp', (value: any) => {
+                    if (value.length > 0) {
+                        this.clearAllDataObjects();
+                        this.resetMp();
+                        this.processMessage(value, true);
+                        setTimeout(() => {
+                            unsubscribeState('s', 'serial_receiveStateMessageResp', subreceiveStateMessageRespTemp);
+                        }, 100);
+                    }
+                });
             }
             publishEvent('o', 'PopUpMessageData', data);
         });
@@ -281,6 +299,8 @@ export class MusicPlayerLib {
                 clearInterval(this.resendRegistrationTimeId);
                 this.logger.log('Csig.socket.request for disconnect', requestedData);
                 publishEvent('o', "Csig.socket.request", requestedData);// on player change we have to disconnect direct connection and then establish new direct connection with new player.
+                unsubscribeState('s', 'serial_receiveStateCRPCResp', this.subReceiveStateCRPCResp);
+                this.subscribeCRCPRespSignal();
                 this.debouncedRegisterWithDevice();
             } else {
                 this.myMP.directConnection = false;
@@ -527,7 +547,7 @@ export class MusicPlayerLib {
         });
     }
 
-    private unregisterWithDevice(deviceOffLine: boolean = false) {
+    private unregisterWithDevice() {
         // We need to unregister with both the Media Player instance
         // as well as the Media player Menu instance.
 
@@ -566,10 +586,8 @@ export class MusicPlayerLib {
                 publishEvent('o', "Csig.socket.request", requestedData);// on player change we have to disconnect direct connection and then establish new direct connection with new player.
             }
 
-            if (!deviceOffLine) {
-                this.clearAllDataObjects();
-                this.resetMp(deviceOffLine);
-            }
+            this.clearAllDataObjects();
+            this.resetMp();
         }
 
     }
@@ -1077,47 +1095,25 @@ export class MusicPlayerLib {
     }
 
 
-    public resetMp(param: boolean = false) {
-        if (param) {
-            this.myMP = {
-                "tag": this.myMP.tag,
-                "source": this.myMP.source,
-                "connectionActive": false,
-                "directConnection": false,
-                "RegistrationId": 0,
-                "ObjectsId": 0,
-                "PropertiesSupportedId": 0,
-                "MenuId": 0,
-                "TitleMenuId": 0,
-                "TitleId": 0,
-                "ItemDataId": 0,
-                "PlayId": 0,
-                "PauseId": 0,
-                "SeekId": 0,
-                "instanceName": '',
-                "menuInstanceName": '',
-            };
-        } else {
-            this.myMP = {
-                "tag": "",
-                "source": 0,
-                "connectionActive": true,
-                "directConnection": false,
-                "RegistrationId": 0,
-                "ObjectsId": 0,
-                "PropertiesSupportedId": 0,
-                "MenuId": 0,
-                "TitleMenuId": 0,
-                "TitleId": 0,
-                "ItemDataId": 0,
-                "PlayId": 0,
-                "PauseId": 0,
-                "SeekId": 0,
-                "instanceName": '',
-                "menuInstanceName": '',
-            };
-        }
-
+    public resetMp() {
+        this.myMP = {
+            "tag": "",
+            "source": 0,
+            "connectionActive": true,
+            "directConnection": false,
+            "RegistrationId": 0,
+            "ObjectsId": 0,
+            "PropertiesSupportedId": 0,
+            "MenuId": 0,
+            "TitleMenuId": 0,
+            "TitleId": 0,
+            "ItemDataId": 0,
+            "PlayId": 0,
+            "PauseId": 0,
+            "SeekId": 0,
+            "instanceName": '',
+            "menuInstanceName": '',
+        };
 
         this.nowPlayingData = {
             'ActionsSupported': '', 'ActionsAvailable': '', 'RewindSpeed': '',
