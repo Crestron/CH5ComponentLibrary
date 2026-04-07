@@ -28,6 +28,7 @@ export * from './../ch5-color-picker/interfaces/i-ch5-color-picker-documentation
 export * from './../ch5-datetime/interfaces/i-ch5-datetime-documentation';
 export * from './../ch5-dpad/interfaces/i-ch5-dpad-documentation';
 export * from "./../ch5-form/interfaces/i-ch5-form-documentation";
+export * from './../ch5-html-div/interfaces/i-ch5-html-div-documentation';
 export * from "./../ch5-import-htmlsnippet/interfaces/i-ch5-htmlsnippet-documentation";
 export * from "./../ch5-image/interfaces/i-ch5-image-documentation";
 export * from "./../ch5-image/interfaces/i-ch5-image-mode-documentation";
@@ -62,6 +63,4 @@ export * from './../ch5-video-switcher/interfaces/i-ch5-video-switcher-screen-la
 export * from './../ch5-video-switcher/interfaces/i-ch5-video-switcher-source-documentation';
 export * from './../ch5-video-switcher/interfaces/i-ch5-video-switcher-source-label-documentation';
 export * from './../ch5-wifi-signal-level-gauge/interfaces/i-ch5-wifi-signal-level-gauge-documentation';
-export * from './../ch5-media-player/interfaces/i-ch5-media-player-now-playing-documentation';
-export * from './../ch5-media-player/interfaces/i-ch5-media-player-my-music-documentation';
 export * from './../ch5-media-player/interfaces/i-ch5-media-player-documentation';

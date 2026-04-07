@@ -27,6 +27,7 @@ export class Ch5RoleAttributeMapping {
     public static readonly ch5Label = 'label';
     public static readonly ch5List = 'list';
     public static readonly ch5Form = 'form';
+    public static readonly ch5HtmlDiv = 'html-div';
     public static readonly ch5Image = 'img';
     public static readonly ch5ImportHtmlSnippet = 'template';
     public static readonly ch5MediaPlayer = 'media-player';
