@@ -858,6 +858,17 @@ export class MusicPlayerLib {
                 this.menuRefreshFlags.itemCntChanged = true;
             }
             this.checkAndTriggerMenuRefresh();
+        } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'ClearChanged') { // CH5C-29671
+            // console.log('ClearChanged event received');
+            const myRPC: CommonRequestPropName = {
+                params: { "propName": 'ItemCnt' },
+                jsonrpc: MP_JSONRPC_VERSION,
+                id: this.generateUniqueMessageId(),
+                method: this.myMP.menuInstanceName + '.GetProperty'
+            };
+            if (this.myMP.menuInstanceName) {
+                this.sendRPCRequest(myRPC);
+            }
         } else if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method) &&
             (responseData?.params?.ev === 'StatusMsgMenuChanged' || responseData?.params?.ev === 'StatusMsgChanged' || responseData?.params?.ev === 'StatusMsgMenu') &&
             responseData.params?.parameters) { // My music and Now Playing  Popup data
@@ -923,7 +934,9 @@ export class MusicPlayerLib {
                             this.myMusicData[responseKey] = numericResponseValue;
                             if (this.totalItemCountCheck !== numericResponseValue) {// to avoid multiple calls
                                 this.totalItemCountCheck = numericResponseValue;
-                                if (previousValue !== numericResponseValue) {
+                                // In case of item count change, we need to refresh the menu list data. But we should avoid calling it multiple times when there are multiple property changes in a short period of time. So we are checking if the item count is changed and also if the title is Favorites then also we need to refresh the menu list data because in favorites the item count can be same but the data can be different based on the selection.
+                                // This is a temporary solution to handle the item count change scenario, we can optimize it in future by having a separate event for item count change or by having a better way to handle the menu refresh based on the property changes.
+                                if (previousValue !== numericResponseValue || this.myMusicData['Title'] === 'Favorites') {
                                     this.menuRefreshFlags.itemCntChanged = true;
                                     this.checkAndTriggerMenuRefresh();
                                 }
