@@ -859,7 +859,12 @@ export class MusicPlayerLib {
             }
             this.checkAndTriggerMenuRefresh();
         } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'ClearChanged') { // CH5C-29671
-            // console.log('ClearChanged event received');
+            this.totalItemCountCheck = 0; // to reset the item count check when clear changed event received, because in this case the item count can be same but the data will be different based on the selection.
+            
+            // Clearing the data as we have to get the fresh data from the device based on the selection, same as VTpro. We can optimize this by not clearing the data and just appending new data but that will require changes in VTPro as well, so for now we will go with clearing the data approach.
+            this.menuListData['MenuData'] = [];
+            this.menuListPublishData = { ...this.menuListData };
+            publishEvent('o', 'menuListData', this.menuListPublishData);
             const myRPC: CommonRequestPropName = {
                 params: { "propName": 'ItemCnt' },
                 jsonrpc: MP_JSONRPC_VERSION,
@@ -867,7 +872,9 @@ export class MusicPlayerLib {
                 method: this.myMP.menuInstanceName + '.GetProperty'
             };
             if (this.myMP.menuInstanceName) {
-                this.sendRPCRequest(myRPC);
+                setTimeout(() => {
+                    this.sendRPCRequest(myRPC);
+                }, MP_EVENT_DELAY_MS);
             }
         } else if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method) &&
             (responseData?.params?.ev === 'StatusMsgMenuChanged' || responseData?.params?.ev === 'StatusMsgChanged' || responseData?.params?.ev === 'StatusMsgMenu') &&
@@ -934,12 +941,8 @@ export class MusicPlayerLib {
                             this.myMusicData[responseKey] = numericResponseValue;
                             if (this.totalItemCountCheck !== numericResponseValue) {// to avoid multiple calls
                                 this.totalItemCountCheck = numericResponseValue;
-                                // In case of item count change, we need to refresh the menu list data. But we should avoid calling it multiple times when there are multiple property changes in a short period of time. So we are checking if the item count is changed and also if the title is Favorites then also we need to refresh the menu list data because in favorites the item count can be same but the data can be different based on the selection.
-                                // This is a temporary solution to handle the item count change scenario, we can optimize it in future by having a separate event for item count change or by having a better way to handle the menu refresh based on the property changes.
-                                if (previousValue !== numericResponseValue || this.myMusicData['Title'] === 'Favorites') {
-                                    this.menuRefreshFlags.itemCntChanged = true;
-                                    this.checkAndTriggerMenuRefresh();
-                                }
+                                this.menuRefreshFlags.itemCntChanged = true;
+                                this.checkAndTriggerMenuRefresh();
                             }
                         }
                     } else {
