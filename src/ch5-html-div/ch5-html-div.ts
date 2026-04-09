@@ -45,7 +45,10 @@ export class Ch5HtmlDiv extends Ch5Common implements ICh5HtmlDivAttributes {
 
 	private _ch5Properties: Ch5Properties;
 	private _elContainer: HTMLElement = {} as HTMLElement;
-	private _elLabel: HTMLElement = {} as HTMLElement;
+	// private _elLabel: HTMLElement = {} as HTMLElement;
+	public templateElement: HTMLTemplateElement = {} as HTMLTemplateElement;
+	private parentElem: string = "";
+	protected labelRec: string = "";
 
 	//#endregion
 
@@ -63,7 +66,7 @@ export class Ch5HtmlDiv extends Ch5Common implements ICh5HtmlDivAttributes {
 
 	public set labelInnerHTML(value: string) {
 		this._ch5Properties.set<string>("labelInnerHTML", value, () => {
-			this.handleLabelInnerHTML();
+			this.handleLabel();
 		});
 	}
 	public get labelInnerHTML(): string {
@@ -92,12 +95,15 @@ export class Ch5HtmlDiv extends Ch5Common implements ICh5HtmlDivAttributes {
 
 	//#region Component Lifecycle
 
-	public constructor() {
+	public constructor(public _parent?: string) {
 		super();
 		this.logger.start('constructor()', Ch5HtmlDiv.ELEMENT_NAME);
 		this.ignoreAttributes = [];
 		if (!this._wasInstatiated) {
 			this.createInternalHtml();
+		}
+		if (_parent) {
+			this.parentElem = _parent;
 		}
 		this._wasInstatiated = true;
 		this._ch5Properties = new Ch5Properties(this, Ch5HtmlDiv.COMPONENT_PROPERTIES);
@@ -140,7 +146,7 @@ export class Ch5HtmlDiv extends Ch5Common implements ICh5HtmlDivAttributes {
 		if (!this.hasAttribute('role')) {
 			this.setAttribute('role', Ch5RoleAttributeMapping.ch5HtmlDiv);
 		}
-		if (this._elContainer.parentElement !== this) {
+		if (this._elContainer.parentElement !== this && this.parentElem === "") {
 			this._elContainer.classList.add('ch5-html-div');
 			this.appendChild(this._elContainer);
 		}
@@ -169,10 +175,10 @@ export class Ch5HtmlDiv extends Ch5Common implements ICh5HtmlDivAttributes {
 		this.logger.start('createInternalHtml()');
 		this.clearComponentContent();
 		this._elContainer = document.createElement('div');
-		this._elLabel = document.createElement('span');
-		this._elLabel.hidden = true;
-		this._elLabel.classList.add(this.primaryCssClass + '--label');
-		this._elContainer.appendChild(this._elLabel);
+		// this._elLabel = document.createElement('span');
+		// this._elLabel.hidden = true;
+		// this._elLabel.classList.add(this.primaryCssClass + '--label');
+		// this._elContainer.appendChild(this._elLabel);
 		this.logger.stop();
 	}
 
@@ -216,11 +222,29 @@ export class Ch5HtmlDiv extends Ch5Common implements ICh5HtmlDivAttributes {
 
 	private handleLabel() {
 		// Enter your Code here
-		this._elLabel.hidden = this.label ? false : true;
-		this._elLabel.innerHTML = this.label;
+		if (!(this.templateElement instanceof HTMLTemplateElement)) {
+			this.templateElement = this.getElementsByTagName('template')[0] as HTMLTemplateElement;
+		}
+		Array.from(this._elContainer.children).forEach(container => container.remove());
+
+		this._elContainer.innerText = '';
+		if (Ch5Common.isNotNil(this.labelInnerHTML)) {
+			this._elContainer.innerHTML = this.decodeInnerHTMLForAttribute(this.labelInnerHTML);
+		} else if (this.templateElement instanceof HTMLTemplateElement) {
+			const documentContainer: HTMLTemplateElement = document.createElement('template');
+			documentContainer.innerHTML = this.templateElement.innerHTML;
+			this._elContainer.appendChild(((documentContainer as HTMLTemplateElement).content));
+		} else {
+			this._elContainer.innerText = this.label;
+		}
 	}
-	private handleLabelInnerHTML() {
-		// Enter your Code here
+
+	private decodeInnerHTMLForAttribute(innerHTML: string) {
+		return innerHTML.replace('&amp;', "&")
+			.replace('&lt;', "<")
+			.replace('&gt;', ">")
+			.replace('&quot;', '/"')
+			.replace("&apos;", "/'");
 	}
 
 	private updateCssClass() {
