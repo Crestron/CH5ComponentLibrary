@@ -103,13 +103,18 @@ export class Ch5MediaPlayerMyMusic {
     }));
 
     subscribeState('b', 'showMyMusicComponent', ((value: boolean) => {
+      const myPlaying = this._myMusicContainer.parentElement?.querySelector(".ch5-media-player--now-playing");
       if (value) {
         if (this._myMusicContainer.parentElement?.classList.contains("portrait-mode-active")) {
           this._myMusicContainer.classList.add("my-music-transition");
+          if (!myPlaying?.classList.contains("ch5-hide-vis")) {
+            myPlaying?.classList.add("ch5-hide-vis");
+          }
         }
       } else {
         if (this._myMusicContainer && this._myMusicContainer.classList.contains("my-music-transition")) {
           this._myMusicContainer.classList.remove("my-music-transition");
+          myPlaying?.classList.remove("ch5-hide-vis");
         }
       }
     }));
