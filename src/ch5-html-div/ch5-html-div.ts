@@ -45,10 +45,8 @@ export class Ch5HtmlDiv extends Ch5Common implements ICh5HtmlDivAttributes {
 
 	private _ch5Properties: Ch5Properties;
 	private _elContainer: HTMLElement = {} as HTMLElement;
-	// private _elLabel: HTMLElement = {} as HTMLElement;
 	public templateElement: HTMLTemplateElement = {} as HTMLTemplateElement;
 	private parentElem: string = "";
-	protected labelRec: string = "";
 
 	//#endregion
 
@@ -175,10 +173,6 @@ export class Ch5HtmlDiv extends Ch5Common implements ICh5HtmlDivAttributes {
 		this.logger.start('createInternalHtml()');
 		this.clearComponentContent();
 		this._elContainer = document.createElement('div');
-		// this._elLabel = document.createElement('span');
-		// this._elLabel.hidden = true;
-		// this._elLabel.classList.add(this.primaryCssClass + '--label');
-		// this._elContainer.appendChild(this._elLabel);
 		this.logger.stop();
 	}
 
