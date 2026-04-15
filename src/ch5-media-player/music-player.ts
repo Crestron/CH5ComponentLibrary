@@ -1,7 +1,6 @@
 import { publishEvent, subscribeState, unsubscribeState } from "../ch5-core";
 import _ from 'lodash';
 import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest, RegisterwithDeviceResponse } from "./commonInterface";
-import { encodeString } from "./ch5-media-player-common";
 import { TCH5NowPlayingActions } from "./interfaces/t-ch5-media-player";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
 
@@ -226,7 +225,11 @@ export class MusicPlayerLib {
     }
 
     private subscribeCRCPRespSignal() {
+        this.unsubscribeCRCPRespSignal();
         this.subReceiveStateCRPCResp = subscribeState('s', 'serial_receiveStateCRPCResp', (value: any) => {
+            if (this.myMP.directConnection) {
+                return;
+            }
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
             if ((value.length > 0) && !_.isEqual(this.tempResponse, value) && this.ignoreFirstData) {
@@ -263,6 +266,15 @@ export class MusicPlayerLib {
         });
     }
 
+    private unsubscribeCRCPRespSignal() {
+        if (this.subReceiveStateCRPCResp) {
+            unsubscribeState('s', 'serial_receiveStateCRPCResp', this.subReceiveStateCRPCResp);
+            this.subReceiveStateCRPCResp = null;
+        }
+        this.mpRPCDataIn = '';
+        this.tempResponse = '';
+    }
+
     public subscribeCSIGSignals() {
         // Direct connection socket responses
         this.subCsigSocketResponse = subscribeState('o', 'Csig.socket.response', (response: any) => {
@@ -283,7 +295,7 @@ export class MusicPlayerLib {
                 this.logger.log("Direct connection established with Media Player device.");
                 if (this.myMP.tag && this.myMP.source) {
                     this.directConnectionFlag = true;
-                    unsubscribeState('s', 'serial_receiveStateCRPCResp', this.subReceiveStateCRPCResp); //unsubscribe from join-based CRPC response since we have established direct connection and we will be getting CRPC responses via socket
+                    this.unsubscribeCRCPRespSignal(); // Unsubscribe from join-based CRPC response after direct connection is established.
                     this.debouncedRegisterWithDevice();
                 }
             } else if (responseData.statusCode === 0 && responseData.status === "disconnected") {
@@ -299,7 +311,8 @@ export class MusicPlayerLib {
                 clearInterval(this.resendRegistrationTimeId);
                 this.logger.log('Csig.socket.request for disconnect', requestedData);
                 publishEvent('o', "Csig.socket.request", requestedData);// on player change we have to disconnect direct connection and then establish new direct connection with new player.
-                unsubscribeState('s', 'serial_receiveStateCRPCResp', this.subReceiveStateCRPCResp);
+                this.unsubscribeCRCPRespSignal();
+                this.myMP.directConnection = false;
                 this.subscribeCRCPRespSignal();
                 this.debouncedRegisterWithDevice();
             } else {
@@ -362,6 +375,7 @@ export class MusicPlayerLib {
         if (this.myMP.tag && this.myMP.connectionActive && !this.naxDeviceOfflineFlag) {
             if (this.directConnectionFlag) {
                 this.directConnectionFlag = false;
+                this.myMP.directConnection = false;
                 this.subscribeCRCPRespSignal();
             }
             this.debouncedRegisterWithDevice();
@@ -429,7 +443,7 @@ export class MusicPlayerLib {
             // This will also happen on an update request since no source value has been set yet.
             if (param) {
                 // this is need only when CS comes online fromm offline state
-                unsubscribeState('s', 'serial_receiveStateCRPCResp', this.subReceiveStateCRPCResp);
+                this.unsubscribeCRCPRespSignal();
                 this.subscribeCRCPRespSignal();
                 this.debouncedRegisterWithDevice();
             } else if (this.myMP.source != myObj.src) {
@@ -860,7 +874,6 @@ export class MusicPlayerLib {
             this.checkAndTriggerMenuRefresh();
         } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'ClearChanged') { // CH5C-29671
             this.totalItemCountCheck = 0; // to reset the item count check when clear changed event received, because in this case the item count can be same but the data will be different based on the selection.
-            
             // Clearing the data as we have to get the fresh data from the device based on the selection, same as VTpro. We can optimize this by not clearing the data and just appending new data but that will require changes in VTPro as well, so for now we will go with clearing the data approach.
             this.menuListData['MenuData'] = [];
             this.menuListPublishData = { ...this.menuListData };
@@ -1058,7 +1071,7 @@ export class MusicPlayerLib {
                 "localExit": id < 0 ? true : false,
                 "state": id < 0 ? 0 : 1,
                 "id": id,
-                "userInput": inputValue ? encodeString(inputValue) : ""
+                "userInput": inputValue ? this.encodeString(inputValue) : ""
             },
             jsonrpc: MP_JSONRPC_VERSION,
             id: this.generateUniqueMessageId(),
@@ -1088,7 +1101,7 @@ export class MusicPlayerLib {
         }
         unsubscribeState('b', 'digital_receiveStateRefreshMediaPlayerResp', this.subReceiveStateRefreshMediaPlayerResp);
         unsubscribeState('b', 'digital_receiveStateDeviceOfflineResp', this.subReceiveStateDeviceOfflineResp);
-        unsubscribeState('s', 'serial_receiveStateCRPCResp', this.subReceiveStateCRPCResp);
+        this.unsubscribeCRCPRespSignal();
         unsubscribeState('s', 'serial_receiveStateMessageResp', this.subReceiveStateMessageResp);
         unsubscribeState('s', 'serial_sendEventCRPCJoinNo', this.subSendEventCRPCJoinNo);
         unsubscribeState('b', 'Csig.All_Control_Systems_Online_fb', this.subControlSystemsOnlineFB);
@@ -1195,6 +1208,27 @@ export class MusicPlayerLib {
             // Fail-safe: assume desktop if detection errors
             this.logger.log('Environment detection error, assuming Desktop:', e);
             return true;
+        }
+    }
+
+    //To Decode
+    public decodeString = (textValue: string): string => {
+        if (this.myMP.directConnection === false) {
+            if (textValue === undefined || textValue === null || textValue === '') return '';
+            const byteArray = Uint8Array.from(textValue.split('').map(char => char.charCodeAt(0)));
+            return new TextDecoder('utf-8').decode(byteArray);
+        } else {
+            return textValue;
+        }
+    }
+
+    //To Encode
+    public encodeString = (input: string): string => {
+        if (this.myMP.directConnection === false) {
+            const utf8Bytes = new TextEncoder().encode(input);
+            return Array.from(utf8Bytes).map(byte => String.fromCharCode(byte)).join('');
+        } else {
+            return input;
         }
     }
 }

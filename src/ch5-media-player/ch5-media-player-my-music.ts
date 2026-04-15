@@ -1,7 +1,7 @@
 import { Ch5MediaPlayerIconButton } from "./ch5-media-player-icon-button-base";
 import { publishEvent, subscribeState } from "../ch5-core/index";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
-import { createElement, decodeString } from "./ch5-media-player-common";
+import { createElement } from "./ch5-media-player-common";
 import { MusicPlayerLib } from "./music-player";
 
 export class Ch5MediaPlayerMyMusic {
@@ -284,8 +284,8 @@ export class Ch5MediaPlayerMyMusic {
 
     this._myMusicContentItem = createElement('div', ['my-music-content-item']);
     this._myMusicContentItem.id = itemId;
-    this._myMusicContentItemTitle = createElement('div', ['my-music-content-item-title'], decodeString(text));
-    this._myMusicContentItemSubtitle = createElement('div', ['my-music-content-item-subtitle'], decodeString(subText));
+    this._myMusicContentItemTitle = createElement('div', ['my-music-content-item-title'], this.musicPlayerLibInstance.decodeString(text));
+    this._myMusicContentItemSubtitle = createElement('div', ['my-music-content-item-subtitle'], this.musicPlayerLibInstance.decodeString(subText));
 
     //  if (this._myMusicHeaderTitleText.innerText === 'Favorites') { // This is not required
     let holdTimer: number | null = null;
@@ -379,8 +379,8 @@ export class Ch5MediaPlayerMyMusic {
     this._myMusicHeaderSection.prepend(this._myMusicHeaderBackButton);
 
     this._myMusicHeaderTitle = createElement("div", ['my-music-header-title']);
-    this._myMusicHeaderTitleText = createElement("div", ['my-music-header-title-text'], decodeString(myMusicHeaderTitleText));
-    this._myMusicheaderSubtitle = createElement("div", ['my-music-header-subtitle'], decodeString(myMusicheaderSubtitle));
+    this._myMusicHeaderTitleText = createElement("div", ['my-music-header-title-text'], this.musicPlayerLibInstance.decodeString(myMusicHeaderTitleText));
+    this._myMusicheaderSubtitle = createElement("div", ['my-music-header-subtitle'], this.musicPlayerLibInstance.decodeString(myMusicheaderSubtitle));
     if (myMusicheaderSubtitle) {
       this._myMusicheaderSubtitle.classList?.remove('ch5-hide-vis');
     } else {
