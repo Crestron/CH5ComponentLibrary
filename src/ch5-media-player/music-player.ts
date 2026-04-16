@@ -15,7 +15,7 @@ const MP_CHUNK_SIZE = 248;
 const MP_PREFIX_LENGTH = 8;
 const MP_EVENT_DELAY_MS = 50;
 const MP_RETRY_INTERVAL_MS = 10000;
-const MP_CH5_CLIENT_NAME = 'CH5_v2.15';
+const MP_CH5_CLIENT_NAME = 'CH5'; //TODO:Update with ch5 version
 
 export class MusicPlayerLib {
 
