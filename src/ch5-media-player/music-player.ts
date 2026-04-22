@@ -852,8 +852,9 @@ export class MusicPlayerLib {
 
             // Added a title check to handle multiple instance scenario. In the current instance the isItemCountNew value will be false, when there is any action in other instance, we need to get the updated menudata
             if (params.hasOwnProperty('Title')) {
+                const isItemCntNew = this.myMusicData['ItemCnt'] !== params['ItemCnt'];
                 this.myMusicData['ItemCnt'] = params['ItemCnt'];
-                this.updatedMenuData(); // we need to call only when statechanged event has parameters object include key has Title
+                this.updatedMenuData(isItemCntNew); // we need to call only when statechanged event has parameters object include key has Title
             }
 
             for (const item in params) {
@@ -1037,7 +1038,7 @@ export class MusicPlayerLib {
         });
     };
 
-    private updatedMenuData() {
+    private updatedMenuData(isItemCntNew = false) {
         ['ListSpecificFunctions', 'StatusMsgMenu', 'Instance', 'TransactionId', 'ItemCnt'].forEach((item: any) => {
             const myRPC: CommonRequestPropName = {
                 params: { "propName": item },
@@ -1045,7 +1046,8 @@ export class MusicPlayerLib {
                 id: this.generateUniqueMessageId(),
                 method: this.myMP.menuInstanceName + '.GetProperty'
             };
-            if (this.myMP.menuInstanceName) {
+            if (this.myMP.menuInstanceName && (item !== 'ItemCnt' || (item === 'ItemCnt' && isItemCntNew))) { 
+                //CH5C-29765: we need to call get property for item count only when we have new item count value, as in state changed event we are getting all the parameters but we need to make sure that we are making get property call for item count only when we have new item count value to avoid multiple calls.
                 setTimeout(() => {
                     this.sendRPCRequest(myRPC);
                 }, MP_EVENT_DELAY_MS);
