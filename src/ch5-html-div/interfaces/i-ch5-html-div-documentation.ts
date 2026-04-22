@@ -6,7 +6,7 @@ import { ICh5HtmlDivAttributes } from "./i-ch5-html-div-attributes";
  * @isattribute false
  * @tagName ch5-html-div
  * @role html-div
- * @description CH5 HTML Div component.
+ * @description CH5 HTML Div component provides a CH5‑wrapped version of the native HTML <div> element.
  * @componentVersion 1.0
  * @childElements
  * [
@@ -22,7 +22,7 @@ import { ICh5HtmlDivAttributes } from "./i-ch5-html-div-attributes";
  * [
  *  {
  *    "prefix": "ch5-html-div:blank",
- *     "description": "Crestron html div",
+ *     "description": "CH5 HTML Div component provides a CH5‑wrapped version of the native HTML <div> element",
  *     "body": [
  *       "<ch5-html-div>",
  *       "</ch5-html-div>$0"
@@ -30,7 +30,7 @@ import { ICh5HtmlDivAttributes } from "./i-ch5-html-div-attributes";
  *   },
  *   {
  *     "prefix": "ch5-html-div:all-attributes",
- *     "description": "Crestron html div (All Attributes)",
+ *     "description": "CH5 HTML Div component provides a CH5‑wrapped version of the native HTML <div> element (All Attributes)",
  *     "body": [
  *       "<ch5-html-div id=\"ch5-html-div_${1:id}\"",
  *       "\tlabel=\"${2:}\"",
@@ -40,7 +40,7 @@ import { ICh5HtmlDivAttributes } from "./i-ch5-html-div-attributes";
  *    },
  *    {
  *     "prefix": "ch5-html-div:default",
- *     "description": "Crestron html div (default)",
+ *     "description": "CH5 HTML Div component provides a CH5‑wrapped version of the native HTML <div> element (default)",
  *     "body": [
  *       "<ch5-html-div id=\"ch5-html-div_${1:id}\"",
  *       "\tlabel=\"${2:}\"",
