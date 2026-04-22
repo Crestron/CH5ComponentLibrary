@@ -1038,7 +1038,7 @@ export class MusicPlayerLib {
         });
     };
 
-    private updatedMenuData(isItemCntNew = false) {
+    private updatedMenuData(isItemCntNew: boolean) {
         ['ListSpecificFunctions', 'StatusMsgMenu', 'Instance', 'TransactionId', 'ItemCnt'].forEach((item: any) => {
             const myRPC: CommonRequestPropName = {
                 params: { "propName": item },
