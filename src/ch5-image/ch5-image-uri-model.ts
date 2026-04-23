@@ -85,6 +85,10 @@ export class Ch5ImageUriModel {
             location = location.replace(matchedProtocol[0], '');
         }
 
+        // Remove ch5-img-auth:// or ch5-img-auths:// prefix if present
+        const authPrefixRegex = new RegExp('^ch5-img-auths?://');
+        location = location.replace(authPrefixRegex, '');
+
         this._location = location;
     }
 
