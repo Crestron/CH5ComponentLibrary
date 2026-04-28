@@ -1,7 +1,7 @@
 import { Ch5MediaPlayerIconButton } from "./ch5-media-player-icon-button-base";
 import { publishEvent, subscribeState } from "../ch5-core/index";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
-import { createElement, decodeString } from "./ch5-media-player-common";
+import { createElement } from "./ch5-media-player-common";
 import { MusicPlayerLib } from "./music-player";
 
 export class Ch5MediaPlayerMyMusic {
@@ -103,13 +103,18 @@ export class Ch5MediaPlayerMyMusic {
     }));
 
     subscribeState('b', 'showMyMusicComponent', ((value: boolean) => {
+      const myPlaying = this._myMusicContainer.parentElement?.querySelector(".ch5-media-player--now-playing");
       if (value) {
         if (this._myMusicContainer.parentElement?.classList.contains("portrait-mode-active")) {
           this._myMusicContainer.classList.add("my-music-transition");
+          if (!myPlaying?.classList.contains("ch5-hide-vis")) {
+            myPlaying?.classList.add("ch5-hide-vis");
+          }
         }
       } else {
         if (this._myMusicContainer && this._myMusicContainer.classList.contains("my-music-transition")) {
           this._myMusicContainer.classList.remove("my-music-transition");
+          myPlaying?.classList.remove("ch5-hide-vis");
         }
       }
     }));
@@ -241,19 +246,19 @@ export class Ch5MediaPlayerMyMusic {
     }
   }
 
-  protected createLine(index: number, position = 'end', removeOpposite = false) {   
-    
+  protected createLine(index: number, position = 'end', removeOpposite = false) {
+
     if (position !== 'first' && (index + 1 >= this.menuListData['MenuData']?.length) && (index + 1 >= this.musicPlayerLibInstance.maxReqItems)) {
-      if(!this.isLoadingMoreData && this.menuListData['MenuData']?.length < this.myMusicData['ItemCnt']) {
+      if (!this.isLoadingMoreData && this.menuListData['MenuData']?.length < this.myMusicData['ItemCnt']) {
         this.isLoadingMoreData = true;// to avoid multiple calls on scroll
         this.musicPlayerLibInstance.getItemData(true);
       }
     }
 
     // if (index > 0 && this.printedIndex === index) return;
-    
+
     if (!this.menuListData['MenuData'] || !this.menuListData['MenuData'][index]) {
-      this.loadItemsCount = index-1; // to avoid creating empty items in case of missing data at the index
+      this.loadItemsCount = index - 1; // to avoid creating empty items in case of missing data at the index
       return;
     };
 
@@ -270,7 +275,7 @@ export class Ch5MediaPlayerMyMusic {
         }
       }
     }
-    
+
     this.printedIndex = index;
 
     const text = this.menuListData['MenuData'][index]['L1'];
@@ -279,8 +284,8 @@ export class Ch5MediaPlayerMyMusic {
 
     this._myMusicContentItem = createElement('div', ['my-music-content-item']);
     this._myMusicContentItem.id = itemId;
-    this._myMusicContentItemTitle = createElement('div', ['my-music-content-item-title'], decodeString(text));
-    this._myMusicContentItemSubtitle = createElement('div', ['my-music-content-item-subtitle'], decodeString(subText));
+    this._myMusicContentItemTitle = createElement('div', ['my-music-content-item-title'], this.musicPlayerLibInstance.decodeString(text));
+    this._myMusicContentItemSubtitle = createElement('div', ['my-music-content-item-subtitle'], this.musicPlayerLibInstance.decodeString(subText));
 
     //  if (this._myMusicHeaderTitleText.innerText === 'Favorites') { // This is not required
     let holdTimer: number | null = null;
@@ -374,8 +379,8 @@ export class Ch5MediaPlayerMyMusic {
     this._myMusicHeaderSection.prepend(this._myMusicHeaderBackButton);
 
     this._myMusicHeaderTitle = createElement("div", ['my-music-header-title']);
-    this._myMusicHeaderTitleText = createElement("div", ['my-music-header-title-text'], decodeString(myMusicHeaderTitleText));
-    this._myMusicheaderSubtitle = createElement("div", ['my-music-header-subtitle'], decodeString(myMusicheaderSubtitle));
+    this._myMusicHeaderTitleText = createElement("div", ['my-music-header-title-text'], this.musicPlayerLibInstance.decodeString(myMusicHeaderTitleText));
+    this._myMusicheaderSubtitle = createElement("div", ['my-music-header-subtitle'], this.musicPlayerLibInstance.decodeString(myMusicheaderSubtitle));
     if (myMusicheaderSubtitle) {
       this._myMusicheaderSubtitle.classList?.remove('ch5-hide-vis');
     } else {
