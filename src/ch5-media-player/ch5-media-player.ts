@@ -8,7 +8,7 @@ import { Ch5MediaPlayerNowPlaying } from "./ch5-media-player-now-playing";
 import { Ch5MediaPlayerMyMusic } from "./ch5-media-player-my-music";
 import { publishEvent, subscribeState, TSignalNonStandardTypeName, TSignalValue, unsubscribeState } from "../ch5-core";
 import { resizeObserver } from "../ch5-core/resize-observer";
-import { createElement, decodeString } from "./ch5-media-player-common";
+import { createElement } from "./ch5-media-player-common";
 import { MusicPlayerLib } from "./music-player";
 
 export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttributes {
@@ -397,7 +397,6 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
         }
       }
     }));
-    
     this.logger.stop();
   }
 
@@ -472,7 +471,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     if (dialogType === "alphanumeric" || dialogType === "characterMasked") { //characterMasked for password popup
       const dialogContent = createElement('div', ["dialog-content"]);
       dialogContentInput.classList.add('dialog-content-input');
-      dialogContentInput.value = decodeString(dialogInput);
+      dialogContentInput.value = this.musicPlayerLibInstance.decodeString(dialogInput);
       if (dialogType === "characterMasked") {
         dialogContentInput.type = "password";
       }
@@ -549,7 +548,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this._elContainer.appendChild(this._elMask);
     this._elGenericDialogContent = createElement('div', ['ch5-media-player--popup-content-generic']);
     this._elMaskdialogTitle = createElement('div', ['generic-dialog-title']);
-    this._elMaskdialogTitle.innerHTML = decodeString(dialogHeading);
+    this._elMaskdialogTitle.innerHTML = this.musicPlayerLibInstance.decodeString(dialogHeading);
     this._elGenericDialogContent.appendChild(this._elMaskdialogTitle);
   }
 
