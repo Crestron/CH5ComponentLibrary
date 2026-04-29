@@ -1,7 +1,7 @@
 import { Ch5MediaPlayerIconButton } from "./ch5-media-player-icon-button-base";
 import { publishEvent, subscribeState } from "../ch5-core/index";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
-import { createElement, decodeString } from "./ch5-media-player-common";
+import { createElement } from "./ch5-media-player-common";
 import { MusicPlayerLib } from "./music-player";
 
 export class Ch5MediaPlayerMyMusic {
@@ -28,6 +28,7 @@ export class Ch5MediaPlayerMyMusic {
   private loadItemsCount = 40;
   private printedIndex = 0;
   private scrollPosition = 100;
+  private isLoadingMoreData = false;
 
   private MY_MUSIC_DEMO_DATA = {
     Title: "HEADER TEXT",
@@ -93,6 +94,7 @@ export class Ch5MediaPlayerMyMusic {
 
     subscribeState('o', 'menuListData', ((data: any) => {
       this.menuListData = data;
+      this.isLoadingMoreData = false;
       this.logger.log("My Music Menu list Data: ", this.menuListData);
       if (this.menuListData && this.menuListData['MenuData'] && this.menuListData['MenuData'].length <= this.musicPlayerLibInstance.maxReqItems) {
         this.printedIndex = 0;
@@ -101,11 +103,18 @@ export class Ch5MediaPlayerMyMusic {
     }));
 
     subscribeState('b', 'showMyMusicComponent', ((value: boolean) => {
+      const myPlaying = this._myMusicContainer.parentElement?.querySelector(".ch5-media-player--now-playing");
       if (value) {
-        this._myMusicContainer.classList.add("my-music-transition");
+        if (this._myMusicContainer.parentElement?.classList.contains("portrait-mode-active")) {
+          this._myMusicContainer.classList.add("my-music-transition");
+          if (!myPlaying?.classList.contains("ch5-hide-vis")) {
+            myPlaying?.classList.add("ch5-hide-vis");
+          }
+        }
       } else {
         if (this._myMusicContainer && this._myMusicContainer.classList.contains("my-music-transition")) {
           this._myMusicContainer.classList.remove("my-music-transition");
+          myPlaying?.classList.remove("ch5-hide-vis");
         }
       }
     }));
@@ -117,13 +126,15 @@ export class Ch5MediaPlayerMyMusic {
 
   public handleDemoMode(demoMode: boolean) {
     if (demoMode) {
-      this.createMyMusic();
-      this.myMusicData = this.MY_MUSIC_DEMO_DATA;
-      this.menuListData = this.MY_MUSIC_MENU_DEMO_DATA;
-      this.apiChanges();
-      this.menuApiChanges();
-      this._myMusicContentSection?.children[0]?.classList.add('active');
-      this._myMusicFooterSection?.children[1]?.classList.add('active');
+      setTimeout(() => { // ToDo: need to find better way to add demo mode handlers
+        this.createMyMusic();
+        this.myMusicData = this.MY_MUSIC_DEMO_DATA;
+        this.menuListData = this.MY_MUSIC_MENU_DEMO_DATA;
+        this.apiChanges();
+        this.menuApiChanges();
+        this._myMusicContentSection?.children[0]?.classList.add('active');
+        this._myMusicFooterSection?.children[1]?.classList.add('active');
+      });
     } else {
       this.myMusicData = "";
       this.createDefaultMyMusic();
@@ -192,21 +203,18 @@ export class Ch5MediaPlayerMyMusic {
         const menuLength = getMenuLength();
         const maxReqItems = getMaxReqItems();
 
-        if (scrollTop > lastScrollTop && menuLength > this.loadItemsCount) {
+        if (scrollTop > lastScrollTop && menuLength >= this.loadItemsCount) {
+          // Scrolling down and there are more items to load
           if (distanceFromBottom <= this.scrollPosition) {
-            const first = this._myMusicContentSection.firstElementChild as HTMLElement | null;
-            if (first) { this._myMusicContentSection.removeChild(first); }
-            this.createLine(this.loadItemsCount, 'end');
+            this.createLine(this.loadItemsCount, 'end', true);
             this.loadItemsCount += 1;
           }
         } else if (scrollTop < lastScrollTop && this.loadItemsCount > this.MAXIMUM_ROWS_TO_SHOW) {
+          // Scrolling up and there are more items to load
           if (scrollTop <= this.scrollPosition) {
             const childrenCount = this._myMusicContentSection.children.length;
-            if (childrenCount >= this.MAXIMUM_ROWS_TO_SHOW) {
-              this._myMusicContentSection.removeChild(this._myMusicContentSection.children[childrenCount - 1]);
-            }
             this.loadItemsCount -= 1;
-            this.createLine(this.loadItemsCount - this.MAXIMUM_ROWS_TO_SHOW, 'start');
+            this.createLine(this.loadItemsCount - this.MAXIMUM_ROWS_TO_SHOW, 'start', childrenCount > 0);
           }
         }
 
@@ -238,15 +246,37 @@ export class Ch5MediaPlayerMyMusic {
     }
   }
 
-  protected createLine(index: number, position = 'end') {
-    if ((index + 1 >= this.menuListData['MenuData']?.length) && (index + 1 >= this.musicPlayerLibInstance.maxReqItems)) {
-      this.musicPlayerLibInstance.getItemData(true);
+  protected createLine(index: number, position = 'end', removeOpposite = false) {
+
+    if (position !== 'first' && (index + 1 >= this.menuListData['MenuData']?.length) && (index + 1 >= this.musicPlayerLibInstance.maxReqItems)) {
+      if (!this.isLoadingMoreData && this.menuListData['MenuData']?.length < this.myMusicData['ItemCnt']) {
+        this.isLoadingMoreData = true;// to avoid multiple calls on scroll
+        this.musicPlayerLibInstance.getItemData(true);
+      }
     }
 
     // if (index > 0 && this.printedIndex === index) return;
-    this.printedIndex = index;
 
-    if (!this.menuListData['MenuData'] || !this.menuListData['MenuData'][index]) return;
+    if (!this.menuListData['MenuData'] || !this.menuListData['MenuData'][index]) {
+      this.loadItemsCount = index - 1; // to avoid creating empty items in case of missing data at the index
+      return;
+    };
+
+    if (removeOpposite) {
+      if (position === 'end') {
+        const first = this._myMusicContentSection.firstElementChild as HTMLElement | null;
+        if (first) {
+          this._myMusicContentSection.removeChild(first);
+        }
+      } else if (position === 'start') {
+        const childrenCount = this._myMusicContentSection.children.length;
+        if (childrenCount > 0) {
+          this._myMusicContentSection.removeChild(this._myMusicContentSection.children[childrenCount - 1]);
+        }
+      }
+    }
+
+    this.printedIndex = index;
 
     const text = this.menuListData['MenuData'][index]['L1'];
     const subText = this.menuListData['MenuData'][index]['L2'];
@@ -254,8 +284,8 @@ export class Ch5MediaPlayerMyMusic {
 
     this._myMusicContentItem = createElement('div', ['my-music-content-item']);
     this._myMusicContentItem.id = itemId;
-    this._myMusicContentItemTitle = createElement('div', ['my-music-content-item-title'], decodeString(text));
-    this._myMusicContentItemSubtitle = createElement('div', ['my-music-content-item-subtitle'], decodeString(subText));
+    this._myMusicContentItemTitle = createElement('div', ['my-music-content-item-title'], this.musicPlayerLibInstance.decodeString(text));
+    this._myMusicContentItemSubtitle = createElement('div', ['my-music-content-item-subtitle'], this.musicPlayerLibInstance.decodeString(subText));
 
     //  if (this._myMusicHeaderTitleText.innerText === 'Favorites') { // This is not required
     let holdTimer: number | null = null;
@@ -349,8 +379,8 @@ export class Ch5MediaPlayerMyMusic {
     this._myMusicHeaderSection.prepend(this._myMusicHeaderBackButton);
 
     this._myMusicHeaderTitle = createElement("div", ['my-music-header-title']);
-    this._myMusicHeaderTitleText = createElement("div", ['my-music-header-title-text'], decodeString(myMusicHeaderTitleText));
-    this._myMusicheaderSubtitle = createElement("div", ['my-music-header-subtitle'], decodeString(myMusicheaderSubtitle));
+    this._myMusicHeaderTitleText = createElement("div", ['my-music-header-title-text'], this.musicPlayerLibInstance.decodeString(myMusicHeaderTitleText));
+    this._myMusicheaderSubtitle = createElement("div", ['my-music-header-subtitle'], this.musicPlayerLibInstance.decodeString(myMusicheaderSubtitle));
     if (myMusicheaderSubtitle) {
       this._myMusicheaderSubtitle.classList?.remove('ch5-hide-vis');
     } else {
@@ -427,10 +457,15 @@ export class Ch5MediaPlayerMyMusic {
     // Create lines if within max request limit
     // control will go in this if condition only on the first load of data. When the new data is fetched the item creation will work from the scroll event
     if (menuLength <= this.musicPlayerLibInstance.maxReqItems) {
+      // CH5C-29366: The loadItesmCount need to be reset to the lenth of menulength when the new data is fetched. 
+      // This is to avoid the scenario where the user scrolls and reaches the end of the list and then new data is fetched but the loadItemsCount is still at a higher value which will break the logic for creating new items on scroll.
+      this.loadItemsCount = this.MAXIMUM_ROWS_TO_SHOW;
       Array.from(this._myMusicContentSection.childNodes).forEach(child => child.remove());
       for (let index = 0; index < menuLength; index++) {
-        this.createLine(index);
+        this.createLine(index, 'first');
       }
+      this._myMusicContentSection.scrollTop = 0;
+      return; // Early exit since all items are created; prevents running the scroll-adjustment logic below when it is not needed
     }
 
     // Adjust scroll if menu exceeds both limits

@@ -8,7 +8,7 @@ import { Ch5MediaPlayerNowPlaying } from "./ch5-media-player-now-playing";
 import { Ch5MediaPlayerMyMusic } from "./ch5-media-player-my-music";
 import { publishEvent, subscribeState, TSignalNonStandardTypeName, TSignalValue, unsubscribeState } from "../ch5-core";
 import { resizeObserver } from "../ch5-core/resize-observer";
-import { createElement, decodeString } from "./ch5-media-player-common";
+import { createElement } from "./ch5-media-player-common";
 import { MusicPlayerLib } from "./music-player";
 
 export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttributes {
@@ -330,20 +330,6 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
       this.debouncedBusyChangedHandler(data);
     }));
 
-    this._subPopUpMessageData = subscribeState('o', 'PopUpMessageData', ((data: any) => {
-      this.popUpData = data;
-      this.logger.log("Popup Data", this.popUpData);
-      if (this._elMask && this._elMask.parentNode) {
-        this._elMask.parentNode.removeChild(this._elMask);
-      }
-      if (this.popUpData && this.popUpData.show) {
-        this.genericDialog(this.popUpData.userInputRequired, this.popUpData.text, this.popUpData.textForItems, this.popUpData.initialUserInput, this.popUpData.timeoutSec);
-      } else {
-        if (this._elMask && this._elMask.parentNode) {
-          this._elMask.parentNode.removeChild(this._elMask);
-        }
-      }
-    }));
   }
 
   public static get observedAttributes(): string[] {
@@ -393,8 +379,24 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this.handleDemoMode(); // it is needed when attribute is set to true and then removed from the component
     customElements.whenDefined('ch5-media-player').then(() => {
       this.musicPlayerLibInstance.subscribeLibrarySignals();
+      this.musicPlayerLibInstance.subscribeCSIGSignals();
       this.componentLoadedEvent(Ch5MediaPlayer.ELEMENT_NAME, this.id);
     });
+
+    this._subPopUpMessageData = subscribeState('o', 'PopUpMessageData', ((data: any) => {
+      this.popUpData = data;
+      this.logger.log("Popup Data", this.popUpData);
+      if (this._elMask && this._elMask.parentNode) {
+        this._elMask.parentNode.removeChild(this._elMask);
+      }
+      if (this.popUpData && this.popUpData.show) {
+        this.genericDialog(this.popUpData.userInputRequired, this.popUpData.text, this.popUpData.textForItems, this.popUpData.initialUserInput, this.popUpData.timeoutSec, this.popUpData.donotcloseOnOutsideClick);
+      } else {
+        if (this._elMask && this._elMask.parentNode) {
+          this._elMask.parentNode.removeChild(this._elMask);
+        }
+      }
+    }));
     this.logger.stop();
   }
 
@@ -403,6 +405,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this.removeEventListeners();
     this.unsubscribeFromSignals();
     this.musicPlayerLibInstance.unsubscribeLibrarySignals();// unsubscribeLibrarySignals
+    this.musicPlayerLibInstance.unsubscribeCSIGSignals(); // unsubscribeCSIGSignals
 
     // Cleanup child components
     if (this.nowPlaying) {
@@ -457,7 +460,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
   }
 
   //Generic Dialog
-  protected genericDialog(dialogType: string, dialogHeading: string, dialogArray: Array<string>, dialogInput: string, timeoutSec: number) {
+  protected genericDialog(dialogType: string, dialogHeading: string, dialogArray: Array<string>, dialogInput: string, timeoutSec: number, donotcloseOnOutsideClick = false) {
     this.logger.log(dialogType);
     if (this._elMask) this._elMask.innerHTML = "";
 
@@ -468,7 +471,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     if (dialogType === "alphanumeric" || dialogType === "characterMasked") { //characterMasked for password popup
       const dialogContent = createElement('div', ["dialog-content"]);
       dialogContentInput.classList.add('dialog-content-input');
-      dialogContentInput.value = decodeString(dialogInput);
+      dialogContentInput.value = this.musicPlayerLibInstance.decodeString(dialogInput);
       if (dialogType === "characterMasked") {
         dialogContentInput.type = "password";
       }
@@ -533,7 +536,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
         this.musicPlayerLibInstance.popUpAction("", -1);
 
       }
-      if (this._elMask && this._elMask.parentNode) {
+      if (this._elMask && this._elMask.parentNode && !donotcloseOnOutsideClick) {
         this._elMask.parentNode.removeChild(this._elMask);
       }
     }
@@ -545,7 +548,7 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
     this._elContainer.appendChild(this._elMask);
     this._elGenericDialogContent = createElement('div', ['ch5-media-player--popup-content-generic']);
     this._elMaskdialogTitle = createElement('div', ['generic-dialog-title']);
-    this._elMaskdialogTitle.innerHTML = decodeString(dialogHeading);
+    this._elMaskdialogTitle.innerHTML = this.musicPlayerLibInstance.decodeString(dialogHeading);
     this._elGenericDialogContent.appendChild(this._elMaskdialogTitle);
   }
 
@@ -621,8 +624,8 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
   }
 
   private handleResizeObserver = () => {
-    const { width, height } = this._elContainer.getBoundingClientRect();
-
+    const width = this._elContainer.offsetWidth;
+    const height = this._elContainer.offsetHeight;
     if (width < 640) {
       if (!this._elContainer.classList.contains("portrait-mode-active")) {
         this._elContainer.classList.add("portrait-mode-active");
@@ -703,9 +706,11 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
    */
   private clearComponentContent() {
     const containers = this.getElementsByTagName("div");
-    Array.from(containers).forEach((container) => {
-      container.remove();
-    });
+    if (containers.length > 0) {
+      Array.from(containers).forEach((container) => {
+        container.remove();
+      });
+    }
   }
 
   private handleDemoMode() {
@@ -723,30 +728,33 @@ export class Ch5MediaPlayer extends Ch5Common implements ICh5MediaPlayerAttribut
       this._demoFavoritesHandler = null;
     }
 
-    if (this.demoMode) {
-      const plus = this._elContainer.querySelector('[iconclass="mp-icon mp-plus-circle"]') as HTMLElement | null;
-      if (plus) {
-        this._demoPlusEl = plus;
-        this._demoPlusHandler = (ev: Event) => {
-          ev.stopPropagation();
-          const popupFavoritiesName = document.querySelector('.now-playing-song-title')?.children[0].textContent;
-          if (popupFavoritiesName) {
-            this.genericDialog("alphanumeric", "What would you like to call this favorite?", ["OK", "Cancel"], popupFavoritiesName, 10);
-          }
-        };
-        this._demoPlusEl.addEventListener('click', this._demoPlusHandler);
-      }
 
-      const fav = this._elContainer.querySelector('[iconclass="mp-icon mp-music-list-favorites"]') as HTMLElement | null;
-      if (fav) {
-        this._demoFavoritesEl = fav;
-        this._demoFavoritesHandler = (ev: Event) => {
-          ev.stopPropagation();
-          this.genericDialog("", "What would you like to do?", ["Rename Favorite", "Delete Favorite", "Cancel"], "", 10);
-        };
-        this._demoFavoritesEl.addEventListener('click', this._demoFavoritesHandler);
+    setTimeout(() => {// Todo: need to find better way to add demo mode dialog handlers
+      if (this.demoMode) {
+        const plus = this._elContainer.querySelector('[iconclass="mp-icon mp-plus-circle"]') as HTMLElement | null;
+        if (plus) {
+          this._demoPlusEl = plus;
+          this._demoPlusHandler = (ev: Event) => {
+            ev.stopPropagation();
+            const popupFavoritiesName = document.querySelector('.now-playing-song-title')?.children[0].textContent;
+            if (popupFavoritiesName) {
+              this.genericDialog("alphanumeric", "What would you like to call this favorite?", ["OK", "Cancel"], popupFavoritiesName, 10);
+            }
+          };
+          this._demoPlusEl.addEventListener('click', this._demoPlusHandler);
+        }
+
+        const fav = this._elContainer.querySelector('[iconclass="mp-icon mp-music-list-favorites"]') as HTMLElement | null;
+        if (fav) {
+          this._demoFavoritesEl = fav;
+          this._demoFavoritesHandler = (ev: Event) => {
+            ev.stopPropagation();
+            this.genericDialog("", "What would you like to do?", ["Rename Favorite", "Delete Favorite", "Cancel"], "", 10);
+          };
+          this._demoFavoritesEl.addEventListener('click', this._demoFavoritesHandler);
+        }
       }
-    }
+    });
     if (!this.demoMode) {
       this.publishAllSignals();
     } else {
