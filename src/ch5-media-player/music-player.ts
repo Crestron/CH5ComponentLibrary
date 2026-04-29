@@ -1,7 +1,6 @@
 import { publishEvent, subscribeState, unsubscribeState } from "../ch5-core";
 import _ from 'lodash';
 import { CommonEventRequest, CommonRequestForPopup, CommonRequestPropName, ErrorResponseObject, GetMenuRequest, GetObjectsRequest, GetObjectsResponse, GetPropertiesSupportedRequest, GetPropertiesSupportedResponse, MyMpObject, Params, RegisterwithDeviceRequest, RegisterwithDeviceResponse } from "./commonInterface";
-import { encodeString } from "./ch5-media-player-common";
 import { TCH5NowPlayingActions } from "./interfaces/t-ch5-media-player";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
 
@@ -16,7 +15,7 @@ const MP_CHUNK_SIZE = 248;
 const MP_PREFIX_LENGTH = 8;
 const MP_EVENT_DELAY_MS = 50;
 const MP_RETRY_INTERVAL_MS = 10000;
-const MP_CH5_CLIENT_NAME = 'CH5_v2.15';
+const MP_CH5_CLIENT_NAME = 'CH5'; //TODO:Update with ch5 version
 
 export class MusicPlayerLib {
 
@@ -153,14 +152,32 @@ export class MusicPlayerLib {
             const data = { 'userInputRequired': "", "text": "No Communication. Please check power and connection.", "textForItems": [], "initialUserInput": "", "timeoutSec": MP_POPUP_TIMEOUT_SEC, "show": true, "donotcloseOnOutsideClick": true }
             this.logger.log('Nax device online:', value);
             if (value) {
+                if (this.myMP.directConnection) {
+                    const requestedData: any = {
+                        "ver": MP_PROTOCOL_VERSION,
+                        "action": MP_SOCKET_ACTION_DISCONNECT,
+                        "currenttime": new Date().getTime()
+                    }
+                    clearInterval(this.resendRegistrationTimeId);
+                    this.logger.log('Csig.socket.request for disconnect', requestedData);
+                    publishEvent('o', "Csig.socket.request", requestedData);
+                }
                 this.naxDeviceOfflineFlag = true; // when device is offline
+                this.clearAllDataObjects();
+                this.resetMp();
             } else {
                 data.text = "";
                 data.show = false;
-                if (this.myMP.instanceName && this.myMP.menuInstanceName && this.myMP.connectionActive) {
-                    // this.naxDeviceOnline();
-                    this.debouncedRegisterWithDevice();
-                }
+                const subreceiveStateMessageRespTemp = subscribeState('s', 'serial_receiveStateMessageResp', (value: any) => {
+                    if (value.length > 0) {
+                        this.clearAllDataObjects();
+                        this.resetMp();
+                        this.processMessage(value, true);
+                        setTimeout(() => {
+                            unsubscribeState('s', 'serial_receiveStateMessageResp', subreceiveStateMessageRespTemp);
+                        }, 100);
+                    }
+                });
             }
             publishEvent('o', 'PopUpMessageData', data);
         });
@@ -208,7 +225,11 @@ export class MusicPlayerLib {
     }
 
     private subscribeCRCPRespSignal() {
+        this.unsubscribeCRCPRespSignal();
         this.subReceiveStateCRPCResp = subscribeState('s', 'serial_receiveStateCRPCResp', (value: any) => {
+            if (this.myMP.directConnection) {
+                return;
+            }
             // On an update request, the control system will send that last serial data on the join, which
             // may be a partial message. We need to ignore that data.
             if ((value.length > 0) && !_.isEqual(this.tempResponse, value) && this.ignoreFirstData) {
@@ -245,6 +266,15 @@ export class MusicPlayerLib {
         });
     }
 
+    private unsubscribeCRCPRespSignal() {
+        if (this.subReceiveStateCRPCResp) {
+            unsubscribeState('s', 'serial_receiveStateCRPCResp', this.subReceiveStateCRPCResp);
+            this.subReceiveStateCRPCResp = null;
+        }
+        this.mpRPCDataIn = '';
+        this.tempResponse = '';
+    }
+
     public subscribeCSIGSignals() {
         // Direct connection socket responses
         this.subCsigSocketResponse = subscribeState('o', 'Csig.socket.response', (response: any) => {
@@ -265,7 +295,7 @@ export class MusicPlayerLib {
                 this.logger.log("Direct connection established with Media Player device.");
                 if (this.myMP.tag && this.myMP.source) {
                     this.directConnectionFlag = true;
-                    unsubscribeState('s', 'serial_receiveStateCRPCResp', this.subReceiveStateCRPCResp); //unsubscribe from join-based CRPC response since we have established direct connection and we will be getting CRPC responses via socket
+                    this.unsubscribeCRCPRespSignal(); // Unsubscribe from join-based CRPC response after direct connection is established.
                     this.debouncedRegisterWithDevice();
                 }
             } else if (responseData.statusCode === 0 && responseData.status === "disconnected") {
@@ -281,6 +311,9 @@ export class MusicPlayerLib {
                 clearInterval(this.resendRegistrationTimeId);
                 this.logger.log('Csig.socket.request for disconnect', requestedData);
                 publishEvent('o', "Csig.socket.request", requestedData);// on player change we have to disconnect direct connection and then establish new direct connection with new player.
+                this.unsubscribeCRCPRespSignal();
+                this.myMP.directConnection = false;
+                this.subscribeCRCPRespSignal();
                 this.debouncedRegisterWithDevice();
             } else {
                 this.myMP.directConnection = false;
@@ -342,6 +375,7 @@ export class MusicPlayerLib {
         if (this.myMP.tag && this.myMP.connectionActive && !this.naxDeviceOfflineFlag) {
             if (this.directConnectionFlag) {
                 this.directConnectionFlag = false;
+                this.myMP.directConnection = false;
                 this.subscribeCRCPRespSignal();
             }
             this.debouncedRegisterWithDevice();
@@ -409,7 +443,7 @@ export class MusicPlayerLib {
             // This will also happen on an update request since no source value has been set yet.
             if (param) {
                 // this is need only when CS comes online fromm offline state
-                unsubscribeState('s', 'serial_receiveStateCRPCResp', this.subReceiveStateCRPCResp);
+                this.unsubscribeCRCPRespSignal();
                 this.subscribeCRCPRespSignal();
                 this.debouncedRegisterWithDevice();
             } else if (this.myMP.source != myObj.src) {
@@ -527,7 +561,7 @@ export class MusicPlayerLib {
         });
     }
 
-    private unregisterWithDevice(deviceOffLine: boolean = false) {
+    private unregisterWithDevice() {
         // We need to unregister with both the Media Player instance
         // as well as the Media player Menu instance.
 
@@ -566,10 +600,8 @@ export class MusicPlayerLib {
                 publishEvent('o', "Csig.socket.request", requestedData);// on player change we have to disconnect direct connection and then establish new direct connection with new player.
             }
 
-            if (!deviceOffLine) {
-                this.clearAllDataObjects();
-                this.resetMp(deviceOffLine);
-            }
+            this.clearAllDataObjects();
+            this.resetMp();
         }
 
     }
@@ -820,8 +852,9 @@ export class MusicPlayerLib {
 
             // Added a title check to handle multiple instance scenario. In the current instance the isItemCountNew value will be false, when there is any action in other instance, we need to get the updated menudata
             if (params.hasOwnProperty('Title')) {
+                const isItemCntNew = this.myMusicData['ItemCnt'] !== params['ItemCnt'];
                 this.myMusicData['ItemCnt'] = params['ItemCnt'];
-                this.updatedMenuData(); // we need to call only when statechanged event has parameters object include key has Title
+                this.updatedMenuData(isItemCntNew); // we need to call only when statechanged event has parameters object include key has Title
             }
 
             for (const item in params) {
@@ -840,6 +873,23 @@ export class MusicPlayerLib {
                 this.menuRefreshFlags.itemCntChanged = true;
             }
             this.checkAndTriggerMenuRefresh();
+        } else if (menuInstanceMethod === responseData.method && responseData.params.ev === 'ClearChanged') { // CH5C-29671
+            this.totalItemCountCheck = 0; // to reset the item count check when clear changed event received, because in this case the item count can be same but the data will be different based on the selection.
+            // Clearing the data as we have to get the fresh data from the device based on the selection, same as VTpro. We can optimize this by not clearing the data and just appending new data but that will require changes in VTPro as well, so for now we will go with clearing the data approach.
+            this.menuListData['MenuData'] = [];
+            this.menuListPublishData = { ...this.menuListData };
+            publishEvent('o', 'menuListData', this.menuListPublishData);
+            const myRPC: CommonRequestPropName = {
+                params: { "propName": 'ItemCnt' },
+                jsonrpc: MP_JSONRPC_VERSION,
+                id: this.generateUniqueMessageId(),
+                method: this.myMP.menuInstanceName + '.GetProperty'
+            };
+            if (this.myMP.menuInstanceName) {
+                setTimeout(() => {
+                    this.sendRPCRequest(myRPC);
+                }, MP_EVENT_DELAY_MS);
+            }
         } else if ((playerInstanceMethod === responseData.method || menuInstanceMethod === responseData.method) &&
             (responseData?.params?.ev === 'StatusMsgMenuChanged' || responseData?.params?.ev === 'StatusMsgChanged' || responseData?.params?.ev === 'StatusMsgMenu') &&
             responseData.params?.parameters) { // My music and Now Playing  Popup data
@@ -905,10 +955,8 @@ export class MusicPlayerLib {
                             this.myMusicData[responseKey] = numericResponseValue;
                             if (this.totalItemCountCheck !== numericResponseValue) {// to avoid multiple calls
                                 this.totalItemCountCheck = numericResponseValue;
-                                if (previousValue !== numericResponseValue) {
-                                    this.menuRefreshFlags.itemCntChanged = true;
-                                    this.checkAndTriggerMenuRefresh();
-                                }
+                                this.menuRefreshFlags.itemCntChanged = true;
+                                this.checkAndTriggerMenuRefresh();
                             }
                         }
                     } else {
@@ -990,7 +1038,7 @@ export class MusicPlayerLib {
         });
     };
 
-    private updatedMenuData() {
+    private updatedMenuData(isItemCntNew: boolean) {
         ['ListSpecificFunctions', 'StatusMsgMenu', 'Instance', 'TransactionId', 'ItemCnt'].forEach((item: any) => {
             const myRPC: CommonRequestPropName = {
                 params: { "propName": item },
@@ -998,7 +1046,8 @@ export class MusicPlayerLib {
                 id: this.generateUniqueMessageId(),
                 method: this.myMP.menuInstanceName + '.GetProperty'
             };
-            if (this.myMP.menuInstanceName) {
+            if (this.myMP.menuInstanceName && (item !== 'ItemCnt' || (item === 'ItemCnt' && isItemCntNew))) { 
+                //CH5C-29765: we need to call get property for item count only when we have new item count value, as in state changed event we are getting all the parameters but we need to make sure that we are making get property call for item count only when we have new item count value to avoid multiple calls.
                 setTimeout(() => {
                     this.sendRPCRequest(myRPC);
                 }, MP_EVENT_DELAY_MS);
@@ -1024,7 +1073,7 @@ export class MusicPlayerLib {
                 "localExit": id < 0 ? true : false,
                 "state": id < 0 ? 0 : 1,
                 "id": id,
-                "userInput": inputValue ? encodeString(inputValue) : ""
+                "userInput": inputValue ? this.encodeString(inputValue) : ""
             },
             jsonrpc: MP_JSONRPC_VERSION,
             id: this.generateUniqueMessageId(),
@@ -1054,7 +1103,7 @@ export class MusicPlayerLib {
         }
         unsubscribeState('b', 'digital_receiveStateRefreshMediaPlayerResp', this.subReceiveStateRefreshMediaPlayerResp);
         unsubscribeState('b', 'digital_receiveStateDeviceOfflineResp', this.subReceiveStateDeviceOfflineResp);
-        unsubscribeState('s', 'serial_receiveStateCRPCResp', this.subReceiveStateCRPCResp);
+        this.unsubscribeCRCPRespSignal();
         unsubscribeState('s', 'serial_receiveStateMessageResp', this.subReceiveStateMessageResp);
         unsubscribeState('s', 'serial_sendEventCRPCJoinNo', this.subSendEventCRPCJoinNo);
         unsubscribeState('b', 'Csig.All_Control_Systems_Online_fb', this.subControlSystemsOnlineFB);
@@ -1077,47 +1126,25 @@ export class MusicPlayerLib {
     }
 
 
-    public resetMp(param: boolean = false) {
-        if (param) {
-            this.myMP = {
-                "tag": this.myMP.tag,
-                "source": this.myMP.source,
-                "connectionActive": false,
-                "directConnection": false,
-                "RegistrationId": 0,
-                "ObjectsId": 0,
-                "PropertiesSupportedId": 0,
-                "MenuId": 0,
-                "TitleMenuId": 0,
-                "TitleId": 0,
-                "ItemDataId": 0,
-                "PlayId": 0,
-                "PauseId": 0,
-                "SeekId": 0,
-                "instanceName": '',
-                "menuInstanceName": '',
-            };
-        } else {
-            this.myMP = {
-                "tag": "",
-                "source": 0,
-                "connectionActive": true,
-                "directConnection": false,
-                "RegistrationId": 0,
-                "ObjectsId": 0,
-                "PropertiesSupportedId": 0,
-                "MenuId": 0,
-                "TitleMenuId": 0,
-                "TitleId": 0,
-                "ItemDataId": 0,
-                "PlayId": 0,
-                "PauseId": 0,
-                "SeekId": 0,
-                "instanceName": '',
-                "menuInstanceName": '',
-            };
-        }
-
+    public resetMp() {
+        this.myMP = {
+            "tag": "",
+            "source": 0,
+            "connectionActive": true,
+            "directConnection": false,
+            "RegistrationId": 0,
+            "ObjectsId": 0,
+            "PropertiesSupportedId": 0,
+            "MenuId": 0,
+            "TitleMenuId": 0,
+            "TitleId": 0,
+            "ItemDataId": 0,
+            "PlayId": 0,
+            "PauseId": 0,
+            "SeekId": 0,
+            "instanceName": '',
+            "menuInstanceName": '',
+        };
 
         this.nowPlayingData = {
             'ActionsSupported': '', 'ActionsAvailable': '', 'RewindSpeed': '',
@@ -1183,6 +1210,27 @@ export class MusicPlayerLib {
             // Fail-safe: assume desktop if detection errors
             this.logger.log('Environment detection error, assuming Desktop:', e);
             return true;
+        }
+    }
+
+    //To Decode
+    public decodeString = (textValue: string): string => {
+        if (this.myMP.directConnection === false) {
+            if (textValue === undefined || textValue === null || textValue === '') return '';
+            const byteArray = Uint8Array.from(textValue.split('').map(char => char.charCodeAt(0)));
+            return new TextDecoder('utf-8').decode(byteArray);
+        } else {
+            return textValue;
+        }
+    }
+
+    //To Encode
+    public encodeString = (input: string): string => {
+        if (this.myMP.directConnection === false) {
+            const utf8Bytes = new TextEncoder().encode(input);
+            return Array.from(utf8Bytes).map(byte => String.fromCharCode(byte)).join('');
+        } else {
+            return input;
         }
     }
 }

@@ -4,7 +4,7 @@ import { publishEvent, subscribeState } from "../ch5-core/index";
 import { TCH5NowPlayingActions, TCh5MediaPlayerProgressbarData } from "./interfaces/t-ch5-media-player";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
 import { debounce } from "../ch5-common/utils/common-functions";
-import { createElement, decodeString, formatTime } from "./ch5-media-player-common";
+import { createElement, formatTime } from "./ch5-media-player-common";
 
 export class Ch5MediaPlayerNowPlaying {
 
@@ -309,15 +309,15 @@ export class Ch5MediaPlayerNowPlaying {
 
 		if (this._nowPlayingSongTitle.children && this._nowPlayingSongTitle.children[0]) {
 			const title = this.getDataValue('Title', 0);
-			this._nowPlayingSongTitle.children[0].textContent = decodeString(title);
+			this._nowPlayingSongTitle.children[0].textContent = this.musicPlayerLibInstance.decodeString(title);
 		}
 		this.updateMarquee();
 
 		const artist = this.getDataValue('Artist', 1);
-		this._nowPlayingArtist.textContent = decodeString(artist);
+		this._nowPlayingArtist.textContent = this.musicPlayerLibInstance.decodeString(artist);
 
 		const album = this.getDataValue('Album', 2);
-		this._nowPlayingAlbum.textContent = decodeString(album);
+		this._nowPlayingAlbum.textContent = this.musicPlayerLibInstance.decodeString(album);
 
 		if (!album?.trim() || !artist?.trim()) {
 			this._separator.classList?.add('ch5-hide-dis');
@@ -326,7 +326,7 @@ export class Ch5MediaPlayerNowPlaying {
 		}
 		// this._nowPlayingSongAdditionalInfo.textContent = this.nowPlayingData.TrackCnt > 0 ? `${this.nowPlayingData.TrackNum} of ${this.nowPlayingData.TrackCnt}  ${this.nowPlayingData.Genre}` : '';
 		const station = this.getDataValue('StationName', 3, 5);
-		this._nowPlayingSongAdditionalInfo.textContent = decodeString(station);
+		this._nowPlayingSongAdditionalInfo.textContent = this.musicPlayerLibInstance.decodeString(station);
 
 		this._nowPlayingPlayerIconImage.classList.add("now-playing-player-icon-image");
 		//this._nowPlayingPlayerIconImage.classList.add(...this.NOW_PLAYING_ICONS[0].split(' '));
@@ -382,9 +382,9 @@ export class Ch5MediaPlayerNowPlaying {
 		const provider = this.nowPlayingData.ProviderName || this.nowPlayingData.PlayerName;
 		if (!provider?.trim()) {
 			const textLine = this.getDataValue('ProviderName', 4);
-			this._nowPlayingPlayerIconName.textContent = decodeString(textLine || this.nowPlayingData.PlayerName);
+			this._nowPlayingPlayerIconName.textContent = this.musicPlayerLibInstance.decodeString(textLine || this.nowPlayingData.PlayerName);
 		} else {
-			this._nowPlayingPlayerIconName.textContent = decodeString(provider);
+			this._nowPlayingPlayerIconName.textContent = this.musicPlayerLibInstance.decodeString(provider);
 		}
 
 		if (this.nowPlayingData.hasOwnProperty('ActionsAvailable') && !this.nowPlayingData.ActionsAvailable.includes(TCH5NowPlayingActions.Seek)) {
@@ -411,8 +411,8 @@ export class Ch5MediaPlayerNowPlaying {
 	}
 
 	public updatePlayerName(value: string) {
-		this.playerName = decodeString(value);
-		this._nowPlayingPlayerLabel.innerHTML = decodeString(value);
+		this.playerName = this.musicPlayerLibInstance.decodeString(value);
+		this._nowPlayingPlayerLabel.innerHTML = this.musicPlayerLibInstance.decodeString(value);
 	}
 
 	public updateMarquee() {
@@ -722,7 +722,7 @@ export class Ch5MediaPlayerNowPlaying {
 			this._nextSongLabel = createElement('span', ['now-playing-next-song-label'], 'Next up');
 			nextSongSection.appendChild(this._nextSongLabel);
 			//Next Song Text
-			this._nextSongText = createElement('span', ['now-playing-next-song-text'], decodeString(nextSong));
+			this._nextSongText = createElement('span', ['now-playing-next-song-text'], this.musicPlayerLibInstance.decodeString(nextSong));
 			nextSongSection.appendChild(this._nextSongText);
 			this._nextAndPreviousSongContainer.appendChild(nextSongSection);
 
@@ -733,6 +733,7 @@ export class Ch5MediaPlayerNowPlaying {
 	// Debounced handler for nowPlayingData subscription
 	private debouncedNowPlayingDataHandler = debounce((data: any) => {
 		this.logger.log('NowPlayingData ', data);
+		const myMusic = this._nowPlayingContainer.parentElement?.querySelector(".ch5-media-player--my-music");
 		if (this.demoModeValue === false) {
 			if (data && Object.keys(data).length > 0) {
 				for (const key in data) {
@@ -742,6 +743,13 @@ export class Ch5MediaPlayerNowPlaying {
 				}
 				this.nowPlayingData = data;
 				this.createNowPlaying();
+				if (this._nowPlayingContainer.parentElement?.classList.contains("portrait-mode-active")) {
+					if (myMusic?.classList.contains("my-music-transition")) {
+						this._nowPlayingContainer?.classList.add("ch5-hide-vis");
+					} else {
+						this._nowPlayingContainer?.classList.remove("ch5-hide-vis");
+					}
+				}
 				this.updatedNowPlayingContent();
 			} else {
 				this.createDefaultNowPlaying();
