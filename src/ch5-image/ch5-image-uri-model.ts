@@ -85,6 +85,10 @@ export class Ch5ImageUriModel {
             location = location.replace(matchedProtocol[0], '');
         }
 
+        // Remove ch5-img-auth:// or ch5-img-auths:// prefix if present
+        const authPrefixRegex = new RegExp('^ch5-img-auths?://');
+        location = location.replace(authPrefixRegex, '');
+
         this._location = location;
     }
 
@@ -96,15 +100,14 @@ export class Ch5ImageUriModel {
         if (!this.isValidAuthenticationUri()){
             return '';
         }
-        const protocol = this._protocol === 'ch5-image-auth' ? 'http' : 'https';
         try {
-            const url = new URL(`${protocol}://${this.location}`);
+            const url = new URL(`${this._protocol}://${this.location}`);
             url.searchParams.set('cres_username', this.user);
             url.searchParams.set('cres_password', this.password);
             return encodeURI(url.toString());
         } catch (e) {
             const separator = this.location.includes('?') ? '&' : '?';
-            return encodeURI(`${protocol}://${this.location}${separator}cres_username=${encodeURIComponent(this.user)}&cres_password=${encodeURIComponent(this.password)}`);
+            return encodeURI(`${this._protocol}://${this.location}${separator}cres_username=${encodeURIComponent(this.user)}&cres_password=${encodeURIComponent(this.password)}`);
         }
     }
 
