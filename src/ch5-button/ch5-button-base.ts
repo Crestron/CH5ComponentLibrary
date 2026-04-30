@@ -1836,7 +1836,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 * Called when pressed class will be available
 	 * @param pressedClass is class name. it will add after press the ch5 button
 	 */
-	private updatePressedClass(pressedClass: string, onTouchMove:boolean = true) {
+	private updatePressedClass(pressedClass: string, onTouchMove: boolean = true) {
 		this._pressable = new Ch5Pressable(this, {
 			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
 			cssPressedClass: pressedClass,
