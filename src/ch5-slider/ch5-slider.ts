@@ -1570,18 +1570,15 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 						window.clearInterval(this._repeatDigitalInterval as number);
 					}
 					this.handleSendEvent(value.range, false);
-					this.handleSendEventOnClick(false);
 				}
 				else {
 					this.handleSendEvent(value.range, true);
-					this.handleSendEventOnClick(true);
 					if (this._repeatDigitalInterval !== null) {
 						window.clearInterval(this._repeatDigitalInterval as number);
 					}
 					// let numRepeatDigitals = 0;
 					this._repeatDigitalInterval = window.setInterval(() => {
 						this.handleSendEvent(value.range, true);
-						this.handleSendEventOnClick(true);
 						// if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
 						// 	window.clearInterval(this._repeatDigitalInterval as number);
 						// 	this.handleSendEvent(value.range, false);
