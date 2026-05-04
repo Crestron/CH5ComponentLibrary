@@ -512,6 +512,11 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 	}
 
 	private handleLabel() {
+		// Only center buttons can show labels; directional buttons always show icons
+		if (this.key !== 'center') {
+			return;
+		}
+	
 		if (this._icon.innerHTML !== undefined) {
 			this._icon.classList.remove('dpad-btn-icon', 'fas', Ch5DpadButtonBase.DEFAULT_ICONS.center);
 			this._icon.classList.add("dpad-btn-label");			
