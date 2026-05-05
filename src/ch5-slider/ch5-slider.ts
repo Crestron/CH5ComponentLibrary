@@ -1442,8 +1442,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		}
 		// Gauge/track pointer detection for sendEventOnClick
 		this._innerContainer.addEventListener('pointerdown', this._onSliderGaugeDown);
-		document.addEventListener('pointerup', this._onSliderGaugeUp);
-		document.addEventListener('pointercancel', this._onSliderGaugeUp);
+		this._innerContainer.addEventListener('pointerup', this._onSliderGaugeUp);
+		this._innerContainer.addEventListener('mouseleave', this._onSliderGaugeUp);
+		this._innerContainer.addEventListener('touchmove', this._onSliderGaugeUp);
 		// init pressable
 		if (null !== this._pressable) {
 			this._pressable.init();
@@ -1474,8 +1475,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		}
 		// Gauge/track pointer listeners
 		this._innerContainer.removeEventListener('pointerdown', this._onSliderGaugeDown);
-		document.removeEventListener('pointerup', this._onSliderGaugeUp);
-		document.removeEventListener('pointercancel', this._onSliderGaugeUp);
+		this._innerContainer.removeEventListener('pointerup', this._onSliderGaugeUp);
+		this._innerContainer.removeEventListener('mouseleave', this._onSliderGaugeUp);
+		this._innerContainer.removeEventListener('touchmove', this._onSliderGaugeUp);
 		if (!_.isNil(this._pressable)) {
 			this._unsubscribeFromPressableIsPressed();
 		}
