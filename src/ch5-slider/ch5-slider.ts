@@ -1091,7 +1091,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		this._stopRcbAnimation = this._stopRcbAnimation.bind(this);
 		this._onMouseLeave = this._onMouseLeave.bind(this);
 		this._onTouchMoveEnd = this._onTouchMoveEnd.bind(this);
-		this.sendEventOnHandleClickHandle = this.sendEventOnHandleClickHandle.bind(this);
 	}
 
 	private setCleanValue(value: string | number) {
@@ -1439,7 +1438,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			const noUiHandle = this._innerContainer.querySelector('.noUi-handle') as HTMLElement;
 			noUiHandle.removeEventListener('focus', this._onFocus);
 			noUiHandle.removeEventListener('blur', this._onBlur);
-			noUiHandle.removeEventListener('click', this.sendEventOnHandleClickHandle);
 			this._innerContainer.removeEventListener('mouseleave', this._onMouseLeave);
 			this._innerContainer.removeEventListener('touchmove', this._onMouseLeave);
 			noUiHandle.removeEventListener('pointermove', (event) => { event.stopPropagation() });
@@ -1498,7 +1496,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				const noUiHandle = this._innerContainer.querySelector('.noUi-handle') as HTMLElement;
 				noUiHandle.addEventListener('focus', this._onFocus);
 				noUiHandle.addEventListener('blur', this._onBlur);
-				noUiHandle.addEventListener('click', this.sendEventOnHandleClickHandle);
 				noUiHandle.addEventListener('pointermove', (event) => { event.stopPropagation() });
 				// store internal slider elements
 				this._tgtEls = [];
@@ -1661,6 +1658,11 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			})
 		);
 		this.isSliderStarted = true;
+		// CH5C-28859
+		// Publish true for sendEventOnHandleClick when drag starts
+		if (this.sendEventOnHandleClick && !this.disabled) {
+			Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnHandleClick)?.publish(true);
+		}
 		this.logger.stop();
 	}
 
@@ -1688,6 +1690,11 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				}
 			})
 		);
+		// CH5C-28859
+		// Publish false for sendEventOnHandleClick when drag stops
+		if (this.sendEventOnHandleClick && !this.disabled) {
+			Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnHandleClick)?.publish(false);
+		}
 		this.logger.stop();
 	}
 
@@ -2683,13 +2690,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnUpper)?.publish(value);
 		} else if (this.sendEventOnLower !== '' && this.sendEventOnLower !== null && this.sendEventOnLower !== undefined && eventName === 'lower') {
 			Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnLower)?.publish(value);
-		}
-	}
-
-	private sendEventOnHandleClickHandle(): void {
-		if (this.sendEventOnHandleClick && !this.disabled) {
-			Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnHandleClick)?.publish(true);
-			Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnHandleClick)?.publish(false);
 		}
 	}
 
