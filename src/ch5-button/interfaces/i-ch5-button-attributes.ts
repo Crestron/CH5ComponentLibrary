@@ -535,4 +535,34 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @default icon-lg
    */
   sgIconTheme: TCh5ButtonSgIconTheme;
+
+  /**
+   * @documentation
+   * [
+   * "`multilineSupport` attribute",
+   * "***",
+   * "The default value is false.",
+   * "Enables or disables support for multi-line text. Text will be truncated when the text content area does not allow for a second line. This shall not resize the text area to fit the text.",
+   * "'ch5-button--label-multiline-support-true' will be applied as the CSS class on the component text label."
+   * ]
+   * @name multilinesupport
+   * @default false
+   * @attributeType "Boolean"
+   */
+  multilineSupport: boolean;
+
+  /**
+   * @documentation
+   * [
+   * "`truncateText` attribute",
+   * "***",
+   * "The default value is false.",
+   * "Enables or disables text truncation depending on the length of text and the size of the control. This attribute when set to true will show an ellipsis when the text extends beyond the horizontally and vertically allocated space.",
+   * "'ch5-button--label-truncate-text-true' will be applied as the CSS class on the component text label."
+   * ]
+   * @name truncatetext
+   * @default false
+   * @attributeType "Boolean"
+   */
+  truncateText: boolean;
 }
