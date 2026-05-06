@@ -3016,8 +3016,12 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			}
 			this._elButton.className = this.BUTTON_PRIMARY_CLASS + ' ' + this.primaryCssClass + '--span' + ' ' + arrayListTwo.join(' ');//.add(this._listOfAllPossibleComponentCssClasses[i]);
 		}
-		this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label-multiline-support-' + this.multilineSupport.toString());
-		this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label-truncate-text-' + this.truncateText.toString());
+		if (this.multilineSupport != undefined && this.multilineSupport != null) {
+			this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label-multiline-support-' + this.multilineSupport.toString());
+		}
+		if (this.truncateText != undefined && this.truncateText != null) {
+			this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label-truncate-text-' + this.truncateText.toString());
+		}
 		this.logger.stop();
 	}
 
@@ -3042,7 +3046,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		['true', 'false'].forEach((e: any) => {
 			this._elSpanForLabelOnly.classList.remove(this.primaryCssClass + '--label-multiline-support-' + e);
 		});
-		this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label-multiline-support-' + this.multilineSupport.toString());
+		if (this.multilineSupport != undefined && this.multilineSupport != null) {
+			this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label-multiline-support-' + this.multilineSupport.toString());
+		}
 		if (this.multilineSupport) {
 			this.fitEllipsisForMultiline();
 		}
@@ -3052,7 +3058,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		['true', 'false'].forEach((e: any) => {
 			this._elSpanForLabelOnly.classList.remove(this.primaryCssClass + '--label-truncate-text-' + e);
 		});
-		this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label-truncate-text-' + this.truncateText.toString());
+		if(this.truncateText != undefined && this.truncateText != null) {
+			this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label-truncate-text-' + this.truncateText.toString());
+		}
 		if (this.multilineSupport) {
 			this.fitEllipsisForMultiline();
 		} else {
