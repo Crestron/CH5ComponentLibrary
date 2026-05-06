@@ -235,8 +235,9 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
   }
 
   public set iconOn(value: string) {
+    const oldvalue = this.iconOn;
     this._ch5Properties.set<string>("iconOn", value, () => {
-      this.handleIconOn();
+      this.handleIconOn(oldvalue);
     });
   }
   public get iconOn(): string {
@@ -244,8 +245,9 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
   }
 
   public set iconOff(value: string) {
+    const oldvalue = this.iconOff;
     this._ch5Properties.set<string>("iconOff", value, () => {
-      this.handleIconOff();
+      this.handleIconOff(oldvalue);
     });
   }
   public get iconOff(): string {
@@ -513,8 +515,8 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
     this._elLabel.hidden = false;
   }
 
-  private handleIconOn() {
-    this.iconOn.split(' ').forEach((className: string) => {
+  private handleIconOn(value: string) {
+    value.split(' ').forEach((className: string) => {
       if (className.trim() !== "") {
         this._elIconOn.classList.remove(className);
       }
@@ -526,8 +528,8 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
     });
   }
 
-  private handleIconOff() {
-    this.iconOff.split(' ').forEach((className: string) => {
+  private handleIconOff(value: string) {
+    value.split(' ').forEach((className: string) => {
       if (className.trim() !== "") {
         this._elIconOff.classList.remove(className);
       }

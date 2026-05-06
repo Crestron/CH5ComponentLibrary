@@ -288,6 +288,22 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true,
 		},
+		{
+			default: false,
+			name: "multilineSupport",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true,
+		},
+		{
+			default: false,
+			name: "truncateText",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true,
+		},
 	];
 
 	private readonly BUTTON_PROPERTIES: {
@@ -1143,6 +1159,29 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		return this._attributeValueAsString('receivestatecustomstyle');
 	}
 
+	public set multilineSupport(value: boolean) {
+		this._ch5Properties.set<boolean>("multilineSupport", value, () => {
+		this.debounceHandleMultilineSupport();
+		});
+	}
+
+	public debounceHandleMultilineSupport = this.debounce(() => {
+		this.handleMultilineSupport();
+	}, 150);
+
+	public get multilineSupport(): boolean {
+		return this._ch5Properties.get<boolean>("multilineSupport");
+	}
+
+	public set truncateText(value: boolean) {
+		this._ch5Properties.set<boolean>("truncateText", value, () => {
+		this.handleTruncateText();
+		});
+	}
+	public get truncateText(): boolean {
+		return this._ch5Properties.get<boolean>("truncateText");
+	}
+
 	//#endregion
 
 	//#endregion
@@ -1173,6 +1212,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		subscribeInViewPortChange(this, () => {
 			if (this.elementIsInViewPort) {
 				this.verticalOrientationHandler();
+				this.debounceHandleMultilineSupport();
 			} else {
 				this.setAttribute("pressed", "false");
 				if (this._pressable) {
@@ -1232,6 +1272,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				this.isResizeInProgress = false; // reset debounce once completed
 			}, this.RESIZE_DEBOUNCE);
 		}
+		this.debounceHandleMultilineSupport();
 	}
 
 	private verticalOrientationHandler() {
@@ -1242,27 +1283,23 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				this.style.height = setValue + 'px';
 				this.style.width = setValue + 'px';
 			}
+		} else {
+			//this is set to reset the height and width set by stretch when the shape is set to circle first and then stretch is set to any value or null, 
+			// later stretch is removed but height and width are still applied, this will reset it back to normal
+			this.style.removeProperty('height');
+			this.style.removeProperty('width');
 		}
 		if (this.orientation === "vertical") {
-			if (!_.isNil(this.stretch) && this.parentElement) {
-				const { height, width } = this.parentElement.getBoundingClientRect();
-				if (this.stretch === 'height') {
-					this._elButton.style.width = height + "px";
-					this._elButton.style.height = this._elContainer.getBoundingClientRect().width + "px";
-				} else if (this.stretch === 'width') {
-					this._elButton.style.height = width + "px";
-					this._elButton.style.width = this._elContainer.getBoundingClientRect().height + "px";
-				} else if (this.stretch === 'both') {
-					this._elButton.style.height = width + "px";
-					this._elButton.style.width = height + "px";
-				}
-			} else if (_.isNil(this.stretch) && this.shape !== "circle") {
-				const { height, width } = this._elContainer.getBoundingClientRect();
-				this._elButton.style.width = height + "px";
-				this._elButton.style.height = width + "px";
-			} else if (this.shape === "circle") {
+			if (!this._elContainer || !this._elButton) return;
+			if (this.shape === 'circle') {
 				this._elButton.style.removeProperty('width');
 				this._elButton.style.removeProperty('height');
+				return;
+			}
+			if (this.stretch == null || this.stretch === 'height' || this.stretch === 'width' || this.stretch === 'both') {
+				const { clientHeight, clientWidth } = this._elContainer;
+				this._elButton.style.width = `${clientHeight}px`;
+				this._elButton.style.height = `${clientWidth}px`;
 			}
 		} else {
 			this._elButton.style.removeProperty('width');
@@ -1836,7 +1873,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 * Called when pressed class will be available
 	 * @param pressedClass is class name. it will add after press the ch5 button
 	 */
-	private updatePressedClass(pressedClass: string, onTouchMove:boolean = true) {
+	private updatePressedClass(pressedClass: string, onTouchMove: boolean = true) {
 		this._pressable = new Ch5Pressable(this, {
 			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
 			cssPressedClass: pressedClass,
@@ -2979,6 +3016,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			}
 			this._elButton.className = this.BUTTON_PRIMARY_CLASS + ' ' + this.primaryCssClass + '--span' + ' ' + arrayListTwo.join(' ');//.add(this._listOfAllPossibleComponentCssClasses[i]);
 		}
+		this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label-multiline-support-' + this.multilineSupport.toString());
+		this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label-truncate-text-' + this.truncateText.toString());
 		this.logger.stop();
 	}
 
@@ -2997,6 +3036,59 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.setButtonDisplay();
 		this.checkboxDisplay();
 		this.updateCssClasses();
+	}
+
+	private handleMultilineSupport() {
+		['true', 'false'].forEach((e: any) => {
+			this._elSpanForLabelOnly.classList.remove(this.primaryCssClass + '--label-multiline-support-' + e);
+		});
+		this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label-multiline-support-' + this.multilineSupport.toString());
+		if (this.multilineSupport) {
+			this.fitEllipsisForMultiline();
+		}
+	}
+
+	private handleTruncateText() {
+		['true', 'false'].forEach((e: any) => {
+			this._elSpanForLabelOnly.classList.remove(this.primaryCssClass + '--label-truncate-text-' + e);
+		});
+		this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label-truncate-text-' + this.truncateText.toString());
+		if (this.multilineSupport) {
+			this.fitEllipsisForMultiline();
+		} else {
+			this._elSpanForLabelOnly.style.removeProperty('word-wrap');
+			this._elSpanForLabelOnly.style.removeProperty('display');
+			this._elSpanForLabelOnly.style.removeProperty('max-height');
+		}
+	}
+
+	public fitEllipsisForMultiline() {
+		let numberOfLines = 0;
+		const lineHeight = this.getLineHeightSuper(this._elSpanForLabelOnly);
+		//const topAndBottomPadding = 20;
+		const containerHeight = this.getContainerHeight(this._elButton);
+		if (containerHeight < lineHeight) {
+			numberOfLines = 1
+		} else {
+			numberOfLines = Math.floor(containerHeight / lineHeight);
+		}
+		if (this.truncateText) {
+			this._elSpanForLabelOnly.setAttribute("style", "-webkit-line-clamp:" + numberOfLines);
+		} else {
+			this._elSpanForLabelOnly.setAttribute("style", "max-height: " + (numberOfLines * lineHeight) + "px" + ";");
+		}
+	}
+ 
+	public getLineHeightSuper(element: HTMLElement) {
+		const oldHtml = element.innerHTML;
+		element.innerHTML = "&nbsp;";
+		const lineHeight = element.offsetHeight;
+		element.innerHTML = oldHtml;
+		return lineHeight;
+	}
+
+	public getContainerHeight(element: HTMLElement) {
+		return element.clientHeight;
 	}
 
 	//#endregion

@@ -1,6 +1,6 @@
 {
-  "version": "2.16.1",
-  "componentsVersion": "2.16.1",
+  "version": "2.17.0",
+  "componentsVersion": "2.17.0",
   "htmlElements": {
     "common": {
       "attributes": [
@@ -2728,6 +2728,44 @@
           },
           {
             "documentation": [
+              "`multilineSupport` attribute",
+              "***",
+              "The default value is false.",
+              "Enables or disables support for multi-line text. Text will be truncated when the text content area does not allow for a second line. This shall not resize the text area to fit the text.",
+              "'ch5-button--label-multiline-support-true' will be applied as the CSS class on the component text label."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "multilinesupport",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`truncateText` attribute",
+              "***",
+              "The default value is false.",
+              "Enables or disables text truncation depending on the length of text and the size of the control. This attribute when set to true will show an ellipsis when the text extends beyond the horizontally and vertically allocated space.",
+              "'ch5-button--label-truncate-text-true' will be applied as the CSS class on the component text label."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "truncatetext",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -2913,6 +2951,8 @@
               "\treceivestatesgiconstring=\"${35}\"",
               "\tsgicontheme=\"${36|icons-lg, icons-sm, media-transports-accents, media-transports-light, media-transports-dark|}\"",
               "\treceivestatebackgroundimageurl=\"${37:}\">",
+              "\tmultilinesupport=\"${38|true,false|}\"",
+              "\ttruncatetext=\"${39|true,false|}\"",
               "</ch5-button>$0"
             ]
           }
@@ -27322,12 +27362,16 @@
             "body": [
               "<ch5-media-player id=\"ch5-media-player_${1:id}\"",
               "\tcontractName=\"${2:}\"",
-              "\treceiveStateCRPC=\"${3:}\"",
-              "\tsendEventCRPC=\"${4:}\"",
-              "\treceiveStateMessage=\"${5:}\"",
-              "\treceiveStateRefreshMediaPlayer=\"${6:}\"",
-              "\treceiveStateDeviceOffline=\"${7:}\"",
-              "\treceiveStatePlayerName=\"${8:}\">",
+              "\tuseContractForEnable=\"${3:false}\"",
+              "\tuseContractForShow=\"${4:false}\"",
+              "\tuseContractForCustomStyle=\"${5:false}\"",
+              "\tuseContractForCustomClass=\"${6:false}\"",
+              "\treceiveStateCRPC=\"${7:}\"",
+              "\tsendEventCRPC=\"${8:}\"",
+              "\treceiveStateMessage=\"${9:}\"",
+              "\treceiveStateRefreshMediaPlayer=\"${10:}\"",
+              "\treceiveStateDeviceOffline=\"${11:}\"",
+              "\treceiveStatePlayerName=\"${12:}\">",
               "</ch5-media-player>$0"
             ]
           },
