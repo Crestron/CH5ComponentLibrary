@@ -1741,10 +1741,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		if (target !== this._innerContainer && !this._innerContainer.contains(target)) {
 			return;
 		}
-		// Check if this is a handle element
-		if ((target as HTMLElement).classList?.contains('noUi-handle')) {
-			return; // Handle interaction is handled by _onSliderStart
-		}
+
 		this._sendEventOnClickGaugePressed = true;
 		this.handleSendEventOnClick(true);
 	}
