@@ -163,17 +163,6 @@ export interface ICh5ToggleAttributes extends ICh5CommonAttributesToggle {
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
   /**
-   * @documentation
-   * [
-   * "`sendeventontouch` attribute",
-   * "Sends a signal on a touch event."
-   * ]
-   * @name sendeventontouch
-   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "Join"
-   */
-  sendEventOnTouch: string;
-  /**
   * @documentation
   * [
   * "`signalvaluesynctimeout` attribute",
