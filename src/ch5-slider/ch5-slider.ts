@@ -2008,7 +2008,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		let sigChange: Ch5Signal<number> | null = null;
 		if (Ch5Common.isNotNil(this.sendEventOnChange)) {
 			sigChange = Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventOnChange);
-			if (sigChange !== null && sigChange.value !== value) {
+			if (sigChange !== null) {
 				sigChange.publish(value);
 			}
 		}
