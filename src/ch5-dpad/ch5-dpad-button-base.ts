@@ -516,10 +516,10 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 		if (this.key !== 'center') {
 			return;
 		}
-	
+
 		if (this._icon.innerHTML !== undefined) {
 			this._icon.classList.remove('dpad-btn-icon', 'fas', Ch5DpadButtonBase.DEFAULT_ICONS.center);
-			this._icon.classList.add("dpad-btn-label");			
+			this._icon.classList.add("dpad-btn-label");
 			this._icon.innerHTML = this.label;
 		}
 	}
@@ -565,20 +565,8 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 		const stateDisabledHidden = this.getDisabledOrHiddenDpadCenterButton();
 		if (stateDisabledHidden === false) {
 			this.setDisabledOrHidden(stateDisabledHidden);
+			this.syncPressedCssClassWithProperty();
 			if (this._wasInstatiated === false) {
-				const cssPressedClass = this._pressable?.options?.cssPressedClass;
-				const cssTargetElement = this.getTargetElementForCssClassesAndStyle();
-				if (!_.isNil(cssPressedClass)) {
-					cssPressedClass.split(' ').forEach((cssClassName: string) => {
-						if (cssClassName.trim().length > 0) {
-							if (this.pressed) {
-								cssTargetElement.classList.add(cssClassName);
-							} else {
-								cssTargetElement.classList.remove(cssClassName);
-							}
-						}
-					});
-				}
 				return;
 			}
 			if (this._pressable?._pressed !== this.pressed) {
@@ -586,8 +574,28 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 			}
 		} else {
 			this._pressable?.setPressed(false);
+			this.syncPressedCssClassWithProperty();
 			this.setDisabledOrHidden(stateDisabledHidden);
 		}
+	}
+
+	private syncPressedCssClassWithProperty() {
+		const cssPressedClass = this._pressable?.options?.cssPressedClass;
+		const cssTargetElement = this.getTargetElementForCssClassesAndStyle();
+
+		if (_.isNil(cssPressedClass)) {
+			return;
+		}
+
+		cssPressedClass.split(' ').forEach((cssClassName: string) => {
+			if (cssClassName.trim().length > 0) {
+				if (this.pressed) {
+					cssTargetElement.classList.add(cssClassName);
+				} else {
+					cssTargetElement.classList.remove(cssClassName);
+				}
+			}
+		});
 	}
 
 	private _subscribeToPressableIsPressed() {
