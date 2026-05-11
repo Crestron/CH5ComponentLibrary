@@ -1106,24 +1106,15 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	 * The messages are displayed only if _isDebugEnabled is true
 	 */
 	public info(message?: any, ...optionalParams: any[]): void {
-		this.logger.info(message, optionalParams);
+		if (this._isDebugEnabled) {
+			this.logger.info(message, optionalParams);
+		}
 	}
 
 	public error(message: any, ...optionalParams: any[]): void {
-		this.logger.error(message, optionalParams);
-	}
-
-	/**
-	 * Returns true if debugging has been enabled on the component.
-	 * When this returns true the info method will output messages on the console ( assuming there are 'info' calls in
-	 * the component's code )
-	 */
-	public isDebug() {
-		return this._isDebugEnabled;
-	}
-
-	public isTrace() {
-		return this._isTraceEnabled;
+		if (this._isDebugEnabled) {
+			this.logger.error(message, optionalParams);
+		}
 	}
 
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
