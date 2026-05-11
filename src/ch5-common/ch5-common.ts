@@ -67,7 +67,9 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	protected readonly COMMON_PROPERTIES: {
 		SWIPE_GESTURE_ENABLED: ICh5AttributeAndPropertySettings,
 		SHOW: ICh5AttributeAndPropertySettings,
-		DISABLED: ICh5AttributeAndPropertySettings
+		DISABLED: ICh5AttributeAndPropertySettings,
+		DEBUG: ICh5AttributeAndPropertySettings,
+		TRACE: ICh5AttributeAndPropertySettings
 	} = {
 			SWIPE_GESTURE_ENABLED: {
 				default: false,
@@ -104,6 +106,28 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 				enumeratedValues: ['true', 'false', '', true, false],
 				componentReference: this,
 				callback: this.updateForChangeInDisabledStatus.bind(this)
+			},
+			DEBUG: {
+				default: false,
+				valueOnAttributeEmpty: true,
+				variableName: "_isDebugEnabled",
+				attributeName: "debug",
+				propertyName: "debug",
+				type: "boolean",
+				removeAttributeOnNull: true,
+				enumeratedValues: ['true', 'false', '', true, false],
+				componentReference: this
+			},
+			TRACE: {
+				default: false,
+				valueOnAttributeEmpty: true,
+				variableName: "_isTraceEnabled",
+				attributeName: "trace",
+				propertyName: "trace",
+				type: "boolean",
+				removeAttributeOnNull: true,
+				enumeratedValues: ['true', 'false', '', true, false],
+				componentReference: this
 			}
 		};
 
@@ -1206,10 +1230,16 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 				break;
 			case 'debug':
 				if (this.hasAttribute('debug')) {
-					// TODO - set similar to disabled
-					this._isDebugEnabled = true;
+					const debugValue = this.getAttribute('debug');
+					let debugToSet: boolean = false;
+					if ([true, false, "true", "false", "0", "1", 0, 1, '', null].indexOf(debugValue) >= 0) {
+						debugToSet = this.toBoolean(debugValue, this.COMMON_PROPERTIES.DEBUG.valueOnAttributeEmpty);
+					} else {
+						debugToSet = this.COMMON_PROPERTIES.DEBUG.default as boolean;
+					}
+					this._isDebugEnabled = debugToSet;
 				} else {
-					this._isDebugEnabled = false;
+					this._isDebugEnabled = this.COMMON_PROPERTIES.DEBUG.default as boolean;
 				}
 				this.logger.isDebugEnabled = this._isDebugEnabled;
 				break;
@@ -1217,10 +1247,14 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 				// eslint-disable-next-line no-case-declarations
 				let _isTraceEnabled: boolean = false;
 				if (this.hasAttribute('trace')) {
-					// TODO - set similar to disabled
-					_isTraceEnabled = true;
+					const traceValue = this.getAttribute('trace');
+					if ([true, false, "true", "false", "0", "1", 0, 1, '', null].indexOf(traceValue) >= 0) {
+						_isTraceEnabled = this.toBoolean(traceValue, this.COMMON_PROPERTIES.TRACE.valueOnAttributeEmpty);
+					} else {
+						_isTraceEnabled = this.COMMON_PROPERTIES.TRACE.default as boolean;
+					}
 				} else {
-					_isTraceEnabled = false;
+					_isTraceEnabled = this.COMMON_PROPERTIES.TRACE.default as boolean;
 				}
 				this.logger.isTraceEnabled = _isTraceEnabled;
 				break;
@@ -1516,7 +1550,14 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 			this.disabled = this.getAttribute('disabled') as unknown as boolean;
 		}
 		if (this.hasAttribute('debug') && this.ignoreAttributes.includes('debug') === false) {
-			this._isDebugEnabled = true;
+			const debugValue = this.getAttribute('debug') as string;
+			let debugToSet: boolean = false;
+			if ([true, false, "true", "false", "0", "1", 0, 1, '', null].indexOf(debugValue) >= 0) {
+				debugToSet = this.toBoolean(debugValue, this.COMMON_PROPERTIES.DEBUG.valueOnAttributeEmpty);
+			} else {
+				debugToSet = this.COMMON_PROPERTIES.DEBUG.default as boolean;
+			}
+			this._isDebugEnabled = debugToSet;
 		}
 		if (this.hasAttribute('show') && this.ignoreAttributes.includes('show') === false) {
 			this.show = this.getAttribute('show') as unknown as boolean;
