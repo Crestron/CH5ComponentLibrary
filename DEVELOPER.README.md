@@ -52,38 +52,10 @@ files to the compiled_bundles/amd folder
 - npm run doc:html - generates the html documentation in docs/html
 - npm run doc:json - generates the json documentation in docs/json
 - npm run doc - shortcut for clearing the docs folder and generating both the html and json documentation
-- npm run test:wct - starts http-server instance in the main folder and opens a browser window  
-- npm run wct-xml-report - generates wct xml report in test-report.xml
 
 NOTES
 
 - currently the ES target for the library is set to ES6 instead of ES5.
-
-## Running the tests from the wct_tests folder
-
-Make sure bower is installed
-```bower --version```
-
-If not then install it
-```npm -g install bower```
-
-Install the bower dependencies
-```bower install```
-
-Build the library
-```npm run build:dev```
-
-Open a http-server
-```npm run test:wct```
-
-Note the port and navigate to "http://localhost:port/wct_tests"
-
-### Running the tests from the wct_tests folder and generating xml report
-
-Make sure that you have Java installed and available on your PATH
-
-Start Selenium and build report
-```npm run wct:xml-report```
 
 ### Generic developer reference
 
@@ -93,5 +65,5 @@ A custom element must always have a closing tag to render. A simple "< custom-el
 ### Development checklist
 1. Ensure that ```tsc -p tsconfig.umd.json``` is executed and any warnings and errors are addressed.
 2. Ensure to run ```npm run lint``` to identify linting errors.
-3. Execute wct cases to ensure completion of tasks.
+3. Ensure to run ```npm run test:mocha``` and that all mocha tests pass.
 4. Do not use 'the template item surrounded by {{ }} delimiters'. The empty delimiters in the comments will fail. Use {{ delimiters }} instead.
