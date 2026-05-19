@@ -2019,7 +2019,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
     // this.checkCenterItems();
     this.signalHolder();
-    if (this.scrollToPosition !== 0) { this.handleScrollToPosition(this.scrollToPosition); }
+    if (this.scrollToPosition > 0 && this.scrollToPosition < this.numberOfItems) { this.handleScrollToPosition(this.scrollToPosition); }
   }
 
   public buttonDisplayForLoadItemsNew(isReceiveStateScrollTo = false) {
@@ -2063,7 +2063,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
     // this.checkCenterItems();
     this.signalHolder();
-    if (this.scrollToPosition !== 0) { this.handleScrollToPositionForNew(this.scrollToPosition); }
+    if (this.scrollToPosition > 0 && this.scrollToPosition < this.numberOfItems) { this.handleScrollToPositionForNew(this.scrollToPosition); }
   }
 
   public buttonDisplayForLoadItemsAll(isReceiveStateScrollTo = false) {
@@ -2081,7 +2081,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     if (isReceiveStateScrollTo === true && this.scrollToPosition === 0) {
       this.orientation === "horizontal" ? this._elContainer.scrollLeft = 0 : this._elContainer.scrollTop = 0;
     }
-    if (this.scrollToPosition !== 0) { this.handleScrollToPositionForAll(this.scrollToPosition); }
+    if (this.scrollToPosition > 0 && this.scrollToPosition < this.numberOfItems) { this.handleScrollToPositionForAll(this.scrollToPosition); }
   }
 
   private createButton(index: number, append: boolean = true) {
@@ -2737,7 +2737,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   }
 
   private resizeHandler = () => {
-    if (this.scrollToPosition <= this.numberOfItems) { // To fix CH5C-28571 added this condtion
+    if (this.scrollToPosition < this.numberOfItems) { // To fix CH5C-28571 added this condtion
       this.debounceButtonDisplay();
     }
   }
