@@ -10,8 +10,6 @@ build_bundles_dev
 compiled_bundles
 docs
 coverage
-bower_components
-test-report.xml
 mochawesome-report
 .nyc_output
 .vscode/settings.json
