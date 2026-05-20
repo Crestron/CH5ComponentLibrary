@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { Ch5Signal, Ch5SignalFactory, Ch5TranslationUtility, Ch5Uid, languageChangedSignalName, subscribeInViewPortChange, Ch5Platform, ICh5PlatformInfo, publishEvent } from '../ch5-core';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { Ch5Config } from './ch5-config';
 import { Ch5MutationObserver } from './ch5-mutation-observer';
 import { Ch5ImageUriModel } from "../ch5-image/ch5-image-uri-model";
@@ -362,6 +362,24 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	public logger: Ch5CommonLog;
 
 	private _commonMutationObserver: Ch5MutationObserver = {} as Ch5MutationObserver;
+
+	/**
+	 * Subscription key for the base-class language-change subscription
+	 * taken in the constructor. Tracked so it can be unsubscribed in
+	 * `unsubscribeFromSignals()` — the historical implementation called
+	 * `receiveSignal.subscribe(...)` and dropped the returned key on the
+	 * floor, so the subscription closure (which captures `this`) kept the
+	 * component pinned in memory for the lifetime of the page.
+	 */
+	private _languageChangeSubKey: string = '';
+
+	/**
+	 * Drain list for any non-bridge RxJS subscriptions (Subjects, etc.)
+	 * a subclass or future base method needs to register. Bridge-mediated
+	 * Ch5Signal subscriptions use the `_subKeySig…` + signal-name pattern
+	 * instead — see clearStringSignalSubscription() and friends.
+	 */
+	private _baseClassSubscriptions: Subscription[] = [];
 
 	//#endregion
 
@@ -747,13 +765,18 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		this._listOfAllPossibleComponentCssClasses = cssClasses;
 		this.observableGestureableProperty = new Subject<boolean>();
 
+		// `getStringSignal()` defaults to createNewIfNotFound = true, so the
+		// returned signal is effectively non-null in production. The null
+		// guard below is defensive — and `unsubscribeFromSignals()` re-fetches
+		// the signal with the same defaults, so the unsubscribe is symmetrical
+		// even if a future change tightens factory behaviour.
 		const receiveSignal = Ch5SignalFactory.getInstance().getStringSignal(languageChangedSignalName);
 
 		if (receiveSignal === null) {
 			return;
 		}
 
-		receiveSignal.subscribe((newValue: string) => {
+		this._languageChangeSubKey = receiveSignal.subscribe((newValue: string) => {
 			if (newValue !== '' && newValue !== this.currentLanguage) {
 				this.currentLanguage = newValue;
 				Object.keys(this.translatableObjects).forEach((propertyToTranslate: string) => {
@@ -1710,6 +1733,22 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 			this.clearStringSignalSubscription(this._receiveStateCustomClass, this._subKeySigReceiveCustomClass);
 			this._receiveStateCustomClass = '';
 		}
+		// Always release base-class subscriptions, even when
+		// _keepListeningOnSignalsAfterRemoval is true — that flag protects
+		// receive-state bridge subscriptions used for re-attachment, but the
+		// language-change subscription holds a closure over `this` and would
+		// pin the component in memory after removal.
+		if (this._languageChangeSubKey !== '') {
+			const langSig = Ch5SignalFactory.getInstance().getStringSignal(languageChangedSignalName);
+			if (langSig !== null) {
+				langSig.unsubscribe(this._languageChangeSubKey);
+			}
+			this._languageChangeSubKey = '';
+		}
+		for (let i = 0; i < this._baseClassSubscriptions.length; i++) {
+			this._baseClassSubscriptions[i].unsubscribe();
+		}
+		this._baseClassSubscriptions = [];
 	}
 
 	// Returns a function, that, as long as it continues to be invoked, will not be triggered. 
