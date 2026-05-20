@@ -6,10 +6,11 @@
 // under which you licensed this source code.
 
 import { isNil, isEmpty } from 'lodash';
+import { Ch5Platform, ICh5PlatformInfo } from '../ch5-core';
 
 export type TSchemas = {
-  http: string;
-  https?: string;
+    http: string;
+    https?: string;
 }
 
 export class Ch5ImageUriModel {
@@ -85,6 +86,10 @@ export class Ch5ImageUriModel {
             location = location.replace(matchedProtocol[0], '');
         }
 
+        // Remove ch5-img-auth:// or ch5-img-auths:// prefix if present
+        const authPrefixRegex = new RegExp('^ch5-img-auths?://');
+        location = location.replace(authPrefixRegex, '');
+
         this._location = location;
     }
 
@@ -93,17 +98,37 @@ export class Ch5ImageUriModel {
     }
 
     public toString() {
-        if (!this.isValidAuthenticationUri()){
+        if (!this.isValidAuthenticationUri()) {
             return '';
         }
+        if (!this.shouldUseCredentialsViaQueryParams()) {
+            return `${this._protocol}://${this.user}:${this.password}@${this.location}`;
+        }
 
-        return `${this._protocol}://${this.user}:${this.password}@${this.location}`;
+        try {
+            const url = new URL(`${this._protocol}://${this.location}`);
+            url.searchParams.set('cres_username', this.user);
+            url.searchParams.set('cres_password', this.password);
+            return encodeURI(url.toString());
+        } catch (e) {
+            const separator = this.location.includes('?') ? '&' : '?';
+            return encodeURI(`${this._protocol}://${this.location}${separator}cres_username=${encodeURIComponent(this.user)}&cres_password=${encodeURIComponent(this.password)}`);
+        }
     }
 
-    public isValidAuthenticationUri() { 
+    private shouldUseCredentialsViaQueryParams(): boolean {
+        const platformInfo = Ch5Platform.getInstance().getPlatformInfo() as ICh5PlatformInfo;
+        if (typeof platformInfo?.credentialsViaQueryParams === 'boolean') {
+            return platformInfo.credentialsViaQueryParams;
+        }
+        // Default to user:password@host format when capability is not available
+        return false;
+    }
+
+    public isValidAuthenticationUri() {
         if (
-            (isNil(this.password) || isEmpty(this.password)) || 
-            (isNil(this.user) || isEmpty(this.user)) || 
+            (isNil(this.password) || isEmpty(this.password)) ||
+            (isNil(this.user) || isEmpty(this.user)) ||
             (isNil(this.schemas) || isEmpty(this.schemas) && this.schemas.http)
         ) {
             return false;
@@ -121,13 +146,13 @@ export class Ch5ImageUriModel {
      */
     private getProtocol(location: string): string {
 
-      const protocolRegex = new RegExp('^http(?:s?)');
-      const matchedProtocol = location.match(protocolRegex);
+        const protocolRegex = new RegExp('^http(?:s?)');
+        const matchedProtocol = location.match(protocolRegex);
 
-      if (matchedProtocol && matchedProtocol[0] === 'https' && this.schemas.https) {
-        return this.schemas.https;
-      }
+        if (matchedProtocol && matchedProtocol[0] === 'https' && this.schemas.https) {
+            return this.schemas.https;
+        }
 
-      return this.schemas.http;
+        return this.schemas.http;
     }
 }
