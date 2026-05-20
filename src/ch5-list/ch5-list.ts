@@ -505,7 +505,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 					this.templateHelper.customScrollbar(this.divList);
 					setTimeout(() => {
 						this.templateHelper.resizeList(this.divList, this.templateVars);
-					}, 0.5);
+					}, 500);
 				} else {
 					this.templateHelper.resetListLayout();
 				}
