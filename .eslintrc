@@ -10,7 +10,7 @@
         "plugin:@typescript-eslint/recommended"
     ],
     "rules": {
-        "no-console": 0,
+        "no-console": "warn",
         "@typescript-eslint/ban-types": [
             "error",
             {
@@ -20,7 +20,7 @@
                 }
             }
         ],
-        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-explicit-any": "warn",
         "@typescript-eslint/no-this-alias": "off",
         "no-case-declarations": "off",
         "no-extra-semi": "off",
