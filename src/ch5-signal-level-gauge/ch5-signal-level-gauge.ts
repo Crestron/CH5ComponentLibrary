@@ -6,6 +6,7 @@ import { ICh5SignalLevelGaugeAttributes } from './interfaces/i-ch5-signal-level-
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { subscribeInViewPortChange, unSubscribeInViewPortChange } from '../ch5-core';
+import { Ch5SharedResizeObserver } from "../ch5-core/ch5-shared-resize-observer";
 
 export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGaugeAttributes {
 
@@ -151,7 +152,7 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
   public static readonly ELEMENT_NAME = 'ch5-signal-level-gauge';
 
   public primaryCssClass = 'ch5-signal-level-gauge';
-  private _resizeObserver: ResizeObserver | null = null;
+  private _resizeObserverDispose: (() => void) | null = null;
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
@@ -368,13 +369,18 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
 
   protected attachEventListeners() {
     super.attachEventListeners();
-    this._resizeObserver = new ResizeObserver(this._resizeObserverCallBack);
-    this._resizeObserver.observe(this._elContainer)
+    this._resizeObserverDispose = Ch5SharedResizeObserver.getInstance().observe(
+      this._elContainer,
+      () => this._resizeObserverCallBack(),
+    );
   }
 
   protected removeEventListeners() {
     super.removeEventListeners();
-    this._resizeObserver?.unobserve(this._elContainer);
+    if (this._resizeObserverDispose) {
+      this._resizeObserverDispose();
+      this._resizeObserverDispose = null;
+    }
   }
 
   protected unsubscribeFromSignals() {
