@@ -2501,7 +2501,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
     // Set default rows 
     // this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.ROWS_CLASSLIST_PREFIX + this.rows);
-    this._elContainer.style.setProperty("grid-template-rows", "repeat(" + this.rows + ", 1fr)");
+    this.style.setProperty("--ch5-button-list--grid-template-rows", "repeat(" + this.rows + ", 1fr)");
     // Sets default scroll bar class
     this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
     // sets default center item class
