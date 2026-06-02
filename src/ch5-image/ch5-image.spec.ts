@@ -13,7 +13,15 @@ import { Ch5Image } from './ch5-image';
 
 describe('Ch5Image', () => {
 
-    let cb = document.createElement('ch5-image');
+    const createCh5Image = (): Ch5Image => {
+        const element = document.createElement('ch5-image');
+        if (element instanceof Ch5Image) {
+            return element;
+        }
+        return new Ch5Image();
+    };
+
+    let cb = createCh5Image();
 
     before(() => {
         //Ch5Image.registerCustomElement();
@@ -21,11 +29,133 @@ describe('Ch5Image', () => {
 
     beforeEach(() => {
         // const cb = new Ch5DateTime(); // cannot be instantiated like this
-        cb = document.createElement('ch5-image');
+        cb = createCh5Image();
     });
 
     it('#create', () => {
         expect(typeof cb).to.be.equal('object');
+    });
+
+    it('should call processUri exactly once for every order of url/user/password attributes', () => {
+        const permutations: Array<Array<{ key: string, value: string }>> = [
+            [
+                { key: 'url', value: 'http://disnamic.com/test/teaser1.jpg' },
+                { key: 'user', value: 'test' },
+                { key: 'password', value: 'Crestron1!' }
+            ],
+            [
+                { key: 'url', value: 'http://disnamic.com/test/teaser1.jpg' },
+                { key: 'password', value: 'Crestron1!' },
+                { key: 'user', value: 'test' }
+            ],
+            [
+                { key: 'user', value: 'test' },
+                { key: 'url', value: 'http://disnamic.com/test/teaser1.jpg' },
+                { key: 'password', value: 'Crestron1!' }
+            ],
+            [
+                { key: 'user', value: 'test' },
+                { key: 'password', value: 'Crestron1!' },
+                { key: 'url', value: 'http://disnamic.com/test/teaser1.jpg' }
+            ],
+            [
+                { key: 'password', value: 'Crestron1!' },
+                { key: 'url', value: 'http://disnamic.com/test/teaser1.jpg' },
+                { key: 'user', value: 'test' }
+            ],
+            [
+                { key: 'password', value: 'Crestron1!' },
+                { key: 'user', value: 'test' },
+                { key: 'url', value: 'http://disnamic.com/test/teaser1.jpg' }
+            ]
+        ];
+
+        permutations.forEach((order) => {
+            const imageElement = createCh5Image();
+
+            const originalProcessUri = imageElement.processUri;
+            let processUriEntryCount = 0;
+
+            imageElement.processUri = (): void => {
+                processUriEntryCount += 1;
+                return originalProcessUri.call(imageElement);
+            };
+
+            order.forEach((item) => {
+                (imageElement as any)[item.key] = item.value;
+            });
+
+            expect(processUriEntryCount).to.be.equal(1);
+        });
+    });
+
+    it('should not call processUri when one of url/user/password is missing', () => {
+        const combinations: Array<Array<{ key: string, value: string }>> = [
+            [
+                { key: 'url', value: 'http://disnamic.com/test/teaser1.jpg' },
+                { key: 'user', value: 'test' }
+            ],
+            [
+                { key: 'url', value: 'http://disnamic.com/test/teaser1.jpg' },
+                { key: 'password', value: 'Crestron1!' }
+            ],
+            [
+                { key: 'user', value: 'test' },
+                { key: 'password', value: 'Crestron1!' }
+            ]
+        ];
+
+        combinations.forEach((combination) => {
+            const imageElement = createCh5Image();
+
+            const originalProcessUri = imageElement.processUri;
+            let processUriEntryCount = 0;
+
+            imageElement.processUri = (): void => {
+                processUriEntryCount += 1;
+                return originalProcessUri.call(imageElement);
+            };
+
+            combination.forEach((item) => {
+                (imageElement as any)[item.key] = item.value;
+            });
+
+            expect(processUriEntryCount).to.be.equal(0);
+        });
+    });
+
+    it('should not call processUri when custom auth url has only inline credentials', () => {
+        const imageElement = createCh5Image();
+
+        const originalProcessUri = imageElement.processUri;
+        let processUriEntryCount = 0;
+
+        imageElement.processUri = (): void => {
+            processUriEntryCount += 1;
+            return originalProcessUri.call(imageElement);
+        };
+
+        imageElement.url = 'ch5-img-auth://test:Crestron1!@disnamic.com/test/teaser1.jpg';
+
+        expect(processUriEntryCount).to.be.equal(0);
+    });
+
+    it('should call processUri when custom auth url has inline credentials and user/password attrs are provided', () => {
+        const imageElement = createCh5Image();
+
+        const originalProcessUri = imageElement.processUri;
+        let processUriEntryCount = 0;
+
+        imageElement.processUri = (): void => {
+            processUriEntryCount += 1;
+            return originalProcessUri.call(imageElement);
+        };
+
+        imageElement.url = 'ch5-img-auth://test:Crestron1!@disnamic.com/test/teaser1.jpg';
+        imageElement.user = 'test';
+        imageElement.password = 'Crestron1!';
+
+        expect(processUriEntryCount).to.be.equal(1);
     });
 
     /*   it('should allow setting only valid displayType', () => {
