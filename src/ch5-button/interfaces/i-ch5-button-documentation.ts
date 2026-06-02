@@ -130,7 +130,7 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *       "\treceivestatesgiconstring=\"${35}\"",
  *       "\tsgicontheme=\"${36|icons-lg, icons-sm, media-transports-accents, media-transports-light, media-transports-dark|}\"",
  *       "\treceivestatebackgroundimageurl=\"${37:}\"",
- *       "\tmultilinesupport=\"${38|true,false|}\"",
+ *       "\tmultilinesupport=\"${38|false,true|}\"",
  *       "\ttruncatetext=\"${39|true,false|}\">",
  *       "</ch5-button>$0"
  *       ]
