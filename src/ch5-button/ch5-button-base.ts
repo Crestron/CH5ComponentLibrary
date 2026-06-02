@@ -297,7 +297,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			isObservableProperty: true,
 		},
 		{
-			default: false,
+			default: true,
 			name: "truncateText",
 			removeAttributeOnNull: true,
 			type: "boolean",
