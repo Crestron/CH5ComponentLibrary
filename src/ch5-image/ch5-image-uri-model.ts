@@ -77,7 +77,6 @@ export class Ch5ImageUriModel {
         if (isNil(location) || isEmpty(location)) {
             return;
         }
-
         // eslint-disable-next-line no-useless-escape
         const protocolRegex = new RegExp('http(s?)[://]+(www\.)*');
         const matchedProtocol = location.match(protocolRegex);
@@ -87,8 +86,17 @@ export class Ch5ImageUriModel {
         }
 
         // Remove ch5-img-auth:// or ch5-img-auths:// prefix if present
-        const authPrefixRegex = new RegExp('^ch5-img-auths?://');
-        location = location.replace(authPrefixRegex, '');
+         const authPrefixRegex = new RegExp('^ch5-img-auths?://');
+         const hasCustomAuthPrefix = authPrefixRegex.test(location);
+          location = location.replace(authPrefixRegex, '');
+
+        // Remove inline credentials only for custom auth scheme URLs
+        if (hasCustomAuthPrefix) {
+            const inlineCredentialsRegex = new RegExp('^([^/@:]+):([^/@]+)@');
+            if (inlineCredentialsRegex.test(location)) {
+                location = location.replace(inlineCredentialsRegex, '');
+            }
+        }
 
         this._location = location;
     }
@@ -102,6 +110,7 @@ export class Ch5ImageUriModel {
             return '';
         }
         if (!this.shouldUseCredentialsViaQueryParams()) {
+            console.log('Final URL to App:', `${this._protocol}://${this.user}:${this.password}@${this.location}`);
             return `${this._protocol}://${this.user}:${this.password}@${this.location}`;
         }
 
@@ -109,9 +118,11 @@ export class Ch5ImageUriModel {
             const url = new URL(`${this._protocol}://${this.location}`);
             url.searchParams.set('cres_username', this.user);
             url.searchParams.set('cres_password', this.password);
+            console.log('Final URL to App:', encodeURI(url.toString()));   
             return encodeURI(url.toString());
         } catch (e) {
             const separator = this.location.includes('?') ? '&' : '?';
+            console.log('Final URL to App:', encodeURI(`${this._protocol}://${this.location}${separator}cres_username=${encodeURIComponent(this.user)}&cres_password=${encodeURIComponent(this.password)}`));  
             return encodeURI(`${this._protocol}://${this.location}${separator}cres_username=${encodeURIComponent(this.user)}&cres_password=${encodeURIComponent(this.password)}`);
         }
     }
