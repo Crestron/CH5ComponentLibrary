@@ -22,9 +22,28 @@ describe('Ch5Image', () => {
     };
 
     let cb = createCh5Image();
+    let originalIntersectionObserver: any;
 
     before(() => {
+        originalIntersectionObserver = (global as any).IntersectionObserver;
+        if (typeof (global as any).IntersectionObserver !== 'function') {
+            (global as any).IntersectionObserver = class {
+                public constructor(_callback?: any, _options?: any) { }
+                public observe(_target: Element): void { }
+                public unobserve(_target: Element): void { }
+                public disconnect(): void { }
+                public takeRecords(): any[] { return []; }
+            };
+        }
         //Ch5Image.registerCustomElement();
+    });
+
+    after(() => {
+        if (typeof originalIntersectionObserver === 'undefined') {
+            delete (global as any).IntersectionObserver;
+        } else {
+            (global as any).IntersectionObserver = originalIntersectionObserver;
+        }
     });
 
     beforeEach(() => {
@@ -158,23 +177,159 @@ describe('Ch5Image', () => {
         expect(processUriEntryCount).to.be.equal(1);
     });
 
-    /*   it('should allow setting only valid displayType', () => {
-          const validTypes = ['datetime ', 'date', 'time'];
-  
-          for (let i = 0, len = validTypes.length; i < len; i++) {
-              cb.setAttribute('displayType', validTypes[i]);
-              expect(cb.getAttribute('displayType')).to.be.equal(validTypes[i]);
-          }
-      }); */
-    /* 
-        it('should default to "datetime" for an invalid displayType', () => {
-            const invalidTypes = ['ddd', 'tttt', 'info2'];
-    
-            for (let i = 0, len = invalidTypes.length; i < len; i++) {
-                cb.setAttribute('displayType', invalidTypes[i]);
-                setTimeout(() => {
-                    expect(cb.getAttribute('displayType')).to.be.equal('datetime');
-                }, 100);
-            }
-        }); */
+    it('should include all ch5-image specific attributes in observedAttributes', () => {
+        const expectedAttributes = [
+            'alt',
+            'width',
+            'height',
+            'user',
+            'password',
+            'url',
+            'refreshrate',
+            'dir',
+            'mode',
+            'allowpositiondatatobesent',
+            'allowvaluesonmove',
+            'receivestateurl',
+            'receivestateallowvaluesonmove',
+            'receivestateallowpositiondatatobesent',
+            'sendeventonclick',
+            'sendeventonerror',
+            'sendeventontouch',
+            'sendeventxposition',
+            'sendeventyposition'
+        ];
+
+        const observedAttributes = Ch5Image.observedAttributes;
+        expectedAttributes.forEach((attr) => {
+            expect(observedAttributes.includes(attr)).to.be.equal(true, `Missing observed attribute: ${attr}`);
+        });
+    });
+
+    it('should accept values for all ch5-image specific attributes', () => {
+        const imageElement = createCh5Image();
+
+        const attributeValues: Array<{ attr: string, value: string }> = [
+            { attr: 'alt', value: 'sample-image' },
+            { attr: 'width', value: '200px' },
+            { attr: 'height', value: '100px' },
+            { attr: 'user', value: 'test' },
+            { attr: 'password', value: 'Crestron1!' },
+            { attr: 'url', value: 'http://disnamic.com/test/teaser1.jpg' },
+            { attr: 'refreshrate', value: '5' },
+            { attr: 'dir', value: 'rtl' },
+            { attr: 'mode', value: '0' },
+            { attr: 'allowpositiondatatobesent', value: 'true' },
+            { attr: 'allowvaluesonmove', value: 'true' },
+            { attr: 'receivestateurl', value: 'ch5.test.url.join' },
+            { attr: 'receivestateallowvaluesonmove', value: 'ch5.test.allow.values' },
+            { attr: 'receivestateallowpositiondatatobesent', value: 'ch5.test.allow.position' },
+            { attr: 'sendeventonclick', value: 'ch5.test.send.click' },
+            { attr: 'sendeventonerror', value: 'ch5.test.send.error' },
+            { attr: 'sendeventontouch', value: 'ch5.test.send.touch' },
+            { attr: 'sendeventxposition', value: 'ch5.test.send.x' },
+            { attr: 'sendeventyposition', value: 'ch5.test.send.y' }
+        ];
+
+        attributeValues.forEach(({ attr, value }) => {
+            imageElement.setAttribute(attr, value);
+            expect(imageElement.getAttribute(attr)).to.equal(value);
+        });
+
+        expect(imageElement.refreshRate).to.equal(5);
+        expect(imageElement.direction).to.equal('rtl');
+        expect(imageElement.mode).to.equal(0);
+    });
+
+    it('should handle invalid values for all ch5-image specific attributes', () => {
+        const imageElement = createCh5Image();
+
+        const invalidAttributeValues: Array<{ attr: string, value: string }> = [
+            { attr: 'alt', value: '' },
+            { attr: 'width', value: 'abc%' },
+            { attr: 'height', value: 'bad-height' },
+            { attr: 'user', value: '' },
+            { attr: 'password', value: '' },
+            { attr: 'url', value: 'not a url' },
+            { attr: 'refreshrate', value: 'not-a-number' },
+            { attr: 'dir', value: 'invalid-direction' },
+            { attr: 'mode', value: '9999' },
+            { attr: 'allowpositiondatatobesent', value: 'not-boolean' },
+            { attr: 'allowvaluesonmove', value: 'not-boolean' },
+            { attr: 'receivestateurl', value: '' },
+            { attr: 'receivestateallowvaluesonmove', value: '' },
+            { attr: 'receivestateallowpositiondatatobesent', value: '' },
+            { attr: 'sendeventonclick', value: '' },
+            { attr: 'sendeventonerror', value: '' },
+            { attr: 'sendeventontouch', value: '' },
+            { attr: 'sendeventxposition', value: '' },
+            { attr: 'sendeventyposition', value: '' }
+        ];
+
+        invalidAttributeValues.forEach(({ attr, value }) => {
+            expect(() => imageElement.setAttribute(attr, value)).to.not.throw();
+        });
+
+        // constrained attributes normalize to safe values
+        expect(imageElement.refreshRate).to.equal(0);
+        expect(imageElement.direction).to.equal('ltr');
+        expect(imageElement.mode).to.equal(0);
+        expect(imageElement.getAttribute('mode')).to.equal('0');
+        expect(imageElement.allowPositionDataToBeSent).to.equal(false);
+        expect(imageElement.allowValuesOnMove).to.equal(false);
+    });
+
+    it('should initialize expected default values for core attributes', () => {
+        const imageElement = createCh5Image();
+
+        expect(imageElement.alt).to.equal('');
+        expect(imageElement.width).to.equal('');
+        expect(imageElement.height).to.equal('');
+        expect(imageElement.url).to.equal('');
+        expect(imageElement.refreshRate).to.equal(0);
+        expect(imageElement.direction).to.equal('ltr');
+        expect(imageElement.mode).to.equal(0);
+        expect(imageElement.user).to.equal('');
+        expect(imageElement.password).to.equal('');
+        expect(imageElement.allowPositionDataToBeSent).to.equal(false);
+        expect(imageElement.allowValuesOnMove).to.equal(false);
+        expect(imageElement.sendEventOnClick).to.equal('');
+        expect(imageElement.sendEventOnError).to.equal('');
+        expect(imageElement.sendEventOnTouch).to.equal('');
+        expect(imageElement.sendEventXPosition).to.equal('');
+        expect(imageElement.sendEventYPosition).to.equal('');
+    });
+
+    it('should normalize valid and negative values for constrained attributes', () => {
+        const imageElement = createCh5Image();
+
+        // refreshRate accepts negative numbers and resets to 0 for NaN
+        imageElement.setAttribute('refreshrate', '-5');
+        expect(imageElement.refreshRate).to.equal(-5);
+        imageElement.setAttribute('refreshrate', 'NaN');
+        expect(imageElement.refreshRate).to.equal(0);
+
+        // direction accepts only ltr/rtl and falls back to ltr
+        imageElement.setAttribute('dir', 'rtl');
+        expect(imageElement.direction).to.equal('rtl');
+        imageElement.setAttribute('dir', 'not-a-direction');
+        expect(imageElement.direction).to.equal('ltr');
+
+        // mode is accepted when corresponding ch5-image-mode exists
+        const mode0 = document.createElement('ch5-image-mode');
+        const mode1 = document.createElement('ch5-image-mode');
+        imageElement.appendChild(mode0);
+        imageElement.appendChild(mode1);
+        imageElement.setAttribute('mode', '1');
+        expect(imageElement.mode).to.equal(1);
+        imageElement.setAttribute('mode', '-1');
+        expect(imageElement.mode).to.equal(0);
+
+        // boolean properties support canonical true/false values
+        imageElement.setAttribute('allowpositiondatatobesent', '1');
+        expect(imageElement.allowPositionDataToBeSent).to.equal(true);
+        imageElement.setAttribute('allowvaluesonmove', '0');
+        expect(imageElement.allowValuesOnMove).to.equal(false);
+    });
+
 });

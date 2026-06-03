@@ -110,7 +110,6 @@ export class Ch5ImageUriModel {
             return '';
         }
         if (!this.shouldUseCredentialsViaQueryParams()) {
-            console.log('Final URL to App:', `${this._protocol}://${this.user}:${this.password}@${this.location}`);
             return `${this._protocol}://${this.user}:${this.password}@${this.location}`;
         }
 
@@ -118,11 +117,9 @@ export class Ch5ImageUriModel {
             const url = new URL(`${this._protocol}://${this.location}`);
             url.searchParams.set('cres_username', this.user);
             url.searchParams.set('cres_password', this.password);
-            console.log('Final URL to App:', encodeURI(url.toString()));   
             return encodeURI(url.toString());
         } catch (e) {
             const separator = this.location.includes('?') ? '&' : '?';
-            console.log('Final URL to App:', encodeURI(`${this._protocol}://${this.location}${separator}cres_username=${encodeURIComponent(this.user)}&cres_password=${encodeURIComponent(this.password)}`));  
             return encodeURI(`${this._protocol}://${this.location}${separator}cres_username=${encodeURIComponent(this.user)}&cres_password=${encodeURIComponent(this.password)}`);
         }
     }
