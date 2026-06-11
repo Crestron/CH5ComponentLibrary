@@ -297,7 +297,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			isObservableProperty: true,
 		},
 		{
-			default: false,
+			default: true,
 			name: "truncateText",
 			removeAttributeOnNull: true,
 			type: "boolean",
@@ -3073,8 +3073,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	public fitEllipsisForMultiline() {
 		let numberOfLines = 0;
 		const lineHeight = this.getLineHeightSuper(this._elSpanForLabelOnly);
-		//const topAndBottomPadding = 20;
-		const containerHeight = this.getContainerHeight(this._elButton);
+		const topAndBottomPadding = 20;
+		const containerHeight = this.getContainerHeight(this._elButton) - topAndBottomPadding;
 		if (containerHeight < lineHeight) {
 			numberOfLines = 1
 		} else {

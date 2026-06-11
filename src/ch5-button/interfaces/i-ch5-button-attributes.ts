@@ -556,12 +556,12 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * [
    * "`truncateText` attribute",
    * "***",
-   * "The default value is false.",
+   * "The default value is true.",
    * "Enables or disables text truncation depending on the length of text and the size of the control. This attribute when set to true will show an ellipsis when the text extends beyond the horizontally and vertically allocated space.",
    * "'ch5-button--label-truncate-text-true' will be applied as the CSS class on the component text label."
    * ]
    * @name truncatetext
-   * @default false
+   * @default true
    * @attributeType "Boolean"
    */
   truncateText: boolean;
