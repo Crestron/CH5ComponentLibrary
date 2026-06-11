@@ -77,7 +77,6 @@ export class Ch5ImageUriModel {
         if (isNil(location) || isEmpty(location)) {
             return;
         }
-
         // eslint-disable-next-line no-useless-escape
         const protocolRegex = new RegExp('http(s?)[://]+(www\.)*');
         const matchedProtocol = location.match(protocolRegex);
@@ -87,8 +86,17 @@ export class Ch5ImageUriModel {
         }
 
         // Remove ch5-img-auth:// or ch5-img-auths:// prefix if present
-        const authPrefixRegex = new RegExp('^ch5-img-auths?://');
-        location = location.replace(authPrefixRegex, '');
+         const authPrefixRegex = new RegExp('^ch5-img-auths?://');
+         const hasCustomAuthPrefix = authPrefixRegex.test(location);
+          location = location.replace(authPrefixRegex, '');
+
+        // Remove inline credentials only for custom auth scheme URLs
+        if (hasCustomAuthPrefix) {
+            const inlineCredentialsRegex = new RegExp('^([^/@:]+):([^/@]+)@');
+            if (inlineCredentialsRegex.test(location)) {
+                location = location.replace(inlineCredentialsRegex, '');
+            }
+        }
 
         this._location = location;
     }
