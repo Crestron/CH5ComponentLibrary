@@ -23,11 +23,12 @@ export interface ICh5HtmlDivAttributes extends ICh5CommonAttributesHtmlDiv {
    * [
    * "`labelInnerHTML` attribute",
    * "***",
-   * "Inner HTML for the label of the HTML div component"
+   * "Used to set the label displayed for the HTML div component. This attribute takes the preference over the label attribute."
    * ]
    * @name labelinnerhtml
    * @default 
-   * @attributeType "String"
+   * @attributeType "EncodedHTML"
+   * @hidden true
    */
   labelInnerHTML: string;
 
