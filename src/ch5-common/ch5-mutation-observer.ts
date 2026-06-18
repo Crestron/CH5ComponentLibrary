@@ -5,9 +5,9 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-// import { Ch5Base } from "../ch5-base/ch5-base";
 import { Ch5BaseClass } from "../ch5-base/ch5-base-class";
 import { Ch5Common } from "./ch5-common";
+import { Ch5SharedMutationObserver } from "../ch5-core/ch5-shared-mutation-observer";
 import _ from "lodash";
 
 export interface IShowStyle {
@@ -15,25 +15,34 @@ export interface IShowStyle {
     opacity: string;
 }
 
+/**
+ * Per-component facade over the singleton MutationObserver pool.
+ *
+ * Historically this class constructed one browser-level MutationObserver
+ * per component, producing N observers for N components. It now delegates
+ * to {@link Ch5SharedMutationObserver} — a singleton that watches every
+ * registered target through ONE underlying observer.
+ *
+ * The public API (constructor, observe, disconnectObserver, isConnected,
+ * static checkElementValidity, static ELEMENTS_MO_EXCEPTION) is preserved
+ * so the 30+ existing call sites do not need to change.
+ */
 export class Ch5MutationObserver {
 
-    /**
-     * The containing components will not be observed by MutationObserver
-     * @type {string[]}
-     */
     public static ELEMENTS_MO_EXCEPTION = ['swiper-wrapper'];
 
-    public isConnected = false;
-    private _mutationsObserver: MutationObserver;
-    private _mutationsObserverConfig: object;
-    private _element: Ch5Common | Ch5BaseClass = {} as Ch5Common | Ch5BaseClass;
+    private static readonly _MUTATION_CONFIG: MutationObserverInit = {
+        attributes: true,
+        attributeOldValue: true,
+        childList: false,
+        subtree: false,
+        attributeFilter: ['style', 'inert'],
+    };
 
-    /**
-     * Check the element validity to be observed by Mutation Observer
-     *
-     * @param {HTMLElement} target
-     * @return {boolean}
-     */
+    public isConnected = false;
+    private _element: Ch5Common | Ch5BaseClass = {} as Ch5Common | Ch5BaseClass;
+    private _observedTargets: Node[] = [];
+
     public static checkElementValidity(target: HTMLElement): boolean {
         return (
             !_.isNil(target) &&
@@ -48,42 +57,27 @@ export class Ch5MutationObserver {
 
     constructor(element: Ch5Common | Ch5BaseClass) {
         this._element = element;
-
-        this._mutationsObserver = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.type === 'attributes' && (mutation.attributeName === 'style' || mutation.attributeName === 'inert')) {
-                    this._updateComponentVisibility(mutation.target);
-                }
-            });
-        });
-
-        this._mutationsObserverConfig = {
-            attributes: true, // attribute changes will be observed | on add/remove/change attributes
-            attributeOldValue: true, // will show oldValue of attribute | on add/remove/change attributes | default: null
-            childList: false, // target children will be observed | on add/remove
-            subtree: false, // target children will be observed | on attributes/characterData changes if they observed on target
-            attributeFilter: ['style', 'inert'] // filter for attributes | array of attributes that should be observed
-        };
     }
 
     public observe(target: Node) {
-        this._mutationsObserver.observe(target, this._mutationsObserverConfig);
+        Ch5SharedMutationObserver.getInstance().observe(
+            target,
+            Ch5MutationObserver._MUTATION_CONFIG,
+            (node) => this._updateComponentVisibility(node),
+        );
+        this._observedTargets.push(target);
     }
 
     public disconnectObserver() {
-        if (this._mutationsObserver instanceof MutationObserver) {
-            this.isConnected = false;
-            this._mutationsObserver.disconnect();
+        if (this._observedTargets.length === 0) return;
+        this.isConnected = false;
+        const shared = Ch5SharedMutationObserver.getInstance();
+        for (const target of this._observedTargets) {
+            shared.unobserve(target);
         }
+        this._observedTargets = [];
     }
 
-    /**
-     * Check for node children of containing ch5 components and perform related visibility operation
-     *
-     * @private
-     * @param {Node} node
-     * @memberof Ch5MutationObserver
-     */
     private _updateComponentVisibility(node: Node) {
         const htmlElement = node as HTMLElement;
         if (_.isNil(htmlElement.offsetParent)) {

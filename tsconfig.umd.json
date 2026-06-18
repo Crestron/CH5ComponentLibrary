@@ -5,5 +5,14 @@
     "outDir": "./compiled_bundles/umd",               /* Redirect output structure to the directory. */
     "declarationDir": "./compiled_bundles/umd"
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts"],
+  "exclude": [
+    "node_modules",
+    "build_bundles",
+    "build_bundles_dev",
+    "compiled_bundles",
+    "dist",
+    "docs",
+    "tests"
+  ]
 }

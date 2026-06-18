@@ -1,0 +1,24 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "types": ["node", "jest"],
+    "isolatedModules": true,
+    "sourceMap": true,
+    "inlineSourceMap": false,
+    "target": "es2017",
+    "module": "commonjs"
+  },
+  "include": [
+    "src/**/*.ts",
+    "tests/jest/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "build_bundles",
+    "build_bundles_dev",
+    "compiled_bundles",
+    "dist",
+    "docs"
+  ]
+}

@@ -11,6 +11,7 @@ import _ from "lodash";
 import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
 import { Ch5VideoSwitcherScreen } from "./ch5-video-switcher-screen";
 import { Ch5VideoSwitcherSource } from "./ch5-video-switcher-source";
+import { Ch5SharedResizeObserver } from "../ch5-core/ch5-shared-resize-observer";
 
 export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttributes {
 
@@ -333,7 +334,7 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     receiveStateNumberOfScreens: ""
   }
   private validDrop: boolean = false;
-  private resizeObserver: ResizeObserver | null = null;
+  private resizeObserverDispose: (() => void) | null = null;
 
   public debounceNumberOfItems = this.debounce((newValue: number) => {
     this.setNumberOfItems(newValue);
@@ -739,8 +740,10 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this._sourceListContainer.addEventListener('mouseup', this.handleMouseUpAndLeave);
     this._sourceListContainer.addEventListener('mousemove', this.handleMouseMove);
     this._sourceListContainer.addEventListener('scroll', this.handleScrollEvent);
-    this.resizeObserver = new ResizeObserver(this.resizeObserverHandler);
-    this.resizeObserver.observe(this._elContainer);
+    this.resizeObserverDispose = Ch5SharedResizeObserver.getInstance().observe(
+      this._elContainer,
+      () => this.resizeObserverHandler(),
+    );
   }
 
   private handleMouseDown = this.debounce((e: MouseEvent) => {
@@ -775,7 +778,10 @@ export class Ch5VideoSwitcher extends Ch5Common implements ICh5VideoSwitcherAttr
     this._sourceListContainer.removeEventListener('mousedown', this.handleMouseDown);
     this._sourceListContainer.removeEventListener('mousemove', this.handleMouseMove);
     this._sourceListContainer.removeEventListener('scroll', this.handleScrollEvent);
-    this.resizeObserver?.unobserve(this._elContainer);
+    if (this.resizeObserverDispose) {
+      this.resizeObserverDispose();
+      this.resizeObserverDispose = null;
+    }
   }
 
   protected unsubscribeFromSignals() {
