@@ -400,6 +400,9 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
 	public set customClass(value: string) {
 		this.logger.log('set customClass(\'' + value + '\')');
+		if (this._receiveStateCustomClass !== '' && this._subKeySigReceiveCustomClass !== '') {
+			return;
+		}
 		value = this._checkAndSetStringValue(value);
 		if (value !== this._customClass) {
 			this._customClass = value;
@@ -412,6 +415,9 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
 	public set customStyle(value: string) {
 		this.logger.log('set customStyle(\'' + value + '\')');
+		if (this._receiveStateCustomStyle !== '' && this._subKeySigReceiveCustomStyle !== '') {
+			return;
+		}
 		value = this._checkAndSetStringValue(value);
 		if (value !== this._customStyle) {
 			this._prevAddedStyle = this._customStyle;
@@ -488,12 +494,17 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 			return;
 		}
 
-		this.customClass = "";
-
 		this.clearStringSignalSubscription(this._receiveStateCustomClass, this._subKeySigReceiveCustomClass);
 
 		this._receiveStateCustomClass = value;
 		this.setAttribute('receivestatecustomclass', value);
+
+		// Clear any previously set static customclass since signal takes priority
+		if (this._customClass !== '') {
+			this._customClass = '';
+			this.setAttribute('customclass', '');
+			this.updateForChangeInCustomCssClass();
+		}
 
 		const recSigCustomClassName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateCustomClass);
 		const recSig: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(recSigCustomClassName);
@@ -501,16 +512,13 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		if (null === recSig) {
 			return;
 		}
-		let hasSignalChanged = false;
 
 		this._subKeySigReceiveCustomClass = recSig.subscribe((newVal: string) => {
 			this.logger.log('subs callback for signalReceiveCustomClass: ', this._receiveStateCustomClass, ' Signal has value ', newVal);
-			if ('' !== newVal) {
-				hasSignalChanged = true;
-			}
-			if (newVal !== this.customClass && hasSignalChanged) {
-				// this.setAttribute('customclass', newVal);
-				this.customClass = newVal;
+			if (newVal !== this._customClass) {
+				this._customClass = newVal;
+				this.setAttribute('customclass', newVal);
+				this.updateForChangeInCustomCssClass();
 			}
 		});
 	}
@@ -528,11 +536,18 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 			return;
 		}
 
-		this.customStyle = "";
 		this.clearStringSignalSubscription(this._receiveStateCustomStyle, this._subKeySigReceiveCustomStyle);
 
 		this._receiveStateCustomStyle = value;
 		this.setAttribute('receivestatecustomstyle', value);
+
+		// Clear any previously set static customstyle since signal takes priority
+		if (this._customStyle !== '') {
+			this._prevAddedStyle = this._customStyle;
+			this._customStyle = '';
+			this.setAttribute('customstyle', '');
+			this.updateForChangeInStyleCss();
+		}
 
 		const recSigCustomStyleName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateCustomStyle);
 		const recSig: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(recSigCustomStyleName);
@@ -541,14 +556,13 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 			return;
 		}
 
-		let hasSignalChanged = false;
 		this._subKeySigReceiveCustomStyle = recSig.subscribe((newVal: string) => {
 			this.logger.log(' subs callback for signalReceiveCustomStyle: ', this._subKeySigReceiveCustomStyle, ' Signal has value ', newVal);
-			if ('' !== newVal) {
-				hasSignalChanged = true;
-			}
-			if (newVal !== this.customStyle && hasSignalChanged) {
-				this.setAttribute('customStyle', newVal);
+			if (newVal !== this._customStyle) {
+				this._prevAddedStyle = this._customStyle;
+				this._customStyle = newVal;
+				this.setAttribute('customstyle', newVal);
+				this.updateForChangeInStyleCss();
 			}
 		});
 	}
