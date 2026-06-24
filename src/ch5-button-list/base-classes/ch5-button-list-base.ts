@@ -2736,14 +2736,11 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
 
   private resizeHandler = () => {
     // Only re-display when the container's actual box size changes.
-    // - On startup the size goes from 0 to a real value, so all buttons are
-    //   rendered regardless of scrollToPosition vs numberOfItems (e.g. both 5).
+    // - On startup the size goes from 0 to a real value, so all buttons are rendered regardless of scrollToPosition vs numberOfItems (e.g. both 5).
     //   (fixes the "buttons not rendered on init" issue)
-    // - When receiveStateScrollToPosition holds an out-of-range value
-    //   (>= numberOfItems), programmatically adjusting the scroll position makes
-    //   the ResizeObserver fire again even though the box size is unchanged.
-    //   Ignoring those notifications stops the scroll bar from moving up and
-    //   down. To fix CH5C-28571.
+    // - When receiveStateScrollToPosition holds an out-of-range value (>= numberOfItems), programmatically adjusting the scroll position makes the ResizeObserver fire again
+    //  even though the box size is unchanged. Ignoring those notifications stops the scroll bar from moving up and down.
+    // CH5C-30138
     const { width, height } = this._elContainer.getBoundingClientRect();
     if (width === this.containerWidth && height === this.containerHeight) {
       this.initScrollbar();
