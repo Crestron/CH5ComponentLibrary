@@ -651,6 +651,8 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   private scrollbarDimension: number = 0;
   private buttonWidth: number = 0;
   private buttonHeight: number = 0;
+  private containerHeight: number = 0;
+  private containerWidth: number = 0;
 
   private signalNameOnContract = {
     contractName: "",
@@ -1242,6 +1244,8 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     this.logger.start('disconnectedCallback()');
     this.removeEventListeners();
     this.unsubscribeFromSignals();
+    this.containerWidth = 0;
+    this.containerHeight = 0;
     this.showSignalHolder.forEach((el: { signalValue: string, signalState: string, value: number }) => this.clearOldSubscription(el.signalValue, el.signalState));
     this.showSignalHolder = [];
     this.logger.stop();
@@ -2731,9 +2735,23 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   }
 
   private resizeHandler = () => {
-    if (this.scrollToPosition < this.numberOfItems) { // To fix CH5C-28571 added this condtion
-      this.debounceButtonDisplay();
+    // Only re-display when the container's actual box size changes.
+    // - On startup the size goes from 0 to a real value, so all buttons are
+    //   rendered regardless of scrollToPosition vs numberOfItems (e.g. both 5).
+    //   (fixes the "buttons not rendered on init" issue)
+    // - When receiveStateScrollToPosition holds an out-of-range value
+    //   (>= numberOfItems), programmatically adjusting the scroll position makes
+    //   the ResizeObserver fire again even though the box size is unchanged.
+    //   Ignoring those notifications stops the scroll bar from moving up and
+    //   down. To fix CH5C-28571.
+    const { width, height } = this._elContainer.getBoundingClientRect();
+    if (width === this.containerWidth && height === this.containerHeight) {
+      this.initScrollbar();
+      return;
     }
+    this.containerWidth = width;
+    this.containerHeight = height;
+    this.debounceButtonDisplay();
   }
 
   protected getTargetElementForCssClassesAndStyle(): HTMLElement {
