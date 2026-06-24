@@ -651,6 +651,8 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   private scrollbarDimension: number = 0;
   private buttonWidth: number = 0;
   private buttonHeight: number = 0;
+  private containerHeight: number = 0;
+  private containerWidth: number = 0;
 
   private signalNameOnContract = {
     contractName: "",
@@ -1242,6 +1244,8 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     this.logger.start('disconnectedCallback()');
     this.removeEventListeners();
     this.unsubscribeFromSignals();
+    this.containerWidth = 0;
+    this.containerHeight = 0;
     this.showSignalHolder.forEach((el: { signalValue: string, signalState: string, value: number }) => this.clearOldSubscription(el.signalValue, el.signalState));
     this.showSignalHolder = [];
     this.logger.stop();
@@ -1732,32 +1736,26 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     if (this.endless) { this.endless = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
     if (this.stretch === 'both') { this.stretch = this.orientation === 'horizontal' ? this.rows === 1 ? 'both' : null : this.columns === 1 ? 'both' : null; }
     if (this.orientation === "horizontal") {
-      // Remove Previous loaded class for both rows and columns
-      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5ButtonListBase.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
-      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5ButtonListBase.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
-      this._elContainer.style.removeProperty("grid-template-rows");
-      this._elContainer.style.removeProperty("grid-template-columns");
+      // Remove Previous loaded ch5 variables for both rows and columns
+      this.style.removeProperty("--grid-template-rows");
+      this.style.removeProperty("--grid-template-columns");
 
       // Calculate New Row class value
       this.rowClassValue = this.rows < this.numberOfItems ? this.rows : this.numberOfItems;
 
-      // Add the new class to the container
-      // this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
-      this._elContainer.style.setProperty("grid-template-rows", "repeat(" + this.rowClassValue + ", 1fr)");
+      // Update the ch5 variable directly on the host element
+      this.style.setProperty("--grid-template-rows", `repeat(${this.rowClassValue}, 1fr)`);
     } else {
 
-      // Remove Previous loaded class for both rows and columns
-      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5ButtonListBase.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
-      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5ButtonListBase.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
-      this._elContainer.style.removeProperty("grid-template-columns");
-      this._elContainer.style.removeProperty("grid-template-rows");
+      // Remove Previous loaded ch5 variables for both rows and columns
+      this.style.removeProperty("--grid-template-columns");
+      this.style.removeProperty("--grid-template-rows");
 
       // Calculate New Column class value
       this.columnClassValue = this.columns < this.numberOfItems ? this.columns : this.numberOfItems;
 
-      // Add the new class to the container
-      // this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
-      this._elContainer.style.setProperty("grid-template-columns", "repeat(" + this.columnClassValue + ", 1fr)");
+      // Update the ch5 variable directly on the host element
+      this.style.setProperty("--grid-template-columns", `repeat(${this.columnClassValue}, 1fr)`);
     }
     this.debounceButtonDisplay();
   }
@@ -2019,7 +2017,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
     // this.checkCenterItems();
     this.signalHolder();
-    if (this.scrollToPosition !== 0) { this.handleScrollToPosition(this.scrollToPosition); }
+    if (this.scrollToPosition > 0 && this.scrollToPosition < this.numberOfItems) { this.handleScrollToPosition(this.scrollToPosition); }
   }
 
   public buttonDisplayForLoadItemsNew(isReceiveStateScrollTo = false) {
@@ -2063,7 +2061,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
     // this.checkCenterItems();
     this.signalHolder();
-    if (this.scrollToPosition !== 0) { this.handleScrollToPositionForNew(this.scrollToPosition); }
+    if (this.scrollToPosition > 0 && this.scrollToPosition < this.numberOfItems) { this.handleScrollToPositionForNew(this.scrollToPosition); }
   }
 
   public buttonDisplayForLoadItemsAll(isReceiveStateScrollTo = false) {
@@ -2081,7 +2079,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     if (isReceiveStateScrollTo === true && this.scrollToPosition === 0) {
       this.orientation === "horizontal" ? this._elContainer.scrollLeft = 0 : this._elContainer.scrollTop = 0;
     }
-    if (this.scrollToPosition !== 0) { this.handleScrollToPositionForAll(this.scrollToPosition); }
+    if (this.scrollToPosition > 0 && this.scrollToPosition < this.numberOfItems) { this.handleScrollToPositionForAll(this.scrollToPosition); }
   }
 
   private createButton(index: number, append: boolean = true) {
@@ -2507,7 +2505,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
     // Set default rows 
     // this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.ROWS_CLASSLIST_PREFIX + this.rows);
-    this._elContainer.style.setProperty("grid-template-rows", "repeat(" + this.rows + ", 1fr)");
+    this.style.setProperty("--grid-template-rows", `repeat(${this.rows}, 1fr)`);
     // Sets default scroll bar class
     this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
     // sets default center item class
@@ -2737,9 +2735,20 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   }
 
   private resizeHandler = () => {
-    if (this.scrollToPosition <= this.numberOfItems) { // To fix CH5C-28571 added this condtion
-      this.debounceButtonDisplay();
+    // Only re-display when the container's actual box size changes.
+    // - On startup the size goes from 0 to a real value, so all buttons are rendered regardless of scrollToPosition vs numberOfItems (e.g. both 5).
+    //   (fixes the "buttons not rendered on init" issue)
+    // - When receiveStateScrollToPosition holds an out-of-range value (>= numberOfItems), programmatically adjusting the scroll position makes the ResizeObserver fire again
+    //  even though the box size is unchanged. Ignoring those notifications stops the scroll bar from moving up and down.
+    // CH5C-30138
+    const { width, height } = this._elContainer.getBoundingClientRect();
+    if (width === this.containerWidth && height === this.containerHeight) {
+      this.initScrollbar();
+      return;
     }
+    this.containerWidth = width;
+    this.containerHeight = height;
+    this.debounceButtonDisplay();
   }
 
   protected getTargetElementForCssClassesAndStyle(): HTMLElement {

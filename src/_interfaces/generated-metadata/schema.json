@@ -1,6 +1,6 @@
 {
-  "version": "2.16.1",
-  "componentsVersion": "2.16.1",
+  "version": "2.17.4",
+  "componentsVersion": "2.17.4",
   "htmlElements": {
     "common": {
       "attributes": [
@@ -2728,6 +2728,44 @@
           },
           {
             "documentation": [
+              "`multilineSupport` attribute",
+              "***",
+              "The default value is false.",
+              "Enables or disables support for multi-line text. Text will be truncated when the text content area does not allow for a second line. This shall not resize the text area to fit the text.",
+              "'ch5-button--label-multiline-support-true' will be applied as the CSS class on the component text label."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "multilinesupport",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`truncateText` attribute",
+              "***",
+              "The default value is true.",
+              "Enables or disables text truncation depending on the length of text and the size of the control. This attribute when set to true will show an ellipsis when the text extends beyond the horizontally and vertically allocated space.",
+              "'ch5-button--label-truncate-text-true' will be applied as the CSS class on the component text label."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "truncatetext",
+            "default": "true",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -2912,7 +2950,9 @@
               "\treceivestatesgiconnumeric=\"${34}\"",
               "\treceivestatesgiconstring=\"${35}\"",
               "\tsgicontheme=\"${36|icons-lg, icons-sm, media-transports-accents, media-transports-light, media-transports-dark|}\"",
-              "\treceivestatebackgroundimageurl=\"${37:}\">",
+              "\treceivestatebackgroundimageurl=\"${37:}\"",
+              "\tmultilinesupport=\"${38|false,true|}\"",
+              "\ttruncatetext=\"${39|true,false|}\">",
               "</ch5-button>$0"
             ]
           }
@@ -8074,6 +8114,412 @@
         "tagName": "ch5-form",
         "role": "form",
         "componentVersion": "1.0.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "value": [],
+            "name": "id",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of space delimited CSS classes that are applied on the component"
+            ],
+            "value": [],
+            "name": "customclass",
+            "default": "null",
+            "hideWhen": [
+              {
+                "receiveStateCustomClass": [
+                  "true"
+                ]
+              }
+            ],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of semicolon delimited style classes applied on the component."
+            ],
+            "value": [],
+            "name": "customstyle",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": "display",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "value": [],
+            "name": "receivestateshow",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "value": [],
+            "name": "receivestateenable",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`label` attribute",
+              "***",
+              "Label for the HTML div component"
+            ],
+            "value": [],
+            "name": "label",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`labelInnerHTML` attribute",
+              "***",
+              "Used to set the label displayed for the HTML div component. This attribute takes the preference over the label attribute."
+            ],
+            "value": [],
+            "name": "labelinnerhtml",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EncodedHTML",
+            "hidden": true
+          },
+          {
+            "documentation": [
+              "`class` attribute",
+              "***",
+              "This is a standard class HTML attribute."
+            ],
+            "value": [],
+            "name": "class",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`style` attribute",
+              "***",
+              "This is a standard style HTML attribute."
+            ],
+            "value": [],
+            "name": "style",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`role` attribute",
+              "***",
+              "This is an accessibility attribute implemented by all ch5-components and added automatically if not set by the user. ",
+              "Where possible, it represents the closest supported type for a ch5-component. In the case of a ch5-button, the value of the role attribute is 'button', for a ch5-modal-dialog the value is 'dialog', and so on. ",
+              "The default value for this ch5-component can be overridden via this attribute."
+            ],
+            "value": [],
+            "name": "role",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`debug` attribute",
+              "***",
+              "The default value is false. Used to get useful developer-related information about component behavior."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "debug",
+            "default": "true",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`disabled` attribute",
+              "***",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
+              "to reflect a disabled state when true."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "disabled",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          }
+        ],
+        "documentation": [
+          "`ch5-html-div` element",
+          "***",
+          "CH5 HTML Div component"
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-html-div:blank",
+            "description": "CH5 HTML Div component provides a CH5‑wrapped version of the native HTML <div> element",
+            "body": [
+              "<ch5-html-div>",
+              "</ch5-html-div>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-html-div:all-attributes",
+            "description": "CH5 HTML Div component provides a CH5‑wrapped version of the native HTML <div> element (All Attributes)",
+            "body": [
+              "<ch5-html-div id=\"ch5-html-div_${1:id}\"",
+              "\tlabel=\"${2:}\">",
+              "</ch5-html-div>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-html-div:default",
+            "description": "CH5 HTML Div component provides a CH5‑wrapped version of the native HTML <div> element (default)",
+            "body": [
+              "<ch5-html-div id=\"ch5-html-div_${1:id}\"",
+              "\tlabel=\"${2:}\">",
+              "</ch5-html-div>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "CH5 HTML Div component provides a CH5‑wrapped version of the native HTML <div> element.",
+        "name": "Ch5 Html Div",
+        "tagName": "ch5-html-div",
+        "role": "html-div",
+        "componentVersion": "1.0"
       },
       {
         "attributes": [
@@ -18802,6 +19248,25 @@
           },
           {
             "documentation": [
+              "`sendEventOnClick` attribute",
+              "***",
+              "Sends a high signal when user places a finger on the slider and low signal when finger is released."
+            ],
+            "value": [],
+            "name": "sendeventonclick",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
               "`sendEventOnHandleClick` attribute",
               "***",
               "Sends a high signal when user places the finger on the handle and low signal when finger is released."
@@ -18999,8 +19464,9 @@
               "\treceivestateshowonoffonly=\"${23:}\"",
               "\tsendeventonupper=\"${24:}\"",
               "\tsendeventonlower=\"${25:}\"",
-              "\tsendeventonhandleclick=\"${26:}\"",
-              "\tstretch=\"${27:both}\">",
+              "\tsendeventonclick=\"${26:}\"",
+              "\tsendeventonhandleclick=\"${27:}\"",
+              "\tstretch=\"${28:both}\">",
               "</ch5-slider>$0"
             ]
           }
@@ -27322,12 +27788,16 @@
             "body": [
               "<ch5-media-player id=\"ch5-media-player_${1:id}\"",
               "\tcontractName=\"${2:}\"",
-              "\treceiveStateCRPC=\"${3:}\"",
-              "\tsendEventCRPC=\"${4:}\"",
-              "\treceiveStateMessage=\"${5:}\"",
-              "\treceiveStateRefreshMediaPlayer=\"${6:}\"",
-              "\treceiveStateDeviceOffline=\"${7:}\"",
-              "\treceiveStatePlayerName=\"${8:}\">",
+              "\tuseContractForEnable=\"${3:false}\"",
+              "\tuseContractForShow=\"${4:false}\"",
+              "\tuseContractForCustomStyle=\"${5:false}\"",
+              "\tuseContractForCustomClass=\"${6:false}\"",
+              "\treceiveStateCRPC=\"${7:}\"",
+              "\tsendEventCRPC=\"${8:}\"",
+              "\treceiveStateMessage=\"${9:}\"",
+              "\treceiveStateRefreshMediaPlayer=\"${10:}\"",
+              "\treceiveStateDeviceOffline=\"${11:}\"",
+              "\treceiveStatePlayerName=\"${12:}\">",
               "</ch5-media-player>$0"
             ]
           },

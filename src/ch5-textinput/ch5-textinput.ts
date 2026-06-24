@@ -62,8 +62,8 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
     receivestatefocus: { direction: "state", booleanJoin: 1, contractName: true },
     receivestatevalue: { direction: "state", stringJoin: 1, contractName: true },
     sendeventonchange: { direction: "event", stringJoin: 1, contractName: true },
-    sendeventonfocus: { direction: "event", stringJoin: 1, contractName: true },
-    sendeventonblur: { direction: "event", stringJoin: 1, contractName: true },
+    sendeventonfocus: { direction: "event", booleanJoin: 1, contractName: true },
+    sendeventonblur: { direction: "event", booleanJoin: 1, contractName: true },
     sendeventonenterkey: { direction: "event", booleanJoin: 1, contractName: true },
     sendeventonesckey: { direction: "event", booleanJoin: 1, contractName: true },
   };
@@ -301,7 +301,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
       default: "",
       isSignal: true,
       name: "sendEventOnFocus",
-      signalType: "string",
+      signalType: "boolean",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -311,7 +311,7 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
       default: "",
       isSignal: true,
       name: "sendEventOnBlur",
-      signalType: "string",
+      signalType: "boolean",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -840,7 +840,11 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
     this._elIcon.classList.add(this.primaryCssClass + '--icon')
     this._elIcon.classList.add(this.primaryCssClass + '--icon-position-' + this.iconPosition)
     if (this.iconClass.trim() !== "") {
-      this.iconClass.split(' ').forEach((clsName: string) => this._elIcon.classList.add(clsName));
+      this.iconClass.split(' ').forEach((clsName: string) => {
+        if (clsName.trim() !== "") {
+          this._elIcon.classList.add(clsName);
+        }
+      });
     }
     this.iconClass === '' ? this._elIcon.remove() : this.iconPosition === 'first' ? this._elInput.parentElement?.prepend(this._elIcon) : this._elInput.parentElement?.appendChild(this._elIcon);
   }

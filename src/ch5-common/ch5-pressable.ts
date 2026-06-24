@@ -82,6 +82,9 @@ export class Ch5Pressable {
 	 */
 	public observablePressed: Subject<boolean>;
 
+	private parentComponentIsNotSRL: boolean = true;
+	private readonly SRL_CONTAINER_CLASS: string = 'ch5-subpage-reference-list--subpage-container';
+
 	private readonly TOUCH_TIMEOUT: number = 250; // Repeat Digital is triggered after 250 ms of press and hold.
 	private readonly CLICK_MOVE_THRESHOLD: number = 10;
 
@@ -106,15 +109,11 @@ export class Ch5Pressable {
 			bubbles: true,
 			cancelable: false
 		});
-
 		this._onClick = this._onClick.bind(this);
 		this._onPointerDown = this._onPointerDown.bind(this);
 		this._onPointerUp = this._onPointerUp.bind(this);
 		this._onPointerLeave = this._onPointerLeave.bind(this);
 		this._onPointerMove = this._onPointerMove.bind(this);
-		if (this._options?.touchMove) {
-			this._onTouchMove = this._onTouchMove.bind(this);
-		}
 		this._onTouchHoldTimer = this._onTouchHoldTimer.bind(this);
 		this._onHold = this._onHold.bind(this);
 		this._onRelease = this._onRelease.bind(this);
@@ -132,7 +131,49 @@ export class Ch5Pressable {
 	 * Initialize pressable
 	 */
 	public init() {
+		this._updateParentComponentIsNotSRL();
+		if (this._options?.touchMove && this.parentComponentIsNotSRL) {
+			this._onTouchMove = this._onTouchMove.bind(this);
+		}
 		this._attachEvents();
+	}
+
+	private _updateParentComponentIsNotSRL() {
+		const supportedTagName = this._ch5Component.tagName === 'CH5-BUTTON'
+			|| this._ch5Component.tagName === 'CH5-IMAGE'
+			|| this._ch5Component.tagName === 'CH5-DPAD-BUTTON'
+			|| this._ch5Component.tagName === 'CH5-KEYPAD-BUTTON';
+
+		if (supportedTagName) {
+			this.parentComponentIsNotSRL = !this._hasAncestorWithClass(this.SRL_CONTAINER_CLASS);
+		}
+	}
+
+	private _hasAncestorWithClass(className: string): boolean {
+		let node: Node | null = this._ch5Component;
+
+		while (node !== null) {
+			if (node instanceof Element && node.classList.contains(className)) {
+				return true;
+			}
+
+			const nextParent: Node | null = node.parentNode;
+			if (nextParent !== null) {
+				node = nextParent;
+				continue;
+			}
+
+			const root: Node | null = typeof node.getRootNode === 'function'
+				? node.getRootNode() as Node
+				: null;
+			const host: Node | null = root !== null && (root as { host?: Node }).host
+				? (root as { host?: Node }).host as Node
+				: null;
+
+			node = host;
+		}
+
+		return false;
 	}
 
 	public setPressed(value: boolean) {
@@ -172,7 +213,7 @@ export class Ch5Pressable {
 		if (isSafariMobile()) {
 			this._ch5Component.addEventListener('pointerout', this._onPointerLeave);
 		}
-		if (this._options?.touchMove) {
+		if (this._options?.touchMove && this.parentComponentIsNotSRL) {
 			this._ch5Component.addEventListener('touchmove', this._onTouchMove);// Check comment bottom
 			this._ch5Component.addEventListener('touchcancel', this._onTouchMove);// Check comment bottom
 		}
@@ -191,7 +232,7 @@ export class Ch5Pressable {
 		if (isSafariMobile()) {
 			this._ch5Component.removeEventListener('pointerout', this._onPointerLeave);
 		}
-		if (this._options?.touchMove) {
+		if (this._options?.touchMove && this.parentComponentIsNotSRL) {
 			this._ch5Component.removeEventListener('touchmove', this._onTouchMove);// Check comment bottom
 			this._ch5Component.removeEventListener('touchcancel', this._onTouchMove);// Check comment bottom
 		}
@@ -312,7 +353,7 @@ export class Ch5Pressable {
 			// add the visual feedback
 			this._addCssPressClass();
 			// prevent scrolling during press
-			if (this._options?.touchMove) {
+			if (this._options?.touchMove && this.parentComponentIsNotSRL) {
 				this._setTouchAction('none');// Check comment bottom
 			}
 			this._pressed = true;
@@ -352,7 +393,7 @@ export class Ch5Pressable {
 				this._removeCssPressClass();
 			}, this.TOUCH_TIMEOUT);
 			// restore default touch action
-			if (this._options?.cssPressedClass !== "ch5-button--pressed ch5-button-list--pressed") {
+			if (this._options?.touchMove && this.parentComponentIsNotSRL) {
 				this._setTouchAction('');// Check comment bottom
 			}
 
