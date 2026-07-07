@@ -18,6 +18,7 @@ export * from './ch5-dpad/index';
 export * from './ch5-datetime/index';
 export * from './ch5-emulator/index';
 export * from './ch5-form/index';
+export * from './ch5-html-div';
 export * from './ch5-image/index';
 export * from './ch5-import-htmlsnippet/index';
 export * from './ch5-jointotext-boolean/index';

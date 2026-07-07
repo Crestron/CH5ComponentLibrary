@@ -240,9 +240,7 @@ export class Ch5TemplateStructure {
                     parseInt(this.element.numericJoinOffset, 10) || 0, 
                     parseInt(this.element.stringJoinOffset, 10) || 0);    
                 
-                if (this.element.isDebug()) {
-                    this.element.info("After substitution and increment/prefix:", templateContent.innerHTML);
-                }
+                this.element.info("After substitution and increment/prefix:", templateContent.innerHTML);
             }
 
             // keep the ch5-template (parent) after its content has been added

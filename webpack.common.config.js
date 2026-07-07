@@ -64,6 +64,9 @@ module.exports = function () {
                     loader: 'ts-loader',
                     options: {
                         configFile: path.resolve(basePath, tsConfigFileName),
+                        compilerOptions: {
+                            declarationDir: path.resolve(buildPath, '@types')
+                        },
                         logLevel: 'info'
                     }
                 }

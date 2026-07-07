@@ -1,5 +1,5 @@
 {
-    "version": "2.16.0",
+    "version": "2.17.0",
     "ch5Components": [
         {
             "name": "ch5-animation",
@@ -21265,7 +21265,7 @@
                         },
                         {
                             "name": "--theme-ch5-media-player--active-menu-list-item-background-color",
-                            "value": "#f2f2f733",
+                            "value": "#2c2c2e",
                             "description": "Sets the Media Player Active Menu List Item background color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -21561,7 +21561,7 @@
                         },
                         {
                             "name": "--theme-ch5-media-player--icon-button-pressed-background-color",
-                            "value": "#f2f2f733",
+                            "value": "#2c2c2e",
                             "description": "Sets the icon buttons pressed state background color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -21680,7 +21680,7 @@
                         },
                         {
                             "name": "--theme-ch5-media-player--popup-active-button-background-color",
-                            "value": "#bdbdbd",
+                            "value": "#2c2c2e",
                             "description": "Sets Media Player popup active button background color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -35544,7 +35544,7 @@
                         },
                         {
                             "name": "--theme-ch5-media-player--active-menu-list-item-background-color",
-                            "value": "#f2f2f733",
+                            "value": "#f2f2f7",
                             "description": "Sets the Media Player Active Menu List Item background color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -35840,7 +35840,7 @@
                         },
                         {
                             "name": "--theme-ch5-media-player--icon-button-pressed-background-color",
-                            "value": "#f2f2f733",
+                            "value": "#f2f2f7",
                             "description": "Sets the icon buttons pressed state background color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -35959,7 +35959,7 @@
                         },
                         {
                             "name": "--theme-ch5-media-player--popup-active-button-background-color",
-                            "value": "#ffffff",
+                            "value": "#f2f2f7",
                             "description": "Sets Media Player popup active button background color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -49823,7 +49823,7 @@
                         },
                         {
                             "name": "--theme-ch5-media-player--active-menu-list-item-background-color",
-                            "value": "#1c1c1e1a",
+                            "value": "#f2f2f7",
                             "description": "Sets the Media Player Active Menu List Item background color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -50119,7 +50119,7 @@
                         },
                         {
                             "name": "--theme-ch5-media-player--icon-button-pressed-background-color",
-                            "value": "#1c1c1e1a",
+                            "value": "#f2f2f7",
                             "description": "Sets the icon buttons pressed state background color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -50238,7 +50238,7 @@
                         },
                         {
                             "name": "--theme-ch5-media-player--popup-active-button-background-color",
-                            "value": "#9e9e9e",
+                            "value": "#f2f2f7",
                             "description": "Sets Media Player popup active button background color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -64102,7 +64102,7 @@
                         },
                         {
                             "name": "--theme-ch5-media-player--active-menu-list-item-background-color",
-                            "value": "#f2f2f733",
+                            "value": "#2c2c2e",
                             "description": "Sets the Media Player Active Menu List Item background color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -64398,7 +64398,7 @@
                         },
                         {
                             "name": "--theme-ch5-media-player--icon-button-pressed-background-color",
-                            "value": "#f2f2f733",
+                            "value": "#2c2c2e",
                             "description": "Sets the icon buttons pressed state background color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -64517,7 +64517,7 @@
                         },
                         {
                             "name": "--theme-ch5-media-player--popup-active-button-background-color",
-                            "value": "#4c4c4c",
+                            "value": "#2c2c2e",
                             "description": "Sets Media Player popup active button background color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -78381,7 +78381,7 @@
                         },
                         {
                             "name": "--theme-ch5-media-player--active-menu-list-item-background-color",
-                            "value": "#1c1c1e1a",
+                            "value": "#f2f2f7",
                             "description": "Sets the Media Player Active Menu List Item background color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -78677,7 +78677,7 @@
                         },
                         {
                             "name": "--theme-ch5-media-player--icon-button-pressed-background-color",
-                            "value": "#1c1c1e1a",
+                            "value": "#f2f2f7",
                             "description": "Sets the icon buttons pressed state background color at theme level",
                             "type": "color",
                             "showThemeEditor": true,
@@ -78796,7 +78796,7 @@
                         },
                         {
                             "name": "--theme-ch5-media-player--popup-active-button-background-color",
-                            "value": "#f5f5f8",
+                            "value": "#f2f2f7",
                             "description": "Sets Media Player popup active button background color at theme level",
                             "type": "color",
                             "showThemeEditor": true,

@@ -1331,32 +1331,26 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     if (this.endless) { this.endless = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
     if (this.stretch === 'both') { this.stretch = this.orientation === 'horizontal' ? this.rows === 1 ? 'both' : null : this.columns === 1 ? 'both' : null; }
     if (this.orientation === "horizontal") {
-      // Remove Previous loaded class for both rows and columns
-      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
-      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
-      this._elContainer.style.removeProperty("grid-template-columns");
-      this._elContainer.style.removeProperty("grid-template-rows");
+      // Remove Previous loaded ch5 variables for both rows and columns
+      this.style.removeProperty("--grid-template-rows");
+      this.style.removeProperty("--grid-template-columns");
 
       // Calculate New Row class value
       this.rowClassValue = this.rows < this.numberOfItems ? this.rows : this.numberOfItems;
 
-      // Add the new class to the container
-      // this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
-      this._elContainer.style.setProperty("grid-template-rows", "repeat(" + this.rowClassValue + ", 1fr)");
+      // Update the ch5 variable directly on the host element
+      this.style.setProperty("--grid-template-rows", `repeat(${this.rowClassValue}, 1fr)`);
     } else {
 
-      // Remove Previous loaded class for both rows and columns
-      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
-      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
-      this._elContainer.style.removeProperty("grid-template-columns");
-      this._elContainer.style.removeProperty("grid-template-rows");
+      // Remove Previous loaded ch5 variables for both rows and columns
+      this.style.removeProperty("--grid-template-columns");
+      this.style.removeProperty("--grid-template-rows");
 
-      // Calculate New Row class value
+      // Calculate New Column class value
       this.columnClassValue = this.columns < this.numberOfItems ? this.columns : this.numberOfItems;
 
-      // Add the new class to the container
-      // this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
-      this._elContainer.style.setProperty("grid-template-columns", "repeat(" + this.columnClassValue + ", 1fr)");
+      // Update the ch5 variable directly on the host element
+      this.style.setProperty("--grid-template-columns", `repeat(${this.columnClassValue}, 1fr)`);
     }
     this.debounceSubpageDisplay();
   }
@@ -1831,7 +1825,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this._elContainer.classList.add(Ch5SubpageReferenceList.ELEMENT_NAME + Ch5SubpageReferenceList.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
     // Set default rows 
     // this._elContainer.classList.add(Ch5SubpageReferenceList.ELEMENT_NAME + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rows);
-    this._elContainer.style.setProperty("grid-template-rows", "repeat(" + this.rows + ", 1fr)");
+    this.style.setProperty("--grid-template-rows", `repeat(${this.rows}, 1fr)`);
 
     // Sets default scroll bar class
     this._elContainer.classList.add(Ch5SubpageReferenceList.ELEMENT_NAME + Ch5SubpageReferenceList.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
@@ -1876,10 +1870,14 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
         this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.SCROLLBAR_CLASSLIST_PREFIX + 'true');
         this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.SCROLLBAR_CLASSLIST_PREFIX + 'false');
       } else {
-        this.checkCenterItems();
         this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.SCROLLBAR_CLASSLIST_PREFIX + 'false');
         this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.SCROLLBAR_CLASSLIST_PREFIX + 'true');
       }
+    }
+
+    // CH5C-29420
+    if (this.centerItems) {
+      this.checkCenterItems();
     }
   }
 
