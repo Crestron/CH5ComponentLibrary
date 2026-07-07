@@ -6,10 +6,11 @@
 // under which you licensed this source code.
 
 import { isNil, isEmpty } from 'lodash';
+import { Ch5Platform, ICh5PlatformInfo } from '../ch5-core';
 
 export type TSchemas = {
-  http: string;
-  https?: string;
+    http: string;
+    https?: string;
 }
 
 export class Ch5ImageUriModel {
@@ -76,7 +77,6 @@ export class Ch5ImageUriModel {
         if (isNil(location) || isEmpty(location)) {
             return;
         }
-
         // eslint-disable-next-line no-useless-escape
         const protocolRegex = new RegExp('http(s?)[://]+(www\.)*');
         const matchedProtocol = location.match(protocolRegex);
@@ -86,8 +86,17 @@ export class Ch5ImageUriModel {
         }
 
         // Remove ch5-img-auth:// or ch5-img-auths:// prefix if present
-        const authPrefixRegex = new RegExp('^ch5-img-auths?://');
-        location = location.replace(authPrefixRegex, '');
+         const authPrefixRegex = new RegExp('^ch5-img-auths?://');
+         const hasCustomAuthPrefix = authPrefixRegex.test(location);
+          location = location.replace(authPrefixRegex, '');
+
+        // Remove inline credentials only for custom auth scheme URLs
+        if (hasCustomAuthPrefix) {
+            const inlineCredentialsRegex = new RegExp('^([^/@:]+):([^/@]+)@');
+            if (inlineCredentialsRegex.test(location)) {
+                location = location.replace(inlineCredentialsRegex, '');
+            }
+        }
 
         this._location = location;
     }
@@ -97,9 +106,13 @@ export class Ch5ImageUriModel {
     }
 
     public toString() {
-        if (!this.isValidAuthenticationUri()){
+        if (!this.isValidAuthenticationUri()) {
             return '';
         }
+        if (!this.shouldUseCredentialsViaQueryParams()) {
+            return `${this._protocol}://${this.user}:${this.password}@${this.location}`;
+        }
+
         try {
             const url = new URL(`${this._protocol}://${this.location}`);
             url.searchParams.set('cres_username', this.user);
@@ -111,10 +124,19 @@ export class Ch5ImageUriModel {
         }
     }
 
-    public isValidAuthenticationUri() { 
+    private shouldUseCredentialsViaQueryParams(): boolean {
+        const platformInfo = Ch5Platform.getInstance().getPlatformInfo() as ICh5PlatformInfo;
+        if (typeof platformInfo?.credentialsViaQueryParams === 'boolean') {
+            return platformInfo.credentialsViaQueryParams;
+        }
+        // Default to user:password@host format when capability is not available
+        return false;
+    }
+
+    public isValidAuthenticationUri() {
         if (
-            (isNil(this.password) || isEmpty(this.password)) || 
-            (isNil(this.user) || isEmpty(this.user)) || 
+            (isNil(this.password) || isEmpty(this.password)) ||
+            (isNil(this.user) || isEmpty(this.user)) ||
             (isNil(this.schemas) || isEmpty(this.schemas) && this.schemas.http)
         ) {
             return false;
@@ -132,13 +154,13 @@ export class Ch5ImageUriModel {
      */
     private getProtocol(location: string): string {
 
-      const protocolRegex = new RegExp('^http(?:s?)');
-      const matchedProtocol = location.match(protocolRegex);
+        const protocolRegex = new RegExp('^http(?:s?)');
+        const matchedProtocol = location.match(protocolRegex);
 
-      if (matchedProtocol && matchedProtocol[0] === 'https' && this.schemas.https) {
-        return this.schemas.https;
-      }
+        if (matchedProtocol && matchedProtocol[0] === 'https' && this.schemas.https) {
+            return this.schemas.https;
+        }
 
-      return this.schemas.http;
+        return this.schemas.http;
     }
 }

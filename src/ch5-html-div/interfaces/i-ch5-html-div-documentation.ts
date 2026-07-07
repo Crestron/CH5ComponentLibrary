@@ -33,8 +33,7 @@ import { ICh5HtmlDivAttributes } from "./i-ch5-html-div-attributes";
  *     "description": "CH5 HTML Div component provides a CH5‑wrapped version of the native HTML <div> element (All Attributes)",
  *     "body": [
  *       "<ch5-html-div id=\"ch5-html-div_${1:id}\"",
- *       "\tlabel=\"${2:}\"",
- *       "\tlabelInnerHTML=\"${3:}\">",
+ *       "\tlabel=\"${2:}\">",
  *       "</ch5-html-div>$0"
  *       ]
  *    },
@@ -43,8 +42,7 @@ import { ICh5HtmlDivAttributes } from "./i-ch5-html-div-attributes";
  *     "description": "CH5 HTML Div component provides a CH5‑wrapped version of the native HTML <div> element (default)",
  *     "body": [
  *       "<ch5-html-div id=\"ch5-html-div_${1:id}\"",
- *       "\tlabel=\"${2:}\"",
- *       "\tlabelInnerHTML=\"${3:}\">",
+ *       "\tlabel=\"${2:}\">",
  *       "</ch5-html-div>$0"
  *       ]
  *    }

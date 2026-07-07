@@ -242,6 +242,13 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 			this.setAttribute('url', this._url);
 		}
 	}
+	/**
+	 * Getter for internal Image objects (for testing purposes)
+	 * @returns Array of HTMLImageElement objects created for background images
+	 */
+	protected getImageElements(): HTMLImageElement[] {
+		return this._elImages;
+	}
 
 	public get backgroundColor(): string {
 		return this._backgroundColor;
