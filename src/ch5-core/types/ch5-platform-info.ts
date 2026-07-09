@@ -7,6 +7,7 @@
 
 export interface ICh5PlatformInfo {
   capabilities: ICh5PlatformInfoCapabilities;
+  credentialsViaQueryParams?: boolean;
   version: string;
   name: string;
 }

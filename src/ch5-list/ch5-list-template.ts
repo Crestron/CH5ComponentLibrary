@@ -122,10 +122,8 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
 			const inputData = JSON.parse(templateVars);
 			divTemplate.innerHTML = this.processTemplateForVars(divTemplate.innerHTML, inputData[index]);
 		}
-		if (this._list.isDebug()) {
-			this._list.info(`after update ${divTemplate.innerHTML}`);
-		}
-
+		this._list.info(`after update ${divTemplate.innerHTML}`);
+		
 		return divTemplate as HTMLElement;
 	}
 

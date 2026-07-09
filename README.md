@@ -49,10 +49,6 @@ from ch5 components, and custom attributes will not be affected)
 
   npm run build:dev:umd
 
-### Run Test web-component-tester
-
-  npm run test:wct
-
 ### Start
 
   npm run start
