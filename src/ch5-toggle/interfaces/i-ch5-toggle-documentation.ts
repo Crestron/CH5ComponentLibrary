@@ -45,7 +45,6 @@ import { ICh5ToggleAttributes } from "./i-ch5-toggle-attributes";
  *       "\treceiveStateValue=\"${11:}\"",
  *       "\treceiveStateScriptLabelHTML=\"${12:}\"",
  *       "\tsendEventOnClick=\"${13:}\"",
- *       "\tsendEventOnTouch=\"${14:}\">",
  *       "</ch5-toggle>$0"
  *       ]
  *    },

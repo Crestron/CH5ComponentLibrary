@@ -109,7 +109,6 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *       "\ticonclass=\"${14:iconClass}\"",
  *       "\torientation=\"${15|horizontal,vertical|}\"",
  *       "\tsendeventonclick=\"${16:btn_${1}_clicked}\"",
- *       "\tsendeventontouch=\"${17:btn_${1}_touched}\"",
  *       "\treceivestateselected=\"${18}\"",
  *       "\treceivestatelabel=\"${19}\"",
  *       "\treceivestatescriptlabelhtml=\"${20}\"",
