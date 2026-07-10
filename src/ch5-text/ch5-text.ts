@@ -117,14 +117,11 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
 
   public static readonly ELEMENT_NAME = 'ch5-text';
 
-  private static readonly MAX_FIT_ELLIPSIS_RETRIES = 10;
-
   public primaryCssClass = 'ch5-text';
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
   private _elSpan: HTMLElement = {} as HTMLElement;
-  private _fitEllipsisRetryCount = 0;
   public templateElement: HTMLTemplateElement = {} as HTMLTemplateElement;
   private scriptLabelHtml: string = '';
 
@@ -459,20 +456,19 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   public fitEllipsisForMultiline() {
     let numberOfLines = 0;
     const lineHeight = this.getLineHeightSuper(this._elSpan);
-    const topAndBottomPadding = 20;
+    const containerStyle = window.getComputedStyle(this._elContainer);
+    const topAndBottomPadding = parseFloat(containerStyle.paddingTop) + parseFloat(containerStyle.paddingBottom);
     const containerHeight = this.getContainerHeight(this._elContainer) - topAndBottomPadding;
     // On reconnect (e.g. after page navigation) the span may not be laid out yet, so
     // offsetHeight (lineHeight) is 0. Dividing by it yields Infinity and Infinity * 0 => NaN,
     // producing "max-height: NaNpx" and breaking word wrapping. Defer the calculation to the
-    // next animation frame until the span reports a valid line height.
+    // next animation frame (debounced) until the span reports a valid line height.
     if (!Number.isFinite(lineHeight) || lineHeight <= 0) {
-      if (this.isConnected && this._fitEllipsisRetryCount < Ch5Text.MAX_FIT_ELLIPSIS_RETRIES) {
-        this._fitEllipsisRetryCount++;
-        window.requestAnimationFrame(() => this.fitEllipsisForMultiline());
+      if (this.isConnected) {
+        window.requestAnimationFrame(() => this.debounceHandleMultilineSupport());
       }
       return;
     }
-    this._fitEllipsisRetryCount = 0;
     if (containerHeight < lineHeight) {
       numberOfLines = 1
     } else {
