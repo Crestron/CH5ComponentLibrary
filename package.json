@@ -119,6 +119,6 @@
         "build_bundles/**/*"
     ], 
     "engines": {
-        "node": ">=20.4.0"
+        "node": ">=24.18.0"
     }
 }
