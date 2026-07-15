@@ -456,8 +456,19 @@ export class Ch5Text extends Ch5Common implements ICh5TextAttributes {
   public fitEllipsisForMultiline() {
     let numberOfLines = 0;
     const lineHeight = this.getLineHeightSuper(this._elSpan);
-    const topAndBottomPadding = 20;
+    const containerStyle = window.getComputedStyle(this._elContainer);
+    const topAndBottomPadding = parseFloat(containerStyle.paddingTop) + parseFloat(containerStyle.paddingBottom);
     const containerHeight = this.getContainerHeight(this._elContainer) - topAndBottomPadding;
+    // On reconnect (e.g. after page navigation) the span may not be laid out yet, so
+    // offsetHeight (lineHeight) is 0. Dividing by it yields Infinity and Infinity * 0 => NaN,
+    // producing "max-height: NaNpx" and breaking word wrapping. Defer the calculation to the
+    // next animation frame (debounced) until the span reports a valid line height.
+    if (!Number.isFinite(lineHeight) || lineHeight <= 0) {
+      if (this.isConnected) {
+        window.requestAnimationFrame(() => this.debounceHandleMultilineSupport());
+      }
+      return;
+    }
     if (containerHeight < lineHeight) {
       numberOfLines = 1
     } else {
