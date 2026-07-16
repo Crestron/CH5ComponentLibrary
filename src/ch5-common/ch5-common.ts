@@ -504,9 +504,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
 		this._subKeySigReceiveCustomClass = recSig.subscribe((newVal: string) => {
 			this.logger.log('subs callback for signalReceiveCustomClass: ', this._receiveStateCustomClass, ' Signal has value ', newVal);
-			if (newVal !== this._customClass) {
-				this._customClass = newVal;
-				this.setAttribute('customclass', newVal);
+			if (newVal !== this.customClass) {
+				this.customClass = newVal;
 			}
 		});
 	}
@@ -525,7 +524,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		}
 
 		this.customStyle = "";
-
 		this.clearStringSignalSubscription(this._receiveStateCustomStyle, this._subKeySigReceiveCustomStyle);
 
 		this._receiveStateCustomStyle = value;
@@ -540,9 +538,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
 		this._subKeySigReceiveCustomStyle = recSig.subscribe((newVal: string) => {
 			this.logger.log(' subs callback for signalReceiveCustomStyle: ', this._subKeySigReceiveCustomStyle, ' Signal has value ', newVal);
-			if (newVal !== this._customStyle) {
-				this._customStyle = newVal;
-				this.setAttribute('customstyle', newVal);
+			if (newVal !== this.customStyle) {
+				this.customStyle = newVal;
 			}
 		});
 	}
