@@ -250,7 +250,7 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
 
   public constructor() {
     super();
-    this.ignoreAttributes = ["receivestatecustomclass", "receivestatecustomstyle", "receivestatehidepulse", "receivestateshowpulse", "sendeventonshow"]
+    this.ignoreAttributes = ["receivestatecustomclass", "receivestatecustomstyle", "receivestatehidepulse", "receivestateshowpulse", "sendeventonshow", "appendclasswheninviewport"]
     this.logger.start('constructor()', Ch5WifiSignalLevelGauge.ELEMENT_NAME);
     if (!this._wasInstatiated) {
       this.createInternalHtml();

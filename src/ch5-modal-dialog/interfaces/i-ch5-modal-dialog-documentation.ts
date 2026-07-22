@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5ModalDialogAttributes } from ".";
-import { ICh5Common } from "../../ch5-common/interfaces";
+import { ICh5ModalDialogCommonDocumentation } from "../../ch5-common/interfaces/i-ch5-modal-dialog-documentation";
 
 /**
  * @name Ch5 Modal Dialog
@@ -65,5 +65,5 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *    }
  * ]
  */
-export interface ICh5ModalDialogDocumentation extends ICh5Common, ICh5ModalDialogAttributes {
+export interface ICh5ModalDialogDocumentation extends ICh5ModalDialogCommonDocumentation, ICh5ModalDialogAttributes {
 }

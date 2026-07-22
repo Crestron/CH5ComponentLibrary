@@ -1,10 +1,10 @@
-import { ICh5CommonAttributesSet3 } from "../../ch5-common/interfaces/i-ch5-common-attributes-set3";
+import { ICh5WifiSignalLevelGaugeCommonAttributes } from "../../ch5-common/interfaces/i-ch5-wifi-signal-level-gauge-attributes";
 import { TCh5WifiSignalLevelGaugeGaugeStyle, TCh5WifiSignalLevelGaugeAlignment, TCh5WifiSignalLevelGaugeSize, } from './t-ch5-wifi-signal-level-gauge';
 
 /**
  * @ignore
  */
-export interface ICh5WifiSignalLevelGaugeAttributes extends ICh5CommonAttributesSet3 {
+export interface ICh5WifiSignalLevelGaugeAttributes extends ICh5WifiSignalLevelGaugeCommonAttributes {
   /**
   * @documentation
   * [

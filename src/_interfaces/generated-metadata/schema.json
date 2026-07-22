@@ -1,6 +1,6 @@
 {
-  "version": "2.17.4",
-  "componentsVersion": "2.17.4",
+  "version": "2.18.0",
+  "componentsVersion": "2.18.0",
   "htmlElements": {
     "common": {
       "attributes": [
@@ -2451,28 +2451,6 @@
           },
           {
             "documentation": [
-              "`sendeventontouch` attribute",
-              "***",
-              "Sends a boolean true event when the screen is tapped and a boolean false event when released.",
-              "Use this when the control system takes an action on a level-sensitive boolean digital event.",
-              "Examples include the SIMPL Logic Symbol for Analog Ramp with a description of ",
-              "Digital input <up> 'High/1 (level sensitive) = Ramp up; Low/0 = Stop ramp'."
-            ],
-            "value": [],
-            "name": "sendeventontouch",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
               "`receivestateiconclass` attribute",
               "***",
               "The icon class received from the control system."
@@ -2930,7 +2908,6 @@
               "\ticonclass=\"${14:iconClass}\"",
               "\torientation=\"${15|horizontal,vertical|}\"",
               "\tsendeventonclick=\"${16:btn_${1}_clicked}\"",
-              "\tsendeventontouch=\"${17:btn_${1}_touched}\"",
               "\treceivestateselected=\"${18}\"",
               "\treceivestatelabel=\"${19}\"",
               "\treceivestatescriptlabelhtml=\"${20}\"",
@@ -9326,28 +9303,6 @@
           },
           {
             "documentation": [
-              "`sendeventontouch` attribute",
-              "***",
-              "Sends a boolean true event when the screen is tapped and boolean false event when released. ",
-              "Use this when the control system takes an action on a level-sensitive boolean digital event. ",
-              "Examples include the SIMPL Logic Symbol for Analog Ramp with a description of ",
-              "Digital input <up> 'High/1 (level sensitive) = Ramp up; Low/0 = Stop ramp'."
-            ],
-            "value": [],
-            "name": "sendeventontouch",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
               "`sendeventonclick` attribute",
               "***",
               "Sends an on click or tap event (mouse or swipe up and down quickly). ",
@@ -12987,6 +12942,46 @@
           },
           {
             "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
               "`customclass` attribute",
               "***",
               "Contains a list of space delimited CSS classes that are applied on the component"
@@ -13040,52 +13035,32 @@
           },
           {
             "documentation": [
-              "`receivestatecustomclass` attribute",
+              "`sendeventonshow` attribute",
               "***",
-              "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove the prior value and apply the new value."
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
             ],
             "value": [],
-            "name": "receivestatecustomclass",
+            "name": "sendeventonshow",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
             "join": {
-              "direction": "state",
+              "direction": "event",
               "isContractName": true,
-              "stringJoin": 1
+              "booleanJoin": 1
             },
             "limits": [],
             "attributeType": "Join"
           },
           {
             "documentation": [
-              "`receivestatecustomstyle` attribute",
+              "`receivestatehidepulse` attribute",
               "***",
-              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
-              "The change of value will remove the prior value and apply the new value."
+              "on transition from false to true, this signal will direct if the component is no longer visible."
             ],
             "value": [],
-            "name": "receivestatecustomstyle",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`receivestateshow` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is visible."
-            ],
-            "value": [],
-            "name": "receivestateshow",
+            "name": "receivestatehidepulse",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -13118,12 +13093,12 @@
           },
           {
             "documentation": [
-              "`receivestatehidepulse` attribute",
+              "`receivestateshow` attribute",
               "***",
-              "on transition from false to true, this signal will direct if the component is no longer visible."
+              "When true, the boolean value of the signal determines if the component is visible."
             ],
             "value": [],
-            "name": "receivestatehidepulse",
+            "name": "receivestateshow",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -13155,40 +13130,6 @@
             },
             "limits": [],
             "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`sendeventonshow` attribute",
-              "***",
-              "Has a boolean value of true when the component is visible and false when not visible.",
-              "Note that even if component is completely covered by other visible elements, it is still considered visible."
-            ],
-            "value": [],
-            "name": "sendeventonshow",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`appendclasswheninviewport` attribute",
-              "***",
-              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
-            ],
-            "value": [],
-            "name": "appendclasswheninviewport",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "String"
           },
           {
             "documentation": [
@@ -16775,20 +16716,6 @@
           },
           {
             "documentation": [
-              "`appendclasswheninviewport` attribute",
-              "***",
-              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
-            ],
-            "value": [],
-            "name": "appendclasswheninviewport",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "String"
-          },
-          {
-            "documentation": [
               "`show` attribute",
               "***",
               "The visibility of the component depends upon the boolean value. The component is visible ",
@@ -17248,20 +17175,6 @@
             },
             "limits": [],
             "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`appendclasswheninviewport` attribute",
-              "***",
-              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
-            ],
-            "value": [],
-            "name": "appendclasswheninviewport",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "String"
           },
           {
             "documentation": [
@@ -23704,24 +23617,6 @@
           },
           {
             "documentation": [
-              "`sendeventontouch` attribute",
-              "Sends a signal on a touch event."
-            ],
-            "value": [],
-            "name": "sendeventontouch",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
               "`signalvaluesynctimeout` attribute",
               "***",
               "The default value is 1500. Defines the time between when the user clicks the ",
@@ -23880,7 +23775,6 @@
               "\treceiveStateValue=\"${11:}\"",
               "\treceiveStateScriptLabelHTML=\"${12:}\"",
               "\tsendEventOnClick=\"${13:}\"",
-              "\tsendEventOnTouch=\"${14:}\">",
               "</ch5-toggle>$0"
             ]
           },
@@ -24945,20 +24839,6 @@
             },
             "limits": [],
             "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`appendclasswheninviewport` attribute",
-              "***",
-              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
-            ],
-            "value": [],
-            "name": "appendclasswheninviewport",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "String"
           },
           {
             "documentation": [
@@ -26980,20 +26860,6 @@
             },
             "limits": [],
             "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`appendclasswheninviewport` attribute",
-              "***",
-              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
-            ],
-            "value": [],
-            "name": "appendclasswheninviewport",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "String"
           },
           {
             "documentation": [

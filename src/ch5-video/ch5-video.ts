@@ -829,7 +829,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   public constructor() {
     super();
-    this.ignoreAttributes = ['show', 'receiveStateShow', 'receivestateshowpulse', 'receivestatehidepulse', 'sendeventonshow'];
+    this.ignoreAttributes = ['show', 'receiveStateShow', 'receivestateshowpulse', 'receivestatehidepulse', 'sendeventonshow', 'appendclasswheninviewport'];
     this.logger.start('constructor()', Ch5Video.ELEMENT_NAME);
     if (!this._wasInstatiated) {
       this.createInternalHtml();
