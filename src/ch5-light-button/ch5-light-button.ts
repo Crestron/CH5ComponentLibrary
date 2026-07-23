@@ -14,6 +14,7 @@ export class Ch5LightButton extends HTMLElement {
 
 	private _label = '';
 	private _iconClass = '';
+	private _isInitialized = false;
 
 	private _elContainer: HTMLElement = this;
 	private _elButton: HTMLButtonElement | null = null;
@@ -25,7 +26,7 @@ export class Ch5LightButton extends HTMLElement {
 	//#region Getters and Setters
 
 	public set label(value: string) {
-		value = value || '';
+		value = value ?? '';
 		if (this._label !== value) {
 			this._label = value;
 			this.handleLabel();
@@ -36,7 +37,7 @@ export class Ch5LightButton extends HTMLElement {
 	}
 
 	public set iconClass(value: string) {
-		value = value || '';
+		value = value ?? '';
 		if (this._iconClass !== value) {
 			this._iconClass = value;
 			this.handleIconClass();
@@ -71,16 +72,16 @@ export class Ch5LightButton extends HTMLElement {
 		super();
 	}
 
-	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
+	public attributeChangedCallback(attr: string, oldValue: string | null, newValue: string | null): void {
 		if (oldValue === newValue) {
 			return;
 		}
-		switch (attr.toLowerCase()) {
+		switch (attr) {
 			case 'label':
-				this.label = newValue;
+				this.label = newValue || '';
 				break;
 			case 'iconclass':
-				this.iconClass = newValue;
+				this.iconClass = newValue || '';
 				break;
 		}
 	}
@@ -89,18 +90,17 @@ export class Ch5LightButton extends HTMLElement {
 	 * Called when the Ch5LightButton component is first connected to the DOM
 	 */
 	public connectedCallback() {
-		this.createInternalHtml();
-		this.initAttributes();
-		// Build the icon/label into the freshly created (still detached) button.
-		// initAttributes() sets the backing fields directly (not via the setters),
-		// so these handlers run exactly ONCE per connect - no double work on the
-		// first connect and a guaranteed rebuild on every reconnect.
-		this.handleIconClass();
-		this.handleLabel();
-		// Append the fully-built button subtree to the host in a SINGLE DOM
-		// mutation. Building off-DOM first avoids multiple reflows per component,
-		// which matters when many ch5-light-button instances load at once.
-		if (this._elButton && this._elButton.parentNode === null) {
+		if (!this._isInitialized) {
+			this.createInternalHtml();
+			this.initAttributes();
+			this.handleIconClass();
+			this.handleLabel();
+			this._isInitialized = true;
+		}
+
+		// Keep the internal subtree across disconnect/reconnect cycles and only
+		// reattach when needed.
+		if (this._elButton && this._elButton.parentNode !== this) {
 			this._elContainer.appendChild(this._elButton);
 		}
 	}
@@ -146,9 +146,8 @@ export class Ch5LightButton extends HTMLElement {
 	 * Clear the content of component in order to avoid duplication of elements
 	 */
 	private clearComponentContent() {
-		while (this.firstChild) {
-			this.removeChild(this.firstChild);
-		}
+		// Use a single native operation instead of repeated removeChild calls.
+		this.replaceChildren();
 	}
 
 	private handleLabel() {
