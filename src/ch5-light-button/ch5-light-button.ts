@@ -91,8 +91,18 @@ export class Ch5LightButton extends HTMLElement {
 	public connectedCallback() {
 		this.createInternalHtml();
 		this.initAttributes();
-		this.handleLabel();
+		// Build the icon/label into the freshly created (still detached) button.
+		// initAttributes() sets the backing fields directly (not via the setters),
+		// so these handlers run exactly ONCE per connect - no double work on the
+		// first connect and a guaranteed rebuild on every reconnect.
 		this.handleIconClass();
+		this.handleLabel();
+		// Append the fully-built button subtree to the host in a SINGLE DOM
+		// mutation. Building off-DOM first avoids multiple reflows per component,
+		// which matters when many ch5-light-button instances load at once.
+		if (this._elButton && this._elButton.parentNode === null) {
+			this._elContainer.appendChild(this._elButton);
+		}
 	}
 
 	public disconnectedCallback() {
@@ -117,18 +127,19 @@ export class Ch5LightButton extends HTMLElement {
 		this._elContainer = this;
 		this._elContainer.classList.add(Ch5LightButton.PRIMARY_CSS_CLASS);
 
+		// Create the button OFF-DOM. The icon/label are added to it (via the
+		// handlers) while it is still detached, and the whole subtree is appended
+		// to the host once in connectedCallback.
 		this._elButton = document.createElement('button');
-		this._elButton.classList.add(`${Ch5LightButton.PRIMARY_CSS_CLASS}--btn`);
-		this._elContainer.appendChild(this._elButton);
+		this._elButton.className = `${Ch5LightButton.PRIMARY_CSS_CLASS}--btn`;
 	}
 
 	private initAttributes() {
-		if (this.hasAttribute('label')) {
-			this.label = this.getAttribute('label') as string;
-		}
-		if (this.hasAttribute('iconclass')) {
-			this.iconClass = this.getAttribute('iconclass') as string;
-		}
+		// Set the backing fields directly (bypassing the setters). The setters are
+		// only needed for runtime property assignment; during the initial build we
+		// want the handlers in connectedCallback to run exactly once.
+		this._label = this.getAttribute('label') || '';
+		this._iconClass = this.getAttribute('iconclass') || '';
 	}
 
 	/**
@@ -141,7 +152,7 @@ export class Ch5LightButton extends HTMLElement {
 	}
 
 	private handleLabel() {
-		// Button is only available once the component is connected to the DOM
+		// Button is only available after createInternalHtml() has run
 		if (!this._elButton) {
 			return;
 		}
@@ -149,7 +160,7 @@ export class Ch5LightButton extends HTMLElement {
 			// Create the label element lazily the first time a label is set
 			if (!this._elLabel) {
 				this._elLabel = document.createElement('span');
-				this._elLabel.classList.add(`${Ch5LightButton.PRIMARY_CSS_CLASS}--label`);
+				this._elLabel.className = `${Ch5LightButton.PRIMARY_CSS_CLASS}--label`;
 				this._elButton.appendChild(this._elLabel);
 			}
 			this._elLabel.textContent = this._label;
@@ -161,17 +172,19 @@ export class Ch5LightButton extends HTMLElement {
 	}
 
 	private handleIconClass() {
-		// Button is only available once the component is connected to the DOM
+		// Button is only available after createInternalHtml() has run
 		if (!this._elButton) {
 			return;
 		}
 		if (this._iconClass) {
-			// Create the icon element lazily the first time an icon class is set
+			// Create the icon element lazily the first time an icon class is set.
+			// DOM order does not matter: the icon position is controlled by the CSS
+			// `order` property (see _light-button-icon-position.scss).
 			if (!this._elIcon) {
 				this._elIcon = document.createElement('i');
-				this._elButton.insertBefore(this._elIcon, this._elButton.firstChild);
+				this._elButton.appendChild(this._elIcon);
 			}
-			this._elIcon.className = `${Ch5LightButton.PRIMARY_CSS_CLASS}--icon ${this._iconClass}`.trim();
+			this._elIcon.className = `${Ch5LightButton.PRIMARY_CSS_CLASS}--icon ${this._iconClass}`;
 		} else if (this._elIcon) {
 			// Remove the icon element when the icon class is cleared
 			this._elIcon.remove();
