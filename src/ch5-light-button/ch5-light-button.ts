@@ -6,7 +6,7 @@ export class Ch5LightButton extends HTMLElement {
 
 	public static readonly PRIMARY_CSS_CLASS = 'ch5-light-button';
 
-	private static readonly OBSERVED_ATTRIBUTES = ['label', 'iconclass', 'iconurl'];
+	private static readonly OBSERVED_ATTRIBUTES = ['label', 'iconclass', 'iconurl', 'backgroundimageurl'];
 
 	//#endregion
 
@@ -15,6 +15,7 @@ export class Ch5LightButton extends HTMLElement {
 	private _label = '';
 	private _iconClass = '';
 	private _iconUrl = '';
+	private _backgroundImageUrl = '';
 	private _isInitialized = false;
 
 	private _elContainer: HTMLElement = this;
@@ -59,6 +60,17 @@ export class Ch5LightButton extends HTMLElement {
 		return this._iconUrl;
 	}
 
+	public set backgroundImageUrl(value: string) {
+		value = value ?? '';
+		if (this._backgroundImageUrl !== value) {
+			this._backgroundImageUrl = value;
+			this.handleBackgroundImageUrl();
+		}
+	}
+	public get backgroundImageUrl(): string {
+		return this._backgroundImageUrl;
+	}
+
 	//#endregion
 
 	//#region Static Methods
@@ -98,6 +110,9 @@ export class Ch5LightButton extends HTMLElement {
 			case 'iconurl':
 				this.iconUrl = newValue || '';
 				break;
+			case 'backgroundimageurl':
+				this.backgroundImageUrl = newValue || '';
+				break;
 		}
 	}
 
@@ -110,6 +125,7 @@ export class Ch5LightButton extends HTMLElement {
 			this.initAttributes();
 			this.handleIcon();
 			this.handleLabel();
+			this.handleBackgroundImageUrl();
 			this._isInitialized = true;
 		}
 
@@ -156,6 +172,7 @@ export class Ch5LightButton extends HTMLElement {
 		this._label = this.getAttribute('label') || '';
 		this._iconClass = this.getAttribute('iconclass') || '';
 		this._iconUrl = this.getAttribute('iconurl') || '';
+		this._backgroundImageUrl = this.getAttribute('backgroundimageurl') || '';
 	}
 
 	/**
@@ -214,6 +231,21 @@ export class Ch5LightButton extends HTMLElement {
 			// Remove the icon element when both the icon class and url are cleared
 			this._elIcon.remove();
 			this._elIcon = null;
+		}
+	}
+
+	private handleBackgroundImageUrl() {
+		// Button is only available after createInternalHtml() has run
+		if (!this._elButton) {
+			return;
+		}
+		// Set the background image directly on the button element (same approach as
+		// ch5-button). A URL from an attribute cannot be injected via pure CSS, so
+		// this is handled in JS; the value is applied as an inline background-image.
+		if (this._backgroundImageUrl) {
+			this._elButton.style.backgroundImage = `url("${this._backgroundImageUrl}")`;
+		} else {
+			this._elButton.style.backgroundImage = '';
 		}
 	}
 
