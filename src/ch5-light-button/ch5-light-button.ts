@@ -6,7 +6,7 @@ export class Ch5LightButton extends HTMLElement {
 
 	public static readonly PRIMARY_CSS_CLASS = 'ch5-light-button';
 
-	private static readonly OBSERVED_ATTRIBUTES = ['label', 'iconclass'];
+	private static readonly OBSERVED_ATTRIBUTES = ['label', 'iconclass', 'iconurl'];
 
 	//#endregion
 
@@ -14,6 +14,7 @@ export class Ch5LightButton extends HTMLElement {
 
 	private _label = '';
 	private _iconClass = '';
+	private _iconUrl = '';
 	private _isInitialized = false;
 
 	private _elContainer: HTMLElement = this;
@@ -40,11 +41,22 @@ export class Ch5LightButton extends HTMLElement {
 		value = value ?? '';
 		if (this._iconClass !== value) {
 			this._iconClass = value;
-			this.handleIconClass();
+			this.handleIcon();
 		}
 	}
 	public get iconClass(): string {
 		return this._iconClass;
+	}
+
+	public set iconUrl(value: string) {
+		value = value ?? '';
+		if (this._iconUrl !== value) {
+			this._iconUrl = value;
+			this.handleIcon();
+		}
+	}
+	public get iconUrl(): string {
+		return this._iconUrl;
 	}
 
 	//#endregion
@@ -83,6 +95,9 @@ export class Ch5LightButton extends HTMLElement {
 			case 'iconclass':
 				this.iconClass = newValue || '';
 				break;
+			case 'iconurl':
+				this.iconUrl = newValue || '';
+				break;
 		}
 	}
 
@@ -93,7 +108,7 @@ export class Ch5LightButton extends HTMLElement {
 		if (!this._isInitialized) {
 			this.createInternalHtml();
 			this.initAttributes();
-			this.handleIconClass();
+			this.handleIcon();
 			this.handleLabel();
 			this._isInitialized = true;
 		}
@@ -140,6 +155,7 @@ export class Ch5LightButton extends HTMLElement {
 		// want the handlers in connectedCallback to run exactly once.
 		this._label = this.getAttribute('label') || '';
 		this._iconClass = this.getAttribute('iconclass') || '';
+		this._iconUrl = this.getAttribute('iconurl') || '';
 	}
 
 	/**
@@ -170,22 +186,32 @@ export class Ch5LightButton extends HTMLElement {
 		}
 	}
 
-	private handleIconClass() {
+	private handleIcon() {
 		// Button is only available after createInternalHtml() has run
 		if (!this._elButton) {
 			return;
 		}
-		if (this._iconClass) {
-			// Create the icon element lazily the first time an icon class is set.
+		if (this._iconUrl || this._iconClass) {
+			// Create the icon element lazily the first time an icon is set.
 			// DOM order does not matter: the icon position is controlled by the CSS
 			// `order` property (see _light-button-icon-position.scss).
 			if (!this._elIcon) {
 				this._elIcon = document.createElement('i');
 				this._elButton.appendChild(this._elIcon);
 			}
-			this._elIcon.className = `${Ch5LightButton.PRIMARY_CSS_CLASS}--icon ${this._iconClass}`;
+			if (this._iconUrl) {
+				// iconUrl takes the highest priority over iconClass. Render the icon
+				// as a background image using the --img modifier class. The --img and
+				// --icon classes are mutually exclusive (same as ch5-button).
+				this._elIcon.className = `${Ch5LightButton.PRIMARY_CSS_CLASS}--img`;
+				this._elIcon.style.backgroundImage = `url("${this._iconUrl}")`;
+			} else {
+				// Fall back to the icon font class when no iconUrl is provided.
+				this._elIcon.className = `${Ch5LightButton.PRIMARY_CSS_CLASS}--icon ${this._iconClass}`;
+				this._elIcon.style.backgroundImage = '';
+			}
 		} else if (this._elIcon) {
-			// Remove the icon element when the icon class is cleared
+			// Remove the icon element when both the icon class and url are cleared
 			this._elIcon.remove();
 			this._elIcon = null;
 		}
