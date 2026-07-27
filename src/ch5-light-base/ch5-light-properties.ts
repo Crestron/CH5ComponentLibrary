@@ -37,11 +37,12 @@ export interface ICh5LightPropertySettings {
  */
 export class Ch5LightProperties {
 
-	private readonly _values: Record<string, boolean | string | number> = {};
+	private readonly _values: Record<string, boolean | string | number> = Object.create(null);
 
 	public constructor(settings: ICh5LightPropertySettings[]) {
 		for (let i = 0; i < settings.length; i++) {
-			this._values[settings[i].name] = settings[i].default;
+			const setting = settings[i];
+			this._values[setting.name] = setting.default;
 		}
 	}
 
@@ -52,7 +53,8 @@ export class Ch5LightProperties {
 	 */
 	public add(settings: ICh5LightPropertySettings[]): void {
 		for (let i = 0; i < settings.length; i++) {
-			this._values[settings[i].name] = settings[i].default;
+			const setting = settings[i];
+			this._values[setting.name] = setting.default;
 		}
 	}
 
@@ -66,11 +68,24 @@ export class Ch5LightProperties {
 	 * changes, so redundant DOM work is avoided.
 	 */
 	public set<T extends boolean | string | number>(name: string, value: T, onChange?: () => void): void {
-		if (this._values[name] !== value) {
-			this._values[name] = value;
-			if (onChange) {
-				onChange();
+		const currentValue = this._values[name];
+		if (currentValue === value) {
+			return;
+		}
+
+		let nextValue = value as boolean | string | number;
+		const unsafeValue = value as unknown;
+		// Defensive fallback for runtime nullish inputs from external callers.
+		if ((unsafeValue === null || unsafeValue === undefined) && typeof currentValue === 'string') {
+			nextValue = '';
+			if (currentValue === nextValue) {
+				return;
 			}
+		}
+
+		this._values[name] = nextValue;
+		if (onChange) {
+			onChange();
 		}
 	}
 

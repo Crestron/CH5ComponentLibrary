@@ -8,7 +8,12 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 
 	public static readonly PRIMARY_CSS_CLASS = 'ch5-light-button';
 
-	private static readonly OBSERVED_ATTRIBUTES = ['label', 'iconclass', 'iconurl', 'backgroundimageurl'];
+	private static readonly OBSERVED_ATTRIBUTES = [
+		'label', 
+		'iconclass', 
+		'iconurl', 
+		'backgroundimageurl'
+	];
 
 	//#endregion
 
@@ -19,35 +24,46 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	private _elContainer: HTMLElement = this;
 	private _elButton: HTMLButtonElement | null = null;
 	private _elIcon: HTMLElement | null = null;
-	private _elLabel: HTMLElement | null = null;
+	private _elSpanLabel: HTMLElement | null = null;
+
+	// Cached onChange callbacks, created ONCE per instance (as class fields).
+	// DO NOT replace the `_ch5Properties.set(...)` calls below with an inline
+	// `() => this.handleX()` arrow function - an inline arrow allocates a NEW
+	// closure on the heap every time the setter runs (even on a no-op set,
+	// since JS evaluates the argument before `set()`'s equality check can
+	// short-circuit). At 1000+ instances with frequent updates, that's
+	// continuous GC churn this "light" component family is designed to avoid.
+	private readonly _onLabelChange = () => this.handleLabel();
+	private readonly _onIconChange = () => this.handleIcon();
+	private readonly _onBackgroundImageChange = () => this.handleBackgroundImageUrl();
 
 	//#endregion
 
 	//#region Getters and Setters
 
 	public set label(value: string) {
-		this._ch5Properties.set<string>('label', value ?? '', () => this.handleLabel());
+		this._ch5Properties.set<string>('label', value, this._onLabelChange);
 	}
 	public get label(): string {
 		return this._ch5Properties.get<string>('label');
 	}
 
 	public set iconClass(value: string) {
-		this._ch5Properties.set<string>('iconClass', value ?? '', () => this.handleIcon());
+		this._ch5Properties.set<string>('iconClass', value, this._onIconChange);
 	}
 	public get iconClass(): string {
 		return this._ch5Properties.get<string>('iconClass');
 	}
 
 	public set iconUrl(value: string) {
-		this._ch5Properties.set<string>('iconUrl', value ?? '', () => this.handleIcon());
+		this._ch5Properties.set<string>('iconUrl', value, this._onIconChange);
 	}
 	public get iconUrl(): string {
 		return this._ch5Properties.get<string>('iconUrl');
 	}
 
 	public set backgroundImageUrl(value: string) {
-		this._ch5Properties.set<string>('backgroundImageUrl', value ?? '', () => this.handleBackgroundImageUrl());
+		this._ch5Properties.set<string>('backgroundImageUrl', value, this._onBackgroundImageChange);
 	}
 	public get backgroundImageUrl(): string {
 		return this._ch5Properties.get<string>('backgroundImageUrl');
@@ -95,16 +111,16 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		}
 		switch (attr) {
 			case 'label':
-				this.label = newValue || '';
+				this.label = newValue ?? '';
 				break;
 			case 'iconclass':
-				this.iconClass = newValue || '';
+				this.iconClass = newValue ?? '';
 				break;
 			case 'iconurl':
-				this.iconUrl = newValue || '';
+				this.iconUrl = newValue ?? '';
 				break;
 			case 'backgroundimageurl':
-				this.backgroundImageUrl = newValue || '';
+				this.backgroundImageUrl = newValue ?? '';
 				break;
 			default:
 				// Delegate base attributes (show / disabled) to Ch5LightBaseClass.
@@ -119,7 +135,11 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	public connectedCallback() {
 		if (!this._isInitialized) {
 			this.createInternalHtml();
-			this.initAttributes();
+			// No attribute re-read here: attributeChangedCallback (per the Custom
+			// Elements v1 upgrade order) already fires for every pre-existing
+			// observed attribute before connectedCallback, so the property store
+			// already holds the correct values. These calls just build the DOM
+			// from whatever is currently in the store.
 			this.handleIcon();
 			this.handleLabel();
 			this.handleBackgroundImageUrl();
@@ -154,7 +174,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		// to force handleLabel()/handleIconClass() to recreate them inside the new
 		// button on every (re)connect, otherwise the label/icon go missing when the
 		// component is disconnected and connected again.
-		this._elLabel = null;
+		this._elSpanLabel = null;
 		this._elIcon = null;
 
 		this._elContainer = this;
@@ -165,16 +185,6 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		// to the host once in connectedCallback.
 		this._elButton = document.createElement('button');
 		this._elButton.className = `${Ch5LightButton.PRIMARY_CSS_CLASS}--btn`;
-	}
-
-	private initAttributes() {
-		// Store the values directly (bypassing the setters/callbacks). The setters are
-		// only needed for runtime property assignment; during the initial build we
-		// want the handlers in connectedCallback to run exactly once.
-		this._ch5Properties.setValue<string>('label', this.getAttribute('label') || '');
-		this._ch5Properties.setValue<string>('iconClass', this.getAttribute('iconclass') || '');
-		this._ch5Properties.setValue<string>('iconUrl', this.getAttribute('iconurl') || '');
-		this._ch5Properties.setValue<string>('backgroundImageUrl', this.getAttribute('backgroundimageurl') || '');
 	}
 
 	/**
@@ -193,16 +203,16 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		const label = this.label;
 		if (label) {
 			// Create the label element lazily the first time a label is set
-			if (!this._elLabel) {
-				this._elLabel = document.createElement('span');
-				this._elLabel.className = `${Ch5LightButton.PRIMARY_CSS_CLASS}--label`;
-				this._elButton.appendChild(this._elLabel);
+			if (!this._elSpanLabel) {
+				this._elSpanLabel = document.createElement('span');
+				this._elSpanLabel.className = `${Ch5LightButton.PRIMARY_CSS_CLASS}--label`;
+				this._elButton.appendChild(this._elSpanLabel);
 			}
-			this._elLabel.textContent = label;
-		} else if (this._elLabel) {
+			this._elSpanLabel.textContent = label;
+		} else if (this._elSpanLabel) {
 			// Remove the label element when the label is cleared
-			this._elLabel.remove();
-			this._elLabel = null;
+			this._elSpanLabel.remove();
+			this._elSpanLabel = null;
 		}
 	}
 
