@@ -1,4 +1,6 @@
-export class Ch5LightButton extends HTMLElement {
+import { Ch5LightBaseClass } from "../ch5-light-base/ch5-light-base-class";
+
+export class Ch5LightButton extends Ch5LightBaseClass {
 
 	//#region Constants
 
@@ -12,10 +14,6 @@ export class Ch5LightButton extends HTMLElement {
 
 	//#region Variables
 
-	private _label = '';
-	private _iconClass = '';
-	private _iconUrl = '';
-	private _backgroundImageUrl = '';
 	private _isInitialized = false;
 
 	private _elContainer: HTMLElement = this;
@@ -28,47 +26,31 @@ export class Ch5LightButton extends HTMLElement {
 	//#region Getters and Setters
 
 	public set label(value: string) {
-		value = value ?? '';
-		if (this._label !== value) {
-			this._label = value;
-			this.handleLabel();
-		}
+		this._ch5Properties.set<string>('label', value ?? '', () => this.handleLabel());
 	}
 	public get label(): string {
-		return this._label;
+		return this._ch5Properties.get<string>('label');
 	}
 
 	public set iconClass(value: string) {
-		value = value ?? '';
-		if (this._iconClass !== value) {
-			this._iconClass = value;
-			this.handleIcon();
-		}
+		this._ch5Properties.set<string>('iconClass', value ?? '', () => this.handleIcon());
 	}
 	public get iconClass(): string {
-		return this._iconClass;
+		return this._ch5Properties.get<string>('iconClass');
 	}
 
 	public set iconUrl(value: string) {
-		value = value ?? '';
-		if (this._iconUrl !== value) {
-			this._iconUrl = value;
-			this.handleIcon();
-		}
+		this._ch5Properties.set<string>('iconUrl', value ?? '', () => this.handleIcon());
 	}
 	public get iconUrl(): string {
-		return this._iconUrl;
+		return this._ch5Properties.get<string>('iconUrl');
 	}
 
 	public set backgroundImageUrl(value: string) {
-		value = value ?? '';
-		if (this._backgroundImageUrl !== value) {
-			this._backgroundImageUrl = value;
-			this.handleBackgroundImageUrl();
-		}
+		this._ch5Properties.set<string>('backgroundImageUrl', value ?? '', () => this.handleBackgroundImageUrl());
 	}
 	public get backgroundImageUrl(): string {
-		return this._backgroundImageUrl;
+		return this._ch5Properties.get<string>('backgroundImageUrl');
 	}
 
 	//#endregion
@@ -85,7 +67,10 @@ export class Ch5LightButton extends HTMLElement {
 	}
 
 	public static get observedAttributes(): string[] {
-		return Ch5LightButton.OBSERVED_ATTRIBUTES;
+		return [
+			...Ch5LightBaseClass.LIGHT_BASE_OBSERVED_ATTRIBUTES,
+			...Ch5LightButton.OBSERVED_ATTRIBUTES
+		];
 	}
 
 	//#endregion
@@ -94,6 +79,14 @@ export class Ch5LightButton extends HTMLElement {
 
 	public constructor() {
 		super();
+		// Register this component's own attributes on the SHARED light property
+		// store created by Ch5LightBaseClass (no second store is allocated).
+		this._ch5Properties.add([
+			{ name: 'label', default: '', type: 'string' },
+			{ name: 'iconClass', default: '', type: 'string' },
+			{ name: 'iconUrl', default: '', type: 'string' },
+			{ name: 'backgroundImageUrl', default: '', type: 'string' }
+		]);
 	}
 
 	public attributeChangedCallback(attr: string, oldValue: string | null, newValue: string | null): void {
@@ -112,6 +105,10 @@ export class Ch5LightButton extends HTMLElement {
 				break;
 			case 'backgroundimageurl':
 				this.backgroundImageUrl = newValue || '';
+				break;
+			default:
+				// Delegate base attributes (show / disabled) to Ch5LightBaseClass.
+				super.attributeChangedCallback(attr, oldValue, newValue);
 				break;
 		}
 	}
@@ -134,6 +131,11 @@ export class Ch5LightButton extends HTMLElement {
 		if (this._elButton && this._elButton.parentNode !== this) {
 			this._elContainer.appendChild(this._elButton);
 		}
+
+		// Apply the base attributes (show / disabled) last, once the button exists
+		// so the overridden disabled handler can reach it. Cheap + idempotent on
+		// reconnect.
+		super.connectedCallback();
 	}
 
 	public disconnectedCallback() {
@@ -166,13 +168,13 @@ export class Ch5LightButton extends HTMLElement {
 	}
 
 	private initAttributes() {
-		// Set the backing fields directly (bypassing the setters). The setters are
+		// Store the values directly (bypassing the setters/callbacks). The setters are
 		// only needed for runtime property assignment; during the initial build we
 		// want the handlers in connectedCallback to run exactly once.
-		this._label = this.getAttribute('label') || '';
-		this._iconClass = this.getAttribute('iconclass') || '';
-		this._iconUrl = this.getAttribute('iconurl') || '';
-		this._backgroundImageUrl = this.getAttribute('backgroundimageurl') || '';
+		this._ch5Properties.setValue<string>('label', this.getAttribute('label') || '');
+		this._ch5Properties.setValue<string>('iconClass', this.getAttribute('iconclass') || '');
+		this._ch5Properties.setValue<string>('iconUrl', this.getAttribute('iconurl') || '');
+		this._ch5Properties.setValue<string>('backgroundImageUrl', this.getAttribute('backgroundimageurl') || '');
 	}
 
 	/**
@@ -188,14 +190,15 @@ export class Ch5LightButton extends HTMLElement {
 		if (!this._elButton) {
 			return;
 		}
-		if (this._label) {
+		const label = this.label;
+		if (label) {
 			// Create the label element lazily the first time a label is set
 			if (!this._elLabel) {
 				this._elLabel = document.createElement('span');
 				this._elLabel.className = `${Ch5LightButton.PRIMARY_CSS_CLASS}--label`;
 				this._elButton.appendChild(this._elLabel);
 			}
-			this._elLabel.textContent = this._label;
+			this._elLabel.textContent = label;
 		} else if (this._elLabel) {
 			// Remove the label element when the label is cleared
 			this._elLabel.remove();
@@ -208,7 +211,9 @@ export class Ch5LightButton extends HTMLElement {
 		if (!this._elButton) {
 			return;
 		}
-		if (this._iconUrl || this._iconClass) {
+		const iconUrl = this.iconUrl;
+		const iconClass = this.iconClass;
+		if (iconUrl || iconClass) {
 			// Create the icon element lazily the first time an icon is set.
 			// DOM order does not matter: the icon position is controlled by the CSS
 			// `order` property (see _light-button-icon-position.scss).
@@ -216,15 +221,15 @@ export class Ch5LightButton extends HTMLElement {
 				this._elIcon = document.createElement('i');
 				this._elButton.appendChild(this._elIcon);
 			}
-			if (this._iconUrl) {
+			if (iconUrl) {
 				// iconUrl takes the highest priority over iconClass. Render the icon
 				// as a background image using the --img modifier class. The --img and
 				// --icon classes are mutually exclusive (same as ch5-button).
 				this._elIcon.className = `${Ch5LightButton.PRIMARY_CSS_CLASS}--img`;
-				this._elIcon.style.backgroundImage = `url("${this._iconUrl}")`;
+				this._elIcon.style.backgroundImage = `url("${iconUrl}")`;
 			} else {
 				// Fall back to the icon font class when no iconUrl is provided.
-				this._elIcon.className = `${Ch5LightButton.PRIMARY_CSS_CLASS}--icon ${this._iconClass}`;
+				this._elIcon.className = `${Ch5LightButton.PRIMARY_CSS_CLASS}--icon ${iconClass}`;
 				this._elIcon.style.backgroundImage = '';
 			}
 		} else if (this._elIcon) {
@@ -242,8 +247,9 @@ export class Ch5LightButton extends HTMLElement {
 		// Set the background image directly on the button element (same approach as
 		// ch5-button). A URL from an attribute cannot be injected via pure CSS, so
 		// this is handled in JS; the value is applied as an inline background-image.
-		if (this._backgroundImageUrl) {
-			this._elButton.style.backgroundImage = `url("${this._backgroundImageUrl}")`;
+		const backgroundImageUrl = this.backgroundImageUrl;
+		if (backgroundImageUrl) {
+			this._elButton.style.backgroundImage = `url("${backgroundImageUrl}")`;
 		} else {
 			this._elButton.style.backgroundImage = '';
 		}
