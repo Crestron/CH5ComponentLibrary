@@ -1,5 +1,5 @@
 import { Ch5LightBaseClass } from "../ch5-light-base/ch5-light-base-class";
-import { Ch5LightSignal } from "../ch5-light-base/ch5-light-signal";
+import { Ch5LightSignal, TCh5LightSignalType } from "../ch5-light-base/ch5-light-signal";
 
 export class Ch5LightButton extends Ch5LightBaseClass {
 
@@ -25,12 +25,23 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 */
 	public static readonly SIGNAL_TYPE_ATTRIBUTE = 'data-signal-type';
 
+	/**
+	 * Host attribute the `receivestateselected` signal writes its resolved state
+	 * to. This is a SEPARATE channel from the author's `selected` attribute; the
+	 * theme SCSS (`_light-button-selected.scss`) styles `[data-signal-selected]`
+	 * with priority over `[selected]` (every static `[selected]` selector is
+	 * guarded with `:not([data-signal-selected])`). Keep this string in sync with
+	 * that SCSS.
+	 */
+	public static readonly SIGNAL_SELECTED_ATTRIBUTE = 'data-signal-selected';
+
 	private static readonly OBSERVED_ATTRIBUTES = [
 		'label', 
 		'iconclass', 
 		'iconurl', 
 		'backgroundimageurl',
-		'receivestatetype'
+		'receivestatetype',
+		'receivestateselected'
 	];
 
 	//#endregion
@@ -68,6 +79,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	// if the author changes `type` at runtime - with no JS render/observe step.
 	private _signals: Ch5LightSignal | null = null;
 	private _sigNameReceiveStateType = '';
+	private _sigNameReceiveStateSelected = '';
 
 	//#endregion
 
@@ -119,6 +131,25 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 	public get receiveStateType(): string {
 		return this._sigNameReceiveStateType;
+	}
+
+	/**
+	 * Name of the boolean signal that drives the button `selected` state. When
+	 * set, the signal writes the resolved state to the separate
+	 * `data-signal-selected` channel, which the theme styles with priority over
+	 * the author's static `selected` attribute; when cleared, `data-signal-selected`
+	 * is removed and the static `selected` styles the button again. Kept as a plain
+	 * field (not in the property store) for the same reasons as `receiveStateType`.
+	 */
+	public set receiveStateSelected(value: string) {
+		const newValue = value ?? '';
+		if (newValue === this._sigNameReceiveStateSelected) {
+			return;
+		}
+		this.handleReceiveStateSelected(newValue);
+	}
+	public get receiveStateSelected(): string {
+		return this._sigNameReceiveStateSelected;
 	}
 
 	//#endregion
@@ -177,6 +208,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 			case 'receivestatetype':
 				this.receiveStateType = newValue ?? '';
 				break;
+			case 'receivestateselected':
+				this.receiveStateSelected = newValue ?? '';
+				break;
 			default:
 				// Delegate base attributes (show / disabled) to Ch5LightBaseClass.
 				super.attributeChangedCallback(attr, oldValue, newValue);
@@ -217,13 +251,15 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		// unaffected. Safe on reconnect: disconnectedCallback tore the previous
 		// subscription down while preserving the signal name.
 		this.subscribeReceiveStateType();
+		this.subscribeReceiveStateSelected();
 	}
 
 	public disconnectedCallback() {
-		// Release the type signal subscription (if any) so a detached button does
-		// not keep an active listener. The signal name is kept so connectedCallback
-		// can re-subscribe transparently.
-		this.clearReceiveStateTypeSubscription();
+		// Release the signal subscriptions (if any) so a detached button does not
+		// keep active listeners. The signal names are kept so connectedCallback can
+		// re-subscribe transparently.
+		this.clearSignalSubscription(this._sigNameReceiveStateType);
+		this.clearSignalSubscription(this._sigNameReceiveStateSelected);
 	}
 
 	//#endregion
@@ -329,6 +365,51 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		}
 	}
 
+	// --- Shared signal plumbing ----------------------------------------------
+	// The three helpers below hold the ONLY subscribe / unsubscribe / channel
+	// teardown logic; each receiveState* attribute is a thin wrapper that supplies
+	// its signal name, value type and value handler. None of these run on the hot
+	// path - a signal VALUE change routes straight to an applySignal* method - so
+	// sharing them has no performance cost (they fire only on connect / disconnect
+	// / attribute change).
+
+	/**
+	 * Lazily creates the shared signal helper (only for buttons that actually use
+	 * a signal) and subscribes `onValue` to `signalName`. Idempotent: no-op when
+	 * the name is empty or already subscribed.
+	 */
+	private subscribeSignal<T extends string | number | boolean>(
+		signalName: string,
+		signalType: TCh5LightSignalType,
+		onValue: (value: T) => void
+	): void {
+		if (!signalName || (this._signals !== null && this._signals.isSubscribedTo(signalName))) {
+			return;
+		}
+		(this._signals ??= new Ch5LightSignal()).subscribe<T>(signalName, signalType, onValue);
+	}
+
+	/**
+	 * Releases the subscription for a single signal name, leaving any coexisting
+	 * receiveState* subscription (and the stored name) intact so a reconnect can
+	 * re-subscribe. No-op when nothing was ever subscribed.
+	 */
+	private clearSignalSubscription(signalName: string): void {
+		if (this._signals !== null) {
+			this._signals.unsubscribe(signalName);
+		}
+	}
+
+	/**
+	 * Removes a `data-signal-*` styling channel so the matching author attribute
+	 * regains control. Called when a receiveState* attribute is removed.
+	 */
+	private clearSignalChannel(attribute: string): void {
+		if (this.hasAttribute(attribute)) {
+			this.removeAttribute(attribute);
+		}
+	}
+
 	/**
 	 * Central handler for a change to the `receivestatetype` signal NAME. Tears
 	 * down any previous subscription and either subscribes (when connected) or,
@@ -336,7 +417,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * the author's static `type` attribute styles the button again.
 	 */
 	private handleReceiveStateType(signalName: string): void {
-		this.clearReceiveStateTypeSubscription();
+		this.clearSignalSubscription(this._sigNameReceiveStateType);
 		this._sigNameReceiveStateType = signalName;
 
 		if (signalName) {
@@ -345,36 +426,17 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 			}
 		} else {
 			// Leaving signal-driven mode: the static `type` regains priority.
-			this.clearSignalType();
+			this.clearSignalChannel(Ch5LightButton.SIGNAL_TYPE_ATTRIBUTE);
 		}
 	}
 
-	/**
-	 * Subscribes to the configured type signal via the shared {@link Ch5LightSignal}
-	 * helper. The signal helper is created lazily here (only when a signal is
-	 * actually in use) and the subscription callback is allocated at subscribe
-	 * time - so signal-free buttons never create the helper or the closure.
-	 * Idempotent: does nothing if there is no signal name or a live subscription.
-	 */
+	/** Subscribes the `receivestatetype` string signal to {@link applySignalType}. */
 	private subscribeReceiveStateType(): void {
-		if (!this._sigNameReceiveStateType || (this._signals !== null && this._signals.hasSubscriptions)) {
-			return;
-		}
-		(this._signals ??= new Ch5LightSignal()).subscribe<string>(
+		this.subscribeSignal<string>(
 			this._sigNameReceiveStateType,
 			'string',
-			(newValue: string) => this.applySignalType(newValue)
+			(newValue) => this.applySignalType(newValue)
 		);
-	}
-
-	/**
-	 * Unsubscribes from the type signal (if subscribed). Keeps `_sigNameReceiveStateType`
-	 * intact so a reconnect can transparently re-subscribe.
-	 */
-	private clearReceiveStateTypeSubscription(): void {
-		if (this._signals !== null) {
-			this._signals.unsubscribeAll();
-		}
 	}
 
 	/**
@@ -392,14 +454,47 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Removes the `data-signal-type` styling channel so the author's static `type`
-	 * attribute styles the button again. Called when the `receivestatetype`
-	 * attribute is removed.
+	 * Central handler for a change to the `receivestateselected` signal NAME.
+	 * Tears down any previous subscription and either subscribes (when connected)
+	 * or, when the signal is removed, drops the `data-signal-selected` styling
+	 * channel so the author's static `selected` attribute styles the button again.
 	 */
-	private clearSignalType(): void {
-		if (this.hasAttribute(Ch5LightButton.SIGNAL_TYPE_ATTRIBUTE)) {
-			this.removeAttribute(Ch5LightButton.SIGNAL_TYPE_ATTRIBUTE);
+	private handleReceiveStateSelected(signalName: string): void {
+		this.clearSignalSubscription(this._sigNameReceiveStateSelected);
+		this._sigNameReceiveStateSelected = signalName;
+
+		if (signalName) {
+			if (this.isConnected) {
+				this.subscribeReceiveStateSelected();
+			}
+		} else {
+			// Leaving signal-driven mode: the static `selected` regains priority.
+			this.clearSignalChannel(Ch5LightButton.SIGNAL_SELECTED_ATTRIBUTE);
 		}
+	}
+
+	/** Subscribes the `receivestateselected` boolean signal to {@link applySignalSelected}. */
+	private subscribeReceiveStateSelected(): void {
+		this.subscribeSignal<boolean>(
+			this._sigNameReceiveStateSelected,
+			'boolean',
+			(newValue) => this.applySignalSelected(newValue)
+		);
+	}
+
+	/**
+	 * Applies a signal-delivered selected state to the SEPARATE
+	 * `data-signal-selected` channel (never the author's `selected` attribute).
+	 * The theme SCSS guards every static `[selected]` selector with
+	 * `:not([data-signal-selected])` and adds a parallel `[data-signal-selected="true"]`
+	 * channel, so writing this attribute is all that is needed - no extra JS
+	 * styling and no render step. `"false"` keeps the attribute present so the
+	 * static `selected` stays suppressed (the signal forces "not selected"), while
+	 * `"true"` applies the selected look. Because the author's `selected` is
+	 * untouched, the signal keeps priority even if `selected` changes at runtime.
+	 */
+	private applySignalSelected(value: boolean): void {
+		this.setAttribute(Ch5LightButton.SIGNAL_SELECTED_ATTRIBUTE, value ? 'true' : 'false');
 	}
 
 	//#endregion
