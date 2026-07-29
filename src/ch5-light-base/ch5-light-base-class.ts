@@ -99,12 +99,24 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	}
 
 	/**
-	 * Applies the base attributes to the host. A derived component should call
+	 * Applies the base attributes to the host, then (re)subscribes any
+	 * registered `receiveState*` signal properties (see `Ch5LightProperties`
+	 * signal-property API). A derived component should call
 	 * `super.connectedCallback()` from its own `connectedCallback`, after it has
 	 * built its internal DOM (so overridden handlers can reach child elements).
 	 */
 	public connectedCallback(): void {
 		this.initLightBaseAttributes();
+		this._ch5Properties.connectSignals(this);
+	}
+
+	/**
+	 * Releases any active `receiveState*` signal subscriptions so a detached
+	 * component does not keep active listeners. A derived component that
+	 * overrides `disconnectedCallback` must call `super.disconnectedCallback()`.
+	 */
+	public disconnectedCallback(): void {
+		this._ch5Properties.disconnectSignals();
 	}
 
 	public attributeChangedCallback(attr: string, oldValue: string | null, newValue: string | null): void {
