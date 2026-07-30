@@ -30,6 +30,9 @@ It intentionally supports a **small subset** of `ch5-button`'s features:
 | `selected` (static, CSS-only styling) | ✅ (inherited via CSS attribute selector, not JS) |
 | `receiveStateType` (signal-driven type) | ✅ |
 | `receiveStateSelected` (signal-driven selected) | ✅ |
+| `receiveStateIconClass` (signal-driven icon class) | ✅ |
+| `receiveStateIconUrl` (signal-driven icon URL) | ✅ |
+| `receiveStateBackgroundImageUrl` (signal-driven background image URL) | ✅ |
 | `show` / `noshowtype` | ✅ (via `Ch5LightBaseClass`) |
 | `disabled` | ✅ (styled purely via CSS `[disabled]`, no JS) |
 | Press/click signal emission, ripple, gestures, long-press, repeat digital | ❌ (out of scope — use `ch5-button` if you need these) |
@@ -106,6 +109,9 @@ components.
 | `selected` | *(none — static attribute, CSS-only)* | boolean | — | Styled purely via CSS attribute selector `[selected]`. No JS reads/writes it. |
 | `receivestatetype` | `receiveStateType` | `string` (signal name) | `''` | See §6 |
 | `receivestateselected` | `receiveStateSelected` | `string` (signal name) | `''` | See §6 |
+| `receivestateiconclass` | `receiveStateIconClass` | `string` (signal name) | `''` | JS-rendered signal — **write-through** into the `iconClass` slot, not a `data-signal-*` channel. See §6.5 |
+| `receivestateiconurl` | `receiveStateIconUrl` | `string` (signal name) | `''` | JS-rendered signal — **write-through** into the `iconUrl` slot. See §6.5 |
+| `receivestatebackgroundimageurl` | `receiveStateBackgroundImageUrl` | `string` (signal name) | `''` | JS-rendered signal — **write-through** into the `backgroundImageUrl` slot; also reflects the `backgroundimageurl` host attribute so the fill-type CSS matches. See §6.5 |
 | `show` | `show` | `boolean` | `true` | Inherited from `Ch5LightBaseClass` |
 | `noshowtype` | `noshowType` | `'display'\|'visibility'\|'remove'` | `'display'` | Inherited from `Ch5LightBaseClass` |
 | `disabled` | *(none)* | boolean | — | **Not handled in JS at all** — styled entirely via CSS `[disabled]` |
@@ -164,12 +170,21 @@ render/observe step** — the cascade does all the work. It also means
 signal-free buttons pay nothing (no attribute is ever written).
 
 **Rule for extension:** if you add another visual property that can be
-signal-driven, follow the same pattern — a dedicated `data-signal-*` shadow
-attribute with SCSS priority, never overwrite the author's own attribute.
+signal-driven, the pattern depends on **how that property is styled**:
+
+- **Pure-CSS attributes** (like `type` / `selected`) — follow the pattern
+  above: a dedicated `data-signal-*` shadow attribute with SCSS priority,
+  never overwrite the author's own attribute.
+- **JS-rendered content** (like `iconClass` / `iconUrl` / `backgroundImageUrl`)
+  — there is no static CSS channel to override, so use the simpler
+  **write-through** approach (§6.5): write the signal value straight into the
+  same slot the static attribute uses and re-render. See §6.5 for the full
+  rationale and the one extra step `backgroundImageUrl` needs for its
+  fill-type CSS.
 
 ---
 
-## 6. Signal wiring deep dive (`receiveStateType` / `receiveStateSelected`)
+## 6. Signal wiring deep dive (`receiveStateType` / `receiveStateSelected` / `receiveStateIconClass` / `receiveStateIconUrl` / `receiveStateBackgroundImageUrl`)
 
 ### 6.1 Storage: `_ch5Properties`, not bespoke fields
 
@@ -184,7 +199,10 @@ this._ch5Properties.add([
     { name: 'iconUrl', default: '', type: 'string' },
     { name: 'backgroundImageUrl', default: '', type: 'string' },
     { name: 'receiveStateType', default: '', type: 'string' },
-    { name: 'receiveStateSelected', default: '', type: 'string' }
+    { name: 'receiveStateSelected', default: '', type: 'string' },
+    { name: 'receiveStateIconClass', default: '', type: 'string' },
+    { name: 'receiveStateIconUrl', default: '', type: 'string' },
+    { name: 'receiveStateBackgroundImageUrl', default: '', type: 'string' }
 ]);
 ```
 
@@ -300,6 +318,63 @@ writes `data-signal-type` / `data-signal-selected`:
   because `"false"` is meaningfully different from "no signal" (it forces
   *not selected*, whereas removing the attribute lets the static `selected`
   attribute regain control).
+
+### 6.5 The JS-rendered signals — `receiveStateIconClass` / `receiveStateIconUrl` / `receiveStateBackgroundImageUrl` (write-through)
+
+`type` and `selected` are **pure-CSS** attributes, so their signals need the
+separate `data-signal-*` channel described in §5. `iconClass`, `iconUrl`, and
+`backgroundImageUrl` are **rendered in JS** (§7) — there is no static CSS
+channel to override — so their three signals use the simpler **write-through**
+pattern instead (the same approach as `ch5-animation`'s `startAnimating`):
+
+```ts
+private applySignalIconClass(value: string): void {
+    this.iconClass = value ?? '';   // straight into the shared slot -> handleIcon()
+}
+private applySignalIconUrl(value: string): void {
+    this.iconUrl = value ?? '';      // straight into the shared slot -> handleIcon()
+}
+```
+
+The signal value is written **straight into the same property slot** the
+static attribute uses, which runs the cached `_onIconChange` /
+`_onBackgroundImageChange` callback and re-renders through the normal
+pipeline. The store's equality short-circuit still skips redundant re-renders.
+
+**Why this is safe (the platform contract):** at runtime, **only the signal**
+updates these values — the static `iconclass` / `iconurl` / `backgroundimageurl`
+are set once at design time and never re-written live. So the signal is
+always the last writer and therefore always wins, with no separate channel
+and no extra CSS. (Removing a signal at runtime is a design-time change — a
+fresh instance renders the static value — so there is no runtime override to
+unwind; the last signal value simply remains in the slot.)
+
+**The one exception — `receiveStateBackgroundImageUrl` reflects the host
+attribute.** The `backgroundimageurlfilltype` CSS is scoped to
+`ch5-light-button[backgroundimageurl]` (a perf scope so buttons with no
+background image are never matched). A static author sets that attribute in
+markup, but a signal-driven URL would leave the host without it, so the fill
+type would be ignored (every mode looks identical). `applySignalBackgroundImageUrl`
+therefore reflects the attribute onto the host and removes it when the signal
+clears:
+
+```ts
+private applySignalBackgroundImageUrl(value: string): void {
+    const url = value ?? '';
+    if (url) { this.setAttribute('backgroundimageurl', url); }
+    else { this.removeAttribute('backgroundimageurl'); }
+    this.backgroundImageUrl = url;
+}
+```
+
+Re-entering `attributeChangedCallback` → the setter is harmless: the store's
+equality short-circuit stops any re-render loop. `receiveStateIconUrl` needs
+**no** equivalent step because the `iconurlfilltype` CSS is scoped to
+`[iconurlfilltype]` and the JS-created `--img` element, **not** to the
+`[iconurl]` attribute — so it already matches for signal-driven URLs.
+
+Priority is unchanged: in `handleIcon()`, `iconUrl` still wins over
+`iconClass` (whether static or signal-driven), matching `ch5-button`.
 
 ---
 
@@ -615,6 +690,15 @@ changing `show`/`noshowtype` handling:
 Keep this brief — one line per notable design change, newest first. Full
 detail belongs in git history / PR description.
 
+- **2026-07-30** — Added three JS-rendered opt-in signals —
+  `receiveStateIconClass`, `receiveStateIconUrl`, and
+  `receiveStateBackgroundImageUrl` — using the **write-through** pattern
+  (§6.5): each writes straight into its `iconClass` / `iconUrl` /
+  `backgroundImageUrl` slot rather than a `data-signal-*` channel, since
+  those are JS-rendered (not pure-CSS like `type` / `selected`).
+  `receiveStateBackgroundImageUrl` additionally reflects the
+  `backgroundimageurl` host attribute so `backgroundimageurlfilltype` matches
+  for signal-driven URLs. See §1, §4, §5, §6.5.
 - **2026-07-30** — `Ch5LightProperties.set()` now hands the OLD value to
   `onChange` as a parameter (`onChange?: (oldValue: T) => void`), instead of
   only supporting zero-arg callbacks. This let `receiveStateType`/
