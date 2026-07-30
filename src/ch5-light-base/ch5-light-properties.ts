@@ -65,9 +65,17 @@ export class Ch5LightProperties {
 
 	/**
 	 * Sets a property value. `onChange` runs only when the value actually
-	 * changes, so redundant DOM work is avoided.
+	 * changes, so redundant DOM work is avoided. `onChange` is invoked with the
+	 * value that was in effect immediately before this write - the store is the
+	 * only place that holds it at the right moment (it overwrites `_values`
+	 * before calling back), so callers that need the previous value (e.g. to
+	 * unsubscribe something keyed by the old value) don't need to shadow it in
+	 * their own field - they can just accept the parameter. Callers that don't
+	 * need it can keep using a zero-arg callback (`() => this.handleX()`);
+	 * TypeScript allows a function with fewer parameters to satisfy a callback
+	 * type that declares more.
 	 */
-	public set<T extends boolean | string | number>(name: string, value: T, onChange?: () => void): void {
+	public set<T extends boolean | string | number>(name: string, value: T, onChange?: (oldValue: T) => void): void {
 		const currentValue = this._values[name];
 		if (currentValue === value) {
 			return;
@@ -85,7 +93,7 @@ export class Ch5LightProperties {
 
 		this._values[name] = nextValue;
 		if (onChange) {
-			onChange();
+			onChange(currentValue as T);
 		}
 	}
 

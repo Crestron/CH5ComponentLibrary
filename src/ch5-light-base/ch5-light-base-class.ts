@@ -1,4 +1,4 @@
-import { Ch5LightProperties } from "./ch5-light-properties";
+import { Ch5LightProperties, ICh5LightPropertySettings } from "./ch5-light-properties";
 
 /** How a light component hides itself — mirrors `Ch5BaseClass` noshowtype. */
 export type TCh5LightShowType = 'display' | 'visibility' | 'remove';
@@ -28,6 +28,11 @@ export type TCh5LightShowType = 'display' | 'visibility' | 'remove';
  *  - call `super.attributeChangedCallback(...)` for attributes they do not handle;
  *  - call `super.connectedCallback()` (after building their internal DOM) so the
  *    base attributes are applied and overridden handlers can reach child nodes.
+ *
+ * See ../ch5-light-button/ch5-light-button.md for the full design reference
+ * (class hierarchy, extension playbook, GC/allocation rules) covering this
+ * base class and its first concrete implementation, `Ch5LightButton`. Update
+ * that document alongside any change to this base class's public contract.
  */
 export abstract class Ch5LightBaseClass extends HTMLElement {
 
@@ -48,6 +53,25 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 */
 	public static readonly LIGHT_BASE_OBSERVED_ATTRIBUTES = ['show', 'noshowtype'];
 
+	/**
+	 * Settings passed to every `Ch5LightProperties` instance created by this base
+	 * class. Hoisted to a STATIC field (computed once per class, not once per
+	 * component instance) - at 1000+ instances, allocating this array/object
+	 * literal (and the `enumeratedValues` copy) in the constructor would mean
+	 * 1000 extra allocations for data that is identical every time. Safe to
+	 * share: `Ch5LightProperties` only reads `name`/`default` from each entry
+	 * during construction and never retains or mutates the array.
+	 */
+	private static readonly LIGHT_BASE_PROPERTY_SETTINGS: ICh5LightPropertySettings[] = [
+		{ name: 'show', default: true, type: 'boolean', valueOnAttributeEmpty: true },
+		{
+			name: 'noshowType',
+			default: Ch5LightBaseClass.NO_SHOW_TYPES[0],
+			type: 'enum',
+			enumeratedValues: [...Ch5LightBaseClass.NO_SHOW_TYPES]
+		}
+	];
+
 	//#endregion
 
 	//#region Variables
@@ -59,19 +83,24 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	private _cachedNextSibling: Node | null = null;
 	private _isDetachedFromDom = false;
 
+	// Cached onChange callback (see the identical pattern/rationale in
+	// Ch5LightButton) - created ONCE per instance so repeated `show`/`noshowType`
+	// writes (e.g. driven by a fast-changing signal) never allocate a new closure.
+	private readonly _onShowChange = () => this.handleShow();
+
 	//#endregion
 
 	//#region Getters and Setters
 
 	public set show(value: boolean) {
-		this._ch5Properties.set<boolean>('show', value, () => this.handleShow());
+		this._ch5Properties.set<boolean>('show', value, this._onShowChange);
 	}
 	public get show(): boolean {
 		return this._ch5Properties.get<boolean>('show');
 	}
 
 	public set noshowType(value: TCh5LightShowType) {
-		this._ch5Properties.set<TCh5LightShowType>('noshowType', value, () => this.handleShow());
+		this._ch5Properties.set<TCh5LightShowType>('noshowType', value, this._onShowChange);
 	}
 	public get noshowType(): TCh5LightShowType {
 		return this._ch5Properties.get<TCh5LightShowType>('noshowType');
@@ -87,15 +116,9 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		// The extra metadata (type / enumeratedValues / valueOnAttributeEmpty) is
 		// purely descriptive — the store only reads `name` + `default`, so it adds
 		// no runtime cost and simply mirrors the `Ch5Properties` config shape.
-		this._ch5Properties = new Ch5LightProperties([
-			{ name: 'show', default: true, type: 'boolean', valueOnAttributeEmpty: true },
-			{
-				name: 'noshowType',
-				default: Ch5LightBaseClass.NO_SHOW_TYPES[0],
-				type: 'enum',
-				enumeratedValues: [...Ch5LightBaseClass.NO_SHOW_TYPES]
-			}
-		]);
+		// Settings array is a shared STATIC field (see LIGHT_BASE_PROPERTY_SETTINGS) - no
+		// per-instance allocation here.
+		this._ch5Properties = new Ch5LightProperties(Ch5LightBaseClass.LIGHT_BASE_PROPERTY_SETTINGS);
 	}
 
 	/**
