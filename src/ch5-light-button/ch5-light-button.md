@@ -30,6 +30,7 @@ It intentionally supports a **small subset** of `ch5-button`'s features:
 | `selected` (static, CSS-only styling) | ✅ (inherited via CSS attribute selector, not JS) |
 | `receiveStateType` (signal-driven type) | ✅ |
 | `receiveStateSelected` (signal-driven selected) | ✅ |
+| `receiveStateLabel` (signal-driven label) | ✅ |
 | `receiveStateIconClass` (signal-driven icon class) | ✅ |
 | `receiveStateIconUrl` (signal-driven icon URL) | ✅ |
 | `receiveStateBackgroundImageUrl` (signal-driven background image URL) | ✅ |
@@ -109,6 +110,7 @@ components.
 | `selected` | *(none — static attribute, CSS-only)* | boolean | — | Styled purely via CSS attribute selector `[selected]`. No JS reads/writes it. |
 | `receivestatetype` | `receiveStateType` | `string` (signal name) | `''` | See §6 |
 | `receivestateselected` | `receiveStateSelected` | `string` (signal name) | `''` | See §6 |
+| `receivestatelabel` | `receiveStateLabel` | `string` (signal name) | `''` | JS-rendered signal — **write-through** into the `label` slot. See §6.5 |
 | `receivestateiconclass` | `receiveStateIconClass` | `string` (signal name) | `''` | JS-rendered signal — **write-through** into the `iconClass` slot, not a `data-signal-*` channel. See §6.5 |
 | `receivestateiconurl` | `receiveStateIconUrl` | `string` (signal name) | `''` | JS-rendered signal — **write-through** into the `iconUrl` slot. See §6.5 |
 | `receivestatebackgroundimageurl` | `receiveStateBackgroundImageUrl` | `string` (signal name) | `''` | JS-rendered signal — **write-through** into the `backgroundImageUrl` slot; also reflects the `backgroundimageurl` host attribute so the fill-type CSS matches. See §6.5 |
@@ -184,7 +186,7 @@ signal-driven, the pattern depends on **how that property is styled**:
 
 ---
 
-## 6. Signal wiring deep dive (`receiveStateType` / `receiveStateSelected` / `receiveStateIconClass` / `receiveStateIconUrl` / `receiveStateBackgroundImageUrl`)
+## 6. Signal wiring deep dive (`receiveStateType` / `receiveStateSelected` / `receiveStateLabel` / `receiveStateIconClass` / `receiveStateIconUrl` / `receiveStateBackgroundImageUrl`)
 
 ### 6.1 Storage: `_ch5Properties`, not bespoke fields
 
@@ -200,6 +202,7 @@ this._ch5Properties.add([
     { name: 'backgroundImageUrl', default: '', type: 'string' },
     { name: 'receiveStateType', default: '', type: 'string' },
     { name: 'receiveStateSelected', default: '', type: 'string' },
+    { name: 'receiveStateLabel', default: '', type: 'string' },
     { name: 'receiveStateIconClass', default: '', type: 'string' },
     { name: 'receiveStateIconUrl', default: '', type: 'string' },
     { name: 'receiveStateBackgroundImageUrl', default: '', type: 'string' }
@@ -319,30 +322,34 @@ writes `data-signal-type` / `data-signal-selected`:
   *not selected*, whereas removing the attribute lets the static `selected`
   attribute regain control).
 
-### 6.5 The JS-rendered signals — `receiveStateIconClass` / `receiveStateIconUrl` / `receiveStateBackgroundImageUrl` (write-through)
+### 6.5 The JS-rendered signals — `receiveStateLabel` / `receiveStateIconClass` / `receiveStateIconUrl` / `receiveStateBackgroundImageUrl` (write-through)
 
 `type` and `selected` are **pure-CSS** attributes, so their signals need the
-separate `data-signal-*` channel described in §5. `iconClass`, `iconUrl`, and
-`backgroundImageUrl` are **rendered in JS** (§7) — there is no static CSS
-channel to override — so their three signals use the simpler **write-through**
-pattern instead (the same approach as `ch5-animation`'s `startAnimating`):
+separate `data-signal-*` channel described in §5. `label`, `iconClass`,
+`iconUrl`, and `backgroundImageUrl` are **rendered in JS** (§7) — there is no
+static CSS channel to override — so their signals use the simpler
+**write-through** pattern instead (the same approach as `ch5-animation`'s
+`startAnimating`):
 
 ```ts
+private applySignalLabel(value: string): void {
+    this.label = value ?? '';        // straight into the shared slot -> handleLabel()
+}
 private applySignalIconClass(value: string): void {
-    this.iconClass = value ?? '';   // straight into the shared slot -> handleIcon()
+    this.iconClass = value ?? '';    // straight into the shared slot -> handleIcon()
 }
 private applySignalIconUrl(value: string): void {
-    this.iconUrl = value ?? '';      // straight into the shared slot -> handleIcon()
+    this.iconUrl = value ?? '';       // straight into the shared slot -> handleIcon()
 }
 ```
 
 The signal value is written **straight into the same property slot** the
-static attribute uses, which runs the cached `_onIconChange` /
+static attribute uses, which runs the cached `_onLabelChange` / `_onIconChange` /
 `_onBackgroundImageChange` callback and re-renders through the normal
 pipeline. The store's equality short-circuit still skips redundant re-renders.
 
 **Why this is safe (the platform contract):** at runtime, **only the signal**
-updates these values — the static `iconclass` / `iconurl` / `backgroundimageurl`
+updates these values — the static `label` / `iconclass` / `iconurl` / `backgroundimageurl`
 are set once at design time and never re-written live. So the signal is
 always the last writer and therefore always wins, with no separate channel
 and no extra CSS. (Removing a signal at runtime is a design-time change — a
@@ -690,6 +697,10 @@ changing `show`/`noshowtype` handling:
 Keep this brief — one line per notable design change, newest first. Full
 detail belongs in git history / PR description.
 
+- **2026-07-30** — Added `receiveStateLabel` (JS-rendered write-through signal,
+  §6.5): writes straight into the `label` slot via `applySignalLabel`. Simplest
+  write-through case — no fill-type CSS, so no host-attribute reflection needed
+  (unlike `receiveStateBackgroundImageUrl`). See §1, §4, §6.5.
 - **2026-07-30** — Added three JS-rendered opt-in signals —
   `receiveStateIconClass`, `receiveStateIconUrl`, and
   `receiveStateBackgroundImageUrl` — using the **write-through** pattern
