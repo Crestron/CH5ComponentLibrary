@@ -22,7 +22,10 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		'iconurl', 
 		'backgroundimageurl',
 		'receivestatetype',
-		'receivestateselected'
+		'receivestateselected',
+		'receivestateiconclass',
+		'receivestateiconurl',
+		'receivestatebackgroundimageurl'
 	];
 
 	/**
@@ -39,7 +42,10 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		{ name: 'iconUrl', default: '', type: 'string' },
 		{ name: 'backgroundImageUrl', default: '', type: 'string' },
 		{ name: 'receiveStateType', default: '', type: 'string' },
-		{ name: 'receiveStateSelected', default: '', type: 'string' }
+		{ name: 'receiveStateSelected', default: '', type: 'string' },
+		{ name: 'receiveStateIconClass', default: '', type: 'string' },
+		{ name: 'receiveStateIconUrl', default: '', type: 'string' },
+		{ name: 'receiveStateBackgroundImageUrl', default: '', type: 'string' }
 	];
 
 	//#endregion
@@ -84,6 +90,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	private _signals: Ch5LightSignal | null = null;
 	private readonly _onReceiveStateTypeChange = (oldSignalName: string) => this.handleReceiveStateType(oldSignalName);
 	private readonly _onReceiveStateSelectedChange = (oldSignalName: string) => this.handleReceiveStateSelected(oldSignalName);
+	private readonly _onReceiveStateIconClassChange = (oldSignalName: string) => this.handleReceiveStateIconClass(oldSignalName);
+	private readonly _onReceiveStateIconUrlChange = (oldSignalName: string) => this.handleReceiveStateIconUrl(oldSignalName);
+	private readonly _onReceiveStateBackgroundImageUrlChange = (oldSignalName: string) => this.handleReceiveStateBackgroundImageUrl(oldSignalName);
 
 	//#endregion
 
@@ -151,6 +160,63 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		return this._ch5Properties.get<string>('receiveStateSelected');
 	}
 
+	/**
+	 * Name of the string signal that drives the button icon class. When a value
+	 * arrives it is written straight into the shared `iconClass` slot (see
+	 * {@link applySignalIconClass}), so the signal supersedes the author's static
+	 * `iconclass`. This relies on the platform contract that, at runtime, only the
+	 * signal ever updates the icon class - the static `iconclass` is set once at
+	 * design time and never re-written live - so the signal value is always the
+	 * last writer and therefore always wins. Stored in the shared `_ch5Properties`
+	 * store (same as label/icon) for the equality short-circuit;
+	 * `_ch5Properties.set()` passes the OLD name straight to the cached
+	 * `_onReceiveStateIconClassChange` callback for unsubscription.
+	 */
+	public set receiveStateIconClass(value: string) {
+		this._ch5Properties.set<string>('receiveStateIconClass', value ?? '', this._onReceiveStateIconClassChange);
+	}
+	public get receiveStateIconClass(): string {
+		return this._ch5Properties.get<string>('receiveStateIconClass');
+	}
+
+	/**
+	 * Name of the string signal that drives the button icon URL. When a value
+	 * arrives it is written straight into the shared `iconUrl` slot (see
+	 * {@link applySignalIconUrl}), so the signal supersedes the author's static
+	 * `iconurl`. This relies on the platform contract that, at runtime, only the
+	 * signal ever updates the icon URL - the static `iconurl` is set once at
+	 * design time and never re-written live - so the signal value is always the
+	 * last writer and therefore always wins. Stored in the shared `_ch5Properties`
+	 * store (same as label/icon) for the equality short-circuit;
+	 * `_ch5Properties.set()` passes the OLD name straight to the cached
+	 * `_onReceiveStateIconUrlChange` callback for unsubscription.
+	 */
+	public set receiveStateIconUrl(value: string) {
+		this._ch5Properties.set<string>('receiveStateIconUrl', value ?? '', this._onReceiveStateIconUrlChange);
+	}
+	public get receiveStateIconUrl(): string {
+		return this._ch5Properties.get<string>('receiveStateIconUrl');
+	}
+
+	/**
+	 * Name of the string signal that drives the button background image URL. When a
+	 * value arrives it is written straight into the shared `backgroundImageUrl` slot
+	 * (see {@link applySignalBackgroundImageUrl}), so the signal supersedes the
+	 * author's static `backgroundimageurl`. This relies on the platform contract
+	 * that, at runtime, only the signal ever updates the background image URL - the
+	 * static `backgroundimageurl` is set once at design time and never re-written
+	 * live - so the signal value is always the last writer and therefore always
+	 * wins. Stored in the shared `_ch5Properties` store (same as label/icon) for the
+	 * equality short-circuit; `_ch5Properties.set()` passes the OLD name straight to
+	 * the cached `_onReceiveStateBackgroundImageUrlChange` callback for unsubscription.
+	 */
+	public set receiveStateBackgroundImageUrl(value: string) {
+		this._ch5Properties.set<string>('receiveStateBackgroundImageUrl', value ?? '', this._onReceiveStateBackgroundImageUrlChange);
+	}
+	public get receiveStateBackgroundImageUrl(): string {
+		return this._ch5Properties.get<string>('receiveStateBackgroundImageUrl');
+	}
+
 	//#endregion
 
 	//#region Static Methods
@@ -207,6 +273,15 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 			case 'receivestateselected':
 				this.receiveStateSelected = newValue ?? '';
 				break;
+			case 'receivestateiconclass':
+				this.receiveStateIconClass = newValue ?? '';
+				break;
+			case 'receivestateiconurl':
+				this.receiveStateIconUrl = newValue ?? '';
+				break;
+			case 'receivestatebackgroundimageurl':
+				this.receiveStateBackgroundImageUrl = newValue ?? '';
+				break;
 			default:
 				// Delegate base attributes (show / disabled) to Ch5LightBaseClass.
 				super.attributeChangedCallback(attr, oldValue, newValue);
@@ -242,6 +317,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		// subscription down while preserving the signal name.
 		this.subscribeReceiveStateType();
 		this.subscribeReceiveStateSelected();
+		this.subscribeReceiveStateIconClass();
+		this.subscribeReceiveStateIconUrl();
+		this.subscribeReceiveStateBackgroundImageUrl();
 	}
 
 	public disconnectedCallback() {
@@ -250,6 +328,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		// re-subscribe transparently.
 		this.clearSignalSubscription(this.receiveStateType);
 		this.clearSignalSubscription(this.receiveStateSelected);
+		this.clearSignalSubscription(this.receiveStateIconClass);
+		this.clearSignalSubscription(this.receiveStateIconUrl);
+		this.clearSignalSubscription(this.receiveStateBackgroundImageUrl);
 	}
 
 	//#endregion
@@ -310,6 +391,10 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 			return;
 		}
 		const iconUrl = this.iconUrl;
+		// The `receivestateiconclass` signal (when active) writes its value straight
+		// into `iconClass` (see applySignalIconClass), so reading `iconClass` here
+		// already yields the signal value when a signal is driving it. The existing
+		// iconUrl-over-iconClass priority is unchanged: an iconUrl still wins.
 		const iconClass = this.iconClass;
 		if (iconUrl || iconClass) {
 			// Create the icon element lazily the first time an icon is set.
@@ -486,6 +571,145 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 */
 	private applySignalSelected(value: boolean): void {
 		this.setAttribute(Ch5LightButton.SIGNAL_ATTRIBUTE_SELECTED, value ? 'true' : 'false');
+	}
+
+	/**
+	 * Central handler for a change to the `receivestateiconclass` signal NAME.
+	 * `oldSignalName` is the name in effect before this change (captured by the
+	 * setter, same rationale as handleReceiveStateType). Tears down the previous
+	 * subscription and, when a signal is set and the button is connected,
+	 * (re)subscribes. Removing the signal is a design-time change (a fresh instance
+	 * renders the static `iconclass`), so there is no runtime override to unwind
+	 * here - the last signal value simply remains in the `iconClass` slot.
+	 */
+	private handleReceiveStateIconClass(oldSignalName: string): void {
+		this.clearSignalSubscription(oldSignalName);
+
+		if (this.receiveStateIconClass && this.isConnected) {
+			this.subscribeReceiveStateIconClass();
+		}
+	}
+
+	/** Subscribes the `receivestateiconclass` string signal to {@link applySignalIconClass}. */
+	private subscribeReceiveStateIconClass(): void {
+		this.subscribeSignal<string>(
+			this.receiveStateIconClass,
+			'string',
+			(newValue) => this.applySignalIconClass(newValue)
+		);
+	}
+
+	/**
+	 * Applies a signal-delivered icon class. Unlike `type` / `selected` (pure-CSS,
+	 * driven through a separate `data-signal-*` attribute channel), the icon class
+	 * is rendered in JS by {@link handleIcon}, so the signal writes its value
+	 * straight into the shared `iconClass` slot (same approach as ch5-animation's
+	 * `startAnimating`). Because the platform only updates the icon class through
+	 * the signal at runtime (the static `iconclass` is design-time only), the
+	 * signal is always the last writer and therefore always wins. Setting
+	 * `iconClass` runs the cached `_onIconChange` callback, which re-renders the
+	 * icon; the store's equality short-circuit skips redundant re-renders.
+	 */
+	private applySignalIconClass(value: string): void {
+		this.iconClass = value ?? '';
+	}
+
+	/**
+	 * Central handler for a change to the `receivestateiconurl` signal NAME.
+	 * `oldSignalName` is the name in effect before this change (captured by the
+	 * setter, same rationale as handleReceiveStateType). Tears down the previous
+	 * subscription and, when a signal is set and the button is connected,
+	 * (re)subscribes. Removing the signal is a design-time change (a fresh instance
+	 * renders the static `iconurl`), so there is no runtime override to unwind
+	 * here - the last signal value simply remains in the `iconUrl` slot.
+	 */
+	private handleReceiveStateIconUrl(oldSignalName: string): void {
+		this.clearSignalSubscription(oldSignalName);
+
+		if (this.receiveStateIconUrl && this.isConnected) {
+			this.subscribeReceiveStateIconUrl();
+		}
+	}
+
+	/** Subscribes the `receivestateiconurl` string signal to {@link applySignalIconUrl}. */
+	private subscribeReceiveStateIconUrl(): void {
+		this.subscribeSignal<string>(
+			this.receiveStateIconUrl,
+			'string',
+			(newValue) => this.applySignalIconUrl(newValue)
+		);
+	}
+
+	/**
+	 * Applies a signal-delivered icon URL. Like {@link applySignalIconClass}, the
+	 * icon URL is rendered in JS by {@link handleIcon}, so the signal writes its
+	 * value straight into the shared `iconUrl` slot (same approach as
+	 * ch5-animation's `startAnimating`). Because the platform only updates the icon
+	 * URL through the signal at runtime (the static `iconurl` is design-time only),
+	 * the signal is always the last writer and therefore always wins. Setting
+	 * `iconUrl` runs the cached `_onIconChange` callback, which re-renders the icon;
+	 * the store's equality short-circuit skips redundant re-renders.
+	 */
+	private applySignalIconUrl(value: string): void {
+		this.iconUrl = value ?? '';
+	}
+
+	/**
+	 * Central handler for a change to the `receivestatebackgroundimageurl` signal
+	 * NAME. `oldSignalName` is the name in effect before this change (captured by the
+	 * setter, same rationale as handleReceiveStateType). Tears down the previous
+	 * subscription and, when a signal is set and the button is connected,
+	 * (re)subscribes. Removing the signal is a design-time change (a fresh instance
+	 * renders the static `backgroundimageurl`), so there is no runtime override to
+	 * unwind here - the last signal value simply remains in the `backgroundImageUrl`
+	 * slot.
+	 */
+	private handleReceiveStateBackgroundImageUrl(oldSignalName: string): void {
+		this.clearSignalSubscription(oldSignalName);
+
+		if (this.receiveStateBackgroundImageUrl && this.isConnected) {
+			this.subscribeReceiveStateBackgroundImageUrl();
+		}
+	}
+
+	/** Subscribes the `receivestatebackgroundimageurl` string signal to {@link applySignalBackgroundImageUrl}. */
+	private subscribeReceiveStateBackgroundImageUrl(): void {
+		this.subscribeSignal<string>(
+			this.receiveStateBackgroundImageUrl,
+			'string',
+			(newValue) => this.applySignalBackgroundImageUrl(newValue)
+		);
+	}
+
+	/**
+	 * Applies a signal-delivered background image URL. Like {@link applySignalIconUrl},
+	 * the background image is rendered in JS by {@link handleBackgroundImageUrl}, so
+	 * the signal writes its value straight into the shared `backgroundImageUrl` slot
+	 * (same approach as ch5-animation's `startAnimating`). Because the platform only
+	 * updates the background image URL through the signal at runtime (the static
+	 * `backgroundimageurl` is design-time only), the signal is always the last writer
+	 * and therefore always wins. Setting `backgroundImageUrl` runs the cached
+	 * `_onBackgroundImageChange` callback, which re-renders the background; the
+	 * store's equality short-circuit skips redundant re-renders.
+	 *
+	 * The background-image fill-type CSS is scoped to the host attribute selector
+	 * `ch5-light-button[backgroundimageurl]` (for perf: buttons with no background
+	 * are never matched). With a static author value that attribute is already on
+	 * the host, but when the URL is signal-driven the author only sets
+	 * `receivestatebackgroundimageurl`, so the host would carry no `backgroundimageurl`
+	 * attribute and the fill-type rules would never match. Reflect the attribute here
+	 * so `backgroundimagefilltype` works identically for static and signal values.
+	 * Re-entering `attributeChangedCallback` -> the setter is harmless: the store's
+	 * equality short-circuit stops any re-render loop.
+	 */
+	private applySignalBackgroundImageUrl(value: string): void {
+		const url = value ?? '';
+		if (url) {
+			this.setAttribute('backgroundimageurl', url);
+		} else {
+			this.removeAttribute('backgroundimageurl');
+		}
+		this.backgroundImageUrl = url;
 	}
 
 	//#endregion
