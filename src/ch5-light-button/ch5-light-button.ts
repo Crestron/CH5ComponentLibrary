@@ -23,6 +23,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		'backgroundimageurl',
 		'receivestatetype',
 		'receivestateselected',
+		'receivestatelabel',
 		'receivestateiconclass',
 		'receivestateiconurl',
 		'receivestatebackgroundimageurl'
@@ -43,6 +44,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		{ name: 'backgroundImageUrl', default: '', type: 'string' },
 		{ name: 'receiveStateType', default: '', type: 'string' },
 		{ name: 'receiveStateSelected', default: '', type: 'string' },
+		{ name: 'receiveStateLabel', default: '', type: 'string' },
 		{ name: 'receiveStateIconClass', default: '', type: 'string' },
 		{ name: 'receiveStateIconUrl', default: '', type: 'string' },
 		{ name: 'receiveStateBackgroundImageUrl', default: '', type: 'string' }
@@ -90,6 +92,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	private _signals: Ch5LightSignal | null = null;
 	private readonly _onReceiveStateTypeChange = (oldSignalName: string) => this.handleReceiveStateType(oldSignalName);
 	private readonly _onReceiveStateSelectedChange = (oldSignalName: string) => this.handleReceiveStateSelected(oldSignalName);
+	private readonly _onReceiveStateLabelChange = (oldSignalName: string) => this.handleReceiveStateLabel(oldSignalName);
 	private readonly _onReceiveStateIconClassChange = (oldSignalName: string) => this.handleReceiveStateIconClass(oldSignalName);
 	private readonly _onReceiveStateIconUrlChange = (oldSignalName: string) => this.handleReceiveStateIconUrl(oldSignalName);
 	private readonly _onReceiveStateBackgroundImageUrlChange = (oldSignalName: string) => this.handleReceiveStateBackgroundImageUrl(oldSignalName);
@@ -158,6 +161,24 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 	public get receiveStateSelected(): string {
 		return this._ch5Properties.get<string>('receiveStateSelected');
+	}
+
+	/**
+	 * Name of the string signal that drives the button label. When a value arrives
+	 * it is written straight into the shared `label` slot (see {@link applySignalLabel}),
+	 * so the signal supersedes the author's static `label`. This relies on the platform
+	 * contract that, at runtime, only the signal ever updates the label - the static
+	 * `label` is set once at design time and never re-written live - so the signal value
+	 * is always the last writer and therefore always wins. Stored in the shared
+	 * `_ch5Properties` store (same as label/icon) for the equality short-circuit;
+	 * `_ch5Properties.set()` passes the OLD name straight to the cached
+	 * `_onReceiveStateLabelChange` callback for unsubscription.
+	 */
+	public set receiveStateLabel(value: string) {
+		this._ch5Properties.set<string>('receiveStateLabel', value ?? '', this._onReceiveStateLabelChange);
+	}
+	public get receiveStateLabel(): string {
+		return this._ch5Properties.get<string>('receiveStateLabel');
 	}
 
 	/**
@@ -273,6 +294,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 			case 'receivestateselected':
 				this.receiveStateSelected = newValue ?? '';
 				break;
+			case 'receivestatelabel':
+				this.receiveStateLabel = newValue ?? '';
+				break;
 			case 'receivestateiconclass':
 				this.receiveStateIconClass = newValue ?? '';
 				break;
@@ -317,6 +341,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		// subscription down while preserving the signal name.
 		this.subscribeReceiveStateType();
 		this.subscribeReceiveStateSelected();
+		this.subscribeReceiveStateLabel();
 		this.subscribeReceiveStateIconClass();
 		this.subscribeReceiveStateIconUrl();
 		this.subscribeReceiveStateBackgroundImageUrl();
@@ -328,6 +353,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		// re-subscribe transparently.
 		this.clearSignalSubscription(this.receiveStateType);
 		this.clearSignalSubscription(this.receiveStateSelected);
+		this.clearSignalSubscription(this.receiveStateLabel);
 		this.clearSignalSubscription(this.receiveStateIconClass);
 		this.clearSignalSubscription(this.receiveStateIconUrl);
 		this.clearSignalSubscription(this.receiveStateBackgroundImageUrl);
@@ -571,6 +597,46 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 */
 	private applySignalSelected(value: boolean): void {
 		this.setAttribute(Ch5LightButton.SIGNAL_ATTRIBUTE_SELECTED, value ? 'true' : 'false');
+	}
+
+	/**
+	 * Central handler for a change to the `receivestatelabel` signal NAME.
+	 * `oldSignalName` is the name in effect before this change (captured by the
+	 * setter, same rationale as handleReceiveStateType). Tears down the previous
+	 * subscription and, when a signal is set and the button is connected,
+	 * (re)subscribes. Removing the signal is a design-time change (a fresh instance
+	 * renders the static `label`), so there is no runtime override to unwind
+	 * here - the last signal value simply remains in the `label` slot.
+	 */
+	private handleReceiveStateLabel(oldSignalName: string): void {
+		this.clearSignalSubscription(oldSignalName);
+
+		if (this.receiveStateLabel && this.isConnected) {
+			this.subscribeReceiveStateLabel();
+		}
+	}
+
+	/** Subscribes the `receivestatelabel` string signal to {@link applySignalLabel}. */
+	private subscribeReceiveStateLabel(): void {
+		this.subscribeSignal<string>(
+			this.receiveStateLabel,
+			'string',
+			(newValue) => this.applySignalLabel(newValue)
+		);
+	}
+
+	/**
+	 * Applies a signal-delivered label. Like {@link applySignalIconClass}, the
+	 * label is rendered in JS by {@link handleLabel}, so the signal writes its
+	 * value straight into the shared `label` slot (same approach as ch5-animation's
+	 * `startAnimating`). Because the platform only updates the label through the
+	 * signal at runtime (the static `label` is design-time only), the signal is
+	 * always the last writer and therefore always wins. Setting `label` runs the
+	 * cached `_onLabelChange` callback, which re-renders the label; the store's
+	 * equality short-circuit skips redundant re-renders.
+	 */
+	private applySignalLabel(value: string): void {
+		this.label = value ?? '';
 	}
 
 	/**
