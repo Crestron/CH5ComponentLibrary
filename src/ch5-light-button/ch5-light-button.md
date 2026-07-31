@@ -184,6 +184,40 @@ signal-driven, the pattern depends on **how that property is styled**:
   rationale and the one extra step `backgroundImageUrl` needs for its
   fill-type CSS.
 
+### 5.1 Performance & correctness: shadow attribute vs. a directly signal-writable attribute
+
+It's tempting to simplify `type`/`selected` by dropping the separate
+`data-signal-*` channel and just having the signal overwrite `type`/`selected`
+directly (the way `label`/`iconClass`/`iconUrl` do, per §6.5). **Don't** — it
+is both slower and less correct than the shadow-channel design above.
+
+**Performance.** `data-signal-type`/`data-signal-selected` are **not** in
+`OBSERVED_ATTRIBUTES`, so `this.setAttribute(SIGNAL_ATTRIBUTE_TYPE, type)`
+costs exactly one native DOM write (+ the resulting style/layout
+invalidation) — nothing else. The browser only invokes
+`attributeChangedCallback` for attributes listed in the static
+`observedAttributes` getter. If `type` were the signal's target instead, it
+would have to be observed (so author markup like `type="danger"` still
+works), and the signal handler would need `this.setAttribute('type', value)`
+to keep the DOM attribute in sync for the `[type]` CSS selector. Because
+`type` would now be observed, that `setAttribute` call **re-enters
+`attributeChangedCallback` synchronously** on every signal tick — an extra
+switch-dispatch → setter call → `_ch5Properties` equality check → possible
+`onChange`, all before the original call even returns. This exact extra round
+trip already happens today for `receiveStateBackgroundImageUrl`, which
+reflects into the **observed** `backgroundimageurl` attribute for CSS reasons
+(§6.5) — harmless there because the equality check makes the second pass a
+no-op, but it's real, avoidable overhead that `type`/`selected` don't pay by
+staying off `OBSERVED_ATTRIBUTES` entirely.
+
+**Correctness.** This is the more important difference. With the shadow
+channel, `[data-signal-type]` beats `[type]` **structurally**, via CSS
+specificity/rule order, re-evaluated on every style recalc regardless of what
+`type` currently holds or when it was last written. So if app code does
+`button.type = 'danger'` while a signal is active, **nothing visually
+changes** — there is no race, no "last writer wins" ambiguity, no way to
+misuse the API and get it wrong.
+
 ---
 
 ## 6. Signal wiring deep dive (`receiveStateType` / `receiveStateSelected` / `receiveStateLabel` / `receiveStateIconClass` / `receiveStateIconUrl` / `receiveStateBackgroundImageUrl`)
@@ -603,6 +637,54 @@ lays out the 1000 instances:
    upgrade/script time (already minimized per-instance by §8.3/§8.5/§8.6) or
    by forced layout/paint (addressed by #1–#3 above).
 
+### 8.8 Cached `subscribeSignal` callbacks — the cost of adding more `receiveState*` attributes
+
+§8.3 covers the `onChange` callback passed to `_ch5Properties.set(...)` (fires
+on signal-*name* changes — rare, configuration-time). There is a **second**,
+easy-to-miss callback per signal: the `onValue` callback passed to
+`subscribeSignal(signalName, signalType, onValue)` inside each
+`subscribeReceiveStateX()` method (fires on signal *value* changes and is
+re-created every time the button (re)subscribes).
+
+An earlier version of this code wrote that callback inline:
+
+```ts
+// BEFORE — allocates a new closure on EVERY call to subscribeReceiveStateType()
+private subscribeReceiveStateType(): void {
+    this.subscribeSignal<string>(this.receiveStateType, 'string', (newValue) => this.applySignalType(newValue));
+}
+```
+
+This is the same argument-evaluated-before-short-circuit problem as §8.1: the
+arrow is allocated even when `subscribeSignal`'s internal guard (`!signalName
+|| isSubscribedTo(...)`) ends up making the call a no-op. The difference from
+§8.1 is **how often it runs**: `subscribeReceiveStateX()` is called from
+`connectedCallback` on **every connect and every reconnect**, not just once
+per instance. With 6 `receiveState*` attributes now supported (§1, §6), a
+button using all of them re-allocates up to 6 closures per reconnect; at 1000
+instances in a virtualized/recycled list (the exact pattern §8.7 recommends
+for scaling), that's continuous, avoidable GC churn that scales with **both**
+the number of active signals per button and the reconnect rate — the more
+`receiveState*` attributes in use, the worse it gets.
+
+Fixed by caching one `onValue` callback per signal as a class field, same
+pattern as `_onLabelChange`:
+
+```ts
+private readonly _onSignalTypeValue = (value: string) => this.applySignalType(value);
+// ...one per signal: _onSignalSelectedValue, _onSignalLabelValue,
+// _onSignalIconClassValue, _onSignalIconUrlValue, _onSignalBackgroundImageUrlValue
+
+private subscribeReceiveStateType(): void {
+    this.subscribeSignal<string>(this.receiveStateType, 'string', this._onSignalTypeValue);
+}
+```
+
+> **Rule:** every argument passed to `subscribeSignal(...)` must be a cached
+> class field, never an inline arrow — the same rule §8.1 states for
+> `_ch5Properties.set(...)`. Apply this to any new `receiveState*` attribute
+> from the very first draft (§9.2).
+
 ---
 
 ## 9. Extension playbook
@@ -639,7 +721,12 @@ Follow the `receiveStateType` pattern (§6), not the plain-attribute pattern:
    unsubscribe old, then either subscribe (if connected) or clear the
    channel/behavior when empty.
 5. `subscribeReceiveStateLabel()` calls the shared `subscribeSignal<T>(...)`
-   with the correct `TCh5LightSignalType` (`'string'`/`'number'`/`'boolean'`).
+   with the correct `TCh5LightSignalType` (`'string'`/`'number'`/`'boolean'`)
+   and a **cached** `onValue` field (`private readonly _onSignalLabelValue =
+   (value: string) => this.applySignalLabel(value);`) — never an inline
+   arrow at the call site (§8.8). `subscribeReceiveStateX()` runs on every
+   connect/reconnect, so an inline arrow here allocates repeatedly, not just
+   once per instance.
 6. `applySignalLabel(value)` decides what the signal actually changes. If it
    should shadow an author attribute the way `type`/`selected` do, add a
    `data-signal-*` channel with theme SCSS priority (§5) rather than
@@ -697,6 +784,24 @@ changing `show`/`noshowtype` handling:
 Keep this brief — one line per notable design change, newest first. Full
 detail belongs in git history / PR description.
 
+- **2026-07-31** — Cached the `onValue` callback passed to `subscribeSignal(...)`
+  for all six signals (`_onSignalTypeValue`, `_onSignalSelectedValue`,
+  `_onSignalLabelValue`, `_onSignalIconClassValue`, `_onSignalIconUrlValue`,
+  `_onSignalBackgroundImageUrlValue`), replacing inline arrows in each
+  `subscribeReceiveStateX()` method. Those methods run on every
+  connect/reconnect (not once per instance), so this was allocating
+  repeatedly and scaling with both the number of active `receiveState*`
+  attributes and reconnect frequency (e.g. a virtualized/recycled 1000-button
+  grid) — reported as a performance regression as more signal attributes were
+  added. See §8.8, §9.2.
+- **2026-07-31** — Documented (§5.1) why `type`/`selected` should keep the
+  `data-signal-*` shadow-attribute design instead of being made
+  directly signal-writable like `label`/`iconClass`/etc.: staying off
+  `OBSERVED_ATTRIBUTES` avoids a synchronous `attributeChangedCallback`
+  reentrancy cost on every signal tick (the cost `receiveStateBackgroundImageUrl`
+  already pays for its CSS-reflection need, §6.5), and CSS-structural
+  priority avoids the "last writer wins" race that the write-through
+  properties accept as a documented contract. No code change — analysis only.
 - **2026-07-30** — Added `receiveStateLabel` (JS-rendered write-through signal,
   §6.5): writes straight into the `label` slot via `applySignalLabel`. Simplest
   write-through case — no fill-type CSS, so no host-attribute reflection needed
