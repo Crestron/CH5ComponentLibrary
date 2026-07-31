@@ -87,6 +87,14 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	// (needed to unsubscribe it) directly to `onChange` as a parameter, so the
 	// CACHED `_onReceiveState*Change` callbacks below need no extra field to
 	// bridge it - same zero-per-call-allocation pattern as `_onLabelChange`.
+	// The `onValue` callbacks passed to `subscribeSignal` (one per signal) are
+	// ALSO cached below (`_onSignal*Value`) for the same reason: an inline
+	// `(v) => this.applySignalX(v)` at the `subscribeSignal(...)` call site would
+	// allocate a new closure on every call to `subscribeReceiveStateX()` - and
+	// that runs on EVERY connect/reconnect (not just once per instance), so with
+	// 6 signals x 1000 instances x repeated reconnects (e.g. a virtualized/
+	// recycled list), uncached callbacks would mean continuous GC churn scaling
+	// with both the signal count and the reconnect rate.
 	// The signal drives a SEPARATE styling channel (the `data-signal-type`
 	// attribute), never the author's static `type` attribute. The theme SCSS gives
 	// `[data-signal-type]` priority over `[type]`, so the signal always wins - even
@@ -98,6 +106,12 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	private readonly _onReceiveStateIconClassChange = (oldSignalName: string) => this.handleReceiveStateIconClass(oldSignalName);
 	private readonly _onReceiveStateIconUrlChange = (oldSignalName: string) => this.handleReceiveStateIconUrl(oldSignalName);
 	private readonly _onReceiveStateBackgroundImageUrlChange = (oldSignalName: string) => this.handleReceiveStateBackgroundImageUrl(oldSignalName);
+	private readonly _onSignalTypeValue = (value: string) => this.applySignalType(value);
+	private readonly _onSignalSelectedValue = (value: boolean) => this.applySignalSelected(value);
+	private readonly _onSignalLabelValue = (value: string) => this.applySignalLabel(value);
+	private readonly _onSignalIconClassValue = (value: string) => this.applySignalIconClass(value);
+	private readonly _onSignalIconUrlValue = (value: string) => this.applySignalIconUrl(value);
+	private readonly _onSignalBackgroundImageUrlValue = (value: string) => this.applySignalBackgroundImageUrl(value);
 
 	// --- sendEventOnClick wiring ---------------------------------------------
 	// Strictly opt-in: the pointer listeners below are attached ONLY while a
@@ -578,7 +592,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		this.subscribeSignal<string>(
 			this.receiveStateType,
 			'string',
-			(newValue) => this.applySignalType(newValue)
+			this._onSignalTypeValue
 		);
 	}
 
@@ -623,7 +637,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		this.subscribeSignal<boolean>(
 			this.receiveStateSelected,
 			'boolean',
-			(newValue) => this.applySignalSelected(newValue)
+			this._onSignalSelectedValue
 		);
 	}
 
@@ -664,7 +678,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		this.subscribeSignal<string>(
 			this.receiveStateLabel,
 			'string',
-			(newValue) => this.applySignalLabel(newValue)
+			this._onSignalLabelValue
 		);
 	}
 
@@ -704,7 +718,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		this.subscribeSignal<string>(
 			this.receiveStateIconClass,
 			'string',
-			(newValue) => this.applySignalIconClass(newValue)
+			this._onSignalIconClassValue
 		);
 	}
 
@@ -745,7 +759,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		this.subscribeSignal<string>(
 			this.receiveStateIconUrl,
 			'string',
-			(newValue) => this.applySignalIconUrl(newValue)
+			this._onSignalIconUrlValue
 		);
 	}
 
@@ -786,7 +800,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		this.subscribeSignal<string>(
 			this.receiveStateBackgroundImageUrl,
 			'string',
-			(newValue) => this.applySignalBackgroundImageUrl(newValue)
+			this._onSignalBackgroundImageUrlValue
 		);
 	}
 
