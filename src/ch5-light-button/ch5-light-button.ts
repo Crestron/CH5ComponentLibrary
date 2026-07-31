@@ -26,7 +26,8 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		'receivestatelabel',
 		'receivestateiconclass',
 		'receivestateiconurl',
-		'receivestatebackgroundimageurl'
+		'receivestatebackgroundimageurl',
+		'sendeventonclick'
 	];
 
 	/**
@@ -47,7 +48,8 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		{ name: 'receiveStateLabel', default: '', type: 'string' },
 		{ name: 'receiveStateIconClass', default: '', type: 'string' },
 		{ name: 'receiveStateIconUrl', default: '', type: 'string' },
-		{ name: 'receiveStateBackgroundImageUrl', default: '', type: 'string' }
+		{ name: 'receiveStateBackgroundImageUrl', default: '', type: 'string' },
+		{ name: 'sendEventOnClick', default: '', type: 'string' }
 	];
 
 	//#endregion
@@ -96,6 +98,19 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	private readonly _onReceiveStateIconClassChange = (oldSignalName: string) => this.handleReceiveStateIconClass(oldSignalName);
 	private readonly _onReceiveStateIconUrlChange = (oldSignalName: string) => this.handleReceiveStateIconUrl(oldSignalName);
 	private readonly _onReceiveStateBackgroundImageUrlChange = (oldSignalName: string) => this.handleReceiveStateBackgroundImageUrl(oldSignalName);
+
+	// --- sendEventOnClick wiring ---------------------------------------------
+	// Strictly opt-in: the pointer listeners below are attached ONLY while a
+	// `sendeventonclick` signal name is set, so signal-free buttons attach no
+	// listeners and allocate no handler closures. The two bound handlers are
+	// created lazily on first wire (kept null until then) and torn down on
+	// disconnect / when the signal is cleared. `_clickPressed` guards against a
+	// stray release (e.g. pointerleave with no prior press) sending a spurious
+	// `false`.
+	private _onClickPress: (() => void) | null = null;
+	private _onClickRelease: (() => void) | null = null;
+	private _clickPressed = false;
+	private readonly _onSendEventOnClickChange = () => this.handleSendEventOnClick();
 
 	//#endregion
 
@@ -238,6 +253,23 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		return this._ch5Properties.get<string>('receiveStateBackgroundImageUrl');
 	}
 
+	/**
+	 * Name of the boolean signal to pulse on user interaction. When set, the button
+	 * sends `true` on press (pointer down) and `false` on release (pointer up /
+	 * leave / cancel) - a plain momentary boolean, NOT the repeat-digital object form
+	 * (matches `ch5-image`'s click behaviour). Strictly opt-in: no listeners are
+	 * attached unless a signal name is present, so signal-free buttons pay nothing.
+	 * Stored in the shared `_ch5Properties` store for the equality short-circuit;
+	 * the cached `_onSendEventOnClickChange` callback wires / unwires the pointer
+	 * listeners when the name changes.
+	 */
+	public set sendEventOnClick(value: string) {
+		this._ch5Properties.set<string>('sendEventOnClick', value ?? '', this._onSendEventOnClickChange);
+	}
+	public get sendEventOnClick(): string {
+		return this._ch5Properties.get<string>('sendEventOnClick');
+	}
+
 	//#endregion
 
 	//#region Static Methods
@@ -306,6 +338,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 			case 'receivestatebackgroundimageurl':
 				this.receiveStateBackgroundImageUrl = newValue ?? '';
 				break;
+			case 'sendeventonclick':
+				this.sendEventOnClick = newValue ?? '';
+				break;
 			default:
 				// Delegate base attributes (show / disabled) to Ch5LightBaseClass.
 				super.attributeChangedCallback(attr, oldValue, newValue);
@@ -345,6 +380,10 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		this.subscribeReceiveStateIconClass();
 		this.subscribeReceiveStateIconUrl();
 		this.subscribeReceiveStateBackgroundImageUrl();
+
+		// (Re)attach the pointer listeners if a send signal is set. No-op for
+		// signal-free buttons. Safe on reconnect: disconnectedCallback detached them.
+		this.wireSendEventOnClick();
 	}
 
 	public disconnectedCallback() {
@@ -357,6 +396,10 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		this.clearSignalSubscription(this.receiveStateIconClass);
 		this.clearSignalSubscription(this.receiveStateIconUrl);
 		this.clearSignalSubscription(this.receiveStateBackgroundImageUrl);
+
+		// Detach the pointer listeners (mirrors the receive-signal teardown) so a
+		// disconnected button holds no live listeners; connectedCallback re-attaches.
+		this.unwireSendEventOnClick();
 	}
 
 	//#endregion
@@ -776,6 +819,91 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 			this.removeAttribute('backgroundimageurl');
 		}
 		this.backgroundImageUrl = url;
+	}
+
+	// --- sendEventOnClick ------------------------------------------------------
+
+	/**
+	 * Reacts to a change of the `sendeventonclick` signal NAME: attaches the
+	 * pointer listeners when a name is set, or detaches them when it is cleared.
+	 */
+	private handleSendEventOnClick(): void {
+		if (this.sendEventOnClick) {
+			this.wireSendEventOnClick();
+		} else {
+			this.unwireSendEventOnClick();
+		}
+	}
+
+	/**
+	 * Attaches the press / release pointer listeners to the button, once, while a
+	 * send signal is set. Lazily creates the two bound handlers (so signal-free
+	 * buttons never allocate them). No-op if already wired, if no button exists
+	 * yet, or if no signal name is set. Uses `pointerdown` for press and
+	 * `pointerup` / `pointerleave` / `pointercancel` for release, so a pointer that
+	 * leaves the button while pressed still sends the `false` release.
+	 */
+	private wireSendEventOnClick(): void {
+		if (!this._elButton || !this.sendEventOnClick || this._onClickPress !== null) {
+			return;
+		}
+		this._onClickPress = () => this.handleClickPress();
+		this._onClickRelease = () => this.handleClickRelease();
+		this._elButton.addEventListener('pointerdown', this._onClickPress);
+		this._elButton.addEventListener('pointerup', this._onClickRelease);
+		this._elButton.addEventListener('pointerleave', this._onClickRelease);
+		this._elButton.addEventListener('pointercancel', this._onClickRelease);
+	}
+
+	/**
+	 * Detaches the pointer listeners and clears the bound handlers. If a press was
+	 * still in flight, sends the `false` release first so the signal is not left
+	 * high. Safe to call when nothing was wired.
+	 */
+	private unwireSendEventOnClick(): void {
+		if (this._elButton && this._onClickPress !== null && this._onClickRelease !== null) {
+			this._elButton.removeEventListener('pointerdown', this._onClickPress);
+			this._elButton.removeEventListener('pointerup', this._onClickRelease);
+			this._elButton.removeEventListener('pointerleave', this._onClickRelease);
+			this._elButton.removeEventListener('pointercancel', this._onClickRelease);
+		}
+		if (this._clickPressed) {
+			this._clickPressed = false;
+			this.sendClickValue(false);
+		}
+		this._onClickPress = null;
+		this._onClickRelease = null;
+	}
+
+	/** Press: sends `true` once (guards against repeated pointerdown). */
+	private handleClickPress(): void {
+		if (this._clickPressed) {
+			return;
+		}
+		this._clickPressed = true;
+		this.sendClickValue(true);
+	}
+
+	/** Release: sends `false` once, only if a matching press was recorded. */
+	private handleClickRelease(): void {
+		if (!this._clickPressed) {
+			return;
+		}
+		this._clickPressed = false;
+		this.sendClickValue(false);
+	}
+
+	/**
+	 * Publishes a plain boolean to the `sendeventonclick` signal (no repeat-digital
+	 * object). Reuses the shared lazy `Ch5LightSignal` helper - `sendBoolean` is
+	 * stateless, so this works whether or not any receive signals are subscribed.
+	 */
+	private sendClickValue(value: boolean): void {
+		const signalName = this.sendEventOnClick;
+		if (!signalName) {
+			return;
+		}
+		(this._signals ??= new Ch5LightSignal()).sendBoolean(signalName, value);
 	}
 
 	//#endregion

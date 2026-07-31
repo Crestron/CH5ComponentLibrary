@@ -34,6 +34,7 @@ It intentionally supports a **small subset** of `ch5-button`'s features:
 | `receiveStateIconClass` (signal-driven icon class) | ✅ |
 | `receiveStateIconUrl` (signal-driven icon URL) | ✅ |
 | `receiveStateBackgroundImageUrl` (signal-driven background image URL) | ✅ |
+| `sendEventOnClick` (send boolean on press/release) | ✅ |
 | `show` / `noshowtype` | ✅ (via `Ch5LightBaseClass`) |
 | `disabled` | ✅ (styled purely via CSS `[disabled]`, no JS) |
 | Press/click signal emission, ripple, gestures, long-press, repeat digital | ❌ (out of scope — use `ch5-button` if you need these) |
@@ -114,6 +115,7 @@ components.
 | `receivestateiconclass` | `receiveStateIconClass` | `string` (signal name) | `''` | JS-rendered signal — **write-through** into the `iconClass` slot, not a `data-signal-*` channel. See §6.5 |
 | `receivestateiconurl` | `receiveStateIconUrl` | `string` (signal name) | `''` | JS-rendered signal — **write-through** into the `iconUrl` slot. See §6.5 |
 | `receivestatebackgroundimageurl` | `receiveStateBackgroundImageUrl` | `string` (signal name) | `''` | JS-rendered signal — **write-through** into the `backgroundImageUrl` slot; also reflects the `backgroundimageurl` host attribute so the fill-type CSS matches. See §6.5 |
+| `sendeventonclick` | `sendEventOnClick` | `string` (signal name) | `''` | **Send** signal. Pulses the boolean: `true` on press (`pointerdown`), `false` on release (`pointerup` / `pointerleave` / `pointercancel`). Plain boolean publish, NOT repeat-digital (matches `ch5-image`). Opt-in: pointer listeners attach only when set. See §6.6 |
 | `show` | `show` | `boolean` | `true` | Inherited from `Ch5LightBaseClass` |
 | `noshowtype` | `noshowType` | `'display'\|'visibility'\|'remove'` | `'display'` | Inherited from `Ch5LightBaseClass` |
 | `disabled` | *(none)* | boolean | — | **Not handled in JS at all** — styled entirely via CSS `[disabled]` |
@@ -382,6 +384,42 @@ equality short-circuit stops any re-render loop. `receiveStateIconUrl` needs
 
 Priority is unchanged: in `handleIcon()`, `iconUrl` still wins over
 `iconClass` (whether static or signal-driven), matching `ch5-button`.
+
+### 6.6 The send signal — `sendEventOnClick` (press / release boolean)
+
+All the signals above are **receive** (inbound) signals. `sendEventOnClick` is
+the first **send** (outbound) signal: on user interaction the button *publishes*
+a boolean rather than consuming one. Per the current requirement it is a plain
+**momentary** pulse — no repeat-digital — matching `ch5-image`'s click behaviour:
+
+- `pointerdown` → publish `true` (press)
+- `pointerup` / `pointerleave` / `pointercancel` → publish `false` (release)
+
+`pointerleave` / `pointercancel` are included so a pointer that slides off the
+button (or is cancelled) while pressed still sends the `false` release and never
+leaves the join stuck high. A `_clickPressed` flag guards both directions so a
+stray `pointerleave` with no prior press sends nothing, and a press sends `true`
+only once.
+
+**Publish path.** The shared `Ch5LightSignal` helper gained a stateless
+`sendBoolean(name, value)` that does a **plain** `getBooleanSignal(name).publish(value)`
+— the RAW signal name (no subscription-name translation) and a plain boolean, not
+the `{ [REPEAT_DIGITAL_KEY]: value }` object form used by `ch5-button`. The button
+reuses the same lazy `_signals` helper it uses for receive signals (safe because
+`sendBoolean` tracks no state).
+
+**Zero-cost when absent (opt-in).** The two pointer handlers are created lazily
+and attached **only** while a `sendeventonclick` name is set, so signal-free
+buttons attach no listeners and allocate no closures. They are torn down in
+`disconnectedCallback` and re-attached in `connectedCallback` (mirroring the
+receive-signal teardown), and removed immediately when the attribute is cleared.
+Because `disabled` is CSS `pointer-events: none` on the host, a disabled button
+never fires `pointerdown`, so no press/release is sent while disabled — no JS
+guard needed.
+
+**Extending to more send signals.** A second send signal (e.g. `sendeventontouch`)
+would reuse `Ch5LightSignal.sendBoolean` and the same lazy-listener pattern; only
+the event(s) and the resolved value differ.
 
 ---
 
@@ -697,6 +735,12 @@ changing `show`/`noshowtype` handling:
 Keep this brief — one line per notable design change, newest first. Full
 detail belongs in git history / PR description.
 
+- **2026-07-30** — Added `sendEventOnClick` (§6.6) — the first **send** signal.
+  Pulses a plain boolean (`true` on `pointerdown`, `false` on release) via the
+  shared `Ch5LightSignal.sendBoolean` helper; NOT the repeat-digital object form.
+  Strictly opt-in: pointer listeners attach only while a signal name is set and
+  are torn down on disconnect / clear (mirrors the receive-signal teardown).
+  See §1, §4, §6.6.
 - **2026-07-30** — Added `receiveStateLabel` (JS-rendered write-through signal,
   §6.5): writes straight into the `label` slot via `applySignalLabel`. Simplest
   write-through case — no fill-type CSS, so no host-attribute reflection needed

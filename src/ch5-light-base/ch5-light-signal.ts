@@ -68,6 +68,25 @@ export class Ch5LightSignal {
 		(this._subscriptions ??= []).push({ signalName, signalType, subKey });
 	}
 
+	/**
+	 * Publishes a plain boolean value to a Crestron signal by name (send / event
+	 * direction). Unlike the receive helpers, this uses the RAW signal name (no
+	 * subscription-name translation) and a plain boolean `publish` - NOT the
+	 * repeat-digital object form - matching `ch5-image`'s click-signal behaviour
+	 * (send `true` on press, `false` on release). A falsy name, or a signal that
+	 * cannot be resolved, is a no-op. Stateless: it tracks nothing, so it does not
+	 * need the helper's subscription list and is safe to call on a fresh instance.
+	 */
+	public sendBoolean(signalName: string, value: boolean): void {
+		if (!signalName) {
+			return;
+		}
+		const signal = Ch5SignalFactory.getInstance().getBooleanSignal(signalName);
+		if (signal !== null) {
+			signal.publish(value);
+		}
+	}
+
 	/** `true` while at least one subscription is active. */
 	public get hasSubscriptions(): boolean {
 		return this._subscriptions !== null && this._subscriptions.length > 0;
