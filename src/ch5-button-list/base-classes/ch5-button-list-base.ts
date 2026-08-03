@@ -641,6 +641,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   protected _elContainer: HTMLElement = {} as HTMLElement;
   private _scrollbarContainer: HTMLElement = {} as HTMLElement;
   private _scrollbar: HTMLElement = {} as HTMLElement;
+  private _resizeObserver: ResizeObserver | null = null;
 
   // private members used for mouse up and down
   private isDown = false;
@@ -1233,7 +1234,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     this.initAttributes();
     this.initCommonMutationObserver(this);
     this.debounceButtonDisplay();
-    resizeObserver(this._elContainer, this.resizeHandler);
+    this._resizeObserver = resizeObserver(this._elContainer, this.resizeHandler);
     customElements.whenDefined(this.nodeName.toLowerCase()).then(() => {
       this.componentLoadedEvent(this.nodeName.toLowerCase(), this.id);
     });
@@ -1244,6 +1245,9 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     this.logger.start('disconnectedCallback()');
     this.removeEventListeners();
     this.unsubscribeFromSignals();
+    this._resizeObserver?.disconnect();
+    this._resizeObserver = null;
+    this.disconnectCommonMutationObserver();
     this.containerWidth = 0;
     this.containerHeight = 0;
     this.showSignalHolder.forEach((el: { signalValue: string, signalState: string, value: number }) => this.clearOldSubscription(el.signalValue, el.signalState));
