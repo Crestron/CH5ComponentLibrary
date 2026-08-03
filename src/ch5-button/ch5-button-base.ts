@@ -386,6 +386,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private _elIcon: HTMLElement = {} as HTMLElement;
 	private _elCheckboxIcon: HTMLElement = {} as HTMLElement;
 	protected _ch5Properties: Ch5Properties;
+	private _resizeObserver: ResizeObserver | null = null;
 
 	private _isPressedSubscription: Subscription | null = null;
 
@@ -1457,7 +1458,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
 		}
-		resizeObserver(this._elContainer, this.onWindowResizeHandler.bind(this));
+		this._resizeObserver = resizeObserver(this._elContainer, this.onWindowResizeHandler.bind(this));
 	}
 
 	protected removeEventListeners() {
@@ -1471,6 +1472,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		if (!isNil(this._pressable)) {
 			this._unsubscribeFromPressableIsPressed();
 		}
+		this._resizeObserver?.disconnect();
+		this._resizeObserver = null;
 	}
 
 	protected _onFocus(inEvent: Event): void {
