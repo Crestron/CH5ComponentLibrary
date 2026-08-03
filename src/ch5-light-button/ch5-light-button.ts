@@ -131,6 +131,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	//#region Getters and Setters
 
 	public set label(value: string) {
+		this.log('set label("' + value + '")');
 		this._ch5Properties.set<string>('label', value, this._onLabelChange);
 	}
 	public get label(): string {
@@ -138,6 +139,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	public set iconClass(value: string) {
+		this.log('set iconClass("' + value + '")');
 		this._ch5Properties.set<string>('iconClass', value, this._onIconChange);
 	}
 	public get iconClass(): string {
@@ -145,6 +147,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	public set iconUrl(value: string) {
+		this.log('set iconUrl("' + value + '")');
 		this._ch5Properties.set<string>('iconUrl', value, this._onIconChange);
 	}
 	public get iconUrl(): string {
@@ -152,6 +155,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	public set backgroundImageUrl(value: string) {
+		this.log('set backgroundImageUrl("' + value + '")');
 		this._ch5Properties.set<string>('backgroundImageUrl', value, this._onBackgroundImageChange);
 	}
 	public get backgroundImageUrl(): string {
@@ -171,6 +175,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * allocated per call.
 	 */
 	public set receiveStateType(value: string) {
+		this.log('set receiveStateType("' + value + '")');
 		this._ch5Properties.set<string>('receiveStateType', value ?? '', this._onReceiveStateTypeChange);
 	}
 	public get receiveStateType(): string {
@@ -186,6 +191,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * shared property store for the same reasons as `receiveStateType`.
 	 */
 	public set receiveStateSelected(value: string) {
+		this.log('set receiveStateSelected("' + value + '")');
 		this._ch5Properties.set<string>('receiveStateSelected', value ?? '', this._onReceiveStateSelectedChange);
 	}
 	public get receiveStateSelected(): string {
@@ -204,6 +210,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * `_onReceiveStateLabelChange` callback for unsubscription.
 	 */
 	public set receiveStateLabel(value: string) {
+		this.log('set receiveStateLabel("' + value + '")');
 		this._ch5Properties.set<string>('receiveStateLabel', value ?? '', this._onReceiveStateLabelChange);
 	}
 	public get receiveStateLabel(): string {
@@ -223,6 +230,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * `_onReceiveStateIconClassChange` callback for unsubscription.
 	 */
 	public set receiveStateIconClass(value: string) {
+		this.log('set receiveStateIconClass("' + value + '")');
 		this._ch5Properties.set<string>('receiveStateIconClass', value ?? '', this._onReceiveStateIconClassChange);
 	}
 	public get receiveStateIconClass(): string {
@@ -242,6 +250,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * `_onReceiveStateIconUrlChange` callback for unsubscription.
 	 */
 	public set receiveStateIconUrl(value: string) {
+		this.log('set receiveStateIconUrl("' + value + '")');
 		this._ch5Properties.set<string>('receiveStateIconUrl', value ?? '', this._onReceiveStateIconUrlChange);
 	}
 	public get receiveStateIconUrl(): string {
@@ -261,6 +270,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * the cached `_onReceiveStateBackgroundImageUrlChange` callback for unsubscription.
 	 */
 	public set receiveStateBackgroundImageUrl(value: string) {
+		this.log('set receiveStateBackgroundImageUrl("' + value + '")');
 		this._ch5Properties.set<string>('receiveStateBackgroundImageUrl', value ?? '', this._onReceiveStateBackgroundImageUrlChange);
 	}
 	public get receiveStateBackgroundImageUrl(): string {
@@ -278,6 +288,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * listeners when the name changes.
 	 */
 	public set sendEventOnClick(value: string) {
+		this.log('set sendEventOnClick("' + value + '")');
 		this._ch5Properties.set<string>('sendEventOnClick', value ?? '', this._onSendEventOnClickChange);
 	}
 	public get sendEventOnClick(): string {
@@ -321,6 +332,8 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		if (oldValue === newValue) {
 			return;
 		}
+		this.logStart('attributeChangedCallback');
+		this.log('ch5-light-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
 		switch (attr) {
 			case 'label':
 				this.label = newValue ?? '';
@@ -360,12 +373,23 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 				super.attributeChangedCallback(attr, oldValue, newValue);
 				break;
 		}
+		this.logStop();
+	}
+
+	/**
+	 * The ARIA role applied automatically to the host (once, in
+	 * `connectedCallback`) when the author has not set a `role` attribute.
+	 * Non-observed, so it never touches the attribute-change hot path.
+	 */
+	protected getDefaultRole(): string | null {
+		return 'button';
 	}
 
 	/**
 	 * Called when the Ch5LightButton component is first connected to the DOM
 	 */
 	public connectedCallback() {
+		this.logStart('connectedCallback()');
 		if (!this._isInitialized) {
 			this.createInternalHtml();
 			this.handleIcon();
@@ -398,9 +422,11 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		// (Re)attach the pointer listeners if a send signal is set. No-op for
 		// signal-free buttons. Safe on reconnect: disconnectedCallback detached them.
 		this.wireSendEventOnClick();
+		this.logStop();
 	}
 
 	public disconnectedCallback() {
+		this.logStart('disconnectedCallback()');
 		// Release the signal subscriptions (if any) so a detached button does not
 		// keep active listeners. The signal names are kept so connectedCallback can
 		// re-subscribe transparently.
@@ -414,6 +440,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		// Detach the pointer listeners (mirrors the receive-signal teardown) so a
 		// disconnected button holds no live listeners; connectedCallback re-attaches.
 		this.unwireSendEventOnClick();
+		this.logStop();
 	}
 
 	//#endregion
@@ -421,6 +448,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	//#region Private Methods
 
 	private createInternalHtml() {
+		this.log('createInternalHtml()');
 		this.clearComponentContent();
 
 		// clearComponentContent() removed all previously created children, so the
@@ -450,6 +478,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	private handleLabel() {
+		this.log('handleLabel("' + this.label + '")');
 		if (!this._elButton) {
 			return;
 		}
@@ -470,6 +499,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	private handleIcon() {
+		this.log('handleIcon()');
 		if (!this._elButton) {
 			return;
 		}
@@ -506,6 +536,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	private handleBackgroundImageUrl() {
+		this.log('handleBackgroundImageUrl()');
 		if (!this._elButton) {
 			return;
 		}
@@ -574,6 +605,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * so the author's static `type` attribute styles the button again.
 	 */
 	private handleReceiveStateType(oldSignalName: string): void {
+		this.log('handleReceiveStateType("' + oldSignalName + '")');
 		this.clearSignalSubscription(oldSignalName);
 
 		const signalName = this.receiveStateType;
@@ -589,6 +621,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 
 	/** Subscribes the `receivestatetype` string signal to {@link applySignalType}. */
 	private subscribeReceiveStateType(): void {
+		this.log('subscribeReceiveStateType()');
 		this.subscribeSignal<string>(
 			this.receiveStateType,
 			'string',
@@ -606,6 +639,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * runtime.
 	 */
 	private applySignalType(value: string): void {
+		this.log('applySignalType("' + value + '")');
 		const type = Ch5LightButton.TYPES.indexOf(value) >= 0 ? value : Ch5LightButton.TYPES[0];
 		this.setAttribute(Ch5LightButton.SIGNAL_ATTRIBUTE_TYPE, type);
 	}
@@ -619,6 +653,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * the author's static `selected` attribute styles the button again.
 	 */
 	private handleReceiveStateSelected(oldSignalName: string): void {
+		this.log('handleReceiveStateSelected("' + oldSignalName + '")');
 		this.clearSignalSubscription(oldSignalName);
 
 		const signalName = this.receiveStateSelected;
@@ -634,6 +669,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 
 	/** Subscribes the `receivestateselected` boolean signal to {@link applySignalSelected}. */
 	private subscribeReceiveStateSelected(): void {
+		this.log('subscribeReceiveStateSelected()');
 		this.subscribeSignal<boolean>(
 			this.receiveStateSelected,
 			'boolean',
@@ -653,6 +689,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * untouched, the signal keeps priority even if `selected` changes at runtime.
 	 */
 	private applySignalSelected(value: boolean): void {
+		this.log('applySignalSelected(' + value + ')');
 		this.setAttribute(Ch5LightButton.SIGNAL_ATTRIBUTE_SELECTED, value ? 'true' : 'false');
 	}
 
@@ -666,6 +703,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * here - the last signal value simply remains in the `label` slot.
 	 */
 	private handleReceiveStateLabel(oldSignalName: string): void {
+		this.log('handleReceiveStateLabel("' + oldSignalName + '")');
 		this.clearSignalSubscription(oldSignalName);
 
 		if (this.receiveStateLabel && this.isConnected) {
@@ -675,6 +713,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 
 	/** Subscribes the `receivestatelabel` string signal to {@link applySignalLabel}. */
 	private subscribeReceiveStateLabel(): void {
+		this.log('subscribeReceiveStateLabel()');
 		this.subscribeSignal<string>(
 			this.receiveStateLabel,
 			'string',
@@ -693,6 +732,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * equality short-circuit skips redundant re-renders.
 	 */
 	private applySignalLabel(value: string): void {
+		this.log('applySignalLabel("' + value + '")');
 		this.label = value ?? '';
 	}
 
@@ -706,6 +746,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * here - the last signal value simply remains in the `iconClass` slot.
 	 */
 	private handleReceiveStateIconClass(oldSignalName: string): void {
+		this.log('handleReceiveStateIconClass("' + oldSignalName + '")');
 		this.clearSignalSubscription(oldSignalName);
 
 		if (this.receiveStateIconClass && this.isConnected) {
@@ -715,6 +756,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 
 	/** Subscribes the `receivestateiconclass` string signal to {@link applySignalIconClass}. */
 	private subscribeReceiveStateIconClass(): void {
+		this.log('subscribeReceiveStateIconClass()');
 		this.subscribeSignal<string>(
 			this.receiveStateIconClass,
 			'string',
@@ -734,6 +776,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * icon; the store's equality short-circuit skips redundant re-renders.
 	 */
 	private applySignalIconClass(value: string): void {
+		this.log('applySignalIconClass("' + value + '")');
 		this.iconClass = value ?? '';
 	}
 
@@ -747,6 +790,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * here - the last signal value simply remains in the `iconUrl` slot.
 	 */
 	private handleReceiveStateIconUrl(oldSignalName: string): void {
+		this.log('handleReceiveStateIconUrl("' + oldSignalName + '")');
 		this.clearSignalSubscription(oldSignalName);
 
 		if (this.receiveStateIconUrl && this.isConnected) {
@@ -756,6 +800,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 
 	/** Subscribes the `receivestateiconurl` string signal to {@link applySignalIconUrl}. */
 	private subscribeReceiveStateIconUrl(): void {
+		this.log('subscribeReceiveStateIconUrl()');
 		this.subscribeSignal<string>(
 			this.receiveStateIconUrl,
 			'string',
@@ -774,6 +819,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * the store's equality short-circuit skips redundant re-renders.
 	 */
 	private applySignalIconUrl(value: string): void {
+		this.log('applySignalIconUrl("' + value + '")');
 		this.iconUrl = value ?? '';
 	}
 
@@ -788,6 +834,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * slot.
 	 */
 	private handleReceiveStateBackgroundImageUrl(oldSignalName: string): void {
+		this.log('handleReceiveStateBackgroundImageUrl("' + oldSignalName + '")');
 		this.clearSignalSubscription(oldSignalName);
 
 		if (this.receiveStateBackgroundImageUrl && this.isConnected) {
@@ -797,6 +844,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 
 	/** Subscribes the `receivestatebackgroundimageurl` string signal to {@link applySignalBackgroundImageUrl}. */
 	private subscribeReceiveStateBackgroundImageUrl(): void {
+		this.log('subscribeReceiveStateBackgroundImageUrl()');
 		this.subscribeSignal<string>(
 			this.receiveStateBackgroundImageUrl,
 			'string',
@@ -826,6 +874,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * equality short-circuit stops any re-render loop.
 	 */
 	private applySignalBackgroundImageUrl(value: string): void {
+		this.log('applySignalBackgroundImageUrl("' + value + '")');
 		const url = value ?? '';
 		if (url) {
 			this.setAttribute('backgroundimageurl', url);
@@ -842,6 +891,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * pointer listeners when a name is set, or detaches them when it is cleared.
 	 */
 	private handleSendEventOnClick(): void {
+		this.log('handleSendEventOnClick()');
 		if (this.sendEventOnClick) {
 			this.wireSendEventOnClick();
 		} else {
@@ -861,6 +911,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		if (!this._elButton || !this.sendEventOnClick || this._onClickPress !== null) {
 			return;
 		}
+		this.log('wireSendEventOnClick()');
 		this._onClickPress = () => this.handleClickPress();
 		this._onClickRelease = () => this.handleClickRelease();
 		this._elButton.addEventListener('pointerdown', this._onClickPress);
@@ -875,6 +926,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * high. Safe to call when nothing was wired.
 	 */
 	private unwireSendEventOnClick(): void {
+		this.log('unwireSendEventOnClick()');
 		if (this._elButton && this._onClickPress !== null && this._onClickRelease !== null) {
 			this._elButton.removeEventListener('pointerdown', this._onClickPress);
 			this._elButton.removeEventListener('pointerup', this._onClickRelease);
@@ -891,6 +943,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 
 	/** Press: sends `true` once (guards against repeated pointerdown). */
 	private handleClickPress(): void {
+		this.log('handleClickPress()');
 		if (this._clickPressed) {
 			return;
 		}
@@ -900,6 +953,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 
 	/** Release: sends `false` once, only if a matching press was recorded. */
 	private handleClickRelease(): void {
+		this.log('handleClickRelease()');
 		if (!this._clickPressed) {
 			return;
 		}
@@ -913,6 +967,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * stateless, so this works whether or not any receive signals are subscribed.
 	 */
 	private sendClickValue(value: boolean): void {
+		this.log('sendClickValue(' + value + ')');
 		const signalName = this.sendEventOnClick;
 		if (!signalName) {
 			return;
