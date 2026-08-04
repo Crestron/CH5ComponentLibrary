@@ -54,6 +54,17 @@ export type TCh5LightShowType = 'display' | 'visibility' | 'remove';
  * mutated, so clearing the signal restores it. The subscription is torn down on
  * disconnect and re-established on reconnect.
  *
+ * `sendEventOnShow` is the base's first **strictly opt-in** boolean SEND (event)
+ * signal, the outbound counterpart of `receiveStateShow` (mirrors
+ * `Ch5Common.sendEventOnShow`). When set, the host PUBLISHES its current show
+ * state — `true` when shown, `false` when hidden — whenever the show state is
+ * (re)applied through {@link handleShow}, regardless of what drove the change
+ * (static `show`, `receiveStateShow`, or a programmatic write). It is stateless
+ * and zero-cost when absent: nothing is published or allocated unless the
+ * attribute is present, and publishing reuses the same lazy `Ch5LightSignal`
+ * helper (`sendBoolean` publishes a plain boolean, not a repeat-digital object).
+ * Being stateless there is nothing to unsubscribe on disconnect.
+ *
  * Diagnostics mirror the heavy components but are kept allocation-free until
  * actually used:
  *  - Every instance gets a framework-unique `crId` (`cr-id-N`, from `Ch5Uid`) in
@@ -110,6 +121,10 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 * nothing (no signal helper, subscription or closure) unless the attribute is
 	 * actually present.
 	 *
+	 * `sendeventonshow` is observed so the outbound show-state signal can be
+	 * attached / changed at runtime; it is strictly opt-in and allocates nothing
+	 * (no signal helper, no publish) unless the attribute is actually present.
+	 *
 	 * `class`, `style` and `dir` are NOT listed: they are standard, natively
 	 * reflected HTML attributes and work directly on the host with no JS. The base
 	 * only ever writes `classList` / `.style` on a concrete component's INTERNAL
@@ -117,7 +132,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 * `class` / `style` / `dir` are never touched - observing them would cost
 	 * hot-path work for behaviour the browser already provides for free.
 	 */
-	public static readonly LIGHT_BASE_OBSERVED_ATTRIBUTES = ['show', 'noshowtype', 'debug', 'trace', 'receivestateenable', 'receivestateshow'];
+	public static readonly LIGHT_BASE_OBSERVED_ATTRIBUTES = ['show', 'noshowtype', 'debug', 'trace', 'receivestateenable', 'receivestateshow', 'sendeventonshow'];
 
 	/**
 	 * Separate styling channel the `receiveStateEnable` signal writes to (never the
@@ -145,7 +160,8 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 			enumeratedValues: [...Ch5LightBaseClass.NO_SHOW_TYPES]
 		},
 		{ name: 'receiveStateEnable', default: '', type: 'string' },
-		{ name: 'receiveStateShow', default: '', type: 'string' }
+		{ name: 'receiveStateShow', default: '', type: 'string' },
+		{ name: 'sendEventOnShow', default: '', type: 'string' }
 	];
 
 	//#endregion
@@ -223,6 +239,15 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	// static `show` attribute, so `noshowtype` is honoured identically.
 	private readonly _onSignalShowValue = (value: boolean) => this.applyShowSignal(value);
 
+	// --- sendEventOnShow signal wiring (opt-in) -------------------------------
+	// The base's only outbound (event) signal. Stateless: the signal NAME lives in
+	// the `_ch5Properties` store and publishing goes through `sendBoolean` on the
+	// shared lazy `_baseSignals` helper, so there is no subscription, no listener
+	// and nothing to tear down. Nothing is allocated or published unless a
+	// `sendeventonshow` attribute is present. No cached name-change callback is
+	// needed - setting the name has no side effect (publishing is driven by show
+	// changes via handleShow), so the setter stores the name with no onChange.
+
 	//#endregion
 
 	//#region Getters and Setters
@@ -291,6 +316,27 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	}
 	public get receiveStateShow(): string {
 		return this._ch5Properties.get<string>('receiveStateShow');
+	}
+
+	/**
+	 * Name of a Crestron **boolean** signal that the host PUBLISHES its show state
+	 * to (`true` when shown, `false` when hidden), mirroring
+	 * `Ch5Common.sendEventOnShow`. It is the outbound counterpart of
+	 * `receiveStateShow`: whenever the show state is (re)applied through
+	 * {@link handleShow} the current value is published via {@link sendShowSignal}.
+	 * **Strictly opt-in and zero-cost when absent** (no publish, no helper).
+	 *
+	 * The name is simply stored in the shared `_ch5Properties` store for the
+	 * equality short-circuit; unlike the receive signals it needs NO change
+	 * callback, because setting the name has no side effect - the value is only
+	 * ever published from the show-handling path, so `set()` is called without an
+	 * `onChange` (nothing allocated per write).
+	 */
+	public set sendEventOnShow(value: string) {
+		this._ch5Properties.set<string>('sendEventOnShow', value ?? '');
+	}
+	public get sendEventOnShow(): string {
+		return this._ch5Properties.get<string>('sendEventOnShow');
 	}
 
 	public set debug(value: boolean) {
@@ -386,6 +432,9 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 				break;
 			case 'receivestateshow':
 				this.receiveStateShow = newValue ?? '';
+				break;
+			case 'sendeventonshow':
+				this.sendEventOnShow = newValue ?? '';
 				break;
 		}
 	}
@@ -674,6 +723,10 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		// connectedCallback via subscribeReceiveStateEnable() / subscribeReceiveStateShow().
 		this._ch5Properties.setValue<string>('receiveStateEnable', this.getAttribute('receivestateenable') ?? '');
 		this._ch5Properties.setValue<string>('receiveStateShow', this.getAttribute('receivestateshow') ?? '');
+		// Sync the outbound sendEventOnShow signal NAME too, so the show state
+		// published by the handleShow() call below targets the right signal on
+		// (re)connect (attributeChangedCallback does not fire on reconnect).
+		this._ch5Properties.setValue<string>('sendEventOnShow', this.getAttribute('sendeventonshow') ?? '');
 		this.handleShow();
 	}
 
@@ -689,6 +742,27 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		} else {
 			this.applyHideState();
 		}
+		// Publish the resulting show state on the opt-in outbound signal. A no-op
+		// (single store read + falsy check) when `sendeventonshow` is not set, so
+		// signal-free instances pay nothing on this path.
+		this.sendShowSignal(this.show);
+	}
+
+	/**
+	 * Publishes the current show state (`true` = shown, `false` = hidden) to the
+	 * opt-in `sendEventOnShow` boolean signal, mirroring `Ch5Common.sendShowSignal`.
+	 * Zero-cost when the attribute is absent: it bails out on an empty name before
+	 * touching the signal helper. Publishing goes through the shared lazy
+	 * `Ch5LightSignal` helper's stateless `sendBoolean` (a plain boolean, not a
+	 * repeat-digital object), so it works whether or not any receive signal is
+	 * subscribed and needs no teardown on disconnect.
+	 */
+	protected sendShowSignal(value: boolean): void {
+		const signalName = this.sendEventOnShow;
+		if (!signalName) {
+			return;
+		}
+		(this._baseSignals ??= new Ch5LightSignal()).sendBoolean(signalName, value);
 	}
 
 	/** Reveals the host, reattaching it first if `noshowtype` = 'remove' detached it. */
