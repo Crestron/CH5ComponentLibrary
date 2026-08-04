@@ -112,8 +112,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 * static `[disabled]` rule with `:not([data-signal-enable])` and styles
 	 * `[data-signal-enable="false"]` as disabled.
 	 */
-	public static readonly SIGNAL_ENABLE_ATTRIBUTE = 'data-signal-enable';
-
+	public static readonly SIGNAL_ATTRIBUTE_ENABLE = 'data-signal-enable';
 	/**
 	 * Settings passed to every `Ch5LightProperties` instance created by this base
 	 * class. Hoisted to a STATIC field (computed once per class, not once per
@@ -480,8 +479,8 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		this.clearReceiveStateEnableSubscription(oldSignalName);
 		if (this.receiveStateEnable) {
 			this.subscribeReceiveStateEnable();
-		} else if (this.hasAttribute(Ch5LightBaseClass.SIGNAL_ENABLE_ATTRIBUTE)) {
-			this.removeAttribute(Ch5LightBaseClass.SIGNAL_ENABLE_ATTRIBUTE);
+		} else if (this.hasAttribute(Ch5LightBaseClass.SIGNAL_ATTRIBUTE_ENABLE)) {
+			this.removeAttribute(Ch5LightBaseClass.SIGNAL_ATTRIBUTE_ENABLE);
 		}
 	}
 
@@ -502,8 +501,8 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 */
 	protected applyEnableState(enabled: boolean): void {
 		const channelValue = enabled ? 'true' : 'false';
-		if (this.getAttribute(Ch5LightBaseClass.SIGNAL_ENABLE_ATTRIBUTE) !== channelValue) {
-			this.setAttribute(Ch5LightBaseClass.SIGNAL_ENABLE_ATTRIBUTE, channelValue);
+		if (this.getAttribute(Ch5LightBaseClass.SIGNAL_ATTRIBUTE_ENABLE) !== channelValue) {
+			this.setAttribute(Ch5LightBaseClass.SIGNAL_ATTRIBUTE_ENABLE, channelValue);
 		}
 	}
 
