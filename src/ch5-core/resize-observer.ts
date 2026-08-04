@@ -9,7 +9,8 @@
 /**
  * Utility function that returns the first scrollable parent
  */
-export function resizeObserver(node: HTMLElement, callback: any) {
+export function resizeObserver(node: HTMLElement, callback: any): ResizeObserver {
     const myObserver = new ResizeObserver(callback);
     myObserver.observe(node);
+    return myObserver;
 }

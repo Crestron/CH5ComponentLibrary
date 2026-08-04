@@ -335,6 +335,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   private _scrollbarContainer: HTMLElement = {} as HTMLElement;
   private _scrollbar: HTMLElement = {} as HTMLElement;
   private _templateElement: HTMLTemplateElement = {} as HTMLTemplateElement;
+  private _resizeObserver: ResizeObserver | null = null;
   // private members used for mouse up and down
   private isDown = false;
   private startX: number = 0;
@@ -772,7 +773,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.initAttributes();
     this.initCommonMutationObserver(this);
     this.debounceSubpageDisplay();
-    resizeObserver(this._elContainer, this.resizeHandler);
+    this._resizeObserver = resizeObserver(this._elContainer, this.resizeHandler);
     customElements.whenDefined(this.nodeName.toLowerCase()).then(() => {
       this.componentLoadedEvent(this.nodeName.toLowerCase(), this.id);
     });
@@ -827,6 +828,9 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.logger.start('disconnectedCallback()');
     this.removeEventListeners();
     this.unsubscribeFromSignals();
+    this._resizeObserver?.disconnect();
+    this._resizeObserver = null;
+    this.disconnectCommonMutationObserver();
     unSubscribeInViewPortChange(this);
     this.reInitialize();
     if (this._refreshSubId !== null) {
