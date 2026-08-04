@@ -26,20 +26,33 @@ export type TCh5LightShowType = 'display' | 'visibility' | 'remove';
  * `disabled` is styled entirely from CSS via the host `[disabled]` attribute
  * selector — the STATIC attribute needs no JS and is never mutated by this class.
  *
- * `receiveStateEnable` is a **strictly opt-in** boolean receive signal and the
- * only signal the base itself supports. It costs nothing when absent: no signal
- * helper, subscription or closure is created unless the attribute is present (the
- * `Ch5LightSignal` helper is created lazily on first subscribe), so 1000+
- * signal-free instances pay zero. A signal value of `true` enables the host,
- * `false` disables it. Mirroring the light button's `type` / `selected` signals,
- * the resolved state is written to a SEPARATE `data-signal-enable` channel
- * (never to the author's `disabled`); the theme CSS guards the static
+ * `receiveStateEnable` is a **strictly opt-in** boolean receive signal and one
+ * of only two signals the base itself supports. It costs nothing when absent: no
+ * signal helper, subscription or closure is created unless the attribute is
+ * present (the `Ch5LightSignal` helper is created lazily on first subscribe), so
+ * 1000+ signal-free instances pay zero. A signal value of `true` enables the
+ * host, `false` disables it. Mirroring the light button's `type` / `selected`
+ * signals, the resolved state is written to a SEPARATE `data-signal-enable`
+ * channel (never to the author's `disabled`); the theme CSS guards the static
  * `[disabled]` rule with `:not([data-signal-enable])` and styles
  * `[data-signal-enable="false"]` as disabled, so the signal takes **absolute
  * priority** over a static `disabled` (even if the author toggles it at runtime)
  * while the author's own `disabled` attribute is preserved and restored the
  * moment the signal is removed. The subscription is torn down on disconnect and
  * re-established on reconnect.
+ *
+ * `receiveStateShow` is the base's second **strictly opt-in** boolean receive
+ * signal (same zero-cost-when-absent rules, reusing the same lazy helper). A
+ * signal value of `true` shows the host, `false` hides it, honouring the current
+ * `noshowtype` mode exactly like the static `show` attribute (it drives the same
+ * `handleShow()` path — `display` / `visibility` CSS classes or DOM `remove`).
+ * Unlike `receiveStateEnable`, `show` is a JS-driven state (not a pure-CSS one),
+ * so the signal writes the effective value straight into the `show` property
+ * store rather than to a separate channel — and while the signal is bound it has
+ * **priority over the static `show` attribute** (direct `show` writes are
+ * ignored, mirroring `Ch5Common`). The author's `show` attribute is never
+ * mutated, so clearing the signal restores it. The subscription is torn down on
+ * disconnect and re-established on reconnect.
  *
  * Diagnostics mirror the heavy components but are kept allocation-free until
  * actually used:
@@ -91,10 +104,11 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 * Attributes handled by this base class. A derived component must merge this
 	 * list with its own in its static `observedAttributes` getter. `debug` /
 	 * `trace` are observed so logging can be toggled at runtime; they cost nothing
-	 * unless the attribute actually changes. `receivestateenable` is observed so the
-	 * enable/disable signal can be attached / changed at runtime; it is strictly
-	 * opt-in and allocates nothing (no signal helper, subscription or closure)
-	 * unless the attribute is actually present.
+	 * unless the attribute actually changes. `receivestateenable` and
+	 * `receivestateshow` are observed so their enable/disable and show/hide signals
+	 * can be attached / changed at runtime; both are strictly opt-in and allocate
+	 * nothing (no signal helper, subscription or closure) unless the attribute is
+	 * actually present.
 	 *
 	 * `class`, `style` and `dir` are NOT listed: they are standard, natively
 	 * reflected HTML attributes and work directly on the host with no JS. The base
@@ -103,7 +117,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 * `class` / `style` / `dir` are never touched - observing them would cost
 	 * hot-path work for behaviour the browser already provides for free.
 	 */
-	public static readonly LIGHT_BASE_OBSERVED_ATTRIBUTES = ['show', 'noshowtype', 'debug', 'trace', 'receivestateenable'];
+	public static readonly LIGHT_BASE_OBSERVED_ATTRIBUTES = ['show', 'noshowtype', 'debug', 'trace', 'receivestateenable', 'receivestateshow'];
 
 	/**
 	 * Separate styling channel the `receiveStateEnable` signal writes to (never the
@@ -130,7 +144,8 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 			type: 'enum',
 			enumeratedValues: [...Ch5LightBaseClass.NO_SHOW_TYPES]
 		},
-		{ name: 'receiveStateEnable', default: '', type: 'string' }
+		{ name: 'receiveStateEnable', default: '', type: 'string' },
+		{ name: 'receiveStateShow', default: '', type: 'string' }
 	];
 
 	//#endregion
@@ -195,11 +210,31 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	// never allocate a new closure.
 	private readonly _onSignalEnableValue = (value: boolean) => this.applyEnableState(value);
 
+	// --- receiveStateShow signal wiring (opt-in) ------------------------------
+	// The base's second signal. Reuses the SAME lazy `_baseSignals` helper as
+	// receiveStateEnable (keyed by signal name, so both can coexist). Strictly
+	// opt-in: nothing is allocated unless a `receivestateshow` attribute is present.
+	// Cached name-change callback (created ONCE per instance); the NAME lives in the
+	// `_ch5Properties` store, so `set()` hands this callback the OLD name straight
+	// away for clean unsubscription - no dedicated field needed.
+	private readonly _onReceiveStateShowChange = (oldSignalName: string) => this.handleReceiveStateShow(oldSignalName);
+	// Cached value callback (created ONCE per instance) so repeated (re)subscribes
+	// never allocate a new closure. Drives the same `handleShow()` path as the
+	// static `show` attribute, so `noshowtype` is honoured identically.
+	private readonly _onSignalShowValue = (value: boolean) => this.applyShowSignal(value);
+
 	//#endregion
 
 	//#region Getters and Setters
 
 	public set show(value: boolean) {
+		// `receiveStateShow`, when bound, has priority over the static `show`
+		// attribute (mirrors `Ch5Common`): while the show signal is driving the host,
+		// direct `show` writes (attribute or programmatic) are ignored so they cannot
+		// fight the signal. Clearing the signal restores the author's `show`.
+		if (this.receiveStateShow) {
+			return;
+		}
 		this._ch5Properties.set<boolean>('show', value, this._onShowChange);
 	}
 	public get show(): boolean {
@@ -232,6 +267,30 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	}
 	public get receiveStateEnable(): string {
 		return this._ch5Properties.get<string>('receiveStateEnable');
+	}
+
+	/**
+	 * Name of a Crestron **boolean** signal that shows/hides the host
+	 * (`true` = shown, `false` = hidden), mirroring `Ch5Common.receiveStateShow`.
+	 * The resolved value is written straight into the `show` property store and
+	 * applied through {@link handleShow}, so it honours the current `noshowtype`
+	 * mode (display / visibility / remove) exactly like the static `show`
+	 * attribute. While bound, it has **priority over the static `show` attribute**
+	 * (direct `show` writes are ignored); the author's `show` attribute is never
+	 * mutated, so clearing the signal restores it. **Strictly opt-in and zero-cost
+	 * when absent.**
+	 *
+	 * The name is stored in the shared `_ch5Properties` store (same pattern as
+	 * `receiveStateEnable`); `_ch5Properties.set()` passes the OLD name straight to
+	 * the cached `_onReceiveStateShowChange` callback, which hands it to
+	 * {@link handleReceiveStateShow} for unsubscription - no extra field, no closure
+	 * allocated per call.
+	 */
+	public set receiveStateShow(value: string) {
+		this._ch5Properties.set<string>('receiveStateShow', value ?? '', this._onReceiveStateShowChange);
+	}
+	public get receiveStateShow(): string {
+		return this._ch5Properties.get<string>('receiveStateShow');
 	}
 
 	public set debug(value: boolean) {
@@ -300,8 +359,9 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		}
 		this.applyDefaultRole();
 		this.initLightBaseAttributes();
-		// Subscribe the opt-in enable signal (no-op when the attribute is absent).
+		// Subscribe the opt-in base signals (each a no-op when its attribute is absent).
 		this.subscribeReceiveStateEnable();
+		this.subscribeReceiveStateShow();
 	}
 
 	public attributeChangedCallback(attr: string, oldValue: string | null, newValue: string | null): void {
@@ -324,18 +384,32 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 			case 'receivestateenable':
 				this.receiveStateEnable = newValue ?? '';
 				break;
+			case 'receivestateshow':
+				this.receiveStateShow = newValue ?? '';
+				break;
 		}
 	}
 
 	/**
-	 * Releases the opt-in `receiveStateEnable` subscription (if any) so a detached
-	 * host holds no live listener; the signal NAME is kept so a reconnect
-	 * re-subscribes transparently. A derived component that overrides
+	 * Releases the opt-in `receiveStateEnable` / `receiveStateShow` subscriptions
+	 * (if any) so a detached host holds no live listener; the signal NAMES are kept
+	 * so a reconnect re-subscribes transparently. A derived component that overrides
 	 * `disconnectedCallback` MUST call `super.disconnectedCallback()`. No-op (a
-	 * single null check) for components not using `receivestateenable`.
+	 * single null check) for components not using either signal.
+	 *
+	 * A disconnect caused by our OWN `noshowtype="remove"` hide is deliberately NOT
+	 * treated as a teardown: `applyHideState` sets `_isDetachedFromDom` before it
+	 * detaches the host, so we bail out early and keep the subscriptions alive.
+	 * Otherwise a `receiveStateShow="false"` would remove the host and immediately
+	 * kill its own subscription, leaving no way for a later `true` to reattach it.
+	 * On reattach (`applyShowState`) `connectedCallback` re-subscribes idempotently.
 	 */
 	public disconnectedCallback(): void {
+		if (this._isDetachedFromDom) {
+			return;
+		}
 		this.clearReceiveStateEnableSubscription(this.receiveStateEnable);
+		this.clearReceiveStateShowSubscription(this.receiveStateShow);
 	}
 
 	//#endregion
@@ -507,6 +581,67 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	}
 
 	/**
+	 * Subscribes to the `receiveStateShow` boolean signal (opt-in). Reuses the same
+	 * lazy `_baseSignals` helper as `receiveStateEnable` (subscriptions are keyed by
+	 * name, so both coexist). No-op when the name is empty, the host is
+	 * disconnected, or it is already subscribed. On subscribe the helper delivers
+	 * the signal's current value immediately, so {@link applyShowSignal} runs right
+	 * away and the effective show state matches the signal from the first frame.
+	 */
+	private subscribeReceiveStateShow(): void {
+		const name = this.receiveStateShow;
+		if (!name || !this.isConnected) {
+			return;
+		}
+		if (this._baseSignals !== null && this._baseSignals.isSubscribedTo(name)) {
+			return;
+		}
+		(this._baseSignals ??= new Ch5LightSignal()).subscribe<boolean>(name, 'boolean', this._onSignalShowValue);
+	}
+
+	/**
+	 * Handles a change to the `receiveStateShow` signal NAME. `oldSignalName` is the
+	 * name in effect before this change (captured by `_ch5Properties.set()`, since
+	 * the store already holds the NEW name by the time this runs). Tears down the
+	 * previous subscription and (re)subscribes to the new one when connected. When
+	 * the name is cleared it hands control back to the author's static `show`
+	 * attribute (re-read from the DOM and re-applied through {@link handleShow}),
+	 * since the signal never mutated that attribute.
+	 */
+	private handleReceiveStateShow(oldSignalName: string): void {
+		this.clearReceiveStateShowSubscription(oldSignalName);
+		if (this.receiveStateShow) {
+			this.subscribeReceiveStateShow();
+		} else {
+			// Signal removed: restore the author's static `show` attribute (default true).
+			const show = this.hasAttribute('show') ? Ch5LightBaseClass.toBoolean(this.getAttribute('show'), true) : true;
+			this._ch5Properties.setValue<boolean>('show', show);
+			this.handleShow();
+		}
+	}
+
+	/** Releases the `receiveStateShow` subscription for the given signal name. */
+	private clearReceiveStateShowSubscription(signalName: string): void {
+		if (this._baseSignals !== null) {
+			this._baseSignals.unsubscribe(signalName);
+		}
+	}
+
+	/**
+	 * Applies a `receiveStateShow` value (`true` = shown, `false` = hidden) by
+	 * writing the effective state straight into the `show` property store and
+	 * re-running {@link handleShow}, so the current `noshowtype` mode (display /
+	 * visibility / remove) is honoured exactly like the static `show` attribute.
+	 * The write bypasses the guarded `show` setter (via `setValue`) so the signal
+	 * is never blocked by its own priority rule, and the author's `show` attribute
+	 * is left untouched (and thus restorable when the signal is removed).
+	 */
+	protected applyShowSignal(shown: boolean): void {
+		this._ch5Properties.setValue<boolean>('show', shown);
+		this.handleShow();
+	}
+
+	/**
 	 * Reads `show` / `noshowtype` from the DOM straight into the property store
 	 * (bypassing the setters) and applies the show handler once. The STATIC
 	 * `disabled` needs no JS handling — it is styled from CSS via the `[disabled]`
@@ -533,11 +668,12 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 			this._logger.isDebugEnabled = this._isDebugEnabled;
 			this._logger.isTraceEnabled = this._isTraceEnabled;
 		}
-		// Sync the receiveStateEnable signal NAME into the store from the DOM without
-		// firing the change callback (attributeChangedCallback does not fire on
-		// reconnect). The subscription itself happens in connectedCallback via
-		// subscribeReceiveStateEnable().
+		// Sync the receiveStateEnable / receiveStateShow signal NAMES into the store
+		// from the DOM without firing the change callbacks (attributeChangedCallback
+		// does not fire on reconnect). The subscriptions themselves happen in
+		// connectedCallback via subscribeReceiveStateEnable() / subscribeReceiveStateShow().
 		this._ch5Properties.setValue<string>('receiveStateEnable', this.getAttribute('receivestateenable') ?? '');
+		this._ch5Properties.setValue<string>('receiveStateShow', this.getAttribute('receivestateshow') ?? '');
 		this.handleShow();
 	}
 
