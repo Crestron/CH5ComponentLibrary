@@ -440,6 +440,8 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		// Detach the pointer listeners (mirrors the receive-signal teardown) so a
 		// disconnected button holds no live listeners; connectedCallback re-attaches.
 		this.unwireSendEventOnClick();
+		// Let the base release its own opt-in subscription (receiveStateEnable).
+		super.disconnectedCallback();
 		this.logStop();
 	}
 

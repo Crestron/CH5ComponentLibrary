@@ -1,6 +1,7 @@
 import { Ch5Uid } from "../ch5-core";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
 import { Ch5LightProperties, ICh5LightPropertySettings } from "./ch5-light-properties";
+import { Ch5LightSignal } from "./ch5-light-signal";
 
 /** How a light component hides itself — mirrors `Ch5BaseClass` noshowtype. */
 export type TCh5LightShowType = 'display' | 'visibility' | 'remove';
@@ -22,8 +23,23 @@ export type TCh5LightShowType = 'display' | 'visibility' | 'remove';
  * `ch5-light-hide-visibility`); for `remove` it detaches the host from the DOM.
  * The two hide classes must be shipped in the theme.
  *
- * `disabled` is intentionally NOT handled in JS — it is styled entirely from CSS
- * via the host `[disabled]` attribute selector.
+ * `disabled` is styled entirely from CSS via the host `[disabled]` attribute
+ * selector — the STATIC attribute needs no JS and is never mutated by this class.
+ *
+ * `receiveStateEnable` is a **strictly opt-in** boolean receive signal and the
+ * only signal the base itself supports. It costs nothing when absent: no signal
+ * helper, subscription or closure is created unless the attribute is present (the
+ * `Ch5LightSignal` helper is created lazily on first subscribe), so 1000+
+ * signal-free instances pay zero. A signal value of `true` enables the host,
+ * `false` disables it. Mirroring the light button's `type` / `selected` signals,
+ * the resolved state is written to a SEPARATE `data-signal-enable` channel
+ * (never to the author's `disabled`); the theme CSS guards the static
+ * `[disabled]` rule with `:not([data-signal-enable])` and styles
+ * `[data-signal-enable="false"]` as disabled, so the signal takes **absolute
+ * priority** over a static `disabled` (even if the author toggles it at runtime)
+ * while the author's own `disabled` attribute is preserved and restored the
+ * moment the signal is removed. The subscription is torn down on disconnect and
+ * re-established on reconnect.
  *
  * Diagnostics mirror the heavy components but are kept allocation-free until
  * actually used:
@@ -75,7 +91,10 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 * Attributes handled by this base class. A derived component must merge this
 	 * list with its own in its static `observedAttributes` getter. `debug` /
 	 * `trace` are observed so logging can be toggled at runtime; they cost nothing
-	 * unless the attribute actually changes.
+	 * unless the attribute actually changes. `receivestateenable` is observed so the
+	 * enable/disable signal can be attached / changed at runtime; it is strictly
+	 * opt-in and allocates nothing (no signal helper, subscription or closure)
+	 * unless the attribute is actually present.
 	 *
 	 * `class`, `style` and `dir` are NOT listed: they are standard, natively
 	 * reflected HTML attributes and work directly on the host with no JS. The base
@@ -84,7 +103,16 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 * `class` / `style` / `dir` are never touched - observing them would cost
 	 * hot-path work for behaviour the browser already provides for free.
 	 */
-	public static readonly LIGHT_BASE_OBSERVED_ATTRIBUTES = ['show', 'noshowtype', 'debug', 'trace'];
+	public static readonly LIGHT_BASE_OBSERVED_ATTRIBUTES = ['show', 'noshowtype', 'debug', 'trace', 'receivestateenable'];
+
+	/**
+	 * Separate styling channel the `receiveStateEnable` signal writes to (never the
+	 * author's `disabled`), mirroring the light button's `data-signal-type` /
+	 * `data-signal-selected`. MUST stay in sync with the theme SCSS, which guards the
+	 * static `[disabled]` rule with `:not([data-signal-enable])` and styles
+	 * `[data-signal-enable="false"]` as disabled.
+	 */
+	public static readonly SIGNAL_ENABLE_ATTRIBUTE = 'data-signal-enable';
 
 	/**
 	 * Settings passed to every `Ch5LightProperties` instance created by this base
@@ -102,7 +130,8 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 			default: Ch5LightBaseClass.NO_SHOW_TYPES[0],
 			type: 'enum',
 			enumeratedValues: [...Ch5LightBaseClass.NO_SHOW_TYPES]
-		}
+		},
+		{ name: 'receiveStateEnable', default: '', type: 'string' }
 	];
 
 	//#endregion
@@ -149,6 +178,24 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	// writes (e.g. driven by a fast-changing signal) never allocate a new closure.
 	private readonly _onShowChange = () => this.handleShow();
 
+	// --- receiveStateEnable signal wiring (opt-in) ----------------------------
+	// The only signal the base itself supports. Strictly opt-in: `_baseSignals`
+	// stays null (nothing allocated) unless a `receivestateenable` attribute is
+	// present, so 1000+ signal-free instances pay nothing. It is deliberately a
+	// SEPARATE helper from any a concrete component owns (e.g. the button's own
+	// receiveState* signals), so this base feature never depends on subclass state
+	// and the two never clash. The signal drives the SEPARATE `data-signal-enable`
+	// channel (never the author's `disabled`), which the theme CSS styles.
+	private _baseSignals: Ch5LightSignal | null = null;
+	// Cached name-change callback (created ONCE per instance). The signal NAME lives
+	// in the `_ch5Properties` store (like the light button's receiveStateSelected),
+	// so `_ch5Properties.set()` hands this callback the OLD name straight away -
+	// no dedicated field is needed to bridge it for unsubscription.
+	private readonly _onReceiveStateEnableChange = (oldSignalName: string) => this.handleReceiveStateEnable(oldSignalName);
+	// Cached value callback (created ONCE per instance) so repeated (re)subscribes
+	// never allocate a new closure.
+	private readonly _onSignalEnableValue = (value: boolean) => this.applyEnableState(value);
+
 	//#endregion
 
 	//#region Getters and Setters
@@ -165,6 +212,27 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	}
 	public get noshowType(): TCh5LightShowType {
 		return this._ch5Properties.get<TCh5LightShowType>('noshowType');
+	}
+
+	/**
+	 * Name of a Crestron **boolean** signal that enables/disables the host
+	 * (`true` = enabled, `false` = disabled), mirroring `Ch5Common.receiveStateEnable`.
+	 * The resolved state is written to the SEPARATE `data-signal-enable` channel
+	 * (never the author's `disabled`), which the theme CSS styles with absolute
+	 * priority over a static `disabled`. **Strictly opt-in and zero-cost when absent.**
+	 *
+	 * The name is stored in the shared `_ch5Properties` store (same pattern as the
+	 * light button's `receiveStateSelected`) for the equality short-circuit;
+	 * `_ch5Properties.set()` passes the OLD name straight to the cached
+	 * `_onReceiveStateEnableChange` callback, which hands it to
+	 * {@link handleReceiveStateEnable} for unsubscription - no extra field, no
+	 * closure allocated per call.
+	 */
+	public set receiveStateEnable(value: string) {
+		this._ch5Properties.set<string>('receiveStateEnable', value ?? '', this._onReceiveStateEnableChange);
+	}
+	public get receiveStateEnable(): string {
+		return this._ch5Properties.get<string>('receiveStateEnable');
 	}
 
 	public set debug(value: boolean) {
@@ -233,6 +301,8 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		}
 		this.applyDefaultRole();
 		this.initLightBaseAttributes();
+		// Subscribe the opt-in enable signal (no-op when the attribute is absent).
+		this.subscribeReceiveStateEnable();
 	}
 
 	public attributeChangedCallback(attr: string, oldValue: string | null, newValue: string | null): void {
@@ -252,7 +322,21 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 			case 'trace':
 				this.trace = this.hasAttribute('trace') ? Ch5LightBaseClass.toBoolean(newValue, true) : false;
 				break;
+			case 'receivestateenable':
+				this.receiveStateEnable = newValue ?? '';
+				break;
 		}
+	}
+
+	/**
+	 * Releases the opt-in `receiveStateEnable` subscription (if any) so a detached
+	 * host holds no live listener; the signal NAME is kept so a reconnect
+	 * re-subscribes transparently. A derived component that overrides
+	 * `disconnectedCallback` MUST call `super.disconnectedCallback()`. No-op (a
+	 * single null check) for components not using `receivestateenable`.
+	 */
+	public disconnectedCallback(): void {
+		this.clearReceiveStateEnableSubscription(this.receiveStateEnable);
 	}
 
 	//#endregion
@@ -367,9 +451,68 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	}
 
 	/**
+	 * Subscribes to the `receiveStateEnable` boolean signal (opt-in). Lazily creates
+	 * the signal helper only for components that actually use the signal. No-op when
+	 * the name is empty, the host is disconnected, or it is already subscribed. On
+	 * subscribe the helper delivers the signal's current value immediately, so
+	 * {@link applyEnableState} runs right away.
+	 */
+	private subscribeReceiveStateEnable(): void {
+		const name = this.receiveStateEnable;
+		if (!name || !this.isConnected) {
+			return;
+		}
+		if (this._baseSignals !== null && this._baseSignals.isSubscribedTo(name)) {
+			return;
+		}
+		(this._baseSignals ??= new Ch5LightSignal()).subscribe<boolean>(name, 'boolean', this._onSignalEnableValue);
+	}
+
+	/**
+	 * Handles a change to the `receiveStateEnable` signal NAME. `oldSignalName` is the
+	 * name in effect before this change (captured by `_ch5Properties.set()`, since the
+	 * store already holds the NEW name by the time this runs). Tears down the previous
+	 * subscription and (re)subscribes to the new one when connected. When the name is
+	 * cleared it drops the `data-signal-enable` channel so the author's static
+	 * `disabled` applies again.
+	 */
+	private handleReceiveStateEnable(oldSignalName: string): void {
+		this.clearReceiveStateEnableSubscription(oldSignalName);
+		if (this.receiveStateEnable) {
+			this.subscribeReceiveStateEnable();
+		} else if (this.hasAttribute(Ch5LightBaseClass.SIGNAL_ENABLE_ATTRIBUTE)) {
+			this.removeAttribute(Ch5LightBaseClass.SIGNAL_ENABLE_ATTRIBUTE);
+		}
+	}
+
+	/** Releases the `receiveStateEnable` subscription for the given signal name. */
+	private clearReceiveStateEnableSubscription(signalName: string): void {
+		if (this._baseSignals !== null) {
+			this._baseSignals.unsubscribe(signalName);
+		}
+	}
+
+	/**
+	 * Applies a `receiveStateEnable` value by writing the SEPARATE `data-signal-enable`
+	 * channel (`true` = enabled, `false` = disabled) instead of the author's `disabled`
+	 * attribute. The theme CSS gives this channel priority over the static `disabled`,
+	 * so the signal always wins while it is active and the author's `disabled` is
+	 * preserved (and restored when the signal is removed). Mirrors the button's
+	 * `type` / `selected` signal channels.
+	 */
+	protected applyEnableState(enabled: boolean): void {
+		const channelValue = enabled ? 'true' : 'false';
+		if (this.getAttribute(Ch5LightBaseClass.SIGNAL_ENABLE_ATTRIBUTE) !== channelValue) {
+			this.setAttribute(Ch5LightBaseClass.SIGNAL_ENABLE_ATTRIBUTE, channelValue);
+		}
+	}
+
+	/**
 	 * Reads `show` / `noshowtype` from the DOM straight into the property store
-	 * (bypassing the setters) and applies the show handler once. `disabled` needs
-	 * no JS handling — it is styled from CSS via the `[disabled]` attribute.
+	 * (bypassing the setters) and applies the show handler once. The STATIC
+	 * `disabled` needs no JS handling — it is styled from CSS via the `[disabled]`
+	 * attribute; the opt-in `receiveStateEnable` signal drives a separate
+	 * `data-signal-enable` channel and never mutates `disabled`.
 	 * Idempotent and safe to call on every (re)connect.
 	 */
 	protected initLightBaseAttributes(): void {
@@ -391,6 +534,11 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 			this._logger.isDebugEnabled = this._isDebugEnabled;
 			this._logger.isTraceEnabled = this._isTraceEnabled;
 		}
+		// Sync the receiveStateEnable signal NAME into the store from the DOM without
+		// firing the change callback (attributeChangedCallback does not fire on
+		// reconnect). The subscription itself happens in connectedCallback via
+		// subscribeReceiveStateEnable().
+		this._ch5Properties.setValue<string>('receiveStateEnable', this.getAttribute('receivestateenable') ?? '');
 		this.handleShow();
 	}
 
