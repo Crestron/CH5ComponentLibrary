@@ -442,9 +442,15 @@ the `{ [REPEAT_DIGITAL_KEY]: value }` object form used by `ch5-button`. The butt
 reuses the same lazy `_signals` helper it uses for receive signals (safe because
 `sendBoolean` tracks no state).
 
-**Zero-cost when absent (opt-in).** The two pointer handlers are created lazily
-and attached **only** while a `sendeventonclick` name is set, so signal-free
-buttons attach no listeners and allocate no closures. They are torn down in
+**Zero-cost when absent (opt-in).** The two pointer handlers (`_onClickPress` /
+`_onClickRelease`) are cached class fields, created ONCE per instance — same
+pattern/rationale as `_onLabelChange` (§8.1) and the `receiveState*` `onValue`
+callbacks (§8.3) — rather than allocated inline in `wireSendEventOnClick()`.
+That method runs on every connect/reconnect, so an inline arrow there would
+reallocate on every reconnect, not just once per instance; a `_clickListenersWired`
+flag now tracks attach/detach state instead of nulling the handler fields. The
+listeners themselves are still attached **only** while a `sendeventonclick` name
+is set, so signal-free buttons attach no listeners at all. They are torn down in
 `disconnectedCallback` and re-attached in `connectedCallback` (mirroring the
 receive-signal teardown), and removed immediately when the attribute is cleared.
 Because `disabled` is CSS `pointer-events: none` on the host, a disabled button
@@ -887,5 +893,17 @@ detail belongs in git history / PR description.
   closure-per-call tradeoff (§6.2, §8.3) since the store overwrites the value
   before invoking `onChange`, requiring the old signal name to be captured at
   the setter call site.
+- **2026-08-05** — Two follow-up perf fixes, both in `ch5-light-button.ts` only:
+  (1) cached the `sendEventOnClick` press/release handlers
+  (`_onClickPress`/`_onClickRelease`) as `private readonly` class fields instead
+  of allocating them inline in `wireSendEventOnClick()` — that method runs on
+  every connect/reconnect, so this was the same closure-per-reconnect gap §8.3
+  already fixed for the `receiveState*` `onValue` callbacks, just not yet
+  extended to this later-added send signal (see §6.6); and (2) replaced ~15
+  eagerly-concatenated log strings (e.g. `this.log('applySignalType("' + value
+  + '")')`) with separate varargs (`this.log('applySignalType(', value, ')')`),
+  since `log()`'s internal debug/trace guard cannot stop JS from evaluating a
+  concatenated string argument before the guard runs — so every attribute /
+  signal-value / click update was allocating a string even with logging off.
 - **2026-07-30** — Initial creation of this document, covering the
   as-built design of `Ch5LightButton` and `Ch5LightBaseClass`.
