@@ -217,14 +217,13 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	/**
 	 * Name of the string signal that drives the button icon class. When a value
 	 * arrives it is written straight into the shared `iconClass` slot (see
-	 * {@link applySignalIconClass}), so the signal supersedes the author's static
-	 * `iconclass`. This relies on the platform contract that, at runtime, only the
-	 * signal ever updates the icon class - the static `iconclass` is set once at
-	 * design time and never re-written live - so the signal value is always the
-	 * last writer and therefore always wins. Stored in the shared `_ch5Properties`
-	 * store (same as label/icon) for the equality short-circuit;
-	 * `_ch5Properties.set()` passes the OLD name straight to the cached
-	 * `_onReceiveStateIconClassChange` callback for unsubscription.
+	 * {@link applySignalIconClass}). Priority among the icon sources is decided in
+	 * {@link handleIcon} by which receiveState* attribute is present
+	 * (receivestateiconurl > receivestateiconclass > iconurl > iconclass), so the
+	 * presence of this attribute makes its value outrank a static iconurl. Stored in
+	 * the shared `_ch5Properties` store (same as label/icon) for the equality
+	 * short-circuit; `_ch5Properties.set()` passes the OLD name straight to the
+	 * cached `_onReceiveStateIconClassChange` callback for unsubscription.
 	 */
 	public set receiveStateIconClass(value: string) {
 		this._ch5Properties.set<string>('receiveStateIconClass', value ?? '', this._onReceiveStateIconClassChange);
@@ -236,14 +235,12 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	/**
 	 * Name of the string signal that drives the button icon URL. When a value
 	 * arrives it is written straight into the shared `iconUrl` slot (see
-	 * {@link applySignalIconUrl}), so the signal supersedes the author's static
-	 * `iconurl`. This relies on the platform contract that, at runtime, only the
-	 * signal ever updates the icon URL - the static `iconurl` is set once at
-	 * design time and never re-written live - so the signal value is always the
-	 * last writer and therefore always wins. Stored in the shared `_ch5Properties`
-	 * store (same as label/icon) for the equality short-circuit;
-	 * `_ch5Properties.set()` passes the OLD name straight to the cached
-	 * `_onReceiveStateIconUrlChange` callback for unsubscription.
+	 * {@link applySignalIconUrl}). Priority among the icon sources is decided in
+	 * {@link handleIcon} by which receiveState* attribute is present; this attribute
+	 * ranks HIGHEST (receivestateiconurl > receivestateiconclass > iconurl >
+	 * iconclass). Stored in the shared `_ch5Properties` store (same as label/icon)
+	 * for the equality short-circuit; `_ch5Properties.set()` passes the OLD name
+	 * straight to the cached `_onReceiveStateIconUrlChange` callback for unsubscription.
 	 */
 	public set receiveStateIconUrl(value: string) {
 		this._ch5Properties.set<string>('receiveStateIconUrl', value ?? '', this._onReceiveStateIconUrlChange);
@@ -498,12 +495,27 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		if (!this._elButton) {
 			return;
 		}
-		const iconUrl = this.iconUrl;
-		// The `receivestateiconclass` signal (when active) writes its value straight
-		// into `iconClass` (see applySignalIconClass), so reading `iconClass` here
-		// already yields the signal value when a signal is driving it. The existing
-		// iconUrl-over-iconClass priority is unchanged: an iconUrl still wins.
-		const iconClass = this.iconClass;
+		// Resolve the effective icon by source priority (highest first):
+		//   1. receivestateiconurl   (signal image URL)  -> --img
+		//   2. receivestateiconclass (signal icon class) -> --icon
+		//   3. iconurl               (static image URL)  -> --img
+		//   4. iconclass             (static icon class) -> --icon
+		// A receiveState* icon signal takes priority simply by having its attribute
+		// set: its delivered value is written straight into the same iconUrl/iconClass
+		// slot (write-through, see applySignalIconUrl/applySignalIconClass), so the
+		// presence of the signal NAME is what selects the branch - this is what lets a
+		// signal icon class outrank a static iconurl.
+		let iconUrl = '';
+		let iconClass = '';
+		if (this.receiveStateIconUrl) {
+			iconUrl = this.iconUrl;
+		} else if (this.receiveStateIconClass) {
+			iconClass = this.iconClass;
+		} else if (this.iconUrl) {
+			iconUrl = this.iconUrl;
+		} else {
+			iconClass = this.iconClass;
+		}
 		if (iconUrl || iconClass) {
 			// Create the icon element lazily the first time an icon is set.
 			// DOM order does not matter: the icon position is controlled by the CSS
@@ -513,18 +525,17 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 				this._elButton.appendChild(this._elIcon);
 			}
 			if (iconUrl) {
-				// iconUrl takes the highest priority over iconClass. Render the icon
-				// as a background image using the --img modifier class. The --img and
-				// --icon classes are mutually exclusive (same as ch5-button).
+				// Render the icon as a background image using the --img modifier class.
+				// The --img and --icon classes are mutually exclusive (same as ch5-button).
 				this._elIcon.className = `${Ch5LightButton.PRIMARY_CSS_CLASS}--img`;
 				this._elIcon.style.backgroundImage = `url("${iconUrl}")`;
 			} else {
-				// Fall back to the icon font class when no iconUrl is provided.
+				// Fall back to the icon font class.
 				this._elIcon.className = `${Ch5LightButton.PRIMARY_CSS_CLASS}--icon ${iconClass}`;
 				this._elIcon.style.backgroundImage = '';
 			}
 		} else if (this._elIcon) {
-			// Remove the icon element when both the icon class and url are cleared
+			// Remove the icon element when no icon source is set
 			this._elIcon.remove();
 			this._elIcon = null;
 		}
@@ -764,11 +775,13 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	 * driven through a separate `data-signal-*` attribute channel), the icon class
 	 * is rendered in JS by {@link handleIcon}, so the signal writes its value
 	 * straight into the shared `iconClass` slot (same approach as ch5-animation's
-	 * `startAnimating`). Because the platform only updates the icon class through
-	 * the signal at runtime (the static `iconclass` is design-time only), the
-	 * signal is always the last writer and therefore always wins. Setting
-	 * `iconClass` runs the cached `_onIconChange` callback, which re-renders the
-	 * icon; the store's equality short-circuit skips redundant re-renders.
+	 * `startAnimating`). Priority among the icon sources is decided in
+	 * {@link handleIcon} by which receiveState* attribute is present
+	 * (receivestateiconurl > receivestateiconclass > iconurl > iconclass), so the
+	 * mere presence of `receivestateiconclass` makes this value outrank a static
+	 * iconurl. Setting `iconClass` runs the cached `_onIconChange` callback, which
+	 * re-renders the icon; the store's equality short-circuit skips redundant
+	 * re-renders.
 	 */
 	private applySignalIconClass(value: string): void {
 		this.log('applySignalIconClass(', value, ')');
@@ -806,10 +819,10 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	/**
 	 * Applies a signal-delivered icon URL. Like {@link applySignalIconClass}, the
 	 * icon URL is rendered in JS by {@link handleIcon}, so the signal writes its
-	 * value straight into the shared `iconUrl` slot (same approach as
-	 * ch5-animation's `startAnimating`). Because the platform only updates the icon
-	 * URL through the signal at runtime (the static `iconurl` is design-time only),
-	 * the signal is always the last writer and therefore always wins. Setting
+	 * value straight into the shared `iconUrl` slot (same approach as ch5-animation's
+	 * `startAnimating`). Priority is decided in {@link handleIcon} by which
+	 * receiveState* attribute is present; `receivestateiconurl` ranks HIGHEST
+	 * (receivestateiconurl > receivestateiconclass > iconurl > iconclass). Setting
 	 * `iconUrl` runs the cached `_onIconChange` callback, which re-renders the icon;
 	 * the store's equality short-circuit skips redundant re-renders.
 	 */
