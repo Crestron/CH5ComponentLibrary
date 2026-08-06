@@ -27,7 +27,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		'receivestateiconclass',
 		'receivestateiconurl',
 		'receivestatebackgroundimageurl',
-		'sendeventonclick'
+		'sendeventonclick',
+		'multilinesupport',
+		'truncatetext'
 	];
 
 	/**
@@ -49,7 +51,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		{ name: 'receiveStateIconClass', default: '', type: 'string' },
 		{ name: 'receiveStateIconUrl', default: '', type: 'string' },
 		{ name: 'receiveStateBackgroundImageUrl', default: '', type: 'string' },
-		{ name: 'sendEventOnClick', default: '', type: 'string' }
+		{ name: 'sendEventOnClick', default: '', type: 'string' },
+		{ name: 'multilineSupport', default: false, type: 'boolean' },
+		{ name: 'truncateText', default: true, type: 'boolean' }
 	];
 
 	//#endregion
@@ -73,6 +77,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	private readonly _onLabelChange = () => this.handleLabel();
 	private readonly _onIconChange = () => this.handleIcon();
 	private readonly _onBackgroundImageChange = () => this.handleBackgroundImageUrl();
+	// Shared by both multilineSupport and truncateText - they drive the same
+	// label wrapping/clamp update, so one cached callback covers both setters.
+	private readonly _onLabelWrapChange = () => this.updateLabelTextWrapping();
 
 	// --- receiveStateType signal wiring --------------------------------------
 	// Signals are strictly opt-in: the signal helper below is created LAZILY
@@ -160,6 +167,32 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 	public get backgroundImageUrl(): string {
 		return this._ch5Properties.get<string>('backgroundImageUrl');
+	}
+
+	/**
+	 * Enables multi-line label text. When true, the label wraps and is clamped to
+	 * the number of lines that fit the button's current height (never resizing the
+	 * button). When false (default) the label stays on a single line. The clamp is
+	 * measured lazily and ONLY when this is true, so single-line buttons pay no
+	 * layout-measurement cost.
+	 */
+	public set multilineSupport(value: boolean) {
+		this._ch5Properties.set<boolean>('multilineSupport', value, this._onLabelWrapChange);
+	}
+	public get multilineSupport(): boolean {
+		return this._ch5Properties.get<boolean>('multilineSupport');
+	}
+
+	/**
+	 * Enables truncation of overflowing label text with an ellipsis. Defaults to
+	 * true (single-line ellipsis, or an ellipsis on the last visible line when
+	 * `multilineSupport` is on). When false the text is clipped without an ellipsis.
+	 */
+	public set truncateText(value: boolean) {
+		this._ch5Properties.set<boolean>('truncateText', value, this._onLabelWrapChange);
+	}
+	public get truncateText(): boolean {
+		return this._ch5Properties.get<boolean>('truncateText');
 	}
 
 	/**
@@ -358,6 +391,20 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 			case 'sendeventonclick':
 				this.sendEventOnClick = newValue ?? '';
 				break;
+			case 'multilinesupport':
+				// Boolean attribute: present-and-empty means true, absent means the
+				// default (false). Coerced here because the light property store keeps
+				// the raw value and never parses attribute strings itself.
+				this.multilineSupport = this.hasAttribute('multilinesupport')
+					? Ch5LightBaseClass.toBoolean(newValue, true)
+					: false;
+				break;
+			case 'truncatetext':
+				// Boolean attribute, default true: absent restores the default.
+				this.truncateText = this.hasAttribute('truncatetext')
+					? Ch5LightBaseClass.toBoolean(newValue, true)
+					: true;
+				break;
 			default:
 				// Delegate base attributes (show / disabled) to Ch5LightBaseClass.
 				super.attributeChangedCallback(attr, oldValue, newValue);
@@ -412,6 +459,15 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		// (Re)attach the pointer listeners if a send signal is set. No-op for
 		// signal-free buttons. Safe on reconnect: disconnectedCallback detached them.
 		this.wireSendEventOnClick();
+
+		// Multi-line clamp must be (re)measured with the button attached to the DOM
+		// (its height is unreadable off-DOM). This is the ONLY place the initial
+		// measurement happens; it is a cheap no-op unless multilineSupport is on, so
+		// single-line buttons trigger no layout read. The wrapping CSS classes were
+		// already applied when the label span was created in handleLabel().
+		if (this.multilineSupport) {
+			this.fitEllipsisForMultiline();
+		}
 		this.logStop();
 	}
 
@@ -481,13 +537,97 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 				this._elSpanLabel = document.createElement('span');
 				this._elSpanLabel.className = `${Ch5LightButton.PRIMARY_CSS_CLASS}--label`;
 				this._elButton.appendChild(this._elSpanLabel);
+				// Apply the current multiline/truncate classes to the fresh span. The
+				// multiline measurement inside is skipped while the button is off-DOM
+				// (guarded by isConnected); connectedCallback runs the real measurement.
+				this.updateLabelTextWrapping();
 			}
 			this._elSpanLabel.textContent = label;
+			// The clamp depends on the text length + button height, so refit when the
+			// text changes - but only when multiline is on (otherwise nothing to measure).
+			if (this.multilineSupport) {
+				this.fitEllipsisForMultiline();
+			}
 		} else if (this._elSpanLabel) {
 			// Remove the label element when the label is cleared
 			this._elSpanLabel.remove();
 			this._elSpanLabel = null;
 		}
+	}
+
+	/**
+	 * Applies the multiline/truncate state to the label span. The visual behavior
+	 * is driven entirely by CSS classes (cheap, no layout read); only the opt-in
+	 * multi-line path performs a measurement. Called from the `multilineSupport` /
+	 * `truncateText` setters and when the label span is first created.
+	 */
+	private updateLabelTextWrapping() {
+		this.log('updateLabelTextWrapping()');
+		const span = this._elSpanLabel;
+		if (!span) {
+			return;
+		}
+		const p = Ch5LightButton.PRIMARY_CSS_CLASS;
+		span.classList.remove(
+			`${p}--label-multiline-support-true`,
+			`${p}--label-multiline-support-false`,
+			`${p}--label-truncate-text-true`,
+			`${p}--label-truncate-text-false`
+		);
+		span.classList.add(`${p}--label-multiline-support-${this.multilineSupport}`);
+		span.classList.add(`${p}--label-truncate-text-${this.truncateText}`);
+		if (this.multilineSupport) {
+			this.fitEllipsisForMultiline();
+		} else {
+			// Drop any inline clamp/height set by a previous multi-line pass.
+			span.style.removeProperty('-webkit-line-clamp');
+			span.style.removeProperty('max-height');
+		}
+	}
+
+	/**
+	 * Computes how many lines of label text fit the button's current height and
+	 * writes the clamp inline. This is the ONLY layout-reading path in the
+	 * component and runs solely when `multilineSupport` is on, so single-line
+	 * buttons never trigger it. Unlike ch5-button, this "light" version does not
+	 * observe resize/viewport changes (no ResizeObserver/listeners): the clamp is
+	 * measured on connect and on label/attribute changes only.
+	 */
+	private fitEllipsisForMultiline() {
+		this.log('fitEllipsisForMultiline()');
+		const span = this._elSpanLabel;
+		const button = this._elButton;
+		// Height is only meaningful once the button is attached to the DOM.
+		if (!span || !button || !button.isConnected) {
+			return;
+		}
+		const lineHeight = this.getLabelLineHeight(span);
+		if (lineHeight <= 0) {
+			return;
+		}
+		const topAndBottomPadding = 20;
+		const containerHeight = button.clientHeight - topAndBottomPadding;
+		const numberOfLines = containerHeight < lineHeight ? 1 : Math.floor(containerHeight / lineHeight);
+		if (this.truncateText) {
+			span.style.removeProperty('max-height');
+			span.style.setProperty('-webkit-line-clamp', String(numberOfLines));
+		} else {
+			span.style.removeProperty('-webkit-line-clamp');
+			span.style.setProperty('max-height', `${numberOfLines * lineHeight}px`);
+		}
+	}
+
+	/**
+	 * Measures the rendered height of a single line of text in the given element
+	 * by briefly swapping in a non-breaking space and reading offsetHeight, then
+	 * restoring the original content. Mirrors ch5-button's approach.
+	 */
+	private getLabelLineHeight(element: HTMLElement): number {
+		const oldHtml = element.innerHTML;
+		element.innerHTML = '&nbsp;';
+		const lineHeight = element.offsetHeight;
+		element.innerHTML = oldHtml;
+		return lineHeight;
 	}
 
 	private handleIcon() {
