@@ -19,8 +19,8 @@ export type TCh5LightShowType = 'display' | 'visibility' | 'remove';
  *
  * `show` supports the same three `noshowtype` modes as `Ch5BaseClass`
  * (`display`, `visibility`, `remove`). For `display` / `visibility` it toggles
- * two lightweight host CSS classes (`ch5-light-hide-display` /
- * `ch5-light-hide-visibility`); for `remove` it detaches the host from the DOM.
+ * two lightweight host CSS classes (`ch5-hide-dis` /
+ * `ch5-hide-vis`); for `remove` it detaches the host from the DOM.
  * The two hide classes must be shipped in the theme.
  *
  * `disabled` is styled entirely from CSS via the host `[disabled]` attribute
@@ -106,10 +106,10 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	public static readonly NO_SHOW_TYPES: readonly TCh5LightShowType[] = ['display', 'visibility', 'remove'];
 
 	/** Host CSS class that hides the element via `display:none` (shipped in the theme). */
-	public static readonly HIDE_DISPLAY_CSS_CLASS = 'ch5-light-hide-display';
+	public static readonly HIDE_DISPLAY_CSS_CLASS = 'ch5-hide-dis';
 
 	/** Host CSS class that hides the element via `visibility:hidden` (shipped in the theme). */
-	public static readonly HIDE_VISIBILITY_CSS_CLASS = 'ch5-light-hide-visibility';
+	public static readonly HIDE_VISIBILITY_CSS_CLASS = 'ch5-hide-vis';
 
 	/**
 	 * Attributes handled by this base class. A derived component must merge this
