@@ -584,8 +584,8 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 		const stateDisabledHidden = this.getDisabledOrHiddenDpadCenterButton();
 		if (stateDisabledHidden === false) {
 			this.setDisabledOrHidden(stateDisabledHidden);
-			this.syncPressedCssClassWithProperty();
 			if (this._wasInstatiated === false) {
+				this.syncPressedCssClassWithProperty();
 				return;
 			}
 			if (this._pressable?._pressed !== this.pressed) {
