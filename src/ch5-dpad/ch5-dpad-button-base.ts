@@ -122,6 +122,7 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 	protected _pressable: Ch5Pressable | null = null;
 	private _isPressedSubscription: Subscription | null = null;
 	private _repeatDigitalInterval: number | null = null;
+	private _pressableDrivenRelease: boolean = false;
 
 	//#endregion
 
@@ -590,7 +591,10 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 			}
 			if (this._pressable?._pressed !== this.pressed) {
 				this._pressable?.setPressed(this.pressed);
+			} else if (this.pressed === false && this._pressableDrivenRelease === false) {
+				this.syncPressedCssClassWithProperty();
 			}
+			this._pressableDrivenRelease = false;
 		} else {
 			this._pressable?.setPressed(false);
 			this.syncPressedCssClassWithProperty();
@@ -624,6 +628,7 @@ export class Ch5DpadButtonBase extends Ch5Common implements ICh5DpadButtonBaseAt
 			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
 				this.logger.log(`Ch5DpadButton.pressableSubscriptionCb(${value})`);
 				if (value === false) {
+					this._pressableDrivenRelease = true;
 					if (this._repeatDigitalInterval !== null) {
 						window.clearInterval(this._repeatDigitalInterval as number);
 					}
