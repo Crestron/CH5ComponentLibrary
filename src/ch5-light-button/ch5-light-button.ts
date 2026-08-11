@@ -154,6 +154,10 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	private _clickListenersWired = false;
 	private _clickPressed = false;
 	private readonly _onSendEventOnClickChange = () => this.handleSendEventOnClick();
+	
+	private readonly _onFocus = (event: FocusEvent) => this.handleFocus(event);
+	private readonly _onBlur = (event: FocusEvent) => this.handleBlur(event);
+	private _focusListenersWired = false;
 
 	//#endregion
 
@@ -478,6 +482,11 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		// signal-free buttons. Safe on reconnect: disconnectedCallback detached them.
 		this.wireSendEventOnClick();
 
+		// (Re)attach the focus/blur listeners so the host re-emits those events.
+		// Always-on (not signal-gated): idle cost is negligible and they fire only
+		// on an actual focus change. Safe on reconnect: disconnectedCallback detached them.
+		this.wireFocusBlur();
+
 		// Multi-line clamp must be (re)measured with the button attached to the DOM
 		// (its height is unreadable off-DOM). This is the ONLY place the initial
 		// measurement happens; it is a cheap no-op unless multilineSupport is on, so
@@ -506,6 +515,8 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		// Detach the pointer listeners (mirrors the receive-signal teardown) so a
 		// disconnected button holds no live listeners; connectedCallback re-attaches.
 		this.unwireSendEventOnClick();
+		// Detach the focus/blur listeners; connectedCallback re-attaches.
+		this.unwireFocusBlur();
 		// Cancel any pending multi-line measurement so a detached button does no
 		// layout read (and drops the scheduled callback reference).
 		if (this._pendingFitHandle !== null) {
@@ -1167,6 +1178,62 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 			return;
 		}
 		(this._signals ??= new Ch5LightSignal()).sendBoolean(signalName, value);
+	}
+
+	/**
+	 * Attaches the native `focus`/`blur` listeners to the inner button. No-op if
+	 * already wired or if no button exists yet. The handlers are cached fields.
+	 */
+	private wireFocusBlur(): void {
+		if (!this._elButton || this._focusListenersWired) {
+			return;
+		}
+		this.log('wireFocusBlur()');
+		this._focusListenersWired = true;
+		this._elButton.addEventListener('focus', this._onFocus);
+		this._elButton.addEventListener('blur', this._onBlur);
+	}
+
+	/**
+	 * Detaches the native `focus`/`blur` listeners (the handlers are cached fields
+	 * and are never nulled out - only re-attached on the next wire). Safe to call
+	 * when nothing was wired.
+	 */
+	private unwireFocusBlur(): void {
+		this.log('unwireFocusBlur()');
+		if (this._elButton && this._focusListenersWired) {
+			this._elButton.removeEventListener('focus', this._onFocus);
+			this._elButton.removeEventListener('blur', this._onBlur);
+		}
+		this._focusListenersWired = false;
+	}
+
+	/** Focus: re-emit the (non-bubbling) native `focus` event from the host. */
+	private handleFocus(event: FocusEvent): void {
+		this.log('handleFocus()');
+		this.reDispatchFocusEvent(event);
+	}
+
+	/**
+	 * Blur: re-emit the (non-bubbling) native `blur` event from the host.
+	 * NOTE: when press/release (pressable) is added, this MUST also reset the
+	 * pressed state (ch5-button does `this.pressed = false` here).
+	 */
+	private handleBlur(event: FocusEvent): void {
+		this.log('handleBlur()');
+		this.reDispatchFocusEvent(event);
+	}
+
+	/**
+	 * Clones the native focus/blur event and dispatches it from the host so
+	 * `<ch5-light-button>` consumers receive it (these events do not bubble),
+	 * then stops the original from propagating further. Mirrors ch5-button.
+	 */
+	private reDispatchFocusEvent(event: FocusEvent): void {
+		const clonedEvent: Event = new Event(event.type, event);
+		this.dispatchEvent(clonedEvent);
+		event.preventDefault();
+		event.stopPropagation();
 	}
 
 	//#endregion
