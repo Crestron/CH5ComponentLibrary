@@ -81,6 +81,24 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	// label wrapping/clamp update, so one cached callback covers both setters.
 	private readonly _onLabelWrapChange = () => this.updateLabelTextWrapping();
 
+	// Coalesces multi-line clamp measurements triggered within one synchronous
+	// tick (e.g. a JS batch that sets `label` AND changes the button height in the
+	// same click handler) into a SINGLE read on the next animation frame. Without
+	// this, the clamp is measured mid-batch - before a height change applied LATER
+	// in the same tick has taken effect - and is never recomputed (the light family
+	// runs no ResizeObserver), so a tall button ends up clamped to one line.
+	// Deferring to rAF lets all synchronous DOM/style mutations settle first, then
+	// reads the final height once. Strictly opt-in: only ever scheduled while
+	// multilineSupport is on, so single-line buttons allocate/schedule nothing.
+	private _pendingFitHandle: number | null = null;
+	private readonly _fitEllipsisFrame = () => {
+		this._pendingFitHandle = null;
+		// multilineSupport may have been turned off between scheduling and this frame.
+		if (this.multilineSupport) {
+			this.fitEllipsisForMultiline();
+		}
+	};
+
 	// --- receiveStateType signal wiring --------------------------------------
 	// Signals are strictly opt-in: the signal helper below is created LAZILY
 	// (only when a `receivestatetype` attribute is actually present), so buttons
@@ -464,9 +482,11 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		// (its height is unreadable off-DOM). This is the ONLY place the initial
 		// measurement happens; it is a cheap no-op unless multilineSupport is on, so
 		// single-line buttons trigger no layout read. The wrapping CSS classes were
-		// already applied when the label span was created in handleLabel().
+		// already applied when the label span was created in handleLabel(). Scheduled
+		// (not run inline) so the measurement reads the height only after any
+		// synchronous connect-time mutations settle.
 		if (this.multilineSupport) {
-			this.fitEllipsisForMultiline();
+			this.scheduleFitEllipsisForMultiline();
 		}
 		this.logStop();
 	}
@@ -486,6 +506,12 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		// Detach the pointer listeners (mirrors the receive-signal teardown) so a
 		// disconnected button holds no live listeners; connectedCallback re-attaches.
 		this.unwireSendEventOnClick();
+		// Cancel any pending multi-line measurement so a detached button does no
+		// layout read (and drops the scheduled callback reference).
+		if (this._pendingFitHandle !== null) {
+			window.cancelAnimationFrame(this._pendingFitHandle);
+			this._pendingFitHandle = null;
+		}
 		// Let the base release its own opt-in subscription (receiveStateEnable).
 		super.disconnectedCallback();
 		this.logStop();
@@ -545,8 +571,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 			this._elSpanLabel.textContent = label;
 			// The clamp depends on the text length + button height, so refit when the
 			// text changes - but only when multiline is on (otherwise nothing to measure).
+			// Scheduled so a same-tick height change (e.g. a JS batch) is measured too.
 			if (this.multilineSupport) {
-				this.fitEllipsisForMultiline();
+				this.scheduleFitEllipsisForMultiline();
 			}
 		} else if (this._elSpanLabel) {
 			// Remove the label element when the label is cleared
@@ -577,7 +604,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		span.classList.add(`${p}--label-multiline-support-${this.multilineSupport}`);
 		span.classList.add(`${p}--label-truncate-text-${this.truncateText}`);
 		if (this.multilineSupport) {
-			this.fitEllipsisForMultiline();
+			this.scheduleFitEllipsisForMultiline();
 		} else {
 			// Drop any inline clamp/height set by a previous multi-line pass.
 			span.style.removeProperty('-webkit-line-clamp');
@@ -586,12 +613,31 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
+	 * Coalesces multi-line clamp measurements into a SINGLE read on the next
+	 * animation frame. Callers request a refit (on connect, label change, or a
+	 * multiline/truncate toggle) without measuring inline; batching to rAF lets any
+	 * synchronous DOM/style mutations queued in the same tick - notably a button
+	 * height change applied AFTER the label in a JS batch - take effect before the
+	 * height is read, then measures once. Idempotent: repeat requests in the same
+	 * tick collapse onto the one pending frame. Mirrors ch5-button's debounced
+	 * refit intent but without a persistent ResizeObserver (the light-family rule).
+	 */
+	private scheduleFitEllipsisForMultiline(): void {
+		if (this._pendingFitHandle !== null) {
+			return;
+		}
+		this._pendingFitHandle = window.requestAnimationFrame(this._fitEllipsisFrame);
+	}
+
+	/**
 	 * Computes how many lines of label text fit the button's current height and
 	 * writes the clamp inline. This is the ONLY layout-reading path in the
 	 * component and runs solely when `multilineSupport` is on, so single-line
 	 * buttons never trigger it. Unlike ch5-button, this "light" version does not
 	 * observe resize/viewport changes (no ResizeObserver/listeners): the clamp is
-	 * measured on connect and on label/attribute changes only.
+	 * measured on connect and on label/attribute changes only, always via
+	 * {@link scheduleFitEllipsisForMultiline} so it reads the height after the
+	 * current synchronous batch settles (never mid-batch).
 	 */
 	private fitEllipsisForMultiline() {
 		this.log('fitEllipsisForMultiline()');
