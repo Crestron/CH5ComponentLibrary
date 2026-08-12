@@ -1,6 +1,7 @@
 import { Ch5LightBaseClass } from "../ch5-light-base/ch5-light-base-class";
 import { ICh5LightPropertySettings } from "../ch5-light-base/ch5-light-properties";
 import { Ch5LightSignal, TCh5LightSignalType } from "../ch5-light-base/ch5-light-signal";
+import { Ch5LightPressable } from "../ch5-light-base/ch5-light-pressable";
 
 // See ch5-light-button.md (same folder) for the full design reference: class
 // hierarchy, signal wiring lifecycle, the static-vs-signal `type`/`selected`
@@ -33,12 +34,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	];
 
 	/**
-	 * Settings registered on the shared `_ch5Properties` store. Hoisted to a
-	 * STATIC field (computed once per class, not once per component instance) -
-	 * at 1000+ instances, building this array/object literal in the constructor
-	 * would mean 1000 extra allocations for data that never changes. Safe to
-	 * share: `Ch5LightProperties.add()` only reads `name`/`default` from each
-	 * entry and never retains or mutates the array.
+	 * Property settings for the shared `_ch5Properties` store. STATIC so the array
+	 * is built once per class, not per instance (avoids N allocations at scale).
+	 * Safe to share: `add()` only reads each entry, never retains it.
 	 */
 	private static readonly PROPERTY_SETTINGS: ICh5LightPropertySettings[] = [
 		{ name: 'label', default: '', type: 'string' },
@@ -67,13 +65,10 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	private _elIcon: HTMLElement | null = null;
 	private _elSpanLabel: HTMLElement | null = null;
 
-	// Cached onChange callbacks, created ONCE per instance (as class fields).
-	// DO NOT replace the `_ch5Properties.set(...)` calls below with an inline
-	// `() => this.handleX()` arrow function - an inline arrow allocates a NEW
-	// closure on the heap every time the setter runs (even on a no-op set,
-	// since JS evaluates the argument before `set()`'s equality check can
-	// short-circuit). At 1000+ instances with frequent updates, that's
-	// continuous GC churn this "light" component family is designed to avoid.
+	// Cached onChange callbacks, allocated ONCE per instance. Do NOT inline these
+	// as `() => this.handleX()` at the `set()` call sites: an inline arrow would
+	// allocate a new closure on every setter call (even no-op sets), causing the GC
+	// churn this "light" family avoids.
 	private readonly _onLabelChange = () => this.handleLabel();
 	private readonly _onIconChange = () => this.handleIcon();
 	private readonly _onBackgroundImageChange = () => this.handleBackgroundImageUrl();
@@ -81,49 +76,24 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	// label wrapping/clamp update, so one cached callback covers both setters.
 	private readonly _onLabelWrapChange = () => this.updateLabelTextWrapping();
 
-	// Coalesces multi-line clamp measurements triggered within one synchronous
-	// tick (e.g. a JS batch that sets `label` AND changes the button height in the
-	// same click handler) into a SINGLE read on the next animation frame. Without
-	// this, the clamp is measured mid-batch - before a height change applied LATER
-	// in the same tick has taken effect - and is never recomputed (the light family
-	// runs no ResizeObserver), so a tall button ends up clamped to one line.
-	// Deferring to rAF lets all synchronous DOM/style mutations settle first, then
-	// reads the final height once. Strictly opt-in: only ever scheduled while
-	// multilineSupport is on, so single-line buttons allocate/schedule nothing.
+	// Coalesces multi-line clamp measurements into a SINGLE rAF read, so a same-tick
+	// height change settles before the height is measured (no ResizeObserver in the
+	// light family). Only scheduled while multilineSupport is on, so single-line
+	// buttons allocate nothing.
 	private _pendingFitHandle: number | null = null;
 	private readonly _fitEllipsisFrame = () => {
 		this._pendingFitHandle = null;
-		// multilineSupport may have been turned off between scheduling and this frame.
+		// multilineSupport may have been turned off since scheduling.
 		if (this.multilineSupport) {
 			this.fitEllipsisForMultiline();
 		}
 	};
 
-	// --- receiveStateType signal wiring --------------------------------------
-	// Signals are strictly opt-in: the signal helper below is created LAZILY
-	// (only when a `receivestatetype` attribute is actually present), so buttons
-	// that do not use signals pay nothing (no helper object, no subscription, no
-	// closure). `_signals` is a thin, reusable subscribe/unsubscribe helper (see
-	// Ch5LightSignal) - adding another `receiveState*` attribute later is a 2-3
-	// line call, not a new set of methods.
-	// The signal NAMEs themselves live in the shared `_ch5Properties` store
-	// (same as label/icon/backgroundImageUrl), so they get the same equality
-	// short-circuit for free. `Ch5LightProperties.set()` hands the OLD name
-	// (needed to unsubscribe it) directly to `onChange` as a parameter, so the
-	// CACHED `_onReceiveState*Change` callbacks below need no extra field to
-	// bridge it - same zero-per-call-allocation pattern as `_onLabelChange`.
-	// The `onValue` callbacks passed to `subscribeSignal` (one per signal) are
-	// ALSO cached below (`_onSignal*Value`) for the same reason: an inline
-	// `(v) => this.applySignalX(v)` at the `subscribeSignal(...)` call site would
-	// allocate a new closure on every call to `subscribeReceiveStateX()` - and
-	// that runs on EVERY connect/reconnect (not just once per instance), so with
-	// 6 signals x 1000 instances x repeated reconnects (e.g. a virtualized/
-	// recycled list), uncached callbacks would mean continuous GC churn scaling
-	// with both the signal count and the reconnect rate.
-	// The signal drives a SEPARATE styling channel (the `data-signal-type`
-	// attribute), never the author's static `type` attribute. The theme SCSS gives
-	// `[data-signal-type]` priority over `[type]`, so the signal always wins - even
-	// if the author changes `type` at runtime - with no JS render/observe step.
+	// --- receiveState* signal wiring -----------------------------------------
+	// Opt-in: `_signals` is created LAZILY on first use, so signal-free buttons pay
+	// nothing. `_onReceiveState*Change`/`_onSignal*Value` are cached (subscribing
+	// runs on every reconnect). type/selected write a SEPARATE `data-signal-*`
+	// channel that the theme styles over the static `type`/`selected` (no JS render).
 	private _signals: Ch5LightSignal | null = null;
 	private readonly _onReceiveStateTypeChange = (oldSignalName: string) => this.handleReceiveStateType(oldSignalName);
 	private readonly _onReceiveStateSelectedChange = (oldSignalName: string) => this.handleReceiveStateSelected(oldSignalName);
@@ -138,26 +108,25 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	private readonly _onSignalIconUrlValue = (value: string) => this.applySignalIconUrl(value);
 	private readonly _onSignalBackgroundImageUrlValue = (value: string) => this.applySignalBackgroundImageUrl(value);
 
-	// --- sendEventOnClick wiring ---------------------------------------------
-	// Strictly opt-in: the pointer listeners are attached ONLY while a
-	// `sendeventonclick` signal name is set, so signal-free buttons attach no
-	// listeners. The two handlers are cached class fields (created ONCE per
-	// instance, same pattern as `_onLabelChange` above) rather than allocated
-	// inline in wireSendEventOnClick() - that method runs on every
-	// connect/reconnect, so an inline arrow there would reallocate on every
-	// reconnect, not just once per instance. `_clickListenersWired` tracks
-	// attach/detach state now that the handlers are never nulled out.
-	// `_clickPressed` guards against a stray release (e.g. pointerleave with
-	// no prior press) sending a spurious `false`.
-	private readonly _onClickPress = () => this.handleClickPress();
-	private readonly _onClickRelease = () => this.handleClickRelease();
-	private _clickListenersWired = false;
-	private _clickPressed = false;
+	// --- sendEventOnClick + repeat-digital -----------------------------------
+	// Opt-in: driven by the pressable's onChange (`_onPressedChange`). Press sends
+	// `true` and retriggers it every REPEAT_DIGITAL_PERIOD ms while held (like
+	// ch5-button); release sends the final `false`. Zero cost when unset.
+	private static readonly REPEAT_DIGITAL_PERIOD = 200;
+	private _repeatDigitalInterval: number | null = null;
 	private readonly _onSendEventOnClickChange = () => this.handleSendEventOnClick();
 	
 	private readonly _onFocus = (event: FocusEvent) => this.handleFocus(event);
 	private readonly _onBlur = (event: FocusEvent) => this.handleBlur(event);
 	private _focusListenersWired = false;
+
+	// --- press / release (pressable) -----------------------------------------
+	// Always-on press/release via the shared Ch5LightPressable (dependency-free
+	// counterpart of Ch5Pressable). Drives the `pressed` state (host attribute, CSS)
+	// + bubbling `press`/`release` events; its onChange (`_onPressedChange`) also
+	// drives the click send signal. Created lazily and reused across reconnects.
+	private readonly _onPressedChange = (pressed: boolean) => this.handlePressedChange(pressed);
+	private _pressable: Ch5LightPressable | null = null;
 
 	//#endregion
 
@@ -192,11 +161,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Enables multi-line label text. When true, the label wraps and is clamped to
-	 * the number of lines that fit the button's current height (never resizing the
-	 * button). When false (default) the label stays on a single line. The clamp is
-	 * measured lazily and ONLY when this is true, so single-line buttons pay no
-	 * layout-measurement cost.
+	 * Enables multi-line label text: the label wraps and is clamped to the lines
+	 * that fit the button's height (never resizes it). Default false. Measured only
+	 * when true, so single-line buttons pay nothing.
 	 */
 	public set multilineSupport(value: boolean) {
 		this._ch5Properties.set<boolean>('multilineSupport', value, this._onLabelWrapChange);
@@ -206,9 +173,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Enables truncation of overflowing label text with an ellipsis. Defaults to
-	 * true (single-line ellipsis, or an ellipsis on the last visible line when
-	 * `multilineSupport` is on). When false the text is clipped without an ellipsis.
+	 * Truncates overflowing label text with an ellipsis. Default true (on the last
+	 * visible line when `multilineSupport` is on); when false the text is clipped
+	 * without an ellipsis.
 	 */
 	public set truncateText(value: boolean) {
 		this._ch5Properties.set<boolean>('truncateText', value, this._onLabelWrapChange);
@@ -218,16 +185,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Name of the string signal that drives the button `type`. When set, the
-	 * signal writes the resolved type to the separate `data-signal-type` channel,
-	 * which the theme styles with priority over the author's static `type`
-	 * attribute; when cleared, `data-signal-type` is removed and the static `type`
-	 * styles the button again. Stored in the shared `_ch5Properties` store (same
-	 * as label/icon/backgroundImageUrl) for the equality short-circuit.
-	 * `_ch5Properties.set()` passes the OLD name straight to the cached
-	 * `_onReceiveStateTypeChange` callback, which hands it to
-	 * `handleReceiveStateType` for unsubscription - no extra field, no closure
-	 * allocated per call.
+	 * Name of the string signal driving the button `type`. Writes to the separate
+	 * `data-signal-type` channel (styled over the static `type`); clearing restores
+	 * the static `type`.
 	 */
 	public set receiveStateType(value: string) {
 		this._ch5Properties.set<string>('receiveStateType', value ?? '', this._onReceiveStateTypeChange);
@@ -237,12 +197,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Name of the boolean signal that drives the button `selected` state. When
-	 * set, the signal writes the resolved state to the separate
-	 * `data-signal-selected` channel, which the theme styles with priority over
-	 * the author's static `selected` attribute; when cleared, `data-signal-selected`
-	 * is removed and the static `selected` styles the button again. Stored in the
-	 * shared property store for the same reasons as `receiveStateType`.
+	 * Name of the boolean signal driving the button `selected` state. Writes to the
+	 * separate `data-signal-selected` channel (styled over the static `selected`);
+	 * clearing restores the static `selected`.
 	 */
 	public set receiveStateSelected(value: string) {
 		this._ch5Properties.set<string>('receiveStateSelected', value ?? '', this._onReceiveStateSelectedChange);
@@ -252,15 +209,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Name of the string signal that drives the button label. When a value arrives
-	 * it is written straight into the shared `label` slot (see {@link applySignalLabel}),
-	 * so the signal supersedes the author's static `label`. This relies on the platform
-	 * contract that, at runtime, only the signal ever updates the label - the static
-	 * `label` is set once at design time and never re-written live - so the signal value
-	 * is always the last writer and therefore always wins. Stored in the shared
-	 * `_ch5Properties` store (same as label/icon) for the equality short-circuit;
-	 * `_ch5Properties.set()` passes the OLD name straight to the cached
-	 * `_onReceiveStateLabelChange` callback for unsubscription.
+	 * Name of the string signal driving the button label. Its value is written into
+	 * the shared `label` slot (see {@link applySignalLabel}), so the signal always
+	 * supersedes the static (design-time) `label`.
 	 */
 	public set receiveStateLabel(value: string) {
 		this._ch5Properties.set<string>('receiveStateLabel', value ?? '', this._onReceiveStateLabelChange);
@@ -270,15 +221,11 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Name of the string signal that drives the button icon class. When a value
-	 * arrives it is written straight into the shared `iconClass` slot (see
-	 * {@link applySignalIconClass}). Priority among the icon sources is decided in
-	 * {@link handleIcon} by which receiveState* attribute is present
-	 * (receivestateiconurl > receivestateiconclass > iconurl > iconclass), so the
-	 * presence of this attribute makes its value outrank a static iconurl. Stored in
-	 * the shared `_ch5Properties` store (same as label/icon) for the equality
-	 * short-circuit; `_ch5Properties.set()` passes the OLD name straight to the
-	 * cached `_onReceiveStateIconClassChange` callback for unsubscription.
+	 * Name of the string signal driving the button icon class. Its value is written
+	 * into the shared `iconClass` slot (see {@link applySignalIconClass}). Icon
+	 * priority is resolved in {@link handleIcon} (receivestateiconurl >
+	 * receivestateiconclass > iconurl > iconclass), so its presence outranks a
+	 * static iconurl.
 	 */
 	public set receiveStateIconClass(value: string) {
 		this._ch5Properties.set<string>('receiveStateIconClass', value ?? '', this._onReceiveStateIconClassChange);
@@ -288,14 +235,10 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Name of the string signal that drives the button icon URL. When a value
-	 * arrives it is written straight into the shared `iconUrl` slot (see
-	 * {@link applySignalIconUrl}). Priority among the icon sources is decided in
-	 * {@link handleIcon} by which receiveState* attribute is present; this attribute
-	 * ranks HIGHEST (receivestateiconurl > receivestateiconclass > iconurl >
-	 * iconclass). Stored in the shared `_ch5Properties` store (same as label/icon)
-	 * for the equality short-circuit; `_ch5Properties.set()` passes the OLD name
-	 * straight to the cached `_onReceiveStateIconUrlChange` callback for unsubscription.
+	 * Name of the string signal driving the button icon URL. Its value is written
+	 * into the shared `iconUrl` slot (see {@link applySignalIconUrl}). Ranks HIGHEST
+	 * among the icon sources (resolved in {@link handleIcon}: receivestateiconurl >
+	 * receivestateiconclass > iconurl > iconclass).
 	 */
 	public set receiveStateIconUrl(value: string) {
 		this._ch5Properties.set<string>('receiveStateIconUrl', value ?? '', this._onReceiveStateIconUrlChange);
@@ -305,16 +248,10 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Name of the string signal that drives the button background image URL. When a
-	 * value arrives it is written straight into the shared `backgroundImageUrl` slot
-	 * (see {@link applySignalBackgroundImageUrl}), so the signal supersedes the
-	 * author's static `backgroundimageurl`. This relies on the platform contract
-	 * that, at runtime, only the signal ever updates the background image URL - the
-	 * static `backgroundimageurl` is set once at design time and never re-written
-	 * live - so the signal value is always the last writer and therefore always
-	 * wins. Stored in the shared `_ch5Properties` store (same as label/icon) for the
-	 * equality short-circuit; `_ch5Properties.set()` passes the OLD name straight to
-	 * the cached `_onReceiveStateBackgroundImageUrlChange` callback for unsubscription.
+	 * Name of the string signal driving the button background image URL. Its value
+	 * is written into the shared `backgroundImageUrl` slot (see
+	 * {@link applySignalBackgroundImageUrl}), so the signal always supersedes the
+	 * static (design-time) `backgroundimageurl`.
 	 */
 	public set receiveStateBackgroundImageUrl(value: string) {
 		this._ch5Properties.set<string>('receiveStateBackgroundImageUrl', value ?? '', this._onReceiveStateBackgroundImageUrlChange);
@@ -324,14 +261,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Name of the boolean signal to pulse on user interaction. When set, the button
-	 * sends `true` on press (pointer down) and `false` on release (pointer up /
-	 * leave / cancel) - a plain momentary boolean, NOT the repeat-digital object form
-	 * (matches `ch5-image`'s click behaviour). Strictly opt-in: no listeners are
-	 * attached unless a signal name is present, so signal-free buttons pay nothing.
-	 * Stored in the shared `_ch5Properties` store for the equality short-circuit;
-	 * the cached `_onSendEventOnClickChange` callback wires / unwires the pointer
-	 * listeners when the name changes.
+	 * Name of the boolean signal to pulse on user interaction. Sends a plain
+	 * momentary `true` on press - retriggered every REPEAT_DIGITAL_PERIOD ms while
+	 * held - and `false` on release. Opt-in: no signal name means nothing is sent.
 	 */
 	public set sendEventOnClick(value: string) {
 		this._ch5Properties.set<string>('sendEventOnClick', value ?? '', this._onSendEventOnClickChange);
@@ -366,10 +298,8 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 
 	public constructor() {
 		super();
-		// Register this component's own attributes on the SHARED light property
-		// store created by Ch5LightBaseClass (no second store is allocated).
-		// Settings array is a shared STATIC field (see PROPERTY_SETTINGS) - no
-		// per-instance allocation here.
+		// Register this component's attributes on the SHARED property store from
+		// Ch5LightBaseClass, using the static PROPERTY_SETTINGS (no per-instance alloc).
 		this._ch5Properties.add(Ch5LightButton.PROPERTY_SETTINGS);
 	}
 
@@ -414,9 +344,8 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 				this.sendEventOnClick = newValue ?? '';
 				break;
 			case 'multilinesupport':
-				// Boolean attribute: present-and-empty means true, absent means the
-				// default (false). Coerced here because the light property store keeps
-				// the raw value and never parses attribute strings itself.
+				// Boolean attribute: present means true, absent means the default
+				// (false). Coerced here since the light store never parses attribute strings.
 				this.multilineSupport = this.hasAttribute('multilinesupport')
 					? Ch5LightBaseClass.toBoolean(newValue, true)
 					: false;
@@ -436,9 +365,8 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * The ARIA role applied automatically to the host (once, in
-	 * `connectedCallback`) when the author has not set a `role` attribute.
-	 * Non-observed, so it never touches the attribute-change hot path.
+	 * Default host ARIA role (applied in `connectedCallback`) when the author has
+	 * not set `role`. Non-observed, so it stays off the attribute-change path.
 	 */
 	protected getDefaultRole(): string | null {
 		return 'button';
@@ -457,20 +385,17 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 			this._isInitialized = true;
 		}
 
-		// Keep the internal subtree across disconnect/reconnect cycles and only
-		// reattach when needed.
+		// Reattach the kept subtree only if it detached (survives reconnect cycles).
 		if (this._elButton && this._elButton.parentNode !== this) {
 			this._elContainer.appendChild(this._elButton);
 		}
 
-		// Apply the base attributes (show / disabled) last, once the button exists
-		// so the overridden disabled handler can reach it. Cheap + idempotent on reconnect.
+		// Apply base attributes (show / disabled) last, once the button exists so the
+		// overridden disabled handler can reach it. Idempotent on reconnect.
 		super.connectedCallback();
 
-		// (Re)subscribe to the type signal if one was set. No-op unless a
-		// `receivestatetype` attribute is in use, so signal-free buttons are
-		// unaffected. Safe on reconnect: disconnectedCallback tore the previous
-		// subscription down while preserving the signal name.
+		// (Re)subscribe to any receiveState* signals. No-op when none are set; safe on
+		// reconnect (disconnect tore down the subscriptions but kept the names).
 		this.subscribeReceiveStateType();
 		this.subscribeReceiveStateSelected();
 		this.subscribeReceiveStateLabel();
@@ -478,22 +403,17 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		this.subscribeReceiveStateIconUrl();
 		this.subscribeReceiveStateBackgroundImageUrl();
 
-		// (Re)attach the pointer listeners if a send signal is set. No-op for
-		// signal-free buttons. Safe on reconnect: disconnectedCallback detached them.
-		this.wireSendEventOnClick();
-
 		// (Re)attach the focus/blur listeners so the host re-emits those events.
-		// Always-on (not signal-gated): idle cost is negligible and they fire only
-		// on an actual focus change. Safe on reconnect: disconnectedCallback detached them.
+		// Always-on; safe on reconnect (disconnect detached them).
 		this.wireFocusBlur();
 
-		// Multi-line clamp must be (re)measured with the button attached to the DOM
-		// (its height is unreadable off-DOM). This is the ONLY place the initial
-		// measurement happens; it is a cheap no-op unless multilineSupport is on, so
-		// single-line buttons trigger no layout read. The wrapping CSS classes were
-		// already applied when the label span was created in handleLabel(). Scheduled
-		// (not run inline) so the measurement reads the height only after any
-		// synchronous connect-time mutations settle.
+		// (Re)wire the pressable for the `pressed` state + bubbling `press`/`release`
+		// events. Always-on (one idle `pointerdown` listener); safe on reconnect.
+		this.wirePressable();
+
+		// (Re)measure the multi-line clamp now the button is on-DOM (height is
+		// unreadable off-DOM). No-op unless multilineSupport is on; scheduled so the
+		// read lands after connect-time mutations settle.
 		if (this.multilineSupport) {
 			this.scheduleFitEllipsisForMultiline();
 		}
@@ -502,9 +422,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 
 	public disconnectedCallback() {
 		this.logStart('disconnectedCallback()');
-		// Release the signal subscriptions (if any) so a detached button does not
-		// keep active listeners. The signal names are kept so connectedCallback can
-		// re-subscribe transparently.
+		// Release the signal subscriptions (names kept so connectedCallback re-subscribes).
 		this.clearSignalSubscription(this.receiveStateType);
 		this.clearSignalSubscription(this.receiveStateSelected);
 		this.clearSignalSubscription(this.receiveStateLabel);
@@ -512,13 +430,12 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		this.clearSignalSubscription(this.receiveStateIconUrl);
 		this.clearSignalSubscription(this.receiveStateBackgroundImageUrl);
 
-		// Detach the pointer listeners (mirrors the receive-signal teardown) so a
-		// disconnected button holds no live listeners; connectedCallback re-attaches.
-		this.unwireSendEventOnClick();
 		// Detach the focus/blur listeners; connectedCallback re-attaches.
 		this.unwireFocusBlur();
-		// Cancel any pending multi-line measurement so a detached button does no
-		// layout read (and drops the scheduled callback reference).
+		// Tear down the pressable's listeners (releases first if still pressed); connectedCallback re-wires it.
+		this.unwirePressable();
+		// Cancel any pending multi-line measurement (drops the scheduled callback) so a
+		// detached button does no layout read.
 		if (this._pendingFitHandle !== null) {
 			window.cancelAnimationFrame(this._pendingFitHandle);
 			this._pendingFitHandle = null;
@@ -536,20 +453,16 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		this.log('createInternalHtml()');
 		this.clearComponentContent();
 
-		// clearComponentContent() removed all previously created children, so the
-		// cached label/icon references now point at detached elements. Reset them
-		// to force handleLabel()/handleIconClass() to recreate them inside the new
-		// button on every (re)connect, otherwise the label/icon go missing when the
-		// component is disconnected and connected again.
+		// clearComponentContent() detached the old children, so null the cached label/icon
+		// refs to force handleLabel()/handleIcon() to recreate them in the new button.
 		this._elSpanLabel = null;
 		this._elIcon = null;
 
 		this._elContainer = this;
 		this._elContainer.classList.add(Ch5LightButton.PRIMARY_CSS_CLASS);
 
-		// Create the button OFF-DOM. The icon/label are added to it (via the
-		// handlers) while it is still detached, and the whole subtree is appended
-		// to the host once in connectedCallback.
+		// Create the button OFF-DOM; the handlers add the icon/label while it is detached,
+		// and connectedCallback appends the whole subtree to the host once.
 		this._elButton = document.createElement('button');
 		this._elButton.className = `${Ch5LightButton.PRIMARY_CSS_CLASS}--btn`;
 	}
@@ -574,15 +487,14 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 				this._elSpanLabel = document.createElement('span');
 				this._elSpanLabel.className = `${Ch5LightButton.PRIMARY_CSS_CLASS}--label`;
 				this._elButton.appendChild(this._elSpanLabel);
-				// Apply the current multiline/truncate classes to the fresh span. The
-				// multiline measurement inside is skipped while the button is off-DOM
-				// (guarded by isConnected); connectedCallback runs the real measurement.
+				// Apply the current multiline/truncate classes to the fresh span. The inner
+				// multiline measurement is skipped off-DOM (isConnected-guarded);
+				// connectedCallback runs the real one.
 				this.updateLabelTextWrapping();
 			}
 			this._elSpanLabel.textContent = label;
-			// The clamp depends on the text length + button height, so refit when the
-			// text changes - but only when multiline is on (otherwise nothing to measure).
-			// Scheduled so a same-tick height change (e.g. a JS batch) is measured too.
+			// Refit the clamp when the text changes (depends on text length + button
+			// height); only when multiline is on, and scheduled to catch same-tick height changes.
 			if (this.multilineSupport) {
 				this.scheduleFitEllipsisForMultiline();
 			}
@@ -594,10 +506,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Applies the multiline/truncate state to the label span. The visual behavior
-	 * is driven entirely by CSS classes (cheap, no layout read); only the opt-in
-	 * multi-line path performs a measurement. Called from the `multilineSupport` /
-	 * `truncateText` setters and when the label span is first created.
+	 * Applies the multiline/truncate state to the label span via CSS classes (cheap,
+	 * no layout read); only the opt-in multi-line path measures. Called from the
+	 * `multilineSupport` / `truncateText` setters and when the span is first created.
 	 */
 	private updateLabelTextWrapping() {
 		this.log('updateLabelTextWrapping()');
@@ -624,14 +535,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Coalesces multi-line clamp measurements into a SINGLE read on the next
-	 * animation frame. Callers request a refit (on connect, label change, or a
-	 * multiline/truncate toggle) without measuring inline; batching to rAF lets any
-	 * synchronous DOM/style mutations queued in the same tick - notably a button
-	 * height change applied AFTER the label in a JS batch - take effect before the
-	 * height is read, then measures once. Idempotent: repeat requests in the same
-	 * tick collapse onto the one pending frame. Mirrors ch5-button's debounced
-	 * refit intent but without a persistent ResizeObserver (the light-family rule).
+	 * Requests a multi-line clamp refit, coalesced into a SINGLE rAF read so same-tick
+	 * DOM/style mutations settle before the height is measured. Idempotent: repeat
+	 * requests in one tick collapse onto the one pending frame.
 	 */
 	private scheduleFitEllipsisForMultiline(): void {
 		if (this._pendingFitHandle !== null) {
@@ -641,14 +547,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Computes how many lines of label text fit the button's current height and
-	 * writes the clamp inline. This is the ONLY layout-reading path in the
-	 * component and runs solely when `multilineSupport` is on, so single-line
-	 * buttons never trigger it. Unlike ch5-button, this "light" version does not
-	 * observe resize/viewport changes (no ResizeObserver/listeners): the clamp is
-	 * measured on connect and on label/attribute changes only, always via
-	 * {@link scheduleFitEllipsisForMultiline} so it reads the height after the
-	 * current synchronous batch settles (never mid-batch).
+	 * Computes how many label lines fit the button's height and writes the clamp
+	 * inline. The ONLY layout-reading path, only when `multilineSupport` is on. No
+	 * ResizeObserver (unlike ch5-button): measured on connect and label/attr changes.
 	 */
 	private fitEllipsisForMultiline() {
 		this.log('fitEllipsisForMultiline()');
@@ -675,9 +576,8 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Measures the rendered height of a single line of text in the given element
-	 * by briefly swapping in a non-breaking space and reading offsetHeight, then
-	 * restoring the original content. Mirrors ch5-button's approach.
+	 * Measures a single line's rendered height by briefly swapping in a non-breaking
+	 * space, reading offsetHeight, then restoring the content. Mirrors ch5-button.
 	 */
 	private getLabelLineHeight(element: HTMLElement): number {
 		const oldHtml = element.innerHTML;
@@ -697,11 +597,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		//   2. receivestateiconclass (signal icon class) -> --icon
 		//   3. iconurl               (static image URL)  -> --img
 		//   4. iconclass             (static icon class) -> --icon
-		// A receiveState* icon signal takes priority simply by having its attribute
-		// set: its delivered value is written straight into the same iconUrl/iconClass
-		// slot (write-through, see applySignalIconUrl/applySignalIconClass), so the
-		// presence of the signal NAME is what selects the branch - this is what lets a
-		// signal icon class outrank a static iconurl.
+		// A signal writes through into the same iconUrl/iconClass slot, so it's the
+		// signal NAME's presence that selects the branch (a signal icon class outranks
+		// a static iconurl).
 		let iconUrl = '';
 		let iconClass = '';
 		if (this.receiveStateIconUrl) {
@@ -714,9 +612,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 			iconClass = this.iconClass;
 		}
 		if (iconUrl || iconClass) {
-			// Create the icon element lazily the first time an icon is set.
-			// DOM order does not matter: the icon position is controlled by the CSS
-			// `order` property (see _light-button-icon-position.scss).
+			// Create the icon element lazily on first use. DOM order doesn't matter -
+			// the icon position is set by the CSS `order` property (see
+			// _light-button-icon-position.scss).
 			if (!this._elIcon) {
 				this._elIcon = document.createElement('i');
 				this._elButton.appendChild(this._elIcon);
@@ -743,9 +641,8 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 		if (!this._elButton) {
 			return;
 		}
-		// Set the background image directly on the button element (same approach as
-		// ch5-button). A URL from an attribute cannot be injected via pure CSS, so
-		// this is handled in JS; the value is applied as an inline background-image.
+		// Apply the background image as an inline style on the button (same as
+		// ch5-button); an attribute URL can't be injected via pure CSS, so it's done in JS.
 		const backgroundImageUrl = this.backgroundImageUrl;
 		if (backgroundImageUrl) {
 			this._elButton.style.backgroundImage = `url("${backgroundImageUrl}")`;
@@ -755,17 +652,14 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	// --- Shared signal plumbing ----------------------------------------------
-	// The three helpers below hold the ONLY subscribe / unsubscribe / channel
-	// teardown logic; each receiveState* attribute is a thin wrapper that supplies
-	// its signal name, value type and value handler. None of these run on the hot
-	// path - a signal VALUE change routes straight to an applySignal* method - so
-	// sharing them has no performance cost (they fire only on connect / disconnect
-	// / attribute change).
+	// The three helpers below hold the ONLY subscribe/unsubscribe/channel-teardown
+	// logic; each receiveState* wrapper just supplies its name, type and value
+	// handler. Off the hot path (fire only on connect/disconnect/attr change).
 
 	/**
-	 * Lazily creates the shared signal helper (only for buttons that actually use
-	 * a signal) and subscribes `onValue` to `signalName`. Idempotent: no-op when
-	 * the name is empty or already subscribed.
+	 * Lazily creates the shared signal helper (only for buttons that use a signal)
+	 * and subscribes `onValue` to `signalName`. Idempotent: no-op when the name is
+	 * empty or already subscribed.
 	 */
 	private subscribeSignal<T extends string | number | boolean>(
 		signalName: string,
@@ -779,9 +673,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Releases the subscription for a single signal name, leaving any coexisting
-	 * receiveState* subscription (and the stored name) intact so a reconnect can
-	 * re-subscribe. No-op when nothing was ever subscribed.
+	 * Releases one signal name's subscription, leaving any coexisting receiveState*
+	 * subscription (and the stored name) intact so a reconnect can re-subscribe.
+	 * No-op when nothing was ever subscribed.
 	 */
 	private clearSignalSubscription(signalName: string): void {
 		if (this._signals !== null) {
@@ -791,7 +685,7 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 
 	/**
 	 * Removes a `data-signal-*` styling channel so the matching author attribute
-	 * regains control. Called when a receiveState* attribute is removed.
+	 * regains control (called when a receiveState* attribute is removed).
 	 */
 	private clearSignalChannel(attribute: string): void {
 		if (this.hasAttribute(attribute)) {
@@ -800,12 +694,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Central handler for a change to the `receivestatetype` signal NAME. `oldSignalName`
-	 * is the name that was in effect before this change (captured by the setter,
-	 * since `_ch5Properties` already holds the NEW name by the time this runs).
-	 * Tears down the previous subscription and either subscribes (when connected)
-	 * or, when the signal is removed, drops the `data-signal-type` styling channel
-	 * so the author's static `type` attribute styles the button again.
+	 * Reacts to a `receivestatetype` name change (`oldSignalName` = previous name,
+	 * for unsubscription): tears down the old subscription, then (re)subscribes when
+	 * connected or drops the `data-signal-type` channel so the static `type` styles again.
 	 */
 	private handleReceiveStateType(oldSignalName: string): void {
 		this.log('handleReceiveStateType(', oldSignalName, ')');
@@ -833,13 +724,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Applies a signal-delivered type to the SEPARATE `data-signal-type` channel
-	 * (never the author's `type` attribute). The theme SCSS styles
-	 * `[data-signal-type]` with priority over `[type]`, so writing this attribute
-	 * is all that is needed - no extra JS styling and no render step. An unknown
-	 * value falls back to `default` (mirrors ch5-button). Because the author's
-	 * `type` is untouched, the signal keeps priority even if `type` changes at
-	 * runtime.
+	 * Writes a signal-delivered type to the SEPARATE `data-signal-type` channel (never
+	 * the author's `type`), which the theme styles with priority. Unknown values fall
+	 * back to `default`.
 	 */
 	private applySignalType(value: string): void {
 		this.log('applySignalType(', value, ')');
@@ -848,12 +735,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Central handler for a change to the `receivestateselected` signal NAME.
-	 * `oldSignalName` is the name that was in effect before this change (captured
-	 * by the setter, for the same reason as `handleReceiveStateType`). Tears down
-	 * the previous subscription and either subscribes (when connected) or, when
-	 * the signal is removed, drops the `data-signal-selected` styling channel so
-	 * the author's static `selected` attribute styles the button again.
+	 * Reacts to a `receivestateselected` name change (`oldSignalName` = previous name,
+	 * for unsubscription): tears down the old subscription, then (re)subscribes when
+	 * connected or drops the `data-signal-selected` channel so the static `selected` styles again.
 	 */
 	private handleReceiveStateSelected(oldSignalName: string): void {
 		this.log('handleReceiveStateSelected(', oldSignalName, ')');
@@ -881,15 +765,10 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Applies a signal-delivered selected state to the SEPARATE
-	 * `data-signal-selected` channel (never the author's `selected` attribute).
-	 * The theme SCSS guards every static `[selected]` selector with
-	 * `:not([data-signal-selected])` and adds a parallel `[data-signal-selected="true"]`
-	 * channel, so writing this attribute is all that is needed - no extra JS
-	 * styling and no render step. `"false"` keeps the attribute present so the
-	 * static `selected` stays suppressed (the signal forces "not selected"), while
-	 * `"true"` applies the selected look. Because the author's `selected` is
-	 * untouched, the signal keeps priority even if `selected` changes at runtime.
+	 * Writes a signal-delivered selected state to the SEPARATE `data-signal-selected`
+	 * channel (never the author's `selected`), which the theme styles with priority.
+	 * `"false"` stays on the attribute to keep the static `selected` suppressed;
+	 * `"true"` applies the selected look.
 	 */
 	private applySignalSelected(value: boolean): void {
 		this.log('applySignalSelected(', value, ')');
@@ -897,13 +776,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Central handler for a change to the `receivestatelabel` signal NAME.
-	 * `oldSignalName` is the name in effect before this change (captured by the
-	 * setter, same rationale as handleReceiveStateType). Tears down the previous
-	 * subscription and, when a signal is set and the button is connected,
-	 * (re)subscribes. Removing the signal is a design-time change (a fresh instance
-	 * renders the static `label`), so there is no runtime override to unwind
-	 * here - the last signal value simply remains in the `label` slot.
+	 * Reacts to a `receivestatelabel` name change (`oldSignalName` = previous name,
+	 * for unsubscription): tears down the old subscription, then (re)subscribes when a
+	 * name is set and connected. Removal is design-time, so the last value stays in the `label` slot.
 	 */
 	private handleReceiveStateLabel(oldSignalName: string): void {
 		this.log('handleReceiveStateLabel(', oldSignalName, ')');
@@ -925,14 +800,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Applies a signal-delivered label. Like {@link applySignalIconClass}, the
-	 * label is rendered in JS by {@link handleLabel}, so the signal writes its
-	 * value straight into the shared `label` slot (same approach as ch5-animation's
-	 * `startAnimating`). Because the platform only updates the label through the
-	 * signal at runtime (the static `label` is design-time only), the signal is
-	 * always the last writer and therefore always wins. Setting `label` runs the
-	 * cached `_onLabelChange` callback, which re-renders the label; the store's
-	 * equality short-circuit skips redundant re-renders.
+	 * Writes a signal-delivered label into the shared `label` slot (rendered by
+	 * {@link handleLabel}), so the runtime signal wins over the static `label`. The
+	 * store's equality check skips redundant re-renders.
 	 */
 	private applySignalLabel(value: string): void {
 		this.log('applySignalLabel(', value, ')');
@@ -940,13 +810,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Central handler for a change to the `receivestateiconclass` signal NAME.
-	 * `oldSignalName` is the name in effect before this change (captured by the
-	 * setter, same rationale as handleReceiveStateType). Tears down the previous
-	 * subscription and, when a signal is set and the button is connected,
-	 * (re)subscribes. Removing the signal is a design-time change (a fresh instance
-	 * renders the static `iconclass`), so there is no runtime override to unwind
-	 * here - the last signal value simply remains in the `iconClass` slot.
+	 * Reacts to a `receivestateiconclass` name change (`oldSignalName` = previous name,
+	 * for unsubscription): tears down the old subscription, then (re)subscribes when a
+	 * name is set and connected. Removal is design-time, so the last value stays in the `iconClass` slot.
 	 */
 	private handleReceiveStateIconClass(oldSignalName: string): void {
 		this.log('handleReceiveStateIconClass(', oldSignalName, ')');
@@ -968,17 +834,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Applies a signal-delivered icon class. Unlike `type` / `selected` (pure-CSS,
-	 * driven through a separate `data-signal-*` attribute channel), the icon class
-	 * is rendered in JS by {@link handleIcon}, so the signal writes its value
-	 * straight into the shared `iconClass` slot (same approach as ch5-animation's
-	 * `startAnimating`). Priority among the icon sources is decided in
-	 * {@link handleIcon} by which receiveState* attribute is present
-	 * (receivestateiconurl > receivestateiconclass > iconurl > iconclass), so the
-	 * mere presence of `receivestateiconclass` makes this value outrank a static
-	 * iconurl. Setting `iconClass` runs the cached `_onIconChange` callback, which
-	 * re-renders the icon; the store's equality short-circuit skips redundant
-	 * re-renders.
+	 * Writes a signal-delivered icon class into the shared `iconClass` slot (rendered
+	 * by {@link handleIcon}). Priority (receivestateiconurl > receivestateiconclass >
+	 * iconurl > iconclass) is resolved there, so its presence outranks a static iconurl.
 	 */
 	private applySignalIconClass(value: string): void {
 		this.log('applySignalIconClass(', value, ')');
@@ -986,13 +844,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Central handler for a change to the `receivestateiconurl` signal NAME.
-	 * `oldSignalName` is the name in effect before this change (captured by the
-	 * setter, same rationale as handleReceiveStateType). Tears down the previous
-	 * subscription and, when a signal is set and the button is connected,
-	 * (re)subscribes. Removing the signal is a design-time change (a fresh instance
-	 * renders the static `iconurl`), so there is no runtime override to unwind
-	 * here - the last signal value simply remains in the `iconUrl` slot.
+	 * Reacts to a `receivestateiconurl` name change (`oldSignalName` = previous name,
+	 * for unsubscription): tears down the old subscription, then (re)subscribes when a
+	 * name is set and connected. Removal is design-time, so the last value stays in the `iconUrl` slot.
 	 */
 	private handleReceiveStateIconUrl(oldSignalName: string): void {
 		this.log('handleReceiveStateIconUrl(', oldSignalName, ')');
@@ -1014,14 +868,9 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Applies a signal-delivered icon URL. Like {@link applySignalIconClass}, the
-	 * icon URL is rendered in JS by {@link handleIcon}, so the signal writes its
-	 * value straight into the shared `iconUrl` slot (same approach as ch5-animation's
-	 * `startAnimating`). Priority is decided in {@link handleIcon} by which
-	 * receiveState* attribute is present; `receivestateiconurl` ranks HIGHEST
-	 * (receivestateiconurl > receivestateiconclass > iconurl > iconclass). Setting
-	 * `iconUrl` runs the cached `_onIconChange` callback, which re-renders the icon;
-	 * the store's equality short-circuit skips redundant re-renders.
+	 * Writes a signal-delivered icon URL into the shared `iconUrl` slot (rendered by
+	 * {@link handleIcon}). `receivestateiconurl` ranks HIGHEST of the icon sources
+	 * (receivestateiconurl > receivestateiconclass > iconurl > iconclass).
 	 */
 	private applySignalIconUrl(value: string): void {
 		this.log('applySignalIconUrl(', value, ')');
@@ -1029,14 +878,10 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Central handler for a change to the `receivestatebackgroundimageurl` signal
-	 * NAME. `oldSignalName` is the name in effect before this change (captured by the
-	 * setter, same rationale as handleReceiveStateType). Tears down the previous
-	 * subscription and, when a signal is set and the button is connected,
-	 * (re)subscribes. Removing the signal is a design-time change (a fresh instance
-	 * renders the static `backgroundimageurl`), so there is no runtime override to
-	 * unwind here - the last signal value simply remains in the `backgroundImageUrl`
-	 * slot.
+	 * Reacts to a `receivestatebackgroundimageurl` name change (`oldSignalName` =
+	 * previous name, for unsubscription): tears down the old subscription, then
+	 * (re)subscribes when a name is set and connected. Removal is design-time, so the
+	 * last value stays in the `backgroundImageUrl` slot.
 	 */
 	private handleReceiveStateBackgroundImageUrl(oldSignalName: string): void {
 		this.log('handleReceiveStateBackgroundImageUrl(', oldSignalName, ')');
@@ -1058,25 +903,12 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Applies a signal-delivered background image URL. Like {@link applySignalIconUrl},
-	 * the background image is rendered in JS by {@link handleBackgroundImageUrl}, so
-	 * the signal writes its value straight into the shared `backgroundImageUrl` slot
-	 * (same approach as ch5-animation's `startAnimating`). Because the platform only
-	 * updates the background image URL through the signal at runtime (the static
-	 * `backgroundimageurl` is design-time only), the signal is always the last writer
-	 * and therefore always wins. Setting `backgroundImageUrl` runs the cached
-	 * `_onBackgroundImageChange` callback, which re-renders the background; the
-	 * store's equality short-circuit skips redundant re-renders.
-	 *
-	 * The background-image fill-type CSS is scoped to the host attribute selector
-	 * `ch5-light-button[backgroundimageurl]` (for perf: buttons with no background
-	 * are never matched). With a static author value that attribute is already on
-	 * the host, but when the URL is signal-driven the author only sets
-	 * `receivestatebackgroundimageurl`, so the host would carry no `backgroundimageurl`
-	 * attribute and the fill-type rules would never match. Reflect the attribute here
-	 * so `backgroundimagefilltype` works identically for static and signal values.
-	 * Re-entering `attributeChangedCallback` -> the setter is harmless: the store's
-	 * equality short-circuit stops any re-render loop.
+	 * Writes a signal-delivered background image URL into the shared `backgroundImageUrl`
+	 * slot (rendered by {@link handleBackgroundImageUrl}), so the runtime signal wins
+	 * over the static `backgroundimageurl`. Also reflects the `backgroundimageurl`
+	 * attribute on the host, since the fill-type CSS is scoped to
+	 * `ch5-light-button[backgroundimageurl]` (a signal-only author would otherwise never
+	 * match it); the re-entrant setter is stopped by the store's equality check.
 	 */
 	private applySignalBackgroundImageUrl(value: string): void {
 		this.log('applySignalBackgroundImageUrl(', value, ')');
@@ -1092,84 +924,69 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	// --- sendEventOnClick ------------------------------------------------------
 
 	/**
-	 * Reacts to a change of the `sendeventonclick` signal NAME: attaches the
-	 * pointer listeners when a name is set, or detaches them when it is cleared.
+	 * Reacts to a `sendeventonclick` name change. The click signal is driven by the
+	 * pressable's onChange (see `handlePressedChange`), so nothing is (un)wired here;
+	 * we only stop an in-flight repeat-digital if the name was cleared mid-press.
 	 */
 	private handleSendEventOnClick(): void {
 		this.log('handleSendEventOnClick()');
-		if (this.sendEventOnClick) {
-			this.wireSendEventOnClick();
-		} else {
-			this.unwireSendEventOnClick();
+		if (!this.sendEventOnClick) {
+			this.stopClickRepeatDigital();
 		}
 	}
 
 	/**
-	 * Attaches the press / release pointer listeners to the button, once, while a
-	 * send signal is set. The two handlers are cached fields (see the field block
-	 * above), so this only adds listeners - no closures are created here. No-op
-	 * if already wired, if no button exists yet, or if no signal name is set.
-	 * Uses `pointerdown` for press and `pointerup` / `pointerleave` /
-	 * `pointercancel` for release, so a pointer that leaves the button while
-	 * pressed still sends the `false` release.
+	 * Pressable onChange handler: drives the opt-in `sendeventonclick` signal. Press
+	 * starts sending (immediate `true` + repeat-digital); release stops and sends the
+	 * final `false`. Zero cost when unset - `startClickRepeatDigital()` early-returns
+	 * before any allocation.
 	 */
-	private wireSendEventOnClick(): void {
-		if (!this._elButton || !this.sendEventOnClick || this._clickListenersWired) {
+	private handlePressedChange(pressed: boolean): void {
+		this.log('handlePressedChange(', pressed, ')');
+		if (pressed) {
+			this.startClickRepeatDigital();
+		} else {
+			this.stopClickRepeatDigital();
+		}
+	}
+
+	/**
+	 * Sends the initial `true`, then retriggers it every `REPEAT_DIGITAL_PERIOD` ms
+	 * while held, mirroring ch5-button's repeat-digital. No-op (no interval allocated)
+	 * unless a `sendeventonclick` signal name is set.
+	 */
+	private startClickRepeatDigital(): void {
+		if (!this.sendEventOnClick) {
 			return;
 		}
-		this.log('wireSendEventOnClick()');
-		this._clickListenersWired = true;
-		this._elButton.addEventListener('pointerdown', this._onClickPress);
-		this._elButton.addEventListener('pointerup', this._onClickRelease);
-		this._elButton.addEventListener('pointerleave', this._onClickRelease);
-		this._elButton.addEventListener('pointercancel', this._onClickRelease);
+		this.sendClickValue(true);
+		if (this._repeatDigitalInterval !== null) {
+			window.clearInterval(this._repeatDigitalInterval);
+		}
+		this._repeatDigitalInterval = window.setInterval(() => {
+			this.sendClickValue(true);
+		}, Ch5LightButton.REPEAT_DIGITAL_PERIOD);
 	}
 
 	/**
-	 * Detaches the pointer listeners (the handlers are cached fields and are
-	 * never nulled out - only re-attached on the next wire). If a press was
-	 * still in flight, sends the `false` release first so the signal is not left
-	 * high. Safe to call when nothing was wired.
+	 * Stops an in-flight repeat-digital and, if one was running, sends the final
+	 * `false` release. Safe to call when nothing was running.
 	 */
-	private unwireSendEventOnClick(): void {
-		this.log('unwireSendEventOnClick()');
-		if (this._elButton && this._clickListenersWired) {
-			this._elButton.removeEventListener('pointerdown', this._onClickPress);
-			this._elButton.removeEventListener('pointerup', this._onClickRelease);
-			this._elButton.removeEventListener('pointerleave', this._onClickRelease);
-			this._elButton.removeEventListener('pointercancel', this._onClickRelease);
+	private stopClickRepeatDigital(): void {
+		const wasRepeating = this._repeatDigitalInterval !== null;
+		if (this._repeatDigitalInterval !== null) {
+			window.clearInterval(this._repeatDigitalInterval);
+			this._repeatDigitalInterval = null;
 		}
-		this._clickListenersWired = false;
-		if (this._clickPressed) {
-			this._clickPressed = false;
+		if (wasRepeating && this.sendEventOnClick) {
 			this.sendClickValue(false);
 		}
 	}
 
-	/** Press: sends `true` once (guards against repeated pointerdown). */
-	private handleClickPress(): void {
-		this.log('handleClickPress()');
-		if (this._clickPressed) {
-			return;
-		}
-		this._clickPressed = true;
-		this.sendClickValue(true);
-	}
-
-	/** Release: sends `false` once, only if a matching press was recorded. */
-	private handleClickRelease(): void {
-		this.log('handleClickRelease()');
-		if (!this._clickPressed) {
-			return;
-		}
-		this._clickPressed = false;
-		this.sendClickValue(false);
-	}
-
 	/**
-	 * Publishes a plain boolean to the `sendeventonclick` signal (no repeat-digital
-	 * object). Reuses the shared lazy `Ch5LightSignal` helper - `sendBoolean` is
-	 * stateless, so this works whether or not any receive signals are subscribed.
+	 * Publishes a plain boolean to the `sendeventonclick` signal. Reuses the shared
+	 * lazy `Ch5LightSignal` helper; `sendBoolean` is stateless, so it works whether or
+	 * not any receive signals are subscribed.
 	 */
 	private sendClickValue(value: boolean): void {
 		this.log('sendClickValue(', value, ')');
@@ -1195,9 +1012,8 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Detaches the native `focus`/`blur` listeners (the handlers are cached fields
-	 * and are never nulled out - only re-attached on the next wire). Safe to call
-	 * when nothing was wired.
+	 * Detaches the native `focus`/`blur` listeners (cached handlers are never nulled,
+	 * only re-attached on the next wire). Safe to call when nothing was wired.
 	 */
 	private unwireFocusBlur(): void {
 		this.log('unwireFocusBlur()');
@@ -1215,25 +1031,53 @@ export class Ch5LightButton extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Blur: re-emit the (non-bubbling) native `blur` event from the host.
-	 * NOTE: when press/release (pressable) is added, this MUST also reset the
-	 * pressed state (ch5-button does `this.pressed = false` here).
+	 * Blur: re-emit the native `blur` from the host and force-release any in-flight
+	 * press so the button doesn't stay stuck `pressed` (mirrors ch5-button). No-op when
+	 * not pressed.
 	 */
 	private handleBlur(event: FocusEvent): void {
 		this.log('handleBlur()');
+		this._pressable?.setPressed(false);
 		this.reDispatchFocusEvent(event);
 	}
 
 	/**
-	 * Clones the native focus/blur event and dispatches it from the host so
-	 * `<ch5-light-button>` consumers receive it (these events do not bubble),
-	 * then stops the original from propagating further. Mirrors ch5-button.
+	 * Clones the native focus/blur event and re-dispatches it from the host so
+	 * `<ch5-light-button>` consumers receive it (these events don't bubble), then stops
+	 * the original from propagating further. Mirrors ch5-button.
 	 */
 	private reDispatchFocusEvent(event: FocusEvent): void {
 		const clonedEvent: Event = new Event(event.type, event);
 		this.dispatchEvent(clonedEvent);
 		event.preventDefault();
 		event.stopPropagation();
+	}
+
+	/**
+	 * (Re)wires the shared Ch5LightPressable for the `pressed` state + bubbling
+	 * `press`/`release` events. Listens on the inner `<button>` (a disabled
+	 * `pointer-events:none` button blocks presses for free); created lazily and reused
+	 * across reconnects. No-op if no button exists yet.
+	 */
+	private wirePressable(): void {
+		if (!this._elButton) {
+			return;
+		}
+		this.log('wirePressable()');
+		if (!this._pressable) {
+			this._pressable = new Ch5LightPressable(this, this._elButton, undefined, this._onPressedChange);
+		}
+		this._pressable.init();
+	}
+
+	/**
+	 * Tears down the pressable's listeners (releasing first if a press is still in
+	 * flight). The pressable object is kept for reuse; connectedCallback re-wires it.
+	 * Safe to call when nothing was wired.
+	 */
+	private unwirePressable(): void {
+		this.log('unwirePressable()');
+		this._pressable?.destroy();
 	}
 
 	//#endregion

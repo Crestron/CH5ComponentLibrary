@@ -10,22 +10,19 @@ interface ICh5LightSignalSubscription {
 }
 
 /**
- * Ultra-light, reusable signal-subscription helper for the "light" component
- * family.
+ * Ultra-light, reusable signal-subscription helper for the "light" family.
  *
- * Rule 1 — it imports ONLY `Ch5Signal` / `Ch5SignalFactory`; it deliberately
- * pulls in no lodash, no `Ch5Property`, and no `Ch5Common`, so it does not drag
- * the heavy per-instance machinery the light components were built to avoid.
+ * Rule 1 - imports ONLY `Ch5Signal` / `Ch5SignalFactory`; no lodash, `Ch5Property`
+ * or `Ch5Common`, so it avoids the heavy per-instance machinery the light
+ * components were built to skip.
  *
- * Rule 4 — it exposes a thin generic surface (`subscribe` / `unsubscribeAll`)
- * that works for string / number / boolean signals, so a light component can
- * add another `receiveState*` attribute in 2–3 lines instead of hand-writing a
- * new set of subscribe/unsubscribe methods per attribute.
+ * Rule 4 - a thin generic surface (`subscribe` / `unsubscribeAll`) covering
+ * string / number / boolean signals, so a component can add another
+ * `receiveState*` attribute in 2-3 lines instead of bespoke subscribe methods.
  *
- * It stays cheap for signal-free components: the internal subscription list is
- * created lazily on the first `subscribe`, and each subscription callback is
- * supplied by the caller at subscribe time (never allocated up-front as a field).
- * A component that never subscribes therefore allocates nothing here.
+ * Stays cheap for signal-free components: the subscription list is created lazily
+ * on first `subscribe` and callbacks are passed in at subscribe time (never a
+ * pre-allocated field), so a component that never subscribes allocates nothing.
  */
 export class Ch5LightSignal {
 
@@ -33,11 +30,9 @@ export class Ch5LightSignal {
 	private _subscriptions: ICh5LightSignalSubscription[] | null = null;
 
 	/**
-	 * Subscribes to a Crestron signal by name and returns nothing; the tracked
-	 * subscription is released later by {@link unsubscribeAll}. `onValue` is
-	 * invoked with the signal's current value immediately (behaviour-subject
-	 * semantics) and on every subsequent change. A falsy `signalName`, or a
-	 * signal that cannot be resolved, is a no-op.
+	 * Subscribes to a Crestron signal by name (released by {@link unsubscribeAll}).
+	 * `onValue` fires with the current value immediately (behaviour-subject) and on
+	 * every change. No-op if `signalName` is falsy or the signal can't be resolved.
 	 */
 	public subscribe<T extends string | number | boolean>(
 		signalName: string,
@@ -69,13 +64,10 @@ export class Ch5LightSignal {
 	}
 
 	/**
-	 * Publishes a plain boolean value to a Crestron signal by name (send / event
-	 * direction). Unlike the receive helpers, this uses the RAW signal name (no
-	 * subscription-name translation) and a plain boolean `publish` - NOT the
-	 * repeat-digital object form - matching `ch5-image`'s click-signal behaviour
-	 * (send `true` on press, `false` on release). A falsy name, or a signal that
-	 * cannot be resolved, is a no-op. Stateless: it tracks nothing, so it does not
-	 * need the helper's subscription list and is safe to call on a fresh instance.
+	 * Publishes a plain boolean to a Crestron signal (send/event direction), using the
+	 * RAW signal name and a plain `publish` (not the repeat-digital object form) to
+	 * match `ch5-image`'s click signal (`true` on press, `false` on release). No-op on
+	 * a falsy/unresolved name. Stateless, so it's safe on a fresh instance.
 	 */
 	public sendBoolean(signalName: string, value: boolean): void {
 		if (!signalName) {
@@ -106,10 +98,9 @@ export class Ch5LightSignal {
 	}
 
 	/**
-	 * Releases the subscription(s) for a single signal name, leaving any other
-	 * subscriptions intact. Lets a component that holds several `receiveState*`
-	 * signals tear one down without disturbing the others. Safe when the name is
-	 * not subscribed.
+	 * Releases the subscription(s) for one signal name, leaving others intact, so a
+	 * component with several `receiveState*` signals can tear one down without
+	 * disturbing the rest. Safe when the name isn't subscribed.
 	 */
 	public unsubscribe(signalName: string): void {
 		if (this._subscriptions === null || !signalName) {
@@ -129,8 +120,8 @@ export class Ch5LightSignal {
 	}
 
 	/**
-	 * Releases every active subscription and clears the internal list (back to
-	 * the zero-allocation state). Safe to call when nothing is subscribed.
+	 * Releases every subscription and clears the list (back to the zero-allocation
+	 * state). Safe when nothing is subscribed.
 	 */
 	public unsubscribeAll(): void {
 		if (this._subscriptions === null) {

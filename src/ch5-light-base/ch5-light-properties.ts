@@ -4,11 +4,9 @@ export interface ICh5LightPropertySettings {
 	/** Default value used until an attribute / property assignment overrides it. */
 	default: boolean | string | number;
 	/**
-	 * OPTIONAL metadata below — field names mirror `ICh5PropertySettings`
-	 * (from `ch5-core/ch5-property.ts`) purely for familiarity/consistency.
-	 * They are NOT consumed by the runtime store, so they add ZERO per-instance
-	 * cost. Signal-related fields are intentionally omitted: the light family
-	 * has no signal machinery.
+	 * OPTIONAL metadata mirroring `ICh5PropertySettings` (`ch5-core/ch5-property.ts`)
+	 * for familiarity. The runtime store never reads it (ZERO per-instance cost);
+	 * signal fields are omitted since the light family has no signal machinery.
 	 */
 	/** Optional value type hint: 'boolean' | 'enum' | 'string' | 'number'. */
 	type?: string;
@@ -28,12 +26,9 @@ export interface ICh5LightPropertySettings {
 }
 
 /**
- * Ultra-light property store for the "light" component family.
- *
- * It intentionally does NOT depend on Ch5Property, Ch5Signal, Ch5SignalFactory
- * or lodash (unlike the full `Ch5Properties`). It is a plain key/value store with
- * change detection only, so the per-instance cost stays close to a bare object
- * and the performance gains of the light components are preserved.
+ * Ultra-light property store for the "light" family: a plain key/value store with
+ * change detection only. Free of Ch5Property, Ch5Signal, Ch5SignalFactory and lodash
+ * (unlike the full `Ch5Properties`), keeping per-instance cost near a bare object.
  */
 export class Ch5LightProperties {
 
@@ -47,9 +42,8 @@ export class Ch5LightProperties {
 	}
 
 	/**
-	 * Registers additional properties (with their defaults) on the SAME store
-	 * after construction. Lets a derived component extend the base store with its
-	 * own attributes without allocating a second store. Zero extra dependencies.
+	 * Registers more properties (with defaults) on the SAME store post-construction,
+	 * letting a derived component extend the base store without a second allocation.
 	 */
 	public add(settings: ICh5LightPropertySettings[]): void {
 		for (let i = 0; i < settings.length; i++) {
@@ -64,16 +58,11 @@ export class Ch5LightProperties {
 	}
 
 	/**
-	 * Sets a property value. `onChange` runs only when the value actually
-	 * changes, so redundant DOM work is avoided. `onChange` is invoked with the
-	 * value that was in effect immediately before this write - the store is the
-	 * only place that holds it at the right moment (it overwrites `_values`
-	 * before calling back), so callers that need the previous value (e.g. to
-	 * unsubscribe something keyed by the old value) don't need to shadow it in
-	 * their own field - they can just accept the parameter. Callers that don't
-	 * need it can keep using a zero-arg callback (`() => this.handleX()`);
-	 * TypeScript allows a function with fewer parameters to satisfy a callback
-	 * type that declares more.
+	 * Sets a property value. `onChange` fires only on an actual change (avoiding
+	 * redundant DOM work) and receives the PREVIOUS value, so callers keyed by the old
+	 * value (e.g. to unsubscribe) can accept the parameter instead of shadowing it.
+	 * Callers that don't need it can pass a zero-arg callback (`() => this.handleX()`),
+	 * since TypeScript lets a shorter function satisfy a wider callback type.
 	 */
 	public set<T extends boolean | string | number>(name: string, value: T, onChange?: (oldValue: T) => void): void {
 		const currentValue = this._values[name];
@@ -98,9 +87,8 @@ export class Ch5LightProperties {
 	}
 
 	/**
-	 * Stores a value WITHOUT invoking a change callback. Used during
-	 * initialization so the caller can apply the handlers exactly once
-	 * (mirrors the "bypass setters on init" pattern used by the light components).
+	 * Stores a value WITHOUT firing a change callback. Used at init (the "bypass
+	 * setters on init" pattern) so the caller applies the handlers exactly once.
 	 */
 	public setValue<T extends boolean | string | number>(name: string, value: T): void {
 		this._values[name] = value;
