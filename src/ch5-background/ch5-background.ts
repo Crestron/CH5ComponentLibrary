@@ -1233,8 +1233,10 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	private updateBgColor(color: string, ctx: any, videoData: any = null) {
 		ctx.fillStyle = color;
 		if (videoData && videoData.left && videoData.top) {
+			ctx.clearRect(videoData.left, videoData.top, videoData.width, videoData.height);
 			ctx.fillRect(videoData.left, videoData.top, videoData.width, videoData.height);
 		} else {
+			ctx.clearRect(0, 0, this._elCanvas.width, this._elCanvas.height);
 			ctx.fillRect(0, 0, this._elCanvas.width, this._elCanvas.height);
 		}
 		publishEvent('b', 'canvas.created', true);
