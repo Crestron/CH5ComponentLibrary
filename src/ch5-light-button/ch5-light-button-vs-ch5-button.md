@@ -212,6 +212,36 @@ ch5-light-button[type="#{$type}"][selected]:not([selected="false" i]):not([data-
 
 **Result:** the signal has **absolute priority** over the static `selected` — even if the author toggles `selected` at runtime — with **zero JS render/observe step** (one `setAttribute`). `"false"` keeps the attribute present so the static `selected` stays suppressed, letting the signal force the not-selected state too. Removing the `receivestateselected` attribute removes `data-signal-selected`, so the author's static `selected` styles the button again. The cost is paid in CSS: the selected rules are declared twice and multiplied by the effective-type combinations. The JS constant `Ch5LightButton.SIGNAL_SELECTED_ATTRIBUTE = 'data-signal-selected'` must stay in sync with these selectors.
 
+### CSS for the `pressed` state (pure-CSS press feedback)
+
+`pressed` is **not an authored attribute** — it is a **runtime host attribute** that the shared `Ch5LightPressable` helper sets on `pointerdown` and removes on release (`pointerup` / `pointerleave` / `pointercancel`). Unlike `ch5-button`, which toggles a JS class (`.ch5-button--pressed`) and re-renders, `ch5-light-button` themes the press feedback **100% in CSS** off the host `pressed` attribute (`ch5-light-button[pressed]`), so the JS does nothing beyond flipping one attribute. The theme SCSS lives in the theme-editor file `_light-button-pressed.scss`.
+
+Because the pressed colours are **type-dependent**, the rules are generated **per type** (exactly like `selected`), with a default-type variant plus one rule per named type:
+
+```scss
+/* Default type (no explicit type) when pressed */
+ch5-light-button:not([type="primary"])…:not([type="secondary"])[pressed]:not([pressed="false" i]):not([data-signal-pressed]) {
+  @include ch5-light-button--set-pressed("default");
+}
+
+/* One rule per named type */
+@each $type in $ch5-light-button--types {
+  ch5-light-button[type="#{$type}"][pressed]:not([pressed="false" i]):not([data-signal-pressed]) {
+    @include ch5-light-button--set-pressed($type);
+  }
+}
+```
+
+Three details make the press feedback correct:
+
+- **Source order beats `selected`.** Each `[pressed]` selector ties the `[selected]` selector on specificity, so `_light-button-pressed.scss` is **imported *after* `_light-button-selected.scss`** — an active press therefore overrides the selected look purely through cascade order, no `!important` needed.
+- **`pressed="false"` counts as not-pressed.** The `:not([pressed="false" i])` guard means an explicit `pressed="false"` never styles as pressed (case-insensitive), matching the `selected` / `disabled` convention.
+- **A reserved `:not([data-signal-pressed])` channel.** Every rule carries `:not([data-signal-pressed])` so a future `receivestatepressed` signal channel can be added the same way `type` / `selected` were, without touching these selectors. It is unused today, so it always matches.
+
+The shared look is applied by the root `@mixin ch5-light-button--set-pressed($type)`, which targets the inner `<button>` for background / border / line-height and the `--label` / icon / checkbox for colour, reading the per-type theme variables `--ch5-light-button--{type}-pressed-*` (e.g. `-pressed-background-color`, `-pressed-border-color`, `-pressed-label-font-color`, `-pressed-icon-color`, `-pressed-checkbox-color`).
+
+**Result:** press feedback with **zero JS render step** — the component only sets/removes the `pressed` attribute; the entire visual (per type, overriding selected) is CSS. There is no `data-signal-*` duplication cost today (the signal channel is reserved but unwired), and the only JS ↔ CSS contract is the attribute name `pressed` itself.
+
 ### CSS change for `receivestateenable` (the separate styling channel, base class)
 
 Like `type` / `selected`, the enable signal is styled through its **own** attribute channel so it never mutates the author's `disabled`. Because `receivestateenable` lives on `Ch5LightBaseClass`, this change is in the **base** button styling (`_light-button-default.scss`), so any future light component reuses it. Two things changed:
