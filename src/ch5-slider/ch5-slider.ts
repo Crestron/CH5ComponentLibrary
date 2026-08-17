@@ -1447,7 +1447,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		this._innerContainer.addEventListener('pointerdown', this._onSliderGaugeDown);
 		this._innerContainer.addEventListener('pointerup', this._onSliderGaugeUp);
 		this._innerContainer.addEventListener('mouseleave', this._onSliderGaugeUp);
-		this._innerContainer.addEventListener('touchmove', this._onSliderGaugeUp);
+		// Release on touch lift/cancel, not on move, so a touch drag doesn't release sendEventOnClick early
+		this._innerContainer.addEventListener('touchend', this._onSliderGaugeUp);
+		this._innerContainer.addEventListener('touchcancel', this._onSliderGaugeUp);
 		// init pressable
 		if (null !== this._pressable) {
 			this._pressable.init();
@@ -1479,7 +1481,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		this._innerContainer.removeEventListener('pointerdown', this._onSliderGaugeDown);
 		this._innerContainer.removeEventListener('pointerup', this._onSliderGaugeUp);
 		this._innerContainer.removeEventListener('mouseleave', this._onSliderGaugeUp);
-		this._innerContainer.removeEventListener('touchmove', this._onSliderGaugeUp);
+		this._innerContainer.removeEventListener('touchend', this._onSliderGaugeUp);
+		this._innerContainer.removeEventListener('touchcancel', this._onSliderGaugeUp);
 		if (!_.isNil(this._pressable)) {
 			this._unsubscribeFromPressableIsPressed();
 		}
@@ -2017,7 +2020,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		let sigChange: Ch5Signal<number> | null = null;
 		if (Ch5Common.isNotNil(this.sendEventOnChange)) {
 			sigChange = Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventOnChange);
-			if (sigChange !== null && sigChange.value !== value) {
+			if (sigChange !== null) {
 				sigChange.publish(value);
 			}
 		}

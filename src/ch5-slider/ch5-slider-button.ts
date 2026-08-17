@@ -141,7 +141,7 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	private buttonIgnoredAttributes() {
 		const buttonIgnoredAttr = [
-			'iconposition', 'orientation', 'checkboxshow', 'checkboxposition', 'pressdelaytime', 'pressdelaydistance', 'size', 'stretch', 'formtype', 'mode', 'customclassselected', 'customclasspressed', 'customclassdisabled', 'receivestatemode', 'receivestateselected', 'receivestatescriptlabelhtml', 'receivestatetype', 'sendeventontouch', 'backgroundimageurl', 'backgroundimagefilltype', 'receivestatebackgroundimageurl', 'receivestatecustomclass', 'receivestatecustomstyle', 'disabled', 'show', 'customclass', 'customstyle'
+			'iconposition', 'orientation', 'checkboxshow', 'checkboxposition', 'pressdelaytime', 'pressdelaydistance', 'size', 'stretch', 'formtype', 'mode', 'customclassselected', 'customclasspressed', 'customclassdisabled', 'receivestatemode', 'receivestateselected', 'receivestatescriptlabelhtml', 'receivestatetype', 'backgroundimageurl', 'backgroundimagefilltype', 'receivestatebackgroundimageurl', 'receivestatecustomclass', 'receivestatecustomstyle', 'disabled', 'show', 'customclass', 'customstyle'
 		];
 		for (let i = 0; i < buttonIgnoredAttr.length; i++) {
 			if (this.hasAttribute(buttonIgnoredAttr[i].toLowerCase())) {

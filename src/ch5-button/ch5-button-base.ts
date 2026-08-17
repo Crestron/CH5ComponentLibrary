@@ -212,7 +212,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		receivestatesgiconstring: { direction: "state", stringJoin: 1, contractName: true },
 
 		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true },
 		contractname: { contractName: true },
 		booleanjoinoffset: { booleanJoin: 1 },
 		numericjoinoffset: { numericJoin: 1 },
@@ -387,6 +386,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private _elIcon: HTMLElement = {} as HTMLElement;
 	private _elCheckboxIcon: HTMLElement = {} as HTMLElement;
 	protected _ch5Properties: Ch5Properties;
+	private _resizeObserver: ResizeObserver | null = null;
 
 	private _isPressedSubscription: Subscription | null = null;
 
@@ -502,18 +502,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 * The subscription id for the receiveStateSelected signal
 	 */
 	private _subReceiveSelected: string = '';
-
-	/**
-	 * The name of the boolean signal that will be sent to native on touch.
-	 * boolean true while finger is on the glass, digital false when finger is released or “roll out”.
-	 * The signal will be sent with value true and reasserted true every 200ms while the finger is on the
-	 * component. The reassertion is needed to avoid unending ramp should there be a communications error, a failure of
-	 * the button itself or any intermediate proxy of the signal.
-	 * This signal should not be generated as part of a gesture swipe.
-	 *
-	 * HTML attribute name: sendEventOnTouch or sendeventontouch
-	 */
-	private _sigNameSendOnTouch: string = '';
 
 	/**
 	 * The name of the boolean signal that will be sent to native on click or tap event (mouse or finger up and down in
@@ -970,17 +958,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		return this._sigNameSendOnClick;
 	}
 
-	public set sendEventOnTouch(value: string) {
-		this.logger.log('set sendEventOnTouch("' + value + '")');
-		if ((value !== '') && (value !== this._sigNameSendOnTouch)) {
-			this._sigNameSendOnTouch = value;
-			this.setAttribute('sendeventontouch', value);
-		}
-	}
-	public get sendEventOnTouch(): string {
-		return this._sigNameSendOnTouch;
-	}
-
 	public set receiveStateSelected(value: string) {
 		this.logger.log('set receiveStateSelected("' + value + '")');
 		if (!value || this._sigNameReceiveSelected === value) {
@@ -1346,7 +1323,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			'receivestatetype',
 
 			'sendeventonclick',
-			'sendeventontouch',
 			'iconurlfilltype',
 			'backgroundimageurl',
 			'backgroundimagefilltype',
@@ -1466,9 +1442,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		if (this.hasAttribute('sendeventonclick')) {
 			this.sendEventOnClick = this.getAttribute('sendeventonclick') as string;
 		}
-		if (this.hasAttribute('sendeventontouch')) {
-			this.sendEventOnTouch = this.getAttribute('sendeventontouch') as string;
-		}
 
 		this.updateCssClasses();
 		this.updateInternalHtml();
@@ -1485,7 +1458,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
 		}
-		resizeObserver(this._elContainer, this.onWindowResizeHandler.bind(this));
+		this._resizeObserver = resizeObserver(this._elContainer, this.onWindowResizeHandler.bind(this));
 	}
 
 	protected removeEventListeners() {
@@ -1499,6 +1472,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		if (!isNil(this._pressable)) {
 			this._unsubscribeFromPressableIsPressed();
 		}
+		this._resizeObserver?.disconnect();
+		this._resizeObserver = null;
 	}
 
 	protected _onFocus(inEvent: Event): void {
@@ -1683,10 +1658,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 			case 'sendeventonclick':
 				this.sendEventOnClick = Ch5ButtonUtils.getAttributeValue<string>(this, 'sendeventonclick', newValue, '');
-				break;
-
-			case 'sendeventontouch':
-				this.sendEventOnTouch = Ch5ButtonUtils.getAttributeValue<string>(this, 'sendeventontouch', newValue, '');
 				break;
 
 			case 'receivestateiconclass':
@@ -2131,23 +2102,23 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	private sendValueForRepeatDigitalWorking(value: boolean): void {
 		this.info(`Ch5Button.sendValueForRepeatDigital(${value})`);
-		if (!this._sigNameSendOnTouch && !this._sigNameSendOnClick) { return; }
+		if (!this._sigNameSendOnClick) { return; }
 
-		const touchSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
-			.getObjectAsBooleanSignal(this._sigNameSendOnTouch);
+		// const touchSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
+		// 	.getObjectAsBooleanSignal(this._sigNameSendOnTouch);
 
 		const clickSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
 			.getObjectAsBooleanSignal(this._sigNameSendOnClick);
 
-		if (clickSignal && touchSignal && clickSignal.name === touchSignal.name) {
-			// send signal only once if it has the same value
-			clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
-			return;
-		}
+		// if (clickSignal && touchSignal && clickSignal.name === touchSignal.name) {
+		// 	// send signal only once if it has the same value
+		// 	clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
+		// 	return;
+		// }
 
-		if (touchSignal && touchSignal.name) {
-			touchSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
-		}
+		// if (touchSignal && touchSignal.name) {
+		// 	touchSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
+		// }
 
 		if (clickSignal && clickSignal.name) {
 			clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });

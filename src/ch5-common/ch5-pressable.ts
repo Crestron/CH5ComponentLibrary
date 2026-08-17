@@ -320,6 +320,21 @@ export class Ch5Pressable {
 		}
 		// const mouseEvent: PointerEvent = inEvent as PointerEvent;
 		if (pointerEvent !== null) {
+			// On IOS pointerout bubbles up from child elements (label, icon, checkbox etc.) in ch5-button.
+			// When the finger moves off a child or a child is removed/repositioned by DOM mutation during press,
+			// pointerout fires on the parent component and _onPointerLeave resets the press state.
+			// Fix:CH5C-29443 check if pointer is still within component bounds before releasing.
+			if (isSafariMobile() && pointerEvent.type === 'pointerout' && this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
+				const rect = this._ch5Component.getBoundingClientRect();
+				if (
+					pointerEvent.clientX >= rect.left &&
+					pointerEvent.clientX <= rect.right &&
+					pointerEvent.clientY >= rect.top &&
+					pointerEvent.clientY <= rect.bottom
+				) {
+					return;
+				}
+			}
 			this.resetPressAndReleaseActions();
 		}
 		// this._ch5Component.releasePointerCapture(mouseEvent.pointerId);

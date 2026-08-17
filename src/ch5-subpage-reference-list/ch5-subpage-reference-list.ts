@@ -335,6 +335,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   private _scrollbarContainer: HTMLElement = {} as HTMLElement;
   private _scrollbar: HTMLElement = {} as HTMLElement;
   private _templateElement: HTMLTemplateElement = {} as HTMLTemplateElement;
+  private _resizeObserver: ResizeObserver | null = null;
   // private members used for mouse up and down
   private isDown = false;
   private startX: number = 0;
@@ -694,7 +695,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
   public constructor() {
     super();
-    this.ignoreAttributes = ["receivestatehidepulse", "receivestateshowpulse", "sendeventonshow"];
+    this.ignoreAttributes = ["receivestatehidepulse", "receivestateshowpulse", "sendeventonshow", "appendclasswheninviewport"];
     this.logger.start('constructor()', Ch5SubpageReferenceList.ELEMENT_NAME);
     if (!this._wasInstatiated) {
       this.createInternalHtml();
@@ -772,7 +773,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.initAttributes();
     this.initCommonMutationObserver(this);
     this.debounceSubpageDisplay();
-    resizeObserver(this._elContainer, this.resizeHandler);
+    this._resizeObserver = resizeObserver(this._elContainer, this.resizeHandler);
     customElements.whenDefined(this.nodeName.toLowerCase()).then(() => {
       this.componentLoadedEvent(this.nodeName.toLowerCase(), this.id);
     });
@@ -827,6 +828,9 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.logger.start('disconnectedCallback()');
     this.removeEventListeners();
     this.unsubscribeFromSignals();
+    this._resizeObserver?.disconnect();
+    this._resizeObserver = null;
+    this.disconnectCommonMutationObserver();
     unSubscribeInViewPortChange(this);
     this.reInitialize();
     if (this._refreshSubId !== null) {
@@ -1331,26 +1335,32 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     if (this.endless) { this.endless = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
     if (this.stretch === 'both') { this.stretch = this.orientation === 'horizontal' ? this.rows === 1 ? 'both' : null : this.columns === 1 ? 'both' : null; }
     if (this.orientation === "horizontal") {
-      // Remove Previous loaded ch5 variables for both rows and columns
-      this.style.removeProperty("--grid-template-rows");
-      this.style.removeProperty("--grid-template-columns");
+      // Remove Previous loaded class for both rows and columns
+      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
+      this._elContainer.style.removeProperty("grid-template-columns");
+      this._elContainer.style.removeProperty("grid-template-rows");
 
       // Calculate New Row class value
       this.rowClassValue = this.rows < this.numberOfItems ? this.rows : this.numberOfItems;
 
-      // Update the ch5 variable directly on the host element
-      this.style.setProperty("--grid-template-rows", `repeat(${this.rowClassValue}, 1fr)`);
+      // Add the new class to the container
+      // this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      this._elContainer.style.setProperty("grid-template-rows", "repeat(" + this.rowClassValue + ", 1fr)");
     } else {
 
-      // Remove Previous loaded ch5 variables for both rows and columns
-      this.style.removeProperty("--grid-template-columns");
-      this.style.removeProperty("--grid-template-rows");
+      // Remove Previous loaded class for both rows and columns
+      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
+      // this._elContainer.classList.remove(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      this._elContainer.style.removeProperty("grid-template-columns");
+      this._elContainer.style.removeProperty("grid-template-rows");
 
       // Calculate New Column class value
       this.columnClassValue = this.columns < this.numberOfItems ? this.columns : this.numberOfItems;
 
-      // Update the ch5 variable directly on the host element
-      this.style.setProperty("--grid-template-columns", `repeat(${this.columnClassValue}, 1fr)`);
+      // Add the new class to the container
+      // this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5SubpageReferenceList.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
+      this._elContainer.style.setProperty("grid-template-columns", "repeat(" + this.columnClassValue + ", 1fr)");
     }
     this.debounceSubpageDisplay();
   }
@@ -1825,7 +1835,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this._elContainer.classList.add(Ch5SubpageReferenceList.ELEMENT_NAME + Ch5SubpageReferenceList.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
     // Set default rows 
     // this._elContainer.classList.add(Ch5SubpageReferenceList.ELEMENT_NAME + Ch5SubpageReferenceList.ROWS_CLASSLIST_PREFIX + this.rows);
-    this.style.setProperty("--grid-template-rows", `repeat(${this.rows}, 1fr)`);
+    this._elContainer.style.setProperty("grid-template-rows", "repeat(" + this.rows + ", 1fr)");
 
     // Sets default scroll bar class
     this._elContainer.classList.add(Ch5SubpageReferenceList.ELEMENT_NAME + Ch5SubpageReferenceList.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);

@@ -337,22 +337,6 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
   /**
    * @documentation
    * [
-   * "`sendeventontouch` attribute",
-   * "***",
-   * "Sends a boolean true event when the screen is tapped and a boolean false event when released.",
-   * "Use this when the control system takes an action on a level-sensitive boolean digital event.",
-   * "Examples include the SIMPL Logic Symbol for Analog Ramp with a description of ",
-   * "Digital input <up> 'High/1 (level sensitive) = Ramp up; Low/0 = Stop ramp'."
-   * ]
-   * @name sendeventontouch
-   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "Join"
-   */
-  sendEventOnTouch: string;
-
-  /**
-   * @documentation
-   * [
    * "`receivestateiconclass` attribute",
    * "***",
    * "The icon class received from the control system."
