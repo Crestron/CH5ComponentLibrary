@@ -699,11 +699,13 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 * Idempotent and safe to call on every (re)connect.
 	 */
 	protected initLightBaseAttributes(): void {
-		const show = this.hasAttribute('show') ? Ch5LightBaseClass.toBoolean(this.getAttribute('show'), true) : true;
+		if (!this.hasAttribute('receivestateshow')) {
+            const show = this.hasAttribute('show') ? Ch5LightBaseClass.toBoolean(this.getAttribute('show'), true) : true;
+            this._ch5Properties.setValue<boolean>('show', show);
+        }
 		const noshowType = this.hasAttribute('noshowtype')
 			? Ch5LightBaseClass.toShowType(this.getAttribute('noshowtype'))
 			: Ch5LightBaseClass.NO_SHOW_TYPES[0];
-		this._ch5Properties.setValue<boolean>('show', show);
 		this._ch5Properties.setValue<TCh5LightShowType>('noshowType', noshowType);
 		// Sync diagnostic flags from the DOM (attributeChangedCallback only fires on
 		// change, not on reconnect). Reads straight into the flags; the logger stays
