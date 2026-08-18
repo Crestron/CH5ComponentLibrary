@@ -8,7 +8,7 @@ export type TCh5LightShowType = 'display' | 'visibility' | 'remove';
 
 /**
  * Lightweight base class for the "light" family of Ch5 components
- * (e.g. `ch5-light-button`).
+ * (e.g. `ch5-button`).
  *
  * Unlike `Ch5Common` / `Ch5BaseClass` it deliberately carries **no** signal
  * machinery, **no** `MutationObserver`, **no** debounce timers and **no** lodash.
@@ -93,9 +93,9 @@ export type TCh5LightShowType = 'display' | 'visibility' | 'remove';
  *  - call `super.connectedCallback()` (after building their internal DOM) so the
  *    base attributes are applied and overridden handlers can reach child nodes.
  *
- * See ../ch5-light-button/ch5-light-button.md for the full design reference
+ * See ../ch5-button/ch5-button.md for the full design reference
  * (class hierarchy, extension playbook, GC/allocation rules) covering this
- * base class and its first concrete implementation, `Ch5LightButton`. Update
+ * base class and its first concrete implementation, `Ch5Button`. Update
  * that document alongside any change to this base class's public contract.
  */
 export abstract class Ch5LightBaseClass extends HTMLElement {
@@ -204,7 +204,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	private _isDetachedFromDom = false;
 
 	// Cached onChange callback (see the identical pattern/rationale in
-	// Ch5LightButton) - created ONCE per instance so repeated `show`/`noshowType`
+	// Ch5Button) - created ONCE per instance so repeated `show`/`noshowType`
 	// writes (e.g. driven by a fast-changing signal) never allocate a new closure.
 	private readonly _onShowChange = () => this.handleShow();
 
@@ -480,7 +480,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 * attributes are set on the DOM node before the first `attributeChangedCallback`
 	 * runs, and every one of those callbacks runs before `connectedCallback` (where
 	 * {@link initLightBaseAttributes} normally reads the flags). So for markup like
-	 * `<ch5-light-button label="test" debug>` the `label` callback fires while the
+	 * `<ch5-button label="test" debug>` the `label` callback fires while the
 	 * cached `_isDebugEnabled` flag is still `false`, hiding its log even though
 	 * `debug` is present. Reading the attributes straight from the DOM here — only
 	 * until {@link _diagnosticsInitialized} flips on first connect — makes those
@@ -545,7 +545,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	/**
 	 * The default ARIA `role` for this component, or `null` when it has none.
 	 *
-	 * Overridden by concrete light components (e.g. `Ch5LightButton` returns
+	 * Overridden by concrete light components (e.g. `Ch5Button` returns
 	 * `'button'`). Kept as a plain method returning a string literal so the base
 	 * family stays fully self-contained — it deliberately does NOT import the
 	 * shared `Ch5RoleAttributeMapping` constants used by the heavy components, so

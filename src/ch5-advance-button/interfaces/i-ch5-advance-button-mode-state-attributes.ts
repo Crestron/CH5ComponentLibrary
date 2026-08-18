@@ -5,24 +5,24 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5ButtonModeCommonAttributes } from "./i-ch5-button-mode-common";
-import { TCh5ButtonModeState } from "./t-ch5-button";
+import { ICh5AdvanceButtonModeCommonAttributes } from "./i-ch5-advance-button-mode-common";
+import { TCh5AdvanceButtonModeState } from "./t-ch5-advance-button";
 
 /**
- * @name Ch5 Button Mode State
+ * @name Ch5 Advance Button Mode State
  * @isattribute false
- * @tagName ch5-button-mode-state
+ * @tagName ch5-advance-button-mode-state
  * @role button
- * @description Ch5 Button Mode State is a child node for <ch5-button-mode>.
+ * @description Ch5 Advance Button Mode State is a child node for <ch5-advance-button-mode>.
  * @componentVersion 1.0.0
  * @childElements
  * [
  *    {
- *      "tagName": "ch5-button-mode-state",
+ *      "tagName": "ch5-advance-button-mode-state",
  *      "optional": true,
  *      "childElements": [
  *        {
- *          "tagName": "ch5-button-label",
+ *          "tagName": "ch5-advance-button-label",
  *          "optional": true,
  *          "childElements": [
  *            {
@@ -53,25 +53,25 @@ import { TCh5ButtonModeState } from "./t-ch5-button";
  * ]
  * @documentation
  * [
- *   "`ch5-button-mode-state` element",
+ *   "`ch5-advance-button-mode-state` element",
  *   "***",
- *   "A child element designed to capture state level attributes for Ch5 Button component."
+ *   "A child element designed to capture state level attributes for Ch5 Advance Button component."
  * ]
  * @snippets
  * [
  *  {
- *    "prefix": "ch5-button-mode-state:blank",
+ *    "prefix": "ch5-advance-button-mode-state:blank",
  *     "description": "Crestron Button Mode State",
  *     "body": [
- *       "<ch5-button-mode-state>",
- *       "</ch5-button-mode-state>$0"
+ *       "<ch5-advance-button-mode-state>",
+ *       "</ch5-advance-button-mode-state>$0"
  *     ]
  *   },
  *   {
- *     "prefix": "ch5-button-mode-state:all-attributes",
+ *     "prefix": "ch5-advance-button-mode-state:all-attributes",
  *     "description": "Crestron Button Mode State (All Attributes)",
  *     "body": [
- *       "<ch5-button-mode-state",
+ *       "<ch5-advance-button-mode-state",
  *       "\tstate=\"${1|normal,pressed,selected|}\"",
  *       "\ttype=\"${2|default,primary,info,text,danger,warning,success,secondary|}\"",
  *       "\tcustomClass=\"${3:customClass}\"",
@@ -82,13 +82,13 @@ import { TCh5ButtonModeState } from "./t-ch5-button";
  *       "\ticonposition=\"${8|first,last,top,bottom|}\"",
  *       "\ticonClass=\"${9:iconClass}\"",
  *       "\ticonUrl=\"${10:iconUrl}\">",
- *       "</ch5-button-mode-state>$0"
+ *       "</ch5-advance-button-mode-state>$0"
  *       ]
  *    }
  * ]
  *
  */
-export interface ICh5ButtonModeStateAttributes extends ICh5ButtonModeCommonAttributes {
+export interface ICh5AdvanceButtonModeStateAttributes extends ICh5AdvanceButtonModeCommonAttributes {
 
   /**
    * @documentation
@@ -96,16 +96,16 @@ export interface ICh5ButtonModeStateAttributes extends ICh5ButtonModeCommonAttri
    * "`state` attribute",
    * "***",
    * "Valid values: 'normal', 'pressed', 'selected'.",
-   * "This attribute is used to define the ch5-button-mode-state attributes on the basis of the state of the parent ch5-button. ",
+   * "This attribute is used to define the ch5-advance-button-mode-state attributes on the basis of the state of the parent ch5-advance-button. ",
    * "If the button is neither in the 'pressed' state nor in the 'selected' state, then the button is considered to be in 'normal' state. ",
-   * "The attributes of 'state' as 'normal' are considered in this case for the ch5-button. ",
-   * "If the button is in the 'pressed' state, then the attributes of 'state' as 'pressed' are considered in this case for the ch5-button.  ",
-   * "If the button is in the 'selected' state, then the attributes of 'state' as 'selected' are considered in this case for the ch5-button.  "
+   * "The attributes of 'state' as 'normal' are considered in this case for the ch5-advance-button. ",
+   * "If the button is in the 'pressed' state, then the attributes of 'state' as 'pressed' are considered in this case for the ch5-advance-button.  ",
+   * "If the button is in the 'selected' state, then the attributes of 'state' as 'selected' are considered in this case for the ch5-advance-button.  "
    * ]
    * @name state
    * @default normal
    * @attributeType "EnumeratedValue"
    */
-  state: TCh5ButtonModeState;
+  state: TCh5AdvanceButtonModeState;
 
 }

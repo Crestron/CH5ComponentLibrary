@@ -5,20 +5,20 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5ButtonAttributes } from ".";
+import { ICh5AdvanceButtonAttributes } from ".";
 import { ICh5Common } from "../../ch5-common/interfaces";
 
 /**
- * @name Ch5 Button
+ * @name Ch5 Advance Button
  * @isattribute false
- * @tagName ch5-button
+ * @tagName ch5-advance-button
  * @role button
- * @description Ch5 Button offers a wide range of functionality out-of-the-box.
+ * @description Ch5 Advance Button offers a wide range of functionality out-of-the-box.
  * @componentVersion 1.0.0
  * @childElements
  * [
  *    {
- *      "tagName": "ch5-button-label",
+ *      "tagName": "ch5-advance-button-label",
  *      "optional": true,
  *      "childElements": [
  *        {
@@ -29,11 +29,11 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *      ]
  *    },
  *    {
- *      "tagName": "ch5-button-mode",
+ *      "tagName": "ch5-advance-button-mode",
  *      "optional": true,
  *      "childElements": [
  *        {
- *          "tagName": "ch5-button-label",
+ *          "tagName": "ch5-advance-button-label",
  *          "optional": true,
  *          "childElements": [
  *            {
@@ -44,11 +44,11 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *          ]
  *        },
  *        {
- *          "tagName": "ch5-button-mode-state",
+ *          "tagName": "ch5-advance-button-mode-state",
  *          "optional": true,
  *          "childElements": [
  *            {
- *              "tagName": "ch5-button-label",
+ *              "tagName": "ch5-advance-button-label",
  *              "optional": true,
  *              "childElements": [
  *                {
@@ -65,35 +65,35 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  * ]
  * @documentation
  * [
- *   "`ch5-button` element",
+ *   "`ch5-advance-button` element",
  *   "***",
  *   "A custom component designed to provide options to add icons, label, text, multi-select among other powerful options."
  * ]
  * @snippets
  * [
  *  {
- *    "prefix": "ch5-button:blank",
+ *    "prefix": "ch5-advance-button:blank",
  *     "description": "Crestron Button",
  *     "body": [
- *       "<ch5-button>",
- *       "</ch5-button>$0"
+ *       "<ch5-advance-button>",
+ *       "</ch5-advance-button>$0"
  *     ]
  *   },
  *   {
- *    "prefix": "ch5-button:default",
+ *    "prefix": "ch5-advance-button:default",
  *     "description": "Crestron Button",
  *     "body": [
- *       "<ch5-button id=\"btn_${1:id}\"",
+ *       "<ch5-advance-button id=\"btn_${1:id}\"",
  *       "\tlabel=\"${2:Crestron Button}\"",
  *       "\tsendeventonclick=\"${3:btn_${1}_clicked}\">",
- *       "</ch5-button>$0"
+ *       "</ch5-advance-button>$0"
  *     ]
  *   },
  *   {
- *     "prefix": "ch5-button:all-attributes",
+ *     "prefix": "ch5-advance-button:all-attributes",
  *     "description": "Crestron Button (All Attributes)",
  *     "body": [
- *       "<ch5-button id=\"btn_${1:id}\"",
+ *       "<ch5-advance-button id=\"btn_${1:id}\"",
  *       "\tlabel=\"${2:Crestron Button}\"",
  *       "\ttype=\"${3|default,primary,info,text,danger,warning,success,secondary|}\"",
  *       "\tcustomClass=\"${4:customClass}\"",
@@ -131,12 +131,12 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *       "\treceivestatebackgroundimageurl=\"${37:}\"",
  *       "\tmultilinesupport=\"${38|false,true|}\"",
  *       "\ttruncatetext=\"${39|true,false|}\">",
- *       "</ch5-button>$0"
+ *       "</ch5-advance-button>$0"
  *       ]
  *    }
  *  ]
  */
-export interface ICh5ButtonDocumentation extends ICh5Common, ICh5ButtonAttributes {
+export interface ICh5AdvanceButtonDocumentation extends ICh5Common, ICh5AdvanceButtonAttributes {
 
   /**
    * @documentation

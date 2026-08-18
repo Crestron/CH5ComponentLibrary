@@ -5,12 +5,12 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { TCh5ButtonCheckboxPosition, TCh5ButtonHorizontalAlignLabel, TCh5ButtonIconPosition, TCh5ButtonIconUrlFillType, TCh5ButtonType, TCh5ButtonVerticalAlignLabel } from ".";
+import { TCh5AdvanceButtonCheckboxPosition, TCh5AdvanceButtonHorizontalAlignLabel, TCh5AdvanceButtonIconPosition, TCh5AdvanceButtonIconUrlFillType, TCh5AdvanceButtonType, TCh5AdvanceButtonVerticalAlignLabel } from ".";
 
 /**
  * @ignore
  */
-export interface ICh5ButtonModeCommonAttributes {
+export interface ICh5AdvanceButtonModeCommonAttributes {
 
   /**
    * @documentation
@@ -32,7 +32,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "***",
    * "Valid values: 'default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'.",
    * "Overrides the appearance of the button with alternative CSS ",
-   * "defined in classes defined with ch5-button--type, where type is ",
+   * "defined in classes defined with ch5-advance-button--type, where type is ",
    * "the value of the property. If no 'type' is provided, the type of ",
    * "'default' is used."
    * ]
@@ -40,7 +40,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * @default default
    * @attributeType "EnumeratedValue"
    */
-  type: TCh5ButtonType | null;
+  type: TCh5AdvanceButtonType | null;
 
   /**
    * @documentation
@@ -67,7 +67,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * @default first
    * @attributeType "EnumeratedValue"
    */
-  iconPosition: TCh5ButtonIconPosition | null;
+  iconPosition: TCh5AdvanceButtonIconPosition | null;
 
   /**
    * @documentation
@@ -92,7 +92,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * @default null
    * @attributeType "EnumeratedValue"
    */
-  iconUrlFillType: TCh5ButtonIconUrlFillType | null;
+  iconUrlFillType: TCh5AdvanceButtonIconUrlFillType | null;
 
   /**
    * @documentation
@@ -131,7 +131,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * @default left
    * @attributeType "EnumeratedValue"
    */
-  checkboxPosition: TCh5ButtonCheckboxPosition | null;
+  checkboxPosition: TCh5AdvanceButtonCheckboxPosition | null;
 
   /**
    * @documentation
@@ -148,7 +148,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * @default center
    * @attributeType "EnumeratedValue"
    */
-  hAlignLabel: TCh5ButtonHorizontalAlignLabel | null;
+  hAlignLabel: TCh5AdvanceButtonHorizontalAlignLabel | null;
 
   /**
    * @documentation
@@ -165,5 +165,5 @@ export interface ICh5ButtonModeCommonAttributes {
    * @default middle
    * @attributeType "EnumeratedValue"
    */
-  vAlignLabel: TCh5ButtonVerticalAlignLabel | null;
+  vAlignLabel: TCh5AdvanceButtonVerticalAlignLabel | null;
 }

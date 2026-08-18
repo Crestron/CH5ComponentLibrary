@@ -169,7 +169,7 @@ export interface ICh5TabButtonAttributes extends ICh5TabButtonCommonAttributes {
    * [
    * "`buttonReceiveStateSelected` attribute",
    * "***",
-   * "When received, applies a true value applied by the selected class (ch5-button--selected) on all the buttons in the tab button."
+   * "When received, applies a true value applied by the selected class (ch5-advance-button--selected) on all the buttons in the tab button."
    * ]
    * @name buttonreceivestateselected
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}   

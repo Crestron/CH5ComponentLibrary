@@ -1,7 +1,7 @@
-import { Ch5Button } from "../../ch5-button/ch5-button";
+import { Ch5AdvanceButton } from "../../ch5-advance-button/ch5-advance-button";
 import { Ch5Common } from "../../ch5-common/ch5-common";
-import { Ch5ButtonMode } from "../../ch5-button/ch5-button-mode";
-import { Ch5ButtonLabel } from "../../ch5-button/ch5-button-label";
+import { Ch5AdvanceButtonMode } from "../../ch5-advance-button/ch5-advance-button-mode";
+import { Ch5AdvanceButtonLabel } from "../../ch5-advance-button/ch5-advance-button-label";
 import { Ch5SignalElementAttributeRegistryEntries } from "../../ch5-common/ch5-signal-attribute-registry";
 import { Ch5RoleAttributeMapping } from "../../utility-models/ch5-role-attribute-mapping";
 import {
@@ -16,7 +16,7 @@ import { Ch5Properties } from "../../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../../ch5-core/ch5-property";
 import { Ch5ButtonListModeBase } from "./ch5-button-list-mode-base";
 import { Ch5ButtonListModeStateBase } from "./ch5-button-list-mode-state-base";
-import { Ch5ButtonModeState } from "../../ch5-button/ch5-button-mode-state";
+import { Ch5AdvanceButtonModeState } from "../../ch5-advance-button/ch5-advance-button-mode-state";
 import { resizeObserver } from "../../ch5-core/resize-observer";
 import { Ch5AugmentVarSignalsNames } from '../../ch5-common/ch5-augment-var-signals-names';
 import { Ch5Signal } from "../../ch5-core/ch5-signal";
@@ -2095,7 +2095,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   private createButton(index: number, append: boolean = true) {
     if (index < 0 || index >= this.numberOfItems) { return };
     const buttonListContractObj: ICh5ButtonListContractObj = { index: index + 1, clickHoldTime: this.clickHoldTime, contractName: this.contractName, parentComponent: 'ch5-button-list' };
-    const btn = new Ch5Button(buttonListContractObj);
+    const btn = new Ch5AdvanceButton(buttonListContractObj);
     btn.setAttribute("swipeGestureEnabled", "true");
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
@@ -2133,14 +2133,14 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     btn.addContainerClass(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.BUTTON_CHECKBOX_POSITION.classListPrefix + this.buttonCheckboxPosition);
   }
 
-  protected buttonModeHelper(btn: Ch5Button, i: number) {
+  protected buttonModeHelper(btn: Ch5AdvanceButton, i: number) {
     const buttonListModes = this.getElementsByTagName(this.nodeName.toLowerCase() + "-mode");
     if (buttonListModes && buttonListModes.length > 0) {
       Array.from(buttonListModes).forEach((buttonListMode, index) => {
         if (index < Ch5ButtonListBase.MODES_MAX_COUNT) {
           if (buttonListMode.parentElement instanceof Ch5ButtonListBase) {
-            const ch5ButtonMode = new Ch5ButtonMode(btn);
-            Ch5ButtonMode.observedAttributes.forEach((attr) => {
+            const ch5ButtonMode = new Ch5AdvanceButtonMode(btn);
+            Ch5AdvanceButtonMode.observedAttributes.forEach((attr) => {
               if (buttonListMode.hasAttribute(attr)) {
                 ch5ButtonMode.setAttribute(attr, buttonListMode.getAttribute(attr) + '');
               }
@@ -2150,8 +2150,8 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
             if (buttonListModeStates && buttonListModeStates.length > 0) {
               Array.from(buttonListModeStates).forEach(buttonListModeState => {
                 if (buttonListModeState.parentElement instanceof Ch5ButtonListModeBase) {
-                  const buttonModeState = new Ch5ButtonModeState(btn);
-                  Ch5ButtonModeState.observedAttributes.forEach((attr) => {
+                  const buttonModeState = new Ch5AdvanceButtonModeState(btn);
+                  Ch5AdvanceButtonModeState.observedAttributes.forEach((attr) => {
                     if (buttonListModeState.hasAttribute(attr)) {
                       buttonModeState.setAttribute(attr, buttonListModeState.getAttribute(attr) + '');
                     }
@@ -2163,7 +2163,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
                       if (buttonModeStateLabel.parentElement instanceof Ch5ButtonListModeStateBase) {
                         const buttonModeStateLabelTemplate = buttonModeStateLabel.getElementsByTagName("template");
                         if (buttonModeStateLabelTemplate && buttonModeStateLabelTemplate.length > 0) {
-                          const ch5ButtonLabel = new Ch5ButtonLabel();
+                          const ch5ButtonLabel = new Ch5AdvanceButtonLabel();
                           const template = document.createElement('template');
                           template.innerHTML = buttonModeStateLabelTemplate[0].innerHTML;
                           Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(template, i, this.indexId);
@@ -2184,7 +2184,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
                 if (buttonListModeLabel.parentElement instanceof Ch5ButtonListModeBase) {
                   const buttonListModeLabelTemplate = buttonListModeLabel.getElementsByTagName("template");
                   if (buttonListModeLabelTemplate && buttonListModeLabelTemplate.length > 0) {
-                    const ch5ButtonLabel = new Ch5ButtonLabel();
+                    const ch5ButtonLabel = new Ch5AdvanceButtonLabel();
                     const template = document.createElement('template');
                     template.innerHTML = buttonListModeLabelTemplate[0].innerHTML;
                     Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(template, i, this.indexId);
@@ -2202,14 +2202,14 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     }
   }
 
-  private buttonLabelHelper(btn: Ch5Button, index: number) {
+  private buttonLabelHelper(btn: Ch5AdvanceButton, index: number) {
     const buttonListLabels = this.getElementsByTagName(this.nodeName.toLowerCase() + "-label");
     if (buttonListLabels && buttonListLabels.length > 0) {
       Array.from(buttonListLabels).forEach((buttonListLabel) => {
         if (buttonListLabel.parentElement instanceof Ch5ButtonListBase) {
           const buttonListLabelTemplate = buttonListLabel.getElementsByTagName("template");
           if (buttonListLabelTemplate && buttonListLabelTemplate.length > 0) {
-            const ch5ButtonLabel = new Ch5ButtonLabel();
+            const ch5ButtonLabel = new Ch5AdvanceButtonLabel();
             const template = document.createElement('template');
             template.innerHTML = buttonListLabelTemplate[0].innerHTML;
             Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(template, index, this.indexId);
@@ -2222,7 +2222,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     }
   }
 
-  private buttonHelper(btn: Ch5Button, index: number) {
+  private buttonHelper(btn: Ch5AdvanceButton, index: number) {
     btn.setAttribute('stretch', 'both');
     btn.setAttribute('shape', Ch5ButtonListBase.BUTTON_SHAPES[0]);
     // Contract Helper
@@ -2352,7 +2352,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     }
   }
 
-  private contractButtonHelper(btn: Ch5Button, index: number) {
+  private contractButtonHelper(btn: Ch5AdvanceButton, index: number) {
     if (this.useContractForItemEnable === true) {
       btn.setAttribute('receiveStateEnable', this.contractName + `.Button${index + 1}Enabled`);
     } else if (this.hasAttribute('buttonReceiveStateEnable') && this.getAttribute('buttonReceiveStateEnable')?.trim()) {
@@ -2492,7 +2492,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     });
   }
 
-  private indexIdReplaceHelper(btn: Ch5Button, attr: string, index: number) {
+  private indexIdReplaceHelper(btn: Ch5AdvanceButton, attr: string, index: number) {
     if (this.getAttribute(attr)?.trim().includes(`{{${this.indexId}}}`) === false) {
       const attrValue = this.getAttribute(attr)?.trim();
       if (attrValue) {

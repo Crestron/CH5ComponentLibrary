@@ -139,7 +139,7 @@ export class Ch5Pressable {
 	}
 
 	private _updateParentComponentIsNotSRL() {
-		const supportedTagName = this._ch5Component.tagName === 'CH5-BUTTON'
+		const supportedTagName = this._ch5Component.tagName === 'CH5-ADVANCE-BUTTON'
 			|| this._ch5Component.tagName === 'CH5-IMAGE'
 			|| this._ch5Component.tagName === 'CH5-DPAD-BUTTON'
 			|| this._ch5Component.tagName === 'CH5-KEYPAD-BUTTON';
@@ -320,7 +320,7 @@ export class Ch5Pressable {
 		}
 		// const mouseEvent: PointerEvent = inEvent as PointerEvent;
 		if (pointerEvent !== null) {
-			// On IOS pointerout bubbles up from child elements (label, icon, checkbox etc.) in ch5-button.
+			// On IOS pointerout bubbles up from child elements (label, icon, checkbox etc.) in ch5-advance-button.
 			// When the finger moves off a child or a child is removed/repositioned by DOM mutation during press,
 			// pointerout fires on the parent component and _onPointerLeave resets the press state.
 			// Fix:CH5C-29443 check if pointer is still within component bounds before releasing.
@@ -477,14 +477,14 @@ export class Ch5Pressable {
 	}
 }
 
-/* Why You Need Both Pointer Move and Touch Move in CH5 Button
+/* Why You Need Both Pointer Move and Touch Move in CH5 Advance Button
 Pointer events are the modern standard, but there are important compatibility and behavior reasons why touchmove is still needed:
 1. Browser Compatibility & Fallback
 Pointer events are relatively newer and not supported on all older browsers/devices
 Touch move events provide fallback support for devices that don't fully support the Pointer Events API
 Legacy systems may still rely on touch events
 2. Touch Action Control
-Looking at ch5-button-base.ts, the button explicitly sets:
+Looking at ch5-advance-button-base.ts, the button explicitly sets:
 this.style.touchAction = 'none';
 this._elContainer.style.touchAction = 'none';
  

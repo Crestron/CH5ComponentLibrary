@@ -7,8 +7,8 @@
 
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5CommonInput } from "../ch5-common-input/ch5-common-input";
-import { Ch5Button } from "../ch5-button/ch5-button";
-import { TCh5ButtonType } from "../ch5-button/interfaces/t-ch5-button";
+import { Ch5AdvanceButton } from "../ch5-advance-button/ch5-advance-button";
+import { TCh5AdvanceButtonType } from "../ch5-advance-button/interfaces/t-ch5-advance-button";
 import { isEmpty, isNil } from 'lodash';
 import { ICh5FormAttributes } from "./interfaces/i-ch5-form-attributes";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
@@ -68,17 +68,17 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 		return this._inputElements;
 	}
 
-	public get submitButton(): Ch5Button {
+	public get submitButton(): Ch5AdvanceButton {
 		return this._submitButton;
 	}
-	public set submitButton(value: Ch5Button) {
+	public set submitButton(value: Ch5AdvanceButton) {
 		this._submitButton = value;
 	}
 
-	public get cancelButton(): Ch5Button {
+	public get cancelButton(): Ch5AdvanceButton {
 		return this._cancelButton;
 	}
-	public set cancelButton(value: Ch5Button) {
+	public set cancelButton(value: Ch5AdvanceButton) {
 		this._cancelButton = value;
 	}
 
@@ -141,7 +141,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 	 * Getter submitButtonType
 	 * @return {string }
 	 */
-	public get submitButtonType(): TCh5ButtonType {
+	public get submitButtonType(): TCh5AdvanceButtonType {
 		return this._submitButtonType;
 	}
 
@@ -149,7 +149,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 	 * Setter submitButtonType
 	 * @param {string } value
 	 */
-	public set submitButtonType(value: TCh5ButtonType) {
+	public set submitButtonType(value: TCh5AdvanceButtonType) {
 		this.info('Ch5Form set submitButtonType("' + value + '")');
 
 		if (this._submitButtonType !== value) {
@@ -226,7 +226,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 	 * Getter cancelButtonType
 	 * @return {string }
 	 */
-	public get cancelButtonType(): TCh5ButtonType {
+	public get cancelButtonType(): TCh5AdvanceButtonType {
 		return this._cancelButtonType;
 	}
 
@@ -234,7 +234,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 	 * Setter cancelButtonType
 	 * @param {string } value
 	 */
-	public set cancelButtonType(value: TCh5ButtonType) {
+	public set cancelButtonType(value: TCh5AdvanceButtonType) {
 		this.info('Ch5Form set cancelButtonType("' + value + '")');
 
 		if (this._cancelButtonType !== value) {
@@ -301,7 +301,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
 		// set ready property as promise
 		this.ready = Promise.all([
-			customElements.whenDefined('ch5-button'),
+			customElements.whenDefined('ch5-advance-button'),
 			customElements.whenDefined('ch5-toggle'),
 			customElements.whenDefined('ch5-slider'),
 			customElements.whenDefined('ch5-select'),
@@ -407,7 +407,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 	 * @type {string}
 	 * @memberof Ch5Form
 	 */
-	private _submitButtonType: TCh5ButtonType = 'default';
+	private _submitButtonType: TCh5AdvanceButtonType = 'default';
 
 	/**
 	 * Cancel button text. If absent or empty the default translated "Cancel" text will show.
@@ -443,7 +443,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 	 * @type {string}
 	 * @memberof Ch5Form
 	 */
-	private _cancelButtonType: TCh5ButtonType = 'default';
+	private _cancelButtonType: TCh5AdvanceButtonType = 'default';
 
 	/**
 	 * When hideSubmitButton='true', this field is the id of an element in which a 'click' event can be used to trigger the submit functionality.
@@ -485,17 +485,17 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 	 * Used to store submit button
 	 *
 	 * @private
-	 * @type {Ch5Button}
+	 * @type {Ch5AdvanceButton}
 	 */
-	private _submitButton: Ch5Button = {} as Ch5Button;
+	private _submitButton: Ch5AdvanceButton = {} as Ch5AdvanceButton;
 
 	/**
 	 * Used to store reset button
 	 *
 	 * @private
-	 * @type {Ch5Button}
+	 * @type {Ch5AdvanceButton}
 	 */
-	private _cancelButton: Ch5Button = {} as Ch5Button;
+	private _cancelButton: Ch5AdvanceButton = {} as Ch5AdvanceButton;
 
 	/**
 	 *  Reflect the state of submit button and submit method
@@ -640,7 +640,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 					break;
 				case 'submitbuttontype':
 					if (this.hasAttribute('submitbuttontype')) {
-						this.submitButtonType = newValue as TCh5ButtonType;
+						this.submitButtonType = newValue as TCh5AdvanceButtonType;
 					} else {
 						this.submitButtonType = 'default';
 					}
@@ -668,7 +668,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 					break;
 				case 'cancelbuttontype':
 					if (this.hasAttribute('cancelbuttontype')) {
-						this.cancelButtonType = newValue as TCh5ButtonType;
+						this.cancelButtonType = newValue as TCh5AdvanceButtonType;
 					} else {
 						this.cancelButtonType = 'default';
 					}
@@ -831,8 +831,8 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 	 * @private
 	 */
 	private _linkFormButtons() {
-		const submit = this.querySelector("[formtype='submit']") as Ch5Button;
-		const cancel = this.querySelector("[formtype='cancel']") as Ch5Button;
+		const submit = this.querySelector("[formtype='submit']") as Ch5AdvanceButton;
+		const cancel = this.querySelector("[formtype='cancel']") as Ch5AdvanceButton;
 
 		// if there is submit button replace the internal button
 		if (null !== submit) {
@@ -906,28 +906,28 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
 	private checkIfCustomSubmitShouldBeDisabled(disable: boolean) {
 		if (!isNil(this._customSubmitButtonRef)) {
-			// use the same class / css a ch5-button (default submit button) would use
-			disable ? this._customSubmitButtonRef.classList.add('ch5-button--disabled') : this._customSubmitButtonRef.classList.remove('ch5-button--disabled');
+			// use the same class / css a ch5-advance-button (default submit button) would use
+			disable ? this._customSubmitButtonRef.classList.add('ch5-advance-button--disabled') : this._customSubmitButtonRef.classList.remove('ch5-advance-button--disabled');
 		}
 	}
 
 	private checkIfCustomCancelShouldBeDisabled(disable: boolean) {
 		if (!isNil(this._customCancelButtonRef)) {
-			// use the same class / css a ch5-button (default submit button) would use
-			disable ? this._customCancelButtonRef.classList.add('ch5-button--disabled') : this._customCancelButtonRef.classList.remove('ch5-button--disabled');
+			// use the same class / css a ch5-advance-button (default submit button) would use
+			disable ? this._customCancelButtonRef.classList.add('ch5-advance-button--disabled') : this._customCancelButtonRef.classList.remove('ch5-advance-button--disabled');
 		}
 	}
 
 	/**
-	 * Factory method for Ch5Button
+	 * Factory method for Ch5AdvanceButton
 	 *
 	 * @param label
 	 * @param type
 	 * @param formType
 	 * @param disable
 	 */
-	private _createButton(label: string, type: string, formType: string, disable: boolean = false): Ch5Button {
-		const button = new Ch5Button();
+	private _createButton(label: string, type: string, formType: string, disable: boolean = false): Ch5AdvanceButton {
+		const button = new Ch5AdvanceButton();
 
 		button.setAttribute('label', label);
 		button.setAttribute('type', type);

@@ -7,32 +7,32 @@
 
 import { ICh5CommonAttributes } from "../../ch5-common/interfaces/i-ch5-common-attributes";
 import {
-  TCh5ButtonSize,
-  TCh5ButtonIconPosition,
-  TCh5ButtonOrientation,
-  TCh5ButtonShape,
-  TCh5ButtonStretch,
-  TCh5ButtonType,
-  TCh5ButtonActionType,
-  TCh5ButtonHorizontalAlignLabel,
-  TCh5ButtonVerticalAlignLabel,
-  TCh5ButtonCheckboxPosition,
-  TCh5ButtonBackgroundImageFillType,
-  TCh5ButtonIconUrlFillType,
-  TCh5ButtonSgIconTheme
-} from "./t-ch5-button";
+  TCh5AdvanceButtonSize,
+  TCh5AdvanceButtonIconPosition,
+  TCh5AdvanceButtonOrientation,
+  TCh5AdvanceButtonShape,
+  TCh5AdvanceButtonStretch,
+  TCh5AdvanceButtonType,
+  TCh5AdvanceButtonActionType,
+  TCh5AdvanceButtonHorizontalAlignLabel,
+  TCh5AdvanceButtonVerticalAlignLabel,
+  TCh5AdvanceButtonCheckboxPosition,
+  TCh5AdvanceButtonBackgroundImageFillType,
+  TCh5AdvanceButtonIconUrlFillType,
+  TCh5AdvanceButtonSgIconTheme
+} from "./t-ch5-advance-button";
 
 /**
  * @ignore
  */
-export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
+export interface ICh5AdvanceButtonAttributes extends ICh5CommonAttributes {
   /**
    * @name size
    * @documentation
    * [
    * "`size` attribute",
    *  "***",
-   *  "Overrides the appearance of the button with alternative CSS that is defined in classes defined with ch5-button--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
+   *  "Overrides the appearance of the button with alternative CSS that is defined in classes defined with ch5-advance-button--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
    * ]
    * @default regular
    * @hideWhen [
@@ -40,7 +40,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @attributeType "EnumeratedValue"
    */
-  size: TCh5ButtonSize;
+  size: TCh5AdvanceButtonSize;
 
   /**
    * @documentation
@@ -92,7 +92,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @default first
    * @attributeType "EnumeratedValue"
    */
-  iconPosition: TCh5ButtonIconPosition;
+  iconPosition: TCh5AdvanceButtonIconPosition;
 
   /**
    * @documentation
@@ -112,7 +112,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "`mode` attribute",
    * "***",
    * "The default value is 0.",
-   * "This property is used to set or get the mode of the ch5-button in a multi-mode environment. ",
+   * "This property is used to set or get the mode of the ch5-advance-button in a multi-mode environment. ",
    * "The maximum value that can be set is 99."
    * ]
    * @name mode
@@ -129,7 +129,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "***",
    * "The default value is false.",
    * "This property is used to display or hide a checkbox. If set to true, a checkbox is displayed and ",
-   * "'ch5-button__checkbox' will be applied as the CSS class on the component."
+   * "'ch5-advance-button__checkbox' will be applied as the CSS class on the component."
    * ]
    * @name checkboxshow
    * @default false
@@ -150,7 +150,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @default left
    * @attributeType "EnumeratedValue"
    */
-  checkboxPosition: TCh5ButtonCheckboxPosition;
+  checkboxPosition: TCh5AdvanceButtonCheckboxPosition;
 
   /**
    * @documentation
@@ -166,7 +166,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @default horizontal
    * @attributeType "EnumeratedValue"
    */
-  orientation: TCh5ButtonOrientation;
+  orientation: TCh5AdvanceButtonOrientation;
 
   /**
    * @documentation
@@ -180,7 +180,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @default rounded-rectangle
    * @attributeType "EnumeratedValue"
    */
-  shape: TCh5ButtonShape;
+  shape: TCh5AdvanceButtonShape;
 
   /**
    * @documentation
@@ -198,7 +198,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @name stretch
    * @attributeType "EnumeratedValue"
    */
-  stretch: TCh5ButtonStretch | null;
+  stretch: TCh5AdvanceButtonStretch | null;
 
   /**
    * @documentation
@@ -207,7 +207,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "***",
    * "Valid values: 'default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'.",
    * "Overrides the appearance of the button with alternative CSS ",
-   * "defined in classes defined with ch5-button--type, where type is ",
+   * "defined in classes defined with ch5-advance-button--type, where type is ",
    * "the value of the property. If no 'type' is provided, the type of ",
    * "'default' is used."
    * ]
@@ -215,7 +215,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @default default
    * @attributeType "EnumeratedValue"
    */
-  type: TCh5ButtonType;
+  type: TCh5AdvanceButtonType;
 
   /**
    * @documentation
@@ -232,7 +232,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @default center
    * @attributeType "EnumeratedValue"
    */
-  hAlignLabel: TCh5ButtonHorizontalAlignLabel;
+  hAlignLabel: TCh5AdvanceButtonHorizontalAlignLabel;
 
   /**
    * @documentation
@@ -249,7 +249,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @default middle
    * @attributeType "EnumeratedValue"
    */
-  vAlignLabel: TCh5ButtonVerticalAlignLabel;
+  vAlignLabel: TCh5AdvanceButtonVerticalAlignLabel;
 
   /**
    * @documentation
@@ -263,7 +263,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @name formtype
    * @attributeType "EnumeratedValue"
    */
-  formType: TCh5ButtonActionType | null;
+  formType: TCh5AdvanceButtonActionType | null;
 
   /**
    * @documentation
@@ -283,7 +283,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * [
    * "`receivestateselected` attribute",
    * "***",
-   * "When received, applies a true value applied by the selected class (ch5-button--selected)."
+   * "When received, applies a true value applied by the selected class (ch5-advance-button--selected)."
    * ]
    * @name receivestateselected
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
@@ -406,7 +406,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "***",
    * "The default value is false.",
    * "This property reflects the selected state of the component. If set to true, ",
-   * "'ch5-button--selected' will be applied as the CSS class on the component."
+   * "'ch5-advance-button--selected' will be applied as the CSS class on the component."
    * ]
    * @name selected
    * @default false
@@ -421,7 +421,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "***",
    * "The default value is false.",
    * "This property reflects the pressed state of the component. If set to true, ",
-   * "'ch5-button--pressed' will be applied as the CSS class on the component."
+   * "'ch5-advance-button--pressed' will be applied as the CSS class on the component."
    * ]
    * @name pressed
    * @default false
@@ -453,7 +453,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @default stretch-aspect
    * @attributeType "EnumeratedValue"
    */
-  backgroundImageFillType: TCh5ButtonBackgroundImageFillType;
+  backgroundImageFillType: TCh5AdvanceButtonBackgroundImageFillType;
 
   /**
    * @documentation
@@ -466,7 +466,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @default null
    * @attributeType "EnumeratedValue"
    */
-  iconUrlFillType: TCh5ButtonIconUrlFillType | null;
+  iconUrlFillType: TCh5AdvanceButtonIconUrlFillType | null;
 
   /**
    * @documentation
@@ -518,7 +518,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @attributeType "EnumeratedValue"
    * @default icon-lg
    */
-  sgIconTheme: TCh5ButtonSgIconTheme;
+  sgIconTheme: TCh5AdvanceButtonSgIconTheme;
 
   /**
    * @documentation
@@ -527,7 +527,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "***",
    * "The default value is false.",
    * "Enables or disables support for multi-line text. Text will be truncated when the text content area does not allow for a second line. This shall not resize the text area to fit the text.",
-   * "'ch5-button--label-multiline-support-true' will be applied as the CSS class on the component text label."
+   * "'ch5-advance-button--label-multiline-support-true' will be applied as the CSS class on the component text label."
    * ]
    * @name multilinesupport
    * @default false
@@ -542,7 +542,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "***",
    * "The default value is true.",
    * "Enables or disables text truncation depending on the length of text and the size of the control. This attribute when set to true will show an ellipsis when the text extends beyond the horizontally and vertically allocated space.",
-   * "'ch5-button--label-truncate-text-true' will be applied as the CSS class on the component text label."
+   * "'ch5-advance-button--label-truncate-text-true' will be applied as the CSS class on the component text label."
    * ]
    * @name truncatetext
    * @default true

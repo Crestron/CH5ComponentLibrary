@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { TCh5ButtonType } from "../../ch5-button/interfaces/t-ch5-button";
+import { TCh5AdvanceButtonType } from "../../ch5-advance-button/interfaces/t-ch5-advance-button";
 import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 
 /**
@@ -61,7 +61,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * @default default
    * @attributeType "String"
    */
-  submitButtonType: TCh5ButtonType;
+  submitButtonType: TCh5AdvanceButtonType;
 
   /**
    * @name cancelbuttonlabel
@@ -111,7 +111,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * @default default
    * @attributeType "String"
    */
-  cancelButtonType: TCh5ButtonType;
+  cancelButtonType: TCh5AdvanceButtonType;
 
   /**
    * @name submitid

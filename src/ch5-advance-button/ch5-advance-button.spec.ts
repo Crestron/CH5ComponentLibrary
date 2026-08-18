@@ -9,19 +9,19 @@ import { expect } from 'chai';
 import { JSDOM } from 'jsdom';
 import 'jsdom-global/register';
 import { describe } from 'mocha';
-import { Ch5Button } from './ch5-button';
+import { Ch5AdvanceButton } from './ch5-advance-button';
 
-describe('Ch5Button', () => {
+describe('Ch5AdvanceButton', () => {
 
-    let cb = document.createElement('ch5-button');
+    let cb = document.createElement('ch5-advance-button');
 
     before(() => {
-        Ch5Button.registerCustomElement();
+        Ch5AdvanceButton.registerCustomElement();
     });
 
     beforeEach(() => {
-        // const cb = new Ch5Button(); // cannot be instantiated like this
-        cb = document.createElement('ch5-button');
+        // const cb = new Ch5AdvanceButton(); // cannot be instantiated like this
+        cb = document.createElement('ch5-advance-button');
     });
 
     it('#create', () => {

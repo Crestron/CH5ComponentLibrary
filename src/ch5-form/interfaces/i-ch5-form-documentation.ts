@@ -115,8 +115,8 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *           "         </template>",
  *           "    </ch5-select>",
  *           "",
- *           "    <ch5-button id=\"room_submit_id\" formtype=\"submit\" label=\"Update Room\"></ch5-button>",
- *           "    <ch5-button id=\"room_cancel_id\" formtype=\"cancel\" label=\"Revert Changes\"></ch5-button>",
+ *           "    <ch5-advance-button id=\"room_submit_id\" formtype=\"submit\" label=\"Update Room\"></ch5-advance-button>",
+ *           "    <ch5-advance-button id=\"room_cancel_id\" formtype=\"cancel\" label=\"Revert Changes\"></ch5-advance-button>",
  *           "</ch5-form>"
  *       ]
  *     }
