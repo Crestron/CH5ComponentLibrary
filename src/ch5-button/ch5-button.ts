@@ -344,17 +344,10 @@ export class Ch5Button extends Ch5LightBaseClass {
 				this.sendEventOnClick = newValue ?? '';
 				break;
 			case 'multilinesupport':
-				// Boolean attribute: present means true, absent means the default
-				// (false). Coerced here since the light store never parses attribute strings.
-				this.multilineSupport = this.hasAttribute('multilinesupport')
-					? Ch5LightBaseClass.toBoolean(newValue, true)
-					: false;
+				this.multilineSupport = this.coerceBooleanAttribute('multilinesupport', false);
 				break;
 			case 'truncatetext':
-				// Boolean attribute, default true: absent restores the default.
-				this.truncateText = this.hasAttribute('truncatetext')
-					? Ch5LightBaseClass.toBoolean(newValue, true)
-					: true;
+				this.truncateText = this.coerceBooleanAttribute('truncatetext', true);
 				break;
 			default:
 				// Delegate base attributes (show / disabled) to Ch5LightBaseClass.

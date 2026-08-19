@@ -827,7 +827,32 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		if (normalized === '') {
 			return valueOnEmpty;
 		}
-		return normalized !== 'false' && normalized !== '0';
+		return normalized === 'true' || normalized === 'yes' || normalized === '1';
+	}
+	/**
+	 * Reads a boolean attribute and coerces an invalid value (e.g. `"kjgkjg"`) to a
+	 * clean boolean, ALSO reflecting the normalized `"true"` / `"false"` back onto the
+	 * attribute so the DOM is corrected — mirroring `ch5-button` / `Ch5Property`,
+	 * whose boolean handling rewrites a non-canonical attribute value. Returns
+	 * `defaultWhenAbsent` when the attribute is not present; a bare attribute (empty
+	 * value) resolves to `true` (its presence means "on").
+	 *
+	 * The reflecting `setAttribute` re-enters `attributeChangedCallback`, but the
+	 * second pass sees an already-canonical `"true"` / `"false"` value and does not
+	 * reflect again, so there is no loop. Off the hot path (attribute changes only).
+	 */
+	protected coerceBooleanAttribute(attributeName: string, defaultWhenAbsent: boolean): boolean {
+		if (!this.hasAttribute(attributeName)) {
+			return defaultWhenAbsent;
+		}
+		const rawValue = this.getAttribute(attributeName);
+		const parsed = Ch5LightBaseClass.toBoolean(rawValue, true);
+		// Only rewrite when the author's value isn't already canonical, so an invalid
+		// or shorthand value ("kjgkjg", "1", "yes", "TRUE") is normalized in the DOM.
+		if (rawValue !== 'true' && rawValue !== 'false' && rawValue !== '') {
+			this.setAttribute(attributeName, parsed ? 'true' : 'false');
+		}
+		return parsed;
 	}
 
 	/**
