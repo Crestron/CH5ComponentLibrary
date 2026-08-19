@@ -81,6 +81,22 @@ export class Ch5LightSignal {
 	}
 
 	/**
+	 * Publishes a PLAIN number to a Crestron signal (send/event direction), using the
+	 * RAW signal name and a plain `publish`. Used for numeric list-contract sends such
+	 * as the button-list's `ListItemClicked` / `ListItemHeld`. No-op on a
+	 * falsy/unresolved name. Stateless, so it's safe on a fresh instance.
+	 */
+	public sendNumber(signalName: string, value: number): void {
+		if (!signalName) {
+			return;
+		}
+		const signal = Ch5SignalFactory.getInstance().getNumberSignal(signalName);
+		if (signal !== null) {
+			signal.publish(value);
+		}
+	}
+
+	/**
 	 * Publishes a boolean to a Crestron signal in the REPEAT-DIGITAL object form
 	 * (`{ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value }`) via the object-as-boolean
 	 * signal, exactly like `ch5-button` / `ch5-image` / `ch5-dpad` do for their

@@ -1,4 +1,5 @@
 import { Ch5AdvanceButton } from "../../ch5-advance-button/ch5-advance-button";
+import { Ch5Button } from "../../ch5-button/ch5-button";
 import { Ch5Common } from "../../ch5-common/ch5-common";
 import { Ch5AdvanceButtonMode } from "../../ch5-advance-button/ch5-advance-button-mode";
 import { Ch5AdvanceButtonLabel } from "../../ch5-advance-button/ch5-advance-button-label";
@@ -2095,7 +2096,9 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   private createButton(index: number, append: boolean = true) {
     if (index < 0 || index >= this.numberOfItems) { return };
     const buttonListContractObj: ICh5ButtonListContractObj = { index: index + 1, clickHoldTime: this.clickHoldTime, contractName: this.contractName, parentComponent: 'ch5-button-list' };
-    const btn = new Ch5AdvanceButton(buttonListContractObj);
+    // Use the lighter ch5-button unless an advance-only feature is present (see requiresAdvanceButton).
+    const useAdvanceButton = this.requiresAdvanceButton();
+    const btn = useAdvanceButton ? new Ch5AdvanceButton(buttonListContractObj) : new Ch5Button(buttonListContractObj);
     btn.setAttribute("swipeGestureEnabled", "true");
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
@@ -2124,13 +2127,43 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     btnContainer.appendChild(btn);
     append ? this._elContainer.appendChild(btnContainer) : this._elContainer.prepend(btnContainer);
     // button attributes helper
-    this.buttonModeHelper(btn, index);
-    this.buttonLabelHelper(btn, index);
-    this.buttonHelper(btn, index);
-    btn.addContainerClass(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.BUTTON_TYPE.classListPrefix + this.buttonType);
-    btn.addContainerClass(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.BUTTON_SHAPE.classListPrefix + this.buttonShape);
-    btn.addContainerClass(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.BUTTON_ICON_POSITION.classListPrefix + this.buttonIconPosition);
-    btn.addContainerClass(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.BUTTON_CHECKBOX_POSITION.classListPrefix + this.buttonCheckboxPosition);
+    if (useAdvanceButton) {
+      const advanceButton = btn as Ch5AdvanceButton;
+      this.buttonModeHelper(advanceButton, index);
+      this.buttonLabelHelper(advanceButton, index);
+      this.buttonHelper(advanceButton, index);
+      // Container layout classes apply only to the advance button; the light ch5-button is CSS/attribute-driven.
+      advanceButton.addContainerClass(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.BUTTON_TYPE.classListPrefix + this.buttonType);
+      advanceButton.addContainerClass(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.BUTTON_SHAPE.classListPrefix + this.buttonShape);
+      advanceButton.addContainerClass(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.BUTTON_ICON_POSITION.classListPrefix + this.buttonIconPosition);
+      advanceButton.addContainerClass(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.BUTTON_CHECKBOX_POSITION.classListPrefix + this.buttonCheckboxPosition);
+    } else {
+      this.buttonHelper(btn, index);
+    }
+  }
+
+  // Advance-only features (see requiresAdvanceButton) force the full Ch5AdvanceButton; everything else uses the light ch5-button.
+  private requiresAdvanceButton(): boolean {
+    const tag = this.nodeName.toLowerCase();
+    // Modes
+    if (this.getElementsByTagName(tag + "-mode").length > 0) { return true; }
+    if (this.buttonMode > 0) { return true; }
+    if (this.buttonReceiveStateMode.trim() !== "") { return true; }
+    // Templated labels
+    if (this.getElementsByTagName(tag + "-label").length > 0) { return true; }
+    // HTML / innerHTML labels
+    if (this.buttonLabelInnerHtml.trim() !== "") { return true; }
+    if (this.buttonReceiveStateScriptLabelHtml.trim() !== "") { return true; }
+    if (this.contractName !== "" && this.contractItemLabelType === "innerHTML") { return true; }
+    // SG icons
+    if (this.buttonReceiveStateSGIconNumeric.trim() !== "" || this.buttonReceiveStateSGIconString.trim() !== "") { return true; }
+    if (this.contractName !== "" && (this.contractItemIconType === "sgStateNumber" || this.contractItemIconType === "sgStateName")) { return true; }
+    // Individual-button innerHTML labels
+    const individualButtons = this.getElementsByTagName(tag + "-individual-button");
+    for (let i = 0; i < individualButtons.length; i++) {
+      if (individualButtons[i].hasAttribute("labelInnerHTML")) { return true; }
+    }
+    return false;
   }
 
   protected buttonModeHelper(btn: Ch5AdvanceButton, i: number) {
@@ -2222,7 +2255,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     }
   }
 
-  private buttonHelper(btn: Ch5AdvanceButton, index: number) {
+  private buttonHelper(btn: Ch5AdvanceButton | Ch5Button, index: number) {
     btn.setAttribute('stretch', 'both');
     btn.setAttribute('shape', Ch5ButtonListBase.BUTTON_SHAPES[0]);
     // Contract Helper
@@ -2352,7 +2385,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     }
   }
 
-  private contractButtonHelper(btn: Ch5AdvanceButton, index: number) {
+  private contractButtonHelper(btn: Ch5AdvanceButton | Ch5Button, index: number) {
     if (this.useContractForItemEnable === true) {
       btn.setAttribute('receiveStateEnable', this.contractName + `.Button${index + 1}Enabled`);
     } else if (this.hasAttribute('buttonReceiveStateEnable') && this.getAttribute('buttonReceiveStateEnable')?.trim()) {
@@ -2492,7 +2525,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     });
   }
 
-  private indexIdReplaceHelper(btn: Ch5AdvanceButton, attr: string, index: number) {
+  private indexIdReplaceHelper(btn: Ch5AdvanceButton | Ch5Button, attr: string, index: number) {
     if (this.getAttribute(attr)?.trim().includes(`{{${this.indexId}}}`) === false) {
       const attrValue = this.getAttribute(attr)?.trim();
       if (attrValue) {

@@ -2,6 +2,7 @@ import { Ch5LightBaseClass } from "../ch5-light-base/ch5-light-base-class";
 import { ICh5LightPropertySettings } from "../ch5-light-base/ch5-light-properties";
 import { Ch5LightSignal, TCh5LightSignalType } from "../ch5-light-base/ch5-light-signal";
 import { Ch5LightPressable } from "../ch5-light-base/ch5-light-pressable";
+import { ICh5ButtonListContractObj } from "../ch5-button-list/interfaces/t-for-ch5-button-list-contract";
 
 // See ch5-button.md (same folder) for the full design reference: class
 // hierarchy, signal wiring lifecycle, the static-vs-signal `type`/`selected`
@@ -127,6 +128,14 @@ export class Ch5Button extends Ch5LightBaseClass {
 	// drives the click send signal. Created lazily and reused across reconnects.
 	private readonly _onPressedChange = (pressed: boolean) => this.handlePressedChange(pressed);
 	private _pressable: Ch5LightPressable | null = null;
+
+	// --- ch5-button-list contract press wiring -------------------------------
+	// Opt-in: populated only when a button-list constructs this button with a contract
+	// object. When its contractName is set, presses publish the list's contract signals
+	// (Button{n}ItemPress / ListItemClicked / ListItemHeld) instead of sendEventOnClick.
+	private _buttonListContract: ICh5ButtonListContractObj = { index: -1, clickHoldTime: 0, contractName: '', parentComponent: '' };
+	private _buttonListContractIsHeld = false;
+	private _buttonListContractHoldInterval: number | null = null;
 
 	//#endregion
 
@@ -296,11 +305,14 @@ export class Ch5Button extends Ch5LightBaseClass {
 
 	//#region Component Lifecycle
 
-	public constructor() {
+	public constructor(buttonListContractObj?: ICh5ButtonListContractObj) {
 		super();
 		// Register this component's attributes on the SHARED property store from
 		// Ch5LightBaseClass, using the static PROPERTY_SETTINGS (no per-instance alloc).
 		this._ch5Properties.add(Ch5Button.PROPERTY_SETTINGS);
+		if (buttonListContractObj) {
+			this._buttonListContract = buttonListContractObj;
+		}
 	}
 
 	public attributeChangedCallback(attr: string, oldValue: string | null, newValue: string | null): void {
@@ -433,6 +445,8 @@ export class Ch5Button extends Ch5LightBaseClass {
 			window.cancelAnimationFrame(this._pendingFitHandle);
 			this._pendingFitHandle = null;
 		}
+		// Stop any in-flight contract hold timer.
+		this.clearButtonListContractHold();
 		// Let the base release its own opt-in subscription (receiveStateEnable).
 		super.disconnectedCallback();
 		this.logStop();
@@ -936,10 +950,56 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 */
 	private handlePressedChange(pressed: boolean): void {
 		this.log('handlePressedChange(', pressed, ')');
+		// In a contract-driven ch5-button-list, presses publish the list's contract
+		// signals instead of sendEventOnClick (mirrors Ch5AdvanceButton).
+		if (this._buttonListContract.contractName !== '' && this._buttonListContract.parentComponent === 'ch5-button-list') {
+			this.handleButtonListContractPress(pressed);
+			return;
+		}
 		if (pressed) {
 			this.startClickRepeatDigital();
 		} else {
 			this.stopClickRepeatDigital();
+		}
+	}
+
+	/**
+	 * Publishes the ch5-button-list contract press signals for this item, mirroring
+	 * Ch5AdvanceButton's button-list path: Button{n}ItemPress on press/release,
+	 * ListItemClicked on a plain release, and ListItemHeld once the hold threshold
+	 * (clickHoldTime, 0 = immediate) elapses.
+	 */
+	private handleButtonListContractPress(pressed: boolean): void {
+		const { contractName, index, clickHoldTime } = this._buttonListContract;
+		const signals = (this._signals ??= new Ch5LightSignal());
+		if (pressed) {
+			signals.sendBoolean(`${contractName}.Button${index}ItemPress`, true);
+			this.clearButtonListContractHold();
+			if (clickHoldTime === 0) {
+				this._buttonListContractIsHeld = true;
+				signals.sendNumber(`${contractName}.ListItemHeld`, index);
+			} else {
+				this._buttonListContractHoldInterval = window.setInterval(() => {
+					this._buttonListContractIsHeld = true;
+					signals.sendNumber(`${contractName}.ListItemHeld`, index);
+					this.clearButtonListContractHold();
+				}, clickHoldTime);
+			}
+		} else {
+			signals.sendBoolean(`${contractName}.Button${index}ItemPress`, false);
+			if (this._buttonListContractIsHeld === false) {
+				signals.sendNumber(`${contractName}.ListItemClicked`, index);
+			}
+			this.clearButtonListContractHold();
+			this._buttonListContractIsHeld = false;
+		}
+	}
+
+	/** Clears the pending ListItemHeld timer, if any. */
+	private clearButtonListContractHold(): void {
+		if (this._buttonListContractHoldInterval !== null) {
+			window.clearInterval(this._buttonListContractHoldInterval);
+			this._buttonListContractHoldInterval = null;
 		}
 	}
 
