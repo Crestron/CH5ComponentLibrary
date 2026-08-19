@@ -984,18 +984,22 @@ export class Ch5Button extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Publishes a plain boolean to the `sendeventonclick` signal. Reuses the shared
-	 * lazy `Ch5LightSignal` helper; `sendBoolean` is stateless, so it works whether or
-	 * not any receive signals are subscribed.
-	 */
-	private sendClickValue(value: boolean): void {
-		this.log('sendClickValue(', value, ')');
-		const signalName = this.sendEventOnClick;
-		if (!signalName) {
-			return;
-		}
-		(this._signals ??= new Ch5LightSignal()).sendBoolean(signalName, value);
-	}
+     * Publishes the `sendeventonclick` value in the REPEAT-DIGITAL object form
+     * (`{ repeatdigital: value }`), exactly like `ch5-button` (and `ch5-image` /
+     * `ch5-dpad`) — the light button supports repeat-digital, so it must send the
+     * same object shape as its heavy twin for the control system to handle the
+     * auto-repeat identically. Reuses the shared lazy `Ch5LightSignal` helper;
+     * `sendRepeatDigital` is stateless, so it works whether or not any receive
+     * signals are subscribed.
+     */
+    private sendClickValue(value: boolean): void {
+        this.log('sendClickValue(', value, ')');
+        const signalName = this.sendEventOnClick;
+        if (!signalName) {
+            return;
+        }
+        (this._signals ??= new Ch5LightSignal()).sendRepeatDigital(signalName, value);
+    }
 
 	/**
 	 * Attaches the native `focus`/`blur` listeners to the inner button. No-op if

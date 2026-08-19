@@ -435,12 +435,15 @@ leaves the join stuck high. A `_clickPressed` flag guards both directions so a
 stray `pointerleave` with no prior press sends nothing, and a press sends `true`
 only once.
 
-**Publish path.** The shared `Ch5LightSignal` helper gained a stateless
-`sendBoolean(name, value)` that does a **plain** `getBooleanSignal(name).publish(value)`
-— the RAW signal name (no subscription-name translation) and a plain boolean, not
-the `{ [REPEAT_DIGITAL_KEY]: value }` object form used by `ch5-button`. The button
-reuses the same lazy `_signals` helper it uses for receive signals (safe because
-`sendBoolean` tracks no state).
+**Publish path.** The shared `Ch5LightSignal` helper provides a stateless
+`sendRepeatDigital(name, value)` that does `getObjectAsBooleanSignal(name).publish({ [REPEAT_DIGITAL_KEY]: value })`
+— the **repeat-digital object form** (`{ "repeatdigital": true/false }`) used by
+`ch5-button` / `ch5-image` / `ch5-dpad`, so the control system handles the
+auto-repeat identically to the heavy twin. (A separate `sendBoolean(name, value)`
+does a plain `getBooleanSignal(name).publish(value)` and is used for plain digitals
+such as `sendeventonshow`.) The button reuses the same lazy `_signals` helper it
+uses for receive signals (safe because both send methods track no state).
+ 
 
 **Zero-cost when absent (opt-in).** The two pointer handlers (`_onClickPress` /
 `_onClickRelease`) are cached class fields, created ONCE per instance — same
