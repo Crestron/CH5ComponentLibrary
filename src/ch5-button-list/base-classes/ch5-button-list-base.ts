@@ -2099,7 +2099,6 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     // Use the lighter ch5-button unless an advance-only feature is present (see requiresAdvanceButton).
     const useAdvanceButton = this.requiresAdvanceButton();
     const btn = useAdvanceButton ? new Ch5AdvanceButton(buttonListContractObj) : new Ch5Button(buttonListContractObj);
-    btn.setAttribute("swipeGestureEnabled", "true");
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
     if (this.contractName !== "" && this.useContractForItemShow === true) {
@@ -2128,6 +2127,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     append ? this._elContainer.appendChild(btnContainer) : this._elContainer.prepend(btnContainer);
     // button attributes helper
     if (useAdvanceButton) {
+      btn.setAttribute("swipeGestureEnabled", "true");
       const advanceButton = btn as Ch5AdvanceButton;
       this.buttonModeHelper(advanceButton, index);
       this.buttonLabelHelper(advanceButton, index);

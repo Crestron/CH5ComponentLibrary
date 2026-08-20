@@ -830,29 +830,48 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		return normalized === 'true' || normalized === 'yes' || normalized === '1';
 	}
 	/**
-	 * Reads a boolean attribute and coerces an invalid value (e.g. `"kjgkjg"`) to a
-	 * clean boolean, ALSO reflecting the normalized `"true"` / `"false"` back onto the
-	 * attribute so the DOM is corrected — mirroring `ch5-button` / `Ch5Property`,
-	 * whose boolean handling rewrites a non-canonical attribute value. Returns
-	 * `defaultWhenAbsent` when the attribute is not present; a bare attribute (empty
-	 * value) resolves to `true` (its presence means "on").
+	 * Reads a boolean attribute, resolves it to a clean boolean, then reflects the
+	 * normalized `"true"` / `"false"` back onto the attribute so the DOM is corrected —
+	 * mirroring `ch5-advance-button` / `Ch5Property`, whose boolean handling rewrites a
+	 * non-canonical attribute value.
+	 *
+	 * Resolution rules (match the heavy `Ch5Property`): an INVALID value falls back to
+	 * the attribute's `defaultValue`, NOT to a hard `false`.
+	 *  - attribute absent             -> `defaultValue`
+	 *  - present but empty (bare)     -> `true` (its presence means "on")
+	 *  - `"true"` / `"1"`             -> `true`
+	 *  - `"false"` / `"0"`            -> `false`
+	 *  - anything else ("kjgkjg", ...)-> `defaultValue`
+	 *
+	 * So e.g. `truncatetext="kjgkjg"` (default `true`) resolves to `true`, and
+	 * `multilinesupport="kjgkjg"` (default `false`) resolves to `false`.
 	 *
 	 * The reflecting `setAttribute` re-enters `attributeChangedCallback`, but the
 	 * second pass sees an already-canonical `"true"` / `"false"` value and does not
 	 * reflect again, so there is no loop. Off the hot path (attribute changes only).
 	 */
-	protected coerceBooleanAttribute(attributeName: string, defaultWhenAbsent: boolean): boolean {
+	protected coerceBooleanAttribute(attributeName: string, defaultValue: boolean): boolean {
 		if (!this.hasAttribute(attributeName)) {
-			return defaultWhenAbsent;
+			return defaultValue;
 		}
 		const rawValue = this.getAttribute(attributeName);
-		const parsed = Ch5LightBaseClass.toBoolean(rawValue, true);
-		// Only rewrite when the author's value isn't already canonical, so an invalid
-		// or shorthand value ("kjgkjg", "1", "yes", "TRUE") is normalized in the DOM.
-		if (rawValue !== 'true' && rawValue !== 'false' && rawValue !== '') {
-			this.setAttribute(attributeName, parsed ? 'true' : 'false');
+		const normalized = (rawValue ?? '').toLowerCase().trim();
+		let resolved: boolean;
+		if (normalized === '' || normalized === 'true' || normalized === '1') {
+			// Bare attribute (empty) presence means "on"; 'true' / '1' are on.
+			resolved = true;
+		} else if (normalized === 'false' || normalized === '0') {
+			resolved = false;
+		} else {
+			// Invalid value -> fall back to the attribute's DEFAULT (mirrors ch5-advance-button).
+			resolved = defaultValue;
 		}
-		return parsed;
+		// Reflect onto the DOM when the author's value isn't already canonical, so an
+		// invalid or shorthand value ("kjgkjg", "1", "TRUE") is normalized in the DOM.
+		if (rawValue !== 'true' && rawValue !== 'false' && rawValue !== '') {
+			this.setAttribute(attributeName, resolved ? 'true' : 'false');
+		}
+		return resolved;
 	}
 
 	/**
