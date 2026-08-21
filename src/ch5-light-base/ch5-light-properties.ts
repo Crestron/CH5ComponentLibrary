@@ -65,12 +65,15 @@ export class Ch5LightProperties {
 	 * since TypeScript lets a shorter function satisfy a wider callback type.
 	 */
 	public set<T extends boolean | string | number>(name: string, value: T, onChange?: (oldValue: T) => void): void {
+		let nextValue = value as boolean | string | number;
+		if (typeof nextValue === 'string') {
+			nextValue = nextValue.trim();
+		}
 		const currentValue = this._values[name];
-		if (currentValue === value) {
+		if (currentValue === nextValue) {
 			return;
 		}
 
-		let nextValue = value as boolean | string | number;
 		const unsafeValue = value as unknown;
 		// Defensive fallback for runtime nullish inputs from external callers.
 		if ((unsafeValue === null || unsafeValue === undefined) && typeof currentValue === 'string') {
@@ -91,6 +94,6 @@ export class Ch5LightProperties {
 	 * setters on init" pattern) so the caller applies the handlers exactly once.
 	 */
 	public setValue<T extends boolean | string | number>(name: string, value: T): void {
-		this._values[name] = value;
+		this._values[name] = typeof value === 'string' ? value.trim() : value;
 	}
 }

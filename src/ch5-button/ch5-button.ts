@@ -650,9 +650,8 @@ export class Ch5Button extends Ch5LightBaseClass {
 		}
 		// Apply the background image as an inline style on the button (same as
 		// ch5-button); an attribute URL can't be injected via pure CSS, so it's done in JS.
-		// Trim so a whitespace-only value (e.g. `backgroundimageurl=" "`) is treated as empty
-		// instead of producing `url(" ")`, since a non-empty whitespace string is truthy.
-		const backgroundImageUrl = this.backgroundImageUrl.trim();
+		
+		const backgroundImageUrl = this.backgroundImageUrl;
 		if (backgroundImageUrl) {
 			this._elButton.style.backgroundImage = `url("${backgroundImageUrl}")`;
 		} else {
