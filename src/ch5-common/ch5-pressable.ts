@@ -53,7 +53,7 @@ export class Ch5Pressable {
 
 	private _ch5Component: Ch5Common;
 
-	private _options: ICh5PressableOptions | null;
+	private _options: ICh5PressableOptions;
 
 	/**
 	 * Event press: touchstart/mousedown
@@ -93,9 +93,18 @@ export class Ch5Pressable {
 	 * @param {Ch5Common} component
 	 * @memberof Ch5Pressable
 	 */
-	constructor(component: Ch5Common, options?: ICh5PressableOptions) {
+	constructor(component: Ch5Common, options?: Partial<ICh5PressableOptions>) {
 		this._ch5Component = component;
-		this._options = options || null;
+		// Normalize the (possibly partial) options into a COMPLETE object exactly once,
+		// so every read site stays non-optional (no scattered `?.`). Callers may pass just
+		// the fields they care about (e.g. `{ touchMove: true }`); the rest fall back to
+		// these defaults (cssTargetElement defaults to the host component).
+		this._options = {
+			cssTargetElement: options?.cssTargetElement ?? component,
+			cssPressedClass: options?.cssPressedClass ?? '',
+			enableSwipe: options?.enableSwipe ?? false,
+			touchMove: options?.touchMove ?? false,
+		};
 		this.observablePressed = new Subject<boolean>();
 
 		// custom press event
@@ -123,7 +132,7 @@ export class Ch5Pressable {
 		return this._ch5Component;
 	}
 
-	public get options(): ICh5PressableOptions | null {
+	public get options(): ICh5PressableOptions {
 		return this._options;
 	}
 
@@ -132,14 +141,14 @@ export class Ch5Pressable {
 	 */
 	public init() {
 		this._updateParentComponentIsNotSRL();
-		if (this._options?.touchMove && this.parentComponentIsNotSRL) {
+		if (this._options.touchMove && this.parentComponentIsNotSRL) {
 			this._onTouchMove = this._onTouchMove.bind(this);
 		}
 		this._attachEvents();
 	}
 
 	private _updateParentComponentIsNotSRL() {
-		const supportedTagName = this._ch5Component.tagName === 'CH5-BUTTON'
+		const supportedTagName = this._ch5Component.tagName === 'CH5-ADVANCE-BUTTON'
 			|| this._ch5Component.tagName === 'CH5-IMAGE'
 			|| this._ch5Component.tagName === 'CH5-DPAD-BUTTON'
 			|| this._ch5Component.tagName === 'CH5-KEYPAD-BUTTON';
@@ -320,7 +329,7 @@ export class Ch5Pressable {
 		}
 		// const mouseEvent: PointerEvent = inEvent as PointerEvent;
 		if (pointerEvent !== null) {
-			// On IOS pointerout bubbles up from child elements (label, icon, checkbox etc.) in ch5-button.
+			// On IOS pointerout bubbles up from child elements (label, icon, checkbox etc.) in ch5-advance-button.
 			// When the finger moves off a child or a child is removed/repositioned by DOM mutation during press,
 			// pointerout fires on the parent component and _onPointerLeave resets the press state.
 			// Fix:CH5C-29443 check if pointer is still within component bounds before releasing.
@@ -368,7 +377,7 @@ export class Ch5Pressable {
 			// add the visual feedback
 			this._addCssPressClass();
 			// prevent scrolling during press
-			if (this._options?.touchMove && this.parentComponentIsNotSRL) {
+			if (this._options.touchMove && this.parentComponentIsNotSRL) {
 				this._setTouchAction('none');// Check comment bottom
 			}
 			this._pressed = true;
@@ -408,7 +417,7 @@ export class Ch5Pressable {
 				this._removeCssPressClass();
 			}, this.TOUCH_TIMEOUT);
 			// restore default touch action
-			if (this._options?.touchMove && this.parentComponentIsNotSRL) {
+			if (this._options.touchMove && this.parentComponentIsNotSRL) {
 				this._setTouchAction('');// Check comment bottom
 			}
 
@@ -442,24 +451,26 @@ export class Ch5Pressable {
 	 * Add css class when the component is pressed
 	 */
 	private _addCssPressClass() {
-		if (this._options !== null &&
-			this._options.cssTargetElement.classList !== undefined) {
-			this._options.cssPressedClass.split(' ').forEach((ele) => {
-				this._options?.cssTargetElement.classList.add(ele);
-			});
+		const { cssTargetElement, cssPressedClass } = this._options;
+		if (!cssPressedClass || cssTargetElement.classList === undefined) {
+			return;
 		}
+		cssPressedClass.split(' ').forEach((ele) => {
+			cssTargetElement.classList.add(ele);
+		});
 	}
 
 	/**
 	 * Remove pressed css class when the component is released
 	 */
 	private _removeCssPressClass() {
-		if (this._options !== null &&
-			this._options.cssTargetElement.classList !== undefined) {
-			this._options.cssPressedClass.split(' ').forEach((ele) => {
-				this._options?.cssTargetElement.classList.remove(ele);
-			});
+		const { cssTargetElement, cssPressedClass } = this._options;
+		if (!cssPressedClass || cssTargetElement.classList === undefined) {
+			return;
 		}
+		cssPressedClass.split(' ').forEach((ele) => {
+			cssTargetElement.classList.remove(ele);
+		});
 	}
 
 	/**
@@ -477,14 +488,14 @@ export class Ch5Pressable {
 	}
 }
 
-/* Why You Need Both Pointer Move and Touch Move in CH5 Button
+/* Why You Need Both Pointer Move and Touch Move in CH5 Advance Button
 Pointer events are the modern standard, but there are important compatibility and behavior reasons why touchmove is still needed:
 1. Browser Compatibility & Fallback
 Pointer events are relatively newer and not supported on all older browsers/devices
 Touch move events provide fallback support for devices that don't fully support the Pointer Events API
 Legacy systems may still rely on touch events
 2. Touch Action Control
-Looking at ch5-button-base.ts, the button explicitly sets:
+Looking at ch5-advance-button-base.ts, the button explicitly sets:
 this.style.touchAction = 'none';
 this._elContainer.style.touchAction = 'none';
  
