@@ -95,10 +95,6 @@ export class Ch5Pressable {
 	 */
 	constructor(component: Ch5Common, options?: Partial<ICh5PressableOptions>) {
 		this._ch5Component = component;
-		// Normalize the (possibly partial) options into a COMPLETE object exactly once,
-		// so every read site stays non-optional (no scattered `?.`). Callers may pass just
-		// the fields they care about (e.g. `{ touchMove: true }`); the rest fall back to
-		// these defaults (cssTargetElement defaults to the host component).
 		this._options = {
 			cssTargetElement: options?.cssTargetElement ?? component,
 			cssPressedClass: options?.cssPressedClass ?? '',
