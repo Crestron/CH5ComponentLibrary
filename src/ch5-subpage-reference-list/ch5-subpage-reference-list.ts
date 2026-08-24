@@ -336,6 +336,8 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   private _scrollbar: HTMLElement = {} as HTMLElement;
   private _templateElement: HTMLTemplateElement = {} as HTMLTemplateElement;
   private _resizeObserver: ResizeObserver | null = null;
+  private _subpageResizeObserver: ResizeObserver | null = null;
+  private _observedSubpage: HTMLElement | null = null;
   // private members used for mouse up and down
   private isDown = false;
   private startX: number = 0;
@@ -830,6 +832,9 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.unsubscribeFromSignals();
     this._resizeObserver?.disconnect();
     this._resizeObserver = null;
+    this._subpageResizeObserver?.disconnect();
+    this._subpageResizeObserver = null;
+    this._observedSubpage = null;
     this.disconnectCommonMutationObserver();
     unSubscribeInViewPortChange(this);
     this.reInitialize();
@@ -1889,6 +1894,24 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     if (this.centerItems) {
       this.checkCenterItems();
     }
+
+    this.observeFirstSubpage();
+  }
+
+  /**
+   * Components inside the widget template render asynchronously, so on slower devices the
+   * measurements above run before the subpages have their real size. The container itself never
+   * resizes when only its scroll content grows, so watch the first subpage instead and re-measure
+   * once it settles.
+   */
+  private observeFirstSubpage() {
+    const firstSubpage = this._elContainer.firstElementChild as HTMLElement | null;
+    if (firstSubpage === this._observedSubpage) { return; }
+    this._subpageResizeObserver?.disconnect();
+    this._subpageResizeObserver = null;
+    this._observedSubpage = firstSubpage;
+    if (isNil(firstSubpage)) { return; }
+    this._subpageResizeObserver = resizeObserver(firstSubpage, this.debounceInitScrollBar);
   }
 
   private checkInternalHTML() {
