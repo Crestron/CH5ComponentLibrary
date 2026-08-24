@@ -20,12 +20,14 @@ export class Ch5Button extends Ch5LightBaseClass {
 
 	private static readonly OBSERVED_ATTRIBUTES = [
 		'label', 
+		'labelinnerhtml', 
 		'iconclass', 
 		'iconurl', 
 		'backgroundimageurl',
 		'receivestatetype',
 		'receivestateselected',
 		'receivestatelabel',
+		'receivestatescriptlabelhtml',
 		'receivestateiconclass',
 		'receivestateiconurl',
 		'receivestatebackgroundimageurl',
@@ -41,12 +43,15 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 */
 	private static readonly PROPERTY_SETTINGS: ICh5LightPropertySettings[] = [
 		{ name: 'label', default: '', type: 'string' },
+		{ name: 'labelInnerHTML', default: '', type: 'string' },
 		{ name: 'iconClass', default: '', type: 'string' },
 		{ name: 'iconUrl', default: '', type: 'string' },
 		{ name: 'backgroundImageUrl', default: '', type: 'string' },
 		{ name: 'receiveStateType', default: '', type: 'string' },
 		{ name: 'receiveStateSelected', default: '', type: 'string' },
 		{ name: 'receiveStateLabel', default: '', type: 'string' },
+		{ name: 'receiveStateScriptLabelHtml', default: '', type: 'string' },
+		{ name: 'scriptLabelHtml', default: '', type: 'string' },
 		{ name: 'receiveStateIconClass', default: '', type: 'string' },
 		{ name: 'receiveStateIconUrl', default: '', type: 'string' },
 		{ name: 'receiveStateBackgroundImageUrl', default: '', type: 'string' },
@@ -99,12 +104,14 @@ export class Ch5Button extends Ch5LightBaseClass {
 	private readonly _onReceiveStateTypeChange = (oldSignalName: string) => this.handleReceiveStateType(oldSignalName);
 	private readonly _onReceiveStateSelectedChange = (oldSignalName: string) => this.handleReceiveStateSelected(oldSignalName);
 	private readonly _onReceiveStateLabelChange = (oldSignalName: string) => this.handleReceiveStateLabel(oldSignalName);
+	private readonly _onReceiveStateScriptLabelHtmlChange = (oldSignalName: string) => this.handleReceiveStateScriptLabelHtml(oldSignalName);
 	private readonly _onReceiveStateIconClassChange = (oldSignalName: string) => this.handleReceiveStateIconClass(oldSignalName);
 	private readonly _onReceiveStateIconUrlChange = (oldSignalName: string) => this.handleReceiveStateIconUrl(oldSignalName);
 	private readonly _onReceiveStateBackgroundImageUrlChange = (oldSignalName: string) => this.handleReceiveStateBackgroundImageUrl(oldSignalName);
 	private readonly _onSignalTypeValue = (value: string) => this.applySignalType(value);
 	private readonly _onSignalSelectedValue = (value: boolean) => this.applySignalSelected(value);
 	private readonly _onSignalLabelValue = (value: string) => this.applySignalLabel(value);
+	private readonly _onSignalScriptLabelHtmlValue = (value: string) => this.applySignalScriptLabelHtml(value);
 	private readonly _onSignalIconClassValue = (value: string) => this.applySignalIconClass(value);
 	private readonly _onSignalIconUrlValue = (value: string) => this.applySignalIconUrl(value);
 	private readonly _onSignalBackgroundImageUrlValue = (value: string) => this.applySignalBackgroundImageUrl(value);
@@ -146,6 +153,20 @@ export class Ch5Button extends Ch5LightBaseClass {
 	}
 	public get label(): string {
 		return this._ch5Properties.get<string>('label');
+	}
+
+	/**
+	 * Raw HTML rendered inside the label span. Takes priority over the plain-text
+	 * `label` (mirrors ch5-advance-button / ch5-text), EXCEPT while a
+	 * `receiveStateLabel` signal is driving the label - the signal write-throughs
+	 * into the `label` slot and must win. Rendered lazily (only when set), so
+	 * label-free / text-only buttons pay nothing.
+	 */
+	public set labelInnerHTML(value: string) {
+		this._ch5Properties.set<string>('labelInnerHTML', value ?? '', this._onLabelChange);
+	}
+	public get labelInnerHTML(): string {
+		return this._ch5Properties.get<string>('labelInnerHTML');
 	}
 
 	public set iconClass(value: string) {
@@ -227,6 +248,31 @@ export class Ch5Button extends Ch5LightBaseClass {
 	}
 	public get receiveStateLabel(): string {
 		return this._ch5Properties.get<string>('receiveStateLabel');
+	}
+
+	/**
+	 * Name of the string signal driving the button label as HTML. Its value is written
+	 * into the shared `scriptLabelHtml` slot (see {@link applySignalScriptLabelHtml})
+	 * and rendered via `innerHTML`. Ranks HIGHEST of the label sources
+	 * (receivestatescriptlabelhtml > receivestatelabel > labelinnerhtml > label).
+	 */
+	public set receiveStateScriptLabelHtml(value: string) {
+		this._ch5Properties.set<string>('receiveStateScriptLabelHtml', value ?? '', this._onReceiveStateScriptLabelHtmlChange);
+	}
+	public get receiveStateScriptLabelHtml(): string {
+		return this._ch5Properties.get<string>('receiveStateScriptLabelHtml');
+	}
+
+	/**
+	 * Runtime slot holding the HTML delivered by the `receivestatescriptlabelhtml`
+	 * signal (rendered by {@link handleLabel} via `innerHTML`). Not an author attribute -
+	 * written only by the signal; shares the `_onLabelChange` render callback.
+	 */
+	public set scriptLabelHtml(value: string) {
+		this._ch5Properties.set<string>('scriptLabelHtml', value ?? '', this._onLabelChange);
+	}
+	public get scriptLabelHtml(): string {
+		return this._ch5Properties.get<string>('scriptLabelHtml');
 	}
 
 	/**
@@ -325,6 +371,9 @@ export class Ch5Button extends Ch5LightBaseClass {
 			case 'label':
 				this.label = newValue ?? '';
 				break;
+			case 'labelinnerhtml':
+				this.labelInnerHTML = newValue ?? '';
+				break;
 			case 'iconclass':
 				this.iconClass = newValue ?? '';
 				break;
@@ -342,6 +391,9 @@ export class Ch5Button extends Ch5LightBaseClass {
 				break;
 			case 'receivestatelabel':
 				this.receiveStateLabel = newValue ?? '';
+				break;
+			case 'receivestatescriptlabelhtml':
+				this.receiveStateScriptLabelHtml = newValue ?? '';
 				break;
 			case 'receivestateiconclass':
 				this.receiveStateIconClass = newValue ?? '';
@@ -404,6 +456,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 		this.subscribeReceiveStateType();
 		this.subscribeReceiveStateSelected();
 		this.subscribeReceiveStateLabel();
+		this.subscribeReceiveStateScriptLabelHtml();
 		this.subscribeReceiveStateIconClass();
 		this.subscribeReceiveStateIconUrl();
 		this.subscribeReceiveStateBackgroundImageUrl();
@@ -431,6 +484,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 		this.clearSignalSubscription(this.receiveStateType);
 		this.clearSignalSubscription(this.receiveStateSelected);
 		this.clearSignalSubscription(this.receiveStateLabel);
+		this.clearSignalSubscription(this.receiveStateScriptLabelHtml);
 		this.clearSignalSubscription(this.receiveStateIconClass);
 		this.clearSignalSubscription(this.receiveStateIconUrl);
 		this.clearSignalSubscription(this.receiveStateBackgroundImageUrl);
@@ -487,9 +541,28 @@ export class Ch5Button extends Ch5LightBaseClass {
 		if (!this._elButton) {
 			return;
 		}
-		const label = this.label;
-		if (label) {
-			// Create the label element lazily the first time a label is set
+		// Resolve the active label source by priority (highest first):
+		//   1. receivestatescriptlabelhtml (signal, HTML) -> innerHTML
+		//   2. receivestatelabel           (signal, text) -> textContent
+		//   3. labelinnerhtml              (static, HTML)  -> innerHTML
+		//   4. label                       (static, text)  -> textContent
+		// The two signals write-through into their own slots (scriptLabelHtml / label),
+		// so it's the signal NAME's presence that selects the branch - a signal always
+		// outranks the static sources below it. Mirrors ch5-advance-button / ch5-text.
+		// Only ONE branch runs (a few cheap store reads, no allocation).
+		let html = '';
+		let text = '';
+		if (this.receiveStateScriptLabelHtml) {
+			html = this.scriptLabelHtml;
+		} else if (this.receiveStateLabel) {
+			text = this.label;
+		} else if (this.labelInnerHTML) {
+			html = this.labelInnerHTML;
+		} else {
+			text = this.label;
+		}
+		if (html || text) {
+			// Create the label element lazily the first time content is set
 			if (!this._elSpanLabel) {
 				this._elSpanLabel = document.createElement('span');
 				this._elSpanLabel.className = `${Ch5Button.PRIMARY_CSS_CLASS}--label`;
@@ -499,17 +572,37 @@ export class Ch5Button extends Ch5LightBaseClass {
 				// connectedCallback runs the real one.
 				this.updateLabelTextWrapping();
 			}
-			this._elSpanLabel.textContent = label;
-			// Refit the clamp when the text changes (depends on text length + button
+			if (html) {
+				// Render decoded HTML only for the HTML sources; the decode + innerHTML write
+				// cost is paid solely by buttons that actually use them.
+				this._elSpanLabel.innerHTML = this.decodeInnerHTMLForAttribute(html);
+			} else {
+				// textContent (not innerHTML) both renders plain text and clears any HTML left
+				// by a previous HTML pass.
+				this._elSpanLabel.textContent = text;
+			}
+			// Refit the clamp when the content changes (depends on text length + button
 			// height); only when multiline is on, and scheduled to catch same-tick height changes.
 			if (this.multilineSupport) {
 				this.scheduleFitEllipsisForMultiline();
 			}
 		} else if (this._elSpanLabel) {
-			// Remove the label element when the label is cleared
+			// Remove the label element when no source has content
 			this._elSpanLabel.remove();
 			this._elSpanLabel = null;
 		}
+	}
+
+	/**
+	 * Decodes the HTML entities allowed in the `labelInnerHTML` attribute before it
+	 * is written into the label span. Mirrors ch5-advance-button / ch5-text exactly.
+	 */
+	private decodeInnerHTMLForAttribute(innerHTML: string): string {
+		return innerHTML.replace('&amp;', "&")
+			.replace('&lt;', "<")
+			.replace('&gt;', ">")
+			.replace('&quot;', '/"')
+			.replace("&apos;", "/'");
 	}
 
 	/**
@@ -820,6 +913,41 @@ export class Ch5Button extends Ch5LightBaseClass {
 	private applySignalLabel(value: string): void {
 		this.log('applySignalLabel(', value, ')');
 		this.label = value ?? '';
+	}
+
+	/**
+	 * Reacts to a `receivestatescriptlabelhtml` name change (`oldSignalName` = previous
+	 * name, for unsubscription): tears down the old subscription, then (re)subscribes
+	 * when a name is set and connected. Removal is design-time, so the last value stays
+	 * in the `scriptLabelHtml` slot.
+	 */
+	private handleReceiveStateScriptLabelHtml(oldSignalName: string): void {
+		this.log('handleReceiveStateScriptLabelHtml(', oldSignalName, ')');
+		this.clearSignalSubscription(oldSignalName);
+
+		if (this.receiveStateScriptLabelHtml && this.isConnected) {
+			this.subscribeReceiveStateScriptLabelHtml();
+		}
+	}
+
+	/** Subscribes the `receivestatescriptlabelhtml` string signal to {@link applySignalScriptLabelHtml}. */
+	private subscribeReceiveStateScriptLabelHtml(): void {
+		this.log('subscribeReceiveStateScriptLabelHtml()');
+		this.subscribeSignal<string>(
+			this.receiveStateScriptLabelHtml,
+			'string',
+			this._onSignalScriptLabelHtmlValue
+		);
+	}
+
+	/**
+	 * Writes a signal-delivered HTML label into the shared `scriptLabelHtml` slot
+	 * (rendered by {@link handleLabel} via `innerHTML`), so the runtime signal wins over
+	 * every static label source. The store's equality check skips redundant re-renders.
+	 */
+	private applySignalScriptLabelHtml(value: string): void {
+		this.log('applySignalScriptLabelHtml(', value, ')');
+		this.scriptLabelHtml = value ?? '';
 	}
 
 	/**
