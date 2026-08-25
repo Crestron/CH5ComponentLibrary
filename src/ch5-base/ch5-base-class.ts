@@ -1079,17 +1079,16 @@ export abstract class Ch5BaseClass extends HTMLElement implements ICh5CommonAttr
 	/**
 	 * Initialize common mutation observer used in each component for checking component visibility
 	 *
+	 * The ancestor registration was removed for the reason documented on
+	 * Ch5Common.initCommonMutationObserver(). Kept in sync with that method deliberately - no call site
+	 * in this class is currently active, but the two implementations should not diverge.
+	 *
 	 * @param element
 	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	public initCommonMutationObserver(element: Ch5BaseClass) {
 		this._commonMutationObserver = new Ch5MutationObserver(this);
 		this._commonMutationObserver.isConnected = true;
-
-		let target = element as HTMLElement;
-		while (Ch5MutationObserver.checkElementValidity(target)) {
-			this._commonMutationObserver.observe(target);
-			target = target.parentNode as HTMLElement;
-		}
 	}
 
 	public disconnectCommonMutationObserver() {
