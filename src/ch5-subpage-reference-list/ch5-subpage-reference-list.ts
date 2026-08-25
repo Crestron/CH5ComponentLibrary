@@ -337,7 +337,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
   private _templateElement: HTMLTemplateElement = {} as HTMLTemplateElement;
   private _resizeObserver: ResizeObserver | null = null;
   private _subpageResizeObserver: ResizeObserver | null = null;
-  private _observedSubpage: HTMLElement | null = null;
   // private members used for mouse up and down
   private isDown = false;
   private startX: number = 0;
@@ -387,6 +386,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
 
     this.setCustomAttributesInChildComponents(this);
+    this.observeFirstSubpage();
   }, 100);
 
   private setCustomAttributesInChildComponents(parentElement: any) {
@@ -834,7 +834,6 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this._resizeObserver = null;
     this._subpageResizeObserver?.disconnect();
     this._subpageResizeObserver = null;
-    this._observedSubpage = null;
     this.disconnectCommonMutationObserver();
     unSubscribeInViewPortChange(this);
     this.reInitialize();
@@ -1894,22 +1893,18 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     if (this.centerItems) {
       this.checkCenterItems();
     }
-
-    this.observeFirstSubpage();
   }
 
   /**
-   * Components inside the widget template render asynchronously, so on slower devices the
-   * measurements above run before the subpages have their real size. The container itself never
-   * resizes when only its scroll content grows, so watch the first subpage instead and re-measure
-   * once it settles.
+   * Components inside the widget template render asynchronously, so on slower devices initScrollbar
+   * measures before the subpages have their real size. The container itself never resizes when only
+   * its scroll content grows, so watch the first subpage instead and re-measure once it settles.
+   * Call this from every path that rebuilds the subpages.
    */
   private observeFirstSubpage() {
-    const firstSubpage = this._elContainer.firstElementChild as HTMLElement | null;
-    if (firstSubpage === this._observedSubpage) { return; }
     this._subpageResizeObserver?.disconnect();
     this._subpageResizeObserver = null;
-    this._observedSubpage = firstSubpage;
+    const firstSubpage = this._elContainer.firstElementChild as HTMLElement | null;
     if (isNil(firstSubpage)) { return; }
     this._subpageResizeObserver = resizeObserver(firstSubpage, this.debounceInitScrollBar);
   }
@@ -2009,6 +2004,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
     // check if any subpage needs to be added to make the container scrollable
     this.scrollToMiddleRange();
+    this.observeFirstSubpage();
     if (this.centerItems === true) {
       const { scrollWidth, offsetWidth, scrollHeight, offsetHeight } = this._elContainer;
       this.scrollbarDimension = this.orientation === "horizontal" ? Math.floor(offsetWidth / scrollWidth * 100) : Math.floor(offsetHeight / scrollHeight * 100);
