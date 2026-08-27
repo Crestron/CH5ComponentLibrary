@@ -421,7 +421,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	public static readonly OFFSET_THRESHOLD: number = 30;
 
 	private _lastSliderStartTime: number = 0;
-	private static readonly SLIDER_INTERACTION_COOLDOWN: number = 100;
+	private static readonly SLIDER_INTERACTION_COOLDOWN: number = 30;
 
 	private _render = this.debounce(() => {
 		this.createSlider();
@@ -1726,6 +1726,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 * @fires slideend
 	 */
 	private _onSliderStop(value: (number | string)[], handle: number): void {
+		this._lastSliderStartTime = Date.now();
 		this.logger.start('Ch5Slider._onSliderStop()');
 		this.isSliderStarted = false;
 		this.sliderTouch = null;
