@@ -387,6 +387,11 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
 	private _commonMutationObserver: Ch5MutationObserver = {} as Ch5MutationObserver;
 
+	/**
+	 * The subscription key for the languageChangedSignalName signal
+	 */
+	private _subKeySigLanguageChanged: string = '';
+
 	//#endregion
 
 	//#region Setters and Getters
@@ -501,15 +506,10 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		if (null === recSig) {
 			return;
 		}
-		let hasSignalChanged = false;
 
 		this._subKeySigReceiveCustomClass = recSig.subscribe((newVal: string) => {
 			this.logger.log('subs callback for signalReceiveCustomClass: ', this._receiveStateCustomClass, ' Signal has value ', newVal);
-			if ('' !== newVal) {
-				hasSignalChanged = true;
-			}
-			if (newVal !== this.customClass && hasSignalChanged) {
-				// this.setAttribute('customclass', newVal);
+			if (newVal !== this.customClass) {
 				this.customClass = newVal;
 			}
 		});
@@ -541,14 +541,10 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 			return;
 		}
 
-		let hasSignalChanged = false;
 		this._subKeySigReceiveCustomStyle = recSig.subscribe((newVal: string) => {
 			this.logger.log(' subs callback for signalReceiveCustomStyle: ', this._subKeySigReceiveCustomStyle, ' Signal has value ', newVal);
-			if ('' !== newVal) {
-				hasSignalChanged = true;
-			}
-			if (newVal !== this.customStyle && hasSignalChanged) {
-				this.setAttribute('customStyle', newVal);
+			if (newVal !== this.customStyle) {
+				this.customStyle = newVal;
 			}
 		});
 	}
@@ -777,7 +773,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 			return;
 		}
 
-		receiveSignal.subscribe((newValue: string) => {
+		this._subKeySigLanguageChanged = receiveSignal.subscribe((newValue: string) => {
 			if (newValue !== '' && newValue !== this.currentLanguage) {
 				this.currentLanguage = newValue;
 				Object.keys(this.translatableObjects).forEach((propertyToTranslate: string) => {
@@ -1741,6 +1737,13 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 			this._receiveStateCustomStyle = '';
 			this.clearStringSignalSubscription(this._receiveStateCustomClass, this._subKeySigReceiveCustomClass);
 			this._receiveStateCustomClass = '';
+		}
+		if ('' !== this._subKeySigLanguageChanged) {
+			const languageSignal = Ch5SignalFactory.getInstance().getStringSignal(languageChangedSignalName);
+			if (null !== languageSignal) {
+				languageSignal.unsubscribe(this._subKeySigLanguageChanged);
+			}
+			this._subKeySigLanguageChanged = '';
 		}
 	}
 

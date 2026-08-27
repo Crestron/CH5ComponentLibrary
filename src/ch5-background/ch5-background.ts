@@ -1233,8 +1233,10 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	private updateBgColor(color: string, ctx: any, videoData: any = null) {
 		ctx.fillStyle = color;
 		if (videoData && videoData.left && videoData.top) {
+			ctx.clearRect(videoData.left, videoData.top, videoData.width, videoData.height);
 			ctx.fillRect(videoData.left, videoData.top, videoData.width, videoData.height);
 		} else {
+			ctx.clearRect(0, 0, this._elCanvas.width, this._elCanvas.height);
 			ctx.fillRect(0, 0, this._elCanvas.width, this._elCanvas.height);
 		}
 		publishEvent('b', 'canvas.created', true);
@@ -1303,6 +1305,25 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 				}
 				this._isRefilled = true;
 			});
+		}
+	}
+
+	/**
+	 * Removes any stored video crop information for the given video id and refills
+	 * the affected region. Called when a ch5-video is disconnected (for example when
+	 * navigating away from a non-cached page) so a stale "started" crop entry does not
+	 * remain in _videoDimensions and cause the video hole to be re-cut on the next
+	 * canvas redraw (e.g. when the on-screen keyboard resizes the page).
+	 * @param videoId the crId of the ch5-video whose crop should be removed
+	 */
+	public removeVideoCrop(videoId: string) {
+		const index = this._videoDimensions.findIndex((item: ICh5VideoBackground) => item.id === videoId);
+		if (index >= 0) {
+			const dimensions = this._videoDimensions[index];
+			this._videoDimensions.splice(index, 1);
+			this.refillBackgroundforOneVideo(dimensions);
+		} else {
+			this.refillBackground();
 		}
 	}
 

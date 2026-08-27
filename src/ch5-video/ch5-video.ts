@@ -829,7 +829,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
   public constructor() {
     super();
-    this.ignoreAttributes = ['show', 'receiveStateShow', 'receivestateshowpulse', 'receivestatehidepulse', 'sendeventonshow'];
+    this.ignoreAttributes = ['show', 'receiveStateShow', 'receivestateshowpulse', 'receivestatehidepulse', 'sendeventonshow', 'appendclasswheninviewport'];
     this.logger.start('constructor()', Ch5Video.ELEMENT_NAME);
     if (!this._wasInstatiated) {
       this.createInternalHtml();
@@ -898,15 +898,17 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     this.unsubscribeFromSignals();
     this.clearMultiSignal();
     this.publishVideo(CH5VideoUtils.VIDEO_ACTION.STOP);
-    const parentCh5Background: Ch5Background[] = [];
     if (this.isVideoPublished === true) {
+      // Remove this video's crop entry from every ch5-background so the stale
+      // "started" entry does not remain in _videoDimensions. Otherwise a later
+      // canvas redraw (e.g. the on-screen keyboard resizing the page) would
+      // re-cut the video hole, leaving a black rectangle on the visible page.
       const bgElemList = document.querySelectorAll('ch5-background');
       Array.from(bgElemList).forEach((children) => {
         if (children.nodeName.toLowerCase() === 'ch5-background') {
-          parentCh5Background.push(children as Ch5Background);
+          (children as Ch5Background).removeVideoCrop(this.getCrId());
         }
-      })
-      Array.from(parentCh5Background).forEach(bg => bg.refillBackground());
+      });
     }
     this.selectedVideo = 0;
     this.maxVideoCount = 1;

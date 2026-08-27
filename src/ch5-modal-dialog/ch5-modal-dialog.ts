@@ -498,6 +498,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 	public constructor() {
 		super();
+		this.ignoreAttributes = ["appendclasswheninviewport"];
 		this.info('Ch5ModalDialog.constructor()');
 		this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
 

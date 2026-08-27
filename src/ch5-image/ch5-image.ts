@@ -37,7 +37,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		receivestatemode: { direction: "state", numericJoin: 1, contractName: true },
 
 		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventonerror: { direction: "event", stringJoin: 1, contractName: true },
 
 		receivestateallowvaluesonmove: { direction: "state", booleanJoin: 1, contractName: true },
@@ -545,24 +544,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		return this._sigNameSendOnError;
 	}
 
-	public set sendEventOnTouch(value: string) {
-		this.info('set sendEventOnTouch(\'' + value + '\')');
-
-		// prevent infinite loop
-		if ('' === value) {
-			return;
-		}
-
-		if (this._sigNameSendOnTouch !== value) {
-			this._sigNameSendOnTouch = value;
-			this.setAttribute('sendeventontouch', value);
-		}
-	}
-
-	public get sendEventOnTouch(): string {
-		return this._sigNameSendOnTouch;
-	}
-
 	/**
 	 * @param {string} userName
 	 */
@@ -681,7 +662,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 			// send signals
 			'sendeventonclick',
 			'sendeventonerror',
-			'sendeventontouch',
 			'sendeventxposition',
 			'sendeventyposition'
 		];
@@ -787,7 +767,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	/**
 	 * COMPONENT SEND SIGNALS
 	 *
-	 * - sendEventOnTouch
 	 * - sendEventOnClick
 	 * - sendEventOnError
 	 */
@@ -804,19 +783,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	 * HTML attribute name: sendEventOnError or sendeventonerror
 	 */
 	private _sigNameSendOnError: string = '';
-
-
-	/**
-	 * The name of the boolean signal that will be sent to native on touch.
-	 * boolean true while finger is on the glass, digital false when finger is released or “roll out”.
-	 * The signal will be sent with value true and reasserted true every 500ms while the finger is on the
-	 * component. The reassertion is needed to avoid unending ramp should there be a communications error, a failure of
-	 * the image itself or any intermediate proxy of the signal.
-	 * This signal should not be generated as part of a gesture swipe.
-	 *
-	 * HTML attribute name: sendEventOnTouch or sendeventontouch
-	 */
-	private _sigNameSendOnTouch: string = '';
 
 	/**
 	 * EVENTS
@@ -1088,13 +1054,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 					this.sendEventOnClick = '';
 				}
 				break;
-			case 'sendeventontouch':
-				if (this.hasAttribute('sendeventontouch')) {
-					this.sendEventOnTouch = newValue;
-				} else {
-					this.sendEventOnTouch = '';
-				}
-				break;
 			case 'sendeventonerror':
 				if (this.hasAttribute('sendeventonerror')) {
 					this.sendEventOnError = newValue;
@@ -1283,23 +1242,23 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 	private sendValueForRepeatDigitalWorking(value: boolean): void {
 		this.info(`Ch5Button.sendValueForRepeatDigital(${value})`);
-		if (!this._sigNameSendOnTouch && !this._sigNameSendOnClick) { return; }
+		if (!this._sigNameSendOnClick) { return; }
 
-		const touchSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
-			.getObjectAsBooleanSignal(this._sigNameSendOnTouch);
+		// const touchSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
+		// 	.getObjectAsBooleanSignal(this._sigNameSendOnTouch);
 
 		const clickSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
 			.getObjectAsBooleanSignal(this._sigNameSendOnClick);
 
-		if (clickSignal && touchSignal && clickSignal.name === touchSignal.name) {
-			// send signal only once if it has the same value
-			clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
-			return;
-		}
+		// if (clickSignal && touchSignal && clickSignal.name === touchSignal.name) {
+		// 	// send signal only once if it has the same value
+		// 	clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
+		// 	return;
+		// }
 
-		if (touchSignal && touchSignal.name) {
-			touchSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
-		}
+		// if (touchSignal && touchSignal.name) {
+		// 	touchSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
+		// }
 
 		if (clickSignal && clickSignal.name) {
 			clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
@@ -1560,7 +1519,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 			this.handleAllowPositionDataToBeSent(inEvent);
 		}
 		// The method below is not being utilized, so it needs to be removed from the feature releases.
-		this._stopSendSignalOnTouch();
+		// this._stopSendSignalOnTouch();
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -1569,14 +1528,14 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 			this.handleAllowPositionDataToBeSent(inEvent);
 		}
 		// The method below is not being utilized, so it needs to be removed from the feature releases.
-		this._stopSendSignalOnTouch();
+		// this._stopSendSignalOnTouch();
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	protected _pointerCancel(inEvent: PointerEvent): void {
 		this.isDragging = false;
 		// The method below is not being utilized, so it needs to be removed from the feature releases.
-		this._stopSendSignalOnTouch();
+		// this._stopSendSignalOnTouch();
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -1600,60 +1559,60 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	/**
 	 * sendEventOnTouch Handler
 	 */
-	private _onLongTouch() {
-		if (!this._longTouch) {
-			this._longTouch = true;
-		}
+	// private _onLongTouch() {
+	// 	if (!this._longTouch) {
+	// 		this._longTouch = true;
+	// 	}
 
-		this._sendValueForTouchSignal(true);
+	// 	this._sendValueForTouchSignal(true);
 
-		// reassert sendEventOnTouch while finger is still on the glass
-		if (this._intervalIdForOnTouch) {
-			window.clearInterval(this._intervalIdForOnTouch);
-		}
+	// 	// reassert sendEventOnTouch while finger is still on the glass
+	// 	if (this._intervalIdForOnTouch) {
+	// 		window.clearInterval(this._intervalIdForOnTouch);
+	// 	}
 
-		this._intervalIdForOnTouch = window.setInterval(
-			() => this._sendValueForTouchSignal(true),
-			this._intervalTimeoutForOnTouch
-		);
-	}
+	// 	this._intervalIdForOnTouch = window.setInterval(
+	// 		() => this._sendValueForTouchSignal(true),
+	// 		this._intervalTimeoutForOnTouch
+	// 	);
+	// }
 
 	/**
 	 * Stop send/reassert sendEventOnTouch and send false when finger is released or “roll out”.
 	 */
-	private _stopSendSignalOnTouch() {
-		if (this._longTouch) {
-			this._sendValueForTouchSignal(false);
-			this._longTouch = false;
-		}
+	// private _stopSendSignalOnTouch() {
+	// 	if (this._longTouch) {
+	// 		this._sendValueForTouchSignal(false);
+	// 		this._longTouch = false;
+	// 	}
 
-		if (null !== this._timerIdForTouch) {
-			window.clearTimeout(this._timerIdForTouch);
-			this._timerIdForTouch = null;
-		}
+	// 	if (null !== this._timerIdForTouch) {
+	// 		window.clearTimeout(this._timerIdForTouch);
+	// 		this._timerIdForTouch = null;
+	// 	}
 
-		if (null !== this._intervalIdForOnTouch) {
-			window.clearInterval(this._intervalIdForOnTouch);
-			this._intervalIdForOnTouch = null;
-		}
-	}
+	// 	if (null !== this._intervalIdForOnTouch) {
+	// 		window.clearInterval(this._intervalIdForOnTouch);
+	// 		this._intervalIdForOnTouch = null;
+	// 	}
+	// }
 
 	/**
 	 * Send boolean signal for onTouch
 	 *
 	 * @param value
 	 */
-	private _sendValueForTouchSignal(value: boolean): void {
-		if (this._sigNameSendOnTouch !== '' && !isNil(this._sigNameSendOnTouch)) {
+	// private _sendValueForTouchSignal(value: boolean): void {
+	// 	if (this._sigNameSendOnTouch !== '' && !isNil(this._sigNameSendOnTouch)) {
 
-			const touchSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
-				.getObjectAsBooleanSignal(this._sigNameSendOnTouch);
+	// 		const touchSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
+	// 			.getObjectAsBooleanSignal(this._sigNameSendOnTouch);
 
-			if (touchSignal !== null) {
-				touchSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
-			}
-		}
-	}
+	// 		if (touchSignal !== null) {
+	// 			touchSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
+	// 		}
+	// 	}
+	// }
 
 	/**
 	 * Send boolean values for signal on click

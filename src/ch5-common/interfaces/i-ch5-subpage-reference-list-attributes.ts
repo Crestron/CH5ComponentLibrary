@@ -5,7 +5,6 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5CommonAttributesForAppendClassWhenInViewPort } from "./common/i-ch5-common-attributes-appendclasswheninviewport";
 import { ICh5CommonAttributesForCustomClass } from "./common/i-ch5-common-attributes-customclass";
 import { ICh5CommonAttributesForCustomStyle } from "./common/i-ch5-common-attributes-customstyle";
 import { ICh5CommonAttributesForDir } from "./common/i-ch5-common-attributes-dir";
@@ -22,7 +21,6 @@ import { ICh5CommonAttributesForReceiveStateCustomStyle } from "./common/i-ch5-c
  */
 export interface ICh5SubpageReferenceListCommonAttributes extends ICh5CommonAttributesForDir,
 	ICh5CommonAttributesForShow,
-	ICh5CommonAttributesForAppendClassWhenInViewPort,
 	ICh5CommonAttributesForReceiveStateEnable,
 	ICh5CommonAttributesForReceiveStateShow,
 	ICh5CommonAttributesForNoShowType,
