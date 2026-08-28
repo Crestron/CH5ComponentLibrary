@@ -1895,12 +1895,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
   }
 
-  /**
-   * Components inside the widget template render asynchronously, so on slower devices initScrollbar
-   * measures before the subpages have their real size. The container itself never resizes when only
-   * its scroll content grows, so watch the first subpage instead and re-measure once it settles.
-   * Call this from every path that rebuilds the subpages.
-   */
+  // Observing the first subpage to detect changes in its size and re-initialize the scrollbar accordingly. This is useful for dynamic content where the size of the subpage may change after initial rendering.
   private observeFirstSubpage() {
     this._subpageResizeObserver?.disconnect();
     this._subpageResizeObserver = null;
