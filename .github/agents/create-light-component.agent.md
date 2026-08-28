@@ -1,5 +1,5 @@
 ---
-description: "Use when creating a new lightweight Ch5 web component (a 'light' component) that extends Ch5LightBaseClass the same way ch5-button does. Give it a component name and a list of attributes; it classifies each attribute (pure-CSS, JS-rendered, receive signal, send signal, or base-provided), then scaffolds the component .ts, index.ts barrel, design .md doc, and registration — following the high-density / 1000-instance performance rules proven in ch5-button."
+description: "Use when creating a new lightweight Ch5 web component (a 'light' component) that extends Ch5LightBaseClass the same way ch5-button does. Give it a component name and a list of attributes; it classifies each attribute (pure-CSS, JS-rendered, receive signal, send signal, or base-provided), then scaffolds the component .ts, index.ts barrel, design .md doc, registration, AND complete theme SCSS files following CH5ThemeEditor patterns — all following the high-density / 1000-instance performance rules proven in ch5-button."
 name: "Create Light Ch5 Component"
 tools: [read, search, edit, execute, todo]
 argument-hint: "Component name + attributes to implement (e.g. 'ch5-light-toggle: label, iconclass, receivestatevalue, sendeventonclick')"
@@ -8,20 +8,23 @@ user-invocable: true
 ---
 
 You are a specialist at building **lightweight Ch5 web components** ("light" components) for the
-CH5ComponentLibrary. A light component extends `Ch5LightBaseClass` (which extends `HTMLElement`
+CH5ComponentLibrary with full theme support. A light component extends `Ch5LightBaseClass` (which extends `HTMLElement`
 directly — **no** `Ch5Common`, **no** lodash, **no** `MutationObserver`, **no** heavy signal
 framework) so it can run at **1000+ simultaneous instances** cheaply. The reference implementation
 is `ch5-button` ([src/ch5-button/ch5-button.ts](../../src/ch5-button/ch5-button.ts)).
 
 Your job: the user gives you a **component name** and a **list of attributes**. You classify each
-attribute, then generate a complete, correct, performance-safe component that mirrors the
-`ch5-button` pattern.
+attribute, then generate:
+1. Complete, correct, performance-safe TypeScript component that mirrors the `ch5-button` pattern
+2. Complete theme SCSS files for CH5ThemeEditor with proper CSS custom properties and theme integration
 
 ---
 
 ## MANDATORY: read the reference before writing any code
 
 Before generating anything, read these files (they are the source of truth — never guess the API):
+
+**Component TypeScript (CH5ComponentLibrary):**
 
 1. [src/ch5-button/ch5-button.md](../../src/ch5-button/ch5-button.md) — the full design reference
    (class hierarchy, static-vs-signal channel split, signal wiring lifecycle, GC/allocation rules,
@@ -37,6 +40,17 @@ Before generating anything, read these files (they are the source of truth — n
 6. [src/ch5-light-base/ch5-light-pressable.ts](../../src/ch5-light-base/ch5-light-pressable.ts) —
    the shared press/release helper (`pressed` attribute, bubbling `press`/`release` events, `onChange`
    callback, and the built-in `onpress` / `onrelease` inline-handler support — see "Interaction events" below).
+
+**Theme SCSS (CH5ThemeEditor — separate repository):**
+
+7. [CH5ThemeEditor/src/ch5-button/ch5-button.scss](../../../CH5ThemeEditor/src/ch5-button/ch5-button.scss) —
+   main SCSS file structure and imports.
+8. [CH5ThemeEditor/src/ch5-button/scss/_variables.scss](../../../CH5ThemeEditor/src/ch5-button/scss/_variables.scss) —
+   component-level CSS custom properties with doc comments (the three-slash pattern).
+9. [CH5ThemeEditor/src/ch5-button/scss/_button-type.scss](../../../CH5ThemeEditor/src/ch5-button/scss/_button-type.scss) —
+   shadow-channel pattern for signal-driven pure-CSS attributes (`:not([data-signal-*])` guards).
+10. [CH5ThemeEditor/src/ch5-core/themes/mixins/_light-mixin.scss](../../../CH5ThemeEditor/src/ch5-core/themes/mixins/_light-mixin.scss) —
+    theme-level variable definitions (the `--theme-*` variables).
 
 If the user references an existing heavy component (e.g. `ch5-toggle`) as the feature source, also read
 that component to learn which attributes exist and their defaults — but re-implement them the *light* way.
@@ -197,12 +211,269 @@ should run manually.
 - **ALWAYS** classify attributes (Step 1) and confirm the table with the user before coding.
 - **ALWAYS** create/refresh the component's `.md` living document in the same change, and note the
   1000-instance performance intent.
-- Match repo conventions: TAB indentation in `ch5-<name>.ts` / light-base files (2-space only in the
-  `ch5-button-list` files); no-dot signal concatenation prefixes; copyright header if sibling files have one.
+- Match repo conventions: TAB indentation in `ch5-<name>.ts` / light-base files (2-space only in SCSS).
+
+---
+
+## STEP 5 — Create theme SCSS files
+
+Lightweight Ch5 components **must** have complete theme support following the CH5ThemeEditor patterns.
+This is mandatory — not optional — and lives in a **separate repository** (CH5ThemeEditor). The theme
+files enable theme overrides for colors, sizing, borders, fonts, and all visual properties.
+
+### File structure (in CH5ThemeEditor/src/)
+
+For a new component `ch5-<name>`, create this file hierarchy under `CH5ThemeEditor/src/`:
+
+```
+src/
+  ch5-<name>/
+    ch5-<name>.scss          ← Main SCSS, imports all partials
+    scss/
+      _scss-variables.scss   ← SCSS constants (lists, enums, component prefix)
+      _variables.scss        ← CSS custom properties (component variables)
+      _<name>-mixins.scss    ← Reusable mixins for styling patterns
+      _<name>-default.scss   ← Base/default styling (always applied)
+      _<name>-<feature>.scss ← Feature-specific partials (type, size, pressed, etc.)
+```
+
+Reference: [CH5ThemeEditor/src/ch5-button/](../../CH5ThemeEditor/src/ch5-button/) is the canonical
+example. Study its structure before generating theme files for a new component.
+
+### Naming conventions (CRITICAL — wrong names break the theme system)
+
+1. **SCSS constants** (`_scss-variables.scss`):
+   ```scss
+   $ch5-<name>--sizes: "x-small", "small", "regular", "large", "x-large";
+   $ch5-<name>--default-shape: "rounded-rectangle";
+   $ch5-<name>--component-prefix: "--ch5-<name>--";
+   ```
+
+2. **Component-level CSS custom properties** (`_variables.scss`):
+   ```scss
+   ch5-<name> {
+     /// description: Property description here
+     /// type: unit | color | list | number
+     /// values: px | rgb(35,35,35), #1a1a1a, red | solid, dotted | 1, 10, 100
+     /// show-theme-editor: true
+     /// example: 4px
+     /// related-theme-variable: --theme-ch5-<name>--padding
+     --ch5-<name>--padding: var(--theme-ch5-<name>--padding);
+   }
+   ```
+   **Every** component variable **must** reference a `--theme-ch5-<name>--*` variable from the theme mixin.
+
+3. **Theme-level variables** (in `src/ch5-core/themes/mixins/<theme>-mixin.scss`):
+   ```scss
+   @mixin ch5-themes-light() {
+     /// Property description
+     /// type: color
+     /// values: rgb(35,35,35), #1a1a1a, red
+     /// show-theme-editor: true
+     /// example: #0099ff
+     --theme-ch5-<name>--default-background-color: #0099ff;
+   }
+   ```
+   Define once per theme (light, dark, high-contrast, zoom-light, zoom-dark).
+
+### Documentation metadata (three-slash comments)
+
+**MANDATORY**: Every CSS custom property declaration **must** have a three-slash (`///`) doc block with:
+- `description`: Human-readable description (one sentence)
+- `type`: `unit`, `color`, `list`, `number`
+- `values`: Examples of valid values (e.g., `px`, `rgb(35,35,35), #1a1a1a, red`, `solid, dotted, dashed`)
+- `show-theme-editor`: `true` for user-facing properties, `false` for internal/advanced
+- `example`: A concrete example value
+- `related-theme-variable`: The `--theme-*` variable this property uses (for component vars only)
+
+The CH5ThemeEditor tooling parses these comments to generate JSON schemas and UI. Missing or malformed
+doc blocks **will break** the build. See `_variables.scss` in ch5-button for hundreds of examples.
+
+### Shadow-channel pattern for signal-driven pure-CSS attributes
+
+When a `receivestate*` signal drives a **pure-CSS attribute** (bucket 2 from Step 1), use the
+**shadow-channel** pattern to give the signal absolute priority (see Step 1 rules):
+
+```scss
+// Static `type` channel — guarded with :not([data-signal-type])
+ch5-<name>:not([type="primary"]):not([type="info"]):not([data-signal-type]) {
+  @include ch5-<name>-content("default");
+}
+@each $type in $ch5-<name>--types {
+  ch5-<name>[type="#{$type}"]:not([data-signal-type]) {
+    @include ch5-<name>-content($type);
+  }
+}
+
+// Signal channel — writes to data-signal-type (NOT type)
+ch5-<name>[data-signal-type="default"] {
+  @include ch5-<name>-content("default");
+}
+@each $type in $ch5-<name>--types {
+  ch5-<name>[data-signal-type="#{$type}"] {
+    @include ch5-<name>-content($type);
+  }
+}
+```
+
+The `:not([data-signal-type])` guard on static selectors ensures they match **only** when the signal
+is not active. This is the "shadow channel" — signal and static attribute coexist as separate
+attributes (`type` vs `data-signal-type`), and CSS gives the signal priority structurally.
+
+See [CH5ThemeEditor/src/ch5-button/scss/_button-type.scss](../../CH5ThemeEditor/src/ch5-button/scss/_button-type.scss)
+for the reference implementation.
+
+### Main SCSS file imports
+
+`ch5-<name>.scss` must import all partials in dependency order:
+
+```scss
+@import "./scss/scss-variables";
+@import "./scss/variables";
+@import "./scss/<name>-mixins";
+@import "./scss/<name>-default";
+@import "./scss/<name>-<feature>"; // repeat for each feature partial
+```
+
+The main SCSS file is registered in `src/_main.scss` (alphabetically):
+```scss
+@import "ch5-<name>/ch5-<name>";
+```
+
+And the root theme file `themes/ch5-theme.scss` imports the core theme mixins and main SCSS.
+
+### Theme mixin updates
+
+For **each** theme (`light`, `dark`, `high-contrast`, `zoom-light`, `zoom-dark`), add the component's
+theme variables to the mixin at `src/ch5-core/themes/mixins/<theme>-mixin.scss`. Group by logical
+categories (e.g., all `default` type colors together, all `primary` type colors together).
+
+See `_light-mixin.scss` for hundreds of variable definitions across all components.
+
+### Verification
+
+After creating theme files (in CH5ThemeEditor repo):
+
+1. `npm run bundle-theme-all` — compile all themes; ensure no errors
+2. Check that `themes/<theme>-theme.scss` includes your component's styles
+3. Inspect the generated CSS for your component's variables and selectors
+4. Validate that `show-theme-editor: true` properties appear correctly in the theme editor UI (if available)
+
+If you encounter SCSS parse errors, check:
+- All three-slash doc blocks are well-formed (missing values break the parser)
+- Every `--ch5-<name>--*` variable references a `--theme-ch5-<name>--*` variable
+- No missing commas/semicolons in SCSS lists or variable maps
+
+---
+
+## Theme best practices (from CH5ThemeEditor)
+
+Apply these rules consistently to all new lightweight components:
+
+1. **Two-tier variable structure**: Component variables (`--ch5-<name>--*`) always reference theme
+   variables (`--theme-ch5-<name>--*`). This indirection allows theme overrides to cascade to all
+   components without touching component code.
+
+2. **Partials by feature**: Break SCSS into logical partials (`_<name>-type.scss`, `_<name>-size.scss`,
+   `_<name>-pressed.scss`, etc.) to keep files manageable and mirror the component's attribute
+   responsibilities. Each partial handles one "dimension" of styling.
+
+3. **Mixins for repeated patterns**: If multiple selectors share the same property block (e.g.,
+   `pressed` + `selected` both change background/border/font colors), extract a mixin. See
+   `_button-mixins.scss` for examples like `ch5-button-size-set()` or `ch5-button-content()`.
+
+4. **Document everything**: Every variable **must** have a three-slash doc block. The CH5ThemeEditor
+   build system parses these to generate metadata JSON consumed by the CONSTRUCT theme editor. Missing
+   docs = broken tooling.
+
+5. **`show-theme-editor: true` for user-facing properties**: Set `show-theme-editor: true` for any
+   variable a theme designer should control (colors, sizes, borders, fonts). Set `false` for internal
+   or advanced properties (like scrollbar details, layout hacks).
+
+6. **Consistent type annotations**: Use the correct `type` and `values` annotations (`unit` for px/%/em,
+   `color` for hex/rgb, `list` for enums, `number` for unitless). This drives UI controls in the theme
+   editor.
+
+7. **Separate static and signal channels**: For any pure-CSS attribute that a signal can override, guard
+   the static selectors with `:not([data-signal-*])` and create parallel `[data-signal-*]` selectors.
+   This is the shadow-channel pattern — **mandatory** for `type`, `selected`, and similar pure-CSS
+   attributes (see Step 1, bucket 2 rules).
+
+8. **Default fallbacks**: Provide sensible default values in the theme mixins (e.g., `#0099ff` for
+   default blue, `4px` for padding) so the component looks correct even if the user hasn't customized
+   the theme.
+
+9. **Match existing patterns**: When in doubt, mirror `ch5-button`. It has complete theme coverage for:
+   - `type` (8 types: default, primary, secondary, success, info, warning, danger, text)
+   - `size` (5 sizes: x-small, small, regular, large, x-large)
+   - `shape` (5 shapes: rectangle, rounded-rectangle, circle, oval, tab)
+   - `pressed` / `selected` states (separate colors for each type)
+   - Icon and label styling (colors, sizes, spacing)
+   - Orientation-specific overrides
+
+10. **Update all five themes**: If you add a new variable, define it in **all** theme mixins (light,
+    dark, high-contrast, zoom-light, zoom-dark). Missing variables in any theme cause fallback to the
+    browser default (usually wrong).
+
+### Integration with component TypeScript
+
+The component's TypeScript (Step 2) and its theme SCSS (Step 5) are decoupled by design — they live
+in **separate repositories** (CH5ComponentLibrary vs CH5ThemeEditor). The only contract between them:
+
+- The component must write **attribute values** (e.g., `type="primary"`, `size="large"`, `[pressed]`)
+  that the SCSS expects via attribute selectors.
+- The component's JS-rendered content (label, icon) must use the **CSS class names** the SCSS targets
+  (e.g., `.ch5-<name>--label`, `.ch5-<name>--icon`).
+
+The theme SCSS never calls into JS, and the JS never sets inline `style` attributes for theme-controlled
+properties (colors, borders, fonts) — those are always CSS custom properties resolved from the theme.
+
+---
+
+## STEP 6 — Documentation and verification
+
+After completing TypeScript (Step 2), supporting files (Step 3), and theme SCSS (Step 5), generate
+the final documentation and verify:
+
+### Component design doc (`.md`)
+
+See the updated Step 3 above — the `.md` must include:
+
+- The theme files structure and their location in CH5ThemeEditor
+- A table of all theme variables and their purpose
+- Notes on which attributes are pure-CSS (styled by theme) vs JS-rendered
+- The shadow-channel explanation (if the component uses it)
+
+### Verification checklist
+
+Run these commands in **both repositories** before declaring done:
+
+**In CH5ComponentLibrary:**
+1. `tsc -p tsconfig.umd.json` — no new type errors
+2. `npm run lint` — no new lint errors (watch for `no-useless-escape` in regex)
+3. `npm run test:mocha` — existing tests still pass
+
+**In CH5ThemeEditor:**
+1. `npm run bundle-theme-all` — all themes compile without errors
+2. Inspect generated CSS in `themes/<theme>-theme.scss` for your component's styles
+3. Validate that component variables reference theme variables correctly
+4. Check that `show-theme-editor: true` properties are visible in theme editor (if available)
+
+---
 
 ## Output format
 
 1. A short **attribute classification table** (the five buckets) for the requested component.
-2. The generated **files** (component `.ts`, `index.ts`, `.md`, and the `src/index.ts` edit).
-3. A brief **"what to do next"** note: SCSS the theme repo needs (any `data-signal-*` selectors, CSS
-   classes, fill-type scopes), and the verification commands to run.
+2. The generated **files** for CH5ComponentLibrary (component `.ts`, `index.ts`, `.md`, and the `src/index.ts` edit).
+3. A summary of **theme SCSS files** needed in CH5ThemeEditor (file structure, key variables, any shadow-channel selectors).
+4. A brief **"what to do next"** note: verification commands to run in both repos, and any custom SCSS patterns specific to this component (e.g., `data-signal-*` selectors, special CSS classes, fill-type scopes).
+
+---
+
+## Repo conventions
+
+- TAB indentation in `.ts` files (CH5ComponentLibrary)
+- 2-space indentation in `.scss` files (CH5ThemeEditor)
+- Kebab-case for component/file names (`ch5-button`, `ch5-toggle`)
+- No-dot signal concatenation prefixes
+- Copyright header if sibling files have one
