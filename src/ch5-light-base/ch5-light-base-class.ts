@@ -1,4 +1,4 @@
-import { Ch5Uid } from "../ch5-core";
+import { Ch5Uid, Ch5Signal } from "../ch5-core";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
 import { Ch5LightProperties, ICh5LightPropertySettings } from "./ch5-light-properties";
 import { Ch5LightSignal } from "./ch5-light-signal";
@@ -142,6 +142,13 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 * `[data-signal-enable="false"]` as disabled.
 	 */
 	public static readonly SIGNAL_ATTRIBUTE_ENABLE = 'data-signal-enable';
+
+	/** Shared empty settings list returned by the default {@link getContractPropertySettings} (no per-instance allocation). */
+	private static readonly EMPTY_PROPERTY_SETTINGS: readonly ICh5LightPropertySettings[] = [];
+
+	/** Matches `{{indexId}}`-style placeholders, stripped before the integer-signal test in {@link prependContractName}. */
+	private static readonly CONTRACT_MOUSTACHE_RE = /({{[\w-]+}})/g;
+
 	/**
 	 * Settings passed to every `Ch5LightProperties` instance created by this base
 	 * class. Hoisted to a STATIC field (computed once per class, not once per
@@ -159,9 +166,9 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 			type: 'enum',
 			enumeratedValues: [...Ch5LightBaseClass.NO_SHOW_TYPES]
 		},
-		{ name: 'receiveStateEnable', default: '', type: 'string' },
-		{ name: 'receiveStateShow', default: '', type: 'string' },
-		{ name: 'sendEventOnShow', default: '', type: 'string' }
+		{ name: 'receiveStateEnable', default: '', type: 'string', contractName: true },
+		{ name: 'receiveStateShow', default: '', type: 'string', contractName: true },
+		{ name: 'sendEventOnShow', default: '', type: 'string', contractName: true }
 	];
 
 	//#endregion
@@ -405,6 +412,9 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		}
 		this.applyDefaultRole();
 		this.initLightBaseAttributes();
+		// Resolve the opt-in `contractname` contract, if any, BEFORE subscribing so
+		// the store holds the contract-prefixed signal names (no-op when absent).
+		this.applyContractName();
 		// Subscribe the opt-in base signals (each a no-op when its attribute is absent).
 		this.subscribeReceiveStateEnable();
 		this.subscribeReceiveStateShow();
@@ -570,6 +580,74 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 				this.setAttribute('role', role);
 			}
 		}
+	}
+
+	/**
+	 * The concrete component's STATIC property settings, so {@link applyContractName}
+	 * can read the co-located `contractName: true` flags. Default returns a shared
+	 * empty array; a component with signals (e.g. `Ch5Button`) overrides it to return
+	 * its own STATIC settings, keeping the contract path zero-per-instance.
+	 */
+	protected getContractPropertySettings(): readonly ICh5LightPropertySettings[] {
+		return Ch5LightBaseClass.EMPTY_PROPERTY_SETTINGS;
+	}
+
+	/**
+	 * Applies the opt-in `contractname` contract like `ch5-advance-button`, but without
+	 * the global registry or DOM rewrites: each property flagged `contractName: true`
+	 * (base plus the component's, via {@link getContractPropertySettings}) has its stored
+	 * signal NAME prefixed IN THE STORE, so `<ch5-button contractname="C"
+	 * receivestatelabel="Label">` resolves to the same `CLabel` advance-button would.
+	 * Zero-cost when absent; a one-time connect pass, idempotent so reconnects never
+	 * double-prefix. Resolved from INITIAL attributes only; runtime changes re-subscribe raw.
+	 */
+	protected applyContractName(): void {
+		const contractName = this.getAttribute('contractname');
+		if (!contractName) {
+			return;
+		}
+		this.prefixContractSignals(Ch5LightBaseClass.LIGHT_BASE_PROPERTY_SETTINGS, contractName);
+		this.prefixContractSignals(this.getContractPropertySettings(), contractName);
+	}
+
+	/**
+	 * Prefixes the contract name onto the stored signal name of every setting flagged
+	 * `contractName: true`, writing it back via `setValue` (no callback). Skips
+	 * unflagged, empty, or unchanged names so the store's equality short-circuits hold.
+	 */
+	private prefixContractSignals(settings: readonly ICh5LightPropertySettings[], contractName: string): void {
+		for (let i = 0; i < settings.length; i++) {
+			const setting = settings[i];
+			if (!setting.contractName) {
+				continue;
+			}
+			const raw = this._ch5Properties.get<string>(setting.name);
+			if (!raw) {
+				continue;
+			}
+			const resolved = Ch5LightBaseClass.prependContractName(raw, contractName);
+			if (resolved !== raw) {
+				this._ch5Properties.setValue<string>(setting.name, resolved);
+			}
+		}
+	}
+
+	/**
+	 * Returns `value` prefixed with the contract name, mirroring
+	 * `Ch5AugmentVarSignalsNames.incrementOrPrependAttrValue`: pure integer signal names
+	 * (joins) are left untouched, and the prefix is idempotent so a reconnect cannot
+	 * double-apply it. Any `{{indexId}}` placeholder is ignored for the integer test but
+	 * preserved in the result.
+	 */
+	private static prependContractName(value: string, contractName: string): string {
+		const bare = value.replace(Ch5LightBaseClass.CONTRACT_MOUSTACHE_RE, '');
+		if (Ch5Signal.isIntegerSignalName(bare)) {
+			return value;
+		}
+		if (value.startsWith(contractName)) {
+			return value;
+		}
+		return contractName + value;
 	}
 
 	/**

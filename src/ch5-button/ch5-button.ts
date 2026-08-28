@@ -47,15 +47,15 @@ export class Ch5Button extends Ch5LightBaseClass {
 		{ name: 'iconClass', default: '', type: 'string' },
 		{ name: 'iconUrl', default: '', type: 'string' },
 		{ name: 'backgroundImageUrl', default: '', type: 'string' },
-		{ name: 'receiveStateType', default: '', type: 'string' },
-		{ name: 'receiveStateSelected', default: '', type: 'string' },
-		{ name: 'receiveStateLabel', default: '', type: 'string' },
-		{ name: 'receiveStateScriptLabelHtml', default: '', type: 'string' },
+		{ name: 'receiveStateType', default: '', type: 'string', contractName: true },
+		{ name: 'receiveStateSelected', default: '', type: 'string', contractName: true },
+		{ name: 'receiveStateLabel', default: '', type: 'string', contractName: true },
+		{ name: 'receiveStateScriptLabelHtml', default: '', type: 'string', contractName: true },
 		{ name: 'scriptLabelHtml', default: '', type: 'string' },
-		{ name: 'receiveStateIconClass', default: '', type: 'string' },
-		{ name: 'receiveStateIconUrl', default: '', type: 'string' },
-		{ name: 'receiveStateBackgroundImageUrl', default: '', type: 'string' },
-		{ name: 'sendEventOnClick', default: '', type: 'string' },
+		{ name: 'receiveStateIconClass', default: '', type: 'string', contractName: true },
+		{ name: 'receiveStateIconUrl', default: '', type: 'string', contractName: true },
+		{ name: 'receiveStateBackgroundImageUrl', default: '', type: 'string', contractName: true },
+		{ name: 'sendEventOnClick', default: '', type: 'string', contractName: true },
 		{ name: 'multilineSupport', default: false, type: 'boolean' },
 		{ name: 'truncateText', default: true, type: 'boolean' }
 	];
@@ -427,6 +427,18 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 */
 	protected getDefaultRole(): string | null {
 		return 'button';
+	}
+
+	/**
+	 * The button's STATIC property settings (the same array passed to
+	 * `_ch5Properties.add()`), exposed so `Ch5LightBaseClass.applyContractName` can
+	 * read the co-located `contractName: true` flags at connect — mirroring how
+	 * `ch5-advance-button` declares the flag on its signal attribute registry
+	 * entries. Returning the static array keeps the contract path zero-per-instance,
+	 * and is only read when a `contractname` attribute is actually present.
+	 */
+	protected getContractPropertySettings(): readonly ICh5LightPropertySettings[] {
+		return Ch5Button.PROPERTY_SETTINGS;
 	}
 
 	/**

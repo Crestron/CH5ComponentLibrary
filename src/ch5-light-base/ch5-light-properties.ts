@@ -5,8 +5,9 @@ export interface ICh5LightPropertySettings {
 	default: boolean | string | number;
 	/**
 	 * OPTIONAL metadata mirroring `ICh5PropertySettings` (`ch5-core/ch5-property.ts`)
-	 * for familiarity. The runtime store never reads it (ZERO per-instance cost);
-	 * signal fields are omitted since the light family has no signal machinery.
+	 * for familiarity. The runtime store never reads it (ZERO per-instance cost).
+	 * The `contractName` flag below is the one field read outside the store — and only
+	 * from the STATIC settings array at connect (never retained per instance).
 	 */
 	/** Optional value type hint: 'boolean' | 'enum' | 'string' | 'number'. */
 	type?: string;
@@ -23,6 +24,12 @@ export interface ICh5LightPropertySettings {
 		min: number;
 		max: number;
 	};
+	/**
+	 * Prefixes this signal name with the `contractname` value at connect (via
+	 * `Ch5LightBaseClass.applyContractName`). Mirrors advance-button's
+	 * `contractName: true` flag. Read only from the STATIC settings, so zero per-instance cost.
+	 */
+	contractName?: boolean;
 }
 
 /**
