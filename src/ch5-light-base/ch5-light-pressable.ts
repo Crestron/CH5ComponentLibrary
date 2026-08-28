@@ -128,6 +128,7 @@ export class Ch5LightPressable {
 		this._addCssPressedClass();
 		this._host.setAttribute(Ch5LightPressable.PRESSED_ATTRIBUTE, 'true');
 		this._host.dispatchEvent(this._pressEvent);
+		this._runInlineHandler('onpress');
 	}
 
 	private _onRelease(): void {
@@ -136,6 +137,22 @@ export class Ch5LightPressable {
 		this._removeCssPressedClass();
 		this._host.removeAttribute(Ch5LightPressable.PRESSED_ATTRIBUTE);
 		this._host.dispatchEvent(this._releaseEvent);
+		this._runInlineHandler('onrelease');
+	}
+
+	// Evaluate the inline on<event> attribute like a native onclick (mirrors Ch5Pressable).
+	private _runInlineHandler(attr: 'onpress' | 'onrelease'): void {
+		const code = this._host.getAttribute(attr);
+		if (code !== null) {
+			try {
+				// tslint:disable-next-line: no-eval
+				eval(code);
+			}
+			// tslint:disable-next-line: no-empty
+			catch (e) {
+				// Ignore
+			}
+		}
 	}
 
 	private _attachReleaseListeners(): void {

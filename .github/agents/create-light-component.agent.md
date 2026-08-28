@@ -34,6 +34,9 @@ Before generating anything, read these files (they are the source of truth — n
    the shared property store (`add` / `get` / `set` / `setValue`; `set` hands the OLD value to `onChange`).
 5. [src/ch5-light-base/ch5-light-signal.ts](../../src/ch5-light-base/ch5-light-signal.ts) —
    the lazy subscribe/unsubscribe + `sendBoolean` / `sendRepeatDigital` helper, and `TCh5LightSignalType`.
+6. [src/ch5-light-base/ch5-light-pressable.ts](../../src/ch5-light-base/ch5-light-pressable.ts) —
+   the shared press/release helper (`pressed` attribute, bubbling `press`/`release` events, `onChange`
+   callback, and the built-in `onpress` / `onrelease` inline-handler support — see "Interaction events" below).
 
 If the user references an existing heavy component (e.g. `ch5-toggle`) as the feature source, also read
 that component to learn which attributes exist and their defaults — but re-implement them the *light* way.
@@ -69,6 +72,30 @@ A `receivestate*` signal is wired **based on how its target is styled** (ch5-but
   (`this.label = value`) and lets the normal `handleX()` re-render. One exception: if the target has
   CSS scoped to the **host attribute** (like `backgroundimageurlfilltype` on `[backgroundimageurl]`),
   reflect the host attribute in `applySignalX` and remove it when the signal clears (§6.5).
+
+### Interaction events — reuse `Ch5LightPressable`, don't reimplement
+
+If the component needs press/release behavior, wire the shared `Ch5LightPressable`
+([src/ch5-light-base/ch5-light-pressable.ts](../../src/ch5-light-base/ch5-light-pressable.ts)) exactly
+as `ch5-button` does (`new Ch5LightPressable(this, this._elButton, options, this._onPressedChange)` →
+`init()` on connect, `destroy()` on disconnect). It already provides, for free:
+
+- the host `pressed` attribute (pure-CSS `[pressed]` styling) and bubbling `press` / `release` events;
+- an optional `onChange(pressed)` callback (use it to drive `sendeventonclick` / contract press signals);
+- **inline `onpress` / `onrelease` attribute handlers** — the pressable reads the attribute off the host
+  and `eval()`s it on press/release, mirroring the heavy `Ch5Pressable` (native `onclick`-style
+  convention). This is done centrally in `Ch5LightPressable._onPress` / `_onRelease` via
+  `_runInlineHandler(...)`, so **any** light component using the pressable gets `onpress` / `onrelease`
+  automatically.
+
+Rules:
+- **DO NOT** add `onpress` / `onrelease` to `observedAttributes`, give them a store entry, or handle them
+  in `attributeChangedCallback` — they are read live from the host at press/release time, not observed.
+  Observing them would do nothing (there is no property/setter to run on release).
+- **DO NOT** reimplement the eval in the component — it lives in the pressable. Just use the pressable.
+- **Zero-cost at idle**: `_runInlineHandler` runs only on an actual press/release of the one interacted
+  element (a single `getAttribute`, and `eval` only when the attribute is set), so 1000 idle instances
+  pay nothing. It is a prototype method — no per-instance allocation.
 
 ---
 
@@ -161,6 +188,8 @@ should run manually.
   channel (§5.1).
 - **DO NOT** use inline-arrow callbacks at `_ch5Properties.set(...)` or `subscribeSignal(...)` call
   sites — always cached class fields (§8.1, §8.8).
+- **DO NOT** reimplement or observe `onpress` / `onrelease` — the shared `Ch5LightPressable` already
+  evals them on press/release (see "Interaction events"); just reuse the pressable.
 - **DO NOT** put `PROPERTY_SETTINGS` (or any settings array) inline in the constructor — static field
   only (§8.5).
 - **DO NOT** invent APIs — read the actual base/store/signal files and match their real method
