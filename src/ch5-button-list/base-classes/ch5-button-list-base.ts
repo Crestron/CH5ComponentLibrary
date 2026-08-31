@@ -2301,9 +2301,15 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
    * substitutes {{indexId}} then routes to labelInnerHTML (markup) or label (text).
    * Skipped only when the contract drives the label (contractItemLabelType
    * textContent/innerHTML); with "none" it renders even under a contractName.
+   * ALSO skipped when a receive signal attribute (buttonReceiveStateLabel or
+   * buttonReceiveStateScriptLabelHtml) is present - signals have priority over static templates.
    */
   private lightButtonLabelHelper(btn: Ch5Button, index: number): void {
     if (this.contractName !== "" && this.contractItemLabelType !== "none") { return; }
+    // Skip static template if a receive signal will drive the label (signal has priority)
+    if (this.hasAttribute('buttonreceivestatelabel') || this.hasAttribute('buttonreceivestatescriptlabelhtml')) {
+      return;
+    }
     const tpl = this.analyzeLabelTemplate();
     if (tpl.html === '') { return; }
     // Only the per-item {{indexId}} -> index substitution is left to do per button; the
