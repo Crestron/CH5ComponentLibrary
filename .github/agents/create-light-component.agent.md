@@ -121,11 +121,34 @@ Methods, Helpers). Non-negotiable structural rules:
 
 - `export class Ch5<Name> extends Ch5LightBaseClass` (PascalCase; kebab-case element name).
 - `static readonly ELEMENT_NAME`, `PRIMARY_CSS_CLASS`, and any enum value list (like `TYPES`).
-- `static readonly OBSERVED_ATTRIBUTES` — this component's own attributes (lowercase), and a
-  `static get observedAttributes()` that spreads `[...Ch5LightBaseClass.LIGHT_BASE_OBSERVED_ATTRIBUTES,
+- **DRY principle**: `static readonly PROPERTY_SETTINGS: ICh5LightPropertySettings[]` is the **single
+  source of truth**. Define one entry per store-backed attribute. Mark every `receivestate*` /
+  `sendevent*` entry with `contractName: true` and the appropriate join metadata (`direction: 'state'|'event'`,
+  `booleanJoin: 1`, `numericJoin: 1`, or `stringJoin: 1`).
+- **Auto-generate OBSERVED_ATTRIBUTES** from PROPERTY_SETTINGS using `.map()`:
+  ```typescript
+  private static readonly OBSERVED_ATTRIBUTES = Ch5<Name>.PROPERTY_SETTINGS.map(
+    setting => setting.name.replace(/([A-Z])/g, match => match.toLowerCase()).toLowerCase()
+  );
+  ```
+  This eliminates redundancy — never maintain a manual `OBSERVED_ATTRIBUTES` array.
+- **Auto-generate signal registry entries** from PROPERTY_SETTINGS in `registerSignalAttributeTypes()`:
+  ```typescript
+  public static registerSignalAttributeTypes(): void {
+    const registryEntries = Ch5LightBaseClass.getBaseSignalAttributeEntries();
+    (Ch5LightBaseClass as any).generateRegistryEntriesFromSettings(
+      Ch5<Name>.PROPERTY_SETTINGS,
+      registryEntries
+    );
+    Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(
+      Ch5<Name>.ELEMENT_NAME,
+      registryEntries
+    );
+  }
+  ```
+  **DO NOT** create a separate `SIGNAL_ATTRIBUTE_TYPES` constant — it's redundant with PROPERTY_SETTINGS.
+- `static get observedAttributes()` spreads `[...Ch5LightBaseClass.LIGHT_BASE_OBSERVED_ATTRIBUTES,
   ...Ch5<Name>.OBSERVED_ATTRIBUTES]`.
-- `static readonly PROPERTY_SETTINGS: ICh5LightPropertySettings[]` — one entry per store-backed
-  attribute; mark every `receivestate*` / `sendevent*` entry `contractName: true`.
 - Constructor: `super()` then `this._ch5Properties.add(Ch5<Name>.PROPERTY_SETTINGS)`.
 - Override `getContractPropertySettings()` to `return Ch5<Name>.PROPERTY_SETTINGS` (enables the
   `contractname` contract for this component's signals — see base class).
@@ -153,13 +176,19 @@ Methods, Helpers). Non-negotiable structural rules:
    field, no per-call closure. (§6.2, §8.3)
 4. **`PROPERTY_SETTINGS` is a `private static readonly` field**, never an inline literal in the
    constructor (avoids N arrays + N×fields object literals at 1000 instances). (§8.5)
-5. **Lazy allocation of opt-in machinery**: `_signals` (`Ch5LightSignal`) is created with
+5. **`OBSERVED_ATTRIBUTES` is auto-generated from `PROPERTY_SETTINGS`** using `.map()` — a static
+   readonly field evaluated once at module load, **not** per instance. This is zero-cost allocation-wise
+   (same as a manual array literal) but eliminates redundancy.
+6. **Join offset arrays (`JOIN_OFFSET_ATTRS`, `JOIN_OFFSET_PROPS`) are `private static readonly`**
+   if the component uses join offsets in `initLightBaseAttributes()` — never inline literals in a loop
+   (Ch5LightBaseClass already provides these; derived components reuse them).
+7. **Lazy allocation of opt-in machinery**: `_signals` (`Ch5LightSignal`) is created with
    `(this._signals ??= new Ch5LightSignal())` only on first signal use. Inner DOM (`_elIcon`,
    `_elSpanLabel`, ...) is created lazily and **cached**, updated in place — never recreated per
    attribute change. `createInternalHtml()` runs once, guarded by `_isInitialized`. (§7.2, §8.2)
-6. **No leaks**: every subscription and every event listener created is released in
+8. **No leaks**: every subscription and every event listener created is released in
    `disconnectedCallback`; signal *names* stay in the store so reconnect re-subscribes. (§8.4)
-7. Shared handlers where behavior is identical (ch5-button shares `_onIconChange` for `iconClass` +
+9. Shared handlers where behavior is identical (ch5-button shares `_onIconChange` for `iconClass` +
    `iconUrl`; `_onLabelWrapChange` for `multilineSupport` + `truncateText`).
 
 ---
@@ -200,6 +229,11 @@ should run manually.
 - **DO NOT** handle `disabled` in JS — it is CSS-only (`[disabled]`), by deliberate design.
 - **DO NOT** let a receive signal write a pure-CSS attribute directly — use the `data-signal-*` shadow
   channel (§5.1).
+- **DO NOT** create a manual `OBSERVED_ATTRIBUTES` array — auto-generate it from `PROPERTY_SETTINGS`
+  using `.map()` (DRY principle — single source of truth).
+- **DO NOT** create a separate `SIGNAL_ATTRIBUTE_TYPES` constant — the registry entries are now
+  auto-generated from `PROPERTY_SETTINGS` metadata using the shared `generateRegistryEntriesFromSettings()`
+  helper.
 - **DO NOT** use inline-arrow callbacks at `_ch5Properties.set(...)` or `subscribeSignal(...)` call
   sites — always cached class fields (§8.1, §8.8).
 - **DO NOT** reimplement or observe `onpress` / `onrelease` — the shared `Ch5LightPressable` already
