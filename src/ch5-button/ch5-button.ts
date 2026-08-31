@@ -3,6 +3,7 @@ import { ICh5LightPropertySettings } from "../ch5-light-base/ch5-light-propertie
 import { Ch5LightSignal, TCh5LightSignalType } from "../ch5-light-base/ch5-light-signal";
 import { Ch5LightPressable } from "../ch5-light-base/ch5-light-pressable";
 import { ICh5ButtonListContractObj } from "../ch5-button-list/interfaces/t-for-ch5-button-list-contract";
+import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
 
 // See ch5-button.md (same folder) for the full design reference: class
 // hierarchy, signal wiring lifecycle, the static-vs-signal `type`/`selected`
@@ -18,28 +19,13 @@ export class Ch5Button extends Ch5LightBaseClass {
 	public static readonly SIGNAL_ATTRIBUTE_TYPE = 'data-signal-type';
 	public static readonly SIGNAL_ATTRIBUTE_SELECTED = 'data-signal-selected';
 
-	private static readonly OBSERVED_ATTRIBUTES = [
-		'label', 
-		'labelinnerhtml', 
-		'iconclass', 
-		'iconurl', 
-		'backgroundimageurl',
-		'receivestatetype',
-		'receivestateselected',
-		'receivestatelabel',
-		'receivestatescriptlabelhtml',
-		'receivestateiconclass',
-		'receivestateiconurl',
-		'receivestatebackgroundimageurl',
-		'sendeventonclick',
-		'multilinesupport',
-		'truncatetext'
-	];
-
 	/**
 	 * Property settings for the shared `_ch5Properties` store. STATIC so the array
 	 * is built once per class, not per instance (avoids N allocations at scale).
 	 * Safe to share: `add()` only reads each entry, never retains it.
+	 *
+	 * Join type metadata (direction, booleanJoin, etc.) is also defined here for
+	 * auto-generation of Ch5SignalAttributeRegistry entries - single source of truth.
 	 */
 	private static readonly PROPERTY_SETTINGS: ICh5LightPropertySettings[] = [
 		{ name: 'label', default: '', type: 'string' },
@@ -47,18 +33,26 @@ export class Ch5Button extends Ch5LightBaseClass {
 		{ name: 'iconClass', default: '', type: 'string' },
 		{ name: 'iconUrl', default: '', type: 'string' },
 		{ name: 'backgroundImageUrl', default: '', type: 'string' },
-		{ name: 'receiveStateType', default: '', type: 'string', contractName: true },
-		{ name: 'receiveStateSelected', default: '', type: 'string', contractName: true },
-		{ name: 'receiveStateLabel', default: '', type: 'string', contractName: true },
-		{ name: 'receiveStateScriptLabelHtml', default: '', type: 'string', contractName: true },
+		{ name: 'receiveStateType', default: '', type: 'string', contractName: true, direction: 'state', stringJoin: 1 },
+		{ name: 'receiveStateSelected', default: '', type: 'string', contractName: true, direction: 'state', booleanJoin: 1 },
+		{ name: 'receiveStateLabel', default: '', type: 'string', contractName: true, direction: 'state', stringJoin: 1 },
+		{ name: 'receiveStateScriptLabelHtml', default: '', type: 'string', contractName: true, direction: 'state', stringJoin: 1 },
 		{ name: 'scriptLabelHtml', default: '', type: 'string' },
-		{ name: 'receiveStateIconClass', default: '', type: 'string', contractName: true },
-		{ name: 'receiveStateIconUrl', default: '', type: 'string', contractName: true },
-		{ name: 'receiveStateBackgroundImageUrl', default: '', type: 'string', contractName: true },
-		{ name: 'sendEventOnClick', default: '', type: 'string', contractName: true },
+		{ name: 'receiveStateIconClass', default: '', type: 'string', contractName: true, direction: 'state', stringJoin: 1 },
+		{ name: 'receiveStateIconUrl', default: '', type: 'string', contractName: true, direction: 'state', stringJoin: 1 },
+		{ name: 'receiveStateBackgroundImageUrl', default: '', type: 'string', contractName: true, direction: 'state', stringJoin: 1 },
+		{ name: 'sendEventOnClick', default: '', type: 'string', contractName: true, direction: 'event', booleanJoin: 1 },
 		{ name: 'multilineSupport', default: false, type: 'boolean' },
 		{ name: 'truncateText', default: true, type: 'boolean' }
 	];
+
+	/**
+	 * Observed attributes for ch5-button. Auto-generated from PROPERTY_SETTINGS -
+	 * single source of truth. No redundant manual list.
+	 */
+	private static readonly OBSERVED_ATTRIBUTES = Ch5Button.PROPERTY_SETTINGS.map(
+		setting => setting.name.replace(/([A-Z])/g, match => match.toLowerCase()).toLowerCase()
+	);
 
 	//#endregion
 
@@ -340,6 +334,28 @@ export class Ch5Button extends Ch5LightBaseClass {
 		}
 	}
 
+	/**
+	 * Registers ch5-button's signal attributes with the global Ch5SignalAttributeRegistry
+	 * so Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs can process join offsets
+	 * in templates/subpages. Auto-generates registry entries from PROPERTY_SETTINGS
+	 * (single source of truth - no redundant SIGNAL_ATTRIBUTE_TYPES constant) and merges
+	 * with base class signal attributes. Called automatically at module load (see bottom of file).
+	 */
+	public static registerSignalAttributeTypes(): void {
+		// Start with base class signal attribute entries, then merge ch5-button's own.
+		// Uses the shared generateRegistryEntriesFromSettings helper to eliminate code duplication.
+		const registryEntries = Ch5LightBaseClass.getBaseSignalAttributeEntries();
+		(Ch5LightBaseClass as any).generateRegistryEntriesFromSettings(
+			Ch5Button.PROPERTY_SETTINGS,
+			registryEntries
+		);
+		
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(
+			Ch5Button.ELEMENT_NAME,
+			registryEntries
+		);
+	}
+
 	public static get observedAttributes(): string[] {
 		return [
 			...Ch5LightBaseClass.LIGHT_BASE_OBSERVED_ATTRIBUTES,
@@ -480,6 +496,12 @@ export class Ch5Button extends Ch5LightBaseClass {
 		// (Re)wire the pressable for the `pressed` state + bubbling `press`/`release`
 		// events. Always-on (one idle `pointerdown` listener); safe on reconnect.
 		this.wirePressable();
+
+		// Apply join offsets to template child elements (if any). Zero-cost when absent
+		// (early exit in applyJoinOffsets when no offsets and no contract). Called after
+		// super.connectedCallback() so contractname is resolved, and after internal HTML
+		// creation so any child templates are present. Idempotent on reconnect.
+		this.applyJoinOffsets();
 
 		// (Re)measure the multi-line clamp now the button is on-DOM (height is
 		// unreadable off-DOM). No-op unless multilineSupport is on; scheduled so the
@@ -1287,3 +1309,4 @@ export class Ch5Button extends Ch5LightBaseClass {
 }
 
 Ch5Button.registerCustomElement();
+Ch5Button.registerSignalAttributeTypes();

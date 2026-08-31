@@ -30,6 +30,20 @@ export interface ICh5LightPropertySettings {
 	 * `contractName: true` flag. Read only from the STATIC settings, so zero per-instance cost.
 	 */
 	contractName?: boolean;
+	/**
+	 * Join type metadata for Ch5SignalAttributeRegistry auto-generation. When present,
+	 * this property will be registered for template join offset processing via
+	 * Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs. Read only from the STATIC
+	 * settings during component registration, so zero per-instance cost.
+	 */
+	/** Signal direction: 'state' (receive) or 'event' (send). */
+	direction?: 'state' | 'event';
+	/** Boolean/digital join type (1 = yes, undefined = no). */
+	booleanJoin?: number;
+	/** Numeric/analog join type (1 = yes, undefined = no). */
+	numericJoin?: number;
+	/** String/serial join type (1 = yes, undefined = no). */
+	stringJoin?: number;
 }
 
 /**

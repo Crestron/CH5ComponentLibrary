@@ -2,6 +2,8 @@ import { Ch5Uid, Ch5Signal } from "../ch5-core";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
 import { Ch5LightProperties, ICh5LightPropertySettings } from "./ch5-light-properties";
 import { Ch5LightSignal } from "./ch5-light-signal";
+import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
+import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 
 /** How a light component hides itself — mirrors `Ch5BaseClass` noshowtype. */
 export type TCh5LightShowType = 'display' | 'visibility' | 'remove';
@@ -112,27 +114,48 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	public static readonly HIDE_VISIBILITY_CSS_CLASS = 'ch5-hide-vis';
 
 	/**
-	 * Attributes handled by this base class. A derived component must merge this
-	 * list with its own in its static `observedAttributes` getter. `debug` /
-	 * `trace` are observed so logging can be toggled at runtime; they cost nothing
-	 * unless the attribute actually changes. `receivestateenable` and
-	 * `receivestateshow` are observed so their enable/disable and show/hide signals
-	 * can be attached / changed at runtime; both are strictly opt-in and allocate
-	 * nothing (no signal helper, subscription or closure) unless the attribute is
-	 * actually present.
+	 * Property settings for the shared `_ch5Properties` store. STATIC so the array
+	 * is built once per class, not per instance (avoids N allocations at scale).
+	 * Safe to share: `Ch5LightProperties` only reads `name`/`default` from each entry
+	 * during construction and never retains or mutates the array.
 	 *
-	 * `sendeventonshow` is observed so the outbound show-state signal can be
-	 * attached / changed at runtime; it is strictly opt-in and allocates nothing
-	 * (no signal helper, no publish) unless the attribute is actually present.
+	 * Join type metadata (direction, booleanJoin, etc.) is also defined here for
+	 * signal attributes - single source of truth. Derived classes use
+	 * getBaseSignalAttributeEntries() to merge base signal registrations with their own.
+	 */
+	private static readonly LIGHT_BASE_PROPERTY_SETTINGS: ICh5LightPropertySettings[] = [
+		{ name: 'show', default: true, type: 'boolean', valueOnAttributeEmpty: true },
+		{
+			name: 'noshowType',
+			default: Ch5LightBaseClass.NO_SHOW_TYPES[0],
+			type: 'enum',
+			enumeratedValues: [...Ch5LightBaseClass.NO_SHOW_TYPES]
+		},
+		{ name: 'receiveStateEnable', default: '', type: 'string', contractName: true, direction: 'state', booleanJoin: 1 },
+		{ name: 'receiveStateShow', default: '', type: 'string', contractName: true, direction: 'state', booleanJoin: 1 },
+		{ name: 'sendEventOnShow', default: '', type: 'string', contractName: true, direction: 'event', booleanJoin: 1 },
+		// Contract and join offset attributes - these are metadata for template processing, not signals themselves
+		// Include registry metadata so they auto-generate in getBaseSignalAttributeEntries()
+		{ name: 'contractName', default: '', type: 'string', contractName: true },
+		{ name: 'booleanJoinOffset', default: 0, type: 'number', booleanJoin: 1 },
+		{ name: 'numericJoinOffset', default: 0, type: 'number', numericJoin: 1 },
+		{ name: 'stringJoinOffset', default: 0, type: 'number', stringJoin: 1 },
+		// Diagnostic flags added for auto-generation of observed attributes
+		{ name: 'debug', default: false, type: 'boolean' },
+		{ name: 'trace', default: false, type: 'boolean' }
+	];
+
+	/**
+	 * Attributes handled by this base class. A derived component must merge this
+	 * list with its own in its static `observedAttributes` getter.
+	 * Auto-generated from LIGHT_BASE_PROPERTY_SETTINGS - single source of truth.
 	 *
 	 * `class`, `style` and `dir` are NOT listed: they are standard, natively
-	 * reflected HTML attributes and work directly on the host with no JS. The base
-	 * only ever writes `classList` / `.style` on a concrete component's INTERNAL
-	 * elements (e.g. the light button's inner `<button>`), so the author's host
-	 * `class` / `style` / `dir` are never touched - observing them would cost
-	 * hot-path work for behaviour the browser already provides for free.
+	 * reflected HTML attributes and work directly on the host with no JS.
 	 */
-	public static readonly LIGHT_BASE_OBSERVED_ATTRIBUTES = ['show', 'noshowtype', 'debug', 'trace', 'receivestateenable', 'receivestateshow', 'sendeventonshow'];
+	public static readonly LIGHT_BASE_OBSERVED_ATTRIBUTES = Ch5LightBaseClass.LIGHT_BASE_PROPERTY_SETTINGS.map(
+		setting => setting.name.replace(/([A-Z])/g, match => match.toLowerCase()).toLowerCase()
+	);
 
 	/**
 	 * Separate styling channel the `receiveStateEnable` signal writes to (never the
@@ -146,30 +169,53 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	/** Shared empty settings list returned by the default {@link getContractPropertySettings} (no per-instance allocation). */
 	private static readonly EMPTY_PROPERTY_SETTINGS: readonly ICh5LightPropertySettings[] = [];
 
+	/**
+	 * Shared helper that auto-generates registry entries from property settings.
+	 * Extracts the common logic used by getBaseSignalAttributeEntries() and derived
+	 * class registration methods to eliminate code duplication.
+	 */
+	private static generateRegistryEntriesFromSettings(
+		settings: readonly ICh5LightPropertySettings[],
+		target: Ch5SignalElementAttributeRegistryEntries = {}
+	): Ch5SignalElementAttributeRegistryEntries {
+		for (let i = 0; i < settings.length; i++) {
+			const setting = settings[i];
+			// Only register if it has join type metadata (direction, booleanJoin, numericJoin, stringJoin, or contractName flag)
+			if (setting.direction || setting.booleanJoin || setting.numericJoin || setting.stringJoin || setting.contractName) {
+				const attrName = setting.name.replace(/([A-Z])/g, (match) => match.toLowerCase()).toLowerCase();
+				target[attrName] = {
+					direction: setting.direction,
+					booleanJoin: setting.booleanJoin,
+					numericJoin: setting.numericJoin,
+					stringJoin: setting.stringJoin,
+					contractName: setting.contractName
+				};
+			}
+		}
+		return target;
+	}
+
+	/**
+	 * Returns base signal attribute registry entries auto-generated from
+	 * LIGHT_BASE_PROPERTY_SETTINGS. Derived classes should call this and merge the
+	 * result with their own signal attribute entries when registering with
+	 * Ch5SignalAttributeRegistry. Follows the DRY pattern implemented in ch5-button.
+	 */
+	public static getBaseSignalAttributeEntries(): Ch5SignalElementAttributeRegistryEntries {
+		return Ch5LightBaseClass.generateRegistryEntriesFromSettings(
+			Ch5LightBaseClass.LIGHT_BASE_PROPERTY_SETTINGS
+		);
+	}
+
 	/** Matches `{{indexId}}`-style placeholders, stripped before the integer-signal test in {@link prependContractName}. */
 	private static readonly CONTRACT_MOUSTACHE_RE = /({{[\w-]+}})/g;
 
-	/**
-	 * Settings passed to every `Ch5LightProperties` instance created by this base
-	 * class. Hoisted to a STATIC field (computed once per class, not once per
-	 * component instance) - at 1000+ instances, allocating this array/object
-	 * literal (and the `enumeratedValues` copy) in the constructor would mean
-	 * 1000 extra allocations for data that is identical every time. Safe to
-	 * share: `Ch5LightProperties` only reads `name`/`default` from each entry
-	 * during construction and never retains or mutates the array.
-	 */
-	private static readonly LIGHT_BASE_PROPERTY_SETTINGS: ICh5LightPropertySettings[] = [
-		{ name: 'show', default: true, type: 'boolean', valueOnAttributeEmpty: true },
-		{
-			name: 'noshowType',
-			default: Ch5LightBaseClass.NO_SHOW_TYPES[0],
-			type: 'enum',
-			enumeratedValues: [...Ch5LightBaseClass.NO_SHOW_TYPES]
-		},
-		{ name: 'receiveStateEnable', default: '', type: 'string', contractName: true },
-		{ name: 'receiveStateShow', default: '', type: 'string', contractName: true },
-		{ name: 'sendEventOnShow', default: '', type: 'string', contractName: true }
-	];
+	/** Join offset attribute names (lowercase HTML form) for loop-based parsing. */
+	private static readonly JOIN_OFFSET_ATTRS = ['booleanjoinoffset', 'numericjoinoffset', 'stringjoinoffset'];
+	/** Join offset property names (camelCase JS form) for loop-based storage. */
+	private static readonly JOIN_OFFSET_PROPS = ['booleanJoinOffset', 'numericJoinOffset', 'stringJoinOffset'];
+
+
 
 	//#endregion
 
@@ -446,6 +492,15 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 			case 'sendeventonshow':
 				this.sendEventOnShow = newValue ?? '';
 				break;
+			case 'contractname':
+			case 'booleanjoinoffset':
+			case 'numericjoinoffset':
+			case 'stringjoinoffset':
+				// Join offset attributes are read once in initLightBaseAttributes and
+				// stored in _ch5Properties. Runtime changes are allowed but require the
+				// concrete component to re-call applyJoinOffsets if it needs to reprocess
+				// templates. Most components set these statically and never change them.
+				break;
 		}
 	}
 
@@ -606,8 +661,38 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		if (!contractName) {
 			return;
 		}
+		// Store contract name in properties for later use by applyJoinOffsets
+		this._ch5Properties.setValue<string>('contractName', contractName);
 		this.prefixContractSignals(Ch5LightBaseClass.LIGHT_BASE_PROPERTY_SETTINGS, contractName);
 		this.prefixContractSignals(this.getContractPropertySettings(), contractName);
+	}
+
+	/**
+	 * Applies join offsets to template child elements (opt-in, zero-cost when absent).
+	 * Mirrors `ch5-advance-button`'s usage of `Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs`
+	 * but deferred until the component has child templates to process. Called by concrete
+	 * components (e.g. `ch5-button`) when label templates are present. No per-instance
+	 * allocation: reads offset attributes once, calls the shared utility, returns.
+	 */
+	protected applyJoinOffsets(): void {
+		const contractName = this._ch5Properties.get<string>('contractName');
+		const booleanOffset = this._ch5Properties.get<number>('booleanJoinOffset');
+		const numericOffset = this._ch5Properties.get<number>('numericJoinOffset');
+		const stringOffset = this._ch5Properties.get<number>('stringJoinOffset');
+		
+		// Zero-cost exit when no offsets and no contract - most buttons never use this
+		if (!contractName && !booleanOffset && !numericOffset && !stringOffset) {
+			return;
+		}
+		
+		// Call the shared utility to increment join numbers and prefix contract names in template children
+		Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(
+			this,
+			contractName || '',
+			booleanOffset || 0,
+			numericOffset || 0,
+			stringOffset || 0
+		);
 	}
 
 	/**
@@ -774,6 +859,9 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 * `disabled` needs no JS handling — it is styled from CSS via the `[disabled]`
 	 * attribute; the opt-in `receiveStateEnable` signal drives a separate
 	 * `data-signal-enable` channel and never mutates `disabled`.
+	 * 
+	 * Join offset attributes (`contractname`, `booleanjoinoffset`, etc.) are also
+	 * read once and stored for later use by {@link applyJoinOffsets}.
 	 * Idempotent and safe to call on every (re)connect.
 	 */
 	protected initLightBaseAttributes(): void {
@@ -796,6 +884,17 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		if (this._logger) {
 			this._logger.isDebugEnabled = this._isDebugEnabled;
 			this._logger.isTraceEnabled = this._isTraceEnabled;
+		}
+		// Sync join offset attributes into the property store. These are opt-in and
+		// zero-cost when absent: no helper, no subscription, just a simple property
+		// read when applyJoinOffsets is called. Reading them here (not in
+		// applyJoinOffsets) follows the same pattern as contractname - read once on
+		// connect, idempotent on reconnect.
+		for (let i = 0; i < Ch5LightBaseClass.JOIN_OFFSET_ATTRS.length; i++) {
+			const value = this.hasAttribute(Ch5LightBaseClass.JOIN_OFFSET_ATTRS[i])
+				? parseInt(this.getAttribute(Ch5LightBaseClass.JOIN_OFFSET_ATTRS[i]) || '0', 10) || 0
+				: 0;
+			this._ch5Properties.setValue<number>(Ch5LightBaseClass.JOIN_OFFSET_PROPS[i], value);
 		}
 		// Sync the receiveStateEnable / receiveStateShow signal NAMES into the store
 		// from the DOM without firing the change callbacks (attributeChangedCallback
