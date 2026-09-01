@@ -8,20 +8,20 @@
 import { Ch5SignalFactory } from "../ch5-core";
 import { Ch5Signal } from "../ch5-core/ch5-signal";
 
-export interface ICh5AdvanceButtonSignalDetails {
+export interface ICh5AdvancedButtonSignalDetails {
 	signalName: string;
 	signalValue: string;
 	signalState: string;
 	currentValue: any;
 }
 
-export class Ch5AdvanceButtonSignal {
+export class Ch5AdvancedButtonSignal {
 
-	private signals: ICh5AdvanceButtonSignalDetails[] = [];
+	private signals: ICh5AdvancedButtonSignalDetails[] = [];
 
 	constructor() {
-		const signalsForCh5AdvanceButton = ["receiveStateType", "receiveStateCustomClass", "receiveStateCustomStyle", "receiveStateIconClass", "receiveStateIconUrl", "receiveStateLabel", "receiveStateScriptLabelHtml"];
-		for (const eachSignal of signalsForCh5AdvanceButton) {
+		const signalsForCh5AdvancedButton = ["receiveStateType", "receiveStateCustomClass", "receiveStateCustomStyle", "receiveStateIconClass", "receiveStateIconUrl", "receiveStateLabel", "receiveStateScriptLabelHtml"];
+		for (const eachSignal of signalsForCh5AdvancedButton) {
 			this.signals.push({
 				signalName: eachSignal,
 				signalValue: "",
@@ -59,8 +59,8 @@ export class Ch5AdvanceButtonSignal {
 		return receiveSignal;
 	}
 
-	public getSignal(signalName: string): ICh5AdvanceButtonSignalDetails {
-		const thisSignal: ICh5AdvanceButtonSignalDetails = (this.signals.find(signal => signal.signalName.toLowerCase() === signalName.toLowerCase())) as ICh5AdvanceButtonSignalDetails;
+	public getSignal(signalName: string): ICh5AdvancedButtonSignalDetails {
+		const thisSignal: ICh5AdvancedButtonSignalDetails = (this.signals.find(signal => signal.signalName.toLowerCase() === signalName.toLowerCase())) as ICh5AdvancedButtonSignalDetails;
 		return thisSignal;
 	}
 

@@ -8,9 +8,9 @@
 /**
  * @name Ch5 Advance Button Label
  * @isattribute false
- * @tagName ch5-advance-button-label
+ * @tagName ch5-advanced-button-label
  * @role button
- * @description Ch5 Advance Button Label is a child node for <ch5-advance-button>, <ch5-advance-button-mode> and <ch5-advance-button-mode-state>.
+ * @description Ch5 Advance Button Label is a child node for <ch5-advanced-button>, <ch5-advanced-button-mode> and <ch5-advanced-button-mode-state>.
  * @componentVersion 1.0.0
  * @childElements
  * [
@@ -32,26 +32,26 @@
  * ]
  * @documentation
  * [
- *   "`ch5-advance-button-label` element",
+ *   "`ch5-advanced-button-label` element",
  *   "***",
  *   "A child element designed to capture the label for Ch5 Advance Button component."
  * ]
  * @snippets
  * [
  *  {
- *    "prefix": "ch5-advance-button-label:blank",
+ *    "prefix": "ch5-advanced-button-label:blank",
  *     "description": "Crestron Button Label",
  *     "body": [
- *       "<ch5-advance-button-label>",
+ *       "<ch5-advanced-button-label>",
  *       "\t<template>",
  *       "\t$1",
  *       "\t</template>",
- *       "</ch5-advance-button-label>$0"
+ *       "</ch5-advanced-button-label>$0"
  *     ]
  *   }
  * ]
  *
  */
-export interface ICh5AdvanceButtonLabelAttributes {
+export interface ICh5AdvancedButtonLabelAttributes {
 
 }

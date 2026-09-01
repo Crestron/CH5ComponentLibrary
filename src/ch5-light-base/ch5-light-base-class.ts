@@ -648,7 +648,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	}
 
 	/**
-	 * Applies the opt-in `contractname` contract like `ch5-advance-button`, but without
+	 * Applies the opt-in `contractname` contract like `ch5-advanced-button`, but without
 	 * the global registry or DOM rewrites: each property flagged `contractName: true`
 	 * (base plus the component's, via {@link getContractPropertySettings}) has its stored
 	 * signal NAME prefixed IN THE STORE, so `<ch5-button contractname="C"
@@ -669,7 +669,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 
 	/**
 	 * Applies join offsets to template child elements (opt-in, zero-cost when absent).
-	 * Mirrors `ch5-advance-button`'s usage of `Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs`
+	 * Mirrors `ch5-advanced-button`'s usage of `Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs`
 	 * but deferred until the component has child templates to process. Called by concrete
 	 * components (e.g. `ch5-button`) when label templates are present. No per-instance
 	 * allocation: reads offset attributes once, calls the shared utility, returns.
@@ -1009,7 +1009,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	/**
 	 * Reads a boolean attribute, resolves it to a clean boolean, then reflects the
 	 * normalized `"true"` / `"false"` back onto the attribute so the DOM is corrected —
-	 * mirroring `ch5-advance-button` / `Ch5Property`, whose boolean handling rewrites a
+	 * mirroring `ch5-advanced-button` / `Ch5Property`, whose boolean handling rewrites a
 	 * non-canonical attribute value.
 	 *
 	 * Resolution rules (match the heavy `Ch5Property`): an INVALID value falls back to
@@ -1040,7 +1040,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		} else if (normalized === 'false' || normalized === '0') {
 			resolved = false;
 		} else {
-			// Invalid value -> fall back to the attribute's DEFAULT (mirrors ch5-advance-button).
+			// Invalid value -> fall back to the attribute's DEFAULT (mirrors ch5-advanced-button).
 			resolved = defaultValue;
 		}
 		// Reflect onto the DOM when the author's value isn't already canonical, so an

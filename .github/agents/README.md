@@ -9,7 +9,7 @@ automatically — no per-machine setup.
 | Agent | File | Use it to... |
 |-------|------|--------------|
 | **Create Light Ch5 Component** | [`create-light-component.agent.md`](./create-light-component.agent.md) | Scaffold a new lightweight Ch5 web component that extends `Ch5LightBaseClass` (the same pattern as `ch5-button`), from a list of attributes. Includes complete theme SCSS scaffolding. |
-| **Button Container Component Builder** | [`button-container-component.agent.md`](./button-container-component.agent.md) | Build NEW components or REFACTOR EXISTING components that contain/manage ch5-button or ch5-advance-button elements. For new: implements conditional button-type selection based on features. For existing: analyzes current ch5-advance-button usage and refactors to use ch5-button when possible, ch5-advance-button only when needed (modes, SG icons, live templates). Follows ch5-button-list pattern. |
+| **Button Container Component Builder** | [`button-container-component.agent.md`](./button-container-component.agent.md) | Build NEW components or REFACTOR EXISTING components that contain/manage ch5-button or ch5-advanced-button elements. For new: implements conditional button-type selection based on features. For existing: analyzes current ch5-advanced-button usage and refactors to use ch5-button when possible, ch5-advanced-button only when needed (modes, SG icons, live templates). Follows ch5-button-list pattern. |
 
 ## How to use an agent
 
@@ -52,11 +52,11 @@ that reference in so every generated component starts correct instead of re-deri
 the pattern each time.
 
 **Button Container Agent:**
-Components that manage ch5-button and ch5-advance-button elements must implement the
+Components that manage ch5-button and ch5-advanced-button elements must implement the
 **conditional button-type selection pattern** from
 [`ch5-button-list`](../../src/ch5-button-list/base-classes/ch5-button-list-base.ts).
 This pattern intelligently chooses the lightweight ch5-button (for simple cases) vs
-the full-featured ch5-advance-button (for modes, SG icons, live templates) based on
+the full-featured ch5-advanced-button (for modes, SG icons, live templates) based on
 feature detection. The agent ensures this decision logic is correctly implemented,
 avoiding unnecessary performance overhead while supporting all required features.
 

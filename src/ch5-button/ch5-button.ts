@@ -163,7 +163,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 
 	/**
 	 * Raw HTML rendered inside the label span. Takes priority over the plain-text
-	 * `label` (mirrors ch5-advance-button / ch5-text), EXCEPT while a
+	 * `label` (mirrors ch5-advanced-button / ch5-text), EXCEPT while a
 	 * `receiveStateLabel` signal is driving the label - the signal write-throughs
 	 * into the `label` slot and must win. Rendered lazily (only when set), so
 	 * label-free / text-only buttons pay nothing.
@@ -711,7 +711,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * The button's STATIC property settings (the same array passed to
 	 * `_ch5Properties.add()`), exposed so `Ch5LightBaseClass.applyContractName` can
 	 * read the co-located `contractName: true` flags at connect — mirroring how
-	 * `ch5-advance-button` declares the flag on its signal attribute registry
+	 * `ch5-advanced-button` declares the flag on its signal attribute registry
 	 * entries. Returning the static array keeps the contract path zero-per-instance,
 	 * and is only read when a `contractname` attribute is actually present.
 	 */
@@ -844,7 +844,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 		//   4. label                       (static, text)  -> textContent
 		// The two signals write-through into their own slots (scriptLabelHtml / label),
 		// so it's the signal NAME's presence that selects the branch - a signal always
-		// outranks the static sources below it. Mirrors ch5-advance-button / ch5-text.
+		// outranks the static sources below it. Mirrors ch5-advanced-button / ch5-text.
 		// Only ONE branch runs (a few cheap store reads, no allocation).
 		let html = '';
 		let text = '';
@@ -891,7 +891,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 
 	/**
 	 * Decodes the HTML entities allowed in the `labelInnerHTML` attribute before it
-	 * is written into the label span. Mirrors ch5-advance-button / ch5-text exactly.
+	 * is written into the label span. Mirrors ch5-advanced-button / ch5-text exactly.
 	 */
 	private decodeInnerHTMLForAttribute(innerHTML: string): string {
 		return innerHTML.replace('&amp;', "&")
@@ -1381,7 +1381,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	private handlePressedChange(pressed: boolean): void {
 		this.log('handlePressedChange(', pressed, ')');
 		// In a contract-driven ch5-button-list, presses publish the list's contract
-		// signals instead of sendEventOnClick (mirrors Ch5AdvanceButton).
+		// signals instead of sendEventOnClick (mirrors Ch5AdvancedButton).
 		if (this._buttonListContract.contractName !== '' && this._buttonListContract.parentComponent === 'ch5-button-list') {
 			this.handleButtonListContractPress(pressed);
 			return;
@@ -1395,7 +1395,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 
 	/**
 	 * Publishes the ch5-button-list contract press signals for this item, mirroring
-	 * Ch5AdvanceButton's button-list path: Button{n}ItemPress on press/release,
+	 * Ch5AdvancedButton's button-list path: Button{n}ItemPress on press/release,
 	 * ListItemClicked on a plain release, and ListItemHeld once the hold threshold
 	 * (clickHoldTime, 0 = immediate) elapses.
 	 */

@@ -1,4 +1,4 @@
-import { Ch5AdvanceButtonBase } from "../ch5-advance-button";
+import { Ch5AdvancedButtonBase } from "../ch5-advanced-button";
 import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
 import { TCh5SliderButtonKey, } from './interfaces/t-ch5-slider-button';
 import { ICh5SliderButtonAttributes } from './interfaces/i-ch5-slider-button-attributes';
@@ -7,7 +7,7 @@ import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import _ from "lodash";
 import { Ch5SliderButtonLabel } from "./ch5-slider-button-label";
 
-export class Ch5SliderButton extends Ch5AdvanceButtonBase implements ICh5SliderButtonAttributes {
+export class Ch5SliderButton extends Ch5AdvancedButtonBase implements ICh5SliderButtonAttributes {
 
 	//#region Variables
 
@@ -45,7 +45,7 @@ export class Ch5SliderButton extends Ch5AdvanceButtonBase implements ICh5SliderB
 
 	public static readonly ELEMENT_NAME = 'ch5-slider-button';
 
-	public primaryCssClass = 'ch5-advance-button';
+	public primaryCssClass = 'ch5-advanced-button';
 
 	private debounceCreateSliderButton = this.debounce(() => {
 		this.setButtonDisplay();

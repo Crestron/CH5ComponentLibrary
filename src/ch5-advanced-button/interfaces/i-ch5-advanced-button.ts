@@ -5,8 +5,13 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-export * from "./t-ch5-advance-button";
-export * from "./i-ch5-advance-button-attributes";
-export * from "./i-ch5-advance-button-label-attributes";
-export * from "./i-ch5-advance-button-mode-attributes";
-export * from "./i-ch5-advance-button-mode-state-attributes";
+import { ICh5AdvancedButtonAttributes } from "./i-ch5-advanced-button-attributes";
+import { ICh5Common } from "../../ch5-common/interfaces";
+
+/**
+ * @ignore
+ * TODO - to remove this file, the below properties must be in ICh5AdvancedButtonAttributes
+ */
+export interface ICh5AdvancedButton extends ICh5AdvancedButtonAttributes, ICh5Common {
+
+}

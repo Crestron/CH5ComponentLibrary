@@ -6,23 +6,23 @@
 // under which you licensed this source code.
 
 import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
-import { Ch5AdvanceButtonBase } from "./ch5-advance-button-base";
+import { Ch5AdvancedButtonBase } from "./ch5-advanced-button-base";
 import { ICh5ButtonListContractObj } from "./interfaces/t-for-ch5-button-list-contract";
 
-export class Ch5AdvanceButton extends Ch5AdvanceButtonBase {
+export class Ch5AdvancedButton extends Ch5AdvancedButtonBase {
 
-	public static readonly ELEMENT_NAME = 'ch5-advance-button';
+	public static readonly ELEMENT_NAME = 'ch5-advanced-button';
 
 	public static registerSignalAttributeTypes() {
-		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5AdvanceButton.ELEMENT_NAME, Ch5AdvanceButton.SIGNAL_ATTRIBUTE_TYPES);
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5AdvancedButton.ELEMENT_NAME, Ch5AdvancedButton.SIGNAL_ATTRIBUTE_TYPES);
 	}
 
 	public static registerCustomElement() {
 		if (typeof window === "object"
 			&& typeof window.customElements === "object"
 			&& typeof window.customElements.define === "function"
-			&& window.customElements.get(Ch5AdvanceButton.ELEMENT_NAME) === undefined) {
-			window.customElements.define(Ch5AdvanceButton.ELEMENT_NAME, Ch5AdvanceButton);
+			&& window.customElements.get(Ch5AdvancedButton.ELEMENT_NAME) === undefined) {
+			window.customElements.define(Ch5AdvancedButton.ELEMENT_NAME, Ch5AdvancedButton);
 		}
 	}
 
@@ -32,6 +32,6 @@ export class Ch5AdvanceButton extends Ch5AdvanceButtonBase {
 
 }
 
-Ch5AdvanceButton.registerCustomElement();
-Ch5AdvanceButton.registerSignalAttributeTypes();
-Ch5AdvanceButton.registerSignalAttributeDefaults(Ch5AdvanceButton.ELEMENT_NAME);
+Ch5AdvancedButton.registerCustomElement();
+Ch5AdvancedButton.registerSignalAttributeTypes();
+Ch5AdvancedButton.registerSignalAttributeDefaults(Ch5AdvancedButton.ELEMENT_NAME);

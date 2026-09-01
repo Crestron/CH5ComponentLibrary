@@ -5,19 +5,19 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5AdvanceButtonModeAttributes, TCh5AdvanceButtonCheckboxPosition, TCh5AdvanceButtonHorizontalAlignLabel, TCh5AdvanceButtonIconPosition, TCh5AdvanceButtonIconUrlFillType, TCh5AdvanceButtonType, TCh5AdvanceButtonVerticalAlignLabel } from "./interfaces";
-import { Ch5AdvanceButton } from "./ch5-advance-button";
+import { ICh5AdvancedButtonModeAttributes, TCh5AdvancedButtonCheckboxPosition, TCh5AdvancedButtonHorizontalAlignLabel, TCh5AdvancedButtonIconPosition, TCh5AdvancedButtonIconUrlFillType, TCh5AdvancedButtonType, TCh5AdvancedButtonVerticalAlignLabel } from "./interfaces";
+import { Ch5AdvancedButton } from "./ch5-advanced-button";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5Log } from "../ch5-common/ch5-log";
 import _ from "lodash";
 
-const COMPONENT_NAME: string = "ch5-advance-button-mode";
+const COMPONENT_NAME: string = "ch5-advanced-button-mode";
 
-export class Ch5AdvanceButtonMode extends Ch5Log implements ICh5AdvanceButtonModeAttributes {
+export class Ch5AdvancedButtonMode extends Ch5Log implements ICh5AdvancedButtonModeAttributes {
 
-  public static readonly ELEMENT_NAME: string = 'ch5-advance-button-mode';
+  public static readonly ELEMENT_NAME: string = 'ch5-advanced-button-mode';
 
-  private _parentCh5AdvanceButton: Ch5AdvanceButton;
+  private _parentCh5AdvancedButton: Ch5AdvancedButton;
 
   //#region 1. Setters and Getters
 
@@ -29,8 +29,8 @@ export class Ch5AdvanceButtonMode extends Ch5Log implements ICh5AdvanceButtonMod
     } else {
       this.removeAttribute(attributeName);
     }
-    this._parentCh5AdvanceButton.createButtonLabel(this);
-    this._parentCh5AdvanceButton.setButtonDisplay();
+    this._parentCh5AdvancedButton.createButtonLabel(this);
+    this._parentCh5AdvancedButton.setButtonDisplay();
     this.logger.stop();
   }
   public get labelInnerHTML(): string {
@@ -44,32 +44,32 @@ export class Ch5AdvanceButtonMode extends Ch5Log implements ICh5AdvanceButtonMod
     return this.getAttribute("iconclass") as string;
   }
 
-  public set hAlignLabel(value: TCh5AdvanceButtonHorizontalAlignLabel | null) {
-    this.validateAndSetAttributeWithCustomType("hAlignLabel", Ch5AdvanceButton.HORIZONTAL_LABEL_ALIGNMENTS, value);
+  public set hAlignLabel(value: TCh5AdvancedButtonHorizontalAlignLabel | null) {
+    this.validateAndSetAttributeWithCustomType("hAlignLabel", Ch5AdvancedButton.HORIZONTAL_LABEL_ALIGNMENTS, value);
   }
-  public get hAlignLabel(): TCh5AdvanceButtonHorizontalAlignLabel | null {
-    return this.getAttribute("halignlabel") as TCh5AdvanceButtonHorizontalAlignLabel | null;
-  }
-
-  public set vAlignLabel(value: TCh5AdvanceButtonVerticalAlignLabel | null) {
-    this.validateAndSetAttributeWithCustomType("vAlignLabel", Ch5AdvanceButton.VERTICAL_LABEL_ALIGNMENTS, value);
-  }
-  public get vAlignLabel(): TCh5AdvanceButtonVerticalAlignLabel | null {
-    return this.getAttribute("valignlabel") as TCh5AdvanceButtonVerticalAlignLabel | null;
+  public get hAlignLabel(): TCh5AdvancedButtonHorizontalAlignLabel | null {
+    return this.getAttribute("halignlabel") as TCh5AdvancedButtonHorizontalAlignLabel | null;
   }
 
-  public set checkboxPosition(value: TCh5AdvanceButtonCheckboxPosition | null) {
-    this.validateAndSetAttributeWithCustomType("checkboxPosition", Ch5AdvanceButton.CHECKBOX_POSITIONS, value);
+  public set vAlignLabel(value: TCh5AdvancedButtonVerticalAlignLabel | null) {
+    this.validateAndSetAttributeWithCustomType("vAlignLabel", Ch5AdvancedButton.VERTICAL_LABEL_ALIGNMENTS, value);
   }
-  public get checkboxPosition(): TCh5AdvanceButtonCheckboxPosition | null {
-    return this.getAttribute("checkboxposition") as TCh5AdvanceButtonCheckboxPosition | null;
+  public get vAlignLabel(): TCh5AdvancedButtonVerticalAlignLabel | null {
+    return this.getAttribute("valignlabel") as TCh5AdvancedButtonVerticalAlignLabel | null;
   }
 
-  public set iconPosition(value: TCh5AdvanceButtonIconPosition | null) {
-    this.validateAndSetAttributeWithCustomType("iconPosition", Ch5AdvanceButton.ICON_POSITIONS, value);
+  public set checkboxPosition(value: TCh5AdvancedButtonCheckboxPosition | null) {
+    this.validateAndSetAttributeWithCustomType("checkboxPosition", Ch5AdvancedButton.CHECKBOX_POSITIONS, value);
   }
-  public get iconPosition(): TCh5AdvanceButtonIconPosition | null {
-    return this.getAttribute("iconposition") as TCh5AdvanceButtonIconPosition | null;
+  public get checkboxPosition(): TCh5AdvancedButtonCheckboxPosition | null {
+    return this.getAttribute("checkboxposition") as TCh5AdvancedButtonCheckboxPosition | null;
+  }
+
+  public set iconPosition(value: TCh5AdvancedButtonIconPosition | null) {
+    this.validateAndSetAttributeWithCustomType("iconPosition", Ch5AdvancedButton.ICON_POSITIONS, value);
+  }
+  public get iconPosition(): TCh5AdvancedButtonIconPosition | null {
+    return this.getAttribute("iconposition") as TCh5AdvancedButtonIconPosition | null;
   }
 
   public set iconUrl(value: string) {
@@ -79,12 +79,12 @@ export class Ch5AdvanceButtonMode extends Ch5Log implements ICh5AdvanceButtonMod
     return this.getAttribute("iconurl") as string;
   }
 
-  public set type(value: TCh5AdvanceButtonType | null) {
+  public set type(value: TCh5AdvancedButtonType | null) {
     this.logger.log('set type("' + value + '")');
-    this.validateAndSetAttributeWithCustomType("type", Ch5AdvanceButton.TYPES, value);
+    this.validateAndSetAttributeWithCustomType("type", Ch5AdvancedButton.TYPES, value);
   }
-  public get type(): TCh5AdvanceButtonType | null {
-    return this.getAttribute("type") as TCh5AdvanceButtonType | null;
+  public get type(): TCh5AdvancedButtonType | null {
+    return this.getAttribute("type") as TCh5AdvancedButtonType | null;
   }
 
   public set customClass(value: string) {
@@ -102,24 +102,24 @@ export class Ch5AdvanceButtonMode extends Ch5Log implements ICh5AdvanceButtonMod
     return this.getAttribute("customstyle") as string;
   }
 
-  public set iconUrlFillType(value: TCh5AdvanceButtonIconUrlFillType | null) {
-      this.validateAndSetAttributeWithCustomType("iconUrlFillType", Ch5AdvanceButton.ICON_URL_FILL_TYPE, value);
+  public set iconUrlFillType(value: TCh5AdvancedButtonIconUrlFillType | null) {
+      this.validateAndSetAttributeWithCustomType("iconUrlFillType", Ch5AdvancedButton.ICON_URL_FILL_TYPE, value);
   }
-  public get iconUrlFillType(): TCh5AdvanceButtonIconUrlFillType | null {
-    return this.getAttribute("iconurlfilltype") as TCh5AdvanceButtonIconUrlFillType | null;
+  public get iconUrlFillType(): TCh5AdvancedButtonIconUrlFillType | null {
+    return this.getAttribute("iconurlfilltype") as TCh5AdvancedButtonIconUrlFillType | null;
   }
 
   //#endregion
 
   //#region 2. Life Cycle Hooks
 
-  constructor(public parentButton?: Ch5AdvanceButton) {
+  constructor(public parentButton?: Ch5AdvancedButton) {
     super();
     this.logger.start('constructor()');
     if (!_.isNil(parentButton)) {
-      this._parentCh5AdvanceButton = parentButton;
+      this._parentCh5AdvancedButton = parentButton;
     } else {
-      this._parentCh5AdvanceButton = this.getParentButton();
+      this._parentCh5AdvancedButton = this.getParentButton();
     }
     this.logger.stop();
   }
@@ -130,10 +130,10 @@ export class Ch5AdvanceButtonMode extends Ch5Log implements ICh5AdvanceButtonMod
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()', COMPONENT_NAME);
-    if (!(this._parentCh5AdvanceButton instanceof Ch5AdvanceButton)) {
-      throw new Error(`Invalid parent element for ch5-advance-button-mode.`);
+    if (!(this._parentCh5AdvancedButton instanceof Ch5AdvancedButton)) {
+      throw new Error(`Invalid parent element for ch5-advanced-button-mode.`);
     }
-    this.setAttribute('role', Ch5RoleAttributeMapping.ch5AdvanceButtonMode);
+    this.setAttribute('role', Ch5RoleAttributeMapping.ch5AdvancedButtonMode);
 
     this.setAttribute('data-ch5-id', this.getCrId());
     this.initAttributes();
@@ -155,7 +155,7 @@ export class Ch5AdvanceButtonMode extends Ch5Log implements ICh5AdvanceButtonMod
   static get observedAttributes() {
     const commonAttributes = Ch5Log.observedAttributes;
 
-    const ch5AdvanceButtonModeChildAttributes: string[] = [
+    const Ch5AdvancedButtonModeChildAttributes: string[] = [
       'type',
       'iconclass',
       'halignlabel',
@@ -169,7 +169,7 @@ export class Ch5AdvanceButtonMode extends Ch5Log implements ICh5AdvanceButtonMod
       'iconurlfilltype'
     ];
 
-    return commonAttributes.concat(ch5AdvanceButtonModeChildAttributes);
+    return commonAttributes.concat(Ch5AdvancedButtonModeChildAttributes);
   }
 
   /**
@@ -179,12 +179,12 @@ export class Ch5AdvanceButtonMode extends Ch5Log implements ICh5AdvanceButtonMod
     this.logger.start("attributeChangedCallback", COMPONENT_NAME);
     if (oldValue !== newValue) {
 
-      this.logger.log('Ch5AdvanceButtonMode.attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + ')"');
+      this.logger.log('Ch5AdvancedButtonMode.attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + ')"');
 
       switch (attr) {
         case 'type':
           if (this.hasAttribute('type')) {
-            this.type = newValue as TCh5AdvanceButtonType;
+            this.type = newValue as TCh5AdvancedButtonType;
           } else {
             this.type = null;
           }
@@ -216,7 +216,7 @@ export class Ch5AdvanceButtonMode extends Ch5Log implements ICh5AdvanceButtonMod
 
         case 'halignlabel':
           if (this.hasAttribute('halignlabel')) {
-            this.hAlignLabel = newValue as TCh5AdvanceButtonHorizontalAlignLabel;
+            this.hAlignLabel = newValue as TCh5AdvancedButtonHorizontalAlignLabel;
           } else {
             this.hAlignLabel = null;
           }
@@ -224,7 +224,7 @@ export class Ch5AdvanceButtonMode extends Ch5Log implements ICh5AdvanceButtonMod
 
         case 'valignlabel':
           if (this.hasAttribute('valignlabel')) {
-            this.vAlignLabel = newValue as TCh5AdvanceButtonVerticalAlignLabel;
+            this.vAlignLabel = newValue as TCh5AdvancedButtonVerticalAlignLabel;
           } else {
             this.vAlignLabel = null;
           }
@@ -232,13 +232,13 @@ export class Ch5AdvanceButtonMode extends Ch5Log implements ICh5AdvanceButtonMod
 
         case 'checkboxposition':
           if (this.hasAttribute('checkboxposition')) {
-            this.checkboxPosition = newValue as TCh5AdvanceButtonCheckboxPosition;
+            this.checkboxPosition = newValue as TCh5AdvancedButtonCheckboxPosition;
           }
           break;
 
         case 'iconposition':
           if (this.hasAttribute('iconposition')) {
-            this.iconPosition = newValue as TCh5AdvanceButtonIconPosition;
+            this.iconPosition = newValue as TCh5AdvancedButtonIconPosition;
           }
           break;
 
@@ -250,7 +250,7 @@ export class Ch5AdvanceButtonMode extends Ch5Log implements ICh5AdvanceButtonMod
 
         case 'iconurlfilltype':
           if (this.hasAttribute('iconurlfilltype')) {
-            this.iconUrlFillType = newValue as TCh5AdvanceButtonIconUrlFillType;
+            this.iconUrlFillType = newValue as TCh5AdvancedButtonIconUrlFillType;
           }
           break;
 
@@ -270,14 +270,14 @@ export class Ch5AdvanceButtonMode extends Ch5Log implements ICh5AdvanceButtonMod
     if (value !== null) {
       if (parentMasterData.indexOf(value) >= 0) {
         this.setAttribute(attributeName.toLowerCase(), value);
-        this._parentCh5AdvanceButton.setButtonDisplay();
+        this._parentCh5AdvancedButton.setButtonDisplay();
       } else {
         this.removeAttribute(attributeName);
         // parentElement.setButtonDisplay(); is not required here.
       }
     } else {
       this.removeAttribute(attributeName);
-      this._parentCh5AdvanceButton.setButtonDisplay();
+      this._parentCh5AdvancedButton.setButtonDisplay();
     }
   }
 
@@ -287,15 +287,15 @@ export class Ch5AdvanceButtonMode extends Ch5Log implements ICh5AdvanceButtonMod
     } else {
       this.removeAttribute(attributeName);
     }
-    this._parentCh5AdvanceButton.setButtonDisplay();
+    this._parentCh5AdvancedButton.setButtonDisplay();
   }
 
-  public getParentButton(): Ch5AdvanceButton {
-    const getTheMatchingParent = (node: Node): Ch5AdvanceButton => {
-      if (!_.isNil(node) && node.nodeName.toString().toUpperCase() !== "CH5-ADVANCE-BUTTON") {
+  public getParentButton(): Ch5AdvancedButton {
+    const getTheMatchingParent = (node: Node): Ch5AdvancedButton => {
+      if (!_.isNil(node) && node.nodeName.toString().toUpperCase() !== "ch5-advanced-button") {
         return getTheMatchingParent(node.parentNode as Node);
       }
-      return node as Ch5AdvanceButton;
+      return node as Ch5AdvancedButton;
     }
     return getTheMatchingParent(this.parentElement as Node);
   }
@@ -307,5 +307,5 @@ export class Ch5AdvanceButtonMode extends Ch5Log implements ICh5AdvanceButtonMod
 if (typeof window === "object" &&
   typeof window.customElements === "object" &&
   typeof window.customElements.define === "function") {
-  window.customElements.define(Ch5AdvanceButtonMode.ELEMENT_NAME, Ch5AdvanceButtonMode);
+  window.customElements.define(Ch5AdvancedButtonMode.ELEMENT_NAME, Ch5AdvancedButtonMode);
 }

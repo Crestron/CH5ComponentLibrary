@@ -1,5 +1,5 @@
-import { Ch5AdvanceButton } from "../ch5-advance-button/ch5-advance-button";
-import { Ch5AdvanceButtonLabel } from "../ch5-advance-button/ch5-advance-button-label";
+import { Ch5AdvancedButton } from "../ch5-advanced-button/ch5-advanced-button";
+import { Ch5AdvancedButtonLabel } from "../ch5-advanced-button/ch5-advanced-button-label";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import {
   TCh5TabButtonButtonType, TCh5TabButtonButtonHAlignLabel, TCh5TabButtonButtonVAlignLabel, TCh5TabButtonButtonShape,
@@ -812,7 +812,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
   private createButton(index: number, append: boolean = true) {
     if (index < 0 || index >= this.numberOfItems) { return };
     const buttonListContractObj: ICh5ButtonListContractObj = { index: index + 1, clickHoldTime: 0, contractName: this.contractName, parentComponent: 'ch5-tab-button' };
-    const btn = new Ch5AdvanceButton(buttonListContractObj);
+    const btn = new Ch5AdvancedButton(buttonListContractObj);
     btn.setAttribute("swipeGestureEnabled", "true");
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
@@ -843,14 +843,14 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
     btn.addContainerClass(this.nodeName.toLowerCase() + Ch5TabButton.COMPONENT_DATA.BUTTON_ICON_POSITION.classListPrefix + this.buttonIconPosition);
   }
 
-  private buttonLabelHelper(btn: Ch5AdvanceButton, index: number) {
+  private buttonLabelHelper(btn: Ch5AdvancedButton, index: number) {
     const buttonListLabels = this.getElementsByTagName(this.nodeName.toLowerCase() + "-label");
     if (buttonListLabels && buttonListLabels.length > 0) {
       Array.from(buttonListLabels).forEach((buttonListLabel) => {
         if (buttonListLabel.parentElement instanceof Ch5TabButton) {
           const buttonListLabelTemplate = buttonListLabel.getElementsByTagName("template");
           if (buttonListLabelTemplate && buttonListLabelTemplate.length > 0) {
-            const ch5ButtonLabel = new Ch5AdvanceButtonLabel();
+            const ch5ButtonLabel = new Ch5AdvancedButtonLabel();
             const template = document.createElement('template');
             template.innerHTML = buttonListLabelTemplate[0].innerHTML;
             Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(template, index, this.indexId);
@@ -863,7 +863,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
     }
   }
 
-  private buttonHelper(btn: Ch5AdvanceButton, index: number) {
+  private buttonHelper(btn: Ch5AdvancedButton, index: number) {
     const individualButtons = this.getElementsByTagName(this.nodeName.toLowerCase() + '-individual-button');
     const individualButtonsLength = individualButtons.length;
     btn.setAttribute('stretch', 'both');
@@ -917,7 +917,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
         }
         else if (attr.name.toLowerCase() === 'buttonsendeventonclick') {
           if (this.contractName !== "") {
-            // Ignore this attribute since it is handled in ch5-advance-button when contract name is available
+            // Ignore this attribute since it is handled in ch5-advanced-button when contract name is available
           } else if (attr.name.toLowerCase().startsWith('button') && this.hasAttribute(attr.name)) {
             if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
               const attrValue = this.getAttribute(attr.name)?.trim();
@@ -975,7 +975,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
         }
         else if (attr.name.toLowerCase() === 'buttonsendeventonclick') {
           if (this.contractName !== "") {
-            // Ignore this attribute since it is handled in ch5-advance-button when contract name is available
+            // Ignore this attribute since it is handled in ch5-advanced-button when contract name is available
           } else if (attr.name.toLowerCase().startsWith('button') && this.hasAttribute(attr.name)) {
             if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
               const attrValue = this.getAttribute(attr.name)?.trim();

@@ -5,22 +5,22 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5AdvanceButtonModeStateAttributes, TCh5AdvanceButtonCheckboxPosition, TCh5AdvanceButtonHorizontalAlignLabel, TCh5AdvanceButtonIconPosition, TCh5AdvanceButtonIconUrlFillType, TCh5AdvanceButtonModeState, TCh5AdvanceButtonType, TCh5AdvanceButtonVerticalAlignLabel } from "./interfaces";
-import { Ch5AdvanceButton } from "./ch5-advance-button";
+import { ICh5AdvancedButtonModeStateAttributes, TCh5AdvancedButtonCheckboxPosition, TCh5AdvancedButtonHorizontalAlignLabel, TCh5AdvancedButtonIconPosition, TCh5AdvancedButtonIconUrlFillType, TCh5AdvancedButtonModeState, TCh5AdvancedButtonType, TCh5AdvancedButtonVerticalAlignLabel } from "./interfaces";
+import { Ch5AdvancedButton } from "./ch5-advanced-button";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
-import { Ch5AdvanceButtonMode } from "./ch5-advance-button-mode";
+import { Ch5AdvancedButtonMode } from "./ch5-advanced-button-mode";
 import { Ch5Log } from "../ch5-common/ch5-log";
 import _ from "lodash";
 
-export class Ch5AdvanceButtonModeState extends Ch5Log implements ICh5AdvanceButtonModeStateAttributes {
+export class Ch5AdvancedButtonModeState extends Ch5Log implements ICh5AdvancedButtonModeStateAttributes {
 
-  public static readonly ELEMENT_NAME: string = 'ch5-advance-button-mode-state';
+  public static readonly ELEMENT_NAME: string = 'ch5-advanced-button-mode-state';
 
   //#region 1. Variables
 
-  private static readonly STATES: TCh5AdvanceButtonModeState[] = ["normal", "pressed", "selected"];
-  private _state: TCh5AdvanceButtonModeState = "normal";
-  private _parentCh5AdvanceButton: Ch5AdvanceButton;
+  private static readonly STATES: TCh5AdvancedButtonModeState[] = ["normal", "pressed", "selected"];
+  private _state: TCh5AdvancedButtonModeState = "normal";
+  private _parentCh5AdvancedButton: Ch5AdvancedButton;
 
   //#endregion
 
@@ -34,27 +34,27 @@ export class Ch5AdvanceButtonModeState extends Ch5Log implements ICh5AdvanceButt
     } else {
       this.removeAttribute(attributeName);
     }
-    this._parentCh5AdvanceButton.createButtonLabel(this);
-    this._parentCh5AdvanceButton.setButtonDisplay();
+    this._parentCh5AdvancedButton.createButtonLabel(this);
+    this._parentCh5AdvancedButton.setButtonDisplay();
     this.logger.stop();
   }
   public get labelInnerHTML(): string {
     return this.getAttribute("labelinnerhtml") as string;
   }
 
-  public set state(value: TCh5AdvanceButtonModeState) {
+  public set state(value: TCh5AdvancedButtonModeState) {
     this.logger.log('set state("' + value + '")');
     if (this._state !== value) {
-      if (Ch5AdvanceButtonModeState.STATES.indexOf(value) >= 0) {
+      if (Ch5AdvancedButtonModeState.STATES.indexOf(value) >= 0) {
         this._state = value;
       } else {
-        this._state = Ch5AdvanceButtonModeState.STATES[0];
+        this._state = Ch5AdvancedButtonModeState.STATES[0];
       }
       this.setAttribute("state", this._state);
-      this._parentCh5AdvanceButton.setButtonDisplay();
+      this._parentCh5AdvancedButton.setButtonDisplay();
     }
   }
-  public get state(): TCh5AdvanceButtonModeState {
+  public get state(): TCh5AdvancedButtonModeState {
     return this._state
   }
 
@@ -65,32 +65,32 @@ export class Ch5AdvanceButtonModeState extends Ch5Log implements ICh5AdvanceButt
     return this.getAttribute("iconclass") as string;
   }
 
-  public set hAlignLabel(value: TCh5AdvanceButtonHorizontalAlignLabel | null) {
-    this.validateAndSetAttributeWithCustomType("hAlignLabel", Ch5AdvanceButton.HORIZONTAL_LABEL_ALIGNMENTS, value);
+  public set hAlignLabel(value: TCh5AdvancedButtonHorizontalAlignLabel | null) {
+    this.validateAndSetAttributeWithCustomType("hAlignLabel", Ch5AdvancedButton.HORIZONTAL_LABEL_ALIGNMENTS, value);
   }
-  public get hAlignLabel(): TCh5AdvanceButtonHorizontalAlignLabel | null {
-    return this.getAttribute("halignlabel") as TCh5AdvanceButtonHorizontalAlignLabel | null;
-  }
-
-  public set vAlignLabel(value: TCh5AdvanceButtonVerticalAlignLabel | null) {
-    this.validateAndSetAttributeWithCustomType("vAlignLabel", Ch5AdvanceButton.VERTICAL_LABEL_ALIGNMENTS, value);
-  }
-  public get vAlignLabel(): TCh5AdvanceButtonVerticalAlignLabel | null {
-    return this.getAttribute("valignlabel") as TCh5AdvanceButtonVerticalAlignLabel | null;
+  public get hAlignLabel(): TCh5AdvancedButtonHorizontalAlignLabel | null {
+    return this.getAttribute("halignlabel") as TCh5AdvancedButtonHorizontalAlignLabel | null;
   }
 
-  public set checkboxPosition(value: TCh5AdvanceButtonCheckboxPosition | null) {
-    this.validateAndSetAttributeWithCustomType("checkboxPosition", Ch5AdvanceButton.CHECKBOX_POSITIONS, value);
+  public set vAlignLabel(value: TCh5AdvancedButtonVerticalAlignLabel | null) {
+    this.validateAndSetAttributeWithCustomType("vAlignLabel", Ch5AdvancedButton.VERTICAL_LABEL_ALIGNMENTS, value);
   }
-  public get checkboxPosition(): TCh5AdvanceButtonCheckboxPosition | null {
-    return this.getAttribute("checkboxposition") as TCh5AdvanceButtonCheckboxPosition | null;
+  public get vAlignLabel(): TCh5AdvancedButtonVerticalAlignLabel | null {
+    return this.getAttribute("valignlabel") as TCh5AdvancedButtonVerticalAlignLabel | null;
   }
 
-  public set iconPosition(value: TCh5AdvanceButtonIconPosition | null) {
-    this.validateAndSetAttributeWithCustomType("iconPosition", Ch5AdvanceButton.ICON_POSITIONS, value);
+  public set checkboxPosition(value: TCh5AdvancedButtonCheckboxPosition | null) {
+    this.validateAndSetAttributeWithCustomType("checkboxPosition", Ch5AdvancedButton.CHECKBOX_POSITIONS, value);
   }
-  public get iconPosition(): TCh5AdvanceButtonIconPosition | null {
-    return this.getAttribute("iconposition") as TCh5AdvanceButtonIconPosition | null;
+  public get checkboxPosition(): TCh5AdvancedButtonCheckboxPosition | null {
+    return this.getAttribute("checkboxposition") as TCh5AdvancedButtonCheckboxPosition | null;
+  }
+
+  public set iconPosition(value: TCh5AdvancedButtonIconPosition | null) {
+    this.validateAndSetAttributeWithCustomType("iconPosition", Ch5AdvancedButton.ICON_POSITIONS, value);
+  }
+  public get iconPosition(): TCh5AdvancedButtonIconPosition | null {
+    return this.getAttribute("iconposition") as TCh5AdvancedButtonIconPosition | null;
   }
 
   public set iconUrl(value: string) {
@@ -100,11 +100,11 @@ export class Ch5AdvanceButtonModeState extends Ch5Log implements ICh5AdvanceButt
     return this.getAttribute("iconurl") as string;
   }
 
-  public set type(value: TCh5AdvanceButtonType | null) {
-    this.validateAndSetAttributeWithCustomType("type", Ch5AdvanceButton.TYPES, value);
+  public set type(value: TCh5AdvancedButtonType | null) {
+    this.validateAndSetAttributeWithCustomType("type", Ch5AdvancedButton.TYPES, value);
   }
-  public get type(): TCh5AdvanceButtonType | null {
-    return this.getAttribute("type") as TCh5AdvanceButtonType | null;
+  public get type(): TCh5AdvancedButtonType | null {
+    return this.getAttribute("type") as TCh5AdvancedButtonType | null;
   }
 
   public set customClass(value: string) {
@@ -121,24 +121,24 @@ export class Ch5AdvanceButtonModeState extends Ch5Log implements ICh5AdvanceButt
     return this.getAttribute("customstyle") as string;
   }
 
-  public set iconUrlFillType(value: TCh5AdvanceButtonIconUrlFillType | null) {
-    this.validateAndSetAttributeWithCustomType("iconUrlFillType", Ch5AdvanceButton.ICON_URL_FILL_TYPE, value);
+  public set iconUrlFillType(value: TCh5AdvancedButtonIconUrlFillType | null) {
+    this.validateAndSetAttributeWithCustomType("iconUrlFillType", Ch5AdvancedButton.ICON_URL_FILL_TYPE, value);
   }
-  public get iconUrlFillType(): TCh5AdvanceButtonIconUrlFillType | null {
-    return this.getAttribute("iconurlfilltype") as TCh5AdvanceButtonIconUrlFillType | null;
+  public get iconUrlFillType(): TCh5AdvancedButtonIconUrlFillType | null {
+    return this.getAttribute("iconurlfilltype") as TCh5AdvancedButtonIconUrlFillType | null;
   }
 
   //#endregion
 
   //#region 3. Life Cycle Hooks
 
-  constructor(public parentButton?: Ch5AdvanceButton) {
+  constructor(public parentButton?: Ch5AdvancedButton) {
     super();
     this.logger.start('constructor');
     if (!_.isNil(parentButton)) {
-      this._parentCh5AdvanceButton = parentButton;
+      this._parentCh5AdvancedButton = parentButton;
     } else {
-      this._parentCh5AdvanceButton = this.getParentButton();
+      this._parentCh5AdvancedButton = this.getParentButton();
     }
     this.logger.stop();
   }
@@ -150,14 +150,14 @@ export class Ch5AdvanceButtonModeState extends Ch5Log implements ICh5AdvanceButt
   public connectedCallback() {
     this.logger.start('connectedCallback');
 
-    if (!(this.parentElement instanceof Ch5AdvanceButtonMode)) {
-      throw new Error(`Invalid parent element for ch5-advance-button-mode-state.`);
+    if (!(this.parentElement instanceof Ch5AdvancedButtonMode)) {
+      throw new Error(`Invalid parent element for ch5-advanced-button-mode-state. Expected Ch5AdvancedButtonMode.`);
     }
-    if (_.isNil(this._parentCh5AdvanceButton)) {
-      throw new Error(`Missing parent ch5-advance-button element for ch5-advance-button-mode-state.`);
+    if (_.isNil(this._parentCh5AdvancedButton)) {
+      throw new Error(`Missing parent ch5-advanced-button element for ch5-advanced-button-mode-state.`);
     }
 
-    this.setAttribute('role', Ch5RoleAttributeMapping.ch5AdvanceButtonModeState);
+    this.setAttribute('role', Ch5RoleAttributeMapping.ch5AdvancedButtonModeState);
 
     this.setAttribute('data-ch5-id', this.getCrId());
     this.initAttributes();
@@ -179,7 +179,7 @@ export class Ch5AdvanceButtonModeState extends Ch5Log implements ICh5AdvanceButt
   static get observedAttributes() {
     const commonAttributes = Ch5Log.observedAttributes;
 
-    const ch5AdvanceButtonModeChildAttributes: string[] = [
+    const ch5AdvancedButtonModeChildAttributes: string[] = [
       'type',
       'iconclass',
       'halignlabel',
@@ -194,7 +194,7 @@ export class Ch5AdvanceButtonModeState extends Ch5Log implements ICh5AdvanceButt
       'iconurlfilltype'
     ];
 
-    return commonAttributes.concat(ch5AdvanceButtonModeChildAttributes);
+    return commonAttributes.concat(ch5AdvancedButtonModeChildAttributes);
   }
 
   /**
@@ -204,12 +204,12 @@ export class Ch5AdvanceButtonModeState extends Ch5Log implements ICh5AdvanceButt
     this.logger.start("attributeChangedCallback");
     if (oldValue !== newValue) {
 
-      this.logger.log('Ch5AdvanceButtonModeState.attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + ')"');
+      this.logger.log('Ch5AdvancedButtonModeState.attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + ')"');
 
       switch (attr) {
         case 'type':
           if (this.hasAttribute('type')) {
-            this.type = newValue as TCh5AdvanceButtonType;
+            this.type = newValue as TCh5AdvancedButtonType;
           } else {
             this.type = null;
           }
@@ -241,7 +241,7 @@ export class Ch5AdvanceButtonModeState extends Ch5Log implements ICh5AdvanceButt
 
         case 'halignlabel':
           if (this.hasAttribute('halignlabel')) {
-            this.hAlignLabel = newValue as TCh5AdvanceButtonHorizontalAlignLabel;
+            this.hAlignLabel = newValue as TCh5AdvancedButtonHorizontalAlignLabel;
           } else {
             this.hAlignLabel = null;
           }
@@ -249,7 +249,7 @@ export class Ch5AdvanceButtonModeState extends Ch5Log implements ICh5AdvanceButt
 
         case 'valignlabel':
           if (this.hasAttribute('valignlabel')) {
-            this.vAlignLabel = newValue as TCh5AdvanceButtonVerticalAlignLabel;
+            this.vAlignLabel = newValue as TCh5AdvancedButtonVerticalAlignLabel;
           } else {
             this.vAlignLabel = null;
           }
@@ -257,13 +257,13 @@ export class Ch5AdvanceButtonModeState extends Ch5Log implements ICh5AdvanceButt
 
         case 'checkboxposition':
           if (this.hasAttribute('checkboxposition')) {
-            this.checkboxPosition = newValue as TCh5AdvanceButtonCheckboxPosition;
+            this.checkboxPosition = newValue as TCh5AdvancedButtonCheckboxPosition;
           }
           break;
 
         case 'iconposition':
           if (this.hasAttribute('iconposition')) {
-            this.iconPosition = newValue as TCh5AdvanceButtonIconPosition;
+            this.iconPosition = newValue as TCh5AdvancedButtonIconPosition;
           }
           break;
 
@@ -275,13 +275,13 @@ export class Ch5AdvanceButtonModeState extends Ch5Log implements ICh5AdvanceButt
 
         case 'state':
           if (this.hasAttribute('state')) {
-            this.state = newValue as TCh5AdvanceButtonModeState;
+            this.state = newValue as TCh5AdvancedButtonModeState;
           }
           break;
 
         case 'iconurlfilltype':
           if (this.hasAttribute('iconurlfilltype')) {
-            this.iconUrlFillType = newValue as TCh5AdvanceButtonIconUrlFillType;
+            this.iconUrlFillType = newValue as TCh5AdvancedButtonIconUrlFillType;
           }
           break;
 
@@ -302,7 +302,7 @@ export class Ch5AdvanceButtonModeState extends Ch5Log implements ICh5AdvanceButt
     if (value !== null) {
       if (parentMasterData.indexOf(value) >= 0) {
         this.setAttribute(attributeName.toLowerCase(), String(value));
-        this._parentCh5AdvanceButton.setButtonDisplay();
+        this._parentCh5AdvancedButton.setButtonDisplay();
       } else {
         if (removeAttribute === true) {
           this.removeAttribute(attributeName);
@@ -310,16 +310,16 @@ export class Ch5AdvanceButtonModeState extends Ch5Log implements ICh5AdvanceButt
           // go the below else block and the  is called
         } else {
           this.setAttribute(attributeName.toLowerCase(), String(parentMasterData[0]));
-          this._parentCh5AdvanceButton.setButtonDisplay();
+          this._parentCh5AdvancedButton.setButtonDisplay();
         }
       }
     } else {
       if (removeAttribute === true) {
         this.removeAttribute(attributeName);
-        this._parentCh5AdvanceButton.setButtonDisplay();
+        this._parentCh5AdvancedButton.setButtonDisplay();
       } else {
         this.setAttribute(attributeName.toLowerCase(), String(parentMasterData[0]));
-        this._parentCh5AdvanceButton.setButtonDisplay();
+        this._parentCh5AdvancedButton.setButtonDisplay();
       }
     }
     this.logger.stop();
@@ -332,16 +332,16 @@ export class Ch5AdvanceButtonModeState extends Ch5Log implements ICh5AdvanceButt
     } else {
       this.removeAttribute(attributeName);
     }
-    this._parentCh5AdvanceButton.setButtonDisplay();
+    this._parentCh5AdvancedButton.setButtonDisplay();
     this.logger.stop();
   }
 
-  public getParentButton(): Ch5AdvanceButton {
-    const getTheMatchingParent = (node: Node): Ch5AdvanceButton => {
-      if (!_.isNil(node) && node.nodeName.toString().toUpperCase() !== "CH5-ADVANCE-BUTTON") {
+  public getParentButton(): Ch5AdvancedButton {
+    const getTheMatchingParent = (node: Node): Ch5AdvancedButton => {
+      if (!_.isNil(node) && node.nodeName.toString().toUpperCase() !== "ch5-advanced-button") {
         return getTheMatchingParent(node.parentNode as Node);
       }
-      return node as Ch5AdvanceButton;
+      return node as Ch5AdvancedButton;
     }
     return getTheMatchingParent(this.parentElement as Node);
   }
@@ -353,5 +353,5 @@ export class Ch5AdvanceButtonModeState extends Ch5Log implements ICh5AdvanceButt
 if (typeof window === "object" &&
   typeof window.customElements === "object" &&
   typeof window.customElements.define === "function") {
-  window.customElements.define(Ch5AdvanceButtonModeState.ELEMENT_NAME, Ch5AdvanceButtonModeState);
+  window.customElements.define(Ch5AdvancedButtonModeState.ELEMENT_NAME, Ch5AdvancedButtonModeState);
 }
