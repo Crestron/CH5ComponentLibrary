@@ -15,7 +15,16 @@ export class Ch5Button extends Ch5LightBaseClass {
 
 	public static readonly ELEMENT_NAME = 'ch5-button';
 	public static readonly PRIMARY_CSS_CLASS = 'ch5-button';
-	public static readonly TYPES: readonly string[] = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
+	public static readonly TYPES: readonly string[] = ['default', 'primary', 'secondary', 'info', 'success', 'warning', 'danger', 'text'];
+	public static readonly SIZES: readonly string[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
+	public static readonly SHAPES: readonly string[] = ['rounded-rectangle', 'rectangle', 'circle', 'oval', 'tab'];
+	public static readonly STRETCHES: readonly string[] = ['width', 'height', 'both'];
+	public static readonly ICON_POSITIONS: readonly string[] = ['first', 'last', 'top', 'bottom'];
+	public static readonly H_ALIGN_LABELS: readonly string[] = ['center', 'left', 'right'];
+	public static readonly V_ALIGN_LABELS: readonly string[] = ['middle', 'top', 'bottom'];
+	public static readonly CHECKBOX_POSITIONS: readonly string[] = ['left', 'right'];
+	public static readonly ICON_URL_FILL_TYPES: readonly string[] = ['null', 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'];
+	public static readonly BACKGROUND_IMAGE_URL_FILL_TYPES: readonly string[] = ['stretch-aspect', 'stretch', 'center', 'tile'];
 	public static readonly SIGNAL_ATTRIBUTE_TYPE = 'data-signal-type';
 	public static readonly SIGNAL_ATTRIBUTE_SELECTED = 'data-signal-selected';
 
@@ -117,7 +126,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	private static readonly REPEAT_DIGITAL_PERIOD = 200;
 	private _repeatDigitalInterval: number | null = null;
 	private readonly _onSendEventOnClickChange = () => this.handleSendEventOnClick();
-	
+
 	private readonly _onFocus = (event: FocusEvent) => this.handleFocus(event);
 	private readonly _onBlur = (event: FocusEvent) => this.handleBlur(event);
 	private _focusListenersWired = false;
@@ -144,6 +153,9 @@ export class Ch5Button extends Ch5LightBaseClass {
 
 	public set label(value: string) {
 		this._ch5Properties.set<string>('label', value, this._onLabelChange);
+		if (this._isInitialized) {
+			this.setAttribute('label', value);
+		}
 	}
 	public get label(): string {
 		return this._ch5Properties.get<string>('label');
@@ -158,6 +170,9 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 */
 	public set labelInnerHTML(value: string) {
 		this._ch5Properties.set<string>('labelInnerHTML', value ?? '', this._onLabelChange);
+		if (this._isInitialized) {
+			this.setAttribute('labelInnerHTML', value);
+		}
 	}
 	public get labelInnerHTML(): string {
 		return this._ch5Properties.get<string>('labelInnerHTML');
@@ -165,6 +180,9 @@ export class Ch5Button extends Ch5LightBaseClass {
 
 	public set iconClass(value: string) {
 		this._ch5Properties.set<string>('iconClass', value, this._onIconChange);
+		if (this._isInitialized) {
+			this.setAttribute('iconClass', value);
+		}
 	}
 	public get iconClass(): string {
 		return this._ch5Properties.get<string>('iconClass');
@@ -172,6 +190,9 @@ export class Ch5Button extends Ch5LightBaseClass {
 
 	public set iconUrl(value: string) {
 		this._ch5Properties.set<string>('iconUrl', value, this._onIconChange);
+		if (this._isInitialized) {
+			this.setAttribute('iconUrl', value);
+		}
 	}
 	public get iconUrl(): string {
 		return this._ch5Properties.get<string>('iconUrl');
@@ -179,6 +200,9 @@ export class Ch5Button extends Ch5LightBaseClass {
 
 	public set backgroundImageUrl(value: string) {
 		this._ch5Properties.set<string>('backgroundImageUrl', value, this._onBackgroundImageChange);
+		if (this._isInitialized) {
+			this.setAttribute('backgroundImageUrl', value);
+		}
 	}
 	public get backgroundImageUrl(): string {
 		return this._ch5Properties.get<string>('backgroundImageUrl');
@@ -191,6 +215,9 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 */
 	public set multilineSupport(value: boolean) {
 		this._ch5Properties.set<boolean>('multilineSupport', value, this._onLabelWrapChange);
+		if (this._isInitialized) {
+			this.setAttribute('multilineSupport', String(value));
+		}
 	}
 	public get multilineSupport(): boolean {
 		return this._ch5Properties.get<boolean>('multilineSupport');
@@ -203,6 +230,9 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 */
 	public set truncateText(value: boolean) {
 		this._ch5Properties.set<boolean>('truncateText', value, this._onLabelWrapChange);
+		if (this._isInitialized) {
+			this.setAttribute('truncateText', String(value));
+		}
 	}
 	public get truncateText(): boolean {
 		return this._ch5Properties.get<boolean>('truncateText');
@@ -215,6 +245,9 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 */
 	public set receiveStateType(value: string) {
 		this._ch5Properties.set<string>('receiveStateType', value ?? '', this._onReceiveStateTypeChange);
+		if (this._isInitialized) {
+			this.setAttribute('receiveStateType', value);
+		}
 	}
 	public get receiveStateType(): string {
 		return this._ch5Properties.get<string>('receiveStateType');
@@ -227,6 +260,9 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 */
 	public set receiveStateSelected(value: string) {
 		this._ch5Properties.set<string>('receiveStateSelected', value ?? '', this._onReceiveStateSelectedChange);
+		if (this._isInitialized) {
+			this.setAttribute('receiveStateSelected', value);
+		}
 	}
 	public get receiveStateSelected(): string {
 		return this._ch5Properties.get<string>('receiveStateSelected');
@@ -239,6 +275,9 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 */
 	public set receiveStateLabel(value: string) {
 		this._ch5Properties.set<string>('receiveStateLabel', value ?? '', this._onReceiveStateLabelChange);
+		if (this._isInitialized) {
+			this.setAttribute('receiveStateLabel', value);
+		}
 	}
 	public get receiveStateLabel(): string {
 		return this._ch5Properties.get<string>('receiveStateLabel');
@@ -252,6 +291,9 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 */
 	public set receiveStateScriptLabelHtml(value: string) {
 		this._ch5Properties.set<string>('receiveStateScriptLabelHtml', value ?? '', this._onReceiveStateScriptLabelHtmlChange);
+		if (this._isInitialized) {
+			this.setAttribute('receiveStateScriptLabelHtml', value);
+		}
 	}
 	public get receiveStateScriptLabelHtml(): string {
 		return this._ch5Properties.get<string>('receiveStateScriptLabelHtml');
@@ -278,6 +320,9 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 */
 	public set receiveStateIconClass(value: string) {
 		this._ch5Properties.set<string>('receiveStateIconClass', value ?? '', this._onReceiveStateIconClassChange);
+		if (this._isInitialized) {
+			this.setAttribute('receiveStateIconClass', value);
+		}
 	}
 	public get receiveStateIconClass(): string {
 		return this._ch5Properties.get<string>('receiveStateIconClass');
@@ -291,6 +336,9 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 */
 	public set receiveStateIconUrl(value: string) {
 		this._ch5Properties.set<string>('receiveStateIconUrl', value ?? '', this._onReceiveStateIconUrlChange);
+		if (this._isInitialized) {
+			this.setAttribute('receiveStateIconUrl', value);
+		}
 	}
 	public get receiveStateIconUrl(): string {
 		return this._ch5Properties.get<string>('receiveStateIconUrl');
@@ -304,6 +352,9 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 */
 	public set receiveStateBackgroundImageUrl(value: string) {
 		this._ch5Properties.set<string>('receiveStateBackgroundImageUrl', value ?? '', this._onReceiveStateBackgroundImageUrlChange);
+		if (this._isInitialized) {
+			this.setAttribute('receiveStateBackgroundImageUrl', value);
+		}
 	}
 	public get receiveStateBackgroundImageUrl(): string {
 		return this._ch5Properties.get<string>('receiveStateBackgroundImageUrl');
@@ -316,9 +367,220 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 */
 	public set sendEventOnClick(value: string) {
 		this._ch5Properties.set<string>('sendEventOnClick', value ?? '', this._onSendEventOnClickChange);
+		if (this._isInitialized) {
+			this.setAttribute('sendEventOnClick', value);
+		}
 	}
 	public get sendEventOnClick(): string {
 		return this._ch5Properties.get<string>('sendEventOnClick');
+	}
+
+	// CSS-Based Attribute Setters and Getters
+	// These attributes are read directly by CSS selectors. No property store, no
+	// attributeChangedCallback, no handlers - just passive data for styling.
+
+	/**
+	 * Button size variant. Pure CSS attribute - no JS logic, just styling.
+	 * Valid values: see {@link SIZES}
+	 */
+	public set size(value: string) {
+		if (value) {
+			const validValue = Ch5Button.SIZES.indexOf(value) >= 0 ? value : Ch5Button.SIZES[0];
+			this.setAttribute('size', validValue);
+		} else {
+			this.removeAttribute('size');
+		}
+	}
+	public get size(): string {
+		return this.getAttribute('size') || Ch5Button.SIZES[0];
+	}
+
+	/**
+	 * Button shape variant. Pure CSS attribute - no JS logic, just styling.
+	 * Valid values: see {@link SHAPES}
+	 */
+	public set shape(value: string) {
+		if (value) {
+			const validValue = Ch5Button.SHAPES.indexOf(value) >= 0 ? value : Ch5Button.SHAPES[0];
+			this.setAttribute('shape', validValue);
+		} else {
+			this.removeAttribute('shape');
+		}
+	}
+	public get shape(): string {
+		return this.getAttribute('shape') || Ch5Button.SHAPES[0];
+	}
+
+	/**
+	 * Stretches button in specified dimension(s). Pure CSS attribute.
+	 * Valid values: see {@link STRETCHES}
+	 */
+	public set stretch(value: string) {
+		if (value) {
+			const validValue = Ch5Button.STRETCHES.indexOf(value) >= 0 ? value : Ch5Button.STRETCHES[0];
+			this.setAttribute('stretch', validValue);
+		} else {
+			this.removeAttribute('stretch');
+		}
+	}
+	public get stretch(): string {
+		return this.getAttribute('stretch') || Ch5Button.STRETCHES[0];
+	}
+
+	/**
+	 * Icon position relative to label. Pure CSS attribute - no JS logic.
+	 * Valid values: see {@link ICON_POSITIONS}
+	 */
+	public set iconPosition(value: string) {
+		if (value) {
+			const validValue = Ch5Button.ICON_POSITIONS.indexOf(value) >= 0 ? value : Ch5Button.ICON_POSITIONS[0];
+			this.setAttribute('iconposition', validValue);
+		} else {
+			this.removeAttribute('iconposition');
+		}
+	}
+	public get iconPosition(): string {
+		return this.getAttribute('iconposition') || Ch5Button.ICON_POSITIONS[0];
+	}
+
+	/**
+	 * Horizontal alignment of icon + label group within button. Pure CSS attribute.
+	 * Valid values: see {@link H_ALIGN_LABELS}
+	 */
+	public set hAlignLabel(value: string) {
+		if (value) {
+			const validValue = Ch5Button.H_ALIGN_LABELS.indexOf(value) >= 0 ? value : Ch5Button.H_ALIGN_LABELS[0];
+			this.setAttribute('halignlabel', validValue);
+		} else {
+			this.removeAttribute('halignlabel');
+		}
+	}
+	public get hAlignLabel(): string {
+		return this.getAttribute('halignlabel') || Ch5Button.H_ALIGN_LABELS[0];
+	}
+
+	/**
+	 * Vertical alignment of icon + label group within button. Pure CSS attribute.
+	 * Valid values: see {@link V_ALIGN_LABELS}
+	 */
+	public set vAlignLabel(value: string) {
+		if (value) {
+			const validValue = Ch5Button.V_ALIGN_LABELS.indexOf(value) >= 0 ? value : Ch5Button.V_ALIGN_LABELS[0];
+			this.setAttribute('valignlabel', validValue);
+		} else {
+			this.removeAttribute('valignlabel');
+		}
+	}
+	public get vAlignLabel(): string {
+		return this.getAttribute('valignlabel') || Ch5Button.V_ALIGN_LABELS[0];
+	}
+
+	/**
+	 * Button type variant. Pure CSS attribute - no JS logic, just styling.
+	 * Can be overridden by receiveStateType signal via data-signal-type channel.
+	 * Valid values: see {@link TYPES}
+	 */
+	public set type(value: string) {
+		if (value) {
+			const validValue = Ch5Button.TYPES.indexOf(value) >= 0 ? value : Ch5Button.TYPES[0];
+			this.setAttribute('type', validValue);
+		} else {
+			this.removeAttribute('type');
+		}
+	}
+	public get type(): string {
+		return this.getAttribute('type') || Ch5Button.TYPES[0];
+	}
+
+	/**
+	 * Static selected state. Pure CSS attribute - no JS logic, just styling.
+	 * Can be overridden by receiveStateSelected signal via data-signal-selected channel.
+	 * Accepts boolean-like values: bare attribute, "true", "false"
+	 */
+	public set selected(value: boolean) {
+		if (value === true || value === false) {
+			if (value) {
+				this.setAttribute('selected', 'true');
+			} else {
+				this.setAttribute('selected', 'false');
+			}
+		} else {
+			this.removeAttribute('selected');
+		}
+	}
+	public get selected(): boolean {
+		const attr = this.getAttribute('selected');
+		if (attr === null) return false;
+		return attr !== 'false';
+	}
+
+	/**
+	 * Shows checkbox glyph on the button. Pure CSS attribute.
+	 * Accepts boolean-like values: bare attribute, "true", "false"
+	 */
+	public set checkboxShow(value: boolean) {
+		if (value === true || value === false) {
+			if (value) {
+				this.setAttribute('checkboxshow', 'true');
+			} else {
+				this.setAttribute('checkboxshow', 'false');
+			}
+		} else {
+			this.removeAttribute('checkboxshow');
+		}
+	}
+	public get checkboxShow(): boolean {
+		const attr = this.getAttribute('checkboxshow');
+		if (attr === null) return false;
+		return attr !== 'false';
+	}
+
+	/**
+	 * Checkbox position relative to icon/label group. Pure CSS attribute.
+	 * Valid values: see {@link CHECKBOX_POSITIONS}
+	 */
+	public set checkboxPosition(value: string) {
+		if (value) {
+			const validValue = Ch5Button.CHECKBOX_POSITIONS.indexOf(value) >= 0 ? value : Ch5Button.CHECKBOX_POSITIONS[0];
+			this.setAttribute('checkboxposition', validValue);
+		} else {
+			this.removeAttribute('checkboxposition');
+		}
+	}
+	public get checkboxPosition(): string {
+		return this.getAttribute('checkboxposition') || Ch5Button.CHECKBOX_POSITIONS[0];
+	}
+
+	/**
+	 * Fill type for iconUrl background image. Pure CSS attribute.
+	 * Valid values: see {@link ICON_URL_FILL_TYPES}
+	 */
+	public set iconUrlFillType(value: string) {
+		if (value) {
+			const validValue = Ch5Button.ICON_URL_FILL_TYPES.indexOf(value) >= 0 ? value : Ch5Button.ICON_URL_FILL_TYPES[0];
+			this.setAttribute('iconurlfilltype', validValue);
+		} else {
+			this.removeAttribute('iconurlfilltype');
+		}
+	}
+	public get iconUrlFillType(): string {
+		return this.getAttribute('iconurlfilltype') || Ch5Button.ICON_URL_FILL_TYPES[0];
+	}
+
+	/**
+	 * Fill type for backgroundImageUrl. Pure CSS attribute.
+	 * Valid values: see {@link BACKGROUND_IMAGE_URL_FILL_TYPES}
+	 */
+	public set backgroundImageUrlFillType(value: string) {
+		if (value) {
+			const validValue = Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES.indexOf(value) >= 0 ? value : Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES[0];
+			this.setAttribute('backgroundimageurlfilltype', validValue);
+		} else {
+			this.removeAttribute('backgroundimageurlfilltype');
+		}
+	}
+	public get backgroundImageUrlFillType(): string {
+		return this.getAttribute('backgroundimageurlfilltype') || Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES[0];
 	}
 
 	//#endregion
@@ -349,7 +611,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 			Ch5Button.PROPERTY_SETTINGS,
 			registryEntries
 		);
-		
+
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(
 			Ch5Button.ELEMENT_NAME,
 			registryEntries
@@ -777,7 +1039,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 		}
 		// Apply the background image as an inline style on the button (same as
 		// ch5-button); an attribute URL can't be injected via pure CSS, so it's done in JS.
-		
+
 		const backgroundImageUrl = this.backgroundImageUrl;
 		if (backgroundImageUrl) {
 			this._elButton.style.backgroundImage = `url("${backgroundImageUrl}")`;
@@ -1205,22 +1467,22 @@ export class Ch5Button extends Ch5LightBaseClass {
 	}
 
 	/**
-     * Publishes the `sendeventonclick` value in the REPEAT-DIGITAL object form
-     * (`{ repeatdigital: value }`), exactly like `ch5-button` (and `ch5-image` /
-     * `ch5-dpad`) — the light button supports repeat-digital, so it must send the
-     * same object shape as its heavy twin for the control system to handle the
-     * auto-repeat identically. Reuses the shared lazy `Ch5LightSignal` helper;
-     * `sendRepeatDigital` is stateless, so it works whether or not any receive
-     * signals are subscribed.
-     */
-    private sendClickValue(value: boolean): void {
-        this.log('sendClickValue(', value, ')');
-        const signalName = this.sendEventOnClick;
-        if (!signalName) {
-            return;
-        }
-        (this._signals ??= new Ch5LightSignal()).sendRepeatDigital(signalName, value);
-    }
+	 * Publishes the `sendeventonclick` value in the REPEAT-DIGITAL object form
+	 * (`{ repeatdigital: value }`), exactly like `ch5-button` (and `ch5-image` /
+	 * `ch5-dpad`) — the light button supports repeat-digital, so it must send the
+	 * same object shape as its heavy twin for the control system to handle the
+	 * auto-repeat identically. Reuses the shared lazy `Ch5LightSignal` helper;
+	 * `sendRepeatDigital` is stateless, so it works whether or not any receive
+	 * signals are subscribed.
+	 */
+	private sendClickValue(value: boolean): void {
+		this.log('sendClickValue(', value, ')');
+		const signalName = this.sendEventOnClick;
+		if (!signalName) {
+			return;
+		}
+		(this._signals ??= new Ch5LightSignal()).sendRepeatDigital(signalName, value);
+	}
 
 	/**
 	 * Attaches the native `focus`/`blur` listeners to the inner button. No-op if
