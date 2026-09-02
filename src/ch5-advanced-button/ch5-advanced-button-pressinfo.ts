@@ -7,7 +7,7 @@
 
 import isNil from 'lodash/isNil';
 
-export class Ch5ButtonPressInfo {
+export class Ch5AdvancedButtonPressInfo {
 
 	private readonly _threshold: number = 15;
 

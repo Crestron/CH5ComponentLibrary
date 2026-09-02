@@ -8,10 +8,11 @@
 export class Ch5RoleAttributeMapping {
     public static readonly ch5Animation = 'animation';
     public static readonly ch5Background = 'region';
+    public static readonly ch5AdvancedButton = 'button';
+    public static readonly ch5AdvancedButtonLabel = 'label';
+    public static readonly ch5AdvancedButtonMode = 'template';
+    public static readonly ch5AdvancedButtonModeState = 'template';
     public static readonly ch5Button = 'button';
-    public static readonly ch5ButtonLabel = 'label';
-    public static readonly ch5ButtonMode = 'template';
-    public static readonly ch5ButtonModeState = 'template';
     public static readonly ch5ButtonList = 'button-list';
     public static readonly ch5ButtonListMode = 'template';
     public static readonly ch5ButtonListModeState = 'template';

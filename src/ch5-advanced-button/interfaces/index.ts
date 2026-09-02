@@ -5,8 +5,8 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-export * from "./t-ch5-button";
-export * from "./i-ch5-button-attributes";
-export * from "./i-ch5-button-label-attributes";
-export * from "./i-ch5-button-mode-attributes";
-export * from "./i-ch5-button-mode-state-attributes";
+export * from "./t-ch5-advanced-button";
+export * from "./i-ch5-advanced-button-attributes";
+export * from "./i-ch5-advanced-button-label-attributes";
+export * from "./i-ch5-advanced-button-mode-attributes";
+export * from "./i-ch5-advanced-button-mode-state-attributes";

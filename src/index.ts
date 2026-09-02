@@ -27,7 +27,7 @@ export * from './ch5-jointotext-string/index';
 export * from './ch5-keypad/index';
 export * from './ch5-label/index';
 export * from './ch5-light-base/index';
-export * from './ch5-light-button/index';
+export * from './ch5-advanced-button/index';
 export * from './ch5-list/index';
 export * from './ch5-media-player';
 export * from './ch5-modal-dialog/index';

@@ -5,8 +5,9 @@ export interface ICh5LightPropertySettings {
 	default: boolean | string | number;
 	/**
 	 * OPTIONAL metadata mirroring `ICh5PropertySettings` (`ch5-core/ch5-property.ts`)
-	 * for familiarity. The runtime store never reads it (ZERO per-instance cost);
-	 * signal fields are omitted since the light family has no signal machinery.
+	 * for familiarity. The runtime store never reads it (ZERO per-instance cost).
+	 * The `contractName` flag below is the one field read outside the store — and only
+	 * from the STATIC settings array at connect (never retained per instance).
 	 */
 	/** Optional value type hint: 'boolean' | 'enum' | 'string' | 'number'. */
 	type?: string;
@@ -23,6 +24,26 @@ export interface ICh5LightPropertySettings {
 		min: number;
 		max: number;
 	};
+	/**
+	 * Prefixes this signal name with the `contractname` value at connect (via
+	 * `Ch5LightBaseClass.applyContractName`). Mirrors advance-button's
+	 * `contractName: true` flag. Read only from the STATIC settings, so zero per-instance cost.
+	 */
+	contractName?: boolean;
+	/**
+	 * Join type metadata for Ch5SignalAttributeRegistry auto-generation. When present,
+	 * this property will be registered for template join offset processing via
+	 * Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs. Read only from the STATIC
+	 * settings during component registration, so zero per-instance cost.
+	 */
+	/** Signal direction: 'state' (receive) or 'event' (send). */
+	direction?: 'state' | 'event';
+	/** Boolean/digital join type (1 = yes, undefined = no). */
+	booleanJoin?: number;
+	/** Numeric/analog join type (1 = yes, undefined = no). */
+	numericJoin?: number;
+	/** String/serial join type (1 = yes, undefined = no). */
+	stringJoin?: number;
 }
 
 /**
@@ -65,12 +86,15 @@ export class Ch5LightProperties {
 	 * since TypeScript lets a shorter function satisfy a wider callback type.
 	 */
 	public set<T extends boolean | string | number>(name: string, value: T, onChange?: (oldValue: T) => void): void {
+		let nextValue = value as boolean | string | number;
+		if (typeof nextValue === 'string') {
+			nextValue = nextValue.trim();
+		}
 		const currentValue = this._values[name];
-		if (currentValue === value) {
+		if (currentValue === nextValue) {
 			return;
 		}
 
-		let nextValue = value as boolean | string | number;
 		const unsafeValue = value as unknown;
 		// Defensive fallback for runtime nullish inputs from external callers.
 		if ((unsafeValue === null || unsafeValue === undefined) && typeof currentValue === 'string') {
@@ -91,6 +115,6 @@ export class Ch5LightProperties {
 	 * setters on init" pattern) so the caller applies the handlers exactly once.
 	 */
 	public setValue<T extends boolean | string | number>(name: string, value: T): void {
-		this._values[name] = value;
+		this._values[name] = typeof value === 'string' ? value.trim() : value;
 	}
 }

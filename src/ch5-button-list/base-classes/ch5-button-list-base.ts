@@ -1,7 +1,8 @@
+import { Ch5AdvancedButton } from "../../ch5-advanced-button/ch5-advanced-button";
 import { Ch5Button } from "../../ch5-button/ch5-button";
 import { Ch5Common } from "../../ch5-common/ch5-common";
-import { Ch5ButtonMode } from "../../ch5-button/ch5-button-mode";
-import { Ch5ButtonLabel } from "../../ch5-button/ch5-button-label";
+import { Ch5AdvancedButtonMode } from "../../ch5-advanced-button/ch5-advanced-button-mode";
+import { Ch5AdvancedButtonLabel } from "../../ch5-advanced-button/ch5-advanced-button-label";
 import { Ch5SignalElementAttributeRegistryEntries } from "../../ch5-common/ch5-signal-attribute-registry";
 import { Ch5RoleAttributeMapping } from "../../utility-models/ch5-role-attribute-mapping";
 import {
@@ -16,7 +17,7 @@ import { Ch5Properties } from "../../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../../ch5-core/ch5-property";
 import { Ch5ButtonListModeBase } from "./ch5-button-list-mode-base";
 import { Ch5ButtonListModeStateBase } from "./ch5-button-list-mode-state-base";
-import { Ch5ButtonModeState } from "../../ch5-button/ch5-button-mode-state";
+import { Ch5AdvancedButtonModeState } from "../../ch5-advanced-button/ch5-advanced-button-mode-state";
 import { resizeObserver } from "../../ch5-core/resize-observer";
 import { Ch5AugmentVarSignalsNames } from '../../ch5-common/ch5-augment-var-signals-names';
 import { Ch5Signal } from "../../ch5-core/ch5-signal";
@@ -675,7 +676,13 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   private loadButtonForShow: boolean = false;
   private allButtonsVisible: boolean = false;
 
+  // Cached <ch5-button-list-label> <template> analysis (computed once per render batch, reset in debounceButtonDisplay).
+  private _labelTemplate: { html: string; needsAdvance: boolean; isHtml: boolean; hasIndexId: boolean; } | null = null;
+
   public debounceButtonDisplay = this.debounce((isReceiveStateScrollTo = false) => {
+    // New render batch: drop the cached label-template analysis so an authored
+    // template change is re-read once (not per button).
+    this._labelTemplate = null;
     if (this.loadItems === "visible-only") {
       this.buttonDisplay(isReceiveStateScrollTo);
     } else if (this.loadItems === "load-new") {
@@ -2095,8 +2102,9 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   private createButton(index: number, append: boolean = true) {
     if (index < 0 || index >= this.numberOfItems) { return };
     const buttonListContractObj: ICh5ButtonListContractObj = { index: index + 1, clickHoldTime: this.clickHoldTime, contractName: this.contractName, parentComponent: 'ch5-button-list' };
-    const btn = new Ch5Button(buttonListContractObj);
-    btn.setAttribute("swipeGestureEnabled", "true");
+    // Use the lighter ch5-button unless an advance-only feature is present (see requiresAdvanceButton).
+    const useAdvanceButton = this.requiresAdvanceButton();
+    const btn = useAdvanceButton ? new Ch5AdvancedButton(buttonListContractObj) : new Ch5Button(buttonListContractObj);
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
     if (this.contractName !== "" && this.useContractForItemShow === true) {
@@ -2124,23 +2132,48 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     btnContainer.appendChild(btn);
     append ? this._elContainer.appendChild(btnContainer) : this._elContainer.prepend(btnContainer);
     // button attributes helper
-    this.buttonModeHelper(btn, index);
-    this.buttonLabelHelper(btn, index);
-    this.buttonHelper(btn, index);
-    btn.addContainerClass(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.BUTTON_TYPE.classListPrefix + this.buttonType);
-    btn.addContainerClass(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.BUTTON_SHAPE.classListPrefix + this.buttonShape);
-    btn.addContainerClass(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.BUTTON_ICON_POSITION.classListPrefix + this.buttonIconPosition);
-    btn.addContainerClass(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.BUTTON_CHECKBOX_POSITION.classListPrefix + this.buttonCheckboxPosition);
+    if (useAdvanceButton) {
+      btn.setAttribute("swipeGestureEnabled", "true");
+      const advanceButton = btn as Ch5AdvancedButton;
+      this.buttonModeHelper(advanceButton, index);
+      this.buttonLabelHelper(advanceButton, index);
+      this.buttonHelper(advanceButton, index);
+      // Container layout classes apply only to the advance button; the light ch5-button is CSS/attribute-driven.
+      advanceButton.addContainerClass(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.BUTTON_TYPE.classListPrefix + this.buttonType);
+      advanceButton.addContainerClass(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.BUTTON_SHAPE.classListPrefix + this.buttonShape);
+      advanceButton.addContainerClass(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.BUTTON_ICON_POSITION.classListPrefix + this.buttonIconPosition);
+      advanceButton.addContainerClass(this.nodeName.toLowerCase() + Ch5ButtonListBase.COMPONENT_DATA.BUTTON_CHECKBOX_POSITION.classListPrefix + this.buttonCheckboxPosition);
+    } else {
+      this.buttonHelper(btn, index);
+      // Static <ch5-button-list-label> template -> light button's label/labelInnerHTML.
+      this.lightButtonLabelHelper(btn as Ch5Button, index);
+    }
   }
 
-  protected buttonModeHelper(btn: Ch5Button, i: number) {
+  // Advance-only features (see requiresAdvanceButton) force the full Ch5AdvancedButton; everything else uses the light ch5-button.
+  private requiresAdvanceButton(): boolean {
+    const tag = this.nodeName.toLowerCase();
+    // Modes
+    if (this.getElementsByTagName(tag + "-mode").length > 0) { return true; }
+    if (this.buttonMode > 0) { return true; }
+    if (this.buttonReceiveStateMode.trim() !== "") { return true; }
+    // Templated labels: force advance only when the label <template> has live ch5 bindings; static templates render on the light button.
+    if (this.analyzeLabelTemplate().needsAdvance) { return true; }
+    // labelInnerHTML / receiveStateScriptLabelHtml (incl. contract innerHTML labels) render on the light button, so they are NOT advance-only.
+    // SG icons are not implemented on the light button, so they remain advance-only.
+    if (this.buttonReceiveStateSGIconNumeric.trim() !== "" || this.buttonReceiveStateSGIconString.trim() !== "") { return true; }
+    if (this.contractName !== "" && (this.contractItemIconType === "sgStateNumber" || this.contractItemIconType === "sgStateName")) { return true; }
+    return false;
+  }
+
+  protected buttonModeHelper(btn: Ch5AdvancedButton, i: number) {
     const buttonListModes = this.getElementsByTagName(this.nodeName.toLowerCase() + "-mode");
     if (buttonListModes && buttonListModes.length > 0) {
       Array.from(buttonListModes).forEach((buttonListMode, index) => {
         if (index < Ch5ButtonListBase.MODES_MAX_COUNT) {
           if (buttonListMode.parentElement instanceof Ch5ButtonListBase) {
-            const ch5ButtonMode = new Ch5ButtonMode(btn);
-            Ch5ButtonMode.observedAttributes.forEach((attr) => {
+            const ch5ButtonMode = new Ch5AdvancedButtonMode(btn);
+            Ch5AdvancedButtonMode.observedAttributes.forEach((attr) => {
               if (buttonListMode.hasAttribute(attr)) {
                 ch5ButtonMode.setAttribute(attr, buttonListMode.getAttribute(attr) + '');
               }
@@ -2150,8 +2183,8 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
             if (buttonListModeStates && buttonListModeStates.length > 0) {
               Array.from(buttonListModeStates).forEach(buttonListModeState => {
                 if (buttonListModeState.parentElement instanceof Ch5ButtonListModeBase) {
-                  const buttonModeState = new Ch5ButtonModeState(btn);
-                  Ch5ButtonModeState.observedAttributes.forEach((attr) => {
+                  const buttonModeState = new Ch5AdvancedButtonModeState(btn);
+                  Ch5AdvancedButtonModeState.observedAttributes.forEach((attr) => {
                     if (buttonListModeState.hasAttribute(attr)) {
                       buttonModeState.setAttribute(attr, buttonListModeState.getAttribute(attr) + '');
                     }
@@ -2163,7 +2196,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
                       if (buttonModeStateLabel.parentElement instanceof Ch5ButtonListModeStateBase) {
                         const buttonModeStateLabelTemplate = buttonModeStateLabel.getElementsByTagName("template");
                         if (buttonModeStateLabelTemplate && buttonModeStateLabelTemplate.length > 0) {
-                          const ch5ButtonLabel = new Ch5ButtonLabel();
+                          const ch5ButtonLabel = new Ch5AdvancedButtonLabel();
                           const template = document.createElement('template');
                           template.innerHTML = buttonModeStateLabelTemplate[0].innerHTML;
                           Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(template, i, this.indexId);
@@ -2184,7 +2217,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
                 if (buttonListModeLabel.parentElement instanceof Ch5ButtonListModeBase) {
                   const buttonListModeLabelTemplate = buttonListModeLabel.getElementsByTagName("template");
                   if (buttonListModeLabelTemplate && buttonListModeLabelTemplate.length > 0) {
-                    const ch5ButtonLabel = new Ch5ButtonLabel();
+                    const ch5ButtonLabel = new Ch5AdvancedButtonLabel();
                     const template = document.createElement('template');
                     template.innerHTML = buttonListModeLabelTemplate[0].innerHTML;
                     Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(template, i, this.indexId);
@@ -2202,14 +2235,14 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     }
   }
 
-  private buttonLabelHelper(btn: Ch5Button, index: number) {
+  private buttonLabelHelper(btn: Ch5AdvancedButton, index: number) {
     const buttonListLabels = this.getElementsByTagName(this.nodeName.toLowerCase() + "-label");
     if (buttonListLabels && buttonListLabels.length > 0) {
       Array.from(buttonListLabels).forEach((buttonListLabel) => {
         if (buttonListLabel.parentElement instanceof Ch5ButtonListBase) {
           const buttonListLabelTemplate = buttonListLabel.getElementsByTagName("template");
           if (buttonListLabelTemplate && buttonListLabelTemplate.length > 0) {
-            const ch5ButtonLabel = new Ch5ButtonLabel();
+            const ch5ButtonLabel = new Ch5AdvancedButtonLabel();
             const template = document.createElement('template');
             template.innerHTML = buttonListLabelTemplate[0].innerHTML;
             Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(template, index, this.indexId);
@@ -2222,7 +2255,72 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     }
   }
 
-  private buttonHelper(btn: Ch5Button, index: number) {
+  /**
+   * Analyzes the direct <ch5-button-list-label> <template> ONCE per render batch
+   * (it is the same for every item, so this avoids a per-button DOM/string scan).
+   * Caches the raw template HTML and whether it needs the full Ch5AdvancedButton.
+   * The cache is reset at the start of each debounceButtonDisplay batch.
+   */
+  private analyzeLabelTemplate(): { html: string; needsAdvance: boolean; isHtml: boolean; hasIndexId: boolean; } {
+    if (this._labelTemplate) { return this._labelTemplate; }
+    let html = '';
+    const buttonListLabels = this.getElementsByTagName(this.nodeName.toLowerCase() + "-label");
+    for (let i = 0; i < buttonListLabels.length; i++) {
+      if (buttonListLabels[i].parentElement instanceof Ch5ButtonListBase) {
+        const templates = buttonListLabels[i].getElementsByTagName("template");
+        if (templates.length > 0) {
+          // Trim once here - the template is identical for every item.
+          html = templates[0].innerHTML.trim();
+          break;
+        }
+      }
+    }
+    // Classify once so the per-button light path is just a substitute + setAttribute.
+    this._labelTemplate = {
+      html,
+      needsAdvance: html !== '' && this.labelTemplateHasLiveBindings(html),
+      isHtml: /[<&]/.test(html),
+      hasIndexId: this.indexId !== "" && html.includes(`{{${this.indexId}}}`)
+    };
+    return this._labelTemplate;
+  }
+
+  /**
+   * True when the label template has live bindings only Ch5AdvancedButton can resolve
+   * (textual joins {{...}} other than indexId, nested ch5-*, or data-ch5-* attrs).
+   * Pure text / static HTML returns false, so it renders on the light button.
+   */
+  private labelTemplateHasLiveBindings(html: string): boolean {
+    // Strip the loop indexId token first - it is substituted per item, so it is static.
+    const stripped = this.indexId ? this.replaceAll(html, `{{${this.indexId}}}`, '') : html;
+    return stripped.includes('{{') || /<ch5-/i.test(stripped) || /data-ch5-/i.test(stripped);
+  }
+
+  /**
+   * Applies a STATIC <ch5-button-list-label> template to the light ch5-button:
+   * substitutes {{indexId}} then routes to labelInnerHTML (markup) or label (text).
+   * Skipped only when the contract drives the label (contractItemLabelType
+   * textContent/innerHTML); with "none" it renders even under a contractName.
+   * ALSO skipped when a receive signal attribute (buttonReceiveStateLabel or
+   * buttonReceiveStateScriptLabelHtml) is present - signals have priority over static templates.
+   */
+  private lightButtonLabelHelper(btn: Ch5Button, index: number): void {
+    if (this.contractName !== "" && this.contractItemLabelType !== "none") { return; }
+    // Skip static template if a receive signal will drive the label (signal has priority)
+    if (this.hasAttribute('buttonreceivestatelabel') || this.hasAttribute('buttonreceivestatescriptlabelhtml')) {
+      return;
+    }
+    const tpl = this.analyzeLabelTemplate();
+    if (tpl.html === '') { return; }
+    // Only the per-item {{indexId}} -> index substitution is left to do per button; the
+    // trim and markup-vs-text decision were cached in analyzeLabelTemplate.
+    const label = tpl.hasIndexId
+      ? this.replaceAll(tpl.html, `{{${this.indexId}}}`, index + '')
+      : tpl.html;
+    btn.setAttribute(tpl.isHtml ? 'labelInnerHTML' : 'label', label);
+  }
+
+  private buttonHelper(btn: Ch5AdvancedButton | Ch5Button, index: number) {
     btn.setAttribute('stretch', 'both');
     btn.setAttribute('shape', Ch5ButtonListBase.BUTTON_SHAPES[0]);
     // Contract Helper
@@ -2352,7 +2450,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     }
   }
 
-  private contractButtonHelper(btn: Ch5Button, index: number) {
+  private contractButtonHelper(btn: Ch5AdvancedButton | Ch5Button, index: number) {
     if (this.useContractForItemEnable === true) {
       btn.setAttribute('receiveStateEnable', this.contractName + `.Button${index + 1}Enabled`);
     } else if (this.hasAttribute('buttonReceiveStateEnable') && this.getAttribute('buttonReceiveStateEnable')?.trim()) {
@@ -2492,7 +2590,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     });
   }
 
-  private indexIdReplaceHelper(btn: Ch5Button, attr: string, index: number) {
+  private indexIdReplaceHelper(btn: Ch5AdvancedButton | Ch5Button, attr: string, index: number) {
     if (this.getAttribute(attr)?.trim().includes(`{{${this.indexId}}}`) === false) {
       const attrValue = this.getAttribute(attr)?.trim();
       if (attrValue) {

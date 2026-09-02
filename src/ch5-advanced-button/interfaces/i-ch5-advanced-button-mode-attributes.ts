@@ -5,19 +5,19 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5ButtonModeCommonAttributes } from "./i-ch5-button-mode-common";
+import { ICh5AdvancedButtonModeCommonAttributes } from "./i-ch5-advanced-button-mode-common";
 
 /**
- * @name Ch5 Button Mode
+ * @name Ch5 Advance Button Mode
  * @isattribute false
- * @tagName ch5-button-mode
+ * @tagName ch5-advanced-button-mode
  * @role button
- * @description Ch5 Button Mode is a child node for <ch5-button>.
+ * @description Ch5 Advance Button Mode is a child node for <ch5-advanced-button>.
  * @componentVersion 1.0.0
  * @childElements
  * [
  *    {
- *      "tagName": "ch5-button-label",
+ *      "tagName": "ch5-advanced-button-label",
  *      "optional": true,
  *      "childElements": [
  *        {
@@ -44,11 +44,11 @@ import { ICh5ButtonModeCommonAttributes } from "./i-ch5-button-mode-common";
  *      ]
  *    },
  *    {
- *      "tagName": "ch5-button-mode-state",
+ *      "tagName": "ch5-advanced-button-mode-state",
  *      "optional": true,
  *      "childElements": [
  *        {
- *          "tagName": "ch5-button-label",
+ *          "tagName": "ch5-advanced-button-label",
  *          "optional": true,
  *          "childElements": [
  *            {
@@ -79,25 +79,25 @@ import { ICh5ButtonModeCommonAttributes } from "./i-ch5-button-mode-common";
  * ]
  * @documentation
  * [
- *   "`ch5-button-mode` element",
+ *   "`ch5-advanced-button-mode` element",
  *   "***",
- *   "A child element designed to capture mode level attributes for Ch5 Button component."
+ *   "A child element designed to capture mode level attributes for Ch5 Advance Button component."
  * ]
  * @snippets
  * [
  *  {
- *    "prefix": "ch5-button-mode:blank",
+ *    "prefix": "ch5-advanced-button-mode:blank",
  *     "description": "Crestron Button Mode",
  *     "body": [
- *       "<ch5-button-mode>",
- *       "</ch5-button-mode>$0"
+ *       "<ch5-advanced-button-mode>",
+ *       "</ch5-advanced-button-mode>$0"
  *     ]
  *   },
  *   {
- *     "prefix": "ch5-button-mode:all-attributes",
+ *     "prefix": "ch5-advanced-button-mode:all-attributes",
  *     "description": "Crestron Button Mode (All Attributes)",
  *     "body": [
- *       "<ch5-button-mode",
+ *       "<ch5-advanced-button-mode",
  *       "\ttype=\"${1|default,primary,info,text,danger,warning,success,secondary|}\"",
  *       "\tcustomClass=\"${2:customClass}\"",
  *       "\tcustomStyle=\"${3:customStyle}\"",
@@ -107,12 +107,12 @@ import { ICh5ButtonModeCommonAttributes } from "./i-ch5-button-mode-common";
  *       "\ticonposition=\"${7|first,last,top,bottom|}\"",
  *       "\ticonClass=\"${8:iconClass}\"",
  *       "\ticonUrl=\"${9:iconUrl}\">",
- *       "</ch5-button-mode>$0"
+ *       "</ch5-advanced-button-mode>$0"
  *       ]
  *    }
  * ]
  *
  */
-export interface ICh5ButtonModeAttributes extends ICh5ButtonModeCommonAttributes {
+export interface ICh5AdvancedButtonModeAttributes extends ICh5AdvancedButtonModeCommonAttributes {
 
 }

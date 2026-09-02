@@ -8,7 +8,7 @@
 import { expect, assert } from 'chai';
 import { describe } from 'mocha';
 import { Ch5AugmentVarSignalsNames } from './ch5-augment-var-signals-names';
-import { Ch5Button } from '../ch5-button/ch5-button';
+import { Ch5AdvancedButton } from '../ch5-advanced-button/ch5-advanced-button';
 import { Ch5Template } from '../ch5-template/ch5-template';
 import { Ch5AttrsShow } from '../ch5-custom-attrs/ch5-attrs-show';
 import { Ch5AttrsAppendclass } from '../ch5-custom-attrs/ch5-attrs-appendclass';
@@ -24,14 +24,14 @@ describe('Ch5AugmentVarSignalsNames', () => {
         Ch5AttrsShow.registerSignalAttributeTypes();
         Ch5AttrsTextContent.registerSignalAttributeTypes();
         Ch5AttrsAppendclass.registerSignalAttributeTypes();
-        Ch5Button.registerSignalAttributeTypes();
+        Ch5AdvancedButton.registerSignalAttributeTypes();
         Ch5Template.registerSignalAttributeTypes();
         Ch5Template.registerSignalAttributeDefaults(Ch5Template.ELEMENT_NAME);
     })
 
     beforeEach(() => {
         ch5TemplateParentEl = document.createElement('template');
-        ch5ButtonEl = document.createElement('ch5-button');
+        ch5ButtonEl = document.createElement('ch5-advanced-button');
         stdDivEl = document.createElement('div');
         ch5TemplateChildEl = document.createElement('ch5-template');
         ch5TemplateParentEl.content.appendChild(ch5ButtonEl);
