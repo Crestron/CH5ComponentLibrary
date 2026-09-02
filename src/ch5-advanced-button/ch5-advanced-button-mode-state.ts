@@ -338,7 +338,7 @@ export class Ch5AdvancedButtonModeState extends Ch5Log implements ICh5AdvancedBu
 
   public getParentButton(): Ch5AdvancedButton {
     const getTheMatchingParent = (node: Node): Ch5AdvancedButton => {
-      if (!_.isNil(node) && node.nodeName.toString().toUpperCase() !== "ch5-advanced-button") {
+      if (!_.isNil(node) && node.nodeName.toString().toUpperCase() !== "CH5-ADVANCED-BUTTON") {
         return getTheMatchingParent(node.parentNode as Node);
       }
       return node as Ch5AdvancedButton;
