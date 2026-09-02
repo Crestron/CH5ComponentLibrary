@@ -1713,6 +1713,8 @@ export class Ch5AdvancedButtonBase extends Ch5Common implements ICh5AdvancedButt
 	private backgroundImageURLHandler() {
 		if (this.backgroundImageUrl !== "" && !_.isNil(this.backgroundImageUrl)) {
 			this._elButton.style.backgroundImage = "url(" + this.backgroundImageUrl + ")";
+		} else {
+			this._elButton.style.backgroundImage = '';
 		}
 	}
 
@@ -2312,10 +2314,18 @@ export class Ch5AdvancedButtonBase extends Ch5Common implements ICh5AdvancedButt
 							extendedProperties.type = selectedButtonModeState.getAttribute("type") as TCh5AdvancedButtonType;
 						}
 						if (isNil(extendedProperties.iconUrl) && !isNil(selectedButtonModeState.getAttribute("iconurl"))) {
-							extendedProperties.iconUrl = selectedButtonModeState.getAttribute("iconurl") as string;
+							if (String(selectedButtonModeState.getAttribute("iconurl")).trim() === "") {
+								extendedProperties.iconUrl = "";
+							} else {
+								extendedProperties.iconUrl = selectedButtonModeState.getAttribute("iconurl") as string;
+							}
 						}
 						if (isNil(extendedProperties.iconClass) && !isNil(selectedButtonModeState.getAttribute("iconclass"))) {
-							extendedProperties.iconClass = selectedButtonModeState.getAttribute("iconclass") as string;
+							if (String(selectedButtonModeState.getAttribute("iconclass")).trim() === "") {
+								extendedProperties.iconClass = "";
+							} else {
+								extendedProperties.iconClass = selectedButtonModeState.getAttribute("iconclass") as string;
+							}
 						}
 						if (isNil(extendedProperties.iconPosition) && !isNil(selectedButtonModeState.getAttribute("iconposition"))) {
 							extendedProperties.iconPosition = selectedButtonModeState.getAttribute("iconposition") as TCh5AdvancedButtonIconPosition;
@@ -2355,10 +2365,18 @@ export class Ch5AdvancedButtonBase extends Ch5Common implements ICh5AdvancedButt
 					extendedProperties.type = selectedButtonMode.getAttribute("type") as TCh5AdvancedButtonType;
 				}
 				if (isNil(extendedProperties.iconUrl) && !isNil(selectedButtonMode.getAttribute("iconurl"))) {
-					extendedProperties.iconUrl = selectedButtonMode.getAttribute("iconurl") as string;
+					if (String(selectedButtonMode.getAttribute("iconurl")).trim() === "") {
+						extendedProperties.iconUrl = "";
+					} else {
+						extendedProperties.iconUrl = selectedButtonMode.getAttribute("iconurl") as string;
+					}
 				}
 				if (isNil(extendedProperties.iconClass) && !isNil(selectedButtonMode.getAttribute("iconclass"))) {
-					extendedProperties.iconClass = selectedButtonMode.getAttribute("iconclass") as string;
+					if (String(selectedButtonMode.getAttribute("iconclass")).trim() === "") {
+						extendedProperties.iconClass = "";
+					} else {
+						extendedProperties.iconClass = selectedButtonMode.getAttribute("iconclass") as string;
+					}
 				}
 				if (isNil(extendedProperties.iconPosition) && !isNil(selectedButtonMode.getAttribute("iconposition"))) {
 					extendedProperties.iconPosition = selectedButtonMode.getAttribute("iconposition") as TCh5AdvancedButtonIconPosition;
@@ -2696,12 +2714,17 @@ export class Ch5AdvancedButtonBase extends Ch5Common implements ICh5AdvancedButt
 			let hasSgString = false;
 			let hasAriaLabel = false;
 			let hasCheckbox = false;
+			const receiveStateIconClassValue = this._Ch5AdvancedButtonSignal.getSignal('receiveStateIconClass')?.currentValue;
+			const receiveStateIconUrlValue = this._Ch5AdvancedButtonSignal.getSignal('receiveStateIconUrl')?.currentValue;
+			const receiveStateLabelValue = this._Ch5AdvancedButtonSignal.getSignal('receiveStateLabel')?.currentValue;
+			const receiveStateScriptLabelHtmlValue = this._Ch5AdvancedButtonSignal.getSignal('receiveStateScriptLabelHtml')?.currentValue;
+			const receiveStateSGIconStringValue = this._Ch5AdvancedButtonSignal.getSignal('receiveStateSGIconString')?.currentValue;
 
-			if ((!isNil(this.iconClass) && this.iconClass !== "") || (this.receiveStateIconClass && this.receiveStateIconClass !== '')) {
+			if ((!isNil(this.iconClass) && String(this.iconClass).trim() !== "") || (!isNil(receiveStateIconClassValue) && String(receiveStateIconClassValue).trim() !== "")) {
 				hasIcon = true;
 			}
 
-			if ((!isNil(this.iconUrl) && this.iconUrl !== "") || (this.receiveStateIconUrl && this.receiveStateIconUrl !== '')) {
+			if ((!isNil(this.iconUrl) && String(this.iconUrl).trim() !== "") || (!isNil(receiveStateIconUrlValue) && String(receiveStateIconUrlValue).trim() !== "")) {
 				hasImage = true;
 			}
 
@@ -2709,13 +2732,13 @@ export class Ch5AdvancedButtonBase extends Ch5Common implements ICh5AdvancedButt
 				hasSgNumeric = true;
 			}
 
-			if ((!isNil(this.sgIconString) && this.sgIconString !== '') || (this.receiveStateSGIconString && this.receiveStateSGIconString !== '')) {
+			if ((!isNil(this.sgIconString) && String(this.sgIconString).trim() !== '') || (!isNil(receiveStateSGIconStringValue) && String(receiveStateSGIconStringValue).trim() !== '')) {
 				hasSgString = true;
 			}
 			hasCheckbox = this.isCheckboxVisible();
 
 			// TODO - check the below for empty<template> tag
-			if ((!isNil(this.label) && this.label !== "") || (this.receiveStateLabel && this.receiveStateLabel !== '') || (this.receiveStateScriptLabelHtml && this.receiveStateScriptLabelHtml !== '')) {
+			if ((!isNil(this.label) && String(this.label).trim() !== "") || (!isNil(receiveStateLabelValue) && String(receiveStateLabelValue).trim() !== "") || (!isNil(receiveStateScriptLabelHtmlValue) && String(receiveStateScriptLabelHtmlValue).trim() !== "")) {
 				hasLabel = true;
 			}
 			if (this.hasAttribute('aria-label') && '' !== this.getAttribute('aria-label')) {
