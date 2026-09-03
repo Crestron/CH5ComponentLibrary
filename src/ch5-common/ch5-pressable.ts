@@ -477,7 +477,7 @@ export class Ch5Pressable {
 	}
 }
 
-/* Why You Need Both Pointer Move and Touch Move in CH5 Advance Button
+/* Why You Need Both Pointer Move and Touch Move in CH5 Advanced Button
 Pointer events are the modern standard, but there are important compatibility and behavior reasons why touchmove is still needed:
 1. Browser Compatibility & Fallback
 Pointer events are relatively newer and not supported on all older browsers/devices
