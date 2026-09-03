@@ -258,9 +258,46 @@ The component's own JavaScript handles **six** presentation attributes (`label`,
 | `type` | **CSS** | `default`, `primary`, `secondary`, `info`, `success`, `warning`, `danger`, `text` | Attribute selectors + a content/colour mixin. The author's `type` attribute is **never mutated** by the component. It can be overridden at runtime by the `receivestatetype` signal, which styles through a **separate** `data-signal-type` channel (see below); every static `[type]` selector is guarded with `:not([data-signal-type])` so the signal wins while active. |
 | `stretch` | **CSS** | `width`, `height`, `both` | Overrides only the stretched dimension; keeps a per-size min-height. |
 
+### Typed CSS-only property API
+
+The CSS-first presentation attributes are now exposed as strongly typed class accessors on `Ch5Button`, with the default value stored as the first entry in each static enum. This keeps the author-facing API self-documenting while preserving the lightweight, attribute-selector-driven styling model.
+
+- `size`, `shape`, `stretch`, `iconPosition`, `hAlignLabel`, `vAlignLabel` are exposed as `string` getters/setters.
+- `type`, `selected`, `checkboxShow`, `checkboxPosition`, `iconUrlFillType`, and `backgroundImageUrlFillType` are exposed as typed getters/setters (`string` and `boolean` as appropriate).
+- The static arrays are defined as `public static readonly ...: readonly string[]`, e.g. `Ch5Button.SIZES`, `Ch5Button.SHAPES`, `Ch5Button.STRETCHES`, `Ch5Button.ICON_POSITIONS`, `Ch5Button.H_ALIGN_LABELS`, and `Ch5Button.V_ALIGN_LABELS`.
+- Each setter validates the incoming value against its allowed list and falls back to the default value when the value is invalid or empty. This keeps the runtime behavior predictable without introducing extra render logic or layout work.
+- The boolean CSS properties (`selected`, `checkboxShow`) explicitly support bare attribute / `true` / `false` semantics, while the string-based CSS properties accept only the documented list of values.
+
+This is intentionally a **zero-cost / low-cost API layer**: the validation is a simple array lookup, the default is the first item in the static array, and the styling itself remains entirely in CSS. The JavaScript layer does not add any background rendering or layout logic for these attributes.
+
 ### Roadmap — introduced step by step
 
 `ch5-light-button` follows a phased approach. **Version one** implements the attributes listed above. The following `ch5-button` capabilities are **not part of version one** and are candidates to be introduced in later versions as the need arises:
+
+**Common Attributes (out of scope):**
+
+- `receiveStateCustomClass`
+- `receiveStateCustomStyle`
+- `receiveStateShowPulse`
+- `receiveStateHidePulse`
+- `customClass`
+- `customStyle`
+- `appendClassWhenInViewport`
+- `gestureable`
+
+**Button Attributes (out of scope):**
+
+- `customClassSelected`
+- `customClassPressed`
+- `customClassDisabled`
+- `sgIconTheme`
+- `formType`
+- `mode`
+- `receiveStateMode`
+- `receiveStateSgIconNumeric`
+- `receiveStateSgIconString`
+- `orientation`
+- `sgIcon*`
 
 `mode`, `orientation`, `sgIcon*`, `customClass`, `customStyle`, `formType`, and the remaining `receiveState*` / `sendEventOn*` signal attributes (of the signal attributes, only `receivestatetype`, `receivestateselected`, `receivestatelabel`, `receivestatescriptlabelhtml`, `receivestateiconclass`, `receivestateiconurl`, `receivestatebackgroundimageurl`, and the base class's `receivestateenable` / `receivestateshow`, plus the send signals `sendeventonclick` and `sendeventonshow`, are implemented in version one).
 
