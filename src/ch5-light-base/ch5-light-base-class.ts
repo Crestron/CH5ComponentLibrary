@@ -4,9 +4,9 @@ import { Ch5LightProperties, ICh5LightPropertySettings } from "./ch5-light-prope
 import { Ch5LightSignal } from "./ch5-light-signal";
 import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
 import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { TCh5LightShowType } from "./interfaces/t-ch5-light-base";
 
-/** How a light component hides itself — mirrors `Ch5BaseClass` noshowtype. */
-export type TCh5LightShowType = 'display' | 'visibility' | 'remove';
+export type { TCh5LightShowType };
 
 /**
  * Lightweight base class for the "light" family of Ch5 components
