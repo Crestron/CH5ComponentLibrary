@@ -214,9 +214,10 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * when true, so single-line buttons pay nothing.
 	 */
 	public set multilineSupport(value: boolean) {
-		this._ch5Properties.set<boolean>('multilineSupport', value, this._onLabelWrapChange);
+		const normalizedValue = Ch5LightBaseClass.normalizeBooleanValue(value, false, false);
+		this._ch5Properties.set<boolean>('multilineSupport', normalizedValue, this._onLabelWrapChange);
 		if (this._isInitialized) {
-			this.setAttribute('multilineSupport', String(value));
+			this.setAttribute('multilineSupport', normalizedValue ? 'true' : 'false');
 		}
 	}
 	public get multilineSupport(): boolean {
@@ -229,9 +230,10 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * without an ellipsis.
 	 */
 	public set truncateText(value: boolean) {
-		this._ch5Properties.set<boolean>('truncateText', value, this._onLabelWrapChange);
+		const normalizedValue = Ch5LightBaseClass.normalizeBooleanValue(value, true, true);
+		this._ch5Properties.set<boolean>('truncateText', normalizedValue, this._onLabelWrapChange);
 		if (this._isInitialized) {
-			this.setAttribute('truncateText', String(value));
+			this.setAttribute('truncateText', normalizedValue ? 'true' : 'false');
 		}
 	}
 	public get truncateText(): boolean {
