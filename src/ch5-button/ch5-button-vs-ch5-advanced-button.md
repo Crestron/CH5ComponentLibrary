@@ -262,6 +262,31 @@ The component's own JavaScript handles **six** presentation attributes (`label`,
 
 `ch5-light-button` follows a phased approach. **Version one** implements the attributes listed above. The following `ch5-button` capabilities are **not part of version one** and are candidates to be introduced in later versions as the need arises:
 
+**Common Attributes (out of scope):**
+
+- `receiveStateCustomClass`
+- `receiveStateCustomStyle`
+- `receiveStateShowPulse`
+- `receiveStateHidePulse`
+- `customClass`
+- `customStyle`
+- `appendClassWhenInViewport`
+- `gestureable`
+
+**Button Attributes (out of scope):**
+
+- `customClassSelected`
+- `customClassPressed`
+- `customClassDisabled`
+- `sgIconTheme`
+- `formType`
+- `mode`
+- `receiveStateMode`
+- `receiveStateSgIconNumeric`
+- `receiveStateSgIconString`
+- `orientation`
+- `sgIcon*`
+
 `mode`, `orientation`, `sgIcon*`, `customClass`, `customStyle`, `formType`, and the remaining `receiveState*` / `sendEventOn*` signal attributes (of the signal attributes, only `receivestatetype`, `receivestateselected`, `receivestatelabel`, `receivestatescriptlabelhtml`, `receivestateiconclass`, `receivestateiconurl`, `receivestatebackgroundimageurl`, and the base class's `receivestateenable` / `receivestateshow`, plus the send signals `sendeventonclick` and `sendeventonshow`, are implemented in version one).
 
 Keeping the initial surface small is deliberate — it is what lets version one stay lightweight and fast at scale. Features will be added only when required, so the component grows in controlled steps rather than carrying the full `ch5-button` weight up front.
