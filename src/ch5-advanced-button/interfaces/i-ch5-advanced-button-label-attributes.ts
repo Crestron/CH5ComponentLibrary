@@ -6,11 +6,11 @@
 // under which you licensed this source code.
 
 /**
- * @name Ch5 Advance Button Label
+ * @name Ch5 Advanced Button Label
  * @isattribute false
  * @tagName ch5-advanced-button-label
  * @role button
- * @description Ch5 Advance Button Label is a child node for <ch5-advanced-button>, <ch5-advanced-button-mode> and <ch5-advanced-button-mode-state>.
+ * @description Ch5 Advanced Button Label is a child node for <ch5-advanced-button>, <ch5-advanced-button-mode> and <ch5-advanced-button-mode-state>.
  * @componentVersion 1.0.0
  * @childElements
  * [
@@ -34,7 +34,7 @@
  * [
  *   "`ch5-advanced-button-label` element",
  *   "***",
- *   "A child element designed to capture the label for Ch5 Advance Button component."
+ *   "A child element designed to capture the label for Ch5 Advanced Button component."
  * ]
  * @snippets
  * [

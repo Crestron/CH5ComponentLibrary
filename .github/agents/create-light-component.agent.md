@@ -66,7 +66,7 @@ the user before writing code.
 | # | Bucket | How to recognize it | Implementation | ch5-button example |
 |---|--------|--------------------|----------------|--------------------|
 | 1 | **Base-provided** | `show`, `noshowtype`, `disabled`, `debug`, `trace`, `id`, `role`, `receivestateenable`, `receivestateshow`, `sendeventonshow` | **Do nothing** — inherited from `Ch5LightBaseClass`. Just merge `LIGHT_BASE_OBSERVED_ATTRIBUTES`. | `show`, `disabled` |
-| 2 | **Pure-CSS (static)** | A visual state styled entirely by a CSS attribute selector (`[type]`, `[selected]`) with **no JS** | **No JS at all**: not observed, no store entry, no getter/setter, no `attributeChangedCallback` case. Styled by theme SCSS only. | `type`, `selected` |
+| 2 | **Pure-CSS (static)** | A visual state styled entirely by a CSS attribute selector (`[type]`, `[selected]`) with **no JS render step** | **No DOM render logic**: no `handleX()` method, no `attributeChangedCallback` case for the visual state itself, and no property-store entry unless the value is also a runtime property that must be stored. However, for design-time authoring and validation, a light component may still expose a typed getter/setter pair that validates against a `static readonly` enum array and falls back to the first/default value. The visual styling remains entirely in theme SCSS. | `type`, `selected`, `size`, `shape`, `stretch` |
 | 3 | **JS-rendered** | Content the JS must write into the DOM (text, class on an inner element, inline style / background image) | Observed + store entry + cached `_onXChange` + getter/setter + `attributeChangedCallback` case + a `handleX()` that lazily creates & updates cached DOM refs. | `label`, `iconClass`, `iconUrl`, `backgroundImageUrl` |
 | 4 | **Receive signal** (`receivestate*`) | Inbound signal that drives one of the above | Observed + store entry (`contractName: true`) + cached `_onReceiveStateXChange = (oldSignalName) => ...` + cached `_onSignalXValue` + `subscribeReceiveStateX()` + `handleReceiveStateX(oldName)` + `applySignalX(value)`. **Two sub-patterns below.** | `receiveStateType`, `receiveStateLabel`, ... |
 | 5 | **Send signal** (`sendevent*`) | Outbound signal published on user interaction | Observed + store entry (`contractName: true`) + opt-in listeners attached only when set, cached handler fields, torn down on disconnect. Use `sendRepeatDigital` for button-style press, `sendBoolean` for plain digitals. | `sendEventOnClick` |
@@ -84,7 +84,7 @@ A `receivestate*` signal is wired **based on how its target is styled** (ch5-but
 - **If it drives JS-rendered content (bucket 3)** → use the simpler **write-through** pattern:
   `applySignalX(value)` writes straight into the same property slot the static attribute uses
   (`this.label = value`) and lets the normal `handleX()` re-render. One exception: if the target has
-  CSS scoped to the **host attribute** (like `backgroundimageurlfilltype` on `[backgroundimageurl]`),
+  CSS scoped to the **host attribute** (like `backgroundImageFillType` on `[backgroundimageurl]`),
   reflect the host attribute in `applySignalX` and remove it when the signal clears (§6.5).
 
 ### Interaction events — reuse `Ch5LightPressable`, don't reimplement
@@ -121,6 +121,22 @@ Methods, Helpers). Non-negotiable structural rules:
 
 - `export class Ch5<Name> extends Ch5LightBaseClass` (PascalCase; kebab-case element name).
 - `static readonly ELEMENT_NAME`, `PRIMARY_CSS_CLASS`, and any enum value list (like `TYPES`).
+- For CSS-only visual attributes that are still exposed as author properties, define `public static readonly ...: readonly string[]` arrays with the **default value as the first item**. Examples from `ch5-button`: `TYPES`, `SIZES`, `SHAPES`, `STRETCHES`, `ICON_POSITIONS`, `H_ALIGN_LABELS`, `V_ALIGN_LABELS`, etc.
+- Use the `ch5-button` validation pattern for CSS-only setters:
+  ```typescript
+  public set size(value: string) {
+    if (value) {
+      const validValue = Ch5Button.SIZES.indexOf(value) >= 0 ? value : Ch5Button.SIZES[0];
+      this.setAttribute('size', validValue);
+    } else {
+      this.removeAttribute('size');
+    }
+  }
+  public get size(): string {
+    return this.getAttribute('size') || Ch5Button.SIZES[0];
+  }
+  ```
+  This keeps the visual state fully CSS-driven while still giving typed, safe author API access and a documented default fallback.
 - **DRY principle**: `static readonly PROPERTY_SETTINGS: ICh5LightPropertySettings[]` is the **single
   source of truth**. Define one entry per store-backed attribute. Mark every `receivestate*` /
   `sendevent*` entry with `contractName: true` and the appropriate join metadata (`direction: 'state'|'event'`,
@@ -227,6 +243,7 @@ should run manually.
 - **DO NOT** extend `Ch5Common` / `Ch5BaseClass`, import lodash, add a `MutationObserver`, or pull in
   the heavy signal framework. Use `Ch5LightSignal` only.
 - **DO NOT** handle `disabled` in JS — it is CSS-only (`[disabled]`), by deliberate design.
+- **DO NOT** treat all CSS-only attributes as "no getter/setter". In `ch5-button`, some CSS-only attributes are exposed as typed accessors with validation arrays and a default-value fallback; that is acceptable because the visual behavior remains CSS-driven. The rule is: **no JS render step**, not **no TS accessors**.
 - **DO NOT** let a receive signal write a pure-CSS attribute directly — use the `data-signal-*` shadow
   channel (§5.1).
 - **DO NOT** create a manual `OBSERVED_ATTRIBUTES` array — auto-generate it from `PROPERTY_SETTINGS`

@@ -214,9 +214,10 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * when true, so single-line buttons pay nothing.
 	 */
 	public set multilineSupport(value: boolean) {
-		this._ch5Properties.set<boolean>('multilineSupport', value, this._onLabelWrapChange);
+		const normalizedValue = Ch5LightBaseClass.normalizeBooleanValue(value, false, false);
+		this._ch5Properties.set<boolean>('multilineSupport', normalizedValue, this._onLabelWrapChange);
 		if (this._isInitialized) {
-			this.setAttribute('multilineSupport', String(value));
+			this.setAttribute('multilineSupport', normalizedValue ? 'true' : 'false');
 		}
 	}
 	public get multilineSupport(): boolean {
@@ -229,9 +230,10 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * without an ellipsis.
 	 */
 	public set truncateText(value: boolean) {
-		this._ch5Properties.set<boolean>('truncateText', value, this._onLabelWrapChange);
+		const normalizedValue = Ch5LightBaseClass.normalizeBooleanValue(value, true, true);
+		this._ch5Properties.set<boolean>('truncateText', normalizedValue, this._onLabelWrapChange);
 		if (this._isInitialized) {
-			this.setAttribute('truncateText', String(value));
+			this.setAttribute('truncateText', normalizedValue ? 'true' : 'false');
 		}
 	}
 	public get truncateText(): boolean {
@@ -571,16 +573,16 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * Fill type for backgroundImageUrl. Pure CSS attribute.
 	 * Valid values: see {@link BACKGROUND_IMAGE_URL_FILL_TYPES}
 	 */
-	public set backgroundImageUrlFillType(value: string) {
+	public set backgroundImageFillType(value: string) {
 		if (value) {
 			const validValue = Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES.indexOf(value) >= 0 ? value : Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES[0];
-			this.setAttribute('backgroundimageurlfilltype', validValue);
+			this.setAttribute('backgroundImageFillType', validValue);
 		} else {
-			this.removeAttribute('backgroundimageurlfilltype');
+			this.removeAttribute('backgroundImageFillType');
 		}
 	}
-	public get backgroundImageUrlFillType(): string {
-		return this.getAttribute('backgroundimageurlfilltype') || Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES[0];
+	public get backgroundImageFillType(): string {
+		return this.getAttribute('backgroundImageFillType') || Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES[0];
 	}
 
 	//#endregion

@@ -9,11 +9,11 @@ import { ICh5AdvancedButtonAttributes } from ".";
 import { ICh5Common } from "../../ch5-common/interfaces";
 
 /**
- * @name Ch5 Advance Button
+ * @name Ch5 Advanced Button
  * @isattribute false
  * @tagName ch5-advanced-button
  * @role button
- * @description Ch5 Advance Button offers a wide range of functionality out-of-the-box.
+ * @description Ch5 Advanced Button offers a wide range of functionality out-of-the-box.
  * @componentVersion 1.0.0
  * @childElements
  * [

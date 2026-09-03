@@ -8,11 +8,11 @@
 import { ICh5AdvancedButtonModeCommonAttributes } from "./i-ch5-advanced-button-mode-common";
 
 /**
- * @name Ch5 Advance Button Mode
+ * @name Ch5 Advanced Button Mode
  * @isattribute false
  * @tagName ch5-advanced-button-mode
  * @role button
- * @description Ch5 Advance Button Mode is a child node for <ch5-advanced-button>.
+ * @description Ch5 Advanced Button Mode is a child node for <ch5-advanced-button>.
  * @componentVersion 1.0.0
  * @childElements
  * [
@@ -81,7 +81,7 @@ import { ICh5AdvancedButtonModeCommonAttributes } from "./i-ch5-advanced-button-
  * [
  *   "`ch5-advanced-button-mode` element",
  *   "***",
- *   "A child element designed to capture mode level attributes for Ch5 Advance Button component."
+ *   "A child element designed to capture mode level attributes for Ch5 Advanced Button component."
  * ]
  * @snippets
  * [

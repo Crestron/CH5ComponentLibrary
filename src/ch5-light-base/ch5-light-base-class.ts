@@ -4,9 +4,9 @@ import { Ch5LightProperties, ICh5LightPropertySettings } from "./ch5-light-prope
 import { Ch5LightSignal } from "./ch5-light-signal";
 import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
 import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { TCh5LightShowType } from "./interfaces/t-ch5-light-base";
 
-/** How a light component hides itself — mirrors `Ch5BaseClass` noshowtype. */
-export type TCh5LightShowType = 'display' | 'visibility' | 'remove';
+export type { TCh5LightShowType };
 
 /**
  * Lightweight base class for the "light" family of Ch5 components
@@ -990,21 +990,37 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	//#region Helpers
 
 	/**
-	 * Coerces an attribute value to boolean without pulling in lodash.
-	 * An empty attribute (e.g. `disabled`) resolves to `valueOnEmpty`.
+	 * Coerces a boolean-like value to a canonical boolean without pulling in lodash.
+	 *
+	 * `valueOnEmpty` controls the legacy HTML-attribute semantics: a bare attribute
+	 * (presence without a value) means `true`, while a plain JS property value that is
+	 * empty or invalid falls back to `defaultValue`.
 	 */
-	protected static toBoolean(value: string | boolean | null | undefined, valueOnEmpty = true): boolean {
+	protected static normalizeBooleanValue(value: string | boolean | null | undefined, defaultValue: boolean, valueOnEmpty = defaultValue): boolean {
 		if (value === null || value === undefined) {
-			return false;
+			return defaultValue;
 		}
 		if (typeof value === 'boolean') {
 			return value;
 		}
-		const normalized = value.toLowerCase().trim();
+		const normalized = String(value).trim().toLowerCase();
 		if (normalized === '') {
 			return valueOnEmpty;
 		}
-		return normalized === 'true' || normalized === 'yes' || normalized === '1';
+		if (normalized === 'true' || normalized === 'yes' || normalized === '1' || normalized === 'on') {
+			return true;
+		}
+		if (normalized === 'false' || normalized === 'no' || normalized === '0' || normalized === 'off') {
+			return false;
+		}
+		return defaultValue;
+	}
+	/**
+	 * Coerces an attribute value to boolean without pulling in lodash.
+	 * An empty attribute (e.g. `disabled`) resolves to `valueOnEmpty`.
+	 */
+	protected static toBoolean(value: string | boolean | null | undefined, valueOnEmpty = true): boolean {
+		return Ch5LightBaseClass.normalizeBooleanValue(value, false, valueOnEmpty);
 	}
 	/**
 	 * Reads a boolean attribute, resolves it to a clean boolean, then reflects the
@@ -1032,17 +1048,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 			return defaultValue;
 		}
 		const rawValue = this.getAttribute(attributeName);
-		const normalized = (rawValue ?? '').toLowerCase().trim();
-		let resolved: boolean;
-		if (normalized === '' || normalized === 'true' || normalized === '1') {
-			// Bare attribute (empty) presence means "on"; 'true' / '1' are on.
-			resolved = true;
-		} else if (normalized === 'false' || normalized === '0') {
-			resolved = false;
-		} else {
-			// Invalid value -> fall back to the attribute's DEFAULT (mirrors ch5-advanced-button).
-			resolved = defaultValue;
-		}
+		const resolved = Ch5LightBaseClass.normalizeBooleanValue(rawValue ?? '', defaultValue, true);
 		// Reflect onto the DOM when the author's value isn't already canonical, so an
 		// invalid or shorthand value ("kjgkjg", "1", "TRUE") is normalized in the DOM.
 		if (rawValue !== 'true' && rawValue !== 'false' && rawValue !== '') {
