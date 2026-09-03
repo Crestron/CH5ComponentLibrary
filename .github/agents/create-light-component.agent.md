@@ -84,7 +84,7 @@ A `receivestate*` signal is wired **based on how its target is styled** (ch5-but
 - **If it drives JS-rendered content (bucket 3)** → use the simpler **write-through** pattern:
   `applySignalX(value)` writes straight into the same property slot the static attribute uses
   (`this.label = value`) and lets the normal `handleX()` re-render. One exception: if the target has
-  CSS scoped to the **host attribute** (like `backgroundimageurlfilltype` on `[backgroundimageurl]`),
+  CSS scoped to the **host attribute** (like `backgroundImageFillType` on `[backgroundimageurl]`),
   reflect the host attribute in `applySignalX` and remove it when the signal clears (§6.5).
 
 ### Interaction events — reuse `Ch5LightPressable`, don't reimplement
