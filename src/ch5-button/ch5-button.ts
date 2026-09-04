@@ -214,7 +214,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * when true, so single-line buttons pay nothing.
 	 */
 	public set multilineSupport(value: boolean) {
-		const normalizedValue = Ch5LightBaseClass.normalizeBooleanValue(value, false, false);
+		const normalizedValue = Ch5LightBaseClass.normalizeBooleanValue(value, false, true);
 		this._ch5Properties.set<boolean>('multilineSupport', normalizedValue, this._onLabelWrapChange);
 		if (this._isInitialized) {
 			this.setAttribute('multilineSupport', normalizedValue ? 'true' : 'false');
@@ -1070,7 +1070,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 		signalType: TCh5LightSignalType,
 		onValue: (value: T) => void
 	): void {
-		if (!signalName || (this._signals !== null && this._signals.isSubscribedTo(signalName))) {
+		if (!signalName) {
 			return;
 		}
 		(this._signals ??= new Ch5LightSignal()).subscribe<T>(signalName, signalType, onValue);

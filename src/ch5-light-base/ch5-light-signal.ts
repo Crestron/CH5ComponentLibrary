@@ -7,6 +7,7 @@ interface ICh5LightSignalSubscription {
 	signalName: string;
 	signalType: TCh5LightSignalType;
 	subKey: string;
+	callback: (value: string | number | boolean) => void;
 }
 
 /**
@@ -42,6 +43,14 @@ export class Ch5LightSignal {
 		if (!signalName) {
 			return;
 		}
+		if (this._subscriptions !== null) {
+			for (let i = 0; i < this._subscriptions.length; i++) {
+				const sub = this._subscriptions[i];
+				if (sub.signalName === signalName && sub.signalType === signalType && sub.callback === onValue) {
+					return;
+				}
+			}
+		}
 		const subSigName = Ch5Signal.getSubscriptionSignalName(signalName);
 		const csf = Ch5SignalFactory.getInstance();
 
@@ -60,7 +69,7 @@ export class Ch5LightSignal {
 			subKey = signal.subscribe(onValue as (value: string) => void);
 		}
 
-		(this._subscriptions ??= []).push({ signalName, signalType, subKey });
+		(this._subscriptions ??= []).push({ signalName, signalType, subKey, callback: onValue as (value: string | number | boolean) => void });
 	}
 
 	/**
