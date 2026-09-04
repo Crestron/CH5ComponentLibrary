@@ -152,9 +152,10 @@ export class Ch5Button extends Ch5LightBaseClass {
 	//#region Getters and Setters
 
 	public set label(value: string) {
-		this._ch5Properties.set<string>('label', value, this._onLabelChange);
+		const normalizedValue = value ?? '';
+		this._ch5Properties.set<string>('label', normalizedValue, this._onLabelChange);
 		if (this._isInitialized) {
-			this.setAttribute('label', value);
+			this.setAttribute('label', normalizedValue);
 		}
 	}
 	public get label(): string {
@@ -169,9 +170,10 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * label-free / text-only buttons pay nothing.
 	 */
 	public set labelInnerHTML(value: string) {
-		this._ch5Properties.set<string>('labelInnerHTML', value ?? '', this._onLabelChange);
+		const normalizedValue = value ?? '';
+		this._ch5Properties.set<string>('labelInnerHTML', normalizedValue, this._onLabelChange);
 		if (this._isInitialized) {
-			this.setAttribute('labelInnerHTML', value);
+			this.setAttribute('labelInnerHTML', normalizedValue);
 		}
 	}
 	public get labelInnerHTML(): string {
@@ -179,9 +181,10 @@ export class Ch5Button extends Ch5LightBaseClass {
 	}
 
 	public set iconClass(value: string) {
-		this._ch5Properties.set<string>('iconClass', value, this._onIconChange);
+		const normalizedValue = value ?? '';
+		this._ch5Properties.set<string>('iconClass', normalizedValue, this._onIconChange);
 		if (this._isInitialized) {
-			this.setAttribute('iconClass', value);
+			this.setAttribute('iconClass', normalizedValue);
 		}
 	}
 	public get iconClass(): string {
@@ -189,9 +192,10 @@ export class Ch5Button extends Ch5LightBaseClass {
 	}
 
 	public set iconUrl(value: string) {
-		this._ch5Properties.set<string>('iconUrl', value, this._onIconChange);
+		const normalizedValue = value ?? '';
+		this._ch5Properties.set<string>('iconUrl', normalizedValue, this._onIconChange);
 		if (this._isInitialized) {
-			this.setAttribute('iconUrl', value);
+			this.setAttribute('iconUrl', normalizedValue);
 		}
 	}
 	public get iconUrl(): string {
@@ -199,9 +203,10 @@ export class Ch5Button extends Ch5LightBaseClass {
 	}
 
 	public set backgroundImageUrl(value: string) {
-		this._ch5Properties.set<string>('backgroundImageUrl', value, this._onBackgroundImageChange);
+		const normalizedValue = value ?? '';
+		this._ch5Properties.set<string>('backgroundImageUrl', normalizedValue, this._onBackgroundImageChange);
 		if (this._isInitialized) {
-			this.setAttribute('backgroundImageUrl', value);
+			this.setAttribute('backgroundImageUrl', normalizedValue);
 		}
 	}
 	public get backgroundImageUrl(): string {
