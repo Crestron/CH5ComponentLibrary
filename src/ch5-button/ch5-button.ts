@@ -20,6 +20,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	public static readonly SHAPES: readonly string[] = ['rounded-rectangle', 'rectangle', 'circle', 'oval', 'tab'];
 	public static readonly STRETCHES: readonly string[] = ['width', 'height', 'both'];
 	public static readonly ICON_POSITIONS: readonly string[] = ['first', 'last', 'top', 'bottom'];
+	public static readonly ORIENTATIONS: readonly string[] = ['horizontal', 'vertical'];
 	public static readonly H_ALIGN_LABELS: readonly string[] = ['center', 'left', 'right'];
 	public static readonly V_ALIGN_LABELS: readonly string[] = ['middle', 'top', 'bottom'];
 	public static readonly CHECKBOX_POSITIONS: readonly string[] = ['left', 'right'];
@@ -443,6 +444,22 @@ export class Ch5Button extends Ch5LightBaseClass {
 	}
 	public get iconPosition(): string {
 		return this.getAttribute('iconposition') || Ch5Button.ICON_POSITIONS[0];
+	}
+
+	/**
+	 * Layout orientation of the icon + label group. Pure CSS attribute.
+	 * Valid values: see {@link ORIENTATIONS}
+	 */
+	public set orientation(value: string) {
+		if (value) {
+			const validValue = Ch5Button.ORIENTATIONS.indexOf(value) >= 0 ? value : Ch5Button.ORIENTATIONS[0];
+			this.setAttribute('orientation', validValue);
+		} else {
+			this.removeAttribute('orientation');
+		}
+	}
+	public get orientation(): string {
+		return this.getAttribute('orientation') || Ch5Button.ORIENTATIONS[0];
 	}
 
 	/**
