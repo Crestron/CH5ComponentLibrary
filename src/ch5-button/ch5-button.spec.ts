@@ -42,6 +42,37 @@ describe('Ch5Button', () => {
         expect(label.classList.contains('ch5-button--label-multiline-support-safasf')).to.equal(false);
     });
 
+    it('should normalize null label from JS setter to empty string (never "null")', () => {
+        document.body.appendChild(cb);
+
+        (cb as any).label = null;
+
+        expect(cb.label).to.equal('');
+        expect(cb.getAttribute('label')).to.equal('');
+
+        const label = cb.querySelector('.ch5-button--label') as HTMLElement;
+        expect(label).to.equal(null);
+    });
+
+    it('should normalize null on all JS string setters to empty strings', () => {
+        document.body.appendChild(cb);
+
+        (cb as any).labelInnerHTML = null;
+        (cb as any).iconClass = null;
+        (cb as any).iconUrl = null;
+        (cb as any).backgroundImageUrl = null;
+
+        expect(cb.labelInnerHTML).to.equal('');
+        expect(cb.iconClass).to.equal('');
+        expect(cb.iconUrl).to.equal('');
+        expect(cb.backgroundImageUrl).to.equal('');
+
+        expect(cb.getAttribute('labelInnerHTML')).to.equal('');
+        expect(cb.getAttribute('iconClass')).to.equal('');
+        expect(cb.getAttribute('iconUrl')).to.equal('');
+        expect(cb.getAttribute('backgroundImageUrl')).to.equal('');
+    });
+
     it('should keep valid CSS enum values and fall back to the default for invalid values', () => {
         const cases = [
             { property: 'size', defaultValue: Ch5Button.SIZES[0], values: Ch5Button.SIZES, invalid: 'bad-size', attr: 'size' },
