@@ -87,6 +87,13 @@ A `receivestate*` signal is wired **based on how its target is styled** (ch5-but
   CSS scoped to the **host attribute** (like `backgroundImageFillType` on `[backgroundimageurl]`),
   reflect the host attribute in `applySignalX` and remove it when the signal clears (§6.5).
 
+For shared JS-rendered slots that have both static and signal sources, enforce strict signal ownership:
+- While `receiveState*` is present, static setter writes must not mutate the shared slot value.
+- On bind, clear the shared slot immediately (empty signal is still authoritative).
+- On signal update, write directly to the shared slot and re-render.
+- On unbind, restore from the author-reflected static attribute.
+- Keep this per-slot pattern in light components; do not introduce a central merged-state resolver like `ch5-advanced-button` because it adds avoidable runtime complexity.
+
 ### Interaction events — reuse `Ch5LightPressable`, don't reimplement
 
 If the component needs press/release behavior, wire the shared `Ch5LightPressable`
