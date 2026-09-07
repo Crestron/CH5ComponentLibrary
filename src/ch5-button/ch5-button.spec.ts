@@ -354,4 +354,34 @@ describe('Ch5Button', () => {
         const secondButton = second.querySelector('.ch5-button--btn') as HTMLElement;
         expect(secondButton.style.backgroundImage).to.equal('');
     });
+
+    it('should keep static type and signal type together so selected/pressed can resolve effective type from data-signal-type', () => {
+        const typeSignalName = 'btn_receive_type_effective_type';
+        const typeSignal = Ch5SignalFactory.getInstance().getStringSignal(typeSignalName);
+        expect(typeSignal).to.not.equal(null);
+
+        // Matches real usage: static type remains on host while signal writes data-signal-type.
+        cb.setAttribute('type', 'danger');
+        cb.setAttribute('label', 'Danger');
+        cb.setAttribute('receiveStateType', typeSignalName);
+        cb.setAttribute('selected', 'true');
+        cb.setAttribute('pressed', 'true');
+        document.body.appendChild(cb);
+
+        typeSignal!.publish('success');
+
+        // DOM contract for theme selectors:
+        // - static type is preserved
+        // - effective signal type is written to data-signal-type
+        // - selected/pressed flags are simultaneously present
+        expect(cb.getAttribute('type')).to.equal('danger');
+        expect(cb.getAttribute('data-signal-type')).to.equal('success');
+        expect(cb.getAttribute('selected')).to.equal('true');
+        expect(cb.getAttribute('pressed')).to.equal('true');
+
+        // Removing receiveStateType should drop signal channel and restore static-only styling.
+        cb.removeAttribute('receiveStateType');
+        expect(cb.getAttribute('data-signal-type')).to.equal(null);
+        expect(cb.getAttribute('type')).to.equal('danger');
+    });
 });
