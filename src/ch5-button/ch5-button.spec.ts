@@ -234,4 +234,124 @@ describe('Ch5Button', () => {
         expect(label).to.not.equal(null);
         expect(label.textContent).to.equal('normal label one');
     });
+
+    it('should give receiveStateLabel strict priority regardless of attribute order, including empty signal values', () => {
+        const signalName = 'btn_receive_label_order_independent';
+        const signal = Ch5SignalFactory.getInstance().getStringSignal(signalName);
+        expect(signal).to.not.equal(null);
+
+        // Case 1: receiveStateLabel before label
+        const first = document.createElement('ch5-button') as any;
+        first.setAttribute('receiveStateLabel', signalName);
+        first.setAttribute('label', 'Static Label');
+        document.body.appendChild(first);
+
+        // Signal present but no value yet -> signal still owns priority (empty)
+        let firstLabel = first.querySelector('.ch5-button--label') as HTMLElement;
+        expect(firstLabel).to.equal(null);
+
+        // Empty signal value must still win over static label
+        signal!.publish('');
+        firstLabel = first.querySelector('.ch5-button--label') as HTMLElement;
+        expect(firstLabel).to.equal(null);
+
+        // Non-empty signal value appears
+        signal!.publish('Signal Label');
+        firstLabel = first.querySelector('.ch5-button--label') as HTMLElement;
+        expect(firstLabel).to.not.equal(null);
+        expect(firstLabel.textContent).to.equal('Signal Label');
+
+        // Case 2: label before receiveStateLabel
+        const second = document.createElement('ch5-button') as any;
+        second.setAttribute('label', 'Static Label');
+        second.setAttribute('receiveStateLabel', signalName);
+        document.body.appendChild(second);
+
+        let secondLabel = second.querySelector('.ch5-button--label') as HTMLElement;
+        expect(secondLabel).to.not.equal(null);
+        expect(secondLabel.textContent).to.equal('Signal Label');
+
+        // Empty signal keeps priority, no fallback to static label
+        signal!.publish('');
+        secondLabel = second.querySelector('.ch5-button--label') as HTMLElement;
+        expect(secondLabel).to.equal(null);
+    });
+
+    it('should give receiveStateIconUrl and receiveStateIconClass strict priority regardless of static order, including empty signal values', () => {
+        const iconUrlSignalName = 'btn_receive_icon_url_order_independent';
+        const iconClassSignalName = 'btn_receive_icon_class_order_independent';
+        const iconUrlSignal = Ch5SignalFactory.getInstance().getStringSignal(iconUrlSignalName);
+        const iconClassSignal = Ch5SignalFactory.getInstance().getStringSignal(iconClassSignalName);
+        expect(iconUrlSignal).to.not.equal(null);
+        expect(iconClassSignal).to.not.equal(null);
+
+        // iconUrl signal wins from bind time, even before first publish.
+        const first = document.createElement('ch5-button') as any;
+        first.setAttribute('receiveStateIconUrl', iconUrlSignalName);
+        first.setAttribute('iconUrl', 'https://example.com/static-icon.png');
+        first.setAttribute('iconClass', 'fa fa-static');
+        document.body.appendChild(first);
+
+        let firstIcon = first.querySelector('.ch5-button--img, .ch5-button--icon') as HTMLElement;
+        expect(firstIcon).to.not.equal(null);
+        // Empty url signal must suppress fallback to static iconUrl.
+        iconUrlSignal!.publish('');
+        firstIcon = first.querySelector('.ch5-button--img, .ch5-button--icon') as HTMLElement;
+        expect(firstIcon).to.not.equal(null);
+        expect(firstIcon.className).to.contain('ch5-button--icon');
+        expect(firstIcon.style.backgroundImage).to.equal('');
+
+        iconUrlSignal!.publish('https://example.com/signal-icon.png');
+        firstIcon = first.querySelector('.ch5-button--img, .ch5-button--icon') as HTMLElement;
+        expect(firstIcon.className).to.equal('ch5-button--img');
+        expect(firstIcon.style.backgroundImage).to.contain('https://example.com/signal-icon.png');
+
+        // iconClass signal wins from bind time, even before first publish.
+        const second = document.createElement('ch5-button') as any;
+        second.setAttribute('iconClass', 'fa fa-static');
+        second.setAttribute('receiveStateIconClass', iconClassSignalName);
+        document.body.appendChild(second);
+
+        let secondIcon = second.querySelector('.ch5-button--img, .ch5-button--icon') as HTMLElement;
+        expect(secondIcon).to.equal(null);
+
+        // Empty icon class signal remains authoritative.
+        iconClassSignal!.publish('');
+        secondIcon = second.querySelector('.ch5-button--img, .ch5-button--icon') as HTMLElement;
+        expect(secondIcon).to.equal(null);
+
+        iconClassSignal!.publish('fa fa-signal');
+        secondIcon = second.querySelector('.ch5-button--img, .ch5-button--icon') as HTMLElement;
+        expect(secondIcon).to.not.equal(null);
+        expect(secondIcon.className).to.contain('fa fa-signal');
+    });
+
+    it('should give receiveStateBackgroundImageUrl strict priority regardless of static order, including empty signal values', () => {
+        const signalName = 'btn_receive_background_order_independent';
+        const signal = Ch5SignalFactory.getInstance().getStringSignal(signalName);
+        expect(signal).to.not.equal(null);
+
+        const first = document.createElement('ch5-button') as any;
+        first.setAttribute('receiveStateBackgroundImageUrl', signalName);
+        first.setAttribute('backgroundImageUrl', 'https://example.com/static-bg.png');
+        document.body.appendChild(first);
+
+        const firstButton = first.querySelector('.ch5-button--btn') as HTMLElement;
+        expect(firstButton.style.backgroundImage).to.equal('');
+
+        signal!.publish('https://example.com/signal-bg.png');
+        expect(firstButton.style.backgroundImage).to.contain('https://example.com/signal-bg.png');
+
+        // Empty signal remains authoritative (no fallback to static background).
+        signal!.publish('');
+        expect(firstButton.style.backgroundImage).to.equal('');
+
+        const second = document.createElement('ch5-button') as any;
+        second.setAttribute('backgroundImageUrl', 'https://example.com/static-bg2.png');
+        second.setAttribute('receiveStateBackgroundImageUrl', signalName);
+        document.body.appendChild(second);
+
+        const secondButton = second.querySelector('.ch5-button--btn') as HTMLElement;
+        expect(secondButton.style.backgroundImage).to.equal('');
+    });
 });
