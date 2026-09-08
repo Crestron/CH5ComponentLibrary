@@ -612,6 +612,12 @@ export class Ch5Button extends Ch5LightBaseClass {
 		if (oldValue === newValue) {
 			return;
 		}
+		if ((attr === 'label' && this.receiveStateLabel)
+			|| (attr === 'iconclass' && this.receiveStateIconClass)
+			|| (attr === 'iconurl' && this.receiveStateIconUrl)
+			|| (attr === 'backgroundimageurl' && this.receiveStateBackgroundImageUrl)) {
+			return;
+		}
 		this.logStart('attributeChangedCallback');
 		this.log('ch5-button attributeChangedCallback(', attr, oldValue, newValue, ')');
 		switch (attr) {
@@ -777,13 +783,32 @@ export class Ch5Button extends Ch5LightBaseClass {
 
 	/**
 	 * Sets an enum-backed host attribute with predictable fallback behavior.
-	 * - null/undefined/empty string  => set explicit default value
-	 * - valid enum value            => set as-is
-	 * - anything else (incl false)  => set explicit default value
+	 * - exact valid string value     => set as-is
+	 * - empty string                 => set explicit default value
+	 * - null/undefined/non-string    => set explicit default value
+	 * - any other string             => set explicit default value
 	 */
 	private setEnumHostAttribute(attributeName: string, value: unknown, validValues: readonly string[], defaultValue: string): void {
-		const normalizedValue = value === null || value === undefined ? '' : String(value).trim();
-		this.setAttribute(attributeName, validValues.indexOf(normalizedValue) >= 0 ? normalizedValue : defaultValue);
+		if (typeof value !== 'string') {
+			this.setAttribute(attributeName, defaultValue);
+			return;
+		}
+
+		this.setAttribute(attributeName, validValues.indexOf(value) >= 0 ? value : defaultValue);
+	}
+
+	/**
+	 * Keeps a host attribute in sync with a runtime string value while skipping
+	 * redundant DOM mutations (and the attributeChangedCallback work they trigger).
+	 */
+	private syncHostStringAttribute(attributeName: string, value: string): void {
+		if (value) {
+			if (this.getAttribute(attributeName) !== value) {
+				this.setAttribute(attributeName, value);
+			}
+		} else if (this.hasAttribute(attributeName)) {
+			this.removeAttribute(attributeName);
+		}
 	}
 
 	private createInternalHtml() {
@@ -1192,11 +1217,14 @@ export class Ch5Button extends Ch5LightBaseClass {
 	/**
 	 * Writes a signal-delivered label into the effective `label` slot (rendered by
 	 * {@link handleLabel}). Empty values are preserved so signal priority stays strict.
-	 * The store's equality check skips redundant re-renders.
+	 * The host `label` attribute is kept aligned with the signal-delivered value, and
+	 * the store's equality check skips redundant re-renders.
 	 */
 	private applySignalLabel(value: string): void {
 		this.log('applySignalLabel(', value, ')');
-		this._ch5Properties.set<string>('label', value ?? '', this._onLabelChange);
+		const label = value ?? '';
+		this.syncHostStringAttribute('label', label);
+		this._ch5Properties.set<string>('label', label, this._onLabelChange);
 	}
 
 	/**
@@ -1269,10 +1297,13 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * Writes a signal-delivered icon class into the shared `iconClass` slot (rendered
 	 * by {@link handleIcon}). Priority (receivestateiconurl > receivestateiconclass >
 	 * iconurl > iconclass) is resolved there, so its presence outranks a static iconurl.
+	 * The host attribute is also kept in sync with the signal-delivered value.
 	 */
 	private applySignalIconClass(value: string): void {
 		this.log('applySignalIconClass(', value, ')');
-		this._ch5Properties.set<string>('iconClass', value ?? '', this._onIconChange);
+		const iconClass = value ?? '';
+		this.syncHostStringAttribute('iconClass', iconClass);
+		this._ch5Properties.set<string>('iconClass', iconClass, this._onIconChange);
 	}
 
 	/**
@@ -1309,11 +1340,14 @@ export class Ch5Button extends Ch5LightBaseClass {
 	/**
 	 * Writes a signal-delivered icon URL into the shared `iconUrl` slot (rendered by
 	 * {@link handleIcon}). `receivestateiconurl` ranks HIGHEST of the icon sources
-	 * (receivestateiconurl > receivestateiconclass > iconurl > iconclass).
+	 * (receivestateiconurl > receivestateiconclass > iconurl > iconclass). The host
+	 * `iconurl` attribute is also kept in sync with the signal-delivered value.
 	 */
 	private applySignalIconUrl(value: string): void {
 		this.log('applySignalIconUrl(', value, ')');
-		this._ch5Properties.set<string>('iconUrl', value ?? '', this._onIconChange);
+		const iconUrl = value ?? '';
+		this.syncHostStringAttribute('iconUrl', iconUrl);
+		this._ch5Properties.set<string>('iconUrl', iconUrl, this._onIconChange);
 	}
 
 	/**
@@ -1359,11 +1393,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	private applySignalBackgroundImageUrl(value: string): void {
 		this.log('applySignalBackgroundImageUrl(', value, ')');
 		const url = value ?? '';
-		if (url) {
-			this.setAttribute('backgroundimageurl', url);
-		} else {
-			this.removeAttribute('backgroundimageurl');
-		}
+		this.syncHostStringAttribute('backgroundimageurl', url);
 		this._ch5Properties.set<string>('backgroundImageUrl', url, this._onBackgroundImageChange);
 	}
 
