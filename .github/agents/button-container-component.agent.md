@@ -60,6 +60,13 @@ Before generating anything, read these files (they are the source of truth):
 5. [src/ch5-advanced-button/ch5-advanced-button-base.ts](../../src/ch5-advanced-button/ch5-advanced-button-base.ts) —
    base class with all advance features.
 
+**Signal/static shared-slot rule for `ch5-button` path:**
+
+- For shared JS-rendered slots (`label`, `iconClass`, `iconUrl`, `backgroundImageUrl`), `receiveState*` must own priority regardless of attribute order.
+- Empty signal values are still authoritative while the signal attribute is present.
+- Static value restoration happens only when the corresponding `receiveState*` attribute is removed.
+- Keep this as lightweight per-slot ownership logic; do not copy the heavy central merged-state resolver pattern from `ch5-advanced-button` into `ch5-button` flows.
+
 If the user references another container component, also read it to learn its attribute set and patterns.
 
 ---

@@ -163,7 +163,10 @@ export class Ch5Button extends Ch5LightBaseClass {
 
 	public set label(value: string) {
 		const normalizedValue = value ?? '';
-		this._ch5Properties.set<string>('label', normalizedValue, this._onLabelChange);
+		// While receiveStateLabel is bound, the signal owns the effective label slot.
+		if (!this.receiveStateLabel) {
+			this._ch5Properties.set<string>('label', normalizedValue, this._onLabelChange);
+		}
 		if (this._isInitialized) {
 			this.setAttribute('label', normalizedValue);
 		}
@@ -192,7 +195,10 @@ export class Ch5Button extends Ch5LightBaseClass {
 
 	public set iconClass(value: string) {
 		const normalizedValue = value ?? '';
-		this._ch5Properties.set<string>('iconClass', normalizedValue, this._onIconChange);
+		// While receiveStateIconClass is bound, the signal owns the effective iconClass slot.
+		if (!this.receiveStateIconClass) {
+			this._ch5Properties.set<string>('iconClass', normalizedValue, this._onIconChange);
+		}
 		if (this._isInitialized) {
 			this.setAttribute('iconClass', normalizedValue);
 		}
@@ -203,7 +209,10 @@ export class Ch5Button extends Ch5LightBaseClass {
 
 	public set iconUrl(value: string) {
 		const normalizedValue = value ?? '';
-		this._ch5Properties.set<string>('iconUrl', normalizedValue, this._onIconChange);
+		// While receiveStateIconUrl is bound, the signal owns the effective iconUrl slot.
+		if (!this.receiveStateIconUrl) {
+			this._ch5Properties.set<string>('iconUrl', normalizedValue, this._onIconChange);
+		}
 		if (this._isInitialized) {
 			this.setAttribute('iconUrl', normalizedValue);
 		}
@@ -214,7 +223,10 @@ export class Ch5Button extends Ch5LightBaseClass {
 
 	public set backgroundImageUrl(value: string) {
 		const normalizedValue = value ?? '';
-		this._ch5Properties.set<string>('backgroundImageUrl', normalizedValue, this._onBackgroundImageChange);
+		// While receiveStateBackgroundImageUrl is bound, the signal owns the slot.
+		if (!this.receiveStateBackgroundImageUrl) {
+			this._ch5Properties.set<string>('backgroundImageUrl', normalizedValue, this._onBackgroundImageChange);
+		}
 		if (this._isInitialized) {
 			this.setAttribute('backgroundImageUrl', normalizedValue);
 		}
@@ -286,9 +298,9 @@ export class Ch5Button extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Name of the string signal driving the button label. Its value is written into
-	 * the shared `label` slot (see {@link applySignalLabel}), so the signal always
-	 * supersedes the static (design-time) `label`.
+	 * Name of the string signal driving the button label. While present, it fully
+	 * owns the effective `label` slot (including empty values), independent of
+	 * whether static `label` is parsed before or after this attribute.
 	 */
 	public set receiveStateLabel(value: string) {
 		this._ch5Properties.set<string>('receiveStateLabel', value ?? '', this._onReceiveStateLabelChange);
@@ -1255,14 +1267,22 @@ export class Ch5Button extends Ch5LightBaseClass {
 	/**
 	 * Reacts to a `receivestatelabel` name change (`oldSignalName` = previous name,
 	 * for unsubscription): tears down the old subscription, then (re)subscribes when a
-	 * name is set and connected. Removal is design-time, so the last value stays in the `label` slot.
+	 * name is set and connected. While bound, signal priority is strict (even empty),
+	 * so the effective `label` slot is reset to empty until signal data arrives.
 	 */
 	private handleReceiveStateLabel(oldSignalName: string): void {
 		this.log('handleReceiveStateLabel(', oldSignalName, ')');
 		this.clearSignalSubscription(oldSignalName);
 
-		if (this.receiveStateLabel && this.isConnected) {
-			this.subscribeReceiveStateLabel();
+		if (this.receiveStateLabel) {
+			// Enforce strict signal priority immediately, even before first publish.
+			this._ch5Properties.set<string>('label', '', this._onLabelChange);
+			if (this.isConnected) {
+				this.subscribeReceiveStateLabel();
+			}
+		} else {
+			// Signal removed: restore the static label reflected on the element.
+			this._ch5Properties.set<string>('label', this.getAttribute('label') ?? '', this._onLabelChange);
 		}
 	}
 
@@ -1277,13 +1297,13 @@ export class Ch5Button extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Writes a signal-delivered label into the shared `label` slot (rendered by
-	 * {@link handleLabel}), so the runtime signal wins over the static `label`. The
-	 * store's equality check skips redundant re-renders.
+	 * Writes a signal-delivered label into the effective `label` slot (rendered by
+	 * {@link handleLabel}). Empty values are preserved so signal priority stays strict.
+	 * The store's equality check skips redundant re-renders.
 	 */
 	private applySignalLabel(value: string): void {
 		this.log('applySignalLabel(', value, ')');
-		this.label = value ?? '';
+		this._ch5Properties.set<string>('label', value ?? '', this._onLabelChange);
 	}
 
 	/**
@@ -1330,8 +1350,15 @@ export class Ch5Button extends Ch5LightBaseClass {
 		this.log('handleReceiveStateIconClass(', oldSignalName, ')');
 		this.clearSignalSubscription(oldSignalName);
 
-		if (this.receiveStateIconClass && this.isConnected) {
-			this.subscribeReceiveStateIconClass();
+		if (this.receiveStateIconClass) {
+			// Enforce strict signal priority immediately, even before first publish.
+			this._ch5Properties.set<string>('iconClass', '', this._onIconChange);
+			if (this.isConnected) {
+				this.subscribeReceiveStateIconClass();
+			}
+		} else {
+			// Signal removed: restore the static icon class reflected on the element.
+			this._ch5Properties.set<string>('iconClass', this.getAttribute('iconClass') ?? '', this._onIconChange);
 		}
 	}
 
@@ -1352,7 +1379,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 */
 	private applySignalIconClass(value: string): void {
 		this.log('applySignalIconClass(', value, ')');
-		this.iconClass = value ?? '';
+		this._ch5Properties.set<string>('iconClass', value ?? '', this._onIconChange);
 	}
 
 	/**
@@ -1364,8 +1391,15 @@ export class Ch5Button extends Ch5LightBaseClass {
 		this.log('handleReceiveStateIconUrl(', oldSignalName, ')');
 		this.clearSignalSubscription(oldSignalName);
 
-		if (this.receiveStateIconUrl && this.isConnected) {
-			this.subscribeReceiveStateIconUrl();
+		if (this.receiveStateIconUrl) {
+			// Enforce strict signal priority immediately, even before first publish.
+			this._ch5Properties.set<string>('iconUrl', '', this._onIconChange);
+			if (this.isConnected) {
+				this.subscribeReceiveStateIconUrl();
+			}
+		} else {
+			// Signal removed: restore the static icon URL reflected on the element.
+			this._ch5Properties.set<string>('iconUrl', this.getAttribute('iconUrl') ?? '', this._onIconChange);
 		}
 	}
 
@@ -1386,7 +1420,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 */
 	private applySignalIconUrl(value: string): void {
 		this.log('applySignalIconUrl(', value, ')');
-		this.iconUrl = value ?? '';
+		this._ch5Properties.set<string>('iconUrl', value ?? '', this._onIconChange);
 	}
 
 	/**
@@ -1399,8 +1433,15 @@ export class Ch5Button extends Ch5LightBaseClass {
 		this.log('handleReceiveStateBackgroundImageUrl(', oldSignalName, ')');
 		this.clearSignalSubscription(oldSignalName);
 
-		if (this.receiveStateBackgroundImageUrl && this.isConnected) {
-			this.subscribeReceiveStateBackgroundImageUrl();
+		if (this.receiveStateBackgroundImageUrl) {
+			// Enforce strict signal priority immediately, even before first publish.
+			this._ch5Properties.set<string>('backgroundImageUrl', '', this._onBackgroundImageChange);
+			if (this.isConnected) {
+				this.subscribeReceiveStateBackgroundImageUrl();
+			}
+		} else {
+			// Signal removed: restore the static background URL reflected on the element.
+			this._ch5Properties.set<string>('backgroundImageUrl', this.getAttribute('backgroundImageUrl') ?? '', this._onBackgroundImageChange);
 		}
 	}
 
@@ -1430,7 +1471,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 		} else {
 			this.removeAttribute('backgroundimageurl');
 		}
-		this.backgroundImageUrl = url;
+		this._ch5Properties.set<string>('backgroundImageUrl', url, this._onBackgroundImageChange);
 	}
 
 	// --- sendEventOnClick ------------------------------------------------------
