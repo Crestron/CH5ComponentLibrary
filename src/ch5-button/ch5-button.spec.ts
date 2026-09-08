@@ -384,4 +384,39 @@ describe('Ch5Button', () => {
         expect(cb.getAttribute('data-signal-type')).to.equal(null);
         expect(cb.getAttribute('type')).to.equal('danger');
     });
+
+    it('should ignore static show=false when receivestateshow is present, regardless of attribute order, in noshowtype=remove mode', () => {
+        const signalName = 'btn_receive_show_remove_mode_order';
+        const signal = Ch5SignalFactory.getInstance().getBooleanSignal(signalName);
+        expect(signal).to.not.equal(null);
+
+        // Case: static show appears before receivestateshow (the problematic order).
+        const first = document.createElement('ch5-button') as any;
+        first.setAttribute('show', 'false');
+        first.setAttribute('noshowtype', 'remove');
+        first.setAttribute('receivestateshow', signalName);
+        document.body.appendChild(first);
+
+        // Static show must be ignored while receiveStateShow is bound.
+        expect(first.isConnected).to.equal(true);
+        expect(document.body.contains(first)).to.equal(true);
+
+        // Signal false hides via remove.
+        signal!.publish(false);
+        expect(document.body.contains(first)).to.equal(false);
+
+        // Signal true reattaches.
+        signal!.publish(true);
+        expect(document.body.contains(first)).to.equal(true);
+
+        // Case: receivestateshow before static show should behave identically.
+        const second = document.createElement('ch5-button') as any;
+        second.setAttribute('receivestateshow', signalName);
+        second.setAttribute('noshowtype', 'remove');
+        second.setAttribute('show', 'false');
+        document.body.appendChild(second);
+
+        expect(second.isConnected).to.equal(true);
+        expect(document.body.contains(second)).to.equal(true);
+    });
 });
