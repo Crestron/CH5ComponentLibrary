@@ -310,7 +310,10 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		// attribute (mirrors `Ch5Common`): while the show signal is driving the host,
 		// direct `show` writes (attribute or programmatic) are ignored so they cannot
 		// fight the signal. Clearing the signal restores the author's `show`.
-		if (this.receiveStateShow) {
+		// Use BOTH the stored property and raw attribute presence so initial
+		// attributeChangedCallback ordering cannot leak static `show` into the
+		// effective state before `receiveStateShow` is synced.
+		if (this.receiveStateShow || this.hasAttribute('receivestateshow')) {
 			return;
 		}
 		this._ch5Properties.set<boolean>('show', value, this._onShowChange);

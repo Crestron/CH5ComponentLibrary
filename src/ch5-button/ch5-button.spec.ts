@@ -73,7 +73,7 @@ describe('Ch5Button', () => {
         expect(cb.getAttribute('backgroundImageUrl')).to.equal('');
     });
 
-    it('should keep valid CSS enum values and fall back to the default for invalid values', () => {
+    it('should keep valid CSS enum values and fall back to default for invalid and nil values', () => {
         const cases = [
             { property: 'size', defaultValue: Ch5Button.SIZES[0], values: Ch5Button.SIZES, invalid: 'bad-size', attr: 'size' },
             { property: 'shape', defaultValue: Ch5Button.SHAPES[0], values: Ch5Button.SHAPES, invalid: 'bad-shape', attr: 'shape' },
@@ -96,6 +96,38 @@ describe('Ch5Button', () => {
             cb[property] = invalid;
             expect(cb[property]).to.equal(defaultValue);
             expect(cb.getAttribute(attr)).to.equal(defaultValue);
+
+            const defaultingInputs = [false, '', null, undefined];
+            defaultingInputs.forEach((input) => {
+                (cb as any)[property] = input;
+                expect((cb as any)[property]).to.equal(defaultValue);
+                expect(cb.getAttribute(attr)).to.equal(defaultValue);
+            });
+        });
+    });
+
+    it('should keep enum attributes present and defaulted for false/empty/null/undefined across all observed cases', () => {
+        const defaultingInputs = [false, '', null, undefined];
+        const cases = [
+            { property: 'size', defaultValue: Ch5Button.SIZES[0], attr: 'size' },
+            { property: 'shape', defaultValue: Ch5Button.SHAPES[0], attr: 'shape' },
+            { property: 'type', defaultValue: Ch5Button.TYPES[0], attr: 'type' },
+            { property: 'stretch', defaultValue: Ch5Button.STRETCHES[0], attr: 'stretch' },
+            { property: 'iconUrlFillType', defaultValue: Ch5Button.ICON_URL_FILL_TYPES[0], attr: 'iconurlfilltype' },
+            { property: 'backgroundImageFillType', defaultValue: Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES[0], attr: 'backgroundImageFillType' },
+            { property: 'iconPosition', defaultValue: Ch5Button.ICON_POSITIONS[0], attr: 'iconposition' },
+            { property: 'hAlignLabel', defaultValue: Ch5Button.H_ALIGN_LABELS[0], attr: 'halignlabel' },
+            { property: 'vAlignLabel', defaultValue: Ch5Button.V_ALIGN_LABELS[0], attr: 'valignlabel' },
+            { property: 'checkboxPosition', defaultValue: Ch5Button.CHECKBOX_POSITIONS[0], attr: 'checkboxposition' }
+        ];
+
+        cases.forEach(({ property, defaultValue, attr }) => {
+            defaultingInputs.forEach((input) => {
+                (cb as any)[property] = input;
+                expect((cb as any)[property]).to.equal(defaultValue);
+                expect(cb.getAttribute(attr)).to.equal(defaultValue);
+                expect(cb.hasAttribute(attr)).to.equal(true);
+            });
         });
     });
 
@@ -383,5 +415,40 @@ describe('Ch5Button', () => {
         cb.removeAttribute('receiveStateType');
         expect(cb.getAttribute('data-signal-type')).to.equal(null);
         expect(cb.getAttribute('type')).to.equal('danger');
+    });
+
+    it('should ignore static show=false when receivestateshow is present, regardless of attribute order, in noshowtype=remove mode', () => {
+        const signalName = 'btn_receive_show_remove_mode_order';
+        const signal = Ch5SignalFactory.getInstance().getBooleanSignal(signalName);
+        expect(signal).to.not.equal(null);
+
+        // Case: static show appears before receivestateshow (the problematic order).
+        const first = document.createElement('ch5-button') as any;
+        first.setAttribute('show', 'false');
+        first.setAttribute('noshowtype', 'remove');
+        first.setAttribute('receivestateshow', signalName);
+        document.body.appendChild(first);
+
+        // Static show must be ignored while receiveStateShow is bound.
+        expect(first.isConnected).to.equal(true);
+        expect(document.body.contains(first)).to.equal(true);
+
+        // Signal false hides via remove.
+        signal!.publish(false);
+        expect(document.body.contains(first)).to.equal(false);
+
+        // Signal true reattaches.
+        signal!.publish(true);
+        expect(document.body.contains(first)).to.equal(true);
+
+        // Case: receivestateshow before static show should behave identically.
+        const second = document.createElement('ch5-button') as any;
+        second.setAttribute('receivestateshow', signalName);
+        second.setAttribute('noshowtype', 'remove');
+        second.setAttribute('show', 'false');
+        document.body.appendChild(second);
+
+        expect(second.isConnected).to.equal(true);
+        expect(document.body.contains(second)).to.equal(true);
     });
 });
