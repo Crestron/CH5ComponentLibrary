@@ -403,12 +403,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * Valid values: see {@link SIZES}
 	 */
 	public set size(value: string) {
-		if (value) {
-			const validValue = Ch5Button.SIZES.indexOf(value) >= 0 ? value : Ch5Button.SIZES[0];
-			this.setAttribute('size', validValue);
-		} else {
-			this.removeAttribute('size');
-		}
+		this.setEnumHostAttribute('size', value, Ch5Button.SIZES, Ch5Button.SIZES[0]);
 	}
 	public get size(): string {
 		return this.getAttribute('size') || Ch5Button.SIZES[0];
@@ -419,12 +414,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * Valid values: see {@link SHAPES}
 	 */
 	public set shape(value: string) {
-		if (value) {
-			const validValue = Ch5Button.SHAPES.indexOf(value) >= 0 ? value : Ch5Button.SHAPES[0];
-			this.setAttribute('shape', validValue);
-		} else {
-			this.removeAttribute('shape');
-		}
+		this.setEnumHostAttribute('shape', value, Ch5Button.SHAPES, Ch5Button.SHAPES[0]);
 	}
 	public get shape(): string {
 		return this.getAttribute('shape') || Ch5Button.SHAPES[0];
@@ -435,12 +425,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * Valid values: see {@link STRETCHES}
 	 */
 	public set stretch(value: string) {
-		if (value) {
-			const validValue = Ch5Button.STRETCHES.indexOf(value) >= 0 ? value : Ch5Button.STRETCHES[0];
-			this.setAttribute('stretch', validValue);
-		} else {
-			this.removeAttribute('stretch');
-		}
+		this.setEnumHostAttribute('stretch', value, Ch5Button.STRETCHES, Ch5Button.STRETCHES[0]);
 	}
 	public get stretch(): string {
 		return this.getAttribute('stretch') || Ch5Button.STRETCHES[0];
@@ -451,12 +436,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * Valid values: see {@link ICON_POSITIONS}
 	 */
 	public set iconPosition(value: string) {
-		if (value) {
-			const validValue = Ch5Button.ICON_POSITIONS.indexOf(value) >= 0 ? value : Ch5Button.ICON_POSITIONS[0];
-			this.setAttribute('iconposition', validValue);
-		} else {
-			this.removeAttribute('iconposition');
-		}
+		this.setEnumHostAttribute('iconposition', value, Ch5Button.ICON_POSITIONS, Ch5Button.ICON_POSITIONS[0]);
 	}
 	public get iconPosition(): string {
 		return this.getAttribute('iconposition') || Ch5Button.ICON_POSITIONS[0];
@@ -467,12 +447,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * Valid values: see {@link H_ALIGN_LABELS}
 	 */
 	public set hAlignLabel(value: string) {
-		if (value) {
-			const validValue = Ch5Button.H_ALIGN_LABELS.indexOf(value) >= 0 ? value : Ch5Button.H_ALIGN_LABELS[0];
-			this.setAttribute('halignlabel', validValue);
-		} else {
-			this.removeAttribute('halignlabel');
-		}
+		this.setEnumHostAttribute('halignlabel', value, Ch5Button.H_ALIGN_LABELS, Ch5Button.H_ALIGN_LABELS[0]);
 	}
 	public get hAlignLabel(): string {
 		return this.getAttribute('halignlabel') || Ch5Button.H_ALIGN_LABELS[0];
@@ -483,12 +458,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * Valid values: see {@link V_ALIGN_LABELS}
 	 */
 	public set vAlignLabel(value: string) {
-		if (value) {
-			const validValue = Ch5Button.V_ALIGN_LABELS.indexOf(value) >= 0 ? value : Ch5Button.V_ALIGN_LABELS[0];
-			this.setAttribute('valignlabel', validValue);
-		} else {
-			this.removeAttribute('valignlabel');
-		}
+		this.setEnumHostAttribute('valignlabel', value, Ch5Button.V_ALIGN_LABELS, Ch5Button.V_ALIGN_LABELS[0]);
 	}
 	public get vAlignLabel(): string {
 		return this.getAttribute('valignlabel') || Ch5Button.V_ALIGN_LABELS[0];
@@ -500,12 +470,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * Valid values: see {@link TYPES}
 	 */
 	public set type(value: string) {
-		if (value) {
-			const validValue = Ch5Button.TYPES.indexOf(value) >= 0 ? value : Ch5Button.TYPES[0];
-			this.setAttribute('type', validValue);
-		} else {
-			this.removeAttribute('type');
-		}
+		this.setEnumHostAttribute('type', value, Ch5Button.TYPES, Ch5Button.TYPES[0]);
 	}
 	public get type(): string {
 		return this.getAttribute('type') || Ch5Button.TYPES[0];
@@ -559,12 +524,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * Valid values: see {@link CHECKBOX_POSITIONS}
 	 */
 	public set checkboxPosition(value: string) {
-		if (value) {
-			const validValue = Ch5Button.CHECKBOX_POSITIONS.indexOf(value) >= 0 ? value : Ch5Button.CHECKBOX_POSITIONS[0];
-			this.setAttribute('checkboxposition', validValue);
-		} else {
-			this.removeAttribute('checkboxposition');
-		}
+		this.setEnumHostAttribute('checkboxposition', value, Ch5Button.CHECKBOX_POSITIONS, Ch5Button.CHECKBOX_POSITIONS[0]);
 	}
 	public get checkboxPosition(): string {
 		return this.getAttribute('checkboxposition') || Ch5Button.CHECKBOX_POSITIONS[0];
@@ -575,12 +535,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * Valid values: see {@link ICON_URL_FILL_TYPES}
 	 */
 	public set iconUrlFillType(value: string) {
-		if (value) {
-			const validValue = Ch5Button.ICON_URL_FILL_TYPES.indexOf(value) >= 0 ? value : Ch5Button.ICON_URL_FILL_TYPES[0];
-			this.setAttribute('iconurlfilltype', validValue);
-		} else {
-			this.removeAttribute('iconurlfilltype');
-		}
+		this.setEnumHostAttribute('iconurlfilltype', value, Ch5Button.ICON_URL_FILL_TYPES, Ch5Button.ICON_URL_FILL_TYPES[0]);
 	}
 	public get iconUrlFillType(): string {
 		return this.getAttribute('iconurlfilltype') || Ch5Button.ICON_URL_FILL_TYPES[0];
@@ -591,12 +546,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * Valid values: see {@link BACKGROUND_IMAGE_URL_FILL_TYPES}
 	 */
 	public set backgroundImageFillType(value: string) {
-		if (value) {
-			const validValue = Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES.indexOf(value) >= 0 ? value : Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES[0];
-			this.setAttribute('backgroundImageFillType', validValue);
-		} else {
-			this.removeAttribute('backgroundImageFillType');
-		}
+		this.setEnumHostAttribute('backgroundImageFillType', value, Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES, Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES[0]);
 	}
 	public get backgroundImageFillType(): string {
 		return this.getAttribute('backgroundImageFillType') || Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES[0];
@@ -824,6 +774,17 @@ export class Ch5Button extends Ch5LightBaseClass {
 	//#endregion
 
 	//#region Private Methods
+
+	/**
+	 * Sets an enum-backed host attribute with predictable fallback behavior.
+	 * - null/undefined/empty string  => set explicit default value
+	 * - valid enum value            => set as-is
+	 * - anything else (incl false)  => set explicit default value
+	 */
+	private setEnumHostAttribute(attributeName: string, value: unknown, validValues: readonly string[], defaultValue: string): void {
+		const normalizedValue = value === null || value === undefined ? '' : String(value).trim();
+		this.setAttribute(attributeName, validValues.indexOf(normalizedValue) >= 0 ? normalizedValue : defaultValue);
+	}
 
 	private createInternalHtml() {
 		this.log('createInternalHtml()');

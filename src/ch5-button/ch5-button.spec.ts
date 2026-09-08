@@ -73,7 +73,7 @@ describe('Ch5Button', () => {
         expect(cb.getAttribute('backgroundImageUrl')).to.equal('');
     });
 
-    it('should keep valid CSS enum values and fall back to the default for invalid values', () => {
+    it('should keep valid CSS enum values and fall back to default for invalid and nil values', () => {
         const cases = [
             { property: 'size', defaultValue: Ch5Button.SIZES[0], values: Ch5Button.SIZES, invalid: 'bad-size', attr: 'size' },
             { property: 'shape', defaultValue: Ch5Button.SHAPES[0], values: Ch5Button.SHAPES, invalid: 'bad-shape', attr: 'shape' },
@@ -96,6 +96,38 @@ describe('Ch5Button', () => {
             cb[property] = invalid;
             expect(cb[property]).to.equal(defaultValue);
             expect(cb.getAttribute(attr)).to.equal(defaultValue);
+
+            const defaultingInputs = [false, '', null, undefined];
+            defaultingInputs.forEach((input) => {
+                (cb as any)[property] = input;
+                expect((cb as any)[property]).to.equal(defaultValue);
+                expect(cb.getAttribute(attr)).to.equal(defaultValue);
+            });
+        });
+    });
+
+    it('should keep enum attributes present and defaulted for false/empty/null/undefined across all observed cases', () => {
+        const defaultingInputs = [false, '', null, undefined];
+        const cases = [
+            { property: 'size', defaultValue: Ch5Button.SIZES[0], attr: 'size' },
+            { property: 'shape', defaultValue: Ch5Button.SHAPES[0], attr: 'shape' },
+            { property: 'type', defaultValue: Ch5Button.TYPES[0], attr: 'type' },
+            { property: 'stretch', defaultValue: Ch5Button.STRETCHES[0], attr: 'stretch' },
+            { property: 'iconUrlFillType', defaultValue: Ch5Button.ICON_URL_FILL_TYPES[0], attr: 'iconurlfilltype' },
+            { property: 'backgroundImageFillType', defaultValue: Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES[0], attr: 'backgroundImageFillType' },
+            { property: 'iconPosition', defaultValue: Ch5Button.ICON_POSITIONS[0], attr: 'iconposition' },
+            { property: 'hAlignLabel', defaultValue: Ch5Button.H_ALIGN_LABELS[0], attr: 'halignlabel' },
+            { property: 'vAlignLabel', defaultValue: Ch5Button.V_ALIGN_LABELS[0], attr: 'valignlabel' },
+            { property: 'checkboxPosition', defaultValue: Ch5Button.CHECKBOX_POSITIONS[0], attr: 'checkboxposition' }
+        ];
+
+        cases.forEach(({ property, defaultValue, attr }) => {
+            defaultingInputs.forEach((input) => {
+                (cb as any)[property] = input;
+                expect((cb as any)[property]).to.equal(defaultValue);
+                expect(cb.getAttribute(attr)).to.equal(defaultValue);
+                expect(cb.hasAttribute(attr)).to.equal(true);
+            });
         });
     });
 
