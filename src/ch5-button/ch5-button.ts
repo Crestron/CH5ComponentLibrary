@@ -515,7 +515,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	public get selected(): boolean {
 		const attr = this.getAttribute('selected');
 		if (attr === null) return false;
-		return attr !== 'false';
+		return attr === 'true' || attr === '1';
 	}
 
 	/**
@@ -530,7 +530,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	public get checkboxShow(): boolean {
 		const attr = this.getAttribute('checkboxshow');
 		if (attr === null) return false;
-		return attr !== 'false';
+		return attr === 'true' || attr === '1';
 	}
 
 	/**
