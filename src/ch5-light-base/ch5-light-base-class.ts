@@ -291,6 +291,10 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	// never allocate a new closure. Drives the same `handleShow()` path as the
 	// static `show` attribute, so `noshowtype` is honoured identically.
 	private readonly _onSignalShowValue = (value: boolean) => this.applyShowSignal(value);
+	// True only after the active receiveStateShow signal has delivered at least
+	// one value. sendEventOnShow is gated by this so static/init show handling
+	// does not publish before a receive-state value exists.
+	private _hasReceiveStateShowValue = false;
 
 	// --- sendEventOnShow signal wiring (opt-in) -------------------------------
 	// The base's only outbound (event) signal. Stateless: the signal NAME lives in
@@ -826,8 +830,10 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	private handleReceiveStateShow(oldSignalName: string): void {
 		this.clearReceiveStateShowSubscription(oldSignalName);
 		if (this.receiveStateShow) {
+			this._hasReceiveStateShowValue = false;
 			this.subscribeReceiveStateShow();
 		} else {
+			this._hasReceiveStateShowValue = false;
 			// Signal removed: restore the author's static `show` attribute (default true).
 			const show = this.hasAttribute('show') ? Ch5LightBaseClass.toBoolean(this.getAttribute('show'), true) : true;
 			this._ch5Properties.setValue<boolean>('show', show);
@@ -852,6 +858,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 * is left untouched (and thus restorable when the signal is removed).
 	 */
 	protected applyShowSignal(shown: boolean): void {
+		this._hasReceiveStateShowValue = true;
 		this._ch5Properties.setValue<boolean>('show', shown);
 		this.handleShow();
 	}
@@ -941,7 +948,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 */
 	protected sendShowSignal(value: boolean): void {
 		const signalName = this.sendEventOnShow;
-		if (!signalName) {
+		if (!signalName || !this.receiveStateShow || !this._hasReceiveStateShowValue) {
 			return;
 		}
 		(this._baseSignals ??= new Ch5LightSignal()).sendBoolean(signalName, value);
