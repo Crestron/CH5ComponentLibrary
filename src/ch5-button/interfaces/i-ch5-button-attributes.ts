@@ -12,6 +12,7 @@ import {
   TCh5ButtonShape,
   TCh5ButtonStretch,
   TCh5ButtonIconPosition,
+  TCh5ButtonOrientation,
   TCh5ButtonHorizontalAlignLabel,
   TCh5ButtonVerticalAlignLabel,
   TCh5ButtonCheckboxPosition,
@@ -292,6 +293,20 @@ export interface ICh5ButtonAttributes extends ICh5LightBaseAttributes {
    * @attributeType "EnumeratedValue"
    */
   iconPosition: TCh5ButtonIconPosition;
+
+  /**
+   * @documentation
+   * [
+   * "`orientation` attribute",
+   * "***",
+   * "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'.",
+   * "Lays out the icon and label in a horizontal or vertical flow."
+   * ]
+   * @name orientation
+   * @default horizontal
+   * @attributeType "EnumeratedValue"
+   */
+  orientation: TCh5ButtonOrientation;
 
   /**
    * @documentation

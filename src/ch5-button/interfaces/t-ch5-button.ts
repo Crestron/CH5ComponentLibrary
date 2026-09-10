@@ -10,6 +10,7 @@ export type TCh5ButtonSize = 'regular' | 'x-small' | 'small' | 'large' | 'x-larg
 export type TCh5ButtonShape = 'rounded-rectangle' | 'rectangle' | 'circle' | 'oval' | 'tab';
 export type TCh5ButtonStretch = 'width' | 'height' | 'both';
 export type TCh5ButtonIconPosition = 'first' | 'last' | 'top' | 'bottom';
+export type TCh5ButtonOrientation = 'horizontal' | 'vertical';
 export type TCh5ButtonHorizontalAlignLabel = 'center' | 'left' | 'right';
 export type TCh5ButtonVerticalAlignLabel = 'middle' | 'top' | 'bottom';
 export type TCh5ButtonCheckboxPosition = 'left' | 'right';

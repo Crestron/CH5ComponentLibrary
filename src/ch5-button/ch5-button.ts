@@ -20,6 +20,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	public static readonly SHAPES: readonly string[] = ['rounded-rectangle', 'rectangle', 'circle', 'oval', 'tab'];
 	public static readonly STRETCHES: readonly string[] = ['width', 'height', 'both'];
 	public static readonly ICON_POSITIONS: readonly string[] = ['first', 'last', 'top', 'bottom'];
+	public static readonly ORIENTATIONS: readonly string[] = ['horizontal', 'vertical'];
 	public static readonly H_ALIGN_LABELS: readonly string[] = ['center', 'left', 'right'];
 	public static readonly V_ALIGN_LABELS: readonly string[] = ['middle', 'top', 'bottom'];
 	public static readonly CHECKBOX_POSITIONS: readonly string[] = ['left', 'right'];
@@ -90,12 +91,21 @@ export class Ch5Button extends Ch5LightBaseClass {
 	// light family). Only scheduled while multilineSupport is on, so single-line
 	// buttons allocate nothing.
 	private _pendingFitHandle: number | null = null;
+	// Vertical orientation parity with ch5-advanced-button: one coalesced rAF fit
+	// maps the inner <button> dimensions to the host's current footprint
+	// (width=hostHeight, height=hostWidth) so rotated content fills the host even
+	// when external CSS sets custom host sizes.
+	private _pendingVerticalFitHandle: number | null = null;
 	private readonly _fitEllipsisFrame = () => {
 		this._pendingFitHandle = null;
 		// multilineSupport may have been turned off since scheduling.
 		if (this.multilineSupport) {
 			this.fitEllipsisForMultiline();
 		}
+	};
+	private readonly _fitVerticalFrame = () => {
+		this._pendingVerticalFitHandle = null;
+		this.fitVerticalInnerButtonSize();
 	};
 
 	// --- receiveState* signal wiring -----------------------------------------
@@ -443,6 +453,22 @@ export class Ch5Button extends Ch5LightBaseClass {
 	}
 
 	/**
+	 * Layout orientation of the icon + label group. Pure CSS attribute.
+	 * Valid values: see {@link ORIENTATIONS}
+	 */
+	public set orientation(value: string) {
+		if (value) {
+			const validValue = Ch5Button.ORIENTATIONS.indexOf(value) >= 0 ? value : Ch5Button.ORIENTATIONS[0];
+			this.setAttribute('orientation', validValue);
+		} else {
+			this.removeAttribute('orientation');
+		}
+	}
+	public get orientation(): string {
+		return this.getAttribute('orientation') || Ch5Button.ORIENTATIONS[0];
+	}
+
+	/**
 	 * Horizontal alignment of icon + label group within button. Pure CSS attribute.
 	 * Valid values: see {@link H_ALIGN_LABELS}
 	 */
@@ -746,6 +772,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 		if (this.multilineSupport) {
 			this.scheduleFitEllipsisForMultiline();
 		}
+		this.scheduleVerticalInnerButtonFit();
 		this.logStop();
 	}
 
@@ -769,6 +796,10 @@ export class Ch5Button extends Ch5LightBaseClass {
 		if (this._pendingFitHandle !== null) {
 			window.cancelAnimationFrame(this._pendingFitHandle);
 			this._pendingFitHandle = null;
+		}
+		if (this._pendingVerticalFitHandle !== null) {
+			window.cancelAnimationFrame(this._pendingVerticalFitHandle);
+			this._pendingVerticalFitHandle = null;
 		}
 		// Stop any in-flight contract hold timer.
 		this.clearButtonListContractHold();
@@ -945,6 +976,43 @@ export class Ch5Button extends Ch5LightBaseClass {
 			return;
 		}
 		this._pendingFitHandle = window.requestAnimationFrame(this._fitEllipsisFrame);
+	}
+
+	/**
+	 * Schedules a single vertical-size fit for the internal button. This is only
+	 * needed because transform rotation does not participate in layout, and costs
+	 * one coalesced frame at connect time.
+	 */
+	private scheduleVerticalInnerButtonFit(): void {
+		if (this._pendingVerticalFitHandle !== null) {
+			return;
+		}
+		this._pendingVerticalFitHandle = window.requestAnimationFrame(this._fitVerticalFrame);
+	}
+
+	/**
+	 * Mirrors ch5-advanced-button verticalOrientationHandler sizing for the light
+	 * button without observers/listeners. For vertical non-circle buttons, set
+	 * inner width/height from the host footprint so rotated content fully fills it.
+	 */
+	private fitVerticalInnerButtonSize(): void {
+		const button = this._elButton;
+		if (!button || !button.isConnected) {
+			return;
+		}
+
+		if (this.orientation !== 'vertical' || this.shape === 'circle') {
+			button.style.removeProperty('width');
+			button.style.removeProperty('height');
+			return;
+		}
+
+		const hostHeight = this.clientHeight;
+		const hostWidth = this.clientWidth;
+		if (hostHeight > 0 && hostWidth > 0) {
+			button.style.width = `${hostHeight}px`;
+			button.style.height = `${hostWidth}px`;
+		}
 	}
 
 	/**

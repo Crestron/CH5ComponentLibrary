@@ -79,6 +79,7 @@ describe('Ch5Button', () => {
             { property: 'shape', defaultValue: Ch5Button.SHAPES[0], values: Ch5Button.SHAPES, invalid: 'bad-shape', attr: 'shape' },
             { property: 'stretch', defaultValue: Ch5Button.STRETCHES[0], values: Ch5Button.STRETCHES, invalid: 'bad-stretch', attr: 'stretch' },
             { property: 'iconPosition', defaultValue: Ch5Button.ICON_POSITIONS[0], values: Ch5Button.ICON_POSITIONS, invalid: 'bad-icon-position', attr: 'iconposition' },
+            { property: 'orientation', defaultValue: Ch5Button.ORIENTATIONS[0], values: Ch5Button.ORIENTATIONS, invalid: 'bad-orientation', attr: 'orientation' },
             { property: 'hAlignLabel', defaultValue: Ch5Button.H_ALIGN_LABELS[0], values: Ch5Button.H_ALIGN_LABELS, invalid: 'bad-h-align', attr: 'halignlabel' },
             { property: 'vAlignLabel', defaultValue: Ch5Button.V_ALIGN_LABELS[0], values: Ch5Button.V_ALIGN_LABELS, invalid: 'bad-v-align', attr: 'valignlabel' },
             { property: 'type', defaultValue: Ch5Button.TYPES[0], values: Ch5Button.TYPES, invalid: 'bad-type', attr: 'type' },
