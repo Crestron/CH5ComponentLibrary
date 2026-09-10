@@ -488,4 +488,61 @@ describe('Ch5Button', () => {
         expect(second.isConnected).to.equal(true);
         expect(document.body.contains(second)).to.equal(true);
     });
+
+    it('should publish sendeventonshow only after receivestateshow receives a value', () => {
+        const suffix = Date.now() + '_' + Math.floor(Math.random() * 100000);
+        const receiveSignalName = 'btn_receive_show_publish_gate_' + suffix;
+        const sendSignalName = 'btn_send_show_publish_gate_' + suffix;
+
+        const receiveSignal = Ch5SignalFactory.getInstance().getBooleanSignal(receiveSignalName);
+        const sendSignal = Ch5SignalFactory.getInstance().getBooleanSignal(sendSignalName);
+        expect(receiveSignal).to.not.equal(null);
+        expect(sendSignal).to.not.equal(null);
+
+        const publishedValues: boolean[] = [];
+        const subKey = sendSignal!.subscribe((value: boolean) => {
+            publishedValues.push(value);
+        });
+
+        const button = document.createElement('ch5-button') as any;
+        button.setAttribute('sendeventonshow', sendSignalName);
+        button.setAttribute('receivestateshow', receiveSignalName);
+        document.body.appendChild(button);
+
+        const baselineCount = publishedValues.length;
+
+        receiveSignal!.publish(false);
+        expect(publishedValues.length).to.equal(baselineCount + 1);
+        expect(publishedValues[publishedValues.length - 1]).to.equal(false);
+
+        receiveSignal!.publish(true);
+        expect(publishedValues.length).to.equal(baselineCount + 2);
+        expect(publishedValues[publishedValues.length - 1]).to.equal(true);
+
+        sendSignal!.unsubscribe(subKey);
+    });
+
+    it('should not publish sendeventonshow when receivestateshow is not configured', () => {
+        const suffix = Date.now() + '_' + Math.floor(Math.random() * 100000);
+        const sendSignalName = 'btn_send_show_no_receive_state_' + suffix;
+        const sendSignal = Ch5SignalFactory.getInstance().getBooleanSignal(sendSignalName);
+        expect(sendSignal).to.not.equal(null);
+
+        const publishedValues: boolean[] = [];
+        const subKey = sendSignal!.subscribe((value: boolean) => {
+            publishedValues.push(value);
+        });
+
+        const button = document.createElement('ch5-button') as any;
+        button.setAttribute('sendeventonshow', sendSignalName);
+        button.setAttribute('show', 'true');
+        document.body.appendChild(button);
+
+        const baselineCount = publishedValues.length;
+        button.setAttribute('show', 'false');
+        button.setAttribute('show', 'true');
+
+        expect(publishedValues.length).to.equal(baselineCount);
+        sendSignal!.unsubscribe(subKey);
+    });
 });
