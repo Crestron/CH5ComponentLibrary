@@ -300,7 +300,7 @@ export interface ICh5ButtonAttributes extends ICh5LightBaseAttributes {
    * "`orientation` attribute",
    * "***",
    * "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'.",
-   * "Lays out the icon and label in a horizontal or vertical flow."
+    * "Lays out the icon and label in a horizontal or vertical flow. Vertical mode also triggers a small JS sizing pass so the inner button dimensions match the host footprint."
    * ]
    * @name orientation
    * @default horizontal
