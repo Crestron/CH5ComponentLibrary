@@ -20,10 +20,11 @@ export class Ch5Button extends Ch5LightBaseClass {
 	public static readonly SHAPES: readonly string[] = ['rounded-rectangle', 'rectangle', 'circle', 'oval', 'tab'];
 	public static readonly STRETCHES: readonly string[] = ['width', 'height', 'both'];
 	public static readonly ICON_POSITIONS: readonly string[] = ['first', 'last', 'top', 'bottom'];
+	public static readonly ORIENTATIONS: readonly string[] = ['horizontal', 'vertical'];
 	public static readonly H_ALIGN_LABELS: readonly string[] = ['center', 'left', 'right'];
 	public static readonly V_ALIGN_LABELS: readonly string[] = ['middle', 'top', 'bottom'];
 	public static readonly CHECKBOX_POSITIONS: readonly string[] = ['left', 'right'];
-	public static readonly ICON_URL_FILL_TYPES: readonly string[] = ['null', 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'];
+	public static readonly ICON_URL_FILL_TYPES: readonly string[] = ['stretch', 'stretch-aspect', 'center', 'tile', 'initial'];
 	public static readonly BACKGROUND_IMAGE_URL_FILL_TYPES: readonly string[] = ['stretch-aspect', 'stretch', 'center', 'tile'];
 	public static readonly SIGNAL_ATTRIBUTE_TYPE = 'data-signal-type';
 	public static readonly SIGNAL_ATTRIBUTE_SELECTED = 'data-signal-selected';
@@ -90,12 +91,21 @@ export class Ch5Button extends Ch5LightBaseClass {
 	// light family). Only scheduled while multilineSupport is on, so single-line
 	// buttons allocate nothing.
 	private _pendingFitHandle: number | null = null;
+	// Vertical orientation parity with ch5-advanced-button: one coalesced rAF fit
+	// maps the inner <button> dimensions to the host's current footprint
+	// (width=hostHeight, height=hostWidth) so rotated content fills the host even
+	// when external CSS sets custom host sizes.
+	private _pendingVerticalFitHandle: number | null = null;
 	private readonly _fitEllipsisFrame = () => {
 		this._pendingFitHandle = null;
 		// multilineSupport may have been turned off since scheduling.
 		if (this.multilineSupport) {
 			this.fitEllipsisForMultiline();
 		}
+	};
+	private readonly _fitVerticalFrame = () => {
+		this._pendingVerticalFitHandle = null;
+		this.fitVerticalInnerButtonSize();
 	};
 
 	// --- receiveState* signal wiring -----------------------------------------
@@ -443,6 +453,22 @@ export class Ch5Button extends Ch5LightBaseClass {
 	}
 
 	/**
+	 * Layout orientation of the icon + label group. Pure CSS attribute.
+	 * Valid values: see {@link ORIENTATIONS}
+	 */
+	public set orientation(value: string) {
+		if (value) {
+			const validValue = Ch5Button.ORIENTATIONS.indexOf(value) >= 0 ? value : Ch5Button.ORIENTATIONS[0];
+			this.setAttribute('orientation', validValue);
+		} else {
+			this.removeAttribute('orientation');
+		}
+	}
+	public get orientation(): string {
+		return this.getAttribute('orientation') || Ch5Button.ORIENTATIONS[0];
+	}
+
+	/**
 	 * Horizontal alignment of icon + label group within button. Pure CSS attribute.
 	 * Valid values: see {@link H_ALIGN_LABELS}
 	 */
@@ -479,18 +505,12 @@ export class Ch5Button extends Ch5LightBaseClass {
 	/**
 	 * Static selected state. Pure CSS attribute - no JS logic, just styling.
 	 * Can be overridden by receiveStateSelected signal via data-signal-selected channel.
-	 * Accepts boolean-like values: bare attribute, "true", "false"
+	 * Setter accepts: `true`, `'true'`, `1`, `'1'`, and `''` as true.
+	 * Any other value is normalized to false.
 	 */
-	public set selected(value: boolean) {
-		if (value === true || value === false) {
-			if (value) {
-				this.setAttribute('selected', 'true');
-			} else {
-				this.setAttribute('selected', 'false');
-			}
-		} else {
-			this.removeAttribute('selected');
-		}
+	public set selected(value: boolean | string | number | null | undefined) {
+		const isSelected = value === true || value === 'true' || value === 1 || value === '1' || value === '';
+		this.setAttribute('selected', isSelected ? 'true' : 'false');
 	}
 	public get selected(): boolean {
 		const attr = this.getAttribute('selected');
@@ -500,18 +520,12 @@ export class Ch5Button extends Ch5LightBaseClass {
 
 	/**
 	 * Shows checkbox glyph on the button. Pure CSS attribute.
-	 * Accepts boolean-like values: bare attribute, "true", "false"
+	 * Setter accepts: `true`, `'true'`, `1`, `'1'`, and `''` as true.
+	 * Any other value is normalized to false.
 	 */
-	public set checkboxShow(value: boolean) {
-		if (value === true || value === false) {
-			if (value) {
-				this.setAttribute('checkboxshow', 'true');
-			} else {
-				this.setAttribute('checkboxshow', 'false');
-			}
-		} else {
-			this.removeAttribute('checkboxshow');
-		}
+	public set checkboxShow(value: boolean | string | number | null | undefined) {
+		const isChecked = value === true || value === 'true' || value === 1 || value === '1' || value === '';
+		this.setAttribute('checkboxshow', isChecked ? 'true' : 'false');
 	}
 	public get checkboxShow(): boolean {
 		const attr = this.getAttribute('checkboxshow');
@@ -533,12 +547,17 @@ export class Ch5Button extends Ch5LightBaseClass {
 	/**
 	 * Fill type for iconUrl background image. Pure CSS attribute.
 	 * Valid values: see {@link ICON_URL_FILL_TYPES}
+	 * When attribute is absent, value is `null`.
 	 */
-	public set iconUrlFillType(value: string) {
+	public set iconUrlFillType(value: string | null | undefined) {
+		if (value === null || value === undefined) {
+			this.removeAttribute('iconurlfilltype');
+			return;
+		}
 		this.setEnumHostAttribute('iconurlfilltype', value, Ch5Button.ICON_URL_FILL_TYPES, Ch5Button.ICON_URL_FILL_TYPES[0]);
 	}
-	public get iconUrlFillType(): string {
-		return this.getAttribute('iconurlfilltype') || Ch5Button.ICON_URL_FILL_TYPES[0];
+	public get iconUrlFillType(): string | null {
+		return this.getAttribute('iconurlfilltype');
 	}
 
 	/**
@@ -746,6 +765,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 		if (this.multilineSupport) {
 			this.scheduleFitEllipsisForMultiline();
 		}
+		this.scheduleVerticalInnerButtonFit();
 		this.logStop();
 	}
 
@@ -769,6 +789,10 @@ export class Ch5Button extends Ch5LightBaseClass {
 		if (this._pendingFitHandle !== null) {
 			window.cancelAnimationFrame(this._pendingFitHandle);
 			this._pendingFitHandle = null;
+		}
+		if (this._pendingVerticalFitHandle !== null) {
+			window.cancelAnimationFrame(this._pendingVerticalFitHandle);
+			this._pendingVerticalFitHandle = null;
 		}
 		// Stop any in-flight contract hold timer.
 		this.clearButtonListContractHold();
@@ -945,6 +969,43 @@ export class Ch5Button extends Ch5LightBaseClass {
 			return;
 		}
 		this._pendingFitHandle = window.requestAnimationFrame(this._fitEllipsisFrame);
+	}
+
+	/**
+	 * Schedules a single vertical-size fit for the internal button. This is only
+	 * needed because transform rotation does not participate in layout, and costs
+	 * one coalesced frame at connect time.
+	 */
+	private scheduleVerticalInnerButtonFit(): void {
+		if (this._pendingVerticalFitHandle !== null) {
+			return;
+		}
+		this._pendingVerticalFitHandle = window.requestAnimationFrame(this._fitVerticalFrame);
+	}
+
+	/**
+	 * Mirrors ch5-advanced-button verticalOrientationHandler sizing for the light
+	 * button without observers/listeners. For vertical non-circle buttons, set
+	 * inner width/height from the host footprint so rotated content fully fills it.
+	 */
+	private fitVerticalInnerButtonSize(): void {
+		const button = this._elButton;
+		if (!button || !button.isConnected) {
+			return;
+		}
+
+		if (this.orientation !== 'vertical' || this.shape === 'circle') {
+			button.style.removeProperty('width');
+			button.style.removeProperty('height');
+			return;
+		}
+
+		const hostHeight = this.clientHeight;
+		const hostWidth = this.clientWidth;
+		if (hostHeight > 0 && hostWidth > 0) {
+			button.style.width = `${hostHeight}px`;
+			button.style.height = `${hostWidth}px`;
+		}
 	}
 
 	/**

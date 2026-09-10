@@ -12,6 +12,7 @@ import {
   TCh5ButtonShape,
   TCh5ButtonStretch,
   TCh5ButtonIconPosition,
+  TCh5ButtonOrientation,
   TCh5ButtonHorizontalAlignLabel,
   TCh5ButtonVerticalAlignLabel,
   TCh5ButtonCheckboxPosition,
@@ -296,6 +297,20 @@ export interface ICh5ButtonAttributes extends ICh5LightBaseAttributes {
   /**
    * @documentation
    * [
+   * "`orientation` attribute",
+   * "***",
+   * "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'.",
+   * "Lays out the icon and label in a horizontal or vertical flow."
+   * ]
+   * @name orientation
+   * @default horizontal
+   * @attributeType "EnumeratedValue"
+   */
+  orientation: TCh5ButtonOrientation;
+
+  /**
+   * @documentation
+   * [
    * "`halignlabel` attribute",
    * "***",
    * "Valid values: 'center', 'left', 'right'.",
@@ -390,15 +405,15 @@ export interface ICh5ButtonAttributes extends ICh5LightBaseAttributes {
   /**
    * @documentation
    * [
-   * "`iconurlfilltype` attribute",
-   * "***",
-   * "Valid values: 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'.",
-   * "Sets the fill type of the image set in iconUrl. Uses the CSS property background-size for the implementation."
+  * "`iconurlfilltype` attribute",
+  * "***",
+  * "Valid values: 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'.",
+  * "Sets the fill type of the image set in iconUrl. Uses the CSS property background-size for the implementation. When omitted, the property resolves to null."
    * ]
    * @name iconurlfilltype
    * @attributeType "EnumeratedValue"
    */
-  iconUrlFillType: TCh5ButtonIconUrlFillType;
+  iconUrlFillType: TCh5ButtonIconUrlFillType | null;
 
   /**
    * @documentation

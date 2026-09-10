@@ -79,11 +79,11 @@ describe('Ch5Button', () => {
             { property: 'shape', defaultValue: Ch5Button.SHAPES[0], values: Ch5Button.SHAPES, invalid: 'bad-shape', attr: 'shape' },
             { property: 'stretch', defaultValue: Ch5Button.STRETCHES[0], values: Ch5Button.STRETCHES, invalid: 'bad-stretch', attr: 'stretch' },
             { property: 'iconPosition', defaultValue: Ch5Button.ICON_POSITIONS[0], values: Ch5Button.ICON_POSITIONS, invalid: 'bad-icon-position', attr: 'iconposition' },
+            { property: 'orientation', defaultValue: Ch5Button.ORIENTATIONS[0], values: Ch5Button.ORIENTATIONS, invalid: 'bad-orientation', attr: 'orientation' },
             { property: 'hAlignLabel', defaultValue: Ch5Button.H_ALIGN_LABELS[0], values: Ch5Button.H_ALIGN_LABELS, invalid: 'bad-h-align', attr: 'halignlabel' },
             { property: 'vAlignLabel', defaultValue: Ch5Button.V_ALIGN_LABELS[0], values: Ch5Button.V_ALIGN_LABELS, invalid: 'bad-v-align', attr: 'valignlabel' },
             { property: 'type', defaultValue: Ch5Button.TYPES[0], values: Ch5Button.TYPES, invalid: 'bad-type', attr: 'type' },
             { property: 'checkboxPosition', defaultValue: Ch5Button.CHECKBOX_POSITIONS[0], values: Ch5Button.CHECKBOX_POSITIONS, invalid: 'bad-checkbox-position', attr: 'checkboxposition' },
-            { property: 'iconUrlFillType', defaultValue: Ch5Button.ICON_URL_FILL_TYPES[0], values: Ch5Button.ICON_URL_FILL_TYPES, invalid: 'bad-icon-fill', attr: 'iconurlfilltype' },
             { property: 'backgroundImageFillType', defaultValue: Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES[0], values: Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES, invalid: 'bad-bg-fill', attr: 'backgroundImageFillType' }
         ];
 
@@ -106,6 +106,28 @@ describe('Ch5Button', () => {
         });
     });
 
+    it('should keep iconUrlFillType enum strict while returning null when attribute is absent', () => {
+        expect(Ch5Button.ICON_URL_FILL_TYPES.includes('null')).to.equal(false);
+        expect(cb.iconUrlFillType).to.equal(null);
+        expect(cb.hasAttribute('iconurlfilltype')).to.equal(false);
+
+        cb.iconUrlFillType = Ch5Button.ICON_URL_FILL_TYPES[2];
+        expect(cb.iconUrlFillType).to.equal(Ch5Button.ICON_URL_FILL_TYPES[2]);
+        expect(cb.getAttribute('iconurlfilltype')).to.equal(Ch5Button.ICON_URL_FILL_TYPES[2]);
+
+        (cb as any).iconUrlFillType = 'bad-icon-fill';
+        expect(cb.iconUrlFillType).to.equal(Ch5Button.ICON_URL_FILL_TYPES[0]);
+        expect(cb.getAttribute('iconurlfilltype')).to.equal(Ch5Button.ICON_URL_FILL_TYPES[0]);
+
+        cb.iconUrlFillType = null;
+        expect(cb.iconUrlFillType).to.equal(null);
+        expect(cb.hasAttribute('iconurlfilltype')).to.equal(false);
+
+        cb.iconUrlFillType = undefined;
+        expect(cb.iconUrlFillType).to.equal(null);
+        expect(cb.hasAttribute('iconurlfilltype')).to.equal(false);
+    });
+
     it('should keep enum attributes present and defaulted for false/empty/null/undefined across all observed cases', () => {
         const defaultingInputs = [false, '', null, undefined];
         const cases = [
@@ -113,7 +135,6 @@ describe('Ch5Button', () => {
             { property: 'shape', defaultValue: Ch5Button.SHAPES[0], attr: 'shape' },
             { property: 'type', defaultValue: Ch5Button.TYPES[0], attr: 'type' },
             { property: 'stretch', defaultValue: Ch5Button.STRETCHES[0], attr: 'stretch' },
-            { property: 'iconUrlFillType', defaultValue: Ch5Button.ICON_URL_FILL_TYPES[0], attr: 'iconurlfilltype' },
             { property: 'backgroundImageFillType', defaultValue: Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES[0], attr: 'backgroundImageFillType' },
             { property: 'iconPosition', defaultValue: Ch5Button.ICON_POSITIONS[0], attr: 'iconposition' },
             { property: 'hAlignLabel', defaultValue: Ch5Button.H_ALIGN_LABELS[0], attr: 'halignlabel' },
@@ -150,6 +171,40 @@ describe('Ch5Button', () => {
 
             (cb as any)[property] = 'not-a-boolean';
             expect((cb as any)[property]).to.equal(validFalse);
+        });
+    });
+
+    it('should normalize selected setter with true allow-list and false fallback', () => {
+        const trueInputs = [true, 'true', 1, '1', ''];
+        const falseInputs = [false, 'false', 0, '0', 'random', null, undefined, ' '];
+
+        trueInputs.forEach((input) => {
+            (cb as any).selected = input;
+            expect(cb.getAttribute('selected')).to.equal('true');
+            expect(cb.selected).to.equal(true);
+        });
+
+        falseInputs.forEach((input) => {
+            (cb as any).selected = input;
+            expect(cb.getAttribute('selected')).to.equal('false');
+            expect(cb.selected).to.equal(false);
+        });
+    });
+
+    it('should normalize checkboxShow setter with true allow-list and false fallback', () => {
+        const trueInputs = [true, 'true', 1, '1', ''];
+        const falseInputs = [false, 'false', 0, '0', 'random', null, undefined, ' '];
+
+        trueInputs.forEach((input) => {
+            (cb as any).checkboxShow = input;
+            expect(cb.getAttribute('checkboxshow')).to.equal('true');
+            expect(cb.checkboxShow).to.equal(true);
+        });
+
+        falseInputs.forEach((input) => {
+            (cb as any).checkboxShow = input;
+            expect(cb.getAttribute('checkboxshow')).to.equal('false');
+            expect(cb.checkboxShow).to.equal(false);
         });
     });
 
@@ -486,5 +541,62 @@ describe('Ch5Button', () => {
 
         expect(second.isConnected).to.equal(true);
         expect(document.body.contains(second)).to.equal(true);
+    });
+
+    it('should publish sendeventonshow only after receivestateshow receives a value', () => {
+        const suffix = Date.now() + '_' + Math.floor(Math.random() * 100000);
+        const receiveSignalName = 'btn_receive_show_publish_gate_' + suffix;
+        const sendSignalName = 'btn_send_show_publish_gate_' + suffix;
+
+        const receiveSignal = Ch5SignalFactory.getInstance().getBooleanSignal(receiveSignalName);
+        const sendSignal = Ch5SignalFactory.getInstance().getBooleanSignal(sendSignalName);
+        expect(receiveSignal).to.not.equal(null);
+        expect(sendSignal).to.not.equal(null);
+
+        const publishedValues: boolean[] = [];
+        const subKey = sendSignal!.subscribe((value: boolean) => {
+            publishedValues.push(value);
+        });
+
+        const button = document.createElement('ch5-button') as any;
+        button.setAttribute('sendeventonshow', sendSignalName);
+        button.setAttribute('receivestateshow', receiveSignalName);
+        document.body.appendChild(button);
+
+        const baselineCount = publishedValues.length;
+
+        receiveSignal!.publish(false);
+        expect(publishedValues.length).to.equal(baselineCount + 1);
+        expect(publishedValues[publishedValues.length - 1]).to.equal(false);
+
+        receiveSignal!.publish(true);
+        expect(publishedValues.length).to.equal(baselineCount + 2);
+        expect(publishedValues[publishedValues.length - 1]).to.equal(true);
+
+        sendSignal!.unsubscribe(subKey);
+    });
+
+    it('should not publish sendeventonshow when receivestateshow is not configured', () => {
+        const suffix = Date.now() + '_' + Math.floor(Math.random() * 100000);
+        const sendSignalName = 'btn_send_show_no_receive_state_' + suffix;
+        const sendSignal = Ch5SignalFactory.getInstance().getBooleanSignal(sendSignalName);
+        expect(sendSignal).to.not.equal(null);
+
+        const publishedValues: boolean[] = [];
+        const subKey = sendSignal!.subscribe((value: boolean) => {
+            publishedValues.push(value);
+        });
+
+        const button = document.createElement('ch5-button') as any;
+        button.setAttribute('sendeventonshow', sendSignalName);
+        button.setAttribute('show', 'true');
+        document.body.appendChild(button);
+
+        const baselineCount = publishedValues.length;
+        button.setAttribute('show', 'false');
+        button.setAttribute('show', 'true');
+
+        expect(publishedValues.length).to.equal(baselineCount);
+        sendSignal!.unsubscribe(subKey);
     });
 });
