@@ -84,7 +84,6 @@ describe('Ch5Button', () => {
             { property: 'vAlignLabel', defaultValue: Ch5Button.V_ALIGN_LABELS[0], values: Ch5Button.V_ALIGN_LABELS, invalid: 'bad-v-align', attr: 'valignlabel' },
             { property: 'type', defaultValue: Ch5Button.TYPES[0], values: Ch5Button.TYPES, invalid: 'bad-type', attr: 'type' },
             { property: 'checkboxPosition', defaultValue: Ch5Button.CHECKBOX_POSITIONS[0], values: Ch5Button.CHECKBOX_POSITIONS, invalid: 'bad-checkbox-position', attr: 'checkboxposition' },
-            { property: 'iconUrlFillType', defaultValue: Ch5Button.ICON_URL_FILL_TYPES[0], values: Ch5Button.ICON_URL_FILL_TYPES, invalid: 'bad-icon-fill', attr: 'iconurlfilltype' },
             { property: 'backgroundImageFillType', defaultValue: Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES[0], values: Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES, invalid: 'bad-bg-fill', attr: 'backgroundImageFillType' }
         ];
 
@@ -107,6 +106,28 @@ describe('Ch5Button', () => {
         });
     });
 
+    it('should keep iconUrlFillType enum strict while returning null when attribute is absent', () => {
+        expect(Ch5Button.ICON_URL_FILL_TYPES.includes('null')).to.equal(false);
+        expect(cb.iconUrlFillType).to.equal(null);
+        expect(cb.hasAttribute('iconurlfilltype')).to.equal(false);
+
+        cb.iconUrlFillType = Ch5Button.ICON_URL_FILL_TYPES[2];
+        expect(cb.iconUrlFillType).to.equal(Ch5Button.ICON_URL_FILL_TYPES[2]);
+        expect(cb.getAttribute('iconurlfilltype')).to.equal(Ch5Button.ICON_URL_FILL_TYPES[2]);
+
+        (cb as any).iconUrlFillType = 'bad-icon-fill';
+        expect(cb.iconUrlFillType).to.equal(Ch5Button.ICON_URL_FILL_TYPES[0]);
+        expect(cb.getAttribute('iconurlfilltype')).to.equal(Ch5Button.ICON_URL_FILL_TYPES[0]);
+
+        cb.iconUrlFillType = null;
+        expect(cb.iconUrlFillType).to.equal(null);
+        expect(cb.hasAttribute('iconurlfilltype')).to.equal(false);
+
+        cb.iconUrlFillType = undefined;
+        expect(cb.iconUrlFillType).to.equal(null);
+        expect(cb.hasAttribute('iconurlfilltype')).to.equal(false);
+    });
+
     it('should keep enum attributes present and defaulted for false/empty/null/undefined across all observed cases', () => {
         const defaultingInputs = [false, '', null, undefined];
         const cases = [
@@ -114,7 +135,6 @@ describe('Ch5Button', () => {
             { property: 'shape', defaultValue: Ch5Button.SHAPES[0], attr: 'shape' },
             { property: 'type', defaultValue: Ch5Button.TYPES[0], attr: 'type' },
             { property: 'stretch', defaultValue: Ch5Button.STRETCHES[0], attr: 'stretch' },
-            { property: 'iconUrlFillType', defaultValue: Ch5Button.ICON_URL_FILL_TYPES[0], attr: 'iconurlfilltype' },
             { property: 'backgroundImageFillType', defaultValue: Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES[0], attr: 'backgroundImageFillType' },
             { property: 'iconPosition', defaultValue: Ch5Button.ICON_POSITIONS[0], attr: 'iconposition' },
             { property: 'hAlignLabel', defaultValue: Ch5Button.H_ALIGN_LABELS[0], attr: 'halignlabel' },
