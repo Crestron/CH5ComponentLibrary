@@ -505,18 +505,12 @@ export class Ch5Button extends Ch5LightBaseClass {
 	/**
 	 * Static selected state. Pure CSS attribute - no JS logic, just styling.
 	 * Can be overridden by receiveStateSelected signal via data-signal-selected channel.
-	 * Accepts boolean-like values: bare attribute, "true", "false"
+	 * Setter accepts: `true`, `'true'`, `1`, `'1'`, and `''` as true.
+	 * Any other value is normalized to false.
 	 */
-	public set selected(value: boolean) {
-		if (value === true || value === false) {
-			if (value) {
-				this.setAttribute('selected', 'true');
-			} else {
-				this.setAttribute('selected', 'false');
-			}
-		} else {
-			this.removeAttribute('selected');
-		}
+	public set selected(value: boolean | string | number | null | undefined) {
+		const isSelected = value === true || value === 'true' || value === 1 || value === '1' || value === '';
+		this.setAttribute('selected', isSelected ? 'true' : 'false');
 	}
 	public get selected(): boolean {
 		const attr = this.getAttribute('selected');
@@ -526,18 +520,12 @@ export class Ch5Button extends Ch5LightBaseClass {
 
 	/**
 	 * Shows checkbox glyph on the button. Pure CSS attribute.
-	 * Accepts boolean-like values: bare attribute, "true", "false"
+	 * Setter accepts: `true`, `'true'`, `1`, `'1'`, and `''` as true.
+	 * Any other value is normalized to false.
 	 */
-	public set checkboxShow(value: boolean) {
-		if (value === true || value === false) {
-			if (value) {
-				this.setAttribute('checkboxshow', 'true');
-			} else {
-				this.setAttribute('checkboxshow', 'false');
-			}
-		} else {
-			this.removeAttribute('checkboxshow');
-		}
+	public set checkboxShow(value: boolean | string | number | null | undefined) {
+		const isChecked = value === true || value === 'true' || value === 1 || value === '1' || value === '';
+		this.setAttribute('checkboxshow', isChecked ? 'true' : 'false');
 	}
 	public get checkboxShow(): boolean {
 		const attr = this.getAttribute('checkboxshow');
