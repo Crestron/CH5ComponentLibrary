@@ -154,6 +154,40 @@ describe('Ch5Button', () => {
         });
     });
 
+    it('should normalize selected setter with true allow-list and false fallback', () => {
+        const trueInputs = [true, 'true', 1, '1', ''];
+        const falseInputs = [false, 'false', 0, '0', 'random', null, undefined, ' '];
+
+        trueInputs.forEach((input) => {
+            (cb as any).selected = input;
+            expect(cb.getAttribute('selected')).to.equal('true');
+            expect(cb.selected).to.equal(true);
+        });
+
+        falseInputs.forEach((input) => {
+            (cb as any).selected = input;
+            expect(cb.getAttribute('selected')).to.equal('false');
+            expect(cb.selected).to.equal(false);
+        });
+    });
+
+    it('should normalize checkboxShow setter with true allow-list and false fallback', () => {
+        const trueInputs = [true, 'true', 1, '1', ''];
+        const falseInputs = [false, 'false', 0, '0', 'random', null, undefined, ' '];
+
+        trueInputs.forEach((input) => {
+            (cb as any).checkboxShow = input;
+            expect(cb.getAttribute('checkboxshow')).to.equal('true');
+            expect(cb.checkboxShow).to.equal(true);
+        });
+
+        falseInputs.forEach((input) => {
+            (cb as any).checkboxShow = input;
+            expect(cb.getAttribute('checkboxshow')).to.equal('false');
+            expect(cb.checkboxShow).to.equal(false);
+        });
+    });
+
     it('should render static HTML labels and static icon/background values in their DOM slots', () => {
         document.body.appendChild(cb);
 
