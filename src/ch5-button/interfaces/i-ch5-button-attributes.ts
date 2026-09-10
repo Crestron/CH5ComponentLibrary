@@ -405,15 +405,15 @@ export interface ICh5ButtonAttributes extends ICh5LightBaseAttributes {
   /**
    * @documentation
    * [
-   * "`iconurlfilltype` attribute",
-   * "***",
-   * "Valid values: 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'.",
-   * "Sets the fill type of the image set in iconUrl. Uses the CSS property background-size for the implementation."
+  * "`iconurlfilltype` attribute",
+  * "***",
+  * "Valid values: 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'.",
+  * "Sets the fill type of the image set in iconUrl. Uses the CSS property background-size for the implementation. When omitted, the property resolves to null."
    * ]
    * @name iconurlfilltype
    * @attributeType "EnumeratedValue"
    */
-  iconUrlFillType: TCh5ButtonIconUrlFillType;
+  iconUrlFillType: TCh5ButtonIconUrlFillType | null;
 
   /**
    * @documentation

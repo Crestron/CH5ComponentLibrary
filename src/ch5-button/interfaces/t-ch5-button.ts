@@ -14,5 +14,5 @@ export type TCh5ButtonOrientation = 'horizontal' | 'vertical';
 export type TCh5ButtonHorizontalAlignLabel = 'center' | 'left' | 'right';
 export type TCh5ButtonVerticalAlignLabel = 'middle' | 'top' | 'bottom';
 export type TCh5ButtonCheckboxPosition = 'left' | 'right';
-export type TCh5ButtonIconUrlFillType = 'null' | 'stretch' | 'stretch-aspect' | 'center' | 'tile' | 'initial';
+export type TCh5ButtonIconUrlFillType = 'stretch' | 'stretch-aspect' | 'center' | 'tile' | 'initial';
 export type TCh5ButtonBackgroundImageFillType = 'stretch-aspect' | 'stretch' | 'center' | 'tile';

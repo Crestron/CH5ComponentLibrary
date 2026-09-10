@@ -24,7 +24,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	public static readonly H_ALIGN_LABELS: readonly string[] = ['center', 'left', 'right'];
 	public static readonly V_ALIGN_LABELS: readonly string[] = ['middle', 'top', 'bottom'];
 	public static readonly CHECKBOX_POSITIONS: readonly string[] = ['left', 'right'];
-	public static readonly ICON_URL_FILL_TYPES: readonly string[] = ['null', 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'];
+	public static readonly ICON_URL_FILL_TYPES: readonly string[] = ['stretch', 'stretch-aspect', 'center', 'tile', 'initial'];
 	public static readonly BACKGROUND_IMAGE_URL_FILL_TYPES: readonly string[] = ['stretch-aspect', 'stretch', 'center', 'tile'];
 	public static readonly SIGNAL_ATTRIBUTE_TYPE = 'data-signal-type';
 	public static readonly SIGNAL_ATTRIBUTE_SELECTED = 'data-signal-selected';
@@ -547,12 +547,17 @@ export class Ch5Button extends Ch5LightBaseClass {
 	/**
 	 * Fill type for iconUrl background image. Pure CSS attribute.
 	 * Valid values: see {@link ICON_URL_FILL_TYPES}
+	 * When attribute is absent, value is `null`.
 	 */
-	public set iconUrlFillType(value: string) {
+	public set iconUrlFillType(value: string | null | undefined) {
+		if (value === null || value === undefined) {
+			this.removeAttribute('iconurlfilltype');
+			return;
+		}
 		this.setEnumHostAttribute('iconurlfilltype', value, Ch5Button.ICON_URL_FILL_TYPES, Ch5Button.ICON_URL_FILL_TYPES[0]);
 	}
-	public get iconUrlFillType(): string {
-		return this.getAttribute('iconurlfilltype') || Ch5Button.ICON_URL_FILL_TYPES[0];
+	public get iconUrlFillType(): string | null {
+		return this.getAttribute('iconurlfilltype');
 	}
 
 	/**
