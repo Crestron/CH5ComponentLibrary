@@ -1,4 +1,4 @@
-import { Ch5Uid, Ch5Signal } from "../ch5-core";
+import { Ch5Uid, Ch5Signal, publishEvent } from "../ch5-core";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
 import { Ch5LightProperties, ICh5LightPropertySettings } from "./ch5-light-properties";
 import { Ch5LightSignal } from "./ch5-light-signal";
@@ -561,6 +561,15 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 */
 	public getCrId(): string {
 		return this._crId;
+	}
+
+	/**
+	 * Publishes the standard native loaded event payload for this component,
+	 * mirroring `Ch5Common.componentLoadedEvent` while keeping light components
+	 * independent from `ch5-common` inheritance.
+	 */
+	protected componentLoadedEvent(elementName: string, idValue: string): void {
+		publishEvent('object', elementName, { loaded: true, id: idValue });
 	}
 
 	/**

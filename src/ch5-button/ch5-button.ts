@@ -767,6 +767,15 @@ export class Ch5Button extends Ch5LightBaseClass {
 			this.scheduleFitEllipsisForMultiline();
 		}
 		this.scheduleVerticalInnerButtonFit();
+
+		customElements.whenDefined(Ch5Button.ELEMENT_NAME).then(() => {
+			// Run the same deferred-on-connect fit pass after CE registration settles.
+			if (this.multilineSupport) {
+				this.scheduleFitEllipsisForMultiline();
+			}
+			this.scheduleVerticalInnerButtonFit();
+			this.componentLoadedEvent(Ch5Button.ELEMENT_NAME, this.id);
+		});
 		this.logStop();
 	}
 
