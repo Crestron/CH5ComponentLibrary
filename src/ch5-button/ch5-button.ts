@@ -437,11 +437,11 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * Stretches button in specified dimension(s). Pure CSS attribute.
 	 * Valid values: see {@link STRETCHES}
 	 */
-	public set stretch(value: string) {
+	public set stretch(value: string | null | undefined) {
 		this.setEnumHostAttributeOrRemove('stretch', value, Ch5Button.STRETCHES);
 	}
-	public get stretch(): string {
-		return this.getAttribute('stretch') || Ch5Button.STRETCHES[0];
+	public get stretch(): string | null {
+		return this.getAttribute('stretch');
 	}
 
 	/**
@@ -460,12 +460,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * Valid values: see {@link ORIENTATIONS}
 	 */
 	public set orientation(value: string) {
-		if (value) {
-			const validValue = Ch5Button.ORIENTATIONS.indexOf(value) >= 0 ? value : Ch5Button.ORIENTATIONS[0];
-			this.setAttribute('orientation', validValue);
-		} else {
-			this.removeAttribute('orientation');
-		}
+		this.setEnumHostAttribute('orientation', value, Ch5Button.ORIENTATIONS, Ch5Button.ORIENTATIONS[0]);
 	}
 	public get orientation(): string {
 		return this.getAttribute('orientation') || Ch5Button.ORIENTATIONS[0];
