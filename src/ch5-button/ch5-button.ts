@@ -39,7 +39,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 */
 	private static readonly PROPERTY_SETTINGS: ICh5LightPropertySettings[] = [
 		{ name: 'label', default: '', type: 'string' },
-		{ name: 'labelInnerHTML', default: '', type: 'string' },
+		{ name: 'labelInnerHTML', default: '', type: 'string', trimString: false },
 		{ name: 'iconClass', default: '', type: 'string' },
 		{ name: 'iconUrl', default: '', type: 'string' },
 		{ name: 'backgroundImageUrl', default: '', type: 'string' },
@@ -47,7 +47,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 		{ name: 'receiveStateSelected', default: '', type: 'string', contractName: true, direction: 'state', booleanJoin: 1 },
 		{ name: 'receiveStateLabel', default: '', type: 'string', contractName: true, direction: 'state', stringJoin: 1 },
 		{ name: 'receiveStateScriptLabelHtml', default: '', type: 'string', contractName: true, direction: 'state', stringJoin: 1 },
-		{ name: 'scriptLabelHtml', default: '', type: 'string' },
+		{ name: 'scriptLabelHtml', default: '', type: 'string', trimString: false },
 		{ name: 'receiveStateIconClass', default: '', type: 'string', contractName: true, direction: 'state', stringJoin: 1 },
 		{ name: 'receiveStateIconUrl', default: '', type: 'string', contractName: true, direction: 'state', stringJoin: 1 },
 		{ name: 'receiveStateBackgroundImageUrl', default: '', type: 'string', contractName: true, direction: 'state', stringJoin: 1 },
@@ -632,6 +632,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 			return;
 		}
 		if ((attr === 'label' && this.receiveStateLabel)
+			|| (attr === 'label' && this.receiveStateScriptLabelHtml)
 			|| (attr === 'iconclass' && this.receiveStateIconClass)
 			|| (attr === 'iconurl' && this.receiveStateIconUrl)
 			|| (attr === 'backgroundimageurl' && this.receiveStateBackgroundImageUrl)) {
@@ -1320,7 +1321,11 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 */
 	private applySignalScriptLabelHtml(value: string): void {
 		this.log('applySignalScriptLabelHtml(', value, ')');
-		this.scriptLabelHtml = value ?? '';
+		const html = value ?? '';
+		this.scriptLabelHtml = html;
+		// Keep a host-side label mirror for external observers/tooling while
+		// receiveStateScriptLabelHtml remains the effective source in render priority.
+		this.syncHostStringAttribute('label', html);
 	}
 
 	/**
