@@ -208,6 +208,23 @@ describe('Ch5Button', () => {
         });
     });
 
+    it('should normalize disabled setter with true allow-list and false fallback', () => {
+        const trueInputs = [true, 'true', 1, '1', ''];
+        const falseInputs = [false, 'false', 0, '0', 'random', null, undefined, ' '];
+
+        trueInputs.forEach((input) => {
+            (cb as any).disabled = input;
+            expect(cb.getAttribute('disabled')).to.equal('true');
+            expect(cb.disabled).to.equal(true);
+        });
+
+        falseInputs.forEach((input) => {
+            (cb as any).disabled = input;
+            expect(cb.getAttribute('disabled')).to.equal('false');
+            expect(cb.disabled).to.equal(false);
+        });
+    });
+
     it('should render static HTML labels and static icon/background values in their DOM slots', () => {
         document.body.appendChild(cb);
 
