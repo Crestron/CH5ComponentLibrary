@@ -172,6 +172,9 @@ export class Ch5Button extends Ch5LightBaseClass {
 		}
 	}
 	public get label(): string {
+		if (this.receiveStateScriptLabelHtml) {
+			return this.scriptLabelHtml;
+		}
 		return this._ch5Properties.get<string>('label');
 	}
 
