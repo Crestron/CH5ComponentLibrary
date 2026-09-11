@@ -44,6 +44,11 @@ export interface ICh5LightPropertySettings {
 	numericJoin?: number;
 	/** String/serial join type (1 = yes, undefined = no). */
 	stringJoin?: number;
+	/**
+	 * Whether string values should be trimmed before storage.
+	 * Defaults to true for backward compatibility.
+	 */
+	trimString?: boolean;
 }
 
 /**
@@ -54,11 +59,13 @@ export interface ICh5LightPropertySettings {
 export class Ch5LightProperties {
 
 	private readonly _values: Record<string, boolean | string | number> = Object.create(null);
+	private readonly _trimStringByName: Record<string, boolean> = Object.create(null);
 
 	public constructor(settings: ICh5LightPropertySettings[]) {
 		for (let i = 0; i < settings.length; i++) {
 			const setting = settings[i];
 			this._values[setting.name] = setting.default;
+			this._trimStringByName[setting.name] = setting.trimString !== false;
 		}
 	}
 
@@ -70,6 +77,7 @@ export class Ch5LightProperties {
 		for (let i = 0; i < settings.length; i++) {
 			const setting = settings[i];
 			this._values[setting.name] = setting.default;
+			this._trimStringByName[setting.name] = setting.trimString !== false;
 		}
 	}
 
@@ -87,7 +95,7 @@ export class Ch5LightProperties {
 	 */
 	public set<T extends boolean | string | number>(name: string, value: T, onChange?: (oldValue: T) => void): void {
 		let nextValue = value as boolean | string | number;
-		if (typeof nextValue === 'string') {
+		if (typeof nextValue === 'string' && this._trimStringByName[name] !== false) {
 			nextValue = nextValue.trim();
 		}
 		const currentValue = this._values[name];
@@ -115,6 +123,10 @@ export class Ch5LightProperties {
 	 * setters on init" pattern) so the caller applies the handlers exactly once.
 	 */
 	public setValue<T extends boolean | string | number>(name: string, value: T): void {
-		this._values[name] = typeof value === 'string' ? value.trim() : value;
+		if (typeof value === 'string' && this._trimStringByName[name] !== false) {
+			this._values[name] = value.trim();
+		} else {
+			this._values[name] = value;
+		}
 	}
 }

@@ -334,6 +334,24 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	}
 
 	/**
+	 * Static disabled state. Pure CSS attribute owned by the light base.
+	 * Can be overridden by receiveStateEnable via data-signal-enable channel.
+	 * Setter accepts: `true`, `'true'`, `1`, `'1'`, and `''` as true.
+	 * Any other value is normalized to false.
+	 */
+	public set disabled(value: boolean | string | number | null | undefined) {
+		const isDisabled = value === true || value === 'true' || value === 1 || value === '1' || value === '';
+		this.setAttribute('disabled', isDisabled ? 'true' : 'false');
+	}
+	public get disabled(): boolean {
+		const attr = this.getAttribute('disabled');
+		if (attr === null) {
+			return false;
+		}
+		return attr === '' || attr === 'true' || attr === '1';
+	}
+
+	/**
 	 * Name of a Crestron **boolean** signal that enables/disables the host
 	 * (`true` = enabled, `false` = disabled), mirroring `Ch5Common.receiveStateEnable`.
 	 * The resolved state is written to the SEPARATE `data-signal-enable` channel

@@ -208,6 +208,23 @@ describe('Ch5Button', () => {
         });
     });
 
+    it('should normalize disabled setter with true allow-list and false fallback', () => {
+        const trueInputs = [true, 'true', 1, '1', ''];
+        const falseInputs = [false, 'false', 0, '0', 'random', null, undefined, ' '];
+
+        trueInputs.forEach((input) => {
+            (cb as any).disabled = input;
+            expect(cb.getAttribute('disabled')).to.equal('true');
+            expect(cb.disabled).to.equal(true);
+        });
+
+        falseInputs.forEach((input) => {
+            (cb as any).disabled = input;
+            expect(cb.getAttribute('disabled')).to.equal('false');
+            expect(cb.disabled).to.equal(false);
+        });
+    });
+
     it('should render static HTML labels and static icon/background values in their DOM slots', () => {
         document.body.appendChild(cb);
 
@@ -235,6 +252,20 @@ describe('Ch5Button', () => {
         expect(button.style.backgroundImage).to.contain('https://example.com/bg.png');
     });
 
+    it('should preserve leading and trailing whitespace for static labelInnerHTML', () => {
+        document.body.appendChild(cb);
+
+        const htmlWithPadding = '  <b>A</b>  ';
+        cb.labelInnerHTML = htmlWithPadding;
+
+        expect(cb.labelInnerHTML).to.equal(htmlWithPadding);
+        expect(cb.getAttribute('labelInnerHTML')).to.equal(htmlWithPadding);
+
+        const label = cb.querySelector('.ch5-button--label') as HTMLElement;
+        expect(label).to.not.equal(null);
+        expect(label.innerHTML).to.equal(htmlWithPadding);
+    });
+
     it('should prefer receiveStateScriptLabelHtml over receiveStateLabel and over static label values', () => {
         const htmlSignalName = 'btn_receive_html_script_label';
         const textSignalName = 'btn_receive_label';
@@ -256,6 +287,29 @@ describe('Ch5Button', () => {
         const label = cb.querySelector('.ch5-button--label') as HTMLElement;
         expect(label).to.not.equal(null);
         expect(label.innerHTML).to.equal('<b>html signal value</b>');
+    });
+
+    it('should preserve leading and trailing whitespace for receiveStateScriptLabelHtml signal values', () => {
+        const htmlSignalName = 'btn_receive_html_script_label_whitespace';
+        const htmlSignal = Ch5SignalFactory.getInstance().getStringSignal(htmlSignalName);
+
+        expect(htmlSignal).to.not.equal(null);
+
+        cb.receiveStateScriptLabelHtml = htmlSignalName;
+        document.body.appendChild(cb);
+
+        const htmlWithPadding = '  <b>html signal value</b>  ';
+        htmlSignal!.publish(htmlWithPadding);
+
+        expect(cb.scriptLabelHtml).to.equal(htmlWithPadding);
+        expect(cb.getAttribute('label')).to.equal(htmlWithPadding);
+
+        const label = cb.querySelector('.ch5-button--label') as HTMLElement;
+        expect(label).to.not.equal(null);
+        expect(label.innerHTML).to.equal(htmlWithPadding);
+
+        htmlSignal!.publish('');
+        expect(cb.getAttribute('label')).to.equal(null);
     });
 
     it('should prefer receiveStateIconUrl over receiveStateIconClass and over static icon values', () => {
