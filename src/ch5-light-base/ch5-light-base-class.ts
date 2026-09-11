@@ -497,7 +497,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		}
 		switch (attr) {
 			case 'show':
-				this.show = Ch5LightBaseClass.toBoolean(newValue, true);
+				this.show = this.coerceBooleanAttribute('show', true);
 				break;
 			case 'noshowtype':
 				this.noshowType = Ch5LightBaseClass.toShowType(newValue);
@@ -862,7 +862,9 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		} else {
 			this._hasReceiveStateShowValue = false;
 			// Signal removed: restore the author's static `show` attribute (default true).
-			const show = this.hasAttribute('show') ? Ch5LightBaseClass.toBoolean(this.getAttribute('show'), true) : true;
+			const show = this.hasAttribute('show')
+				? Ch5LightBaseClass.normalizeBooleanValue(this.getAttribute('show'), true, true)
+				: true;
 			this._ch5Properties.setValue<boolean>('show', show);
 			this.handleShow();
 		}
@@ -903,7 +905,9 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 */
 	protected initLightBaseAttributes(): void {
 		if (!this.hasAttribute('receivestateshow')) {
-            const show = this.hasAttribute('show') ? Ch5LightBaseClass.toBoolean(this.getAttribute('show'), true) : true;
+			const show = this.hasAttribute('show')
+				? Ch5LightBaseClass.normalizeBooleanValue(this.getAttribute('show'), true, true)
+				: true;
             this._ch5Properties.setValue<boolean>('show', show);
         }
 		const noshowType = this.hasAttribute('noshowtype')
