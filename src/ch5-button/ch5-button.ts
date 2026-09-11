@@ -435,7 +435,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	 * Valid values: see {@link STRETCHES}
 	 */
 	public set stretch(value: string) {
-		this.setEnumHostAttribute('stretch', value, Ch5Button.STRETCHES, Ch5Button.STRETCHES[0]);
+		this.setEnumHostAttributeOrRemove('stretch', value, Ch5Button.STRETCHES);
 	}
 	public get stretch(): string {
 		return this.getAttribute('stretch') || Ch5Button.STRETCHES[0];
@@ -515,7 +515,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	public get selected(): boolean {
 		const attr = this.getAttribute('selected');
 		if (attr === null) return false;
-		return attr === 'true' || attr === '1' || attr === '';
+		return attr.toLowerCase() === 'true' || attr === '1' || attr === '';
 	}
 
 	/**
@@ -530,7 +530,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 	public get checkboxShow(): boolean {
 		const attr = this.getAttribute('checkboxshow');
 		if (attr === null) return false;
-		return attr === 'true' || attr === '1' || attr === '';
+		return attr.toLowerCase() === 'true' || attr === '1' || attr === '';
 	}
 
 	/**
@@ -554,7 +554,7 @@ export class Ch5Button extends Ch5LightBaseClass {
 			this.removeAttribute('iconurlfilltype');
 			return;
 		}
-		this.setEnumHostAttribute('iconurlfilltype', value, Ch5Button.ICON_URL_FILL_TYPES, Ch5Button.ICON_URL_FILL_TYPES[0]);
+		this.setEnumHostAttributeOrRemove('iconurlfilltype', value, Ch5Button.ICON_URL_FILL_TYPES);
 	}
 	public get iconUrlFillType(): string | null {
 		return this.getAttribute('iconurlfilltype');
@@ -767,6 +767,15 @@ export class Ch5Button extends Ch5LightBaseClass {
 			this.scheduleFitEllipsisForMultiline();
 		}
 		this.scheduleVerticalInnerButtonFit();
+
+		customElements.whenDefined(Ch5Button.ELEMENT_NAME).then(() => {
+			// Run the same deferred-on-connect fit pass after CE registration settles.
+			if (this.multilineSupport) {
+				this.scheduleFitEllipsisForMultiline();
+			}
+			this.scheduleVerticalInnerButtonFit();
+			this.componentLoadedEvent(Ch5Button.ELEMENT_NAME, this.id);
+		});
 		this.logStop();
 	}
 
@@ -820,6 +829,18 @@ export class Ch5Button extends Ch5LightBaseClass {
 		}
 
 		this.setAttribute(attributeName, validValues.indexOf(value) >= 0 ? value : defaultValue);
+	}
+
+	/**
+	 * Sets an enum-backed host attribute only when valid; otherwise removes it.
+	 * Used by strict CSS attributes where junk input should not remain on DOM.
+	 */
+	private setEnumHostAttributeOrRemove(attributeName: string, value: unknown, validValues: readonly string[]): void {
+		if (typeof value !== 'string' || validValues.indexOf(value) < 0) {
+			this.removeAttribute(attributeName);
+			return;
+		}
+		this.setAttribute(attributeName, value);
 	}
 
 	/**
