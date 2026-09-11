@@ -348,7 +348,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		if (attr === null) {
 			return false;
 		}
-		return attr === '' || attr === 'true' || attr === '1';
+		return attr.toLowerCase() === 'true' || attr === '1' || attr === '';
 	}
 
 	/**
