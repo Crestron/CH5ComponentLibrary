@@ -77,7 +77,6 @@ describe('Ch5Button', () => {
         const cases = [
             { property: 'size', defaultValue: Ch5Button.SIZES[0], values: Ch5Button.SIZES, invalid: 'bad-size', attr: 'size' },
             { property: 'shape', defaultValue: Ch5Button.SHAPES[0], values: Ch5Button.SHAPES, invalid: 'bad-shape', attr: 'shape' },
-            { property: 'stretch', defaultValue: Ch5Button.STRETCHES[0], values: Ch5Button.STRETCHES, invalid: 'bad-stretch', attr: 'stretch' },
             { property: 'iconPosition', defaultValue: Ch5Button.ICON_POSITIONS[0], values: Ch5Button.ICON_POSITIONS, invalid: 'bad-icon-position', attr: 'iconposition' },
             { property: 'orientation', defaultValue: Ch5Button.ORIENTATIONS[0], values: Ch5Button.ORIENTATIONS, invalid: 'bad-orientation', attr: 'orientation' },
             { property: 'hAlignLabel', defaultValue: Ch5Button.H_ALIGN_LABELS[0], values: Ch5Button.H_ALIGN_LABELS, invalid: 'bad-h-align', attr: 'halignlabel' },
@@ -103,6 +102,22 @@ describe('Ch5Button', () => {
                 expect((cb as any)[property]).to.equal(defaultValue);
                 expect(cb.getAttribute(attr)).to.equal(defaultValue);
             });
+        });
+    });
+
+    it('should keep stretch enum strict and remove attribute for invalid and nil values', () => {
+        cb.stretch = Ch5Button.STRETCHES[2];
+        expect(cb.stretch).to.equal(Ch5Button.STRETCHES[2]);
+        expect(cb.getAttribute('stretch')).to.equal(Ch5Button.STRETCHES[2]);
+
+        (cb as any).stretch = 'bad-stretch';
+        expect(cb.stretch).to.equal(null);
+        expect(cb.hasAttribute('stretch')).to.equal(false);
+
+        [false, '', null, undefined].forEach((input) => {
+            (cb as any).stretch = input;
+            expect(cb.stretch).to.equal(null);
+            expect(cb.hasAttribute('stretch')).to.equal(false);
         });
     });
 
@@ -134,7 +149,7 @@ describe('Ch5Button', () => {
             { property: 'size', defaultValue: Ch5Button.SIZES[0], attr: 'size' },
             { property: 'shape', defaultValue: Ch5Button.SHAPES[0], attr: 'shape' },
             { property: 'type', defaultValue: Ch5Button.TYPES[0], attr: 'type' },
-            { property: 'stretch', defaultValue: Ch5Button.STRETCHES[0], attr: 'stretch' },
+            { property: 'orientation', defaultValue: Ch5Button.ORIENTATIONS[0], attr: 'orientation' },
             { property: 'backgroundImageFillType', defaultValue: Ch5Button.BACKGROUND_IMAGE_URL_FILL_TYPES[0], attr: 'backgroundImageFillType' },
             { property: 'iconPosition', defaultValue: Ch5Button.ICON_POSITIONS[0], attr: 'iconposition' },
             { property: 'hAlignLabel', defaultValue: Ch5Button.H_ALIGN_LABELS[0], attr: 'halignlabel' },
