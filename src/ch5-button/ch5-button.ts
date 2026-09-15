@@ -629,29 +629,34 @@ export class Ch5Button extends Ch5LightBaseClass {
 		if (oldValue === newValue) {
 			return;
 		}
-		if ((attr === 'label' && this.receiveStateLabel)
-			|| (attr === 'label' && this.receiveStateScriptLabelHtml)
-			|| (attr === 'iconclass' && this.receiveStateIconClass)
-			|| (attr === 'iconurl' && this.receiveStateIconUrl)
-			|| (attr === 'backgroundimageurl' && this.receiveStateBackgroundImageUrl)) {
-			return;
-		}
 		this.logStart('attributeChangedCallback');
 		this.log('ch5-button attributeChangedCallback(', attr, oldValue, newValue, ')');
 		switch (attr) {
 			case 'label':
+				if (this.receiveStateLabel || this.receiveStateScriptLabelHtml) {
+					break;
+				}
 				this.label = newValue ?? '';
 				break;
 			case 'labelinnerhtml':
 				this.labelInnerHTML = newValue ?? '';
 				break;
 			case 'iconclass':
+				if (this.receiveStateIconClass) {
+					break;
+				}
 				this.iconClass = newValue ?? '';
 				break;
 			case 'iconurl':
+				if (this.receiveStateIconUrl) {
+					break;
+				}
 				this.iconUrl = newValue ?? '';
 				break;
 			case 'backgroundimageurl':
+				if (this.receiveStateBackgroundImageUrl) {
+					break;
+				}
 				this.backgroundImageUrl = newValue ?? '';
 				break;
 			case 'receivestatetype':

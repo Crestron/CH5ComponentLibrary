@@ -28,6 +28,26 @@ describe('Ch5Button', () => {
         document.body.innerHTML = '';
     });
 
+    it('should ignore static label/icon/background mutations while receiveState signals are active', () => {
+        document.body.appendChild(cb);
+
+        cb.receiveStateLabel = 'sigLabel';
+        cb.receiveStateScriptLabelHtml = 'sigHtml';
+        cb.receiveStateIconClass = 'sigIconClass';
+        cb.receiveStateIconUrl = 'sigIconUrl';
+        cb.receiveStateBackgroundImageUrl = 'sigBackground';
+
+        cb.setAttribute('label', 'author label');
+        cb.setAttribute('iconclass', 'author-icon');
+        cb.setAttribute('iconurl', 'https://example.com/author-icon.png');
+        cb.setAttribute('backgroundimageurl', 'https://example.com/author-bg.png');
+
+        expect(cb.label).to.equal('');
+        expect(cb.iconClass).to.equal('');
+        expect(cb.iconUrl).to.equal('');
+        expect(cb.backgroundImageUrl).to.equal('');
+    });
+
     it('should default multilineSupport to false for invalid JS setter values', () => {
         document.body.appendChild(cb);
         (cb as any).label = 'Test button';

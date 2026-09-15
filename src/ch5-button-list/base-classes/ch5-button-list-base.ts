@@ -2305,18 +2305,20 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
    * buttonReceiveStateScriptLabelHtml) is present - signals have priority over static templates.
    */
   private lightButtonLabelHelper(btn: Ch5Button, index: number): void {
-    if (this.contractName !== "" && this.contractItemLabelType !== "none") { return; }
+     if (this.contractName !== "" && this.contractItemLabelType !== "none") { return; }
     // Skip static template if a receive signal will drive the label (signal has priority)
     if (this.hasAttribute('buttonreceivestatelabel') || this.hasAttribute('buttonreceivestatescriptlabelhtml')) {
       return;
     }
     const tpl = this.analyzeLabelTemplate();
     if (tpl.html === '') { return; }
-    // Only the per-item {{indexId}} -> index substitution is left to do per button; the
-    // trim and markup-vs-text decision were cached in analyzeLabelTemplate.
+    const template = document.createElement('template');
+    template.innerHTML = tpl.html;
+    Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(template, index, this.indexId);
+    Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsContent(template, index, this.indexId);
     const label = tpl.hasIndexId
-      ? this.replaceAll(tpl.html, `{{${this.indexId}}}`, index + '')
-      : tpl.html;
+      ? this.replaceAll(template.innerHTML, `{{${this.indexId}}}`, index + '')
+      : template.innerHTML;
     btn.setAttribute(tpl.isHtml ? 'labelInnerHTML' : 'label', label);
   }
 
