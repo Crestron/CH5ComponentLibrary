@@ -300,7 +300,9 @@ export interface ICh5ButtonAttributes extends ICh5LightBaseAttributes {
    * "`orientation` attribute",
    * "***",
    * "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'.",
-    * "Lays out the icon and label in a horizontal or vertical flow. Vertical mode also triggers a small JS sizing pass so the inner button dimensions match the host footprint."
+   * "Positions the control elements in a horizontal or vertical orientation.",
+   * "For vertical alignment, it will apply a CSS class that will rotate the ",
+   * "component -90 degrees (270 degrees clockwise, 90 degrees counter clockwise)."
    * ]
    * @name orientation
    * @default horizontal
