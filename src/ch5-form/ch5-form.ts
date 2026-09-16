@@ -133,7 +133,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
 			this._submitButtonStyle = value;
 			this.setAttribute('submitbuttonstyle', value);
-			this.submitButton.setAttribute('customStyle', value);
+			this.submitButton.setAttribute('style', value);
 		}
 	}
 
@@ -218,7 +218,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
 			this._cancelButtonStyle = value;
 			this.setAttribute('cancelbuttonstyle', value);
-			this.cancelButton.setAttribute('customstyle', value);
+			this.cancelButton.setAttribute('style', value);
 		}
 	}
 
