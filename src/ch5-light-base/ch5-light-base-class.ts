@@ -1,4 +1,4 @@
-import { Ch5Uid, Ch5Signal, publishEvent } from "../ch5-core";
+import { Ch5Uid, Ch5Signal, publishEvent, Ch5TranslationUtility, languageChangedSignalName } from "../ch5-core";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
 import { Ch5LightProperties, ICh5LightPropertySettings } from "./ch5-light-properties";
 import { Ch5LightSignal } from "./ch5-light-signal";
@@ -305,6 +305,12 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	// needed - setting the name has no side effect (publishing is driven by show
 	// changes via handleShow), so the setter stores the name with no onChange.
 
+	// Current language for each component
+	public currentLanguage: string | null = '';
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	public translatableObjects: any = {} as any;
+
 	//#endregion
 
 	//#region Getters and Setters
@@ -468,6 +474,25 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		// Settings array is a shared STATIC field (see LIGHT_BASE_PROPERTY_SETTINGS) - no
 		// per-instance allocation here.
 		this._ch5Properties = new Ch5LightProperties(Ch5LightBaseClass.LIGHT_BASE_PROPERTY_SETTINGS);
+
+		// Reuses the same lazy helper as the receiveState* signals (keyed by name, so they coexist).
+		(this._baseSignals ??= new Ch5LightSignal()).subscribe<string>(languageChangedSignalName, 'string', (newValue: string) => {
+			if (newValue !== '' && newValue !== this.currentLanguage) {
+				this.currentLanguage = newValue;
+				Object.keys(this.translatableObjects).forEach((propertyToTranslate: string) => {
+					let propertyReference: { [key: string]: string } = this as {};
+
+					if (propertyReference[propertyToTranslate as string] === undefined && propertyReference['attrModel' as string] !== undefined) {
+						propertyReference = propertyReference['attrModel' as string] as {};
+					}
+
+					if (propertyReference[propertyToTranslate.toString()] !== undefined && this.translatableObjects[propertyToTranslate.toString()] !== undefined) {
+						propertyReference[propertyToTranslate.toString()] = this.translatableObjects[propertyToTranslate];
+						this.translateCallback(propertyToTranslate.toString());
+					}
+				})
+			}
+		});
 	}
 
 	/**
@@ -547,6 +572,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		if (this._isDetachedFromDom) {
 			return;
 		}
+		this._baseSignals?.unsubscribe(languageChangedSignalName);
 		this.clearReceiveStateEnableSubscription(this.receiveStateEnable);
 		this.clearReceiveStateShowSubscription(this.receiveStateShow);
 	}
@@ -679,6 +705,78 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 */
 	protected getContractPropertySettings(): readonly ICh5LightPropertySettings[] {
 		return Ch5LightBaseClass.EMPTY_PROPERTY_SETTINGS;
+	}
+
+	public _t(valueToTranslate: string) {
+		let translatedValue = valueToTranslate;
+		const translationUtility = Ch5TranslationUtility.getInstance();
+		const identifiedValues = translationUtility.valuesToTranslation(valueToTranslate);
+
+		if (identifiedValues && identifiedValues.length > 0) {
+			identifiedValues.forEach(identifier => {
+				const isTranslatable = translationUtility.isTranslationIdentifier(identifier);
+				if (isTranslatable) {
+					const characters = translationUtility.stripDownTranslationCharacters(identifier);
+					const existTranslation = translationUtility.getTranslator().exists(characters);
+
+					if (existTranslation) {
+						const identifierTranslated = translationUtility.getTranslator().t(characters);
+						translatedValue = translatedValue.replace(identifier, identifierTranslated);
+					}
+				}
+			});
+		}
+		return translatedValue;
+	}
+
+	public _getTranslatedValue(valueToSave: string, valueToTranslate: string) {
+		const translationUtility = Ch5TranslationUtility.getInstance();
+
+		let translationKey = valueToTranslate;;
+		let _value = valueToTranslate;
+		let savedValue = this.translatableObjects[valueToSave];
+
+		if (savedValue === valueToTranslate) {
+			translationKey = savedValue;
+		}
+
+		const isTranslatableValue = translationUtility.isTranslationIdentifier(translationKey);
+
+		if (!isTranslatableValue) {
+			return valueToTranslate;
+		}
+
+		if (typeof savedValue === 'undefined') {
+			savedValue = valueToTranslate;
+			_value = this._t(valueToTranslate);
+		} else {
+			const isTranslatableLabel = translationUtility.isTranslationIdentifier(savedValue);
+			if (!isTranslatableLabel) {
+				if (savedValue !== valueToTranslate) {
+					savedValue = valueToTranslate;
+				}
+				_value = this._t(valueToTranslate);
+			} else {
+				if (this._t(savedValue) !== valueToTranslate && translationUtility.hasMultipleIdentifiers(savedValue)) {
+					savedValue = valueToTranslate;
+				}
+				_value = this._t(savedValue);
+			}
+		}
+		this.translatableObjects[valueToSave] = savedValue;
+
+		return _value;
+	}
+
+	/**
+	 * Used after the language is changed when special actions has to be done
+	 * For example when translating you have to parse the component children or some other actions
+	 * @param {string} section
+	 * @return {void}
+	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	protected translateCallback(section: string): void {
+		// if custom actions has to be done on translation
 	}
 
 	/**

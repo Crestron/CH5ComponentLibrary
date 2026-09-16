@@ -213,7 +213,10 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 	//#region Getters and Setters
 
 	public set label(value: string) {
-		const normalizedValue = value ?? '';
+		let normalizedValue = value ?? '';
+		if (normalizedValue) {
+			normalizedValue = this._getTranslatedValue('label', normalizedValue);
+		}
 		// While receiveStateLabel is bound, the signal owns the effective label slot.
 		if (!this.receiveStateLabel) {
 			this._ch5Properties.set<string>('label', normalizedValue, this._onLabelChange);
@@ -1334,7 +1337,11 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 			}
 		} else {
 			// Signal removed: restore the static label reflected on the element.
-			this._ch5Properties.set<string>('label', this.getAttribute('label') ?? '', this._onLabelChange);
+			let staticLabel = this.getAttribute('label') ?? '';
+			if (staticLabel) {
+				staticLabel = this._getTranslatedValue('label', staticLabel);
+			}
+			this._ch5Properties.set<string>('label', staticLabel, this._onLabelChange);
 		}
 	}
 
