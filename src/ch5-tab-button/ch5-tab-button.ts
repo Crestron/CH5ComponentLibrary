@@ -857,7 +857,6 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
             Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsContent(template, index, this.indexId);
             // ch5ButtonLabel.appendChild(template);
             // btn.appendChild(ch5ButtonLabel);
-            console.log("****", buttonListLabelTemplate[0].innerHTML);
             btn.labelInnerHTML = template.innerHTML;
           }
         }

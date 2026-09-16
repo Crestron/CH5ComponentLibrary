@@ -55,7 +55,8 @@ export class Ch5Button extends Ch5ButtonBase {
 	public static get observedAttributes(): string[] {
 		return [
 			...Ch5LightBaseClass.LIGHT_BASE_OBSERVED_ATTRIBUTES,
-			...Ch5Button.OBSERVED_ATTRIBUTES
+			...Ch5Button.OBSERVED_ATTRIBUTES,
+			...Ch5ButtonBase.DIMENSION_ATTRIBUTES
 		];
 	}
 

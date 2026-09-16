@@ -93,6 +93,16 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 	}
 
 	/**
+	 * Pure-CSS attributes that can change the button's rendered dimensions. Not part
+	 * of PROPERTY_SETTINGS (no property-store slot), so a subclass that wants them to
+	 * be attribute-reactive (re-measuring multiline clamp / vertical fit on change,
+	 * see {@link scheduleDimensionDependentRefit}) merges this into its own
+	 * `observedAttributes` - `Ch5SliderButton` deliberately omits it (no use for
+	 * size/shape/stretch/orientation).
+	 */
+	public static readonly DIMENSION_ATTRIBUTES: readonly string[] = ['size', 'shape', 'stretch', 'orientation'];
+
+	/**
 	 * Builds the `Ch5SignalAttributeRegistry` entries for a PROPERTY_SETTINGS list,
 	 * merged with the light base class's own signal attribute entries. Shared by
 	 * every concrete subclass's `registerSignalAttributeTypes()` so the
@@ -701,6 +711,15 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 			case 'truncatetext':
 				this.truncateText = this.coerceBooleanAttribute('truncatetext', true);
 				break;
+			case 'size':
+			case 'shape':
+			case 'stretch':
+			case 'orientation':
+				// Pure-CSS attributes with no property-store slot: only their rendered
+				// dimensions matter here, so just re-measure - covers both setAttribute()
+				// and the JS property setter (which also writes the attribute).
+				this.scheduleDimensionDependentRefit();
+				break;
 			default:
 				// Delegate base attributes (show / disabled) to Ch5LightBaseClass.
 				super.attributeChangedCallback(attr, oldValue, newValue);
@@ -1018,6 +1037,23 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 			return;
 		}
 		this._pendingVerticalFitHandle = window.requestAnimationFrame(this._fitVerticalFrame);
+	}
+
+	/**
+	 * Re-measures the multiline clamp + vertical inner-button size after a pure-CSS
+	 * attribute (`size`/`shape`/`stretch`/`orientation`) that can resize the rendered
+	 * button changes post-connect - those setters don't go through
+	 * attributeChangedCallback/handleLabel, so nothing else would catch the resize.
+	 * No-op off-DOM (nothing to measure until connectedCallback runs its own pass).
+	 */
+	private scheduleDimensionDependentRefit(): void {
+		if (!this.isConnected) {
+			return;
+		}
+		if (this.multilineSupport) {
+			this.scheduleFitEllipsisForMultiline();
+		}
+		this.scheduleVerticalInnerButtonFit();
 	}
 
 	/**
