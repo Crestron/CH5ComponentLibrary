@@ -213,7 +213,10 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 	//#region Getters and Setters
 
 	public set label(value: string) {
-		const normalizedValue = value ?? '';
+		let normalizedValue = value ?? '';
+		if (normalizedValue) {
+			normalizedValue = this._getTranslatedValue('label', normalizedValue);
+		}
 		// While receiveStateLabel is bound, the signal owns the effective label slot.
 		if (!this.receiveStateLabel) {
 			this._ch5Properties.set<string>('label', normalizedValue, this._onLabelChange);
