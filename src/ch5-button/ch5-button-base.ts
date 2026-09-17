@@ -1337,11 +1337,7 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 			}
 		} else {
 			// Signal removed: restore the static label reflected on the element.
-			let staticLabel = this.getAttribute('label') ?? '';
-			if (staticLabel) {
-				staticLabel = this._getTranslatedValue('label', staticLabel);
-			}
-			this._ch5Properties.set<string>('label', staticLabel, this._onLabelChange);
+			this._ch5Properties.set<string>('label', this.getAttribute('label') ?? '', this._onLabelChange);
 		}
 	}
 
