@@ -54,16 +54,22 @@ export class Ch5LightPressable {
 	private readonly _pressEvent: Event = new CustomEvent('press', { bubbles: true, cancelable: false });
 	private readonly _releaseEvent: Event = new CustomEvent('release', { bubbles: true, cancelable: false });
 
-	// Cached handlers (allocated once). up/leave/cancel share one release handler;
-	// move releases when the pointer leaves the target bounds (touch - see above).
+	// Cached handlers (allocated once). up/leave share one release handler. cancel and
+	// the move-out-of-bounds path go through `_cancel()`: a `pointercancel` (browser
+	// hijacking the gesture for a scroll/pan inside a scrollable list) or the finger
+	// leaving the button must NOT count as a click - the press is cleared but no `release`
+	// event and no inline `onrelease` fire, so a scroll/drag never selects the item.
 	private readonly _onPointerDown = () => this.setPressed(true);
 	private readonly _onPointerUp = () => this.setPressed(false);
+	private readonly _onPointerCancel = () => {
+		this._cancel();
+	};
 	private readonly _onPointerMove = (event: PointerEvent) => {
 		const rect = this._pressRect ??= this._target.getBoundingClientRect();
 		const x = event.clientX;
 		const y = event.clientY;
 		if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
-			this.setPressed(false);
+			this._cancel();
 		}
 	};
 
@@ -119,8 +125,18 @@ export class Ch5LightPressable {
 	public setPressed(value: boolean): void {
 		if (value === this._pressed) { return; }
 		this._pressed = value;
-		if (value) { this._onPress(); } else { this._onRelease(); }
+		if (value) { this._onPress(); } else { this._onRelease(false); }
 		if (this._onChange) { this._onChange(value); }
+	}
+
+	// Abort a press without a click: clears the pressed state but suppresses the `release`
+	// event and inline `onrelease`. Used when a scroll/pan steals the gesture (pointercancel
+	// or the finger leaving the button), so a drag never selects the item.
+	private _cancel(): void {
+		if (!this._pressed) { return; }
+		this._pressed = false;
+		this._onRelease(true);
+		if (this._onChange) { this._onChange(false); }
 	}
 
 	private _onPress(): void {
@@ -131,11 +147,14 @@ export class Ch5LightPressable {
 		this._runInlineHandler('onpress');
 	}
 
-	private _onRelease(): void {
+	private _onRelease(cancelled: boolean): void {
 		this._detachReleaseListeners();
 		this._pressRect = null;
 		this._removeCssPressedClass();
 		this._host.removeAttribute(Ch5LightPressable.PRESSED_ATTRIBUTE);
+		if (cancelled) {
+			return;
+		}
 		this._host.dispatchEvent(this._releaseEvent);
 		this._runInlineHandler('onrelease');
 	}
@@ -161,7 +180,7 @@ export class Ch5LightPressable {
 		this._target.addEventListener('pointermove', this._onPointerMove);
 		this._target.addEventListener('pointerup', this._onPointerUp);
 		this._target.addEventListener('pointerleave', this._onPointerUp);
-		this._target.addEventListener('pointercancel', this._onPointerUp);
+		this._target.addEventListener('pointercancel', this._onPointerCancel);
 	}
 
 	private _detachReleaseListeners(): void {
@@ -170,7 +189,7 @@ export class Ch5LightPressable {
 		this._target.removeEventListener('pointermove', this._onPointerMove);
 		this._target.removeEventListener('pointerup', this._onPointerUp);
 		this._target.removeEventListener('pointerleave', this._onPointerUp);
-		this._target.removeEventListener('pointercancel', this._onPointerUp);
+		this._target.removeEventListener('pointercancel', this._onPointerCancel);
 	}
 
 	private _addCssPressedClass(): void {
