@@ -2286,14 +2286,30 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   }
 
   /**
-   * True when the label template has live bindings only Ch5AdvancedButton can resolve
-   * (textual joins {{...}} other than indexId, nested ch5-*, or data-ch5-* attrs).
+   * True when the label template contains bindings/features that only Ch5AdvancedButton can resolve.
+   * Lightweight label widgets such as ch5-jointotext-* and ch5-text are allowed through to the light button.
    * Pure text / static HTML returns false, so it renders on the light button.
    */
   private labelTemplateHasLiveBindings(html: string): boolean {
     // Strip the loop indexId token first - it is substituted per item, so it is static.
     const stripped = this.indexId ? this.replaceAll(html, `{{${this.indexId}}}`, '') : html;
-    return stripped.includes('{{') || /<ch5-/i.test(stripped) || /data-ch5-/i.test(stripped);
+
+    if (stripped.includes('{{')) {
+      return true;
+    }
+
+    const lightTagPattern = /<ch5-(jointotext-boolean|jointotext-numeric|jointotext-string|text)\b/gi;
+    const advancedTagPattern = /<ch5-(?!jointotext-boolean|jointotext-numeric|jointotext-string|text\b)/i;
+
+    if (lightTagPattern.test(stripped)) {
+      const remaining = stripped
+        .replace(/<\/ch5-(jointotext-boolean|jointotext-numeric|jointotext-string|text)>/gi, '')
+        .replace(/<ch5-(jointotext-boolean|jointotext-numeric|jointotext-string|text)\b[^>]*>/gi, '');
+
+      return remaining.includes('{{') || advancedTagPattern.test(remaining) || /data-ch5-/i.test(remaining);
+    }
+
+    return advancedTagPattern.test(stripped) || /data-ch5-/i.test(stripped);
   }
 
   /**
