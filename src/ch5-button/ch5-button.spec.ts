@@ -187,6 +187,28 @@ describe('Ch5Button', () => {
         });
     });
 
+    it('should expose pressed as a lightweight delegating property', () => {
+        document.body.appendChild(cb);
+
+        cb.pressed = true;
+        expect(cb.pressed).to.equal(true);
+        expect(cb.getAttribute('pressed')).to.equal('true');
+
+        cb.pressed = false;
+        expect(cb.pressed).to.equal(false);
+        expect(cb.hasAttribute('pressed')).to.equal(false);
+    });
+
+    it('should preserve a pre-connect pressed value after connect', () => {
+        cb.pressed = true;
+        expect(cb.getAttribute('pressed')).to.equal('true');
+
+        document.body.appendChild(cb);
+
+        expect(cb.pressed).to.equal(true);
+        expect(cb.getAttribute('pressed')).to.equal('true');
+    });
+
     it('should coerce boolean attributes to canonical true/false values and ignore invalid JS values', () => {
         const cases = [
             { property: 'selected', attr: 'selected', validTrue: true, validFalse: false },
@@ -299,6 +321,17 @@ describe('Ch5Button', () => {
         const label = cb.querySelector('.ch5-button--label') as HTMLElement;
         expect(label).to.not.equal(null);
         expect(label.innerHTML).to.equal(htmlWithPadding);
+    });
+
+    it('should prefix nested join-text values inside labelInnerHTML when contractname is set', () => {
+        document.body.appendChild(cb);
+
+        cb.setAttribute('contractname', 'Component_1.Items[4].');
+        cb.labelInnerHTML = '<p><ch5-jointotext-numeric receivestatevalue="receiveeventforchange_slider_an" decimallength="0" length="1" type="percentage"></ch5-jointotext-numeric><span>%</span></p>';
+
+        const nested = cb.querySelector('ch5-jointotext-numeric') as HTMLElement;
+        expect(nested).to.not.equal(null);
+        expect(nested.getAttribute('receivestatevalue')).to.equal('Component_1.Items[4].receiveeventforchange_slider_an');
     });
 
     it('should prefer receiveStateScriptLabelHtml over receiveStateLabel and over static label values', () => {

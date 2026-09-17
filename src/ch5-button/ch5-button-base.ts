@@ -571,6 +571,32 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 	}
 
 	/**
+	 * Transient pressed state. Unlike the static CSS attributes above, this is a
+	 * runtime interaction state owned by Ch5LightPressable; the setter delegates to
+	 * the pressable when available and otherwise only reflects the host attribute.
+	 */
+	public set pressed(value: boolean | string | number | null | undefined) {
+		const isPressed = value === true || value === 'true' || value === 1 || value === '1' || value === '';
+		if (this._pressable) {
+			this._pressable.setPressed(isPressed);
+			return;
+		}
+		if (isPressed) {
+			this.setAttribute('pressed', 'true');
+		} else {
+			this.removeAttribute('pressed');
+		}
+	}
+	public get pressed(): boolean {
+		if (this._pressable) {
+			return this._pressable.pressed;
+		}
+		const attr = this.getAttribute('pressed');
+		if (attr === null) return false;
+		return attr.toLowerCase() === 'true' || attr === '1' || attr === '';
+	}
+
+	/**
 	 * Shows checkbox glyph on the button. Pure CSS attribute.
 	 * Setter accepts: `true`, `'true'`, `1`, `'1'`, and `''` as true.
 	 * Any other value is normalized to false.
@@ -790,6 +816,9 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 		// (Re)wire the pressable for the `pressed` state + bubbling `press`/`release`
 		// events. Always-on (one idle `pointerdown` listener); safe on reconnect.
 		this.wirePressable();
+		if (this.hasAttribute('pressed') && this._pressable && !this._pressable.pressed) {
+			this._pressable.setPressed(true);
+		}
 
 		// Apply join offsets to template child elements (if any). Zero-cost when absent
 		// (early exit in applyJoinOffsets when no offsets and no contract). Called after
@@ -1704,6 +1733,7 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 	 */
 	private handleBlur(event: FocusEvent): void {
 		this.log('handleBlur()');
+		this.pressed = false;
 		this._pressable?.setPressed(false);
 		this.reDispatchFocusEvent(event);
 	}
