@@ -51,16 +51,16 @@ export class Ch5SliderButton extends Ch5ButtonBase {
 
 	//#region Getters and Setters
 
-	/** Used to set the type of button, i.e. 'on' or 'off'. Any other value normalizes to 'on'. */
+	/** Used to set the type of button, i.e. 'on' or 'off'. Any other value normalizes to '' (matches the legacy enum property's fallback to its "" default). */
 	public set key(value: TCh5SliderButtonKey | string) {
-		const normalizedValue: TCh5SliderButtonKey = value === 'off' ? 'off' : 'on';
+		const normalizedValue: TCh5SliderButtonKey | '' = value === 'on' || value === 'off' ? value : '';
 		this._ch5Properties.set<string>('key', normalizedValue, this._onKeyChange);
 		if (this._isInitialized) {
 			this.setAttribute('key', normalizedValue);
 		}
 	}
-	public get key(): TCh5SliderButtonKey {
-		return this._ch5Properties.get<TCh5SliderButtonKey>('key');
+	public get key(): TCh5SliderButtonKey | '' {
+		return this._ch5Properties.get<TCh5SliderButtonKey | ''>('key');
 	}
 
 	//#endregion
