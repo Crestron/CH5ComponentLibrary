@@ -199,14 +199,22 @@ describe('Ch5Button', () => {
         expect(cb.hasAttribute('pressed')).to.equal(false);
     });
 
-    it('should preserve a pre-connect pressed value after connect', () => {
-        cb.pressed = true;
-        expect(cb.getAttribute('pressed')).to.equal('true');
+    it('should not replay pressed markup into runtime state on connect', () => {
+        cb = document.createElement('ch5-button') as any;
+        cb.setAttribute('pressed', 'false');
 
         document.body.appendChild(cb);
 
-        expect(cb.pressed).to.equal(true);
+        expect(cb.getAttribute('pressed')).to.equal('false');
+        expect(cb.pressed).to.equal(false);
+
+        cb = document.createElement('ch5-button') as any;
+        cb.setAttribute('pressed', 'true');
+
+        document.body.appendChild(cb);
+
         expect(cb.getAttribute('pressed')).to.equal('true');
+        expect(cb.pressed).to.equal(false);
     });
 
     it('should coerce boolean attributes to canonical true/false values and ignore invalid JS values', () => {

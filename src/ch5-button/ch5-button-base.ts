@@ -816,9 +816,6 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 		// (Re)wire the pressable for the `pressed` state + bubbling `press`/`release`
 		// events. Always-on (one idle `pointerdown` listener); safe on reconnect.
 		this.wirePressable();
-		if (this.hasAttribute('pressed') && this._pressable && !this._pressable.pressed) {
-			this._pressable.setPressed(true);
-		}
 
 		// Apply join offsets to template child elements (if any). Zero-cost when absent
 		// (early exit in applyJoinOffsets when no offsets and no contract). Called after
