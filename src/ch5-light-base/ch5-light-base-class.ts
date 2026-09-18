@@ -5,6 +5,7 @@ import { Ch5LightSignal } from "./ch5-light-signal";
 import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
 import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { TCh5LightShowType } from "./interfaces/t-ch5-light-base";
+import { Ch5Config } from "../ch5-common/ch5-config";
 
 export type { TCh5LightShowType };
 
@@ -88,6 +89,13 @@ export type { TCh5LightShowType };
  *    value by overriding {@link getDefaultRole}. The base ships a tiny,
  *    dependency-free default (no import of the heavy `Ch5RoleAttributeMapping`),
  *    so the per-instance cost is a single `hasAttribute` check.
+ *
+ * `Ch5Config`-based pre-configured attributes (`setAttributeForComponent` /
+ * `setAttributeForId`) are applied once in {@link initLightBaseAttributes}, mirroring
+ * `Ch5Common`. Gated by `Ch5Config.hasAttributesForElement`, an allocation-free
+ * `hasOwnProperty` check, so the common case (nothing ever configured) costs no
+ * object allocation - only components with an actual pre-configured attribute pay
+ * for `getAttributesForElement`'s lookup/spread.
  *
  * Derived components must:
  *  - merge `LIGHT_BASE_OBSERVED_ATTRIBUTES` into their static `observedAttributes`;
@@ -668,6 +676,27 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	}
 
 	/**
+	 * Applies pre-configured attributes (`Ch5Config.setAttributeForComponent` /
+	 * `setAttributeForId`) to the host, same semantics as `Ch5Common`'s version.
+	 * Gated by the allocation-free `hasAttributesForElement` check so the common
+	 * case - nothing ever registered for this tag/id - costs a couple of
+	 * `hasOwnProperty` lookups and nothing else (no object allocations), keeping
+	 * 1000+ instances with no config zero-cost.
+	 */
+	protected applyPreConfiguredAttributes(): void {
+		if (!Ch5Config.hasAttributesForElement(this)) {
+			return;
+		}
+		const preConfiguredAttributes = Ch5Config.getAttributesForElement(this);
+		for (const attrName in preConfiguredAttributes) {
+			if (preConfiguredAttributes.hasOwnProperty(attrName)) {
+				if (!this.hasAttribute(attrName)) {
+					this.setAttribute(attrName, preConfiguredAttributes[attrName]);
+				}
+			}
+		}
+	}
+	/**
 	 * The default ARIA `role` for this component, or `null` when it has none.
 	 *
 	 * Overridden by concrete light components (e.g. `Ch5Button` returns
@@ -811,12 +840,12 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		const booleanOffset = this._ch5Properties.get<number>('booleanJoinOffset');
 		const numericOffset = this._ch5Properties.get<number>('numericJoinOffset');
 		const stringOffset = this._ch5Properties.get<number>('stringJoinOffset');
-		
+
 		// Zero-cost exit when no offsets and no contract - most buttons never use this
 		if (!contractName && !booleanOffset && !numericOffset && !stringOffset) {
 			return;
 		}
-		
+
 		// Call the shared utility to increment join numbers and prefix contract names in template children
 		Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(
 			this,
@@ -1002,12 +1031,13 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 * Idempotent and safe to call on every (re)connect.
 	 */
 	protected initLightBaseAttributes(): void {
+		this.applyPreConfiguredAttributes();
 		if (!this.hasAttribute('receivestateshow')) {
 			const show = this.hasAttribute('show')
 				? Ch5LightBaseClass.normalizeBooleanValue(this.getAttribute('show'), true, true)
 				: true;
-            this._ch5Properties.setValue<boolean>('show', show);
-        }
+			this._ch5Properties.setValue<boolean>('show', show);
+		}
 		const noshowType = this.hasAttribute('noshowtype')
 			? Ch5LightBaseClass.toShowType(this.getAttribute('noshowtype'))
 			: Ch5LightBaseClass.NO_SHOW_TYPES[0];
