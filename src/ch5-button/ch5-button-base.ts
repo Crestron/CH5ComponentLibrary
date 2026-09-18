@@ -1586,11 +1586,17 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 	 */
 	private handlePressedChange(pressed: boolean): void {
 		this.log('handlePressedChange(', pressed, ')');
-		// In a contract-driven ch5-button-list, presses publish the list's contract
-		// signals instead of sendEventOnClick (mirrors Ch5AdvancedButton).
-		if (this._buttonListContract.contractName !== '' && this._buttonListContract.parentComponent === 'ch5-button-list') {
-			this.handleButtonListContractPress(pressed);
-			return;
+		// In a contract-driven ch5-button-list / ch5-tab-button, presses publish the
+		// parent's contract signals instead of sendEventOnClick (mirrors Ch5AdvancedButton).
+		if (this._buttonListContract.contractName !== '') {
+			if (this._buttonListContract.parentComponent === 'ch5-button-list') {
+				this.handleButtonListContractPress(pressed);
+				return;
+			}
+			if (this._buttonListContract.parentComponent === 'ch5-tab-button') {
+				this.handleTabButtonContractPress(pressed);
+				return;
+			}
 		}
 		if (pressed) {
 			this.startClickRepeatDigital();
@@ -1629,6 +1635,17 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 			this.clearButtonListContractHold();
 			this._buttonListContractIsHeld = false;
 		}
+	}
+
+	/**
+	 * Publishes the ch5-tab-button contract press signal for this item, mirroring
+	 * Ch5AdvancedButton's tab-button path: a single `Tab{n}_Press` boolean on press
+	 * and release. Unlike the button-list path there is no hold/click bookkeeping.
+	 */
+	private handleTabButtonContractPress(pressed: boolean): void {
+		const { contractName, index } = this._buttonListContract;
+		const signals = (this._signals ??= new Ch5LightSignal());
+		signals.sendBoolean(`${contractName}.Tab${index}_Press`, pressed);
 	}
 
 	/** Clears the pending ListItemHeld timer, if any. */
