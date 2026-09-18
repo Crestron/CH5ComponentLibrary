@@ -199,6 +199,36 @@ describe('Ch5Button', () => {
         expect(cb.hasAttribute('pressed')).to.equal(false);
     });
 
+    it('should keep a programmatic pressed value on pointer leave', () => {
+        document.body.appendChild(cb);
+
+        cb.pressed = true;
+        expect(cb.pressed).to.equal(true);
+        expect(cb.getAttribute('pressed')).to.equal('true');
+
+        const innerButton = cb.querySelector('.ch5-button--btn') as HTMLButtonElement;
+        expect(innerButton).to.not.equal(null);
+        innerButton.dispatchEvent(new PointerEvent('pointerleave'));
+
+        expect(cb.pressed).to.equal(true);
+        expect(cb.getAttribute('pressed')).to.equal('true');
+    });
+
+    it('should still release a real pointer press on pointer leave', () => {
+        document.body.appendChild(cb);
+
+        const innerButton = cb.querySelector('.ch5-button--btn') as HTMLButtonElement;
+        expect(innerButton).to.not.equal(null);
+
+        innerButton.dispatchEvent(new PointerEvent('pointerdown'));
+        expect(cb.pressed).to.equal(true);
+        expect(cb.getAttribute('pressed')).to.equal('true');
+
+        innerButton.dispatchEvent(new PointerEvent('pointerleave'));
+        expect(cb.pressed).to.equal(false);
+        expect(cb.hasAttribute('pressed')).to.equal(false);
+    });
+
     it('should not replay pressed markup into runtime state on connect', () => {
         cb = document.createElement('ch5-button') as any;
         cb.setAttribute('pressed', 'false');

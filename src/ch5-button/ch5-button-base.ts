@@ -578,7 +578,7 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 	public set pressed(value: boolean | string | number | null | undefined) {
 		const isPressed = value === true || value === 'true' || value === 1 || value === '1' || value === '';
 		if (this._pressable) {
-			this._pressable.setPressed(isPressed);
+			this._pressable.setPressed(isPressed, true);
 			return;
 		}
 		if (isPressed) {
@@ -588,7 +588,7 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 		}
 	}
 	public get pressed(): boolean {
-		if (this._pressable) {
+		if (this._pressable && this._pressable.pressed) {
 			return this._pressable.pressed;
 		}
 		const attr = this.getAttribute('pressed');
@@ -1730,7 +1730,6 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 	 */
 	private handleBlur(event: FocusEvent): void {
 		this.log('handleBlur()');
-		this.pressed = false;
 		this._pressable?.setPressed(false);
 		this.reDispatchFocusEvent(event);
 	}
