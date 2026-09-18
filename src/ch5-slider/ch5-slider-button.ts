@@ -118,7 +118,7 @@ export class Ch5SliderButton extends Ch5ButtonBase {
 			return;
 		}
 		if (attr === 'key') {
-			this.key = newValue ?? Ch5SliderButton.KEY[0];
+			this.key = newValue === 'on' || newValue === 'off' ? newValue : '';
 			return;
 		}
 		super.attributeChangedCallback(attr, oldValue, newValue);
