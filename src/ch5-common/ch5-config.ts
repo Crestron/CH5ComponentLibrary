@@ -7,6 +7,7 @@
 
 // import { Ch5Base } from "../ch5-base/ch5-base";
 import { Ch5BaseClass } from "../ch5-base/ch5-base-class";
+import { Ch5LightBaseClass } from "../ch5-light-base/ch5-light-base-class";
 import { Ch5Common } from "./ch5-common";
 
 export type TCh5ConfigAttributes = {
@@ -115,7 +116,7 @@ export class Ch5Config {
         return {} as TCh5ConfigAttributes;
     }
 
-    public static getAttributesForElement(cr: Ch5Common | Ch5BaseClass): TCh5ConfigAttributes {
+    public static getAttributesForElement(cr: Ch5Common | Ch5BaseClass | Ch5LightBaseClass): TCh5ConfigAttributes {
         let idAttrs: TCh5ConfigAttributes = {} as TCh5ConfigAttributes;
         const componentName = cr.tagName.toLowerCase();
         const componentAttrs = Ch5Config.getAttributesForComponent(componentName);
@@ -127,6 +128,26 @@ export class Ch5Config {
         }
         const attrs: TCh5ConfigAttributes = { ...componentAttrs, ...idAttrs };
         return attrs;
+    }
+
+    /**
+     * Allocation-free existence check for {@link getAttributesForElement} - lets
+     * zero-cost-when-absent callers (e.g. the "light" component family) skip the
+     * object allocations in `getAttributesForElement`/`getAttributesFor*` entirely
+     * when nothing was ever registered for this tag or id (the common case).
+     */
+    public static hasAttributesForElement(cr: Ch5Common | Ch5BaseClass | Ch5LightBaseClass): boolean {
+        const componentName = cr.tagName.toLowerCase();
+        if (Ch5Config._config.attributes.component.hasOwnProperty(componentName)) {
+            return true;
+        }
+        if (cr.hasAttribute('id')) {
+            const elId = cr.getAttribute('id');
+            if (null !== elId && Ch5Config._config.attributes.id.hasOwnProperty(elId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static getTemplateVarsForElementById(elementId: string): TCh5ConfigTemplateVars[] {
