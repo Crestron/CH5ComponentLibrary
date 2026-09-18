@@ -14,3 +14,4 @@ coverage
 mochawesome-report
 .nyc_output
 .vscode/settings.json
+bower_components

@@ -129,6 +129,25 @@ export class Ch5AugmentVarSignalsNames {
     }
   }
 
+  private static applyAttributeCallbackToHtmlFragment(element: Element, attributeName: string, attributeValue: string,
+    attribCb: IterateAttributesInTemplateFn): void {
+    if (!attributeValue || !attributeValue.includes('<') || !attributeValue.includes('>')) {
+      return;
+    }
+
+    const htmlRoot = document.createElement('div');
+    htmlRoot.innerHTML = attributeValue;
+    if (!htmlRoot.firstElementChild) {
+      return;
+    }
+
+    Ch5AugmentVarSignalsNames.iterateAttributesInTemplate(htmlRoot, attribCb);
+    const updatedValue = htmlRoot.innerHTML;
+    if (updatedValue !== attributeValue) {
+      element.setAttribute(attributeName, updatedValue);
+    }
+  }
+
   private static incrementOrPrependAttrValue(element: Element, attrName: string, value: string, increment: number, contractNamePrefix: string): void {
     // eslint-disable-next-line no-useless-escape
     const doubleMoustcheRe = /({{[\w\-]+}})/g;
@@ -213,6 +232,23 @@ export class Ch5AugmentVarSignalsNames {
         }
         Ch5AugmentVarSignalsNames.incrementOrPrependAttrValue(element, attrName, attrValue, increment, effectiveContractNamePrefix);
       }
+      Ch5AugmentVarSignalsNames.applyAttributeCallbackToHtmlFragment(element, attrName, attrValue, (htmlElement: Element, htmlAttrName: string, htmlAttrValue: string) => {
+        const htmlSignalJoinTypes = Ch5SignalAttributeRegistry.instance.getElementAttributeEntry(htmlElement.tagName, htmlAttrName);
+        if (htmlSignalJoinTypes !== undefined) {
+          const htmlEffectiveContractNamePrefix = htmlSignalJoinTypes[Ch5SignalAttributeRegistry.CONTRACT_NAME] ? contractNamePrefix : "";
+          let htmlIncrement = 0;
+          if (htmlSignalJoinTypes[Ch5SignalAttributeRegistry.BOOLEAN_JOIN] !== undefined) {
+            htmlIncrement = booleanJoinOffset;
+          }
+          else if (htmlSignalJoinTypes[Ch5SignalAttributeRegistry.NUMERIC_JOIN] !== undefined) {
+            htmlIncrement = numericJoinOffset;
+          }
+          else if (htmlSignalJoinTypes[Ch5SignalAttributeRegistry.STRING_JOIN] !== undefined) {
+            htmlIncrement = stringJoinOffset;
+          }
+          Ch5AugmentVarSignalsNames.incrementOrPrependAttrValue(htmlElement, htmlAttrName, htmlAttrValue, htmlIncrement, htmlEffectiveContractNamePrefix);
+        }
+      });
     }, (element: Element) => {
       // callback called for each element in the template definition
       const defaultAttributes = Ch5SignalAttributeRegistry.instance.getElementDefaultAttributeEntries(element.tagName);
@@ -311,6 +347,9 @@ export class Ch5AugmentVarSignalsNames {
     Ch5AugmentVarSignalsNames.iterateAttributesInTemplate(documentContainer.content,
       (element: Element, attrName: string, attrValue: string) => {
         Ch5AugmentVarSignalsNames.replaceAttrIdxPlaceholder(element, attrName, attrValue, index, indexId);
+        Ch5AugmentVarSignalsNames.applyAttributeCallbackToHtmlFragment(element, attrName, attrValue, (htmlElement: Element, htmlAttrName: string, htmlAttrValue: string) => {
+          Ch5AugmentVarSignalsNames.replaceAttrIdxPlaceholder(htmlElement, htmlAttrName, htmlAttrValue, index, indexId);
+        });
       },
       (element: Element) => {
         if (element.tagName === 'TEMPLATE') {

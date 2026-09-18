@@ -2,7 +2,17 @@
 
 > A lightweight button web component built as an alternative to the full-featured `ch5-advanced-button`. This page documents the differences, the attributes implemented, the engineering challenges, the good practices followed, and the performance results.
 >
-> **Last Updated:** August 31, 2026 — Contract support, join offset functionality, DRY refactoring, and ch5-button-list integration
+> **Last Updated:** September 15, 2026 — Corrected signal-priority logic, template augmentation fix, and clarified light-vs-advanced capabilities
+
+---
+
+## 0. September 2026 correctness updates
+
+This section captures only the implementation-level clarifications that were actually needed:
+
+- Corrected the signal-priority guard in `ch5-button` so static values still update while a matching `receiveState*` signal remains active.
+- Fixed the light list-label helper to include the missing index-based template augmentation (`replaceIndexIdInTmplElemsAttrs` / `replaceIndexIdInTmplElemsContent`) when a template relies on item indexes.
+- Confirmed that the host `pressed` state is provided by the shared `Ch5LightPressable` helper, which sets/removes the `pressed` attribute and emits bubbling `press` / `release` events.
 
 ---
 
@@ -210,8 +220,9 @@ The component's own JavaScript handles **six** presentation attributes (`label`,
 | Attribute | Handled by | Values | Notes |
 |---|---|---|---|
 | `label` | **JavaScript** | any string | Renders a `<span class="ch5-light-button--label">`; created lazily only when a label is present. |
-| `labelInnerHTML` | **JavaScript** | any HTML string | Renders **raw HTML** into the label span (via `innerHTML` after `decodeInnerHTMLForAttribute`), mirroring `ch5-advanced-button` / `ch5-text`. Sits third in the label-source priority (see below): it outranks the plain-text `label` but yields to either label signal. Reuses the same lazy `<span>` and the shared `_onLabelChange` render callback; the decode + `innerHTML` write cost is paid **only** by buttons that actually set it (text-only buttons still use the cheaper `textContent` path). |
-| `receivestatescriptlabelhtml` | **JavaScript (opt-in signal)** | a string signal name | Subscribes to a Crestron **string** signal and **writes its value straight into the `scriptLabelHtml` slot** (the **write-through** pattern), then re-renders through `handleLabel` as **HTML** (decoded via `decodeInnerHTMLForAttribute`). Ranks **HIGHEST** of the four label sources — the resolved order is `receivestatescriptlabelhtml` > `receivestatelabel` > `labelinnerhtml` > `label`. Because both label signals write into their own slots (`scriptLabelHtml` / `label`), the active branch is chosen by which signal **name** is present, so a signal always outranks the static HTML/text below it — decided by a few cheap store reads, **one branch only**, no allocation. **Strictly opt-in and zero-cost when absent** (no signal object/subscription/closure unless the attribute is set); reuses the shared lazy `Ch5LightSignal` helper, torn down on disconnect and re-established on reconnect. |
+| `labelInnerHTML` | **JavaScript** | any HTML string | Renders **raw HTML** into the label span (via `innerHTML` after `decodeInnerHTMLForAttribute`), mirroring `ch5-advanced-button` / `ch5-text`. Sits third in the label-source priority: it outranks the plain-text `label` but yields to either label signal. Reuses the same lazy `<span>` and the shared `_onLabelChange` render callback; the decode + `innerHTML` write cost is paid **only** by buttons that actually set it (text-only buttons still use the cheaper `textContent` path). |
+| `receivestatescriptlabelhtml` | **JavaScript (opt-in signal)** | a string signal name | This is the **highest-priority** label source in the light-button implementation. It is an implemented receive-state signal for HTML label rendering and part of the active label signal path. |
+| `receivestatelabel` | **JavaScript (opt-in signal)** | a string signal name | Subscribes to a Crestron **string** signal and **writes its value straight into the `label` slot** (the **write-through** pattern), then re-renders through `handleLabel` as plain text. This is the **second-priority** label source in the light-button implementation: `receivestatescriptlabelhtml` wins above it, and it outranks the static `labelInnerHTML` / `label` values below it. The signal path is resolved by a single branch check in `handleLabel`, so the static `label` content is never rendered while the signal is active. **Strictly opt-in and zero-cost when absent**. |
 | `multilinesupport` | **JavaScript** (+ CSS classes) | bare `multilinesupport`, `true`, `false` (default `false`) | Enables multi-line label text. When `true`, the label wraps and is **clamped to the number of lines that fit the button's current height** (the button is never resized), written as an inline `-webkit-line-clamp` (or an inline `max-height` when `truncatetext="false"`). When `false` (default) the label stays on one line. The visual is driven by CSS classes (`--label-multiline-support-true`/`-false`); only this opt-in path performs a **layout measurement**, and it runs **only while `multilinesupport` is on**, so single-line buttons pay no measurement cost. Unlike `ch5-button` there is **no `ResizeObserver` / viewport / resize listener** (the light family bans them): the clamp is (re)measured on connect and on label/attribute changes only. Shares one cached callback (`updateLabelTextWrapping()`) with `truncatetext`. |
 | `truncatetext` | **JavaScript** (+ CSS classes) | bare `truncatetext`, `true`, `false` (default `true`) | Truncates overflowing label text with an ellipsis. Defaults to `true`: a single-line ellipsis (`text-overflow:ellipsis`) when `multilinesupport` is off, or an ellipsis on the last visible line when it is on (`-webkit-line-clamp`). When `false` the text is clipped **without** an ellipsis (a `max-height` clamp in multi-line mode). Driven by CSS classes (`--label-truncate-text-true`/`-false`) and shares the same `updateLabelTextWrapping()` path as `multilinesupport`, so the **default single-line ellipsis is pure CSS** (the default classes) — the JS measurement only runs when `multilinesupport` is on. |
 | `iconclass` | **JavaScript** | Font Awesome / Material class(es) | Renders an `<i class="ch5-light-button--icon ...">`; created lazily only when present. |
@@ -299,8 +310,9 @@ This is intentionally a **zero-cost / low-cost API layer**: the validation is a 
 - `receiveStateSgIconNumeric`
 - `receiveStateSgIconString`
 - `sgIcon*`
+- `setLabel()`
 
-`mode`, `sgIcon*`, `customClass`, `customStyle`, `formType`, and the remaining `receiveState*` / `sendEventOn*` signal attributes (of the signal attributes, only `receivestatetype`, `receivestateselected`, `receivestatelabel`, `receivestatescriptlabelhtml`, `receivestateiconclass`, `receivestateiconurl`, `receivestatebackgroundimageurl`, and the base class's `receivestateenable` / `receivestateshow`, plus the send signals `sendeventonclick` and `sendeventonshow`, are implemented in version one).
+`mode`, `sgIcon*`, `setLabel()`, `customClass`, `customStyle`, `formType`, and the remaining `receiveState*` / `sendEventOn*` signal attributes (of the signal attributes, only `receivestatetype`, `receivestateselected`, `receivestatelabel`, `receivestateiconclass`, `receivestateiconurl`, `receivestatebackgroundimageurl`, and the base class's `receivestateenable` / `receivestateshow`, plus the send signals `sendeventonclick` and `sendeventonshow`, are implemented in version one).
 
 Keeping the initial surface small is deliberate — it is what lets version one stay lightweight and fast at scale. Features will be added only when required, so the component grows in controlled steps rather than carrying the full `ch5-button` weight up front.
 
@@ -861,7 +873,7 @@ The trade-off is a **deliberately minimal signal surface** — six opt-in button
 #### **ch5-button-list Label Priority Fix**
 - **Issue:** Static template labels overriding signal-driven labels in `ch5-button-list`
 - **Root Cause:** `lightButtonLabelHelper()` unconditionally applying static templates regardless of signal presence
-- **Fix:** Added check for `buttonreceivestatelabel` and `buttonreceivestatescriptlabelhtml` attributes
+- **Fix:** Added checks for `buttonreceivestatelabel` and `buttonreceivestatescriptlabelhtml` attributes
 - **Result:** Signals now have absolute priority over static templates (matches `ch5-advanced-button`)
 
 ### Performance Improvements

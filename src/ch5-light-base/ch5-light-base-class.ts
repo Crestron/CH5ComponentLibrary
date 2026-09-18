@@ -1,10 +1,11 @@
-import { Ch5Uid, Ch5Signal, publishEvent } from "../ch5-core";
+import { Ch5Uid, Ch5Signal, publishEvent, Ch5TranslationUtility, languageChangedSignalName } from "../ch5-core";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
 import { Ch5LightProperties, ICh5LightPropertySettings } from "./ch5-light-properties";
 import { Ch5LightSignal } from "./ch5-light-signal";
 import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
 import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { TCh5LightShowType } from "./interfaces/t-ch5-light-base";
+import { Ch5Config } from "../ch5-common/ch5-config";
 
 export type { TCh5LightShowType };
 
@@ -88,6 +89,13 @@ export type { TCh5LightShowType };
  *    value by overriding {@link getDefaultRole}. The base ships a tiny,
  *    dependency-free default (no import of the heavy `Ch5RoleAttributeMapping`),
  *    so the per-instance cost is a single `hasAttribute` check.
+ *
+ * `Ch5Config`-based pre-configured attributes (`setAttributeForComponent` /
+ * `setAttributeForId`) are applied once in {@link initLightBaseAttributes}, mirroring
+ * `Ch5Common`. Gated by `Ch5Config.hasAttributesForElement`, an allocation-free
+ * `hasOwnProperty` check, so the common case (nothing ever configured) costs no
+ * object allocation - only components with an actual pre-configured attribute pay
+ * for `getAttributesForElement`'s lookup/spread.
  *
  * Derived components must:
  *  - merge `LIGHT_BASE_OBSERVED_ATTRIBUTES` into their static `observedAttributes`;
@@ -305,6 +313,12 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	// needed - setting the name has no side effect (publishing is driven by show
 	// changes via handleShow), so the setter stores the name with no onChange.
 
+	// Current language for each component
+	public currentLanguage: string | null = '';
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	public translatableObjects: any = {} as any;
+
 	//#endregion
 
 	//#region Getters and Setters
@@ -468,6 +482,25 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		// Settings array is a shared STATIC field (see LIGHT_BASE_PROPERTY_SETTINGS) - no
 		// per-instance allocation here.
 		this._ch5Properties = new Ch5LightProperties(Ch5LightBaseClass.LIGHT_BASE_PROPERTY_SETTINGS);
+
+		// Reuses the same lazy helper as the receiveState* signals (keyed by name, so they coexist).
+		(this._baseSignals ??= new Ch5LightSignal()).subscribe<string>(languageChangedSignalName, 'string', (newValue: string) => {
+			if (newValue !== '' && newValue !== this.currentLanguage) {
+				this.currentLanguage = newValue;
+				Object.keys(this.translatableObjects).forEach((propertyToTranslate: string) => {
+					let propertyReference: { [key: string]: string } = this as {};
+
+					if (propertyReference[propertyToTranslate as string] === undefined && propertyReference['attrModel' as string] !== undefined) {
+						propertyReference = propertyReference['attrModel' as string] as {};
+					}
+
+					if (propertyReference[propertyToTranslate.toString()] !== undefined && this.translatableObjects[propertyToTranslate.toString()] !== undefined) {
+						propertyReference[propertyToTranslate.toString()] = this.translatableObjects[propertyToTranslate];
+						this.translateCallback(propertyToTranslate.toString());
+					}
+				})
+			}
+		});
 	}
 
 	/**
@@ -547,6 +580,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		if (this._isDetachedFromDom) {
 			return;
 		}
+		this._baseSignals?.unsubscribe(languageChangedSignalName);
 		this.clearReceiveStateEnableSubscription(this.receiveStateEnable);
 		this.clearReceiveStateShowSubscription(this.receiveStateShow);
 	}
@@ -642,6 +676,27 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	}
 
 	/**
+	 * Applies pre-configured attributes (`Ch5Config.setAttributeForComponent` /
+	 * `setAttributeForId`) to the host, same semantics as `Ch5Common`'s version.
+	 * Gated by the allocation-free `hasAttributesForElement` check so the common
+	 * case - nothing ever registered for this tag/id - costs a couple of
+	 * `hasOwnProperty` lookups and nothing else (no object allocations), keeping
+	 * 1000+ instances with no config zero-cost.
+	 */
+	protected applyPreConfiguredAttributes(): void {
+		if (!Ch5Config.hasAttributesForElement(this)) {
+			return;
+		}
+		const preConfiguredAttributes = Ch5Config.getAttributesForElement(this);
+		for (const attrName in preConfiguredAttributes) {
+			if (preConfiguredAttributes.hasOwnProperty(attrName)) {
+				if (!this.hasAttribute(attrName)) {
+					this.setAttribute(attrName, preConfiguredAttributes[attrName]);
+				}
+			}
+		}
+	}
+	/**
 	 * The default ARIA `role` for this component, or `null` when it has none.
 	 *
 	 * Overridden by concrete light components (e.g. `Ch5Button` returns
@@ -681,6 +736,78 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		return Ch5LightBaseClass.EMPTY_PROPERTY_SETTINGS;
 	}
 
+	public _t(valueToTranslate: string) {
+		let translatedValue = valueToTranslate;
+		const translationUtility = Ch5TranslationUtility.getInstance();
+		const identifiedValues = translationUtility.valuesToTranslation(valueToTranslate);
+
+		if (identifiedValues && identifiedValues.length > 0) {
+			identifiedValues.forEach(identifier => {
+				const isTranslatable = translationUtility.isTranslationIdentifier(identifier);
+				if (isTranslatable) {
+					const characters = translationUtility.stripDownTranslationCharacters(identifier);
+					const existTranslation = translationUtility.getTranslator().exists(characters);
+
+					if (existTranslation) {
+						const identifierTranslated = translationUtility.getTranslator().t(characters);
+						translatedValue = translatedValue.replace(identifier, identifierTranslated);
+					}
+				}
+			});
+		}
+		return translatedValue;
+	}
+
+	public _getTranslatedValue(valueToSave: string, valueToTranslate: string) {
+		const translationUtility = Ch5TranslationUtility.getInstance();
+
+		let translationKey = valueToTranslate;;
+		let _value = valueToTranslate;
+		let savedValue = this.translatableObjects[valueToSave];
+
+		if (savedValue === valueToTranslate) {
+			translationKey = savedValue;
+		}
+
+		const isTranslatableValue = translationUtility.isTranslationIdentifier(translationKey);
+
+		if (!isTranslatableValue) {
+			return valueToTranslate;
+		}
+
+		if (typeof savedValue === 'undefined') {
+			savedValue = valueToTranslate;
+			_value = this._t(valueToTranslate);
+		} else {
+			const isTranslatableLabel = translationUtility.isTranslationIdentifier(savedValue);
+			if (!isTranslatableLabel) {
+				if (savedValue !== valueToTranslate) {
+					savedValue = valueToTranslate;
+				}
+				_value = this._t(valueToTranslate);
+			} else {
+				if (this._t(savedValue) !== valueToTranslate && translationUtility.hasMultipleIdentifiers(savedValue)) {
+					savedValue = valueToTranslate;
+				}
+				_value = this._t(savedValue);
+			}
+		}
+		this.translatableObjects[valueToSave] = savedValue;
+
+		return _value;
+	}
+
+	/**
+	 * Used after the language is changed when special actions has to be done
+	 * For example when translating you have to parse the component children or some other actions
+	 * @param {string} section
+	 * @return {void}
+	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	protected translateCallback(section: string): void {
+		// if custom actions has to be done on translation
+	}
+
 	/**
 	 * Applies the opt-in `contractname` contract like `ch5-advanced-button`, but without
 	 * the global registry or DOM rewrites: each property flagged `contractName: true`
@@ -713,12 +840,12 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		const booleanOffset = this._ch5Properties.get<number>('booleanJoinOffset');
 		const numericOffset = this._ch5Properties.get<number>('numericJoinOffset');
 		const stringOffset = this._ch5Properties.get<number>('stringJoinOffset');
-		
+
 		// Zero-cost exit when no offsets and no contract - most buttons never use this
 		if (!contractName && !booleanOffset && !numericOffset && !stringOffset) {
 			return;
 		}
-		
+
 		// Call the shared utility to increment join numbers and prefix contract names in template children
 		Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(
 			this,
@@ -904,12 +1031,13 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 * Idempotent and safe to call on every (re)connect.
 	 */
 	protected initLightBaseAttributes(): void {
+		this.applyPreConfiguredAttributes();
 		if (!this.hasAttribute('receivestateshow')) {
 			const show = this.hasAttribute('show')
 				? Ch5LightBaseClass.normalizeBooleanValue(this.getAttribute('show'), true, true)
 				: true;
-            this._ch5Properties.setValue<boolean>('show', show);
-        }
+			this._ch5Properties.setValue<boolean>('show', show);
+		}
 		const noshowType = this.hasAttribute('noshowtype')
 			? Ch5LightBaseClass.toShowType(this.getAttribute('noshowtype'))
 			: Ch5LightBaseClass.NO_SHOW_TYPES[0];

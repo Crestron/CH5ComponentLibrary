@@ -44,6 +44,7 @@ export class Ch5LightPressable {
 	private _pressed = false;
 	private _pointerDownAttached = false;
 	private _releaseListenersAttached = false;
+	private _programaticSetter = false;
 
 	// Target bounds for the pointermove hit-test. Read lazily on the first move
 	// (a tap that never moves does no layout read); cleared on release.
@@ -54,11 +55,21 @@ export class Ch5LightPressable {
 	private readonly _pressEvent: Event = new CustomEvent('press', { bubbles: true, cancelable: false });
 	private readonly _releaseEvent: Event = new CustomEvent('release', { bubbles: true, cancelable: false });
 
+
 	// Cached handlers (allocated once). up/leave/cancel share one release handler;
 	// move releases when the pointer leaves the target bounds (touch - see above).
 	private readonly _onPointerDown = () => this.setPressed(true);
 	private readonly _onPointerUp = () => this.setPressed(false);
+	private readonly _onPointerLeave = () => {
+		if (this._programaticSetter) {
+			return;
+		}
+		this.setPressed(false);
+	};
 	private readonly _onPointerMove = (event: PointerEvent) => {
+		if (this._programaticSetter) {
+			return;
+		}
 		const rect = this._pressRect ??= this._target.getBoundingClientRect();
 		const x = event.clientX;
 		const y = event.clientY;
@@ -116,11 +127,15 @@ export class Ch5LightPressable {
 	 * Set the pressed state (also used by the pointer handlers). No-op when
 	 * unchanged, so it's safe to call defensively (e.g. force-release on blur).
 	 */
-	public setPressed(value: boolean): void {
+	public setPressed(value: boolean, flag: boolean = false): void {
+		this._programaticSetter = flag && value;
 		if (value === this._pressed) { return; }
 		this._pressed = value;
 		if (value) { this._onPress(); } else { this._onRelease(); }
 		if (this._onChange) { this._onChange(value); }
+		if (!value) {
+			this._programaticSetter = false;
+		}
 	}
 
 	private _onPress(): void {
@@ -160,7 +175,7 @@ export class Ch5LightPressable {
 		this._releaseListenersAttached = true;
 		this._target.addEventListener('pointermove', this._onPointerMove);
 		this._target.addEventListener('pointerup', this._onPointerUp);
-		this._target.addEventListener('pointerleave', this._onPointerUp);
+		this._target.addEventListener('pointerleave', this._onPointerLeave);
 		this._target.addEventListener('pointercancel', this._onPointerUp);
 	}
 
@@ -169,7 +184,7 @@ export class Ch5LightPressable {
 		this._releaseListenersAttached = false;
 		this._target.removeEventListener('pointermove', this._onPointerMove);
 		this._target.removeEventListener('pointerup', this._onPointerUp);
-		this._target.removeEventListener('pointerleave', this._onPointerUp);
+		this._target.removeEventListener('pointerleave', this._onPointerLeave);
 		this._target.removeEventListener('pointercancel', this._onPointerUp);
 	}
 
