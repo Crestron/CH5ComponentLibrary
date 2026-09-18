@@ -45,8 +45,6 @@ export class Ch5SliderButton extends Ch5ButtonBase {
 
 	//#region Variables
 
-	private readonly _onKeyChange = () => this.updateKeyCssClass();
-
 	//#endregion
 
 	//#region Getters and Setters
@@ -54,7 +52,7 @@ export class Ch5SliderButton extends Ch5ButtonBase {
 	/** Used to set the type of button, i.e. 'on' or 'off'. Any other value normalizes to '' (matches the legacy enum property's fallback to its "" default). */
 	public set key(value: TCh5SliderButtonKey | string) {
 		const normalizedValue: TCh5SliderButtonKey | '' = value === 'on' || value === 'off' ? value : '';
-		this._ch5Properties.set<string>('key', normalizedValue, this._onKeyChange);
+		this._ch5Properties.set<string>('key', normalizedValue);
 		if (this._isInitialized) {
 			this.setAttribute('key', normalizedValue);
 		}
@@ -142,7 +140,6 @@ export class Ch5SliderButton extends Ch5ButtonBase {
 		super.connectedCallback();
 		preservedLabelChildren.forEach(child => this.appendChild(child));
 		this.applyDefaultIconPositionTop();
-		this.updateKeyCssClass();
 		this.handleSliderButtonLabelLinkage();
 	}
 
@@ -166,13 +163,6 @@ export class Ch5SliderButton extends Ch5ButtonBase {
 		if (!this.hasAttribute('iconposition')) {
 			this.setAttribute('iconposition', 'top');
 		}
-	}
-
-	/** Mirrors the on/off state as a CSS hook (`ch5-slider-button--key-on` / `--key-off`), matching the old COMPONENT_DATA.KEY.classListPrefix. */
-	private updateKeyCssClass(): void {
-		const p = this.ctor.PRIMARY_CSS_CLASS;
-		this.classList.remove(`${p}--key-on`, `${p}--key-off`);
-		this.classList.add(`${p}--key-${this.key}`);
 	}
 
 	private getSliderButtonLabelChildren(): Ch5SliderButtonLabel[] {
