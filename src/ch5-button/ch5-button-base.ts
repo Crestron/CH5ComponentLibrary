@@ -1779,7 +1779,11 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 		}
 		this.log('wirePressable()');
 		if (!this._pressable) {
-			this._pressable = new Ch5LightPressable(this, this._elButton, undefined, this._onPressedChange);
+			// Buttons inside a scrolling ch5-button-list get swipe-aware (deferred) press so a
+			// finger swipe scrolls the list/page instead of releasing the press on a slight
+			// move - matching ch5-advanced-button. Standalone buttons keep the instant press.
+			const enableSwipe = this._buttonListContract.parentComponent === 'ch5-button-list';
+			this._pressable = new Ch5LightPressable(this, this._elButton, { enableSwipe }, this._onPressedChange);
 		}
 		this._pressable.init();
 	}
