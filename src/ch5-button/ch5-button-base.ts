@@ -185,7 +185,17 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 	// `true` and retriggers it every REPEAT_DIGITAL_PERIOD ms while held (like
 	// ch5-button); release sends the final `false`. Zero cost when unset.
 	private static readonly REPEAT_DIGITAL_PERIOD = 200;
-	private _repeatDigitalInterval: number | null = null;
+	// Hold delay before the repeat starts (matches ch5-advanced-button's TOUCH_TIMEOUT): a
+	// tap released before this sends a single true/false; only a longer hold begins the repeat.
+	private static readonly REPEAT_DIGITAL_HOLD_DELAY = 250;
+	// Single timer handle for the whole press cycle: non-null means a `true` was sent and a
+	// tick is scheduled (so it doubles as the "send the final false on release" flag). It is
+	// the hold-delay timeout first, then reschedules itself every period while held.
+	private _repeatDigitalTimer: number | null = null;
+	private readonly _repeatDigitalTick = () => {
+		this.sendClickValue(true);
+		this._repeatDigitalTimer = window.setTimeout(this._repeatDigitalTick, Ch5ButtonBase.REPEAT_DIGITAL_PERIOD);
+	};
 	private readonly _onSendEventOnClickChange = () => this.handleSendEventOnClick();
 
 	private readonly _onFocus = (event: FocusEvent) => this.handleFocus(event);
@@ -1657,36 +1667,30 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 	}
 
 	/**
-	 * Sends the initial `true`, then retriggers it every `REPEAT_DIGITAL_PERIOD` ms
-	 * while held, mirroring ch5-button's repeat-digital. No-op (no interval allocated)
-	 * unless a `sendeventonclick` signal name is set.
+	 * Sends the initial `true` on press, then—only if the button is still held past
+	 * `REPEAT_DIGITAL_HOLD_DELAY`—retriggers it every `REPEAT_DIGITAL_PERIOD` ms
+	 * (mirrors ch5-advanced-button: a quick tap sends a single true, a hold repeats).
+	 * No-op (nothing allocated) unless a `sendeventonclick` signal name is set.
 	 */
 	private startClickRepeatDigital(): void {
 		if (!this.sendEventOnClick) {
 			return;
 		}
 		this.sendClickValue(true);
-		if (this._repeatDigitalInterval !== null) {
-			window.clearInterval(this._repeatDigitalInterval);
-		}
-		this._repeatDigitalInterval = window.setInterval(() => {
-			this.sendClickValue(true);
-		}, Ch5ButtonBase.REPEAT_DIGITAL_PERIOD);
+		this._repeatDigitalTimer = window.setTimeout(this._repeatDigitalTick, Ch5ButtonBase.REPEAT_DIGITAL_HOLD_DELAY);
 	}
 
 	/**
-	 * Stops an in-flight repeat-digital and, if one was running, sends the final
-	 * `false` release. Safe to call when nothing was running.
+	 * Ends the press cycle: if a `true` was sent (timer armed), cancel the pending tick
+	 * and send the final `false`. Safe to call when nothing was running.
 	 */
 	private stopClickRepeatDigital(): void {
-		const wasRepeating = this._repeatDigitalInterval !== null;
-		if (this._repeatDigitalInterval !== null) {
-			window.clearInterval(this._repeatDigitalInterval);
-			this._repeatDigitalInterval = null;
+		if (this._repeatDigitalTimer === null) {
+			return;
 		}
-		if (wasRepeating && this.sendEventOnClick) {
-			this.sendClickValue(false);
-		}
+		window.clearTimeout(this._repeatDigitalTimer);
+		this._repeatDigitalTimer = null;
+		this.sendClickValue(false);
 	}
 
 	/**
@@ -1775,7 +1779,13 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 		}
 		this.log('wirePressable()');
 		if (!this._pressable) {
-			this._pressable = new Ch5LightPressable(this, this._elButton, undefined, this._onPressedChange);
+			// Buttons inside ch5-button-list / ch5-tab-button get swipe-aware (deferred) press: a
+			// finger swipe scrolls / cancels instead of committing the press, a tap fires a short
+			// press-release pulse, and a slight in-bounds move no longer streams repeatdigital until
+			// lift - matching ch5-advanced-button. Standalone buttons keep the instant press.
+			const parentComponent = this._buttonListContract.parentComponent;
+			const enableSwipe = parentComponent === 'ch5-button-list' || parentComponent === 'ch5-tab-button';
+			this._pressable = new Ch5LightPressable(this, this._elButton, { enableSwipe }, this._onPressedChange);
 		}
 		this._pressable.init();
 	}
