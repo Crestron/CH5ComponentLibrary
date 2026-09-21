@@ -3,6 +3,7 @@ import { ICh5LightPropertySettings } from "../ch5-light-base/ch5-light-propertie
 import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
 import { Ch5ButtonBase } from "../ch5-button/ch5-button-base";
 import { TCh5SliderButtonKey } from './interfaces/t-ch5-slider-button';
+import type { Ch5SliderButtonLabel } from './ch5-slider-button-label';
 
 // Ch5SliderButton extends the shared Ch5ButtonBase (see
 // ../ch5-button/ch5-button-base.ts) instead of the full Ch5Button, and only
@@ -44,22 +45,20 @@ export class Ch5SliderButton extends Ch5ButtonBase {
 
 	//#region Variables
 
-	private readonly _onKeyChange = () => this.updateKeyCssClass();
-
 	//#endregion
 
 	//#region Getters and Setters
 
-	/** Used to set the type of button, i.e. 'on' or 'off'. Any other value normalizes to 'on'. */
+	/** Used to set the type of button, i.e. 'on' or 'off'. Any other value normalizes to '' (matches the legacy enum property's fallback to its "" default). */
 	public set key(value: TCh5SliderButtonKey | string) {
-		const normalizedValue: TCh5SliderButtonKey = value === 'off' ? 'off' : 'on';
-		this._ch5Properties.set<string>('key', normalizedValue, this._onKeyChange);
+		const normalizedValue: TCh5SliderButtonKey | '' = value === 'on' || value === 'off' ? value : '';
+		this._ch5Properties.set<string>('key', normalizedValue);
 		if (this._isInitialized) {
 			this.setAttribute('key', normalizedValue);
 		}
 	}
-	public get key(): TCh5SliderButtonKey {
-		return this._ch5Properties.get<TCh5SliderButtonKey>('key');
+	public get key(): TCh5SliderButtonKey | '' {
+		return this._ch5Properties.get<TCh5SliderButtonKey | ''>('key');
 	}
 
 	//#endregion
@@ -117,7 +116,7 @@ export class Ch5SliderButton extends Ch5ButtonBase {
 			return;
 		}
 		if (attr === 'key') {
-			this.key = newValue ?? Ch5SliderButton.KEY[0];
+			this.key = newValue === 'on' || newValue === 'off' ? newValue : '';
 			return;
 		}
 		super.attributeChangedCallback(attr, oldValue, newValue);
@@ -141,7 +140,6 @@ export class Ch5SliderButton extends Ch5ButtonBase {
 		super.connectedCallback();
 		preservedLabelChildren.forEach(child => this.appendChild(child));
 		this.applyDefaultIconPositionTop();
-		this.updateKeyCssClass();
 		this.handleSliderButtonLabelLinkage();
 	}
 
@@ -167,21 +165,16 @@ export class Ch5SliderButton extends Ch5ButtonBase {
 		}
 	}
 
-	/** Mirrors the on/off state as a CSS hook (`ch5-slider-button--key-on` / `--key-off`), matching the old COMPONENT_DATA.KEY.classListPrefix. */
-	private updateKeyCssClass(): void {
-		const p = this.ctor.PRIMARY_CSS_CLASS;
-		this.classList.remove(`${p}--key-on`, `${p}--key-off`);
-		this.classList.add(`${p}--key-${this.key}`);
-	}
-
-	private getSliderButtonLabelChildren(): Element[] {
-		return Array.from(this.children).filter(child => child.tagName.toLowerCase() === 'ch5-slider-button-label');
+	private getSliderButtonLabelChildren(): Ch5SliderButtonLabel[] {
+		return Array.from(this.children).filter(child => child.tagName.toLowerCase() === 'ch5-slider-button-label') as unknown as Ch5SliderButtonLabel[];
 	}
 
 	/**
-	 * Reads the linked <ch5-slider-button-label> child (its <template>, or its own
-	 * `labelinnerhtml`/`label` attribute) and feeds it into THIS button's own
-	 * label/labelInnerHTML, so Ch5ButtonBase renders it in the internal <span>. Only
+	 * Reads the linked <ch5-slider-button-label> child and feeds it into THIS button's
+	 * own label/labelInnerHTML, so Ch5ButtonBase renders it in the internal <span>.
+	 * Pulls the child's already-resolved `label`/`labelInnerHTML`/`receiveStateLabel`
+	 * properties (rather than re-parsing its raw attributes), mirroring Ch5Label's own
+	 * priority order so a signal-driven label on the child isn't silently dropped. Only
 	 * reads the child (never writes to it), so it can't re-trigger the child's own
 	 * attributeChangedCallback - safe to call repeatedly from setValues().
 	 */
@@ -189,24 +182,24 @@ export class Ch5SliderButton extends Ch5ButtonBase {
 		if (this.receiveStateLabel) {
 			return;
 		}
-		if (this.hasAttribute('labelinnerhtml') || this.hasAttribute('label')) {
+		const labelChild = this.getSliderButtonLabelChildren()[0];
+		if (!labelChild) {
 			return;
 		}
-		const labelChildren = this.getSliderButtonLabelChildren();
-		if (labelChildren.length === 0) {
-			return;
-		}
-		const labelChild = labelChildren[0];
-		const templateEl = labelChild.querySelector('template') as HTMLTemplateElement | null;
-		if (templateEl) {
+		// A present <ch5-slider-button-label> child always wins over the button's own
+		// label/labelinnerhtml attributes. Mirrors Ch5Label.handleLabel()'s priority:
+		// receiveStateLabel > labelInnerHTML > template > label.
+		const templateEl = labelChild.getElementsByTagName('template')[0] as HTMLTemplateElement | undefined;
+		if (labelChild.receiveStateLabel) {
+			this.label = labelChild.label;
+		} else if (labelChild.labelInnerHTML) {
+			this.labelInnerHTML = labelChild.labelInnerHTML;
+		} else if (templateEl instanceof HTMLTemplateElement) {
 			this.labelInnerHTML = templateEl.innerHTML;
-		} else if (labelChild.hasAttribute('labelinnerhtml')) {
-			this.labelInnerHTML = labelChild.getAttribute('labelinnerhtml') ?? '';
 		} else if (labelChild.hasAttribute('label')) {
-			this.label = labelChild.getAttribute('label') ?? '';
-		} else {
-			this.label = labelChild.textContent?.trim() ?? '';
+			this.label = labelChild.label;
 		}
+		// else: the child has no content of its own - leave the button's label/labelInnerHTML as-is.
 	}
 
 	//#endregion

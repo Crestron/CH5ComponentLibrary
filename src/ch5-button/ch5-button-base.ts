@@ -223,7 +223,10 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 	//#region Getters and Setters
 
 	public set label(value: string) {
-		const normalizedValue = value ?? '';
+		let normalizedValue = value ?? '';
+		if (normalizedValue) {
+			normalizedValue = this._getTranslatedValue('label', normalizedValue);
+		}
 		// While receiveStateLabel is bound, the signal owns the effective label slot.
 		if (!this.receiveStateLabel) {
 			this._ch5Properties.set<string>('label', normalizedValue, this._onLabelChange);
@@ -573,6 +576,32 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 	}
 	public get selected(): boolean {
 		const attr = this.getAttribute('selected');
+		if (attr === null) return false;
+		return attr.toLowerCase() === 'true' || attr === '1' || attr === '';
+	}
+
+	/**
+	 * Transient pressed state. Unlike the static CSS attributes above, this is a
+	 * runtime interaction state owned by Ch5LightPressable; the setter delegates to
+	 * the pressable when available and otherwise only reflects the host attribute.
+	 */
+	public set pressed(value: boolean | string | number | null | undefined) {
+		const isPressed = value === true || value === 'true' || value === 1 || value === '1' || value === '';
+		if (this._pressable) {
+			this._pressable.setPressed(isPressed, true);
+			return;
+		}
+		if (isPressed) {
+			this.setAttribute('pressed', 'true');
+		} else {
+			this.removeAttribute('pressed');
+		}
+	}
+	public get pressed(): boolean {
+		if (this._pressable && this._pressable.pressed) {
+			return this._pressable.pressed;
+		}
+		const attr = this.getAttribute('pressed');
 		if (attr === null) return false;
 		return attr.toLowerCase() === 'true' || attr === '1' || attr === '';
 	}
@@ -1567,11 +1596,17 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 	 */
 	private handlePressedChange(pressed: boolean): void {
 		this.log('handlePressedChange(', pressed, ')');
-		// In a contract-driven ch5-button-list, presses publish the list's contract
-		// signals instead of sendEventOnClick (mirrors Ch5AdvancedButton).
-		if (this._buttonListContract.contractName !== '' && this._buttonListContract.parentComponent === 'ch5-button-list') {
-			this.handleButtonListContractPress(pressed);
-			return;
+		// In a contract-driven ch5-button-list / ch5-tab-button, presses publish the
+		// parent's contract signals instead of sendEventOnClick (mirrors Ch5AdvancedButton).
+		if (this._buttonListContract.contractName !== '') {
+			if (this._buttonListContract.parentComponent === 'ch5-button-list') {
+				this.handleButtonListContractPress(pressed);
+				return;
+			}
+			if (this._buttonListContract.parentComponent === 'ch5-tab-button') {
+				this.handleTabButtonContractPress(pressed);
+				return;
+			}
 		}
 		if (pressed) {
 			this.startClickRepeatDigital();
@@ -1610,6 +1645,17 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 			this.clearButtonListContractHold();
 			this._buttonListContractIsHeld = false;
 		}
+	}
+
+	/**
+	 * Publishes the ch5-tab-button contract press signal for this item, mirroring
+	 * Ch5AdvancedButton's tab-button path: a single `Tab{n}_Press` boolean on press
+	 * and release. Unlike the button-list path there is no hold/click bookkeeping.
+	 */
+	private handleTabButtonContractPress(pressed: boolean): void {
+		const { contractName, index } = this._buttonListContract;
+		const signals = (this._signals ??= new Ch5LightSignal());
+		signals.sendBoolean(`${contractName}.Tab${index}_Press`, pressed);
 	}
 
 	/** Clears the pending ListItemHeld timer, if any. */
