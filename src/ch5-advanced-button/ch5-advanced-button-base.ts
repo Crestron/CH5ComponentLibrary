@@ -2625,7 +2625,7 @@ export class Ch5AdvancedButtonBase extends Ch5Common implements ICh5AdvancedButt
 			updatedNodes.label = updatedNodes.labelHtml;
 			this._elSpanForLabelOnly.innerHTML = this._label;
 		} else if (!isNil(updatedNodes.label)) {
-			this._label = typeof updatedNodes.label === 'string' ? updatedNodes.label.trim() : updatedNodes.label;
+			this._label = updatedNodes.label.trim();
 			updatedNodes.labelHtml = this._label;
 			this._elSpanForLabelOnly.textContent = this._label;
 		}
