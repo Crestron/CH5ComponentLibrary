@@ -15,9 +15,9 @@ export interface ICh5LightPressableOptions {
 	/** Space-separated CSS class(es) added to `cssTargetElement` while pressed. */
 	cssPressedClass?: string;
 	/**
-	 * When true (buttons inside a scrolling `ch5-button-list`), touch presses are swipe-aware:
-	 * deferred briefly so a finger swipe scrolls instead of pressing. A tap or hold still
-	 * presses; mouse/pen press instantly. Default false (standalone buttons press instantly).
+	 * When true (buttons inside a scrolling `ch5-button-list`), presses are swipe-aware: the press
+	 * is deferred briefly so a finger swipe (or a mouse click-drag) scrolls instead of triggering.
+	 * A tap or a hold still presses. Default false (standalone buttons press instantly).
 	 */
 	enableSwipe?: boolean;
 }
@@ -72,8 +72,9 @@ export class Ch5LightPressable {
 	// `resetPressAndReleaseActions`, which turns a pending window into a tap, lets a running tap
 	// pulse finish, or releases a committed press (a cancelled release clears it without a click).
 	private readonly _onPointerDown = (event: PointerEvent) => {
-		// Swipe-aware touch defers the press so a finger swipe can scroll; mouse/pen press instantly.
-		if (this._swipeEnabled && event.pointerType === 'touch') {
+		// Swipe-aware buttons defer the press for every pointer type so a finger swipe or a mouse
+		// click-drag can scroll without triggering (matches Ch5Pressable); others press instantly.
+		if (this._swipeEnabled) {
 			this._endTapPulse(); // finish any still-running tap pulse so a rapid re-tap isn't dropped
 			this._beginPendingPress(event);
 		} else {
