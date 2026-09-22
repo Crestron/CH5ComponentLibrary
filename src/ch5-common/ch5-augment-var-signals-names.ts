@@ -232,23 +232,25 @@ export class Ch5AugmentVarSignalsNames {
         }
         Ch5AugmentVarSignalsNames.incrementOrPrependAttrValue(element, attrName, attrValue, increment, effectiveContractNamePrefix);
       }
-      Ch5AugmentVarSignalsNames.applyAttributeCallbackToHtmlFragment(element, attrName, attrValue, (htmlElement: Element, htmlAttrName: string, htmlAttrValue: string) => {
-        const htmlSignalJoinTypes = Ch5SignalAttributeRegistry.instance.getElementAttributeEntry(htmlElement.tagName, htmlAttrName);
-        if (htmlSignalJoinTypes !== undefined) {
-          const htmlEffectiveContractNamePrefix = htmlSignalJoinTypes[Ch5SignalAttributeRegistry.CONTRACT_NAME] ? contractNamePrefix : "";
-          let htmlIncrement = 0;
-          if (htmlSignalJoinTypes[Ch5SignalAttributeRegistry.BOOLEAN_JOIN] !== undefined) {
-            htmlIncrement = booleanJoinOffset;
+      if (Ch5SignalAttributeRegistry.instance.getElementDefaultAttributeEntries(element.tagName) === undefined) {
+        Ch5AugmentVarSignalsNames.applyAttributeCallbackToHtmlFragment(element, attrName, attrValue, (htmlElement: Element, htmlAttrName: string, htmlAttrValue: string) => {
+          const htmlSignalJoinTypes = Ch5SignalAttributeRegistry.instance.getElementAttributeEntry(htmlElement.tagName, htmlAttrName);
+          if (htmlSignalJoinTypes !== undefined) {
+            const htmlEffectiveContractNamePrefix = htmlSignalJoinTypes[Ch5SignalAttributeRegistry.CONTRACT_NAME] ? contractNamePrefix : "";
+            let htmlIncrement = 0;
+            if (htmlSignalJoinTypes[Ch5SignalAttributeRegistry.BOOLEAN_JOIN] !== undefined) {
+              htmlIncrement = booleanJoinOffset;
+            }
+            else if (htmlSignalJoinTypes[Ch5SignalAttributeRegistry.NUMERIC_JOIN] !== undefined) {
+              htmlIncrement = numericJoinOffset;
+            }
+            else if (htmlSignalJoinTypes[Ch5SignalAttributeRegistry.STRING_JOIN] !== undefined) {
+              htmlIncrement = stringJoinOffset;
+            }
+            Ch5AugmentVarSignalsNames.incrementOrPrependAttrValue(htmlElement, htmlAttrName, htmlAttrValue, htmlIncrement, htmlEffectiveContractNamePrefix);
           }
-          else if (htmlSignalJoinTypes[Ch5SignalAttributeRegistry.NUMERIC_JOIN] !== undefined) {
-            htmlIncrement = numericJoinOffset;
-          }
-          else if (htmlSignalJoinTypes[Ch5SignalAttributeRegistry.STRING_JOIN] !== undefined) {
-            htmlIncrement = stringJoinOffset;
-          }
-          Ch5AugmentVarSignalsNames.incrementOrPrependAttrValue(htmlElement, htmlAttrName, htmlAttrValue, htmlIncrement, htmlEffectiveContractNamePrefix);
-        }
-      });
+        });
+      }
     }, (element: Element) => {
       // callback called for each element in the template definition
       const defaultAttributes = Ch5SignalAttributeRegistry.instance.getElementDefaultAttributeEntries(element.tagName);
