@@ -308,6 +308,33 @@ export class Ch5AugmentVarSignalsNames {
         }
         Ch5AugmentVarSignalsNames.customIncrementOrPrependAttrValue(element, attrName, attrValue, increment, effectiveContractNamePrefix);
       }
+      // Augment signal joins embedded in HTML-valued attributes (e.g. labelInnerHTML),
+      // but ONLY for elements that do not carry their own join-offset / contract-name
+      // differentiation. Elements registered via registerSignalAttributeDefaults (e.g.
+      // ch5-advanced-button) receive the propagated offset and re-differentiate their
+      // rendered subtree in their own differentiate pass; augmenting their nested joins
+      // here as well would increment the same join twice. Lightweight elements that rely
+      // solely on this fragment pass (e.g. ch5-button / ch5-slider-button) have no default
+      // entries and are processed normally.
+      if (Ch5SignalAttributeRegistry.instance.getElementDefaultAttributeEntries(element.tagName) === undefined) {
+        Ch5AugmentVarSignalsNames.applyAttributeCallbackToHtmlFragment(element, attrName, attrValue, (htmlElement: Element, htmlAttrName: string, htmlAttrValue: string) => {
+          const htmlSignalJoinTypes = Ch5SignalAttributeRegistry.instance.getElementAttributeEntry(htmlElement.tagName, htmlAttrName);
+          if (htmlSignalJoinTypes !== undefined) {
+            const htmlEffectiveContractNamePrefix = htmlSignalJoinTypes[Ch5SignalAttributeRegistry.CONTRACT_NAME] ? contractNamePrefix : "";
+            let htmlIncrement = 0;
+            if (htmlSignalJoinTypes[Ch5SignalAttributeRegistry.BOOLEAN_JOIN] !== undefined) {
+              htmlIncrement = booleanJoinOffset;
+            }
+            else if (htmlSignalJoinTypes[Ch5SignalAttributeRegistry.NUMERIC_JOIN] !== undefined) {
+              htmlIncrement = numericJoinOffset;
+            }
+            else if (htmlSignalJoinTypes[Ch5SignalAttributeRegistry.STRING_JOIN] !== undefined) {
+              htmlIncrement = stringJoinOffset;
+            }
+            Ch5AugmentVarSignalsNames.customIncrementOrPrependAttrValue(htmlElement, htmlAttrName, htmlAttrValue, htmlIncrement, htmlEffectiveContractNamePrefix);
+          }
+        });
+      }
     }, (element: Element) => {
       // callback called for each element in the template definition
       const defaultAttributes = Ch5SignalAttributeRegistry.instance.getElementDefaultAttributeEntries(element.tagName);
