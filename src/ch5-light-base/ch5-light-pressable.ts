@@ -56,62 +56,46 @@ export class Ch5LightPressable {
 	private _startY = 0;
 	private static readonly SWIPE_HOLD_TIMEOUT = 250;   // ms held still before the press commits
 	private static readonly SWIPE_MOVE_THRESHOLD = 10;  // px of movement that turns the touch into a scroll
-	private readonly _onHoldTimer = () => { this._holdTimer = null; this._commitPress(); };
+	private readonly _onTouchHoldTimer = () => { this._holdTimer = null; this._fingerIsDownActions(); };
 
 	// Quick-tap pulse: a synchronous press+release is invisible and its zero-width digital
 	// pulse can be coalesced away, so a tap presses now and releases after TAP_MIN_PRESS.
 	private static readonly TAP_MIN_PRESS = 150; // ms a quick tap stays pressed (visible + pulse width)
 	private _tapReleaseTimer: number | null = null;
-	private readonly _onTapReleaseTimer = () => { this._tapReleaseTimer = null; this.setPressed(false); };
+	private readonly _onTapPulseEnd = () => { this._tapReleaseTimer = null; this.setPressed(false); };
 
 	// press / release events, created once per instance (bubble to the host custom element).
 	private readonly _pressEvent: Event = new CustomEvent('press', { bubbles: true, cancelable: false });
 	private readonly _releaseEvent: Event = new CustomEvent('release', { bubbles: true, cancelable: false });
 
-	// Cached handlers, allocated once. A pointercancel or the finger leaving the button goes
-	// through `_cancel()` (clears the press, no release event) so a scroll/drag never selects it.
+	// Pointer handlers, allocated once. Lift, cancel and leave all funnel through
+	// `resetPressAndReleaseActions`, which turns a pending window into a tap, lets a running tap
+	// pulse finish, or releases a committed press (a cancelled release clears it without a click).
 	private readonly _onPointerDown = (event: PointerEvent) => {
-		// Swipe-aware touch defers the press so a finger swipe can scroll; others press instantly.
+		// Swipe-aware touch defers the press so a finger swipe can scroll; mouse/pen press instantly.
 		if (this._swipeEnabled && event.pointerType === 'touch') {
-			this._flushTapPulse(); // finish any still-running tap pulse so a rapid re-tap isn't dropped
-			this._beginPending(event);
+			this._endTapPulse(); // finish any still-running tap pulse so a rapid re-tap isn't dropped
+			this._beginPendingPress(event);
 		} else {
 			this.setPressed(true);
 		}
 	};
-	private readonly _onPointerUp = () => {
-		if (this._pending) { this._commitTap(); return; } // quick tap: lifted before the hold elapsed
-		if (this._tapReleaseTimer !== null) { return; }   // tap pulse owns its own delayed release
-		this.setPressed(false);
-	};
-	private readonly _onPointerCancel = () => {
-		// Pending + cancel = a tap the browser cancelled instead of firing pointerup (a real swipe
-		// was already dropped by _onPointerMove); pulse it so the click still registers.
-		if (this._pending) { this._commitTap(); return; }
-		if (this._tapReleaseTimer !== null) { return; }
-		this._cancel();
-	}
+	private readonly _onPointerUp = () => this.resetPressAndReleaseActions(false);
+	private readonly _onPointerCancel = () => this.resetPressAndReleaseActions(true);
 	private readonly _onPointerLeave = () => {
+		// Ignore the synthetic leave a programmatic press can trigger.
 		if (this._programaticSetter) { return; }
-		// Some panels report a tap's lift as pointerleave; still-pending means a tap (a real
-		// drag-off already crossed the threshold and aborted).
-		if (this._pending) { this._commitTap(); return; }
-		if (this._tapReleaseTimer !== null) { return; } // tap pulse owns its own delayed release
-		this.setPressed(false);
+		this.resetPressAndReleaseActions(false);
 	};
 	private readonly _onPointerMove = (event: PointerEvent) => {
+		// While pending, enough movement means the user is scrolling, not pressing.
 		if (this._pending) {
-			if (this._movedPastThreshold(event)) { this._abortPending(); } // moved past threshold -> swipe
+			if (this._movedPastSwipeThreshold(event)) { this._abandonPendingPress(); }
 			return;
 		}
 		if (this._programaticSetter) { return; }
-		// Finger left the button bounds -> cancel (no click).
-		const rect = this._pressRect ??= this._target.getBoundingClientRect();
-		const x = event.clientX;
-		const y = event.clientY;
-		if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
-			this._cancel();
-		}
+		// A committed press cancels (no click) once the finger slides off the target.
+		if (this._isOutsideTarget(event)) { this._cancel(); }
 	};
 
 	/**
@@ -154,7 +138,7 @@ export class Ch5LightPressable {
 	/** Release if still pressed and remove all listeners. Safe to re-init afterwards. */
 	public destroy(): void {
 		this._clearHoldTimer();
-		this._flushTapPulse();
+		this._endTapPulse();
 		this._pending = false;
 		if (this._pressed) { this.setPressed(false); }
 		if (this._pointerDownAttached) {
@@ -169,7 +153,7 @@ export class Ch5LightPressable {
 		this._programaticSetter = flag && value;
 		if (value === this._pressed) { return; }
 		this._pressed = value;
-		if (value) { this._onPress(); } else { this._onRelease(false); }
+		if (value) { this._onHold(); } else { this._onRelease(false); }
 		if (this._onChange) { this._onChange(value); }
 		if (!value) {
 			this._programaticSetter = false;
@@ -185,53 +169,69 @@ export class Ch5LightPressable {
 		if (this._onChange) { this._onChange(false); }
 	}
 
-	// Start the swipe window: record the start point, wire release listeners and arm the hold
-	// timer, but show no press yet (move aborts, lift taps, holding commits the press).
-	private _beginPending(event: PointerEvent): void {
+	// Resolve a lift / cancel / leave: a still-open pending window becomes a tap, a running tap
+	// pulse is left to release itself, otherwise the committed press is released (cancelled = no click).
+	// Named to mirror `Ch5Pressable.resetPressAndReleaseActions`.
+	public resetPressAndReleaseActions(cancelled: boolean = false): void {
+		if (this._pending) { this._commitAsTap(); return; }
+		if (this._tapReleaseTimer !== null) { return; }
+		if (cancelled) { this._cancel(); } else { this.setPressed(false); }
+	}
+
+	// --- Swipe-aware press arbitration (touch + enableSwipe only) --------------------
+	// A finger-down opens a short "pending" window that resolves one of three ways:
+	// a held press (hold timer), a quick tap (early lift) or a scroll (moved too far).
+
+	// Open the pending window: watch for movement/lift and arm the hold timer, but show no press yet.
+	private _beginPendingPress(event: PointerEvent): void {
 		if (this._pending || this._pressed) { return; }
 		this._pending = true;
 		this._startX = event.clientX;
 		this._startY = event.clientY;
 		this._attachReleaseListeners();
-		this._holdTimer = window.setTimeout(this._onHoldTimer, Ch5LightPressable.SWIPE_HOLD_TIMEOUT);
+		this._holdTimer = window.setTimeout(this._onTouchHoldTimer, Ch5LightPressable.SWIPE_HOLD_TIMEOUT);
 	}
 
-	// Commit a held press: lock touch-action so a late scroll can't steal it, then press.
-	private _commitPress(): void {
-		this._clearHoldTimer();
-		if (!this._pending) { return; }
-		this._pending = false;
-		this._target.style.touchAction = 'none';
+	// Held long enough: the finger is down, so commit a normal, sustained press.
+	// Named to mirror `Ch5Pressable._fingerIsDownActions`.
+	private _fingerIsDownActions(): void {
+		if (this._closePendingWindow()) { this.setPressed(true); }
+	}
+
+	// Lifted before the hold elapsed: press now and auto-release after TAP_MIN_PRESS so a quick tap
+	// still paints and its digital pulse has width (a synchronous press+release is invisible).
+	private _commitAsTap(): void {
+		if (!this._closePendingWindow()) { return; }
 		this.setPressed(true);
+		this._tapReleaseTimer = window.setTimeout(this._onTapPulseEnd, Ch5LightPressable.TAP_MIN_PRESS);
 	}
 
-	// Commit a quick tap: press now, release after TAP_MIN_PRESS so the state paints and the
-	// pulse has width (a synchronous press+release is invisible). Release restores touch-action.
-	private _commitTap(): void {
-		this._clearHoldTimer();
-		if (!this._pending) { return; }
-		this._pending = false;
-		this._target.style.touchAction = 'none';
-		this.setPressed(true);
-		this._tapReleaseTimer = window.setTimeout(this._onTapReleaseTimer, Ch5LightPressable.TAP_MIN_PRESS);
-	}
-
-	// Finish an in-flight tap pulse immediately so a rapid re-tap or teardown isn't blocked.
-	private _flushTapPulse(): void {
-		if (this._tapReleaseTimer !== null) {
-			window.clearTimeout(this._tapReleaseTimer);
-			this._tapReleaseTimer = null;
-			this.setPressed(false);
-		}
-	}
-
-	// Drop a deferred press without pressing (a swipe/scroll won the gesture).
-	private _abortPending(): void {
+	// Moved too far: the gesture is a scroll, so drop the deferred press without ever pressing.
+	private _abandonPendingPress(): void {
 		this._clearHoldTimer();
 		if (!this._pending) { return; }
 		this._pending = false;
 		this._pressRect = null;
 		this._detachReleaseListeners();
+	}
+
+	// Close the pending window and lock touch-action so a late scroll can't steal the press.
+	// Returns false when nothing was pending (the caller then does nothing).
+	private _closePendingWindow(): boolean {
+		this._clearHoldTimer();
+		if (!this._pending) { return false; }
+		this._pending = false;
+		this._target.style.touchAction = 'none';
+		return true;
+	}
+
+	// End an in-flight tap pulse right now (a rapid re-tap or teardown shouldn't wait for it).
+	private _endTapPulse(): void {
+		if (this._tapReleaseTimer !== null) {
+			window.clearTimeout(this._tapReleaseTimer);
+			this._tapReleaseTimer = null;
+			this.setPressed(false);
+		}
 	}
 
 	private _clearHoldTimer(): void {
@@ -242,14 +242,24 @@ export class Ch5LightPressable {
 	}
 
 	// True once the finger has moved past the swipe threshold (a scroll, not a tap/hold).
-	private _movedPastThreshold(event: PointerEvent): boolean {
+	private _movedPastSwipeThreshold(event: PointerEvent): boolean {
 		const dx = event.clientX - this._startX;
 		const dy = event.clientY - this._startY;
 		const threshold = Ch5LightPressable.SWIPE_MOVE_THRESHOLD;
 		return dx * dx + dy * dy > threshold * threshold;
 	}
 
-	private _onPress(): void {
+	// True when the pointer is outside the target's bounds (rect cached on first read).
+	private _isOutsideTarget(event: PointerEvent): boolean {
+		const rect = this._pressRect ??= this._target.getBoundingClientRect();
+		const x = event.clientX;
+		const y = event.clientY;
+		return x < rect.left || x > rect.right || y < rect.top || y > rect.bottom;
+	}
+
+	// Press action (mirrors `Ch5Pressable._onHold`): wire release listeners, add feedback,
+	// set the `pressed` attribute and dispatch `press`.
+	private _onHold(): void {
 		this._attachReleaseListeners();
 		this._toggleCssPressedClass(true);
 		this._host.setAttribute(Ch5LightPressable.PRESSED_ATTRIBUTE, 'true');
