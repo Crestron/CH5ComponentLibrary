@@ -1779,15 +1779,28 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 		}
 		this.log('wirePressable()');
 		if (!this._pressable) {
-			// Buttons inside ch5-button-list / ch5-tab-button get swipe-aware (deferred) press: a
-			// finger swipe scrolls / cancels instead of committing the press, a tap fires a short
-			// press-release pulse, and a slight in-bounds move no longer streams repeatdigital until
-			// lift - matching ch5-advanced-button. Standalone buttons keep the instant press.
+			// Buttons inside a scrolling container (ch5-button-list / ch5-tab-button, or a
+			// ch5-subpage-reference-list template) get swipe-aware (deferred) press: a finger swipe
+			// or mouse click-drag scrolls / cancels instead of committing the press, a tap fires a
+			// short press-release pulse, and a slight in-bounds move no longer streams repeatdigital
+			// until lift - matching ch5-advanced-button. Standalone buttons keep the instant press.
+			// A list/tab button carries that parentComponent; an SRL button is cloned from a template
+			// and carries none, so the SRL container is detected by class (mirrors Ch5Pressable).
 			const parentComponent = this._buttonListContract.parentComponent;
-			const enableSwipe = parentComponent === 'ch5-button-list' || parentComponent === 'ch5-tab-button';
+			const enableSwipe = parentComponent === 'ch5-button-list'
+				|| parentComponent === 'ch5-tab-button'
+				|| this.isInsideSubpageReferenceList();
 			this._pressable = new Ch5LightPressable(this, this._elButton, { enableSwipe }, this._onPressedChange);
 		}
 		this._pressable.init();
+	}
+
+	/** Class the ch5-subpage-reference-list puts on each subpage container (mirrors Ch5Pressable). */
+	private static readonly SRL_CONTAINER_CLASS = 'ch5-subpage-reference-list--subpage-container';
+
+	/** True when this button sits inside a ch5-subpage-reference-list subpage (a scrolling container). */
+	private isInsideSubpageReferenceList(): boolean {
+		return this.closest('.' + Ch5ButtonBase.SRL_CONTAINER_CLASS) !== null;
 	}
 
 	/**
