@@ -253,6 +253,12 @@ export class Ch5AugmentVarSignalsNames {
       }
     }, (element: Element) => {
       // callback called for each element in the template definition
+      // querySelectorAll('*') does not descend into <template> content, so recurse
+      // into it explicitly to augment signal joins declared inside inline templates
+      // (e.g. <ch5-slider-button-label><template>...</template></ch5-slider-button-label>).
+      if (element.tagName === 'TEMPLATE') {
+        Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs((element as HTMLTemplateElement).content as unknown as HTMLElement, contractNamePrefix, booleanJoinOffset, numericJoinOffset, stringJoinOffset);
+      }
       const defaultAttributes = Ch5SignalAttributeRegistry.instance.getElementDefaultAttributeEntries(element.tagName);
       if (defaultAttributes !== undefined) {
         // add attribute if one does not exist for those contract name attributes that need to be defaulted
@@ -337,6 +343,12 @@ export class Ch5AugmentVarSignalsNames {
       }
     }, (element: Element) => {
       // callback called for each element in the template definition
+      // querySelectorAll('*') does not descend into <template> content, so recurse
+      // into it explicitly to augment signal joins declared inside inline templates
+      // (e.g. <ch5-slider-button-label><template>...</template></ch5-slider-button-label>).
+      if (element.tagName === 'TEMPLATE') {
+        Ch5AugmentVarSignalsNames.customDifferentiateTmplElemsAttrs((element as HTMLTemplateElement).content as unknown as HTMLElement, contractNamePrefix, booleanJoinOffset, numericJoinOffset, stringJoinOffset);
+      }
       const defaultAttributes = Ch5SignalAttributeRegistry.instance.getElementDefaultAttributeEntries(element.tagName);
       if (defaultAttributes !== undefined) {
         // add attribute if one does not exist for those contract name attributes that need to be defaulted
