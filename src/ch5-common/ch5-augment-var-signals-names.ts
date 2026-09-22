@@ -167,7 +167,7 @@ export class Ch5AugmentVarSignalsNames {
 
         element.setAttribute(attrName, incrementedAttrValue);
       }
-    } 
+    }
     else {
       element.setAttribute(attrName, `${contractNamePrefix}${value}`);
     }
@@ -252,6 +252,27 @@ export class Ch5AugmentVarSignalsNames {
         });
       }
     }, (element: Element) => {
+      // querySelectorAll('*') does not descend into <template> content, so recurse into it
+      // explicitly to augment signal joins declared inside inline templates
+      // (e.g. <ch5-slider-button-label><template>...</template></ch5-slider-button-label>
+      // placed inside a subpage-reference / ch5-template / button-list carrier).
+      //
+      // Guard 1 (!isConnected): only descend when processing a DETACHED container (one-shot
+      // instantiation of a cloned carrier). When called repeatedly on a live, connected
+      // element (e.g. ch5-advanced-button re-differentiating its label template on every
+      // render) descending would re-increment the same joins each pass and drift.
+      //
+      // Guard 2 (!isSelfDifferentiatingButtonTemplate): even while detached, do NOT descend
+      // into the private label <template> of an advanced-button-family element. Those
+      // elements receive the propagated join offset on themselves, render their label
+      // template into live DOM, and re-apply the offset in their own differentiate pass.
+      // Descending here as well would increment the same joins twice (e.g. 1 -> 201 -> 401).
+      // A light ch5-slider-button owns the slider's label template and does NOT self-apply,
+      // so slider templates are left to descend normally.
+      if (element.tagName === 'TEMPLATE' && !templateContent.isConnected
+        && !Ch5AugmentVarSignalsNames.isSelfDifferentiatingButtonTemplate(element)) {
+        Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs((element as HTMLTemplateElement).content as unknown as HTMLElement, contractNamePrefix, booleanJoinOffset, numericJoinOffset, stringJoinOffset);
+      }
       const defaultAttributes = Ch5SignalAttributeRegistry.instance.getElementDefaultAttributeEntries(element.tagName);
       if (defaultAttributes !== undefined) {
         // add attribute if one does not exist for those contract name attributes that need to be defaulted
@@ -285,6 +306,29 @@ export class Ch5AugmentVarSignalsNames {
         }
       });
     }
+  }
+
+  /**
+   * Advanced-button-family elements (ch5-advanced-button / ch5-tab-button) receive the
+   * propagated join offset on themselves, render their `<...-label><template>` content into
+   * live DOM, and re-apply the offset in their own `differentiateTmplElemsAttrs(this)` pass.
+   * A carrier (ch5-template / subpage-reference / button-list) must therefore NOT descend
+   * into that private label template, otherwise the same joins are incremented twice.
+   * Returns true when the given `<template>` element has such a self-applying button ancestor.
+   * (A light ch5-slider-button owns the slider's label template and does NOT self-apply, so
+   * this returns false for slider and its template is descended into normally.)
+   */
+  private static readonly SELF_DIFFERENTIATING_BUTTON_TAGS: ReadonlyArray<string> = ['CH5-ADVANCED-BUTTON', 'CH5-TAB-BUTTON'];
+
+  private static isSelfDifferentiatingButtonTemplate(templateElement: Element): boolean {
+    let ancestor: Element | null = templateElement.parentElement;
+    while (ancestor !== null) {
+      if (Ch5AugmentVarSignalsNames.SELF_DIFFERENTIATING_BUTTON_TAGS.indexOf(ancestor.tagName) !== -1) {
+        return true;
+      }
+      ancestor = ancestor.parentElement;
+    }
+    return false;
   }
 
 
