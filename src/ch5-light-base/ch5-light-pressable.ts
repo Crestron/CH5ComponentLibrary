@@ -81,12 +81,12 @@ export class Ch5LightPressable {
 			this.setPressed(true);
 		}
 	};
-	private readonly _onPointerUp = () => this.resetPressAndReleaseActions(false);
+	private readonly _onPointerUp = (event: PointerEvent) => this.resetPressAndReleaseActions(false, event);
 	private readonly _onPointerCancel = () => this.resetPressAndReleaseActions(true);
-	private readonly _onPointerLeave = () => {
+	private readonly _onPointerLeave = (event: PointerEvent) => {
 		// Ignore the synthetic leave a programmatic press can trigger.
 		if (this._programaticSetter) { return; }
-		this.resetPressAndReleaseActions(false);
+		this.resetPressAndReleaseActions(false, event);
 	};
 	private readonly _onPointerMove = (event: PointerEvent) => {
 		// While pending, enough movement means the user is scrolling, not pressing.
@@ -170,11 +170,21 @@ export class Ch5LightPressable {
 		if (this._onChange) { this._onChange(false); }
 	}
 
-	// Resolve a lift / cancel / leave: a still-open pending window becomes a tap, a running tap
-	// pulse is left to release itself, otherwise the committed press is released (cancelled = no click).
-	// Named to mirror `Ch5Pressable.resetPressAndReleaseActions`.
-	public resetPressAndReleaseActions(cancelled: boolean = false): void {
-		if (this._pending) { this._commitAsTap(); return; }
+	// Resolve a lift / cancel / leave. A still-open pending window becomes a quick tap ONLY on a
+	// genuine lift that hasn't moved past the swipe threshold. A pointercancel (the browser claimed
+	// the gesture for a scroll/pan) or a lift whose final position already moved is a swipe and is
+	// dropped without a click - some panels (e.g. DGE1000) start scrolling and fire cancel/up before
+	// pointermove ever crosses the threshold. A running tap pulse releases itself; otherwise the
+	// committed press is released (cancelled = no click). Mirrors `Ch5Pressable.resetPressAndReleaseActions`.
+	public resetPressAndReleaseActions(cancelled: boolean = false, event?: PointerEvent): void {
+		if (this._pending) {
+			if (cancelled || (event !== undefined && this._movedPastSwipeThreshold(event))) {
+				this._abandonPendingPress();
+			} else {
+				this._commitAsTap();
+			}
+			return;
+		}
 		if (this._tapReleaseTimer !== null) { return; }
 		if (cancelled) { this._cancel(); } else { this.setPressed(false); }
 	}
