@@ -996,6 +996,12 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 				// Render decoded HTML only for the HTML sources; the decode + innerHTML write
 				// cost is paid solely by buttons that actually use them.
 				this._elSpanLabel.innerHTML = this.decodeInnerHTMLForAttribute(html);
+				// Give subclasses a chance to post-process the freshly-rendered label joins
+				// (e.g. ch5-slider-button propagates its parent slider's signal join offsets).
+				// No-op for plain ch5-button. Because this runs right after the innerHTML write
+				// - which recreates the joins at their base values every render - a subclass can
+				// safely re-apply offsets on each render without double-incrementing.
+				this.applyLabelSignalOffsets(this._elSpanLabel);
 			} else {
 				// textContent (not innerHTML) both renders plain text and clears any HTML left
 				// by a previous HTML pass.
@@ -1023,6 +1029,17 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 			.replace('&gt;', ">")
 			.replace('&quot;', '/"')
 			.replace("&apos;", "/'");
+	}
+
+	/**
+	 * Hook invoked by {@link handleLabel} immediately after the label span's HTML has
+	 * been (re)rendered, so a subclass can post-process the freshly-created label joins.
+	 * No-op in the base and in plain ch5-button; overridden by ch5-slider-button to
+	 * propagate its parent `<ch5-slider>`'s join offsets onto the nested join tags.
+	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	protected applyLabelSignalOffsets(_labelSpan: HTMLElement): void {
+		/* no-op by default; overridden by ch5-slider-button */
 	}
 
 	/**

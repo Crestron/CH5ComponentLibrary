@@ -73,3 +73,4 @@ export class Ch5Button extends Ch5ButtonBase {
 
 Ch5Button.registerCustomElement();
 Ch5Button.registerSignalAttributeTypes();
+Ch5Button.registerSignalAttributeDefaults(Ch5Button.ELEMENT_NAME);

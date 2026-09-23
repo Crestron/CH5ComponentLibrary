@@ -3,7 +3,7 @@ import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
 import { Ch5LightProperties, ICh5LightPropertySettings } from "./ch5-light-properties";
 import { Ch5LightSignal } from "./ch5-light-signal";
 import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
-import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { TCh5LightShowType } from "./interfaces/t-ch5-light-base";
 import { Ch5Config } from "../ch5-common/ch5-config";
 
@@ -213,6 +213,28 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		return Ch5LightBaseClass.generateRegistryEntriesFromSettings(
 			Ch5LightBaseClass.LIGHT_BASE_PROPERTY_SETTINGS
 		);
+	}
+
+	/**
+	 * Registers the default join-offset / contract-name attribute entries for a
+	 * light-family component so the subpage-reference carrier
+	 * (`Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs`) will propagate its
+	 * `booleanjoinoffset` / `numericjoinoffset` / `stringjoinoffset` / `contractname`
+	 * onto this element when it appears inside a `<ch5-template>` widget. Mirrors
+	 * `Ch5Common.registerSignalAttributeDefaults` so a light button behaves like the
+	 * heavy `ch5-advanced-button` for offset propagation, WITHOUT pulling in any of
+	 * the `Ch5Common` machinery. Concrete light buttons (e.g. `ch5-button`) call this
+	 * alongside `registerSignalAttributeTypes()`. Scoped to the light-button family:
+	 * it only adds a registry entry for the given element and does not alter the
+	 * shared differentiation utility or any other component.
+	 */
+	public static registerSignalAttributeDefaults(componentName: string): void {
+		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(componentName, {
+			contractName: { attributes: ["contractname"], defaultValue: "" },
+			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
+			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
+			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
+		});
 	}
 
 	/** Matches `{{indexId}}`-style placeholders, stripped before the integer-signal test in {@link prependContractName}. */

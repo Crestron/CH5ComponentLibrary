@@ -129,25 +129,6 @@ export class Ch5AugmentVarSignalsNames {
     }
   }
 
-  private static applyAttributeCallbackToHtmlFragment(element: Element, attributeName: string, attributeValue: string,
-    attribCb: IterateAttributesInTemplateFn): void {
-    if (!attributeValue || !attributeValue.includes('<') || !attributeValue.includes('>')) {
-      return;
-    }
-
-    const htmlRoot = document.createElement('div');
-    htmlRoot.innerHTML = attributeValue;
-    if (!htmlRoot.firstElementChild) {
-      return;
-    }
-
-    Ch5AugmentVarSignalsNames.iterateAttributesInTemplate(htmlRoot, attribCb);
-    const updatedValue = htmlRoot.innerHTML;
-    if (updatedValue !== attributeValue) {
-      element.setAttribute(attributeName, updatedValue);
-    }
-  }
-
   private static incrementOrPrependAttrValue(element: Element, attrName: string, value: string, increment: number, contractNamePrefix: string): void {
     // eslint-disable-next-line no-useless-escape
     const doubleMoustcheRe = /({{[\w\-]+}})/g;
@@ -167,7 +148,7 @@ export class Ch5AugmentVarSignalsNames {
 
         element.setAttribute(attrName, incrementedAttrValue);
       }
-    }
+    } 
     else {
       element.setAttribute(attrName, `${contractNamePrefix}${value}`);
     }
@@ -232,50 +213,8 @@ export class Ch5AugmentVarSignalsNames {
         }
         Ch5AugmentVarSignalsNames.incrementOrPrependAttrValue(element, attrName, attrValue, increment, effectiveContractNamePrefix);
       }
-      if (Ch5SignalAttributeRegistry.instance.getElementDefaultAttributeEntries(element.tagName) === undefined) {
-        Ch5AugmentVarSignalsNames.applyAttributeCallbackToHtmlFragment(element, attrName, attrValue, (htmlElement: Element, htmlAttrName: string, htmlAttrValue: string) => {
-          const htmlSignalJoinTypes = Ch5SignalAttributeRegistry.instance.getElementAttributeEntry(htmlElement.tagName, htmlAttrName);
-          if (htmlSignalJoinTypes !== undefined) {
-            const htmlEffectiveContractNamePrefix = htmlSignalJoinTypes[Ch5SignalAttributeRegistry.CONTRACT_NAME] ? contractNamePrefix : "";
-            let htmlIncrement = 0;
-            if (htmlSignalJoinTypes[Ch5SignalAttributeRegistry.BOOLEAN_JOIN] !== undefined) {
-              htmlIncrement = booleanJoinOffset;
-            }
-            else if (htmlSignalJoinTypes[Ch5SignalAttributeRegistry.NUMERIC_JOIN] !== undefined) {
-              htmlIncrement = numericJoinOffset;
-            }
-            else if (htmlSignalJoinTypes[Ch5SignalAttributeRegistry.STRING_JOIN] !== undefined) {
-              htmlIncrement = stringJoinOffset;
-            }
-            Ch5AugmentVarSignalsNames.incrementOrPrependAttrValue(htmlElement, htmlAttrName, htmlAttrValue, htmlIncrement, htmlEffectiveContractNamePrefix);
-          }
-        });
-      }
     }, (element: Element) => {
-      // querySelectorAll('*') does not descend into <template> content. A carrier
-      // (ch5-template / subpage-reference / list / spinner / select) must recurse into a
-      // nested <template> ONLY for the narrow case where that template is consumed verbatim
-      // as a label by a light element that does NOT re-apply the join offset itself:
-      //   <ch5-slider-button-label><template>...</template></ch5-slider-button-label>
-      //   <ch5-slider-title-label><template>...</template></ch5-slider-title-label>
-      // ch5-slider-button reads that template's innerHTML straight into its labelInnerHTML
-      // (see ch5-slider-button.ts#handleSliderButtonLabelLinkage) without incrementing joins,
-      // so the carrier is the only place the offset can be baked in.
-      //
-      // Every OTHER component that owns an inner <template> (ch5-advanced-button /
-      // ch5-tab-button label templates, and the item templates of ch5-button-list /
-      // ch5-select / ch5-spinner / ch5-list / ch5-subpage-reference-list) KEEPS that template
-      // and re-renders it applying its OWN propagated join offset. Descending into those here
-      // as well would increment the same join twice (e.g. 11 -> 311 -> 611) or prepend the
-      // contract name twice (e.g. "List." -> "List.List."). So this uses an ALLOWLIST
-      // (isSliderLabelTemplate) instead of descending into every template.
-      //
-      // !isConnected keeps this to one-shot instantiation of a detached cloned carrier and
-      // never re-processes a template already rendered into the live DOM.
-      if (element.tagName === 'TEMPLATE' && !templateContent.isConnected
-        && Ch5AugmentVarSignalsNames.isSliderLabelTemplate(element)) {
-        Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs((element as HTMLTemplateElement).content as unknown as HTMLElement, contractNamePrefix, booleanJoinOffset, numericJoinOffset, stringJoinOffset);
-      }
+      // callback called for each element in the template definition
       const defaultAttributes = Ch5SignalAttributeRegistry.instance.getElementDefaultAttributeEntries(element.tagName);
       if (defaultAttributes !== undefined) {
         // add attribute if one does not exist for those contract name attributes that need to be defaulted
@@ -311,34 +250,6 @@ export class Ch5AugmentVarSignalsNames {
     }
   }
 
-  /**
-   * A <ch5-slider-button-label> / <ch5-slider-title-label> feeds its nested <template>
-   * content verbatim into the slider button's labelInnerHTML (see
-   * ch5-slider-button.ts#handleSliderButtonLabelLinkage) WITHOUT applying any join offset
-   * itself. When such a slider lives inside a carrier (ch5-template / subpage-reference), the
-   * carrier is therefore the ONLY place that can increment the joins declared inside that
-   * label template, so differentiateTmplElemsAttrs must descend into it.
-   *
-   * This is the only template a carrier should descend into. Every self-rendering component
-   * (ch5-advanced-button / ch5-tab-button label templates, and the item templates of
-   * ch5-button-list / ch5-select / ch5-spinner / ch5-list / ch5-subpage-reference-list)
-   * re-applies the propagated offset to its own template and must NOT be descended into,
-   * otherwise joins are incremented twice / contract names prefixed twice.
-   * Returns true when the given `<template>` element has a slider-label ancestor.
-   */
-  private static readonly SLIDER_LABEL_TEMPLATE_TAGS: ReadonlyArray<string> = ['CH5-SLIDER-BUTTON-LABEL', 'CH5-SLIDER-TITLE-LABEL'];
-
-  private static isSliderLabelTemplate(templateElement: Element): boolean {
-    let ancestor: Element | null = templateElement.parentElement;
-    while (ancestor !== null) {
-      if (Ch5AugmentVarSignalsNames.SLIDER_LABEL_TEMPLATE_TAGS.indexOf(ancestor.tagName) !== -1) {
-        return true;
-      }
-      ancestor = ancestor.parentElement;
-    }
-    return false;
-  }
-
 
   public static customDifferentiateTmplElemsAttrs(templateContent: HTMLElement, contractNamePrefix: string,
     booleanJoinOffset: number, numericJoinOffset: number, stringJoinOffset: number) {
@@ -359,41 +270,8 @@ export class Ch5AugmentVarSignalsNames {
         }
         Ch5AugmentVarSignalsNames.customIncrementOrPrependAttrValue(element, attrName, attrValue, increment, effectiveContractNamePrefix);
       }
-      // Augment signal joins embedded in HTML-valued attributes (e.g. labelInnerHTML),
-      // but ONLY for elements that do not carry their own join-offset / contract-name
-      // differentiation. Elements registered via registerSignalAttributeDefaults (e.g.
-      // ch5-advanced-button) receive the propagated offset and re-differentiate their
-      // rendered subtree in their own differentiate pass; augmenting their nested joins
-      // here as well would increment the same join twice. Lightweight elements that rely
-      // solely on this fragment pass (e.g. ch5-button / ch5-slider-button) have no default
-      // entries and are processed normally.
-      if (Ch5SignalAttributeRegistry.instance.getElementDefaultAttributeEntries(element.tagName) === undefined) {
-        Ch5AugmentVarSignalsNames.applyAttributeCallbackToHtmlFragment(element, attrName, attrValue, (htmlElement: Element, htmlAttrName: string, htmlAttrValue: string) => {
-          const htmlSignalJoinTypes = Ch5SignalAttributeRegistry.instance.getElementAttributeEntry(htmlElement.tagName, htmlAttrName);
-          if (htmlSignalJoinTypes !== undefined) {
-            const htmlEffectiveContractNamePrefix = htmlSignalJoinTypes[Ch5SignalAttributeRegistry.CONTRACT_NAME] ? contractNamePrefix : "";
-            let htmlIncrement = 0;
-            if (htmlSignalJoinTypes[Ch5SignalAttributeRegistry.BOOLEAN_JOIN] !== undefined) {
-              htmlIncrement = booleanJoinOffset;
-            }
-            else if (htmlSignalJoinTypes[Ch5SignalAttributeRegistry.NUMERIC_JOIN] !== undefined) {
-              htmlIncrement = numericJoinOffset;
-            }
-            else if (htmlSignalJoinTypes[Ch5SignalAttributeRegistry.STRING_JOIN] !== undefined) {
-              htmlIncrement = stringJoinOffset;
-            }
-            Ch5AugmentVarSignalsNames.customIncrementOrPrependAttrValue(htmlElement, htmlAttrName, htmlAttrValue, htmlIncrement, htmlEffectiveContractNamePrefix);
-          }
-        });
-      }
     }, (element: Element) => {
       // callback called for each element in the template definition
-      // querySelectorAll('*') does not descend into <template> content, so recurse
-      // into it explicitly to augment signal joins declared inside inline templates
-      // (e.g. <ch5-slider-button-label><template>...</template></ch5-slider-button-label>).
-      if (element.tagName === 'TEMPLATE') {
-        Ch5AugmentVarSignalsNames.customDifferentiateTmplElemsAttrs((element as HTMLTemplateElement).content as unknown as HTMLElement, contractNamePrefix, booleanJoinOffset, numericJoinOffset, stringJoinOffset);
-      }
       const defaultAttributes = Ch5SignalAttributeRegistry.instance.getElementDefaultAttributeEntries(element.tagName);
       if (defaultAttributes !== undefined) {
         // add attribute if one does not exist for those contract name attributes that need to be defaulted
@@ -433,9 +311,6 @@ export class Ch5AugmentVarSignalsNames {
     Ch5AugmentVarSignalsNames.iterateAttributesInTemplate(documentContainer.content,
       (element: Element, attrName: string, attrValue: string) => {
         Ch5AugmentVarSignalsNames.replaceAttrIdxPlaceholder(element, attrName, attrValue, index, indexId);
-        Ch5AugmentVarSignalsNames.applyAttributeCallbackToHtmlFragment(element, attrName, attrValue, (htmlElement: Element, htmlAttrName: string, htmlAttrValue: string) => {
-          Ch5AugmentVarSignalsNames.replaceAttrIdxPlaceholder(htmlElement, htmlAttrName, htmlAttrValue, index, indexId);
-        });
       },
       (element: Element) => {
         if (element.tagName === 'TEMPLATE') {
