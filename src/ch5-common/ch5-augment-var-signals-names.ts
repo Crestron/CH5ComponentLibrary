@@ -252,25 +252,28 @@ export class Ch5AugmentVarSignalsNames {
         });
       }
     }, (element: Element) => {
-      // querySelectorAll('*') does not descend into <template> content, so recurse into it
-      // explicitly to augment signal joins declared inside inline templates
-      // (e.g. <ch5-slider-button-label><template>...</template></ch5-slider-button-label>
-      // placed inside a subpage-reference / ch5-template / button-list carrier).
+      // querySelectorAll('*') does not descend into <template> content. A carrier
+      // (ch5-template / subpage-reference / list / spinner / select) must recurse into a
+      // nested <template> ONLY for the narrow case where that template is consumed verbatim
+      // as a label by a light element that does NOT re-apply the join offset itself:
+      //   <ch5-slider-button-label><template>...</template></ch5-slider-button-label>
+      //   <ch5-slider-title-label><template>...</template></ch5-slider-title-label>
+      // ch5-slider-button reads that template's innerHTML straight into its labelInnerHTML
+      // (see ch5-slider-button.ts#handleSliderButtonLabelLinkage) without incrementing joins,
+      // so the carrier is the only place the offset can be baked in.
       //
-      // Guard 1 (!isConnected): only descend when processing a DETACHED container (one-shot
-      // instantiation of a cloned carrier). When called repeatedly on a live, connected
-      // element (e.g. ch5-advanced-button re-differentiating its label template on every
-      // render) descending would re-increment the same joins each pass and drift.
+      // Every OTHER component that owns an inner <template> (ch5-advanced-button /
+      // ch5-tab-button label templates, and the item templates of ch5-button-list /
+      // ch5-select / ch5-spinner / ch5-list / ch5-subpage-reference-list) KEEPS that template
+      // and re-renders it applying its OWN propagated join offset. Descending into those here
+      // as well would increment the same join twice (e.g. 11 -> 311 -> 611) or prepend the
+      // contract name twice (e.g. "List." -> "List.List."). So this uses an ALLOWLIST
+      // (isSliderLabelTemplate) instead of descending into every template.
       //
-      // Guard 2 (!isSelfDifferentiatingButtonTemplate): even while detached, do NOT descend
-      // into the private label <template> of an advanced-button-family element. Those
-      // elements receive the propagated join offset on themselves, render their label
-      // template into live DOM, and re-apply the offset in their own differentiate pass.
-      // Descending here as well would increment the same joins twice (e.g. 1 -> 201 -> 401).
-      // A light ch5-slider-button owns the slider's label template and does NOT self-apply,
-      // so slider templates are left to descend normally.
+      // !isConnected keeps this to one-shot instantiation of a detached cloned carrier and
+      // never re-processes a template already rendered into the live DOM.
       if (element.tagName === 'TEMPLATE' && !templateContent.isConnected
-        && !Ch5AugmentVarSignalsNames.isSelfDifferentiatingButtonTemplate(element)) {
+        && Ch5AugmentVarSignalsNames.isSliderLabelTemplate(element)) {
         Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs((element as HTMLTemplateElement).content as unknown as HTMLElement, contractNamePrefix, booleanJoinOffset, numericJoinOffset, stringJoinOffset);
       }
       const defaultAttributes = Ch5SignalAttributeRegistry.instance.getElementDefaultAttributeEntries(element.tagName);
@@ -309,21 +312,26 @@ export class Ch5AugmentVarSignalsNames {
   }
 
   /**
-   * Advanced-button-family elements (ch5-advanced-button / ch5-tab-button) receive the
-   * propagated join offset on themselves, render their `<...-label><template>` content into
-   * live DOM, and re-apply the offset in their own `differentiateTmplElemsAttrs(this)` pass.
-   * A carrier (ch5-template / subpage-reference / button-list) must therefore NOT descend
-   * into that private label template, otherwise the same joins are incremented twice.
-   * Returns true when the given `<template>` element has such a self-applying button ancestor.
-   * (A light ch5-slider-button owns the slider's label template and does NOT self-apply, so
-   * this returns false for slider and its template is descended into normally.)
+   * A <ch5-slider-button-label> / <ch5-slider-title-label> feeds its nested <template>
+   * content verbatim into the slider button's labelInnerHTML (see
+   * ch5-slider-button.ts#handleSliderButtonLabelLinkage) WITHOUT applying any join offset
+   * itself. When such a slider lives inside a carrier (ch5-template / subpage-reference), the
+   * carrier is therefore the ONLY place that can increment the joins declared inside that
+   * label template, so differentiateTmplElemsAttrs must descend into it.
+   *
+   * This is the only template a carrier should descend into. Every self-rendering component
+   * (ch5-advanced-button / ch5-tab-button label templates, and the item templates of
+   * ch5-button-list / ch5-select / ch5-spinner / ch5-list / ch5-subpage-reference-list)
+   * re-applies the propagated offset to its own template and must NOT be descended into,
+   * otherwise joins are incremented twice / contract names prefixed twice.
+   * Returns true when the given `<template>` element has a slider-label ancestor.
    */
-  private static readonly SELF_DIFFERENTIATING_BUTTON_TAGS: ReadonlyArray<string> = ['CH5-ADVANCED-BUTTON', 'CH5-TAB-BUTTON'];
+  private static readonly SLIDER_LABEL_TEMPLATE_TAGS: ReadonlyArray<string> = ['CH5-SLIDER-BUTTON-LABEL', 'CH5-SLIDER-TITLE-LABEL'];
 
-  private static isSelfDifferentiatingButtonTemplate(templateElement: Element): boolean {
+  private static isSliderLabelTemplate(templateElement: Element): boolean {
     let ancestor: Element | null = templateElement.parentElement;
     while (ancestor !== null) {
-      if (Ch5AugmentVarSignalsNames.SELF_DIFFERENTIATING_BUTTON_TAGS.indexOf(ancestor.tagName) !== -1) {
+      if (Ch5AugmentVarSignalsNames.SLIDER_LABEL_TEMPLATE_TAGS.indexOf(ancestor.tagName) !== -1) {
         return true;
       }
       ancestor = ancestor.parentElement;
