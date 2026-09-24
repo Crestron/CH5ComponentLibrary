@@ -8,8 +8,12 @@
 import { expect, assert } from 'chai';
 import { describe } from 'mocha';
 import { Ch5AugmentVarSignalsNames } from './ch5-augment-var-signals-names';
+import { Ch5AdvancedButton } from '../ch5-advanced-button/ch5-advanced-button';
 import { Ch5Button } from '../ch5-button/ch5-button';
 import { Ch5Template } from '../ch5-template/ch5-template';
+import { Ch5JoinToTextBoolean } from '../ch5-jointotext-boolean/ch5-jointotext-boolean';
+import { Ch5JoinToTextNumeric } from '../ch5-jointotext-numeric/ch5-jointotext-numeric';
+import { Ch5JoinToTextString } from '../ch5-jointotext-string/ch5-jointotext-string';
 import { Ch5AttrsShow } from '../ch5-custom-attrs/ch5-attrs-show';
 import { Ch5AttrsAppendclass } from '../ch5-custom-attrs/ch5-attrs-appendclass';
 import { Ch5AttrsTextContent } from '../ch5-custom-attrs/ch5-attrs-text-content';
@@ -24,14 +28,18 @@ describe('Ch5AugmentVarSignalsNames', () => {
         Ch5AttrsShow.registerSignalAttributeTypes();
         Ch5AttrsTextContent.registerSignalAttributeTypes();
         Ch5AttrsAppendclass.registerSignalAttributeTypes();
+        Ch5AdvancedButton.registerSignalAttributeTypes();
         Ch5Button.registerSignalAttributeTypes();
+        Ch5JoinToTextBoolean.registerSignalAttributeTypes();
+        Ch5JoinToTextNumeric.registerSignalAttributeTypes();
+        Ch5JoinToTextString.registerSignalAttributeTypes();
         Ch5Template.registerSignalAttributeTypes();
         Ch5Template.registerSignalAttributeDefaults(Ch5Template.ELEMENT_NAME);
     })
 
     beforeEach(() => {
         ch5TemplateParentEl = document.createElement('template');
-        ch5ButtonEl = document.createElement('ch5-button');
+        ch5ButtonEl = document.createElement('ch5-advanced-button');
         stdDivEl = document.createElement('div');
         ch5TemplateChildEl = document.createElement('ch5-template');
         ch5TemplateParentEl.content.appendChild(ch5ButtonEl);
@@ -216,6 +224,51 @@ describe('Ch5AugmentVarSignalsNames', () => {
         assert.equal(theClone.children[0].getAttribute(attributeName), ch5ButtonEl.getAttribute(attributeName));           
         Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(theClone, "", 0, 0, incrementValue);        
         assert.equal(theClone.children[0].getAttribute(attributeName), expectedValue);        
+    });
+
+    it('should increment boolean joins nested inside labelInnerHTML markup', () => {
+        const button = document.createElement('ch5-button');
+        button.setAttribute('labelinnerhtml', '<ch5-jointotext-boolean receiveStateValue="100"></ch5-jointotext-boolean>');
+
+        const template = document.createElement('template');
+        template.content.appendChild(button);
+        const theClone = template.content.cloneNode(true) as HTMLElement;
+
+        Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(theClone, '', 30, 0, 0);
+
+        const nested = theClone.querySelector('ch5-jointotext-boolean') as HTMLElement;
+        assert.isNotNull(nested, 'expected nested ch5-jointotext-boolean to exist');
+        assert.equal(nested.getAttribute('receivestatevalue'), '130');
+    });
+
+    it('should increment numeric joins nested inside labelInnerHTML markup', () => {
+        const button = document.createElement('ch5-button');
+        button.setAttribute('labelinnerhtml', '<ch5-jointotext-numeric receiveStateValue="200"></ch5-jointotext-numeric>');
+
+        const template = document.createElement('template');
+        template.content.appendChild(button);
+        const theClone = template.content.cloneNode(true) as HTMLElement;
+
+        Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(theClone, '', 0, 30, 0);
+
+        const nested = theClone.querySelector('ch5-jointotext-numeric') as HTMLElement;
+        assert.isNotNull(nested, 'expected nested ch5-jointotext-numeric to exist');
+        assert.equal(nested.getAttribute('receivestatevalue'), '230');
+    });
+
+    it('should increment string joins nested inside labelInnerHTML markup', () => {
+        const button = document.createElement('ch5-button');
+        button.setAttribute('labelinnerhtml', '<ch5-jointotext-string receiveStateValue="300"></ch5-jointotext-string>');
+
+        const template = document.createElement('template');
+        template.content.appendChild(button);
+        const theClone = template.content.cloneNode(true) as HTMLElement;
+
+        Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(theClone, '', 0, 0, 40);
+
+        const nested = theClone.querySelector('ch5-jointotext-string') as HTMLElement;
+        assert.isNotNull(nested, 'expected nested ch5-jointotext-string to exist');
+        assert.equal(nested.getAttribute('receivestatevalue'), '340');
     });
 
     it('should increment digital join in div data-ch5-show', () => {

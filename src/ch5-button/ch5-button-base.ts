@@ -1,2229 +1,1023 @@
-// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
-// All rights reserved.
-// No part of this software may be reproduced in any form, machine
-// or natural, without the express written consent of Crestron Electronics.
-// Use of this source code is subject to the terms of the Crestron Software License Agreement
-// under which you licensed this source code.
-
-import { Ch5Common, ICh5AttributeAndPropertySettings } from "../ch5-common/ch5-common";
-import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core/index";
+import { Ch5LightBaseClass } from "../ch5-light-base/ch5-light-base-class";
+import { ICh5LightPropertySettings } from "../ch5-light-base/ch5-light-properties";
+import { Ch5LightSignal, TCh5LightSignalType } from "../ch5-light-base/ch5-light-signal";
+import { Ch5LightPressable } from "../ch5-light-base/ch5-light-pressable";
+import { ICh5ButtonListContractObj } from "../ch5-button-list/interfaces/t-for-ch5-button-list-contract";
 import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
-import { subscribeInViewPortChange, unSubscribeInViewPortChange } from '../ch5-core';
-import isNil from 'lodash/isNil';
-import { Ch5Properties } from "../ch5-core/ch5-properties";
-import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 
-import {
-	TCh5ButtonIconPosition,
-	TCh5ButtonOrientation,
-	TCh5ButtonShape,
-	TCh5ButtonSize,
-	TCh5ButtonStretch,
-	TCh5ButtonType,
-	TCh5ButtonActionType,
-	TCh5ButtonCheckboxPosition,
-	TCh5ButtonHorizontalAlignLabel,
-	TCh5ButtonVerticalAlignLabel,
-	TCh5ButtonBackgroundImageFillType,
-	TCh5ButtonIconUrlFillType,
-	TCh5ButtonSgIconTheme
-} from './interfaces/t-ch5-button';
-import { ICh5ButtonListContractObj } from "./interfaces/t-for-ch5-button-list-contract"
-import { ICh5ButtonAttributes } from "./interfaces/i-ch5-button-attributes";
-import { Ch5Pressable } from "../ch5-common/ch5-pressable";
-import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
-import { Subscription } from "rxjs";
-import { ICh5ButtonExtendedProperties, Ch5ButtonUtils } from "./ch5-button-utils";
-import { Ch5ButtonSignal } from "./ch5-button-signal";
-import _ from "lodash";
-import { Ch5ButtonMode } from "./ch5-button-mode";
-import { Ch5ButtonModeState } from "./ch5-button-mode-state";
-import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
-import { resizeObserver } from "../ch5-core/resize-observer";
+// Shared implementation for the "button" family of light components. See
+// ch5-button.md (same folder) for the full design reference: class hierarchy,
+// signal wiring lifecycle, the static-vs-signal `type`/`selected` channel split,
+// and the GC/allocation rules this file follows. Update that document alongside
+// any behavior/API change made here.
+//
+// Concrete components (`Ch5Button`, `Ch5SliderButton`, ...) extend this class,
+// mirroring the `Ch5AdvancedButtonBase` / `Ch5AdvancedButton` split: this base
+// carries every getter/setter, lifecycle hook and rendering method, while each
+// concrete subclass supplies its own `ELEMENT_NAME` / `PRIMARY_CSS_CLASS` and
+// registers its own custom element, signal attribute types and
+// `observedAttributes`. A subclass that needs FEWER attributes than the full
+// button (e.g. `Ch5SliderButton`, which has no use for `size`/`stretch`/
+// `multilinesupport`/...) simply lists a smaller `observedAttributes` set built
+// from a subset of `PROPERTY_SETTINGS` (see {@link toObservedAttributeNames}) -
+// every getter/setter below keeps working programmatically, it just stops being
+// attribute-reactive for the omitted names, and costs nothing extra when unused.
+export class Ch5ButtonBase extends Ch5LightBaseClass {
 
-export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
-
-	//#region 1. Variables
-
-	//#region 1.1 readonly variables
+	//#region Constants
 
 	/**
-	 * The first value is in the array is the default value
+	 * Default identity for this class. Concrete subclasses declare their OWN
+	 * `ELEMENT_NAME` / `PRIMARY_CSS_CLASS` (shadowing these), read back
+	 * polymorphically through {@link ctor} so shared base-class code (icon/label
+	 * rendering, `connectedCallback`, ...) always reflects the actual registered
+	 * subclass instead of this base.
 	 */
-	public static readonly TYPES: TCh5ButtonType[] = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
+	public static readonly ELEMENT_NAME: string = 'ch5-button';
+	public static readonly PRIMARY_CSS_CLASS: string = 'ch5-button';
+	public static readonly TYPES: readonly string[] = ['default', 'primary', 'secondary', 'info', 'success', 'warning', 'danger', 'text'];
+	public static readonly SIZES: readonly string[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
+	public static readonly SHAPES: readonly string[] = ['rounded-rectangle', 'rectangle', 'circle', 'oval', 'tab'];
+	public static readonly STRETCHES: readonly string[] = ['width', 'height', 'both'];
+	public static readonly ICON_POSITIONS: readonly string[] = ['first', 'last', 'top', 'bottom'];
+	public static readonly ORIENTATIONS: readonly string[] = ['horizontal', 'vertical'];
+	public static readonly H_ALIGN_LABELS: readonly string[] = ['center', 'left', 'right'];
+	public static readonly V_ALIGN_LABELS: readonly string[] = ['middle', 'top', 'bottom'];
+	public static readonly CHECKBOX_POSITIONS: readonly string[] = ['left', 'right'];
+	public static readonly ICON_URL_FILL_TYPES: readonly string[] = ['stretch', 'stretch-aspect', 'center', 'tile', 'initial'];
+	public static readonly BACKGROUND_IMAGE_URL_FILL_TYPES: readonly string[] = ['stretch-aspect', 'stretch', 'center', 'tile'];
+	public static readonly SIGNAL_ATTRIBUTE_TYPE = 'data-signal-type';
+	public static readonly SIGNAL_ATTRIBUTE_SELECTED = 'data-signal-selected';
 
 	/**
-	 * The first value is in the array is the default value
+	 * Property settings for the shared `_ch5Properties` store. STATIC so the array
+	 * is built once per class, not per instance (avoids N allocations at scale).
+	 * Safe to share: `add()` only reads each entry, never retains it.
+	 *
+	 * Join type metadata (direction, booleanJoin, etc.) is also defined here for
+	 * auto-generation of Ch5SignalAttributeRegistry entries - single source of truth.
+	 *
+	 * This is the FULL set used by `Ch5Button`. A subclass that needs fewer
+	 * properties builds its own array (optionally filtering this one, e.g. via
+	 * `Ch5ButtonBase.PROPERTY_SETTINGS.filter(...)`) plus any properties of its
+	 * own, and registers it with `this._ch5Properties.add(...)` in its constructor.
 	 */
-	public static readonly SHAPES: TCh5ButtonShape[] = ['rounded-rectangle', 'rectangle', 'tab', 'circle', 'oval'];
-
-	/**
-	 * The first value is in the array is the default value
-	 */
-	public static readonly SIZES: TCh5ButtonSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
-
-	/**
-	 * No default value for Stretch
-	 */
-	public static readonly STRETCHES: TCh5ButtonStretch[] = ['both', 'width', 'height'];
-
-	/**
-	 * The first value is in the array is the default value 
-	 */
-	public static readonly BACKGROUND_IMAGE_FILL_TYPE: TCh5ButtonBackgroundImageFillType[] = ['stretch-aspect', 'stretch', 'center', 'tile'];
-
-	/**
-	 * The first value is in the array is the default value 
-	 */
-	public static readonly ICON_URL_FILL_TYPE: TCh5ButtonIconUrlFillType[] = ['stretch', 'stretch-aspect', 'center', 'tile', 'initial'];
-
-	/**
-	 * The first value is in the array is the default value
-	 */
-	public static readonly ICON_POSITIONS: TCh5ButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
-
-	/**
-	 * The first value is in the array is the default value
-	 */
-	public static readonly CHECKBOX_POSITIONS: TCh5ButtonCheckboxPosition[] = ['left', 'right'];
-	/**
-	 * The first value is in the array is the default value
-	 */
-	public static readonly HORIZONTAL_LABEL_ALIGNMENTS: TCh5ButtonHorizontalAlignLabel[] = ['center', 'left', 'right'];
-
-	/**
-	 * The first value is in the array is the default value
-	 */
-	public static readonly VERTICAL_LABEL_ALIGNMENTS: TCh5ButtonVerticalAlignLabel[] = ['middle', 'top', 'bottom'];
-
-	/**
-	 * The first value is in the array is the default value
-	 */
-	public static readonly ORIENTATIONS: TCh5ButtonOrientation[] = ['horizontal', 'vertical'];
-
-	public static readonly SG_ICON_THEME: TCh5ButtonSgIconTheme[] = ['icons-lg', 'icons-sm', 'media-transports-accents', 'media-transports-light', 'media-transports-dark'];
-
-	public static readonly MODES: {
-		MIN_LENGTH: number,
-		MAX_LENGTH: number
-	} = {
-			MIN_LENGTH: 0,
-			MAX_LENGTH: 99
-		};
-
-	public static readonly MAX_SG_NUMERIC: number = 214;
-
-	public static readonly COMPONENT_DATA: any = {
-		TYPES: {
-			default: Ch5ButtonBase.TYPES[0],
-			values: Ch5ButtonBase.TYPES,
-			key: 'type',
-			attribute: 'type',
-			classListPrefix: '--'
-		},
-		SHAPES: {
-			default: Ch5ButtonBase.SHAPES[0],
-			values: Ch5ButtonBase.SHAPES,
-			key: 'shape',
-			attribute: 'shape',
-			classListPrefix: '--'
-		},
-		SIZES: {
-			default: Ch5ButtonBase.SIZES[0],
-			values: Ch5ButtonBase.SIZES,
-			key: 'size',
-			attribute: 'size',
-			classListPrefix: '--size-'
-		},
-		STRETCH: {
-			default: null,
-			values: Ch5ButtonBase.STRETCHES,
-			key: 'stretch',
-			attribute: 'stretch',
-			classListPrefix: '--stretch-'
-		},
-		ICON_POSITIONS: {
-			default: Ch5ButtonBase.ICON_POSITIONS[0],
-			values: Ch5ButtonBase.ICON_POSITIONS,
-			key: 'iconposition',
-			attribute: 'iconPosition',
-			classListPrefix: '--iconposition-'
-		},
-		CHECKBOX_POSITIONS: {
-			default: Ch5ButtonBase.CHECKBOX_POSITIONS[0],
-			values: Ch5ButtonBase.CHECKBOX_POSITIONS,
-			key: 'checkboxposition',
-			attribute: 'checkboxPosition',
-			classListPrefix: 'cx-button-checkbox-pos-'
-		},
-		HORIZONTAL_LABEL_ALIGNMENTS: {
-			default: Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS[0],
-			values: Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS,
-			key: 'halignlabel',
-			attribute: 'hAlignLabel',
-			classListPrefix: '--horizontal-'
-		},
-		VERTICAL_LABEL_ALIGNMENTS: {
-			default: Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0],
-			values: Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS,
-			key: 'valignlabel',
-			attribute: 'vAlignLabel',
-			classListPrefix: '--vertical-'
-		},
-		ORIENTATIONS: {
-			default: Ch5ButtonBase.ORIENTATIONS[0],
-			values: Ch5ButtonBase.ORIENTATIONS,
-			key: 'orientation',
-			classListPrefix: '--'
-		},
-		BACKGROUND_IMAGE_FILL_TYPE: {
-			default: Ch5ButtonBase.BACKGROUND_IMAGE_FILL_TYPE[0],
-			values: Ch5ButtonBase.BACKGROUND_IMAGE_FILL_TYPE,
-			key: 'backgroundImageFillType',
-			attribute: 'backgroundImageFillType',
-			classListPrefix: '--background-image-fill-type-'
-		},
-		ICON_URL_FILL_TYPE: {
-			default: Ch5ButtonBase.ICON_URL_FILL_TYPE[0],
-			values: Ch5ButtonBase.ICON_URL_FILL_TYPE,
-			key: 'iconUrlFillType',
-			attribute: 'iconUrlFillType',
-			classListPrefix: '--icon-url-fill-type-'
-		},
-		SG_ICON_THEME: {
-			default: Ch5ButtonBase.SG_ICON_THEME[0],
-			values: Ch5ButtonBase.SG_ICON_THEME,
-			key: 'sgIconTheme',
-			attribute: 'sgIconTheme',
-			classListPrefix: '--sg-icon-theme-'
-		}
-	};
-
-	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestatemode: { direction: "state", numericJoin: 1, contractName: true },
-		receivestateselected: { direction: "state", booleanJoin: 1, contractName: true },
-		receivestatelabel: { direction: "state", stringJoin: 1, contractName: true },
-		receivestatescriptlabelhtml: { direction: "state", stringJoin: 1, contractName: true },
-		receivestateiconclass: { direction: "state", stringJoin: 1, contractName: true },
-		receivestateiconurl: { direction: "state", stringJoin: 1, contractName: true },
-		receivestatetype: { direction: "state", stringJoin: 1, contractName: true },
-		receivestatesgiconnumeric: { direction: "state", numericJoin: 1, contractName: true },
-		receivestatesgiconstring: { direction: "state", stringJoin: 1, contractName: true },
-
-		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
-		contractname: { contractName: true },
-		booleanjoinoffset: { booleanJoin: 1 },
-		numericjoinoffset: { numericJoin: 1 },
-		stringjoinoffset: { stringJoin: 1 },
-		receivestatebackgroundimageurl: { direction: "state", stringJoin: 1, contractName: true }
-	};
-
-	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
-		{
-			default: "",
-			name: "backgroundImageUrl",
-			nameForSignal: "receiveStateBackgroundImageUrl",
-			removeAttributeOnNull: true,
-			type: "string",
-			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
-		},
-		{
-			default: Ch5ButtonBase.BACKGROUND_IMAGE_FILL_TYPE[0],
-			enumeratedValues: Ch5ButtonBase.BACKGROUND_IMAGE_FILL_TYPE,
-			name: "backgroundImageFillType",
-			removeAttributeOnNull: true,
-			type: "enum",
-			valueOnAttributeEmpty: Ch5ButtonBase.BACKGROUND_IMAGE_FILL_TYPE[0],
-			isObservableProperty: true
-		},
-		{
-			default: null,
-			enumeratedValues: Ch5ButtonBase.ICON_URL_FILL_TYPE,
-			name: "iconUrlFillType",
-			removeAttributeOnNull: true,
-			type: "enum",
-			valueOnAttributeEmpty: null,
-			isObservableProperty: true,
-			isNullable: true
-		},
-		{
-			default: "",
-			isSignal: true,
-			name: "receiveStateBackgroundImageUrl",
-			signalType: "string",
-			removeAttributeOnNull: true,
-			type: "string",
-			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
-		},
-		{
-			default: Ch5ButtonBase.SG_ICON_THEME[0],
-			enumeratedValues: Ch5ButtonBase.SG_ICON_THEME,
-			name: "sgIconTheme",
-			removeAttributeOnNull: true,
-			type: "enum",
-			valueOnAttributeEmpty: Ch5ButtonBase.SG_ICON_THEME[0],
-			isObservableProperty: true,
-		},
-		{
-			default: "",
-			isSignal: true,
-			name: "receiveStateSGIconNumeric",
-			signalType: "number",
-			removeAttributeOnNull: true,
-			type: "string",
-			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
-		},
-		{
-			default: "",
-			isSignal: true,
-			name: "receiveStateSGIconString",
-			signalType: "string",
-			removeAttributeOnNull: true,
-			type: "string",
-			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
-		},
-		{
-			default: false,
-			name: "multilineSupport",
-			removeAttributeOnNull: true,
-			type: "boolean",
-			valueOnAttributeEmpty: true,
-			isObservableProperty: true,
-		},
-		{
-			default: true,
-			name: "truncateText",
-			removeAttributeOnNull: true,
-			type: "boolean",
-			valueOnAttributeEmpty: true,
-			isObservableProperty: true,
-		},
+	public static readonly PROPERTY_SETTINGS: ICh5LightPropertySettings[] = [
+		{ name: 'label', default: '', type: 'string' },
+		{ name: 'labelInnerHTML', default: '', type: 'string', trimString: false },
+		{ name: 'iconClass', default: '', type: 'string' },
+		{ name: 'iconUrl', default: '', type: 'string' },
+		{ name: 'backgroundImageUrl', default: '', type: 'string' },
+		{ name: 'receiveStateType', default: '', type: 'string', contractName: true, direction: 'state', stringJoin: 1 },
+		{ name: 'receiveStateSelected', default: '', type: 'string', contractName: true, direction: 'state', booleanJoin: 1 },
+		{ name: 'receiveStateLabel', default: '', type: 'string', contractName: true, direction: 'state', stringJoin: 1 },
+		{ name: 'receiveStateScriptLabelHtml', default: '', type: 'string', contractName: true, direction: 'state', stringJoin: 1 },
+		{ name: 'scriptLabelHtml', default: '', type: 'string', trimString: false },
+		{ name: 'receiveStateIconClass', default: '', type: 'string', contractName: true, direction: 'state', stringJoin: 1 },
+		{ name: 'receiveStateIconUrl', default: '', type: 'string', contractName: true, direction: 'state', stringJoin: 1 },
+		{ name: 'receiveStateBackgroundImageUrl', default: '', type: 'string', contractName: true, direction: 'state', stringJoin: 1 },
+		{ name: 'sendEventOnClick', default: '', type: 'string', contractName: true, direction: 'event', booleanJoin: 1 },
+		{ name: 'multilineSupport', default: false, type: 'boolean' },
+		{ name: 'truncateText', default: true, type: 'boolean' }
 	];
 
-	private readonly BUTTON_PROPERTIES: {
-		CHECKBOX_SHOW: ICh5AttributeAndPropertySettings,
-		SELECTED: ICh5AttributeAndPropertySettings,
-		VALIGN_LABEL: ICh5AttributeAndPropertySettings,
-		PRESSED: ICh5AttributeAndPropertySettings
-	} = {
-			CHECKBOX_SHOW: {
-				default: false,
-				valueOnAttributeEmpty: true,
-				variableName: "_checkboxShow",
-				attributeName: "checkboxShow",
-				propertyName: "checkboxShow",
-				type: "boolean",
-				removeAttributeOnNull: true,
-				enumeratedValues: ['true', 'false', '', true, false],
-				componentReference: this,
-				callback: this.checkboxDisplay.bind(this)
-			},
-			SELECTED: {
-				default: false,
-				valueOnAttributeEmpty: true,
-				variableName: "_selected",
-				attributeName: "selected",
-				propertyName: "selected",
-				removeAttributeOnNull: true,
-				type: "boolean",
-				enumeratedValues: ['true', 'false', '', true, false],
-				componentReference: this,
-				callback: this.setSelectionMethods.bind(this)
-			},
-			VALIGN_LABEL: {
-				default: Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0],
-				valueOnAttributeEmpty: Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0],
-				variableName: "_vAlignLabel",
-				attributeName: "vAlignLabel",
-				propertyName: "vAlignLabel",
-				removeAttributeOnNull: false,
-				type: "enum",
-				enumeratedValues: Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS,
-				componentReference: this,
-				callback: this.setButtonDisplay.bind(this)
-			},
-			PRESSED: {
-				default: false,
-				valueOnAttributeEmpty: true,
-				variableName: "_pressed",
-				attributeName: "pressed",
-				propertyName: "pressed",
-				removeAttributeOnNull: true,
-				type: "boolean",
-				enumeratedValues: ['true', 'false', '', true, false],
-				componentReference: this
-			}
-		};
+	/**
+	 * Converts a PROPERTY_SETTINGS list into its lowercase attribute-name form
+	 * (`labelInnerHTML` -> `labelinnerhtml`). Shared so every concrete subclass can
+	 * auto-generate its OWN `observedAttributes` from its OWN PROPERTY_SETTINGS -
+	 * the full list for `Ch5Button`, or a smaller subset plus extra properties
+	 * (e.g. `Ch5SliderButton`'s `key`) for a lighter subclass.
+	 */
+	protected static toObservedAttributeNames(settings: readonly ICh5LightPropertySettings[]): string[] {
+		return settings.map(setting => setting.name.replace(/([A-Z])/g, match => match.toLowerCase()).toLowerCase());
+	}
 
-	private readonly STATE_CHANGE_TIMEOUTS: number = 500;
-	private readonly BUTTON_PRIMARY_CLASS: string = 'cb-btn';
+	/**
+	 * Pure-CSS attributes that can change the button's rendered dimensions. Not part
+	 * of PROPERTY_SETTINGS (no property-store slot), so a subclass that wants them to
+	 * be attribute-reactive (re-measuring multiline clamp / vertical fit on change,
+	 * see {@link scheduleDimensionDependentRefit}) merges this into its own
+	 * `observedAttributes` - `Ch5SliderButton` deliberately omits it (no use for
+	 * size/shape/stretch/orientation).
+	 */
+	public static readonly DIMENSION_ATTRIBUTES: readonly string[] = ['size', 'shape', 'stretch', 'orientation'];
 
-	private readonly pressedCssClassPostfix: string = '--pressed';
-	private readonly selectedCssClassPostfix: string = '--selected';
-
+	/**
+	 * Builds the `Ch5SignalAttributeRegistry` entries for a PROPERTY_SETTINGS list,
+	 * merged with the light base class's own signal attribute entries. Shared by
+	 * every concrete subclass's `registerSignalAttributeTypes()` so the
+	 * auto-generation (DRY refactor described in
+	 * ch5-button-vs-ch5-advanced-button.md) stays a single source of truth.
+	 */
+	protected static buildSignalAttributeRegistryEntries(settings: readonly ICh5LightPropertySettings[]): Ch5SignalElementAttributeRegistryEntries {
+		const registryEntries = Ch5LightBaseClass.getBaseSignalAttributeEntries();
+		(Ch5LightBaseClass as any).generateRegistryEntriesFromSettings(settings, registryEntries);
+		return registryEntries;
+	}
 
 	//#endregion
 
-	//#region 1.2 private / protected variables
+	//#region Variables
 
-	private isResizeInProgress: boolean = false;
-	private readonly RESIZE_DEBOUNCE: number = 500;
+	protected _isInitialized = false;
 
-	public readonly ELEMENT_NAME: string = 'ch5-button';
-	public primaryCssClass: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
+	private _elContainer: HTMLElement = this;
+	private _elButton: HTMLButtonElement | null = null;
+	private _elIcon: HTMLElement | null = null;
+	private _elSpanLabel: HTMLElement | null = null;
 
-	private DEBOUNCE_BUTTON_DISPLAY: number = 25;
+	// Cached onChange callbacks, allocated ONCE per instance. Do NOT inline these
+	// as `() => this.handleX()` at the `set()` call sites: an inline arrow would
+	// allocate a new closure on every setter call (even no-op sets), causing the GC
+	// churn this "light" family avoids.
+	private readonly _onLabelChange = () => this.handleLabel();
+	private readonly _onIconChange = () => this.handleIcon();
+	private readonly _onBackgroundImageChange = () => this.handleBackgroundImageUrl();
+	// Shared by both multilineSupport and truncateText - they drive the same
+	// label wrapping/clamp update, so one cached callback covers both setters.
+	private readonly _onLabelWrapChange = () => this.updateLabelTextWrapping();
 
-	private _elContainer: HTMLElement = {} as HTMLElement;
-	private _elButton: HTMLElement = {} as HTMLElement;
-	private _elSpanForLabelOnly: HTMLElement = {} as HTMLElement;
-	private _elSpanForLabelIconImg: HTMLElement = {} as HTMLElement;
-	private _elIcon: HTMLElement = {} as HTMLElement;
-	private _elCheckboxIcon: HTMLElement = {} as HTMLElement;
-	protected _ch5Properties: Ch5Properties;
-	private _resizeObserver: ResizeObserver | null = null;
-
-	private _isPressedSubscription: Subscription | null = null;
-
-	private _mode: number = 0;
-	private isModeSetUsingJavascript: boolean = false;
-
-	private _label: string = '';
-	private _labelInnerHTML: string = '';
-	private isLabelSetUsingJavascript: boolean = false;
-	private labelSetByJavascriptValue: string = "";
-
-	/**
-	 * The icon's CSS class name as defined in the iconClass HTML attribute
-	 */
-	private _iconClass: string = '';
-	private _previousIconClass: string = '';
-	private _previousSgIconNumeric: number = -1;
-	private _previousSgIconString: string = '';
-
-	/**
-	 * Icon position relative to label
-	 */
-	private _iconPosition: TCh5ButtonIconPosition = 'first';
-
-	/**
-	 * Icon position relative to label
-	 */
-	private _checkboxPosition: TCh5ButtonCheckboxPosition = "left";
-
-	/**
-	 * Reflects the checkbox display part of the component. If set to true, a checkbox is displayed and a CSS class named 'ch5-button__checkbox' will be applied
-	 * on the button component
-	 */
-	private _checkboxShow: boolean = false;
-
-	private isButtonInitiated: boolean = false;
-	/**
-	 * Horizontal Alignment for Label
-	 */
-	private _hAlignLabel: TCh5ButtonHorizontalAlignLabel = 'center';
-
-	/**
-	 * Vertical Alignment for Label
-	 */
-	private _vAlignLabel: TCh5ButtonVerticalAlignLabel = 'middle';
-
-	/**
-	 * Lays out the elements of the ch5-button in a horizontal or vertical manner.
-	 * For vertical alignment it will apply a CSS class that will rotate the component -90 degrees ( 270 deg clockwise,
-	 * 90 degrees counter clockwise )
-	 */
-	private _orientation: TCh5ButtonOrientation = 'horizontal';
-
-	/**
-	 * Shape of the button
-	 */
-	private _shape: TCh5ButtonShape = 'rounded-rectangle';
-
-	/**
-	 * Size of the button
-	 */
-	private _size: TCh5ButtonSize = 'regular';
-
-	/**
-	 * action type of the button
-	 */
-	private _formType: TCh5ButtonActionType | null = null;
-
-	/**
-	 * When stretch property is set, the button element inherits the width or/and height of the container.
-	 * If stretch by height is used, the button will be responsive based on the label length, until reaches the
-	 * max-width of the container.
-	 * If stretch width is applied, there is no responsiveness after reaching the max- width, the text will overflow.
-	 * Same if stretch both is used. 
-	 */
-	private _stretch: TCh5ButtonStretch | null = null;
-
-	/**
-	 * Valid values: default, info, text, danger, warning, success, primary, secondary.
-	 * Overrides the appearance of the button with alternative css defined in classes defined with ch5-button--type
-	 * where type is the value of the property. If no "type" is provided, type of 'default' is used.
-	 */
-	private _type: TCh5ButtonType = 'default';
-
-	/**
-	 * Valid values: null, stretch, stretch-aspect, tile, center, initial.
-	 * Sets the fill type of the image set in iconUrl. Uses the css property background-size for the implementation. 
-	 * The attribute type is Enum.
-	 */
-	private _iconUrlFillType: TCh5ButtonIconUrlFillType | null = null;
-
-	/**
-	 * Reflects the selected state of the component. If set to true a CSS class named 'ch5-button--..._selected' will be applied
-	 * on the button component
-	 */
-	private _selected: boolean = false;
-
-	/**
-	 * State class name as defined in customClassSelected, customClassPressed and customClassDisabled HTML attribute
-	 *
-	 * HTML attribute name: customclassselected, customclasspressed and customclassdisabled
-	 */
-	private _customClassState: string = '';
-
-	/**
-	 * The name of a boolean signal. When the signal is true the selected (ch5-button--selected) will be applied
-	 *
-	 * HTML attribute name: receiveStateSelected or receivestateselected
-	 */
-	private _sigNameReceiveSelected: string = '';
-
-	/**
-	 * The subscription id for the receiveStateSelected signal
-	 */
-	private _subReceiveSelected: string = '';
-
-	/**
-	 * The name of the boolean signal that will be sent to native on click or tap event (mouse or finger up and down in
-	 * a small period of time)
-	 *
-	 * HTML attribute name: sendEventOnClick or sendeventonclick
-	 */
-	private _sigNameSendOnClick: string = '';
-
-	/**
-	 * Changing the button mode through signal
-	 *
-	 * @type {string | null}
-	 */
-	private _sigNameReceiveStateMode: string | null = null;
-
-	/**
-	 * Subscription reference for mode signal
-	 *
-	 * @type {string | null}
-	 */
-	private _subReceiveSignalMode: string | null = null;
-
-	private _repeatDigitalInterval: number | null = null;
-
-	private _ch5ButtonSignal: Ch5ButtonSignal;
-
-	private _pressable: Ch5Pressable | null = null;
-
-	// private _hammerManager: HammerManager = {} as HammerManager;
-
-	/**
-	 * image URL. Must be a supported image format, including JPEG, GIF, PNG, SVG, and BMP.
-	 */
-	private _iconUrl: string = '';
-	private _previousIconUrl: string = '';
-
-	/**
-	 * CSS class applied while the button is pressed by user.
-	 */
-	private _customClassPressed: string | null = null;
-
-	/**
-	 * CSS class applied while the button is disabled.
-	 */
-	private _customClassDisabled: string | null = null;
-
-	private sgIconNumeric: number = -1;
-	private sgIconString: string = "";
-
-	private buttonListContract: ICh5ButtonListContractObj = {
-		clickHoldTime: 0,
-		index: -1,
-		contractName: "",
-		parentComponent: ""
+	// Coalesces multi-line clamp measurements into a SINGLE rAF read, so a same-tick
+	// height change settles before the height is measured (no ResizeObserver in the
+	// light family). Only scheduled while multilineSupport is on, so single-line
+	// buttons allocate nothing.
+	private _pendingFitHandle: number | null = null;
+	// Vertical orientation parity with ch5-advanced-button: one coalesced rAF fit
+	// maps the inner <button> dimensions to the host's current footprint
+	// (width=hostHeight, height=hostWidth) so rotated content fills the host even
+	// when external CSS sets custom host sizes.
+	private _pendingVerticalFitHandle: number | null = null;
+	private readonly _fitEllipsisFrame = () => {
+		this._pendingFitHandle = null;
+		// multilineSupport may have been turned off since scheduling.
+		if (this.multilineSupport) {
+			this.fitEllipsisForMultiline();
+		}
+	};
+	private readonly _fitVerticalFrame = () => {
+		this._pendingVerticalFitHandle = null;
+		this.fitVerticalInnerButtonSize();
 	};
 
-	private previousExtendedProperties: ICh5ButtonExtendedProperties = {};
+	// --- receiveState* signal wiring -----------------------------------------
+	// Opt-in: `_signals` is created LAZILY on first use, so signal-free buttons pay
+	// nothing. `_onReceiveState*Change`/`_onSignal*Value` are cached (subscribing
+	// runs on every reconnect). type/selected write a SEPARATE `data-signal-*`
+	// channel that the theme styles over the static `type`/`selected` (no JS render).
+	private _signals: Ch5LightSignal | null = null;
+	private readonly _onReceiveStateTypeChange = (oldSignalName: string) => this.handleReceiveStateType(oldSignalName);
+	private readonly _onReceiveStateSelectedChange = (oldSignalName: string) => this.handleReceiveStateSelected(oldSignalName);
+	private readonly _onReceiveStateLabelChange = (oldSignalName: string) => this.handleReceiveStateLabel(oldSignalName);
+	private readonly _onReceiveStateScriptLabelHtmlChange = (oldSignalName: string) => this.handleReceiveStateScriptLabelHtml(oldSignalName);
+	private readonly _onReceiveStateIconClassChange = (oldSignalName: string) => this.handleReceiveStateIconClass(oldSignalName);
+	private readonly _onReceiveStateIconUrlChange = (oldSignalName: string) => this.handleReceiveStateIconUrl(oldSignalName);
+	private readonly _onReceiveStateBackgroundImageUrlChange = (oldSignalName: string) => this.handleReceiveStateBackgroundImageUrl(oldSignalName);
+	private readonly _onSignalTypeValue = (value: string) => this.applySignalType(value);
+	private readonly _onSignalSelectedValue = (value: boolean) => this.applySignalSelected(value);
+	private readonly _onSignalLabelValue = (value: string) => this.applySignalLabel(value);
+	private readonly _onSignalScriptLabelHtmlValue = (value: string) => this.applySignalScriptLabelHtml(value);
+	private readonly _onSignalIconClassValue = (value: string) => this.applySignalIconClass(value);
+	private readonly _onSignalIconUrlValue = (value: string) => this.applySignalIconUrl(value);
+	private readonly _onSignalBackgroundImageUrlValue = (value: string) => this.applySignalBackgroundImageUrl(value);
 
-	private debounceSetButtonDisplay = this.debounce(() => {
-		this.setButtonDisplayDetails();
-	}, this.DEBOUNCE_BUTTON_DISPLAY);
+	// --- sendEventOnClick + repeat-digital -----------------------------------
+	// Opt-in: driven by the pressable's onChange (`_onPressedChange`). Press sends
+	// `true` and retriggers it every REPEAT_DIGITAL_PERIOD ms while held (like
+	// ch5-button); release sends the final `false`. Zero cost when unset.
+	private static readonly REPEAT_DIGITAL_PERIOD = 200;
+	// Hold delay before the repeat starts (matches ch5-advanced-button's TOUCH_TIMEOUT): a
+	// tap released before this sends a single true/false; only a longer hold begins the repeat.
+	private static readonly REPEAT_DIGITAL_HOLD_DELAY = 250;
+	// Single timer handle for the whole press cycle: non-null means a `true` was sent and a
+	// tick is scheduled (so it doubles as the "send the final false on release" flag). It is
+	// the hold-delay timeout first, then reschedules itself every period while held.
+	private _repeatDigitalTimer: number | null = null;
+	private readonly _repeatDigitalTick = () => {
+		this.sendClickValue(true);
+		this._repeatDigitalTimer = window.setTimeout(this._repeatDigitalTick, Ch5ButtonBase.REPEAT_DIGITAL_PERIOD);
+	};
+	private readonly _onSendEventOnClickChange = () => this.handleSendEventOnClick();
+
+	private readonly _onFocus = (event: FocusEvent) => this.handleFocus(event);
+	private readonly _onBlur = (event: FocusEvent) => this.handleBlur(event);
+	private _focusListenersWired = false;
+
+	// --- press / release (pressable) -----------------------------------------
+	// Always-on press/release via the shared Ch5LightPressable (dependency-free
+	// counterpart of Ch5Pressable). Drives the `pressed` state (host attribute, CSS)
+	// + bubbling `press`/`release` events; its onChange (`_onPressedChange`) also
+	// drives the click send signal. Created lazily and reused across reconnects.
+	private readonly _onPressedChange = (pressed: boolean) => this.handlePressedChange(pressed);
+	private _pressable: Ch5LightPressable | null = null;
+
+	// --- ch5-button-list contract press wiring -------------------------------
+	// Opt-in: populated only when a button-list constructs this button with a contract
+	// object. When its contractName is set, presses publish the list's contract signals
+	// (Button{n}ItemPress / ListItemClicked / ListItemHeld) instead of sendEventOnClick.
+	private _buttonListContract: ICh5ButtonListContractObj = { index: -1, clickHoldTime: 0, contractName: '', parentComponent: '' };
+	private _buttonListContractIsHeld = false;
+	private _buttonListContractHoldInterval: number | null = null;
 
 	//#endregion
 
-	//#endregion
-
-	//#region 2. Setters and Getters
+	//#region Getters and Setters
 
 	public set label(value: string) {
-		this.logger.log('set label("' + value + '")');
-
-		if (isNil(value)) {
-			value = '';
+		let normalizedValue = value ?? '';
+		if (normalizedValue) {
+			normalizedValue = this._getTranslatedValue('label', normalizedValue);
 		}
-
-		const trValue: string = this._getTranslatedValue('label', value);
-		if (trValue !== this.label) {
-			this.setAttribute('label', trValue);
-			this.setButtonDisplay();
+		// While receiveStateLabel is bound, the signal owns the effective label slot.
+		if (!this.receiveStateLabel) {
+			this._ch5Properties.set<string>('label', normalizedValue, this._onLabelChange);
+		}
+		if (this._isInitialized) {
+			this.setAttribute('label', normalizedValue);
 		}
 	}
-	public get label() {
-		return this._label;
+	public get label(): string {
+		if (this.receiveStateScriptLabelHtml) {
+			return this.scriptLabelHtml;
+		}
+		return this._ch5Properties.get<string>('label');
 	}
 
+	/**
+	 * Raw HTML rendered inside the label span. Takes priority over the plain-text
+	 * `label` (mirrors ch5-advanced-button / ch5-text), EXCEPT while a
+	 * `receiveStateLabel` signal is driving the label - the signal write-throughs
+	 * into the `label` slot and must win. Rendered lazily (only when set), so
+	 * label-free / text-only buttons pay nothing.
+	 */
 	public set labelInnerHTML(value: string) {
-		this.logger.log('set labelInnerHTML("' + value + '")');
-
-		if (isNil(value)) {
-			value = '';
-		}
-
-		if (value !== this.labelInnerHTML) {
-			this.setAttribute('labelInnerHTML', value);
-			this._labelInnerHTML = value;
-			this.createButtonLabel(this);
-			this.setButtonDisplay();
+		const normalizedValue = value ?? '';
+		this._ch5Properties.set<string>('labelInnerHTML', normalizedValue, this._onLabelChange);
+		if (this._isInitialized) {
+			this.setAttribute('labelInnerHTML', normalizedValue);
 		}
 	}
-	public get labelInnerHTML() {
-		return this._labelInnerHTML;
-	}
-
-	public set formType(value: TCh5ButtonActionType | null) {
-		this.logger.log('set formType("' + value + '")');
-		if (!isNil(value)) {
-			this.setAttribute('formType', value);
-		} else {
-			this.removeAttribute('formType');
-		}
-		// Note that _formType is not set anywhere
-	}
-	public get formType(): TCh5ButtonActionType | null {
-		return this._formType;
-	}
-
-	public set customClass(value: string) {
-		this.setButtonAttribute('customClass', value);
-	}
-	public get customClass(): string {
-		return this._customClass;
-	}
-
-	public set customStyle(value: string) {
-		this.setButtonAttribute('customStyle', value);
-	}
-	public get customStyle(): string {
-		return this._customStyle;
+	public get labelInnerHTML(): string {
+		return this._ch5Properties.get<string>('labelInnerHTML');
 	}
 
 	public set iconClass(value: string) {
-		this.setButtonAttribute('iconClass', value);
+		const normalizedValue = value ?? '';
+		// While receiveStateIconClass is bound, the signal owns the effective iconClass slot.
+		if (!this.receiveStateIconClass) {
+			this._ch5Properties.set<string>('iconClass', normalizedValue, this._onIconChange);
+		}
+		if (this._isInitialized) {
+			this.setAttribute('iconClass', normalizedValue);
+		}
 	}
 	public get iconClass(): string {
-		return this._iconClass;
-	}
-
-	public set hAlignLabel(value: TCh5ButtonHorizontalAlignLabel) {
-		this.setButtonAttribute('hAlignLabel', value, Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS, Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS[0]);
-	}
-	public get hAlignLabel(): TCh5ButtonHorizontalAlignLabel {
-		return this._hAlignLabel;
-	}
-
-	/**
-	 * @param attribute 
-	 * @param value 
-	 * @param enumeratedMasterData 
-	 */
-	private setButtonAttribute<T>(attribute: keyof Ch5ButtonBase, value: T, enumeratedMasterData: T[] = [], defaultValue?: T) {
-		this.logger.log('setButtonAttribute: ' + attribute + ' - "' + value + '"');
-		if (this[attribute] !== value) {
-			if (enumeratedMasterData.length === 0) {
-				// Implies that the content can be any string
-				if (_.isNil(value) || String(value).trim() === "") {
-					this.removeAttribute(attribute);
-					this.setButtonDisplay();
-				} else {
-					this.setAttribute(attribute, String(value));
-					this.setButtonDisplay();
-				}
-			} else {
-				// Implies that the content has to be an enumerated value ONLY
-				if (enumeratedMasterData.indexOf(value) >= 0) {
-					this.setAttribute(attribute, String(value).trim());
-					this.setButtonDisplay();
-				} else {
-					if (!_.isNil(defaultValue)) {
-						this.setAttribute(attribute, String(defaultValue).trim());
-						this.setButtonDisplay();
-					} else {
-						this.removeAttribute(attribute);
-						this.setButtonDisplay();
-					}
-				}
-			}
-		}
-	}
-
-	public set vAlignLabel(value: TCh5ButtonVerticalAlignLabel) {
-		// this.setButtonAttribute('vAlignLabel', value, Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS, Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0]);
-		this.setAttributeAndProperty(this.BUTTON_PROPERTIES.VALIGN_LABEL, value);
-	}
-	public get vAlignLabel(): TCh5ButtonVerticalAlignLabel {
-		return this._vAlignLabel;
-	}
-
-	public set mode(value: number) {
-		this.logger.log('set mode("' + value + '")');
-		if (this._mode !== value) {
-			if (Number.isNaN(value)) {
-				this._mode = 0;
-			} else {
-				if (value >= Ch5ButtonBase.MODES.MIN_LENGTH && value <= Ch5ButtonBase.MODES.MAX_LENGTH) {
-					const buttonModesArray = this.getElementsByTagName("ch5-button-mode");
-					if (buttonModesArray && buttonModesArray.length > 0) {
-						if (value < buttonModesArray.length) {
-							this._mode = value;
-						} else {
-							this._mode = 0;
-						}
-					} else {
-						this._mode = 0;
-					}
-				} else {
-					this._mode = 0;
-				}
-			}
-			this.setAttribute('mode', String(this._mode));
-			this.setButtonDisplay();
-		}
-	}
-	public get mode(): number {
-		return this._mode;
-	}
-
-	public set checkboxPosition(value: TCh5ButtonCheckboxPosition) {
-		this.setButtonAttribute('checkboxPosition', value, Ch5ButtonBase.CHECKBOX_POSITIONS, Ch5ButtonBase.CHECKBOX_POSITIONS[0]);
-	}
-	public get checkboxPosition(): TCh5ButtonCheckboxPosition {
-		return this._checkboxPosition;
-	}
-
-	public set checkboxShow(value: boolean) {
-		this.logger.log('set checkboxShow("' + value + '")');
-		this.setAttributeAndProperty(this.BUTTON_PROPERTIES.CHECKBOX_SHOW, value);
-	}
-
-	public get checkboxShow(): boolean {
-		return this._checkboxShow;
-	}
-
-	public set iconPosition(value: TCh5ButtonIconPosition) {
-		this.setButtonAttribute('iconPosition', value, Ch5ButtonBase.ICON_POSITIONS, Ch5ButtonBase.ICON_POSITIONS[0]);
-	}
-	public get iconPosition(): TCh5ButtonIconPosition {
-		return this._iconPosition;
+		return this._ch5Properties.get<string>('iconClass');
 	}
 
 	public set iconUrl(value: string) {
-		this.setButtonAttribute('iconUrl', value);
+		const normalizedValue = value ?? '';
+		// While receiveStateIconUrl is bound, the signal owns the effective iconUrl slot.
+		if (!this.receiveStateIconUrl) {
+			this._ch5Properties.set<string>('iconUrl', normalizedValue, this._onIconChange);
+		}
+		if (this._isInitialized) {
+			this.setAttribute('iconUrl', normalizedValue);
+		}
 	}
 	public get iconUrl(): string {
-		return this._iconUrl;
-	}
-
-	public set orientation(value: TCh5ButtonOrientation) {
-		this.logger.log('set orientation("' + value + '")');
-		if (this._orientation !== value) {
-			this._orientation = Ch5ButtonUtils.getValidInputValue(Ch5ButtonBase.ORIENTATIONS, value);
-			this.setAttribute('orientation', this._orientation);
-		}
-	}
-	public get orientation(): TCh5ButtonOrientation {
-		return this._orientation;
-	}
-
-	public set type(value: TCh5ButtonType) {
-		this.logger.log('set type("' + value + '")');
-		if (this._type !== value) {
-			this.setAttribute('type', Ch5ButtonUtils.getValidInputValue(Ch5ButtonBase.TYPES, value));
-			this.setButtonDisplay();
-		}
-	}
-	public get type(): TCh5ButtonType {
-		return this._type;
-	}
-
-	public set shape(value: TCh5ButtonShape) {
-		this.logger.log('set shape("' + value + '")');
-		if (this._shape !== value && value !== null) {
-			if (Ch5ButtonBase.SHAPES.indexOf(value) >= 0) {
-				this._shape = value;
-			} else {
-				this._shape = Ch5ButtonBase.SHAPES[0];
-			}
-			this.setAttribute('shape', this._shape);
-		}
-	}
-	public get shape() {
-		return this._shape;
-	}
-
-	public set size(value: TCh5ButtonSize) {
-		this.logger.log('set size("' + value + '")');
-		if (this._size !== value && null !== value) {
-			if (Ch5ButtonBase.SIZES.indexOf(value) >= 0) {
-				this._size = value;
-			} else {
-				this._size = Ch5ButtonBase.SIZES[0];
-			}
-			this.setAttribute('size', this._size);
-		}
-	}
-	public get size() {
-		return this._size;
-	}
-
-	/**
-	 * Stretch takes preference over size
-	 */
-	public set stretch(value: TCh5ButtonStretch | null) {
-		this.logger.log('set stretch("' + value + '")');
-		if (value !== null) {
-			if (this._stretch !== value) {
-				if (Ch5ButtonBase.STRETCHES.indexOf(value) >= 0) {
-					this._stretch = value;
-					this.setAttribute('stretch', this._stretch);
-				} else {
-					this._stretch = null;
-					this.removeAttribute('stretch');
-				}
-			}
-		} else {
-			this._stretch = null;
-			this.removeAttribute('stretch');
-		}
-		this.updateCssClasses();
-	}
-	public get stretch(): TCh5ButtonStretch | null {
-		return this._stretch;
-	}
-
-	public set selected(value: boolean) {
-		this.logger.log('set selected("' + value + '")');
-		if (_.isNil(this.receiveStateSelected) || this.receiveStateSelected === "") {
-			this.setAttributeAndProperty(this.BUTTON_PROPERTIES.SELECTED, value);
-		}
-	}
-	public get selected(): boolean {
-		return this._selected;
-	}
-
-	public set pressed(value: boolean) {
-		this.logger.log('set pressed("' + value + '")');
-		this.setAttributeAndProperty(this.BUTTON_PROPERTIES.PRESSED, value);
-
-		let valueToSet: boolean = false;
-		if (typeof value === "boolean") {
-			valueToSet = value;
-		} else {
-			if (this.hasAttribute("pressed")) {
-				if ([true, false, "true", "false", "0", "1", 0, 1, '', null].indexOf(value) < 0) {
-					valueToSet = false;
-				} else {
-					valueToSet = this.toBoolean(value, true);
-				}
-			} else {
-				valueToSet = false;
-			}
-		}
-
-		if (this._pressable) {
-			if (this._pressable?._pressed !== valueToSet) {
-				this._pressable.setPressed(valueToSet);
-			}
-		}
-		this.updateCssClasses();
-	}
-	public get pressed(): boolean {
-		if (this._pressable) {
-			return this._pressable._pressed;
-		} else {
-			return false;
-		}
-	}
-
-	public set customClassState(value: string) {
-		this.logger.log('set customclassstate("' + value + '")');
-		if (this._customClassState !== value) {
-			this._customClassState = value;
-		}
-	}
-	public get customClassState(): string {
-		return this._customClassState;
-	}
-
-	public set customClassPressed(value: string | null) {
-		this.logger.log('set customClassPressed("' + value + '")');
-		if (this._customClassPressed !== value) {
-			this._customClassPressed = value;
-			// if (value !== null) {
-			// 	this.setAttribute('customclasspressed', value);
-			// }
-		}
-	}
-	public get customClassPressed(): string | null {
-		return this._customClassPressed;
-	}
-
-	public set customClassDisabled(value: string | null) {
-		this.logger.log('set customClassDisabled("' + value + '")');
-		if (this._customClassDisabled !== value) {
-			this._customClassDisabled = value;
-		}
-	}
-	public get customClassDisabled(): string | null {
-		return this._customClassDisabled;
+		return this._ch5Properties.get<string>('iconUrl');
 	}
 
 	public set backgroundImageUrl(value: string) {
-		this._ch5Properties.set<string>("backgroundImageUrl", value, () => {
-			this.backgroundImageURLHandler();
-		});
+		const normalizedValue = value ?? '';
+		// While receiveStateBackgroundImageUrl is bound, the signal owns the slot.
+		if (!this.receiveStateBackgroundImageUrl) {
+			this._ch5Properties.set<string>('backgroundImageUrl', normalizedValue, this._onBackgroundImageChange);
+		}
+		if (this._isInitialized) {
+			this.setAttribute('backgroundImageUrl', normalizedValue);
+		}
 	}
 	public get backgroundImageUrl(): string {
-		return this._ch5Properties.get<string>("backgroundImageUrl");
+		return this._ch5Properties.get<string>('backgroundImageUrl');
 	}
 
-	public set backgroundImageFillType(value: TCh5ButtonBackgroundImageFillType) {
-		this._ch5Properties.set<TCh5ButtonBackgroundImageFillType>("backgroundImageFillType", value, () => {
-			this.updateCssClasses();
-		});
+	/**
+	 * Enables multi-line label text: the label wraps and is clamped to the lines
+	 * that fit the button's height (never resizes it). Default false. Measured only
+	 * when true, so single-line buttons pay nothing.
+	 */
+	public set multilineSupport(value: boolean) {
+		const normalizedValue = Ch5LightBaseClass.normalizeBooleanValue(value, false, true);
+		this._ch5Properties.set<boolean>('multilineSupport', normalizedValue, this._onLabelWrapChange);
+		if (this._isInitialized) {
+			this.setAttribute('multilineSupport', normalizedValue ? 'true' : 'false');
+		}
 	}
-	public get backgroundImageFillType(): TCh5ButtonBackgroundImageFillType {
-		return this._ch5Properties.get<TCh5ButtonBackgroundImageFillType>("backgroundImageFillType");
-	}
-
-	public set iconUrlFillType(value: TCh5ButtonIconUrlFillType | null) {
-		this._ch5Properties.set<TCh5ButtonIconUrlFillType | null>("iconUrlFillType", value, () => {
-			if (this._iconUrlFillType !== value) {
-				this.setButtonDisplay();
-				this.updateCssClasses();
-			}
-		});
-	}
-	public get iconUrlFillType(): TCh5ButtonIconUrlFillType | null {
-		return this._iconUrlFillType;
-		// return this._ch5Properties.get<TCh5ButtonIconUrlFillType | null>("iconUrlFillType");
+	public get multilineSupport(): boolean {
+		return this._ch5Properties.get<boolean>('multilineSupport');
 	}
 
+	/**
+	 * Truncates overflowing label text with an ellipsis. Default true (on the last
+	 * visible line when `multilineSupport` is on); when false the text is clipped
+	 * without an ellipsis.
+	 */
+	public set truncateText(value: boolean) {
+		const normalizedValue = Ch5LightBaseClass.normalizeBooleanValue(value, true, true);
+		this._ch5Properties.set<boolean>('truncateText', normalizedValue, this._onLabelWrapChange);
+		if (this._isInitialized) {
+			this.setAttribute('truncateText', normalizedValue ? 'true' : 'false');
+		}
+	}
+	public get truncateText(): boolean {
+		return this._ch5Properties.get<boolean>('truncateText');
+	}
+
+	/**
+	 * Name of the string signal driving the button `type`. Writes to the separate
+	 * `data-signal-type` channel (styled over the static `type`); clearing restores
+	 * the static `type`.
+	 */
+	public set receiveStateType(value: string) {
+		this._ch5Properties.set<string>('receiveStateType', value ?? '', this._onReceiveStateTypeChange);
+		if (this._isInitialized) {
+			this.setAttribute('receiveStateType', value);
+		}
+	}
+	public get receiveStateType(): string {
+		return this._ch5Properties.get<string>('receiveStateType');
+	}
+
+	/**
+	 * Name of the boolean signal driving the button `selected` state. Writes to the
+	 * separate `data-signal-selected` channel (styled over the static `selected`);
+	 * clearing restores the static `selected`.
+	 */
+	public set receiveStateSelected(value: string) {
+		this._ch5Properties.set<string>('receiveStateSelected', value ?? '', this._onReceiveStateSelectedChange);
+		if (this._isInitialized) {
+			this.setAttribute('receiveStateSelected', value);
+		}
+	}
+	public get receiveStateSelected(): string {
+		return this._ch5Properties.get<string>('receiveStateSelected');
+	}
+
+	/**
+	 * Name of the string signal driving the button label. While present, it fully
+	 * owns the effective `label` slot (including empty values), independent of
+	 * whether static `label` is parsed before or after this attribute.
+	 */
+	public set receiveStateLabel(value: string) {
+		this._ch5Properties.set<string>('receiveStateLabel', value ?? '', this._onReceiveStateLabelChange);
+		if (this._isInitialized) {
+			this.setAttribute('receiveStateLabel', value);
+		}
+	}
+	public get receiveStateLabel(): string {
+		return this._ch5Properties.get<string>('receiveStateLabel');
+	}
+
+	/**
+	 * Name of the string signal driving the button label as HTML. Its value is written
+	 * into the shared `scriptLabelHtml` slot (see {@link applySignalScriptLabelHtml})
+	 * and rendered via `innerHTML`. Ranks HIGHEST of the label sources
+	 * (receivestatescriptlabelhtml > receivestatelabel > labelinnerhtml > label).
+	 */
+	public set receiveStateScriptLabelHtml(value: string) {
+		this._ch5Properties.set<string>('receiveStateScriptLabelHtml', value ?? '', this._onReceiveStateScriptLabelHtmlChange);
+		if (this._isInitialized) {
+			this.setAttribute('receiveStateScriptLabelHtml', value);
+		}
+	}
+	public get receiveStateScriptLabelHtml(): string {
+		return this._ch5Properties.get<string>('receiveStateScriptLabelHtml');
+	}
+
+	/**
+	 * Runtime slot holding the HTML delivered by the `receivestatescriptlabelhtml`
+	 * signal (rendered by {@link handleLabel} via `innerHTML`). Not an author attribute -
+	 * written only by the signal; shares the `_onLabelChange` render callback.
+	 */
+	public set scriptLabelHtml(value: string) {
+		this._ch5Properties.set<string>('scriptLabelHtml', value ?? '', this._onLabelChange);
+	}
+	public get scriptLabelHtml(): string {
+		return this._ch5Properties.get<string>('scriptLabelHtml');
+	}
+
+	/**
+	 * Name of the string signal driving the button icon class. Its value is written
+	 * into the shared `iconClass` slot (see {@link applySignalIconClass}). Icon
+	 * priority is resolved in {@link handleIcon} (receivestateiconurl >
+	 * receivestateiconclass > iconurl > iconclass), so its presence outranks a
+	 * static iconurl.
+	 */
+	public set receiveStateIconClass(value: string) {
+		this._ch5Properties.set<string>('receiveStateIconClass', value ?? '', this._onReceiveStateIconClassChange);
+		if (this._isInitialized) {
+			this.setAttribute('receiveStateIconClass', value);
+		}
+	}
+	public get receiveStateIconClass(): string {
+		return this._ch5Properties.get<string>('receiveStateIconClass');
+	}
+
+	/**
+	 * Name of the string signal driving the button icon URL. Its value is written
+	 * into the shared `iconUrl` slot (see {@link applySignalIconUrl}). Ranks HIGHEST
+	 * among the icon sources (resolved in {@link handleIcon}: receivestateiconurl >
+	 * receivestateiconclass > iconurl > iconclass).
+	 */
+	public set receiveStateIconUrl(value: string) {
+		this._ch5Properties.set<string>('receiveStateIconUrl', value ?? '', this._onReceiveStateIconUrlChange);
+		if (this._isInitialized) {
+			this.setAttribute('receiveStateIconUrl', value);
+		}
+	}
+	public get receiveStateIconUrl(): string {
+		return this._ch5Properties.get<string>('receiveStateIconUrl');
+	}
+
+	/**
+	 * Name of the string signal driving the button background image URL. Its value
+	 * is written into the shared `backgroundImageUrl` slot (see
+	 * {@link applySignalBackgroundImageUrl}), so the signal always supersedes the
+	 * static (design-time) `backgroundimageurl`.
+	 */
 	public set receiveStateBackgroundImageUrl(value: string) {
-		this._ch5Properties.set("receiveStateBackgroundImageUrl", value, null, (newValue: string) => {
-			this._ch5Properties.setForSignalResponse<string>("backgroundImageUrl", newValue, () => {
-				this.backgroundImageURLHandler();
-			});
-		});
+		this._ch5Properties.set<string>('receiveStateBackgroundImageUrl', value ?? '', this._onReceiveStateBackgroundImageUrlChange);
+		if (this._isInitialized) {
+			this.setAttribute('receiveStateBackgroundImageUrl', value);
+		}
 	}
 	public get receiveStateBackgroundImageUrl(): string {
 		return this._ch5Properties.get<string>('receiveStateBackgroundImageUrl');
 	}
 
-	//#region 2.1. Signals
-
+	/**
+	 * Name of the boolean signal to pulse on user interaction. Sends a plain
+	 * momentary `true` on press - retriggered every REPEAT_DIGITAL_PERIOD ms while
+	 * held - and `false` on release. Opt-in: no signal name means nothing is sent.
+	 */
 	public set sendEventOnClick(value: string) {
-		this.logger.log('set sendEventOnClick("' + value + '")');
-		if ((value !== '') && (value !== this._sigNameSendOnClick)) {
-			this._sigNameSendOnClick = value;
-			this.setAttribute('sendeventonclick', value);
+		this._ch5Properties.set<string>('sendEventOnClick', value ?? '', this._onSendEventOnClickChange);
+		if (this._isInitialized) {
+			this.setAttribute('sendEventOnClick', value);
 		}
 	}
 	public get sendEventOnClick(): string {
-		return this._sigNameSendOnClick;
+		return this._ch5Properties.get<string>('sendEventOnClick');
 	}
 
-	public set receiveStateSelected(value: string) {
-		this.logger.log('set receiveStateSelected("' + value + '")');
-		if (!value || this._sigNameReceiveSelected === value) {
-			return;
-		}
-		// clean up old subscription
-		if (this._sigNameReceiveSelected) {
+	// CSS-Based Attribute Setters and Getters
+	// These attributes are read directly by CSS selectors. No property store, no
+	// attributeChangedCallback, no handlers - just passive data for styling.
 
-			const oldReceiveSelectedSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveSelected);
-			const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(oldReceiveSelectedSigName);
-
-			if (oldSignal !== null) {
-				oldSignal.unsubscribe(this._subReceiveSelected);
-			}
-		}
-
-		// update internal property
-		this._sigNameReceiveSelected = value;
-		// update attribute
-		// the condition at the start of the method stops an infinite loop ( property change <-> attribute changed callback)
-		this.setAttribute('receiveStateSelected', value);
-
-		// setup new subscription.
-		const receiveSelectedSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveSelected);
-		const receiveSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(receiveSelectedSigName);
-
-		if (receiveSignal === null) {
-			return;
-		}
-
-		this._subReceiveSelected = receiveSignal.subscribe((newValue: boolean) => {
-			if (newValue !== this.selected) {
-				this.setAttributeAndProperty(this.BUTTON_PROPERTIES.SELECTED, newValue as unknown as boolean, true);
-			}
-		});
-	}
-	public get receiveStateSelected(): string {
-		// The internal property is changed if/when the element is removed from DOM
-		// Returning the attribute instead of the internal property preserves functionality
-		return this._attributeValueAsString('receivestateselected');
-	}
-
-	public set receiveStateLabel(inputValue: string) {
-		this.receiveSignalAsString(this, "receiveStateLabel", inputValue);
-	}
-	public get receiveStateLabel(): string {
-		// The internal property is changed if/when the element is removed from DOM
-		// Returning the attribute instead of the internal property preserves functionality
-		return this._attributeValueAsString('receivestatelabel');
-	}
-
-	public set receiveStateScriptLabelHtml(inputValue: string) {
-		this.receiveSignalAsString(this, "receiveStateScriptLabelHtml", inputValue);
-	}
-	public get receiveStateScriptLabelHtml(): string {
-		// The internal property is changed if/when the element is removed from DOM
-		// Returning the attribute instead of the internal property preserves functionality
-		return this._attributeValueAsString('receivestatescriptlabelhtml');
-	}
-
-	public set receiveStateIconClass(inputValue: string) {
-		this.receiveSignalAsString(this, "receiveStateIconClass", inputValue);
-	}
-	public get receiveStateIconClass(): string {
-		return this._attributeValueAsString('receivestateiconclass');
-	}
-
-	public set receiveStateIconUrl(inputValue: string) {
-		this.receiveSignalAsString(this, "receiveStateIconUrl", inputValue);
-	}
-	public get receiveStateIconUrl(): string {
-		return this._attributeValueAsString('receivestateiconurl');
-	}
-
-	public set receiveStateMode(signalName: string) {
-		this.logger.log('set receiveStateMode(\'' + signalName + '\')');
-		this.logger.log('this._sigNameReceiveStateMode' + this._sigNameReceiveStateMode);
-
-		if (this._sigNameReceiveStateMode === signalName || signalName === null) {
-			return;
-		}
-
-		// clean up old subscription
-		if (this._sigNameReceiveStateMode) {
-			this.logger.log('_sigNameReceiveStateMode exists');
-
-			const oldReceiveStateSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveStateMode);
-			const oldSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(oldReceiveStateSigName);
-
-			this.logger.log('oldReceiveStateSigName', oldReceiveStateSigName);
-			this.logger.log('oldSignal', oldSignal);
-			if (oldSignal !== null) {
-				oldSignal.unsubscribe(this._subReceiveSignalMode as string);
-			}
-		}
-
-		this._sigNameReceiveStateMode = signalName;
-		this.setAttribute('receivestatemode', signalName);
-
-		// setup new subscription.
-		const receiveLabelSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveStateMode);
-		const receiveSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(receiveLabelSigName);
-		if (receiveSignal === null) {
-			return;
-		}
-
-		this._subReceiveSignalMode = receiveSignal.subscribe((newValue: number) => {
-			if (this.isModeSetUsingJavascript === false) {
-				this.mode = Number(newValue) as number;
-				this.setButtonDisplay();
-			}
-		});
-	}
-	public get receiveStateMode(): string {
-		return this._attributeValueAsString('receivestatemode');
-	}
-
-	public set receiveStateType(inputValue: string) {
-		this.receiveSignalAsString(this, "receiveStateType", inputValue);
-	}
-	public get receiveStateType(): string {
-		return this._attributeValueAsString('receivestatetype');
-	}
-
-	public set sgIconTheme(value: TCh5ButtonSgIconTheme) {
-		this._ch5Properties.set<TCh5ButtonSgIconTheme>("sgIconTheme", value, () => {
-			Array.from(Ch5ButtonBase.SG_ICON_THEME).forEach((theme) => this._elIcon.classList.remove('sg-' + theme));
-			this._elIcon.classList.add('sg-' + this.sgIconTheme);
-		});
-	}
-	public get sgIconTheme(): TCh5ButtonSgIconTheme {
-		return this._ch5Properties.get<TCh5ButtonSgIconTheme>("sgIconTheme");
-	}
-
-	public set receiveStateSGIconNumeric(value: string) {
-		this._ch5Properties.set("receiveStateSGIconNumeric", value, null, (newValue: number) => {
-			if (newValue >= 0 && newValue <= Ch5ButtonBase.MAX_SG_NUMERIC) {
-				this.sgIconNumeric = newValue;
-				this.setButtonDisplay();
-			}
-		});
-	}
-	public get receiveStateSGIconNumeric(): string {
-		return this._ch5Properties.get<string>('receiveStateSGIconNumeric');
-	}
-
-	public set receiveStateSGIconString(value: string) {
-		this._ch5Properties.set("receiveStateSGIconString", value, null, (newValue: string) => {
-			this.sgIconString = newValue.trim().toLowerCase().split(' ').join('-');
-			this.setButtonDisplay();
-		});
-	}
-	public get receiveStateSGIconString(): string {
-		return this._ch5Properties.get<string>('receiveStateSGIconString');
-	}
-
-	// Rewriting this property from base class since it has to follow more features for button like buttonmode and state
-	public set receiveStateCustomClass(inputValue: string) {
-		this.receiveSignalAsString(this, "receiveStateCustomClass", inputValue);
-	}
 	/**
-	 * The internal property is changed if/when the element is removed from dom
-	 * Returning the attribute instead of the internal property preserves functionality
+	 * Button size variant. Pure CSS attribute - no JS logic, just styling.
+	 * Valid values: see {@link SIZES}
 	 */
-	public get receiveStateCustomClass(): string {
-		return this._attributeValueAsString('receivestatecustomclass');
+	public set size(value: string) {
+		this.setEnumHostAttribute('size', value, Ch5ButtonBase.SIZES, Ch5ButtonBase.SIZES[0]);
+	}
+	public get size(): string {
+		return this.getAttribute('size') || Ch5ButtonBase.SIZES[0];
 	}
 
-	// Rewriting this property from base class since it has to follow more features for button like buttonmode and state
-	public set receiveStateCustomStyle(inputValue: string) {
-		this.receiveSignalAsString(this, "receiveStateCustomStyle", inputValue);
+	/**
+	 * Button shape variant. Pure CSS attribute - no JS logic, just styling.
+	 * Valid values: see {@link SHAPES}
+	 */
+	public set shape(value: string) {
+		this.setEnumHostAttribute('shape', value, Ch5ButtonBase.SHAPES, Ch5ButtonBase.SHAPES[0]);
 	}
-	public get receiveStateCustomStyle(): string {
-		// The internal property is changed if/when the element is removed from dom
-		// Returning the attribute instead of the internal property preserves functionality
-		return this._attributeValueAsString('receivestatecustomstyle');
-	}
-
-	public set multilineSupport(value: boolean) {
-		this._ch5Properties.set<boolean>("multilineSupport", value, () => {
-		this.debounceHandleMultilineSupport();
-		});
+	public get shape(): string {
+		return this.getAttribute('shape') || Ch5ButtonBase.SHAPES[0];
 	}
 
-	public debounceHandleMultilineSupport = this.debounce(() => {
-		this.handleMultilineSupport();
-	}, 150);
-
-	public get multilineSupport(): boolean {
-		return this._ch5Properties.get<boolean>("multilineSupport");
+	/**
+	 * Stretches button in specified dimension(s). Pure CSS attribute.
+	 * Valid values: see {@link STRETCHES}
+	 */
+	public set stretch(value: string | null | undefined) {
+		this.setEnumHostAttributeOrRemove('stretch', value, Ch5ButtonBase.STRETCHES);
+	}
+	public get stretch(): string | null {
+		return this.getAttribute('stretch');
 	}
 
-	public set truncateText(value: boolean) {
-		this._ch5Properties.set<boolean>("truncateText", value, () => {
-		this.handleTruncateText();
-		});
+	/**
+	 * Icon position relative to label. Pure CSS attribute - no JS logic.
+	 * Valid values: see {@link ICON_POSITIONS}
+	 */
+	public set iconPosition(value: string) {
+		this.setEnumHostAttribute('iconposition', value, Ch5ButtonBase.ICON_POSITIONS, Ch5ButtonBase.ICON_POSITIONS[0]);
 	}
-	public get truncateText(): boolean {
-		return this._ch5Properties.get<boolean>("truncateText");
+	public get iconPosition(): string {
+		return this.getAttribute('iconposition') || Ch5ButtonBase.ICON_POSITIONS[0];
+	}
+
+	/**
+	 * Layout orientation of the icon + label group. Pure CSS attribute.
+	 * Valid values: see {@link ORIENTATIONS}
+	 */
+	public set orientation(value: string) {
+		this.setEnumHostAttribute('orientation', value, Ch5ButtonBase.ORIENTATIONS, Ch5ButtonBase.ORIENTATIONS[0]);
+	}
+	public get orientation(): string {
+		return this.getAttribute('orientation') || Ch5ButtonBase.ORIENTATIONS[0];
+	}
+
+	/**
+	 * Horizontal alignment of icon + label group within button. Pure CSS attribute.
+	 * Valid values: see {@link H_ALIGN_LABELS}
+	 */
+	public set hAlignLabel(value: string) {
+		this.setEnumHostAttribute('halignlabel', value, Ch5ButtonBase.H_ALIGN_LABELS, Ch5ButtonBase.H_ALIGN_LABELS[0]);
+	}
+	public get hAlignLabel(): string {
+		return this.getAttribute('halignlabel') || Ch5ButtonBase.H_ALIGN_LABELS[0];
+	}
+
+	/**
+	 * Vertical alignment of icon + label group within button. Pure CSS attribute.
+	 * Valid values: see {@link V_ALIGN_LABELS}
+	 */
+	public set vAlignLabel(value: string) {
+		this.setEnumHostAttribute('valignlabel', value, Ch5ButtonBase.V_ALIGN_LABELS, Ch5ButtonBase.V_ALIGN_LABELS[0]);
+	}
+	public get vAlignLabel(): string {
+		return this.getAttribute('valignlabel') || Ch5ButtonBase.V_ALIGN_LABELS[0];
+	}
+
+	/**
+	 * Button type variant. Pure CSS attribute - no JS logic, just styling.
+	 * Can be overridden by receiveStateType signal via data-signal-type channel.
+	 * Valid values: see {@link TYPES}
+	 */
+	public set type(value: string) {
+		this.setEnumHostAttribute('type', value, Ch5ButtonBase.TYPES, Ch5ButtonBase.TYPES[0]);
+	}
+	public get type(): string {
+		return this.getAttribute('type') || Ch5ButtonBase.TYPES[0];
+	}
+
+	/**
+	 * Static selected state. Pure CSS attribute - no JS logic, just styling.
+	 * Can be overridden by receiveStateSelected signal via data-signal-selected channel.
+	 * Setter accepts: `true`, `'true'`, `1`, `'1'`, and `''` as true.
+	 * Any other value is normalized to false.
+	 */
+	public set selected(value: boolean | string | number | null | undefined) {
+		const isSelected = value === true || value === 'true' || value === 1 || value === '1' || value === '';
+		this.setAttribute('selected', isSelected ? 'true' : 'false');
+	}
+	public get selected(): boolean {
+		const attr = this.getAttribute('selected');
+		if (attr === null) return false;
+		return attr.toLowerCase() === 'true' || attr === '1' || attr === '';
+	}
+
+	/**
+	 * Transient pressed state. Unlike the static CSS attributes above, this is a
+	 * runtime interaction state owned by Ch5LightPressable; the setter delegates to
+	 * the pressable when available and otherwise only reflects the host attribute.
+	 */
+	public set pressed(value: boolean | string | number | null | undefined) {
+		const isPressed = value === true || value === 'true' || value === 1 || value === '1' || value === '';
+		if (this._pressable) {
+			this._pressable.setPressed(isPressed, true);
+			return;
+		}
+		if (isPressed) {
+			this.setAttribute('pressed', 'true');
+		} else {
+			this.removeAttribute('pressed');
+		}
+	}
+	public get pressed(): boolean {
+		if (this._pressable && this._pressable.pressed) {
+			return this._pressable.pressed;
+		}
+		const attr = this.getAttribute('pressed');
+		if (attr === null) return false;
+		return attr.toLowerCase() === 'true' || attr === '1' || attr === '';
+	}
+
+	/**
+	 * Shows checkbox glyph on the button. Pure CSS attribute.
+	 * Setter accepts: `true`, `'true'`, `1`, `'1'`, and `''` as true.
+	 * Any other value is normalized to false.
+	 */
+	public set checkboxShow(value: boolean | string | number | null | undefined) {
+		const isChecked = value === true || value === 'true' || value === 1 || value === '1' || value === '';
+		this.setAttribute('checkboxshow', isChecked ? 'true' : 'false');
+	}
+	public get checkboxShow(): boolean {
+		const attr = this.getAttribute('checkboxshow');
+		if (attr === null) return false;
+		return attr.toLowerCase() === 'true' || attr === '1' || attr === '';
+	}
+
+	/**
+	 * Checkbox position relative to icon/label group. Pure CSS attribute.
+	 * Valid values: see {@link CHECKBOX_POSITIONS}
+	 */
+	public set checkboxPosition(value: string) {
+		this.setEnumHostAttribute('checkboxposition', value, Ch5ButtonBase.CHECKBOX_POSITIONS, Ch5ButtonBase.CHECKBOX_POSITIONS[0]);
+	}
+	public get checkboxPosition(): string {
+		return this.getAttribute('checkboxposition') || Ch5ButtonBase.CHECKBOX_POSITIONS[0];
+	}
+
+	/**
+	 * Fill type for iconUrl background image. Pure CSS attribute.
+	 * Valid values: see {@link ICON_URL_FILL_TYPES}
+	 * When attribute is absent, value is `null`.
+	 */
+	public set iconUrlFillType(value: string | null | undefined) {
+		if (value === null || value === undefined) {
+			this.removeAttribute('iconurlfilltype');
+			return;
+		}
+		this.setEnumHostAttributeOrRemove('iconurlfilltype', value, Ch5ButtonBase.ICON_URL_FILL_TYPES);
+	}
+	public get iconUrlFillType(): string | null {
+		return this.getAttribute('iconurlfilltype');
+	}
+
+	/**
+	 * Fill type for backgroundImageUrl. Pure CSS attribute.
+	 * Valid values: see {@link BACKGROUND_IMAGE_URL_FILL_TYPES}
+	 */
+	public set backgroundImageFillType(value: string) {
+		this.setEnumHostAttribute('backgroundImageFillType', value, Ch5ButtonBase.BACKGROUND_IMAGE_URL_FILL_TYPES, Ch5ButtonBase.BACKGROUND_IMAGE_URL_FILL_TYPES[0]);
+	}
+	public get backgroundImageFillType(): string {
+		return this.getAttribute('backgroundImageFillType') || Ch5ButtonBase.BACKGROUND_IMAGE_URL_FILL_TYPES[0];
+	}
+
+	/**
+	 * Polymorphic accessor for the concrete subclass's own static members (e.g.
+	 * `ELEMENT_NAME` / `PRIMARY_CSS_CLASS`), so shared base-class code always uses
+	 * the actual registered subclass's identity instead of this base's defaults.
+	 * Mirrors `Ch5AdvancedButtonBase`'s instance-level `ELEMENT_NAME` /
+	 * `primaryCssClass` fields, but keeps them as proper STATIC members (so
+	 * `Ch5Button.ELEMENT_NAME` etc. keep working for external callers) by reading
+	 * them off `this.constructor` instead.
+	 */
+	protected get ctor(): typeof Ch5ButtonBase {
+		return this.constructor as typeof Ch5ButtonBase;
 	}
 
 	//#endregion
 
-	//#endregion
+	//#region Component Lifecycle
 
-	//#region 3. Lifecycle Hooks
-
-	public constructor(public buttonListContractObj?: ICh5ButtonListContractObj) {
+	public constructor(buttonListContractObj?: ICh5ButtonListContractObj) {
 		super();
-		this.logger.start('constructor()', this.primaryCssClass);
-		if (!this._wasInstatiated) {
-			this.createInternalHtml();
-		}
-		if (buttonListContractObj) { this.buttonListContract = buttonListContractObj; }
-		this._wasInstatiated = true;
-		this._ch5ButtonSignal = new Ch5ButtonSignal();
-		this._onBlur = this._onBlur.bind(this);
-		this._onFocus = this._onFocus.bind(this);
-		this._ch5Properties = new Ch5Properties(this, Ch5ButtonBase.COMPONENT_PROPERTIES);
-		this.updateCssClasses();
-		this.logger.stop();
-	}
-
-	/**
-	 * Called when the ch5-button component is first connected to the DOM
-	 */
-	public connectedCallback() {
-		this.logger.start('connectedCallback()', this.primaryCssClass);
-		subscribeInViewPortChange(this, () => {
-			if (this.elementIsInViewPort) {
-				this.verticalOrientationHandler();
-				this.debounceHandleMultilineSupport();
-			} else {
-				this.setAttribute("pressed", "false");
-				if (this._pressable) {
-
-					this._pressable.resetPressAndReleaseActions();
-				}
-			}
-		});
-		this.isButtonInitiated = false;
-		this.previousExtendedProperties = {}; // Very important - for pages hidden with buttons and shown back with noshowtype remove
-
-		this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
-		if (this.buttonListContract?.parentComponent === "ch5-tab-button" || this.buttonListContract?.parentComponent === "ch5-button-list") {
-			this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix + ' ' + this.buttonListContract?.parentComponent + this.pressedCssClassPostfix, false);
-		} else {
-			this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
-		}
-
-		// WAI-ARIA Attributes
-		if (!this.hasAttribute('role')) {
-			this.setAttribute('role', Ch5RoleAttributeMapping.ch5Button);
-		}
-
-		if (this._elContainer.parentElement !== this) {
-			this.appendChild(this._elContainer);
-		}
-
-		if (this.customClassState && this.hasAttribute('customclasspressed')) {
-			this.updatePressedClass(this.customClassState);
-		}
-
-		// this._hammerManager = new Hammer(this._elContainer);
-		this.attachEventListeners();
-
-		this.initAttributes();
-		this.initCommonMutationObserver(this);
-		if (!this.hasAttribute('customclasspressed')) {
-			this.updateCssClassesForCustomState();
-		}
-		customElements.whenDefined('ch5-button').then(() => {
-			this.isButtonInitiated = true;
-			this.setButtonDisplay(); // This is to handle specific case where the setButtonDisplay isn't called as all button attributes are set to "default" values.
-			this.updateCssClasses(); // Temporary fix for the previousExtendedProperties mentioned above
-			this.componentLoadedEvent(this.ELEMENT_NAME, this.id);
-			// publishEvent('object', `component`, { tagName: 'ch5-button', loaded: true, id: this.id });
-			// publishEvent('object', `ch5-button:${this.id}`, { loaded: true, id: this.id });
-		});
-		this.logger.stop();
-	}
-
-	private onWindowResizeHandler() {
-		// since stretch has no default value, should fire stretchHandler only if required
-		if (!this.isResizeInProgress) {
-			this.isResizeInProgress = true;
-			setTimeout(() => {
-				this.verticalOrientationHandler();
-				this.isResizeInProgress = false; // reset debounce once completed
-			}, this.RESIZE_DEBOUNCE);
-		}
-		this.debounceHandleMultilineSupport();
-	}
-
-	private verticalOrientationHandler() {
-		if (!_.isNil(this.stretch) && this.shape === "circle" && this.parentElement) {
-			const { offsetHeight: parentHeight, offsetWidth: parentWidth } = this.parentElement;
-			const setValue = parentWidth <= parentHeight ? parentWidth : parentHeight;
-			if (setValue !== 0) {
-				this.style.height = setValue + 'px';
-				this.style.width = setValue + 'px';
-			}
-		} else {
-			//this is set to reset the height and width set by stretch when the shape is set to circle first and then stretch is set to any value or null, 
-			// later stretch is removed but height and width are still applied, this will reset it back to normal
-			this.style.removeProperty('height');
-			this.style.removeProperty('width');
-		}
-		if (this.orientation === "vertical") {
-			if (!this._elContainer || !this._elButton) return;
-			if (this.shape === 'circle') {
-				this._elButton.style.removeProperty('width');
-				this._elButton.style.removeProperty('height');
-				return;
-			}
-			if (this.stretch == null || this.stretch === 'height' || this.stretch === 'width' || this.stretch === 'both') {
-				const { clientHeight, clientWidth } = this._elContainer;
-				this._elButton.style.width = `${clientHeight}px`;
-				this._elButton.style.height = `${clientWidth}px`;
-			}
-		} else {
-			this._elButton.style.removeProperty('width');
-			this._elButton.style.removeProperty('height');
+		// Register this component's attributes on the SHARED property store from
+		// Ch5LightBaseClass, using the static PROPERTY_SETTINGS (no per-instance alloc).
+		this._ch5Properties.add(Ch5ButtonBase.PROPERTY_SETTINGS);
+		if (buttonListContractObj) {
+			this._buttonListContract = buttonListContractObj;
 		}
 	}
 
-	public static get observedAttributes() {
-		const inheritedObsAttrs = Ch5Common.observedAttributes;
-		const newObsAttrs = [
-			'label',
-			'labelinnerhtml',
-
-			'iconclass',
-			'iconposition',
-			'orientation',
-			'iconurl',
-
-			'checkboxshow',
-			'checkboxposition',
-
-			'halignlabel',
-			'valignlabel',
-
-			'shape',
-			'size',
-			'stretch',
-			'type',
-			'formtype',
-			'mode',
-
-			'pressed',
-			'selected',
-			'customclassselected',
-			'customclasspressed',
-			'customclassdisabled',
-
-			'receivestatemode',
-			'receivestateselected',
-			'receivestatelabel',
-			'receivestatescriptlabelhtml',
-			'receivestateiconclass',
-			'receivestateiconurl',
-			'receivestatetype',
-
-			'sendeventonclick',
-			'iconurlfilltype',
-			'backgroundimageurl',
-			'backgroundimagefilltype',
-			'receivestatebackgroundimageurl'
-		];
-		for (let i: number = 0; i < Ch5ButtonBase.COMPONENT_PROPERTIES.length; i++) {
-			if (Ch5ButtonBase.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-				newObsAttrs.push(Ch5ButtonBase.COMPONENT_PROPERTIES[i].name.toLowerCase());
-			}
-		}
-		return inheritedObsAttrs.concat(newObsAttrs);
-	}
-
-	protected initAttributes() {
-		super.initAttributes();
-
-		const thisRef: any = this;
-		for (let i: number = 0; i < Ch5ButtonBase.COMPONENT_PROPERTIES.length; i++) {
-			if (Ch5ButtonBase.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-				if (this.hasAttribute(Ch5ButtonBase.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
-					const key = Ch5ButtonBase.COMPONENT_PROPERTIES[i].name;
-					thisRef[key] = this.getAttribute(key);
-				}
-			}
-		}
-		this.logger.start("initAttributes", this.primaryCssClass);
-
-		if (this.hasAttribute('checkboxposition')) {
-			this.checkboxPosition = this.getAttribute('checkboxposition') as TCh5ButtonCheckboxPosition;
-		}
-		if (this.hasAttribute('checkboxshow')) {
-			this.checkboxShow = this.getAttribute('checkboxshow') as unknown as boolean;
-		}
-		if (this.hasAttribute('customclassselected')) {
-			this.customClassState = this.getAttribute('customclassselected') as string;
-		}
-		if (this.hasAttribute('customclasspressed')) {
-			this.customClassPressed = this.getAttribute('customclasspressed') as string;
-			this.customClassState = this.customClassPressed;
-		}
-		if (this.hasAttribute('customclassdisabled')) {
-			this.customClassDisabled = this.getAttribute('customclassdisabled') as string;
-			this.customClassState = this.customClassDisabled;
-		}
-		if (this.hasAttribute('formtype')) {
-			this.formType = this.getAttribute('formtype') as TCh5ButtonActionType | null;
-		}
-		if (this.hasAttribute('halignlabel')) {
-			this.hAlignLabel = this.getAttribute('halignlabel') as TCh5ButtonHorizontalAlignLabel;
-		}
-		if (this.hasAttribute('iconclass')) {
-			this.iconClass = this.getAttribute('iconclass') as string;
-		}
-		if (this.hasAttribute('iconposition')) {
-			this.iconPosition = this.getAttribute('iconposition') as TCh5ButtonIconPosition;
-		}
-		if (this.hasAttribute('iconurl')) {
-			this.iconUrl = this.getAttribute('iconurl') as string;
-		}
-		if (this.hasAttribute('label')) {
-			this.label = this.getAttribute('label') as string;
-		}
-		if (this.hasAttribute('mode')) {
-			this.mode = Number(this.getAttribute('mode')); // TODO isNaN(this.getAttribute('mode')) ? 0 : Number(this.getAttribute('mode')) as number;
-		}
-		if (this.hasAttribute('orientation')) {
-			this.orientation = this.getAttribute('orientation') as TCh5ButtonOrientation;
-		}
-		// TODO - why is customclassselected checked?
-		// if (this.hasAttribute('selected') && !this.hasAttribute('customclassselected')) {
-		if (this.hasAttribute('selected')) {
-			this.selected = this.getAttribute('selected') as unknown as boolean;
-		}
-		if (this.hasAttribute('shape')) {
-			this.shape = this.getAttribute('shape') as TCh5ButtonShape;
-		}
-		if (this.hasAttribute('size')) {
-			this.size = this.getAttribute('size') as TCh5ButtonSize;
-		}
-		if (this.hasAttribute('stretch')) {
-			this.stretch = this.getAttribute('stretch') as TCh5ButtonStretch | null;
-		}
-		if (this.hasAttribute('type')) {
-			this.type = this.getAttribute('type') as TCh5ButtonType;
-		}
-		if (this.hasAttribute('valignlabel')) {
-			this.vAlignLabel = this.getAttribute('valignlabel') as TCh5ButtonVerticalAlignLabel;
-		}
-		if (this.hasAttribute('pressed')) {
-			this.pressed = this.getAttribute('pressed') as unknown as boolean;
-		}
-		if (this.hasAttribute('labelInnerHTML')) {
-			this.labelInnerHTML = this.getAttribute('labelInnerHTML') as string;
-		}
-		// signals
-		if (this.hasAttribute('receivestateselected')) {
-			this.receiveStateSelected = this.getAttribute('receivestateselected') as string;
-		}
-		if (this.hasAttribute('receivestatelabel')) {
-			this.receiveStateLabel = this.getAttribute('receivestatelabel') as string;
-		}
-		if (this.hasAttribute('receivestatescriptlabelhtml')) {
-			this.receiveStateScriptLabelHtml = this.getAttribute('receivestatescriptlabelhtml') as string;
-		}
-		if (this.hasAttribute('receivestateiconclass')) {
-			this.receiveStateIconClass = this.getAttribute('receivestateiconclass') as string;
-		}
-		if (this.hasAttribute('receivestateiconurl')) {
-			this.receiveStateIconUrl = this.getAttribute('receivestateiconurl') as string;
-		}
-		if (this.hasAttribute('receivestatetype')) {
-			this.receiveStateType = this.getAttribute('receivestatetype') as string;
-		}
-		if (this.hasAttribute('receivestatemode')) {
-			this.receiveStateMode = this.getAttribute('receivestatemode') as string;
-		}
-		if (this.hasAttribute('sendeventonclick')) {
-			this.sendEventOnClick = this.getAttribute('sendeventonclick') as string;
-		}
-
-		this.updateCssClasses();
-		this.updateInternalHtml();
-		this.logger.stop();
-	}
-
-	protected attachEventListeners() {
-		super.attachEventListeners();
-
-		this._elButton.addEventListener('focus', this._onFocus);
-		this._elButton.addEventListener('blur', this._onBlur);
-		// init pressable before initAttributes because pressable subscribe to gestureable attribute
-		if (!isNil(this._pressable)) {
-			this._pressable.init();
-			this._subscribeToPressableIsPressed();
-		}
-		this._resizeObserver = resizeObserver(this._elContainer, this.onWindowResizeHandler.bind(this));
-	}
-
-	protected removeEventListeners() {
-		super.removeEventListeners();
-		this._elButton.removeEventListener('focus', this._onFocus);
-		this._elButton.removeEventListener('blur', this._onBlur);
-		if (this.style) {
-			this.style.removeProperty('height');
-			this.style.removeProperty('width');
-		}
-		if (!isNil(this._pressable)) {
-			this._unsubscribeFromPressableIsPressed();
-		}
-		this._resizeObserver?.disconnect();
-		this._resizeObserver = null;
-	}
-
-	protected _onFocus(inEvent: Event): void {
-		this.logger.start("_onFocus");
-		const clonedEvent: Event = new Event(inEvent.type, inEvent);
-		this.dispatchEvent(clonedEvent);
-		inEvent.preventDefault();
-		inEvent.stopPropagation();
-		this.logger.stop();
-	}
-
-	protected _onBlur(inEvent: Event): void {
-		this.logger.start("_onBlur");
-		this.pressed = false;
-		const clonedEvent: Event = new Event(inEvent.type, inEvent);
-		this.dispatchEvent(clonedEvent);
-		inEvent.preventDefault();
-		inEvent.stopPropagation();
-		this.logger.stop();
-	}
-	/**
-	 * Called when an HTML attribute is changed, added or removed
-	 */
-	public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
-		this.logger.start("attributeChangedCallback", this.primaryCssClass);
+	public attributeChangedCallback(attr: string, oldValue: string | null, newValue: string | null): void {
 		if (oldValue === newValue) {
-			this.logger.stop();
 			return;
 		}
-
-		this.logger.log('ch5-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
-
-		const attributeChangedProperty = Ch5ButtonBase.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
-		if (attributeChangedProperty) {
-			const thisRef: any = this;
-			const key = attributeChangedProperty.name;
-			thisRef[key] = newValue;
-		}
-
+		this.logStart('attributeChangedCallback');
+		this.log('ch5-button attributeChangedCallback(', attr, oldValue, newValue, ')');
 		switch (attr) {
-			case 'customclass':
-				this.customClass = Ch5ButtonUtils.getAttributeValue<string>(this, 'customclass', newValue, '');
-				break;
-
-			case 'labelinnerhtml':
-				this.labelInnerHTML = Ch5ButtonUtils.getAttributeValue<string>(this, 'labelinnerhtml', newValue, '');
-				break;
-
-			case 'receivestatecustomclass':
-				if (this.hasAttribute('receivestatecustomclass')) {
-					this.receiveStateCustomClass = this.getAttribute('receivestatecustomclass') as string;
-				} else {
-					this.clearStringSignalSubscription(this._receiveStateCustomClass, this._subKeySigReceiveCustomClass);
-					this._receiveStateCustomClass = '';
-				}
-				break;
-
-			case 'customstyle':
-				this.customStyle = Ch5ButtonUtils.getAttributeValue<string>(this, 'customstyle', newValue, '');
-				break;
-
-			case 'receivestatecustomstyle':
-				if (this.hasAttribute('receivestatecustomstyle')) {
-					this.receiveStateCustomStyle = this.getAttribute('receivestatecustomstyle') as string;
-				} else {
-					this.clearStringSignalSubscription(this._receiveStateCustomStyle, this._subKeySigReceiveCustomStyle);
-					this._receiveStateCustomStyle = '';
-				}
-				break;
-
 			case 'label':
-				this.label = Ch5ButtonUtils.getAttributeValue<string>(this, 'label', newValue, '');
-				break;
-
-			case 'iconclass':
-				this.iconClass = Ch5ButtonUtils.getAttributeValue<string>(this, 'iconclass', newValue, '');
-				break;
-
-			case 'iconposition':
-				this.iconPosition = Ch5ButtonUtils.getAttributeValue<TCh5ButtonIconPosition>(this, 'iconposition', newValue as TCh5ButtonIconPosition, Ch5ButtonBase.ICON_POSITIONS[0]);
-				break;
-
-			case 'iconurl':
-				this.iconUrl = Ch5ButtonUtils.getAttributeValue<string>(this, 'iconurl', newValue, '');
-				break;
-
-			case 'mode':
-				this.mode = Ch5ButtonUtils.getAttributeValue<number>(this, 'mode', Number(newValue), 0);
-				this.updateCssClasses();
-				this.updateInternalHtml();
-				break;
-
-			case 'orientation':
-				this.orientation = Ch5ButtonUtils.getAttributeValue<TCh5ButtonOrientation>(this, 'orientation', newValue as TCh5ButtonOrientation, Ch5ButtonBase.ORIENTATIONS[0]);
-				this.updateCssClasses();
-				break;
-
-			case 'type':
-				this.type = Ch5ButtonUtils.getAttributeValue<TCh5ButtonType>(this, 'type', newValue as TCh5ButtonType, Ch5ButtonBase.TYPES[0]);
-				break;
-
-			case 'shape':
-				this.shape = Ch5ButtonUtils.getAttributeValue<TCh5ButtonShape>(this, 'shape', newValue as TCh5ButtonShape, Ch5ButtonBase.SHAPES[0]);
-				this.updateCssClasses();
-				break;
-
-			case 'halignlabel':
-				this.hAlignLabel = Ch5ButtonUtils.getAttributeValue<TCh5ButtonHorizontalAlignLabel>(this, 'halignlabel', newValue as TCh5ButtonHorizontalAlignLabel, Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS[0]);
-				break;
-
-			case 'valignlabel':
-				this.vAlignLabel = Ch5ButtonUtils.getAttributeValue<TCh5ButtonVerticalAlignLabel>(this, 'valignlabel', newValue as TCh5ButtonVerticalAlignLabel, Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0]);
-				break;
-
-			case 'size':
-				this.size = Ch5ButtonUtils.getAttributeValue<TCh5ButtonSize>(this, 'size', newValue as TCh5ButtonSize, Ch5ButtonBase.SIZES[0]);
-				this.updateCssClasses();
-				break;
-
-			case 'stretch':
-				this.stretch = Ch5ButtonUtils.getAttributeValue<TCh5ButtonStretch | null>(this, 'stretch', newValue as TCh5ButtonStretch, null);
-				this.updateCssClasses();
-				break;
-
-			case 'selected':
-				// if (!this.hasAttribute('customclassselected')) {
-				// if (this.hasAttribute('selected')) {
-				// 	this.selected = this.toBoolean(newValue, true);
-				// }	
-				// this.updateCssClasses();
-				this.selected = newValue as unknown as boolean;
-				// }
-				break;
-
-			case 'pressed':
-				this.pressed = newValue as unknown as boolean;
-				break;
-
-			case 'checkboxshow':
-				this.checkboxShow = newValue as unknown as boolean;
-				this.updateInternalHtml();
-				break;
-
-			case 'checkboxposition':
-				this.checkboxPosition = Ch5ButtonUtils.getAttributeValue<TCh5ButtonCheckboxPosition>(this, 'checkboxposition', newValue as TCh5ButtonCheckboxPosition, Ch5ButtonBase.CHECKBOX_POSITIONS[0]);
-				break;
-
-			case 'formtype':
-				if (this.hasAttribute('formtype')) {
-					this.formType = this.getAttribute('formtype') as TCh5ButtonActionType | null;
+				if (this.receiveStateLabel || this.receiveStateScriptLabelHtml) {
+					break;
 				}
+				this.label = newValue ?? '';
 				break;
-
-			case 'customclassselected':
-				this.customClassState = Ch5ButtonUtils.getAttributeValue<string>(this, 'customclassselected', newValue, '');
-				this.updateCssClassesForCustomState();
+			case 'labelinnerhtml':
+				this.labelInnerHTML = newValue ?? '';
 				break;
-
-			case 'customclasspressed':
-				this.customClassPressed = Ch5ButtonUtils.getAttributeValue<string>(this, 'customclasspressed', newValue, '');
-				this.customClassState = this.customClassPressed;
-				this.updatePressedClass(this.customClassState);
+			case 'iconclass':
+				if (this.receiveStateIconClass) {
+					break;
+				}
+				this.iconClass = newValue ?? '';
 				break;
-
-			case 'customclassdisabled':
-				this.customClassDisabled = Ch5ButtonUtils.getAttributeValue<string>(this, 'customclassdisabled', newValue, '');
-				this.customClassState = this.customClassDisabled;
-				this.updateCssClassesForCustomState();
+			case 'iconurl':
+				if (this.receiveStateIconUrl) {
+					break;
+				}
+				this.iconUrl = newValue ?? '';
 				break;
-
-			case 'receivestateselected':
-				this.receiveStateSelected = Ch5ButtonUtils.getAttributeValue<string>(this, 'receivestateselected', newValue, '');
+			case 'backgroundimageurl':
+				if (this.receiveStateBackgroundImageUrl) {
+					break;
+				}
+				this.backgroundImageUrl = newValue ?? '';
 				break;
-
-			case 'receivestatelabel':
-				this.receiveStateLabel = Ch5ButtonUtils.getAttributeValue<string>(this, 'receivestatelabel', newValue, '');
-				break;
-
-			case 'receivestatescriptlabelhtml':
-				this.receiveStateScriptLabelHtml = Ch5ButtonUtils.getAttributeValue<string>(this, 'receivestatescriptlabelhtml', newValue, '');
-				break;
-
-			case 'sendeventonclick':
-				this.sendEventOnClick = Ch5ButtonUtils.getAttributeValue<string>(this, 'sendeventonclick', newValue, '');
-				break;
-
-			case 'receivestateiconclass':
-				this.receiveStateIconClass = Ch5ButtonUtils.getAttributeValue<string>(this, 'receivestateiconclass', newValue, '');
-				break;
-
-			case 'receivestateiconurl':
-				this.receiveStateIconUrl = Ch5ButtonUtils.getAttributeValue<string>(this, 'receivestateiconurl', newValue, '');
-				break;
-
 			case 'receivestatetype':
-				this.receiveStateType = Ch5ButtonUtils.getAttributeValue<string>(this, 'receivestatetype', newValue, '');
+				this.receiveStateType = newValue ?? '';
 				break;
-
-			case 'receivestatemode':
-				this.receiveStateMode = Ch5ButtonUtils.getAttributeValue<string>(this, 'receivestatemode', newValue, '');
+			case 'receivestateselected':
+				this.receiveStateSelected = newValue ?? '';
 				break;
-
+			case 'receivestatelabel':
+				this.receiveStateLabel = newValue ?? '';
+				break;
+			case 'receivestatescriptlabelhtml':
+				this.receiveStateScriptLabelHtml = newValue ?? '';
+				break;
+			case 'receivestateiconclass':
+				this.receiveStateIconClass = newValue ?? '';
+				break;
+			case 'receivestateiconurl':
+				this.receiveStateIconUrl = newValue ?? '';
+				break;
+			case 'receivestatebackgroundimageurl':
+				this.receiveStateBackgroundImageUrl = newValue ?? '';
+				break;
+			case 'sendeventonclick':
+				this.sendEventOnClick = newValue ?? '';
+				break;
+			case 'multilinesupport':
+				this.multilineSupport = this.coerceBooleanAttribute('multilinesupport', false);
+				break;
+			case 'truncatetext':
+				this.truncateText = this.coerceBooleanAttribute('truncatetext', true);
+				break;
+			case 'size':
+			case 'shape':
+			case 'stretch':
+			case 'orientation':
+				// Pure-CSS attributes with no property-store slot: only their rendered
+				// dimensions matter here, so just re-measure - covers both setAttribute()
+				// and the JS property setter (which also writes the attribute).
+				this.scheduleDimensionDependentRefit();
+				break;
 			default:
+				// Delegate base attributes (show / disabled) to Ch5LightBaseClass.
 				super.attributeChangedCallback(attr, oldValue, newValue);
 				break;
 		}
-		this.logger.stop();
-	}
-
-
-	protected updateSwipeGesture() {
-		if (this._pressable !== null && !_.isNil(this._pressable.options)) {
-			this._pressable.options.enableSwipe = this.swipeGestureEnabled;
-		}
-	}
-	public createButtonLabel(selectedObject: Ch5ButtonBase | Ch5ButtonMode | Ch5ButtonModeState) {
-		const buttonLabelList = selectedObject.getElementsByTagName("ch5-button-label");
-		const findButtonLabel = Array.prototype.slice.call(buttonLabelList).filter((x: { parentNode: { nodeName: { toString: () => string; }; }; }) => x.parentNode.nodeName.toString().toLowerCase() === selectedObject.nodeName.toString().toLowerCase());
-		let childButtonLabel: any = null;
-		if (findButtonLabel && findButtonLabel.length > 0 && !isNil(findButtonLabel[0].children[0])) {
-			childButtonLabel = findButtonLabel[0];
-		} else {
-			childButtonLabel = document.createElement('ch5-button-label');
-			selectedObject.appendChild(childButtonLabel);
-		}
-		let templateEl = childButtonLabel.querySelector('template');
-		if (templateEl !== null) {
-			childButtonLabel.removeChild(templateEl);
-		}
-		templateEl = document.createElement('template');
-		templateEl.innerHTML = this.decodeInnerHTMLForAttribute(selectedObject.labelInnerHTML);
-		// templateEl.content.appendChild(document.createTextNode(this.decodeInnerHTMLForAttribute(selectedObject.labelInnerHTML)));
-		childButtonLabel.appendChild(templateEl);
-
-	}
-
-	private backgroundImageURLHandler() {
-		if (this.backgroundImageUrl !== "" && !_.isNil(this.backgroundImageUrl)) {
-			this._elButton.style.backgroundImage = "url(" + this.backgroundImageUrl + ")";
-		}
-	}
-
-	private _subscribeToPressableIsPressed() {
-		if (this.buttonListContract.contractName.trim() !== "" && this.buttonListContract.parentComponent.trim() === 'ch5-button-list') { return this._subscribeToPressableIsPressedForButtonList(); }
-		if (this.buttonListContract.contractName.trim() !== "" && this.buttonListContract.parentComponent.trim() === 'ch5-tab-button') { return this._subscribeToPressableIsPressedForTabButton(); }
-		const REPEAT_DIGITAL_PERIOD = 200;
-		// const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
-		if (this._isPressedSubscription === null && this._pressable !== null) {
-			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
-				this.logger.log(`Ch5Button.pressableSubscriptionCb(${value})`, this.pressed);
-				if (value === false) {
-					if (this._repeatDigitalInterval !== null) {
-						window.clearInterval(this._repeatDigitalInterval as number);
-					}
-					this.sendValueForRepeatDigitalWorking(false);
-					setTimeout(() => {
-						this.setButtonDisplay();
-					}, this.STATE_CHANGE_TIMEOUTS);
-				} else {
-					this.sendValueForRepeatDigitalWorking(true);
-					if (this._repeatDigitalInterval !== null) {
-						window.clearInterval(this._repeatDigitalInterval as number);
-					}
-					// let numRepeatDigitals = 0;
-					this._repeatDigitalInterval = window.setInterval(() => {
-						this.sendValueForRepeatDigitalWorking(true);
-						// if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
-						// 	console.warn("Ch5Button MAXIMUM Repeat digitals sent");
-						// 	window.clearInterval(this._repeatDigitalInterval as number);
-						// 	this.sendValueForRepeatDigitalWorking(false);
-						// }
-					}, REPEAT_DIGITAL_PERIOD);
-					this.setButtonDisplay();
-				}
-				// }
-			});
-		}
-	}
-
-	private _subscribeToPressableIsPressedForTabButton() {
-		if (this._isPressedSubscription === null && this._pressable !== null) {
-			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
-				this.logger.log(`Ch5Button.pressableSubscriptionCb(${value})`, this.pressed);
-				if (value === false) {
-					Ch5SignalFactory.getInstance().getBooleanSignal(this.buttonListContract.contractName + `.Tab${this.buttonListContract.index}_Press`)?.publish(value);
-					setTimeout(() => {
-						this.setButtonDisplay();
-					}, this.STATE_CHANGE_TIMEOUTS);
-				} else {
-					Ch5SignalFactory.getInstance().getBooleanSignal(this.buttonListContract.contractName + `.Tab${this.buttonListContract.index}_Press`)?.publish(value);
-					this.setButtonDisplay();
-				}
-			});
-		}
-	}
-
-	private _subscribeToPressableIsPressedForButtonList() {
-		if (this._isPressedSubscription === null && this._pressable !== null) {
-			let isHeld = false;
-			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
-				this.logger.log(`Ch5Button.pressableSubscriptionCb(${value})`, this.pressed);
-				if (value === false) {
-					Ch5SignalFactory.getInstance().getBooleanSignal(this.buttonListContract.contractName + `.Button${this.buttonListContract.index}ItemPress`)?.publish(value);
-					if (isHeld === false) {
-						Ch5SignalFactory.getInstance().getNumberSignal(this.buttonListContract.contractName + '.ListItemClicked')?.publish(this.buttonListContract.index);
-					}
-					if (this._repeatDigitalInterval !== null) {
-						window.clearInterval(this._repeatDigitalInterval as number);
-						isHeld = false;
-					}
-					setTimeout(() => {
-						this.setButtonDisplay();
-					}, this.STATE_CHANGE_TIMEOUTS);
-				} else {
-					Ch5SignalFactory.getInstance().getBooleanSignal(this.buttonListContract.contractName + `.Button${this.buttonListContract.index}ItemPress`)?.publish(value);
-					if (this._repeatDigitalInterval !== null) {
-						window.clearInterval(this._repeatDigitalInterval as number);
-					}
-					if (this.buttonListContract.clickHoldTime === 0) {
-						isHeld = true;
-						Ch5SignalFactory.getInstance().getNumberSignal(this.buttonListContract.contractName + '.ListItemHeld')?.publish(this.buttonListContract.index);
-					} else {
-						this._repeatDigitalInterval = window.setInterval(() => {
-							isHeld = true;
-							Ch5SignalFactory.getInstance().getNumberSignal(this.buttonListContract.contractName + '.ListItemHeld')?.publish(this.buttonListContract.index);
-							window.clearInterval(this._repeatDigitalInterval as number);
-						}, this.buttonListContract.clickHoldTime);
-					}
-					this.setButtonDisplay();
-				}
-			});
-		}
-	}
-
-	private _unsubscribeFromPressableIsPressed() {
-		if (this._repeatDigitalInterval !== null) {
-			window.clearInterval(this._repeatDigitalInterval as number);
-		}
-		if (this._isPressedSubscription !== null) {
-			this._isPressedSubscription.unsubscribe();
-			this._isPressedSubscription = null;
-		}
+		this.logStop();
 	}
 
 	/**
-	 * Called when the ch5-button component is disconnected from the DOM
+	 * Default host ARIA role (applied in `connectedCallback`) when the author has
+	 * not set `role`. Non-observed, so it stays off the attribute-change path.
 	 */
+	protected getDefaultRole(): string | null {
+		return 'button';
+	}
+
+	/**
+	 * The button's STATIC property settings (the same array passed to
+	 * `_ch5Properties.add()`), exposed so `Ch5LightBaseClass.applyContractName` can
+	 * read the co-located `contractName: true` flags at connect — mirroring how
+	 * `ch5-advanced-button` declares the flag on its signal attribute registry
+	 * entries. Returning the static array keeps the contract path zero-per-instance,
+	 * and is only read when a `contractname` attribute is actually present.
+	 */
+	protected getContractPropertySettings(): readonly ICh5LightPropertySettings[] {
+		return Ch5ButtonBase.PROPERTY_SETTINGS;
+	}
+
+	/**
+	 * Called when the Ch5Button component is first connected to the DOM
+	 */
+	public connectedCallback() {
+		this.logStart('connectedCallback()');
+		if (!this._isInitialized) {
+			this.createInternalHtml();
+			this.handleIcon();
+			this.handleLabel();
+			this.handleBackgroundImageUrl();
+			this._isInitialized = true;
+		}
+
+		// Reattach the kept subtree only if it detached (survives reconnect cycles).
+		if (this._elButton && this._elButton.parentNode !== this) {
+			this._elContainer.appendChild(this._elButton);
+		}
+
+		// Apply base attributes (show / disabled) last, once the button exists so the
+		// overridden disabled handler can reach it. Idempotent on reconnect.
+		super.connectedCallback();
+
+		// (Re)subscribe to any receiveState* signals. No-op when none are set; safe on
+		// reconnect (disconnect tore down the subscriptions but kept the names).
+		this.subscribeReceiveStateType();
+		this.subscribeReceiveStateSelected();
+		this.subscribeReceiveStateLabel();
+		this.subscribeReceiveStateScriptLabelHtml();
+		this.subscribeReceiveStateIconClass();
+		this.subscribeReceiveStateIconUrl();
+		this.subscribeReceiveStateBackgroundImageUrl();
+
+		// (Re)attach the focus/blur listeners so the host re-emits those events.
+		// Always-on; safe on reconnect (disconnect detached them).
+		this.wireFocusBlur();
+
+		// (Re)wire the pressable for the `pressed` state + bubbling `press`/`release`
+		// events. Always-on (one idle `pointerdown` listener); safe on reconnect.
+		this.wirePressable();
+
+		// Apply join offsets to template child elements (if any). Zero-cost when absent
+		// (early exit in applyJoinOffsets when no offsets and no contract). Called after
+		// super.connectedCallback() so contractname is resolved, and after internal HTML
+		// creation so any child templates are present. Idempotent on reconnect.
+		this.applyJoinOffsets();
+
+		// (Re)measure the multi-line clamp now the button is on-DOM (height is
+		// unreadable off-DOM). No-op unless multilineSupport is on; scheduled so the
+		// read lands after connect-time mutations settle.
+		if (this.multilineSupport) {
+			this.scheduleFitEllipsisForMultiline();
+		}
+		this.scheduleVerticalInnerButtonFit();
+
+		customElements.whenDefined(this.ctor.ELEMENT_NAME).then(() => {
+			// Run the same deferred-on-connect fit pass after CE registration settles.
+			if (this.multilineSupport) {
+				this.scheduleFitEllipsisForMultiline();
+			}
+			this.scheduleVerticalInnerButtonFit();
+			this.componentLoadedEvent(this.ctor.ELEMENT_NAME, this.id);
+		});
+		this.logStop();
+	}
+
 	public disconnectedCallback() {
-		this.logger.start('disconnectedCallback()');
-		this.removeEventListeners();
-		this.unsubscribeFromSignals();
-		unSubscribeInViewPortChange(this);
-		// destroy pressable
-		if (null !== this._pressable) {
-			this._pressable.destroy();
-		}
+		this.logStart('disconnectedCallback()');
+		// Release the signal subscriptions (names kept so connectedCallback re-subscribes).
+		this.clearSignalSubscription(this.receiveStateType);
+		this.clearSignalSubscription(this.receiveStateSelected);
+		this.clearSignalSubscription(this.receiveStateLabel);
+		this.clearSignalSubscription(this.receiveStateScriptLabelHtml);
+		this.clearSignalSubscription(this.receiveStateIconClass);
+		this.clearSignalSubscription(this.receiveStateIconUrl);
+		this.clearSignalSubscription(this.receiveStateBackgroundImageUrl);
 
-		// disconnect common mutation observer
-		this.disconnectCommonMutationObserver();
-		this.logger.stop();
+		// Detach the focus/blur listeners; connectedCallback re-attaches.
+		this.unwireFocusBlur();
+		// Tear down the pressable's listeners (releases first if still pressed); connectedCallback re-wires it.
+		this.unwirePressable();
+		// Cancel any pending multi-line measurement (drops the scheduled callback) so a
+		// detached button does no layout read.
+		if (this._pendingFitHandle !== null) {
+			window.cancelAnimationFrame(this._pendingFitHandle);
+			this._pendingFitHandle = null;
+		}
+		if (this._pendingVerticalFitHandle !== null) {
+			window.cancelAnimationFrame(this._pendingVerticalFitHandle);
+			this._pendingVerticalFitHandle = null;
+		}
+		// Stop any in-flight contract hold timer.
+		this.clearButtonListContractHold();
+		// Let the base release its own opt-in subscription (receiveStateEnable).
+		super.disconnectedCallback();
+		this.logStop();
 	}
 
 	//#endregion
 
-	//#region 4. Other Methods
+	//#region Private Methods
 
 	/**
-	 * Called when pressed class will be available
-	 * @param pressedClass is class name. it will add after press the ch5 button
+	 * Sets an enum-backed host attribute with predictable fallback behavior.
+	 * - exact valid string value     => set as-is
+	 * - empty string                 => set explicit default value
+	 * - null/undefined/non-string    => set explicit default value
+	 * - any other string             => set explicit default value
 	 */
-	private updatePressedClass(pressedClass: string, onTouchMove: boolean = true) {
-		this._pressable = new Ch5Pressable(this, {
-			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
-			cssPressedClass: pressedClass,
-			enableSwipe: this.swipeGestureEnabled,
-			touchMove: onTouchMove,
-		});
+	private setEnumHostAttribute(attributeName: string, value: unknown, validValues: readonly string[], defaultValue: string): void {
+		if (typeof value !== 'string') {
+			this.setAttribute(attributeName, defaultValue);
+			return;
+		}
+
+		this.setAttribute(attributeName, validValues.indexOf(value) >= 0 ? value : defaultValue);
 	}
 
-	protected updateForChangeInCustomCssClass() {
-		const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
-		this.logger.start("updateForChangeInCustomCssClass()");
+	/**
+	 * Sets an enum-backed host attribute only when valid; otherwise removes it.
+	 * Used by strict CSS attributes where junk input should not remain on DOM.
+	 */
+	private setEnumHostAttributeOrRemove(attributeName: string, value: unknown, validValues: readonly string[]): void {
+		if (typeof value !== 'string' || validValues.indexOf(value) < 0) {
+			this.removeAttribute(attributeName);
+			return;
+		}
+		this.setAttribute(attributeName, value);
+	}
 
-		this._prevAddedCustomClasses.forEach((className: string) => {
-			if (className !== '') {
-				targetElement.classList.remove(className);
+	/**
+	 * Keeps a host attribute in sync with a runtime string value while skipping
+	 * redundant DOM mutations (and the attributeChangedCallback work they trigger).
+	 */
+	private syncHostStringAttribute(attributeName: string, value: string): void {
+		if (value) {
+			if (this.getAttribute(attributeName) !== value) {
+				this.setAttribute(attributeName, value);
 			}
-		});
-		this._prevAddedCustomClasses = [];
-
-		this.customClass.split(' ').forEach((className: string) => {
-			if (className !== '') {
-				this._prevAddedCustomClasses.push(className);
-				targetElement.classList.add(className);
-			}
-		});
-		this.logger.stop();
-	}
-
-	protected updateForChangeInStyleCss() {
-		this.logger.start("updateForChangeInStyleCss()");
-		const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
-		targetElement.style.cssText = this.customStyle;
-		this.logger.stop();
-	}
-
-
-	private generateListOfAllPossibleComponentCssClasses(): string[] {
-		const cssClasses: string[] = [];
-		cssClasses.push(this.primaryCssClass);
-
-		// shapes
-		Ch5ButtonBase.SHAPES.forEach((shape: TCh5ButtonShape) => {
-			const newClass = this.primaryCssClass + '--' + shape;
-			cssClasses.push(newClass);
-		});
-
-		// types
-		Ch5ButtonBase.TYPES.forEach((type: TCh5ButtonType) => {
-			const newCssClass = this.primaryCssClass + '--' + type;
-			cssClasses.push(newCssClass);
-		});
-
-		// horizontal align label
-		Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS.forEach((type: TCh5ButtonHorizontalAlignLabel) => {
-			const newCssClass = this.primaryCssClass + '--horizontal-' + type;
-			cssClasses.push(newCssClass);
-		});
-
-		// vertical align label
-		Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS.forEach((type: TCh5ButtonVerticalAlignLabel) => {
-			const newCssClass = this.primaryCssClass + '--vertical-' + type;
-			cssClasses.push(newCssClass);
-		});
-
-		// sizes
-		Ch5ButtonBase.SIZES.forEach((size: TCh5ButtonSize) => {
-			cssClasses.push(this.primaryCssClass + '--size-' + size);
-		});
-
-		// stretches
-		Ch5ButtonBase.STRETCHES.forEach((stretch: TCh5ButtonStretch) => {
-			cssClasses.push(this.primaryCssClass + '--stretch-' + stretch);
-		});
-
-		// backgroundImageFillType
-		Ch5ButtonBase.BACKGROUND_IMAGE_FILL_TYPE.forEach((backgroundImageFillType: TCh5ButtonBackgroundImageFillType) => {
-			cssClasses.push(this.primaryCssClass + '--background-image-fill-type-' + backgroundImageFillType);
-		});
-
-		// iconUrlFillType
-		Ch5ButtonBase.ICON_URL_FILL_TYPE.forEach((iconUrlFillType: TCh5ButtonIconUrlFillType) => {
-			cssClasses.push(this.primaryCssClass + '--icon-url-fill-type-' + iconUrlFillType);
-		});
-
-		// orientation
-		Ch5ButtonBase.ORIENTATIONS.forEach((orientation: TCh5ButtonOrientation) => {
-			cssClasses.push(this.primaryCssClass + '--' + orientation);
-		});
-
-		// selected
-		cssClasses.push(this.primaryCssClass + this.selectedCssClassPostfix);
-		if (this.buttonListContract?.parentComponent === "ch5-tab-button" || this.buttonListContract?.parentComponent === "ch5-button-list") {
-			cssClasses.push(this.buttonListContract?.parentComponent + this.selectedCssClassPostfix);
+		} else if (this.hasAttribute(attributeName)) {
+			this.removeAttribute(attributeName);
 		}
-
-		return cssClasses;
 	}
 
-	public unsubscribeFromSignals() {
-		super.unsubscribeFromSignals();
-		this._ch5ButtonSignal.unsubscribeAll();
-
-		// TODO - The below is a temporary solution to fix memory leaks. A proper solution would be to refactor the signal subscription management in the base class.
-		// The same will be corrected once the button is moved to the new signal management system as per newer components.
-		// Unsubscribe from receiveStateSelected signal
-		this.clearBooleanSignalSubscription(this._sigNameReceiveSelected, this._subReceiveSelected);
-		this._sigNameReceiveSelected = '';
-		this._subReceiveSelected = '';
-
-		// Unsubscribe from receiveStateMode signal
-		this.clearNumberSignalSubscription(this._sigNameReceiveStateMode as string, this._subReceiveSignalMode as string);
-		this._sigNameReceiveStateMode = null;
-		this._subReceiveSignalMode = null;
-	}
-
-	private updateIconDisplay() {
-		this.logger.start("updateIconDisplay");
-		if (!isNil(this._previousIconUrl) && this._previousIconUrl !== '') {
-			this._elIcon.style.backgroundImage = '';
-		}
-		if (!isNil(this._previousIconClass) && this._previousIconClass !== '') {
-			this._previousIconClass.split(' ').forEach((className: string) => {
-				className = className.trim();
-				if (this._elIcon && this._elIcon.classList && className !== "") {
-					this._elIcon.classList.remove(className);
-				}
-			});
-		}
-		if (this._previousSgIconNumeric !== -1) {
-			this._elIcon.classList.remove('sg-' + this._previousSgIconNumeric + '');
-		}
-		if (this._previousSgIconString !== '') {
-			this._elIcon.classList.remove('sg-' + this._previousSgIconString);
-		}
-
-		this._elIcon.classList.remove('sg');
-		Array.from(Ch5ButtonBase.SG_ICON_THEME).forEach((theme) => this._elIcon.classList.remove('sg-' + theme));
-
-		if (!isNil(this.sgIconString) && this.sgIconString !== '') {
-			this._elIcon.classList.add('sg-' + this.sgIconString);
-			this._previousSgIconString = this.sgIconString;
-			this._elIcon.classList.add('sg');
-			this._elIcon.classList.add('sg-' + this.sgIconTheme);
-		} else if (!isNil(this.sgIconNumeric) && this.sgIconNumeric !== -1) {
-			this._elIcon.classList.add('sg-' + this.sgIconNumeric + '');
-			this._previousSgIconNumeric = this.sgIconNumeric;
-			this._elIcon.classList.add('sg');
-			this._elIcon.classList.add('sg-' + this.sgIconTheme);
-		} else if (!isNil(this.iconUrl) && this.iconUrl !== '' && this.iconUrl === this._ch5ButtonSignal.getSignal('receiveStateIconUrl')?.currentValue) {
-			this._elIcon.style.backgroundImage = this.iconUrl;
-		} else if (!isNil(this.iconClass) && this.iconClass !== '' && this.iconClass === this._ch5ButtonSignal.getSignal('receiveStateiconClass')?.currentValue) {
-			this.iconClass.split(' ').forEach((className: string) => {
-				className = className.trim();
-				if (className !== '') {
-					this._elIcon.classList.add(className);
-				}
-			});
-		} else if (!isNil(this.iconUrl) && this.iconUrl !== '') {
-			this._elIcon.style.backgroundImage = this.iconUrl;
-		} else if (!isNil(this.iconClass) && this.iconClass !== '') {
-			this.iconClass.split(' ').forEach((className: string) => {
-				className = className.trim();
-				if (className !== '') {
-					this._elIcon.classList.add(className);
-				}
-			});
-		}
-		this.logger.stop();
-	}
-
-	public setLabel(labelHtml: string) {
-		this.labelSetByJavascriptValue = labelHtml;
-		this.isLabelSetUsingJavascript = true;
-		this.setButtonDisplay();
-	}
-
-	public setMode(modeId: number) {
-		this.mode = modeId;
-		this.isModeSetUsingJavascript = true;
-		this.setButtonDisplay();
-	}
-
-	protected createInternalHtml() {
-		this.logger.start('createInternalHtml()');
+	private createInternalHtml() {
+		this.log('createInternalHtml()');
 		this.clearComponentContent();
-		this._elContainer = document.createElement('div');
+
+		// clearComponentContent() detached the old children, so null the cached label/icon
+		// refs to force handleLabel()/handleIcon() to recreate them in the new button.
+		this._elSpanLabel = null;
+		this._elIcon = null;
+
+		this._elContainer = this;
+		this._elContainer.classList.add(this.ctor.PRIMARY_CSS_CLASS);
+
+		// Create the button OFF-DOM; the handlers add the icon/label while it is detached,
+		// and connectedCallback appends the whole subtree to the host once.
 		this._elButton = document.createElement('button');
-		this._elButton.classList.add(this.BUTTON_PRIMARY_CLASS);
-		this._elCheckboxIcon = document.createElement('i');
-		this._elCheckboxIcon.classList.add('cb-checkbox-icon');
-		this._elSpanForLabelIconImg = document.createElement('span');
-		this._elSpanForLabelIconImg.classList.add('cb-lbl');
-		this._elSpanForLabelOnly = document.createElement('span');
-		this._elSpanForLabelOnly.classList.add('cb-lbl');
-		this._elIcon = document.createElement('i');
-		this._elIcon.classList.add('cb-icon');
-
-		this._elContainer.classList.add(this.primaryCssClass);
-		this._elButton.setAttribute('data-ch5-id', this.getCrId());
-		this._elIcon.classList.add(this.primaryCssClass + '--icon');
-		this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label');
-		// this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + '--span');
-
-		// The icon and label elements are not appended here since they might not always be displayed and the default
-		// css ( like padding ... ) would be applied without having an actual icon or label
-		// The elements are appended (if needed) in the updateInternalHtml method
-
-		this._elContainer.appendChild(this._elButton);
-		this.logger.stop();
+		this._elButton.className = `${this.ctor.PRIMARY_CSS_CLASS}--btn`;
 	}
-
-	public addContainerClass(input: string) {
-		if (!this._elContainer.classList.contains(input)) {
-			this._elContainer.classList.add(input);
-		}
-	}
-
-	public removeContainerClass(input: string) {
-		if (this._elContainer.classList.contains(input)) {
-			this._elContainer.classList.remove(input);
-		}
-	}
-
 
 	/**
-	 * Clear the button content in order to avoid duplication of buttons
+	 * Clear the content of component in order to avoid duplication of elements
 	 */
-	protected clearComponentContent() {
-		const containers = this.getElementsByTagName("div");
-		Array.from(containers).forEach((container) => {
-			container.remove();
-		});
+	private clearComponentContent() {
+		// Use a single native operation instead of repeated removeChild calls.
+		this.replaceChildren();
 	}
 
-	protected getTargetElementForCssClassesAndStyle(): HTMLElement {
-		return this._elContainer;
-	}
-
-	// DO NOT Remove this method
-	public getCssClassDisabled(): string {
-		return this.primaryCssClass + '--disabled';
-	}
-
-	//#endregion
-
-	//#region 5. Events
-
-	/**
-	 * Events
-	 * click - inherited
-	 * focus - inherited
-	 * blur - inherited
-	 * press - custom
-	 * release - custom
-	 */
-	private sendValueForRepeatDigitalWorking(value: boolean): void {
-		this.info(`Ch5Button.sendValueForRepeatDigital(${value})`);
-		if (!this._sigNameSendOnClick) { return; }
-
-		// const touchSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
-		// 	.getObjectAsBooleanSignal(this._sigNameSendOnTouch);
-
-		const clickSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
-			.getObjectAsBooleanSignal(this._sigNameSendOnClick);
-
-		// if (clickSignal && touchSignal && clickSignal.name === touchSignal.name) {
-		// 	// send signal only once if it has the same value
-		// 	clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
-		// 	return;
-		// }
-
-		// if (touchSignal && touchSignal.name) {
-		// 	touchSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
-		// }
-
-		if (clickSignal && clickSignal.name) {
-			clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
+	private handleLabel() {
+		this.log('handleLabel(', this.label, ')');
+		if (!this._elButton) {
+			return;
 		}
-	}
-
-	private checkboxDisplay() {
-		this.logger.start("checkboxDisplay");
-		//if (this.isCheckboxVisible()) {
-		let classForCheckboxRemove: string[] = [];
-		let classForCheckboxAdd: string[] = [];
-		const checkboxCssClass: string = this.primaryCssClass + "__checkbox";
-		classForCheckboxRemove = [checkboxCssClass, checkboxCssClass + "--unchecked", checkboxCssClass + "--checked"];
-		if (this._checkboxShow === true && this._selected === true) {
-			classForCheckboxAdd = [checkboxCssClass, checkboxCssClass + "--checked"];
-		} else if (this._checkboxShow === false) {
-			// This case is addressed.
-		} else if (this._checkboxShow === true) {
-			classForCheckboxAdd = [checkboxCssClass, checkboxCssClass + "--unchecked"];
-		}
-
-		classForCheckboxRemove.forEach((className: string) => {
-			className = className.trim();
-			if (className !== '') {
-				this._elCheckboxIcon.classList.remove(className);
-			}
-		});
-
-		classForCheckboxAdd.forEach((className: string) => {
-			className = className.trim();
-			if (className !== '') {
-				this._elCheckboxIcon.classList.add(className);
-			}
-		});
-
-		this._elCheckboxIcon.classList.remove('cx-button-checkbox-pos-left');
-		this._elCheckboxIcon.classList.remove('cx-button-checkbox-pos-right');
-		if (this.checkboxShow === true) {
-			this._elCheckboxIcon.classList.add('cx-button-checkbox-pos-' + this.checkboxPosition);
-		}
-
-		let hasCheckboxIcon = false;
-
-		if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
-			hasCheckboxIcon = true;
-		}
-		this.logger.log("hasCheckboxIcon", hasCheckboxIcon);
-		// TODO - remove twice usage after testing valign and halign
-		if (this._elCheckboxIcon.parentNode) {
-			this._elCheckboxIcon.remove();
-		}
-
-		if (hasCheckboxIcon) {
-			if (this.checkboxPosition === 'right') {
-				if (this._elCheckboxIcon.parentNode !== (this._elButton as Node)) {
-					// if the icon element was not yet added to the button
-					this._elButton.appendChild(this._elCheckboxIcon);
-				} else {
-					// if the icon element was already added and needs to be switched with the label element
-					this._elButton.insertBefore(this._elSpanForLabelIconImg as Node, this._elCheckboxIcon as Node);
-				}
-
-			} else if (this.checkboxPosition === 'left') {
-				if ((this._elSpanForLabelIconImg as any).isConnected === true) {
-					this._elButton.insertBefore(this._elCheckboxIcon as Node, this._elSpanForLabelIconImg as Node);
-				}
-			}
+		// Resolve the active label source by priority (highest first):
+		//   1. receivestatescriptlabelhtml (signal, HTML) -> innerHTML
+		//   2. receivestatelabel           (signal, text) -> textContent
+		//   3. labelinnerhtml              (static, HTML)  -> innerHTML
+		//   4. label                       (static, text)  -> textContent
+		// The two signals write-through into their own slots (scriptLabelHtml / label),
+		// so it's the signal NAME's presence that selects the branch - a signal always
+		// outranks the static sources below it. Mirrors ch5-advanced-button / ch5-text.
+		// Only ONE branch runs (a few cheap store reads, no allocation).
+		let html = '';
+		let text = '';
+		if (this.receiveStateScriptLabelHtml) {
+			html = this.scriptLabelHtml;
+		} else if (this.receiveStateLabel) {
+			text = this.label;
+		} else if (this.labelInnerHTML) {
+			html = this.labelInnerHTML;
 		} else {
-			if (this._elCheckboxIcon.parentNode) {
-				this._elCheckboxIcon.remove();
-			}
+			text = this.label;
 		}
-		//}
-		this.logger.stop();
+		if (html || text) {
+			// Create the label element lazily the first time content is set
+			if (!this._elSpanLabel) {
+				this._elSpanLabel = document.createElement('span');
+				this._elSpanLabel.className = `${this.ctor.PRIMARY_CSS_CLASS}--label`;
+				this._elButton.appendChild(this._elSpanLabel);
+				// Apply the current multiline/truncate classes to the fresh span. The inner
+				// multiline measurement is skipped off-DOM (isConnected-guarded);
+				// connectedCallback runs the real one.
+				this.updateLabelTextWrapping();
+			}
+			if (html) {
+				// Render decoded HTML only for the HTML sources; the decode + innerHTML write
+				// cost is paid solely by buttons that actually use them.
+				this._elSpanLabel.innerHTML = this.decodeInnerHTMLForAttribute(html);
+			} else {
+				// textContent (not innerHTML) both renders plain text and clears any HTML left
+				// by a previous HTML pass.
+				this._elSpanLabel.textContent = text;
+			}
+			// Refit the clamp when the content changes (depends on text length + button
+			// height); only when multiline is on, and scheduled to catch same-tick height changes.
+			if (this.multilineSupport) {
+				this.scheduleFitEllipsisForMultiline();
+			}
+		} else if (this._elSpanLabel) {
+			// Remove the label element when no source has content
+			this._elSpanLabel.remove();
+			this._elSpanLabel = null;
+		}
 	}
-
-	//#endregion
-
-	//#region 6. Button UI changes
 
 	/**
-	 * If type node is updated via html or js or signal, the change set attribue of type;
-	 * if receivestate* is true, then even if type attribute chagnes, just use receivestate*
-	 * if receivestate* is false, then
-	 * if mode attribute is updated, always call this method, and update all attributes
+	 * Decodes the HTML entities allowed in the `labelInnerHTML` attribute before it
+	 * is written into the label span. Mirrors ch5-advanced-button / ch5-text exactly.
 	 */
-	public setButtonDisplay(): void {
-		if (this.DEBOUNCE_BUTTON_DISPLAY === 0) {
-			this.setButtonDisplayDetails();
-		} else if (this.isButtonInitiated === true) {
-			this.setButtonDisplayDetails();
-		} else {
-			this.debounceSetButtonDisplay();
-		}
-	}
-
-	protected encodeInnerHTMLForAttribute(innerHTML: string) {
-		return innerHTML.replace(/&/g, '&amp;')
-			.replace(/</g, '&lt;')
-			.replace(/>/g, '&gt;')
-			.replace(/"/g, '&quot;')
-			.replace(/'/g, '&apos;');
-	}
-
-	protected decodeInnerHTMLForAttribute(innerHTML: string) {
+	private decodeInnerHTMLForAttribute(innerHTML: string): string {
 		return innerHTML.replace('&amp;', "&")
 			.replace('&lt;', "<")
 			.replace('&gt;', ">")
@@ -2231,845 +1025,793 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			.replace("&apos;", "/'");
 	}
 
-	protected setButtonDisplayDetails(parentComponent: string = "ch5-button"): void {
-		this.logger.start("setButtonDisplayDetails");
-		this.DEBOUNCE_BUTTON_DISPLAY = 0;
-		// Applicable on Mode change and Selected change
-		// We need not worry about this. ch5-button-label is immediate child, and no change in attribute
-		// affects the data from immediate child.
-
-		const extendedProperties: ICh5ButtonExtendedProperties = {};
-
-		// let isButtonModePressedAvailable: boolean = false;
-
-		// Priority 1: ReceiveState Signals
-		if (this.receiveStateType && this.receiveStateType !== '') {
-			const receiveStateTypeResponseValue: TCh5ButtonType = this._ch5ButtonSignal.getVariable<TCh5ButtonType>("receiveStateType");
-			if (!isNil(receiveStateTypeResponseValue) && Ch5ButtonBase.TYPES.indexOf(receiveStateTypeResponseValue) >= 0) {
-				extendedProperties.type = receiveStateTypeResponseValue;
-			} else {
-				extendedProperties.type = Ch5ButtonBase.TYPES[0];
-				this._ch5ButtonSignal.setVariable("receiveStateType", Ch5ButtonBase.TYPES[0]);
-			}
-		}
-
-		if (this.receiveStateIconClass && this.receiveStateIconClass !== '') {
-			extendedProperties.iconClass = this._ch5ButtonSignal.getVariable<string>("receiveStateIconClass");
-		}
-
-		if (this.receiveStateIconUrl && this.receiveStateIconUrl !== '') {
-			extendedProperties.iconUrl = this._ch5ButtonSignal.getVariable<string>("receiveStateIconUrl");
-		}
-
-		if (this.receiveStateCustomClass && this.receiveStateCustomClass !== '') {
-			extendedProperties.customClass = this._ch5ButtonSignal.getVariable<string>("receiveStateCustomClass");
-		}
-
-		if (this.receiveStateCustomStyle && this.receiveStateCustomStyle !== '') {
-			extendedProperties.customStyle = this._ch5ButtonSignal.getVariable<string>("receiveStateCustomStyle");
-		}
-
-		if (this.isLabelSetUsingJavascript === true) {
-			extendedProperties.labelHtml = this.labelSetByJavascriptValue;
-		} else if (this.receiveStateScriptLabelHtml && this.receiveStateScriptLabelHtml !== '') {
-			extendedProperties.labelHtml = this._ch5ButtonSignal.getVariable<string>("receiveStateScriptLabelHtml");
-		} else if (this.receiveStateLabel && this.receiveStateLabel !== '') {
-			extendedProperties.label = this._ch5ButtonSignal.getVariable<string>("receiveStateLabel");
-		}
-
-		// this.logger.log("extendedProperties Signals: ", extendedProperties);
-
-		// TODO - update nodes cannot be on pressed becos it cannot take debounce
-
-		// Priority 2: Button Mode State Attributes for Selected Mode
-		const buttonModesArray = this.getElementsByTagName("ch5-button-mode");
-		if (buttonModesArray && buttonModesArray.length > 0) {
-			const selectedButtonMode = buttonModesArray[this.mode];
-			if (selectedButtonMode) {
-				const buttonModeStatesArray = selectedButtonMode.getElementsByTagName("ch5-button-mode-state");
-				if (buttonModeStatesArray && buttonModeStatesArray.length > 0) {
-					let selectedButtonModeState: any = null;
-					if (this._pressable?._pressed === true) {
-						selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
-							return (buttonModeState.getAttribute("state") === "pressed");
-						});
-					} else if (this.selected === true) {
-						selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
-							return (buttonModeState.getAttribute("state") === "selected");
-						});
-					} else {
-						selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
-							return (buttonModeState.getAttribute("state") === "normal");
-						});
-					}
-
-					if (selectedButtonModeState) {
-						// if (this._buttonPressedInPressable === true) {
-						// 	isButtonModePressedAvailable = true;
-						// }
-
-						if (isNil(extendedProperties.type) && !isNil(selectedButtonModeState.getAttribute("type"))) {
-							extendedProperties.type = selectedButtonModeState.getAttribute("type") as TCh5ButtonType;
-						}
-						if (isNil(extendedProperties.iconUrl) && !isNil(selectedButtonModeState.getAttribute("iconurl"))) {
-							extendedProperties.iconUrl = selectedButtonModeState.getAttribute("iconurl") as string;
-						}
-						if (isNil(extendedProperties.iconClass) && !isNil(selectedButtonModeState.getAttribute("iconclass"))) {
-							extendedProperties.iconClass = selectedButtonModeState.getAttribute("iconclass") as string;
-						}
-						if (isNil(extendedProperties.iconPosition) && !isNil(selectedButtonModeState.getAttribute("iconposition"))) {
-							extendedProperties.iconPosition = selectedButtonModeState.getAttribute("iconposition") as TCh5ButtonIconPosition;
-						}
-						if (isNil(extendedProperties.checkboxPosition) && !isNil(selectedButtonModeState.getAttribute("checkboxposition"))) {
-							extendedProperties.checkboxPosition = selectedButtonModeState.getAttribute("checkboxposition") as TCh5ButtonCheckboxPosition;
-						}
-						if (isNil(extendedProperties.customClass) && !isNil(selectedButtonModeState.getAttribute("customclass"))) {
-							extendedProperties.customClass = selectedButtonModeState.getAttribute("customclass") as string;
-						}
-						if (isNil(extendedProperties.customStyle) && !isNil(selectedButtonModeState.getAttribute("customstyle"))) {
-							extendedProperties.customStyle = selectedButtonModeState.getAttribute("customstyle") as string;
-						}
-						if (isNil(extendedProperties.hAlignLabel) && !isNil(selectedButtonModeState.getAttribute("halignlabel"))) {
-							extendedProperties.hAlignLabel = selectedButtonModeState.getAttribute("halignlabel") as TCh5ButtonHorizontalAlignLabel;
-						}
-						if (isNil(extendedProperties.vAlignLabel) && !isNil(selectedButtonModeState.getAttribute("valignlabel"))) {
-							extendedProperties.vAlignLabel = selectedButtonModeState.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel;
-						}
-
-						if (isNil(extendedProperties.iconUrlFillType) && !isNil(selectedButtonModeState.getAttribute("iconurlfilltype"))) {
-							extendedProperties.iconUrlFillType = selectedButtonModeState.getAttribute("iconurlfilltype") as TCh5ButtonIconUrlFillType | null;
-						}
-
-						const selectedButtonModeStateLabelButton = selectedButtonModeState.getElementsByTagName("ch5-button-label");
-						if ((isNil(extendedProperties.labelHtml) && isNil(extendedProperties.label)) && selectedButtonModeStateLabelButton && selectedButtonModeStateLabelButton.length > 0 &&
-							(selectedButtonModeStateLabelButton[0].children[0])) {
-							extendedProperties.labelHtml = selectedButtonModeStateLabelButton[0].children[0].innerHTML as string;
-						}
-					}
-					// this.logger.log("extendedProperties Mode States: ", JSON.parse(JSON.stringify(extendedProperties)));
-				}
-
-				// Priority 3: Button Mode Attributes for Selected Mode
-				// if (this._buttonPressedInPressable === false) {
-				if (isNil(extendedProperties.type) && !isNil(selectedButtonMode.getAttribute("type"))) {
-					extendedProperties.type = selectedButtonMode.getAttribute("type") as TCh5ButtonType;
-				}
-				if (isNil(extendedProperties.iconUrl) && !isNil(selectedButtonMode.getAttribute("iconurl"))) {
-					extendedProperties.iconUrl = selectedButtonMode.getAttribute("iconurl") as string;
-				}
-				if (isNil(extendedProperties.iconClass) && !isNil(selectedButtonMode.getAttribute("iconclass"))) {
-					extendedProperties.iconClass = selectedButtonMode.getAttribute("iconclass") as string;
-				}
-				if (isNil(extendedProperties.iconPosition) && !isNil(selectedButtonMode.getAttribute("iconposition"))) {
-					extendedProperties.iconPosition = selectedButtonMode.getAttribute("iconposition") as TCh5ButtonIconPosition;
-				}
-				if (isNil(extendedProperties.checkboxPosition) && !isNil(selectedButtonMode.getAttribute("checkboxposition"))) {
-					extendedProperties.checkboxPosition = selectedButtonMode.getAttribute("checkboxposition") as TCh5ButtonCheckboxPosition;
-				}
-				if (isNil(extendedProperties.customClass) && !isNil(selectedButtonMode.getAttribute("customclass"))) {
-					extendedProperties.customClass = selectedButtonMode.getAttribute("customclass") as string;
-				}
-				if (isNil(extendedProperties.customStyle) && !isNil(selectedButtonMode.getAttribute("customstyle"))) {
-					extendedProperties.customStyle = selectedButtonMode.getAttribute("customstyle") as string;
-				}
-				if (isNil(extendedProperties.hAlignLabel) && !isNil(selectedButtonMode.getAttribute("halignlabel"))) {
-					extendedProperties.hAlignLabel = selectedButtonMode.getAttribute("halignlabel") as TCh5ButtonHorizontalAlignLabel;
-				}
-				if (isNil(extendedProperties.vAlignLabel) && !isNil(selectedButtonMode.getAttribute("valignlabel"))) {
-					extendedProperties.vAlignLabel = selectedButtonMode.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel;
-				}
-
-				if (isNil(extendedProperties.iconUrlFillType) && !isNil(selectedButtonMode.getAttribute("iconurlfilltype"))) {
-					extendedProperties.iconUrlFillType = selectedButtonMode.getAttribute("iconurlfilltype") as TCh5ButtonIconUrlFillType | null;
-				}
-
-				const selectedButtonModeLabelButton = selectedButtonMode.getElementsByTagName("ch5-button-label");
-				if ((isNil(extendedProperties.labelHtml) && isNil(extendedProperties.label) &&
-					selectedButtonModeLabelButton && selectedButtonModeLabelButton.length > 0)) {
-					const checkDirectSelectedButtonModeLabelButton = Array.prototype.slice.call(selectedButtonModeLabelButton).filter((x: { parentNode: { nodeName: { toString: () => string; }; }; }) => x.parentNode.nodeName.toString().toLowerCase() === "ch5-button-mode");
-					if (checkDirectSelectedButtonModeLabelButton && checkDirectSelectedButtonModeLabelButton.length > 0 && !isNil(checkDirectSelectedButtonModeLabelButton[0].children[0])) {
-						extendedProperties.labelHtml = checkDirectSelectedButtonModeLabelButton[0].children[0].innerHTML as string;
-					}
-				}
-
-				// this.logger.log("extendedProperties Mode: ", JSON.parse(JSON.stringify(extendedProperties)));
-				// }
-			}
-		}
-
-		// Priority 4: Button Attributes
-		// if (this._buttonPressedInPressable === false) {
-		if (isNil(extendedProperties.type) && !isNil(this.getAttribute("type"))) {
-			extendedProperties.type = this.getAttribute("type") as TCh5ButtonType;
-		}
-		if (isNil(extendedProperties.iconUrl) && this.getAttribute("iconurl") && this.getAttribute("iconurl") !== '') {
-			extendedProperties.iconUrl = this.getAttribute("iconurl") as string;
-		}
-		if (isNil(extendedProperties.iconClass) && this.getAttribute("iconclass") && this.getAttribute("iconclass") !== '') {
-			extendedProperties.iconClass = this.getAttribute("iconclass") as string;
-		}
-		if (isNil(extendedProperties.iconPosition) && !isNil(this.getAttribute("iconposition"))) {
-			extendedProperties.iconPosition = this.getAttribute("iconposition") as TCh5ButtonIconPosition;
-		}
-		if (isNil(extendedProperties.checkboxPosition) && !isNil(this.getAttribute("checkboxposition"))) {
-			extendedProperties.checkboxPosition = this.getAttribute("checkboxposition") as TCh5ButtonCheckboxPosition;
-		}
-		if (isNil(extendedProperties.customClass) && !isNil(this.getAttribute("customclass"))) {
-			extendedProperties.customClass = this.getAttribute("customclass") as string;
-		}
-		if (isNil(extendedProperties.customStyle) && !isNil(this.getAttribute("customstyle"))) {
-			extendedProperties.customStyle = this.getAttribute("customstyle") as string;
-		}
-		if (isNil(extendedProperties.hAlignLabel) && !isNil(this.getAttribute("halignlabel"))) {
-			extendedProperties.hAlignLabel = this.getAttribute("halignlabel") as TCh5ButtonHorizontalAlignLabel;
-		}
-		if (isNil(extendedProperties.vAlignLabel) && !isNil(this.getAttribute("valignlabel"))) {
-			extendedProperties.vAlignLabel = this.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel;
-		}
-		if (isNil(extendedProperties.iconUrlFillType) && !isNil(this.getAttribute("iconurlfilltype"))) {
-			extendedProperties.iconUrlFillType = this.getAttribute("iconurlfilltype") as TCh5ButtonIconUrlFillType | null;
-		}
-		if (isNil(extendedProperties.labelHtml) && isNil(extendedProperties.label)) {
-			const templateData = this.getElementsByTagName(parentComponent + "-label");
-			if (templateData && templateData.length > 0) {
-				const checkDirectSelectedButtonModeLabelButton = Array.prototype.slice.call(templateData).filter((x: { parentNode: { nodeName: { toString: () => string; }; }; }) => x.parentNode.nodeName.toString().toLowerCase() === parentComponent);
-				if (checkDirectSelectedButtonModeLabelButton && checkDirectSelectedButtonModeLabelButton.length > 0 && !isNil(checkDirectSelectedButtonModeLabelButton[0].children[0])) {
-					if (checkDirectSelectedButtonModeLabelButton && checkDirectSelectedButtonModeLabelButton.length > 0 && checkDirectSelectedButtonModeLabelButton[0].children) {
-						extendedProperties.labelHtml = checkDirectSelectedButtonModeLabelButton[0].children[0].innerHTML as string;
-					} else if (!isNil(this.getAttribute("label"))) {
-						extendedProperties.label = this.getAttribute("label") as string
-					}
-				}
-			} else if (!isNil(this.getAttribute("label"))) {
-				extendedProperties.label = this.getAttribute("label") as string
-			}
-		}
-		// this.logger.log("extendedProperties Button: ", JSON.parse(JSON.stringify(extendedProperties)));
-		// }
-
-		if (isNil(extendedProperties.labelHtml) && isNil(extendedProperties.label)) {
-			extendedProperties.labelHtml = "";
-		}
-
-		this.updatePropertiesObject(extendedProperties);
-		// if (this._buttonPressedInPressable === false) {
-		// 	this.updatePropertiesObject(extendedProperties);
-		// } else {
-		// 	if (isButtonModePressedAvailable === true) {
-		// 		this.updatePropertiesObject(extendedProperties);
-		// 	}
-		// }
-
-		// this.logger.log("extendedProperties Final: ", JSON.parse(JSON.stringify(extendedProperties)));
-
-		// update templateContent attributes to increment join numbers and prefix contract name
-		Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(this, this.getAttribute("contractname") || '',
-			parseInt(this.getAttribute("booleanjoinoffset") || '0', 10) || 0,
-			parseInt(this.getAttribute("numericJoinOffset") || '0', 10) || 0,
-			parseInt(this.getAttribute("stringJoinOffset") || '0', 10) || 0);
-
-		this.logger.stop();
-	}
-
-	private updatePropertiesObject(updatedNodes: ICh5ButtonExtendedProperties): void {
-		this.logger.start("updatePropertiesObject");
-
-		// Updating necessary UI
-		const updateUIMethods: any = {
-			updateCssClasses: false,
-			updateIconDisplay: false,
-			updateInternalHtml: false,
-			checkboxDisplay: false,
-			updateForChangeInCustomCssClass: false,
-			updateForChangeInStyleCss: false,
-		}
-
-		// type
-		if (!isNil(updatedNodes.type)) {
-			if (Ch5ButtonBase.TYPES.indexOf(updatedNodes.type) === -1) {
-				updatedNodes.type = Ch5ButtonBase.TYPES[0];
-			}
-		} else {
-			updatedNodes.type = Ch5ButtonBase.TYPES[0];
-		}
-		this._type = updatedNodes.type as TCh5ButtonType;
-		if (this.previousExtendedProperties.type !== this.type) {
-			updateUIMethods.updateCssClasses = true;
-		}
-
-		// iconUrl, iconClass
-		this._previousIconUrl = this._iconUrl;
-		this._previousIconClass = this._iconClass;
-		if (isNil(updatedNodes.iconUrl)) {
-			updatedNodes.iconUrl = "";
-		}
-		this._iconUrl = updatedNodes.iconUrl;
-
-		if (isNil(updatedNodes.iconClass)) {
-			updatedNodes.iconClass = "";
-		}
-		this._iconClass = updatedNodes.iconClass;
-
-		if (this._previousSgIconNumeric !== this.sgIconNumeric) {
-			updateUIMethods.updateIconDisplay = true;
-			updateUIMethods.updateInternalHtml = true;
-		} else if (this._previousSgIconString !== this.sgIconString) {
-			updateUIMethods.updateIconDisplay = true;
-			updateUIMethods.updateInternalHtml = true;
-		} else if (this.previousExtendedProperties.iconUrl !== this.iconUrl) {
-			updateUIMethods.updateIconDisplay = true;
-			updateUIMethods.updateInternalHtml = true; // Applicable when iconUrl changes and iconclass and url combines
-		} else if (this.previousExtendedProperties.iconClass !== this.iconClass) {
-			updateUIMethods.updateIconDisplay = true;
-			updateUIMethods.updateInternalHtml = true; // Applicable when iconUrl changes and iconclass and url combines
-		}
-
-		// iconPosition
-		if (isNil(updatedNodes.iconPosition)) {
-			updatedNodes.iconPosition = Ch5ButtonBase.ICON_POSITIONS[0];
-		}
-		this._iconPosition = updatedNodes.iconPosition;
-		if (this.previousExtendedProperties.iconPosition !== this.iconPosition) {
-			updateUIMethods.updateCssClasses = true;
-			updateUIMethods.updateInternalHtml = true;
-		}
-
-		// checkboxPosition
-		if (isNil(updatedNodes.checkboxPosition)) {
-			updatedNodes.checkboxPosition = Ch5ButtonBase.CHECKBOX_POSITIONS[0];
-		}
-		this._checkboxPosition = updatedNodes.checkboxPosition;
-		if (this.previousExtendedProperties.checkboxPosition !== this.checkboxPosition) {
-			updateUIMethods.checkboxDisplay = true;
-		}
-
-		// customClass
-		if (isNil(updatedNodes.customClass)) {
-			updatedNodes.customClass = "";
-		}
-		this._customClass = updatedNodes.customClass;
-		if (this.previousExtendedProperties.customClass !== this.customClass) {
-			updateUIMethods.updateForChangeInCustomCssClass = true;
-		}
-
-		// customStyle
-		if (isNil(updatedNodes.customStyle)) {
-			updatedNodes.customStyle = "";
-		}
-		this._customStyle = updatedNodes.customStyle;
-		if (this.previousExtendedProperties.customStyle !== this.customStyle) {
-			// isNil is accounted for first time change to style css
-			updateUIMethods.updateForChangeInStyleCss = true;
-		}
-
-		// hAlignLabel
-		if (!isNil(updatedNodes.hAlignLabel)) {
-			if (Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS.indexOf(updatedNodes.hAlignLabel) === -1) {
-				updatedNodes.hAlignLabel = Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS[0];
-			}
-		} else {
-			updatedNodes.hAlignLabel = Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS[0];
-		}
-		this._hAlignLabel = updatedNodes.hAlignLabel;
-		if (this.previousExtendedProperties.hAlignLabel !== this.hAlignLabel) {
-			updateUIMethods.updateCssClasses = true;
-		}
-
-		// vAlignLabel
-		if (!isNil(updatedNodes.vAlignLabel)) {
-			if (Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS.indexOf(updatedNodes.vAlignLabel) === -1) {
-				updatedNodes.vAlignLabel = Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0];
-			}
-		} else {
-			updatedNodes.vAlignLabel = Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0];
-		}
-		this._vAlignLabel = updatedNodes.vAlignLabel;
-		if (this.previousExtendedProperties.vAlignLabel !== this.vAlignLabel) {
-			updateUIMethods.updateCssClasses = true;
-		}
-
-		// iconUrlFillType
-		if (!isNil(updatedNodes.iconUrlFillType)) {
-			if (Ch5ButtonBase.ICON_URL_FILL_TYPE.indexOf(updatedNodes.iconUrlFillType) === -1) {
-				updatedNodes.iconUrlFillType = null;
-			}
-		} else {
-			updatedNodes.iconUrlFillType = null;
-		}
-		this._iconUrlFillType = updatedNodes.iconUrlFillType;
-		if (this.previousExtendedProperties.iconUrlFillType !== this.iconUrlFillType) {
-			updateUIMethods.updateCssClasses = true;
-		}
-
-		// label
-		if (!isNil(updatedNodes.labelHtml)) {
-			this._label = updatedNodes.labelHtml;
-			updatedNodes.label = updatedNodes.labelHtml;
-			this._elSpanForLabelOnly.innerHTML = this._label;
-		} else if (!isNil(updatedNodes.label)) {
-			this._label = updatedNodes.label;
-			updatedNodes.labelHtml = updatedNodes.label;
-			this._elSpanForLabelOnly.textContent = this._label;
-		}
-		if (!(this.previousExtendedProperties.labelHtml === this.label || this.previousExtendedProperties.label === this.label)) {
-			updateUIMethods.updateInternalHtml = true;
-		}
-
-		// this.logger.log("updateUIMethods", (updateUIMethods));
-
-		// Methods to be invoked
-		if (updateUIMethods.updateCssClasses === true) {
-			this.updateCssClasses();
-		}
-		if (updateUIMethods.updateIconDisplay === true) {
-			this.updateIconDisplay();
-		}
-		if (updateUIMethods.updateForChangeInCustomCssClass === true) {
-			this.updateForChangeInCustomCssClass();
-		}
-		if (updateUIMethods.updateForChangeInStyleCss === true) {
-			this.updateForChangeInStyleCss();
-		}
-		if (updateUIMethods.checkboxDisplay === true) {
-			this.checkboxDisplay();
-		}
-		if (updateUIMethods.updateInternalHtml === true) {
-			this.updateInternalHtml();
-		}
-
-		this.previousExtendedProperties = updatedNodes;
-
-		this.logger.stop();
-	}
-
-	private receiveSignalAsString(thisButton: Ch5ButtonBase, attributeName: string, attributeValue: string) {
-		this.logger.log('set ' + attributeName + '("' + attributeValue + '")');
-		const attributeNameLowerCase: string = attributeName.toLowerCase();
-		if (!thisButton.hasAttribute(attributeNameLowerCase) || thisButton.getAttribute(attributeNameLowerCase) !== attributeValue) {
-			thisButton.setAttribute(attributeNameLowerCase, attributeValue);
-		}
-		const signalResponse = thisButton._ch5ButtonSignal.setSignal(attributeName, attributeValue);
-		if (!isNil(signalResponse)) {
-			thisButton._ch5ButtonSignal.getSignal(attributeName).signalState = signalResponse.subscribe((newValue: string) => {
-				thisButton._ch5ButtonSignal.getSignal(attributeName).currentValue = newValue;
-				thisButton._ch5ButtonSignal.setVariable(attributeName, newValue);
-				thisButton.setButtonDisplay();
-			});
-		}
-	}
-
-	private isCheckboxVisible() {
-		if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
-			// if ((!isNil(this._checkboxShow) && this._checkboxShow === true)) {
-			return true;
-		}
-		return false;
-	}
 	/**
-	 * Reorders ( if needed ) the position of the label and the icon inside the button
+	 * Applies the multiline/truncate state to the label span via CSS classes (cheap,
+	 * no layout read); only the opt-in multi-line path measures. Called from the
+	 * `multilineSupport` / `truncateText` setters and when the span is first created.
 	 */
-	protected updateInternalHtml(): void {
-		this.logger.start("updateInternalHtml()");
-
-		if (!(typeof this._elButton.insertBefore === "undefined"
-			|| typeof this._elIcon.classList === "undefined")) {
-
-			Ch5ButtonBase.ICON_POSITIONS.forEach((iconPositionObj) => {
-				if (this.iconPosition === iconPositionObj) {
-					this._elContainer.classList.add(`${this.primaryCssClass}--iconposition-${iconPositionObj}`);
-					this._elIcon.classList.add(`cx-button-icon-pos-${iconPositionObj}`);
-				} else {
-					this._elContainer.classList.remove(`${this.primaryCssClass}--iconposition-${iconPositionObj}`);
-					this._elIcon.classList.remove(`cx-button-icon-pos-${iconPositionObj}`);
-				}
-			});
-
-			// // Handle vertical button with iconPosition top or bottom
-			// if (['top', 'bottom'].indexOf(this.iconPosition) >= 0 && this.orientation === Ch5ButtonBase.ORIENTATIONS[1]) {
-			// 	this._elButton.classList.add(`${this.primaryCssClass}--vertical--icon-${this.iconPosition}`);
-			// }
-
-			let hasIcon = false;
-			let hasLabel = false;
-			let hasImage = false;
-			let hasSgNumeric = false;
-			let hasSgString = false;
-			let hasAriaLabel = false;
-			let hasCheckbox = false;
-
-			if ((!isNil(this.iconClass) && this.iconClass !== "") || (this.receiveStateIconClass && this.receiveStateIconClass !== '')) {
-				hasIcon = true;
-			}
-
-			if ((!isNil(this.iconUrl) && this.iconUrl !== "") || (this.receiveStateIconUrl && this.receiveStateIconUrl !== '')) {
-				hasImage = true;
-			}
-
-			if ((!isNil(this.sgIconNumeric) && this.sgIconNumeric !== -1) || (this.receiveStateSGIconNumeric && this.receiveStateSGIconNumeric !== '')) {
-				hasSgNumeric = true;
-			}
-
-			if ((!isNil(this.sgIconString) && this.sgIconString !== '') || (this.receiveStateSGIconString && this.receiveStateSGIconString !== '')) {
-				hasSgString = true;
-			}
-			hasCheckbox = this.isCheckboxVisible();
-
-			// TODO - check the below for empty<template> tag
-			if ((!isNil(this.label) && this.label !== "") || (this.receiveStateLabel && this.receiveStateLabel !== '') || (this.receiveStateScriptLabelHtml && this.receiveStateScriptLabelHtml !== '')) {
-				hasLabel = true;
-			}
-			if (this.hasAttribute('aria-label') && '' !== this.getAttribute('aria-label')) {
-				hasAriaLabel = true;
-			}
-
-			this.logger.log("hasIcon", hasIcon);
-			this.logger.log("hasLabel", hasLabel);
-			this.logger.log("hasImage", hasImage);
-			this.logger.log("hasAriaLabel", hasAriaLabel);
-			this.logger.log("hasCheckbox", hasCheckbox);
-
-			if (!hasLabel && hasAriaLabel && hasImage) {
-				const ariaLabel = this.getAttribute('aria-label');
-				if (ariaLabel) {
-					this._elIcon.setAttribute('alt', ariaLabel);
-				}
-			}
-
-			if (hasSgString) {
-				this._elIcon.classList.remove(this.primaryCssClass + '--icon');
-				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
-					this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
-				});
-				if (this.iconUrlFillType !== null) {
-					this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
-				}
-				this._elIcon.classList.add(this.primaryCssClass + '--img');
-
-			} else if (hasSgNumeric) {
-				this._elIcon.classList.remove(this.primaryCssClass + '--icon');
-				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
-					this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
-				});
-				if (this.iconUrlFillType !== null) {
-					this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
-				}
-				this._elIcon.classList.add(this.primaryCssClass + '--img');
-
-			} else if (hasImage && this.iconUrl === this._ch5ButtonSignal.getSignal('receiveStateIconUrl')?.currentValue) {
-				this._elIcon.style.backgroundImage = `url(${this.iconUrl})`;
-				this._elIcon.classList.remove(this.primaryCssClass + '--icon');
-				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
-					if (hasCheckbox === true) {
-						this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
-					} else {
-						this._elButton.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
-					}
-				});
-				this._elIcon.classList.add(this.primaryCssClass + '--img');
-				if (this.iconUrlFillType !== null) {
-					if (hasCheckbox === true) {
-						this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
-					} else {
-						this._elButton.classList.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
-					}
-				}
-			} else if (hasIcon && this.iconClass === this._ch5ButtonSignal.getSignal('receiveStateiconClass')?.currentValue) {
-				this._elIcon.classList.remove(this.primaryCssClass + '--img');
-				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
-					if (hasCheckbox === true) {
-						this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
-					} else {
-						this._elButton.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
-					}
-				});
-				this._elIcon.classList.add(this.primaryCssClass + '--icon');
-			} else if (hasImage) {
-				this._elIcon.style.backgroundImage = `url(${this.iconUrl})`;
-				this._elIcon.classList.remove(this.primaryCssClass + '--icon');
-				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
-					if (hasCheckbox === true) {
-						this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
-					} else {
-						this._elButton.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
-					}
-				});
-				this._elIcon.classList.add(this.primaryCssClass + '--img');
-				if (this.iconUrlFillType !== null) {
-					if (hasCheckbox === true) {
-						this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
-					} else {
-						this._elButton.classList.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
-					}
-				}
-			} else if (hasIcon) {
-				this._elIcon.classList.remove(this.primaryCssClass + '--img');
-				Array.from(Ch5ButtonBase.ICON_URL_FILL_TYPE).forEach((cls) => {
-					if (hasCheckbox === true) {
-						this._elSpanForLabelIconImg.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
-					} else {
-						this._elButton.classList.remove(this.primaryCssClass + '--icon-url-fill-type-' + cls);
-					}
-				});
-				this._elIcon.classList.add(this.primaryCssClass + '--icon');
-			}
-
-			if (hasCheckbox === true) {
-				this._elButton.appendChild(this._elSpanForLabelIconImg);
-				this._elSpanForLabelIconImg.appendChild(this._elSpanForLabelOnly);
-				this._elButton.classList.remove(this.primaryCssClass + '--span');
-				this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + '--span');
-				this.updateCssClasses();
-			} else {
-				this._elButton.innerHTML = '';
-				this._elButton.appendChild(this._elSpanForLabelOnly);
-				this._elSpanForLabelIconImg?.classList.remove(this.primaryCssClass + '--span');
-				this._elButton.classList.add(this.primaryCssClass + '--span');
-				this.updateCssClasses();
-			}
-			if (hasLabel && (hasIcon || hasImage || hasSgNumeric || hasSgString)) {
-				this.logger.log("Has Label and Icon");
-				if ((this._elSpanForLabelOnly as any).isConnected === false) {
-					if (hasCheckbox === true) {
-						this._elSpanForLabelIconImg.appendChild(this._elSpanForLabelOnly);
-					} else {
-						this._elButton.appendChild(this._elSpanForLabelOnly);
-					}
-				} else if (this._elIcon.parentNode !== (this._elSpanForLabelOnly as Node)) {
-					if (hasCheckbox === true) {
-						this._elSpanForLabelIconImg.appendChild(this._elSpanForLabelOnly);
-					} else {
-						this._elButton.appendChild(this._elSpanForLabelOnly);
-					}
-				}
-
-				if (['last', 'bottom'].indexOf(this.iconPosition) >= 0) {
-					if (this._elIcon.parentNode !== (this._elButton as Node)) {
-						// if the icon element was not yet added to the button
-						if (hasCheckbox === true) {
-							this._elSpanForLabelIconImg.appendChild(this._elIcon);
-						} else {
-							this._elButton.appendChild(this._elIcon);
-						}
-					} else {
-						// if the icon element was already added and needs to be switched with the label element
-						if (hasCheckbox === true) {
-							this._elSpanForLabelIconImg.insertBefore(this._elSpanForLabelOnly as Node, this._elIcon as Node);
-						} else {
-							this._elButton.insertBefore(this._elSpanForLabelOnly as Node, this._elIcon as Node);
-						}
-					}
-				} else if (['first', 'top'].indexOf(this.iconPosition) >= 0) {
-					this.logger.log('insert icon before label');
-					if ((this._elSpanForLabelOnly as any).isConnected === true) {
-						if (hasCheckbox === true) {
-							this._elSpanForLabelIconImg.insertBefore(this._elIcon as Node, this._elSpanForLabelOnly as Node);
-						} else {
-							this._elButton.insertBefore(this._elIcon as Node, this._elSpanForLabelOnly as Node);
-						}
-					}
-				}
-			} else if (hasLabel && !(hasIcon || hasImage || hasSgNumeric || hasSgString)) {
-				this.logger.log("Has Label Only");
-				if (this._elIcon.parentNode) {
-					this._elIcon.remove();
-				}
-			} else if (!hasLabel && (hasIcon || hasImage || hasSgNumeric || hasSgString)) {
-				this.logger.log("Has Icon Only");
-				if (hasCheckbox === true) {
-					this._elSpanForLabelIconImg.appendChild(this._elIcon);
-					if (this._elSpanForLabelOnly.parentNode) {
-						this._elSpanForLabelOnly.remove();
-					}
-				} else {
-					this._elButton.appendChild(this._elIcon);
-					if (this._elSpanForLabelOnly.parentNode) {
-						this._elSpanForLabelOnly.remove();
-					}
-				}
-			} else { // if no icon and no label
-				this.logger.log("No Label and No Icon");
-				if (this._elIcon.parentNode) {
-					this._elIcon.remove();
-				}
-				if (this._elSpanForLabelOnly.parentNode) {
-					this._elSpanForLabelOnly.remove();
-				}
-			}
-
-		}
-
-		this.checkboxDisplay(); // TODO - cehck if this can be removed - issue comes when values change for halign and valign
-		this.logger.stop();
-	}
-
-	protected updateCssClasses(): void {
-		this.logger.start('updateCssClasses()');
-		// apply css classes for attrs inherited from common (e.g. customClass, customStyle )
-		super.updateCssClasses();
-
-		const setOfCssClassesToBeApplied = new Set<string>();
-
-		// primary
-		setOfCssClassesToBeApplied.add(this.primaryCssClass);
-
-		// shape
-		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--' + this.shape);
-
-		// backgroundImageFillType
-		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--background-image-fill-type-' + this.backgroundImageFillType);
-
-		// type
-		if (this.isButtonInitiated === true) {
-			setOfCssClassesToBeApplied.add(this.primaryCssClass + '--' + this.type);
-		}
-
-		// size
-		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--size-' + this.size);
-		if (!_.isNil(this.stretch)) {
-			// stretch overrides size
-			setOfCssClassesToBeApplied.add(this.primaryCssClass + '--stretch-' + this.stretch);
-		}
-
-		// orientation
-		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--' + this.orientation);
-
-		const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
-		if (typeof targetEl.classList !== 'undefined') {
-			this._listOfAllPossibleComponentCssClasses.forEach((cssClass: string) => {
-				if (setOfCssClassesToBeApplied.has(cssClass)) {
-					targetEl.classList.add(cssClass);
-				} else {
-					targetEl.classList.remove(cssClass);
-				}
-			});
-			const selectedCssClass = this.primaryCssClass + this.selectedCssClassPostfix;
-			if (this._selected) {
-				targetEl.classList.add(selectedCssClass);
-				if (this.buttonListContract?.parentComponent === "ch5-tab-button" || this.buttonListContract?.parentComponent === "ch5-button-list") {
-					targetEl.classList.add(this.buttonListContract?.parentComponent + this.selectedCssClassPostfix);
-				}
-			} else {
-				targetEl.classList.remove(selectedCssClass);
-				if (this.buttonListContract?.parentComponent === "ch5-tab-button" || this.buttonListContract?.parentComponent === "ch5-button-list") {
-					targetEl.classList.remove(this.buttonListContract?.parentComponent + this.selectedCssClassPostfix);
-				}
-			}
-		}
-
-		this.verticalOrientationHandler();
-
-		const setOfCssClassesToBeAppliedForLabelAlignment = new Set<string>();
-
-		// horizontal align
-		setOfCssClassesToBeAppliedForLabelAlignment.add(this.primaryCssClass + '--horizontal-' + this.hAlignLabel);
-
-		// vertical align
-		setOfCssClassesToBeAppliedForLabelAlignment.add(this.primaryCssClass + '--vertical-' + this.vAlignLabel);
-
-		// iconUrlFillType
-		if (this.iconUrlFillType !== null) {
-			setOfCssClassesToBeAppliedForLabelAlignment.add(this.primaryCssClass + `--icon-url-fill-type-${this.iconUrlFillType}`);
-		}
-		const arrayListTwo: string[] = [];
-
-		if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
-			for (let i = 0; i < this._listOfAllPossibleComponentCssClasses.length; i++) {
-				if (setOfCssClassesToBeAppliedForLabelAlignment.has(this._listOfAllPossibleComponentCssClasses[i])) {
-					arrayListTwo.push(this._listOfAllPossibleComponentCssClasses[i]);
-				}
-			}
-			this._elSpanForLabelIconImg.className = this.primaryCssClass + '--span' + ' ' + arrayListTwo.join(' ');
-		} else {
-			for (let i = 0; i < this._listOfAllPossibleComponentCssClasses.length; i++) {
-				if (setOfCssClassesToBeAppliedForLabelAlignment.has(this._listOfAllPossibleComponentCssClasses[i])) {
-					arrayListTwo.push(this._listOfAllPossibleComponentCssClasses[i]);
-				}
-			}
-			this._elButton.className = this.BUTTON_PRIMARY_CLASS + ' ' + this.primaryCssClass + '--span' + ' ' + arrayListTwo.join(' ');//.add(this._listOfAllPossibleComponentCssClasses[i]);
-		}
-		if (this.multilineSupport != undefined && this.multilineSupport != null) {
-			this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label-multiline-support-' + this.multilineSupport.toString());
-		}
-		if (this.truncateText != undefined && this.truncateText != null) {
-			this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label-truncate-text-' + this.truncateText.toString());
-		}
-		this.logger.stop();
-	}
-
-	protected updateCssClassesForCustomState(): void {
-		const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
-		if (typeof targetEl.classList === 'undefined') {
+	private updateLabelTextWrapping() {
+		this.log('updateLabelTextWrapping()');
+		const span = this._elSpanLabel;
+		if (!span) {
 			return;
 		}
-		const customStateCssClass = this.customClassState;
-		if (this._customClassState) {
-			targetEl.classList.add(customStateCssClass);
-		}
-	}
-
-	private setSelectionMethods() {
-		this.setButtonDisplay();
-		this.checkboxDisplay();
-		this.updateCssClasses();
-	}
-
-	private handleMultilineSupport() {
-		['true', 'false'].forEach((e: any) => {
-			this._elSpanForLabelOnly.classList.remove(this.primaryCssClass + '--label-multiline-support-' + e);
-		});
-		if (this.multilineSupport != undefined && this.multilineSupport != null) {
-			this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label-multiline-support-' + this.multilineSupport.toString());
-		}
+		const p = this.ctor.PRIMARY_CSS_CLASS;
+		span.classList.remove(
+			`${p}--label-multiline-support-true`,
+			`${p}--label-multiline-support-false`,
+			`${p}--label-truncate-text-true`,
+			`${p}--label-truncate-text-false`
+		);
+		span.classList.add(`${p}--label-multiline-support-${this.multilineSupport}`);
+		span.classList.add(`${p}--label-truncate-text-${this.truncateText}`);
 		if (this.multilineSupport) {
-			this.fitEllipsisForMultiline();
-		}
-	}
-
-	private handleTruncateText() {
-		['true', 'false'].forEach((e: any) => {
-			this._elSpanForLabelOnly.classList.remove(this.primaryCssClass + '--label-truncate-text-' + e);
-		});
-		if(this.truncateText != undefined && this.truncateText != null) {
-			this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label-truncate-text-' + this.truncateText.toString());
-		}
-		if (this.multilineSupport) {
-			this.fitEllipsisForMultiline();
+			this.scheduleFitEllipsisForMultiline();
 		} else {
-			this._elSpanForLabelOnly.style.removeProperty('word-wrap');
-			this._elSpanForLabelOnly.style.removeProperty('display');
-			this._elSpanForLabelOnly.style.removeProperty('max-height');
+			// Drop any inline clamp/height set by a previous multi-line pass.
+			span.style.removeProperty('-webkit-line-clamp');
+			span.style.removeProperty('max-height');
 		}
 	}
 
-	public fitEllipsisForMultiline() {
-		let numberOfLines = 0;
-		const lineHeight = this.getLineHeightSuper(this._elSpanForLabelOnly);
+	/**
+	 * Requests a multi-line clamp refit, coalesced into a SINGLE rAF read so same-tick
+	 * DOM/style mutations settle before the height is measured. Idempotent: repeat
+	 * requests in one tick collapse onto the one pending frame.
+	 */
+	private scheduleFitEllipsisForMultiline(): void {
+		if (this._pendingFitHandle !== null) {
+			return;
+		}
+		this._pendingFitHandle = window.requestAnimationFrame(this._fitEllipsisFrame);
+	}
+
+	/**
+	 * Schedules a single vertical-size fit for the internal button. This is only
+	 * needed because transform rotation does not participate in layout, and costs
+	 * one coalesced frame at connect time.
+	 */
+	private scheduleVerticalInnerButtonFit(): void {
+		if (this._pendingVerticalFitHandle !== null) {
+			return;
+		}
+		this._pendingVerticalFitHandle = window.requestAnimationFrame(this._fitVerticalFrame);
+	}
+
+	/**
+	 * Re-measures the multiline clamp + vertical inner-button size after a pure-CSS
+	 * attribute (`size`/`shape`/`stretch`/`orientation`) that can resize the rendered
+	 * button changes post-connect - those setters don't go through
+	 * attributeChangedCallback/handleLabel, so nothing else would catch the resize.
+	 * No-op off-DOM (nothing to measure until connectedCallback runs its own pass).
+	 */
+	private scheduleDimensionDependentRefit(): void {
+		if (!this.isConnected) {
+			return;
+		}
+		if (this.multilineSupport) {
+			this.scheduleFitEllipsisForMultiline();
+		}
+		this.scheduleVerticalInnerButtonFit();
+	}
+
+	/**
+	 * Mirrors ch5-advanced-button verticalOrientationHandler sizing for the light
+	 * button without observers/listeners. For vertical non-circle buttons, set
+	 * inner width/height from the host footprint so rotated content fully fills it.
+	 */
+	private fitVerticalInnerButtonSize(): void {
+		const button = this._elButton;
+		if (!button || !button.isConnected) {
+			return;
+		}
+
+		if (this.orientation !== 'vertical' || this.shape === 'circle') {
+			button.style.removeProperty('width');
+			button.style.removeProperty('height');
+			return;
+		}
+
+		const hostHeight = this.clientHeight;
+		const hostWidth = this.clientWidth;
+		if (hostHeight > 0 && hostWidth > 0) {
+			button.style.width = `${hostHeight}px`;
+			button.style.height = `${hostWidth}px`;
+		}
+	}
+
+	/**
+	 * Computes how many label lines fit the button's height and writes the clamp
+	 * inline. The ONLY layout-reading path, only when `multilineSupport` is on. No
+	 * ResizeObserver (unlike ch5-button): measured on connect and label/attr changes.
+	 */
+	private fitEllipsisForMultiline() {
+		this.log('fitEllipsisForMultiline()');
+		const span = this._elSpanLabel;
+		const button = this._elButton;
+		// Height is only meaningful once the button is attached to the DOM.
+		if (!span || !button || !button.isConnected) {
+			return;
+		}
+		const lineHeight = this.getLabelLineHeight(span);
+		if (lineHeight <= 0) {
+			return;
+		}
 		const topAndBottomPadding = 20;
-		const containerHeight = this.getContainerHeight(this._elButton) - topAndBottomPadding;
-		if (containerHeight < lineHeight) {
-			numberOfLines = 1
-		} else {
-			numberOfLines = Math.floor(containerHeight / lineHeight);
-		}
+		const containerHeight = button.clientHeight - topAndBottomPadding;
+		const numberOfLines = containerHeight < lineHeight ? 1 : Math.floor(containerHeight / lineHeight);
 		if (this.truncateText) {
-			this._elSpanForLabelOnly.setAttribute("style", "-webkit-line-clamp:" + numberOfLines);
+			span.style.removeProperty('max-height');
+			span.style.setProperty('-webkit-line-clamp', String(numberOfLines));
 		} else {
-			this._elSpanForLabelOnly.setAttribute("style", "max-height: " + (numberOfLines * lineHeight) + "px" + ";");
+			span.style.removeProperty('-webkit-line-clamp');
+			span.style.setProperty('max-height', `${numberOfLines * lineHeight}px`);
 		}
 	}
- 
-	public getLineHeightSuper(element: HTMLElement) {
+
+	/**
+	 * Measures a single line's rendered height by briefly swapping in a non-breaking
+	 * space, reading offsetHeight, then restoring the content. Mirrors ch5-button.
+	 */
+	private getLabelLineHeight(element: HTMLElement): number {
 		const oldHtml = element.innerHTML;
-		element.innerHTML = "&nbsp;";
+		element.innerHTML = '&nbsp;';
 		const lineHeight = element.offsetHeight;
 		element.innerHTML = oldHtml;
 		return lineHeight;
 	}
 
-	public getContainerHeight(element: HTMLElement) {
-		return element.clientHeight;
+	private handleIcon() {
+		this.log('handleIcon()');
+		if (!this._elButton) {
+			return;
+		}
+		// Resolve the effective icon by source priority (highest first):
+		//   1. receivestateiconurl   (signal image URL)  -> --img
+		//   2. receivestateiconclass (signal icon class) -> --icon
+		//   3. iconurl               (static image URL)  -> --img
+		//   4. iconclass             (static icon class) -> --icon
+		// A signal writes through into the same iconUrl/iconClass slot, so it's the
+		// signal NAME's presence that selects the branch (a signal icon class outranks
+		// a static iconurl).
+		let iconUrl = '';
+		let iconClass = '';
+		if (this.receiveStateIconUrl) {
+			iconUrl = this.iconUrl;
+		} else if (this.receiveStateIconClass) {
+			iconClass = this.iconClass;
+		} else if (this.iconUrl) {
+			iconUrl = this.iconUrl;
+		} else {
+			iconClass = this.iconClass;
+		}
+		if (iconUrl || iconClass) {
+			// Create the icon element lazily on first use. DOM order doesn't matter -
+			// the icon position is set by the CSS `order` property (see
+			// _light-button-icon-position.scss).
+			if (!this._elIcon) {
+				this._elIcon = document.createElement('i');
+				this._elButton.appendChild(this._elIcon);
+			}
+			if (iconUrl) {
+				// Render the icon as a background image using the --img modifier class.
+				// The --img and --icon classes are mutually exclusive (same as ch5-button).
+				this._elIcon.className = `${this.ctor.PRIMARY_CSS_CLASS}--img`;
+				this._elIcon.style.backgroundImage = `url("${iconUrl}")`;
+			} else {
+				// Fall back to the icon font class.
+				this._elIcon.className = `${this.ctor.PRIMARY_CSS_CLASS}--icon ${iconClass}`;
+				this._elIcon.style.backgroundImage = '';
+			}
+		} else if (this._elIcon) {
+			// Remove the icon element when no icon source is set
+			this._elIcon.remove();
+			this._elIcon = null;
+		}
+	}
+
+	private handleBackgroundImageUrl() {
+		this.log('handleBackgroundImageUrl()');
+		if (!this._elButton) {
+			return;
+		}
+		// Apply the background image as an inline style on the button (same as
+		// ch5-button); an attribute URL can't be injected via pure CSS, so it's done in JS.
+
+		const backgroundImageUrl = this.backgroundImageUrl;
+		if (backgroundImageUrl) {
+			this._elButton.style.backgroundImage = `url("${backgroundImageUrl}")`;
+		} else {
+			// Empty value: drop the property entirely and remove the now-empty
+			// `style` attribute so no leftover `style=""` is left in the DOM.
+			this._elButton.style.removeProperty('background-image');
+			if (this._elButton.getAttribute('style') === '') {
+				this._elButton.removeAttribute('style');
+			}
+		}
+	}
+
+	// --- Shared signal plumbing ----------------------------------------------
+	// The three helpers below hold the ONLY subscribe/unsubscribe/channel-teardown
+	// logic; each receiveState* wrapper just supplies its name, type and value
+	// handler. Off the hot path (fire only on connect/disconnect/attr change).
+
+	/**
+	 * Lazily creates the shared signal helper (only for buttons that use a signal)
+	 * and subscribes `onValue` to `signalName`. Idempotent: no-op when the name is
+	 * empty or already subscribed.
+	 */
+	private subscribeSignal<T extends string | number | boolean>(
+		signalName: string,
+		signalType: TCh5LightSignalType,
+		onValue: (value: T) => void
+	): void {
+		if (!signalName) {
+			return;
+		}
+		(this._signals ??= new Ch5LightSignal()).subscribe<T>(signalName, signalType, onValue);
+	}
+
+	/**
+	 * Releases one signal name's subscription, leaving any coexisting receiveState*
+	 * subscription (and the stored name) intact so a reconnect can re-subscribe.
+	 * No-op when nothing was ever subscribed.
+	 */
+	private clearSignalSubscription(signalName: string): void {
+		if (this._signals !== null) {
+			this._signals.unsubscribe(signalName);
+		}
+	}
+
+	/**
+	 * Removes a `data-signal-*` styling channel so the matching author attribute
+	 * regains control (called when a receiveState* attribute is removed).
+	 */
+	private clearSignalChannel(attribute: string): void {
+		if (this.hasAttribute(attribute)) {
+			this.removeAttribute(attribute);
+		}
+	}
+
+	/**
+	 * Reacts to a `receivestatetype` name change (`oldSignalName` = previous name,
+	 * for unsubscription): tears down the old subscription, then (re)subscribes when
+	 * connected or drops the `data-signal-type` channel so the static `type` styles again.
+	 */
+	private handleReceiveStateType(oldSignalName: string): void {
+		this.log('handleReceiveStateType(', oldSignalName, ')');
+		this.clearSignalSubscription(oldSignalName);
+
+		const signalName = this.receiveStateType;
+		if (signalName) {
+			if (this.isConnected) {
+				this.subscribeReceiveStateType();
+			}
+		} else {
+			// Leaving signal-driven mode: the static `type` regains priority.
+			this.clearSignalChannel(Ch5ButtonBase.SIGNAL_ATTRIBUTE_TYPE);
+		}
+	}
+
+	/** Subscribes the `receivestatetype` string signal to {@link applySignalType}. */
+	private subscribeReceiveStateType(): void {
+		this.log('subscribeReceiveStateType()');
+		this.subscribeSignal<string>(
+			this.receiveStateType,
+			'string',
+			this._onSignalTypeValue
+		);
+	}
+
+	/**
+	 * Writes a signal-delivered type to the SEPARATE `data-signal-type` channel (never
+	 * the author's `type`), which the theme styles with priority. Unknown values fall
+	 * back to `default`.
+	 */
+	private applySignalType(value: string): void {
+		this.log('applySignalType(', value, ')');
+		const type = Ch5ButtonBase.TYPES.indexOf(value) >= 0 ? value : Ch5ButtonBase.TYPES[0];
+		this.setAttribute(Ch5ButtonBase.SIGNAL_ATTRIBUTE_TYPE, type);
+	}
+
+	/**
+	 * Reacts to a `receivestateselected` name change (`oldSignalName` = previous name,
+	 * for unsubscription): tears down the old subscription, then (re)subscribes when
+	 * connected or drops the `data-signal-selected` channel so the static `selected` styles again.
+	 */
+	private handleReceiveStateSelected(oldSignalName: string): void {
+		this.log('handleReceiveStateSelected(', oldSignalName, ')');
+		this.clearSignalSubscription(oldSignalName);
+
+		const signalName = this.receiveStateSelected;
+		if (signalName) {
+			if (this.isConnected) {
+				this.subscribeReceiveStateSelected();
+			}
+		} else {
+			// Leaving signal-driven mode: the static `selected` regains priority.
+			this.clearSignalChannel(Ch5ButtonBase.SIGNAL_ATTRIBUTE_SELECTED);
+		}
+	}
+
+	/** Subscribes the `receivestateselected` boolean signal to {@link applySignalSelected}. */
+	private subscribeReceiveStateSelected(): void {
+		this.log('subscribeReceiveStateSelected()');
+		this.subscribeSignal<boolean>(
+			this.receiveStateSelected,
+			'boolean',
+			this._onSignalSelectedValue
+		);
+	}
+
+	/**
+	 * Writes a signal-delivered selected state to the SEPARATE `data-signal-selected`
+	 * channel (never the author's `selected`), which the theme styles with priority.
+	 * `"false"` stays on the attribute to keep the static `selected` suppressed;
+	 * `"true"` applies the selected look.
+	 */
+	private applySignalSelected(value: boolean): void {
+		this.log('applySignalSelected(', value, ')');
+		this.setAttribute(Ch5ButtonBase.SIGNAL_ATTRIBUTE_SELECTED, value ? 'true' : 'false');
+	}
+
+	/**
+	 * Reacts to a `receivestatelabel` name change (`oldSignalName` = previous name,
+	 * for unsubscription): tears down the old subscription, then (re)subscribes when a
+	 * name is set and connected. While bound, signal priority is strict (even empty),
+	 * so the effective `label` slot is reset to empty until signal data arrives.
+	 */
+	private handleReceiveStateLabel(oldSignalName: string): void {
+		this.log('handleReceiveStateLabel(', oldSignalName, ')');
+		this.clearSignalSubscription(oldSignalName);
+
+		if (this.receiveStateLabel) {
+			// Enforce strict signal priority immediately, even before first publish.
+			this._ch5Properties.set<string>('label', '', this._onLabelChange);
+			if (this.isConnected) {
+				this.subscribeReceiveStateLabel();
+			}
+		} else {
+			// Signal removed: restore the static label reflected on the element.
+			this._ch5Properties.set<string>('label', this.getAttribute('label') ?? '', this._onLabelChange);
+		}
+	}
+
+	/** Subscribes the `receivestatelabel` string signal to {@link applySignalLabel}. */
+	private subscribeReceiveStateLabel(): void {
+		this.log('subscribeReceiveStateLabel()');
+		this.subscribeSignal<string>(
+			this.receiveStateLabel,
+			'string',
+			this._onSignalLabelValue
+		);
+	}
+
+	/**
+	 * Writes a signal-delivered label into the effective `label` slot (rendered by
+	 * {@link handleLabel}). Empty values are preserved so signal priority stays strict.
+	 * The host `label` attribute is kept aligned with the signal-delivered value, and
+	 * the store's equality check skips redundant re-renders.
+	 */
+	private applySignalLabel(value: string): void {
+		this.log('applySignalLabel(', value, ')');
+		const label = value ?? '';
+		this.syncHostStringAttribute('label', label);
+		this._ch5Properties.set<string>('label', label, this._onLabelChange);
+	}
+
+	/**
+	 * Reacts to a `receivestatescriptlabelhtml` name change (`oldSignalName` = previous
+	 * name, for unsubscription): tears down the old subscription, then (re)subscribes
+	 * when a name is set and connected. Removal is design-time, so the last value stays
+	 * in the `scriptLabelHtml` slot.
+	 */
+	private handleReceiveStateScriptLabelHtml(oldSignalName: string): void {
+		this.log('handleReceiveStateScriptLabelHtml(', oldSignalName, ')');
+		this.clearSignalSubscription(oldSignalName);
+
+		if (this.receiveStateScriptLabelHtml && this.isConnected) {
+			this.subscribeReceiveStateScriptLabelHtml();
+		}
+	}
+
+	/** Subscribes the `receivestatescriptlabelhtml` string signal to {@link applySignalScriptLabelHtml}. */
+	private subscribeReceiveStateScriptLabelHtml(): void {
+		this.log('subscribeReceiveStateScriptLabelHtml()');
+		this.subscribeSignal<string>(
+			this.receiveStateScriptLabelHtml,
+			'string',
+			this._onSignalScriptLabelHtmlValue
+		);
+	}
+
+	/**
+	 * Writes a signal-delivered HTML label into the shared `scriptLabelHtml` slot
+	 * (rendered by {@link handleLabel} via `innerHTML`), so the runtime signal wins over
+	 * every static label source. The store's equality check skips redundant re-renders.
+	 */
+	private applySignalScriptLabelHtml(value: string): void {
+		this.log('applySignalScriptLabelHtml(', value, ')');
+		const html = value ?? '';
+		this.scriptLabelHtml = html;
+		// Keep a host-side label mirror for external observers/tooling while
+		// receiveStateScriptLabelHtml remains the effective source in render priority.
+		this.syncHostStringAttribute('label', html);
+	}
+
+	/**
+	 * Reacts to a `receivestateiconclass` name change (`oldSignalName` = previous name,
+	 * for unsubscription): tears down the old subscription, then (re)subscribes when a
+	 * name is set and connected. Removal is design-time, so the last value stays in the `iconClass` slot.
+	 */
+	private handleReceiveStateIconClass(oldSignalName: string): void {
+		this.log('handleReceiveStateIconClass(', oldSignalName, ')');
+		this.clearSignalSubscription(oldSignalName);
+
+		if (this.receiveStateIconClass) {
+			// Enforce strict signal priority immediately, even before first publish.
+			this._ch5Properties.set<string>('iconClass', '', this._onIconChange);
+			if (this.isConnected) {
+				this.subscribeReceiveStateIconClass();
+			}
+		} else {
+			// Signal removed: restore the static icon class reflected on the element.
+			this._ch5Properties.set<string>('iconClass', this.getAttribute('iconClass') ?? '', this._onIconChange);
+		}
+	}
+
+	/** Subscribes the `receivestateiconclass` string signal to {@link applySignalIconClass}. */
+	private subscribeReceiveStateIconClass(): void {
+		this.log('subscribeReceiveStateIconClass()');
+		this.subscribeSignal<string>(
+			this.receiveStateIconClass,
+			'string',
+			this._onSignalIconClassValue
+		);
+	}
+
+	/**
+	 * Writes a signal-delivered icon class into the shared `iconClass` slot (rendered
+	 * by {@link handleIcon}). Priority (receivestateiconurl > receivestateiconclass >
+	 * iconurl > iconclass) is resolved there, so its presence outranks a static iconurl.
+	 * The host attribute is also kept in sync with the signal-delivered value.
+	 */
+	private applySignalIconClass(value: string): void {
+		this.log('applySignalIconClass(', value, ')');
+		const iconClass = value ?? '';
+		this.syncHostStringAttribute('iconClass', iconClass);
+		this._ch5Properties.set<string>('iconClass', iconClass, this._onIconChange);
+	}
+
+	/**
+	 * Reacts to a `receivestateiconurl` name change (`oldSignalName` = previous name,
+	 * for unsubscription): tears down the old subscription, then (re)subscribes when a
+	 * name is set and connected. Removal is design-time, so the last value stays in the `iconUrl` slot.
+	 */
+	private handleReceiveStateIconUrl(oldSignalName: string): void {
+		this.log('handleReceiveStateIconUrl(', oldSignalName, ')');
+		this.clearSignalSubscription(oldSignalName);
+
+		if (this.receiveStateIconUrl) {
+			// Enforce strict signal priority immediately, even before first publish.
+			this._ch5Properties.set<string>('iconUrl', '', this._onIconChange);
+			if (this.isConnected) {
+				this.subscribeReceiveStateIconUrl();
+			}
+		} else {
+			// Signal removed: restore the static icon URL reflected on the element.
+			this._ch5Properties.set<string>('iconUrl', this.getAttribute('iconUrl') ?? '', this._onIconChange);
+		}
+	}
+
+	/** Subscribes the `receivestateiconurl` string signal to {@link applySignalIconUrl}. */
+	private subscribeReceiveStateIconUrl(): void {
+		this.log('subscribeReceiveStateIconUrl()');
+		this.subscribeSignal<string>(
+			this.receiveStateIconUrl,
+			'string',
+			this._onSignalIconUrlValue
+		);
+	}
+
+	/**
+	 * Writes a signal-delivered icon URL into the shared `iconUrl` slot (rendered by
+	 * {@link handleIcon}). `receivestateiconurl` ranks HIGHEST of the icon sources
+	 * (receivestateiconurl > receivestateiconclass > iconurl > iconclass). The host
+	 * `iconurl` attribute is also kept in sync with the signal-delivered value.
+	 */
+	private applySignalIconUrl(value: string): void {
+		this.log('applySignalIconUrl(', value, ')');
+		const iconUrl = value ?? '';
+		this.syncHostStringAttribute('iconUrl', iconUrl);
+		this._ch5Properties.set<string>('iconUrl', iconUrl, this._onIconChange);
+	}
+
+	/**
+	 * Reacts to a `receivestatebackgroundimageurl` name change (`oldSignalName` =
+	 * previous name, for unsubscription): tears down the old subscription, then
+	 * (re)subscribes when a name is set and connected. Removal is design-time, so the
+	 * last value stays in the `backgroundImageUrl` slot.
+	 */
+	private handleReceiveStateBackgroundImageUrl(oldSignalName: string): void {
+		this.log('handleReceiveStateBackgroundImageUrl(', oldSignalName, ')');
+		this.clearSignalSubscription(oldSignalName);
+
+		if (this.receiveStateBackgroundImageUrl) {
+			// Enforce strict signal priority immediately, even before first publish.
+			this._ch5Properties.set<string>('backgroundImageUrl', '', this._onBackgroundImageChange);
+			if (this.isConnected) {
+				this.subscribeReceiveStateBackgroundImageUrl();
+			}
+		} else {
+			// Signal removed: restore the static background URL reflected on the element.
+			this._ch5Properties.set<string>('backgroundImageUrl', this.getAttribute('backgroundImageUrl') ?? '', this._onBackgroundImageChange);
+		}
+	}
+
+	/** Subscribes the `receivestatebackgroundimageurl` string signal to {@link applySignalBackgroundImageUrl}. */
+	private subscribeReceiveStateBackgroundImageUrl(): void {
+		this.log('subscribeReceiveStateBackgroundImageUrl()');
+		this.subscribeSignal<string>(
+			this.receiveStateBackgroundImageUrl,
+			'string',
+			this._onSignalBackgroundImageUrlValue
+		);
+	}
+
+	/**
+	 * Writes a signal-delivered background image URL into the shared `backgroundImageUrl`
+	 * slot (rendered by {@link handleBackgroundImageUrl}), so the runtime signal wins
+	 * over the static `backgroundimageurl`. Also reflects the `backgroundimageurl`
+	 * attribute on the host, since the fill-type CSS is scoped to
+	 * `ch5-button[backgroundimageurl]` (a signal-only author would otherwise never
+	 * match it); the re-entrant setter is stopped by the store's equality check.
+	 */
+	private applySignalBackgroundImageUrl(value: string): void {
+		this.log('applySignalBackgroundImageUrl(', value, ')');
+		const url = value ?? '';
+		this.syncHostStringAttribute('backgroundimageurl', url);
+		this._ch5Properties.set<string>('backgroundImageUrl', url, this._onBackgroundImageChange);
+	}
+
+	// --- sendEventOnClick ------------------------------------------------------
+
+	/**
+	 * Reacts to a `sendeventonclick` name change. The click signal is driven by the
+	 * pressable's onChange (see `handlePressedChange`), so nothing is (un)wired here;
+	 * we only stop an in-flight repeat-digital if the name was cleared mid-press.
+	 */
+	private handleSendEventOnClick(): void {
+		this.log('handleSendEventOnClick()');
+		if (!this.sendEventOnClick) {
+			this.stopClickRepeatDigital();
+		}
+	}
+
+	/**
+	 * Pressable onChange handler: drives the opt-in `sendeventonclick` signal. Press
+	 * starts sending (immediate `true` + repeat-digital); release stops and sends the
+	 * final `false`. Zero cost when unset - `startClickRepeatDigital()` early-returns
+	 * before any allocation.
+	 */
+	private handlePressedChange(pressed: boolean): void {
+		this.log('handlePressedChange(', pressed, ')');
+		// In a contract-driven ch5-button-list / ch5-tab-button, presses publish the
+		// parent's contract signals instead of sendEventOnClick (mirrors Ch5AdvancedButton).
+		if (this._buttonListContract.contractName !== '') {
+			if (this._buttonListContract.parentComponent === 'ch5-button-list') {
+				this.handleButtonListContractPress(pressed);
+				return;
+			}
+			if (this._buttonListContract.parentComponent === 'ch5-tab-button') {
+				this.handleTabButtonContractPress(pressed);
+				return;
+			}
+		}
+		if (pressed) {
+			this.startClickRepeatDigital();
+		} else {
+			this.stopClickRepeatDigital();
+		}
+	}
+
+	/**
+	 * Publishes the ch5-button-list contract press signals for this item, mirroring
+	 * Ch5AdvancedButton's button-list path: Button{n}ItemPress on press/release,
+	 * ListItemClicked on a plain release, and ListItemHeld once the hold threshold
+	 * (clickHoldTime, 0 = immediate) elapses.
+	 */
+	private handleButtonListContractPress(pressed: boolean): void {
+		const { contractName, index, clickHoldTime } = this._buttonListContract;
+		const signals = (this._signals ??= new Ch5LightSignal());
+		if (pressed) {
+			signals.sendBoolean(`${contractName}.Button${index}ItemPress`, true);
+			this.clearButtonListContractHold();
+			if (clickHoldTime === 0) {
+				this._buttonListContractIsHeld = true;
+				signals.sendNumber(`${contractName}.ListItemHeld`, index);
+			} else {
+				this._buttonListContractHoldInterval = window.setInterval(() => {
+					this._buttonListContractIsHeld = true;
+					signals.sendNumber(`${contractName}.ListItemHeld`, index);
+					this.clearButtonListContractHold();
+				}, clickHoldTime);
+			}
+		} else {
+			signals.sendBoolean(`${contractName}.Button${index}ItemPress`, false);
+			if (this._buttonListContractIsHeld === false) {
+				signals.sendNumber(`${contractName}.ListItemClicked`, index);
+			}
+			this.clearButtonListContractHold();
+			this._buttonListContractIsHeld = false;
+		}
+	}
+
+	/**
+	 * Publishes the ch5-tab-button contract press signal for this item, mirroring
+	 * Ch5AdvancedButton's tab-button path: a single `Tab{n}_Press` boolean on press
+	 * and release. Unlike the button-list path there is no hold/click bookkeeping.
+	 */
+	private handleTabButtonContractPress(pressed: boolean): void {
+		const { contractName, index } = this._buttonListContract;
+		const signals = (this._signals ??= new Ch5LightSignal());
+		signals.sendBoolean(`${contractName}.Tab${index}_Press`, pressed);
+	}
+
+	/** Clears the pending ListItemHeld timer, if any. */
+	private clearButtonListContractHold(): void {
+		if (this._buttonListContractHoldInterval !== null) {
+			window.clearInterval(this._buttonListContractHoldInterval);
+			this._buttonListContractHoldInterval = null;
+		}
+	}
+
+	/**
+	 * Sends the initial `true` on press, then—only if the button is still held past
+	 * `REPEAT_DIGITAL_HOLD_DELAY`—retriggers it every `REPEAT_DIGITAL_PERIOD` ms
+	 * (mirrors ch5-advanced-button: a quick tap sends a single true, a hold repeats).
+	 * No-op (nothing allocated) unless a `sendeventonclick` signal name is set.
+	 */
+	private startClickRepeatDigital(): void {
+		if (!this.sendEventOnClick) {
+			return;
+		}
+		this.sendClickValue(true);
+		this._repeatDigitalTimer = window.setTimeout(this._repeatDigitalTick, Ch5ButtonBase.REPEAT_DIGITAL_HOLD_DELAY);
+	}
+
+	/**
+	 * Ends the press cycle: if a `true` was sent (timer armed), cancel the pending tick
+	 * and send the final `false`. Safe to call when nothing was running.
+	 */
+	private stopClickRepeatDigital(): void {
+		if (this._repeatDigitalTimer === null) {
+			return;
+		}
+		window.clearTimeout(this._repeatDigitalTimer);
+		this._repeatDigitalTimer = null;
+		this.sendClickValue(false);
+	}
+
+	/**
+	 * Publishes the `sendeventonclick` value in the REPEAT-DIGITAL object form
+	 * (`{ repeatdigital: value }`), exactly like `ch5-button` (and `ch5-image` /
+	 * `ch5-dpad`) — the light button supports repeat-digital, so it must send the
+	 * same object shape as its heavy twin for the control system to handle the
+	 * auto-repeat identically. Reuses the shared lazy `Ch5LightSignal` helper;
+	 * `sendRepeatDigital` is stateless, so it works whether or not any receive
+	 * signals are subscribed.
+	 */
+	private sendClickValue(value: boolean): void {
+		this.log('sendClickValue(', value, ')');
+		const signalName = this.sendEventOnClick;
+		if (!signalName) {
+			return;
+		}
+		(this._signals ??= new Ch5LightSignal()).sendRepeatDigital(signalName, value);
+	}
+
+	/**
+	 * Attaches the native `focus`/`blur` listeners to the inner button. No-op if
+	 * already wired or if no button exists yet. The handlers are cached fields.
+	 */
+	private wireFocusBlur(): void {
+		if (!this._elButton || this._focusListenersWired) {
+			return;
+		}
+		this.log('wireFocusBlur()');
+		this._focusListenersWired = true;
+		this._elButton.addEventListener('focus', this._onFocus);
+		this._elButton.addEventListener('blur', this._onBlur);
+	}
+
+	/**
+	 * Detaches the native `focus`/`blur` listeners (cached handlers are never nulled,
+	 * only re-attached on the next wire). Safe to call when nothing was wired.
+	 */
+	private unwireFocusBlur(): void {
+		this.log('unwireFocusBlur()');
+		if (this._elButton && this._focusListenersWired) {
+			this._elButton.removeEventListener('focus', this._onFocus);
+			this._elButton.removeEventListener('blur', this._onBlur);
+		}
+		this._focusListenersWired = false;
+	}
+
+	/** Focus: re-emit the (non-bubbling) native `focus` event from the host. */
+	private handleFocus(event: FocusEvent): void {
+		this.log('handleFocus()');
+		this.reDispatchFocusEvent(event);
+	}
+
+	/**
+	 * Blur: re-emit the native `blur` from the host and force-release any in-flight
+	 * press so the button doesn't stay stuck `pressed` (mirrors ch5-button). No-op when
+	 * not pressed.
+	 */
+	private handleBlur(event: FocusEvent): void {
+		this.log('handleBlur()');
+		this._pressable?.setPressed(false);
+		this.reDispatchFocusEvent(event);
+	}
+
+	/**
+	 * Clones the native focus/blur event and re-dispatches it from the host so
+	 * `<ch5-button>` consumers receive it (these events don't bubble), then stops
+	 * the original from propagating further. Mirrors ch5-button.
+	 */
+	private reDispatchFocusEvent(event: FocusEvent): void {
+		const clonedEvent: Event = new Event(event.type, event);
+		this.dispatchEvent(clonedEvent);
+		event.preventDefault();
+		event.stopPropagation();
+	}
+
+	/**
+	 * (Re)wires the shared Ch5LightPressable for the `pressed` state + bubbling
+	 * `press`/`release` events. Listens on the inner `<button>` (a disabled
+	 * `pointer-events:none` button blocks presses for free); created lazily and reused
+	 * across reconnects. No-op if no button exists yet.
+	 */
+	private wirePressable(): void {
+		if (!this._elButton) {
+			return;
+		}
+		this.log('wirePressable()');
+		if (!this._pressable) {
+			// Buttons inside a scrolling container (ch5-button-list / ch5-tab-button, or a
+			// ch5-subpage-reference-list template) get swipe-aware (deferred) press: a finger swipe
+			// or mouse click-drag scrolls / cancels instead of committing the press, a tap fires a
+			// short press-release pulse, and a slight in-bounds move no longer streams repeatdigital
+			// until lift - matching ch5-advanced-button. Standalone buttons keep the instant press.
+			// A list/tab button carries that parentComponent; an SRL button is cloned from a template
+			// and carries none, so the SRL container is detected by class (mirrors Ch5Pressable).
+			const parentComponent = this._buttonListContract.parentComponent;
+			const enableSwipe = parentComponent === 'ch5-button-list'
+				|| parentComponent === 'ch5-tab-button'
+				|| this.isInsideSubpageReferenceList();
+			this._pressable = new Ch5LightPressable(this, this._elButton, { enableSwipe }, this._onPressedChange);
+		}
+		this._pressable.init();
+	}
+
+	/** Class the ch5-subpage-reference-list puts on each subpage container (mirrors Ch5Pressable). */
+	private static readonly SRL_CONTAINER_CLASS = 'ch5-subpage-reference-list--subpage-container';
+
+	/** True when this button sits inside a ch5-subpage-reference-list subpage (a scrolling container). */
+	private isInsideSubpageReferenceList(): boolean {
+		return this.closest('.' + Ch5ButtonBase.SRL_CONTAINER_CLASS) !== null;
+	}
+
+	/**
+	 * Tears down the pressable's listeners (releasing first if a press is still in
+	 * flight). The pressable object is kept for reuse; connectedCallback re-wires it.
+	 * Safe to call when nothing was wired.
+	 */
+	private unwirePressable(): void {
+		this.log('unwirePressable()');
+		this._pressable?.destroy();
 	}
 
 	//#endregion
-
 }

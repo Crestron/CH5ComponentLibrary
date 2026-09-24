@@ -393,7 +393,7 @@ fresh instance renders the static value — so there is no runtime override to
 unwind; the last signal value simply remains in the slot.)
 
 **The one exception — `receiveStateBackgroundImageUrl` reflects the host
-attribute.** The `backgroundimageurlfilltype` CSS is scoped to
+attribute.** The `backgroundImageFillType` CSS is scoped to
 `ch5-light-button[backgroundimageurl]` (a perf scope so buttons with no
 background image are never matched). A static author sets that attribute in
 markup, but a signal-driven URL would leave the host without it, so the fill
@@ -435,12 +435,15 @@ leaves the join stuck high. A `_clickPressed` flag guards both directions so a
 stray `pointerleave` with no prior press sends nothing, and a press sends `true`
 only once.
 
-**Publish path.** The shared `Ch5LightSignal` helper gained a stateless
-`sendBoolean(name, value)` that does a **plain** `getBooleanSignal(name).publish(value)`
-— the RAW signal name (no subscription-name translation) and a plain boolean, not
-the `{ [REPEAT_DIGITAL_KEY]: value }` object form used by `ch5-button`. The button
-reuses the same lazy `_signals` helper it uses for receive signals (safe because
-`sendBoolean` tracks no state).
+**Publish path.** The shared `Ch5LightSignal` helper provides a stateless
+`sendRepeatDigital(name, value)` that does `getObjectAsBooleanSignal(name).publish({ [REPEAT_DIGITAL_KEY]: value })`
+— the **repeat-digital object form** (`{ "repeatdigital": true/false }`) used by
+`ch5-button` / `ch5-image` / `ch5-dpad`, so the control system handles the
+auto-repeat identically to the heavy twin. (A separate `sendBoolean(name, value)`
+does a plain `getBooleanSignal(name).publish(value)` and is used for plain digitals
+such as `sendeventonshow`.) The button reuses the same lazy `_signals` helper it
+uses for receive signals (safe because both send methods track no state).
+ 
 
 **Zero-cost when absent (opt-in).** The two pointer handlers (`_onClickPress` /
 `_onClickRelease`) are cached class fields, created ONCE per instance — same
@@ -857,7 +860,7 @@ detail belongs in git history / PR description.
   `backgroundImageUrl` slot rather than a `data-signal-*` channel, since
   those are JS-rendered (not pure-CSS like `type` / `selected`).
   `receiveStateBackgroundImageUrl` additionally reflects the
-  `backgroundimageurl` host attribute so `backgroundimageurlfilltype` matches
+  `backgroundimageurl` host attribute so `backgroundImageFillType` matches
   for signal-driven URLs. See §1, §4, §5, §6.5.
 - **2026-07-30** — `Ch5LightProperties.set()` now hands the OLD value to
   `onChange` as a parameter (`onChange?: (oldValue: T) => void`), instead of

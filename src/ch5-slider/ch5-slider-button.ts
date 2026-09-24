@@ -1,78 +1,91 @@
-import { Ch5ButtonBase } from "../ch5-button";
+import { Ch5LightBaseClass } from "../ch5-light-base/ch5-light-base-class";
+import { ICh5LightPropertySettings } from "../ch5-light-base/ch5-light-properties";
 import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
-import { TCh5SliderButtonKey, } from './interfaces/t-ch5-slider-button';
-import { ICh5SliderButtonAttributes } from './interfaces/i-ch5-slider-button-attributes';
-import { Ch5Properties } from "../ch5-core/ch5-properties";
-import { ICh5PropertySettings } from "../ch5-core/ch5-property";
-import _ from "lodash";
-import { Ch5SliderButtonLabel } from "./ch5-slider-button-label";
+import { Ch5ButtonBase } from "../ch5-button/ch5-button-base";
+import { TCh5SliderButtonKey } from './interfaces/t-ch5-slider-button';
+import type { Ch5SliderButtonLabel } from './ch5-slider-button-label';
 
-export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAttributes {
+// Ch5SliderButton extends the shared Ch5ButtonBase (see
+// ../ch5-button/ch5-button-base.ts) instead of the full Ch5Button, and only
+// needs a SUBSET of the button's attributes (label / icon / send+receive
+// signals) - this is the "define what properties I need and don't need"
+// mechanism the base class enables: filter Ch5ButtonBase.PROPERTY_SETTINGS by
+// name, then add the slider-specific `key` ('on' | 'off') on top. Every
+// getter/setter NOT included below (size, stretch, multilinesupport, ...) is
+// still inherited and works programmatically, it's just not attribute-reactive.
+export class Ch5SliderButton extends Ch5ButtonBase {
 
-	//#region Variables
-
-	public static readonly KEY: TCh5SliderButtonKey[] = ['on', 'off'];
-	public static readonly inheritedObsAttrs = ["key", "labelinnerhtml", "label", "sgicontheme", "iconclass", "pressed", "selected", "shape", "halignlabel", "valignlabel", "type", "iconurl", "iconurlfilltype", "sendeventonclick", "receivestatelabel", "receivestateiconclass", "receivestateiconurl"];
-	public static readonly COMPONENT_DATA: any = {
-		KEY: {
-			default: Ch5SliderButton.KEY[0],
-			values: Ch5SliderButton.KEY,
-			key: 'key',
-			attribute: 'key',
-			classListPrefix: '--key-'
-		}
-	};
-
-	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
-		{
-			default: "",
-			enumeratedValues: Ch5SliderButton.KEY,
-			name: "key",
-			removeAttributeOnNull: true,
-			type: "enum",
-			valueOnAttributeEmpty: "",
-			isObservableProperty: true
-		},
-		{
-			default: "",
-			name: "labelInnerHTML",
-			removeAttributeOnNull: true,
-			type: "string",
-			valueOnAttributeEmpty: "",
-			isObservableProperty: true,
-		}
-	];
+	//#region Constants
 
 	public static readonly ELEMENT_NAME = 'ch5-slider-button';
+	public static readonly PRIMARY_CSS_CLASS = 'ch5-button';
+	public static readonly KEY: readonly TCh5SliderButtonKey[] = ['on', 'off'];
 
-	public primaryCssClass = 'ch5-button';
+	/** Names picked out of the FULL Ch5ButtonBase.PROPERTY_SETTINGS that this component actually uses. */
+	private static readonly BUTTON_PROPERTY_NAMES: readonly string[] = [
+		'label', 'labelInnerHTML', 'iconClass', 'iconUrl', 'iconUrlFillType', 
+		'hAlignLabel', 'vAlignLabel', 
+		'receiveStateLabel', 'receiveStateIconClass', 'receiveStateIconUrl',
+		'sendEventOnClick', 'pressed', 'selected', 'type', 'shape'
+	];
 
-	private debounceCreateSliderButton = this.debounce(() => {
-		this.setButtonDisplay();
-		this.updateInternalHtml();
-	}, 50);
+	/** Properties unique to ch5-slider-button, layered on top of the filtered button subset. */
+	private static readonly OWN_PROPERTY_SETTINGS: ICh5LightPropertySettings[] = [
+		{ name: 'key', default: Ch5SliderButton.KEY[0], type: 'enum', enumeratedValues: [...Ch5SliderButton.KEY] }
+	];
+
+	public static readonly PROPERTY_SETTINGS: ICh5LightPropertySettings[] = [
+		...Ch5ButtonBase.PROPERTY_SETTINGS.filter(setting => Ch5SliderButton.BUTTON_PROPERTY_NAMES.includes(setting.name)),
+		...Ch5SliderButton.OWN_PROPERTY_SETTINGS
+	];
+
+	private static readonly OBSERVED_ATTRIBUTES = Ch5ButtonBase.toObservedAttributeNames(Ch5SliderButton.PROPERTY_SETTINGS);
+
+	//#endregion
+
+	//#region Variables
 
 	//#endregion
 
 	//#region Getters and Setters
 
-	public set key(value: TCh5SliderButtonKey) {
-		this._ch5Properties.set<TCh5SliderButtonKey>("key", value, () => {
-			this.debounceCreateSliderButton();
-		});
+	/** Used to set the type of button, i.e. 'on' or 'off'. Any other value normalizes to '' (matches the legacy enum property's fallback to its "" default). */
+	public set key(value: TCh5SliderButtonKey | string) {
+		const normalizedValue: TCh5SliderButtonKey | '' = value === 'on' || value === 'off' ? value : '';
+		this._ch5Properties.set<string>('key', normalizedValue);
+		if (this._isInitialized) {
+			this.setAttribute('key', normalizedValue);
+		}
 	}
-	public get key(): TCh5SliderButtonKey {
-		return this._ch5Properties.get<TCh5SliderButtonKey>("key");
+	public get key(): TCh5SliderButtonKey | '' {
+		return this._ch5Properties.get<TCh5SliderButtonKey | ''>('key');
 	}
 
-	public set labelInnerHTML(value: string) {
-		this._ch5Properties.set<string>("labelInnerHTML", value, () => {
-			this.createSliderButtonLabel();
-			this.debounceCreateSliderButton();
-		});
+	//#endregion
+
+	//#region Static Methods
+
+	public static registerCustomElement() {
+		if (typeof window === "object"
+			&& typeof window.customElements === "object"
+			&& typeof window.customElements.define === "function"
+			&& window.customElements.get(Ch5SliderButton.ELEMENT_NAME) === undefined) {
+			window.customElements.define(Ch5SliderButton.ELEMENT_NAME, Ch5SliderButton);
+		}
 	}
-	public get labelInnerHTML(): string {
-		return this._ch5Properties.get<string>("labelInnerHTML");
+
+	public static registerSignalAttributeTypes(): void {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(
+			Ch5SliderButton.ELEMENT_NAME,
+			Ch5ButtonBase.buildSignalAttributeRegistryEntries(Ch5SliderButton.PROPERTY_SETTINGS)
+		);
+	}
+
+	public static get observedAttributes(): string[] {
+		return [
+			...Ch5LightBaseClass.LIGHT_BASE_OBSERVED_ATTRIBUTES,
+			...Ch5SliderButton.OBSERVED_ATTRIBUTES
+		];
 	}
 
 	//#endregion
@@ -81,211 +94,117 @@ export class Ch5SliderButton extends Ch5ButtonBase implements ICh5SliderButtonAt
 
 	public constructor() {
 		super();
-		this.logger.start('constructor()', Ch5SliderButton.ELEMENT_NAME);
-		this.ignoreAttributes = ["disabled", "debug", "show", "customclass", "customstyle", "noshowtype", "receivestatecustomclass", "receivestatecustomstyle", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "receivestateenable", "sendeventonshow", "gestureable", "dir", "appendclasswheninviewport"];
-		this._ch5Properties = new Ch5Properties(this, Ch5SliderButton.COMPONENT_PROPERTIES);
+		this._ch5Properties.add(Ch5SliderButton.OWN_PROPERTY_SETTINGS);
 	}
 
-	public static get observedAttributes() {
-		const newObsAttrs: string[] = [];
-		for (let i: number = 0; i < Ch5SliderButton.COMPONENT_PROPERTIES.length; i++) {
-			if (Ch5SliderButton.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-				newObsAttrs.push(Ch5SliderButton.COMPONENT_PROPERTIES[i].name.toLowerCase());
-			}
-		}
-		return newObsAttrs.concat(Ch5SliderButton.inheritedObsAttrs);
-	}
-
-	public static registerSignalAttributeTypes() {
-		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5SliderButton.ELEMENT_NAME, Ch5SliderButton.SIGNAL_ATTRIBUTE_TYPES);
-	}
-
-	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
-		this.logger.start("attributeChangedCallback", this.primaryCssClass);
-		// console.log("attributeChangedCallback", attr, oldValue, newValue);
-		if (Ch5SliderButton.inheritedObsAttrs.includes(attr.toLowerCase())) {
-			if (oldValue !== newValue) {
-				this.logger.log('ch5-slider-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
-				const attributeChangedProperty = Ch5SliderButton.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
-				if (attributeChangedProperty) {
-					const thisRef: any = this;
-					const key = attributeChangedProperty.name;
-					thisRef[key] = newValue;
-				} else {
-					super.attributeChangedCallback(attr, oldValue, newValue);
-				}
-			}
-			this.debounceCreateSliderButton();
-		}
-		this.logger.stop();
-	}
-
-	private createSliderButtonLabel() {
-		const buttonLabelList = this.getElementsByTagName("ch5-slider-button-label");
-		const findButtonLabel = Array.prototype.slice.call(buttonLabelList).filter((x: { parentNode: { nodeName: { toString: () => string; }; }; }) => x.parentNode.nodeName.toString().toLowerCase() === this.nodeName.toString().toLowerCase());
-		let childButtonLabel: any = null;
-		if (findButtonLabel && findButtonLabel.length > 0 && !_.isNil(findButtonLabel[0].children[0])) {
-			childButtonLabel = findButtonLabel[0];
-		} else {
-			childButtonLabel = document.createElement('ch5-slider-button-label');
-			this.appendChild(childButtonLabel);
-		}
-		let templateEl = childButtonLabel.querySelector('template');
-		if (templateEl !== null) {
-			childButtonLabel.removeChild(templateEl);
-		}
-		templateEl = document.createElement('template');
-		templateEl.innerHTML = this.decodeInnerHTMLForAttribute(this.labelInnerHTML);
-		childButtonLabel.appendChild(templateEl);
-	}
-
-	private buttonIgnoredAttributes() {
-		const buttonIgnoredAttr = [
-			'iconposition', 'orientation', 'checkboxshow', 'checkboxposition', 'pressdelaytime', 'pressdelaydistance', 'size', 'stretch', 'formtype', 'mode', 'customclassselected', 'customclasspressed', 'customclassdisabled', 'receivestatemode', 'receivestateselected', 'receivestatescriptlabelhtml', 'receivestatetype', 'backgroundimageurl', 'backgroundimagefilltype', 'receivestatebackgroundimageurl', 'receivestatecustomclass', 'receivestatecustomstyle', 'disabled', 'show', 'customclass', 'customstyle'
-		];
-		for (let i = 0; i < buttonIgnoredAttr.length; i++) {
-			if (this.hasAttribute(buttonIgnoredAttr[i].toLowerCase())) {
-				this.removeAttribute(buttonIgnoredAttr[i].toLowerCase());
-			}
-		}
-		this.setAttribute("iconPosition", "top");
+	protected getContractPropertySettings(): readonly ICh5LightPropertySettings[] {
+		return Ch5SliderButton.PROPERTY_SETTINGS;
 	}
 
 	/**
-	 * Called when the Ch5SliderButton component is first connected to the DOM
+	 * Called by the child <ch5-slider-button-label>'s debounced attribute sync (see
+	 * ch5-slider-button-label.ts). Acts as a late retry: the HTML parser connects this
+	 * button before its <ch5-slider-button-label> child is parsed/appended, so the
+	 * child's own connect - which lands here once it settles - is what actually finds it.
 	 */
-	public connectedCallback() {
-		this.logger.start('connectedCallback()', Ch5SliderButton.ELEMENT_NAME);
-		this.setAttribute('data-ch5-id', this.getCrId());
-		this.buttonIgnoredAttributes();
-		if (!(this.parentElement?.classList.contains('slider-on-button') || this.parentElement?.classList.contains('slider-off-button'))) {
+	public setValues(): void {
+		this.handleSliderButtonLabelLinkage();
+	}
+
+	public attributeChangedCallback(attr: string, oldValue: string | null, newValue: string | null): void {
+		if (oldValue === newValue) {
 			return;
 		}
-		if (this.getAttribute('key')) {
-			if (this.getAttribute('key')?.toLowerCase() !== 'on' && this.getAttribute('key')?.toLowerCase() !== 'off') {
-				return;
-			}
+		if (attr === 'key') {
+			this.key = newValue === 'on' || newValue === 'off' ? newValue : '';
+			return;
 		}
-		super.connectedCallback();
-		this.initAttributes();
-		this.updateCssClass();
-		this.handleLabel();
-		this.logger.stop();
-	}
-
-	public disconnectedCallback() {
-		this.logger.start('disconnectedCallback()');
-		this.logger.stop();
-	}
-
-	//#endregion
-
-	//#region Protected / Private Methods
-
-	protected createInternalHtml() {
-		super.createInternalHtml();
-		this.logger.start('createInternalHtml()');
-		this.clearComponentContent();
-		this.logger.stop();
-	}
-
-	protected initAttributes() {
-		super.initAttributes();
-		const thisRef: any = this;
-		for (let i: number = 0; i < Ch5SliderButton.COMPONENT_PROPERTIES.length; i++) {
-			if (Ch5SliderButton.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-				if (this.hasAttribute(Ch5SliderButton.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
-					const key = Ch5SliderButton.COMPONENT_PROPERTIES[i].name;
-					thisRef[key] = this.getAttribute(key);
-				}
-			}
-		}
-		for (let i: number = 0; i < Ch5SliderButton.inheritedObsAttrs.length; i++) {
-			if (this.hasAttribute(Ch5SliderButton.inheritedObsAttrs[i].toLowerCase())) {
-				const key = Ch5SliderButton.inheritedObsAttrs[i].toLowerCase();
-				thisRef[key] = this.getAttribute(key);
-			}
-		}
-		this.debounceCreateSliderButton();
-	}
-
-	protected attachEventListeners() {
-		super.attachEventListeners();
-	}
-	protected removeEventListeners() {
-		super.removeEventListeners();
-	}
-
-	public unsubscribeFromSignals() {
-		super.unsubscribeFromSignals();
-		this._ch5Properties.unsubscribe();
+		super.attributeChangedCallback(attr, oldValue, newValue);
 	}
 
 	/**
-	 * Clear the content of component in order to avoid duplication of elements
+	 * Called when the Ch5SliderButton component is first connected to the DOM. A
+	 * slider button only initializes once it has been moved by its parent
+	 * <ch5-slider> into the `slider-on-button` / `slider-off-button` container
+	 * (see ch5-slider.ts onOffButtonHelper()), and only for a valid `key`.
 	 */
-	protected clearComponentContent() {
-		const containers = this.getElementsByTagName("div");
-		Array.from(containers).forEach((container) => {
-			container.remove();
-		});
+	public connectedCallback(): void {
+		if (!this.isValidSliderPosition()) {
+			return;
+		}
+		// The FIRST connect wipes host children (Ch5ButtonBase.createInternalHtml()
+		// -> replaceChildren()); preserve any author-provided
+		// <ch5-slider-button-label> child and restore it once the internal
+		// <button>/icon/label are built.
+		const preservedLabelChildren = this.getSliderButtonLabelChildren();
+		super.connectedCallback();
+		preservedLabelChildren.forEach(child => this.appendChild(child));
+		this.applyDefaultIconPositionTop();
+		this.handleSliderButtonLabelLinkage();
 	}
 
-	private labelHelper() {
-		const labelSlider = this.getElementsByTagName("ch5-slider-button-label");
-		Array.from(labelSlider).forEach((label, index) => {
-			if (index >= 1) { return; }
-			const sliderTtl = new Ch5SliderButtonLabel(this);
-			Ch5SliderButtonLabel.observedAttributes.forEach((attr) => {
-				if (label.hasAttribute(attr)) {
-					sliderTtl.setAttribute(attr, label.getAttribute(attr) + '');
-				}
-			});
-		})
+	//#endregion
+
+	//#region Private Methods
+
+	private isValidSliderPosition(): boolean {
+		if (!(this.parentElement?.classList.contains('slider-on-button') || this.parentElement?.classList.contains('slider-off-button'))) {
+			return false;
+		}
+		const key = this.getAttribute('key');
+		if (key && key.toLowerCase() !== 'on' && key.toLowerCase() !== 'off') {
+			return false;
+		}
+		return true;
 	}
 
-	public setValues() {
-		// if (elem === "label" && this.labelInnerHTML === "" && !(this.receiveStateLabel !== null && this.receiveStateLabel.trim() !== "")) {
-		// 	console.log("val.innerHTML", this.labelInnerHTML, val.innerHTML);
-		// 	// this.label = val.innerHTML;
-		// }
-		if (this.receiveStateLabel === "") {
-			// this.label = val.innerHTML;
-			this.debounceCreateSliderButton();
+	/** Defaults the icon to the top of the label, matching the slider button's legacy layout, unless the author overrides it. */
+	private applyDefaultIconPositionTop(): void {
+		if (!this.hasAttribute('iconposition')) {
+			this.setAttribute('iconposition', 'top');
 		}
 	}
 
-	private handleLabel() {
-		if (this.receiveStateLabel !== null && this.receiveStateLabel.trim() !== "") {
-			// Do Nothing
-		} else if (this.hasAttribute("labelInnerHtml")) {
-			// this.labelHelper();
-		} else if (this.getElementsByTagName("ch5-slider-button-label").length >= 1) {
-			this.labelHelper();
+	private getSliderButtonLabelChildren(): Ch5SliderButtonLabel[] {
+		return Array.from(this.children).filter(child => child.tagName.toLowerCase() === 'ch5-slider-button-label') as unknown as Ch5SliderButtonLabel[];
+	}
+
+	/**
+	 * Reads the linked <ch5-slider-button-label> child and feeds it into THIS button's
+	 * own label/labelInnerHTML, so Ch5ButtonBase renders it in the internal <span>.
+	 * Pulls the child's already-resolved `label`/`labelInnerHTML`/`receiveStateLabel`
+	 * properties (rather than re-parsing its raw attributes), mirroring Ch5Label's own
+	 * priority order so a signal-driven label on the child isn't silently dropped. Only
+	 * reads the child (never writes to it), so it can't re-trigger the child's own
+	 * attributeChangedCallback - safe to call repeatedly from setValues().
+	 */
+	private handleSliderButtonLabelLinkage(): void {
+		if (this.receiveStateLabel) {
+			return;
 		}
-	}
-
-	public setButtonDisplay() {
-		this.setButtonDisplayDetails("ch5-slider-button");
-	}
-
-	protected updateCssClass() {
-		this.logger.start('UpdateCssClass');
-		super.updateCssClasses();
-		this.logger.stop();
-	}
-
-	public getCssClassDisabled() {
-		return this.primaryCssClass + '--disabled';
+		const labelChild = this.getSliderButtonLabelChildren()[0];
+		if (!labelChild) {
+			return;
+		}
+		// A present <ch5-slider-button-label> child always wins over the button's own
+		// label/labelinnerhtml attributes. Mirrors Ch5Label.handleLabel()'s priority:
+		// receiveStateLabel > labelInnerHTML > template > label.
+		const templateEl = labelChild.getElementsByTagName('template')[0] as HTMLTemplateElement | undefined;
+		if (labelChild.receiveStateLabel) {
+			this.label = labelChild.label;
+		} else if (labelChild.labelInnerHTML) {
+			this.labelInnerHTML = labelChild.labelInnerHTML;
+		} else if (templateEl instanceof HTMLTemplateElement) {
+			this.labelInnerHTML = templateEl.innerHTML;
+		} else if (labelChild.hasAttribute('label')) {
+			this.label = labelChild.label;
+		}
+		// else: the child has no content of its own - leave the button's label/labelInnerHTML as-is.
 	}
 
 	//#endregion
 
 }
-if (typeof window === "object" &&
-	typeof window.customElements === "object" &&
-	typeof window.customElements.define === "function") {
-	window.customElements.define(Ch5SliderButton.ELEMENT_NAME, Ch5SliderButton);
-}
+
+Ch5SliderButton.registerCustomElement();
 Ch5SliderButton.registerSignalAttributeTypes();
-Ch5SliderButton.registerSignalAttributeDefaults(Ch5SliderButton.ELEMENT_NAME);

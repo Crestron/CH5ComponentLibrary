@@ -1,4 +1,4 @@
-import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
+import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core";
 
 /** Signal value kinds supported by the light signal helper. */
 export type TCh5LightSignalType = 'string' | 'number' | 'boolean';
@@ -7,6 +7,7 @@ interface ICh5LightSignalSubscription {
 	signalName: string;
 	signalType: TCh5LightSignalType;
 	subKey: string;
+	callback: (value: string | number | boolean) => void;
 }
 
 /**
@@ -42,6 +43,14 @@ export class Ch5LightSignal {
 		if (!signalName) {
 			return;
 		}
+		if (this._subscriptions !== null) {
+			for (let i = 0; i < this._subscriptions.length; i++) {
+				const sub = this._subscriptions[i];
+				if (sub.signalName === signalName && sub.signalType === signalType && sub.callback === onValue) {
+					return;
+				}
+			}
+		}
 		const subSigName = Ch5Signal.getSubscriptionSignalName(signalName);
 		const csf = Ch5SignalFactory.getInstance();
 
@@ -60,14 +69,15 @@ export class Ch5LightSignal {
 			subKey = signal.subscribe(onValue as (value: string) => void);
 		}
 
-		(this._subscriptions ??= []).push({ signalName, signalType, subKey });
+		(this._subscriptions ??= []).push({ signalName, signalType, subKey, callback: onValue as (value: string | number | boolean) => void });
 	}
 
 	/**
-	 * Publishes a plain boolean to a Crestron signal (send/event direction), using the
-	 * RAW signal name and a plain `publish` (not the repeat-digital object form) to
-	 * match `ch5-image`'s click signal (`true` on press, `false` on release). No-op on
-	 * a falsy/unresolved name. Stateless, so it's safe on a fresh instance.
+	 * Publishes a PLAIN boolean to a Crestron signal (send/event direction), using the
+	 * RAW signal name and a plain `publish` (NOT the repeat-digital object form). Use
+	 * this for plain momentary/level digital sends such as the base's `sendEventOnShow`
+	 * (mirrors `Ch5Common.sendShowSignal`). No-op on a falsy/unresolved name. Stateless,
+	 * so it's safe on a fresh instance.
 	 */
 	public sendBoolean(signalName: string, value: boolean): void {
 		if (!signalName) {
@@ -76,6 +86,41 @@ export class Ch5LightSignal {
 		const signal = Ch5SignalFactory.getInstance().getBooleanSignal(signalName);
 		if (signal !== null) {
 			signal.publish(value);
+		}
+	}
+
+	/**
+	 * Publishes a PLAIN number to a Crestron signal (send/event direction), using the
+	 * RAW signal name and a plain `publish`. Used for numeric list-contract sends such
+	 * as the button-list's `ListItemClicked` / `ListItemHeld`. No-op on a
+	 * falsy/unresolved name. Stateless, so it's safe on a fresh instance.
+	 */
+	public sendNumber(signalName: string, value: number): void {
+		if (!signalName) {
+			return;
+		}
+		const signal = Ch5SignalFactory.getInstance().getNumberSignal(signalName);
+		if (signal !== null) {
+			signal.publish(value);
+		}
+	}
+
+	/**
+	 * Publishes a boolean to a Crestron signal in the REPEAT-DIGITAL object form
+	 * (`{ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value }`) via the object-as-boolean
+	 * signal, exactly like `ch5-button` / `ch5-image` / `ch5-dpad` do for their
+	 * `sendEventOnClick`. Use this (instead of {@link sendBoolean}) for held-button
+	 * click sends that support repeat-digital, so the control system handles the
+	 * auto-repeat identically to the heavy components. No-op on a falsy/unresolved
+	 * name. Stateless, so it's safe on a fresh instance.
+	 */
+	public sendRepeatDigital(signalName: string, value: boolean): void {
+		if (!signalName) {
+			return;
+		}
+		const signal = Ch5SignalFactory.getInstance().getObjectAsBooleanSignal(signalName);
+		if (signal !== null) {
+			signal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
 		}
 	}
 

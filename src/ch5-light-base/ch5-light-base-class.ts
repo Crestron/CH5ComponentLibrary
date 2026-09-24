@@ -1,14 +1,17 @@
-import { Ch5Uid } from "../ch5-core";
+import { Ch5Uid, Ch5Signal, publishEvent, Ch5TranslationUtility, languageChangedSignalName } from "../ch5-core";
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
 import { Ch5LightProperties, ICh5LightPropertySettings } from "./ch5-light-properties";
 import { Ch5LightSignal } from "./ch5-light-signal";
+import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
+import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { TCh5LightShowType } from "./interfaces/t-ch5-light-base";
+import { Ch5Config } from "../ch5-common/ch5-config";
 
-/** How a light component hides itself — mirrors `Ch5BaseClass` noshowtype. */
-export type TCh5LightShowType = 'display' | 'visibility' | 'remove';
+export type { TCh5LightShowType };
 
 /**
  * Lightweight base class for the "light" family of Ch5 components
- * (e.g. `ch5-light-button`).
+ * (e.g. `ch5-button`).
  *
  * Unlike `Ch5Common` / `Ch5BaseClass` it deliberately carries **no** signal
  * machinery, **no** `MutationObserver`, **no** debounce timers and **no** lodash.
@@ -87,15 +90,22 @@ export type TCh5LightShowType = 'display' | 'visibility' | 'remove';
  *    dependency-free default (no import of the heavy `Ch5RoleAttributeMapping`),
  *    so the per-instance cost is a single `hasAttribute` check.
  *
+ * `Ch5Config`-based pre-configured attributes (`setAttributeForComponent` /
+ * `setAttributeForId`) are applied once in {@link initLightBaseAttributes}, mirroring
+ * `Ch5Common`. Gated by `Ch5Config.hasAttributesForElement`, an allocation-free
+ * `hasOwnProperty` check, so the common case (nothing ever configured) costs no
+ * object allocation - only components with an actual pre-configured attribute pay
+ * for `getAttributesForElement`'s lookup/spread.
+ *
  * Derived components must:
  *  - merge `LIGHT_BASE_OBSERVED_ATTRIBUTES` into their static `observedAttributes`;
  *  - call `super.attributeChangedCallback(...)` for attributes they do not handle;
  *  - call `super.connectedCallback()` (after building their internal DOM) so the
  *    base attributes are applied and overridden handlers can reach child nodes.
  *
- * See ../ch5-light-button/ch5-light-button.md for the full design reference
+ * See ../ch5-button/ch5-button.md for the full design reference
  * (class hierarchy, extension playbook, GC/allocation rules) covering this
- * base class and its first concrete implementation, `Ch5LightButton`. Update
+ * base class and its first concrete implementation, `Ch5Button`. Update
  * that document alongside any change to this base class's public contract.
  */
 export abstract class Ch5LightBaseClass extends HTMLElement {
@@ -112,44 +122,14 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	public static readonly HIDE_VISIBILITY_CSS_CLASS = 'ch5-hide-vis';
 
 	/**
-	 * Attributes handled by this base class. A derived component must merge this
-	 * list with its own in its static `observedAttributes` getter. `debug` /
-	 * `trace` are observed so logging can be toggled at runtime; they cost nothing
-	 * unless the attribute actually changes. `receivestateenable` and
-	 * `receivestateshow` are observed so their enable/disable and show/hide signals
-	 * can be attached / changed at runtime; both are strictly opt-in and allocate
-	 * nothing (no signal helper, subscription or closure) unless the attribute is
-	 * actually present.
-	 *
-	 * `sendeventonshow` is observed so the outbound show-state signal can be
-	 * attached / changed at runtime; it is strictly opt-in and allocates nothing
-	 * (no signal helper, no publish) unless the attribute is actually present.
-	 *
-	 * `class`, `style` and `dir` are NOT listed: they are standard, natively
-	 * reflected HTML attributes and work directly on the host with no JS. The base
-	 * only ever writes `classList` / `.style` on a concrete component's INTERNAL
-	 * elements (e.g. the light button's inner `<button>`), so the author's host
-	 * `class` / `style` / `dir` are never touched - observing them would cost
-	 * hot-path work for behaviour the browser already provides for free.
-	 */
-	public static readonly LIGHT_BASE_OBSERVED_ATTRIBUTES = ['show', 'noshowtype', 'debug', 'trace', 'receivestateenable', 'receivestateshow', 'sendeventonshow'];
-
-	/**
-	 * Separate styling channel the `receiveStateEnable` signal writes to (never the
-	 * author's `disabled`), mirroring the light button's `data-signal-type` /
-	 * `data-signal-selected`. MUST stay in sync with the theme SCSS, which guards the
-	 * static `[disabled]` rule with `:not([data-signal-enable])` and styles
-	 * `[data-signal-enable="false"]` as disabled.
-	 */
-	public static readonly SIGNAL_ATTRIBUTE_ENABLE = 'data-signal-enable';
-	/**
-	 * Settings passed to every `Ch5LightProperties` instance created by this base
-	 * class. Hoisted to a STATIC field (computed once per class, not once per
-	 * component instance) - at 1000+ instances, allocating this array/object
-	 * literal (and the `enumeratedValues` copy) in the constructor would mean
-	 * 1000 extra allocations for data that is identical every time. Safe to
-	 * share: `Ch5LightProperties` only reads `name`/`default` from each entry
+	 * Property settings for the shared `_ch5Properties` store. STATIC so the array
+	 * is built once per class, not per instance (avoids N allocations at scale).
+	 * Safe to share: `Ch5LightProperties` only reads `name`/`default` from each entry
 	 * during construction and never retains or mutates the array.
+	 *
+	 * Join type metadata (direction, booleanJoin, etc.) is also defined here for
+	 * signal attributes - single source of truth. Derived classes use
+	 * getBaseSignalAttributeEntries() to merge base signal registrations with their own.
 	 */
 	private static readonly LIGHT_BASE_PROPERTY_SETTINGS: ICh5LightPropertySettings[] = [
 		{ name: 'show', default: true, type: 'boolean', valueOnAttributeEmpty: true },
@@ -159,10 +139,91 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 			type: 'enum',
 			enumeratedValues: [...Ch5LightBaseClass.NO_SHOW_TYPES]
 		},
-		{ name: 'receiveStateEnable', default: '', type: 'string' },
-		{ name: 'receiveStateShow', default: '', type: 'string' },
-		{ name: 'sendEventOnShow', default: '', type: 'string' }
+		{ name: 'receiveStateEnable', default: '', type: 'string', contractName: true, direction: 'state', booleanJoin: 1 },
+		{ name: 'receiveStateShow', default: '', type: 'string', contractName: true, direction: 'state', booleanJoin: 1 },
+		{ name: 'sendEventOnShow', default: '', type: 'string', contractName: true, direction: 'event', booleanJoin: 1 },
+		// Contract and join offset attributes - these are metadata for template processing, not signals themselves
+		// Include registry metadata so they auto-generate in getBaseSignalAttributeEntries()
+		{ name: 'contractName', default: '', type: 'string', contractName: true },
+		{ name: 'booleanJoinOffset', default: 0, type: 'number', booleanJoin: 1 },
+		{ name: 'numericJoinOffset', default: 0, type: 'number', numericJoin: 1 },
+		{ name: 'stringJoinOffset', default: 0, type: 'number', stringJoin: 1 },
+		// Diagnostic flags added for auto-generation of observed attributes
+		{ name: 'debug', default: false, type: 'boolean' },
+		{ name: 'trace', default: false, type: 'boolean' }
 	];
+
+	/**
+	 * Attributes handled by this base class. A derived component must merge this
+	 * list with its own in its static `observedAttributes` getter.
+	 * Auto-generated from LIGHT_BASE_PROPERTY_SETTINGS - single source of truth.
+	 *
+	 * `class`, `style` and `dir` are NOT listed: they are standard, natively
+	 * reflected HTML attributes and work directly on the host with no JS.
+	 */
+	public static readonly LIGHT_BASE_OBSERVED_ATTRIBUTES = Ch5LightBaseClass.LIGHT_BASE_PROPERTY_SETTINGS.map(
+		setting => setting.name.replace(/([A-Z])/g, match => match.toLowerCase()).toLowerCase()
+	);
+
+	/**
+	 * Separate styling channel the `receiveStateEnable` signal writes to (never the
+	 * author's `disabled`), mirroring the light button's `data-signal-type` /
+	 * `data-signal-selected`. MUST stay in sync with the theme SCSS, which guards the
+	 * static `[disabled]` rule with `:not([data-signal-enable])` and styles
+	 * `[data-signal-enable="false"]` as disabled.
+	 */
+	public static readonly SIGNAL_ATTRIBUTE_ENABLE = 'data-signal-enable';
+
+	/** Shared empty settings list returned by the default {@link getContractPropertySettings} (no per-instance allocation). */
+	private static readonly EMPTY_PROPERTY_SETTINGS: readonly ICh5LightPropertySettings[] = [];
+
+	/**
+	 * Shared helper that auto-generates registry entries from property settings.
+	 * Extracts the common logic used by getBaseSignalAttributeEntries() and derived
+	 * class registration methods to eliminate code duplication.
+	 */
+	private static generateRegistryEntriesFromSettings(
+		settings: readonly ICh5LightPropertySettings[],
+		target: Ch5SignalElementAttributeRegistryEntries = {}
+	): Ch5SignalElementAttributeRegistryEntries {
+		for (let i = 0; i < settings.length; i++) {
+			const setting = settings[i];
+			// Only register if it has join type metadata (direction, booleanJoin, numericJoin, stringJoin, or contractName flag)
+			if (setting.direction || setting.booleanJoin || setting.numericJoin || setting.stringJoin || setting.contractName) {
+				const attrName = setting.name.replace(/([A-Z])/g, (match) => match.toLowerCase()).toLowerCase();
+				target[attrName] = {
+					direction: setting.direction,
+					booleanJoin: setting.booleanJoin,
+					numericJoin: setting.numericJoin,
+					stringJoin: setting.stringJoin,
+					contractName: setting.contractName
+				};
+			}
+		}
+		return target;
+	}
+
+	/**
+	 * Returns base signal attribute registry entries auto-generated from
+	 * LIGHT_BASE_PROPERTY_SETTINGS. Derived classes should call this and merge the
+	 * result with their own signal attribute entries when registering with
+	 * Ch5SignalAttributeRegistry. Follows the DRY pattern implemented in ch5-button.
+	 */
+	public static getBaseSignalAttributeEntries(): Ch5SignalElementAttributeRegistryEntries {
+		return Ch5LightBaseClass.generateRegistryEntriesFromSettings(
+			Ch5LightBaseClass.LIGHT_BASE_PROPERTY_SETTINGS
+		);
+	}
+
+	/** Matches `{{indexId}}`-style placeholders, stripped before the integer-signal test in {@link prependContractName}. */
+	private static readonly CONTRACT_MOUSTACHE_RE = /({{[\w-]+}})/g;
+
+	/** Join offset attribute names (lowercase HTML form) for loop-based parsing. */
+	private static readonly JOIN_OFFSET_ATTRS = ['booleanjoinoffset', 'numericjoinoffset', 'stringjoinoffset'];
+	/** Join offset property names (camelCase JS form) for loop-based storage. */
+	private static readonly JOIN_OFFSET_PROPS = ['booleanJoinOffset', 'numericJoinOffset', 'stringJoinOffset'];
+
+
 
 	//#endregion
 
@@ -204,7 +265,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	private _isDetachedFromDom = false;
 
 	// Cached onChange callback (see the identical pattern/rationale in
-	// Ch5LightButton) - created ONCE per instance so repeated `show`/`noshowType`
+	// Ch5Button) - created ONCE per instance so repeated `show`/`noshowType`
 	// writes (e.g. driven by a fast-changing signal) never allocate a new closure.
 	private readonly _onShowChange = () => this.handleShow();
 
@@ -238,6 +299,10 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	// never allocate a new closure. Drives the same `handleShow()` path as the
 	// static `show` attribute, so `noshowtype` is honoured identically.
 	private readonly _onSignalShowValue = (value: boolean) => this.applyShowSignal(value);
+	// True only after the active receiveStateShow signal has delivered at least
+	// one value. sendEventOnShow is gated by this so static/init show handling
+	// does not publish before a receive-state value exists.
+	private _hasReceiveStateShowValue = false;
 
 	// --- sendEventOnShow signal wiring (opt-in) -------------------------------
 	// The base's only outbound (event) signal. Stateless: the signal NAME lives in
@@ -248,6 +313,12 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	// needed - setting the name has no side effect (publishing is driven by show
 	// changes via handleShow), so the setter stores the name with no onChange.
 
+	// Current language for each component
+	public currentLanguage: string | null = '';
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	public translatableObjects: any = {} as any;
+
 	//#endregion
 
 	//#region Getters and Setters
@@ -257,7 +328,10 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		// attribute (mirrors `Ch5Common`): while the show signal is driving the host,
 		// direct `show` writes (attribute or programmatic) are ignored so they cannot
 		// fight the signal. Clearing the signal restores the author's `show`.
-		if (this.receiveStateShow) {
+		// Use BOTH the stored property and raw attribute presence so initial
+		// attributeChangedCallback ordering cannot leak static `show` into the
+		// effective state before `receiveStateShow` is synced.
+		if (this.receiveStateShow || this.hasAttribute('receivestateshow')) {
 			return;
 		}
 		this._ch5Properties.set<boolean>('show', value, this._onShowChange);
@@ -271,6 +345,24 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	}
 	public get noshowType(): TCh5LightShowType {
 		return this._ch5Properties.get<TCh5LightShowType>('noshowType');
+	}
+
+	/**
+	 * Static disabled state. Pure CSS attribute owned by the light base.
+	 * Can be overridden by receiveStateEnable via data-signal-enable channel.
+	 * Setter accepts: `true`, `'true'`, `1`, `'1'`, and `''` as true.
+	 * Any other value is normalized to false.
+	 */
+	public set disabled(value: boolean | string | number | null | undefined) {
+		const isDisabled = value === true || value === 'true' || value === 1 || value === '1' || value === '';
+		this.setAttribute('disabled', isDisabled ? 'true' : 'false');
+	}
+	public get disabled(): boolean {
+		const attr = this.getAttribute('disabled');
+		if (attr === null) {
+			return false;
+		}
+		return attr.toLowerCase() === 'true' || attr === '1' || attr === '';
 	}
 
 	/**
@@ -390,6 +482,25 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		// Settings array is a shared STATIC field (see LIGHT_BASE_PROPERTY_SETTINGS) - no
 		// per-instance allocation here.
 		this._ch5Properties = new Ch5LightProperties(Ch5LightBaseClass.LIGHT_BASE_PROPERTY_SETTINGS);
+
+		// Reuses the same lazy helper as the receiveState* signals (keyed by name, so they coexist).
+		(this._baseSignals ??= new Ch5LightSignal()).subscribe<string>(languageChangedSignalName, 'string', (newValue: string) => {
+			if (newValue !== '' && newValue !== this.currentLanguage) {
+				this.currentLanguage = newValue;
+				Object.keys(this.translatableObjects).forEach((propertyToTranslate: string) => {
+					let propertyReference: { [key: string]: string } = this as {};
+
+					if (propertyReference[propertyToTranslate as string] === undefined && propertyReference['attrModel' as string] !== undefined) {
+						propertyReference = propertyReference['attrModel' as string] as {};
+					}
+
+					if (propertyReference[propertyToTranslate.toString()] !== undefined && this.translatableObjects[propertyToTranslate.toString()] !== undefined) {
+						propertyReference[propertyToTranslate.toString()] = this.translatableObjects[propertyToTranslate];
+						this.translateCallback(propertyToTranslate.toString());
+					}
+				})
+			}
+		});
 	}
 
 	/**
@@ -405,6 +516,9 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		}
 		this.applyDefaultRole();
 		this.initLightBaseAttributes();
+		// Resolve the opt-in `contractname` contract, if any, BEFORE subscribing so
+		// the store holds the contract-prefixed signal names (no-op when absent).
+		this.applyContractName();
 		// Subscribe the opt-in base signals (each a no-op when its attribute is absent).
 		this.subscribeReceiveStateEnable();
 		this.subscribeReceiveStateShow();
@@ -416,7 +530,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		}
 		switch (attr) {
 			case 'show':
-				this.show = Ch5LightBaseClass.toBoolean(newValue, true);
+				this.show = this.coerceBooleanAttribute('show', true);
 				break;
 			case 'noshowtype':
 				this.noshowType = Ch5LightBaseClass.toShowType(newValue);
@@ -435,6 +549,15 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 				break;
 			case 'sendeventonshow':
 				this.sendEventOnShow = newValue ?? '';
+				break;
+			case 'contractname':
+			case 'booleanjoinoffset':
+			case 'numericjoinoffset':
+			case 'stringjoinoffset':
+				// Join offset attributes are read once in initLightBaseAttributes and
+				// stored in _ch5Properties. Runtime changes are allowed but require the
+				// concrete component to re-call applyJoinOffsets if it needs to reprocess
+				// templates. Most components set these statically and never change them.
 				break;
 		}
 	}
@@ -457,6 +580,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		if (this._isDetachedFromDom) {
 			return;
 		}
+		this._baseSignals?.unsubscribe(languageChangedSignalName);
 		this.clearReceiveStateEnableSubscription(this.receiveStateEnable);
 		this.clearReceiveStateShowSubscription(this.receiveStateShow);
 	}
@@ -474,13 +598,22 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	}
 
 	/**
+	 * Publishes the standard native loaded event payload for this component,
+	 * mirroring `Ch5Common.componentLoadedEvent` while keeping light components
+	 * independent from `ch5-common` inheritance.
+	 */
+	protected componentLoadedEvent(elementName: string, idValue: string): void {
+		publishEvent('object', elementName, { loaded: true, id: idValue });
+	}
+
+	/**
 	 * Pre-connect safety net that keeps early logs from being silently dropped.
 	 *
 	 * Custom-element attribute reactions are BATCHED: all of an element's initial
 	 * attributes are set on the DOM node before the first `attributeChangedCallback`
 	 * runs, and every one of those callbacks runs before `connectedCallback` (where
 	 * {@link initLightBaseAttributes} normally reads the flags). So for markup like
-	 * `<ch5-light-button label="test" debug>` the `label` callback fires while the
+	 * `<ch5-button label="test" debug>` the `label` callback fires while the
 	 * cached `_isDebugEnabled` flag is still `false`, hiding its log even though
 	 * `debug` is present. Reading the attributes straight from the DOM here — only
 	 * until {@link _diagnosticsInitialized} flips on first connect — makes those
@@ -543,9 +676,30 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	}
 
 	/**
+	 * Applies pre-configured attributes (`Ch5Config.setAttributeForComponent` /
+	 * `setAttributeForId`) to the host, same semantics as `Ch5Common`'s version.
+	 * Gated by the allocation-free `hasAttributesForElement` check so the common
+	 * case - nothing ever registered for this tag/id - costs a couple of
+	 * `hasOwnProperty` lookups and nothing else (no object allocations), keeping
+	 * 1000+ instances with no config zero-cost.
+	 */
+	protected applyPreConfiguredAttributes(): void {
+		if (!Ch5Config.hasAttributesForElement(this)) {
+			return;
+		}
+		const preConfiguredAttributes = Ch5Config.getAttributesForElement(this);
+		for (const attrName in preConfiguredAttributes) {
+			if (preConfiguredAttributes.hasOwnProperty(attrName)) {
+				if (!this.hasAttribute(attrName)) {
+					this.setAttribute(attrName, preConfiguredAttributes[attrName]);
+				}
+			}
+		}
+	}
+	/**
 	 * The default ARIA `role` for this component, or `null` when it has none.
 	 *
-	 * Overridden by concrete light components (e.g. `Ch5LightButton` returns
+	 * Overridden by concrete light components (e.g. `Ch5Button` returns
 	 * `'button'`). Kept as a plain method returning a string literal so the base
 	 * family stays fully self-contained — it deliberately does NOT import the
 	 * shared `Ch5RoleAttributeMapping` constants used by the heavy components, so
@@ -570,6 +724,176 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 				this.setAttribute('role', role);
 			}
 		}
+	}
+
+	/**
+	 * The concrete component's STATIC property settings, so {@link applyContractName}
+	 * can read the co-located `contractName: true` flags. Default returns a shared
+	 * empty array; a component with signals (e.g. `Ch5Button`) overrides it to return
+	 * its own STATIC settings, keeping the contract path zero-per-instance.
+	 */
+	protected getContractPropertySettings(): readonly ICh5LightPropertySettings[] {
+		return Ch5LightBaseClass.EMPTY_PROPERTY_SETTINGS;
+	}
+
+	public _t(valueToTranslate: string) {
+		let translatedValue = valueToTranslate;
+		const translationUtility = Ch5TranslationUtility.getInstance();
+		const identifiedValues = translationUtility.valuesToTranslation(valueToTranslate);
+
+		if (identifiedValues && identifiedValues.length > 0) {
+			identifiedValues.forEach(identifier => {
+				const isTranslatable = translationUtility.isTranslationIdentifier(identifier);
+				if (isTranslatable) {
+					const characters = translationUtility.stripDownTranslationCharacters(identifier);
+					const existTranslation = translationUtility.getTranslator().exists(characters);
+
+					if (existTranslation) {
+						const identifierTranslated = translationUtility.getTranslator().t(characters);
+						translatedValue = translatedValue.replace(identifier, identifierTranslated);
+					}
+				}
+			});
+		}
+		return translatedValue;
+	}
+
+	public _getTranslatedValue(valueToSave: string, valueToTranslate: string) {
+		const translationUtility = Ch5TranslationUtility.getInstance();
+
+		let translationKey = valueToTranslate;;
+		let _value = valueToTranslate;
+		let savedValue = this.translatableObjects[valueToSave];
+
+		if (savedValue === valueToTranslate) {
+			translationKey = savedValue;
+		}
+
+		const isTranslatableValue = translationUtility.isTranslationIdentifier(translationKey);
+
+		if (!isTranslatableValue) {
+			return valueToTranslate;
+		}
+
+		if (typeof savedValue === 'undefined') {
+			savedValue = valueToTranslate;
+			_value = this._t(valueToTranslate);
+		} else {
+			const isTranslatableLabel = translationUtility.isTranslationIdentifier(savedValue);
+			if (!isTranslatableLabel) {
+				if (savedValue !== valueToTranslate) {
+					savedValue = valueToTranslate;
+				}
+				_value = this._t(valueToTranslate);
+			} else {
+				if (this._t(savedValue) !== valueToTranslate && translationUtility.hasMultipleIdentifiers(savedValue)) {
+					savedValue = valueToTranslate;
+				}
+				_value = this._t(savedValue);
+			}
+		}
+		this.translatableObjects[valueToSave] = savedValue;
+
+		return _value;
+	}
+
+	/**
+	 * Used after the language is changed when special actions has to be done
+	 * For example when translating you have to parse the component children or some other actions
+	 * @param {string} section
+	 * @return {void}
+	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	protected translateCallback(section: string): void {
+		// if custom actions has to be done on translation
+	}
+
+	/**
+	 * Applies the opt-in `contractname` contract like `ch5-advanced-button`, but without
+	 * the global registry or DOM rewrites: each property flagged `contractName: true`
+	 * (base plus the component's, via {@link getContractPropertySettings}) has its stored
+	 * signal NAME prefixed IN THE STORE, so `<ch5-button contractname="C"
+	 * receivestatelabel="Label">` resolves to the same `CLabel` advance-button would.
+	 * Zero-cost when absent; a one-time connect pass, idempotent so reconnects never
+	 * double-prefix. Resolved from INITIAL attributes only; runtime changes re-subscribe raw.
+	 */
+	protected applyContractName(): void {
+		const contractName = this.getAttribute('contractname');
+		if (!contractName) {
+			return;
+		}
+		// Store contract name in properties for later use by applyJoinOffsets
+		this._ch5Properties.setValue<string>('contractName', contractName);
+		this.prefixContractSignals(Ch5LightBaseClass.LIGHT_BASE_PROPERTY_SETTINGS, contractName);
+		this.prefixContractSignals(this.getContractPropertySettings(), contractName);
+	}
+
+	/**
+	 * Applies join offsets to template child elements (opt-in, zero-cost when absent).
+	 * Mirrors `ch5-advanced-button`'s usage of `Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs`
+	 * but deferred until the component has child templates to process. Called by concrete
+	 * components (e.g. `ch5-button`) when label templates are present. No per-instance
+	 * allocation: reads offset attributes once, calls the shared utility, returns.
+	 */
+	protected applyJoinOffsets(): void {
+		const contractName = this._ch5Properties.get<string>('contractName');
+		const booleanOffset = this._ch5Properties.get<number>('booleanJoinOffset');
+		const numericOffset = this._ch5Properties.get<number>('numericJoinOffset');
+		const stringOffset = this._ch5Properties.get<number>('stringJoinOffset');
+
+		// Zero-cost exit when no offsets and no contract - most buttons never use this
+		if (!contractName && !booleanOffset && !numericOffset && !stringOffset) {
+			return;
+		}
+
+		// Call the shared utility to increment join numbers and prefix contract names in template children
+		Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(
+			this,
+			contractName || '',
+			booleanOffset || 0,
+			numericOffset || 0,
+			stringOffset || 0
+		);
+	}
+
+	/**
+	 * Prefixes the contract name onto the stored signal name of every setting flagged
+	 * `contractName: true`, writing it back via `setValue` (no callback). Skips
+	 * unflagged, empty, or unchanged names so the store's equality short-circuits hold.
+	 */
+	private prefixContractSignals(settings: readonly ICh5LightPropertySettings[], contractName: string): void {
+		for (let i = 0; i < settings.length; i++) {
+			const setting = settings[i];
+			if (!setting.contractName) {
+				continue;
+			}
+			const raw = this._ch5Properties.get<string>(setting.name);
+			if (!raw) {
+				continue;
+			}
+			const resolved = Ch5LightBaseClass.prependContractName(raw, contractName);
+			if (resolved !== raw) {
+				this._ch5Properties.setValue<string>(setting.name, resolved);
+			}
+		}
+	}
+
+	/**
+	 * Returns `value` prefixed with the contract name, mirroring
+	 * `Ch5AugmentVarSignalsNames.incrementOrPrependAttrValue`: pure integer signal names
+	 * (joins) are left untouched, and the prefix is idempotent so a reconnect cannot
+	 * double-apply it. Any `{{indexId}}` placeholder is ignored for the integer test but
+	 * preserved in the result.
+	 */
+	private static prependContractName(value: string, contractName: string): string {
+		const bare = value.replace(Ch5LightBaseClass.CONTRACT_MOUSTACHE_RE, '');
+		if (Ch5Signal.isIntegerSignalName(bare)) {
+			return value;
+		}
+		if (value.startsWith(contractName)) {
+			return value;
+		}
+		return contractName + value;
 	}
 
 	/**
@@ -660,10 +984,14 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	private handleReceiveStateShow(oldSignalName: string): void {
 		this.clearReceiveStateShowSubscription(oldSignalName);
 		if (this.receiveStateShow) {
+			this._hasReceiveStateShowValue = false;
 			this.subscribeReceiveStateShow();
 		} else {
+			this._hasReceiveStateShowValue = false;
 			// Signal removed: restore the author's static `show` attribute (default true).
-			const show = this.hasAttribute('show') ? Ch5LightBaseClass.toBoolean(this.getAttribute('show'), true) : true;
+			const show = this.hasAttribute('show')
+				? Ch5LightBaseClass.normalizeBooleanValue(this.getAttribute('show'), true, true)
+				: true;
 			this._ch5Properties.setValue<boolean>('show', show);
 			this.handleShow();
 		}
@@ -686,6 +1014,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 * is left untouched (and thus restorable when the signal is removed).
 	 */
 	protected applyShowSignal(shown: boolean): void {
+		this._hasReceiveStateShowValue = true;
 		this._ch5Properties.setValue<boolean>('show', shown);
 		this.handleShow();
 	}
@@ -696,14 +1025,22 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 * `disabled` needs no JS handling — it is styled from CSS via the `[disabled]`
 	 * attribute; the opt-in `receiveStateEnable` signal drives a separate
 	 * `data-signal-enable` channel and never mutates `disabled`.
+	 * 
+	 * Join offset attributes (`contractname`, `booleanjoinoffset`, etc.) are also
+	 * read once and stored for later use by {@link applyJoinOffsets}.
 	 * Idempotent and safe to call on every (re)connect.
 	 */
 	protected initLightBaseAttributes(): void {
-		const show = this.hasAttribute('show') ? Ch5LightBaseClass.toBoolean(this.getAttribute('show'), true) : true;
+		this.applyPreConfiguredAttributes();
+		if (!this.hasAttribute('receivestateshow')) {
+			const show = this.hasAttribute('show')
+				? Ch5LightBaseClass.normalizeBooleanValue(this.getAttribute('show'), true, true)
+				: true;
+			this._ch5Properties.setValue<boolean>('show', show);
+		}
 		const noshowType = this.hasAttribute('noshowtype')
 			? Ch5LightBaseClass.toShowType(this.getAttribute('noshowtype'))
 			: Ch5LightBaseClass.NO_SHOW_TYPES[0];
-		this._ch5Properties.setValue<boolean>('show', show);
 		this._ch5Properties.setValue<TCh5LightShowType>('noshowType', noshowType);
 		// Sync diagnostic flags from the DOM (attributeChangedCallback only fires on
 		// change, not on reconnect). Reads straight into the flags; the logger stays
@@ -716,6 +1053,17 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		if (this._logger) {
 			this._logger.isDebugEnabled = this._isDebugEnabled;
 			this._logger.isTraceEnabled = this._isTraceEnabled;
+		}
+		// Sync join offset attributes into the property store. These are opt-in and
+		// zero-cost when absent: no helper, no subscription, just a simple property
+		// read when applyJoinOffsets is called. Reading them here (not in
+		// applyJoinOffsets) follows the same pattern as contractname - read once on
+		// connect, idempotent on reconnect.
+		for (let i = 0; i < Ch5LightBaseClass.JOIN_OFFSET_ATTRS.length; i++) {
+			const value = this.hasAttribute(Ch5LightBaseClass.JOIN_OFFSET_ATTRS[i])
+				? parseInt(this.getAttribute(Ch5LightBaseClass.JOIN_OFFSET_ATTRS[i]) || '0', 10) || 0
+				: 0;
+			this._ch5Properties.setValue<number>(Ch5LightBaseClass.JOIN_OFFSET_PROPS[i], value);
 		}
 		// Sync the receiveStateEnable / receiveStateShow signal NAMES into the store
 		// from the DOM without firing the change callbacks (attributeChangedCallback
@@ -759,7 +1107,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 */
 	protected sendShowSignal(value: boolean): void {
 		const signalName = this.sendEventOnShow;
-		if (!signalName) {
+		if (!signalName || !this.receiveStateShow || !this._hasReceiveStateShowValue) {
 			return;
 		}
 		(this._baseSignals ??= new Ch5LightSignal()).sendBoolean(signalName, value);
@@ -811,21 +1159,71 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	//#region Helpers
 
 	/**
-	 * Coerces an attribute value to boolean without pulling in lodash.
-	 * An empty attribute (e.g. `disabled`) resolves to `valueOnEmpty`.
+	 * Coerces a boolean-like value to a canonical boolean without pulling in lodash.
+	 *
+	 * `valueOnEmpty` controls the legacy HTML-attribute semantics: a bare attribute
+	 * (presence without a value) means `true`, while a plain JS property value that is
+	 * empty or invalid falls back to `defaultValue`.
 	 */
-	protected static toBoolean(value: string | boolean | null | undefined, valueOnEmpty = true): boolean {
+	protected static normalizeBooleanValue(value: string | boolean | null | undefined, defaultValue: boolean, valueOnEmpty = defaultValue): boolean {
 		if (value === null || value === undefined) {
-			return false;
+			return defaultValue;
 		}
 		if (typeof value === 'boolean') {
 			return value;
 		}
-		const normalized = value.toLowerCase().trim();
+		const normalized = String(value).trim().toLowerCase();
 		if (normalized === '') {
 			return valueOnEmpty;
 		}
-		return normalized !== 'false' && normalized !== '0';
+		if (normalized === 'true' || normalized === 'yes' || normalized === '1' || normalized === 'on') {
+			return true;
+		}
+		if (normalized === 'false' || normalized === 'no' || normalized === '0' || normalized === 'off') {
+			return false;
+		}
+		return defaultValue;
+	}
+	/**
+	 * Coerces an attribute value to boolean without pulling in lodash.
+	 * An empty attribute (e.g. `disabled`) resolves to `valueOnEmpty`.
+	 */
+	protected static toBoolean(value: string | boolean | null | undefined, valueOnEmpty = true): boolean {
+		return Ch5LightBaseClass.normalizeBooleanValue(value, false, valueOnEmpty);
+	}
+	/**
+	 * Reads a boolean attribute, resolves it to a clean boolean, then reflects the
+	 * normalized `"true"` / `"false"` back onto the attribute so the DOM is corrected —
+	 * mirroring `ch5-advanced-button` / `Ch5Property`, whose boolean handling rewrites a
+	 * non-canonical attribute value.
+	 *
+	 * Resolution rules (match the heavy `Ch5Property`): an INVALID value falls back to
+	 * the attribute's `defaultValue`, NOT to a hard `false`.
+	 *  - attribute absent             -> `defaultValue`
+	 *  - present but empty (bare)     -> `true` (its presence means "on")
+	 *  - `"true"` / `"1"`             -> `true`
+	 *  - `"false"` / `"0"`            -> `false`
+	 *  - anything else ("kjgkjg", ...)-> `defaultValue`
+	 *
+	 * So e.g. `truncatetext="kjgkjg"` (default `true`) resolves to `true`, and
+	 * `multilinesupport="kjgkjg"` (default `false`) resolves to `false`.
+	 *
+	 * The reflecting `setAttribute` re-enters `attributeChangedCallback`, but the
+	 * second pass sees an already-canonical `"true"` / `"false"` value and does not
+	 * reflect again, so there is no loop. Off the hot path (attribute changes only).
+	 */
+	protected coerceBooleanAttribute(attributeName: string, defaultValue: boolean): boolean {
+		if (!this.hasAttribute(attributeName)) {
+			return defaultValue;
+		}
+		const rawValue = this.getAttribute(attributeName);
+		const resolved = Ch5LightBaseClass.normalizeBooleanValue(rawValue ?? '', defaultValue, true);
+		// Reflect onto the DOM when the author's value isn't already canonical, so an
+		// invalid or shorthand value ("kjgkjg", "1", "TRUE") is normalized in the DOM.
+		if (rawValue !== 'true' && rawValue !== 'false' && rawValue !== '') {
+			this.setAttribute(attributeName, resolved ? 'true' : 'false');
+		}
+		return resolved;
 	}
 
 	/**
