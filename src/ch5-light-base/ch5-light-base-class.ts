@@ -376,7 +376,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 	 * Any other value is normalized to false.
 	 */
 	public set disabled(value: boolean | string | number | null | undefined) {
-		const isDisabled = value === true || value === 'true' || value === 1 || value === '1' || value === '';
+		const isDisabled = value === true || value === 'true' || value === '';
 		this.setAttribute('disabled', isDisabled ? 'true' : 'false');
 	}
 	public get disabled(): boolean {
@@ -384,7 +384,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		if (attr === null) {
 			return false;
 		}
-		return attr.toLowerCase() === 'true' || attr === '1' || attr === '';
+		return attr.toLowerCase() === 'true' || attr === '';
 	}
 
 	/**
