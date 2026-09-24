@@ -156,7 +156,7 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 	};
 	private readonly _fitVerticalFrame = () => {
 		this._pendingVerticalFitHandle = null;
-		this.fitVerticalInnerButtonSize();
+		// this.fitVerticalInnerButtonSize();
 	};
 
 	// --- receiveState* signal wiring -----------------------------------------
@@ -1100,25 +1100,25 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 	 * button without observers/listeners. For vertical non-circle buttons, set
 	 * inner width/height from the host footprint so rotated content fully fills it.
 	 */
-	private fitVerticalInnerButtonSize(): void {
-		const button = this._elButton;
-		if (!button || !button.isConnected) {
-			return;
-		}
+	// private fitVerticalInnerButtonSize(): void {
+	// 	// const button = this._elButton;
+	// 	// if (!button || !button.isConnected) {
+	// 	// 	return;
+	// 	// }
 
-		if (this.orientation !== 'vertical' || this.shape === 'circle') {
-			button.style.removeProperty('width');
-			button.style.removeProperty('height');
-			return;
-		}
+	// 	// if (this.orientation !== 'vertical' || this.shape === 'circle') {
+	// 	// 	button.style.removeProperty('width');
+	// 	// 	button.style.removeProperty('height');
+	// 	// 	return;
+	// 	// }
 
-		const hostHeight = this.clientHeight;
-		const hostWidth = this.clientWidth;
-		if (hostHeight > 0 && hostWidth > 0) {
-			button.style.width = `${hostHeight}px`;
-			button.style.height = `${hostWidth}px`;
-		}
-	}
+	// 	// const hostHeight = this.clientHeight;
+	// 	// const hostWidth = this.clientWidth;
+	// 	// if (hostHeight > 0 && hostWidth > 0) {
+	// 	// 	button.style.width = `${hostHeight}px`;
+	// 	// 	button.style.height = `${hostWidth}px`;
+	// 	// }
+	// }
 
 	/**
 	 * Computes how many label lines fit the button's height and writes the clamp
