@@ -1,6 +1,7 @@
 import { Ch5LightBaseClass } from "../ch5-light-base/ch5-light-base-class";
 import { ICh5LightPropertySettings } from "../ch5-light-base/ch5-light-properties";
 import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
+import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
 import { Ch5ButtonBase } from "../ch5-button/ch5-button-base";
 import { TCh5SliderButtonKey } from './interfaces/t-ch5-slider-button';
 import type { Ch5SliderButtonLabel } from './ch5-slider-button-label';
@@ -40,10 +41,6 @@ export class Ch5SliderButton extends Ch5ButtonBase {
 	];
 
 	private static readonly OBSERVED_ATTRIBUTES = Ch5ButtonBase.toObservedAttributeNames(Ch5SliderButton.PROPERTY_SETTINGS);
-
-	//#endregion
-
-	//#region Variables
 
 	//#endregion
 
@@ -202,9 +199,49 @@ export class Ch5SliderButton extends Ch5ButtonBase {
 		// else: the child has no content of its own - leave the button's label/labelInnerHTML as-is.
 	}
 
+	/**
+	 * Propagates the join offsets / contract name that the subpage-reference carrier
+	 * stamped onto THIS button (see {@link registerSignalAttributeDefaults}) down onto
+	 * its freshly-rendered label joins. Invoked by Ch5ButtonBase.handleLabel() right
+	 * after the label span's HTML is (re)written, so it runs on every render - whether
+	 * the label came from a `<ch5-slider-button-label>` child or the button's own
+	 * `labelinnerhtml` attribute - and is naturally idempotent: each render recreates
+	 * the joins at their base values, so a single increment always yields base + offset.
+	 *
+	 * The offsets are read from THIS button's own attributes (the carrier propagates them
+	 * onto every registered-default descendant, ch5-slider-button included), exactly like
+	 * the plain light ch5-button. The inherited one-shot {@link applyJoinOffsets} is
+	 * overridden to a no-op so this per-render pass is the single point that offsets the
+	 * label joins - the label can render after the base connectedCallback (its child links
+	 * late), which the one-shot pass would miss. Scoped to ch5-slider-button; touches no
+	 * shared augmentation code and no other component.
+	 */
+	protected applyLabelSignalOffsets(labelSpan: HTMLElement): void {
+		const contractName = this.getAttribute('contractname') || '';
+		const booleanOffset = parseInt(this.getAttribute('booleanjoinoffset') || '0', 10) || 0;
+		const numericOffset = parseInt(this.getAttribute('numericjoinoffset') || '0', 10) || 0;
+		const stringOffset = parseInt(this.getAttribute('stringjoinoffset') || '0', 10) || 0;
+		if (!contractName && !booleanOffset && !numericOffset && !stringOffset) {
+			return;
+		}
+		Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(labelSpan, contractName, booleanOffset, numericOffset, stringOffset);
+	}
+
+	/**
+	 * Overridden to a no-op. The base applies join offsets once during connectedCallback,
+	 * but a slider button's label can render later (its `<ch5-slider-button-label>` child
+	 * links after connect), so offsets are instead applied per-render in
+	 * {@link applyLabelSignalOffsets}. Suppressing the base's one-shot pass keeps that the
+	 * single point of application and avoids double-incrementing.
+	 */
+	protected applyJoinOffsets(): void {
+		/* no-op - see applyLabelSignalOffsets() */
+	}
+
 	//#endregion
 
 }
 
 Ch5SliderButton.registerCustomElement();
 Ch5SliderButton.registerSignalAttributeTypes();
+Ch5SliderButton.registerSignalAttributeDefaults(Ch5SliderButton.ELEMENT_NAME);
