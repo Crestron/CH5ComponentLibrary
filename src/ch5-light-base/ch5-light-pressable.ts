@@ -74,7 +74,7 @@ export class Ch5LightPressable {
 	private readonly _onPointerDown = (event: PointerEvent) => {
 		// Swipe-aware buttons defer the press for every pointer type so a finger swipe or a mouse
 		// click-drag can scroll without triggering (matches Ch5Pressable); others press instantly.
-		if (this._swipeEnabled) {
+		if (this._swipeEnabled || event.pointerType !== 'mouse') {
 			this._endTapPulse(); // finish any still-running tap pulse so a rapid re-tap isn't dropped
 			this._beginPendingPress(event);
 		} else {
@@ -86,12 +86,13 @@ export class Ch5LightPressable {
 	private readonly _onPointerLeave = (event: PointerEvent) => {
 		// Ignore the synthetic leave a programmatic press can trigger.
 		if (this._programaticSetter) { return; }
+		if (this._pressed && !this._isOutsideTarget(event)) { return; }
 		this.resetPressAndReleaseActions(false, event);
 	};
 	private readonly _onPointerMove = (event: PointerEvent) => {
 		// While pending, enough movement means the user is scrolling, not pressing.
 		if (this._pending) {
-			if (this._movedPastSwipeThreshold(event)) { this._abandonPendingPress(); }
+			if (this._swipeEnabled && this._movedPastSwipeThreshold(event)) { this._abandonPendingPress(); }
 			return;
 		}
 		if (this._programaticSetter) { return; }
@@ -178,10 +179,22 @@ export class Ch5LightPressable {
 	// committed press is released (cancelled = no click). Mirrors `Ch5Pressable.resetPressAndReleaseActions`.
 	public resetPressAndReleaseActions(cancelled: boolean = false, event?: PointerEvent): void {
 		if (this._pending) {
-			if (cancelled || (event !== undefined && this._movedPastSwipeThreshold(event))) {
-				this._abandonPendingPress();
+			if (this._swipeEnabled) {
+				// Swipe-aware (button-list / tab-button): a tap commits ONLY on a genuine lift that
+				// hasn't moved past the threshold; cancel or a moved lift is a swipe, dropped silently.
+				if (cancelled || (event !== undefined && this._movedPastSwipeThreshold(event))) {
+					this._abandonPendingPress();
+				} else {
+					this._commitAsTap();
+				}
 			} else {
-				this._commitAsTap();
+				// Standalone touch/pen: tap on a genuine in-bounds lift; a cancel or a lift outside
+				// the button drops the press without a click (native-button semantics).
+				if (cancelled || (event !== undefined && this._isOutsideTarget(event))) {
+					this._abandonPendingPress();
+				} else {
+					this._commitAsTap();
+				}
 			}
 			return;
 		}
@@ -232,7 +245,7 @@ export class Ch5LightPressable {
 		this._clearHoldTimer();
 		if (!this._pending) { return false; }
 		this._pending = false;
-		this._target.style.touchAction = 'none';
+		if (this._swipeEnabled) { this._target.style.touchAction = 'none'; }
 		return true;
 	}
 
