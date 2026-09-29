@@ -44,6 +44,10 @@ export class Ch5LightPressable {
 	private _releaseListenersAttached = false;
 	private _programaticSetter = false;
 
+	// True while the pressable writes its own `pressed` attribute (in `_onHold`/`_onRelease`),
+	// so `syncPressedFromAttribute` ignores self-reflections and only reacts to external writes.
+	private _reflectingAttribute = false;
+
 	// Target bounds for the pointermove hit-test; read lazily on first move, cleared on release.
 	private _pressRect: DOMRect | null = null;
 
@@ -160,6 +164,16 @@ export class Ch5LightPressable {
 		if (!value) {
 			this._programaticSetter = false;
 		}
+	}
+
+	/**
+	 * Syncs `_pressed` from an external `pressed` attribute write (e.g.
+	 * `setAttribute('pressed', 'true')`) that bypasses the property setter. Treated as a
+	 * programmatic set; no-ops on the pressable's own reflections, so real presses are unaffected.
+	 */
+	public syncPressedFromAttribute(present: boolean): void {
+		if (this._reflectingAttribute) { return; }
+		this.setPressed(present, true);
 	}
 
 	// Abort a press without a click: clears the pressed state but suppresses the release event
@@ -286,7 +300,9 @@ export class Ch5LightPressable {
 	private _onHold(): void {
 		this._attachReleaseListeners();
 		this._toggleCssPressedClass(true);
+		this._reflectingAttribute = true;
 		this._host.setAttribute(Ch5LightPressable.PRESSED_ATTRIBUTE, 'true');
+		this._reflectingAttribute = false;
 		this._host.dispatchEvent(this._pressEvent);
 		this._runInlineHandler('onpress');
 	}
@@ -295,7 +311,9 @@ export class Ch5LightPressable {
 		this._detachReleaseListeners();
 		this._pressRect = null;
 		this._toggleCssPressedClass(false);
+		this._reflectingAttribute = true;
 		this._host.removeAttribute(Ch5LightPressable.PRESSED_ATTRIBUTE);
+		this._reflectingAttribute = false;
 		// Re-allow scrolling for the next gesture (a committed press locked touch-action).
 		if (this._swipeEnabled) {
 			this._target.style.touchAction = 'manipulation';
