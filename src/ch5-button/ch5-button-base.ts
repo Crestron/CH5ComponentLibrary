@@ -607,6 +607,26 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 	}
 
 	/**
+	 * Syncs Ch5LightPressable's state when an external `setAttribute`/`removeAttribute('pressed')`
+	 * bypasses the `pressed` property setter - without observing the attribute. Other
+	 * attributes pass straight through; the pressable ignores its own reflections, so
+	 * real presses are unaffected.
+	 */
+	public setAttribute(name: string, value: string): void {
+		super.setAttribute(name, value);
+		if (name === 'pressed' && this._pressable) {
+			const normalized = String(value).toLowerCase();
+			this._pressable.syncPressedFromAttribute(normalized === '' || normalized === 'true');
+		}
+	}
+	public removeAttribute(name: string): void {
+		super.removeAttribute(name);
+		if (name === 'pressed' && this._pressable) {
+			this._pressable.syncPressedFromAttribute(false);
+		}
+	}
+
+	/**
 	 * Shows checkbox glyph on the button. Pure CSS attribute.
 	 * Setter accepts: `true`, `'true'` and `''` as true.
 	 * Any other value is normalized to false.
@@ -1810,6 +1830,12 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 			this._pressable = new Ch5LightPressable(this, this._elButton, { enableSwipe }, this._onPressedChange);
 		}
 		this._pressable.init();
+		// `pressed` is non-observed, so markup `<ch5-button pressed>` never hit the
+		// setAttribute override; sync the pressable from the current attribute now it's wired.
+		if (this.hasAttribute('pressed')) {
+			const attr = this.getAttribute('pressed');
+			this._pressable.syncPressedFromAttribute(attr === '' || attr?.toLowerCase() === 'true');
+		}
 	}
 
 	/** Class the ch5-subpage-reference-list puts on each subpage container (mirrors Ch5Pressable). */
