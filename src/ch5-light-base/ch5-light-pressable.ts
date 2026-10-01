@@ -89,7 +89,7 @@ export class Ch5LightPressable {
 		}
 	};
 	private readonly _onPointerUp = (event: PointerEvent) => this.resetPressAndReleaseActions(false, event);
-	private readonly _onPointerCancel = (_event: PointerEvent) => this.resetPressAndReleaseActions(true);
+	private readonly _onPointerCancel = () => this.resetPressAndReleaseActions(true);
 	private readonly _onPointerLeave = (event: PointerEvent) => {
 		// Ignore the synthetic leave a programmatic press can trigger.
 		if (this._programaticSetter) { return; }
