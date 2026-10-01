@@ -7,7 +7,7 @@
  *
  * Perf: one always-on `pointerdown` listener; release listeners exist only while a press
  * is in flight; handlers and events allocated once. Release is detected via `pointerleave`
- * (mouse) and a `pointermove` bounds hit-test (touch, which has implicit capture).
+ * (mouse) and a `pointermove` bounds hit-test (touch, which has implicit pointer capture).
  */
 export interface ICh5LightPressableOptions {
 	/** Element the pressed CSS class is toggled on. Omit to rely on the host `pressed` attribute. */
@@ -62,11 +62,15 @@ export class Ch5LightPressable {
 	private static readonly SWIPE_MOVE_THRESHOLD = 10;  // px of movement that turns the touch into a scroll
 	private readonly _onTouchHoldTimer = () => { this._holdTimer = null; this._fingerIsDownActions(); };
 
-	// Quick-tap pulse: a synchronous press+release is invisible and its zero-width digital
-	// pulse can be coalesced away, so a tap presses now and releases after TAP_MIN_PRESS.
-	private static readonly TAP_MIN_PRESS = 150; // ms a quick tap stays pressed (visible + pulse width)
-	private _tapReleaseTimer: number | null = null;
-	private readonly _onTapPulseEnd = () => { this._tapReleaseTimer = null; this.setPressed(false); };
+	// Pressed-visual timing (decoupled from the signal), two independent jobs -> two timers:
+	//  - LINGER: highlight stays on briefly after a release so a synchronous tap (press+release in one
+	//    tick) is still visible.
+	//  - BLINK_GAP: a re-press during a prior tap's linger drops the highlight for a short gap first,
+	//    so a burst of taps reads as distinct presses, not one held press.
+	private static readonly VISUAL_LINGER = 250;    // ms the highlight stays on after a release
+	private static readonly REPRESS_BLINK_GAP = 90; // ms the highlight stays off between back-to-back taps
+	private _lingerTimer: number | null = null;
+	private _blinkTimer: number | null = null;
 
 	// press / release events, created once per instance (bubble to the host custom element).
 	private readonly _pressEvent: Event = new CustomEvent('press', { bubbles: true, cancelable: false });
@@ -79,7 +83,6 @@ export class Ch5LightPressable {
 		// Swipe-aware buttons defer the press for every pointer type so a finger swipe or a mouse
 		// click-drag can scroll without triggering (matches Ch5Pressable); others press instantly.
 		if (this._swipeEnabled || event.pointerType !== 'mouse') {
-			this._endTapPulse(); // finish any still-running tap pulse so a rapid re-tap isn't dropped
 			this._beginPendingPress(event);
 		} else {
 			this.setPressed(true);
@@ -90,8 +93,13 @@ export class Ch5LightPressable {
 	private readonly _onPointerLeave = (event: PointerEvent) => {
 		// Ignore the synthetic leave a programmatic press can trigger.
 		if (this._programaticSetter) { return; }
-		if (this._pressed && !this._isOutsideTarget(event)) { return; }
-		this.resetPressAndReleaseActions(false, event);
+		// `pointerleave` fires only when the pointer has actually left the target (it does not bubble),
+		// so a press/pending in flight must end now - a drag-off must never stay stuck pressed. Resolve
+		// as a cancel (no click), matching native drag-off semantics. Don't re-verify with a bounds
+		// hit-test: a stale rect or edge rounding there can falsely keep the press stuck (mouse then
+		// gets no further events on the target).
+		if (!this._pressed && !this._pending) { return; }
+		this.resetPressAndReleaseActions(true, event);
 	};
 	private readonly _onPointerMove = (event: PointerEvent) => {
 		// While pending, enough movement means the user is scrolling, not pressing.
@@ -144,9 +152,9 @@ export class Ch5LightPressable {
 	/** Release if still pressed and remove all listeners. Safe to re-init afterwards. */
 	public destroy(): void {
 		this._clearHoldTimer();
-		this._endTapPulse();
 		this._pending = false;
 		if (this._pressed) { this.setPressed(false); }
+		this._endPressFeedback();
 		if (this._pointerDownAttached) {
 			this._target.removeEventListener('pointerdown', this._onPointerDown);
 			this._pointerDownAttached = false;
@@ -212,7 +220,6 @@ export class Ch5LightPressable {
 			}
 			return;
 		}
-		if (this._tapReleaseTimer !== null) { return; }
 		if (cancelled) { this._cancel(); } else { this.setPressed(false); }
 	}
 
@@ -236,12 +243,12 @@ export class Ch5LightPressable {
 		if (this._closePendingWindow()) { this.setPressed(true); }
 	}
 
-	// Lifted before the hold elapsed: press now and auto-release after TAP_MIN_PRESS so a quick tap
-	// still paints and its digital pulse has width (a synchronous press+release is invisible).
+	// Lifted before the hold elapsed: a quick tap. Press + release fire back-to-back now (the visual
+	// lingers via _onRelease), matching ch5-advanced-button's immediate release.
 	private _commitAsTap(): void {
 		if (!this._closePendingWindow()) { return; }
 		this.setPressed(true);
-		this._tapReleaseTimer = window.setTimeout(this._onTapPulseEnd, Ch5LightPressable.TAP_MIN_PRESS);
+		this.setPressed(false);
 	}
 
 	// Moved too far: the gesture is a scroll, so drop the deferred press without ever pressing.
@@ -263,15 +270,7 @@ export class Ch5LightPressable {
 		return true;
 	}
 
-	// End an in-flight tap pulse right now (a rapid re-tap or teardown shouldn't wait for it).
-	private _endTapPulse(): void {
-		if (this._tapReleaseTimer !== null) {
-			window.clearTimeout(this._tapReleaseTimer);
-			this._tapReleaseTimer = null;
-			this.setPressed(false);
-		}
-	}
-
+	// Cancel the swipe-aware hold timer (a lift/scroll resolved the pending window first).
 	private _clearHoldTimer(): void {
 		if (this._holdTimer !== null) {
 			window.clearTimeout(this._holdTimer);
@@ -299,10 +298,7 @@ export class Ch5LightPressable {
 	// set the `pressed` attribute and dispatch `press`.
 	private _onHold(): void {
 		this._attachReleaseListeners();
-		this._toggleCssPressedClass(true);
-		this._reflectingAttribute = true;
-		this._host.setAttribute(Ch5LightPressable.PRESSED_ATTRIBUTE, 'true');
-		this._reflectingAttribute = false;
+		this._showPressFeedback();
 		this._host.dispatchEvent(this._pressEvent);
 		this._runInlineHandler('onpress');
 	}
@@ -310,19 +306,89 @@ export class Ch5LightPressable {
 	private _onRelease(cancelled: boolean): void {
 		this._detachReleaseListeners();
 		this._pressRect = null;
-		this._toggleCssPressedClass(false);
-		this._reflectingAttribute = true;
-		this._host.removeAttribute(Ch5LightPressable.PRESSED_ATTRIBUTE);
-		this._reflectingAttribute = false;
 		// Re-allow scrolling for the next gesture (a committed press locked touch-action).
 		if (this._swipeEnabled) {
 			this._target.style.touchAction = 'manipulation';
 		}
 		if (cancelled) {
+			// Scroll/drag stole the gesture: drop the visual now, emit no release.
+			this._endPressFeedback();
 			return;
 		}
+		// Decoupled: fire the release event + inline handler now (the signal follows via setPressed's
+		// onChange); the pressed visual lingers so a near-instant tap still paints.
 		this._host.dispatchEvent(this._releaseEvent);
 		this._runInlineHandler('onrelease');
+		this._lingerPressFeedback();
+	}
+
+	// --- Pressed-visual timing (linger + distinct-re-press blink) ---------------------
+
+	// Finger down: show now, or (if a prior tap is still lingering) blink off then re-show after a
+	// short gap so a burst of taps reads as distinct presses, not one held press.
+	private _showPressFeedback(): void {
+		if (this._lingerTimer === null && this._blinkTimer === null) {
+			this._showPressedVisual();
+			return;
+		}
+		this._cancelLingerTimer();
+		this._clearPressedVisual();
+		// Leave an already-scheduled re-show alone so very fast tapping keeps flashing.
+		if (this._blinkTimer === null) {
+			this._blinkTimer = window.setTimeout(() => {
+				this._blinkTimer = null;
+				this._showPressedVisual();
+			}, Ch5LightPressable.REPRESS_BLINK_GAP);
+		}
+	}
+
+	// Release (with click): keep the highlight up briefly so a synchronous tap still paints; any
+	// in-flight blink re-show is left intact so this press still appears.
+	private _lingerPressFeedback(): void {
+		this._cancelLingerTimer();
+		this._lingerTimer = window.setTimeout(() => {
+			this._lingerTimer = null;
+			this._clearPressedVisual();
+		}, Ch5LightPressable.VISUAL_LINGER);
+	}
+
+	// Cancel (scroll / drag-off) or teardown: drop the highlight now, no linger.
+	private _endPressFeedback(): void {
+		this._cancelLingerTimer();
+		this._cancelBlinkTimer();
+		this._clearPressedVisual();
+	}
+
+	private _cancelLingerTimer(): void {
+		if (this._lingerTimer !== null) {
+			window.clearTimeout(this._lingerTimer);
+			this._lingerTimer = null;
+		}
+	}
+
+	private _cancelBlinkTimer(): void {
+		if (this._blinkTimer !== null) {
+			window.clearTimeout(this._blinkTimer);
+			this._blinkTimer = null;
+		}
+	}
+
+	// Paint the pressed visual (attribute + optional class). Extracted so a re-press blink can
+	// re-show it a frame after clearing it.
+	private _showPressedVisual(): void {
+		this._toggleCssPressedClass(true);
+		this._reflectingAttribute = true;
+		this._host.setAttribute(Ch5LightPressable.PRESSED_ATTRIBUTE, 'true');
+		this._reflectingAttribute = false;
+	}
+
+	// Remove the pressed visual (attribute + optional class). Decoupled from the release event so it
+	// can linger - the counterpart of Ch5Pressable's delayed _removeCssPressClass.
+	private _clearPressedVisual(): void {
+		this._toggleCssPressedClass(false);
+		this._reflectingAttribute = true;
+		this._host.removeAttribute(Ch5LightPressable.PRESSED_ATTRIBUTE);
+		this._reflectingAttribute = false;
 	}
 
 	// Evaluate the inline on<event> attribute like a native onclick (mirrors Ch5Pressable).

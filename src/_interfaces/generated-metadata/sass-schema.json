@@ -1,5 +1,273 @@
 [
     {
+        "group": "ch5-advanced-button",
+        "schemadata": [
+            {
+                "type": "class",
+                "metadata": [
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button",
+                        "description": "Main Class\n",
+                        "value": "display: block;\n    max-width: 100%;\n    cursor: pointer;\n    pointer-events: all;\n\n    button {\n      cursor: pointer;\n    }\n\n    button,\n    .ch5-advanced-button--label {\n      background-color: transparent;\n      border: none;\n      // color: inherit;\n\n      &:focus {\n        outline: none;\n      }\n    }\n\n    /// Applied on label\n    .ch5-advanced-button--label {\n      display: block;\n      margin-left: var(--ch5-advanced-button--label-margin-left);\n      margin-right: var(--ch5-advanced-button--label-margin-right);\n      margin-top: var(--ch5-advanced-button--label-margin-top);\n      margin-bottom: var(--ch5-advanced-button--label-margin-bottom);\n      text-decoration: var(--ch5-advanced-button--label-text-decoration);\n      letter-spacing: var(--ch5-advanced-button--label-letter-spacing);\n      text-underline-offset: var(--ch5-advanced-button--label-text-underline-offset);\n      max-width: 100%;\n\n      /// Applied when truncateText='true'\n      &.ch5-advanced-button--label-truncate-text-true {\n        text-overflow: ellipsis; // enables ellipsis\n        white-space: nowrap; // keeps the text in a single line\n        overflow: hidden; // keeps the element from overflowing its parent */\n      }\n\n      /// Applied when truncateText='false'\n      &.ch5-advanced-button--label-truncate-text-false {\n        white-space: nowrap; // keeps the text in a single line\n        overflow: hidden; // keeps the element from overflowing its parent\n      }\n\n      /// Applied when multilineSupport='true'\n      &.ch5-advanced-button--label-multiline-support-true {\n        overflow: hidden;\n        -webkit-box-orient: vertical;\n        -webkit-line-clamp: 3; // start showing ellipsis when 3rd line is reached\n        white-space: normal;\n        word-break: break-word;\n      }\n\n      &.ch5-advanced-button--label-multiline-support-true.ch5-advanced-button--label-truncate-text-true {\n        display: -webkit-box;\n      }\n\n      /// Applied when multilineSupport='false'\n      &.ch5-advanced-button--label-multiline-support-false {\n        white-space: nowrap; // keeps the text in a single line\n        overflow: hidden; // keeps the element from overflowing its parent\n      }\n    }\n\n    .cb-btn {\n      position: relative;\n      display: inline-flex;\n      line-height: var(--ch5-advanced-button--line-height);\n      padding: var(--ch5-advanced-button--padding);\n      vertical-align: middle; //adding this property to prevent button taking extra height for iconUrlFilltype=\"initial\" and vAlignLabel=\"bottom\"\n    }\n\n    .cb-btn i.cb-checkbox-icon {\n      display: inline-flex;\n      align-items: center;\n      justify-content: space-between;\n      height: 100%;\n    }\n\n    .cb-btn {\n      padding-top: calc(var(--ch5-advanced-button--padding) / 2);\n      padding-bottom: calc(var(--ch5-advanced-button--padding) / 2);\n    }\n\n    .ch5-advanced-button--label {\n      padding-left: calc(var(--ch5-advanced-button--padding) / 2);\n      padding-right: calc(var(--ch5-advanced-button--padding) / 2);\n    }\n\n    /// Applied when button orientation='vertical'\n    &.ch5-advanced-button--vertical {\n      position: relative;\n\n      .cb-btn {\n        transform: rotate(270deg) translateX(-100%);\n        transform-origin: top left;\n      }\n    }"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--label",
+                        "description": "Applied on label\n",
+                        "value": "display: block;\n      margin-left: var(--ch5-advanced-button--label-margin-left);\n      margin-right: var(--ch5-advanced-button--label-margin-right);\n      margin-top: var(--ch5-advanced-button--label-margin-top);\n      margin-bottom: var(--ch5-advanced-button--label-margin-bottom);\n      text-decoration: var(--ch5-advanced-button--label-text-decoration);\n      letter-spacing: var(--ch5-advanced-button--label-letter-spacing);\n      text-underline-offset: var(--ch5-advanced-button--label-text-underline-offset);\n      max-width: 100%;\n\n      /// Applied when truncateText='true'\n      &.ch5-advanced-button--label-truncate-text-true {\n        text-overflow: ellipsis; // enables ellipsis\n        white-space: nowrap; // keeps the text in a single line\n        overflow: hidden; // keeps the element from overflowing its parent */\n      }\n\n      /// Applied when truncateText='false'\n      &.ch5-advanced-button--label-truncate-text-false {\n        white-space: nowrap; // keeps the text in a single line\n        overflow: hidden; // keeps the element from overflowing its parent\n      }\n\n      /// Applied when multilineSupport='true'\n      &.ch5-advanced-button--label-multiline-support-true {\n        overflow: hidden;\n        -webkit-box-orient: vertical;\n        -webkit-line-clamp: 3; // start showing ellipsis when 3rd line is reached\n        white-space: normal;\n        word-break: break-word;\n      }\n\n      &.ch5-advanced-button--label-multiline-support-true.ch5-advanced-button--label-truncate-text-true {\n        display: -webkit-box;\n      }\n\n      /// Applied when multilineSupport='false'\n      &.ch5-advanced-button--label-multiline-support-false {\n        white-space: nowrap; // keeps the text in a single line\n        overflow: hidden; // keeps the element from overflowing its parent\n      }"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--label-truncate-text-true",
+                        "description": "Applied when truncateText='true'\n",
+                        "value": "text-overflow: ellipsis; // enables ellipsis\n        white-space: nowrap; // keeps the text in a single line\n        overflow: hidden; // keeps the element from overflowing its parent */"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--label-truncate-text-false",
+                        "description": "Applied when truncateText='false'\n",
+                        "value": "white-space: nowrap; // keeps the text in a single line\n        overflow: hidden; // keeps the element from overflowing its parent"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--label-multiline-support-true",
+                        "description": "Applied when multilineSupport='true'\n",
+                        "value": "overflow: hidden;\n        -webkit-box-orient: vertical;\n        -webkit-line-clamp: 3; // start showing ellipsis when 3rd line is reached\n        white-space: normal;\n        word-break: break-word;"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--label-multiline-support-false",
+                        "description": "Applied when multilineSupport='false'\n",
+                        "value": "white-space: nowrap; // keeps the text in a single line\n        overflow: hidden; // keeps the element from overflowing its parent"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--vertical",
+                        "description": "Applied when button orientation='vertical'\n",
+                        "value": "position: relative;\n\n      .cb-btn {\n        transform: rotate(270deg) translateX(-100%);\n        transform-origin: top left;\n      }"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--background-image-fill-type-stretch",
+                        "description": "Applied when backgroundImageFillType=\"stretch\"\n",
+                        "value": "button {\n      background-repeat: no-repeat;\n      background-size: 100% 100%;\n    }"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--background-image-fill-type-tile",
+                        "description": "Applied when backgroundImageFillType=\"tile\"\n",
+                        "value": "button {\n      background-size: auto;\n    }"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--background-image-fill-type-center",
+                        "description": "Applied when backgroundImageFillType=\"center\"\n",
+                        "value": "button {\n      background-repeat: no-repeat;\n      background-size: contain;\n      background-position: center; // Center the image\n    }"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--background-image-fill-type-stretch-aspect",
+                        "description": "Applied when backgroundImageFillType=\"stretch-aspect\"\n",
+                        "value": "button {\n      background-size: contain;\n      background-repeat: no-repeat;\n      background-position: center;\n    }"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--icon-url-fill-type-stretch",
+                        "description": "Applied when iconUrlFillType=\"stretch\"\n",
+                        "value": ".ch5-advanced-button--img {\n      background-size: 100% 100%;\n      background-position: center;\n      background-repeat: no-repeat;\n    }"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--icon-url-fill-type-stretch-aspect",
+                        "description": "Applied when iconUrlFillType=\"stretch-aspect\"\n",
+                        "value": ".ch5-advanced-button--img {\n      background-size: contain;\n      background-position: center;\n      background-repeat: no-repeat;\n    }"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--icon-url-fill-type-center",
+                        "description": "Applied when iconUrlFillType=\"center\"\n",
+                        "value": ".ch5-advanced-button--img {\n      background-size: contain;\n      background-position: center;\n      background-repeat: no-repeat;\n    }"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--icon-url-fill-type-tile",
+                        "description": "Applied when iconUrlFillType=\"tile\"\n",
+                        "value": ".ch5-advanced-button--img {\n      background-size: auto;\n      background-position: 0;\n      background-repeat: repeat;\n    }"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--icon-url-fill-type-initial",
+                        "description": "Applied when iconUrlFillType=\"initial\"\n",
+                        "value": ".ch5-advanced-button--img {\n      background-repeat: no-repeat;\n      background-size: contain;\n    }"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--disabled",
+                        "description": "Applied when the button is disabled\n",
+                        "value": "@include ch5-component-disabled();"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--horizontal",
+                        "description": "Applied when button orientation='horizontal'\n",
+                        "value": "/// Applied to make the width as much as its parent allows.\n    &.ch5-advanced-button--stretch-width {\n      width: 100%;\n\n      .cb-btn {\n        width: 100% !important;\n      }\n    }\n\n    /// Applied to make the height as much as its parent allows.\n    &.ch5-advanced-button--stretch-height {\n      height: 100%;\n\n      .cb-btn {\n        height: 100% !important;\n        min-height: var(--ch5-advanced-button--regular-height); // Added as a fix for the issue of button height varying when moved from width to height in stretch\n      }\n    }\n\n    /// Applied to make both width and height as much as its parent allows.\n    &.ch5-advanced-button--stretch-both {\n      width: 100%;\n      height: 100%;\n\n      .cb-btn {\n        width: 100% !important;\n        height: 100% !important;\n        min-height: var(--ch5-advanced-button--regular-height); // Added as a fix for the issue of button height varying when moved from width to height in stretch\n        overflow: hidden;\n        text-overflow: ellipsis;\n        white-space: nowrap;\n      }\n    }"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--stretch-width",
+                        "description": "Applied to make the width as much as its parent allows.\n",
+                        "value": "width: 100%;\n\n      .cb-btn {\n        width: 100% !important;\n      }"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--stretch-height",
+                        "description": "Applied to make the height as much as its parent allows.\n",
+                        "value": "height: 100%;\n\n      .cb-btn {\n        height: 100% !important;\n        min-height: var(--ch5-advanced-button--regular-height); // Added as a fix for the issue of button height varying when moved from width to height in stretch\n      }"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--stretch-both",
+                        "description": "Applied to make both width and height as much as its parent allows.\n",
+                        "value": "width: 100%;\n      height: 100%;\n\n      .cb-btn {\n        width: 100% !important;\n        height: 100% !important;\n        min-height: var(--ch5-advanced-button--regular-height); // Added as a fix for the issue of button height varying when moved from width to height in stretch\n        overflow: hidden;\n        text-overflow: ellipsis;\n        white-space: nowrap;\n      }"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--size-regular",
+                        "description": "Applied when size=\"regular\"\n",
+                        "value": "@include ch5-advanced-button-size-set(\"regular\");"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--size-x-small",
+                        "description": "Applied when size=\"x-small\"\n",
+                        "value": "@include ch5-advanced-button-size-set(\"x-small\");"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--size-small",
+                        "description": "Applied when size=\"small\"\n",
+                        "value": "@include ch5-advanced-button-size-set(\"small\");"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--size-large",
+                        "description": "Applied when size=\"large\"\n",
+                        "value": "@include ch5-advanced-button-size-set(\"large\");"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--size-x-large",
+                        "description": "Applied when size=\"x-large\"\n",
+                        "value": "@include ch5-advanced-button-size-set(\"x-large\");"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--img",
+                        "description": "Applied on images\n",
+                        "value": "display: block;\n    background-repeat: no-repeat;\n    background-size: contain;\n    background-position: center;\n    // color: inherit;\n    height: var(#{$property-font-image-height});\n    width: var(#{$property-font-image-width});\n    margin-top: var(--ch5-advanced-button--img-margin-top);\n    margin-bottom: var(--ch5-advanced-button--img-margin-bottom);\n    margin-left: var(--ch5-advanced-button--img-margin-left);\n    margin-right: var(--ch5-advanced-button--img-margin-right);\n\n    &::before,\n    &::after {\n      content: none;\n    }"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--icon",
+                        "description": "Applied on icons\n",
+                        "value": "vertical-align: middle;\n    // color: var(#{$property-icon-color});\n    font-size: var(#{$property-icon-font-size});\n    margin-top: var(--ch5-advanced-button--icon-margin-top);\n    margin-bottom: var(--ch5-advanced-button--icon-margin-bottom);\n    margin-left: var(--ch5-advanced-button--icon-margin-left);\n    margin-right: var(--ch5-advanced-button--icon-margin-right);"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--selected",
+                        "description": "Applied when selected signal is applied\n",
+                        "value": "@include ch5-advanced-button-content--selected($property-value);"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--pressed",
+                        "description": "Applied when selected signal is pressed\n",
+                        "value": "@include ch5-advanced-button-content--pressed($property-value);"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--rectangle",
+                        "description": "Applied when shape='rectangle'\n",
+                        "value": "@include border-radius(0);\n\n\t.cb-btn {\n\t\t@include border-radius(0);\n\t}\n\n\toverflow: hidden;"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--rounded-rectangle",
+                        "description": "Applied when shape='rounded-rectangle'\n",
+                        "value": "@include border-radius-rounded-rectangle(\n\t\t--ch5-advanced-button--rounded-rectangle-border-radius-top-left,\n\t\t--ch5-advanced-button--rounded-rectangle-border-radius-top-right,\n\t\t--ch5-advanced-button--rounded-rectangle-border-radius-bottom-left,\n\t\t--ch5-advanced-button--rounded-rectangle-border-radius-bottom-right\n\t);\n\toverflow: hidden;"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--circle",
+                        "description": "Applied when shape='circle'\n",
+                        "value": "display: inline-block;\n\ttext-decoration: none;\n\toutline: none;\n\tborder-style: none;\n\ttext-align: center;\n\toverflow: hidden;\n\t@include border-radius(50%);\n\n\t.cb-btn {\n\t\t@include border-radius(50%);\n\t\tdisplay: inline-flex;\n\t\tvertical-align: middle;\n\t\twidth: 100%;\n\t\theight: 100%;\n\t}"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--oval",
+                        "description": "Applied when shape='oval'\n",
+                        "value": "@include border-radius(var(--ch5-advanced-button--oval-border-radius));\n\n\t.cb-btn {\n\t\t@include border-radius(var(--ch5-advanced-button--oval-border-radius));\n\t}\n\n\toverflow: hidden;"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--tab",
+                        "description": "Applied when shape='tab'\n",
+                        "value": "border-radius: var(--ch5-advanced-button--tab-border-radius) var(--ch5-advanced-button--tab-border-radius) 0 0;\n\n\t.cb-btn {\n\t\tborder-radius: var(--ch5-advanced-button--tab-border-radius) var(--ch5-advanced-button--tab-border-radius) 0 0;\n\t}\n\n\t// Added for vertical tab shape\n\t&.ch5-advanced-button--vertical {\n\t\t.cb-btn {\n\t\t\tborder-radius: 0 var(--ch5-advanced-button--tab-border-radius) var(--ch5-advanced-button--tab-border-radius) 0;\n\t\t}\n\t}\n\n\toverflow: hidden;"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--text",
+                        "description": "Applied when type='text'\n",
+                        "value": "@include ch5-advanced-button-content(\"text\");"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--danger",
+                        "description": "Applied when type='danger'\n",
+                        "value": "@include ch5-advanced-button-content(\"danger\");"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--warning",
+                        "description": "Applied when type='warning'\n",
+                        "value": "@include ch5-advanced-button-content(\"warning\");"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--info",
+                        "description": "Applied when type='info'\n",
+                        "value": "@include ch5-advanced-button-content(\"info\");"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--success",
+                        "description": "Applied when type='success'\n",
+                        "value": "@include ch5-advanced-button-content(\"success\");"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--default",
+                        "description": "Default button\n",
+                        "value": "@include ch5-advanced-button-content(\"default\");"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--primary",
+                        "description": "Applied when type='primary'\n",
+                        "value": "@include ch5-advanced-button-content(\"primary\");"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-advanced-button--secondary",
+                        "description": "Applied when type='secondary'\n",
+                        "value": "@include ch5-advanced-button-content(\"secondary\");"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "group": "ch5-animation",
         "schemadata": [
             {
@@ -80,274 +348,6 @@
                         "name": "ch5-background--canvas",
                         "description": "Added automatically on the all canvas child of ch5-background element",
                         "value": "position: absolute;\n    left: 0;\n    top: 0;\n    opacity: 0;\n    transition-property: opacity;\n    transition-duration: var(--ch5-background--transition-duration);\n    transition-timing-function: var(--ch5-background--transition-timing-function);\n\n    &.ch5bg-fadein {\n      opacity: 1;\n    }"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "group": "ch5-button",
-        "schemadata": [
-            {
-                "type": "class",
-                "metadata": [
-                    {
-                        "type": "class",
-                        "name": "ch5-button",
-                        "description": "Main Class\n",
-                        "value": "display: block;\n    max-width: 100%;\n    cursor: pointer;\n    pointer-events: all;\n\n    button {\n      cursor: pointer;\n    }\n\n    button,\n    .ch5-button--label {\n      background-color: transparent;\n      border: none;\n      // color: inherit;\n\n      &:focus {\n        outline: none;\n      }\n    }\n\n    /// Applied on label\n    .ch5-button--label {\n      display: block;\n      margin-left: var(--ch5-button--label-margin-left);\n      margin-right: var(--ch5-button--label-margin-right);\n      margin-top: var(--ch5-button--label-margin-top);\n      margin-bottom: var(--ch5-button--label-margin-bottom);\n      text-decoration: var(--ch5-button--label-text-decoration);\n      letter-spacing: var(--ch5-button--label-letter-spacing);\n      text-underline-offset: var(--ch5-button--label-text-underline-offset);\n      //@include text-truncate();\n\n      /// Applied when truncateText='true'\n      &.ch5-button--label-truncate-text-true {\n        text-overflow: ellipsis; // enables ellipsis\n        white-space: nowrap; // keeps the text in a single line\n        overflow: hidden; // keeps the element from overflowing its parent */\n      }\n\n      /// Applied when truncateText='false'\n      &.ch5-button--label-truncate-text-false {\n        white-space: nowrap; // keeps the text in a single line\n        overflow: hidden; // keeps the element from overflowing its parent\n      }\n\n      /// Applied when multilineSupport='true'\n      &.ch5-button--label-multiline-support-true {\n        overflow: hidden;\n        -webkit-box-orient: vertical;\n        -webkit-line-clamp: 3; // start showing ellipsis when 3rd line is reached\n        white-space: pre-wrap !important; // let the text wrap preserving spaces\n        word-break: break-word;\n      }\n\n      &.ch5-button--label-multiline-support-true.ch5-button--label-truncate-text-true {\n        display: -webkit-box;      \n      }\n\n      /// Applied when multilineSupport='false'\n      &.ch5-button--label-multiline-support-false {\n        white-space: nowrap; // keeps the text in a single line\n        overflow: hidden; // keeps the element from overflowing its parent\n      }\n    }\n\n    .cb-btn {\n      position: relative;\n      display: inline-flex;\n      line-height: var(--ch5-button--line-height);\n      padding: var(--ch5-button--padding);\n      vertical-align: middle; //adding this property to prevent button taking extra height for iconUrlFilltype=\"initial\" and vAlignLabel=\"bottom\"\n    }\n\n    .cb-btn i.cb-checkbox-icon {\n      display: inline-flex;\n      align-items: center;\n      justify-content: space-between;\n      height: 100%;\n    }\n\n    .cb-btn {\n      padding-top: calc(var(--ch5-button--padding) / 2);\n      padding-bottom: calc(var(--ch5-button--padding) / 2);\n    }\n\n    .ch5-button--label {\n      padding-left: calc(var(--ch5-button--padding) / 2);\n      padding-right: calc(var(--ch5-button--padding) / 2);\n    }\n\n    /// Applied when button orientation='vertical'\n    &.ch5-button--vertical {\n      position: relative;\n\n      .cb-btn {\n        transform: rotate(270deg) translateX(-100%);\n        transform-origin: top left;\n      }\n    }"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--label",
-                        "description": "Applied on label\n",
-                        "value": "display: block;\n      margin-left: var(--ch5-button--label-margin-left);\n      margin-right: var(--ch5-button--label-margin-right);\n      margin-top: var(--ch5-button--label-margin-top);\n      margin-bottom: var(--ch5-button--label-margin-bottom);\n      text-decoration: var(--ch5-button--label-text-decoration);\n      letter-spacing: var(--ch5-button--label-letter-spacing);\n      text-underline-offset: var(--ch5-button--label-text-underline-offset);\n      //@include text-truncate();\n\n      /// Applied when truncateText='true'\n      &.ch5-button--label-truncate-text-true {\n        text-overflow: ellipsis; // enables ellipsis\n        white-space: nowrap; // keeps the text in a single line\n        overflow: hidden; // keeps the element from overflowing its parent */\n      }\n\n      /// Applied when truncateText='false'\n      &.ch5-button--label-truncate-text-false {\n        white-space: nowrap; // keeps the text in a single line\n        overflow: hidden; // keeps the element from overflowing its parent\n      }\n\n      /// Applied when multilineSupport='true'\n      &.ch5-button--label-multiline-support-true {\n        overflow: hidden;\n        -webkit-box-orient: vertical;\n        -webkit-line-clamp: 3; // start showing ellipsis when 3rd line is reached\n        white-space: pre-wrap !important; // let the text wrap preserving spaces\n        word-break: break-word;\n      }\n\n      &.ch5-button--label-multiline-support-true.ch5-button--label-truncate-text-true {\n        display: -webkit-box;      \n      }\n\n      /// Applied when multilineSupport='false'\n      &.ch5-button--label-multiline-support-false {\n        white-space: nowrap; // keeps the text in a single line\n        overflow: hidden; // keeps the element from overflowing its parent\n      }"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--label-truncate-text-true",
-                        "description": "Applied when truncateText='true'\n",
-                        "value": "text-overflow: ellipsis; // enables ellipsis\n        white-space: nowrap; // keeps the text in a single line\n        overflow: hidden; // keeps the element from overflowing its parent */"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--label-truncate-text-false",
-                        "description": "Applied when truncateText='false'\n",
-                        "value": "white-space: nowrap; // keeps the text in a single line\n        overflow: hidden; // keeps the element from overflowing its parent"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--label-multiline-support-true",
-                        "description": "Applied when multilineSupport='true'\n",
-                        "value": "overflow: hidden;\n        -webkit-box-orient: vertical;\n        -webkit-line-clamp: 3; // start showing ellipsis when 3rd line is reached\n        white-space: pre-wrap !important; // let the text wrap preserving spaces\n        word-break: break-word;"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--label-multiline-support-false",
-                        "description": "Applied when multilineSupport='false'\n",
-                        "value": "white-space: nowrap; // keeps the text in a single line\n        overflow: hidden; // keeps the element from overflowing its parent"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--vertical",
-                        "description": "Applied when button orientation='vertical'\n",
-                        "value": "position: relative;\n\n      .cb-btn {\n        transform: rotate(270deg) translateX(-100%);\n        transform-origin: top left;\n      }"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--background-image-fill-type-stretch",
-                        "description": "Applied when backgroundImageFillType=\"stretch\"\n",
-                        "value": "button {\n      background-repeat: no-repeat;\n      background-size: 100% 100%;\n    }"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--background-image-fill-type-tile",
-                        "description": "Applied when backgroundImageFillType=\"tile\"\n",
-                        "value": "button {\n      background-size: auto;\n    }"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--background-image-fill-type-center",
-                        "description": "Applied when backgroundImageFillType=\"center\"\n",
-                        "value": "button {\n      background-repeat: no-repeat;\n      background-size: contain;\n      background-position: center; // Center the image\n    }"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--background-image-fill-type-stretch-aspect",
-                        "description": "Applied when backgroundImageFillType=\"stretch-aspect\"\n",
-                        "value": "button {\n      background-size: contain;\n      background-repeat: no-repeat;\n      background-position: center;\n    }"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--icon-url-fill-type-stretch",
-                        "description": "Applied when iconUrlFillType=\"stretch\"\n",
-                        "value": ".ch5-button--img {\n      background-size: 100% 100%;\n      background-position: center;\n      background-repeat: no-repeat;\n    }"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--icon-url-fill-type-stretch-aspect",
-                        "description": "Applied when iconUrlFillType=\"stretch-aspect\"\n",
-                        "value": ".ch5-button--img {\n      background-size: contain;\n      background-position: center;\n      background-repeat: no-repeat;\n    }"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--icon-url-fill-type-center",
-                        "description": "Applied when iconUrlFillType=\"center\"\n",
-                        "value": ".ch5-button--img {\n      background-size: contain;\n      background-position: center;\n      background-repeat: no-repeat;\n    }"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--icon-url-fill-type-tile",
-                        "description": "Applied when iconUrlFillType=\"tile\"\n",
-                        "value": ".ch5-button--img {\n      background-size: auto;\n      background-position: 0;\n      background-repeat: repeat;\n    }"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--icon-url-fill-type-initial",
-                        "description": "Applied when iconUrlFillType=\"initial\"\n",
-                        "value": ".ch5-button--img {\n      background-repeat: no-repeat;\n      background-size: contain;\n    }"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--disabled",
-                        "description": "Applied when the button is disabled\n",
-                        "value": "@include ch5-component-disabled();"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--horizontal",
-                        "description": "Applied when button orientation='horizontal'\n",
-                        "value": "/// Applied to make the width as much as its parent allows.\n    &.ch5-button--stretch-width {\n      width: 100%;\n\n      .cb-btn {\n        width: 100% !important;\n      }\n    }\n\n    /// Applied to make the height as much as its parent allows.\n    &.ch5-button--stretch-height {\n      height: 100%;\n\n      .cb-btn {\n        height: 100% !important;\n        min-height: var(--ch5-button--regular-height); // Added as a fix for the issue of button height varying when moved from width to height in stretch\n      }\n    }\n\n    /// Applied to make both width and height as much as its parent allows.\n    &.ch5-button--stretch-both {\n      width: 100%;\n      height: 100%;\n\n      .cb-btn {\n        width: 100% !important;\n        height: 100% !important;\n        min-height: var(--ch5-button--regular-height); // Added as a fix for the issue of button height varying when moved from width to height in stretch\n        overflow: hidden;\n        text-overflow: ellipsis;\n        white-space: nowrap;\n      }\n    }"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--stretch-width",
-                        "description": "Applied to make the width as much as its parent allows.\n",
-                        "value": "width: 100%;\n\n      .cb-btn {\n        width: 100% !important;\n      }"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--stretch-height",
-                        "description": "Applied to make the height as much as its parent allows.\n",
-                        "value": "height: 100%;\n\n      .cb-btn {\n        height: 100% !important;\n        min-height: var(--ch5-button--regular-height); // Added as a fix for the issue of button height varying when moved from width to height in stretch\n      }"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--stretch-both",
-                        "description": "Applied to make both width and height as much as its parent allows.\n",
-                        "value": "width: 100%;\n      height: 100%;\n\n      .cb-btn {\n        width: 100% !important;\n        height: 100% !important;\n        min-height: var(--ch5-button--regular-height); // Added as a fix for the issue of button height varying when moved from width to height in stretch\n        overflow: hidden;\n        text-overflow: ellipsis;\n        white-space: nowrap;\n      }"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--size-regular",
-                        "description": "Applied when size=\"regular\"\n",
-                        "value": "@include ch5-button-size-set(\"regular\");"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--size-x-small",
-                        "description": "Applied when size=\"x-small\"\n",
-                        "value": "@include ch5-button-size-set(\"x-small\");"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--size-small",
-                        "description": "Applied when size=\"small\"\n",
-                        "value": "@include ch5-button-size-set(\"small\");"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--size-large",
-                        "description": "Applied when size=\"large\"\n",
-                        "value": "@include ch5-button-size-set(\"large\");"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--size-x-large",
-                        "description": "Applied when size=\"x-large\"\n",
-                        "value": "@include ch5-button-size-set(\"x-large\");"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--img",
-                        "description": "Applied on images\n",
-                        "value": "display: block;\n    background-repeat: no-repeat;\n    background-size: contain;\n    background-position: center;\n    // color: inherit;\n    height: var(#{$property-font-image-height});\n    width: var(#{$property-font-image-width});\n\n    &::before,\n    &::after {\n      content: none;\n    }"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--icon",
-                        "description": "Applied on icons\n",
-                        "value": "vertical-align: middle;\n    // color: var(#{$property-icon-color});\n    font-size: var(#{$property-icon-font-size});\n    margin-top: var(--ch5-button--icon-margin-top);\n    margin-bottom: var(--ch5-button--icon-margin-bottom);\n    margin-left: var(--ch5-button--icon-margin-left);\n    margin-right: var(--ch5-button--icon-margin-right);"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--selected",
-                        "description": "Applied when selected signal is applied\n",
-                        "value": "@include ch5-button-content--selected($property-value);"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--pressed",
-                        "description": "Applied when selected signal is pressed\n",
-                        "value": "@include ch5-button-content--pressed($property-value);"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--rectangle",
-                        "description": "Applied when shape='rectangle'\n",
-                        "value": "@include border-radius(0);\n\t.cb-btn {\n\t\t@include border-radius(0);\n\t}\n\toverflow: hidden;"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--rounded-rectangle",
-                        "description": "Applied when shape='rounded-rectangle'\n",
-                        "value": "@include border-radius-rounded-rectangle(\n\t\t--ch5-button--rounded-rectangle-border-radius-top-left,\n\t\t--ch5-button--rounded-rectangle-border-radius-top-right,\n\t\t--ch5-button--rounded-rectangle-border-radius-bottom-left,\n\t\t--ch5-button--rounded-rectangle-border-radius-bottom-right\n\t);\n\toverflow: hidden;"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--circle",
-                        "description": "Applied when shape='circle'\n",
-                        "value": "display: inline-block;\n\ttext-decoration: none;\n\toutline: none;\n\tborder-style: none;\n\ttext-align: center;\n\toverflow: hidden;\n\t@include border-radius(50%);\n\n\t.cb-btn {\n\t\t@include border-radius(50%);\n\t\tdisplay: inline-flex;\n\t\tvertical-align: middle;\n\t\twidth: 100%;\n\t\theight: 100%;\n\t}"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--oval",
-                        "description": "Applied when shape='oval'\n",
-                        "value": "@include border-radius(var(--ch5-button--oval-border-radius));\n\t.cb-btn {\n\t\t@include border-radius(var(--ch5-button--oval-border-radius));\n\t}\n\toverflow: hidden;"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--tab",
-                        "description": "Applied when shape='tab'\n",
-                        "value": "@include border-radius(var(--ch5-button--tab-border-radius));\n\t.cb-btn {\n\t\t@include border-radius(var(--ch5-button--tab-border-radius));\n\t}\n\toverflow: hidden;"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--text",
-                        "description": "Applied when type='text'\n",
-                        "value": "@include ch5-button-content(\"text\");"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--danger",
-                        "description": "Applied when type='danger'\n",
-                        "value": "@include ch5-button-content(\"danger\");"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--warning",
-                        "description": "Applied when type='warning'\n",
-                        "value": "@include ch5-button-content(\"warning\");"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--info",
-                        "description": "Applied when type='info'\n",
-                        "value": "@include ch5-button-content(\"info\");"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--success",
-                        "description": "Applied when type='success'\n",
-                        "value": "@include ch5-button-content(\"success\");"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--default",
-                        "description": "Default button\n",
-                        "value": "@include ch5-button-content(\"default\");"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--primary",
-                        "description": "Applied when type='primary'\n",
-                        "value": "@include ch5-button-content(\"primary\");"
-                    },
-                    {
-                        "type": "class",
-                        "name": "ch5-button--secondary",
-                        "description": "Applied when type='secondary'\n",
-                        "value": "@include ch5-button-content(\"secondary\");"
                     }
                 ]
             }
@@ -482,20 +482,20 @@
                     {
                         "type": "class",
                         "name": "ch5-button-list--button-container",
-                        "description": "Applied for the container of ch5-button\n",
+                        "description": "Applied for the container of ch5-advanced-button\n",
                         "value": "width: var(--ch5-button-list--button-container-width);\n  height: var(--ch5-button-list--button-container-height);\n  padding: var(--ch5-button-list--button-container-padding);\n  min-width: 100px;\n  min-height: 58px;"
                     },
                     {
                         "type": "class",
                         "name": "ch5-button-list--orientation-horizontal",
                         "description": "Applied when orientation='horizontal'\n",
-                        "value": "grid-auto-flow: column;\n\n    &.ch5-button-list--center-items-true {\n      justify-content: center;\n      align-content: start;\n    }\n\n    &.ch5-button-list--center-items-false {\n      align-content: start;\n      justify-content: start;\n    }\n\n    &.ch5-button-list--stretch-both {\n      align-content: stretch;\n      justify-content: stretch;\n    }\n\n    .ch5-button-list--button-container {\n      height: 100%;\n    }\n\n    &.ch5-button-list--stretch-both {\n      .ch5-button-list--button-container {\n        width: 100%;\n      }\n    }\n\n    &.ch5-button-list--scrollbar-true {\n      padding-bottom: var(--ch5-button-list--scrollbar-width);\n\n      &~.scrollbar-container {\n        width: 100%;\n        bottom: 0;\n        height: var(--ch5-button-list--scrollbar-width);\n\n        .scrollbar {\n          height: 100%;\n        }\n      }\n    }\n\n    @for $var from 1 to 501 {\n      &.ch5-button-list--rows-#{$var} {\n        grid-template-rows: repeat($var, 1fr);\n      }\n    }"
+                        "value": "grid-auto-flow: column;\n\n    &.ch5-button-list--center-items-true {\n      justify-content: center;\n      align-content: start;\n    }\n\n    &.ch5-button-list--center-items-false {\n      align-content: start;\n      justify-content: start;\n    }\n\n    &.ch5-button-list--stretch-both {\n      align-content: stretch;\n      justify-content: stretch;\n    }\n\n    .ch5-button-list--button-container {\n      height: 100%;\n    }\n\n    &.ch5-button-list--stretch-both {\n      .ch5-button-list--button-container {\n        width: 100%;\n      }\n    }\n\n    &.ch5-button-list--scrollbar-true {\n      padding-bottom: var(--ch5-button-list--scrollbar-width);\n\n      &~.scrollbar-container {\n        width: 100%;\n        bottom: 0;\n        height: var(--ch5-button-list--scrollbar-width);\n\n        .scrollbar {\n          height: 100%;\n        }\n      }\n    }"
                     },
                     {
                         "type": "class",
                         "name": "ch5-button-list--orientation-vertical",
                         "description": "Applied when orientation='vertical'\n",
-                        "value": "grid-auto-flow: row;\n\n    &.ch5-button-list--center-items-true {\n      justify-content: start;\n      align-content: center;\n    }\n\n    &.ch5-button-list--center-items-false {\n      align-content: start;\n      justify-content: start;\n    }\n\n    &.ch5-button-list--stretch-both {\n      align-content: stretch;\n      justify-content: stretch;\n    }\n\n    &.ch5-button-list--scrollbar-true {\n      padding-right: var(--ch5-button-list--scrollbar-width);\n\n      &~.scrollbar-container {\n        top: 0;\n        height: 100%;\n        right: 0;\n        left: auto;\n        width: var(--ch5-button-list--scrollbar-width);\n\n        .scrollbar {\n          width: 100%;\n        }\n      }\n    }\n\n    .ch5-button-list--button-container {\n      width: 100%;\n    }\n\n    &.ch5-button-list--stretch-both {\n      .ch5-button-list--button-container {\n        height: 100%;\n      }\n    }\n\n    @for $var from 1 to 501 {\n      &.ch5-button-list--columns-#{$var} {\n        grid-template-columns: repeat($var, 1fr);\n      }\n    }"
+                        "value": "grid-auto-flow: row;\n\n    &.ch5-button-list--center-items-true {\n      justify-content: start;\n      align-content: center;\n    }\n\n    &.ch5-button-list--center-items-false {\n      align-content: start;\n      justify-content: start;\n    }\n\n    &.ch5-button-list--stretch-both {\n      align-content: stretch;\n      justify-content: stretch;\n    }\n\n    &.ch5-button-list--scrollbar-true {\n      padding-right: var(--ch5-button-list--scrollbar-width);\n\n      &~.scrollbar-container {\n        top: 0;\n        height: 100%;\n        right: 0;\n        left: auto;\n        width: var(--ch5-button-list--scrollbar-width);\n\n        .scrollbar {\n          width: 100%;\n        }\n      }\n    }\n\n    .ch5-button-list--button-container {\n      width: 100%;\n    }\n\n    &.ch5-button-list--stretch-both {\n      .ch5-button-list--button-container {\n        height: 100%;\n      }\n    }"
                     }
                 ]
             }
@@ -589,7 +589,7 @@
                         "type": "class",
                         "name": "ch5-dpad",
                         "description": "Primary Class\n",
-                        "value": "position: relative;\n  display: inline-flex;\n  min-width: 100px;\n  min-height: 100px;\n  vertical-align: top;\n\n  .dpad-container {\n    position: relative;\n    display: flex;\n    flex-wrap: wrap;\n    vertical-align: top;\n  }\n\n  /// Applied when button in the disabled state\n  &.ch5-disabled {\n    @include ch5-component-disabled();\n\n    .ch5-dpad-child {\n      pointer-events: none;\n    }\n  }\n\n  &:not(.ch5-disabled) {\n    .ch5-dpad-child.ch5-disabled {\n      @include ch5-component-disabled();\n    }\n  }\n\n  .image-url {\n    display: block;\n    height: 100%;\n    width: 100%;\n    z-index: 1;\n\n    &::before,\n    &::after {\n      content: none;\n    }\n  }\n\n  .center {\n    position: absolute;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    height: 34%; // increasing slightly to avoid white line from 33.33%\n    width: 34%; // increasing slightly to avoid white line\n\n    .dpad-btn-label {\n      font-size: var(--ch5-dpad--label-font-size);\n    }\n\n    &.ch5-dpad-button-center--pressed {\n      .dpad-btn-label {\n        font-size: var(--ch5-dpad--pressed-label-font-size);\n      }\n    }\n\n    overflow: hidden;\n    z-index: 2;\n    cursor: pointer;\n\n    &.ch5-disabled {\n      pointer-events: none;\n      z-index: 2;\n    }\n\n    span {\n      border-radius: 50%;\n      text-align: center;\n      background-repeat: no-repeat;\n      background-position: center;\n      background-size: 80%;\n    }\n\n    .image-url {\n      border-radius: 50%;\n    }\n  }\n\n  .direction-btn {\n    position: relative;\n    display: flex;\n    cursor: pointer;\n    justify-content: center;\n    align-items: center;\n\n    &.ch5-disabled {\n      pointer-events: none;\n      z-index: 2;\n    }\n\n    span {\n      background-repeat: no-repeat;\n      background-position: center;\n      background-size: 80%;\n    }\n  }\n\n  /// Defines the dpad shape\n  &.ch5-dpad--shape-circle {\n    .ch5-disable-child-button {\n      cursor: default;\n      pointer-events: auto; // Note that pointer events should NOT be set to none here for circle shape only and do not set opacity here\n    }\n\n    .dpad-container {\n      transform: rotate(45deg);\n      .ch5-disable-child-button > span {\n        @include ch5-component-disabled();\n        cursor: default;\n        pointer-events: auto; // Note that pointer events should NOT be set to none here for circle shape only\n      }\n      /// Applied when hideCenterButton = \"true\"\n      .ch5-hide-child-button {\n        visibility: hidden !important;\n        cursor: default;\n        > span {\n          opacity: 0.5;\n          cursor: default;\n        }\n      }\n    }\n\n    .center {\n      border-radius: 50%;\n      z-index: 3;\n\n      .dpad-btn-label {\n        display: block;\n        width: 100%;\n        text-overflow: ellipsis;\n        white-space: nowrap;\n        overflow: hidden;\n        transform: rotate(-45deg);\n        padding: 0 15%;\n      }\n\n      span.dpad-btn-icon {\n        transform: rotate(-45deg);\n      }\n    }\n\n    .direction-btn {\n      flex: 50%;\n      height: 50%;\n      overflow: hidden;\n\n      span {\n        transform: rotate(-45deg);\n        background-size: 50%;\n      }\n\n      &.up {\n        border-top-left-radius: 100%;\n      }\n\n      &.right {\n        border-top-right-radius: 100%;\n      }\n\n      &.left {\n        border-bottom-left-radius: 100%;\n      }\n\n      &.down {\n        border-bottom-right-radius: 100%;\n      }\n    }\n  }\n\n  /// Defines the dpad shape plus\n  &.ch5-dpad--shape-plus {\n    /// Applied when disableCenterButton=\"true\"\n    .ch5-disable-child-button {\n      pointer-events: none; // Do not set opacity here\n      cursor: default;\n    }\n\n    .dpad-container {\n      .ch5-disable-child-button > span {\n        @include ch5-component-disabled();\n        cursor: default;\n      }\n      .ch5-hide-child-button {\n        cursor: default;\n        > span {\n          visibility: hidden !important;\n          cursor: default;\n        }\n      }\n    }\n\n    .direction-btn {\n      flex: 33.33%;\n      height: 33.33%;\n\n      &:after,\n      &:before {\n        content: \"\";\n        height: 20px;\n        width: 20px;\n        position: absolute;\n        background-color: transparent;\n      }\n\n      span {\n        height: 100%;\n        width: 100%;\n        position: relative;\n        display: inline-flex;\n        justify-content: center;\n        align-items: center;\n        z-index: 1;\n        // line-height: calc(var(--ch5-dpad--regular-size) / 3);\n        text-align: center;\n      }\n    }\n  }\n\n  /// Applied when type=\"default\"\n  &.ch5-dpad--type-default {\n    @include ch5-dpad-content(\"default\");\n  }\n\n  /// Applied when type=\"primary\"\n  &.ch5-dpad--type-primary {\n    @include ch5-dpad-content(\"primary\");\n  }\n\n  /// Applied when type=\"info\"\n  &.ch5-dpad--type-info {\n    @include ch5-dpad-content(\"info\");\n  }\n\n  /// Applied when type=\"text\"\n  &.ch5-dpad--type-text {\n    @include ch5-dpad-content(\"text\");\n  }\n\n  /// Applied when type=\"danger\"\n  &.ch5-dpad--type-danger {\n    @include ch5-dpad-content(\"danger\");\n  }\n\n  /// Applied when type=\"warning\"\n  &.ch5-dpad--type-warning {\n    @include ch5-dpad-content(\"warning\");\n  }\n\n  /// Applied when type=\"success\"\n  &.ch5-dpad--type-success {\n    @include ch5-dpad-content(\"success\");\n  }\n\n  /// Applied when type=\"secondary\"\n  &.ch5-dpad--type-secondary {\n    @include ch5-dpad-content(\"secondary\");\n  }\n\n  &.ch5-dpad--stretch-both {\n    height: 100%;\n    width: 100%;\n  }\n\n  &.ch5-dpad--stretch-height {\n    height: 100%;\n  }\n\n  &.ch5-dpad--stretch-width {\n    width: 100%;\n  }\n\n  /// Applied when size=\"regular\"\n  &.ch5-dpad--size-regular {\n    @include ch5-dpad-content-plus-direction-btn(\"regular\");\n  }\n\n  /// Applied when size=\"x-small\"\n  &.ch5-dpad--size-x-small {\n    @include ch5-dpad-content-plus-direction-btn(\"x-small\");\n  }\n\n  /// Applied when size=\"small\"\n  &.ch5-dpad--size-small {\n    @include ch5-dpad-content-plus-direction-btn(\"small\");\n  }\n\n  /// Applied when size=\"large\"\n  &.ch5-dpad--size-large {\n    @include ch5-dpad-content-plus-direction-btn(\"large\");\n  }\n\n  /// Applied when size=\"x-large\"\n  &.ch5-dpad--size-x-large {\n    @include ch5-dpad-content-plus-direction-btn(\"x-large\");\n  }"
+                        "value": "position: relative;\n  display: inline-flex;\n  min-width: 100px;\n  min-height: 100px;\n  vertical-align: top;\n\n  .dpad-container {\n    position: relative;\n    display: flex;\n    flex-wrap: wrap;\n    vertical-align: top;\n  }\n\n  /// Applied when button in the disabled state\n  &.ch5-disabled {\n    @include ch5-component-disabled();\n\n    .ch5-dpad-child {\n      pointer-events: none;\n    }\n  }\n\n  &:not(.ch5-disabled) {\n    .ch5-dpad-child.ch5-disabled {\n      @include ch5-component-disabled();\n    }\n  }\n\n  .image-url {\n    display: block;\n    height: 100%;\n    width: 100%;\n    z-index: 1;\n\n    &::before,\n    &::after {\n      content: none;\n    }\n  }\n\n  .center {\n    position: absolute;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    height: 34%; // increasing slightly to avoid white line from 33.33%\n    width: 34%; // increasing slightly to avoid white line\n\n    .dpad-btn-label {\n      font-size: var(--ch5-dpad--label-font-size);\n      text-overflow: ellipsis;\n      white-space: nowrap;\n      overflow: hidden;\n      display: block;\n      width: 100%;\n      padding: 0 15%;\n    }\n\n    &.ch5-dpad-button-center--pressed {\n      .dpad-btn-label {\n        font-size: var(--ch5-dpad--pressed-label-font-size);\n      }\n    }\n\n    overflow: hidden;\n    z-index: 2;\n    cursor: pointer;\n\n    &.ch5-disabled {\n      pointer-events: none;\n      z-index: 2;\n    }\n\n    span {\n      border-radius: 50%;\n      text-align: center;\n      background-repeat: no-repeat;\n      background-position: center;\n      background-size: 80%;\n    }\n\n    .image-url {\n      border-radius: 50%;\n    }\n  }\n\n  .direction-btn {\n    position: relative;\n    display: flex;\n    cursor: pointer;\n    justify-content: center;\n    align-items: center;\n\n    &.ch5-disabled {\n      pointer-events: none;\n      z-index: 2;\n    }\n\n    span {\n      background-repeat: no-repeat;\n      background-position: center;\n      background-size: 80%;\n    }\n  }\n\n  /// Defines the dpad shape\n  &.ch5-dpad--shape-circle {\n    .ch5-disable-child-button {\n      cursor: default;\n      pointer-events: auto; // Note that pointer events should NOT be set to none here for circle shape only and do not set opacity here\n    }\n\n    .dpad-container {\n      transform: rotate(45deg);\n\n      .ch5-disable-child-button>span {\n        @include ch5-component-disabled();\n        cursor: default;\n        pointer-events: auto; // Note that pointer events should NOT be set to none here for circle shape only\n      }\n\n      /// Applied when hideCenterButton = \"true\"\n      .ch5-hide-child-button {\n        visibility: hidden !important;\n        cursor: default;\n\n        >span {\n          opacity: 0.5;\n          cursor: default;\n        }\n      }\n    }\n\n    .center {\n      border-radius: 50%;\n      z-index: 3;\n\n      .dpad-btn-label {\n        transform: rotate(-45deg);\n      }\n\n      span.dpad-btn-icon {\n        transform: rotate(-45deg);\n      }\n    }\n\n    .direction-btn {\n      flex: 50%;\n      height: 50%;\n      overflow: hidden;\n\n      span {\n        transform-style: preserve-3d;\n        transform: rotate(-45deg);\n        background-size: 50%;\n      }\n\n      &.up {\n        border-top-left-radius: 100%;\n      }\n\n      &.right {\n        border-top-right-radius: 100%;\n      }\n\n      &.left {\n        border-bottom-left-radius: 100%;\n      }\n\n      &.down {\n        border-bottom-right-radius: 100%;\n      }\n    }\n  }\n\n  /// Defines the dpad shape plus\n  &.ch5-dpad--shape-plus {\n\n    /// Applied when disableCenterButton=\"true\"\n    .ch5-disable-child-button {\n      pointer-events: none; // Do not set opacity here\n      cursor: default;\n    }\n\n    .dpad-container {\n      .ch5-disable-child-button>span {\n        @include ch5-component-disabled();\n        cursor: default;\n      }\n\n      .ch5-hide-child-button {\n        cursor: default;\n\n        >span {\n          visibility: hidden !important;\n          cursor: default;\n        }\n      }\n    }\n\n    .direction-btn {\n      flex: 33.33%;\n      height: 33.33%;\n\n      &:after,\n      &:before {\n        content: \"\";\n        height: 20px;\n        width: 20px;\n        position: absolute;\n        background-color: transparent;\n      }\n\n      span {\n        height: 100%;\n        width: 100%;\n        position: relative;\n        display: inline-flex;\n        justify-content: center;\n        align-items: center;\n        z-index: 1;\n        // line-height: calc(var(--ch5-dpad--regular-size) / 3);\n        text-align: center;\n      }\n    }\n  }\n\n  /// Applied when type=\"default\"\n  &.ch5-dpad--type-default {\n    @include ch5-dpad-content(\"default\");\n  }\n\n  /// Applied when type=\"primary\"\n  &.ch5-dpad--type-primary {\n    @include ch5-dpad-content(\"primary\");\n  }\n\n  /// Applied when type=\"info\"\n  &.ch5-dpad--type-info {\n    @include ch5-dpad-content(\"info\");\n  }\n\n  /// Applied when type=\"text\"\n  &.ch5-dpad--type-text {\n    @include ch5-dpad-content(\"text\");\n  }\n\n  /// Applied when type=\"danger\"\n  &.ch5-dpad--type-danger {\n    @include ch5-dpad-content(\"danger\");\n  }\n\n  /// Applied when type=\"warning\"\n  &.ch5-dpad--type-warning {\n    @include ch5-dpad-content(\"warning\");\n  }\n\n  /// Applied when type=\"success\"\n  &.ch5-dpad--type-success {\n    @include ch5-dpad-content(\"success\");\n  }\n\n  /// Applied when type=\"secondary\"\n  &.ch5-dpad--type-secondary {\n    @include ch5-dpad-content(\"secondary\");\n  }\n\n  &.ch5-dpad--stretch-both {\n    height: 100%;\n    width: 100%;\n  }\n\n  &.ch5-dpad--stretch-height {\n    height: 100%;\n  }\n\n  &.ch5-dpad--stretch-width {\n    width: 100%;\n  }\n\n  /// Applied when size=\"regular\"\n  &.ch5-dpad--size-regular {\n    @include ch5-dpad-content-plus-direction-btn(\"regular\");\n  }\n\n  /// Applied when size=\"x-small\"\n  &.ch5-dpad--size-x-small {\n    @include ch5-dpad-content-plus-direction-btn(\"x-small\");\n  }\n\n  /// Applied when size=\"small\"\n  &.ch5-dpad--size-small {\n    @include ch5-dpad-content-plus-direction-btn(\"small\");\n  }\n\n  /// Applied when size=\"large\"\n  &.ch5-dpad--size-large {\n    @include ch5-dpad-content-plus-direction-btn(\"large\");\n  }\n\n  /// Applied when size=\"x-large\"\n  &.ch5-dpad--size-x-large {\n    @include ch5-dpad-content-plus-direction-btn(\"x-large\");\n  }"
                     },
                     {
                         "type": "class",
@@ -601,19 +601,19 @@
                         "type": "class",
                         "name": "ch5-dpad--shape-circle",
                         "description": "Defines the dpad shape\n",
-                        "value": ".ch5-disable-child-button {\n      cursor: default;\n      pointer-events: auto; // Note that pointer events should NOT be set to none here for circle shape only and do not set opacity here\n    }\n\n    .dpad-container {\n      transform: rotate(45deg);\n      .ch5-disable-child-button > span {\n        @include ch5-component-disabled();\n        cursor: default;\n        pointer-events: auto; // Note that pointer events should NOT be set to none here for circle shape only\n      }\n      /// Applied when hideCenterButton = \"true\"\n      .ch5-hide-child-button {\n        visibility: hidden !important;\n        cursor: default;\n        > span {\n          opacity: 0.5;\n          cursor: default;\n        }\n      }\n    }\n\n    .center {\n      border-radius: 50%;\n      z-index: 3;\n\n      .dpad-btn-label {\n        display: block;\n        width: 100%;\n        text-overflow: ellipsis;\n        white-space: nowrap;\n        overflow: hidden;\n        transform: rotate(-45deg);\n        padding: 0 15%;\n      }\n\n      span.dpad-btn-icon {\n        transform: rotate(-45deg);\n      }\n    }\n\n    .direction-btn {\n      flex: 50%;\n      height: 50%;\n      overflow: hidden;\n\n      span {\n        transform: rotate(-45deg);\n        background-size: 50%;\n      }\n\n      &.up {\n        border-top-left-radius: 100%;\n      }\n\n      &.right {\n        border-top-right-radius: 100%;\n      }\n\n      &.left {\n        border-bottom-left-radius: 100%;\n      }\n\n      &.down {\n        border-bottom-right-radius: 100%;\n      }\n    }"
+                        "value": ".ch5-disable-child-button {\n      cursor: default;\n      pointer-events: auto; // Note that pointer events should NOT be set to none here for circle shape only and do not set opacity here\n    }\n\n    .dpad-container {\n      transform: rotate(45deg);\n\n      .ch5-disable-child-button>span {\n        @include ch5-component-disabled();\n        cursor: default;\n        pointer-events: auto; // Note that pointer events should NOT be set to none here for circle shape only\n      }\n\n      /// Applied when hideCenterButton = \"true\"\n      .ch5-hide-child-button {\n        visibility: hidden !important;\n        cursor: default;\n\n        >span {\n          opacity: 0.5;\n          cursor: default;\n        }\n      }\n    }\n\n    .center {\n      border-radius: 50%;\n      z-index: 3;\n\n      .dpad-btn-label {\n        transform: rotate(-45deg);\n      }\n\n      span.dpad-btn-icon {\n        transform: rotate(-45deg);\n      }\n    }\n\n    .direction-btn {\n      flex: 50%;\n      height: 50%;\n      overflow: hidden;\n\n      span {\n        transform-style: preserve-3d;\n        transform: rotate(-45deg);\n        background-size: 50%;\n      }\n\n      &.up {\n        border-top-left-radius: 100%;\n      }\n\n      &.right {\n        border-top-right-radius: 100%;\n      }\n\n      &.left {\n        border-bottom-left-radius: 100%;\n      }\n\n      &.down {\n        border-bottom-right-radius: 100%;\n      }\n    }"
                     },
                     {
                         "type": "class",
                         "name": "ch5-hide-child-button",
                         "description": "Applied when hideCenterButton = \"true\"\n",
-                        "value": "visibility: hidden !important;\n        cursor: default;\n        > span {\n          opacity: 0.5;\n          cursor: default;\n        }"
+                        "value": "visibility: hidden !important;\n        cursor: default;\n\n        >span {\n          opacity: 0.5;\n          cursor: default;\n        }"
                     },
                     {
                         "type": "class",
                         "name": "ch5-dpad--shape-plus",
                         "description": "Defines the dpad shape plus\n",
-                        "value": "/// Applied when disableCenterButton=\"true\"\n    .ch5-disable-child-button {\n      pointer-events: none; // Do not set opacity here\n      cursor: default;\n    }\n\n    .dpad-container {\n      .ch5-disable-child-button > span {\n        @include ch5-component-disabled();\n        cursor: default;\n      }\n      .ch5-hide-child-button {\n        cursor: default;\n        > span {\n          visibility: hidden !important;\n          cursor: default;\n        }\n      }\n    }\n\n    .direction-btn {\n      flex: 33.33%;\n      height: 33.33%;\n\n      &:after,\n      &:before {\n        content: \"\";\n        height: 20px;\n        width: 20px;\n        position: absolute;\n        background-color: transparent;\n      }\n\n      span {\n        height: 100%;\n        width: 100%;\n        position: relative;\n        display: inline-flex;\n        justify-content: center;\n        align-items: center;\n        z-index: 1;\n        // line-height: calc(var(--ch5-dpad--regular-size) / 3);\n        text-align: center;\n      }\n    }"
+                        "value": "/// Applied when disableCenterButton=\"true\"\n    .ch5-disable-child-button {\n      pointer-events: none; // Do not set opacity here\n      cursor: default;\n    }\n\n    .dpad-container {\n      .ch5-disable-child-button>span {\n        @include ch5-component-disabled();\n        cursor: default;\n      }\n\n      .ch5-hide-child-button {\n        cursor: default;\n\n        >span {\n          visibility: hidden !important;\n          cursor: default;\n        }\n      }\n    }\n\n    .direction-btn {\n      flex: 33.33%;\n      height: 33.33%;\n\n      &:after,\n      &:before {\n        content: \"\";\n        height: 20px;\n        width: 20px;\n        position: absolute;\n        background-color: transparent;\n      }\n\n      span {\n        height: 100%;\n        width: 100%;\n        position: relative;\n        display: inline-flex;\n        justify-content: center;\n        align-items: center;\n        z-index: 1;\n        // line-height: calc(var(--ch5-dpad--regular-size) / 3);\n        text-align: center;\n      }\n    }"
                     },
                     {
                         "type": "class",
@@ -744,6 +744,44 @@
                         "name": "dpad-btn-icon",
                         "description": "Apply to icons\n",
                         "value": "font-size: var(#{$property-icon-font-size});"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "group": "ch5-html-div",
+        "schemadata": [
+            {
+                "type": "class",
+                "metadata": [
+                    {
+                        "type": "class",
+                        "name": "ch5-html-div",
+                        "description": "Main class\n",
+                        "value": "position: relative;\n  height: var(--ch5-html-div--height);\n  width: var(--ch5-html-div--width);\n  background-color: var(--ch5-html-div--background-color);\n  border-color: var(--ch5-html-div--border-color);\n  border-width: var(--ch5-html-div--border-width);\n  border-style: var(--ch5-html-div--border-style);\n  border-top-left-radius: var(--ch5-html-div--border-top-left-radius);\n  border-top-right-radius: var(--ch5-html-div--border-top-right-radius);\n  border-bottom-left-radius: var(--ch5-html-div--border-bottom-left-radius);\n  border-bottom-right-radius: var(--ch5-html-div--border-bottom-right-radius);\n  font-size: var(--ch5-html-div--font-size);\n  color: var(--ch5-html-div--font-color);\n  overflow: hidden;"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-html-div--disabled",
+                        "description": "Applied when disabled='true'\n",
+                        "value": "@include ch5-component-disabled();"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "group": "ch5-html-div-variables",
+        "schemadata": [
+            {
+                "type": "class",
+                "metadata": [
+                    {
+                        "type": "class",
+                        "name": "ch5-html-div",
+                        "description": "Variables below\n",
+                        "value": "/// description: Height for the HTML div component\n    /// type: unit\n    /// values: px\n    /// show-theme-editor: true\n    /// example: 33.33px\n    /// related-theme-variable: --theme-ch5-html-div--height\n    --ch5-html-div--height: var(--theme-ch5-html-div--height);\n\n    /// description: Width for the HTML div component\n    /// type: unit\n    /// values: px\n    /// show-theme-editor: true\n    /// example: 33.33px\n    /// related-theme-variable: --theme-ch5-html-div--width\n    --ch5-html-div--width: var(--theme-ch5-html-div--width);\n\n    /// description: Sets the background color for the component\n    /// type: color\n    /// values: rgb(35,35,35), #1a1a1a, red\n    /// show-theme-editor: true\n    /// example: transparent\n    /// related-theme-variable: --theme-ch5-html-div--background-color\n    --ch5-html-div--background-color: var(--theme-ch5-html-div--background-color);\n\n    /// description: Sets the border color for the component\n    /// type: color\n    /// values: rgb(35,35,35), #1a1a1a, red\n    /// show-theme-editor: true\n    /// example: #d8d8d8\n    /// related-theme-variable: --theme-ch5-html-div--border-color\n    --ch5-html-div--border-color: var(--theme-ch5-html-div--border-color);\n\n    /// description: Sets the border width for the component\n    /// type: unit\n    /// values: px\n    /// show-theme-editor: true\n    /// example: 1px \n    /// related-theme-variable: --theme-ch5-html-div--border-width\n    --ch5-html-div--border-width: var(--theme-ch5-html-div--border-width);\n\n    /// description: Sets the border style for the component\n    /// type: list\n    /// values: none, solid, dotted, dashed, double, groove, ridge, inset, outset\n    /// show-theme-editor: true\n    /// example: solid\n    /// related-theme-variable: --theme-ch5-html-div--border-style\n    --ch5-html-div--border-style: var(--theme-ch5-html-div--border-style);\n\n    /// description: Border top left property for html div\n    /// type: unit\n    /// values: px, %\n    /// show-theme-editor: true\n    /// example: 1px\n    /// related-theme-variable: --theme-ch5-html-div--border-top-left-radius\n    --ch5-html-div--border-top-left-radius: var(--theme-ch5-html-div--border-top-left-radius);\n\n    /// description: Border top right property for html div\n    /// type: unit\n    /// values: px, %\n    /// show-theme-editor: true\n    /// example: 1px\n    /// related-theme-variable: --theme-ch5-html-div--border-top-right-radius\n    --ch5-html-div--border-top-right-radius: var(--theme-ch5-html-div--border-top-right-radius);\n\n    /// description: Border bottom left property for html div\n    /// type: unit\n    /// values: px, %\n    /// show-theme-editor: true\n    /// example: 1px\n    /// related-theme-variable: --theme-ch5-html-div--border-bottom-left-radius\n    --ch5-html-div--border-bottom-left-radius: var(--theme-ch5-html-div--border-bottom-left-radius);\n\n    /// description: Border bottom right property for html div\n    /// type: unit\n    /// values: px, %\n    /// show-theme-editor: true\n    /// example: 1px\n    /// related-theme-variable: --theme-ch5-html-div--border-bottom-right-radius\n    --ch5-html-div--border-bottom-right-radius: var(--theme-ch5-html-div--border-bottom-right-radius);\n\n    /// description: Font size for the HTML div component\n    /// type: unit\n    /// values: px, %\n    /// show-theme-editor: true\n    /// example: 16px\n    /// related-theme-variable: --theme-ch5-html-div--font-size\n    --ch5-html-div--font-size: var(--theme-ch5-html-div--font-size);\n\n    /// description: Font color for the HTML div component\n    /// type: color\n    /// values: rgb(35,35,35), #1a1a1a, red\n    /// show-theme-editor: true\n    /// example: #000\n    /// related-theme-variable: --theme-ch5-html-div--font-color\n    --ch5-html-div--font-color: var(--theme-ch5-html-div--font-color);"
                     }
                 ]
             }
@@ -993,7 +1031,7 @@
                         "type": "class",
                         "name": "ch5-media-player",
                         "description": "Main class\n",
-                        "value": "position: relative;\n  width: var(--ch5-media-player--width);\n  height: var(--ch5-media-player--height);\n  min-width: 360px;\n  min-height: 360px;\n  background-color: var(--ch5-media-player--background-color);\n  display: flex;\n  overflow: hidden;\n  box-sizing: border-box;\n  border: var(--ch5-media-player--border-style) var(--ch5-media-player--border-width) var(--ch5-media-player--border-color);\n\n  .ch5-media-player--popup-overlay {\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    background-color: var(--ch5-media-player--popup-overlay-background-color);\n    display: flex;\n    justify-content: center;\n    align-items: center;\n\n    .ch5-media-player--popup-content-generic {\n      background-color: var(--ch5-media-player--background-color);\n      color: var(--ch5-media-player--popup-font-color);\n      width: 60%;\n      border-radius: 1em;\n      display: flex;\n      flex-direction: column;\n      justify-content: space-between;\n      font-size: var(--ch5-media-player--popup-text-font-size);\n\n      .generic-dialog-title {\n        padding: $ch5-media-player--padding;\n        display: flex;\n        justify-content: center;\n        text-align: center;\n        font-size: inherit;\n      }\n\n      .dialog-content {\n        display: flex;\n        padding: 0 $ch5-media-player--padding $ch5-media-player--padding $ch5-media-player--padding;\n\n        .dialog-content-input {\n          width: 100%;\n          border: none;\n          outline: none;\n          border-bottom: var(--ch5-media-player--popup-border-width) var(--ch5-media-player--popup-border-style) var(--ch5-media-player--popup-input-border-color);\n          padding: 0.25em;\n          background-color: inherit;\n          color: inherit;\n          font-size: inherit;\n        }\n      }\n\n      .generic-dialog-footer {\n        display: flex;\n        justify-content: space-between;\n\n        &--column {\n          flex-direction: column;\n\n          >.generic-dialog-button:last-child {\n            &:active {\n              border-bottom-left-radius: 1em;\n              border-bottom-right-radius: 1em;\n            }\n          }\n        }\n\n        &--row {\n          flex-direction: row;\n\n          >.generic-dialog-button:nth-child(2) {\n            border-left: var(--ch5-media-player--popup-border-width) var(--ch5-media-player--popup-border-style) var(--ch5-media-player--popup-border-color);\n\n            &:active {\n              border-bottom-right-radius: 1em;\n            }\n          }\n\n          >.generic-dialog-button:first-child {\n            &:active {\n              border-bottom-left-radius: 1em;\n            }\n          }\n\n          >.generic-dialog-button:only-child {\n            &:active {\n              border-bottom-left-radius: 1em;\n              border-bottom-right-radius: 1em;\n            }\n          }\n        }\n      }\n\n      .action-group-dialog-footer {\n        .action-group-dialog-button {\n          font-size: inherit;\n          display: flex;\n          justify-content: center;\n          padding: $ch5-media-player--padding;\n          border-top: var(--ch5-media-player--popup-border-width) var(--ch5-media-player--popup-border-style) var(--ch5-media-player--popup-border-color);\n          cursor: pointer;\n        }\n\n        .primary-dialog-button {\n          font-weight: 600;\n          font-size: inherit;\n        }\n      }\n    }\n  }"
+                        "value": "position: relative;\n  width: var(--ch5-media-player--width);\n  height: var(--ch5-media-player--height);\n  min-width: 360px;\n  min-height: 360px;\n  background-color: var(--ch5-media-player--background-color);\n  display: flex;\n  overflow: hidden;\n  box-sizing: border-box;\n  border: var(--ch5-media-player--border-style) var(--ch5-media-player--border-width) var(--ch5-media-player--border-color);\n\n  .ch5-media-player--popup-overlay {\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    background-color: var(--ch5-media-player--popup-overlay-background-color);\n    display: flex;\n    justify-content: center;\n    align-items: center;\n\n    .ch5-media-player--popup-content-generic {\n      background-color: var(--ch5-media-player--popup-background-color);\n      color: var(--ch5-media-player--popup-font-color);\n      width: 60%;\n      border-radius: 1em;\n      display: flex;\n      flex-direction: column;\n      justify-content: space-between;\n      font-size: var(--ch5-media-player--popup-text-font-size);\n\n      .generic-dialog-title {\n        padding: $ch5-media-player--padding;\n        display: flex;\n        justify-content: center;\n        text-align: center;\n        font-size: inherit;\n      }\n\n      .dialog-content {\n        display: flex;\n        padding: 0 $ch5-media-player--padding $ch5-media-player--padding $ch5-media-player--padding;\n\n        .dialog-content-input {\n          width: 100%;\n          border: none;\n          outline: none;\n          border-bottom: var(--ch5-media-player--popup-border-width) var(--ch5-media-player--popup-border-style) var(--ch5-media-player--popup-input-border-color);\n          padding: 0.25em;\n          background-color: inherit;\n          color: inherit;\n          font-size: inherit;\n        }\n      }\n\n      .generic-dialog-footer {\n        display: flex;\n        justify-content: space-between;\n\n        &--column {\n          flex-direction: column;\n\n          >.generic-dialog-button:last-child {\n            &:active {\n              border-bottom-left-radius: 1em;\n              border-bottom-right-radius: 1em;\n            }\n          }\n        }\n\n        &--row {\n          flex-direction: row;\n\n          >.generic-dialog-button:nth-child(2) {\n            border-left: var(--ch5-media-player--popup-border-width) var(--ch5-media-player--popup-border-style) var(--ch5-media-player--popup-border-color);\n\n            &:active {\n              border-bottom-right-radius: 1em;\n            }\n          }\n\n          >.generic-dialog-button:first-child {\n            &:active {\n              border-bottom-left-radius: 1em;\n            }\n          }\n\n          >.generic-dialog-button:only-child {\n            &:active {\n              border-bottom-left-radius: 1em;\n              border-bottom-right-radius: 1em;\n            }\n          }\n        }\n      }\n\n      .action-group-dialog-footer {\n        .action-group-dialog-button {\n          font-size: inherit;\n          display: flex;\n          justify-content: center;\n          padding: $ch5-media-player--padding;\n          border-top: var(--ch5-media-player--popup-border-width) var(--ch5-media-player--popup-border-style) var(--ch5-media-player--popup-border-color);\n          cursor: pointer;\n        }\n\n        .primary-dialog-button {\n          font-weight: 600;\n          font-size: inherit;\n        }\n      }\n    }\n  }"
                     }
                 ]
             }
@@ -1009,7 +1047,7 @@
                         "type": "class",
                         "name": "ch5-modal-dialog",
                         "description": "This class is added on the container div of the ch5-modal-dialog element.\n",
-                        "value": "position: fixed;\n  box-sizing: border-box;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  z-index: 10001;\n\n  background-color: var(--ch5-modal-dialog--background-color);\n  border-radius: var(--ch5-modal-dialog--border-radius);\n  border: var(--ch5-modal-dialog--border-width) var(--ch5-modal-dialog--border-style) var(--ch5-modal-dialog--border-color);\n  color: var(--ch5-modal-dialog--text-color);\n  padding: var(--ch5-modal-dialog--padding);\n  min-width: 200px;\n\n  .ch5-modal-dialog-close-icon-btn {\n    border: none;\n    outline: none;\n    cursor: pointer;\n    float: right;\n    color: var(--ch5-modal-dialog--close-icon-color);\n\n    background-color: var(--ch5-modal-dialog--close-icon-background-color);\n    margin: var(--ch5-modal-dialog--close-icon-margin);\n    padding: var(--ch5-modal-dialog--close-icon-padding);\n    width: var(--ch5-modal-dialog--close-button-width);\n    font-size: var(--ch5-modal-dialog--close-icon-size);\n\n    &.f-left {\n      float: left;\n    }\n\n    &.f-right {\n      float: right;\n    }\n  }\n\n  .ch5-modal-dialog-default-close-icon {\n    font-size: var(--ch5-modal-dialog--default-close-icon-size);\n    color: var(--ch5-modal-dialog--close-icon-color);\n\n    &:before {\n      content: \"\\00d7\";\n    }\n\n    &:hover {\n      color: var(--ch5-modal-dialog--close-icon-color-hover);\n    }\n  }\n\n  /// the class added on the ok button\n  .ch5-modal-dialog-btn-ok {\n    float: left;\n  }\n\n  /// the class of the cancel button\n  .ch5-modal-dialog-btn-cancel {\n    float: right;\n  }"
+                        "value": "position: fixed;\n  box-sizing: border-box;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  z-index: 10001;\n\n  background-color: var(--ch5-modal-dialog--background-color);\n  border-radius: var(--ch5-modal-dialog--border-radius);\n  border: var(--ch5-modal-dialog--border-width) var(--ch5-modal-dialog--border-style) var(--ch5-modal-dialog--border-color);\n  color: var(--ch5-modal-dialog--text-color);\n  padding: var(--ch5-modal-dialog--padding);\n  min-width: 200px;\n \n  &.ch5-disabled {\n    @include ch5-component-disabled;\n  }\n\n  .ch5-modal-dialog-close-icon-btn {\n    border: none;\n    outline: none;\n    cursor: pointer;\n    float: right;\n    color: var(--ch5-modal-dialog--close-icon-color);\n\n    background-color: var(--ch5-modal-dialog--close-icon-background-color);\n    margin: var(--ch5-modal-dialog--close-icon-margin);\n    padding: var(--ch5-modal-dialog--close-icon-padding);\n    width: var(--ch5-modal-dialog--close-button-width);\n    font-size: var(--ch5-modal-dialog--close-icon-size);\n\n    &.f-left {\n      float: left;\n    }\n\n    &.f-right {\n      float: right;\n    }\n  }\n\n  .ch5-modal-dialog-default-close-icon {\n    font-size: var(--ch5-modal-dialog--default-close-icon-size);\n    color: var(--ch5-modal-dialog--close-icon-color);\n\n    &:before {\n      content: \"\\00d7\";\n    }\n\n    &:hover {\n      color: var(--ch5-modal-dialog--close-icon-color-hover);\n    }\n  }\n\n  /// the class added on the ok button\n  .ch5-modal-dialog-btn-ok {\n    float: left;\n  }\n\n  /// the class of the cancel button\n  .ch5-modal-dialog-btn-cancel {\n    float: right;\n  }"
                     },
                     {
                         "type": "class",
@@ -2131,7 +2169,7 @@
                         "type": "class",
                         "name": "ch5-subpage-reference-list--orientation-horizontal",
                         "description": "Applied when orientation='horizontal'\n",
-                        "value": "grid-auto-flow: column;\n\n    &.ch5-subpage-reference-list--center-items-true {\n      justify-content: center;\n      align-content: start;\n    }\n\n    &.ch5-subpage-reference-list--center-items-false {\n      align-content: start;\n      justify-content: start;\n    }\n\n    &.ch5-subpage-reference-list--stretch-both {\n      align-content: stretch;\n      justify-content: stretch;\n    }\n\n    /// Applied for the container of subpage\n    .ch5-subpage-reference-list--subpage-container {\n      height: 100%;\n      padding: var(--ch5-subpage-reference-list--item-padding);\n    }\n\n    &.ch5-subpage-reference-list--stretch-both {\n      .ch5-subpage-reference-list--subpage-container {\n        width: 100%;\n      }\n    }\n\n    &.ch5-subpage-reference-list--scrollbar-true {\n      //padding-bottom: var(--ch5-subpage-reference-list--scrollbar-width);\n\n      &~.scrollbar-container {\n        width: 100%;\n        bottom: calc(-1 * var(--ch5-subpage-reference-list--scrollbar-width));\n        height: var(--ch5-subpage-reference-list--scrollbar-width);\n\n        .scrollbar {\n          height: 100%;\n        }\n      }\n    }\n\n    @for $var from 1 to 601 {\n      &.ch5-subpage-reference-list--rows-#{$var} {\n        grid-template-rows: repeat($var, 1fr);\n      }\n    }"
+                        "value": "grid-auto-flow: column;\n\n    &.ch5-subpage-reference-list--center-items-true {\n      justify-content: center;\n      align-content: start;\n    }\n\n    &.ch5-subpage-reference-list--center-items-false {\n      align-content: start;\n      justify-content: start;\n    }\n\n    &.ch5-subpage-reference-list--stretch-both {\n      align-content: stretch;\n      justify-content: stretch;\n    }\n\n    /// Applied for the container of subpage\n    .ch5-subpage-reference-list--subpage-container {\n      height: 100%;\n      padding: var(--ch5-subpage-reference-list--item-padding);\n    }\n\n    &.ch5-subpage-reference-list--stretch-both {\n      .ch5-subpage-reference-list--subpage-container {\n        width: 100%;\n      }\n    }\n\n    &.ch5-subpage-reference-list--scrollbar-true {\n      //padding-bottom: var(--ch5-subpage-reference-list--scrollbar-width);\n\n      &~.scrollbar-container {\n        width: 100%;\n        bottom: calc(-1 * var(--ch5-subpage-reference-list--scrollbar-width));\n        height: var(--ch5-subpage-reference-list--scrollbar-width);\n\n        .scrollbar {\n          height: 100%;\n        }\n      }\n    }"
                     },
                     {
                         "type": "class",
@@ -2143,7 +2181,7 @@
                         "type": "class",
                         "name": "ch5-subpage-reference-list--orientation-vertical",
                         "description": "Applied when orientation='vertical'\n",
-                        "value": "grid-auto-flow: row;\n\n    &.ch5-subpage-reference-list--center-items-true {\n      justify-content: start;\n      align-content: center;\n    }\n\n    &.ch5-subpage-reference-list--center-items-false {\n      align-content: start;\n      justify-content: start;\n    }\n\n    &.ch5-subpage-reference-list--stretch-both {\n      align-content: stretch;\n      justify-content: stretch;\n    }\n\n    &.ch5-subpage-reference-list--scrollbar-true {\n      //padding-right: var(--ch5-subpage-reference-list--scrollbar-width);\n\n      &~.scrollbar-container {\n        top: 0;\n        height: 100%;\n        right: calc(-1 * var(--ch5-subpage-reference-list--scrollbar-width));\n        left: auto;\n        width: var(--ch5-subpage-reference-list--scrollbar-width);\n\n        .scrollbar {\n          width: 100%;\n        }\n      }\n    }\n\n    .ch5-subpage-reference-list--subpage-container {\n      width: 100%;\n      padding: var(--ch5-subpage-reference-list--item-padding);\n    }\n\n    &.ch5-subpage-reference-list--stretch-both {\n      .ch5-subpage-reference-list--subpage-container {\n        height: 100%;\n      }\n    }\n\n    @for $var from 1 to 601 {\n      &.ch5-subpage-reference-list--columns-#{$var} {\n        grid-template-columns: repeat($var, 1fr);\n      }\n    }"
+                        "value": "grid-auto-flow: row;\n\n    &.ch5-subpage-reference-list--center-items-true {\n      justify-content: start;\n      align-content: center;\n    }\n\n    &.ch5-subpage-reference-list--center-items-false {\n      align-content: start;\n      justify-content: start;\n    }\n\n    &.ch5-subpage-reference-list--stretch-both {\n      align-content: stretch;\n      justify-content: stretch;\n    }\n\n    &.ch5-subpage-reference-list--scrollbar-true {\n      //padding-right: var(--ch5-subpage-reference-list--scrollbar-width);\n\n      &~.scrollbar-container {\n        top: 0;\n        height: 100%;\n        right: calc(-1 * var(--ch5-subpage-reference-list--scrollbar-width));\n        left: auto;\n        width: var(--ch5-subpage-reference-list--scrollbar-width);\n\n        .scrollbar {\n          width: 100%;\n        }\n      }\n    }\n\n    .ch5-subpage-reference-list--subpage-container {\n      width: 100%;\n      padding: var(--ch5-subpage-reference-list--item-padding);\n    }\n\n    &.ch5-subpage-reference-list--stretch-both {\n      .ch5-subpage-reference-list--subpage-container {\n        height: 100%;\n      }\n    }"
                     }
                 ]
             }
@@ -2349,7 +2387,7 @@
                         "type": "class",
                         "name": "ch5-text",
                         "description": "Main Class\n",
-                        "value": "position: relative;\n  min-width: 64px;\n  min-height: 44px;\n  width: var(--ch5-text--width);\n  height: var(--ch5-text--height);\n  overflow: hidden;\n  padding: var(--ch5-text--padding);\n  color: var(--ch5-text--font-color);\n  font-style: var(--ch5-text--font-style);\n  font-size: var(--ch5-text--font-size);\n  font-weight: var(--ch5-text--font-weight);\n  letter-spacing: var(--ch5-text--letter-spacing);\n  text-decoration: var(--ch5-text--text-decoration);\n  background-color: var(--ch5-text--background-color);\n  border-color: var(--ch5-text--border-color);\n  border-width: var(--ch5-text--border-width);\n  border-style: var(--ch5-text--border-style);\n  border-top-left-radius: var(--ch5-text--border-top-left-radius);\n  border-top-right-radius: var(--ch5-text--border-top-right-radius);\n  border-bottom-left-radius: var(--ch5-text--border-bottom-left-radius);\n  border-bottom-right-radius: var(--ch5-text--border-bottom-right-radius);\n\n  /// Applied for the span element\n  .ch5-text--span {\n    display: inline-block;\n    width: 100%;\n\n    /// Applied when truncateText='true'\n    &.ch5-text--truncate-text-true {\n      text-overflow: ellipsis; // enables ellipsis\n      white-space: nowrap; // keeps the text in a single line\n      overflow: hidden; // keeps the element from overflowing its parent */\n    }\n\n    /// Applied when truncateText='false'\n    &.ch5-text--truncate-text-false {\n      white-space: nowrap; // keeps the text in a single line\n      overflow: hidden; // keeps the element from overflowing its parent\n    }\n\n    /// Applied when multilineSupport='true'\n    &.ch5-text--multiline-support-true {\n      overflow: hidden;\n      -webkit-box-orient: vertical;\n      -webkit-line-clamp: 3; // start showing ellipsis when 3rd line is reached\n      white-space: pre-wrap !important; // let the text wrap preserving spaces\n      word-break: var(--ch5-text--word-break);\n    }\n\n    &.ch5-text--multiline-support-true.ch5-text--truncate-text-true {\n      display: -webkit-box;      \n    }\n    /// Applied when multilineSupport='false'\n    &.ch5-text--multiline-support-false {\n      white-space: nowrap; // keeps the text in a single line\n      overflow: hidden; // keeps the element from overflowing its parent\n    }\n  }"
+                        "value": "position: relative;\n  min-width: 10px;\n  min-height: 10px;\n  width: var(--ch5-text--width);\n  height: var(--ch5-text--height);\n  overflow: hidden;\n  padding: var(--ch5-text--padding);\n  color: var(--ch5-text--font-color);\n  font-style: var(--ch5-text--font-style);\n  font-size: var(--ch5-text--font-size);\n  font-weight: var(--ch5-text--font-weight);\n  letter-spacing: var(--ch5-text--letter-spacing);\n  text-decoration: var(--ch5-text--text-decoration);\n  background-color: var(--ch5-text--background-color);\n  border-color: var(--ch5-text--border-color);\n  border-width: var(--ch5-text--border-width);\n  border-style: var(--ch5-text--border-style);\n  border-top-left-radius: var(--ch5-text--border-top-left-radius);\n  border-top-right-radius: var(--ch5-text--border-top-right-radius);\n  border-bottom-left-radius: var(--ch5-text--border-bottom-left-radius);\n  border-bottom-right-radius: var(--ch5-text--border-bottom-right-radius);\n\n  /// Applied for the span element\n  .ch5-text--span {\n    display: inline-block;\n    width: 100%;\n\n    /// Applied when truncateText='true'\n    &.ch5-text--truncate-text-true {\n      text-overflow: ellipsis; // enables ellipsis\n      white-space: nowrap; // keeps the text in a single line\n      overflow: hidden; // keeps the element from overflowing its parent */\n    }\n\n    /// Applied when truncateText='false'\n    &.ch5-text--truncate-text-false {\n      white-space: nowrap; // keeps the text in a single line\n      overflow: hidden; // keeps the element from overflowing its parent\n    }\n\n    /// Applied when multilineSupport='true'\n    &.ch5-text--multiline-support-true {\n      overflow: hidden;\n      -webkit-box-orient: vertical;\n      -webkit-line-clamp: 3; // start showing ellipsis when 3rd line is reached\n      white-space: pre-wrap !important; // let the text wrap preserving spaces\n      word-break: var(--ch5-text--word-break);\n    }\n\n    &.ch5-text--multiline-support-true.ch5-text--truncate-text-true {\n      display: -webkit-box;      \n    }\n    /// Applied when multilineSupport='false'\n    &.ch5-text--multiline-support-false {\n      white-space: nowrap; // keeps the text in a single line\n      overflow: hidden; // keeps the element from overflowing its parent\n    }\n  }"
                     },
                     {
                         "type": "class",
@@ -2507,7 +2545,7 @@
                         "type": "class",
                         "name": "ch5-toggle",
                         "description": "This class is set on the container div for ch5-toggle\n",
-                        "value": "position: relative;\n  display: inline-block;\n  box-sizing: border-box;\n  z-index: 1;\n\n  &[hidden] {\n    display: none;\n  }\n\n  div {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n  }\n\n  /* ch5-toggle - label */\n  /// Applied on label\n  .ch5-toggle__label {\n    display: inline-flex;\n    vertical-align: middle;\n    font-style: var(--ch5-toggle--label-font-style);\n    font-size: var(--ch5-toggle--label-font-size);\n    font-weight: var(--ch5-toggle--label-font-weight);\n    color: var(--ch5-toggle--label-font-color);\n    // margin: var(--ch5-toggle--label-margin);\n    margin-top: var(--ch5-toggle--label-margin-top);\n    margin-left: var(--ch5-toggle--label-margin-left);\n    margin-bottom: var(--ch5-toggle--label-margin-bottom);\n    margin-right: var(--ch5-toggle--label-margin-right);\n\n    &[hidden] {\n      display: none;\n    }\n  }\n\n  .ch5-toggle__on-label,\n  .ch5-toggle__off-label {\n    word-wrap: normal;\n  }\n\n  .ch5-toggle__on-label {\n    color: var(--ch5-toggle--on-text-font-color);\n    font-style: var(--ch5-toggle--on-text-font-style);\n    font-weight: var(--ch5-toggle--on-text-font-weight);\n  }\n\n  .ch5-toggle__off-label {\n    color: var(--ch5-toggle--off-text-font-color);\n    font-style: var(--ch5-toggle--off-text-font-style);\n    font-weight: var(--ch5-toggle--off-text-font-weight);\n  }\n\n  /// Applied for on label\n  .ch5-toggle__on-label,\n  /// Applied for off label\n  .ch5-toggle__off-label {\n    margin: 0 2px 0 2px;\n  }\n\n\n  /// Applied for icon-on\n  .ch5-toggle__on-icon {\n    margin-top: var(--ch5-toggle--icon-on-margin-top);\n    margin-bottom: var(--ch5-toggle--icon-on-margin-bottom);\n    margin-left: var(--ch5-toggle--icon-on-margin-left);\n    margin-right: var(--ch5-toggle--icon-on-margin-right);\n    font-weight: var(--ch5-toggle--icon-on-font-weight);\n    color: var(--ch5-toggle--icon-on-font-color);\n  }\n\n  /// Applied for icon-off\n  .ch5-toggle__off-icon {\n    margin-top: var(--ch5-toggle--icon-off-margin-top);\n    margin-bottom: var(--ch5-toggle--icon-off-margin-bottom);\n    margin-left: var(--ch5-toggle--icon-off-margin-left);\n    margin-right: var(--ch5-toggle--icon-off-margin-right);\n    font-weight: var(--ch5-toggle--icon-off-font-weight);\n    color: var(--ch5-toggle--icon-off-font-color);\n  }\n\n  /* ch5-toggle - handle default */\n  /// Applied on the handle\n  .ch5-toggle__handle {\n    position: relative;\n    overflow: hidden;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    min-width: 80px;\n    padding: 0;\n    transition: all 0.4s ease-out;\n    aspect-ratio: 3/1;\n\n    /* ch5-toggle - on/off container */\n    div {\n      position: relative;\n      z-index: 3;\n      line-height: 2em;\n      text-align: center;\n      user-select: none;\n      opacity: 0;\n      height: 100%;\n      display: flex;\n      justify-content: center;\n      align-items: center;\n\n      &:first-of-type {\n        opacity: 1;\n      }\n    }\n\n    /* ch5-toggle - knob */\n    a {\n      position: absolute;\n      right: 50%;\n      top: 0;\n      z-index: 2;\n      display: block;\n      width: 50%;\n      height: 100%;\n      padding: 0;\n      transition: all 0.2s ease-out;\n    }\n  }\n\n  /* ch5-toggle - circle shape */\n  &.ch5-toggle--circle {\n    .ch5-toggle__handle {\n      border-radius: 1.75em;\n      background-color: var(--ch5-toggle--circle-background-color);\n      margin: var(--ch5-toggle--handle-circle-margin);\n\n      div {\n        width: 100%;\n        transition: all 0.2s ease-out;\n\n        &:first-of-type {\n          text-align: center;\n          padding-left: 1.75em;\n        }\n\n        &:last-of-type {\n          display: none;\n          text-align: center;\n          padding-right: 1.75em;\n        }\n      }\n\n      a {\n        left: 0;\n        top: 0;\n        width: 33%;\n        border-radius: 100%;\n        background-color: var(--ch5-toggle--circle-knob-background-color);\n        border-width: var(--ch5-toggle--circle-handle-border-width);\n        border-style: var(--ch5-toggle--circle-handle-border-style);\n        border-color: var(--ch5-toggle--circle-handle-off-border-color);\n      }\n    }\n  }\n\n  /* ch5-toggle - rectangle shape */\n  &.ch5-toggle--rectangle {\n    .ch5-toggle__handle {\n      background: var(--ch5-toggle--rectangle-background-color);\n      border-radius: 1px;\n      box-shadow: inset rgba(0, 0, 0, 0.1) 0 1px 0;\n      margin: var(--ch5-toggle--handle-rectangle-margin);\n\n      div {\n        display: inline-flex;\n        width: 50%;\n        transition: all 0.1s;\n      }\n\n      a {\n        border-radius: 1px;\n        background-color: var(--ch5-toggle--rectangle-handle-off-background-color);\n      }\n    }\n  }\n\n  /* ch5-toggle - checked/on */\n  /// Applied when value is true\n  &.ch5-toggle--on {\n    .ch5-toggle__handle {\n      a {\n        right: 0%;\n      }\n\n      div:first-of-type {\n        opacity: 0;\n      }\n\n      div:last-of-type {\n        opacity: 1;\n      }\n    }\n\n    /* ch5-toggle - circle shape checked/on */\n    /// Class applied when shape='circle'\n    &.ch5-toggle--circle {\n      .ch5-toggle__handle {\n        // box-shadow: inset 0 0 0 30px var(--ch5-toggle-handle-checked-color;\n        background-color: var(--ch5-toggle--circle-handle-on-background-color);\n        transition: background-color 0.3s linear;\n\n        div:first-of-type {\n          display: none;\n        }\n\n        div:last-of-type {\n          display: flex;\n        }\n\n        a {\n          left: 100%;\n          margin-left: -33%;\n          background-color: var(--ch5-toggle--circle-knob-background-color);\n          border-color: var(--ch5-toggle--circle-handle-on-border-color);\n        }\n      }\n    }\n\n    /* ch5-toggle - rectangle shape checked/on */\n    /// Class applied when shape='rectangle'\n    &.ch5-toggle--rectangle {\n      .ch5-toggle__handle {\n        div {\n          right: 0;\n        }\n\n        a {\n          background-color: var(--ch5-toggle--rectangle-handle-on-background-color);\n        }\n      }\n    }\n  }\n\n  /// Class applied when orientation='horizontal'\n  &.ch5-toggle--horizontal {\n    // Placeholder\n  }\n\n  /// Class applied when orientation='vertical'\n  &.ch5-toggle--vertical {\n    >div {\n      padding: 50% 0;\n      height: 0;\n      -webkit-transform: rotate(90deg);\n      transform: rotate(90deg);\n    }\n  }\n\n  // 'rtl' support\n  &.ch5-toggle--dir--rtl {\n    .ch5-toggle__handle a {\n      left: 50%;\n      right: auto;\n    }\n\n    &.ch5-toggle--circle .ch5-toggle__handle div:first-of-type {\n      padding-left: 0;\n      padding-right: 1.75em;\n    }\n\n    &.ch5-toggle--circle .ch5-toggle__handle div:last-of-type {\n      padding-right: 0;\n      padding-left: 1.75em;\n    }\n\n    &.ch5-toggle--circle .ch5-toggle__handle a {\n      right: auto;\n      left: 100%;\n      margin-left: -33%;\n    }\n\n    &.ch5-toggle--on {\n      .ch5-toggle__handle a {\n        left: 0;\n        right: auto;\n      }\n    }\n\n    &.ch5-toggle--on.ch5-toggle--circle {\n      .ch5-toggle__handle a {\n        left: 33%;\n      }\n    }\n  }"
+                        "value": "position: relative;\n  display: inline-block;\n  box-sizing: border-box;\n  z-index: 1;\n\n  &[hidden] {\n    display: none;\n  }\n\n  div {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n  }\n\n  /* ch5-toggle - label */\n  /// Applied on label\n  .ch5-toggle__label {\n    display: inline-flex;\n    vertical-align: middle;\n    font-style: var(--ch5-toggle--label-font-style);\n    font-size: var(--ch5-toggle--label-font-size);\n    font-weight: var(--ch5-toggle--label-font-weight);\n    color: var(--ch5-toggle--label-font-color);\n    // margin: var(--ch5-toggle--label-margin);\n    margin-top: var(--ch5-toggle--label-margin-top);\n    margin-left: var(--ch5-toggle--label-margin-left);\n    margin-bottom: var(--ch5-toggle--label-margin-bottom);\n    margin-right: var(--ch5-toggle--label-margin-right);\n\n    &[hidden] {\n      display: none;\n    }\n  }\n\n  .ch5-toggle__on-label,\n  .ch5-toggle__off-label {\n    word-wrap: normal;\n  }\n\n  .ch5-toggle__on-label {\n    color: var(--ch5-toggle--on-text-font-color);\n    font-style: var(--ch5-toggle--on-text-font-style);\n    font-weight: var(--ch5-toggle--on-text-font-weight);\n  }\n\n  .ch5-toggle__off-label {\n    color: var(--ch5-toggle--off-text-font-color);\n    font-style: var(--ch5-toggle--off-text-font-style);\n    font-weight: var(--ch5-toggle--off-text-font-weight);\n  }\n\n  /// Applied for on label\n  .ch5-toggle__on-label,\n  /// Applied for off label\n  .ch5-toggle__off-label {\n    margin: 0 2px 0 2px;\n  }\n\n\n  /// Applied for icon-on\n  .ch5-toggle__on-icon {\n    margin-top: var(--ch5-toggle--icon-on-margin-top);\n    margin-bottom: var(--ch5-toggle--icon-on-margin-bottom);\n    margin-left: var(--ch5-toggle--icon-on-margin-left);\n    margin-right: var(--ch5-toggle--icon-on-margin-right);\n    font-weight: var(--ch5-toggle--icon-on-font-weight);\n    color: var(--ch5-toggle--icon-on-font-color);\n  }\n\n  /// Applied for icon-off\n  .ch5-toggle__off-icon {\n    margin-top: var(--ch5-toggle--icon-off-margin-top);\n    margin-bottom: var(--ch5-toggle--icon-off-margin-bottom);\n    margin-left: var(--ch5-toggle--icon-off-margin-left);\n    margin-right: var(--ch5-toggle--icon-off-margin-right);\n    font-weight: var(--ch5-toggle--icon-off-font-weight);\n    color: var(--ch5-toggle--icon-off-font-color);\n  }\n\n  /* ch5-toggle - handle default */\n  /// Applied on the handle\n  .ch5-toggle__handle {\n    position: relative;\n    overflow: hidden;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    min-width: 80px;\n    min-height: 20px;\n    padding: 0;\n    transition: all 0.4s ease-out;\n\n    /* ch5-toggle - on/off container */\n    div {\n      position: relative;\n      z-index: 3;\n      line-height: 2em;\n      text-align: center;\n      user-select: none;\n      opacity: 0;\n      height: 100%;\n      display: flex;\n      justify-content: center;\n      align-items: center;\n\n      &:first-of-type {\n        opacity: 1;\n      }\n    }\n\n    /* ch5-toggle - knob */\n    a {\n      position: absolute;\n      right: 50%;\n      top: 0;\n      z-index: 2;\n      display: block;\n      width: 50%;\n      height: 100%;\n      padding: 0;\n      transition: all 0.2s ease-out;\n    }\n  }\n\n  /* ch5-toggle - circle shape */\n  &.ch5-toggle--circle {\n    .ch5-toggle__handle {\n      border-radius: 9999px;\n      background-color: var(--ch5-toggle--circle-background-color);\n      margin: var(--ch5-toggle--handle-circle-margin);\n\n      div {\n        width: 100%;\n        transition: all 0.2s ease-out;\n\n        &:first-of-type {\n          text-align: center;\n          padding-left: 1.75em;\n        }\n\n        &:last-of-type {\n          display: none;\n          text-align: center;\n          padding-right: 1.75em;\n        }\n      }\n\n      a {\n        left: 0;\n        top: 0;\n        width: auto;\n        height: 100%;\n        aspect-ratio: 1/1;\n        border-radius: 100%;\n        background-color: var(--ch5-toggle--circle-knob-background-color);\n        border-width: var(--ch5-toggle--circle-handle-border-width);\n        border-style: var(--ch5-toggle--circle-handle-border-style);\n        border-color: var(--ch5-toggle--circle-handle-off-border-color);\n      }\n    }\n  }\n\n  /* ch5-toggle - rectangle shape */\n  &.ch5-toggle--rectangle {\n    .ch5-toggle__handle {\n      background: var(--ch5-toggle--rectangle-background-color);\n      border-radius: 1px;\n      box-shadow: inset rgba(0, 0, 0, 0.1) 0 1px 0;\n      margin: var(--ch5-toggle--handle-rectangle-margin);\n\n      div {\n        display: inline-flex;\n        width: 50%;\n        transition: all 0.1s;\n      }\n\n      a {\n        border-radius: 1px;\n        background-color: var(--ch5-toggle--rectangle-handle-off-background-color);\n      }\n    }\n  }\n\n  /* ch5-toggle - checked/on */\n  /// Applied when value is true\n  &.ch5-toggle--on {\n    .ch5-toggle__handle {\n      a {\n        right: 0%;\n      }\n\n      div:first-of-type {\n        opacity: 0;\n      }\n\n      div:last-of-type {\n        opacity: 1;\n      }\n    }\n\n    /* ch5-toggle - circle shape checked/on */\n    /// Class applied when shape='circle'\n    &.ch5-toggle--circle {\n      .ch5-toggle__handle {\n        // box-shadow: inset 0 0 0 30px var(--ch5-toggle-handle-checked-color;\n        background-color: var(--ch5-toggle--circle-handle-on-background-color);\n        transition: background-color 0.3s linear;\n\n        div:first-of-type {\n          display: none;\n        }\n\n        div:last-of-type {\n          display: flex;\n        }\n\n        a {\n          left: 100%;\n          transform: translateX(-100%);\n          background-color: var(--ch5-toggle--circle-knob-background-color);\n          border-color: var(--ch5-toggle--circle-handle-on-border-color);\n        }\n      }\n    }\n\n    /* ch5-toggle - rectangle shape checked/on */\n    /// Class applied when shape='rectangle'\n    &.ch5-toggle--rectangle {\n      .ch5-toggle__handle {\n        div {\n          right: 0;\n        }\n\n        a {\n          background-color: var(--ch5-toggle--rectangle-handle-on-background-color);\n        }\n      }\n    }\n  }\n\n  /// Class applied when orientation='horizontal'\n  &.ch5-toggle--horizontal {\n    // Placeholder\n  }\n\n  /// Class applied when orientation='vertical'\n  &.ch5-toggle--vertical {\n    >div {\n      padding: 50% 0;\n      height: 0;\n      -webkit-transform: rotate(90deg);\n      transform: rotate(90deg);\n    }\n  }\n\n  // 'rtl' support\n  &.ch5-toggle--dir--rtl {\n    .ch5-toggle__handle a {\n      left: 50%;\n      right: auto;\n    }\n\n    &.ch5-toggle--circle .ch5-toggle__handle div:first-of-type {\n      padding-left: 0;\n      padding-right: 1.75em;\n    }\n\n    &.ch5-toggle--circle .ch5-toggle__handle div:last-of-type {\n      padding-right: 0;\n      padding-left: 1.75em;\n    }\n\n    &.ch5-toggle--circle .ch5-toggle__handle a {\n      right: auto;\n      left: 100%;\n      transform: translateX(-100%);\n    }\n\n    &.ch5-toggle--on {\n      .ch5-toggle__handle a {\n        left: 0;\n        right: auto;\n      }\n    }\n\n    &.ch5-toggle--on.ch5-toggle--circle {\n      .ch5-toggle__handle a {\n        left: 0;\n        transform: none;\n      }\n    }\n  }"
                     },
                     {
                         "type": "class",
@@ -2543,19 +2581,19 @@
                         "type": "class",
                         "name": "ch5-toggle__handle",
                         "description": "Applied on the handle\n",
-                        "value": "position: relative;\n    overflow: hidden;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    min-width: 80px;\n    padding: 0;\n    transition: all 0.4s ease-out;\n    aspect-ratio: 3/1;\n\n    /* ch5-toggle - on/off container */\n    div {\n      position: relative;\n      z-index: 3;\n      line-height: 2em;\n      text-align: center;\n      user-select: none;\n      opacity: 0;\n      height: 100%;\n      display: flex;\n      justify-content: center;\n      align-items: center;\n\n      &:first-of-type {\n        opacity: 1;\n      }\n    }\n\n    /* ch5-toggle - knob */\n    a {\n      position: absolute;\n      right: 50%;\n      top: 0;\n      z-index: 2;\n      display: block;\n      width: 50%;\n      height: 100%;\n      padding: 0;\n      transition: all 0.2s ease-out;\n    }"
+                        "value": "position: relative;\n    overflow: hidden;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    min-width: 80px;\n    min-height: 20px;\n    padding: 0;\n    transition: all 0.4s ease-out;\n\n    /* ch5-toggle - on/off container */\n    div {\n      position: relative;\n      z-index: 3;\n      line-height: 2em;\n      text-align: center;\n      user-select: none;\n      opacity: 0;\n      height: 100%;\n      display: flex;\n      justify-content: center;\n      align-items: center;\n\n      &:first-of-type {\n        opacity: 1;\n      }\n    }\n\n    /* ch5-toggle - knob */\n    a {\n      position: absolute;\n      right: 50%;\n      top: 0;\n      z-index: 2;\n      display: block;\n      width: 50%;\n      height: 100%;\n      padding: 0;\n      transition: all 0.2s ease-out;\n    }"
                     },
                     {
                         "type": "class",
                         "name": "ch5-toggle--on",
                         "description": "Applied when value is true\n",
-                        "value": ".ch5-toggle__handle {\n      a {\n        right: 0%;\n      }\n\n      div:first-of-type {\n        opacity: 0;\n      }\n\n      div:last-of-type {\n        opacity: 1;\n      }\n    }\n\n    /* ch5-toggle - circle shape checked/on */\n    /// Class applied when shape='circle'\n    &.ch5-toggle--circle {\n      .ch5-toggle__handle {\n        // box-shadow: inset 0 0 0 30px var(--ch5-toggle-handle-checked-color;\n        background-color: var(--ch5-toggle--circle-handle-on-background-color);\n        transition: background-color 0.3s linear;\n\n        div:first-of-type {\n          display: none;\n        }\n\n        div:last-of-type {\n          display: flex;\n        }\n\n        a {\n          left: 100%;\n          margin-left: -33%;\n          background-color: var(--ch5-toggle--circle-knob-background-color);\n          border-color: var(--ch5-toggle--circle-handle-on-border-color);\n        }\n      }\n    }\n\n    /* ch5-toggle - rectangle shape checked/on */\n    /// Class applied when shape='rectangle'\n    &.ch5-toggle--rectangle {\n      .ch5-toggle__handle {\n        div {\n          right: 0;\n        }\n\n        a {\n          background-color: var(--ch5-toggle--rectangle-handle-on-background-color);\n        }\n      }\n    }"
+                        "value": ".ch5-toggle__handle {\n      a {\n        right: 0%;\n      }\n\n      div:first-of-type {\n        opacity: 0;\n      }\n\n      div:last-of-type {\n        opacity: 1;\n      }\n    }\n\n    /* ch5-toggle - circle shape checked/on */\n    /// Class applied when shape='circle'\n    &.ch5-toggle--circle {\n      .ch5-toggle__handle {\n        // box-shadow: inset 0 0 0 30px var(--ch5-toggle-handle-checked-color;\n        background-color: var(--ch5-toggle--circle-handle-on-background-color);\n        transition: background-color 0.3s linear;\n\n        div:first-of-type {\n          display: none;\n        }\n\n        div:last-of-type {\n          display: flex;\n        }\n\n        a {\n          left: 100%;\n          transform: translateX(-100%);\n          background-color: var(--ch5-toggle--circle-knob-background-color);\n          border-color: var(--ch5-toggle--circle-handle-on-border-color);\n        }\n      }\n    }\n\n    /* ch5-toggle - rectangle shape checked/on */\n    /// Class applied when shape='rectangle'\n    &.ch5-toggle--rectangle {\n      .ch5-toggle__handle {\n        div {\n          right: 0;\n        }\n\n        a {\n          background-color: var(--ch5-toggle--rectangle-handle-on-background-color);\n        }\n      }\n    }"
                     },
                     {
                         "type": "class",
                         "name": "ch5-toggle--circle",
                         "description": "Class applied when shape='circle'\n",
-                        "value": ".ch5-toggle__handle {\n        // box-shadow: inset 0 0 0 30px var(--ch5-toggle-handle-checked-color;\n        background-color: var(--ch5-toggle--circle-handle-on-background-color);\n        transition: background-color 0.3s linear;\n\n        div:first-of-type {\n          display: none;\n        }\n\n        div:last-of-type {\n          display: flex;\n        }\n\n        a {\n          left: 100%;\n          margin-left: -33%;\n          background-color: var(--ch5-toggle--circle-knob-background-color);\n          border-color: var(--ch5-toggle--circle-handle-on-border-color);\n        }\n      }"
+                        "value": ".ch5-toggle__handle {\n        // box-shadow: inset 0 0 0 30px var(--ch5-toggle-handle-checked-color;\n        background-color: var(--ch5-toggle--circle-handle-on-background-color);\n        transition: background-color 0.3s linear;\n\n        div:first-of-type {\n          display: none;\n        }\n\n        div:last-of-type {\n          display: flex;\n        }\n\n        a {\n          left: 100%;\n          transform: translateX(-100%);\n          background-color: var(--ch5-toggle--circle-knob-background-color);\n          border-color: var(--ch5-toggle--circle-handle-on-border-color);\n        }\n      }"
                     },
                     {
                         "type": "class",
@@ -2585,31 +2623,31 @@
                         "type": "class",
                         "name": "ch5-toggle__handle--size-regular",
                         "description": "Applied when size='regular'\n",
-                        "value": "width: var(--ch5-toggle--handle-size-regular);\n\n    .ch5-toggle__off-label,\n    .ch5-toggle__on-label {\n      display: table-cell;\n      white-space: nowrap;\n      text-overflow: ellipsis;\n      overflow: hidden;\n    }\n\n    .ch5-toggle__on-label {\n      font-size: var(--ch5-toggle--on-label-regular-font-size);\n    }\n\n    .ch5-toggle__off-label {\n      font-size: var(--ch5-toggle--off-label-regular-font-size);\n    }\n\n    .ch5-toggle__on-icon{\n      font-size: var(--ch5-toggle--on-regular-icon-size);\n    }\n\n    .ch5-toggle__off-icon{\n      font-size: var(--ch5-toggle--off-regular-icon-size);\n    }"
+                        "value": "width: var(--ch5-toggle--handle-width-regular);\n    height: var(--ch5-toggle--handle-height-regular);\n\n    .ch5-toggle__off-label,\n    .ch5-toggle__on-label {\n      display: table-cell;\n      white-space: nowrap;\n      text-overflow: ellipsis;\n      overflow: hidden;\n    }\n\n    .ch5-toggle__on-label {\n      font-size: var(--ch5-toggle--on-label-regular-font-size);\n    }\n\n    .ch5-toggle__off-label {\n      font-size: var(--ch5-toggle--off-label-regular-font-size);\n    }\n\n    .ch5-toggle__on-icon{\n      font-size: var(--ch5-toggle--on-regular-icon-size);\n    }\n\n    .ch5-toggle__off-icon{\n      font-size: var(--ch5-toggle--off-regular-icon-size);\n    }"
                     },
                     {
                         "type": "class",
                         "name": "ch5-toggle__handle--size-x-small",
                         "description": "Applied when size='x-small'\n",
-                        "value": "min-width: 80px;\n    width: var(--ch5-toggle--handle-size-x-small);\n\n    /* height: 16.66px; */\n    .ch5-toggle__off-label,\n    .ch5-toggle__on-label {      \n      display: table-cell;\n      white-space: nowrap;\n      text-overflow: ellipsis;\n      overflow: hidden;\n    }\n\n    .ch5-toggle__on-label {\n      font-size: var(--ch5-toggle--on-label-x-small-font-size);\n    }\n\n    .ch5-toggle__off-label {\n      font-size: var(--ch5-toggle--off-label-x-small-font-size);\n    }\n\n    .ch5-toggle__on-icon{\n      font-size: var(--ch5-toggle--on-x-small-icon-size);\n    }\n\n    .ch5-toggle__off-icon{\n      font-size: var(--ch5-toggle--off-x-small-icon-size);\n    }"
+                        "value": "min-width: 80px;\n    width: var(--ch5-toggle--handle-width-x-small);\n    height: var(--ch5-toggle--handle-height-x-small);\n\n    /* height: 16.66px; */\n    .ch5-toggle__off-label,\n    .ch5-toggle__on-label {      \n      display: table-cell;\n      white-space: nowrap;\n      text-overflow: ellipsis;\n      overflow: hidden;\n    }\n\n    .ch5-toggle__on-label {\n      font-size: var(--ch5-toggle--on-label-x-small-font-size);\n    }\n\n    .ch5-toggle__off-label {\n      font-size: var(--ch5-toggle--off-label-x-small-font-size);\n    }\n\n    .ch5-toggle__on-icon{\n      font-size: var(--ch5-toggle--on-x-small-icon-size);\n    }\n\n    .ch5-toggle__off-icon{\n      font-size: var(--ch5-toggle--off-x-small-icon-size);\n    }"
                     },
                     {
                         "type": "class",
                         "name": "ch5-toggle__handle--size-small",
                         "description": "Applied when size='small'\n",
-                        "value": "width: var(--ch5-toggle--handle-size-small);\n\n    /*  height: 25px; */\n    .ch5-toggle__off-label,\n    .ch5-toggle__on-label {\n      display: table-cell;\n      white-space: nowrap;\n      text-overflow: ellipsis;\n      overflow: hidden;\n    }\n\n    .ch5-toggle__on-label {\n      font-size: var(--ch5-toggle--on-label-small-font-size);\n    }\n\n    .ch5-toggle__off-label {\n      font-size: var(--ch5-toggle--off-label-small-font-size);\n    }\n\n    .ch5-toggle__on-icon{\n      font-size: var(--ch5-toggle--on-small-icon-size);\n    }\n\n    .ch5-toggle__off-icon{\n      font-size: var(--ch5-toggle--off-small-icon-size);\n    }"
+                        "value": "width: var(--ch5-toggle--handle-width-small);\n    height: var(--ch5-toggle--handle-height-small);\n\n    /*  height: 25px; */\n    .ch5-toggle__off-label,\n    .ch5-toggle__on-label {\n      display: table-cell;\n      white-space: nowrap;\n      text-overflow: ellipsis;\n      overflow: hidden;\n    }\n\n    .ch5-toggle__on-label {\n      font-size: var(--ch5-toggle--on-label-small-font-size);\n    }\n\n    .ch5-toggle__off-label {\n      font-size: var(--ch5-toggle--off-label-small-font-size);\n    }\n\n    .ch5-toggle__on-icon{\n      font-size: var(--ch5-toggle--on-small-icon-size);\n    }\n\n    .ch5-toggle__off-icon{\n      font-size: var(--ch5-toggle--off-small-icon-size);\n    }"
                     },
                     {
                         "type": "class",
                         "name": "ch5-toggle__handle--size-large",
                         "description": "Applied when size='large'\n",
-                        "value": "width: var(--ch5-toggle--handle-size-large);\n\n    /*  height: 41.66px; */\n    .ch5-toggle__off-label,\n    .ch5-toggle__on-label {\n      display: table-cell;\n      white-space: nowrap;\n      text-overflow: ellipsis;\n      overflow: hidden;\n    }\n\n    .ch5-toggle__on-label {\n      font-size: var(--ch5-toggle--on-label-large-font-size);\n    }\n\n    .ch5-toggle__off-label {\n      font-size: var(--ch5-toggle--off-label-large-font-size);\n    }\n\n    .ch5-toggle__on-icon{\n      font-size: var(--ch5-toggle--on-large-icon-size);\n    }\n\n    .ch5-toggle__off-icon{\n      font-size: var(--ch5-toggle--off-large-icon-size);\n    }"
+                        "value": "width: var(--ch5-toggle--handle-width-large);\n    height: var(--ch5-toggle--handle-height-large);\n\n    /*  height: 41.66px; */\n    .ch5-toggle__off-label,\n    .ch5-toggle__on-label {\n      display: table-cell;\n      white-space: nowrap;\n      text-overflow: ellipsis;\n      overflow: hidden;\n    }\n\n    .ch5-toggle__on-label {\n      font-size: var(--ch5-toggle--on-label-large-font-size);\n    }\n\n    .ch5-toggle__off-label {\n      font-size: var(--ch5-toggle--off-label-large-font-size);\n    }\n\n    .ch5-toggle__on-icon{\n      font-size: var(--ch5-toggle--on-large-icon-size);\n    }\n\n    .ch5-toggle__off-icon{\n      font-size: var(--ch5-toggle--off-large-icon-size);\n    }"
                     },
                     {
                         "type": "class",
                         "name": "ch5-toggle__handle--size-x-large",
                         "description": "Applied when size='x-large'\n",
-                        "value": "width: var(--ch5-toggle--handle-size-x-large);\n\n    /*   height: 50px; */\n    .ch5-toggle__off-label,\n    .ch5-toggle__on-label {\n      display: table-cell;\n      white-space: nowrap;\n      text-overflow: ellipsis;\n      overflow: hidden;\n    }\n\n    .ch5-toggle__on-label {\n      font-size: var(--ch5-toggle--on-label-x-large-font-size);\n    }\n\n    .ch5-toggle__off-label {\n      font-size: var(--ch5-toggle--off-label-x-large-font-size);\n    }\n\n    .ch5-toggle__on-icon{\n      font-size: var(--ch5-toggle--on-x-large-icon-size);\n    }\n\n    .ch5-toggle__off-icon{\n      font-size: var(--ch5-toggle--off-x-large-icon-size);\n    }"
+                        "value": "width: var(--ch5-toggle--handle-width-x-large);\n    height: var(--ch5-toggle--handle-height-x-large);\n\n    /*   height: 50px; */\n    .ch5-toggle__off-label,\n    .ch5-toggle__on-label {\n      display: table-cell;\n      white-space: nowrap;\n      text-overflow: ellipsis;\n      overflow: hidden;\n    }\n\n    .ch5-toggle__on-label {\n      font-size: var(--ch5-toggle--on-label-x-large-font-size);\n    }\n\n    .ch5-toggle__off-label {\n      font-size: var(--ch5-toggle--off-label-x-large-font-size);\n    }\n\n    .ch5-toggle__on-icon{\n      font-size: var(--ch5-toggle--on-x-large-icon-size);\n    }\n\n    .ch5-toggle__off-icon{\n      font-size: var(--ch5-toggle--off-x-large-icon-size);\n    }"
                     }
                 ]
             }
@@ -2625,13 +2663,25 @@
                         "type": "class",
                         "name": "ch5-triggerview",
                         "description": "The class added on the component\n",
-                        "value": "font-size: var(--ch5-triggerview--font-size);\n  font-style: var(--ch5-triggerview--font-style);\n  font-weight: var(--ch5-triggerview--font-weight);\n  .swiper-container,\n  .swiper {\n    width: 100%;\n    height: 100%;\n  }\n  .swiper-wrapper {\n    position: relative;\n    z-index: 1;\n    display: inline-flex;\n    -webkit-transition-property: -webkit-transform;\n    transition-property: -webkit-transform;\n    -o-transition-property: transform;\n    transition-property: transform;\n    transition-property: transform, -webkit-transform;\n    -webkit-box-sizing: content-box;\n    box-sizing: content-box;\n    transition-timing-function: ease-out;\n  }\n  .slider-full-width-page {\n    width: 100%;\n  }"
+                        "value": "font-size: var(--ch5-triggerview--font-size);\n  font-style: var(--ch5-triggerview--font-style);\n  font-weight: var(--ch5-triggerview--font-weight);\n  .swiper-container,\n  .swiper {\n    width: 100%;\n    height: 100%;\n  }\n  .swiper-wrapper {\n    position: relative;\n    z-index: 1;\n    display: inline-flex;\n    -webkit-transition-property: -webkit-transform;\n    transition-property: -webkit-transform;\n    -o-transition-property: transform;\n    transition-property: transform;\n    transition-property: transform, -webkit-transform;\n    -webkit-box-sizing: content-box;\n    box-sizing: content-box;\n    transition-timing-function: ease-out;\n  }\n  .slider-full-width-page {\n    width: 100%;\n  }\n\n  /// Applied when disabled='true' on the triggerview component\n  &.ch5-triggerview--disabled {\n    @include ch5-component-disabled();\n  }"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-triggerview--disabled",
+                        "description": "Applied when disabled='true' on the triggerview component\n",
+                        "value": "@include ch5-component-disabled();"
                     },
                     {
                         "type": "class",
                         "name": "ch5-viewchild",
                         "description": "The class added on the triggeview child component\n",
-                        "value": "box-sizing: border-box;"
+                        "value": "box-sizing: border-box;\n\n  /// Applied when disabled='true' on the triggerview child component\n  &.ch5-viewchild--disabled {\n    @include ch5-component-disabled();\n  }"
+                    },
+                    {
+                        "type": "class",
+                        "name": "ch5-viewchild--disabled",
+                        "description": "Applied when disabled='true' on the triggerview child component\n",
+                        "value": "@include ch5-component-disabled();"
                     }
                 ]
             }
@@ -2771,7 +2821,7 @@
                         "type": "class",
                         "name": "ch5-video-switcher--source-list",
                         "description": "Applied to the list of sources",
-                        "value": "--number-of-source-list-divisions: 1;\n    gap: calc(var(--ch5-video-switcher--source-list-gap) / var(--number-of-source-list-divisions));\n    padding: 5px; // Do Not create variable\n\n    display: grid;\n    place-items: center;\n    overflow: scroll;\n    position: relative;\n    scrollbar-width: none;\n    user-select: none;\n    white-space: nowrap;\n    will-change: transform;\n\n    &.ch5-video-switcher-source-list::-webkit-scrollbar {\n      height: 0;\n      width: 0;\n    }\n\n    &.active {\n      cursor: -webkit-grabbing;\n    }\n\n    .source-container {\n      // aspect-ratio: 1/1;\n      display: flex;\n      justify-content: center;\n      align-items: center;\n      flex-direction: column;\n      overflow: hidden;\n      padding: var(--ch5-video-switcher--source-item-padding);\n      // font-size: calc(var(--ch5-video-switcher--source-icon-size) - var(--ch5-video-switcher--source-item-padding));\n      // font-size: calc(var(--ch5-video-switcher--width) / calc(10 * var(--number-of-source-list-divisions))); //calc(calc(calc(var(--ch5-video-switcher--source-icon-size) - var(--ch5-video-switcher--source-item-padding))) * 0.5);\n      font-size: calc(max(240px, var(--ch5-video-switcher--width)) / 10);\n\n      .source-icon-url {\n        background-repeat: no-repeat;\n        background-size: contain;\n        background-position: center;\n        height: calc(1.5 * var(--number-of-source-list-divisions));\n        width: calc(1.5 * var(--number-of-source-list-divisions));\n      }\n\n      .source-icon {\n        font-size: calc(1em / var(--number-of-source-list-divisions));\n        aspect-ratio: 1/1;\n        display: flex;\n        align-items: center;\n        justify-content: center;\n        flex: 1;\n        color: var(--ch5-video-switcher--source-list-icon-color); //TODo - check source list vs source icon\n\n        &.sg {\n          background-position: 50%;\n          background-repeat: no-repeat;\n          background-size: contain;\n          width: 100%;\n          border: none;\n        }\n      }\n\n      .ch5-video-switcher--source-list-label {\n        white-space: nowrap;\n        overflow: hidden;\n        text-overflow: ellipsis;\n        text-align: center;\n        width: 100%;\n        font-size: calc(calc(0.27em / var(--number-of-source-list-divisions)) + calc(4px / var(--number-of-source-list-divisions)));\n        line-height: 1;\n        font-weight: var(--ch5-video-switcher--source-list-label-weight);\n        font-style: var(--ch5-video-switcher--source-list-label-style);\n        color: var(--ch5-video-switcher--source-list-label-color);\n        flex: 0 0 calc(22px / var(--number-of-source-list-divisions));\n        letter-spacing: var(--ch5-video-switcher--source-list-label-letter-spacing);\n      }\n\n      .ch5-video-switcher--source-list-label:empty {\n        display: none;\n      }\n    }"
+                        "value": "--number-of-source-list-divisions: 1;\n    gap: calc(var(--ch5-video-switcher--source-list-gap) / var(--number-of-source-list-divisions));\n    padding: 5px; // Do Not create variable\n\n    display: grid;\n    place-items: center;\n    overflow: scroll;\n    position: relative;\n    scrollbar-width: none;\n    user-select: none;\n    white-space: nowrap;\n    will-change: transform;\n\n    &.ch5-video-switcher-source-list::-webkit-scrollbar {\n      height: 0;\n      width: 0;\n    }\n\n    &.active {\n      cursor: -webkit-grabbing;\n    }\n\n    .source-container {\n      // aspect-ratio: 1/1;\n      display: flex;\n      justify-content: space-between;\n      align-items: center;\n      flex-direction: column;\n      overflow: hidden;\n      padding: var(--ch5-video-switcher--source-item-padding);\n      // font-size: calc(var(--ch5-video-switcher--source-icon-size) - var(--ch5-video-switcher--source-item-padding));\n      // font-size: calc(var(--ch5-video-switcher--width) / calc(10 * var(--number-of-source-list-divisions))); //calc(calc(calc(var(--ch5-video-switcher--source-icon-size) - var(--ch5-video-switcher--source-item-padding))) * 0.5);\n      font-size: calc(max(240px, var(--ch5-video-switcher--width)) / 10);\n\n      .source-icon-url {\n        background-repeat: no-repeat;\n        background-size: contain;\n        background-position: center;\n        height: calc(1.5 * var(--number-of-source-list-divisions));\n        width: calc(1.5 * var(--number-of-source-list-divisions));\n        flex: 1;\n      }\n\n      .source-icon {\n        font-size: calc(1em / var(--number-of-source-list-divisions));\n        aspect-ratio: 1/1;\n        display: flex;\n        align-items: center;\n        justify-content: center;\n        color: var(--ch5-video-switcher--source-list-icon-color); //TODo - check source list vs source icon\n\n        &.sg {\n          background-position: 50%;\n          background-repeat: no-repeat;\n          background-size: contain;\n          width: 100%;\n          border: none;\n          flex: 1;\n        }\n      }\n\n      .ch5-video-switcher--source-list-label {\n        white-space: nowrap;\n        overflow: hidden;\n        text-overflow: ellipsis;\n        text-align: center;\n        width: 100%;\n        font-size: calc(calc(0.27em / var(--number-of-source-list-divisions)) + calc(4px / var(--number-of-source-list-divisions)));\n        line-height: 1;\n        font-weight: var(--ch5-video-switcher--source-list-label-weight);\n        font-style: var(--ch5-video-switcher--source-list-label-style);\n        color: var(--ch5-video-switcher--source-list-label-color);\n        flex: 0 0 calc(22px / var(--number-of-source-list-divisions));\n        letter-spacing: var(--ch5-video-switcher--source-list-label-letter-spacing);\n      }\n\n      .ch5-video-switcher--source-list-label:empty {\n        display: none;\n      }\n    }"
                     },
                     {
                         "type": "class",
