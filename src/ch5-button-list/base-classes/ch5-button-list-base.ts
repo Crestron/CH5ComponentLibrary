@@ -677,7 +677,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
   private allButtonsVisible: boolean = false;
 
   // Cached <ch5-button-list-label> <template> analysis (computed once per render batch, reset in debounceButtonDisplay).
-  private _labelTemplate: { html: string; needsAdvance: boolean; isHtml: boolean; hasIndexId: boolean; } | null = null;
+  private _labelTemplate: { html: string; needsAdvance: boolean; hasIndexId: boolean; } | null = null;
 
   public debounceButtonDisplay = this.debounce((isReceiveStateScrollTo = false) => {
     // New render batch: drop the cached label-template analysis so an authored
@@ -2261,7 +2261,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
    * Caches the raw template HTML and whether it needs the full Ch5AdvancedButton.
    * The cache is reset at the start of each debounceButtonDisplay batch.
    */
-  private analyzeLabelTemplate(): { html: string; needsAdvance: boolean; isHtml: boolean; hasIndexId: boolean; } {
+  private analyzeLabelTemplate(): { html: string; needsAdvance: boolean; hasIndexId: boolean; } {
     if (this._labelTemplate) { return this._labelTemplate; }
     let html = '';
     const buttonListLabels = this.getElementsByTagName(this.nodeName.toLowerCase() + "-label");
@@ -2279,7 +2279,6 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     this._labelTemplate = {
       html,
       needsAdvance: html !== '' && this.labelTemplateHasLiveBindings(html),
-      isHtml: /[<&]/.test(html),
       hasIndexId: this.indexId !== "" && html.includes(`{{${this.indexId}}}`)
     };
     return this._labelTemplate;
@@ -2326,6 +2325,10 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     if (this.hasAttribute('buttonreceivestatelabel') || this.hasAttribute('buttonreceivestatescriptlabelhtml')) {
       return;
     }
+    const individualButtons = this.getElementsByTagName(this.nodeName.toLowerCase() + '-individual-button');
+    if (index < individualButtons.length && individualButtons[index].getAttribute('labelInnerHTML')?.trim()) {
+      return;
+    }
     const tpl = this.analyzeLabelTemplate();
     if (tpl.html === '') { return; }
     const template = document.createElement('template');
@@ -2335,7 +2338,7 @@ export class Ch5ButtonListBase extends Ch5Common implements ICh5ButtonListAttrib
     const label = tpl.hasIndexId
       ? this.replaceAll(template.innerHTML, `{{${this.indexId}}}`, index + '')
       : template.innerHTML;
-    btn.setAttribute(tpl.isHtml ? 'labelInnerHTML' : 'label', label);
+    btn.setAttribute('labelInnerHTML', label);
   }
 
   private buttonHelper(btn: Ch5AdvancedButton | Ch5Button, index: number) {
