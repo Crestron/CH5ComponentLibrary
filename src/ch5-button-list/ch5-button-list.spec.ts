@@ -28,6 +28,29 @@ describe('Ch5ButtonList', () => {
         expect(typeof cb).to.be.equal('object');
     });
 
+    it('should keep lightweight join-text and ch5-text templates on the light button', () => {
+        const lightTemplates = [
+            '<ch5-jointotext-boolean receiveStateValue="100" textWhenTrue="Pause" textWhenFalse="Play"></ch5-jointotext-boolean>',
+            '<ch5-jointotext-numeric receiveStateValue="200"></ch5-jointotext-numeric>',
+            '<ch5-jointotext-string receiveStateValue="300"></ch5-jointotext-string>',
+            '<ch5-text receiveStateValue="400"></ch5-text>'
+        ];
+
+        for (const template of lightTemplates) {
+            expect((cb as any).labelTemplateHasLiveBindings(template)).to.equal(false);
+        }
+
+        const advancedTemplates = [
+            '<ch5-button-mode><ch5-button-mode-state></ch5-button-mode-state></ch5-button-mode>',
+            '<ch5-button-list-label><template>{{idx}}</template></ch5-button-list-label>',
+            '<ch5-advanced-button-label><template><ch5-jointotext-boolean></ch5-jointotext-boolean></template></ch5-advanced-button-label>'
+        ];
+
+        for (const template of advancedTemplates) {
+            expect((cb as any).labelTemplateHasLiveBindings(template)).to.equal(true);
+        }
+    });
+
     it('should allow setting only valid orientation value', () => {
         const validTypes = ['horizontal', 'vertical'];
 

@@ -1,6 +1,6 @@
 {
-  "version": "2.18.0",
-  "componentsVersion": "2.18.0",
+  "version": "2.17.3",
+  "componentsVersion": "2.19.1",
   "htmlElements": {
     "common": {
       "attributes": [
@@ -1126,20 +1126,20 @@
       {
         "attributes": [],
         "documentation": [
-          "`ch5-button-label` element",
+          "`ch5-advanced-button-label` element",
           "***",
-          "A child element designed to capture the label for Ch5 Button component."
+          "A child element designed to capture the label for Ch5 Advanced Button component."
         ],
         "snippets": [
           {
-            "prefix": "ch5-button-label:blank",
+            "prefix": "ch5-advanced-button-label:blank",
             "description": "Crestron Button Label",
             "body": [
-              "<ch5-button-label>",
+              "<ch5-advanced-button-label>",
               "\t<template>",
               "\t$1",
               "\t</template>",
-              "</ch5-button-label>$0"
+              "</ch5-advanced-button-label>$0"
             ]
           }
         ],
@@ -1160,9 +1160,9 @@
             "childElements": []
           }
         ],
-        "description": "Ch5 Button Label is a child node for <ch5-button>, <ch5-button-mode> and <ch5-button-mode-state>.",
-        "name": "Ch5 Button Label",
-        "tagName": "ch5-button-label",
+        "description": "Ch5 Advanced Button Label is a child node for <ch5-advanced-button>, <ch5-advanced-button-mode> and <ch5-advanced-button-mode-state>.",
+        "name": "Ch5 Advanced Button Label",
+        "tagName": "ch5-advanced-button-label",
         "role": "button",
         "componentVersion": "1.0.0"
       },
@@ -1189,7 +1189,7 @@
               "***",
               "Valid values: 'default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'.",
               "Overrides the appearance of the button with alternative CSS ",
-              "defined in classes defined with ch5-button--type, where type is ",
+              "defined in classes defined with ch5-advanced-button--type, where type is ",
               "the value of the property. If no 'type' is provided, the type of ",
               "'default' is used."
             ],
@@ -1372,24 +1372,24 @@
           }
         ],
         "documentation": [
-          "`ch5-button-mode` element",
+          "`ch5-advanced-button-mode` element",
           "***",
-          "A child element designed to capture mode level attributes for Ch5 Button component."
+          "A child element designed to capture mode level attributes for Ch5 Advanced Button component."
         ],
         "snippets": [
           {
-            "prefix": "ch5-button-mode:blank",
+            "prefix": "ch5-advanced-button-mode:blank",
             "description": "Crestron Button Mode",
             "body": [
-              "<ch5-button-mode>",
-              "</ch5-button-mode>$0"
+              "<ch5-advanced-button-mode>",
+              "</ch5-advanced-button-mode>$0"
             ]
           },
           {
-            "prefix": "ch5-button-mode:all-attributes",
+            "prefix": "ch5-advanced-button-mode:all-attributes",
             "description": "Crestron Button Mode (All Attributes)",
             "body": [
-              "<ch5-button-mode",
+              "<ch5-advanced-button-mode",
               "\ttype=\"${1|default,primary,info,text,danger,warning,success,secondary|}\"",
               "\tcustomClass=\"${2:customClass}\"",
               "\tcustomStyle=\"${3:customStyle}\"",
@@ -1399,13 +1399,13 @@
               "\ticonposition=\"${7|first,last,top,bottom|}\"",
               "\ticonClass=\"${8:iconClass}\"",
               "\ticonUrl=\"${9:iconUrl}\">",
-              "</ch5-button-mode>$0"
+              "</ch5-advanced-button-mode>$0"
             ]
           }
         ],
         "childElements": [
           {
-            "tagName": "ch5-button-label",
+            "tagName": "ch5-advanced-button-label",
             "optional": true,
             "childElements": [
               {
@@ -1432,11 +1432,11 @@
             ]
           },
           {
-            "tagName": "ch5-button-mode-state",
+            "tagName": "ch5-advanced-button-mode-state",
             "optional": true,
             "childElements": [
               {
-                "tagName": "ch5-button-label",
+                "tagName": "ch5-advanced-button-label",
                 "optional": true,
                 "childElements": [
                   {
@@ -1465,9 +1465,9 @@
             ]
           }
         ],
-        "description": "Ch5 Button Mode is a child node for <ch5-button>.",
-        "name": "Ch5 Button Mode",
-        "tagName": "ch5-button-mode",
+        "description": "Ch5 Advanced Button Mode is a child node for <ch5-advanced-button>.",
+        "name": "Ch5 Advanced Button Mode",
+        "tagName": "ch5-advanced-button-mode",
         "role": "button",
         "componentVersion": "1.0.0"
       },
@@ -1494,7 +1494,7 @@
               "***",
               "Valid values: 'default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'.",
               "Overrides the appearance of the button with alternative CSS ",
-              "defined in classes defined with ch5-button--type, where type is ",
+              "defined in classes defined with ch5-advanced-button--type, where type is ",
               "the value of the property. If no 'type' is provided, the type of ",
               "'default' is used."
             ],
@@ -1680,11 +1680,11 @@
               "`state` attribute",
               "***",
               "Valid values: 'normal', 'pressed', 'selected'.",
-              "This attribute is used to define the ch5-button-mode-state attributes on the basis of the state of the parent ch5-button. ",
+              "This attribute is used to define the ch5-advanced-button-mode-state attributes on the basis of the state of the parent ch5-advanced-button. ",
               "If the button is neither in the 'pressed' state nor in the 'selected' state, then the button is considered to be in 'normal' state. ",
-              "The attributes of 'state' as 'normal' are considered in this case for the ch5-button. ",
-              "If the button is in the 'pressed' state, then the attributes of 'state' as 'pressed' are considered in this case for the ch5-button.  ",
-              "If the button is in the 'selected' state, then the attributes of 'state' as 'selected' are considered in this case for the ch5-button.  "
+              "The attributes of 'state' as 'normal' are considered in this case for the ch5-advanced-button. ",
+              "If the button is in the 'pressed' state, then the attributes of 'state' as 'pressed' are considered in this case for the ch5-advanced-button.  ",
+              "If the button is in the 'selected' state, then the attributes of 'state' as 'selected' are considered in this case for the ch5-advanced-button.  "
             ],
             "value": [
               "normal",
@@ -1700,24 +1700,24 @@
           }
         ],
         "documentation": [
-          "`ch5-button-mode-state` element",
+          "`ch5-advanced-button-mode-state` element",
           "***",
-          "A child element designed to capture state level attributes for Ch5 Button component."
+          "A child element designed to capture state level attributes for Ch5 Advanced Button component."
         ],
         "snippets": [
           {
-            "prefix": "ch5-button-mode-state:blank",
+            "prefix": "ch5-advanced-button-mode-state:blank",
             "description": "Crestron Button Mode State",
             "body": [
-              "<ch5-button-mode-state>",
-              "</ch5-button-mode-state>$0"
+              "<ch5-advanced-button-mode-state>",
+              "</ch5-advanced-button-mode-state>$0"
             ]
           },
           {
-            "prefix": "ch5-button-mode-state:all-attributes",
+            "prefix": "ch5-advanced-button-mode-state:all-attributes",
             "description": "Crestron Button Mode State (All Attributes)",
             "body": [
-              "<ch5-button-mode-state",
+              "<ch5-advanced-button-mode-state",
               "\tstate=\"${1|normal,pressed,selected|}\"",
               "\ttype=\"${2|default,primary,info,text,danger,warning,success,secondary|}\"",
               "\tcustomClass=\"${3:customClass}\"",
@@ -1728,17 +1728,17 @@
               "\ticonposition=\"${8|first,last,top,bottom|}\"",
               "\ticonClass=\"${9:iconClass}\"",
               "\ticonUrl=\"${10:iconUrl}\">",
-              "</ch5-button-mode-state>$0"
+              "</ch5-advanced-button-mode-state>$0"
             ]
           }
         ],
         "childElements": [
           {
-            "tagName": "ch5-button-mode-state",
+            "tagName": "ch5-advanced-button-mode-state",
             "optional": true,
             "childElements": [
               {
-                "tagName": "ch5-button-label",
+                "tagName": "ch5-advanced-button-label",
                 "optional": true,
                 "childElements": [
                   {
@@ -1767,9 +1767,9 @@
             ]
           }
         ],
-        "description": "Ch5 Button Mode State is a child node for <ch5-button-mode>.",
-        "name": "Ch5 Button Mode State",
-        "tagName": "ch5-button-mode-state",
+        "description": "Ch5 Advanced Button Mode State is a child node for <ch5-advanced-button-mode>.",
+        "name": "Ch5 Advanced Button Mode State",
+        "tagName": "ch5-advanced-button-mode-state",
         "role": "button",
         "componentVersion": "1.0.0"
       },
@@ -2034,7 +2034,7 @@
             "documentation": [
               "`size` attribute",
               "***",
-              "Overrides the appearance of the button with alternative CSS that is defined in classes defined with ch5-button--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
+              "Overrides the appearance of the button with alternative CSS that is defined in classes defined with ch5-advanced-button--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
             ],
             "value": [
               "regular",
@@ -2141,7 +2141,7 @@
               "`mode` attribute",
               "***",
               "The default value is 0.",
-              "This property is used to set or get the mode of the ch5-button in a multi-mode environment. ",
+              "This property is used to set or get the mode of the ch5-advanced-button in a multi-mode environment. ",
               "The maximum value that can be set is 99."
             ],
             "value": [],
@@ -2163,7 +2163,7 @@
               "***",
               "The default value is false.",
               "This property is used to display or hide a checkbox. If set to true, a checkbox is displayed and ",
-              "'ch5-button__checkbox' will be applied as the CSS class on the component."
+              "'ch5-advanced-button__checkbox' will be applied as the CSS class on the component."
             ],
             "value": [
               "false",
@@ -2266,7 +2266,7 @@
               "***",
               "Valid values: 'default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'.",
               "Overrides the appearance of the button with alternative CSS ",
-              "defined in classes defined with ch5-button--type, where type is ",
+              "defined in classes defined with ch5-advanced-button--type, where type is ",
               "the value of the property. If no 'type' is provided, the type of ",
               "'default' is used."
             ],
@@ -2373,7 +2373,7 @@
             "documentation": [
               "`receivestateselected` attribute",
               "***",
-              "When received, applies a true value applied by the selected class (ch5-button--selected)."
+              "When received, applies a true value applied by the selected class (ch5-advanced-button--selected)."
             ],
             "value": [],
             "name": "receivestateselected",
@@ -2542,7 +2542,7 @@
               "***",
               "The default value is false.",
               "This property reflects the selected state of the component. If set to true, ",
-              "'ch5-button--selected' will be applied as the CSS class on the component."
+              "'ch5-advanced-button--selected' will be applied as the CSS class on the component."
             ],
             "value": [
               "false",
@@ -2561,7 +2561,7 @@
               "***",
               "The default value is false.",
               "This property reflects the pressed state of the component. If set to true, ",
-              "'ch5-button--pressed' will be applied as the CSS class on the component."
+              "'ch5-advanced-button--pressed' will be applied as the CSS class on the component."
             ],
             "value": [
               "false",
@@ -2710,7 +2710,7 @@
               "***",
               "The default value is false.",
               "Enables or disables support for multi-line text. Text will be truncated when the text content area does not allow for a second line. This shall not resize the text area to fit the text.",
-              "'ch5-button--label-multiline-support-true' will be applied as the CSS class on the component text label."
+              "'ch5-advanced-button--label-multiline-support-true' will be applied as the CSS class on the component text label."
             ],
             "value": [
               "false",
@@ -2729,7 +2729,7 @@
               "***",
               "The default value is true.",
               "Enables or disables text truncation depending on the length of text and the size of the control. This attribute when set to true will show an ellipsis when the text extends beyond the horizontally and vertically allocated space.",
-              "'ch5-button--label-truncate-text-true' will be applied as the CSS class on the component text label."
+              "'ch5-advanced-button--label-truncate-text-true' will be applied as the CSS class on the component text label."
             ],
             "value": [
               "false",
@@ -2865,34 +2865,34 @@
           }
         ],
         "documentation": [
-          "`ch5-button` element",
+          "`ch5-advanced-button` element",
           "***",
           "A custom component designed to provide options to add icons, label, text, multi-select among other powerful options."
         ],
         "snippets": [
           {
-            "prefix": "ch5-button:blank",
+            "prefix": "ch5-advanced-button:blank",
             "description": "Crestron Button",
             "body": [
-              "<ch5-button>",
-              "</ch5-button>$0"
+              "<ch5-advanced-button>",
+              "</ch5-advanced-button>$0"
             ]
           },
           {
-            "prefix": "ch5-button:default",
+            "prefix": "ch5-advanced-button:default",
             "description": "Crestron Button",
             "body": [
-              "<ch5-button id=\"btn_${1:id}\"",
+              "<ch5-advanced-button id=\"btn_${1:id}\"",
               "\tlabel=\"${2:Crestron Button}\"",
               "\tsendeventonclick=\"${3:btn_${1}_clicked}\">",
-              "</ch5-button>$0"
+              "</ch5-advanced-button>$0"
             ]
           },
           {
-            "prefix": "ch5-button:all-attributes",
+            "prefix": "ch5-advanced-button:all-attributes",
             "description": "Crestron Button (All Attributes)",
             "body": [
-              "<ch5-button id=\"btn_${1:id}\"",
+              "<ch5-advanced-button id=\"btn_${1:id}\"",
               "\tlabel=\"${2:Crestron Button}\"",
               "\ttype=\"${3|default,primary,info,text,danger,warning,success,secondary|}\"",
               "\tcustomClass=\"${4:customClass}\"",
@@ -2930,13 +2930,13 @@
               "\treceivestatebackgroundimageurl=\"${37:}\"",
               "\tmultilinesupport=\"${38|false,true|}\"",
               "\ttruncatetext=\"${39|true,false|}\">",
-              "</ch5-button>$0"
+              "</ch5-advanced-button>$0"
             ]
           }
         ],
         "childElements": [
           {
-            "tagName": "ch5-button-label",
+            "tagName": "ch5-advanced-button-label",
             "optional": true,
             "childElements": [
               {
@@ -2947,11 +2947,11 @@
             ]
           },
           {
-            "tagName": "ch5-button-mode",
+            "tagName": "ch5-advanced-button-mode",
             "optional": true,
             "childElements": [
               {
-                "tagName": "ch5-button-label",
+                "tagName": "ch5-advanced-button-label",
                 "optional": true,
                 "childElements": [
                   {
@@ -2962,11 +2962,11 @@
                 ]
               },
               {
-                "tagName": "ch5-button-mode-state",
+                "tagName": "ch5-advanced-button-mode-state",
                 "optional": true,
                 "childElements": [
                   {
-                    "tagName": "ch5-button-label",
+                    "tagName": "ch5-advanced-button-label",
                     "optional": true,
                     "childElements": [
                       {
@@ -2981,7 +2981,892 @@
             ]
           }
         ],
-        "description": "Ch5 Button offers a wide range of functionality out-of-the-box.",
+        "description": "Ch5 Advanced Button offers a wide range of functionality out-of-the-box.",
+        "name": "Ch5 Advanced Button",
+        "tagName": "ch5-advanced-button",
+        "role": "button",
+        "componentVersion": "1.0.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`style` attribute",
+              "***",
+              "This is a standard style HTML attribute."
+            ],
+            "value": [],
+            "name": "style",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`class` attribute",
+              "***",
+              "This is a standard class HTML attribute."
+            ],
+            "value": [],
+            "name": "class",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text (ltr, rtl, auto)."
+            ],
+            "value": [],
+            "name": "dir",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`role` attribute",
+              "***",
+              "This is an accessibility attribute implemented by all ch5-components and added automatically if not set by the user. ",
+              "The default value for this ch5-component can be overridden via this attribute."
+            ],
+            "value": [],
+            "name": "role",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "value": [],
+            "name": "id",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`contractname` attribute",
+              "***",
+              "Defines the contract name used to resolve the signal names of the component's join-based attributes."
+            ],
+            "value": [],
+            "name": "contractname",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`trace` attribute",
+              "***",
+              "The default value is false. When true, enables trace-level diagnostic logging for the component."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "trace",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`debug` attribute",
+              "***",
+              "The default value is false. Used to get useful developer-related information about component behavior."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "debug",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`disabled` attribute",
+              "***",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
+              "to reflect a disabled state when true."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "disabled",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "value": [],
+            "name": "receivestateenable",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "value": [],
+            "name": "receivestateshow",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "value": [
+              "display",
+              "visibility",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": "display",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`label` attribute",
+              "***",
+              "The label of the button element."
+            ],
+            "value": [],
+            "name": "label",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`labelinnerhtml` attribute",
+              "***",
+              "Sets the label of the button using HTML content. Takes preference over the label attribute."
+            ],
+            "value": [],
+            "name": "labelinnerhtml",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EncodedHTML"
+          },
+          {
+            "documentation": [
+              "`iconclass` attribute",
+              "***",
+              "The iconClass attribute with Font Awesome icons and Material Icons. We can declare more than one CSS class in the iconClass attribute."
+            ],
+            "value": [],
+            "name": "iconclass",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "IconClass"
+          },
+          {
+            "documentation": [
+              "`iconurl` attribute",
+              "***",
+              "The attribute used to add an SVG or image icon to the button."
+            ],
+            "value": [],
+            "name": "iconurl",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "ImageURL"
+          },
+          {
+            "documentation": [
+              "`backgroundimageurl` attribute",
+              "***",
+              "Sets the image to be displayed as the background for the button. The attribute type is String and the default value is empty."
+            ],
+            "value": [],
+            "name": "backgroundimageurl",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`receivestatetype` attribute",
+              "***",
+              "After receiving a stateType value from the control system, this value is applied to the type attribute.",
+              "See description of the type attribute."
+            ],
+            "value": [],
+            "name": "receivestatetype",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestateselected` attribute",
+              "***",
+              "When received, a true value applies the selected state to the component."
+            ],
+            "value": [],
+            "name": "receivestateselected",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestatelabel` attribute",
+              "***",
+              "When received, applies the value on the label."
+            ],
+            "value": [],
+            "name": "receivestatelabel",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestatescriptlabelhtml` attribute",
+              "***",
+              "Allows the signal script evaluation to be applied to the button's inner HTML. Allows for multiline, multistyled labels."
+            ],
+            "value": [],
+            "name": "receivestatescriptlabelhtml",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestateiconclass` attribute",
+              "***",
+              "The icon class received from the control system."
+            ],
+            "value": [],
+            "name": "receivestateiconclass",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestateiconurl` attribute",
+              "***",
+              "After receiving the stateIconUrl value from the control system, this value is applied to the iconUrl attribute.",
+              "See description of the iconUrl attribute."
+            ],
+            "value": [],
+            "name": "receivestateiconurl",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestatebackgroundimageurl` attribute",
+              "***",
+              "After receiving the value from the control system, this value is applied to the backgroundImageUrl attribute.",
+              "See description of the backgroundImageUrl attribute."
+            ],
+            "value": [],
+            "name": "receivestatebackgroundimageurl",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`sendeventonclick` attribute",
+              "***",
+              "Sends an event on click or tap (mouse or swipe up and down quickly).",
+              "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
+              "Examples include the SIMPL Logic Symbol for Toggle with a description of ",
+              "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
+            ],
+            "value": [],
+            "name": "sendeventonclick",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`multilinesupport` attribute",
+              "***",
+              "The default value is false. When true, the button label supports multiple lines."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "multilinesupport",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`truncatetext` attribute",
+              "***",
+              "The default value is true. When true, overflowing label text is truncated with an ellipsis."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "truncatetext",
+            "default": "true",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`type` attribute",
+              "***",
+              "Valid values: 'default', 'primary', 'secondary', 'info', 'success', 'warning', 'danger', 'text'.",
+              "Overrides the appearance of the button with alternative CSS applied via the [type] attribute selector. ",
+              "If no 'type' is provided, the type of 'default' is used."
+            ],
+            "value": [
+              "default",
+              "primary",
+              "secondary",
+              "info",
+              "success",
+              "warning",
+              "danger",
+              "text"
+            ],
+            "name": "type",
+            "default": "default",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`size` attribute",
+              "***",
+              "Overrides the appearance of the button with alternative CSS applied via the [size] attribute selector, ",
+              "where size is the value of the property. If no 'size' is provided, the size of 'regular' is used."
+            ],
+            "value": [
+              "regular",
+              "x-small",
+              "small",
+              "large",
+              "x-large"
+            ],
+            "name": "size",
+            "default": "regular",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`shape` attribute",
+              "***",
+              "The default value is 'rounded-rectangle'. Valid values: 'rounded-rectangle', 'rectangle', 'circle', 'oval', 'tab'.",
+              "The shape of the button."
+            ],
+            "value": [
+              "rounded-rectangle",
+              "rectangle",
+              "circle",
+              "oval",
+              "tab"
+            ],
+            "name": "shape",
+            "default": "rounded-rectangle",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`stretch` attribute",
+              "***",
+              "Valid values: 'width', 'height', 'both'.",
+              "When the stretch property is set, the button element inherits the width and/or height of the container. ",
+              "If stretch=height is used, the button will be responsive based on the label length until it reaches the ",
+              "max-width of the container. If stretch=width is applied, there is no responsiveness after reaching the ",
+              "max-width, and the text will overflow. The same applies if stretch=both is used."
+            ],
+            "value": [
+              "width",
+              "height",
+              "both"
+            ],
+            "name": "stretch",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`iconposition` attribute",
+              "***",
+              "The default value is 'first'. Valid values: 'first', 'last', 'top', 'bottom'.",
+              "The icon position relative to the label."
+            ],
+            "value": [
+              "first",
+              "last",
+              "top",
+              "bottom"
+            ],
+            "name": "iconposition",
+            "default": "first",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`orientation` attribute",
+              "***",
+              "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'.",
+              "Positions the control elements in a horizontal or vertical orientation.",
+              "For vertical alignment, it will apply a CSS class that will rotate the ",
+              "component -90 degrees (270 degrees clockwise, 90 degrees counter clockwise)."
+            ],
+            "value": [
+              "horizontal",
+              "vertical"
+            ],
+            "name": "orientation",
+            "default": "horizontal",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`halignlabel` attribute",
+              "***",
+              "Valid values: 'center', 'left', 'right'.",
+              "When the hAlignLabel property is set, the label and the icon of the button are horizontally aligned. ",
+              "The center property sets the horizontal alignment of the label to the center of the button. ",
+              "The left property sets the horizontal alignment of the label to the left of the button. ",
+              "The right property sets the horizontal alignment of the label to the right of the button."
+            ],
+            "value": [
+              "center",
+              "left",
+              "right"
+            ],
+            "name": "halignlabel",
+            "default": "center",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`valignlabel` attribute",
+              "***",
+              "Valid values: 'middle', 'top', 'bottom'.",
+              "When the vAlignLabel property is set, the label and the icon of the button are vertically aligned. ",
+              "The middle property sets the vertical alignment of the label to the middle of the button. ",
+              "The top property sets the vertical alignment of the label to the top of the button. ",
+              "The bottom property sets the vertical alignment of the label to the bottom of the button."
+            ],
+            "value": [
+              "middle",
+              "top",
+              "bottom"
+            ],
+            "name": "valignlabel",
+            "default": "middle",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`selected` attribute",
+              "***",
+              "The default value is false.",
+              "This property reflects the selected state of the component. It is styled purely via CSS ",
+              "through the [selected] attribute selector; no CSS class is added."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "selected",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`pressed` attribute",
+              "***",
+              "The default value is false.",
+              "This property reflects the pressed state of the component. It is styled purely via CSS ",
+              "through the [pressed] attribute selector; no CSS class is added."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "pressed",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`checkboxshow` attribute",
+              "***",
+              "The default value is false.",
+              "This property is used to display or hide a checkbox. When true, the checkbox is displayed, styled purely via CSS ",
+              "through the [checkboxshow] attribute selector."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "checkboxshow",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Boolean"
+          },
+          {
+            "documentation": [
+              "`checkboxposition` attribute",
+              "***",
+              "The default value is left.",
+              "This property is used to set the position of a checkbox in a button. The value left would set the checkbox ",
+              "to the left of the button, and the value right would set the checkbox to the right of the button."
+            ],
+            "value": [
+              "left",
+              "right"
+            ],
+            "name": "checkboxposition",
+            "default": "left",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`iconurlfilltype` attribute",
+              "***",
+              "Valid values: 'stretch', 'stretch-aspect', 'center', 'tile', 'initial'.",
+              "Sets the fill type of the image set in iconUrl. Uses the CSS property background-size for the implementation. When omitted, the property resolves to null."
+            ],
+            "value": [
+              "stretch",
+              "stretch-aspect",
+              "center",
+              "tile",
+              "initial"
+            ],
+            "name": "iconurlfilltype",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`backgroundimagefilltype` attribute",
+              "***",
+              "The default value is 'stretch-aspect'. Applicable values are 'stretch', 'stretch-aspect', 'center', 'tile'.",
+              "Sets the background image fill type for the button. Uses the CSS property background-size for the implementation."
+            ],
+            "value": [
+              "stretch-aspect",
+              "stretch",
+              "center",
+              "tile"
+            ],
+            "name": "backgroundimagefilltype",
+            "default": "stretch-aspect",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "EnumeratedValue"
+          },
+          {
+            "documentation": [
+              "`onpress` attribute",
+              "***",
+              "Runs when a press event is initiated."
+            ],
+            "value": [],
+            "name": "onpress",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          },
+          {
+            "documentation": [
+              "`onrelease` attribute",
+              "***",
+              "Runs when a release event is initiated."
+            ],
+            "value": [],
+            "name": "onrelease",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "String"
+          }
+        ],
+        "documentation": [
+          "`ch5-button` element",
+          "***",
+          "A custom component designed to provide options to add icons, labels and text, apply type, size and shape styling, reflect selected and pressed states, display a checkbox, and drive behavior through Crestron signals."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-button:blank",
+            "description": "Crestron Button",
+            "body": [
+              "<ch5-button>",
+              "</ch5-button>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-button:default",
+            "description": "Crestron Button",
+            "body": [
+              "<ch5-button id=\"btn_${1:id}\"",
+              "\tlabel=\"${2:Crestron Button}\"",
+              "\tsendeventonclick=\"${3:btn_${1}_clicked}\">",
+              "</ch5-button>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-button:all-attributes",
+            "description": "Crestron Button (All Attributes)",
+            "body": [
+              "<ch5-button id=\"btn_${1:id}\"",
+              "\tlabel=\"${2:Crestron Button}\"",
+              "\ttype=\"${3|default,primary,secondary,info,success,warning,danger,text|}\"",
+              "\tshape=\"${4|rounded-rectangle,rectangle,circle,oval,tab|}\"",
+              "\tsize=\"${5|regular,x-small,small,large,x-large|}\"",
+              "\tstretch=\"${6|both,width,height|}\"",
+              "\tcheckboxshow=\"${7|true,false|}\"",
+              "\tcheckboxposition=\"${8|left,right|}\"",
+              "\thalignlabel=\"${9|center,left,right|}\"",
+              "\tvalignlabel=\"${10|middle,top,bottom|}\"",
+              "\ticonposition=\"${11|first,last,top,bottom|}\"",
+              "\torientation=\"${12|horizontal,vertical|}\"",
+              "\ticonclass=\"${13:iconClass}\"",
+              "\ticonurl=\"${14}\"",
+              "\ticonurlfilltype=\"${15|stretch,stretch-aspect,center,tile,initial|}\"",
+              "\tbackgroundimageurl=\"${16}\"",
+              "\tbackgroundimagefilltype=\"${17|stretch-aspect,stretch,center,tile|}\"",
+              "\tselected=\"${18|false,true|}\"",
+              "\tpressed=\"${19|false,true|}\"",
+              "\tmultilinesupport=\"${20|false,true|}\"",
+              "\ttruncatetext=\"${21|true,false|}\"",
+              "\tsendeventonclick=\"${22:btn_${1}_clicked}\"",
+              "\treceivestateselected=\"${23}\"",
+              "\treceivestatelabel=\"${24}\"",
+              "\treceivestatescriptlabelhtml=\"${25}\"",
+              "\treceivestateiconclass=\"${26}\"",
+              "\treceivestateiconurl=\"${27}\"",
+              "\treceivestatetype=\"${28}\"",
+              "\treceivestatebackgroundimageurl=\"${29}\">",
+              "</ch5-button>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "Ch5 Button offers a wide range of functionality out-of-the-box in a lightweight, high-performance implementation.",
         "name": "Ch5 Button",
         "tagName": "ch5-button",
         "role": "button",
@@ -8079,8 +8964,8 @@
               "         </template>",
               "    </ch5-select>",
               "",
-              "    <ch5-button id=\"room_submit_id\" formtype=\"submit\" label=\"Update Room\"></ch5-button>",
-              "    <ch5-button id=\"room_cancel_id\" formtype=\"cancel\" label=\"Revert Changes\"></ch5-button>",
+              "    <ch5-advanced-button id=\"room_submit_id\" formtype=\"submit\" label=\"Update Room\"></ch5-advanced-button>",
+              "    <ch5-advanced-button id=\"room_cancel_id\" formtype=\"cancel\" label=\"Revert Changes\"></ch5-advanced-button>",
               "</ch5-form>"
             ]
           }
@@ -20639,7 +21524,7 @@
             "documentation": [
               "`buttonReceiveStateSelected` attribute",
               "***",
-              "When received, applies a true value applied by the selected class (ch5-button--selected) on all the buttons in the tab button."
+              "When received, applies a true value applied by the selected class (ch5-advanced-button--selected) on all the buttons in the tab button."
             ],
             "value": [],
             "name": "buttonreceivestateselected",

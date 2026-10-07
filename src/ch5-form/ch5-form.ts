@@ -133,13 +133,13 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
 			this._submitButtonStyle = value;
 			this.setAttribute('submitbuttonstyle', value);
-			this.submitButton.setAttribute('customStyle', value);
+			this.submitButton.setAttribute('style', value);
 		}
 	}
 
 	/**
 	 * Getter submitButtonType
-	 * @return {string }
+	 * @return {TCh5ButtonType }
 	 */
 	public get submitButtonType(): TCh5ButtonType {
 		return this._submitButtonType;
@@ -147,7 +147,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
 	/**
 	 * Setter submitButtonType
-	 * @param {string } value
+	 * @param { TCh5ButtonType } value
 	 */
 	public set submitButtonType(value: TCh5ButtonType) {
 		this.info('Ch5Form set submitButtonType("' + value + '")');
@@ -218,7 +218,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
 			this._cancelButtonStyle = value;
 			this.setAttribute('cancelbuttonstyle', value);
-			this.cancelButton.setAttribute('customstyle', value);
+			this.cancelButton.setAttribute('style', value);
 		}
 	}
 
@@ -764,12 +764,12 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 	}
 
 	protected updateSwipeGesture() {
-		if (this.submitButton) {
-			this.submitButton.swipeGestureEnabled = this.swipeGestureEnabled;
-		}
-		if (this.cancelButton) {
-			this.cancelButton.swipeGestureEnabled = this.swipeGestureEnabled;
-		}
+		// if (this.submitButton) {
+		// 	this.submitButton.swipeGestureEnabled = this.swipeGestureEnabled;
+		// }
+		// if (this.cancelButton) {
+		// 	this.cancelButton.swipeGestureEnabled = this.swipeGestureEnabled;
+		// }
 	}
 
 	/**

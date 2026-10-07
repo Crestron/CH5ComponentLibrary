@@ -5,138 +5,82 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5ButtonAttributes } from ".";
-import { ICh5Common } from "../../ch5-common/interfaces";
+import { ICh5LightBaseAttributes } from "../../ch5-light-base/interfaces/i-ch5-light-base-attributes";
+import { ICh5ButtonAttributes } from "./i-ch5-button-attributes";
 
 /**
  * @name Ch5 Button
  * @isattribute false
  * @tagName ch5-button
  * @role button
- * @description Ch5 Button offers a wide range of functionality out-of-the-box.
+ * @description Ch5 Button offers a wide range of functionality out-of-the-box in a lightweight, high-performance implementation.
  * @componentVersion 1.0.0
- * @childElements
- * [
- *    {
- *      "tagName": "ch5-button-label",
- *      "optional": true,
- *      "childElements": [
- *        {
- *          "tagName": "template",
- *          "optional": false,
- *          "childElements": []
- *        }
- *      ]
- *    },
- *    {
- *      "tagName": "ch5-button-mode",
- *      "optional": true,
- *      "childElements": [
- *        {
- *          "tagName": "ch5-button-label",
- *          "optional": true,
- *          "childElements": [
- *            {
- *              "tagName": "template",
- *              "optional": false,
- *              "childElements": []
- *            }
- *          ]
- *        },
- *        {
- *          "tagName": "ch5-button-mode-state",
- *          "optional": true,
- *          "childElements": [
- *            {
- *              "tagName": "ch5-button-label",
- *              "optional": true,
- *              "childElements": [
- *                {
- *                  "tagName": "template",
- *                  "optional": false,
- *                  "childElements": []
- *                }
- *              ]
- *            }
- *          ]
- *        } 
- *      ]
- *   }
- * ]
+ * @childElements []
  * @documentation
  * [
  *   "`ch5-button` element",
  *   "***",
- *   "A custom component designed to provide options to add icons, label, text, multi-select among other powerful options."
+ *   "A custom component designed to provide options to add icons, labels and text, apply type, size and shape styling, reflect selected and pressed states, display a checkbox, and drive behavior through Crestron signals."
  * ]
  * @snippets
  * [
  *  {
  *    "prefix": "ch5-button:blank",
- *     "description": "Crestron Button",
- *     "body": [
- *       "<ch5-button>",
- *       "</ch5-button>$0"
- *     ]
- *   },
- *   {
+ *    "description": "Crestron Button",
+ *    "body": [
+ *      "<ch5-button>",
+ *      "</ch5-button>$0"
+ *    ]
+ *  },
+ *  {
  *    "prefix": "ch5-button:default",
- *     "description": "Crestron Button",
- *     "body": [
- *       "<ch5-button id=\"btn_${1:id}\"",
- *       "\tlabel=\"${2:Crestron Button}\"",
- *       "\tsendeventonclick=\"${3:btn_${1}_clicked}\">",
- *       "</ch5-button>$0"
- *     ]
- *   },
- *   {
- *     "prefix": "ch5-button:all-attributes",
- *     "description": "Crestron Button (All Attributes)",
- *     "body": [
- *       "<ch5-button id=\"btn_${1:id}\"",
- *       "\tlabel=\"${2:Crestron Button}\"",
- *       "\ttype=\"${3|default,primary,info,text,danger,warning,success,secondary|}\"",
- *       "\tcustomClass=\"${4:customClass}\"",
- *       "\tcustomStyle=\"${5:customStyle}\"",
- *       "\tshape=\"${6|rounded-rectangle,rectangle,tab,circle,oval|}\"",
- *       "\tsize=\"${7|regular,x-small,small,large,x-large|}\"",
- *       "\tstretch=\"${8|both,width,height|}\"",
- *       "\tcheckboxshow=\"${9|true,false|}\"",
- *       "\tcheckboxposition=\"${10|left,right|}\"",
- *       "\thalignlabel=\"${11|center,left,right|}\"",
- *       "\tvalignlabel=\"${12|middle,top,bottom|}\"",
- *       "\ticonposition=\"${13|first,last,top,bottom|}\"",
- *       "\ticonclass=\"${14:iconClass}\"",
- *       "\torientation=\"${15|horizontal,vertical|}\"",
- *       "\tsendeventonclick=\"${16:btn_${1}_clicked}\"",
- *       "\treceivestateselected=\"${18}\"",
- *       "\treceivestatelabel=\"${19}\"",
- *       "\treceivestatescriptlabelhtml=\"${20}\"",
- *       "\ticonurl=\"${21}\"",
- *       "\tmode=\"${22}\"",
- *       "\tformtype=\"${23}\"",
- *       "\treceivestatemode=\"${24}\"",
- *       "\treceivestateiconclass=\"${25}\"",
- *       "\treceivestatetype=\"${26}\"",
- *       "\treceivestateiconurl=\"${27}\"",
- *       "\tcustomclasspressed=\"${28}\"",
- *       "\tcustomclassdisabled=\"${29}\"",
- *       "\tselected=\"${30}\"",
- *       "\tpressed=\"${31}\"",
- *       "\tbackgroundimageurl=\"${32:}\"",
- *       "\tbackgroundimagefilltype=\"${33:stretch-aspect}\"",
- *       "\treceivestatesgiconnumeric=\"${34}\"",
- *       "\treceivestatesgiconstring=\"${35}\"",
- *       "\tsgicontheme=\"${36|icons-lg, icons-sm, media-transports-accents, media-transports-light, media-transports-dark|}\"",
- *       "\treceivestatebackgroundimageurl=\"${37:}\"",
- *       "\tmultilinesupport=\"${38|false,true|}\"",
- *       "\ttruncatetext=\"${39|true,false|}\">",
- *       "</ch5-button>$0"
- *       ]
- *    }
- *  ]
+ *    "description": "Crestron Button",
+ *    "body": [
+ *      "<ch5-button id=\"btn_${1:id}\"",
+ *      "\tlabel=\"${2:Crestron Button}\"",
+ *      "\tsendeventonclick=\"${3:btn_${1}_clicked}\">",
+ *      "</ch5-button>$0"
+ *    ]
+ *  },
+ *  {
+ *    "prefix": "ch5-button:all-attributes",
+ *    "description": "Crestron Button (All Attributes)",
+ *    "body": [
+ *      "<ch5-button id=\"btn_${1:id}\"",
+ *      "\tlabel=\"${2:Crestron Button}\"",
+ *      "\ttype=\"${3|default,primary,secondary,info,success,warning,danger,text|}\"",
+ *      "\tshape=\"${4|rounded-rectangle,rectangle,circle,oval,tab|}\"",
+ *      "\tsize=\"${5|regular,x-small,small,large,x-large|}\"",
+ *      "\tstretch=\"${6|both,width,height|}\"",
+ *      "\tcheckboxshow=\"${7|true,false|}\"",
+ *      "\tcheckboxposition=\"${8|left,right|}\"",
+ *      "\thalignlabel=\"${9|center,left,right|}\"",
+ *      "\tvalignlabel=\"${10|middle,top,bottom|}\"",
+ *      "\ticonposition=\"${11|first,last,top,bottom|}\"",
+ *      "\torientation=\"${12|horizontal,vertical|}\"",
+ *      "\ticonclass=\"${13:iconClass}\"",
+ *      "\ticonurl=\"${14}\"",
+ *      "\ticonurlfilltype=\"${15|stretch,stretch-aspect,center,tile,initial|}\"",
+ *      "\tbackgroundimageurl=\"${16}\"",
+ *      "\tbackgroundimagefilltype=\"${17|stretch-aspect,stretch,center,tile|}\"",
+ *      "\tselected=\"${18|false,true|}\"",
+ *      "\tpressed=\"${19|false,true|}\"",
+ *      "\tmultilinesupport=\"${20|false,true|}\"",
+ *      "\ttruncatetext=\"${21|true,false|}\"",
+ *      "\tsendeventonclick=\"${22:btn_${1}_clicked}\"",
+ *      "\treceivestateselected=\"${23}\"",
+ *      "\treceivestatelabel=\"${24}\"",
+ *      "\treceivestatescriptlabelhtml=\"${25}\"",
+ *      "\treceivestateiconclass=\"${26}\"",
+ *      "\treceivestateiconurl=\"${27}\"",
+ *      "\treceivestatetype=\"${28}\"",
+ *      "\treceivestatebackgroundimageurl=\"${29}\">",
+ *      "</ch5-button>$0"
+ *    ]
+ *  }
+ * ]
  */
-export interface ICh5ButtonDocumentation extends ICh5Common, ICh5ButtonAttributes {
+export interface ICh5ButtonDocumentation extends ICh5LightBaseAttributes, ICh5ButtonAttributes {
 
   /**
    * @documentation
@@ -161,17 +105,5 @@ export interface ICh5ButtonDocumentation extends ICh5Common, ICh5ButtonAttribute
    * @attributeType "String"
    */
   onrelease: string;
-
-  /**
-   * @documentation
-   * [
-   * "`customclassselected` attribute",
-   * "***",
-   * "Specifies a custom class for the selected state of the button."
-   * ]
-   * @name customclassselected
-   * @attributeType "String"
-   */
-  customClassSelected: string | null;
 
 }
