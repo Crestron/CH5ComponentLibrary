@@ -767,6 +767,14 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		this._listOfAllPossibleComponentCssClasses = cssClasses;
 		this.observableGestureableProperty = new Subject<boolean>();
 
+		this.subscribeLanguageChanged();
+	}
+
+	private subscribeLanguageChanged(): void {
+		if (this._subKeySigLanguageChanged !== '') {
+			return;
+		}
+
 		const receiveSignal = Ch5SignalFactory.getInstance().getStringSignal(languageChangedSignalName);
 
 		if (receiveSignal === null) {
@@ -1531,6 +1539,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	 * Initializes the values of the common attributes, taking into account the attribute values declared in the HTML
 	 */
 	protected initAttributes() {
+		this.subscribeLanguageChanged();
 		this.applyPreConfiguredAttributes();
 
 		if (this.hasAttribute('disabled') && !this.hasAttribute('customclassdisabled') && this.ignoreAttributes.includes('disabled') === false) {
@@ -1744,6 +1753,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 				languageSignal.unsubscribe(this._subKeySigLanguageChanged);
 			}
 			this._subKeySigLanguageChanged = '';
+			this.currentLanguage = '';
 		}
 	}
 
