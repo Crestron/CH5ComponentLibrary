@@ -495,6 +495,24 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 
 	//#region Component Lifecycle
 
+	private readonly _onLanguageChanged = (newValue: string): void => {
+		if (newValue !== '' && newValue !== this.currentLanguage) {
+			this.currentLanguage = newValue;
+			Object.keys(this.translatableObjects).forEach((propertyToTranslate: string) => {
+				let propertyReference: { [key: string]: string } = this as {};
+
+				if (propertyReference[propertyToTranslate as string] === undefined && propertyReference['attrModel' as string] !== undefined) {
+					propertyReference = propertyReference['attrModel' as string] as {};
+				}
+
+				if (propertyReference[propertyToTranslate.toString()] !== undefined && this.translatableObjects[propertyToTranslate.toString()] !== undefined) {
+					propertyReference[propertyToTranslate.toString()] = this.translatableObjects[propertyToTranslate];
+					this.translateCallback(propertyToTranslate.toString());
+				}
+			});
+		}
+	};
+
 	public constructor() {
 		super();
 		// Minimal, dependency-free property store (change detection + callback only).
@@ -504,25 +522,6 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		// Settings array is a shared STATIC field (see LIGHT_BASE_PROPERTY_SETTINGS) - no
 		// per-instance allocation here.
 		this._ch5Properties = new Ch5LightProperties(Ch5LightBaseClass.LIGHT_BASE_PROPERTY_SETTINGS);
-
-		// Reuses the same lazy helper as the receiveState* signals (keyed by name, so they coexist).
-		(this._baseSignals ??= new Ch5LightSignal()).subscribe<string>(languageChangedSignalName, 'string', (newValue: string) => {
-			if (newValue !== '' && newValue !== this.currentLanguage) {
-				this.currentLanguage = newValue;
-				Object.keys(this.translatableObjects).forEach((propertyToTranslate: string) => {
-					let propertyReference: { [key: string]: string } = this as {};
-
-					if (propertyReference[propertyToTranslate as string] === undefined && propertyReference['attrModel' as string] !== undefined) {
-						propertyReference = propertyReference['attrModel' as string] as {};
-					}
-
-					if (propertyReference[propertyToTranslate.toString()] !== undefined && this.translatableObjects[propertyToTranslate.toString()] !== undefined) {
-						propertyReference[propertyToTranslate.toString()] = this.translatableObjects[propertyToTranslate];
-						this.translateCallback(propertyToTranslate.toString());
-					}
-				})
-			}
-		});
 	}
 
 	/**
@@ -544,6 +543,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 		// Subscribe the opt-in base signals (each a no-op when its attribute is absent).
 		this.subscribeReceiveStateEnable();
 		this.subscribeReceiveStateShow();
+		(this._baseSignals ??= new Ch5LightSignal()).subscribe<string>(languageChangedSignalName, 'string', this._onLanguageChanged);
 	}
 
 	public attributeChangedCallback(attr: string, oldValue: string | null, newValue: string | null): void {
@@ -603,6 +603,7 @@ export abstract class Ch5LightBaseClass extends HTMLElement {
 			return;
 		}
 		this._baseSignals?.unsubscribe(languageChangedSignalName);
+		this.currentLanguage = '';
 		this.clearReceiveStateEnableSubscription(this.receiveStateEnable);
 		this.clearReceiveStateShowSubscription(this.receiveStateShow);
 	}
