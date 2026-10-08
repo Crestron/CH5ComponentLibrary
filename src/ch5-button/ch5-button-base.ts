@@ -142,6 +142,8 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 	// light family). Only scheduled while multilineSupport is on, so single-line
 	// buttons allocate nothing.
 	private _pendingFitHandle: number | null = null;
+	private _multilineFitRetryCount = 0;
+	private static readonly MAX_MULTILINE_FIT_RETRIES = 8;
 	// Vertical orientation parity with ch5-advanced-button: one coalesced rAF fit
 	// maps the inner <button> dimensions to the host's current footprint
 	// (width=hostHeight, height=hostWidth) so rotated content fills the host even
@@ -149,10 +151,29 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 	private _pendingVerticalFitHandle: number | null = null;
 	private readonly _fitEllipsisFrame = () => {
 		this._pendingFitHandle = null;
-		// multilineSupport may have been turned off since scheduling.
-		if (this.multilineSupport) {
-			this.fitEllipsisForMultiline();
+		if (!this.multilineSupport || !this.isConnected) {
+			this._multilineFitRetryCount = 0;
+			return;
 		}
+		const button = this._elButton;
+		const span = this._elSpanLabel;
+		if (!button || !span) {
+			this._multilineFitRetryCount = 0;
+			return;
+		}
+		const lineHeight = this.getLabelLineHeight(span);
+		const sizeIsNotReady = button.clientHeight <= 0 || button.clientWidth <= 0 || lineHeight <= 0;
+		if (sizeIsNotReady) {
+			if (this._multilineFitRetryCount < Ch5ButtonBase.MAX_MULTILINE_FIT_RETRIES) {
+				this._multilineFitRetryCount++;
+				this.scheduleFitEllipsisForMultiline();
+				return;
+			}
+			this._multilineFitRetryCount = 0;
+			return;
+		}
+		this._multilineFitRetryCount = 0;
+		this.fitEllipsisForMultiline();
 	};
 	private readonly _fitVerticalFrame = () => {
 		this._pendingVerticalFitHandle = null;
@@ -1132,30 +1153,6 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 		this.scheduleVerticalInnerButtonFit();
 	}
 
-	/**
-	 * Mirrors ch5-advanced-button verticalOrientationHandler sizing for the light
-	 * button without observers/listeners. For vertical non-circle buttons, set
-	 * inner width/height from the host footprint so rotated content fully fills it.
-	 */
-	// private fitVerticalInnerButtonSize(): void {
-	// 	// const button = this._elButton;
-	// 	// if (!button || !button.isConnected) {
-	// 	// 	return;
-	// 	// }
-
-	// 	// if (this.orientation !== 'vertical' || this.shape === 'circle') {
-	// 	// 	button.style.removeProperty('width');
-	// 	// 	button.style.removeProperty('height');
-	// 	// 	return;
-	// 	// }
-
-	// 	// const hostHeight = this.clientHeight;
-	// 	// const hostWidth = this.clientWidth;
-	// 	// if (hostHeight > 0 && hostWidth > 0) {
-	// 	// 	button.style.width = `${hostHeight}px`;
-	// 	// 	button.style.height = `${hostWidth}px`;
-	// 	// }
-	// }
 
 	/**
 	 * Computes how many label lines fit the button's height and writes the clamp
