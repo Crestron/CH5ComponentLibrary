@@ -1153,30 +1153,6 @@ export class Ch5ButtonBase extends Ch5LightBaseClass {
 		this.scheduleVerticalInnerButtonFit();
 	}
 
-	/**
-	 * Mirrors ch5-advanced-button verticalOrientationHandler sizing for the light
-	 * button without observers/listeners. For vertical non-circle buttons, set
-	 * inner width/height from the host footprint so rotated content fully fills it.
-	 */
-	// private fitVerticalInnerButtonSize(): void {
-	// 	// const button = this._elButton;
-	// 	// if (!button || !button.isConnected) {
-	// 	// 	return;
-	// 	// }
-
-	// 	// if (this.orientation !== 'vertical' || this.shape === 'circle') {
-	// 	// 	button.style.removeProperty('width');
-	// 	// 	button.style.removeProperty('height');
-	// 	// 	return;
-	// 	// }
-
-	// 	// const hostHeight = this.clientHeight;
-	// 	// const hostWidth = this.clientWidth;
-	// 	// if (hostHeight > 0 && hostWidth > 0) {
-	// 	// 	button.style.width = `${hostHeight}px`;
-	// 	// 	button.style.height = `${hostWidth}px`;
-	// 	// }
-	// }
 
 	/**
 	 * Computes how many label lines fit the button's height and writes the clamp
