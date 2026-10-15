@@ -17,6 +17,7 @@ export * from "./../ch5-custom-attrs/interfaces/index";
  */
 export * from './../ch5-animation/interfaces/i-ch5-animation-documentation';
 export * from './../ch5-background/interfaces/i-ch5-background-documentation';
+export * from "./../ch5-advanced-button/interfaces/i-ch5-advanced-button-documentation";
 export * from "./../ch5-button/interfaces/i-ch5-button-documentation";
 export * from "./../ch5-button-list/interfaces/i-ch5-button-list-documentation";
 export * from "./../ch5-button-list/interfaces/i-ch5-button-list-mode-documentation";

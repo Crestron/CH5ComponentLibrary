@@ -385,6 +385,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     }
 
     this.setCustomAttributesInChildComponents(this);
+    this.debounceInitScrollBar();
   }, 100);
 
   private setCustomAttributesInChildComponents(parentElement: any) {
@@ -1844,6 +1845,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     this.logger.stop();
   }
   private initScrollbar() {
+    const previousSize = this.orientation === "horizontal" ? this.subpageWidth : this.subpageHeight;
     this.subpageWidth = this._elContainer.firstElementChild?.getBoundingClientRect().width || this.subpageWidth;
     this.subpageHeight = this._elContainer.firstElementChild?.getBoundingClientRect().width || this.subpageHeight;
     if (this.orientation === "horizontal" && this.dir === 'rtl') {
@@ -1889,6 +1891,9 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
     if (this.centerItems) {
       this.checkCenterItems();
     }
+
+    const currentSize = this.orientation === "horizontal" ? this.subpageWidth : this.subpageHeight;
+    if (currentSize !== 0 && Math.abs(currentSize - previousSize) >= 1) { this.debounceInitScrollBar(); }
   }
 
   private checkInternalHTML() {
@@ -1986,6 +1991,7 @@ export class Ch5SubpageReferenceList extends Ch5Common implements ICh5SubpageRef
 
     // check if any subpage needs to be added to make the container scrollable
     this.scrollToMiddleRange();
+    this.debounceInitScrollBar();
     if (this.centerItems === true) {
       const { scrollWidth, offsetWidth, scrollHeight, offsetHeight } = this._elContainer;
       this.scrollbarDimension = this.orientation === "horizontal" ? Math.floor(offsetWidth / scrollWidth * 100) : Math.floor(offsetHeight / scrollHeight * 100);

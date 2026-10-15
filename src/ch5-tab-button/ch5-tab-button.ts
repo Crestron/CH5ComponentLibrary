@@ -1,5 +1,4 @@
-import { Ch5Button } from "../ch5-button/ch5-button";
-import { Ch5ButtonLabel } from "../ch5-button/ch5-button-label";
+// import { Ch5AdvancedButtonLabel } from "../ch5-advanced-button/ch5-advanced-button-label";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import {
   TCh5TabButtonButtonType, TCh5TabButtonButtonHAlignLabel, TCh5TabButtonButtonVAlignLabel, TCh5TabButtonButtonShape,
@@ -12,6 +11,7 @@ import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { ICh5TabButtonAttributes } from "./interfaces/i-ch5-tab-button-attributes";
 import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
 import { Ch5Common } from "../ch5-common/ch5-common";
+import { Ch5Button } from "../ch5-button/ch5-button";
 export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
 
   //#region Variables
@@ -813,7 +813,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
     if (index < 0 || index >= this.numberOfItems) { return };
     const buttonListContractObj: ICh5ButtonListContractObj = { index: index + 1, clickHoldTime: 0, contractName: this.contractName, parentComponent: 'ch5-tab-button' };
     const btn = new Ch5Button(buttonListContractObj);
-    btn.setAttribute("swipeGestureEnabled", "true");
+    // btn.setAttribute("swipeGestureEnabled", "true");
     const btnContainer = document.createElement("div");
     btnContainer.setAttribute('id', this.getCrId() + '-' + index);
     if (this.getAttribute('buttonReceiveStateShow')?.trim().includes(`{{${this.indexId}}}`) === false) {
@@ -836,32 +836,53 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
     btnContainer.appendChild(btn);
     append ? this._elContainer.appendChild(btnContainer) : this._elContainer.prepend(btnContainer);
     // button attributes helper
-    this.buttonLabelHelper(btn, index);
+    this.lightButtonLabelHelper(btn, index);
     this.buttonHelper(btn, index);
-    btn.addContainerClass(this.nodeName.toLowerCase() + Ch5TabButton.COMPONENT_DATA.BUTTON_TYPE.classListPrefix + this.buttonType);
-    btn.addContainerClass(this.nodeName.toLowerCase() + Ch5TabButton.COMPONENT_DATA.BUTTON_SHAPE.classListPrefix + this.buttonShape);
-    btn.addContainerClass(this.nodeName.toLowerCase() + Ch5TabButton.COMPONENT_DATA.BUTTON_ICON_POSITION.classListPrefix + this.buttonIconPosition);
+    // btn.addContainerClass(this.nodeName.toLowerCase() + Ch5TabButton.COMPONENT_DATA.BUTTON_TYPE.classListPrefix + this.buttonType);
+    // btn.addContainerClass(this.nodeName.toLowerCase() + Ch5TabButton.COMPONENT_DATA.BUTTON_SHAPE.classListPrefix + this.buttonShape);
+    // btn.addContainerClass(this.nodeName.toLowerCase() + Ch5TabButton.COMPONENT_DATA.BUTTON_ICON_POSITION.classListPrefix + this.buttonIconPosition);
   }
 
-  private buttonLabelHelper(btn: Ch5Button, index: number) {
-    const buttonListLabels = this.getElementsByTagName(this.nodeName.toLowerCase() + "-label");
+  private lightButtonLabelHelper(btn: Ch5Button, index: number): void {
+      const buttonListLabels = this.getElementsByTagName(this.nodeName.toLowerCase() + "-label");
     if (buttonListLabels && buttonListLabels.length > 0) {
       Array.from(buttonListLabels).forEach((buttonListLabel) => {
         if (buttonListLabel.parentElement instanceof Ch5TabButton) {
           const buttonListLabelTemplate = buttonListLabel.getElementsByTagName("template");
           if (buttonListLabelTemplate && buttonListLabelTemplate.length > 0) {
-            const ch5ButtonLabel = new Ch5ButtonLabel();
+            // const ch5ButtonLabel = new Ch5AdvancedButtonLabel();
             const template = document.createElement('template');
             template.innerHTML = buttonListLabelTemplate[0].innerHTML;
             Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(template, index, this.indexId);
             Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsContent(template, index, this.indexId);
-            ch5ButtonLabel.appendChild(template);
-            btn.appendChild(ch5ButtonLabel);
+            // ch5ButtonLabel.appendChild(template);
+            // btn.appendChild(ch5ButtonLabel);
+            btn.labelInnerHTML = template.innerHTML;
           }
         }
       });
     }
   }
+
+  // private buttonLabelHelper(btn: Ch5Button, index: number) {
+  //   const buttonListLabels = this.getElementsByTagName(this.nodeName.toLowerCase() + "-label");
+  //   if (buttonListLabels && buttonListLabels.length > 0) {
+  //     Array.from(buttonListLabels).forEach((buttonListLabel) => {
+  //       if (buttonListLabel.parentElement instanceof Ch5TabButton) {
+  //         const buttonListLabelTemplate = buttonListLabel.getElementsByTagName("template");
+  //         if (buttonListLabelTemplate && buttonListLabelTemplate.length > 0) {
+  //           const ch5ButtonLabel = new Ch5AdvancedButtonLabel();
+  //           const template = document.createElement('template');
+  //           template.innerHTML = buttonListLabelTemplate[0].innerHTML;
+  //           Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(template, index, this.indexId);
+  //           Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsContent(template, index, this.indexId);
+  //           ch5ButtonLabel.appendChild(template);
+  //           btn.appendChild(ch5ButtonLabel);
+  //         }
+  //       }
+  //     });
+  //   }
+  // }
 
   private buttonHelper(btn: Ch5Button, index: number) {
     const individualButtons = this.getElementsByTagName(this.nodeName.toLowerCase() + '-individual-button');
@@ -917,7 +938,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
         }
         else if (attr.name.toLowerCase() === 'buttonsendeventonclick') {
           if (this.contractName !== "") {
-            // Ignore this attribute since it is handled in ch5-button when contract name is available
+            // Ignore this attribute since it is handled in ch5-advanced-button when contract name is available
           } else if (attr.name.toLowerCase().startsWith('button') && this.hasAttribute(attr.name)) {
             if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
               const attrValue = this.getAttribute(attr.name)?.trim();
@@ -975,7 +996,7 @@ export class Ch5TabButton extends Ch5Common implements ICh5TabButtonAttributes {
         }
         else if (attr.name.toLowerCase() === 'buttonsendeventonclick') {
           if (this.contractName !== "") {
-            // Ignore this attribute since it is handled in ch5-button when contract name is available
+            // Ignore this attribute since it is handled in ch5-advanced-button when contract name is available
           } else if (attr.name.toLowerCase().startsWith('button') && this.hasAttribute(attr.name)) {
             if (this.getAttribute(attr.name)?.trim().includes(`{{${this.indexId}}}`) === false) {
               const attrValue = this.getAttribute(attr.name)?.trim();
